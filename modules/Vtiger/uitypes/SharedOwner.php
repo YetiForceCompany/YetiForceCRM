@@ -211,4 +211,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	{
 		return '65535';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'om', 'd'];
+	}
 }

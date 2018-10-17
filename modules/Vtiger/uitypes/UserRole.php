@@ -77,4 +77,12 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	{
 		return 'List/Field/UserRole.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

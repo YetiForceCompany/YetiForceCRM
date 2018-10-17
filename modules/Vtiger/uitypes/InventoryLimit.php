@@ -111,4 +111,12 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	{
 		return ['integer'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

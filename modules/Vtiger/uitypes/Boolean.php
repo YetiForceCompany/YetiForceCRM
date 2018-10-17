@@ -73,4 +73,12 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	{
 		return ['tinyint', 'smallint'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

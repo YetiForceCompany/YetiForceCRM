@@ -63,4 +63,12 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	{
 		return 'List/Field/CompanySelect.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

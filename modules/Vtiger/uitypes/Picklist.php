@@ -68,4 +68,12 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	{
 		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

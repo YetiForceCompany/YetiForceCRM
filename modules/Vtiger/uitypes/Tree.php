@@ -77,4 +77,12 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	{
 		return false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

@@ -54,4 +54,12 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	{
 		return \App\Fields\Country::getAll('uitype');
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

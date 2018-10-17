@@ -77,4 +77,12 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	{
 		return ['integer', 'smallint'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

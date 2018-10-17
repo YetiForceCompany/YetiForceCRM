@@ -50,4 +50,12 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/Twitter.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

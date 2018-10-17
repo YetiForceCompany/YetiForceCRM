@@ -126,4 +126,12 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	{
 		return ['integer', 'smallint'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'om', 'wr', 'nwr', 'd'];
+	}
 }

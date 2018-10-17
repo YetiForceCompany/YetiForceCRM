@@ -26,4 +26,12 @@ class Vtiger_Salutation_UIType extends Vtiger_Base_UIType
 	{
 		return 'Detail/Field/Salutation.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

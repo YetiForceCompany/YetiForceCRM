@@ -96,4 +96,12 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	{
 		return 'Edit/Field/MultiEmail.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

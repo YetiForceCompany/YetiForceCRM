@@ -32,4 +32,12 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	{
 		return Vtiger_Module_Model::getInstance('Users');
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'om', 'd'];
+	}
 }

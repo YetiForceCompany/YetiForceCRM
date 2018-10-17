@@ -115,4 +115,12 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/Taxes.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

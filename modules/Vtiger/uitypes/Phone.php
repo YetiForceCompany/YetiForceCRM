@@ -108,4 +108,12 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/Phone.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

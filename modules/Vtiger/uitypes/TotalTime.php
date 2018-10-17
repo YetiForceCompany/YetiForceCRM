@@ -16,4 +16,12 @@ class Vtiger_TotalTime_UIType extends Vtiger_Double_UIType
 	{
 		return \App\Fields\Time::formatToHourText($value, 'short');
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
+	}
 }

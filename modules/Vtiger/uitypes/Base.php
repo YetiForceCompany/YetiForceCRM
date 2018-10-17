@@ -355,4 +355,26 @@ class Vtiger_Base_UIType extends \App\Base
 	{
 		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
 	}
+
+	/**
+	 * Return allowed operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'List/Field/Base.tpl';
+	}
 }

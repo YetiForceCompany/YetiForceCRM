@@ -73,4 +73,12 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	{
 		return ['text'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

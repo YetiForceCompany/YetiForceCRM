@@ -167,4 +167,12 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		return null;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny', 'd'];
+	}
 }

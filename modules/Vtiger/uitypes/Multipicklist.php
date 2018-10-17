@@ -100,4 +100,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	{
 		return ['text'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

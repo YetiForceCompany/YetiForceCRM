@@ -32,4 +32,12 @@ class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/Modules.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

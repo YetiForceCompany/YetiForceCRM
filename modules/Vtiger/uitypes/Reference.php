@@ -136,4 +136,12 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	{
 		return ['bigint', 'integer', 'smallint'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }

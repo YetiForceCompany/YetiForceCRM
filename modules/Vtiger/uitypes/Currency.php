@@ -123,4 +123,12 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		return ['decimal'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
+	}
 }

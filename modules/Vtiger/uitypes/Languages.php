@@ -44,4 +44,12 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	{
 		return \App\Language::getAll();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
 }

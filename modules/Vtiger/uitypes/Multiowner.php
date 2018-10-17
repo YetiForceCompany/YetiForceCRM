@@ -88,4 +88,12 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/MultiOwner.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+	}
 }
