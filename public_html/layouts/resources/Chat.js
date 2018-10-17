@@ -18,6 +18,17 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Show progress indicator
+	 * @returns {jQuery}
+	 */
+	progressShow() {
+		return $.progressIndicator({
+			position: 'html',
+			blockInfo: {enabled: true}
+		});
+	}
+
+	/**
 	 * Register chat events
 	 * @param {jQuery} container
 	 */
@@ -27,10 +38,3 @@ window.Chat_Js = class Chat_Js {
 		}
 	}
 }
-/**
- * Create chat instance and register events.
- */
-$(document).ready((e) => {
-	const instance = Chat_Js.getInstance();
-	instance.registerEvents();
-});

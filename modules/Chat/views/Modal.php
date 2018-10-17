@@ -57,4 +57,14 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$viewer = $this->getViewer($request);
 		$viewer->view('ModalFooter.tpl', $request->getModule());
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getModalScripts(\App\Request $request)
+	{
+		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Chat.resources.Modal'
+		]));
+	}
 }
