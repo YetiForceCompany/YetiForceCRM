@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -154,23 +154,21 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
 				$data = \App\Purifier::encodeHtml($salesProcessesInfoBase[$colname]);
-				if ($getRawData === false) {
-					if ($colname == 'subject') {
-						if ($salesProcessesId != $id) {
-							if ($getLinks) {
-								if ($hasRecordViewAccess) {
-									$data = '<a href="index.php?module=SSalesProcesses&action=DetailView&record=' . $salesProcessesId . '">' . $data . '</a>';
-								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
-								}
+				if ($getRawData === false && $colname == 'subject') {
+					if ($salesProcessesId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=SSalesProcesses&action=DetailView&record=' . $salesProcessesId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
 						}
-						// - to show the hierarchy of the Sales
-						$salesProcessesDepth = str_repeat(' .. ', $salesProcessesInfoBase['depth']);
-						$data = $salesProcessesDepth . $data;
+					} else {
+						$data = '<strong>' . $data . '</strong>';
 					}
+					// - to show the hierarchy of the Sales
+					$salesProcessesDepth = str_repeat(' .. ', $salesProcessesInfoBase['depth']);
+					$data = $salesProcessesDepth . $data;
 				}
 				$salesProcessesInfoData[] = $data;
 			}
@@ -208,14 +206,14 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
-				'u_#__ssalesprocesses.*',
-				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
-			])->from('u_#__ssalesprocesses')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
-				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-				->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-				->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.ssalesprocessesid' => $id])
-				->one();
+			'u_#__ssalesprocesses.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('u_#__ssalesprocesses')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.ssalesprocessesid' => $id])
+			->one();
 		if ($row) {
 			$parentid = $row['parentid'];
 
@@ -271,14 +269,14 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		}
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
-					'u_#__ssalesprocesses.*',
-					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
-				])->from('u_#__ssalesprocesses')
-					->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
-					->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-					->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-					->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
-					->createCommand()->query();
+			'u_#__ssalesprocesses.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('u_#__ssalesprocesses')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
+			->createCommand()->query();
 		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;

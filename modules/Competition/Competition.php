@@ -340,25 +340,23 @@ class Competition extends Vtiger_CRMEntity
 		foreach ($listColumns as $colname) {
 			if (\App\Field::getFieldPermission('Competition', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false) {
-					if ($colname === 'subject') {
-						if ($recordId != $id) {
-							if ($getLinks) {
-								if ($hasRecordViewAccess) {
-									$data = '<a href="index.php?module=Competition&action=DetailView&record=' . $recordId . '">' . $data . '</a>';
-								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
-								}
+				if ($getRawData === false && $colname === 'subject') {
+					if ($recordId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=Competition&action=DetailView&record=' . $recordId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
 						}
-						$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
-						$data = $rowDepth . $data;
+					} else {
+						$data = '<strong>' . $data . '</strong>';
 					}
+					$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
+					$data = $rowDepth . $data;
 				}
-				$infoData[] = $data;
 			}
+			$infoData[] = $data;
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {

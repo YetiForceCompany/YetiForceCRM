@@ -80,10 +80,8 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
 			foreach (new DirectoryIterator($this->importFolderLocation) as $file) {
-				if (!$file->isDot()) {
-					if (strpos($file->getFilename(), '.' . $this->extension) !== false) {
-						$this->filelist[] = $file->getFilename();
-					}
+				if (!$file->isDot() && strpos($file->getFilename(), '.' . $this->extension) !== false) {
+					$this->filelist[] = $file->getFilename();
 				}
 			}
 		}

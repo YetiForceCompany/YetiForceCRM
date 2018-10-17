@@ -109,10 +109,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($maxExecutionTime > $iniMaxExecutionTime) {
 			$maxExecutionTime = $iniMaxExecutionTime;
 		}
-		if ($lastEnd < $lastStart && $this->isRunning()) {
-			if (time() > ($lastStart + $maxExecutionTime)) {
-				return true;
-			}
+		if ($lastEnd < $lastStart && $this->isRunning() && time() > ($lastStart + $maxExecutionTime)) {
+			return true;
 		}
 		return false;
 	}
