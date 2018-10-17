@@ -1,5 +1,103 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
+
+	constructor(container, readonly) {
+		super(container, readonly);
+		this.switchAllDays = app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all' ? true : false;
+		this.user = this.container.find('.assigned_user_id');
+		this.user.on('change', () => {
+			this.loadCalendarData();
+		});
+	}
+
+	renderCalendar() {
+		super.renderCalendar();
+		this.registerSwitchEvents();
+	}
+
+	selectDays(startDate, endDate) {
+		let start_hour = $('#start_hour').val(),
+			end_hour = $('#end_hour').val(),
+			view = this.getCalendarView().fullCalendar('getView');
+		if (endDate.hasTime() == false) {
+			endDate.add(-1, 'days');
+		}
+		startDate = startDate.format();
+		endDate = endDate.format();
+		if (start_hour == '') {
+			start_hour = '00';
+		}
+		if (end_hour == '') {
+			end_hour = '00';
+		}
+		if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+			startDate = startDate + 'T' + start_hour + ':00';
+			endDate = endDate + 'T' + end_hour + ':00';
+			if (startDate == endDate) {
+				let activityType = this.container.find('[name="activitytype"]').val();
+				let activityDurations = JSON.parse(this.container.find('[name="defaultOtherEventDuration"]').val());
+				let minutes = 0;
+				for (let i in activityDurations) {
+					if (activityDurations[i].activitytype === activityType) {
+						minutes = parseInt(activityDurations[i].duration);
+						break;
+					}
+				}
+				endDate = moment(endDate).add(minutes, 'minutes').toISOString();
+			}
+		}
+		let dateFormat = this.container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
+			timeFormat = this.container.find('[name="time_start"]').data('format'),
+			defaultTimeFormat = '';
+		if (timeFormat == 24) {
+			defaultTimeFormat = 'HH:mm';
+		} else {
+			defaultTimeFormat = 'hh:mm A';
+		}
+		this.container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
+		this.container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
+		if (this.container.find('.js-autofill').prop('checked') === true) {
+			Calendar_Edit_Js.getInstance().getFreeTime(this.container);
+		} else {
+			this.container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+			this.container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+		}
+	}
+
+	registerSwitchEvents() {
+		if (app.getMainParams('hiddenDays', true) !== false) {
+			let calendarview = this.getCalendarView(),
+				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center'));
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.switchAllDays))
+				.prependTo(switchContainer)
+				.on('change', 'input', (e) => {
+					const currentTarget = $(e.currentTarget);
+					let hiddenDays = [];
+					if (typeof currentTarget.data('on-text') !== 'undefined') {
+						hiddenDays = app.getMainParams('hiddenDays', true);
+						this.switchAllDays = false;
+					} else {
+						this.switchAllDays = true;
+					}
+					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
+					//calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
+					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
+						this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
+					}
+					this.registerSwitchEvents();
+				});
+		}
+	}
+
+	getSelectedUsersCalendar() {
+		return this.user.val();
+	}
+}
+
 jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	container: false,
 	getContainer() {
@@ -9,67 +107,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		this.container = container;
 	},
 	registerExtendCalendar: function () {
-		let container = this.getContainer(),
-			instance = new Calendar_CalendarExtended_Js($('.js-modal-container'), true),
-			user = container.find('.assigned_user_id');
-		instance.calendarView = this.getContainer().find('.js-calendar__container');
-		let selectDays = function (startDate, endDate) {
-				let start_hour = $('#start_hour').val(),
-					end_hour = $('#end_hour').val(),
-					view = instance.getCalendarView().fullCalendar('getView');
-				if (endDate.hasTime() == false) {
-					endDate.add(-1, 'days');
-				}
-				startDate = startDate.format();
-				endDate = endDate.format();
-				if (start_hour == '') {
-					start_hour = '00';
-				}
-				if (end_hour == '') {
-					end_hour = '00';
-				}
-				if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
-					startDate = startDate + 'T' + start_hour + ':00';
-					endDate = endDate + 'T' + end_hour + ':00';
-					if (startDate == endDate) {
-						let activityType = container.find('[name="activitytype"]').val();
-						let activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val());
-						let minutes = 0;
-						for (let i in activityDurations) {
-							if (activityDurations[i].activitytype === activityType) {
-								minutes = parseInt(activityDurations[i].duration);
-								break;
-							}
-						}
-						endDate = moment(endDate).add(minutes, 'minutes').toISOString();
-					}
-				}
-				let dateFormat = container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
-					timeFormat = container.find('[name="time_start"]').data('format'),
-					defaultTimeFormat = '';
-				if (timeFormat == 24) {
-					defaultTimeFormat = 'HH:mm';
-				} else {
-					defaultTimeFormat = 'hh:mm A';
-				}
-				container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
-				container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-				if (container.find('.js-autofill').prop('checked') === true) {
-					Calendar_Edit_Js.getInstance().getFreeTime(container);
-				} else {
-					container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-					container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
-				}
-			},
-			getSelectedUsersCalendar = function () {
-				return user.val();
-			};
-		user.on('change', function (e) {
-			instance.loadCalendarData();
-		});
-		instance.selectDays = selectDays;
-		instance.getSelectedUsersCalendar = getSelectedUsersCalendar;
-		instance.renderCalendar();
+		(new Calendar_CalendarModal_Js($('.js-modal-container'), true)).renderCalendar();
 	},
 	registerStandardCalendar: function () {
 		const thisInstance = this;
