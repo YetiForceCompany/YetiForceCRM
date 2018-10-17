@@ -7,6 +7,6 @@ $.Class("Chat_Modal_JS", {}, {
 	 * @param {jQuery} modalContainer
 	 */
 	registerEvents(modalContainer) {
-		Chat_Js.getInstance().registerEvents(modalContainer);
+		Chat_JS.getInstance().registerEvents(modalContainer);
 	}
 });
