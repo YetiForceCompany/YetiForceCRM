@@ -731,7 +731,7 @@ class QueryGenerator
 			}
 			foreach ($filters as &$filter) {
 				if (isset($filter['columnname'])) {
-					list($tableName, $columnName, $fieldName) = explode(':', $filter['columnname']);
+					list($tableName, $columnName, $fieldName) = array_pad(explode(':', $filter['columnname']), 3, false);
 					if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
 						$fieldName = $this->getColumnName('id');
 					}
@@ -1070,6 +1070,7 @@ class QueryGenerator
 	{
 		$field = $this->addRelatedJoin($condition);
 		if (!$field) {
+			Log::error('Not found source field');
 			return false;
 		}
 		$queryField = $this->getQueryRelatedField($field, $condition);
@@ -1149,12 +1150,14 @@ class QueryGenerator
 	 * Set order for related module.
 	 *
 	 * @param string[] $orderDetail
+	 *
+	 * @return void
 	 */
 	public function setRelatedOrder(array $orderDetail)
 	{
 		$field = $this->addRelatedJoin($orderDetail);
 		if (!$field) {
-			return;
+			Log::error('Not found source field');
 		}
 		$queryField = $this->getQueryRelatedField($field, $orderDetail);
 		$this->order = array_merge($this->order, $queryField->getOrderBy($orderDetail['relatedSortOrder']));
