@@ -22,8 +22,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$this->record->isEditable() ||
-				($request->getBoolean('isDuplicate') === true && (
-						!$this->record->isCreateable() || !$this->record->isPermitted('DuplicateRecord') || !$this->record->isPermitted('ActivityPostponed')))
+				($request->getBoolean('isDuplicate') === true && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
