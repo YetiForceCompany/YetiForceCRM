@@ -1439,13 +1439,40 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
-		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
-			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_DELETE',
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
-				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-			]);
+		if ($relationModel->privilegeToDelete()) {
+			if ($this->privilegeToMoveToTrash()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_REMOVE_RELATION',
+					'linkicon' => 'fas fa-link',
+					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+					'linkdata' => [
+						'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+						'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
+						'id' => $this->getId()
+					]
+				]);
+			}
+			if ($this->privilegeToMoveToTrash()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
+					'linkicon' => 'fas fa-trash-alt',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+					'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
+				]);
+			}
+			if ($this->privilegeToDelete()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'linkicon' => 'fas fa-eraser',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+					'linkclass' => 'btn-sm btn-black relationDelete entityStateBtn'
+				]);
+			}
 		}
 		return $links;
 	}
