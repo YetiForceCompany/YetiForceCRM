@@ -27,6 +27,7 @@
     "ERR_FIELD_NOT_FOUND": "Nie znaleziono pola",
     "ERR_NO_VALUE": "Brak warto\u015bci",
     "ERR_API": "B\u0142\u0105d w API",
-    "ERR_NO_PERMISSIONS_TO_FIELD": "Brak uprawnie\u0144 do danego pola"
+    "ERR_NO_PERMISSIONS_TO_FIELD": "Brak uprawnie\u0144 do danego pola",
+    "ERR_NO_PERMITTED_TO_VIEW": "Brak uprawnie\u0144 do widoku"
   }
 }
