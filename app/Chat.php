@@ -49,7 +49,6 @@ class Chat
 				'id' => new \yii\db\Expression('NULL'),
 				'GL.name'
 			])->from(['GL' => 'u_#__chat_rooms_global']);
-
 		$queryGroup = (new \App\Db\Query())
 			->select([
 				'room_type' => new \yii\db\Expression("'group'"),
@@ -57,8 +56,8 @@ class Chat
 				'id' => new \yii\db\Expression('GR.groupid'),
 				'VGR.groupname'
 			])->from(['GR' => 'u_#__chat_rooms_group'])
-				->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid');
-
+				->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
+				->where(['GR.userid' => $userId]);
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'room_type' => new \yii\db\Expression("'crm'"),
@@ -66,6 +65,7 @@ class Chat
 				'id' => new \yii\db\Expression('C.crmid'),
 				'name' => new \yii\db\Expression('NULL')
 			])->from(['C' => 'u_#__chat_rooms_crm'])
+				->where(['C.userid' => $userId])
 				->union($queryGroup, true)
 				->union($queryGlobal, true)
 				->createCommand()->query();
@@ -75,7 +75,7 @@ class Chat
 			'global' => [],
 		];
 		while ($row = $dataReader->read()) {
-			$arr[$row['room_type']] = $row;
+			$arr[$row['room_type']][] = $row;
 		}
 		$dataReader->close();
 		return $arr;

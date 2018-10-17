@@ -3,7 +3,7 @@
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=false}
-		<li>{$ROOM['name']}</li>
+		<li>{\App\Language::translate($ROOM['name'])}</li>
 	{/function}
 	<div class="modal-body pt-0 pb-0">
 		<div class="row p-0">
