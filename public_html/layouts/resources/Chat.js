@@ -18,6 +18,17 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Send chat message.
+	 * @param {jQuery} inputMessage
+	 */
+	sendMessage(inputMessage) {
+		if (inputMessage.val() === '') {
+			return;
+		}
+		inputMessage.val('');
+	}
+
+	/**
 	 * Show progress indicator
 	 * @returns {jQuery}
 	 */
@@ -29,12 +40,32 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Register send event
+	 * @param {jQuery} container
+	 */
+	registerSendEvent(container) {
+		const self = this;
+		const inputMessage = container.find('.js-chat-message');
+		inputMessage.on('keydown', (e) => {
+			console.log(e.keyCode);
+			if (e.keyCode === 13) {
+				e.preventDefault();
+				self.sendMessage($(e.currentTarget));
+				return false;
+			}
+		});
+		container.find('.js-btn-send').on('click', (e) => {
+			self.sendMessage(inputMessage);
+		});
+	}
+
+	/**
 	 * Register chat events
 	 * @param {jQuery} container
 	 */
-	registerEvents(container = $('.js-chat-modal')) {
+	registerEvents(container) {
 		if (container.length) {
-			const self = this;
+			this.registerSendEvent(container);
 		}
 	}
 }
