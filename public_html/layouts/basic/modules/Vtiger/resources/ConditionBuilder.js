@@ -17,13 +17,21 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerChangeOperators(container) {
 		let self = this;
+
 		container.find('.js-conditions-operator').on('change', function (e) {
+			let progress = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'ConditionBuilder',
 				fieldname: container.find('.js-conditions-fields').val(),
 				operator: $(e.currentTarget).val(),
 			}).done(function (data) {
+				progress.progressIndicator({mode: 'hide'});
 				container.html($(data).html());
 				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 				self.registerChangeFields(container);
@@ -50,11 +58,18 @@ class Vtiger_ConditionBuilder_Js {
 	registerChangeFields(container) {
 		let self = this;
 		container.find('.js-conditions-fields').on('change', function (e) {
+			let progress = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'ConditionBuilder',
 				fieldname: $(e.currentTarget).val()
 			}).done(function (data) {
+				progress.progressIndicator({mode: 'hide'});
 				container.html($(data).html());
 				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 				self.registerChangeFields(container);
@@ -70,11 +85,18 @@ class Vtiger_ConditionBuilder_Js {
 	registerAddCondition() {
 		let self = this;
 		this.container.on('click', '.js-condition-add', function (e) {
+			let progress = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
 			let container = $(e.currentTarget).closest('.js-condition-builder-group-container').find('> .js-condition-builder-conditions-container');
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'ConditionBuilder'
 			}).done(function (data) {
+				progress.progressIndicator({mode: 'hide'});
 				data = $(data);
 				App.Fields.Picklist.showSelect2ElementView(data.find('select.select2'));
 				self.registerChangeFields(data);
@@ -151,9 +173,14 @@ class Vtiger_ConditionBuilder_Js {
 	 * Main function to regsiter events
 	 */
 	registerEvents() {
+		let self = this;
 		this.registerAddCondition();
 		this.registerAddGroup();
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
+		this.container.find('.js-condition-builder-conditions-row').each(function(){
+			self.registerChangeFields($(this));
+			self.registerChangeOperators($(this));
+		})
 	}
 };

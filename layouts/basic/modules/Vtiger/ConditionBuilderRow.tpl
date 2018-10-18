@@ -1,5 +1,16 @@
 {strip}
 	<div class="tpl-Base-ConditionBuilderRow d-flex js-condition-builder-conditions-row">
+		{if !$SELECTED_FIELD_MODEL && $CONDITIONS_ROW}
+			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
+			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getOperators()}
+		{/if}
+		{if !$SELECTED_OPERATOR && $CONDITIONS_ROW}
+			{assign var=SELECTED_OPERATOR value=$CONDITIONS_ROW['operator']}
+
+		{/if}
+		{if !$FIELD_INFO && $CONDITIONS_ROW}
+			{assign var=FIELD_INFO value=$CONDITIONS_ROW['fieldname']}
+		{/if}
 		<div class="col-4">
 			<select class="select2 form-control js-conditions-fields" data-js="change">
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}

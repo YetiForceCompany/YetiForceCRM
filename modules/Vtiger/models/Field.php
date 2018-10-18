@@ -992,6 +992,21 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Returns instance of field.
+	 *
+	 * @param string|array $fieldInfo
+	 *
+	 * @return bool|null|\Vtiger_Field_Model|\vtlib\Field
+	 */
+	public static function getInstanceFromFilter($fieldInfo)
+	{
+		if (is_string($fieldInfo)) {
+			$fieldInfo = array_combine(['module_name', 'field_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
+		}
+		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
+	}
+
+	/**
 	 * Function checks if the current Field is Read/Write.
 	 *
 	 * @return bool
@@ -1412,21 +1427,21 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
-				// no break
+			// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
-				// no break
+			// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
-				// no break
+			// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:
@@ -1435,15 +1450,17 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Return allowed operators for field
+	 * Return allowed operators for field.
+	 *
 	 * @return string[]
 	 */
-	public function getOperators(){
+	public function getOperators()
+	{
 		$operators = $this->getUITypeModel()->getOperators();
 		$oper = [];
-		foreach($operators as $op) {
+		foreach ($operators as $op) {
 			$label = '';
-			if(isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
+			if (isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
 				$label = \App\CustomView::ADVANCED_FILTER_OPTIONS[$op];
 			}
 			if (isset(\App\CustomView::DATE_FILTER_CONDITIONS[$op])) {
@@ -1455,11 +1472,14 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Returns template for operator
+	 * Returns template for operator.
+	 *
 	 * @param string $operator
+	 *
 	 * @return string
 	 */
-	public function getOperatorTemplateName(string $operator){
+	public function getOperatorTemplateName(string $operator)
+	{
 		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES)) {
 			return;
 		}

@@ -424,110 +424,164 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Returns condition.
+	 * array() [
+	 * 'condition' => "AND" or "OR"
+	 * 'rules' => [[
+	 *        'fieldname' => name of fields
+	 *        'operator' => operator, for instance: 'e'
+	 *        'value' => values
+	 *    ]]
+	 * ].
+	 *
+	 * @return array
+	 */
+	public function getConditions(): array
+	{
+		$dataReader = (new \App\Db\Query())->select([
+			'u_#__cv_condition.group_id',
+			'u_#__cv_condition.field_name',
+			'u_#__cv_condition.module_name',
+			'u_#__cv_condition.source_field_name',
+			'u_#__cv_condition.operator',
+			'u_#__cv_condition.value',
+			'condition_index' => 'u_#__cv_condition.index',
+			'u_#__cv_condition_group.condition',
+			'u_#__cv_condition_group.parent_id',
+			'group_index' => 'u_#__cv_condition_group.index'
+		])->from('u_#__cv_condition')
+			->innerJoin('u_#__cv_condition_group', 'u_#__cv_condition_group.id = u_#__cv_condition.group_id')
+			->where(['u_#__cv_condition_group.cvid' => $this->getId()])
+			->orderBy(['u_#__cv_condition_group.parent_id' => SORT_ASC])
+			->createCommand()->query();
+		$referenceGroup = $referenceParent = $conditions = [];
+		while ($condition = $dataReader->read()) {
+			$value = $condition['value'];
+			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
+			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
+				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
+					'fieldname' => $fieldName,
+					'operator' => $condition['operator'],
+					'value' => $value
+				];
+			} elseif (isset($referenceGroup[$condition['parent_id']])) {
+				$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
+					'condition' => $condition['condition'],
+					'rules' => [
+						$condition['condition_index'] => [
+							'fieldname' => $fieldName,
+							'operator' => $condition['operator'],
+							'value' => $value
+						]
+					]
+				];
+				$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
+				$referenceGroup[$condition['group_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
+			} else {
+				$conditions = [
+					'condition' => $condition['condition'],
+					'rules' => [
+						$condition['condition_index'] => [
+							'fieldname' => $fieldName,
+							'operator' => $condition['operator'],
+							'value' => $value
+						]
+					]
+				];
+				$referenceParent[$condition['parent_id']] = &$conditions['rules'];
+				$referenceGroup[$condition['group_id']] = &$conditions['rules'];
+			}
+		}
+
+		return $conditions;
+	}
+
+	/**
+	 * Add condition to database.
+	 *
+	 * @param array $rule
+	 * @param int   $parentId
+	 * @param int   $index
+	 *
+	 * @throws \App\Exceptions\Security
+	 * @throws \yii\db\Exception
+	 *
+	 * @return void
+	 */
+	private function addCondition(array $rule, int $parentId, int $index)
+	{
+		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		$operator = $rule['operator'];
+		$value = '';
+		if (!in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES)) {
+			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName));
+			$fieldType = $fieldModel->getFieldDataType();
+			$value = $rule['value'];
+			if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
+				$tempVal = explode(',', $value);
+				$values = [];
+				foreach ($tempVal as $val) {
+					$fieldModel->getUITypeModel()->validate($val, true);
+					$values[] = $fieldModel->getUITypeModel()->getDBValue($val);
+				}
+				$value = implode(',', $values);
+			} else {
+				$fieldModel->getUITypeModel()->validate($value, true);
+				$value = $fieldModel->getUITypeModel()->getDBValue($value);
+			}
+		}
+		\App\Db::getInstance()->createCommand()->insert('u_#__cv_condition', [
+			'group_id' => $parentId,
+			'field_name' => $fieldName,
+			'module_name' => $fieldModuleName,
+			'source_field_name' => $sourceFieldName,
+			'operator' => $operator,
+			'value' => $value,
+			'index' => $index
+		])->execute();
+	}
+
+	/**
+	 * Add group to database.
+	 *
+	 * @param array $rule
+	 * @param int   $parentId
+	 * @param int   $index
+	 *
+	 * @throws \App\Exceptions\Security
+	 * @throws \yii\db\Exception
+	 *
+	 * @return void
+	 */
+	private function addGroup(array $rule, int $parentId, int $index)
+	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('u_#__cv_condition_group', [
+			'cvid' => $this->getId(),
+			'condition' => $rule['condition'] === 'AND' ? 'AND' : 'OR',
+			'parent_id' => $parentId,
+			'index' => $index
+		])->execute();
+		$index = 0;
+		$parentId = $db->getLastInsertID('u_#__cv_condition_group_id_seq');
+		foreach ($rule['rules'] as $ruleInfo) {
+			if (isset($ruleInfo['condition'])) {
+				$this->addGroup($ruleInfo, $parentId, $index);
+			} else {
+				$this->addCondition($ruleInfo, $parentId, $index);
+			}
+			$index++;
+		}
+	}
+
+	/**
 	 * Set conditions for filter.
+	 *
+	 * @return void
 	 */
 	public function setConditionsForFilter()
 	{
-		$db = \App\Db::getInstance();
-		$moduleModel = $this->getModule();
-		$cvId = $this->getId();
-
-		$stdFilterList = $this->get('stdfilterlist');
-		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
-			$db->createCommand()
-				->insert('vtiger_cvstdfilter', [
-					'cvid' => $cvId,
-					'columnname' => $stdFilterList['columnname'],
-					'stdfilter' => $stdFilterList['stdfilter'],
-					'startdate' => trim($stdFilterList['startdate'], "'"),
-					'enddate' => trim($stdFilterList['enddate'], "'"),
-				])->execute();
-		}
-
-		$advFilterList = $this->get('advfilterlist');
-		if (!empty($advFilterList)) {
-			foreach ($advFilterList as $groupIndex => $groupInfo) {
-				if (empty($groupInfo)) {
-					continue;
-				}
-				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'] ?? false;
-
-				foreach ($groupColumns as $columnIndex => $columnCondition) {
-					if (empty($columnCondition)) {
-						continue;
-					}
-					$advFilterColumn = $columnCondition['columnname'];
-					$advFilterComparator = $columnCondition['comparator'];
-					$advFitlerValue = $columnCondition['value'];
-					$advFilterColumnCondition = $columnCondition['column_condition'];
-
-					$columnInfo = explode(':', $advFilterColumn);
-					$fieldName = $columnInfo[2];
-					$fieldModel = $moduleModel->getField($fieldName);
-					$fieldType = $fieldModel->getFieldDataType();
-					if ($fieldType === 'currency') {
-						if ($fieldModel->get('uitype') == '72') {
-							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue, null, true);
-						} else {
-							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
-						}
-					} elseif (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
-						$tempVal = explode(',', $advFitlerValue);
-						$val = [];
-						$countTempVal = count($tempVal);
-						for ($x = 0; $x < $countTempVal; ++$x) {
-							//if date and time given then we have to convert the date and
-							//leave the time as it is, if date only given then temp_time
-							//value will be empty
-							if (trim($tempVal[$x]) !== '' && trim($tempVal[$x]) !== '--') {
-								$date = new DateTimeField(trim($tempVal[$x]));
-								if ($fieldType === 'date') {
-									$val[$x] = DateTimeField::convertToDBFormat(trim($tempVal[$x]));
-								} elseif ($fieldType === 'datetime') {
-									$val[$x] = $date->getDBInsertDateTimeValue();
-								} else {
-									$val[$x] = $date->getDBInsertTimeValue();
-								}
-							}
-						}
-						$advFitlerValue = implode(',', $val);
-					}
-					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
-						$advFitlerValue = '';
-					}
-					$db->createCommand()
-						->insert('vtiger_cvadvfilter', [
-							'cvid' => $cvId,
-							'columnindex' => $columnIndex,
-							'columnname' => $advFilterColumn,
-							'comparator' => $advFilterComparator,
-							'value' => $advFitlerValue,
-							'groupid' => $groupIndex,
-							'column_condition' => $advFilterColumnCondition,
-						])->execute();
-
-					// Update the condition expression for the group to which the condition column belongs
-					$groupConditionExpression = '';
-					if (!empty($advFilterList[$groupIndex]['conditionexpression'])) {
-						$groupConditionExpression = $advFilterList[$groupIndex]['conditionexpression'];
-					}
-					$groupConditionExpression = $groupConditionExpression . ' ' . $columnIndex . ' ' . $advFilterColumnCondition;
-					$advFilterList[$groupIndex]['conditionexpression'] = $groupConditionExpression;
-				}
-				if (empty($advFilterList[$groupIndex]['conditionexpression'])) {
-					continue; // Case when the group doesn't have any column criteria
-				}
-				$db->createCommand()
-					->insert('vtiger_cvadvfilter_grouping', [
-						'groupid' => $groupIndex,
-						'cvid' => $cvId,
-						'group_condition' => $groupCondition,
-						'condition_expression' => $advFilterList[$groupIndex]['conditionexpression'],
-					])->execute();
-			}
-		}
+		$this->addGroup($this->get('advfilterlist'), 0, 0);
 	}
 
 	public function setColumnlist()
@@ -602,9 +656,7 @@ class CustomView_Record_Model extends \App\Base
 		], ['cvid' => $cvId]
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('u_yf_cv_condition_group', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}
@@ -626,50 +678,13 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-		->from('vtiger_cvcolumnlist')
-		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-		->createCommand()->queryAllByGroup(1);
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);
-	}
-
-	/**
-	 * Function to get the Standard filter condition for the current custom view.
-	 *
-	 * @return array Standard filter condition
-	 */
-	public function getStandardCriteria()
-	{
-		$cvId = $this->getId();
-		if (empty($cvId)) {
-			return [];
-		}
-		$stdFilterRow = (new App\Db\Query())->select(['vtiger_cvstdfilter.*'])->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
-		if ($stdFilterRow) {
-			$stdFilterList = [];
-			$stdFilterList['columnname'] = $stdFilterRow['columnname'];
-			$stdFilterList['stdfilter'] = $stdFilterRow['stdfilter'];
-
-			if ($stdFilterRow['stdfilter'] === 'custom' || $stdFilterRow['stdfilter'] === '') {
-				if ($stdFilterRow['startdate'] != '0000-00-00' && $stdFilterRow['startdate'] != '') {
-					$startDateTime = new DateTimeField($stdFilterRow['startdate'] . ' ' . date('H:i:s'));
-					$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
-				}
-				if ($stdFilterRow['enddate'] != '0000-00-00' && $stdFilterRow['enddate'] != '') {
-					$endDateTime = new DateTimeField($stdFilterRow['enddate'] . ' ' . date('H:i:s'));
-					$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
-				}
-			} else { //if it is not custom get the date according to the selected duration
-				$dateFilter = DateTimeRange::getDateRangeByType($stdFilterRow['stdfilter']);
-				$startDateTime = new DateTimeField($dateFilter[0] . ' ' . date('H:i:s'));
-				$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($dateFilter[1] . ' ' . date('H:i:s'));
-				$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
-			}
-		}
-		return $stdFilterList ?? [];
 	}
 
 	/**
@@ -1021,83 +1036,6 @@ class CustomView_Record_Model extends \App\Base
 			$query->andWhere(['<>', 'cvid', $cvid]);
 		}
 		return $query->exists();
-	}
-
-	/**
-	 * Function used to transform the older filter condition to suit newer filters.
-	 * The newer filters have only two groups one with ALL(AND) condition between each
-	 * filter and other with ANY(OR) condition, this functions tranforms the older
-	 * filter with 'AND' condition between filters of a group and will be placed under
-	 * match ALL conditions group and the rest of it will be placed under match Any group.
-	 *
-	 * @return <Array>
-	 */
-	public function transformToNewAdvancedFilter()
-	{
-		$standardFilter = $this->transformStandardFilter();
-		$advancedFilter = $this->getAdvancedCriteria();
-		$allGroupColumns = $anyGroupColumns = [];
-		foreach ($advancedFilter as $index => $group) {
-			$columns = $group['columns'];
-			$and = $or = 0;
-			$block = $group['condition'];
-			if (count($columns) != 1) {
-				foreach ($columns as $column) {
-					if ($column['column_condition'] == 'and') {
-						++$and;
-					} else {
-						++$or;
-					}
-				}
-				if ($and == count($columns) - 1 && count($columns) != 1) {
-					$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-				} else {
-					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-				}
-			} elseif ($block == 'and' || $index == 1) {
-				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-			} else {
-				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-			}
-		}
-		if ($standardFilter) {
-			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
-		}
-		$transformedAdvancedCondition = [];
-		$transformedAdvancedCondition[1] = ['columns' => $allGroupColumns, 'condition' => 'and'];
-		$transformedAdvancedCondition[2] = ['columns' => $anyGroupColumns, 'condition' => ''];
-
-		return $transformedAdvancedCondition;
-	}
-
-	/*
-	 *  Function used to tranform the standard filter as like as advanced filter format
-	 * 	@returns array of tranformed standard filter
-	 */
-
-	public function transformStandardFilter()
-	{
-		$standardFilter = $this->getStandardCriteria();
-		if (!empty($standardFilter)) {
-			$tranformedStandardFilter = [];
-			$tranformedStandardFilter['comparator'] = 'bw';
-
-			$fields = explode(':', $standardFilter['columnname']);
-
-			if ($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' || ($fields[0] == 'vtiger_activity' && $fields[1] == 'date_start')) {
-				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':DT';
-				$date[] = $standardFilter['startdate'] . ' 00:00:00';
-				$date[] = $standardFilter['enddate'] . ' 00:00:00';
-				$tranformedStandardFilter['value'] = implode(',', $date);
-			} else {
-				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':D';
-				$tranformedStandardFilter['value'] = $standardFilter['startdate'] . ',' . $standardFilter['enddate'];
-			}
-
-			return [$tranformedStandardFilter];
-		} else {
-			return false;
-		}
 	}
 
 	/**

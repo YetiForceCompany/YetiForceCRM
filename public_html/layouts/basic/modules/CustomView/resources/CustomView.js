@@ -15,7 +15,8 @@ class CustomView {
 		let progressIndicatorElement = $.progressIndicator();
 		app.showModalWindow(null, url, () => {
 			this.contentsCotainer = $('.js-filter-modal__container');
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(this.contentsCotainer.find('.filterContainer'));
+			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(this.contentsCotainer.find('.js-condition-builder'));
+			this.advanceFilterInstance.registerEvents();
 			//This will store the columns selection container
 			this.columnSelectElement = false;
 			this.registerEvents();
@@ -184,7 +185,7 @@ class CustomView {
 					$('#stdfilterlist').val(JSON.stringify(stdfilterlist));
 				}
 				//handled advanced filters saved values.
-				let advfilterlist = this.advanceFilterInstance.getValues();
+				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
 				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
 				this.saveAndViewFilter();

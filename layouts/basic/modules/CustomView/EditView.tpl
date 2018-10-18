@@ -158,9 +158,9 @@
 							<div class="c-panel__body py-1">
 								<div class="filterConditionsDiv">
 									<div class="row">
-							<span class="col-md-12">
-								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
-							</span>
+										<span class="col-md-12">
+											{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE}
+										</span>
 									</div>
 								</div>
 							</div>

@@ -1445,6 +1445,34 @@ CREATE TABLE `u_yf_crmentity_showners` (
   CONSTRAINT `fk_u_yf_crmentity_showners` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_cv_condition` */
+
+CREATE TABLE `u_yf_cv_condition` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(10) DEFAULT NULL,
+  `field_name` varchar(50) DEFAULT NULL,
+  `module_name` varchar(25) DEFAULT NULL,
+  `source_field_name` varchar(50) DEFAULT NULL,
+  `operator` varchar(20) DEFAULT NULL,
+  `value` text DEFAULT NULL,
+  `index` tinyint(5) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `u_yf_cv_condition_fk` (`group_id`),
+  CONSTRAINT `u_yf_cv_condition_fk` FOREIGN KEY (`group_id`) REFERENCES `u_yf_cv_condition_group` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_cv_condition_group` */
+
+CREATE TABLE `u_yf_cv_condition_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cvid` int(10) DEFAULT NULL,
+  `condition` varchar(3) DEFAULT NULL,
+  `parent_id` int(10) DEFAULT NULL,
+  `index` tinyint(5) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `u_yf_cv_condition_group_cvid_idx` (`cvid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_dashboard_type` */
 
 CREATE TABLE `u_yf_dashboard_type` (
