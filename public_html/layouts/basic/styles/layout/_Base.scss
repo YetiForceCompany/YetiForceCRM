@@ -10,7 +10,7 @@
 
 @include media-breakpoint-down(sm) {
 	.mainBody {
-		bottom: $h-footer-mobile;
+		bottom: $h-footer-limited;
 	}
 }
 

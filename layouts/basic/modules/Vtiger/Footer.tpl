@@ -20,7 +20,7 @@
 	</div>
 	{if $SHOW_FOOTER}
 		<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
-		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}"
+		<footer class="c-footer fixed-bottom js-footer{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if AppConfig::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
 				data-js="height">
 			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
