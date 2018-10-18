@@ -33,31 +33,6 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 	public static $defaultLimit = 10;
 
 	/**
-	 * Checking permission in get method.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 *
-	 * @return bool
-	 */
-	public function getCheckPermission(\App\Request $request)
-	{
-		if (!$request->isEmpty('record')) {
-			$moduleName = $request->getModule();
-			$fieldName = $request->getByType('field', 2);
-			if ($moduleName === 'Users' && $fieldName === 'imagename' && \App\User::getCurrentUserId()) {
-				return true;
-			} elseif (!\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record')) || !\App\Field::getFieldPermission($moduleName, $fieldName)) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-			}
-		} else {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		return true;
-	}
-
-	/**
 	 * View image.
 	 *
 	 * @param \App\Request $request
