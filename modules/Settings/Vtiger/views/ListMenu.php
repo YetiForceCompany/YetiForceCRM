@@ -39,7 +39,7 @@ class Settings_Vtiger_ListMenu_View extends Settings_Vtiger_Index_View
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.List',
-			'modules.Settings.' . $request->getModule() . '.resources.List',
+			"modules.Settings.{$request->getModule()}.resources.List",
 		]));
 	}
 }

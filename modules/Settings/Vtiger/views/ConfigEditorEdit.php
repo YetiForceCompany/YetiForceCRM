@@ -37,7 +37,7 @@ class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'modules.Settings.' . $request->getModule() . '.resources.ConfigEditor',
+			"modules.Settings.{$request->getModule()}.resources.ConfigEditor",
 		]));
 	}
 }

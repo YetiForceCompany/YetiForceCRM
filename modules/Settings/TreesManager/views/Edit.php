@@ -47,7 +47,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/jstree/dist/jstree.js',
-			'modules.Settings.' . $request->getModule() . '.resources.Edit',
+			"modules.Settings.{$request->getModule()}.resources.Edit",
 		]));
 	}
 

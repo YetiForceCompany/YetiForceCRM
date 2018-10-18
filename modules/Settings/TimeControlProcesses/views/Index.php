@@ -29,7 +29,7 @@ class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_Vie
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'modules.Settings.' . $request->getModule() . '.resources.Index',
+			"modules.Settings.{$request->getModule()}.resources.Index",
 		]));
 	}
 }
