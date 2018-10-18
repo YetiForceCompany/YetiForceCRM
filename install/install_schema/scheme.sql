@@ -1319,8 +1319,7 @@ CREATE TABLE `u_yf_chat_rooms_crm` (
   KEY `fk_u_yf_chat_rooms_crm_crm` (`crmid`),
   KEY `last_message` (`last_message`),
   CONSTRAINT `fk_u_yf_chat_rooms_crm_crm` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
-  CONSTRAINT `fk_u_yf_chat_rooms_crm_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_chat_rooms_crm_ibfk_1` FOREIGN KEY (`last_message`) REFERENCES `u_yf_chat_messages_crm` (`id`) ON DELETE NO ACTION
+  CONSTRAINT `fk_u_yf_chat_rooms_crm_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_rooms_global` */
@@ -1334,9 +1333,8 @@ CREATE TABLE `u_yf_chat_rooms_global` (
   KEY `global_room_id` (`global_room_id`),
   KEY `userid` (`userid`),
   KEY `last_message` (`last_message`),
-  CONSTRAINT `u_yf_chat_rooms_global_ibfk_1` FOREIGN KEY (`global_room_id`) REFERENCES `u_yf_chat_global` (`global_room_id`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_chat_rooms_global_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_chat_rooms_global_ibfk_3` FOREIGN KEY (`last_message`) REFERENCES `u_yf_chat_messages_global` (`id`) ON DELETE NO ACTION
+  CONSTRAINT `fk_u_yf_chat_rooms_global_global` FOREIGN KEY (`global_room_id`) REFERENCES `u_yf_chat_global` (`global_room_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_u_yf_chat_rooms_global_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_rooms_group` */
@@ -1350,7 +1348,7 @@ CREATE TABLE `u_yf_chat_rooms_group` (
   KEY `fk_u_yf_chat_rooms_group` (`groupid`),
   KEY `userid` (`userid`),
   CONSTRAINT `fk_u_yf_chat_rooms_group` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_chat_rooms_group_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_u_yf_chat_rooms_group_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
