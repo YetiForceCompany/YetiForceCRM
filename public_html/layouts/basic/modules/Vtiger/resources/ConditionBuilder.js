@@ -37,6 +37,7 @@ class Vtiger_ConditionBuilder_Js {
 				self.registerChangeFields(container);
 				self.registerChangeOperators(container);
 				self.registerDateFields();
+				self.registerDateFieldsRange();
 			});
 		});
 	}
@@ -50,6 +51,31 @@ class Vtiger_ConditionBuilder_Js {
 			App.Fields.Date.register(element);
 		}
 	}
+
+	/**
+	 * Register event when the date range field is selected
+	 */
+	registerDateFieldsRange() {
+		let element = this.container.find('.js-condition-builder-conditions-row .js-date-range-field');
+		if (element.length) {
+			App.Fields.Date.registerRange(element, {ranges: false});
+			if (element.val().indexOf(',') !== -1) {
+				let valueArray = this.getValue().split(','),
+					startDateTime = valueArray[0],
+					endDateTime = valueArray[1];
+				if (startDateTime.indexOf(' ') !== -1) {
+					let dateTime = startDateTime.split(' ');
+					startDateTime = dateTime[0];
+				}
+				if (endDateTime.indexOf(' ') !== -1) {
+					let dateTimeValue = endDateTime.split(' ');
+					endDateTime = dateTimeValue[0];
+				}
+				element.val(startDateTime + ',' + endDateTime);
+			}
+		}
+	}
+
 
 	/**
 	 * Register events when change field
@@ -75,6 +101,7 @@ class Vtiger_ConditionBuilder_Js {
 				self.registerChangeFields(container);
 				self.registerChangeOperators(container);
 				self.registerDateFields();
+				self.registerDateFieldsRange();
 			});
 		});
 	}
@@ -178,7 +205,7 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerAddGroup();
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
-		this.container.find('.js-condition-builder-conditions-row').each(function(){
+		this.container.find('.js-condition-builder-conditions-row').each(function () {
 			self.registerChangeFields($(this));
 			self.registerChangeOperators($(this));
 		})
