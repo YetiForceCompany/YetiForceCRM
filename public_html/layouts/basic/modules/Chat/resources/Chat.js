@@ -14,6 +14,11 @@ window.Chat_JS = class Chat_Js {
 		this.container = container;
 		this.messageContainer = container.find('.js-chat_content');
 		this.sendByEnter = true;
+		this.timerMessage = null;
+		this.timerRoom = null;
+		this.timerGlobal = null;
+		this.lastMessageId = 0;
+		this.roomId = 0;
 	}
 
 	/**
@@ -81,6 +86,66 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Get new message
+	 * @param {bool} timer
+	 */
+	getMessage(timer = false) {
+		this.request({
+			view: 'Entries',
+			mode: 'get',
+			lastId: this.lastMessageId,
+			roomId: this.roomId
+		}).done((data) => {
+			this.buildParticipants(data.find('.js-participants-data'), false);
+			this.messageContainer.append(data);
+			if (timer) {
+				this.timerMessage = setTimeout(() => {
+					this.getMessage(true);
+				}, this.container.data('messageTimer'));
+			}
+		});
+	}
+
+	/**
+	 * Get rooms details
+	 * @param {bool} timer
+	 */
+	getRoomsDetail(timer = false) {
+		this.request({
+			action: 'Room',
+			mode: 'getAll'
+		}, false).done((data) => {
+			this.reloadRoomsDetail(data);
+			if (timer) {
+				this.timerRoom = setTimeout(() => {
+					this.getRoomsDetail(true);
+				}, this.container.data('roomTimer'));
+			}
+		});
+	}
+
+	/**
+	 * Refresh all information about the rooms
+	 * @param {object} data
+	 */
+	reloadRoomsDetail(data) {
+
+	}
+
+	/**
+	 * Build a list of participants
+	 * @param {jQuery} element
+	 * @param {bool} add
+	 */
+	buildParticipants(element, reload = false) {
+		if (element.length) {
+			if (reload) {
+				this.container.find('.js-participants-list').html('');
+			}
+		}
+	}
+
+	/**
 	 * Register send event
 	 */
 	registerSendEvent() {
@@ -105,16 +170,29 @@ window.Chat_JS = class Chat_Js {
 	registerSwitchRoom() {
 		this.container.find('.js-room-list .js-room').off('click').on('click', (e) => {
 			let element = $(e.currentTarget);
+			this.roomId = element.data('roomId');
 			this.request({
 				view: 'Entries',
 				mode: 'get',
-				roomId: element.data('roomId'),
+				roomId: this.roomId,
 				roomType: element.closest('.js-room-type').data('roomType')
 			}).done((data) => {
 				element.addClass('active');
+				this.buildParticipants(data.find('.js-participants-data'), true);
+				this.lastMessageId = data.find('.js-chat-item:last').data('cid');
 				this.messageContainer.html(data);
 			});
 		});
+	}
+
+
+	registerListenEvent() {
+		this.timerMessage = setTimeout(() => {
+			//this.getMessage(true);
+		}, this.container.data('messageTimer'));
+		this.timerRoom = setTimeout(() => {
+			this.getRoomsDetail(true);
+		}, this.container.data('roomTimer'));
 	}
 
 	/**
@@ -129,6 +207,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerBaseEvents() {
 		this.registerSendEvent();
+		this.registerListenEvent();
 	}
 
 	/**
