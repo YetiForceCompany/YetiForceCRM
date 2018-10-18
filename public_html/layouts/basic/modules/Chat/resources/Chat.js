@@ -12,6 +12,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.container = container;
+		this.messageContainer = container.find('.js-chat_content');
 		this.sendByEnter = true;
 
 	}
@@ -39,15 +40,9 @@ window.Chat_JS = class Chat_Js {
 		if (progress) {
 			progressIndicator = this.progressShow();
 		}
-		AppConnector.request({
-			dataType: 'json',
-			data: $.extend({module: 'Chat'}, data)
-		}).done((data) => {
-			if (progress) {
-				progressIndicator.progressIndicator({mode: 'hide'});
-			}
+		AppConnector.request($.extend({module: 'Chat'}, data)).done((data) => {
 			aDeferred.resolve(data);
-		}).fail((error, err) => {
+		}).always(() => {
 			if (progress) {
 				progressIndicator.progressIndicator({mode: 'hide'});
 			}
@@ -63,8 +58,13 @@ window.Chat_JS = class Chat_Js {
 		if (inputMessage.val() === '') {
 			return;
 		}
-		console.log('Send: ' + inputMessage.val());
-
+		this.request({
+			view: 'Entries',
+			mode: 'send',
+			message: inputMessage.val()
+		}).done((data) => {
+			this.messageContainer.append(data);
+		});
 		inputMessage.val('');
 	}
 
@@ -93,7 +93,7 @@ window.Chat_JS = class Chat_Js {
 				}
 			});
 		}
-		this.container.find('.js-btn-send').on('click', (e) => {
+		this.container.find('.js-btn-send').on('click', () => {
 			this.sendMessage(inputMessage);
 		});
 	}
@@ -104,18 +104,16 @@ window.Chat_JS = class Chat_Js {
 	registerSwitchRoom() {
 		this.container.find('.js-room-list .js-room').off('click').on('click', (e) => {
 			let element = $(e.currentTarget);
-			let roomType = element.closest('.js-room-type').data('roomType');
-			let roomId = element.data('roomId');
-			let id = element.data('id');
-			console.log('room: ' + roomId + ' t: ' + roomType + ' id: ' + id);
 			this.request({
 				view: 'Entries',
 				mode: 'get',
-				roomId: roomId,
-				roomType: roomType,
-				id: id
+				roomId: element.data('roomId'),
+				roomType: element.closest('.js-room-type').data('roomType')
 			}).done((data) => {
-				console.log('DONE');
+				console.log('SwitchRoom - DONE');
+				console.log(data);
+				element.addClass('active');
+				this.messageContainer.html(data);
 			});
 		});
 	}

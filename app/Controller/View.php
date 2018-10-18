@@ -205,14 +205,6 @@ abstract class View extends Base
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page.
-	 *
-	 * @param \App\Request $request - request model
-	 *
-	 * @return <array> - array of Vtiger_CssScript_Model
-	 */
-
-	/**
 	 * Get header css files that need to loaded in the page.
 	 *
 	 * @param \App\Request $request Request instance

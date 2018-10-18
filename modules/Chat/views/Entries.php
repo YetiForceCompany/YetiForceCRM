@@ -43,18 +43,19 @@ class Chat_Entries_View extends \App\Controller\View
 	public function send(\App\Request $request)
 	{
 		echo $request->get('message');
-		//$viewer = $this->getViewer($request);
-		//$viewer->view('Modal.tpl', $request->getModule());
+//		$viewer = $this->getViewer($request);
+//		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
 	public function get(\App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('roomId')) {
 			$request->getByType('roomType');
-			$request->getByType('roomId');
+			$request->getInteger('roomId');
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->view('ModalFooter.tpl', $request->getModule());
+		$viewer->assign('CHAT_ENTRIES', []);
+		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
 	/**

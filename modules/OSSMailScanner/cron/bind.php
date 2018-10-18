@@ -3,17 +3,16 @@
  * Refreshing relationships mail cron file.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $dbCommand = App\Db::getInstance()->createCommand();
 $scanerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 $dataReader = (new App\Db\Query())->select([
-			'vtiger_ossmailview.*',
-			'roundcube_users.actions',
-		])->from('vtiger_ossmailview')
-	->innerJoin('roundcube_users', 'roundcube_users.user_id = vtiger_ossmailview.rc_user')
-	->where(['vtiger_ossmailview.verify' => 1])
+	'vtiger_ossmailview.*',
+	'roundcube_users.actions',
+])->from('vtiger_ossmailview')
+	->innerJoin('roundcube_users', 'roundcube_users.user_id = vtiger_ossmailview.rc_user')->where(['vtiger_ossmailview.verify' => 1])
 	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
