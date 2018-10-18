@@ -68,7 +68,8 @@ App.Fields = {
 				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
-				format: format
+				format: format,
+				enableOnReadonly: false
 			};
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
