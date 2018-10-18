@@ -28,6 +28,7 @@ class Vtiger_ConditionBuilder_Js {
 				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 				self.registerChangeFields(container);
 				self.registerChangeOperators(container);
+				self.registerDateFields();
 			});
 		});
 	}
