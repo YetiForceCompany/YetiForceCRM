@@ -10880,9 +10880,6 @@ html, body, .o-base-container {
 .marginLeft15 {
   margin-left: 15px; }
 
-.userInfoFooter .mainBody {
-  bottom: 50px; }
-
 .bootstrap-switch-container {
   white-space: nowrap; }
 
@@ -11279,9 +11276,6 @@ html, body, .o-base-container {
     margin-top: 1px !important; }
     .iconsInFooter span {
       font-size: 10px !important; }
-
-  .userInfoFooter .mainBody {
-    bottom: 33px; }
 
   .logoFooter {
     height: 13px;
@@ -12748,6 +12742,9 @@ ul.tweets li {
 
 .u-overflow-y-auto {
   overflow-y: auto !important; }
+
+.u-overflow-x-hidden {
+  overflow-x: hidden !important; }
 
 @media (max-width: 399.98px) {
   .u-overflow-scroll-xs-down {
@@ -15094,13 +15091,22 @@ label.btn.btn-outline-primary:not(.active) {
 .mainBody {
   position: absolute;
   top: 3.125rem;
-  bottom: 1.9375rem;
+  bottom: 2rem;
   width: 100%;
   overflow-x: hidden; }
 
+.user-info--active .mainBody {
+  bottom: calc(2rem + 1rem); }
+
+.user-info--active.limited-footer--active .mainBody {
+  bottom: 2rem; }
+
 @media (max-width: 767.98px) {
   .mainBody {
-    bottom: 1.125rem; } }
+    bottom: 1rem; }
+
+  .user-info--active .mainBody {
+    bottom: 2rem; } }
 .massEditTable th + th, .massEditTable td + td, .massEditTable th + td, .massEditTable td + th {
   border-left: 0; }
 
@@ -15179,7 +15185,7 @@ label.btn.btn-outline-primary:not(.active) {
   top: 3.125rem;
   z-index: 1035;
   width: 380px;
-  height: calc(100vh - (1.9375rem + 3.125rem));
+  height: calc(100vh - (2rem + 3.125rem));
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.4);
   border-left: 1px solid #797979;
@@ -15210,7 +15216,7 @@ label.btn.btn-outline-primary:not(.active) {
 
 .modalRightSiteBar {
   margin: 0;
-  height: calc(100vh - (1.9375rem + 3.125rem));
+  height: calc(100vh - (2rem + 3.125rem));
   right: 0;
   top: 3.125rem;
   position: fixed !important;
@@ -15243,6 +15249,9 @@ label.btn.btn-outline-primary:not(.active) {
 .o-chat-items {
   max-height: calc(100vh - 14.125rem);
   overflow: auto; }
+
+.c-chat-room-name {
+  max-width: 220px; }
 
 .chatModal {
   left: auto; }
@@ -15408,16 +15417,25 @@ label.btn.btn-outline-primary:not(.active) {
       right: 0; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .user-info--active .c-menu__container {
-  bottom: 3.4375rem; }
+  bottom: calc(2rem + 1rem); }
 @media (max-width: 767.98px) {
   .user-info--active .c-menu__container {
-    bottom: 1.9375rem; } }
+    bottom: 2rem; } }
+
+.limited-footer--active .c-menu__container {
+  bottom: 1rem; }
+@media (max-width: 767.98px) {
+  .limited-footer--active .c-menu__container {
+    bottom: 2rem; } }
+
+.user-info--active.limited-footer--active .c-menu__container {
+  bottom: 2rem; }
 
 .c-menu__container {
   position: fixed;
   left: 0;
   top: 0;
-  bottom: 1.9375rem;
+  bottom: 2rem;
   width: 230px;
   color: #f8f9fa;
   z-index: 1030;
@@ -15433,7 +15451,7 @@ label.btn.btn-outline-primary:not(.active) {
       cursor: pointer; }
 @media (max-width: 767.98px) {
   .c-menu__container {
-    bottom: 1.125rem; } }
+    bottom: 1rem; } }
 .c-menu__item a {
   display: inline-flex;
   width: 100%;
@@ -15649,7 +15667,7 @@ label.btn.btn-outline-primary:not(.active) {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-footer {
   background: #343a40;
-  height: 1.9375rem;
+  height: 2rem;
   color: #fff;
   font-size: 0.8rem; }
   .c-footer a {
@@ -15669,34 +15687,33 @@ label.btn.btn-outline-primary:not(.active) {
 
 .c-footer__user-info {
   padding: 0 5px;
-  height: 22px;
+  height: 1rem;
   color: #fff;
   width: 100%;
-  bottom: 33px;
   z-index: 1030;
-  left: 0;
-  border-top: 1px solid #fff;
   background: #4979aa; }
 
-.userInfoFooter .leftPanel {
-  bottom: 50px; }
-
 .c-footer--user-info-active {
-  height: 3.4375rem !important; }
+  height: calc(2rem + 1rem); }
+
+.c-footer--limited {
+  height: 1rem; }
+  .c-footer--limited .page-link {
+    font-size: 0.52em;
+    padding: 0.1rem 0.2rem !important; }
+
+.c-footer--limited.c-footer--user-info-active {
+  height: 2rem; }
 
 @media (max-width: 767.98px) {
   .c-footer {
-    height: 1.125rem; }
+    height: 1rem; }
     .c-footer .page-link {
-      font-size: 0.6em;
+      font-size: 0.52em;
       padding: 0.1rem 0.2rem !important; }
 
   .c-footer--user-info-active {
-    height: 2rem !important;
-    font-size: 0.6em; }
-
-  .c-footer__user-info {
-    height: 17px; } }
+    height: 2rem; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (min-width: 768px) {
   .modal-full {
@@ -15872,7 +15889,7 @@ label.btn.btn-outline-primary:not(.active) {
 .o-tablet-scroll__container {
   width: 25px; }
 .o-tablet-scroll__content {
-  height: calc(calc(100vh - (1.9375rem + 3.125rem)) - 3.375rem - 3.375rem - 0.5rem); }
+  height: calc(calc(100vh - (2rem + 3.125rem)) - 3.375rem - 3.375rem - 0.5rem); }
 .o-tablet-scroll__icons {
   top: 50%;
   transform: translateY(-50%);
@@ -15893,9 +15910,12 @@ label.btn.btn-outline-primary:not(.active) {
     margin-right: 3px; }
 
 .user-info--active .c-form__action-panel {
-  bottom: 3.4375rem; }
+  bottom: calc(2rem + 1rem); }
 .user-info--active .verticalScroll {
   height: calc(100vh - 150px); }
+
+.limited-footer--active .c-form__action-panel {
+  bottom: 1rem; }
 
 .verticalScroll {
   position: absolute;
@@ -15908,7 +15928,7 @@ label.btn.btn-outline-primary:not(.active) {
 
 @media (max-width: 767.98px) {
   .c-form__action-panel {
-    bottom: 1.125rem;
+    bottom: 1rem;
     width: 100%; }
 
   .verticalScroll {
@@ -15917,7 +15937,7 @@ label.btn.btn-outline-primary:not(.active) {
   .user-info--active .verticalScroll {
     height: calc(100vh - 31px); }
   .user-info--active .c-form__action-panel {
-    bottom: 1.9375rem; } }
+    bottom: 2rem; } }
 .inventoryItems .fieldValue {
   position: relative; }
 .inventoryItems .input-group {
@@ -15960,20 +15980,11 @@ label.btn.btn-outline-primary:not(.active) {
   border: 1px solid #ccc;
   border-right: 0;
   display: inline-block;
-  border-radius: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease; }
+  border-radius: 0; }
 
 .siteBarRight {
   width: 100%;
   position: relative;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
   z-index: 100; }
 
 .c-menu--open .siteBarRight {
@@ -15990,7 +16001,7 @@ label.btn.btn-outline-primary:not(.active) {
     position: fixed;
     right: 0;
     top: 3.125rem;
-    bottom: 1.9375rem;
+    bottom: 2rem;
     z-index: 100; } }
 .hideSiteBar {
   right: -25%; }
@@ -16425,11 +16436,6 @@ label.btn.btn-outline-primary:not(.active) {
     margin-top: auto;
     text-align: center;
     border-top: 1px solid #ddd;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -ms-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
     width: 100%;
     text-align: center;
     border-top: 1px solid #ddd;
@@ -16452,20 +16458,18 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__tab--filters,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__tab--filters {
-    height: calc(100vh - 1.9375rem - 3.125rem); }
+    height: calc(100vh - 2rem - 3.125rem); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
     position: relative; }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-      /*computed height: footer, userinfo, header filter buttons, padding */
-      height: calc(100vh - 1.9375rem - 17px - 30px - 34px - 10px - 20px - 30px);
+      height: calc(100vh - 2rem - 7.375rem - 3.125rem);
       overflow-y: auto;
-      overflow-x: hidden; }
+      overflow-x: hidden;
+      margin-top: 1rem; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper label,
     .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper label {
-      margin-bottom: 0.1rem;
       font-weight: 500;
-      margin-top: 0.6rem;
       color: #6c757d; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper .ps__rail-y,
     .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper .ps__rail-y {
@@ -16479,12 +16483,7 @@ label.btn.btn-outline-primary:not(.active) {
     top: 3.125rem;
     right: calc(25% - 1px);
     z-index: 100;
-    font-size: 0.8125rem;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -ms-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease; }
+    font-size: 0.8125rem; }
     .c-menu--open .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs, .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs {
       right: calc(25% - 51px); }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton,
@@ -16524,9 +16523,6 @@ label.btn.btn-outline-primary:not(.active) {
         background: transparent;
         color: #6c757d !important;
         border-right: 0; }
-  .user-info--active .o-calendar__tab--filters {
-    /*computed height: footer, userinfo, header filter buttons, padding */
-    height: calc(100vh - 3.4375rem - 3.125rem); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__actions[min-height~="70px"],
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form__actions[min-height~="70px"] {
     padding-bottom: 0; }
@@ -16537,8 +16533,19 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }
 
+.user-info--active .o-calendar__tab--filters, .user-info--active .o-calendar__form {
+  height: calc(100vh - calc(2rem + 1rem) - 3.125rem); }
+
+.limited-footer--active .o-calendar__tab--filters, .limited-footer--active .o-calendar__form {
+  height: calc(100vh - 1rem - 3.125rem); }
+
+.limited-footer--active.limited-footer--active .o-calendar__tab--filters, .limited-footer--active.limited-footer--active .o-calendar__form {
+  height: calc(100vh - 2rem - 3.125rem); }
+
 .tpl-Calendar-Extended-QuickCreate .boxEventTitle {
   display: none; }
+.tpl-Calendar-Extended-QuickCreate .o-calendar__form {
+  height: auto !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
