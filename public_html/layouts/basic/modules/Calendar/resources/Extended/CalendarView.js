@@ -911,6 +911,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			headerInstance.registerHelpInfo(rightFormCreate);
 			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);
 			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
+			thisInstance.registerAutoDateSelect();
 			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 				let ckEditorInstance = new Vtiger_CkEditor_Js();
 				ckEditorInstance.loadCkEditor($(element), {
@@ -924,6 +925,16 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			app.errorLog(error);
 		});
 		return aDeferred.promise();
+	}
+
+	/**
+	 * Autoselect date in create view in extended calendar
+	 */
+	registerAutoDateSelect() {
+		if (app.getMainParams('automaticallySelectDate')) {
+			this.container.find('.js-autofill').prop('checked', 'checked');
+			this.container.find('.js-autofill').trigger('change');
+		}
 	}
 
 	registerPinUser() {
