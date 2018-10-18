@@ -82,6 +82,10 @@ class Vtiger_ConditionBuilder_Js {
 		});
 	}
 
+	registerDateTimeFields() {
+		App.Fields.DateTime.register(this.container);
+	}
+
 
 	/**
 	 * Register events when change field
@@ -109,6 +113,7 @@ class Vtiger_ConditionBuilder_Js {
 				self.registerDateFields();
 				self.registerDateFieldsRange();
 				self.registerTimeFields();
+				self.registerDateTimeFields();
 			});
 		});
 	}
@@ -219,5 +224,6 @@ class Vtiger_ConditionBuilder_Js {
 		self.registerDateFields();
 		self.registerDateFieldsRange();
 		self.registerTimeFields();
+		self.registerDateTimeFields();
 	}
 };

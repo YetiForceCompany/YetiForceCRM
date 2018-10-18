@@ -88,4 +88,14 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			return 'Edit/Field/DateTime.tpl';
 		}
 	}
+
+	/**
+	 * Returns template for operator
+	 * @param string $operator
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/DateTime.tpl';
+	}
 }
