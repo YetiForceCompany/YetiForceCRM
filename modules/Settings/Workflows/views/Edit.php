@@ -90,10 +90,8 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 
 		$requestData = $request->getAll();
 		foreach ($requestData as $name => $value) {
-			if ($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') {
-				if (is_string($value)) { // need to save these as json data
-					$value = [$value];
-				}
+			if (($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') && is_string($value)) { // need to save these as json data
+				$value = [$value];
 			}
 			if ($name == 'summary') {
 				$value = htmlspecialchars($value);

@@ -112,7 +112,7 @@ class FieldModel extends \Tests\Base
 	{
 		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$fieldModel->name = 'val';
-		$request = new \App\Request([]);
+		$request = new \App\Request([], false);
 		$request->set('val', $value);
 		$this->assertNull($fieldModel->getUITypeModel()->setDefaultValueFromRequest($request));
 		$this->assertSame($value, $fieldModel->get('defaultvalue'));
@@ -134,7 +134,7 @@ class FieldModel extends \Tests\Base
 	{
 		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$fieldModel->name = 'val';
-		$request = new \App\Request([]);
+		$request = new \App\Request([], false);
 		$request->set('val', $value);
 		$this->expectExceptionCode(406);
 		$fieldModel->getUITypeModel()->setDefaultValueFromRequest($request);

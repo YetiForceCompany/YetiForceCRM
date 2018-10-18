@@ -662,10 +662,8 @@ class TextParser
 			return implode($this->relatedRecordSeparator, $return);
 		}
 		$module = Record::getType($relatedId);
-		if (!empty($module)) {
-			if (($relatedModule && $relatedModule !== $module)) {
-				return '';
-			}
+		if (!empty($module) && ($relatedModule && $relatedModule !== $module)) {
+			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
 		$instance = static::getInstanceByModel($relatedRecordModel);
@@ -794,7 +792,7 @@ class TextParser
 		if ($columns) {
 			$headerFields = [];
 			foreach (explode(',', $columns) as $fieldName) {
-				$headerFields[]= [
+				$headerFields[] = [
 					'field_name' => $fieldName,
 					'module_name' => $moduleName
 				];

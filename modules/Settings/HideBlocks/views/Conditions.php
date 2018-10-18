@@ -75,18 +75,11 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.Settings.$moduleName.resources.Conditions",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	public function transformToAdvancedFilterCondition($conditions)

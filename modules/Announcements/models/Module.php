@@ -102,7 +102,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state,
 					], ['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])
-				->execute();
+					->execute();
 		}
 		$this->checkStatus($record);
 	}

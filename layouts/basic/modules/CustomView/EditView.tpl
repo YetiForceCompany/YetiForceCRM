@@ -103,7 +103,7 @@
 																				data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																			{/if}
 																			data-js="data-sort-index|data-field-name">
-																	>{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
+																	{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 																	</option>
 																{/foreach}
 															</optgroup>

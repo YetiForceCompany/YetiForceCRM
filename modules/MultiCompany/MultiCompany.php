@@ -3,8 +3,8 @@
  * MultiCompany CRMEntity Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -145,23 +145,21 @@ class MultiCompany extends Vtiger_CRMEntity
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('MultiCompany', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false) {
-					if ($colname === 'subject') {
-						if ($recordId != $id) {
-							if ($getLinks) {
-								if ($hasRecordViewAccess) {
-									$data = '<a href="index.php?module=MultiCompany&action=DetailView&record=' . $recordId . '">' . $data . '</a>';
-								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
-								}
+				if ($getRawData === false && $colname === 'subject') {
+					if ($recordId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=MultiCompany&action=DetailView&record=' . $recordId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
 						}
-						// - to show the hierarchy of the Sales
-						$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
-						$data = $rowDepth . $data;
+					} else {
+						$data = '<strong>' . $data . '</strong>';
 					}
+					// - to show the hierarchy of the Sales
+					$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
+					$data = $rowDepth . $data;
 				}
 				$infoData[] = $data;
 			}
@@ -195,9 +193,9 @@ class MultiCompany extends Vtiger_CRMEntity
 		}
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
-				'u_#__multicompany.*',
-				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
-			])->from('u_#__multicompany')
+			'u_#__multicompany.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('u_#__multicompany')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
@@ -255,9 +253,9 @@ class MultiCompany extends Vtiger_CRMEntity
 		}
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
-					'u_#__multicompany.*',
-					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
-				])->from('u_#__multicompany')
+			'u_#__multicompany.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('u_#__multicompany')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')

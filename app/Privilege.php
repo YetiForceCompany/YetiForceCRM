@@ -123,20 +123,16 @@ class Privilege
 			return false;
 		}
 		//Checking for view all permission
-		if ($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
-			if ($actionId == 3 || $actionId == 4) {
-				static::$isPermittedLevel = 'SEC_MODULE_VIEW_ALL_PERMISSION';
-				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_VIEW_ALL_PERMISSION');
-				return true;
-			}
+		if (($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) && ($actionId == 3 || $actionId == 4)) {
+			static::$isPermittedLevel = 'SEC_MODULE_VIEW_ALL_PERMISSION';
+			\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_VIEW_ALL_PERMISSION');
+			return true;
 		}
 		//Checking for edit all permission
-		if ($userPrivileges['profile_global_permission'][2] == 0) {
-			if ($actionId == 3 || $actionId == 4 || $actionId == 0 || $actionId == 1) {
-				static::$isPermittedLevel = 'SEC_MODULE_EDIT_ALL_PERMISSION';
-				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_EDIT_ALL_PERMISSION');
-				return true;
-			}
+		if ($userPrivileges['profile_global_permission'][2] == 0 && ($actionId == 3 || $actionId == 4 || $actionId == 0 || $actionId == 1)) {
+			static::$isPermittedLevel = 'SEC_MODULE_EDIT_ALL_PERMISSION';
+			\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_EDIT_ALL_PERMISSION');
+			return true;
 		}
 		//Checking and returning true if recorid is null
 		if (empty($record)) {

@@ -30,7 +30,7 @@
     "PLL_NOT_RENEWED_VERIFICATION": "nicht verl\u00e4ngert (pr\u00fcfen)",
     "PLL_NOT_APPLICABLE_VERIFICATION": "nicht anwendbar (pr\u00fcfen)",
     "description": "Beschreibung",
-    "attentions": "Anforderungen",
+    "attentions": "Besonderheiten",
     "BLOCK_INFORMATION_TIME": "Zeitinformation",
     "LBL_GENERATE_EXTENSION": "Folgeauftrag anlegen",
     "LBL_ORDER_TIME": "Bestellzeit",

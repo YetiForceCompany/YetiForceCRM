@@ -25,6 +25,7 @@
     "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Nu aveti permisiuni pentru a crea directoare de fisiere",
     "ERR_AUTO_LOGOUT": "Deconectat automat din cauza  inactivitatii",
     "ERR_NO_VALUE": "No value",
-    "ERR_API": "Error in API"
+    "ERR_API": "Error in API",
+    "ERR_NO_PERMISSIONS_TO_FIELD": "No permissions to the field"
   }
 }

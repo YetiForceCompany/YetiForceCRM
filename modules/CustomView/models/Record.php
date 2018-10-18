@@ -352,11 +352,9 @@ class CustomView_Record_Model extends \App\Base
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
-		if ($status == App\CustomView::CV_STATUS_PENDING) {
-			if ($currentUserModel->isAdminUser()) {
-				$status = App\CustomView::CV_STATUS_PUBLIC;
-				$this->set('status', $status);
-			}
+		if ($status == App\CustomView::CV_STATUS_PENDING && $currentUserModel->isAdminUser()) {
+			$status = App\CustomView::CV_STATUS_PUBLIC;
+			$this->set('status', $status);
 		}
 		$transaction = $db->beginTransaction();
 		if (!$cvId) {
@@ -626,10 +624,10 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-			->from('vtiger_cvcolumnlist')
-			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-			->createCommand()->queryAllByGroup(1);
+		->from('vtiger_cvcolumnlist')
+		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+		->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);

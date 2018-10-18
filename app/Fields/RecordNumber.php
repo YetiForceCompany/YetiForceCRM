@@ -73,7 +73,7 @@ class RecordNumber
 						'reset_sequence' => $resetSequence,
 						'cur_sequence' => $curSequence],
 						['tabid' => $tabId])
-					->execute();
+						->execute();
 			}
 		}
 	}

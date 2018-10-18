@@ -26,6 +26,7 @@
     "ERR_AUTO_LOGOUT": "Automatisch abgemeldet aufgrund keiner Aktivit\u00e4t",
     "ERR_FIELD_NOT_FOUND": "Feld nicht gefunden",
     "ERR_NO_VALUE": "No value",
-    "ERR_API": "Error in API"
+    "ERR_API": "Error in API",
+    "ERR_NO_PERMISSIONS_TO_FIELD": "No permissions to the field"
   }
 }

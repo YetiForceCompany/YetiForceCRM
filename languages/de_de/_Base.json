@@ -744,7 +744,7 @@
     "Address details": "Adressendetails",
     "Contact details": "Kontaktdetails",
     "Registration details": "Registrierungsdetails",
-    "Attention": "Anforderungen",
+    "Attention": "Besonderheiten",
     "Progress": "Fortschritt",
     "Created By": "Erstellt von",
     "GlobalPermission": "Datenzugriff",
@@ -1053,7 +1053,7 @@
     "Sales": "Verkauf",
     "LBL_DEFAULT": "Default",
     "BTN_GENERATE_RECORD": "Datensatz generieren",
-    "LBL_MARK_AS_HELD": "Mark as held",
+    "LBL_MARK_AS_HELD": "Als gehalten markieren",
     "LBL_GENERATE_RECORD_FOR_MODULE": "Datensatz f\u00fcr Modul generieren",
     "LBL_REMOVE_SEARCH_OPTION_INFO": "Suchparameter zur\u00fccksetzen",
     "LBL_REMOVE_ALPH_SEARCH_INFO": "Alphabetische Suchparameter zur\u00fccksetzen",
@@ -1145,7 +1145,7 @@
     "LBL_VERTICAL_BAR_CHART": "Horizontales Balkendiagramm",
     "LBL_HORIZONTAL_BAR_CHART": "Vertikales Balkendiagramm",
     "LBL_LINE_CHART": "Liniendiagramm",
-    "LBL_LINE_CHART_PLAIN": "Smooth line graph",
+    "LBL_LINE_CHART_PLAIN": "Weiches Liniendiagramm",
     "LBL_FUNNEL_CHART": "Sales Funnel",
     "LBL_MINUS": "Minus",
     "LBL_ZERO": "Null",
@@ -1338,7 +1338,7 @@
     "JS_EDIT": "Edit",
     "JS_EMAIL_SERVER_CONFIGURATION": "Bitte konfigurieren Sie Ihren Postausgangsserver-Einstellungen auf der Seite Einstellungen",
     "JS_END_DATE_TIME": "Enddatum & Zeit",
-    "JS_ERROR": "Error, please inform the Administrator",
+    "JS_ERROR": "Fehler, bitte den Administrator kontaktieren",
     "JS_FAILED_TO_SAVE": "Fehler beim speichern der \u00c4nderungen auf dem Server",
     "JS_FIELD_MAPPED_MORE_THAN_ONCE": "Feld mehr als einmal zugeordnet",
     "JS_IMPORT_FILE_CAN_NOT_BE_EMPTY": "Importdatei darf nicht leer sein",
@@ -1610,6 +1610,6 @@
     "JS_WAIT_FOR_FILE_UPLOAD": "Warten bis Dateien geladen wurden",
     "JS_ERROR_MAX_VALUE": "Eingabewert ist au\u00dferhalb der erlaubten Werte",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Firmenname \u00e4ndern. Der Name YetiForce ist reserviert.",
-    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Modul '${sourceModule}' f\u00FCr Position'${position}' wurde nicht aktiviert."
   }
 }

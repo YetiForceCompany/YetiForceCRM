@@ -3,11 +3,12 @@
 
 window.Calendar_Js = class Calendar_Js {
 
-	constructor(container = $('.js-base-container')) {
+	constructor(container = $('.js-base-container'), readonly = false) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
-		this.browserHistoryConfig = this.setBrowserHistoryConfig();
+		this.readonly = readonly;
+		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryConfig();
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
 		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
 		this.calendarModuleOptions = this.setCalendarModuleOptions();
@@ -19,8 +20,12 @@ window.Calendar_Js = class Calendar_Js {
 		if ('CalendarExtended' === CONFIG.view) {
 			paddingTop = 5;
 		}
-		if (this.container.hasClass('quickCreateContainer')) {
-			paddingTop = 65;
+		if (this.container.hasClass('js-modal-container')) {
+			if (this.container.closest('.user-info--active').length) {
+				paddingTop = 23;
+			} else {
+				paddingTop = 47;
+			}
 		}
 		if ($(window).width() > 993) {
 			calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
@@ -157,7 +162,7 @@ window.Calendar_Js = class Calendar_Js {
 	setBrowserHistoryConfig() {
 		let historyParams = app.getMainParams('historyParams', true),
 			options;
-		if (historyParams !== null && app.moduleCacheGet('browserHistoryEvent')) {
+		if (historyParams && (historyParams.length || Object.keys(historyParams).length) && app.moduleCacheGet('browserHistoryEvent')) {
 			options = {
 				start: historyParams.start,
 				end: historyParams.end,
@@ -294,9 +299,9 @@ window.Calendar_Js = class Calendar_Js {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
 			}
-			progressInstance.hide();
+			progressInstance.progressIndicator({'mode': 'hide'});
 		}).fail(function () {
-			progressInstance.hide();
+			progressInstance.progressIndicator({'mode': 'hide'});
 			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 			revertFunc();
 		});
@@ -340,7 +345,7 @@ window.Calendar_Js = class Calendar_Js {
 
 	getCalendarView() {
 		if (this.calendarView == false) {
-			this.calendarView = jQuery('.js-calendar__container');
+			this.calendarView = this.container.find('.js-calendar__container');
 		}
 		return this.calendarView;
 	}

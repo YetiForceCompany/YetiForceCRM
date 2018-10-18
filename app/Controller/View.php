@@ -309,7 +309,7 @@ abstract class View extends Base
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
-		if (\App\Module::isModuleActive('Chat')) {
+		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/resources/Chat.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();

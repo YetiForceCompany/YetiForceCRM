@@ -8,5 +8,5 @@
     "LBL_LOCK": "Gesperrt",
     "LBL_NOTICE_CONFIG_WARNING": "Beobachtungsmodul ist in der Konfiguration aktiviert. Um die Benachrichtigungen zu Verwalten muss dies deaktiviert werden."
   },
-  "js": []
+  "js": {}
 }

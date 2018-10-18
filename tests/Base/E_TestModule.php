@@ -38,7 +38,7 @@ class E_TestModule extends \Tests\Base
 				->update('vtiger_cron_task', [
 						'sequence' => 0,
 					], ['name' => 'TestData'])
-				->execute();
+					->execute();
 		} catch (\Exception $exc) {
 		}
 	}

@@ -725,19 +725,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function verificationCron()
 	{
 		$checkCronStatus = self::checkCronStatus();
-		if ($checkCronStatus !== false) {
-			if (!(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
-				$db = App\Db::getInstance();
-				$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
-				$config = self::getConfig('cron');
-				$mailStatus = \App\Mailer::addMail([
-					'to' => $config['email'],
-					'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-					'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
-				]);
-				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
-				$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
-			}
+		if ($checkCronStatus !== false && !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
+			$db = App\Db::getInstance();
+			$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
+			$config = self::getConfig('cron');
+			$mailStatus = \App\Mailer::addMail([
+				'to' => $config['email'],
+				'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
+				'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+			]);
+			$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
+			$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
 		}
 	}
 

@@ -88,8 +88,11 @@ var YearView = View.extend({
 			cvid: cvid,
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${date + '-01-01'}&end=${date + '-12-31'}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
-		let connectorMethod = window["AppConnector"]["requestPjax"];
-		if (calendar.view.options.firstLoad && this.browserHistoryConfig !== null) {
+		let connectorMethod = window["AppConnector"]["request"];
+		if (!this.readonly) {
+			connectorMethod = window["AppConnector"]["requestPjax"];
+		}
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.firstLoad) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
 				end: this.browserHistoryConfig.end,
@@ -101,7 +104,7 @@ var YearView = View.extend({
 		}
 		connectorMethod(options).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				let calendarInstance = new Calendar_Calendar_Js;
+				let calendarInstance = new Calendar_Calendar_Js(self.container, self.readonly);
 				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
 					monthOptions = {
 						defaultView: 'month',
@@ -111,6 +114,7 @@ var YearView = View.extend({
 						select: function (start, end) {
 							self.selectDays(start, end);
 						},
+						hiddenDays: calendar.view.options.hiddenDays,
 						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 						eventRender: function (event, element) {
 							if (event.rendering === 'background') {
@@ -138,6 +142,8 @@ var YearView = View.extend({
 				self.appendWeekButton();
 			}
 			app.showPopoverElementView();
+			let yearViewContainer = self.container.find('.fc-view-container').first();
+			yearViewContainer.height($(window).height() - yearViewContainer.offset().top - $('.js-footer').height()).addClass('u-overflow-y-auto u-overflow-x-hidden');
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 		this.registerViewRenderEvents(calendar.view);

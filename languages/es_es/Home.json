@@ -39,12 +39,12 @@
     "LBL_FILTER_BY_OWNER": "Filtrar por propietario",
     "LBL_ALL_OWNERS": "Todos",
     "LBL_DIVIDING_FIELD": "Campo de divisi\u00f3n de valores",
-	  "LBL_COLORS_FROM_DIVIDING_FIELD": "Colores del campo de divisi\u00f3n de valores",
+    "LBL_COLORS_FROM_DIVIDING_FIELD": "Colores del campo de divisi\u00f3n de valores",
     "LBL_EMPTY": "vac\u00edo",
     "LBL_CHART_STACKED": "Combina elementos gr\u00e1ficos",
     "LBL_CHART_COLORS_FROM_FILTER": "Colores del filtro",
     "LBL_WIDGET_DOWNLOAD": "Descargar imagen",
     "LBL_WIDGET_PRINT": "Descargar PDF\/Imprimir"
   },
-  "js": []
+  "js": {}
 }

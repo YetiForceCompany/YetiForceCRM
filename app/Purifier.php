@@ -243,7 +243,7 @@ class Purifier
 	 */
 	public static function purifySql($input, $skipEmpty = true)
 	{
-		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,]+$/', $input)) {
+		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,:]+$/', $input)) {
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'IllegalValue');

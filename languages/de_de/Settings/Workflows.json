@@ -235,7 +235,7 @@
     "LBL_CHECK_EMAIL_OPTOUT": "Pr\u00fcfen ob Empf\u00e4nger den Empfang der E-Mail best\u00e4tigt hat",
     "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Feld, welches addiert werden soll",
     "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Feld, in welchem die Summe gespeichert werden soll",
-    "LBL_SUM_FIELD_FROM_DEPENDENT": "Summenfeldwerte aus verknüpften Modulfeldern"
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Summenfeldwerte aus verkn\u00fcpften Modulfeldern"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Dieselben Felder mehr als einmal ausgew\u00e4hlt",

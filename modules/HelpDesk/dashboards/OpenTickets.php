@@ -27,11 +27,11 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
 					vtiger_users.cal_color ELSE vtiger_groups.color END"),
 				'id' => 'smownerid', ])
-			->from('vtiger_troubletickets')
-			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
-			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
-			->where(['vtiger_crmentity.deleted' => 0]);
+				->from('vtiger_troubletickets')
+				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+				->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+				->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+				->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);

@@ -50,9 +50,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	public static function getInstanceById($id)
@@ -253,9 +251,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= var_export($key, true) . '=>' . var_export($item, true) . ',';
 			}
 		}
-		$content = trim($content, ',') . '],';
-
-		return $content;
+		return trim($content, ',') . '],';
 	}
 
 	public function createParentList($menu)

@@ -190,10 +190,8 @@ class Install_Utils_Model
 		$ffs = scandir($dir);
 		$langs = [];
 		foreach ($ffs as $ff) {
-			if ($ff != '.' && $ff != '..') {
-				if (file_exists($dir . $ff . '/Install.json')) {
-					$langs[$ff] = \App\Language::translate('LANGNAME', 'Install', $ff);
-				}
+			if ($ff != '.' && $ff != '..' && file_exists($dir . $ff . '/Install.json')) {
+				$langs[$ff] = \App\Language::translate('LANGNAME', 'Install', $ff);
 			}
 		}
 		return $langs;

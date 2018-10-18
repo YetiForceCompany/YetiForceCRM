@@ -68,11 +68,9 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
-		if ($taskType === 'VTUpdateFieldsTask') {
-			if ($sourceModule === 'Documents') {
-				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
-				$viewer->assign('RESTRICTFIELDS', $restrictFields);
-			}
+		if ($taskType === 'VTUpdateFieldsTask' && $sourceModule === 'Documents') {
+			$restrictFields = ['folderid', 'filename', 'filelocationtype'];
+			$viewer->assign('RESTRICTFIELDS', $restrictFields);
 		}
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
