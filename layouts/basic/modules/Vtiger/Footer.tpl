@@ -86,7 +86,7 @@
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
 								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 									<br/>
-									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}
+									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Base',$FOOTOSP)}
 								{/if}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
@@ -98,7 +98,7 @@
 								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
 									<br/>
-									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}
+									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Base', 'open source project')}
 								{/if}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
