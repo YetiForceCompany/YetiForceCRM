@@ -136,9 +136,7 @@ class Cron
 	 */
 	public function getTimeDiff()
 	{
-		$lastStart = $this->getLastStart();
-		$lastEnd = $this->getLastEnd();
-		return $lastEnd - $lastStart;
+		return $this->getLastEnd() - $this->getLastStart();
 	}
 
 	/**
