@@ -44,7 +44,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		$viewName = $request->getByType('view', 1);
 		return $this->checkAndConvertJsScripts([
 			"modules.Settings.Vtiger.resources.$viewName",
-			'modules.Settings.' . $request->getModule() . ".resources.$viewName",
+			"modules.Settings.{$request->getModule()}.resources.$viewName",
 		]);
 	}
 
@@ -52,7 +52,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 	{
 		$viewName = $request->getByType('view', 1);
 		return $this->checkAndConvertCssStyles([
-			'modules.Settings.' . $request->getModule() . ".$viewName",
+			"modules.Settings.{$request->getModule()}.$viewName",
 			"modules.Settings.Vtiger.$viewName",
 		]);
 	}

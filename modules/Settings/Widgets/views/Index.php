@@ -39,8 +39,9 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 
 	public function getHeaderCss(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'modules.Settings.' . $request->getModule() . '.resources.$moduleName',
+			"modules.Settings.$moduleName.resources.$moduleName",
 		]));
 	}
 

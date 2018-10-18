@@ -31,7 +31,7 @@ class Settings_Users_SwitchUsers_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'modules.Settings.' . $request->getModule() . '.resources.SwitchUsers',
+			"modules.Settings.{$request->getModule()}.resources.SwitchUsers",
 		]));
 	}
 }

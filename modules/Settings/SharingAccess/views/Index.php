@@ -38,7 +38,7 @@ class Settings_SharingAccess_Index_View extends Settings_Vtiger_Index_View
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.Index',
-			'modules.Settings.' . $request->getModule() . '.resources.Index',
+			"modules.Settings.{$request->getModule()}.resources.Index",
 		]));
 	}
 }
