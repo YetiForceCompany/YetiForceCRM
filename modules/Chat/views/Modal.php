@@ -35,6 +35,16 @@ class Chat_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
+	public function preProcessAjax(\App\Request $request)
+	{
+		$this->modalData['message-timer'] = 1500;
+		$this->modalData['room-timer'] = 5000;
+		parent::preProcessAjax($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function preProcessTplName(\App\Request $request)
 	{
 		return 'ModalHeader.tpl';
