@@ -42,11 +42,24 @@ class Chat_Entries_View extends \App\Controller\View
 	 */
 	public function send(\App\Request $request)
 	{
+		$roomType = $request->getByType('roomType');
+		$roomId = $request->getInteger('roomId');
+		$chat = \App\Chat::getInstance($roomType, $roomId);
+		if (!$chat->isRoomExists()) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+		}
 		echo $request->get('message');
 //		$viewer = $this->getViewer($request);
 //		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
+	/**
+	 * Get messages from chat.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
 	public function get(\App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('roomId')) {
@@ -67,6 +80,7 @@ class Chat_Entries_View extends \App\Controller\View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
+		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 

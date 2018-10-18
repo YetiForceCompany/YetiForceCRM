@@ -22,6 +22,7 @@ class Chat
 	 * @var string
 	 */
 	private $roomType;
+
 	/**
 	 * ID of chat room.
 	 *
@@ -42,6 +43,27 @@ class Chat
 	private $room;
 
 	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
+	private $userId;
+
+	/**
+	 * Last message ID.
+	 *
+	 * @var int|null
+	 */
+	private $lastMessageId;
+
+	/**
+	 * Specifies whether the user is assigned to a room.
+	 *
+	 * @var bool
+	 */
+	private $isAssigned = false;
+
+	/**
 	 * Set current room ID, type.
 	 *
 	 * @param string $roomType
@@ -49,7 +71,7 @@ class Chat
 	 */
 	public static function setCurrentRoom(string $roomType, int $roomId)
 	{
-		$_SESSION['CHAT']['CURRENT-ROOM'] = ['roomType' => $roomType, 'roomId' => $roomId];
+		$_SESSION['chat'] = ['roomType' => $roomType, 'roomId' => $roomId];
 	}
 
 	/**
@@ -59,10 +81,10 @@ class Chat
 	 */
 	public static function getCurrentRoom()
 	{
-		if (!isset($_SESSION['CHAT']['CURRENT-ROOM'])) {
+		if (!isset($_SESSION['chat'])) {
 			return false;
 		}
-		return $_SESSION['CHAT']['CURRENT-ROOM'];
+		return $_SESSION['chat'];
 	}
 
 	/**
@@ -99,10 +121,12 @@ class Chat
 	 */
 	public static function getRoomsGlobal()
 	{
-		return (new Db\Query())
-			->select(['roomid' => 'global_room_id', 'name'])
-			->from('u_#__chat_rooms_global')
-			->all();
+		if (Cache::has('Chat', 'chat_global')) {
+			return Cache::get('Chat', 'chat_global');
+		}
+		return Cache::save('Chat', 'chat_global',
+			(new Db\Query())->from('u_#__chat_global')->all()
+		);
 	}
 
 	/**
@@ -175,6 +199,7 @@ class Chat
 		if ($this->isRoomExists() && isset($this->room['record_id'])) {
 			$this->recordId = $this->room['record_id'];
 		}
+		$this->userId = User::getCurrentUserId();
 	}
 
 	/**
@@ -185,6 +210,27 @@ class Chat
 	public function isRoomExists(): bool
 	{
 		return $this->room !== false;
+	}
+
+	/**
+	 * Add new message to chat room.
+	 *
+	 * @param string $message
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return int
+	 */
+	public function addMessage(string $message): int
+	{
+		$this->insertMessage($message);
+		if ($this->isAssigned) {
+			$this->updateRoom();
+		} else {
+			$this->inserRoom();
+			$this->isAssigned = true;
+		}
+		return $this->lastMessageId;
 	}
 
 	/**
@@ -217,35 +263,41 @@ class Chat
 	 *
 	 * @return \App\Db\Query
 	 */
-	private function getQueryMessage(): Db\Query
+	private function getQueryMessage(bool $isLimit = true): Db\Query
 	{
+		$query = null;
 		switch ($this->roomType) {
 			case 'crm':
-				return (new Db\Query())
+				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_crm'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
 					->where(['crmid' => $this->recordId])
 					->orderBy(['created' => \SORT_DESC]);
+				break;
 			case 'group':
-				return (new Db\Query())
+				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_group'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
 					->where(['groupid' => $this->recordId])
 					->orderBy(['created' => \SORT_DESC]);
+				break;
 			case 'global':
-				return (new Db\Query())
+				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_global'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
 					->where(['globalid' => $this->roomId])
 					->orderBy(['created' => \SORT_DESC]);
+				break;
+			default:
+				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+		if ($isLimit) {
+			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'));
+		}
+		return $query;
 	}
 
 	/**
@@ -258,19 +310,129 @@ class Chat
 		switch ($this->roomType) {
 			case 'crm':
 				return (new Db\Query())
-					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.crmid'])
+					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.crmid', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_crm'])
 					->where(['CR.roomid' => $this->roomId]);
 			case 'group':
 				return (new Db\Query())
-					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.groupid'])
+					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.groupid', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_group'])
 					->where(['CR.roomid' => $this->roomId]);
 			case 'global':
 				return (new Db\Query())
+					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.global_room_id', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_global'])
 					->where(['CR.global_room_id' => $this->roomId]);
 		}
 		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+	}
+
+	/**
+	 * Insert a message to the chat room.
+	 *
+	 * @param string $message
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 *
+	 * @return int
+	 */
+	private function insertMessage(string $message): int
+	{
+		$param = [
+			'userid' => $this->userId,
+			'messages' => $message,
+			'created' => strtotime('now'),
+		];
+		$table = null;
+		$seq = null;
+		switch ($this->roomType) {
+			case 'crm':
+				$table = 'u_#__chat_messages_crm';
+				$seq = 'u_#__chat_messages_crm_id_seq';
+				$param['crmid'] = $this->recordId;
+				break;
+			case 'group':
+				$table = 'u_#__chat_messages_group';
+				$seq = 'u_#__chat_messages_group_id_seq';
+				$param['groupid'] = $this->recordId;
+				break;
+			case 'global':
+				$table = 'u_#__chat_messages_global';
+				$seq = 'u_#__chat_messages_global_id_seq';
+				$param['globalid'] = $this->recordId;
+				break;
+			default:
+				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+				break;
+		}
+		Db::getInstance()->createCommand()->insert($table, $param)->execute();
+		$this->lastMessageId = (int) \App\Db::getInstance()->getLastInsertID($seq);
+		return $this->lastMessageId;
+	}
+
+	/**
+	 * Insert a user to the chat room.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	private function inserRoom()
+	{
+		$param = [
+			'userid' => $this->userId,
+			'last_message' => $this->lastMessageId,
+		];
+		$table = null;
+		$seq = null;
+		switch ($this->roomType) {
+			case 'crm':
+				$table = 'u_#__chat_rooms_crm';
+				$param['crmid'] = $this->recordId;
+				break;
+			case 'group':
+				$table = 'u_#__chat_rooms_group';
+				$param['groupid'] = $this->recordId;
+				break;
+			case 'global':
+				$table = 'u_#__chat_rooms_global';
+				$param['global_room_id'] = $this->recordId;
+				break;
+			default:
+				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+				break;
+		}
+		Db::getInstance()->createCommand()->insert($table, $param)->execute();
+	}
+
+	/**
+	 * Update last message ID.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	private function updateRoom()
+	{
+		$table = null;
+		switch ($this->roomType) {
+			case 'crm':
+				$table = 'u_#__chat_rooms_crm';
+				break;
+			case 'group':
+				$table = 'u_#__chat_rooms_group';
+				break;
+			case 'global':
+				$table = 'u_#__chat_rooms_global';
+				break;
+			default:
+				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+				break;
+		}
+		Db::getInstance()
+			->createCommand()
+			->update($table, ['last_message' => $this->lastMessageId], [
+				'room_id' => $this->roomId,
+				'userid' => $this->userId
+			])->execute();
 	}
 }
