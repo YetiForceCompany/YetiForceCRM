@@ -82,16 +82,22 @@
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}
+								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+									<br/>
+									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}
+								{/if}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
 					{else}
 						<p class="text-center">
 							<span class="d-none d-sm-inline">
-								Copyright &copy; YetiForce.com All rights reserved. [{\App\Language::translate('WEBLOADTIME')}
-								: {$SCRIPT_TIME}s.]<br/>
-								{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}
+								Copyright &copy; YetiForce.com All rights reserved.
+								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+									<br/>
+									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}
+								{/if}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
