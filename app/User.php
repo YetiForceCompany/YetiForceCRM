@@ -400,4 +400,33 @@ class User
 
 		return $userId;
 	}
+
+	/**
+	 * Generate profile image info.
+	 *
+	 * @param bool $userId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed|void
+	 */
+	public static function getProfileImage($userId = false)
+	{
+		if (!$userId) {
+			$userModel = self::getCurrentUserModel();
+		} else {
+			$userModel = self::getUserModel($userId);
+		}
+		if (empty($userModel)) {
+			return;
+		}
+		$imageData = Json::decode($userModel->getDetail('imagename'));
+		$imageData = reset($imageData);
+		if (empty($imageData)) {
+			return;
+		}
+		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
+		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$userModel->getId()}&key={$imageData['key']}";
+		return $imageData;
+	}
 }
