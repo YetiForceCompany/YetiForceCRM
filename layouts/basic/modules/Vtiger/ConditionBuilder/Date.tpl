@@ -2,8 +2,7 @@
 {strip}
 	<div class="tpl-ConditionBuilder-Date input-group date">
 		{assign var=MODEL value=$FIELD_MODEL}
-		<input name="{$MODEL->getFieldName()}"
-			   class="dateField js-date-field form-control"
+		<input class="dateField js-date-field form-control"
 			   data-js="daterangepicker"
 			   title="{\App\Language::translate($MODEL->getFieldLabel(), $MODEL->getModule()->getName())}"
 			   autocomplete="off"/>

@@ -76,6 +76,12 @@ class Vtiger_ConditionBuilder_Js {
 		}
 	}
 
+	registerTimeFields() {
+		this.container.find('.clockPicker').each(function () {
+			app.registerEventForClockPicker($(this));
+		});
+	}
+
 
 	/**
 	 * Register events when change field
@@ -102,6 +108,7 @@ class Vtiger_ConditionBuilder_Js {
 				self.registerChangeOperators(container);
 				self.registerDateFields();
 				self.registerDateFieldsRange();
+				self.registerTimeFields();
 			});
 		});
 	}
@@ -209,5 +216,8 @@ class Vtiger_ConditionBuilder_Js {
 			self.registerChangeFields($(this));
 			self.registerChangeOperators($(this));
 		})
+		self.registerDateFields();
+		self.registerDateFieldsRange();
+		self.registerTimeFields();
 	}
 };

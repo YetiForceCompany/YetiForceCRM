@@ -111,7 +111,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			$format = \App\Language::translate('PM');
 
 			if ($hours > 12) {
-				$hours = (int) $hours - 12;
+				$hours = (int)$hours - 12;
 			} elseif ($hours < 12) {
 				$format = \App\Language::translate('AM');
 			}
@@ -174,5 +174,16 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public function getOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny', 'd'];
+	}
+
+	/**
+	 * Returns template for operator
+	 * @param string $operator
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Time.tpl';
+
 	}
 }

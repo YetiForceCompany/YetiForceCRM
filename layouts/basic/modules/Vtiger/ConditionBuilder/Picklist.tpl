@@ -4,13 +4,12 @@
 	{assign var=PICKLIST_VALUES value=$MODEL->getPicklistValues()}
 	{assign var=FIELD_VALUE value=$MODEL->getEditViewDisplayValue($MODEL->get('fieldvalue'),$RECORD)}
 	<div class="tpl-ConditionBuilder-PickList">
-		<select name="{$MODEL->getFieldName()}" class="select2 form-control"
+		<select class="select2 form-control conditionBuilderValue"
 				title="{\App\Language::translate($MODEL->getFieldLabel(), $MODULE)}"
-		{if !empty($PLACE_HOLDER)}
-			<optgroup class="p-0">
-				<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
-			</optgroup>
-		{/if}
+				multiple="multiple"
+		<optgroup class="p-0">
+			<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+		</optgroup>
 		{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 			<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
 					title="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if trim($FIELD_VALUE) eq trim($PICKLIST_NAME)} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
