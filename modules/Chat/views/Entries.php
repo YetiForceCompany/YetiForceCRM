@@ -50,11 +50,23 @@ class Chat_Entries_View extends \App\Controller\View
 	public function get(\App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('roomId')) {
-			$request->getByType('roomType');
-			$request->getInteger('roomId');
+			$roomType = $request->getByType('roomType', 'Text');
+			$roomId = $request->getInteger('roomId');
+			\App\Chat::setCurrentRoom($roomType, $roomId);
+		} else {
+			$currentRoom = \App\Chat::getCurrentRoom();
+			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['roomId'])) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+			$roomType = $currentRoom['roomType'];
+			$roomId = $currentRoom['roomId'];
+		}
+		$chat = \App\Chat::getInstance($roomType, $roomId);
+		if (!$chat->isRoomExists()) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', []);
+		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 

@@ -14,7 +14,6 @@ window.Chat_JS = class Chat_Js {
 		this.container = container;
 		this.messageContainer = container.find('.js-chat_content');
 		this.sendByEnter = true;
-
 	}
 
 	/**
@@ -24,6 +23,8 @@ window.Chat_JS = class Chat_Js {
 	static getInstance(container) {
 		if (typeof Chat_Js.instance === 'undefined') {
 			Chat_Js.instance = new Chat_Js(container);
+		} else {
+			Chat_Js.instance.container = container;
 		}
 		return Chat_Js.instance;
 	}
@@ -110,8 +111,6 @@ window.Chat_JS = class Chat_Js {
 				roomId: element.data('roomId'),
 				roomType: element.closest('.js-room-type').data('roomType')
 			}).done((data) => {
-				console.log('SwitchRoom - DONE');
-				console.log(data);
 				element.addClass('active');
 				this.messageContainer.html(data);
 			});
