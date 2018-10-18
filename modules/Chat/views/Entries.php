@@ -50,7 +50,7 @@ class Chat_Entries_View extends \App\Controller\View
 	public function get(\App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('roomId')) {
-			$roomType = $request->getByType('roomType', 'Text');
+			$roomType = $request->getByType('roomType');
 			$roomId = $request->getInteger('roomId');
 			\App\Chat::setCurrentRoom($roomType, $roomId);
 		} else {

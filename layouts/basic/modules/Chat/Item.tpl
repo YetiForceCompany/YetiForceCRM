@@ -10,6 +10,15 @@
 		<div class="author">
 			<i class="far fa-comment"></i>
 			<b>{$ROW['user_name']}</b>
+			{assign var=IMAGE value=$ROW['image']}
+			{if $IMAGE}
+				<img src="{$IMAGE.url}" class="mr-2" alt="{$ROW['user_name']} {$ROW['last_name']}"
+					 title="{$ROW['user_name']} {$ROW['last_name']}"
+					 height="80" align="left">
+				<br/>
+			{else}
+				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+			{/if}
 		</div>
 		<div class="messages">{$ROW['messages']}</div>
 	</div>
