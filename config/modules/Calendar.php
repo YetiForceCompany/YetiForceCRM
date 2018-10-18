@@ -55,5 +55,5 @@ return [
 	//Show default edit form
 	'SHOW_EDIT_FORM' => false,
 	//Select event free time automatically
-	'AUTOFILL_TIME' => true
+	'AUTOFILL_TIME' => false
 ];
