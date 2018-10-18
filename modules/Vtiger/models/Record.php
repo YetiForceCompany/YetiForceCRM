@@ -1443,7 +1443,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->privilegeToMoveToTrash()) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_REMOVE_RELATION',
-					'linkicon' => 'fas fa-link',
+					'linkicon' => 'fas fa-unlink',
 					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
 					'linkdata' => [
 						'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
