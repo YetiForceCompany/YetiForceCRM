@@ -762,6 +762,14 @@ $sitebar-border: 1px solid #ccc;
 	}
 }
 
+.limited-footer--active .o-calendar {
+	&__tab--filters,
+	&__form {
+		/*computed height: footer, userinfo, header filter buttons, padding */
+		height: calc(100vh - #{$h-footer-limited} - #{$h-header});
+	}
+}
+
 .tpl-Calendar-Extended-QuickCreate {
 	.boxEventTitle {
 		display: none;

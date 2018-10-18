@@ -25,6 +25,12 @@
 	}
 }
 
+.limited-footer--active {
+	.c-form__action-panel {
+		bottom: $h-footer-limited;
+	}
+}
+
 .verticalScroll {
 	position: absolute;
 	left: 0;
@@ -37,7 +43,7 @@
 
 @include media-breakpoint-down(sm) {
 	.c-form__action-panel {
-		bottom: $h-footer-mobile;
+		bottom: $h-footer-limited;
 		width: 100%;
 	}
 

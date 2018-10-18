@@ -6,7 +6,6 @@
 	color: $white;
 	font-size: $font-size-small;
 
-
 	a {
 		color: inherit;
 	}
@@ -56,9 +55,13 @@
 	height: $h-footer-user-info !important;
 }
 
+.c-footer--limited {
+	height: $h-footer-limited !important;
+}
+
 @include media-breakpoint-down(sm) {
 	.c-footer {
-		height: $h-footer-mobile;
+		height: $h-footer-limited;
 
 		.page-link {
 			font-size: 0.6em;
@@ -72,7 +75,7 @@
 		font-size: 0.6em;
 	}
 
-	.c-footer__user-info{
+	.c-footer__user-info {
 		height: 17px;
 	}
 }

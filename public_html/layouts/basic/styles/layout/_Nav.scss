@@ -15,6 +15,22 @@
 	}
 }
 
+.limited-footer--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer-limited;
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		.c-menu {
+			&__container {
+				bottom: $h-footer;
+			}
+		}
+	}
+}
+
 .c-menu {
 	&__container {
 		position: fixed;
@@ -45,7 +61,7 @@
 
 	@include media-breakpoint-down(sm) {
 		&__container {
-			bottom: $h-footer-mobile;
+			bottom: $h-footer-limited;
 		}
 	}
 
