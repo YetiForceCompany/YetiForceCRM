@@ -49,7 +49,7 @@ class Chat
 	 */
 	public static function setCurrentRoom(string $roomType, int $roomId)
 	{
-		\App\Session::set('chat-current-room', ['roomType' => $roomType, 'roomId' => $roomId]);
+		$_SESSION['CHAT']['CURRENT-ROOM'] = ['roomType' => $roomType, 'roomId' => $roomId];
 	}
 
 	/**
@@ -59,10 +59,10 @@ class Chat
 	 */
 	public static function getCurrentRoom()
 	{
-		if (!\App\Session::has('chat-current-room')) {
+		if (!isset($_SESSION['CHAT']['CURRENT-ROOM'])) {
 			return false;
 		}
-		return \App\Session::get('chat-current-room');
+		return $_SESSION['CHAT']['CURRENT-ROOM'];
 	}
 
 	/**
@@ -245,6 +245,7 @@ class Chat
 					->where(['globalid' => $this->roomId])
 					->orderBy(['created' => \SORT_DESC]);
 		}
+		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 	}
 
 	/**
@@ -270,5 +271,6 @@ class Chat
 					->from(['CR' => 'u_#__chat_rooms_global'])
 					->where(['CR.global_room_id' => $this->roomId]);
 		}
+		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 	}
 }
