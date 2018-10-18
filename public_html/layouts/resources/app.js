@@ -680,7 +680,7 @@ var App = {},
 				let elem = $(e.currentTarget);
 				e.stopPropagation();
 				let tempElement = elem.closest('.time').find('input.clockPicker');
-				if (tempElement.attr('disabled') !== 'disabled') {
+				if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 					tempElement.clockpicker('show');
 				}
 			});
