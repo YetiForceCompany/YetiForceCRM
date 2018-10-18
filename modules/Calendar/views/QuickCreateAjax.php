@@ -55,16 +55,18 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	{
 		$jsFiles = parent::getFooterScripts($request);
 		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
-			$jsFiles = array_merge($this->checkAndConvertJsScripts([
+			$jsFiles = $this->checkAndConvertJsScripts([
 				'~libraries/moment/min/moment.min.js',
 				'~libraries/fullcalendar/dist/fullcalendar.js',
 				'~libraries/css-element-queries/src/ResizeSensor.js',
 				'~libraries/css-element-queries/src/ElementQueries.js',
+				'modules.Calendar.resources.Edit',
 				'~layouts/resources/Calendar.js',
 				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.YearView',
 				'modules.Calendar.resources.Extended.CalendarView',
-			]), $jsFiles);
+				'modules.Calendar.resources.QuickCreate'
+			]);
 		}
 		return $jsFiles;
 	}
