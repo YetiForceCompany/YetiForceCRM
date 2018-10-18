@@ -33,6 +33,16 @@ class Vtiger_ConditionBuilder_Js {
 	}
 
 	/**
+	 * Register event when the date field is selected
+	 */
+	registerDateFields() {
+		let element = this.container.find('.js-condition-builder-conditions-row .js-date-field');
+		if (element.length) {
+			App.Fields.Date.register(element);
+		}
+	}
+
+	/**
 	 * Register events when change field
 	 * @param {jQuery} container
 	 */
@@ -48,6 +58,7 @@ class Vtiger_ConditionBuilder_Js {
 				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 				self.registerChangeFields(container);
 				self.registerChangeOperators(container);
+				self.registerDateFields();
 			});
 		});
 	}
