@@ -17,6 +17,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	registerEvents() {
 		this.registerSwitchEvents();
 		this.registerUsersChange();
+		this.registerAutoDateSelect();
 	}
 
 	/**
@@ -115,7 +116,8 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		this.container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
 		this.container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
 		if (this.container.find('.js-autofill').prop('checked') === true) {
-			Calendar_Edit_Js.getInstance().getFreeTime(this.container);
+			let calendarEditInstance = new Calendar_Edit_Js();
+			calendarEditInstance.getFreeTime(this.container);
 		} else {
 			this.container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
 			this.container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));

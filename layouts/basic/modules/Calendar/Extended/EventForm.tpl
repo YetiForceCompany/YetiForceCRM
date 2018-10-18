@@ -1,6 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-EventForm -->
+	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'AUTOMATICALLY_SELECT_DATE'))}"
+		   type="hidden" id="automaticallySelectDate"/>
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
