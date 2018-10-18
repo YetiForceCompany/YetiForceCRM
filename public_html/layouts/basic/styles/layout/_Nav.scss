@@ -31,6 +31,14 @@
 	}
 }
 
+.user-info--active.limited-footer--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer;
+		}
+	}
+}
+
 .c-menu {
 	&__container {
 		position: fixed;

@@ -21,10 +21,11 @@ $grid-breakpoints: (
 //-------- sizes --------//
 $w-icon-button: calculate-rem(42px);
 
-$h-footer: calculate-rem(31px);
-$h-footer-limited: calculate-rem(18px);
-$h-footer-user-info: calculate-rem(55px);
-$h-footer-user-info-mobile: calculate-rem(32px);
+$h-footer: calculate-rem(32px);
+$h-user-info: calculate-rem(16px);
+$h-footer-limited: calculate-rem(16px);
+$h-footer-user-info: calc(#{$h-footer} + #{$h-user-info});
+$h-footer-user-info-mobile: $h-footer;
 $h-input-text: calculate-rem(24px);
 $h-menu-items: calculate-rem(34px);
 $h-modal-logo: calculate-rem(120px);
