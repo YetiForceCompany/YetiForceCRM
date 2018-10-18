@@ -54,6 +54,6 @@ return [
 	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => true,
 	//Show default edit form
 	'SHOW_EDIT_FORM' => false,
-	//Select event date automatically
-	'AUTOMATICALLY_SELECT_DATE' => false
+	//Select event free time automatically
+	'AUTOFILL_TIME' => true
 ];

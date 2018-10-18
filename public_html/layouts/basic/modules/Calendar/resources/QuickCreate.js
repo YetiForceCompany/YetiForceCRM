@@ -17,7 +17,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	registerEvents() {
 		this.registerSwitchEvents();
 		this.registerUsersChange();
-		this.registerAutoDateSelect();
+		this.registerAutofillTime();
 	}
 
 	/**
