@@ -911,7 +911,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			headerInstance.registerHelpInfo(rightFormCreate);
 			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);
 			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
-			thisInstance.registerAutoDateSelect();
+			thisInstance.registerAutofillTime();
 			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 				let ckEditorInstance = new Vtiger_CkEditor_Js();
 				ckEditorInstance.loadCkEditor($(element), {
@@ -930,8 +930,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	/**
 	 * Autoselect date in create view in extended calendar
 	 */
-	registerAutoDateSelect() {
-		if (app.getMainParams('automaticallySelectDate')) {
+	registerAutofillTime() {
+		if (app.getMainParams('autofillTime')) {
 			this.container.find('.js-autofill').prop('checked', 'checked');
 			this.container.find('.js-autofill').trigger('change');
 		}
