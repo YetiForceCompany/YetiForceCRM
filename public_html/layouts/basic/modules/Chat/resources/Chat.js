@@ -30,9 +30,9 @@ window.Chat_JS = class Chat_Js {
 
 	/**
 	 * Sending HTTP requests to the chat module.
-	 * @param {*} data
+	 * @param {object} data
 	 * @param {bool} progress
-	 * @returns {*}
+	 * @returns {object}
 	 */
 	request(data = {}, progress = true) {
 		const aDeferred = $.Deferred();
