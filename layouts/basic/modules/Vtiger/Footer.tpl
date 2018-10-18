@@ -24,11 +24,13 @@
 				data-js="height">
 			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
-					<span class="mr-1"> {$USER_MODEL->getName()}</span>(
-					<span>{$USER_MODEL->get('email1')}</span>
-					{if !empty($USER_MODEL->get('phone_crm_extension'))}
-					,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
-					{/if})
+					<p>
+						<span class="mr-1"> {$USER_MODEL->getName()}</span>(
+						<span>{$USER_MODEL->get('email1')}</span>
+						{if !empty($USER_MODEL->get('phone_crm_extension'))}
+						,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
+						{/if})
+					</p>
 				</div>
 			{/if}
 			<div class="container-fluid px-0 px-md-1">
@@ -80,7 +82,7 @@
 						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
-						<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
+						<p class="text-center text-center">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
 								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 									<br/>
