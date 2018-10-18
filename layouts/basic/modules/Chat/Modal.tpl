@@ -3,10 +3,10 @@
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=false}
-		<li class="text-truncate js-popover-tooltip js-room"
-			data-content="{\App\Language::translate($ROOM['name'], 'Chat')}"
-			data-room-id="{$ROOM['roomid']}" data-id="{if isset($ROOM['id'])}{$ROOM['id']}{/if}"
-			data-js="click|popover">
+		<li class="text-truncate js-room"
+			title="{\App\Purifier::encodeHtml(\App\Language::translate($ROOM['name'], 'Chat'))}"
+			data-room-id="{$ROOM['roomid']}"
+			data-js="click">
 			{\App\Language::translate($ROOM['name'], 'Chat')}
 		</li>
 	{/function}
