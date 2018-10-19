@@ -927,8 +927,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	registerAutofillTime() {
 		if (app.getMainParams('autofillTime')) {
-			this.container.find('.js-autofill').prop('checked', 'checked');
-			this.container.find('.js-autofill').trigger('change');
+			this.container.find('.js-autofill').prop('checked', 'checked').trigger('change');
 		}
 	}
 
