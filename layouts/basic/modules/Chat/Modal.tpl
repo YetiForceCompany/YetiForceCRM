@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		{assign var=SELECTED value=$CURRENT_ROOM['roomId']==$ROOM['roomid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
+		{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$ROOM['recordid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
 		<li class="text-truncate js-room {if $SELECTED} active{/if}"
 			title="{\App\Purifier::encodeHtml(\App\Language::translate($ROOM['name'], 'Chat'))}"
 			data-record-id="{$ROOM['recordid']}"

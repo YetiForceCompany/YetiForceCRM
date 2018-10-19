@@ -68,8 +68,8 @@ window.Chat_JS = class Chat_Js {
 		this.request({
 			view: 'Entries',
 			mode: 'send',
-			roomId: currentRoom.roomId,
 			roomType: currentRoom.roomType,
+			recordId: currentRoom.recordId,
 			message: inputMessage.val(),
 			mid: this.messageContainer.children().last().data('mid')
 		}).done((data) => {
