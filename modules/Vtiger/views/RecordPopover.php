@@ -10,16 +10,10 @@
  */
 
 /**
- * Class Vtiger_RecordPopover_View
+ * Class Vtiger_RecordPopover_View.
  */
 class Vtiger_RecordPopover_View extends \App\Controller\View
 {
-	/**
-	 * Show empty field
-	 * @var bool
-	 */
-	protected $showEmptyField = false;
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -40,9 +34,7 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 		$summaryFields = [];
 		foreach ($recordModel->getModule()->getFields() as $fieldName => &$fieldModel) {
-			if ($fieldModel->isSummaryField() && $fieldModel->isViewableInDetailView() &&
-				($this->showEmptyField || (!$this->showEmptyField && !$recordModel->isEmpty($fieldName)))
-			) {
+			if ($fieldModel->isSummaryField() && $fieldModel->isViewableInDetailView() && !$recordModel->isEmpty($fieldName)) {
 				$summaryFields[$fieldName] = $fieldModel;
 			}
 		}
