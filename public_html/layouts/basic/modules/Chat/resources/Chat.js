@@ -33,6 +33,7 @@ window.Chat_JS = class Chat_Js {
 			Chat_Js.instance[typeInstance] = new Chat_Js(container);
 		} else {
 			Chat_Js.instance[typeInstance].container = container;
+			Chat_Js.instance[typeInstance].messageContainer = container.find('.js-chat_content');
 		}
 		return Chat_Js.instance[typeInstance];
 	}
@@ -67,12 +68,11 @@ window.Chat_JS = class Chat_Js {
 		if (inputMessage.val() === '') {
 			return;
 		}
-		const currentRoom = this.messageContainer.data('currentRoom');
 		this.request({
 			view: 'Entries',
 			mode: 'send',
-			roomType: currentRoom.roomType,
-			recordId: currentRoom.recordId,
+			roomType: this.getCurrentRoomType(),
+			recordId: this.getCurrentRecordId(),
 			message: inputMessage.val(),
 			mid: this.messageContainer.children().last().data('mid')
 		}).done((data) => {
@@ -120,10 +120,8 @@ window.Chat_JS = class Chat_Js {
 		this.container.find(
 			'.js-room-list .js-room-type[data-room-type=' + roomType + '] .js-room[data-record-id=' + recordId + ']'
 		).addClass('active');
-		this.messageContainer.data('currentRoom', {
-			roomType: roomType,
-			recordId: recordId
-		});
+		this.messageContainer.data('currentRoomType', roomType);
+		this.messageContainer.data('currentRecordId', recordId);
 	}
 
 	/**
@@ -193,7 +191,6 @@ window.Chat_JS = class Chat_Js {
 	registerSendEvent() {
 		const self = this;
 		const inputMessage = this.container.find('.js-chat-message');
-		console.log('L: ' + inputMessage.length);
 		if (this.sendByEnter) {
 			inputMessage.on('keydown', function (e) {
 				if (e.keyCode === 13) {
@@ -213,7 +210,6 @@ window.Chat_JS = class Chat_Js {
 	registerSwitchRoom() {
 		this.container.find('.js-room-list .js-room').off('click').on('click', (e) => {
 			let element = $(e.currentTarget);
-			//this.roomId = element.data('roomId');
 			let recordId = element.data('recordId');
 			let roomType = element.closest('.js-room-type').data('roomType');
 			this.request({
@@ -258,13 +254,10 @@ window.Chat_JS = class Chat_Js {
 					action: 'Room',
 					mode: 'create',
 					roomType: this.getCurrentRoomType(),
-					recordId: this.getCurrentRecordId(),
+					recordId: this.getCurrentRecordId()
 				}).done((data) => {
-					console.log('Create room: ' + JSON.stringify(data));
-					//this.selectRoom(roomType, recordId);
-					//this.buildParticipants(data.find('.js-participants-data'), true);
-					//this.lastMessageId = data.find('.js-chat-item:last').data('cid');
-					//this.messageContainer.html(data);
+					this.container.find('.js-container-button').addClass('hide');
+					this.container.find('.js-container-chat').removeClass('hide');
 				});
 			});
 		}

@@ -17,12 +17,18 @@ namespace App;
 class Chat
 {
 	/**
-	 * Information about the structure of the database.
+	 * Information about the tables of the database.
 	 */
-	const DB_INFO = [
+	const TABLE_NAME = [
 		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global'],
+		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global']
+	];
+
+	/**
+	 * Information about the columns of the database.
+	 */
+	const COLUMN_NAME = [
 		'record' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
-		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global'],
 		'recordRoom' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
 	];
 
@@ -94,16 +100,18 @@ class Chat
 		return $_SESSION['chat'];
 	}
 
-	/**
-	 * Get instance by record model.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 *
-	 * @return \App\Chat
-	 */
-	public static function getInstanceByRecordModel(\Vtiger_Record_Model $recordModel): \App\Chat
+	public static function createRoom(string $roomType, int $recordId)
 	{
-		$instance = new self();
+		$instance = new self($roomType, $recordId);
+		$table = static::TABLE_NAME['room'][$roomType];
+		$recordIdName = static::COLUMN_NAME['recordRoom'][$roomType];
+		Db::getInstance()->createCommand()->insert($table, [
+			'userid' => User::getCurrentUserId(),
+			'last_message' => null,
+			$recordIdName => $recordId
+		])->execute();
+		$instance->recordId = $recordId;
+		$instance->roomType = $roomType;
 		return $instance;
 	}
 
@@ -373,30 +381,15 @@ class Chat
 	 */
 	private function insertMessage(string $message): int
 	{
-		$table = $this->getDbInfo('message');
+		$table = static::TABLE_NAME['message'][$this->roomType];
 		$db = Db::getInstance();
 		$db->createCommand()->insert($table, [
 			'userid' => $this->userId,
 			'messages' => $message,
 			'created' => date('Y-m-d H:i:s'),
-			$this->getDbInfo('record') => $this->recordId
+			static::COLUMN_NAME['record'][$this->roomType] => $this->recordId
 		])->execute();
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
-	}
-
-	/**
-	 * Insert a user to the chat room.
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \yii\db\Exception
-	 */
-	private function inserRoom()
-	{
-		Db::getInstance()->createCommand()->insert($this->getDbInfo('room'), [
-			'userid' => $this->userId,
-			'last_message' => $this->lastMessageId,
-			$this->getDbInfo('recordRoom') => $this->recordId
-		])->execute();
 	}
 
 	/**
@@ -409,7 +402,7 @@ class Chat
 	{
 		Db::getInstance()
 			->createCommand()
-			->update($this->getDbInfo('room'), ['last_message' => $this->lastMessageId], [
+			->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
 				'roomid' => $this->roomId,
 				'userid' => $this->userId
 			])->execute();
