@@ -173,6 +173,7 @@ window.Chat_JS = class Chat_Js {
 			if (reload) {
 				this.container.find('.js-participants-list').html('');
 			}
+
 		}
 	}
 
@@ -213,7 +214,7 @@ window.Chat_JS = class Chat_Js {
 			}).done((data) => {
 				this.selectRoom(roomType, recordId);
 				//this.buildParticipants(data.find('.js-participants-data'), true);
-				//this.lastMessageId = data.find('.js-chat-item:last').data('cid');
+				//this.lastMessageId = data.find('.js-chat-item:last').data('mid');
 				this.messageContainer.html(data);
 			});
 		});
