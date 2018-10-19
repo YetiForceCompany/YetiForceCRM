@@ -324,9 +324,9 @@ jstree-bootstrap-theme@^1.0.1:
   dependencies:
     jquery ">=1.9.1"
 
-jstree@^3.3.5:
-  version "3.3.5"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.5.tgz#9c578db32d0a643775cddd8020ad5992f4119c13"
+jstree@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.6.tgz#8da21f101196751031f77e18d3345b6566c2e907"
   dependencies:
     jquery ">=1.9.1"
 
