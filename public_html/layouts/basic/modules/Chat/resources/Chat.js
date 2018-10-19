@@ -90,6 +90,24 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Select room.
+	 * @param {string} roomType
+	 * @param {int} recordId
+	 */
+	selectRoom(roomType, recordId) {
+		this.container.find('.js-room-list .js-room').each((index, element) => {
+			$(element).removeClass('active');
+		});
+		this.container.find(
+			'.js-room-list .js-room-type[data-room-type=' + roomType + '] .js-room[data-record-id=' + recordId + ']'
+		).addClass('active');
+		this.messageContainer.data('currentRoom', {
+			roomType: roomType,
+			recordId: recordId
+		});
+	}
+
+	/**
 	 * Get new message
 	 * @param {bool} timer
 	 */
@@ -174,14 +192,16 @@ window.Chat_JS = class Chat_Js {
 	registerSwitchRoom() {
 		this.container.find('.js-room-list .js-room').off('click').on('click', (e) => {
 			let element = $(e.currentTarget);
-			this.roomId = element.data('roomId');
+			//this.roomId = element.data('roomId');
+			let recordId = element.data('recordId');
+			let roomType = element.closest('.js-room-type').data('roomType');
 			this.request({
 				view: 'Entries',
 				mode: 'get',
-				roomId: this.roomId,
-				roomType: element.closest('.js-room-type').data('roomType')
+				roomType: roomType,
+				recordId: recordId
 			}).done((data) => {
-				element.addClass('active');
+				this.selectRoom(roomType, recordId);
 				//this.buildParticipants(data.find('.js-participants-data'), true);
 				//this.lastMessageId = data.find('.js-chat-item:last').data('cid');
 				this.messageContainer.html(data);

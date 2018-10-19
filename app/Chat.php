@@ -48,7 +48,7 @@ class Chat
 	private $recordId;
 
 	/**
-	 * @var []
+	 * @var []|false
 	 */
 	private $room = false;
 
@@ -69,12 +69,16 @@ class Chat
 	/**
 	 * Set current room ID, type.
 	 *
-	 * @param string $roomType
-	 * @param int    $roomId
+	 * @param string   $roomType
+	 * @param int|null $recordId
+	 *
+	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function setCurrentRoom(string $roomType, int $roomId)
+	public static function setCurrentRoom(string $roomType, ?int $recordId)
 	{
-		$_SESSION['chat'] = ['roomType' => $roomType, 'roomId' => $roomId];
+		$_SESSION['chat'] = [
+			'roomType' => $roomType, 'recordId' => $recordId
+		];
 	}
 
 	/**
@@ -107,22 +111,22 @@ class Chat
 	 * Get instance \App\Chat.
 	 *
 	 * @param null|string $roomType
-	 * @param int|null    $roomId
+	 * @param int|null    $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
 	 * @return \App\Chat
 	 */
-	public static function getInstance(?string $roomType = null, ?int $roomId = null): \App\Chat
+	public static function getInstance(?string $roomType = null, ?int $recordId = null): \App\Chat
 	{
-		if (empty($roomType) || empty($roomId)) {
+		if (empty($roomType) || \is_null($recordId)) {
 			$currentRoom = static::getCurrentRoom();
 			if ($currentRoom !== false) {
 				$roomType = $currentRoom['roomType'];
-				$roomId = $currentRoom['roomId'];
+				$recordId = $currentRoom['recordId'];
 			}
 		}
-		return new self($roomType, $roomId);
+		return new self($roomType, $recordId);
 	}
 
 	/**
@@ -136,7 +140,8 @@ class Chat
 			return Cache::get('Chat', 'chat_global');
 		}
 		return Cache::save('Chat', 'chat_global',
-			(new Db\Query())->from('u_#__chat_global')->all()
+			(new Db\Query())->select(['name', 'recordid' => 'global_room_id'])
+				->from('u_#__chat_global')->all()
 		);
 	}
 
@@ -200,21 +205,21 @@ class Chat
 	 * Chat constructor.
 	 *
 	 * @param null|string $roomType
-	 * @param int|null    $roomId
+	 * @param int|null    $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function __construct(?string $roomType, ?int $roomId)
+	public function __construct(?string $roomType, ?int $recordId)
 	{
 		$this->userId = User::getCurrentUserId();
-		if (empty($roomType) || empty($roomId)) {
+		if (empty($roomType) || \is_null($recordId)) {
 			return;
 		}
 		$this->roomType = $roomType;
-		$this->roomId = $roomId;
+		$this->recordId = $recordId;
 		$this->room = $this->getQueryRoom()->one();
-		if ($this->isRoomExists() && isset($this->room['record_id'])) {
-			$this->recordId = $this->room['record_id'];
+		if ($this->isRoomExists() && isset($this->room['room_id'])) {
+			$this->roomId = $this->room['room_id'];
 		}
 	}
 
@@ -316,7 +321,7 @@ class Chat
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_global'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->where(['globalid' => $this->roomId]);
+					->where(['globalid' => $this->recordId]);
 				break;
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
@@ -340,17 +345,18 @@ class Chat
 				return (new Db\Query())
 					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.crmid', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_crm'])
-					->where(['CR.roomid' => $this->roomId]);
+					->where(['CR.crmid' => $this->recordId]);
 			case 'group':
 				return (new Db\Query())
 					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.groupid', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_group'])
-					->where(['CR.roomid' => $this->roomId]);
+					->where(['CR.groupid' => $this->recordId]);
 			case 'global':
-				return (new Db\Query())
-					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.global_room_id', 'CR.last_message'])
-					->from(['CR' => 'u_#__chat_rooms_global'])
-					->where(['CR.global_room_id' => $this->roomId]);
+				return (new \App\Db\Query())
+					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.global_room_id', 'CR.last_message'])
+					->from(['CG' => 'u_#__chat_global'])
+					->leftJoin(['CR' => 'u_#__chat_rooms_global'], "CR.global_room_id = CG.global_room_id AND CR.userid = {$this->userId}")
+					->where(['CG.global_room_id' => $this->recordId]);
 		}
 		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 	}
