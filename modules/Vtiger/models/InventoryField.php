@@ -527,8 +527,8 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function getUniqueID($instance)
 	{
-		return (int)(new \App\Db\Query())->from($this->getTableName('fields'))->where(['invtype' => $instance->getName()])
-				->max('id') + 1;
+		return (int) (new \App\Db\Query())->from($this->getTableName('fields'))->where(['invtype' => $instance->getName()])
+			->max('id') + 1;
 	}
 
 	/**
