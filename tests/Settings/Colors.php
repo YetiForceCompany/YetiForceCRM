@@ -140,18 +140,18 @@ class Colors extends \Tests\Base
 		$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
 		$this->assertNotEmpty($tableSchema, 'Table vtiger_contract_priority not exists');
 		if ($tableSchema) {
-			$column = $tableSchema->getColumn((string)'color');
+			$column = $tableSchema->getColumn((string) 'color');
 			$this->assertEmpty($column, 'column color in vtiger_contract_priority should not exists');
 			if (is_null($column)) {
 				\App\Colors::addPicklistColorColumn((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('ServiceContracts'), 'fieldname' => 'contract_priority'])->scalar());
 				\App\Cache::clear();
 				$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
-				$column = $tableSchema->getColumn((string)'color');
+				$column = $tableSchema->getColumn((string) 'color');
 				$this->assertNotEmpty($column, 'Column color should exist on vtiger_contract_priority');
 				if ($column) {
 					$db->createCommand()->dropColumn('vtiger_contract_priority', 'color')->execute();
 					$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
-					$column = $tableSchema->getColumn((string)'color');
+					$column = $tableSchema->getColumn((string) 'color');
 					$this->assertEmpty($column, 'Column color should be removed from vtiger_contract_priority');
 				}
 			}
