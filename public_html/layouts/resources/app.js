@@ -677,9 +677,8 @@ var App = {},
 				ampmSubmit: false
 			};
 			$('.js-clock__btn').on('click', (e) => {
-				let elem = $(e.currentTarget);
 				e.stopPropagation();
-				let tempElement = elem.closest('.time').find('input.clockPicker');
+				let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
 				if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 					tempElement.clockpicker('show');
 				}
