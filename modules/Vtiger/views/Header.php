@@ -148,6 +148,9 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 		foreach ($headerCss as $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
+					if (!IS_PUBLIC_DIR) {
+						$cssLink->linkurl = 'public_html/' . $cssLink->linkurl;
+					}
 					$headerCssInstances[] = Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
 				}
 			}

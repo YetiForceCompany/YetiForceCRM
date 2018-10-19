@@ -757,8 +757,21 @@ $sitebar-border: 1px solid #ccc;
 .user-info--active .o-calendar {
 	&__tab--filters,
 	&__form {
-		/*computed height: footer, userinfo, header filter buttons, padding */
 		height: calc(100vh - #{$h-footer-user-info} - #{$h-header});
+	}
+}
+
+.limited-footer--active .o-calendar {
+	&__tab--filters,
+	&__form {
+		height: calc(100vh - #{$h-footer-limited} - #{$h-header});
+	}
+}
+
+.limited-footer--active.limited-footer--active .o-calendar {
+	&__tab--filters,
+	&__form {
+		height: calc(100vh - #{$h-footer} - #{$h-header});
 	}
 }
 

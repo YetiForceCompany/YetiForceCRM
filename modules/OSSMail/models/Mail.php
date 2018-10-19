@@ -3,8 +3,8 @@
  * Mail Scanner bind email action.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -280,10 +280,8 @@ class OSSMail_Mail_Model extends \App\Base
 				$enableFind = true;
 				$row = explode('=', $field);
 				$moduleName = $row[1];
-				if ($searchModule) {
-					if ($searchModule !== $moduleName) {
-						$enableFind = false;
-					}
+				if ($searchModule && $searchModule !== $moduleName) {
+					$enableFind = false;
 				}
 				if ($enableFind) {
 					foreach ($emails as $email) {

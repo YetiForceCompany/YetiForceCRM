@@ -48,12 +48,10 @@ class KnowledgeBase_ImageUploadAjax_Action extends \App\Controller\Action
 			$fileType = false;
 			// Checking if the file is allowed
 			foreach ($fileTypeSettings as $fileTypeName => $settings) {
-				if (in_array($fileTypeName, $allowedFileTypes)) {
-					if (in_array($type, $settings['type'])) {
-						$fileType = $fileTypeName;
-						$uploadDir = trim($settings['dir'], '/') . '/';
-						break;
-					}
+				if (in_array($fileTypeName, $allowedFileTypes) && in_array($type, $settings['type'])) {
+					$fileType = $fileTypeName;
+					$uploadDir = trim($settings['dir'], '/') . '/';
+					break;
 				}
 			}
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['upload']);

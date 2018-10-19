@@ -329,18 +329,20 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		});
 	},
 	registerAutoFillHours: function (container) {
-		var thisInstance = this;
-		var allDay = container.find('[name="allday"]');
-		var timeStart = container.find('[name="time_start"]');
-		var timeEnd = container.find('[name="time_end"]');
-		var dateEnd = container.find('[name="due_date"]');
+		const thisInstance = this;
+		let allDay = container.find('[name="allday"]'),
+			timeStart = container.find('[name="time_start"]'),
+			timeEnd = container.find('[name="time_end"]'),
+			dateEnd = container.find('[name="due_date"]');
 		container.find('.js-autofill').on('change', function (e) {
-			var currentTarget = $(e.currentTarget);
+			let currentTarget = $(e.currentTarget);
 			if (currentTarget.is(':checked')) {
 				container.find('.js-autofill').prop('checked', true);
 				thisInstance.getFreeTime(container);
 				timeStart.attr('readonly', 'readonly');
 				timeEnd.attr('readonly', 'readonly');
+				timeStart.clockpicker('remove');
+				timeEnd.clockpicker('remove');
 				allDay.attr('disabled', 'disabled');
 				allDay.prop('checked', false);
 				allDay.trigger('change');
@@ -351,6 +353,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');
 				dateEnd.removeAttr('readonly');
+				app.registerEventForClockPicker(timeStart);
+				app.registerEventForClockPicker(timeEnd);
 			}
 		});
 	},

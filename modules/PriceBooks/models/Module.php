@@ -20,16 +20,14 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if ($sourceModule === 'Products' || $sourceModule === 'Services') {
-			if (isset($queryGenerator->currencyId) && ($field === 'productid' || $field === 'serviceid')) {
-				$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
-				$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_pricebookproductrel', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-				$queryGenerator->addNativeCondition(['and',
-					['vtiger_pricebook.currency_id' => $queryGenerator->currencyId],
-					['vtiger_pricebook.active' => 1],
-					['vtiger_pricebookproductrel.productid' => $record],
-				]);
-			}
+		if (($sourceModule === 'Products' || $sourceModule === 'Services') && isset($queryGenerator->currencyId) && ($field === 'productid' || $field === 'serviceid')) {
+			$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
+			$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_pricebookproductrel', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
+			$queryGenerator->addNativeCondition(['and',
+				['vtiger_pricebook.currency_id' => $queryGenerator->currencyId],
+				['vtiger_pricebook.active' => 1],
+				['vtiger_pricebookproductrel.productid' => $record],
+			]);
 		}
 	}
 

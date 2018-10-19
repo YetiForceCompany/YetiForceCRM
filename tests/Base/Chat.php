@@ -30,6 +30,14 @@ class Chat extends \Tests\Base
 	private static $chatActive = false;
 
 	/**
+	 * Temporary disable tests.
+	 */
+	protected function setUp()
+	{
+		$this->markTestSkipped('Temporary disabled.');
+	}
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */

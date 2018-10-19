@@ -93,4 +93,7 @@ $PERFORMANCE_CONFIG = [
 	'CHANGE_LOCALE' => true,
 	//Is divided layout style on edit view in modules with products
 	'INVENTORY_EDIT_VIEW_LAYOUT' => true,
+	// Any modifications of this parameter require the vendor's consent.
+	// Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
+	'LIMITED_INFO_IN_FOOTER' => false,
 ];

@@ -8,9 +8,21 @@
 	overflow-x: hidden;
 }
 
+.user-info--active .mainBody {
+	bottom: $h-footer-user-info;
+}
+
+.user-info--active.limited-footer--active .mainBody {
+	bottom: $h-footer;
+}
+
 @include media-breakpoint-down(sm) {
 	.mainBody {
-		bottom: $h-footer-mobile;
+		bottom: $h-footer-limited;
+	}
+
+	.user-info--active .mainBody {
+		bottom: $h-footer;
 	}
 }
 

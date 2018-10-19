@@ -658,14 +658,12 @@ class QueryGenerator
 		if ($this->moduleName === 'Calendar' && !in_array('activitytype', $this->fields)) {
 			$this->fields[] = 'activitytype';
 		}
-		if ($this->moduleName === 'Documents') {
-			if (in_array('filename', $this->fields)) {
-				if (!in_array('filelocationtype', $this->fields)) {
-					$this->fields[] = 'filelocationtype';
-				}
-				if (!in_array('filestatus', $this->fields)) {
-					$this->fields[] = 'filestatus';
-				}
+		if ($this->moduleName === 'Documents' && in_array('filename', $this->fields)) {
+			if (!in_array('filelocationtype', $this->fields)) {
+				$this->fields[] = 'filelocationtype';
+			}
+			if (!in_array('filestatus', $this->fields)) {
+				$this->fields[] = 'filestatus';
 			}
 		}
 		if (!$onlyFields) {

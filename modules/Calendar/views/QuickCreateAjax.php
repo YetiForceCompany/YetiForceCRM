@@ -24,10 +24,8 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		if (!$request->isEmpty('sourceRecord', true)) {
-			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -55,16 +53,18 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	{
 		$jsFiles = parent::getFooterScripts($request);
 		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
-			$jsFiles = array_merge($jsFiles, $this->checkAndConvertJsScripts([
+			$jsFiles = $this->checkAndConvertJsScripts([
 				'~libraries/moment/min/moment.min.js',
 				'~libraries/fullcalendar/dist/fullcalendar.js',
 				'~libraries/css-element-queries/src/ResizeSensor.js',
 				'~libraries/css-element-queries/src/ElementQueries.js',
+				'modules.Calendar.resources.Edit',
 				'~layouts/resources/Calendar.js',
 				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.YearView',
 				'modules.Calendar.resources.Extended.CalendarView',
-			]));
+				'modules.Calendar.resources.QuickCreate'
+			]);
 		}
 		return $jsFiles;
 	}

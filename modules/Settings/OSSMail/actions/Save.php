@@ -4,8 +4,8 @@
  * OSSMail Save action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 {
@@ -34,10 +34,8 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 	{
 		$recordModel = Settings_OSSMail_Config_Model::getCleanIntance();
 		foreach ($recordModel->getForm() as $fieldName => $fieldInfo) {
-			if ($fieldInfo['required'] === 1) {
-				if ($request->isEmpty($fieldName)) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-				}
+			if ($fieldInfo['required'] === 1 && $request->isEmpty($fieldName)) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 			if ($fieldInfo['fieldType'] === 'text') {
 				$recordModel->set($fieldName, $request->getByType($fieldName, 'Text'));

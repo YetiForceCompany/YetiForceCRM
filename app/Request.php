@@ -441,10 +441,8 @@ class Request
 	public function getModule($raw = true)
 	{
 		$moduleName = $this->getByType('module', 2);
-		if (!$raw) {
-			if (!$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
-				$moduleName = "$parentModule:$moduleName";
-			}
+		if (!$raw && !$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
+			$moduleName = "$parentModule:$moduleName";
 		}
 		return $moduleName;
 	}
@@ -558,12 +556,9 @@ class Request
 	 */
 	public function validateReadAccess()
 	{
-		// Referer check if present - to over come
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId()) {
-			//Check for user post authentication.
-			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
-				throw new \App\Exceptions\Csrf('Illegal request');
-			}
+		// Referer check if present - to over come && Check for user post authentication.
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
+			throw new \App\Exceptions\Csrf('Illegal request');
 		}
 	}
 
@@ -576,10 +571,8 @@ class Request
 	 */
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
-		if (!$skipRequestTypeCheck) {
-			if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-				throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
-			}
+		if (!$skipRequestTypeCheck && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+			throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		if (class_exists('CSRFConfig') && !\CsrfMagic\Csrf::check(false)) {

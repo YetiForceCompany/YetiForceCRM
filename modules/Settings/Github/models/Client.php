@@ -163,10 +163,8 @@ class Settings_Github_Client_Model
 	{
 		$data['access_token'] = $this->clientToken;
 		$userInfo = $this->doRequest('/user', 'GET', $data, '200');
-		if (!empty($userInfo->login)) {
-			if ($userInfo->login == $this->username) {
-				return true;
-			}
+		if (!empty($userInfo->login) && $userInfo->login == $this->username) {
+			return true;
 		}
 		return false;
 	}

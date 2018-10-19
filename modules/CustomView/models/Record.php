@@ -352,11 +352,9 @@ class CustomView_Record_Model extends \App\Base
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
-		if ($status == App\CustomView::CV_STATUS_PENDING) {
-			if ($currentUserModel->isAdminUser()) {
-				$status = App\CustomView::CV_STATUS_PUBLIC;
-				$this->set('status', $status);
-			}
+		if ($status == App\CustomView::CV_STATUS_PENDING && $currentUserModel->isAdminUser()) {
+			$status = App\CustomView::CV_STATUS_PUBLIC;
+			$this->set('status', $status);
 		}
 		$transaction = $db->beginTransaction();
 		if (!$cvId) {
