@@ -404,8 +404,7 @@ $sitebar-border: 1px solid #ccc;
 		justify-content: space-between;
 		flex-wrap: wrap;
 
-		.fc-left,
-		.fc-right {
+		.fc-left {
 			.fc-button {
 				margin-right: 5px;
 				border-radius: 0;
@@ -426,6 +425,25 @@ $sitebar-border: 1px solid #ccc;
 			}
 			.fc-button-group {
 				margin-left: 0;
+			}
+		}
+		.fc-right {
+			.fc-button {
+				margin-right: 5px;
+				background: material-color('green', '50');
+				border-radius: 0;
+				color: #353535;
+				height: calculate-rem(30px) !important;
+				border: none;
+				box-shadow: none;
+				padding: calculate-rem(5px) calculate-rem(10px) !important;
+			}
+			.fc-today-button.fc-state-disabled {
+				z-index: 4;
+				background: material-color('green', '700') !important;
+				color: #fff !important;
+				text-shadow: none;
+				cursor: none;
 			}
 		}
 		//fullcalendar toolbar breakpoint
