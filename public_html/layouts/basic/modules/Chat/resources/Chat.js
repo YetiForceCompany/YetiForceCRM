@@ -35,12 +35,6 @@ window.Chat_JS = class Chat_Js {
 			Chat_Js.instance[typeInstance].container = container;
 		}
 		return Chat_Js.instance[typeInstance];
-		/*if (typeof Chat_Js.instance === 'undefined') {
-			Chat_Js.instance = new Chat_Js(container);
-		} else {
-			Chat_Js.instance.container = container;
-		}
-		return Chat_Js.instance;*/
 	}
 
 	/**
@@ -96,6 +90,22 @@ window.Chat_JS = class Chat_Js {
 			position: 'html',
 			blockInfo: {enabled: true}
 		});
+	}
+
+	/**
+	 * Get current room type.
+	 * @returns {int}
+	 */
+	getCurrentRoomType() {
+		return this.messageContainer.data('currentRoomType');
+	}
+
+	/**
+	 * Get current record ID.
+	 * @returns {*}
+	 */
+	getCurrentRecordId() {
+		return this.messageContainer.data('currentRecordId');
 	}
 
 	/**
@@ -223,10 +233,10 @@ window.Chat_JS = class Chat_Js {
 	registerListenEvent() {
 		this.timerMessage = setTimeout(() => {
 			//this.getMessage(true);
-		}, this.container.data('messageTimer'));
+		}, this.messageContainer.data('messageTimer'));
 		this.timerRoom = setTimeout(() => {
 			this.getRoomsDetail(true);
-		}, this.container.data('roomTimer'));
+		}, this.messageContainer.data('roomTimer'));
 	}
 
 	/**
@@ -237,11 +247,40 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Register create room.
+	 */
+	registerCreateRoom() {
+		let btnCreate = this.container.find('.js-create-chatroom');
+		if (btnCreate.length) {
+			btnCreate.off('click').on('click', (e) => {
+				console.log('Create ROOM');
+				//const currentRoom = this.messageContainer.data('currentRoom');
+				console.log('1 ' + this.messageContainer.data('currentRoomType'));
+				console.log('2 ' + this.messageContainer.data('currentRecordId'));
+				return;
+				this.request({
+					action: 'Room',
+					mode: 'create',
+					roomType: currentRoom.roomType,
+					recordId: currentRoom.recordId,
+				}).done((data) => {
+					console.log('Create room: ' + JSON.stringify(data));
+					//this.selectRoom(roomType, recordId);
+					//this.buildParticipants(data.find('.js-participants-data'), true);
+					//this.lastMessageId = data.find('.js-chat-item:last').data('cid');
+					//this.messageContainer.html(data);
+				});
+			});
+		}
+	}
+
+	/**
 	 * Register base events
 	 */
 	registerBaseEvents() {
 		this.registerSendEvent();
-		//this.registerListenEvent();
+		this.registerListenEvent();
+		this.registerCreateRoom();
 	}
 
 	/**
