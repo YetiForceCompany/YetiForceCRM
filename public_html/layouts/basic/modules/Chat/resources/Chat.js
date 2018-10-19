@@ -183,6 +183,7 @@ window.Chat_JS = class Chat_Js {
 			if (reload) {
 				this.container.find('.js-participants-list').html('');
 			}
+
 		}
 	}
 
@@ -223,7 +224,7 @@ window.Chat_JS = class Chat_Js {
 			}).done((data) => {
 				this.selectRoom(roomType, recordId);
 				//this.buildParticipants(data.find('.js-participants-data'), true);
-				//this.lastMessageId = data.find('.js-chat-item:last').data('cid');
+				//this.lastMessageId = data.find('.js-chat-item:last').data('mid');
 				this.messageContainer.html(data);
 			});
 		});
@@ -253,16 +254,11 @@ window.Chat_JS = class Chat_Js {
 		let btnCreate = this.container.find('.js-create-chatroom');
 		if (btnCreate.length) {
 			btnCreate.off('click').on('click', (e) => {
-				console.log('Create ROOM');
-				//const currentRoom = this.messageContainer.data('currentRoom');
-				console.log('1 ' + this.messageContainer.data('currentRoomType'));
-				console.log('2 ' + this.messageContainer.data('currentRecordId'));
-				return;
 				this.request({
 					action: 'Room',
 					mode: 'create',
-					roomType: currentRoom.roomType,
-					recordId: currentRoom.recordId,
+					roomType: this.getCurrentRoomType(),
+					recordId: this.getCurrentRecordId(),
 				}).done((data) => {
 					console.log('Create room: ' + JSON.stringify(data));
 					//this.selectRoom(roomType, recordId);

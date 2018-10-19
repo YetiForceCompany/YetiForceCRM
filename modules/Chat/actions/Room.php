@@ -21,6 +21,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getAll');
+		$this->exposeMethod('create');
 	}
 
 	/**
@@ -45,6 +46,23 @@ class Chat_Room_Action extends \App\Controller\Action
 	 */
 	public function getAll(\App\Request $request)
 	{
+		$response = new Vtiger_Response();
+		$response->setResult([
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Create new room.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function create(\App\Request $request)
+	{
+		$roomType = $request->getByType('roomType');
+		$recordId = $request->getInteger('recordId');
+		\App\Chat::createRoom($roomType, $recordId);
+
 		$response = new Vtiger_Response();
 		$response->setResult([
 		]);

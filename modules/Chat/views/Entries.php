@@ -22,7 +22,6 @@ class Chat_Entries_View extends \App\Controller\View
 		parent::__construct();
 		$this->exposeMethod('send');
 		$this->exposeMethod('get');
-		$this->exposeMethod('showChat');
 	}
 
 	/**
@@ -96,10 +95,10 @@ class Chat_Entries_View extends \App\Controller\View
 	 *
 	 * @return \html
 	 */
-	public function showChat(\App\Request $request)
+	public function getForRecord(\App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		if (!\App\Privilege::isPermitted('Chat') || !$recordModel->isViewable()) {
+		if (!$recordModel->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$chat = \App\Chat::getInstance('crm', $recordModel->getId());

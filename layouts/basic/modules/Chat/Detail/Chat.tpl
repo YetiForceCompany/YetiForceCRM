@@ -8,21 +8,7 @@
 		</button>
 	</div>
 	<div class="{if !$CHAT->isRoomExists()}hide {/if} js-container-chat">
-		<div class="row">
-			<input type="text" class="form-control message js-chat-message"{' '} autocomplete="off"{' '}
-				   placeholder="{\App\Language::translate('LBL_SEARCH')}" data-js="keydown"/>
-		</div>
-		<div class="d-flex flex-column" style="min-height: calc(100vh - 260px);">
-			<div class="row d-flex flex-grow-1">
-				<div class="col-10 js-chat_content"
-					 data-current-room="{\App\Purifier::encodeHtml(\App\Json::encode($CURRENT_ROOM))}"
-					 data-js="append">{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}</div>
-				<div class="col-2 bg-color-grey-50 h-100 js-users">USERS</div>
-			</div>
-		</div>
-		<div class="row">
-			{include file=\App\Layout::getTemplatePath('ChatInput.tpl', 'Chat')}
-		</div>
+		{include file=\App\Layout::getTemplatePath('Chat.tpl', 'Chat')}
 	</div>
 	<!-- /tpl-Chat-Detail-Chat -->
 {/strip}
