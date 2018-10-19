@@ -29,8 +29,8 @@
 							</button>
 						</div>
 					</div>
-					<div class="modal-body row no-gutters m-0 pt-2">
-						<div class="col-8">
+					<div class="modal-body row no-gutters m-0 pt-0">
+						<div class="col-8 pt-2">
 							<input type="hidden" id="hiddenDays"
 								   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 							<input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}"/>

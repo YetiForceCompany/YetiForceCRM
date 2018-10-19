@@ -17,7 +17,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$module = $this->getModule();
 		$query = (new App\Db\Query())->select(['login_id', 'user_name', 'user_ip', 'logout_time',
 				'login_time', 'vtiger_loginhistory.status', ])
-			->from($module->baseTable);
+				->from($module->baseTable);
 		$search_key = $this->get('search_key');
 		$value = $this->get('search_value');
 		if (!empty($search_key) && !empty($value) && in_array($search_key, array_keys($module->listFields))) {

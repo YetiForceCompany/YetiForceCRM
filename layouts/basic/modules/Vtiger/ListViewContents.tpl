@@ -46,18 +46,23 @@
 					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}"/>
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}columnSorted{/if}" {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if}>
-						<a href="javascript:void(0);" class="listViewHeaderValues float-left js-listview_header" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->getColumnName()}">
+					{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
+						{assign var=LISTVIEW_HEADER_NAME value="`$LISTVIEW_HEADER->getName()`:`$LISTVIEW_HEADER->getModuleName()`:`$LISTVIEW_HEADER->get('source_field_name')`"}
+					{else}
+						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+					{/if}
+					<th class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}columnSorted{/if}" {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if}>
+						<a href="javascript:void(0);" class="listViewHeaderValues float-left js-listview_header" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER_NAME}">
 							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
 								{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;
 							{/if}
 							{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $LISTVIEW_HEADER->getModuleName())}
-							&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}
+							&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}
 							<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 							<div class="d-flex align-items-center">
-								<input class="searchInSubcategories mr-1" type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+								<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mr-1" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
 								<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 									  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 										<span class="fas fa-info-circle"></span>
@@ -83,17 +88,19 @@
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<td class="pl-1">
-							{if empty($LISTVIEW_HEADER->get('source_field_name'))}
-								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
+								{assign var=LISTVIEW_HEADER_NAME value="`$LISTVIEW_HEADER->getName()`:`$LISTVIEW_HEADER->getModuleName()`:`$LISTVIEW_HEADER->get('source_field_name')`"}
+							{else}
 								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
-									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
-								{else}
-									{assign var=SEARCH_INFO value=[]}
-								{/if}
-								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
-							FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							{/if}
+							{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+							{else}
+								{assign var=SEARCH_INFO value=[]}
+							{/if}
+							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
+							FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 					<td class="reducePadding"></td>
@@ -109,7 +116,7 @@
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
-							{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
+							{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
 								<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 								</a>

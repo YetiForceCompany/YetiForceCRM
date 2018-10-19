@@ -18,11 +18,13 @@
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
 	<div class="tpl-Base-List-Field-PickList picklistSearchField">
-		<select name="{$FIELD_MODEL->getName()}"
-				class="select2 listSearchContributor form-control"
-				multiple="multiple"
+		<select class="select2 listSearchContributor form-control" name="{$FIELD_MODEL->getName()}" multiple="multiple"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"
-				data-fieldinfo='{$FIELD_INFO|escape}'>
+				data-fieldinfo='{$FIELD_INFO|escape}'
+				{if !empty($FIELD_MODEL->get('source_field_name'))}
+			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+			data-module-name="{$FIELD_MODEL->getModuleName()}"
+				{/if}>
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 			</optgroup>

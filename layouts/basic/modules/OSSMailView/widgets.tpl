@@ -19,13 +19,29 @@
 										  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
 									</span>
 								</button>
-								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation') && \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
-									<button type="button" class="btn btn-sm btn-danger relationDelete"
-											data-id="{$ROW['id']}">
-										<span class="fas fa-trash-alt"
-											  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}">
-										</span>
-									</button>
+								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
+									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
+										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
+										'linklabel' => 'LBL_REMOVE_RELATION',
+										'linkicon' => 'fas fa-unlink',
+										'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+										'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+									'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
+									]
+									])}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
+									{/if}
+									{if  \App\Privilege::isPermitted($MODULE_NAME, 'Delete', $ROW['id'])}
+										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
+										'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+										'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+										'linkicon' => 'fas fa-eraser',
+										'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
+										'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+									'linkclass' => 'btn-sm btn-black relationDelete entityStateBtn'
+									])}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
+									{/if}
 								{/if}
 							</div>
 						</div>

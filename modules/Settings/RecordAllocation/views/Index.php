@@ -4,8 +4,8 @@
  * Record allocation.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 {
@@ -71,29 +71,19 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+		]));
 	}
 }

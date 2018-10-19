@@ -4,7 +4,7 @@
  * Settings SalesProcesses module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_SalesProcesses_Module_Model extends \App\Base
 {
@@ -15,9 +15,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	 */
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/**

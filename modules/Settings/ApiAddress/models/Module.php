@@ -37,7 +37,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 					->update('s_yf_address_finder_config', [
 						'val' => $value,
 						], ['type' => $apiName, 'name' => $key])
-					->execute();
+						->execute();
 			}
 			$result = true;
 		}

@@ -9,12 +9,12 @@
 			</h6>
 			{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('ActivityStateContent.tpl', $MODULE_NAME)}
-			<div class="formActionsPanel d-none d-md-block">
-				<div class="float-left">
+			<div class="o-calendar__form__actions">
+				<div class="d-flex flex-wrap">
 					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
 						{if $USER_MODEL->get('internal_mailer') == 1}
 							{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-							<a target="_blank" class="btn btn-sm mt-1 btn-default mr-1" role="button"
+							<a target="_blank" class="btn mt-1 btn-default mr-1" role="button"
 							   href="{$COMPOSE_URL}"
 							   title="{\App\Language::translate('LBL_SEND_EMAIL')}">
 								<span class="fas fa-envelope"></span>
@@ -22,7 +22,7 @@
 						{else}
 							{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 							{if $URLDATA && $URLDATA != 'mailto:?'}
-								<a class="btn btn-sm mt-1 btn-default mr-1" role="button" href="{$URLDATA}"
+								<a class="btn mt-1 btn-default mr-1" role="button" href="{$URLDATA}"
 								   title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 									<span class="fas fa-envelope"></span>
 								</a>
@@ -31,25 +31,25 @@
 					{/if}
 					{if $RECORD->isEditable()}
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
-						   class="editRecord btn btn-sm mt-1 btn-default mr-1"
+						   class="editRecord btn mt-1 btn-default mr-1"
 						   title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 							<span class="fas fa-edit summaryViewEdit"></span>
 							<span class="ml-1">{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}</span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}
-						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-sm mt-1 btn-default mr-1"
+						<a href="{$RECORD->getDetailViewUrl()}" class="btn mt-1 btn-default mr-1"
 						   title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}">
 							<span class="fas fa-list summaryViewEdit"></span>
 							<span class="ml-1">{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}</span>
 						</a>
 					{/if}
+					<a href="#" class="btn mt-1 btn-danger js-summary-close-edit ml-auto"
+					   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
+						<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"></span>
+						<span class="ml-1 d-none{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL} d-xl-inline{else} d-xxl-inline{/if}">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</span>
+					</a>
 				</div>
-				<a href="#" class="btn btn-sm mt-1 btn-danger js-summary-close-edit float-right"
-				   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
-					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"></span>
-					<span class="ml-1 d-none d-xxl-inline">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</span>
-				</a>
 			</div>
 		</div>
 	</div>

@@ -126,10 +126,8 @@ class Import_Data_Action extends \App\Controller\Action
 			return \App\Cache::staticGet('DefaultMandatoryFieldValues', $key);
 		}
 		$defaultMandatoryValues = [];
-		if (!empty($this->defaultValues)) {
-			if (!is_array($this->defaultValues)) {
-				$this->defaultValues = \App\Json::decode($this->defaultValues);
-			}
+		if (!empty($this->defaultValues) && !is_array($this->defaultValues)) {
+			$this->defaultValues = \App\Json::decode($this->defaultValues);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
@@ -632,13 +630,11 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
-			if (\App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
-				try {
-					$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
-				} catch (Exception $e) {
-					$entityId = false;
-				}
+		if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
+			try {
+				$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
+			} catch (Exception $e) {
+				$entityId = false;
 			}
 		}
 		return $entityId;

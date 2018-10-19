@@ -72,10 +72,8 @@ class WebservicesConvertLead
 				$entityObjectValues = static::vtwsPopulateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
 
 				//update the contacts relation
-				if ($entityvalue['name'] == 'Contacts') {
-					if (!empty($entityIds['Accounts'])) {
-						$entityObjectValues['parent_id'] = $entityIds['Accounts'];
-					}
+				if ($entityvalue['name'] == 'Contacts' && !empty($entityIds['Accounts'])) {
+					$entityObjectValues['parent_id'] = $entityIds['Accounts'];
 				}
 
 				try {

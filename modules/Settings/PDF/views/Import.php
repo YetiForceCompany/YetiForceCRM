@@ -73,14 +73,8 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-		$cssFileNames = [
-			"modules.Settings.$moduleName.Edit",
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-
-		return $headerCssInstances;
+		return array_merge($this->checkAndConvertCssStyles([
+			'modules.Settings.' . $request->getModule() . '.Edit',
+		]), parent::getHeaderCss($request));
 	}
 }
