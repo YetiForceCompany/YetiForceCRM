@@ -42,7 +42,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			browserHistoryConfig: self.browserHistoryConfig,
 			readonly: self.readonly,
 			container: self.container,
-			showChangeDateButtons: self.showChangeDateButtons
+			showChangeDateButtons: self.showChangeDateButtons,
+			showTodayButtonCheckbox: self.showTodayButtonCheckbox
 		});
 	}
 
@@ -245,10 +246,31 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	registerViewRenderEvents(view) {
 		this.calendarContainer = this.getCalendarView();
 		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar');
+		this.showTodayButtonCheckbox(toolbar);
 		this.showChangeDateButtons(view, toolbar);
 		this.appendSubDateRow(toolbar);
 		this.refreshDatesRowView(view);
 		this.addHeaderButtons();
+	}
+
+	/**
+	 * Function appends and shows today button's checkbox
+	 * @param toolbar
+	 */
+	showTodayButtonCheckbox(toolbar) {
+		let todayButton = toolbar.find('.fc-today-button');
+		if (!todayButton.find('[data-fa-i2svg]').length) {
+			if (todayButton.hasClass('fc-state-disabled')) {
+				todayButton.append(`<span class="ml-1 far fa-check-square"></span>`)
+			} else {
+				todayButton.append(`<span class="ml-1 far fa-square"></span>`)
+			}
+		}
+		if (todayButton.hasClass('fc-state-disabled')) {
+			todayButton.find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square')
+		} else {
+			todayButton.find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square')
+		}
 	}
 
 	/**
