@@ -4,8 +4,8 @@
  * View to display row with fields, operators and value.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 {
@@ -15,7 +15,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModuleModel =  Vtiger_Module_Model::getInstance($moduleName);
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureModulesField = [];
 		foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
 			foreach ($referenceField->getReferenceList() as $relatedModuleName) {
@@ -34,8 +34,8 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 			}
 		}
 		$operators = $fieldModel->getOperators();
-		if ($request->isEmpty('operator')) {
-			$selectedOperator = reset($operators);
+		if ($request->isEmpty('operator', true)) {
+			$selectedOperator = key($operators);
 		} else {
 			$selectedOperator = $request->getByType('operator', 'Standard');
 		}
