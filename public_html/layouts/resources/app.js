@@ -208,9 +208,9 @@ var App = {},
 					app.registerPopoverManualTrigger(element);
 				}
 				if (elementParams.callbackShown) {
-					element.on('shown.bs.popover', function () {
-						elementParams.callbackShown();
-					})
+					element.on('shown.bs.popover', function (e) {
+						elementParams.callbackShown(e);
+					});
 				}
 			});
 			return selectElement;
@@ -220,13 +220,14 @@ var App = {},
 		 * @param {jQuery} selectElement
 		 */
 		registerPopoverLink: function (selectElement = $('a.js-popover-link')) {
-			let params = {template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>'};
-			selectElement.hoverIntent({
-				interval: 100,
-				sensitivity: 7,
-				timeout: 10,
-				over: function () {
-					let element = $(this);
+			let params = {
+				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
+				content: '<div class="d-none"></div>',
+				callbackShown: function (e) {
+					let element = $(e.currentTarget);
+					let popoverId = element.attr('aria-describedby');
+					let popoverBoddy = $(`#${popoverId} .popover-body`);
+					popoverBoddy.progressIndicator({});
 					if (!element.attr('href')) {
 						return false;
 					}
@@ -236,17 +237,22 @@ var App = {},
 					}
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
-					let cacheData = $('[data-url-cached="' + url + '"]');
+					let cacheData = $('[data-url-cached="' + url + '"] .tpl-Base-RecordPopover');
 					if (cacheData.length) {
-						app.showPopoverElementView(element, Object.assign({content: cacheData}, params));
+						popoverBoddy
+							.progressIndicator({mode: 'hide'})
+							.html(cacheData.clone());
 					} else {
 						AppConnector.request(url).done((data) => {
 							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
-							app.showPopoverElementView(element, Object.assign({content: data}, params));
+							popoverBoddy
+								.progressIndicator({mode: 'hide'})
+								.html(data);
 						});
 					}
 				}
-			});
+			};
+			app.showPopoverElementView(selectElement, params);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
