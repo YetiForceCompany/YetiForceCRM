@@ -216,11 +216,42 @@ var App = {},
 			return selectElement;
 		},
 		/**
+		 * Register popover links
+		 * @param {jQuery} selectElement
+		 */
+		registerPopoverLink: function (selectElement = $('a.js-popover-link')) {
+			selectElement.hoverIntent({
+				interval: 100,
+				sensitivity: 7,
+				timeout: 10,
+				over: function () {
+					let element = $(this);
+					if (!element.attr('href')) {
+						return false;
+					}
+					let link = new URL(element.get(0).href);
+					if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
+						return false;
+					}
+					let url = link.href;
+					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
+					let cacheData = $('[data-url-cached="' + url + '"]');
+					if (cacheData.length) {
+						app.showPopoverElementView(element, {content: cacheData})
+					} else {
+						AppConnector.request(url).done((data) => {
+							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
+							app.showPopoverElementView(element, {content: data})
+						});
+					}
+				}
+			});
+		},
+		/**
 		 * Function to check the maximum selection size of multiselect and update the results
 		 * @params <object> multiSelectElement
 		 * @params <object> select2 params
 		 */
-
 		registerChangeEventForMultiSelect: function (selectElement, params) {
 			if (typeof selectElement === "undefined") {
 				return;
@@ -1649,6 +1680,7 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	app.registerPopoverLink();
 	$('.js-scrollbar').each(function () {
 		app.showNewScrollbar($(this));
 	});
