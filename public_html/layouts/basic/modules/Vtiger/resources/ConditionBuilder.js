@@ -191,7 +191,7 @@ class Vtiger_ConditionBuilder_Js {
 				rules.push({
 					'fieldname': $(this).find('.js-conditions-fields').val(),
 					'operator': $(this).find('.js-conditions-operator').val(),
-					'value': $(this).find('.listSearchContributor').val(),
+					'value': $(this).find('.js-condition-builder-value').val(),
 				});
 			} else if ($(this).hasClass('js-condition-builder-group-container')) {
 				rules.push(self.readCondition($(this)));

@@ -453,21 +453,9 @@ class CustomView_Record_Model extends \App\Base
 		$operator = $rule['operator'];
 		$value = '';
 		if (!in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES)) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName));
-			$fieldType = $fieldModel->getFieldDataType();
-			$value = $rule['value'];
-			if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
-				$tempVal = explode(',', $value);
-				$values = [];
-				foreach ($tempVal as $val) {
-					$fieldModel->getUITypeModel()->validate($val, true);
-					$values[] = $fieldModel->getUITypeModel()->getDBValue($val);
-				}
-				$value = implode(',', $values);
-			} else {
-				$fieldModel->getUITypeModel()->validate($value, true);
-				$value = $fieldModel->getUITypeModel()->getDBValue($value);
-			}
+			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
+				->getUITypeModel()
+				->getDbConditionBuilderValue($rule['value'], $operator);
 		}
 		\App\Db::getInstance()->createCommand()->insert('u_#__cv_condition', [
 			'group_id' => $parentId,
