@@ -54,7 +54,6 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 		$dbStartDate = $dbStartDateOject->format('Y-m-d');
 		$dbEndDate = $dbEndDateObject->format('Y-m-d');
-
 		$db = App\Db::getInstance();
 		$startTime = $dbStartDateOject->format('H:i:s');
 		$dataReader = (new \App\Db\Query())->select(['date_start', 'time_start', 'time_end'])
@@ -77,15 +76,20 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 						['>', 'due_date', $dbEndDate],
 					],
 				],
+				['and',
+					['!=', 'status', 'PLL_POSTPONED']
+				],
 			])->orderBy(['time_start' => SORT_ASC])
-				->createCommand()->query();
+			->createCommand()->query();
+		if (\App\Fields\Date::getDiff($dbStartDateTime, $dbEndDateTime, 'minutes') <= $durationEvent || strtotime($dbEndDateTime) < strtotime($dbStartDateTime)) {
+			return [];
+		}
 		while ($row = $dataReader->read()) {
-			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent) {
+			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) < strtotime($startTime) && strtotime($endWorkHour) > strtotime($startTime)) {
 				$date = new DateTime($row['date_start'] . ' ' . $startTime);
 				$startTime = new DateTimeField($startTime);
 				$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
 				$endHour = new DateTimeField(date_format($date, 'H:i:s'));
-
 				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
 			} else {
 				$startTime = $row['time_end'];
@@ -93,10 +97,8 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		}
 		$dataReader->close();
 		$date = new DateTime($day . ' ' . $startTime);
-		$startTime = new DateTimeField($startTime);
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
-		$dbEndWorkHour = $dbEndDateObject->format('H:i:s');
-		if (\App\Fields\Date::getDiff(date_format($date, 'H:i:s'), $dbEndWorkHour, 'minutes') <= 0) {
+		if (0 === \App\Fields\Date::getDiff(date_format($date, 'H:i:s'), $endWorkHour, 'minutes') || strtotime(date_format($date, 'H:i:s')) > strtotime($endWorkHour) || strtotime(date_format($date, 'H:i:s')) < strtotime($startWorkHour)) {
 			$date->add(new DateInterval('P1D'));
 			while (in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
@@ -104,7 +106,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'), $activityType);
 		} else {
 			$endHour = new DateTimeField(date_format($date, 'H:i:s'));
-
+			$startTime = new DateTimeField($startTime);
 			return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
 		}
 	}
