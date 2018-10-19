@@ -13,7 +13,10 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			} else {
 				if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended') {
 					let calendarInstance = new Calendar_CalendarExtended_Js;
-					calendarInstance.getCalendarEditView(currentTarget.data('id'), {
+					calendarInstance.getCalendarSidebarData({
+						module: 'Calendar',
+						view: 'EventForm',
+						record: currentTarget.data('id'),
 						isDuplicate: true,
 						addRelation: true,
 						sourceModule: 'Calendar',
