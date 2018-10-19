@@ -95,7 +95,14 @@ class Chat
 	public static function getCurrentRoom()
 	{
 		if (!isset($_SESSION['chat'])) {
-			return false;
+			$row = (new Db\Query())->from('u_#__chat_global')->where(['name' => 'LBL_GENERAL'])->one();
+			if ($row === false) {
+				return false;
+			}
+			return [
+				'roomType' => 'global',
+				'recordId' => $row[static::COLUMN_NAME['recordRoom']['global']]
+			];
 		}
 		return $_SESSION['chat'];
 	}

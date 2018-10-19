@@ -109,6 +109,22 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Get message timer.
+	 * @returns {int}
+	 */
+	getMessageTimer() {
+		return this.messageContainer.data('messageTimer');
+	}
+
+	/**
+	 * Get room timer.
+	 * @returns {int}
+	 */
+	getRoomTimer() {
+		return this.messageContainer.data('roomTimer');
+	}
+
+	/**
 	 * Select room.
 	 * @param {string} roomType
 	 * @param {int} recordId
@@ -140,7 +156,7 @@ window.Chat_JS = class Chat_Js {
 			if (timer) {
 				this.timerMessage = setTimeout(() => {
 					this.getMessage(true);
-				}, this.container.data('messageTimer'));
+				}, this.getMessageTimer());
 			}
 		});
 	}
@@ -158,7 +174,7 @@ window.Chat_JS = class Chat_Js {
 			if (timer) {
 				this.timerRoom = setTimeout(() => {
 					this.getRoomsDetail(true);
-				}, this.container.data('roomTimer'));
+				}, this.getRoomTimer());
 			}
 		});
 	}
@@ -230,10 +246,10 @@ window.Chat_JS = class Chat_Js {
 	registerListenEvent() {
 		this.timerMessage = setTimeout(() => {
 			//this.getMessage(true);
-		}, this.messageContainer.data('messageTimer'));
+		}, this.getMessageTimer());
 		this.timerRoom = setTimeout(() => {
 			this.getRoomsDetail(true);
-		}, this.messageContainer.data('roomTimer'));
+		}, this.getRoomTimer());
 	}
 
 	/**

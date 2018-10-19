@@ -59,10 +59,11 @@ class Chat_Room_Action extends \App\Controller\Action
 	 */
 	public function create(\App\Request $request)
 	{
-		$roomType = $request->getByType('roomType');
-		$recordId = $request->getInteger('recordId');
-		\App\Chat::createRoom($roomType, $recordId);
-
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('recordId'));
+		if (!$recordModel->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		\App\Chat::createRoom($request->getByType('roomType'), $recordModel->getId());
 		$response = new Vtiger_Response();
 		$response->setResult([
 		]);
