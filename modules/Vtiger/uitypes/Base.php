@@ -39,8 +39,10 @@ class Vtiger_Base_UIType extends \App\Base
 
 	/**
 	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 *
 	 * @param mixed  $value
 	 * @param string $operator
+	 *
 	 * @return string
 	 */
 	public function getDbConditionBuilderValue($value, string $operator)
@@ -136,11 +138,11 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Function to get the display value, for the current field type with given DB Insert Value.
 	 *
-	 * @param mixed                    $value   Field value
-	 * @param int|bool                 $record  Record Id
+	 * @param mixed                    $value       Field value
+	 * @param int|bool                 $record      Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
-	 * @param bool                     $rawText Return text or html
-	 * @param int|bool                 $length  Length of the text
+	 * @param bool                     $rawText     Return text or html
+	 * @param int|bool                 $length      Length of the text
 	 *
 	 * @return mixed
 	 */
@@ -168,10 +170,10 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Function to get the list value in display view.
 	 *
-	 * @param mixed                    $value   Field value
-	 * @param int                      $record  |bool Record Id
+	 * @param mixed                    $value       Field value
+	 * @param int                      $record      |bool Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
-	 * @param bool                     $rawText Return text or html
+	 * @param bool                     $rawText     Return text or html
 	 *
 	 * @return mixed
 	 */
@@ -183,10 +185,10 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Function to get the related list value in display view.
 	 *
-	 * @param mixed                    $value   Field value
-	 * @param int                      $record  |bool Record Id
+	 * @param mixed                    $value       Field value
+	 * @param int                      $record      |bool Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
-	 * @param bool                     $rawText Return text or html
+	 * @param bool                     $rawText     Return text or html
 	 *
 	 * @return mixed
 	 */
