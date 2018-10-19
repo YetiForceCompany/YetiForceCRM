@@ -3,7 +3,7 @@
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=FIELD_VALUES value=explode(',', $VALUE)}
 	<div class="tpl-ConditionBuilder-PickList">
-		<select class="select2 form-control js-condition-builder-value"
+		<select class="js-picklist-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				multiple="multiple"
 		<optgroup class="p-0">

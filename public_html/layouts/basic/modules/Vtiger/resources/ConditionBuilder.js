@@ -11,111 +11,54 @@ class Vtiger_ConditionBuilder_Js {
 		this.container = container;
 	}
 
+
 	/**
-	 * Register events when change operator
+	 * Register events when change conditions
 	 * @param {jQuery} container
 	 */
-	registerChangeOperators(container) {
+	registerChangeConditions(container) {
 		let self = this;
-
-		container.find('.js-conditions-operator').on('change', function (e) {
+		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function (e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			AppConnector.request({
-				module: app.getModuleName(),
-				view: 'ConditionBuilder',
-				fieldname: container.find('.js-conditions-fields').val(),
-				operator: $(e.currentTarget).val(),
-			}).done(function (data) {
-				progress.progressIndicator({mode: 'hide'});
-				container.html($(data).html());
-				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
-				self.registerChangeFields(container);
-				self.registerChangeOperators(container);
-				self.registerDateFields();
-				self.registerDateFieldsRange();
-			});
-		});
-	}
-
-	/**
-	 * Register event when the date field is selected
-	 */
-	registerDateFields() {
-		let element = this.container.find('.js-condition-builder-conditions-row .js-date-field');
-		if (element.length) {
-			App.Fields.Date.register(element);
-		}
-	}
-
-	/**
-	 * Register event when the date range field is selected
-	 */
-	registerDateFieldsRange() {
-		let element = this.container.find('.js-condition-builder-conditions-row .js-date-range-field');
-		if (element.length) {
-			App.Fields.Date.registerRange(element, {ranges: false});
-			if (element.val().indexOf(',') !== -1) {
-				let valueArray = this.getValue().split(','),
-					startDateTime = valueArray[0],
-					endDateTime = valueArray[1];
-				if (startDateTime.indexOf(' ') !== -1) {
-					let dateTime = startDateTime.split(' ');
-					startDateTime = dateTime[0];
+			let requestParams = {};
+			if ($(e.currentTarget).hasClass('js-conditions-fields')) {
+				requestParams = {
+					module: app.getModuleName(),
+					view: 'ConditionBuilder',
+					fieldname: $(e.currentTarget).val()
 				}
-				if (endDateTime.indexOf(' ') !== -1) {
-					let dateTimeValue = endDateTime.split(' ');
-					endDateTime = dateTimeValue[0];
-				}
-				element.val(startDateTime + ',' + endDateTime);
+			} else {
+				requestParams = {
+					module: app.getModuleName(),
+					view: 'ConditionBuilder',
+					fieldname: container.find('.js-conditions-fields').val(),
+					operator: $(e.currentTarget).val(),
+				};
 			}
-		}
-	}
-
-	registerTimeFields() {
-		this.container.find('.clockPicker').each(function () {
-			app.registerEventForClockPicker($(this));
-		});
-	}
-
-	registerDateTimeFields() {
-		App.Fields.DateTime.register(this.container);
-	}
-
-
-	/**
-	 * Register events when change field
-	 * @param {jQuery} container
-	 */
-	registerChangeFields(container) {
-		let self = this;
-		container.find('.js-conditions-fields').on('change', function (e) {
-			let progress = $.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					enabled: true
-				}
-			});
-			AppConnector.request({
-				module: app.getModuleName(),
-				view: 'ConditionBuilder',
-				fieldname: $(e.currentTarget).val()
-			}).done(function (data) {
+			AppConnector.request(requestParams).done(function (data) {
 				progress.progressIndicator({mode: 'hide'});
 				container.html($(data).html());
-				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
-				self.registerChangeFields(container);
-				self.registerChangeOperators(container);
-				self.registerDateFields();
-				self.registerDateFieldsRange();
-				self.registerTimeFields();
-				self.registerDateTimeFields();
+				self.registerChangeConditions(container);
+				self.registerField(container);
 			});
 		});
+	}
+
+	/**
+	 * register field types related events
+	 * @param container
+	 */
+	registerField(container) {
+		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
+		App.Fields.Date.register(container, true, {}, 'js-date-field');
+		App.Fields.Date.registerRange(container.find('.js-date-range-field'), {ranges: false});
+		App.Fields.DateTime.register(container, true, {}, 'js-date-time-field');
+		app.registerEventForClockPicker($(container.find('.clockPicker')));
 	}
 
 	/**
@@ -138,8 +81,7 @@ class Vtiger_ConditionBuilder_Js {
 				progress.progressIndicator({mode: 'hide'});
 				data = $(data);
 				App.Fields.Picklist.showSelect2ElementView(data.find('select.select2'));
-				self.registerChangeFields(data);
-				self.registerChangeOperators(data);
+				self.registerChangeConditions(data);
 				container.append(data);
 			});
 		});
@@ -218,12 +160,8 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
 		this.container.find('.js-condition-builder-conditions-row').each(function () {
-			self.registerChangeFields($(this));
-			self.registerChangeOperators($(this));
+			self.registerChangeConditions($(this));
+			self.registerField($(this));
 		})
-		self.registerDateFields();
-		self.registerDateFieldsRange();
-		self.registerTimeFields();
-		self.registerDateTimeFields();
 	}
 };
