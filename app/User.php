@@ -70,7 +70,7 @@ class User
 			return static::$currentUserCache;
 		}
 		if (!static::$currentUserId) {
-			static::$currentUserId = (int) \App\Session::get('authenticated_user_id');
+			static::$currentUserId = (int)\App\Session::get('authenticated_user_id');
 		}
 		return static::$currentUserCache = static::getUserModel(static::$currentUserId);
 	}
@@ -118,7 +118,7 @@ class User
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
-		$valueMap['is_admin'] = (bool) $is_admin;
+		$valueMap['is_admin'] = (bool)$is_admin;
 		$valueMap['user_info'] = $user_info;
 		$valueMap['_privileges'] = $privileges;
 		if (!$is_admin) {
@@ -410,23 +410,28 @@ class User
 	 *
 	 * @return string[]
 	 */
-	public static function getProfileImage($userId = false)
+	public static function getProfileImage($userId)
 	{
-		if (!$userId) {
-			$userModel = static::getCurrentUserModel();
-		} else {
-			$userModel = static::getUserModel($userId);
+		if (Cache::has('UserProfilePhoto', $userId)) {
+			return Cache::get('UserProfilePhoto', $userId);
 		}
+		$emptyImage = [
+			'name' => 'empty_image.png',
+			'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'storage' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . 'empty_image.png',
+			'url' => 'file.php?module=Users&action=EmptyImage'
+		];
+		$userModel = static::getUserModel($userId);
 		if (empty($userModel)) {
-			return [];
+			return $emptyImage;
 		}
 		$imageData = Json::decode($userModel->getDetail('imagename'));
 		$imageData = reset($imageData);
 		if (empty($imageData)) {
-			return [];
+			return $emptyImage;
 		}
 		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
 		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$userModel->getId()}&key={$imageData['key']}";
+		Cache::save('UserProfilePhoto', $userId, $imageData);
 		return $imageData;
 	}
 }
