@@ -410,16 +410,16 @@ class CustomView
 	 * Returns conditions for filter.
 	 *
 	 * @param int|string $id
-	 *                       array() [
-	 *                       'condition' => "AND" or "OR"
-	 *                       'rules' => [[
-	 *                       'fieldname' => name of fields
-	 *                       'operator' => operator, for instance: 'e'
-	 *                       'value' => values
-	 *                       ]]
-	 *                       ].
 	 *
 	 * @return array
+	 *               [
+	 *               'condition' => "AND" or "OR"
+	 *               'rules' => [[
+	 *               'fieldname' => name of fields
+	 *               'operator' => operator, for instance: 'e'
+	 *               'value' => values
+	 *               ]]
+	 *               ]
 	 */
 	public static function getConditions($id): array
 	{
@@ -480,8 +480,29 @@ class CustomView
 				$referenceGroup[$condition['group_id']] = &$conditions['rules'];
 			}
 		}
+		$conditions = static::sortConditions($conditions);
 		Cache::save('getConditionsForFilter', $id, $conditions, Cache::LONG);
 		return $conditions;
+	}
+
+	/**
+	 * Sorting conditions.
+	 *
+	 * @param array|null $array
+	 *
+	 * @return array|null
+	 */
+	private static function sortConditions(?array $arrayToSort): ?array
+	{
+		if (isset($arrayToSort['rules'])) {
+			ksort($arrayToSort['rules']);
+			foreach ($arrayToSort['rules'] as $rule) {
+				if (isset($rule['condition'])) {
+					static::sortConditions($rule);
+				}
+			}
+		}
+		return $arrayToSort;
 	}
 
 	/**
