@@ -10049,11 +10049,6 @@ hr {
   word-wrap: break-word;
   min-height: 400px; }
 
-.calendarPopover.popover {
-  max-width: 30%; }
-  .calendarPopover.popover label {
-    margin: 0; }
-
 .btn:focus {
   outline: 0; }
 
@@ -13008,6 +13003,20 @@ ul.tweets li {
 .c-img__user {
   width: auto;
   height: 2.5rem; }
+
+.c-popover--link {
+  max-width: 30%; }
+  .c-popover--link .popover-body {
+    padding: 0;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px); }
+  .c-popover--link label, .c-popover--link__label {
+    margin: 0; }
+  .c-popover--link.bs-popover-bottom .arrow::after, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::after, .c-popover--link.bs-popover-bottom .arrow::before, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::before {
+    border-bottom-color: #f8f9fa; }
+  .c-popover--link__header {
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
