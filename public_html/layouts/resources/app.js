@@ -219,7 +219,7 @@ var App = {},
 		 * Register popover links
 		 * @param {jQuery} selectElement
 		 */
-		registerPopoverLink: function (selectElement = $('a.js-popover-link')) {
+		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
@@ -237,17 +237,19 @@ var App = {},
 					}
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
-					let cacheData = $('[data-url-cached="' + url + '"] .tpl-Base-RecordPopover');
+					let cacheData = $('[data-url-cached="' + url + '"]').children();
 					if (cacheData.length) {
-						popoverBoddy
-							.progressIndicator({mode: 'hide'})
-							.html(cacheData.clone());
+						popoverBoddy.progressIndicator({mode: 'hide'}).html(cacheData.clone());
+						if (typeof customParams.callback === 'function') {
+							customParams.callback(popoverBoddy);
+						}
 					} else {
 						AppConnector.request(url).done((data) => {
 							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
-							popoverBoddy
-								.progressIndicator({mode: 'hide'})
-								.html(data);
+							popoverBoddy.progressIndicator({mode: 'hide'}).html(data);
+							if (typeof customParams.callback === 'function') {
+								customParams.callback(popoverBoddy);
+							}
 						});
 					}
 				}

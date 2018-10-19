@@ -31,7 +31,7 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$summaryFields = [];
 		foreach ($recordModel->getModule()->getFields() as $fieldName => &$fieldModel) {
 			if ($fieldModel->isSummaryField() && $fieldModel->isViewableInDetailView() && !$recordModel->isEmpty($fieldName)) {
