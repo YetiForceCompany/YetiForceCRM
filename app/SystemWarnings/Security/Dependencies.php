@@ -20,6 +20,7 @@ class Dependencies extends \App\SystemWarnings\Template
 	public function process()
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
+			$this->status = 1;
 			return;
 		}
 		$vulnerabilities = (new \SensioLabs\Security\SecurityChecker())->check(ROOT_DIRECTORY);
