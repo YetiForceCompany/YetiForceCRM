@@ -443,7 +443,7 @@ $sitebar-border: 1px solid #ccc;
 				background: material-color('green', '700') !important;
 				color: #fff !important;
 				text-shadow: none;
-				cursor: none;
+				cursor: unset;
 			}
 		}
 		//fullcalendar toolbar breakpoint
