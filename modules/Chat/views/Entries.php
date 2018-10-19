@@ -42,15 +42,16 @@ class Chat_Entries_View extends \App\Controller\View
 	 */
 	public function send(\App\Request $request)
 	{
-		$roomType = $request->getByType('roomType');
-		$roomId = $request->getInteger('roomId');
-		$chat = \App\Chat::getInstance($roomType, $roomId);
+		$mid = $request->getInteger('mid');
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('roomId'));
 		if (!$chat->isRoomExists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
-		echo $request->get('message');
-//		$viewer = $this->getViewer($request);
-//		$viewer->view('Modal.tpl', $request->getModule());
+		$chat->addMessage($request->get('message'));
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($mid));
+		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		echo $viewer->view('Entries.tpl', $request->getModule(), true);
 	}
 
 	/**

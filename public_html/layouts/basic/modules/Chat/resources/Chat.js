@@ -64,10 +64,14 @@ window.Chat_JS = class Chat_Js {
 		if (inputMessage.val() === '') {
 			return;
 		}
+		const currentRoom = this.messageContainer.data('currentRoom');
 		this.request({
 			view: 'Entries',
 			mode: 'send',
-			message: inputMessage.val()
+			roomId: currentRoom.roomId,
+			roomType: currentRoom.roomType,
+			message: inputMessage.val(),
+			mid: this.messageContainer.children().last().data('mid')
 		}).done((data) => {
 			this.messageContainer.append(data);
 		});
@@ -178,8 +182,8 @@ window.Chat_JS = class Chat_Js {
 				roomType: element.closest('.js-room-type').data('roomType')
 			}).done((data) => {
 				element.addClass('active');
-				this.buildParticipants(data.find('.js-participants-data'), true);
-				this.lastMessageId = data.find('.js-chat-item:last').data('cid');
+				//this.buildParticipants(data.find('.js-participants-data'), true);
+				//this.lastMessageId = data.find('.js-chat-item:last').data('cid');
 				this.messageContainer.html(data);
 			});
 		});

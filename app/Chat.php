@@ -17,6 +17,16 @@ namespace App;
 class Chat
 {
 	/**
+	 * Information about the structure of the database.
+	 */
+	const DB_INFO = [
+		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global'],
+		'record' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
+		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global'],
+		'recordRoom' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
+	];
+
+	/**
 	 * Type of chat room.
 	 *
 	 * @var string
@@ -40,7 +50,7 @@ class Chat
 	/**
 	 * @var []
 	 */
-	private $room;
+	private $room = false;
 
 	/**
 	 * User ID.
@@ -55,13 +65,6 @@ class Chat
 	 * @var int|null
 	 */
 	private $lastMessageId;
-
-	/**
-	 * Specifies whether the user is assigned to a room.
-	 *
-	 * @var bool
-	 */
-	private $isAssigned = false;
 
 	/**
 	 * Set current room ID, type.
@@ -103,15 +106,23 @@ class Chat
 	/**
 	 * Get instance \App\Chat.
 	 *
-	 * @param string $roomType
-	 * @param int    $roomId
+	 * @param null|string $roomType
+	 * @param int|null    $roomId
+	 *
+	 * @throws \App\Exceptions\IllegalValue
 	 *
 	 * @return \App\Chat
 	 */
-	public static function getInstance(string $roomType, int $roomId): \App\Chat
+	public static function getInstance(?string $roomType = null, ?int $roomId = null): \App\Chat
 	{
-		$instance = new self($roomType, $roomId);
-		return $instance;
+		if (empty($roomType) || empty($roomId)) {
+			$currentRoom = static::getCurrentRoom();
+			if ($currentRoom !== false) {
+				$roomType = $currentRoom['roomType'];
+				$roomId = $currentRoom['roomId'];
+			}
+		}
+		return new self($roomType, $roomId);
 	}
 
 	/**
@@ -188,18 +199,40 @@ class Chat
 	/**
 	 * Chat constructor.
 	 *
-	 * @param string $roomType
-	 * @param int    $roomId
+	 * @param null|string $roomType
+	 * @param int|null    $roomId
+	 *
+	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function __construct(string $roomType, int $roomId)
+	public function __construct(?string $roomType, ?int $roomId)
 	{
+		$this->userId = User::getCurrentUserId();
+		if (empty($roomType) || empty($roomId)) {
+			return;
+		}
 		$this->roomType = $roomType;
 		$this->roomId = $roomId;
 		$this->room = $this->getQueryRoom()->one();
 		if ($this->isRoomExists() && isset($this->room['record_id'])) {
 			$this->recordId = $this->room['record_id'];
 		}
-		$this->userId = User::getCurrentUserId();
+	}
+
+	/**
+	 * Get table or column for chat.
+	 *
+	 * @param string $dbType
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	private function getDbInfo(string $dbType): string
+	{
+		if (!isset(static::DB_INFO[$dbType][$this->roomType])) {
+			throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$dbType}||{$this->roomType}", 406);
+		}
+		return static::DB_INFO[$dbType][$this->roomType];
 	}
 
 	/**
@@ -224,12 +257,6 @@ class Chat
 	public function addMessage(string $message): int
 	{
 		$this->insertMessage($message);
-		if ($this->isAssigned) {
-			$this->updateRoom();
-		} else {
-			$this->inserRoom();
-			$this->isAssigned = true;
-		}
 		return $this->lastMessageId;
 	}
 
@@ -242,9 +269,12 @@ class Chat
 	 */
 	public function getEntries(?int $messageId = null)
 	{
+		if (!$this->isRoomExists()) {
+			return [];
+		}
 		$query = $this->getQueryMessage();
 		if (!\is_null($messageId)) {
-			$query->andWhere(['>', 'id', $messageId]);
+			$query->andWhere(['>', 'C.id', $messageId]);
 		}
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
@@ -272,28 +302,26 @@ class Chat
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_crm'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->where(['crmid' => $this->recordId])
-					->orderBy(['created' => \SORT_DESC]);
+					->where(['crmid' => $this->recordId]);
 				break;
 			case 'group':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_group'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->where(['groupid' => $this->recordId])
-					->orderBy(['created' => \SORT_DESC]);
+					->where(['groupid' => $this->recordId]);
 				break;
 			case 'global':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_global'])
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
-					->where(['globalid' => $this->roomId])
-					->orderBy(['created' => \SORT_DESC]);
+					->where(['globalid' => $this->roomId]);
 				break;
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
+		$query->orderBy(['created' => \SORT_DESC]);
 		if ($isLimit) {
 			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'));
 		}
@@ -339,36 +367,15 @@ class Chat
 	 */
 	private function insertMessage(string $message): int
 	{
-		$param = [
+		$table = $this->getDbInfo('message');
+		$db = Db::getInstance();
+		$db->createCommand()->insert($table, [
 			'userid' => $this->userId,
 			'messages' => $message,
-			'created' => strtotime('now'),
-		];
-		$table = null;
-		$seq = null;
-		switch ($this->roomType) {
-			case 'crm':
-				$table = 'u_#__chat_messages_crm';
-				$seq = 'u_#__chat_messages_crm_id_seq';
-				$param['crmid'] = $this->recordId;
-				break;
-			case 'group':
-				$table = 'u_#__chat_messages_group';
-				$seq = 'u_#__chat_messages_group_id_seq';
-				$param['groupid'] = $this->recordId;
-				break;
-			case 'global':
-				$table = 'u_#__chat_messages_global';
-				$seq = 'u_#__chat_messages_global_id_seq';
-				$param['globalid'] = $this->recordId;
-				break;
-			default:
-				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
-				break;
-		}
-		Db::getInstance()->createCommand()->insert($table, $param)->execute();
-		$this->lastMessageId = (int) \App\Db::getInstance()->getLastInsertID($seq);
-		return $this->lastMessageId;
+			'created' => date('Y-m-d H:i:s'),
+			$this->getDbInfo('record') => $this->recordId
+		])->execute();
+		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
 	/**
@@ -379,30 +386,11 @@ class Chat
 	 */
 	private function inserRoom()
 	{
-		$param = [
+		Db::getInstance()->createCommand()->insert($this->getDbInfo('room'), [
 			'userid' => $this->userId,
 			'last_message' => $this->lastMessageId,
-		];
-		$table = null;
-		$seq = null;
-		switch ($this->roomType) {
-			case 'crm':
-				$table = 'u_#__chat_rooms_crm';
-				$param['crmid'] = $this->recordId;
-				break;
-			case 'group':
-				$table = 'u_#__chat_rooms_group';
-				$param['groupid'] = $this->recordId;
-				break;
-			case 'global':
-				$table = 'u_#__chat_rooms_global';
-				$param['global_room_id'] = $this->recordId;
-				break;
-			default:
-				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
-				break;
-		}
-		Db::getInstance()->createCommand()->insert($table, $param)->execute();
+			$this->getDbInfo('recordRoom') => $this->recordId
+		])->execute();
 	}
 
 	/**
@@ -413,25 +401,10 @@ class Chat
 	 */
 	private function updateRoom()
 	{
-		$table = null;
-		switch ($this->roomType) {
-			case 'crm':
-				$table = 'u_#__chat_rooms_crm';
-				break;
-			case 'group':
-				$table = 'u_#__chat_rooms_group';
-				break;
-			case 'global':
-				$table = 'u_#__chat_rooms_global';
-				break;
-			default:
-				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
-				break;
-		}
 		Db::getInstance()
 			->createCommand()
-			->update($table, ['last_message' => $this->lastMessageId], [
-				'room_id' => $this->roomId,
+			->update($this->getDbInfo('room'), ['last_message' => $this->lastMessageId], [
+				'roomid' => $this->roomId,
 				'userid' => $this->userId
 			])->execute();
 	}

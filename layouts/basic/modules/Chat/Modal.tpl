@@ -12,9 +12,7 @@
 	{/function}
 	<div class="modal-body pt-0 pb-0">
 		<div class="row p-0">
-			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container"
-				 data-current-room="{$CURRENT_ROOM}">
-				{$CURRENT_ROOM}
+			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
 				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
 					<div class="text-uppercase bg-color-grey-200 p-2">
