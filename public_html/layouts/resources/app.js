@@ -220,6 +220,7 @@ var App = {},
 		 * @param {jQuery} selectElement
 		 */
 		registerPopoverLink: function (selectElement = $('a.js-popover-link')) {
+			let params = {template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>'};
 			selectElement.hoverIntent({
 				interval: 100,
 				sensitivity: 7,
@@ -237,11 +238,11 @@ var App = {},
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
 					let cacheData = $('[data-url-cached="' + url + '"]');
 					if (cacheData.length) {
-						app.showPopoverElementView(element, {content: cacheData})
+						app.showPopoverElementView(element, Object.assign({content: cacheData}, params));
 					} else {
 						AppConnector.request(url).done((data) => {
 							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
-							app.showPopoverElementView(element, {content: data})
+							app.showPopoverElementView(element, Object.assign({content: data}, params));
 						});
 					}
 				}
