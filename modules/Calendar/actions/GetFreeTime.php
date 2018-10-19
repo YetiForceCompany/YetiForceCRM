@@ -32,14 +32,19 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @param string $day
 	 * @param string $activityType
+	 * @param int    $ownerId
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function getFreeTimeInDay(string $day, string $activityType)
+	public function getFreeTimeInDay(string $day, string $activityType, int $ownerId = null)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if (!empty($ownerId)) {
+			$currentUser = Users_Record_Model::getInstanceById($ownerId, 'Users');
+		} else {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+		}
 		if (empty($activityType)) {
 			$activityType = $currentUser->get('defaultactivitytype');
 		}
@@ -81,11 +86,11 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 				],
 			])->orderBy(['time_start' => SORT_ASC])
 			->createCommand()->query();
-		if (\App\Fields\Date::getDiff($dbStartDateTime, $dbEndDateTime, 'minutes') <= $durationEvent || strtotime($dbEndDateTime) < strtotime($dbStartDateTime)) {
+		if (\App\Fields\Date::getDiff($dbStartDateTime, $dbEndDateTime, 'minutes') < $durationEvent || strtotime($dbEndDateTime) < strtotime($dbStartDateTime)) {
 			return [];
 		}
 		while ($row = $dataReader->read()) {
-			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) < strtotime($startTime) && strtotime($endWorkHour) > strtotime($startTime)) {
+			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) <= strtotime($startTime) && strtotime($endWorkHour) >= strtotime($startTime)) {
 				$date = new DateTime($row['date_start'] . ' ' . $startTime);
 				$startTime = new DateTimeField($startTime);
 				$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
@@ -98,12 +103,12 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$dataReader->close();
 		$date = new DateTime($day . ' ' . $startTime);
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
-		if (0 === \App\Fields\Date::getDiff(date_format($date, 'H:i:s'), $endWorkHour, 'minutes') || strtotime(date_format($date, 'H:i:s')) > strtotime($endWorkHour) || strtotime(date_format($date, 'H:i:s')) < strtotime($startWorkHour)) {
+		if (strtotime(date_format($date, 'H:i:s')) > strtotime($endWorkHour) || strtotime(date_format($date, 'H:i:s')) < strtotime($startWorkHour)) {
 			$date->add(new DateInterval('P1D'));
 			while (in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
 			}
-			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'), $activityType);
+			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'), $activityType, $currentUser->getId());
 		} else {
 			$endHour = new DateTimeField(date_format($date, 'H:i:s'));
 			$startTime = new DateTimeField($startTime);
@@ -114,14 +119,18 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	public function process(\App\Request $request)
 	{
 		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if (!$request->isEmpty('ownerId')) {
+			$currentUser = Users_Record_Model::getInstanceById($request->getByType('ownerId', 'Integer'), 'Users');
+		} else {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+		}
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
 		$activityType = $request->getByType('activitytype', 'Standard');
 		if (\App\Fields\Date::getDiff($startWorkHour, $endWorkHour, 'minutes') > 0) {
-			$startDate = $this->getFreeTimeInDay($dateStart, $activityType);
+			$startDate = $this->getFreeTimeInDay($dateStart, $activityType, $currentUser->getId());
 			$data['time_start'] = $startDate['time_start'];
-			$data['date_start'] = DateTimeField::convertToUserFormat($startDate['day']);
+			$data['date_start'] = $startDate['day'] ? DateTimeField::convertToUserFormat($startDate['day']) : null;
 			$data['time_end'] = $startDate['time_end'];
 		} else {
 			$data['time_start'] = $startWorkHour;
