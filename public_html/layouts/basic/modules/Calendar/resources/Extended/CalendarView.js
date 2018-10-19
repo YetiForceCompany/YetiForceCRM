@@ -327,11 +327,11 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	registerViewRenderEvents(view) {
 		this.calendarContainer = this.getCalendarView();
 		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar');
-		this.showTodayButtonCheckbox(toolbar);
 		this.showChangeDateButtons(view, toolbar);
 		this.appendSubDateRow(toolbar);
 		this.refreshDatesRowView(view);
 		this.addHeaderButtons();
+		this.showTodayButtonCheckbox(toolbar);
 	}
 
 	/**
@@ -340,18 +340,17 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	showTodayButtonCheckbox(toolbar) {
 		let todayButton = toolbar.find('.fc-today-button');
-		if (!todayButton.find('[data-fa-i2svg]').length) {
-			if (todayButton.hasClass('fc-state-disabled')) {
-				todayButton.append(`<span class="ml-1 far fa-check-square"></span>`)
-			} else {
-				todayButton.append(`<span class="ml-1 far fa-square"></span>`)
-			}
-		}
+		todayButton.removeClass('.fc-button');
 		if (todayButton.hasClass('fc-state-disabled')) {
-			todayButton.find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square')
+			todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg fa-calendar-check"></span></div>`)
 		} else {
-			todayButton.find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square')
+			todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg fa-calendar"></span></div>`)
 		}
+		let popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
+		app.showPopoverElementView(todayButton.find('.js-popover-tooltip'), {
+			content: popoverContent,
+			container: '.fc-today-button .js-popover-tooltip'
+		});
 	}
 
 	/**
