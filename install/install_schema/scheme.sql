@@ -1459,7 +1459,7 @@ CREATE TABLE `u_yf_cv_condition` (
   PRIMARY KEY (`id`),
   KEY `u_yf_cv_condition_fk` (`group_id`),
   CONSTRAINT `u_yf_cv_condition_fk` FOREIGN KEY (`group_id`) REFERENCES `u_yf_cv_condition_group` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cv_condition_group` */
 
@@ -1470,8 +1470,9 @@ CREATE TABLE `u_yf_cv_condition_group` (
   `parent_id` int(10) DEFAULT NULL,
   `index` tinyint(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `u_yf_cv_condition_group_cvid_idx` (`cvid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `u_yf_cv_condition_group_cvid_idx` (`cvid`),
+  CONSTRAINT `u_yf_cv_condition_group_fk` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_dashboard_type` */
 
@@ -4806,34 +4807,6 @@ CREATE TABLE `vtiger_customview` (
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_cvadvfilter` */
-
-CREATE TABLE `vtiger_cvadvfilter` (
-  `cvid` int(10) NOT NULL,
-  `columnindex` int(10) NOT NULL,
-  `columnname` varchar(250) DEFAULT '',
-  `comparator` varchar(20) DEFAULT NULL,
-  `value` varchar(512) DEFAULT NULL,
-  `groupid` int(10) DEFAULT 1,
-  `column_condition` varchar(255) DEFAULT 'and',
-  PRIMARY KEY (`cvid`,`columnindex`),
-  KEY `cvadvfilter_cvid_idx` (`cvid`),
-  KEY `cvadvfilter_groupid_idx` (`groupid`),
-  KEY `cvadvfilter_columnindex_idx` (`columnindex`),
-  CONSTRAINT `fk_1_vtiger_cvadvfilter` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_cvadvfilter_grouping` */
-
-CREATE TABLE `vtiger_cvadvfilter_grouping` (
-  `groupid` int(10) unsigned NOT NULL,
-  `cvid` int(10) unsigned NOT NULL,
-  `group_condition` varchar(255) DEFAULT NULL,
-  `condition_expression` text DEFAULT NULL,
-  PRIMARY KEY (`groupid`,`cvid`),
-  KEY `cvid` (`cvid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_cvcolumnlist` */
 
 CREATE TABLE `vtiger_cvcolumnlist` (
@@ -4846,19 +4819,6 @@ CREATE TABLE `vtiger_cvcolumnlist` (
   KEY `cvcolumnlist_columnindex_idx` (`columnindex`),
   KEY `cvcolumnlist_cvid_idx` (`cvid`),
   CONSTRAINT `fk_1_vtiger_cvcolumnlist` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_cvstdfilter` */
-
-CREATE TABLE `vtiger_cvstdfilter` (
-  `cvid` int(10) NOT NULL,
-  `columnname` varchar(250) DEFAULT '',
-  `stdfilter` varchar(250) DEFAULT '',
-  `startdate` date DEFAULT NULL,
-  `enddate` date DEFAULT NULL,
-  PRIMARY KEY (`cvid`),
-  KEY `cvstdfilter_cvid_idx` (`cvid`),
-  CONSTRAINT `fk_1_vtiger_cvstdfilter` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datasetregister_status` */

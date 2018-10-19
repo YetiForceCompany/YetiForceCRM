@@ -44,8 +44,8 @@ class QueryGenerator
 	private $ownerFields = [];
 	private $customColumns = [];
 	private $cvColumns;
-	private $stdFilterList;
 	private $advFilterList;
+	private $conditions;
 
 	/**
 	 * Search fields for duplicates.
@@ -617,31 +617,6 @@ class QueryGenerator
 	}
 
 	/**
-	 * Fix date time value.
-	 *
-	 * @param string $fieldName
-	 * @param string $value
-	 * @param bool   $first
-	 *
-	 * @return string
-	 */
-	public function fixDateTimeValue($fieldName, $value, $first = true)
-	{
-		$field = $this->getModuleField($fieldName);
-		$type = $field ? $field->getFieldDataType() : false;
-		if ($type === 'datetime') {
-			if (strrpos($value, ' ') === false) {
-				if ($first) {
-					$value .= ' 00:00:00';
-				} else {
-					$value .= ' 23:59:59';
-				}
-			}
-		}
-		return $value;
-	}
-
-	/**
 	 * Add custom view fields from column.
 	 *
 	 * @param string[] $cvColumn
@@ -694,21 +669,44 @@ class QueryGenerator
 			}
 		}
 		if (!$onlyFields) {
-			$this->stdFilterList = $customView->getStdFilterByCvid($viewId);
-			$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
-			if (is_array($this->stdFilterList)) {
-				if (!empty($this->stdFilterList['columnname'])) {
-					list(, , $fieldName) = explode(':', $this->stdFilterList['columnname']);
-					$this->addNativeCondition([
-						'between',
-						$fieldName,
-						$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
-						$this->fixDateTimeValue($fieldName, $this->stdFilterList['enddate'], false),
+			$this->conditions = CustomView::getConditions($viewId);
+		}
+	}
+
+	/**
+	 * Parse conditions to section where in query.
+	 *
+	 * @param array|null $conditions
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	private function parseConditions(?array $conditions): array
+	{
+		if (empty($conditions)) {
+			return [];
+		}
+		$where = [$conditions['condition']];
+		foreach ($conditions['rules'] as $rule) {
+			if (isset($rule['condition'])) {
+				$where[] = $this->parseConditions($rule);
+			} else {
+				[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+				if (!empty($sourceFieldName)) {
+					$where[] = $this->getRelatedCondition([
+						'relatedModule' => $moduleName,
+						'relatedField' => $fieldName,
+						'sourceField' => $sourceFieldName,
+						'value' => $rule['value'],
+						'operator' => $rule['operator']
 					]);
+				} else {
+					$where[] = $this->getCondition($fieldName, $rule['value'], $rule['operator']);
 				}
 			}
-			$this->parseAdvFilter();
 		}
+		return $where;
 	}
 
 	/**
@@ -941,6 +939,7 @@ class QueryGenerator
 			$this->query->andWhere($this->getStateCondition());
 		}
 		$this->query->andWhere(['and', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
+		$this->query->andWhere($this->parseConditions($this->conditions));
 		if ($this->permissions) {
 			if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
 				$userId = $this->user->getId();
@@ -997,6 +996,47 @@ class QueryGenerator
 	}
 
 	/**
+	 * Returns condition for field in this module.
+	 *
+	 * @param string $fieldName
+	 * @param mixed  $value
+	 * @param string $operator
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|bool
+	 */
+	private function getCondition(string $fieldName, $value, string $operator)
+	{
+		$queryField = $this->getQueryField($fieldName);
+		$queryField->setValue($value);
+		$queryField->setOperator($operator);
+		return $queryField->getCondition();
+	}
+
+	/**
+	 * Returns condition for field in related module.
+	 *
+	 * @param array $condition
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|bool
+	 */
+	private function getRelatedCondition(array $condition)
+	{
+		$field = $this->addRelatedJoin($condition);
+		if (!$field) {
+			Log::error('Not found source field');
+			return false;
+		}
+		$queryField = $this->getQueryRelatedField($field, $condition);
+		$queryField->setValue($condition['value']);
+		$queryField->setOperator($condition['operator']);
+		return $queryField->getCondition();
+	}
+
+	/**
 	 * Set condition.
 	 *
 	 * @param string $fieldName
@@ -1008,10 +1048,7 @@ class QueryGenerator
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
-		$queryField = $this->getQueryField($fieldName);
-		$queryField->setValue($value);
-		$queryField->setOperator($operator);
-		$condition = $queryField->getCondition();
+		$condition = $this->getCondition($fieldName, $value, $operator);
 		if ($condition) {
 			if ($groupAnd) {
 				$this->conditionsAnd[] = $condition;
@@ -1068,15 +1105,7 @@ class QueryGenerator
 	 */
 	public function addRelatedCondition($condition)
 	{
-		$field = $this->addRelatedJoin($condition);
-		if (!$field) {
-			Log::error('Not found source field');
-			return false;
-		}
-		$queryField = $this->getQueryRelatedField($field, $condition);
-		$queryField->setValue($condition['value']);
-		$queryField->setOperator($condition['operator']);
-		$queryCondition = $queryField->getCondition();
+		$queryCondition = $this->getRelatedCondition($condition);
 		if ($queryCondition) {
 			if ($condition['conditionGroup']) {
 				$this->conditionsAnd[] = $queryCondition;

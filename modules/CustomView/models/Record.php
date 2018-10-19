@@ -396,10 +396,6 @@ class CustomView_Record_Model extends \App\Base
 		$db = App\Db::getInstance();
 		$cvId = $this->getId();
 		$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 		// To Delete the mini list widget associated with the filter
 		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
@@ -438,62 +434,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getConditions(): array
 	{
-		$dataReader = (new \App\Db\Query())->select([
-			'u_#__cv_condition.group_id',
-			'u_#__cv_condition.field_name',
-			'u_#__cv_condition.module_name',
-			'u_#__cv_condition.source_field_name',
-			'u_#__cv_condition.operator',
-			'u_#__cv_condition.value',
-			'condition_index' => 'u_#__cv_condition.index',
-			'u_#__cv_condition_group.condition',
-			'u_#__cv_condition_group.parent_id',
-			'group_index' => 'u_#__cv_condition_group.index'
-		])->from('u_#__cv_condition')
-			->innerJoin('u_#__cv_condition_group', 'u_#__cv_condition_group.id = u_#__cv_condition.group_id')
-			->where(['u_#__cv_condition_group.cvid' => $this->getId()])
-			->orderBy(['u_#__cv_condition_group.parent_id' => SORT_ASC])
-			->createCommand()->query();
-		$referenceGroup = $referenceParent = $conditions = [];
-		while ($condition = $dataReader->read()) {
-			$value = $condition['value'];
-			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
-			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
-				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
-					'fieldname' => $fieldName,
-					'operator' => $condition['operator'],
-					'value' => $value
-				];
-			} elseif (isset($referenceGroup[$condition['parent_id']])) {
-				$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
-					'condition' => $condition['condition'],
-					'rules' => [
-						$condition['condition_index'] => [
-							'fieldname' => $fieldName,
-							'operator' => $condition['operator'],
-							'value' => $value
-						]
-					]
-				];
-				$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
-				$referenceGroup[$condition['group_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
-			} else {
-				$conditions = [
-					'condition' => $condition['condition'],
-					'rules' => [
-						$condition['condition_index'] => [
-							'fieldname' => $fieldName,
-							'operator' => $condition['operator'],
-							'value' => $value
-						]
-					]
-				];
-				$referenceParent[$condition['parent_id']] = &$conditions['rules'];
-				$referenceGroup[$condition['group_id']] = &$conditions['rules'];
-			}
-		}
-
-		return $conditions;
+		return \App\CustomView::getConditions($this->getId());
 	}
 
 	/**
@@ -555,6 +496,9 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	private function addGroup(array $rule, int $parentId, int $index)
 	{
+		if (empty($rule)) {
+			return;
+		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('u_#__cv_condition_group', [
 			'cvid' => $this->getId(),
@@ -656,7 +600,7 @@ class CustomView_Record_Model extends \App\Base
 		], ['cvid' => $cvId]
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('u_yf_cv_condition_group', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('u_#__cv_condition_group', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}
@@ -685,95 +629,6 @@ class CustomView_Record_Model extends \App\Base
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);
-	}
-
-	/**
-	 * Function to get the list of advanced filter conditions for the current custom view.
-	 *
-	 * @return array - All the advanced filter conditions for the custom view, grouped by the condition grouping
-	 */
-	public function getAdvancedCriteria()
-	{
-		$defaultCharset = AppConfig::main('default_charset');
-
-		$cvId = $this->getId();
-		$advFtCriteria = [];
-		if (empty($cvId)) {
-			return $advFtCriteria;
-		}
-		$query = (new App\Db\Query())->from('vtiger_cvadvfilter_grouping')->where(['cvid' => $this->getId()])->orderBy('groupid');
-		$dataReader = $query->createCommand()->query();
-
-		$i = 1;
-		$j = 0;
-		while ($relCriteriaGroup = $dataReader->read()) {
-			$groupId = $relCriteriaGroup['groupid'];
-			$groupCondition = $relCriteriaGroup['group_condition'];
-			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId])
-				->andWhere(['and', new \yii\db\Expression('`vtiger_cvadvfilter`.`groupid` = `vtiger_cvadvfilter_grouping`.`groupid`')])
-				->orderBy('vtiger_cvadvfilter.columnindex')->all();
-
-			if (!$rows) {
-				continue;
-			}
-
-			foreach ($rows as $relCriteriaRow) {
-				$criteria = [];
-				$criteria['columnname'] = html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, $defaultCharset);
-				$criteria['comparator'] = $relCriteriaRow['comparator'];
-				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
-				$col = explode(':', $relCriteriaRow['columnname']);
-				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
-					$tempVal = explode(',', $relCriteriaRow['value']);
-					$val = [];
-					$countTempVal = count($tempVal);
-					for ($x = 0; $x < $countTempVal; ++$x) {
-						if ($col[4] === 'D') {
-							/* while inserting in db for due_date it was taking date and time values also as it is
-							 * date time field. We only need to take date from that value
-							 */
-							if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
-								$originalValue = $tempVal[$x];
-								$dateTime = explode(' ', $originalValue);
-								$tempVal[$x] = $dateTime[0];
-							}
-							$date = new DateTimeField(trim($tempVal[$x]));
-							$val[$x] = $date->getDisplayDate();
-						} elseif ($col[4] === 'DT') {
-							$comparator = ['e', 'n', 'b', 'a'];
-							if (in_array($criteria['comparator'], $comparator)) {
-								$originalValue = $tempVal[$x];
-								$dateTime = explode(' ', $originalValue);
-								$tempVal[$x] = $dateTime[0];
-							}
-							$date = new DateTimeField(trim($tempVal[$x]));
-							$val[$x] = $date->getDisplayDateTimeValue();
-						} else {
-							$date = new DateTimeField(trim($tempVal[$x]));
-							$val[$x] = $date->getDisplayTime();
-						}
-					}
-					$advFilterVal = implode(',', $val);
-				}
-				$criteria['value'] = \App\Purifier::encodeHtml(App\Purifier::decodeHtml($advFilterVal));
-				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
-
-				$groupId = $relCriteriaRow['groupid'];
-				$advFtCriteria[$groupId]['columns'][$j] = $criteria;
-				$advFtCriteria[$groupId]['condition'] = $groupCondition;
-				++$j;
-			}
-			if (!empty($advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'])) {
-				$advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
-			}
-			++$i;
-		}
-		$dataReader->close();
-		// Clear the condition (and/or) for last group, if any.
-		if (!empty($advFtCriteria[$i - 1]['condition'])) {
-			$advFtCriteria[$i - 1]['condition'] = '';
-		}
-		return $advFtCriteria;
 	}
 
 	/**

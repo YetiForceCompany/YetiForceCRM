@@ -94,10 +94,7 @@ class Filter
 	 */
 	public function __delete()
 	{
-		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $this->id])->execute();
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $this->id])->execute();
-		$db->createCommand()->delete('vtiger_customview', ['cvid' => $this->id])->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['cvid' => $this->id])->execute();
 	}
 
 	/**
@@ -305,14 +302,6 @@ class Filter
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
-		$cvids = (new \App\Db\Query())->from('vtiger_customview')
-			->where(['entitytype' => $moduleInstance->name])
-			->column();
-		if (!empty($cvids)) {
-			$db = \App\Db::getInstance();
-			$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvids])->execute();
-			$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvids])->execute();
-			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvids])->execute();
-		}
+		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['entitytype' => $moduleInstance->name])->execute();
 	}
 }
