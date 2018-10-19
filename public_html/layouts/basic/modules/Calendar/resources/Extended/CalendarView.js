@@ -113,42 +113,14 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					}
 				},
 				addCalendarEvent(calendarDetails) {
-					let calendar = self.getCalendarView(),
-						startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
-						endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
-						eventObject = {
-							id: calendarDetails._recordId,
-							title: calendarDetails.subject.display_value,
-							start: startDate.format(),
-							end: endDate.format(),
-							module: 'Calendar',
-							url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
-							activitytype: calendarDetails.activitytype.value,
-							allDay: calendarDetails.allday.value == 'on',
-							state: calendarDetails.state.value,
-							vis: calendarDetails.visibility.value,
-							sta: calendarDetails.activitystatus.value,
-							className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-							start_display: calendarDetails.date_start.display_value,
-							end_display: calendarDetails.due_date.display_value,
-							smownerid: calendarDetails.assigned_user_id.display_value,
-							pri: calendarDetails.taskpriority.value,
-							lok: calendarDetails.location.display_value
-						};
-					self.getCalendarView().fullCalendar('renderEvent', eventObject);
+					self.getCalendarView().fullCalendar('renderEvent', self.getEventData(calendarDetails));
 				}
 			};
 		options = Object.assign(basicOptions, options);
 		if (!this.readonly) {
-			options.eventClick = function (calEvent, jsEvent, view) {
+			options.eventClick = function (calEvent, jsEvent) {
 				jsEvent.preventDefault();
-				let link = new URL($(this)[0].href)
-				self.openRightPanel();
-				if (app.getMainParams('showEditForm')) {
-					self.getCalendarEditView(link.searchParams.get("record"));
-				} else {
-					self.showStatusUpdate('index.php?module=Calendar&view=ActivityState&record=' + link.searchParams.get("record"));
-				}
+				self.getCalendarSidebarData($(this).attr('href'));
 			};
 		} else {
 			options.eventClick = '';
@@ -170,26 +142,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.calendarContainer.find('.fc-center').after(filters);
 		this.registerClearFilterButton();
 		this.registerFilterTabChange();
-	}
-
-	showStatusUpdate(params) {
-		const thisInstance = this,
-			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		AppConnector.request(params).done((data) => {
-			progressInstance.progressIndicator({mode: 'hide'});
-			let sideBar = thisInstance.getSidebarView();
-			sideBar.find('.js-qc-form').html(data);
-			thisInstance.showRightPanelForm();
-			app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {
-				suppressScrollX: true
-			});
-			sideBar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
-				thisInstance.getCalendarCreateView();
-			});
-			sideBar.find('.js-activity-state .editRecord').on('click', function () {
-				thisInstance.getCalendarEditView($(this).data('id'));
-			});
-		});
 	}
 
 	registerSwitchEvents() {
@@ -246,46 +198,12 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		}
 	}
 
+	/**
+	 * Render event
+	 * @param {Object} event
+	 * @param {jQuery} element
+	 */
 	eventRenderer(event, element) {
-		if (event.id === undefined) {
-			return;
-		}
-		const self = this;
-		let editableButton = '',
-			valueEventVis = '';
-		if (self.getCalendarView().fullCalendar('getCalendar').view.options.editable) {
-			editableButton = '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>';
-		}
-		if (event.vis !== '') {
-			valueEventVis = app.vtranslate('JS_' + event.vis);
-		}
-		$(document).find('.js-calendar-popover.show').hide();
-		app.showPopoverElementView(element.find('.fc-content'), {
-			title: event.title + editableButton + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
-			container: 'body',
-			html: true,
-			placement: 'auto',
-			callbackShown: function () {
-				$(`.js-calendar-popover[data-event-id="${event.id}"]`).find('.js-edit-element').on('click', function () {
-					self.openRightPanel();
-					self.getCalendarEditView(event.id);
-				});
-			},
-			template: `<div class="popover calendarPopover js-calendar-popover" role="tooltip" data-event-id="${event.id}" data-js="hide"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>`,
-			content: '<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-				'<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-				(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
-				(event.pri ? '<div><span class="fas fa-exclamation-circle"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: <span class="picklistCT_Calendar_taskpriority_' + event.pri + '">' + app.vtranslate('JS_' + event.pri) + '</span></div>' : '') +
-				'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>:  <span class="picklistCT_Calendar_activitystatus_' + event.sta + '">' + app.vtranslate('JS_' + event.sta) + '</span></div>' +
-				(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: <span class="modCT_Accounts">' + event.accname + '</span></div>' : '') +
-				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</span></a></div>' : '') +
-				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-				(event.state ? '<div><span class="fas fa-star"></span> <label>' + app.vtranslate('JS_STATE') + '</label>:  <span class="picklistCT_Calendar_state_' + event.state + '">' + app.vtranslate(event.state) + '</span></div>' : '') +
-				'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>:  <span class="picklistCT_Calendar_visibility_' + event.vis + '">' + valueEventVis + '</div>' +
-				(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-		});
 		if (event.rendering === 'background') {
 			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 		}
@@ -469,63 +387,64 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	/**
-	 * Load calendar edit view
-	 * @param int id
-	 * @param Object params
+	 * Register events to EditView
+	 * @param {jQuery)}sideBar
 	 */
-	loadCalendarEditView(id, params) {
-		const aDeferred = $.Deferred();
-		let formData = {
-			'module': app.getModuleName(),
-			'view': 'EventForm',
-			'record': id
-		};
-		if (typeof params !== 'undefined') {
-			$.extend(formData, params);
-		}
-		AppConnector.request(formData).done((data) => {
-			aDeferred.resolve($(data));
-		}).fail((error) => {
-			aDeferred.reject();
-			app.errorLog(error);
+	registerEditForm(sideBar) {
+		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
+			headerInstance = new Vtiger_Header_Js(),
+			params = [];
+		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
+		editViewInstance.registerBasicEvents(rightFormCreate);
+		rightFormCreate.validationEngine(app.validationEngineOptions);
+		headerInstance.registerHelpInfo(rightFormCreate);
+		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+		sideBar.find('.js-summary-close-edit').on('click', () => {
+			this.getCalendarCreateView();
 		});
-		return aDeferred.promise();
+		params.callbackFunction = this.registerAfterSubmitForm(this, rightFormCreate);
+		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
+		$.each(sideBar.find('.ckEditorSource'), function (key, element) {
+			let ckEditorInstance = new Vtiger_CkEditor_Js();
+			ckEditorInstance.loadCkEditor($(element), {
+				height: '5em',
+				toolbar: 'Min'
+			});
+		});
 	}
 
 	/**
 	 * EditView
-	 * @param int id
-	 * @param Object params
+	 * @param {Object}|{number} params
 	 */
-	getCalendarEditView(id, params) {
+	getCalendarSidebarData(params) {
 		const thisInstance = this,
 			aDeferred = $.Deferred();
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		thisInstance.loadCalendarEditView(id, params).done((data) => {
+		if (typeof params === 'number') {
+			params = {
+				module: app.getModuleName(),
+				view: 'EventForm',
+				record: params
+			};
+		}
+		AppConnector.request(params).done((data) => {
+			thisInstance.openRightPanel();
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
 			sideBar.find('.js-qc-form').html(data);
 			thisInstance.showRightPanelForm();
-			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
-				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
-				headerInstance = new Vtiger_Header_Js(),
-				params = [];
-			editViewInstance.registerBasicEvents(rightFormCreate);
-			rightFormCreate.validationEngine(app.validationEngineOptions);
-			headerInstance.registerHelpInfo(rightFormCreate);
-			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-			sideBar.find('.js-summary-close-edit').on('click', function () {
-				thisInstance.getCalendarCreateView();
-			});
-			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);
-			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
-			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-				let ckEditorInstance = new Vtiger_CkEditor_Js();
-				ckEditorInstance.loadCkEditor($(element), {
-					height: '5em',
-					toolbar: 'Min'
+			if (sideBar.find('form').length) {
+				thisInstance.registerEditForm(sideBar);
+			} else {
+				app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {suppressScrollX: true});
+				sideBar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
+					thisInstance.getCalendarCreateView();
 				});
-			});
+				sideBar.find('.js-activity-state .editRecord').on('click', function () {
+					thisInstance.getCalendarSidebarData($(this).data('id'));
+				});
+			}
 			aDeferred.resolve(sideBar.find('.js-qc-form'));
 		}).fail((error) => {
 			progressInstance.progressIndicator({mode: 'hide'});
@@ -579,6 +498,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
+			app.registerPopoverLink();
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
@@ -843,41 +763,41 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		});
 	}
 
-	loadCalendarCreateView() {
-		let aDeferred = $.Deferred();
-		AppConnector.request({
-			'module': app.getModuleName(),
-			'view': 'EventForm',
-		}).done((data) => {
-			aDeferred.resolve($(data));
-		}).fail((error) => {
-			aDeferred.reject();
-			app.errorLog(error);
-		});
-		return aDeferred.promise();
+	/**
+	 * Parse calendar data
+	 * @param {Object} calendarDetails
+	 * @returns {{id: *, title: *, start: *, end: *, module: string, url: string, className: string[], start_display: *, end_display: *}}
+	 */
+	getEventData(calendarDetails) {
+		let calendar = this.getCalendarView(),
+			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
+			endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
+			eventObject = {
+				id: calendarDetails._recordId,
+				title: calendarDetails.subject.display_value,
+				start: startDate.format(),
+				end: endDate.format(),
+				module: 'Calendar',
+				url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-link'],
+				start_display: calendarDetails.date_start.display_value,
+				end_display: calendarDetails.due_date.display_value
+			};
+		if (calendarDetails.isEditable && app.getMainParams('showEditForm')) {
+			eventObject.url = 'index.php?module=Calendar&view=ActivityState&record=' + eventObject.id;
+		}
+		return eventObject;
 	}
 
-	updateCalendarEvent(calendarEventId, eventData) {
+	/**
+	 * Update Event
+	 * @param {Number} calendarEventId
+	 * @param {Object} calendarDetails
+	 */
+	updateCalendarEvent(calendarEventId, calendarDetails) {
 		const calendar = this.getCalendarView();
-		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0],
-			calendarDetails = eventData,
-			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
-			endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
-		recordToUpdate.title = calendarDetails.subject.display_value;
-		recordToUpdate.start = startDate.format();
-		recordToUpdate.end = endDate.format();
-		recordToUpdate.url = 'index.php?module=Calendar&view=Detail&record=' + calendarEventId;
-		recordToUpdate.ctivitytype = calendarDetails.activitytype.value;
-		recordToUpdate.allDay = calendarDetails.allday.value == 'on';
-		recordToUpdate.state = calendarDetails.state.value;
-		recordToUpdate.vis = calendarDetails.visibility.value;
-		recordToUpdate.sta = calendarDetails.activitystatus.value;
-		recordToUpdate.className = ['ownerCBg_' + calendarDetails.assigned_user_id.value, 'picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value];
-		recordToUpdate.start_display = calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value;
-		recordToUpdate.end_display = calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value;
-		recordToUpdate.smownerid = calendarDetails.assigned_user_id.display_value;
-		recordToUpdate.pri = calendarDetails.taskpriority.value;
-		recordToUpdate.lok = calendarDetails.location.display_value;
+		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0];
+		$.extend(recordToUpdate, this.getEventData(calendarDetails));
 		calendar.fullCalendar('updateEvent', recordToUpdate);
 	}
 
@@ -891,29 +811,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			return aDeferred.promise();
 		}
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarCreateView().done((data) => {
+		this.getCalendarSidebarData({'module': app.getModuleName(), 'view': 'EventForm',}).done(() => {
 			progressInstance.progressIndicator({mode: 'hide'});
-			qcForm.html(data);
-			thisInstance.showRightPanelForm();
-			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
-				moduleName = sideBar.find('[name="module"]').val(),
-				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
-				headerInstance = new Vtiger_Header_Js(),
-				params = [];
-			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-			editViewInstance.registerBasicEvents(rightFormCreate);
-			rightFormCreate.validationEngine(app.validationEngineOptions);
-			headerInstance.registerHelpInfo(rightFormCreate);
-			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);
-			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
 			thisInstance.registerAutofillTime();
-			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-				let ckEditorInstance = new Vtiger_CkEditor_Js();
-				ckEditorInstance.loadCkEditor($(element), {
-					height: '5em',
-					toolbar: 'Min'
-				});
-			});
 			aDeferred.resolve(qcForm);
 		}).fail((error) => {
 			progressInstance.progressIndicator({mode: 'hide'});
