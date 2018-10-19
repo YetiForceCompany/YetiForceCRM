@@ -1078,9 +1078,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-								prevDisplayValue + '<br> ' +
-								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+							prevDisplayValue + '<br> ' +
+							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -2262,13 +2262,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBasicEvents: function () {
-		if (typeof Chat_Js !== 'undefined') {
-			Chat_Js.getInstance().registerEvents($('.js-chat-detail'));
-		}
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
+		if (typeof Chat_JS !== 'undefined') {
+			Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
+		}
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);

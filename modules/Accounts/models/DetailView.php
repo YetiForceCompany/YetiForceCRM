@@ -126,7 +126,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_CHAT',
-				'linkurl' => "module=Chat&view=Entries&mode=showChat&recordId={$recordModel->getId()}",
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showChat',
 				'linkicon' => 'fas fa-comments',
 			];
 		}

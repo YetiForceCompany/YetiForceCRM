@@ -98,30 +98,16 @@ class Chat_Entries_View extends \App\Controller\View
 	 */
 	public function showChat(\App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('recordId'));
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 		if (!\App\Privilege::isPermitted('Chat') || !$recordModel->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-
 		$chat = \App\Chat::getInstance('crm', $recordModel->getId());
-		if (!$chat->isRoomExists()) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
-		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->view('Entries.tpl', $request->getModule());
-
-		/*$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		if (!\App\Privilege::isPermitted('Chat') || !$recordModel->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT', \App\Chat::getInstanceByRecordModel($recordModel));
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		return $viewer->view('Detail\Chat.tpl', 'Chat', true);*/
+		$viewer->assign('CURRENT_ROOM', ['roomType' => 'crm', 'recordId' => $recordModel->getId()]);
+		$viewer->assign('CHAT', $chat);
+		return $viewer->view('Detail/Chat.tpl', 'Chat', true);
 	}
 
 	/**

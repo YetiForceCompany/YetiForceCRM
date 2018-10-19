@@ -57,6 +57,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showOpenStreetMap');
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
+		$this->exposeMethod('showChat');
 	}
 
 	/**
@@ -1046,6 +1047,21 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show chat for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showChat(\App\Request $request)
+	{
+		return (new Chat_Entries_View())->showChat($request);
 	}
 
 	/**

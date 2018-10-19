@@ -25,13 +25,22 @@ window.Chat_JS = class Chat_Js {
 	 * Get instance of Chat_Js.
 	 * @returns {Chat_Js|Window.Chat_Js}
 	 */
-	static getInstance(container) {
+	static getInstance(container, typeInstance = 'modal') {
 		if (typeof Chat_Js.instance === 'undefined') {
+			Chat_Js.instance = {};
+		}
+		if (typeof Chat_Js.instance[typeInstance] === 'undefined') {
+			Chat_Js.instance[typeInstance] = new Chat_Js(container);
+		} else {
+			Chat_Js.instance[typeInstance].container = container;
+		}
+		return Chat_Js.instance[typeInstance];
+		/*if (typeof Chat_Js.instance === 'undefined') {
 			Chat_Js.instance = new Chat_Js(container);
 		} else {
 			Chat_Js.instance.container = container;
 		}
-		return Chat_Js.instance;
+		return Chat_Js.instance;*/
 	}
 
 	/**
@@ -173,6 +182,7 @@ window.Chat_JS = class Chat_Js {
 	registerSendEvent() {
 		const self = this;
 		const inputMessage = this.container.find('.js-chat-message');
+		console.log('L: ' + inputMessage.length);
 		if (this.sendByEnter) {
 			inputMessage.on('keydown', function (e) {
 				if (e.keyCode === 13) {
@@ -231,7 +241,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerBaseEvents() {
 		this.registerSendEvent();
-		this.registerListenEvent();
+		//this.registerListenEvent();
 	}
 
 	/**
