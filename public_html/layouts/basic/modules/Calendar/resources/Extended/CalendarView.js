@@ -498,7 +498,14 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
-			app.registerPopoverLink();
+			app.registerPopoverLink(self.calendarContainer.find('a.js-popover-link'), {
+				callback: function (data) {
+					data.find('.js-calendar-popover').on('click', function (e) {
+						e.preventDefault();
+						self.getCalendarSidebarData($(this).attr('href'));
+					});
+				}
+			});
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
