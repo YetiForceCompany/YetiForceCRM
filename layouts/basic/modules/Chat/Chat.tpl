@@ -12,9 +12,9 @@
 					<div class="col-10 js-chat_content"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
+						 data-current-room="{App\Purifier::encodeHtml(\App\Json::encode($CURRENT_ROOM))}"
 						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
 						 data-room-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
-						 data-current-room="{\App\Purifier::encodeHtml(\App\Json::encode($CURRENT_ROOM))}"
 						 data-js="append">
 						{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}
 					</div>

@@ -80,7 +80,7 @@ class Chat_Entries_View extends \App\Controller\View
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
+		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->view('Entries.tpl', $request->getModule());
 	}

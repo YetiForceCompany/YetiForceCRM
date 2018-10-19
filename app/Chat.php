@@ -300,7 +300,7 @@ class Chat
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['image'] = \Vtiger_Record_Model::getInstanceById($row['userid'], 'Users')->getImage();
-			$row['created'] = date('Y-m-d H:i:s', $row['created']);
+			//$row['created'] = date('Y-m-d H:i:s', $row['created']);
 			$row['time'] = Fields\DateTime::formatToViewDate($row['created']);
 			$rows[] = $row;
 		}

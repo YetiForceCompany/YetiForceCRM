@@ -17,8 +17,7 @@ window.Chat_JS = class Chat_Js {
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.timerGlobal = null;
-		this.lastMessageId = 0;
-		this.roomId = 0;
+		this.lastMessageId = container.find('.js-chat-item:last').data('mid');
 	}
 
 	/**
@@ -68,15 +67,17 @@ window.Chat_JS = class Chat_Js {
 		if (inputMessage.val() === '') {
 			return;
 		}
+		clearTimeout(this.timerMessage);
 		this.request({
 			view: 'Entries',
 			mode: 'send',
 			roomType: this.getCurrentRoomType(),
 			recordId: this.getCurrentRecordId(),
 			message: inputMessage.val(),
-			mid: this.messageContainer.children().last().data('mid')
+			mid: this.messageContainer.find('.js-chat-item:last').data('mid')
 		}).done((data) => {
 			this.messageContainer.append(data);
+			this.getMessage(true);
 		});
 		inputMessage.val('');
 	}
@@ -145,20 +146,31 @@ window.Chat_JS = class Chat_Js {
 	 * @param {bool} timer
 	 */
 	getMessage(timer = false) {
-		this.request({
-			view: 'Entries',
-			mode: 'get',
-			lastId: this.lastMessageId,
-			roomId: this.roomId
-		}).done((data) => {
-			this.buildParticipants(data.find('.js-participants-data'), false);
-			this.messageContainer.append(data);
-			if (timer) {
-				this.timerMessage = setTimeout(() => {
+		if (timer) {
+			clearTimeout(this.timerMessage);
+		}
+		this.timerMessage = setTimeout(() => {
+			this.request({
+				view: 'Entries',
+				mode: 'get',
+				lastId: this.lastMessageId,
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId()
+			}).done((html) => {
+				if (html) {
+					//let data = $(html);
+					this.buildParticipants(data.find('.js-participants-data'), false);
+					//this.lastMessageId = data.find('.js-chat-item').data('mid');
+					this.messageContainer.append(html);
+					this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
+					console.log(this.lastMessageId);
+					console.log(this.messageContainer.find('.js-chat-item:last'));
+				}
+				if (timer) {
 					this.getMessage(true);
-				}, this.getMessageTimer());
-			}
-		});
+				}
+			});
+		}, this.getMessageTimer());
 	}
 
 	/**
@@ -243,22 +255,6 @@ window.Chat_JS = class Chat_Js {
 	}
 
 
-	registerListenEvent() {
-		this.timerMessage = setTimeout(() => {
-			//this.getMessage(true);
-		}, this.getMessageTimer());
-		this.timerRoom = setTimeout(() => {
-			this.getRoomsDetail(true);
-		}, this.getRoomTimer());
-	}
-
-	/**
-	 * Register tracking events
-	 */
-	registerTrackingEvents() {
-
-	}
-
 	/**
 	 * Register create room.
 	 */
@@ -271,13 +267,28 @@ window.Chat_JS = class Chat_Js {
 					mode: 'create',
 					roomType: this.getCurrentRoomType(),
 					recordId: this.getCurrentRecordId()
-				}).done((data) => {
+				}).done(() => {
 					this.container.find('.js-container-button').addClass('hide');
 					this.container.find('.js-container-chat').removeClass('hide');
 				});
 			});
 		}
 	}
+
+	registerListenEvent() {
+		//this.getMessage(true);
+		this.timerRoom = setTimeout(() => {
+			this.getRoomsDetail(true);
+		}, this.getRoomTimer());
+	}
+
+	/**
+	 * Register tracking events
+	 */
+	registerTrackingEvents() {
+
+	}
+
 
 	/**
 	 * Register base events
