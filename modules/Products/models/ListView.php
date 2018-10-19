@@ -76,12 +76,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-		$listViewRecordModels = [];
-		foreach ($rows as $row) {
-			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
-		}
+		$listViewRecordModels = $this->getRecordsFromArray($rows);
 		unset($rows);
-
 		return $listViewRecordModels;
 	}
 
