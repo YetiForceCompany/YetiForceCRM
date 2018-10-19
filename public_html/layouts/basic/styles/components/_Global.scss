@@ -276,3 +276,12 @@
 		height: calculate-rem(40px);
 	}
 }
+
+.popover {
+	&.c-popover--link {
+		max-width: 30%;
+		label {
+			margin: 0;
+		}
+	}
+}

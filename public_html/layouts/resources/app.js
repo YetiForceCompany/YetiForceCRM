@@ -220,7 +220,7 @@ var App = {},
 		 * @param {jQuery} selectElement
 		 */
 		registerPopoverLink: function (selectElement = $('a.js-popover-link')) {
-			let params = {template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>'};
+			let params = {template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>'};
 			selectElement.hoverIntent({
 				interval: 100,
 				sensitivity: 7,

@@ -105,7 +105,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					self.getCalendarView().fullCalendar('unselect');
 				},
 				eventRender: function (event, element) {
-					self.eventRenderer(event, element);
 				},
 				viewRender: function (view, element) {
 					if (view.type !== 'year') {
@@ -243,51 +242,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
-		}
-	}
-
-	eventRenderer(event, element) {
-		if (event.id === undefined) {
-			return;
-		}
-		const self = this;
-		let editableButton = '',
-			valueEventVis = '';
-		if (self.getCalendarView().fullCalendar('getCalendar').view.options.editable) {
-			editableButton = '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>';
-		}
-		if (event.vis !== '') {
-			valueEventVis = app.vtranslate('JS_' + event.vis);
-		}
-		$(document).find('.js-calendar-popover.show').hide();
-		app.showPopoverElementView(element.find('.fc-content'), {
-			title: event.title + editableButton + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
-			container: 'body',
-			html: true,
-			placement: 'auto',
-			callbackShown: function () {
-				$(`.js-calendar-popover[data-event-id="${event.id}"]`).find('.js-edit-element').on('click', function () {
-					self.openRightPanel();
-					self.getCalendarEditView(event.id);
-				});
-			},
-			template: `<div class="popover calendarPopover js-calendar-popover" role="tooltip" data-event-id="${event.id}" data-js="hide"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>`,
-			content: '<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-				'<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-				(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
-				(event.pri ? '<div><span class="fas fa-exclamation-circle"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: <span class="picklistCT_Calendar_taskpriority_' + event.pri + '">' + app.vtranslate('JS_' + event.pri) + '</span></div>' : '') +
-				'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>:  <span class="picklistCT_Calendar_activitystatus_' + event.sta + '">' + app.vtranslate('JS_' + event.sta) + '</span></div>' +
-				(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: <span class="modCT_Accounts">' + event.accname + '</span></div>' : '') +
-				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</span></a></div>' : '') +
-				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-				(event.state ? '<div><span class="fas fa-star"></span> <label>' + app.vtranslate('JS_STATE') + '</label>:  <span class="picklistCT_Calendar_state_' + event.state + '">' + app.vtranslate(event.state) + '</span></div>' : '') +
-				'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>:  <span class="picklistCT_Calendar_visibility_' + event.vis + '">' + valueEventVis + '</div>' +
-				(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-		});
-		if (event.rendering === 'background') {
-			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 		}
 	}
 
@@ -579,6 +533,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
+			app.registerPopoverLink();
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
