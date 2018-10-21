@@ -1489,6 +1489,8 @@
     "JS_MORE": "Mais",
     "JS_TO_REALIZE": "Para processamento",
     "JS_HISTORY": "Hist\u00f3rico",
+    "JS_ALL": "Todos",
+    "JS_WORK_DAYS": "Dias uteis",
     "JS_NOT_SELECTED_WORKFLOW_TRIGGER": "Nenhum Fluxo de Trabalho selecionado",
     "JS_STARTED_PERFORM_WORKFLOW": "Fluxo de Trabalho iniciado",
     "JS_COMPLETED_PERFORM_WORKFLOW": "FLuxo de Trabalho conclu\u00eddo",
