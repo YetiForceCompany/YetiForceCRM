@@ -114,6 +114,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				},
 				addCalendarEvent(calendarDetails) {
 					self.getCalendarView().fullCalendar('renderEvent', self.getEventData(calendarDetails));
+					self.registerPopoverLink();
 				}
 			};
 		options = Object.assign(basicOptions, options);
@@ -498,14 +499,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
-			app.registerPopoverLink(self.calendarContainer.find('a.js-popover-link'), {
-				callback: function (data) {
-					data.find('.js-calendar-popover').on('click', function (e) {
-						e.preventDefault();
-						self.getCalendarSidebarData($(this).attr('href'));
-					});
-				}
-			});
+			this.registerPopoverLink();
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
@@ -715,8 +709,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		const calendarView = this.getCalendarView();
 		let returnFunction = function (data) {
 			if (data.success) {
-				let textToShow = app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
-					recordActivityStatus = data.result.activitystatus.value,
+				let recordActivityStatus = data.result.activitystatus.value,
 					historyStatus = app.getMainParams('activityStateLabels', true).history,
 					inHistoryStatus = $.inArray(recordActivityStatus, historyStatus),
 					showType = app.getMainParams('showType');
@@ -785,15 +778,30 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				start: startDate.format(),
 				end: endDate.format(),
 				module: 'Calendar',
-				url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+				url: 'index.php?module=Calendar&view=ActivityState&record=' + calendarDetails._recordId,
 				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-link'],
 				start_display: calendarDetails.date_start.display_value,
 				end_display: calendarDetails.due_date.display_value
 			};
 		if (calendarDetails.isEditable && app.getMainParams('showEditForm')) {
-			eventObject.url = 'index.php?module=Calendar&view=ActivityState&record=' + eventObject.id;
+			eventObject.url = 'index.php?module=Calendar&view=EventForm&record=' + eventObject.id;
 		}
 		return eventObject;
+	}
+
+	/**
+	 * Register popover link
+	 */
+	registerPopoverLink() {
+		$('[data-url-cached]').remove();
+		app.registerPopoverLink(this.getCalendarView().find('a.js-popover-link'), {
+			callback: (data) => {
+				data.find('.js-calendar-popover').on('click', (e) => {
+					e.preventDefault();
+					this.getCalendarSidebarData($(e.currentTarget).attr('href'));
+				});
+			}
+		});
 	}
 
 	/**
@@ -806,6 +814,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0];
 		$.extend(recordToUpdate, this.getEventData(calendarDetails));
 		calendar.fullCalendar('updateEvent', recordToUpdate);
+		this.registerPopoverLink();
 	}
 
 	getCalendarCreateView() {

@@ -225,9 +225,6 @@ var App = {},
 				content: '<div class="d-none"></div>',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
-					let popoverId = element.attr('aria-describedby');
-					let popoverBoddy = $(`#${popoverId} .popover-body`);
-					popoverBoddy.progressIndicator({});
 					if (!element.attr('href')) {
 						return false;
 					}
@@ -237,6 +234,9 @@ var App = {},
 					}
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
+					let popoverId = element.attr('aria-describedby');
+					let popoverBoddy = $(`#${popoverId} .popover-body`);
+					popoverBoddy.progressIndicator({});
 					let cacheData = $('[data-url-cached="' + url + '"]').children();
 					if (cacheData.length) {
 						popoverBoddy.progressIndicator({mode: 'hide'}).html(cacheData.clone());
