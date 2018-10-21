@@ -446,7 +446,6 @@ class RecordConverter extends Base
 		if ($this->inventoryMapping) {
 			$invData = [];
 			$counter = 1;
-			$inventoryDataForEdit = [];
 			if ($this->inventoryMapping[0] === 'auto') {
 				$inventoryFields = array_merge($this->sourceInvFields, $this->destinyInvFields);
 				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
@@ -462,7 +461,6 @@ class RecordConverter extends Base
 						foreach ($recordModel as $recordModelGroupBy) {
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
 								foreach ($inventoryFields as $columnName => $fieldModel) {
-									$inventoryDataForEdit[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
 									$invData[$groupBy][$columnName . $counter] = $inventoryRow[$columnName];
 									$fieldCustomColumn = $fieldModel->getCustomColumn();
 									if ($fieldCustomColumn) {
@@ -472,7 +470,6 @@ class RecordConverter extends Base
 										}
 									}
 								}
-								$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
 								$invData[$groupBy]['seq' . $counter] = $counter;
 								$invData[$groupBy]['inventoryItemsNo'] = $counter;
 								$counter++;
@@ -480,8 +477,8 @@ class RecordConverter extends Base
 						}
 					}
 				}
-				$newRecordModel->setInventoryData($inventoryDataForEdit[$groupBy]);
 				$newRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
+				$newRecordModel->initInventoryData();
 			} else {
 				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
 					if (!is_array($this->recordModels[$groupBy])) {
@@ -500,14 +497,11 @@ class RecordConverter extends Base
 										$fieldCustomColumn = $this->destinyInvFields[$destinyField]->getCustomColumn();
 										if ($fieldCustomColumn) {
 											foreach (array_keys($fieldCustomColumn) as $customColumn) {
-												$inventoryData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn];
 												$invData[$groupBy][$customColumn . $counter] = $inventoryRow[$customColumn];
 											}
 										}
 										$invData[$groupBy][$destinyField . $counter] = $inventoryRow[$sourceField];
-										$inventoryDataForEdit[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
 									}
-									$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
 									$invData[$groupBy]['name' . $counter] = $inventoryRow['id'];
 									$invData[$groupBy]['seq' . $counter] = $counter;
 									$invData[$groupBy]['inventoryItemsNo'] = $counter++;
@@ -516,8 +510,8 @@ class RecordConverter extends Base
 						}
 					}
 				}
-				$newRecordModel->setInventoryData($inventoryDataForEdit[$groupBy]);
 				$newRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
+				$newRecordModel->initInventoryData();
 			}
 		}
 	}
