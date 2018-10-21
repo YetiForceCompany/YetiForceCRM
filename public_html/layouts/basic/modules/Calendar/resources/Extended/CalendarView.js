@@ -389,7 +389,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	/**
 	 * Register events to EditView
-	 * @param {jQuery)}sideBar
+	 * @param {jQuery} sideBar
 	 */
 	registerEditForm(sideBar) {
 		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
@@ -422,7 +422,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		const thisInstance = this,
 			aDeferred = $.Deferred();
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		if (typeof params === 'number') {
+		if ($.isNumeric(params)) {
 			params = {
 				module: app.getModuleName(),
 				view: 'EventForm',

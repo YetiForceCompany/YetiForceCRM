@@ -233,8 +233,6 @@
     "Mobile Call": "Appel Mobile",
     "JS_CHANGE_ACTIVITY_TIME": "Changer le statut : \u00e0 g\u00e9rer ou historiser",
     "JS_ASSIGNED_TO": "Assign\u00e9 \u00e0",
-    "JS_SWITCHING_DAYS": "Echanger jours ",
-    "JS_ALL": "Tous",
-    "JS_WORK_DAYS": "Jours travaill\u00e9s"
+    "JS_SWITCHING_DAYS": "Echanger jours "
   }
 }

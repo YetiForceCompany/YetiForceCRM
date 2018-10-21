@@ -1495,6 +1495,8 @@
     "JS_MORE": "Mai mult",
     "JS_TO_REALIZE": "Pentru procesare",
     "JS_HISTORY": "Istoric",
+    "JS_ALL": "Toate",
+    "JS_WORK_DAYS": "Zile lucratoare",
     "JS_NOT_SELECTED_WORKFLOW_TRIGGER": "Nu s-a selectat niciun flux de lucru",
     "JS_STARTED_PERFORM_WORKFLOW": "Flux de lucru pornit",
     "JS_COMPLETED_PERFORM_WORKFLOW": "Flux de lucru complet",

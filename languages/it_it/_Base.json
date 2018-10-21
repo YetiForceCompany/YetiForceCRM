@@ -1481,6 +1481,8 @@
     "JS_MORE": "More",
     "JS_TO_REALIZE": "For processing",
     "JS_HISTORY": "History",
+    "JS_ALL": "All",
+    "JS_WORK_DAYS": "Work days",
     "JS_NOT_SELECTED_WORKFLOW_TRIGGER": "No workflow selected",
     "JS_STARTED_PERFORM_WORKFLOW": "Workflow started",
     "JS_COMPLETED_PERFORM_WORKFLOW": "Workflow completed",
