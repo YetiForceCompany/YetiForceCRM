@@ -20,6 +20,7 @@
 			{/if}
 			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}"/>
 			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}"/>
+			{assign var=SHOW_LINK_TO_CALENDAR value=AppConfig::module($MODULE_NAME, 'CALENDAR_VIEW') === 'Extended' && AppConfig::module($MODULE_NAME, 'SHOW_EDIT_FORM')}
 			{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 				{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
 					<hr>
@@ -30,6 +31,7 @@
 				{assign var=END_TIME value=$RECORD->get('time_end')}
 				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->get('crmid'))}
 				<div class="activityEntries p-1">
+					<input type="hidden" class="activityModule" value="{$MODULE_NAME}"/>
 					<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 					<div class="row">
 						<span class="col-md-6">
@@ -74,40 +76,29 @@
 					</div>
 					<div class="row">
 						<div class="activityStatus col-md-12">
-							<input type="hidden" class="activityType"
-								   value="{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}"/>
-							{if $RECORD->get('activitytype') eq 'Task'}
-								{assign var=MODULE_NAME value=$RECORD->getModuleName()}
-								<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
-								{if !$IS_READ_ONLY && $RECORD->isEditable()}
-									<div>
-										<strong>
-											<span class="fas fa-tags fa-fw mr-1"></span><span
-													class="value">{$RECORD->getDisplayValue('status')}</span>
-										</strong>&nbsp;&nbsp;
-										{if $DATA_TYPE != 'history'}
+							<input value="{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" type="hidden" class="activityType"/>
+							{if !$IS_READ_ONLY && $RECORD->isEditable()}
+								<div>
+									<strong>
+										<span class="fas fa-tags fa-fw mr-1"></span>
+										<span class="value">{$RECORD->getDisplayValue('status')}</span>
+									</strong>&nbsp;&nbsp;
+									{if $DATA_TYPE != 'history'}
+										{if $SHOW_LINK_TO_CALENDAR}
+											{assign var=ACTIVITY_URL value="index.php?module=Calendar&view=QuickEditAjax&record={$RECORD->getId()}"}
+											<span class="editDefaultStatus u-cursor-pointer float-right js-popover-tooltip showEdit" data-url="{$ACTIVITY_URL}"
+												  data-content="{\App\Language::translate('LBL_EDIT_FROM_CALENDAR',$MODULE_NAME)}" data-js="popover">
+												<span class="far fa-calendar fa-fw"></span>
+											</span>
+										{else}
 											<span class="editDefaultStatus float-right u-cursor-pointer js-popover-tooltip delay0"
 												  data-js="popover" data-url="{$RECORD->getActivityStateModalUrl()}"
 												  data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
 												<span class="fas fa-check fa-fw"></span>
 											</span>
 										{/if}
-									</div>
-								{/if}
-							{else}
-								<input type="hidden" class="activityModule" value="Events"/>
-								{if !$IS_READ_ONLY && $RECORD->isEditable()}
-									<div>
-										<strong><span class="fas fa-tags fa-fw mr-1"></span><span
-													class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
-										{if $DATA_TYPE != 'history'}
-											<span class="editDefaultStatus float-right u-cursor-pointer js-popover-tooltip delay0"
-												  data-js="popover" data-url="{$RECORD->getActivityStateModalUrl()}"
-												  data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span
-														class="fas fa-check fa-fw"></span></span>
-										{/if}
-									</div>
-								{/if}
+									{/if}
+								</div>
 							{/if}
 						</div>
 					</div>

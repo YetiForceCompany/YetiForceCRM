@@ -13,13 +13,20 @@
 					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between py-2">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
-								<span class="col-12">
-									<span class="fas fa-plus mr-1"></span>
-									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}
-										:</strong>
-									<strong class="text-uppercase"><span
-												class="userIcon-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
-								</span>
+								{if $RECORD}
+									<span class="col-12">
+										<span class="fas fa-edit mr-1"></span>
+										<strong class="mr-1">{$MODAL_TITLE}</strong>
+									</span>
+								{else}
+									<span class="col-12">
+										<span class="fas fa-plus mr-1"></span>
+										<strong class="mr-1">{$MODAL_TITLE}:</strong>
+										<strong class="text-uppercase">
+											<span class="userIcon-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
+										</strong>
+									</span>
+								{/if}
 							</h5>
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
@@ -46,7 +53,7 @@
 							</div>
 						</div>
 						<div class="col-4 pl-3">
-							{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE)}
+							{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
 						</div>
 					</div>
 				</div>
