@@ -135,6 +135,20 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	},
 	registerExtendCalendar: function () {
 		new Calendar_CalendarModal_Js($('.js-modal-container'), true);
+		let container = this.getContainer();
+		container.find('.js-activity-buttons button').on('click', function (e) {
+			let form = container.find('form');
+			let currentTarget = $(e.currentTarget);
+			if (1 === currentTarget.data('type')) {
+				form.append('<input type=hidden name="activitystatus" value="' + currentTarget.data('state') + '">');
+				form.submit();
+			} else {
+				container.find('.js-activity-buttons').remove();
+				form.find('[name="record"]').val('');
+				form.append('<input type=hidden name="postponed" value="true">');
+				form.append('<input type=hidden name="followup" value="' + currentTarget.data('id') + '">');
+			}
+		});
 	},
 	registerStandardCalendar: function () {
 		const thisInstance = this;
