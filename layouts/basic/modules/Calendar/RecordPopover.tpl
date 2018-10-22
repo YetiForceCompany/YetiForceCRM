@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-RecordPopover">
-		<h5 class="c-popover--link__header px-2 py-2 bg-light">
+		<h5 class="c-popover--link__header px-2 py-2 bg-light d-flex align-items-baseline">
 			{$RECORD->getDisplayName()}
-			<div class="c-popover--link__header__buttons btn-group">
+			<div class="c-popover--link__header__buttons btn-group ml-auto">
 				<a class="btn btn-sm btn-outline-secondary js-calendar-popover" href="{$DETAIL_URL}" data-js="click">
 					<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list"></span>
 				</a>
