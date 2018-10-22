@@ -5,14 +5,14 @@
 	<div class="tpl-ConditionBuilder-PickList">
 		<select class="js-picklist-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				multiple="multiple"
-		<optgroup class="p-0">
-			<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
-		</optgroup>
-		{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-			<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
-					title="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if in_array($PICKLIST_NAME, $FIELD_VALUES)} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
-		{/foreach}
+				multiple="multiple">
+			<optgroup class="p-0">
+				<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+			</optgroup>
+			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
+				<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
+						title="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if in_array($PICKLIST_NAME, $FIELD_VALUES)} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
+			{/foreach}
 		</select>
 	</div>
 {/strip}

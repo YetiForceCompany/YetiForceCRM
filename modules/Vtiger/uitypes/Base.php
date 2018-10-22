@@ -389,6 +389,6 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		return 'List/Field/Base.tpl';
+		return 'ConditionBuilder/Base.tpl';
 	}
 }

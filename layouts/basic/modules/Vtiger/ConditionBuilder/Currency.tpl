@@ -4,8 +4,8 @@
 	{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
 	<div class="tpl-ConditionBuilder-Currency input-group">
 		{if $SYMBOL_PLACEMENT neq '1.0$'}
-			<span class="input-group-append row"><span class="input-group-text js-currency"
-													   data-js="text">{$BASE_CURRENCY_SYMBOL.symbol}</span></span>
+			<span class="input-group-prepend row"><span class="input-group-text js-currency"
+														data-js="text">{$BASE_CURRENCY_SYMBOL.symbol}</span></span>
 		{/if}
 		<input class="js-currency-field form-control js-condition-builder-value"
 			   data-js="currency"

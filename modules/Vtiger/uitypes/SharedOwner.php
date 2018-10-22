@@ -219,4 +219,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'c', 'k', 'y', 'ny', 'om', 'd'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Owner.tpl';
+	}
 }
