@@ -235,20 +235,20 @@ var App = {},
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
 					let popoverId = element.attr('aria-describedby');
-					let popoverBoddy = $(`#${popoverId} .popover-body`);
-					popoverBoddy.progressIndicator({});
+					let popoverBody = $(`#${popoverId} .popover-body`);
+					popoverBody.progressIndicator({});
 					let cacheData = $('[data-url-cached="' + url + '"]').children();
 					if (cacheData.length) {
-						popoverBoddy.progressIndicator({mode: 'hide'}).html(cacheData.clone());
+						popoverBody.progressIndicator({mode: 'hide'}).html(cacheData.clone());
 						if (typeof customParams.callback === 'function') {
-							customParams.callback(popoverBoddy);
+							customParams.callback(popoverBody);
 						}
 					} else {
 						AppConnector.request(url).done((data) => {
 							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
-							popoverBoddy.progressIndicator({mode: 'hide'}).html(data);
+							popoverBody.progressIndicator({mode: 'hide'}).html(data);
 							if (typeof customParams.callback === 'function') {
-								customParams.callback(popoverBoddy);
+								customParams.callback(popoverBody);
 							}
 						});
 					}
