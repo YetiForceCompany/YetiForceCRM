@@ -70,7 +70,7 @@ class User
 			return static::$currentUserCache;
 		}
 		if (!static::$currentUserId) {
-			static::$currentUserId = (int)\App\Session::get('authenticated_user_id');
+			static::$currentUserId = (int) \App\Session::get('authenticated_user_id');
 		}
 		return static::$currentUserCache = static::getUserModel(static::$currentUserId);
 	}
@@ -118,7 +118,7 @@ class User
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
-		$valueMap['is_admin'] = (bool)$is_admin;
+		$valueMap['is_admin'] = (bool) $is_admin;
 		$valueMap['user_info'] = $user_info;
 		$valueMap['_privileges'] = $privileges;
 		if (!$is_admin) {
