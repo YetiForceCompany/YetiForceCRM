@@ -39,6 +39,7 @@
 							<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 							<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 							<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
+							<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 							<div class="tpl-Calendar-Extended-CalendarViewPreProcess">
 								<div class="o-calendar__container">
 									<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
