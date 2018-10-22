@@ -147,10 +147,11 @@ var App = {},
 			element.hoverIntent({
 				timeout: 150,
 				over: function () {
-					const self = this;
 					$(this).popover("show");
-					$(".popover").on("mouseleave", function () {
-						$(self).popover('hide');
+					$(".popover").on("mouseleave", () => {
+						if (!$(".popover:hover").length) {
+							$(this).popover('hide');
+						}
 					});
 				},
 				out: function () {
@@ -219,7 +220,7 @@ var App = {},
 		 * Register popover links
 		 * @param {jQuery} selectElement
 		 */
-		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
+		registerPopoverLink: function (container, customParams = {}) {
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
@@ -242,6 +243,7 @@ var App = {},
 						popoverBody.progressIndicator({mode: 'hide'}).html(cacheData.clone());
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
+							app.registerPopoverLink(popoverBody);
 						}
 					} else {
 						AppConnector.request(url).done((data) => {
@@ -249,12 +251,13 @@ var App = {},
 							popoverBody.progressIndicator({mode: 'hide'}).html(data);
 							if (typeof customParams.callback === 'function') {
 								customParams.callback(popoverBody);
+								app.registerPopoverLink(popoverBody);
 							}
 						});
 					}
 				}
 			};
-			app.showPopoverElementView(selectElement, params);
+			app.showPopoverElementView(container.find('.js-popover-link'), params);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
@@ -1688,7 +1691,7 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registerPopoverLink();
+	app.registerPopoverLink($('body'));
 	$('.js-scrollbar').each(function () {
 		app.showNewScrollbar($(this));
 	});
