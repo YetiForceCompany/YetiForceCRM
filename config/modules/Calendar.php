@@ -14,7 +14,7 @@ return [
 	'EVENT_LIMIT' => 10,
 	// Show calendar timeline in monthly view
 	// false = basicWeek, true = agendaWeek
-	'SHOW_TIMELINE_WEEK' => true, // Boolean
+	'SHOW_TIMELINE_WEEK' => false, // Boolean
 	// Show calendar timeline in day view
 	// false = basicDay, true = agendaDay
 	'SHOW_TIMELINE_DAY' => true, //  Boolean
@@ -55,5 +55,7 @@ return [
 	//Show default edit form
 	'SHOW_EDIT_FORM' => false,
 	//Select event free time automatically
-	'AUTOFILL_TIME' => false
+	'AUTOFILL_TIME' => false,
+	//Shows 'all day' row in agendaWeek and agendaDay view
+	'ALL_DAY_SLOT' => true
 ];
