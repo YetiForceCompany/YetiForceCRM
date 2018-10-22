@@ -221,7 +221,7 @@
 									<div class="col-md-6 d-flex align-items-center" id="schtime">
 										<div class="input-group time">
 											{if !empty($WORKFLOW_MODEL_OBJ->schtime)}
-												{assign var=SCHTIME value=$WORKFLOW_MODEL_OBJ->getWFScheduleTimeUserFormat()}
+												{assign var=SCHTIME value=\App\Fields\Time::formatToDisplay($WORKFLOW_MODEL_OBJ->schtime)}
 											{/if}
 											<input type="text" class="clockPicker form-control"
 												   data-format="{$USER_MODEL->get('hour_format')}"

@@ -33,11 +33,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$workflowModel->set('execution_condition', $executionCondition);
 
 		if ($executionCondition == '6') {
-			try {
-				$schtime = DateTimeField::convertToDBTimeZone(date('Y-m-d') . ' ' . $request->get('schtime'))->format('H:i:s');
-			} catch (\Exception $e) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||schtime||' . $request->get('schtime'), 406);
-			}
+			$schtime = \App\Fields\Time::formatToDB($request->getByType('schtime', 'TimeInUserFormat'));
 			$workflowModel->set('schtime', $schtime);
 
 			$workflowModel->set('schtypeid', $workflowScheduleType);
