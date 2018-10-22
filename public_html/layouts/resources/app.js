@@ -220,7 +220,7 @@ var App = {},
 		 * Register popover links
 		 * @param {jQuery} selectElement
 		 */
-		registerPopoverLink: function (container, customParams = {}) {
+		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
@@ -243,7 +243,7 @@ var App = {},
 						popoverBody.progressIndicator({mode: 'hide'}).html(cacheData.clone());
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
-							app.registerPopoverLink(popoverBody);
+							app.registerPopoverLink(popoverBody.find('a.js-popover-link'));
 						}
 					} else {
 						AppConnector.request(url).done((data) => {
@@ -251,13 +251,13 @@ var App = {},
 							popoverBody.progressIndicator({mode: 'hide'}).html(data);
 							if (typeof customParams.callback === 'function') {
 								customParams.callback(popoverBody);
-								app.registerPopoverLink(popoverBody);
+								app.registerPopoverLink(popoverBody.find('a.js-popover-link'));
 							}
 						});
 					}
 				}
 			};
-			app.showPopoverElementView(container.find('.js-popover-link'), params);
+			app.showPopoverElementView(selectElement, params);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
@@ -1691,7 +1691,10 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registerPopoverLink($('body'));
+	app.registerPopoverLink($.unique($.merge($('a.js-popover-link'), $('[data-field-type="reference"] > a'), $('[data-field-type="multireference"] > a'))));
+	app.listenPostAjaxReady(function () {
+		app.registerPopoverLink($.unique($.merge($('a.js-popover-link'), $('[data-field-type="reference"] > a'), $('[data-field-type="multireference"] > a'))));
+	});
 	$('.js-scrollbar').each(function () {
 		app.showNewScrollbar($(this));
 	});

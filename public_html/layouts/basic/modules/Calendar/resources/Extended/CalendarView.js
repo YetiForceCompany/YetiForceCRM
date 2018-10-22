@@ -794,7 +794,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	registerPopoverLink() {
 		$('[data-url-cached]').remove();
-		app.registerPopoverLink(this.getCalendarView(), {
+		app.registerPopoverLink(this.getCalendarView().find('a.js-popover-link'), {
 			callback: (data) => {
 				data.find('.js-calendar-popover').on('click', (e) => {
 					e.preventDefault();
