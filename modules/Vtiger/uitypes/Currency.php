@@ -131,4 +131,16 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
 	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Currency.tpl';
+	}
 }
