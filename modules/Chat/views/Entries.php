@@ -77,7 +77,8 @@ class Chat_Entries_View extends \App\Controller\View
 		}
 		$chat = \App\Chat::getInstance($roomType, $recordId);
 		if (!$chat->isRoomExists()) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			//throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			return;
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null));

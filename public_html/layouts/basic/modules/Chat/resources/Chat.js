@@ -139,6 +139,14 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Is chat room active.
+	 * @returns {boolean}
+	 */
+	isRoomActive() {
+		return this.container.find('.js-container-chat').length === 0 || !this.container.find('.js-container-chat').hasClass('hide');
+	}
+
+	/**
 	 * Get current room type.
 	 * @returns {int}
 	 */
@@ -168,6 +176,14 @@ window.Chat_JS = class Chat_Js {
 	 */
 	getRoomTimer() {
 		return this.messageContainer.data('roomTimer');
+	}
+
+	/**
+	 * Activate chat room.
+	 */
+	activateRoom() {
+		this.container.find('.js-container-button').addClass('hide');
+		this.container.find('.js-container-chat').removeClass('hide');
 	}
 
 	/**
@@ -212,6 +228,9 @@ window.Chat_JS = class Chat_Js {
 			}
 			this.request(param, false).done((html) => {
 				if (html) {
+					if (!this.isRoomActive()) {
+						this.activateRoom();
+					}
 					let obj = $('<div></div>').html($.parseHTML(html));
 					this.buildParticipants(obj.find('.js-participants-data'), false);
 					this.messageContainer.append(html);
@@ -334,13 +353,15 @@ window.Chat_JS = class Chat_Js {
 					roomType: this.getCurrentRoomType(),
 					recordId: this.getCurrentRecordId()
 				}).done(() => {
-					this.container.find('.js-container-button').addClass('hide');
-					this.container.find('.js-container-chat').removeClass('hide');
+					this.activateRoom();
 				});
 			});
 		}
 	}
 
+	/**
+	 * Register listen event.
+	 */
 	registerListenEvent() {
 		this.getMessage(true);
 		/*this.timerRoom = setTimeout(() => {
