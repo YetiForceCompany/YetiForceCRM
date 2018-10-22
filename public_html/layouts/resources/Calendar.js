@@ -60,7 +60,7 @@ window.Calendar_Js = class Calendar_Js {
 				center: 'title today',
 				right: 'prev,next'
 			},
-			allDaySlot: true,
+			allDaySlot: app.getMainParams('allDaySlot'),
 			views: {
 				basic: {
 					eventLimit: false,
