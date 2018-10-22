@@ -85,4 +85,12 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Owner.tpl';
+	}
 }

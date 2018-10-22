@@ -85,4 +85,16 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'y', 'ny', 'd'];
 	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Tree.tpl';
+	}
 }
