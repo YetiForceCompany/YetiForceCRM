@@ -36,12 +36,12 @@ window.Chat_JS = class Chat_Js {
 	 */
 	init(container) {
 		this.container = container;
-		this.messageContainer = container.find('.js-chat_content');
+		this.messageContainer = this.container.find('.js-chat_content');
 		this.sendByEnter = true;
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.timerGlobal = null;
-		this.lastMessageId = container.find('.js-chat-item:last').data('mid');
+		this.lastMessageId = this.container.find('.js-chat-item:last').data('mid');
 		this.maxLengthMessage = this.messageContainer.data('maxLengthMessage');
 	}
 
@@ -88,6 +88,7 @@ window.Chat_JS = class Chat_Js {
 			}).done((data) => {
 				this.messageContainer.append(data);
 				this.getMessage(true);
+				this.updateParticipants();
 			});
 			inputMessage.val('');
 		} else {
@@ -123,6 +124,18 @@ window.Chat_JS = class Chat_Js {
 		itemUser.find('.js-message').html(data.message);
 		itemUser.data('userId', data.userId);
 		return itemUser;
+	}
+
+	/**
+	 * Update the last message from the list of participants.
+	 */
+	updateParticipants() {
+		this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
+			let lastMessage = this.messageContainer.find('.js-chat-item[data-user-id=' + $(element).data('userId') + ']:last');
+			if (lastMessage.length) {
+				$(element).find('.js-message').html(lastMessage.find('.messages').html());
+			}
+		});
 	}
 
 	/**
@@ -186,6 +199,7 @@ window.Chat_JS = class Chat_Js {
 			this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
 				participants.push($(element).data('userId'));
 			});
+			this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
 			let param = {
 				view: 'Entries',
 				mode: 'get',
@@ -200,9 +214,9 @@ window.Chat_JS = class Chat_Js {
 				if (html) {
 					let obj = $('<div></div>').html($.parseHTML(html));
 					this.buildParticipants(obj.find('.js-participants-data'), false);
-					//this.lastMessageId = data.find('.js-chat-item').data('mid');
 					this.messageContainer.append(html);
-					this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
+					this.updateParticipants();
+					//this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
 					//console.log(this.lastMessageId);
 					//console.log(this.messageContainer.find('.js-chat-item:last'));
 				}
