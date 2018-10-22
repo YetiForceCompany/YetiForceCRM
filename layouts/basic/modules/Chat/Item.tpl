@@ -4,7 +4,7 @@
 		 data-mid="{$ROW['id']}" data-js="data">
 		<div class="float-right">
 			<small>
-				{\App\Fields\DateTime::formatToViewDate($ROW['created'])}
+				{\App\Fields\DateTime::formatToMoreReadable($ROW['created'])}
 			</small>
 		</div>
 		<div class="author">
@@ -17,7 +17,7 @@
 					 height="80" align="left">
 				<br/>
 			{else}
-				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+				<span class="fas fa-user userImage"></span>
 			{/if}
 		</div>
 		<div class="messages">{$ROW['messages']}</div>

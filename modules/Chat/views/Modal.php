@@ -46,8 +46,10 @@ class Chat_Modal_View extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', \App\Chat::getInstance()->getEntries());
+		$chat = \App\Chat::getInstance();
+		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('PARTICIPANTS', $chat->getUsers());
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 

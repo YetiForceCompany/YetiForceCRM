@@ -11,13 +11,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} container
 	 */
 	constructor(container) {
-		this.container = container;
-		this.messageContainer = container.find('.js-chat_content');
-		this.sendByEnter = true;
-		this.timerMessage = null;
-		this.timerRoom = null;
-		this.timerGlobal = null;
-		this.lastMessageId = container.find('.js-chat-item:last').data('mid');
+		this.init(container);
 	}
 
 	/**
@@ -31,10 +25,24 @@ window.Chat_JS = class Chat_Js {
 		if (typeof Chat_Js.instance[typeInstance] === 'undefined') {
 			Chat_Js.instance[typeInstance] = new Chat_Js(container);
 		} else {
-			Chat_Js.instance[typeInstance].container = container;
-			Chat_Js.instance[typeInstance].messageContainer = container.find('.js-chat_content');
+			Chat_Js.instance[typeInstance].init(container);
 		}
 		return Chat_Js.instance[typeInstance];
+	}
+
+	/**
+	 * Data initialization from the container.
+	 * @param {jQuery} container
+	 */
+	init(container) {
+		this.container = container;
+		this.messageContainer = container.find('.js-chat_content');
+		this.sendByEnter = true;
+		this.timerMessage = null;
+		this.timerRoom = null;
+		this.timerGlobal = null;
+		this.lastMessageId = container.find('.js-chat-item:last').data('mid');
+		this.maxLengthMessage = this.messageContainer.data('maxLengthMessage');
 	}
 
 	/**
@@ -64,22 +72,30 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} inputMessage
 	 */
 	sendMessage(inputMessage) {
-		if (inputMessage.val() === '') {
+		let len = inputMessage.val().length;
+		if (0 === len) {
 			return;
 		}
-		clearTimeout(this.timerMessage);
-		this.request({
-			view: 'Entries',
-			mode: 'send',
-			roomType: this.getCurrentRoomType(),
-			recordId: this.getCurrentRecordId(),
-			message: inputMessage.val(),
-			mid: this.messageContainer.find('.js-chat-item:last').data('mid')
-		}).done((data) => {
-			this.messageContainer.append(data);
-			this.getMessage(true);
-		});
-		inputMessage.val('');
+		if (len < this.maxLengthMessage) {
+			clearTimeout(this.timerMessage);
+			this.request({
+				view: 'Entries',
+				mode: 'send',
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId(),
+				message: inputMessage.val(),
+				mid: this.messageContainer.find('.js-chat-item:last').data('mid')
+			}).done((data) => {
+				this.messageContainer.append(data);
+				this.getMessage(true);
+			});
+			inputMessage.val('');
+		} else {
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
+				animation: 'show'
+			});
+		}
 	}
 
 	/**
@@ -91,6 +107,22 @@ window.Chat_JS = class Chat_Js {
 			position: 'html',
 			blockInfo: {enabled: true}
 		});
+	}
+
+	/**
+	 * Create a user element.
+	 * @param {object}
+	 * @returns {jQuery}
+	 */
+	createUserItem(data = {}) {
+		let itemUser = this.container.find('.js-participants-list .js-temp-item-user').clone(false, false);
+		itemUser.removeClass('js-temp-item-user');
+		itemUser.removeClass('hide');
+		itemUser.find('.js-user-name').html(data.userName);
+		itemUser.find('.js-role').html(data.role);
+		itemUser.find('.js-message').html(data.message);
+		itemUser.data('userId', data.userId);
+		return itemUser;
 	}
 
 	/**
@@ -150,21 +182,29 @@ window.Chat_JS = class Chat_Js {
 			clearTimeout(this.timerMessage);
 		}
 		this.timerMessage = setTimeout(() => {
-			this.request({
+			let participants = [];
+			this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
+				participants.push($(element).data('userId'));
+			});
+			let param = {
 				view: 'Entries',
 				mode: 'get',
 				lastId: this.lastMessageId,
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId()
-			}).done((html) => {
+			};
+			if (participants.length) {
+				param['participants'] = participants;
+			}
+			this.request(param, false).done((html) => {
 				if (html) {
-					//let data = $(html);
-					this.buildParticipants(data.find('.js-participants-data'), false);
+					let obj = $('<div></div>').html($.parseHTML(html));
+					this.buildParticipants(obj.find('.js-participants-data'), false);
 					//this.lastMessageId = data.find('.js-chat-item').data('mid');
 					this.messageContainer.append(html);
 					this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
-					console.log(this.lastMessageId);
-					console.log(this.messageContainer.find('.js-chat-item:last'));
+					//console.log(this.lastMessageId);
+					//console.log(this.messageContainer.find('.js-chat-item:last'));
 				}
 				if (timer) {
 					this.getMessage(true);
@@ -208,8 +248,20 @@ window.Chat_JS = class Chat_Js {
 		if (element.length) {
 			if (reload) {
 				this.container.find('.js-participants-list').html('');
+			} else {
+				let users = JSON.parse(element.val());
+				let len = users.length;
+				for (let i = 0; i < len; ++i) {
+					this.container.find('.js-participants-list .js-users').append(
+						this.createUserItem({
+							userName: users[i]['user_name'],
+							role: users[i]['role_name'],
+							message: users[i]['message'],
+							userId: users[i]['user_id'],
+						})
+					);
+				}
 			}
-
 		}
 	}
 
@@ -276,10 +328,10 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	registerListenEvent() {
-		//this.getMessage(true);
-		this.timerRoom = setTimeout(() => {
+		this.getMessage(true);
+		/*this.timerRoom = setTimeout(() => {
 			this.getRoomsDetail(true);
-		}, this.getRoomTimer());
+		}, this.getRoomTimer());*/
 	}
 
 	/**

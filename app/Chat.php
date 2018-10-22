@@ -107,6 +107,17 @@ class Chat
 		return $_SESSION['chat'];
 	}
 
+	/**
+	 * Create chat room.
+	 *
+	 * @param string $roomType
+	 * @param int    $recordId
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 *
+	 * @return \App\Chat
+	 */
 	public static function createRoom(string $roomType, int $recordId)
 	{
 		$instance = new self($roomType, $recordId);
@@ -239,23 +250,6 @@ class Chat
 	}
 
 	/**
-	 * Get table or column for chat.
-	 *
-	 * @param string $dbType
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 *
-	 * @return string
-	 */
-	private function getDbInfo(string $dbType): string
-	{
-		if (!isset(static::DB_INFO[$dbType][$this->roomType])) {
-			throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$dbType}||{$this->roomType}", 406);
-		}
-		return static::DB_INFO[$dbType][$this->roomType];
-	}
-
-	/**
 	 * Check if chat room exists.
 	 *
 	 * @return bool
@@ -276,8 +270,15 @@ class Chat
 	 */
 	public function addMessage(string $message): int
 	{
-		$this->insertMessage($message);
-		return $this->lastMessageId;
+		$table = static::TABLE_NAME['message'][$this->roomType];
+		$db = Db::getInstance();
+		$db->createCommand()->insert($table, [
+			'userid' => $this->userId,
+			'messages' => $message,
+			'created' => date('Y-m-d H:i:s'),
+			static::COLUMN_NAME['record'][$this->roomType] => $this->recordId
+		])->execute();
+		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
 	/**
@@ -306,6 +307,45 @@ class Chat
 		}
 		$dataReader->close();
 		return $rows;
+	}
+
+	/**
+	 * Get users.
+	 *
+	 * @param int[] $excludedId
+	 *
+	 * @return array
+	 */
+	public function getUsers($excludedId = [])
+	{
+		if (empty($this->recordId) || empty($this->roomType)) {
+			return [];
+		}
+		$subQuery = (new \App\DB\Query())
+			->select(['userid', 'last_id' => 'max(id)'])
+			->from(static::TABLE_NAME['message'][$this->roomType])
+			->where([static::COLUMN_NAME['record'][$this->roomType] => $this->recordId])
+			->groupBy(['userid']);
+		$query = (new \App\DB\Query())
+			->from(['GL' => static::TABLE_NAME['message'][$this->roomType]])
+			->innerJoin(['LM' => $subQuery], 'LM.last_id = GL.id');
+		if ($excludedId) {
+			$query->where(['not', ['GL.userid' => $excludedId]]);
+		}
+		$dataReader = $query->createCommand()->query();
+		$users = [];
+		while ($row = $dataReader->read()) {
+			$userModel = User::getUserModel($row['userid']);
+			$users[] = [
+				'user_id' => $row['userid'],
+				'message' => $row['messages'],
+				'user_name' => $userModel->getName(),
+				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
+				'image' => \Vtiger_Record_Model::getInstanceById($row['userid'], 'Users')->getImage()
+			];
+		}
+		$dataReader->close();
+		return $users;
 	}
 
 	/**
@@ -374,29 +414,6 @@ class Chat
 					->where(['CG.global_room_id' => $this->recordId]);
 		}
 		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
-	}
-
-	/**
-	 * Insert a message to the chat room.
-	 *
-	 * @param string $message
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \yii\db\Exception
-	 *
-	 * @return int
-	 */
-	private function insertMessage(string $message): int
-	{
-		$table = static::TABLE_NAME['message'][$this->roomType];
-		$db = Db::getInstance();
-		$db->createCommand()->insert($table, [
-			'userid' => $this->userId,
-			'messages' => $message,
-			'created' => date('Y-m-d H:i:s'),
-			static::COLUMN_NAME['record'][$this->roomType] => $this->recordId
-		])->execute();
-		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
 	/**

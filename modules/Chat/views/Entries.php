@@ -82,6 +82,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('PARTICIPANTS', $chat->getUsers($request->getArray('participants', 2)));
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
@@ -105,6 +106,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
 		$viewer->assign('CURRENT_ROOM', ['roomType' => 'crm', 'recordId' => $recordModel->getId()]);
+		$viewer->assign('PARTICIPANTS', $chat->getUsers());
 		$viewer->assign('CHAT', $chat);
 		return $viewer->view('Detail/Chat.tpl', 'Chat', true);
 	}
