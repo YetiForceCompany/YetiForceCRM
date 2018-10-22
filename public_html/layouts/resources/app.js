@@ -222,7 +222,7 @@ var App = {},
 		 */
 		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
 			let params = {
-				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
+				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
