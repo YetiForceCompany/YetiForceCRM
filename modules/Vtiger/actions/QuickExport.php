@@ -49,7 +49,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$queryGenerator->initForCustomViewById($filter, true);
 		$headers = $listViewModel->getListViewHeaders();
 		foreach ($headers as $fieldsModel) {
-			$label = App\Language::translate($fieldsModel->getFieldLabel(), $moduleName);
+			$label = App\Language::translate($fieldsModel->getFieldLabel(), $fieldsModel->getModuleName());
 			if (!empty($fieldsModel->get('source_field_name'))) {
 				$label =  App\Language::translate($moduleModel->getField($fieldsModel->get('source_field_name'))->getFieldLabel(), $moduleName) . ' - ' . $label;
 			}
