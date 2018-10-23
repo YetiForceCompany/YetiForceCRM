@@ -604,15 +604,6 @@ $.Class("Vtiger_Header_Js", {
 	hideReminderNotification: function () {
 		$('.remindersNotificationContainer').removeClass('toggled');
 	},
-	showPdfModal: function (url) {
-		var params = {};
-		if (app.getViewName() == 'List') {
-			var selected = Vtiger_List_Js.getSelectedRecordsParams(false, true);
-			$.extend(params, selected);
-		}
-		url += '&' + $.param(params);
-		app.showModalWindow(null, url);
-	},
 	registerFooTable: function () {
 		var container = $('.tableRWD');
 		container.find('thead tr th:gt(1)').attr('data-hide', 'phone');
@@ -664,15 +655,6 @@ $.Class("Vtiger_Header_Js", {
 		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
 			$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
-	},
-	registerPdfButton: function () {
-		let btnToolbar = $('.js-btn-toolbar .btn-toolbar:eq(1)'), btn;
-		btn = btnToolbar.find('.js-btn-pdf');
-		if (btn.length) {
-			btn.on('click', function () {
-				window.location.href = 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '")';
-			});
-		}
 	},
 	listenTextAreaChange: function () {
 		var thisInstance = this;
@@ -737,7 +719,6 @@ $.Class("Vtiger_Header_Js", {
 			quickCreateModal.modal('hide');
 			thisInstance.quickCreateModule(moduleName);
 		});
-		thisInstance.registerPdfButton();
 		thisInstance.registerMobileEvents();
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();

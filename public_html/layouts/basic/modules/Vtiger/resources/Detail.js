@@ -2572,6 +2572,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	updateRecordsPDFTemplateBtn: function (form) {
+		let thisInstance = this;
 		AppConnector.request({
 			data: {
 				module: app.getModuleName(),
@@ -2593,8 +2594,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				let btnGroup = btnToolbar;
 				btn = btnToolbar.find('.js-btn-pdf');
 				if (btn.length === 0) {
-					btnGroup.append('<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm js-btn-pdf js-popover-tooltip" data-js="click|popover" data-placement="bottom" data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-target="focus hover" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></button></div>');
-					Vtiger_Header_Js.getInstance().registerPdfButton();
+					btnGroup.append('<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm js-btn-pdf js-popover-tooltip" data-js="click|popover" data-placement="bottom" data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-target="focus hover" data-url="index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></button></div>');
+					thisInstance.registerPdfButton();
 				}
 			}
 		}).fail(function (data, err) {
@@ -2603,6 +2604,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	updateWindowHeight: function (currentHeight, frame) {
 		frame.height(currentHeight);
+	},
+	registerPdfButton: function () {
+		let btnToolbar = $('.js-btn-toolbar .btn-toolbar:eq(1)'), btn;
+		btn = btnToolbar.find('.js-btn-pdf');
+		if (btn.length) {
+			btn.on('click', function () {
+				app.showModalWindow(null, btn.data('url'));
+			});
+		}
 	},
 	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
@@ -2632,5 +2642,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerBasicEvents();
 		this.registerEventForTotalRecordsCount();
 		this.registerProgress();
+		this.registerPdfButton();
 	}
 });

@@ -1311,6 +1311,21 @@ jQuery.Class("Vtiger_List_Js", {
 
 		});
 	},
+	registerPdfBtn: function () {
+		let container = this.getListViewContainer().find('.js-trigger-action');
+		let params = {};
+		let url = container.data('url');
+		container.on('click', function () {
+			let selected = Vtiger_List_Js.getSelectedRecordsParams(false, true);
+			if (JSON.parse(selected['selected_ids']).length > 0) {
+				$.extend(params, selected);
+				url += '&' + $.param(params);
+				app.showModalWindow(null, url);
+			} else {
+				Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD')});
+			}
+		});
+	},
 	/*
 	 * Function  to register click event for list view check box.
 	 */
@@ -2037,6 +2052,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerMainCheckBoxClickEvent();
+		this.registerPdfBtn();
 		this.registerCheckBoxClickEvent();
 		this.registerSelectAllClickEvent();
 		this.registerDeselectAllClickEvent();

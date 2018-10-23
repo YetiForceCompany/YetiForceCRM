@@ -187,7 +187,8 @@ class Vtiger_ListView_Model extends \App\Base
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List',
+					'linkclass' => 'js-trigger-action',
 					'linkicon' => 'fas fa-file-excel',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
@@ -342,8 +343,8 @@ class Vtiger_ListView_Model extends \App\Base
 			if (count($templates) > 0) {
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkclass' => 'btn-light',
+					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List',
+					'linkclass' => 'btn-light js-trigger-action',
 					'linkicon' => 'fas fa-file-excel',
 					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
 				];

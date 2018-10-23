@@ -35,7 +35,8 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => "javascript:Vtiger_Header_Js.getInstance().showPdfModal('index.php?module=$moduleName&view=PDF&fromview=List');",
+					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List',
+					'linkclass' => 'js-trigger-action',
 					'linkicon' => 'fas fa-file-excel',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
@@ -68,7 +69,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Function to get the list of Mass actions for the module.
 	 *
-	 * @param <Array> $linkParams
+	 * @param  <Array> $linkParams
 	 *
 	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
