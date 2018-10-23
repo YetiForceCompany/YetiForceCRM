@@ -87,7 +87,7 @@ class CustomView
 	/**
 	 * Operators without values.
 	 */
-	const FILTERS_WITHOUT_VALUES = ['y', 'today', 'tomorrow', 'yesterday', 'smallerthannow', 'greaterthannow', 'ny', 'om', 'wr', 'nwr', 'd'];
+	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'wr', 'nwr', 'd'];
 
 	/**
 	 * Do we have muliple ids?

@@ -60,7 +60,6 @@ class Vtiger_ConditionBuilder_Js {
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Date.register(container, true, {}, 'js-date-field');
 		App.Fields.Date.registerRange(container.find('.js-date-range-field'), {ranges: false});
-		App.Fields.DateTime.register(container, true, {}, 'js-date-time-field');
 		app.registerEventForClockPicker($(container.find('.clockPicker')));
 	}
 
