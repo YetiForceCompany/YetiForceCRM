@@ -22,6 +22,20 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return '';
 	}
 
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		if ($operator === 'bw') {
+			$values = explode(',', $value);
+			foreach ($values as &$val) {
+				$this->validate($val, true);
+				$val =	$this->getDBValue($val);
+			}
+			return implode(',', $values);
+		}
+		$this->validate($value, true);
+		return $this->getDBValue($value);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -165,8 +179,10 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Returns template for operator
+	 * Returns template for operator.
+	 *
 	 * @param string $operator
+	 *
 	 * @return string
 	 */
 	public function getOperatorTemplateName(string $operator = '')
@@ -176,6 +192,5 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		} else {
 			return 'ConditionBuilder/Date.tpl';
 		}
-
 	}
 }

@@ -2,8 +2,9 @@
 {strip}
 	<div class="tpl-ConditionBuilder-Date input-group date">
 		<input class="dateRangeField js-date-range-field form-control js-condition-builder-value"
-			   data-js="daterangepicker"
-			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"
+			   data-js="daterangepicker|val"
+			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}"
+			   value="{\App\Purifier::encodeHtml(implode(',', array_map(['DateTimeField', 'convertToUserFormat'], explode(',', $VALUE))))}"
 			   autocomplete="off"/>
 		<div class=" input-group-append">
 			<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
