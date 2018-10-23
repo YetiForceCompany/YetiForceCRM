@@ -299,11 +299,11 @@ class Purifier
 				case 'TimeInUserFormat':
 					if (\App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
 						if (preg_match('/([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)/', $input)) {
-							$value = $input;
+							$value = Fields\Time::formatToDB($input);
 						}
 					} else {
 						if (preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])/', $input)) {
-							$value = $input;
+							$value = Fields\Time::formatToDB($input);
 						}
 					}
 					break;
