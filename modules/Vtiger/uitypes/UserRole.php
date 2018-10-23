@@ -83,7 +83,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'c'];
 	}
 
 	/**
@@ -91,6 +91,10 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		return 'ConditionBuilder/Owner.tpl';
+		if ($operator === 'e') {
+			return 'ConditionBuilder/UserRole.tpl';
+		} else {
+			return 'ConditionBuilder/Base.tpl';
+		}
 	}
 }
