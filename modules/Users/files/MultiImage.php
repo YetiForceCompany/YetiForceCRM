@@ -24,15 +24,15 @@ class Users_MultiImage_File extends Vtiger_MultiImage_File
 	 */
 	public function getCheckPermission(\App\Request $request)
 	{
-		if (!$request->isEmpty('record')) {
+		if (!$request->has('record')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		} else {
 			$fieldName = $request->getByType('field', 2);
 			if ($fieldName === 'imagename') {
 				return true;
 			} elseif (!\App\Privilege::isPermitted('Users', 'DetailView', $request->getInteger('record')) || !\App\Field::getFieldPermission('Users', $fieldName)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
-		} else {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		return true;
 	}
