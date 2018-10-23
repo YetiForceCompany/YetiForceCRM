@@ -1311,7 +1311,7 @@ jQuery.Class("Vtiger_List_Js", {
 
 		});
 	},
-	registerPdfBtn: function () {
+	registerModalMassAction: function () {
 		let container = this.getListViewContainer().find('.js-trigger-action');
 		let params = {};
 		let url = container.data('url');
@@ -2052,7 +2052,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerMainCheckBoxClickEvent();
-		this.registerPdfBtn();
+		this.registerModalMassAction();
 		this.registerCheckBoxClickEvent();
 		this.registerSelectAllClickEvent();
 		this.registerDeselectAllClickEvent();
