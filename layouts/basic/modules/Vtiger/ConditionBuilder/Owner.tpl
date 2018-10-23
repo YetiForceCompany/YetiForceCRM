@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-ConditionBuilder-Owner">
-		{assign var=VALUES value=explode(',', $VALUE)}
+		{assign var=VALUES value=explode('##', $VALUE)}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 		{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($FIELD_MODEL->getModuleName())->getAccessibleUsers()}
@@ -15,8 +15,9 @@
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 				multiple="multiple"
 				data-js="val"
+				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{' '}
+			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{' '}
 				{/if}>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$VALUES item=OWNER_ID}

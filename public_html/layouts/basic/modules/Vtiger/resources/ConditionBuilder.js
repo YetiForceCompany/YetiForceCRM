@@ -7,8 +7,9 @@ class Vtiger_ConditionBuilder_Js {
 	 * Constructor
 	 * @param {jQuery} container
 	 */
-	constructor(container) {
+	constructor(container, sourceModuleName) {
 		this.container = container;
+		this.sourceModuleName = sourceModuleName;
 	}
 
 
@@ -30,12 +31,14 @@ class Vtiger_ConditionBuilder_Js {
 				requestParams = {
 					module: app.getModuleName(),
 					view: 'ConditionBuilder',
+					sourceModuleName: self.sourceModuleName,
 					fieldname: $(e.currentTarget).val()
 				}
 			} else {
 				requestParams = {
 					module: app.getModuleName(),
 					view: 'ConditionBuilder',
+					sourceModuleName: self.sourceModuleName,
 					fieldname: container.find('.js-conditions-fields').val(),
 					operator: $(e.currentTarget).val(),
 				};
@@ -51,7 +54,7 @@ class Vtiger_ConditionBuilder_Js {
 
 	/**
 	 * register field types related events
-	 * @param container
+	 * @param {jQuery} container
 	 */
 	registerField(container) {
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
@@ -76,7 +79,8 @@ class Vtiger_ConditionBuilder_Js {
 			let container = $(e.currentTarget).closest('.js-condition-builder-group-container').find('> .js-condition-builder-conditions-container');
 			AppConnector.request({
 				module: app.getModuleName(),
-				view: 'ConditionBuilder'
+				view: 'ConditionBuilder',
+				sourceModuleName: self.sourceModuleName,
 			}).done(function (data) {
 				progress.progressIndicator({mode: 'hide'});
 				data = $(data);

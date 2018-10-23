@@ -1009,7 +1009,11 @@ class QueryGenerator
 		$queryField = $this->getQueryField($fieldName);
 		$queryField->setValue($value);
 		$queryField->setOperator($operator);
-		return $queryField->getCondition();
+		$condition = $queryField->getCondition();
+		if ($condition && ($field = $this->getModuleField($fieldName)) && !isset($this->tablesList[$field->getTableName()])) {
+			$this->tablesList[$field->getTableName()] = $field->getTableName();
+		}
+		return $condition;
 	}
 
 	/**
@@ -1052,10 +1056,6 @@ class QueryGenerator
 				$this->conditionsAnd[] = $condition;
 			} else {
 				$this->conditionsOr[] = $condition;
-			}
-			$field = $this->getModuleField($fieldName);
-			if ($field && !isset($this->tablesList[$field->getTableName()])) {
-				$this->tablesList[$field->getTableName()] = $field->getTableName();
 			}
 		} else {
 			Log::error('Wrong condition');

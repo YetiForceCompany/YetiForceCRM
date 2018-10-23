@@ -15,7 +15,7 @@ class CustomView {
 		let progressIndicatorElement = $.progressIndicator();
 		app.showModalWindow(null, url, () => {
 			this.contentsCotainer = $('.js-filter-modal__container');
-			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(this.contentsCotainer.find('.js-condition-builder'));
+			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(this.contentsCotainer.find('.js-condition-builder'), $('#sourceModule').val());
 			this.advanceFilterInstance.registerEvents();
 			//This will store the columns selection container
 			this.columnSelectElement = false;

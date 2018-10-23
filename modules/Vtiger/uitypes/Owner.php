@@ -27,7 +27,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		foreach ($value as $val) {
 			$values[] = parent::getDbConditionBuilderValue($val, $operator);
 		}
-		return implode(',', $values);
+		return implode('##', $values);
 	}
 
 	/**
