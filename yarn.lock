@@ -60,9 +60,10 @@ blueimp-canvas-to-blob@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz#5679ac32f6a2835821f0c3ad661719ff85a9236b"
 
-blueimp-file-upload@^9.21.0:
-  version "9.23.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.23.0.tgz#ff6c42e3ba06696f9121c9988598a0eba23e7ed2"
+blueimp-file-upload@^9.24.0:
+  version "9.24.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.24.0.tgz#66575644232fe59efd625113ba6ebe9367cb6e4e"
+  integrity sha512-Znk/jiXMydJkzI1u1bnNSS6eXwBrsm+qU2l0+9MIQJZMtLJpkAbEKr0ftLSZ99tsBCdYNlBSvShb+32S1bBLDA==
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -389,9 +390,10 @@ select@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
 
-split.js@^1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.5.tgz#0faeb5acab78065f9c5e4d856f6913fdce3078df"
+split.js@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.6.tgz#7a20065e66e859d713ce3dfbccfd16c995d547a3"
+  integrity sha512-cYlCrQPRs++gMU+ctCy2vpwl67bcu3AE8nvqBxeWGwnK8PWFAMzmq/ISBHIxR6z8ooyjxBTjLw5Ou9uYTCzOow==
 
 "svg@https://github.com/kbwood/svg":
   version "0.0.0"
