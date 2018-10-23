@@ -336,17 +336,14 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	/**
 	 * Function appends and shows today button's checkbox
-	 * @param toolbar
+	 * @param {$} toolbar
 	 */
 	showTodayButtonCheckbox(toolbar) {
-		let todayButton = toolbar.find('.fc-today-button');
+		let todayButton = toolbar.find('.fc-today-button'),
+			todyButtonIcon = todayButton.hasClass('fc-state-disabled') ? 'fa-calendar-check' : 'fa-calendar',
+			popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
 		todayButton.removeClass('.fc-button');
-		if (todayButton.hasClass('fc-state-disabled')) {
-			todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg fa-calendar-check"></span></div>`)
-		} else {
-			todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg fa-calendar"></span></div>`)
-		}
-		let popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
+		todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`)
 		app.showPopoverElementView(todayButton.find('.js-popover-tooltip'), {
 			content: popoverContent,
 			container: '.fc-today-button .js-popover-tooltip'
