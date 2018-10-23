@@ -12,6 +12,17 @@
 class Vtiger_Email_UIType extends Vtiger_Base_UIType
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		if (in_array($operator, ['e', 'n'])) {
+			$this->validate($value, true);
+		}
+		return $this->getDBValue($value);
+	}
+
+	/**
 	 * Verification of data.
 	 *
 	 * @param string $value
