@@ -10,6 +10,23 @@
 class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 {
 	/**
+	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 *
+	 * @param mixed  $value
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
