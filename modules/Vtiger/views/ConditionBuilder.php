@@ -12,10 +12,20 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getByType('sourceModuleName', 2))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$sourceModuleName = $request->getByType('sourceModuleName', 2);
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
 		$recordStructureModulesField = [];
 		foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
 			foreach ($referenceField->getReferenceList() as $relatedModuleName) {
@@ -46,6 +56,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 		$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
 		$viewer->assign('FIELD_INFO', $fieldInfo);
-		$viewer->view('ConditionBuilderRow.tpl', $moduleName);
+		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
+		$viewer->view('ConditionBuilderRow.tpl', $sourceModuleName);
 	}
 }
