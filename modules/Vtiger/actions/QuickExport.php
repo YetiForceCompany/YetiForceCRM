@@ -48,10 +48,10 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$queryGenerator = self::getQuery($request);
 		$queryGenerator->initForCustomViewById($filter, true);
 		$headers = $listViewModel->getListViewHeaders();
-		foreach ($headers as $fieldsModel) {
-			$label = App\Language::translate($fieldsModel->getFieldLabel(), $fieldsModel->getModuleName());
-			if (!empty($fieldsModel->get('source_field_name'))) {
-				$label =  App\Language::translate($moduleModel->getField($fieldsModel->get('source_field_name'))->getFieldLabel(), $moduleName) . ' - ' . $label;
+		foreach ($headers as $fieldModel) {
+			$label = App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+			if (!empty($fieldModel->get('source_field_name'))) {
+				$label =  App\Language::translate($moduleModel->getField($fieldModel->get('source_field_name'))->getFieldLabel(), $moduleName) . ' - ' . $label;
 			}
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($label), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 			++$col;
@@ -64,15 +64,15 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			if (!$record->isViewable()) {
 				continue;
 			}
-			foreach ($headers as $fieldsModel) {
+			foreach ($headers as $fieldModel) {
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
 				//phone numbers need to be explicit strings
-				$value = $record->getListViewDisplayValue($fieldsModel, true);
-				switch ($fieldsModel->getUIType()) {
+				$value = $record->getListViewDisplayValue($fieldModel, true);
+				switch ($fieldModel->getUIType()) {
 					case 25:
 					case 7:
-						if ($fieldsModel->getFieldName() === 'sum_time') {
+						if ($fieldModel->getFieldName() === 'sum_time') {
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						} else {
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
@@ -80,20 +80,20 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						break;
 					case 71:
 					case 72:
-						if (!empty($fieldsModel->get('source_field_name')) && isset($record->ext[$fieldsModel->get('source_field_name')][$fieldsModel->getModuleName()])) {
-							$value = $record->ext[$fieldsModel->get('source_field_name')][$fieldsModel->getModuleName()]->get($fieldsModel->getFieldName());
+						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
+							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
 						} else {
-							$value = $record->get($fieldsModel->getFieldName());
+							$value = $record->get($fieldModel->getFieldName());
 						}
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 						break;
 					case 6://datetimes
 					case 23:
 					case 70:
-						if (!empty($fieldsModel->get('source_field_name')) && isset($record->ext[$fieldsModel->get('source_field_name')][$fieldsModel->getModuleName()])) {
-							$value = $record->ext[$fieldsModel->get('source_field_name')][$fieldsModel->getModuleName()]->get($fieldsModel->getFieldName());
+						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
+							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
 						} else {
-							$value = $record->get($fieldsModel->getFieldName());
+							$value = $record->get($fieldModel->getFieldName());
 						}
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 						if ($moduleName === 'Reservations' || $moduleName === 'OSSTimeControl' || $moduleName === 'Calendar') {
@@ -111,7 +111,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 		//having written out all the data lets have a go at getting the columns to auto-size
 		$row = $col = 0;
-		foreach ($headers as &$fieldsModel) {
+		foreach ($headers as &$fieldModel) {
 			$cell = $worksheet->getCellByColumnAndRow($col, $row);
 			$worksheet->getStyleByColumnAndRow($col, $row)->applyFromArray($header_styles);
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
