@@ -15,10 +15,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		if (!is_string($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
