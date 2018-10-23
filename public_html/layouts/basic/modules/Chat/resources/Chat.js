@@ -147,6 +147,14 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Check the chat container is available
+	 * @returns {boolean}
+	 */
+	IsAvailable() {
+		return this.messageContainer.length;
+	}
+
+	/**
 	 * Get current room type.
 	 * @returns {int}
 	 */
@@ -231,8 +239,7 @@ window.Chat_JS = class Chat_Js {
 					if (!this.isRoomActive()) {
 						this.activateRoom();
 					}
-					let obj = $('<div></div>').html($.parseHTML(html));
-					this.buildParticipants(obj.find('.js-participants-data'), false);
+					this.buildParticipants($('<div></div>').html(html).find('.js-participants-data'), false);
 					this.messageContainer.append(html);
 					this.updateParticipants();
 					//this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
@@ -278,22 +285,22 @@ window.Chat_JS = class Chat_Js {
 	 * @param {bool} add
 	 */
 	buildParticipants(element, reload = false) {
+		const participants = this.container.find('.js-participants-list .js-users');
+		if (reload) {
+			participants.html('');
+		}
 		if (element.length) {
-			if (reload) {
-				this.container.find('.js-participants-list').html('');
-			} else {
-				let users = JSON.parse(element.val());
-				let len = users.length;
-				for (let i = 0; i < len; ++i) {
-					this.container.find('.js-participants-list .js-users').append(
-						this.createUserItem({
-							userName: users[i]['user_name'],
-							role: users[i]['role_name'],
-							message: users[i]['message'],
-							userId: users[i]['user_id'],
-						})
-					);
-				}
+			let users = JSON.parse(element.val());
+			let len = users.length;
+			for (let i = 0; i < len; ++i) {
+				participants.append(
+					this.createUserItem({
+						userName: users[i]['user_name'],
+						role: users[i]['role_name'],
+						message: users[i]['message'],
+						userId: users[i]['user_id'],
+					})
+				);
 			}
 		}
 	}
@@ -322,6 +329,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerSwitchRoom() {
 		this.container.find('.js-room-list .js-room').off('click').on('click', (e) => {
+			clearTimeout(this.timerMessage);
 			let element = $(e.currentTarget);
 			let recordId = element.data('recordId');
 			let roomType = element.closest('.js-room-type').data('roomType');
@@ -330,11 +338,12 @@ window.Chat_JS = class Chat_Js {
 				mode: 'get',
 				roomType: roomType,
 				recordId: recordId
-			}).done((data) => {
+			}).done((html) => {
 				this.selectRoom(roomType, recordId);
-				//this.buildParticipants(data.find('.js-participants-data'), true);
-				//this.lastMessageId = data.find('.js-chat-item:last').data('mid');
-				this.messageContainer.html(data);
+				this.buildParticipants($('<div></div>').html(html).find('.js-participants-data'), true);
+				this.messageContainer.html(html);
+				this.updateParticipants();
+				this.getMessage(true);
 			});
 		});
 	}
@@ -381,16 +390,20 @@ window.Chat_JS = class Chat_Js {
 	 * Register base events
 	 */
 	registerBaseEvents() {
-		this.registerSendEvent();
-		this.registerListenEvent();
-		this.registerCreateRoom();
+		if (this.IsAvailable()) {
+			this.registerSendEvent();
+			this.registerListenEvent();
+			this.registerCreateRoom();
+		}
 	}
 
 	/**
 	 * Register modal events
 	 */
 	registerModalEvents() {
-		this.registerBaseEvents();
-		this.registerSwitchRoom();
+		if (this.IsAvailable()) {
+			this.registerBaseEvents();
+			this.registerSwitchRoom();
+		}
 	}
 }

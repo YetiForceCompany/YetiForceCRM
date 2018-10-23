@@ -3,6 +3,9 @@
     "LBL_ROOM_CRM": "Ulubione",
     "LBL_ROOM_GROUP": "Grupowe",
     "LBL_ROOM_GLOBAL": "Globalne",
-    "LBL_MESSAGE": "Wiadomo\u015b\u0107"
+    "LBL_MESSAGE": "Wiadomo\u015b\u0107",
+    "LBL_PARTICIPANTS": "Uczestnicy",
+    "LBL_SEARCH_PARTICIPANTS": "Szukaj uczestnik\u00f3w",
+    "LBL_SEARCH_MESSAGE": "Szukaj wiadomo\u015bci"
   }
 }
