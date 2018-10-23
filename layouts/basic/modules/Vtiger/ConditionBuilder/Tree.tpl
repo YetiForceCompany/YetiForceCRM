@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
-	{assign var=ALL_VALUES value=$FIELD_INFO['picklistvalues']}
-	{assign var=FIELD_VALUES value=explode(',', $VALUE)}
 	<div class="tpl-ConditionBuilder-Tree">
-		<select class="js-tree-field select2 form-control js-condition-builder-value tree"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+		{assign var=ALL_VALUES value=\App\Fields\Tree::getPicklistValue($FIELD_MODEL->getFieldParams(), $FIELD_MODEL->getModuleName())}
+		{assign var=FIELD_VALUES value=explode('##', $VALUE)}
+		<select class="select2 form-control js-condition-builder-value"
+				data-js="val"
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}"
 				multiple="multiple" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$ALL_VALUES}
 				<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
