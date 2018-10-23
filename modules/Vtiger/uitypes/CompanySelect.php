@@ -26,6 +26,14 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$namesOfCompany = '';
@@ -69,6 +77,6 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 'ew', 'c', 'k', 'y', 'ny', 'd'];
 	}
 }
