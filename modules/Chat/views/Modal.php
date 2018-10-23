@@ -49,7 +49,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$chat = \App\Chat::getInstance();
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->assign('PARTICIPANTS', $chat->getUsers());
+		$viewer->assign('PARTICIPANTS', $chat->getParticipants());
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 

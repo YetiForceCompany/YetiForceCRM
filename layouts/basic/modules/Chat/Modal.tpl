@@ -7,7 +7,9 @@
 			title="{\App\Purifier::encodeHtml(\App\Language::translate($ROOM['name'], 'Chat'))}"
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
-			{\App\Language::translate($ROOM['name'], 'Chat')}
+			<span class="js-room-name" data-js="append|replace">{\App\Language::translate($ROOM['name'], 'Chat')}</span>
+			<span class="js-room-cnt badge badge-info ml-1 inline"
+				  data-js="append|replace">{$ROOM['cnt_new_message']}</span>
 		</li>
 	{/function}
 	<div class="modal-body pt-0 pb-0">

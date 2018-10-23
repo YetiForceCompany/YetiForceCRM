@@ -17,20 +17,20 @@
 				<div class="col-9">
 					<div class="row js-user-name">{$USER['user_name']}</div>
 					<div class="row js-role font-weight-bold color-blue-600">{$USER['role_name']}</div>
-					<div class="row js-message text-truncate" style="max-width: 150px;">{$USER['message']}</div>
+					<div class="row js-message text-truncate">{$USER['message']}</div>
 				</div>
 			</div>
 		</li>
 	{/function}
-	<div class="row">
+	<div class="row chatViewContainer">
 		<div class="col-9">
 			<div class="row">
 				<input type="text" class="form-control message js-search-message"{' '} autocomplete="off"{' '}
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
 			</div>
-			<div class="d-flex flex-column" style="min-height: calc(100vh - 260px);">
+			<div class="d-flex flex-column o-chat__content">
 				<div class="row d-flex flex-grow-1">
-					<div class="col-10 js-chat_content"
+					<div class="col-10 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
 						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
@@ -42,10 +42,20 @@
 				</div>
 			</div>
 			<div class="row">
-				<textarea class="form-control message js-chat-message" autocomplete="off"
-						  placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}" data-js="keydown">
-				</textarea>
-				<button type="button" class="js-btn-send" data-js="click">SEND</button>
+				<div class="input-group">
+					<div class="input-group-prepend">
+							<span class="input-group-text">
+								<span class="fas fa-comments"></span>
+							</span>
+					</div>
+					<textarea class="form-control noresize message js-chat-message" rows="2" autocomplete="off"
+							  placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
+							  data-js="keydown">
+					</textarea>
+				</div>
+				<button type="button" class="btn btn-primary js-btn-send" data-js="click">
+					<span class="fas fa-comment"></span>
+				</button>
 			</div>
 		</div>
 		<div class="col-3">
@@ -57,7 +67,7 @@
 			<h5>{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}</h5>
 			<div class="js-participants-list" data-js="container">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
-				<ul class="js-users">
+				<ul class="js-users" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}
 						{ITEM_USER USER=$USER}
 					{/foreach}

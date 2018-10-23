@@ -1,0 +1,21 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.chatViewContainer {
+	.js-btn-send {
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		border-radius: 50% !important;
+		z-index: 1000;
+	}
+
+	.js-message {
+		max-width: 150px;
+	}
+
+	.o-chat__content {
+		min-height: calc(100vh - 260px);
+		max-height: calc(100vh - 260px);
+		overflow-x: hidden;
+		overflow-y: auto !important;
+	}
+}

@@ -89,11 +89,13 @@ window.Chat_JS = class Chat_Js {
 				this.messageContainer.append(data);
 				this.getMessage(true);
 				this.updateParticipants();
+				this.scrollToBottom();
 			});
 			inputMessage.val('');
 		} else {
 			Vtiger_Helper_Js.showPnotify({
 				text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
+				type: 'error',
 				animation: 'show'
 			});
 		}
@@ -115,7 +117,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {object}
 	 * @returns {jQuery}
 	 */
-	createUserItem(data = {}) {
+	createParticipantItem(data = {}) {
 		let itemUser = this.container.find('.js-participants-list .js-temp-item-user').clone(false, false);
 		itemUser.removeClass('js-temp-item-user');
 		itemUser.removeClass('hide');
@@ -126,16 +128,54 @@ window.Chat_JS = class Chat_Js {
 		return itemUser;
 	}
 
+	getParticipantsFromMessages(messageContainer) {
+		let participantsId = [];
+		messageContainer.find('.js-chat-item').each((index, element) => {
+			let userId = $(element).data('userId');
+			if ($.inArray(userId, participantsId) < 0) {
+				participantsId.push(userId);
+			}
+		});
+		return participantsId;
+	}
+
 	/**
 	 * Update the last message from the list of participants.
 	 */
-	updateParticipants() {
-		this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
+	updateParticipants(messageContainer) {
+		/*this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
 			let lastMessage = this.messageContainer.find('.js-chat-item[data-user-id=' + $(element).data('userId') + ']:last');
 			if (lastMessage.length) {
 				$(element).find('.js-message').html(lastMessage.find('.messages').html());
 			}
+		});*/
+
+		let currentParticipants = [];
+		this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
+			console.log('ELEL: ' + $(element).data('userId'));
+			currentParticipants.push($(element).data('userId'));
 		});
+		console.log('currentParticipants: ' + JSON.stringify(currentParticipants));
+
+
+		let participantsId = this.getParticipantsFromMessages(this.messageContainer);
+		const participants = this.container.find('.js-participants-list .js-users');
+		participants.html('');
+		let len = participantsId.length;
+		for (let i = 0; i < len; ++i) {
+			let userId = participantsId[i];
+			let lastMessage = this.messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
+			if (lastMessage.length) {
+				participants.append(
+					this.createParticipantItem({
+						userName: lastMessage.find('.js-user-name').html(),
+						role: lastMessage.find('.js-author').data('roleName'),
+						message: lastMessage.find('.messages').html(),
+						userId: userId,
+					})
+				);
+			}
+		}
 	}
 
 	/**
@@ -144,14 +184,6 @@ window.Chat_JS = class Chat_Js {
 	 */
 	isRoomActive() {
 		return this.container.find('.js-container-chat').length === 0 || !this.container.find('.js-container-chat').hasClass('hide');
-	}
-
-	/**
-	 * Check the chat container is available
-	 * @returns {boolean}
-	 */
-	IsAvailable() {
-		return this.messageContainer.length;
 	}
 
 	/**
@@ -192,6 +224,16 @@ window.Chat_JS = class Chat_Js {
 	activateRoom() {
 		this.container.find('.js-container-button').addClass('hide');
 		this.container.find('.js-container-chat').removeClass('hide');
+	}
+
+	/**
+	 * Scroll the chat content down.
+	 */
+	scrollToBottom() {
+		const chatContent = this.messageContainer.closest('.o-chat__content');
+		chatContent.animate({
+			scrollTop: chatContent[0].scrollHeight
+		}, 300);
 	}
 
 	/**
@@ -239,12 +281,10 @@ window.Chat_JS = class Chat_Js {
 					if (!this.isRoomActive()) {
 						this.activateRoom();
 					}
-					this.buildParticipants($('<div></div>').html(html).find('.js-participants-data'), false);
+					//this.buildParticipants($('<div></div>').html(html).find('.js-participants-data'), false);
 					this.messageContainer.append(html);
 					this.updateParticipants();
-					//this.lastMessageId = this.messageContainer.find('.js-chat-item:last').data('mid');
-					//console.log(this.lastMessageId);
-					//console.log(this.messageContainer.find('.js-chat-item:last'));
+					this.scrollToBottom();
 				}
 				if (timer) {
 					this.getMessage(true);
@@ -294,7 +334,7 @@ window.Chat_JS = class Chat_Js {
 			let len = users.length;
 			for (let i = 0; i < len; ++i) {
 				participants.append(
-					this.createUserItem({
+					this.createParticipantItem({
 						userName: users[i]['user_name'],
 						role: users[i]['role_name'],
 						message: users[i]['message'],
@@ -344,6 +384,7 @@ window.Chat_JS = class Chat_Js {
 				this.messageContainer.html(html);
 				this.updateParticipants();
 				this.getMessage(true);
+				this.scrollToBottom();
 			});
 		});
 	}
@@ -390,20 +431,16 @@ window.Chat_JS = class Chat_Js {
 	 * Register base events
 	 */
 	registerBaseEvents() {
-		if (this.IsAvailable()) {
-			this.registerSendEvent();
-			this.registerListenEvent();
-			this.registerCreateRoom();
-		}
+		this.registerSendEvent();
+		this.registerListenEvent();
+		this.registerCreateRoom();
 	}
 
 	/**
 	 * Register modal events
 	 */
 	registerModalEvents() {
-		if (this.IsAvailable()) {
-			this.registerBaseEvents();
-			this.registerSwitchRoom();
-		}
+		this.registerBaseEvents();
+		this.registerSwitchRoom();
 	}
 }

@@ -109,9 +109,8 @@ class DateTime
 	 */
 	public static function formatToMoreReadable(string $dateTime)
 	{
-		$date = new \DateTime($dateTime);
-		if ($date->format('Y-m-d') === date('Y-m-d')) {
-			return $date->format('H:i:s');
+		if ((new \DateTime($dateTime))->format('Y-m-d') === date('Y-m-d')) {
+			return (new \DateTimeField($dateTime))->getDisplayTime();
 		}
 		return static::formatToDisplay($dateTime);
 	}

@@ -4,12 +4,12 @@
 		 data-mid="{$ROW['id']}" data-user-id="{$ROW['userid']}" data-js="data">
 		<div class="float-right">
 			<small>
-				{\App\Fields\DateTime::formatToMoreReadable($ROW['created'])}
+				{$ROW['created']}
 			</small>
 		</div>
-		<div class="author">
+		<div class="author js-author" data-role-name="{$ROW['role_name']}" data-js="data">
 			<i class="far fa-comment"></i>
-			<b>{$ROW['user_name']}</b>
+			<b class="js-user-name" data-js="data">{$ROW['user_name']}</b>
 			{assign var=IMAGE value=$ROW['image']}
 			{if $IMAGE}
 				<img src="{$IMAGE.url}" class="mr-2" alt="{$ROW['user_name']} {$ROW['last_name']}"
@@ -20,6 +20,6 @@
 				<span class="fas fa-user userImage"></span>
 			{/if}
 		</div>
-		<div class="messages">{$ROW['messages']}</div>
+		<div class="messages">{\App\Purifier::decodeHtml($ROW['messages'])}</div>
 	</div>
 {/strip}

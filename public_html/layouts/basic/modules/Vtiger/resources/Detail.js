@@ -2266,7 +2266,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
-		if (typeof Chat_JS !== 'undefined') {
+		if (typeof Chat_JS !== 'undefined' && this.getSelectedTab().data('labelKey') === 'LBL_CHAT') {
 			Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
 		}
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);

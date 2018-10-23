@@ -203,10 +203,18 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
+		$subQuery = (new \App\Db\Query())
+			->select(['CR.crmid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
+			->from(['CR' => static::TABLE_NAME['room']['crm']])
+			->innerJoin(['CM' => static::TABLE_NAME['message']['crm']], 'CM.crmid = CR.crmid')
+			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
+			->orWhere(['CR.last_message' => null])
+			->groupBy(['CR.crmid', 'CR.userid']);
 		return (new Db\Query())
-			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label'])
+			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'CNT.cnt_new_message'])
 			->from(['C' => 'u_#__chat_rooms_crm'])
 			->leftJoin(['CL' => 'u_yf_crmentity_label'], 'CL.crmid = C.crmid')
+			->leftJoin(['CNT' => $subQuery], 'CNT.crmid = C.crmid AND CNT.userid = C.userid')
 			->where(['C.userid' => $userId])
 			->all();
 	}
@@ -297,41 +305,49 @@ class Chat
 		if (!\is_null($messageId)) {
 			$query->andWhere(['>', 'C.id', $messageId]);
 		}
+		$this->lastMessageId = $messageId;
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$userModel = User::getUserModel($row['userid']);
 			$row['image'] = \Vtiger_Record_Model::getInstanceById($row['userid'], 'Users')->getImage();
-			//$row['created'] = date('Y-m-d H:i:s', $row['created']);
-			$row['time'] = Fields\DateTime::formatToViewDate($row['created']);
+			$row['created'] = Fields\DateTime::formatToMoreReadable($row['created']);
+			$row['user_name'] = $userModel->getName();
+			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
 			$rows[] = $row;
+			$mid = (int) $row['id'];
+			if ($this->lastMessageId < $mid) {
+				$this->lastMessageId = $mid;
+			}
 		}
 		$dataReader->close();
+		$this->updateRoom();
 		return $rows;
 	}
 
 	/**
-	 * Get users.
+	 * Get getParticipants.
 	 *
 	 * @param int[] $excludedId
 	 *
 	 * @return array
 	 */
-	public function getUsers($excludedId = [])
+	public function getParticipants($excludedId = [])
 	{
 		if (empty($this->recordId) || empty($this->roomType)) {
 			return [];
 		}
 		$subQuery = (new \App\DB\Query())
-			->select(['userid', 'last_id' => 'max(id)'])
+			->select(['userid', 'last_id' => new \yii\db\Expression('max(id)')])
 			->from(static::TABLE_NAME['message'][$this->roomType])
 			->where([static::COLUMN_NAME['record'][$this->roomType] => $this->recordId])
 			->groupBy(['userid']);
 		$query = (new \App\DB\Query())
 			->from(['GL' => static::TABLE_NAME['message'][$this->roomType]])
 			->innerJoin(['LM' => $subQuery], 'LM.last_id = GL.id');
-		if ($excludedId) {
+		/*if ($excludedId) {
 			$query->where(['not', ['GL.userid' => $excludedId]]);
-		}
+		}*/
 		$dataReader = $query->createCommand()->query();
 		$users = [];
 		while ($row = $dataReader->read()) {
@@ -400,18 +416,21 @@ class Chat
 				return (new Db\Query())
 					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.crmid', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_crm'])
-					->where(['CR.crmid' => $this->recordId]);
+					->where(['CR.crmid' => $this->recordId])
+					->andWhere(['CR.userid' => $this->userId]);
 			case 'group':
 				return (new Db\Query())
 					->select(['CR.roomid', 'CR.userid', 'record_id' => 'CR.groupid', 'CR.last_message'])
 					->from(['CR' => 'u_#__chat_rooms_group'])
-					->where(['CR.groupid' => $this->recordId]);
+					->where(['CR.groupid' => $this->recordId])
+					->andWhere(['CR.userid' => $this->userId]);
 			case 'global':
 				return (new \App\Db\Query())
 					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.global_room_id', 'CR.last_message'])
 					->from(['CG' => 'u_#__chat_global'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_global'], "CR.global_room_id = CG.global_room_id AND CR.userid = {$this->userId}")
-					->where(['CG.global_room_id' => $this->recordId]);
+					->where(['CG.global_room_id' => $this->recordId])
+					->andWhere(['CR.userid' => $this->userId]);
 		}
 		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 	}
@@ -424,11 +443,14 @@ class Chat
 	 */
 	private function updateRoom()
 	{
-		Db::getInstance()
-			->createCommand()
-			->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
-				'roomid' => $this->roomId,
-				'userid' => $this->userId
-			])->execute();
+		if (\is_array($this->room) && (empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])) {
+			Db::getInstance()
+				->createCommand()
+				->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
+					static::COLUMN_NAME['record'][$this->roomType] => $this->recordId,
+					'userid' => $this->userId
+				])->execute();
+			$this->room['last_message'] = $this->lastMessageId;
+		}
 	}
 }
