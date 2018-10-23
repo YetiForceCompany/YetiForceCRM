@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-ConditionBuilder-Owner">
-		{assign var=VALUES value=explode(',', $VALUE)}
+		{assign var=VALUES value=explode('##', $VALUE)}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 		{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($FIELD_MODEL->getModuleName())->getAccessibleUsers()}

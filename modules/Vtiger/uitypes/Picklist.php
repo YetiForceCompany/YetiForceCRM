@@ -11,18 +11,16 @@
 
 class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 {
-
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values= [];
-		foreach($value as $val) {
-			$values []= parent::getDbConditionBuilderValue($val, $operator);
+		foreach ($value as $val) {
+			$values[]= parent::getDbConditionBuilderValue($val, $operator);
 		}
-		return implode(',', $values);
+		return implode('##', $values);
 	}
 
 	/**

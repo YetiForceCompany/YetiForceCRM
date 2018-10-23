@@ -52,7 +52,7 @@
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
 				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE)
-			FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=$CONDITIONS_ROW['value']}
+			FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
 			{/if}
 		</div>
 		<div class="col-1">
