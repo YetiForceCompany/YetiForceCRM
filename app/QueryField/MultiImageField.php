@@ -11,4 +11,25 @@ namespace App\QueryField;
  */
 class MultiImageField extends BaseField
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function operatorY()
+	{
+		return ['or',
+			[$this->getColumnName() => null],
+			['=', $this->getColumnName(), '[]'],
+		];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function operatorNy()
+	{
+		return ['and',
+			['not', [$this->getColumnName() => null]],
+			['<>', $this->getColumnName(), '[]'],
+		];
+	}
 }
