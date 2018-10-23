@@ -12,6 +12,17 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 {
 	/**
 	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		if (!is_string($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
 	 *
 	 * @example validate('[{"e":"a.adach@yetiforce.com","o":0},{"e":"test@yetiforce.com","o":0}]');
 	 */
@@ -102,6 +113,6 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+		return ['c', 'k', 'y', 'ny', 'd'];
 	}
 }
