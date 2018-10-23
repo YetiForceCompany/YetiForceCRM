@@ -47,7 +47,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 		if ($request->isEmpty('operator', true)) {
 			$selectedOperator = key($operators);
 		} else {
-			$selectedOperator = $request->getByType('operator', 'Standard');
+			$selectedOperator = $request->getByType('operator', 'Alnum');
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('OPERATORS', $operators);
