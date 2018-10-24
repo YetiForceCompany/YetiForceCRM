@@ -1,6 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.chat-view-container {
-	.js-btn-send {
+.o-chat__view-container {
+	li {
+		list-style: none !important;
+	}
+
+	.c-chat__btn-send {
 		position: absolute;
 		bottom: 10px;
 		right: 10px;
@@ -8,11 +12,11 @@
 		z-index: 1000;
 	}
 
-	.js-message {
+	.c-chat__user-message {
 		max-width: 150px;
 	}
 
-	.js-chat-main-content {
+	.o-chat__main-content {
 		min-height: calc(100vh - 260px);
 		max-height: calc(100vh - 260px);
 		overflow-x: hidden;
@@ -20,7 +24,7 @@
 	}
 
 	.c-chat__user-item {
-		.author {
+		.c-chat__author {
 			padding-bottom: 3px;
 
 			span {
@@ -44,7 +48,7 @@
 			background: #f9f9f9;
 		}
 
-		.author {
+		.c-chat__author {
 			padding-bottom: 3px;
 
 			span {

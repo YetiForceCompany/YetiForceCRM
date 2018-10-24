@@ -104,10 +104,10 @@ window.Chat_JS = class Chat_Js {
 				recordId: this.getCurrentRecordId(),
 				message: inputMessage.val(),
 				mid: this.messageContainer.find('.js-chat-item:last').data('mid')
-			}).done((data) => {
-				this.messageContainer.append(data);
+			}).done((html) => {
+				this.messageContainer.append(html);
 				this.getMessage(true);
-				this.buildParticipantsFromMessage();
+				this.buildParticipantsFromMessage($('<div></div>').html(html));
 				this.scrollToBottom();
 			});
 			inputMessage.val('');
@@ -151,9 +151,9 @@ window.Chat_JS = class Chat_Js {
 	 * Return the participants' ID list from the message.
 	 * @returns {int[]}
 	 */
-	getParticipantsFromMessages() {
+	getParticipantsFromMessages(messageContainer) {
 		let participantsId = [];
-		this.messageContainer.find('.js-chat-item').each((index, element) => {
+		messageContainer.find('.js-chat-item').each((index, element) => {
 			let userId = $(element).data('userId');
 			if ($.inArray(userId, participantsId) < 0) {
 				participantsId.push(userId);
@@ -191,18 +191,18 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Build a list of participants from the message.
 	 */
-	buildParticipantsFromMessage() {
+	buildParticipantsFromMessage(messageContainer) {
 		let currentParticipants = [];
 		this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
 			let userId = $(element).data('userId');
 			currentParticipants.push(userId);
-			let lastMessage = this.messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
+			let lastMessage = messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
 			if (lastMessage.length) {
 				$(element).find('.js-message').html(lastMessage.find('.messages').html());
 			}
 		});
 		this.createParticipants(
-			$(this.getParticipantsFromMessages()).not(currentParticipants).get()
+			$(this.getParticipantsFromMessages(messageContainer)).not(currentParticipants).get()
 		);
 	}
 
@@ -367,7 +367,7 @@ window.Chat_JS = class Chat_Js {
 					}
 					//this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), false);
 					this.messageContainer.append(html);
-					this.buildParticipantsFromMessage();
+					this.buildParticipantsFromMessage($('<div></div>').html(html));
 					this.scrollToBottom();
 				}
 				if (timer) {

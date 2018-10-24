@@ -7,7 +7,7 @@
 				{$ROW['created']}
 			</small>
 		</div>
-		<div class="author js-author" data-role-name="{$ROW['role_name']}" data-js="data">
+		<div class="c-chat__author js-author" data-role-name="{$ROW['role_name']}" data-js="data">
 			{assign var=IMAGE value=$ROW['image']}
 			{assign var=IS_IMAGE value=isset($IMAGE['url'])}
 			<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="mr-2{if !$IS_IMAGE} hide{/if}"
