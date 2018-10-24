@@ -80,9 +80,13 @@ class Chat_Entries_View extends \App\Controller\View
 			return;
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->assign('PARTICIPANTS', $chat->getParticipants($request->getArray('participants', 2)));
+		if ($request->has('lastId')) {
+			$viewer->assign('CHAT_ENTRIES', $chat->getEntries($request->getInteger('lastId')));
+		} else {
+			$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
+			$viewer->assign('PARTICIPANTS', $chat->getParticipants());
+		}
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
