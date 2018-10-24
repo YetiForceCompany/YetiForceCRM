@@ -57,12 +57,10 @@ class Functions
 	public static function getCurrencySymbolandRate($currencyid)
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
-		$currencyRateSymbol = [
+		return [
 			'rate' => $currencyInfo['conversion_rate'],
 			'symbol' => $currencyInfo['currency_symbol'],
 		];
-
-		return $currencyRateSymbol;
 	}
 
 	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
@@ -315,9 +313,7 @@ class Functions
 	{
 		$str = preg_replace("/(\r\n)/", '\\r\\n', $str);
 		$str = preg_replace("/'/", ' ', $str);
-		$str = preg_replace('/"/', ' ', $str);
-
-		return $str;
+		return preg_replace('/"/', ' ', $str);
 	}
 
 	public static function suppressHTMLTags($string)
@@ -825,9 +821,7 @@ class Functions
 		// Replace non-alphanumeric characters with our delimiter
 		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
 		// Remove delimiter from ends
-		$str = trim($str, $delimiter);
-
-		return $str;
+		return trim($str, $delimiter);
 	}
 
 	/*

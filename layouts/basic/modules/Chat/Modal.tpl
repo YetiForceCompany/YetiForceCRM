@@ -3,7 +3,7 @@
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$ROOM['recordid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
-		<li class="text-truncate js-room {if $SELECTED} active{/if}"
+		<li class="text-truncate js-room {if $SELECTED} active{/if} {$CLASS_NAME}"
 			title="{\App\Purifier::encodeHtml(\App\Language::translate($ROOM['name'], 'Chat'))}"
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
@@ -15,7 +15,7 @@
 	<div class="modal-body pt-0 pb-0">
 		<div class="row p-0">
 			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
-				{*{ROOM_ITEM ROOM=['roomid'=>'', 'name'=>''], CLASS_NAME='hide'}*}
+				{ROOM_ITEM ROOM=['recordid'=>'', 'name'=>'', 'cnt_new_message'=>''] CLASS_NAME='hide js-temp-item-room'}
 				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
 					<div class="text-uppercase bg-color-grey-200 p-2">

@@ -290,7 +290,7 @@ $.Class("Vtiger_Header_Js", {
 						progress.progressIndicator({'mode': 'hide'});
 						if (data.success) {
 							Vtiger_Helper_Js.showPnotify({
-								text: app.vtranslate('JS_ADD_RECORD'),
+								text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 								type: 'success'
 							});
 						}

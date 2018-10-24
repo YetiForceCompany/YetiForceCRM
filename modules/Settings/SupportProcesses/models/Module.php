@@ -10,9 +10,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 {
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/**

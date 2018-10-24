@@ -227,8 +227,6 @@
     "Mobile Call": "Chamada Celular",
     "JS_CHANGE_ACTIVITY_TIME": "Alterar status para: processando ou hist\u00f3rico",
     "JS_ASSIGNED_TO": "Respons\u00e1vel",
-    "JS_SWITCHING_DAYS": "Trocar dias",
-    "JS_ALL": "Todos",
-    "JS_WORK_DAYS": "Dias uteis"
+    "JS_SWITCHING_DAYS": "Trocar dias"
   }
 }

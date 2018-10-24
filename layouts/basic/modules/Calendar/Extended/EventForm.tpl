@@ -1,6 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-EventForm -->
+	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'AUTOFILL_TIME'))}"
+		   type="hidden" id="autofillTime"/>
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
@@ -37,7 +39,7 @@
 					{/if}
 				</h6>
 				{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
-					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE_NAME)}
 				{/if}
 				<div class="fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
@@ -90,7 +92,7 @@
 							title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
 						{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 					</button>
-					{if !empty($RECORD_ID)}
+					{if !empty($RECORD_ID) && $VIEW === 'EventForm'}
 						<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times"></span>

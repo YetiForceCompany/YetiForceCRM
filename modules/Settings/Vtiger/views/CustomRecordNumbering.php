@@ -44,16 +44,10 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.CustomRecordNumbering',
 			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 }

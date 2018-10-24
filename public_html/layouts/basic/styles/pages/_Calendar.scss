@@ -404,8 +404,7 @@ $sitebar-border: 1px solid #ccc;
 		justify-content: space-between;
 		flex-wrap: wrap;
 
-		.fc-left,
-		.fc-right {
+		.fc-left {
 			.fc-button {
 				margin-right: 5px;
 				border-radius: 0;
@@ -426,6 +425,22 @@ $sitebar-border: 1px solid #ccc;
 			}
 			.fc-button-group {
 				margin-left: 0;
+			}
+		}
+		.fc-right {
+			.fc-today-button {
+				background: none;
+				border: none;
+				box-shadow: none;
+				padding: 0;
+				&.fc-state-disabled {
+					text-shadow: none;
+					cursor: unset;
+					opacity: 1;
+					.svg-inline--fa {
+						color: material-color('grey', '500');
+					}
+				}
 			}
 		}
 		//fullcalendar toolbar breakpoint
@@ -757,8 +772,21 @@ $sitebar-border: 1px solid #ccc;
 .user-info--active .o-calendar {
 	&__tab--filters,
 	&__form {
-		/*computed height: footer, userinfo, header filter buttons, padding */
 		height: calc(100vh - #{$h-footer-user-info} - #{$h-header});
+	}
+}
+
+.limited-footer--active .o-calendar {
+	&__tab--filters,
+	&__form {
+		height: calc(100vh - #{$h-footer-limited} - #{$h-header});
+	}
+}
+
+.limited-footer--active.limited-footer--active .o-calendar {
+	&__tab--filters,
+	&__form {
+		height: calc(100vh - #{$h-footer} - #{$h-header});
 	}
 }
 

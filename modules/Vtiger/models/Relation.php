@@ -693,9 +693,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$count = $dbCommand->update('vtiger_crmentityrel', ['crmid' => $params['sourceRecordId']],
 			['crmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']])->execute();
-		$count += $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
-			['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
-		return $count;
+		return $count + $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
+				['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
 	}
 
 	/**

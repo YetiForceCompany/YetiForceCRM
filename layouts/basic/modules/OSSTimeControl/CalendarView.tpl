@@ -9,6 +9,7 @@
 	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}"/>
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
+	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 	<div class="calendarViewContainer rowContent">
 		<div class="d-flex flex-md-nowrap mt-2">
 			<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">

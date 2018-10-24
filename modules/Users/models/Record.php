@@ -544,9 +544,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getActivityView()
 	{
-		$activityView = $this->get('activity_view');
-
-		return $activityView;
+		return $this->get('activity_view');
 	}
 
 	/**

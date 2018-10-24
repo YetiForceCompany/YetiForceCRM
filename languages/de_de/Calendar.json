@@ -233,8 +233,6 @@
     "Mobile Call": "Mobiler Anruf",
     "JS_CHANGE_ACTIVITY_TIME": "\u00c4ndere Status zu: anstehend oder historisch",
     "JS_ASSIGNED_TO": "zust\u00e4ndig",
-    "JS_SWITCHING_DAYS": "Wechsel Tage ",
-    "JS_ALL": "Alle",
-    "JS_WORK_DAYS": "Arbeitstage"
+    "JS_SWITCHING_DAYS": "Wechsel Tage "
   }
 }

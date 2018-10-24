@@ -1470,7 +1470,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 			currentTarget.popover('hide');
 			var url = currentTarget.data('url');
 			if (url) {
-				app.showModalWindow(null, url);
+				if (currentTarget.hasClass('showEdit')) {
+					var headerInstance = Vtiger_Header_Js.getInstance();
+					headerInstance.getQuickCreateForm(url, 'Calendar', {noCache: true}).done((data) => {
+						headerInstance.handleQuickCreateData(data, {
+							callbackFunction: () => {
+								let widget = currentTarget.closest('.widgetContentBlock');
+								if (widget.length) {
+									thisInstance.loadWidget(widget);
+									let updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
+									if (updatesWidget.length > 0) {
+										thisInstance.loadWidget(updatesWidget);
+									}
+								} else {
+									thisInstance.loadRelatedList();
+								}
+								thisInstance.registerRelatedModulesRecordCount();
+							}
+						});
+					});
+				} else {
+					app.showModalWindow(null, url);
+				}
 			}
 		});
 

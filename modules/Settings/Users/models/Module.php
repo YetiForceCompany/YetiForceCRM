@@ -20,9 +20,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/**

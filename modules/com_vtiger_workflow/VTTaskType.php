@@ -150,16 +150,12 @@ class VTTaskType
 	public static function getInstanceFromTaskType($taskType)
 	{
 		$row = (new App\Db\Query())->from('com_vtiger_workflow_tasktypes')->where(['tasktypename' => $taskType])->one();
-
 		$taskTypes['name'] = $row['tasktypename'];
 		$taskTypes['label'] = $row['label'];
 		$taskTypes['classname'] = $row['classname'];
 		$taskTypes['classpath'] = $row['classpath'];
 		$taskTypes['templatepath'] = $row['templatepath'];
 		$taskTypes['sourcemodule'] = $row['sourcemodule'];
-
-		$taskDetails = self::getInstance($taskTypes);
-
-		return $taskDetails;
+		return self::getInstance($taskTypes);
 	}
 }

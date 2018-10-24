@@ -515,7 +515,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public static function showDisplayTypeList()
 	{
-		$displayType = [
+		return [
 			1 => 'LBL_DISPLAY_TYPE_1',
 			2 => 'LBL_DISPLAY_TYPE_2',
 			3 => 'LBL_DISPLAY_TYPE_3',
@@ -523,8 +523,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			//5 => 'LBL_DISPLAY_TYPE_5',
 			10 => 'LBL_DISPLAY_TYPE_10',
 		];
-
-		return $displayType;
 	}
 
 	/**
@@ -1412,21 +1410,21 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
-				// no break
+			// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
-				// no break
+			// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
-				// no break
+			// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:
