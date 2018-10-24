@@ -154,9 +154,11 @@ class Calendar_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Gets entity data
-	 * @return array
+	 * Gets entity data.
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return array
 	 */
 	public function getEntity()
 	{
