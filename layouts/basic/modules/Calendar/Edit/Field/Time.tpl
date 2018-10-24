@@ -10,16 +10,16 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text js-autofill__icon u-cursor-pointer" data-js="click|addClass|removeClass">
 					<span class="notEvent js-help-info" data-placement="top"
-						  data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">
+						  data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE_NAME)}">
 						<input type="checkbox" class="js-autofill d-none" data-js="prop|change"/>
 						<i class="fas fa-user-clock"></i>
 					</span>
 				</span>
 			</div>
 		{/if}
-		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-format="{$TIME_FORMAT}"
+		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-format="{$TIME_FORMAT}"
 			   class="clockPicker form-control" value="{$FIELD_VALUE}"
-			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 			   name="{$FIELD_MODEL->getFieldName()}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
