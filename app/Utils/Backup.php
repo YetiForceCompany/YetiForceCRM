@@ -19,7 +19,8 @@ class Backup
 	/**
 	 * Read catalog with backup files and return catalogs and files list.
 	 *
-	 * @param \App\Request $request
+	 * @param {string} $catalogToRead
+	 * @param {string} $module
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 *
@@ -79,7 +80,7 @@ class Backup
 	/**
 	 * Check is it an allowed directory.
 	 *
-	 * @param $dir
+	 * @param {string} $dir
 	 *
 	 * @return bool
 	 */
@@ -96,7 +97,7 @@ class Backup
 	/**
 	 * Check is it an allowed file directory.
 	 *
-	 * @param $dir
+	 * @param {string} $dir
 	 *
 	 * @return bool
 	 */
