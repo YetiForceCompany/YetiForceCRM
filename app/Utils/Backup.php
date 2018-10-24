@@ -19,16 +19,16 @@ class Backup
 	/**
 	 * Read catalog with backup files and return catalogs and files list.
 	 *
-	 * @param {string} $catalogToRead
-	 * @param {string} $module
+	 * @param string $catalogToRead
+	 * @param string $module
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 *
 	 * @return array
 	 */
-	public static function readCatalog($catalogToRead, $module)
+	public static function readCatalog(string $catalogToRead, string $module)
 	{
-		$catalogPath = self::getBackupCatalogPath();
+		$catalogPath = static::getBackupCatalogPath();
 		$catalogToReadArray = $returnStructure = [];
 		$urlDirectory = '';
 		if (!empty($catalogToRead)) {
@@ -36,8 +36,8 @@ class Backup
 			$catalogPath .= DIRECTORY_SEPARATOR . $catalogToRead;
 			$urlDirectory = $catalogToRead . DIRECTORY_SEPARATOR;
 		}
-		if (!self::isAllowedDirectory($catalogToRead)) {
-			throw new \App\Exceptions\NoPermittedForAdmin(\App\Language::translate('LBL_PERMISSION_DENIED'));
+		if (!static::isAllowedDirectory($catalogToRead)) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 		$catalogs = array_diff(scandir($catalogPath, SCANDIR_SORT_ASCENDING), ['.']);
 		foreach ($catalogs as $element) {
@@ -72,7 +72,7 @@ class Backup
 	{
 		$backupPath = \AppConfig::module('Backup', 'BACKUP_PATH');
 		if (empty($backupPath)) {
-			throw new \App\Exceptions\NoPermittedForAdmin(\App\Language::translate('LBL_CONFIGURE_BEFORE_USE'));
+			throw new \App\Exceptions\NoPermittedForAdmin('ERR_CONFIGURE_BEFORE_USE');
 		}
 		return $backupPath;
 	}
@@ -80,14 +80,14 @@ class Backup
 	/**
 	 * Check is it an allowed directory.
 	 *
-	 * @param {string} $dir
+	 * @param string $dir
 	 *
 	 * @return bool
 	 */
-	public static function isAllowedDirectory($dir)
+	public static function isAllowedDirectory(string $dir)
 	{
 		$isAllowed = true;
-		$fullPath = self::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
+		$fullPath = static::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
 		if (!is_writable($fullPath) || !is_dir($fullPath) || is_file($fullPath) || strpos($fullPath, '../') !== false || strpos($fullPath, '..\\') !== false) {
 			$isAllowed = false;
 		}
@@ -97,14 +97,14 @@ class Backup
 	/**
 	 * Check is it an allowed file directory.
 	 *
-	 * @param {string} $dir
+	 * @param string $dir
 	 *
 	 * @return bool
 	 */
-	public static function isAllowedFileDirectory($dir)
+	public static function isAllowedFileDirectory(string $dir)
 	{
 		$isAllowed = true;
-		$fullPath = self::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
+		$fullPath = static::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
 		if (!is_writable($fullPath) || is_dir($fullPath) || !is_file($fullPath) || strpos($fullPath, '../') !== false || strpos($fullPath, '..\\') !== false) {
 			$isAllowed = false;
 		}
