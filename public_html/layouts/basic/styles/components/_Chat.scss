@@ -35,17 +35,17 @@
 
 			img {
 				width: 40px;
+				height: 40px;
+				border-radius: 40px;
 			}
 		}
 	}
 
 	.c-chat__item {
-		border-bottom: 1px solid #ddd;
 		margin-bottom: 3px;
 		padding: 2px 8px 2px 8px;
 
 		&.active {
-			background: #f9f9f9;
 		}
 
 		.c-chat__author {
@@ -59,7 +59,16 @@
 
 			img {
 				width: 40px;
+				height: 40px;
+				border-radius: 40px;
 			}
+		}
+		.c-chat__triangle {
+			width: 0;
+			height: 0;
+			border-top: 9px solid transparent;
+			border-bottom: 9px solid transparent;
+			border-right: 10px solid #337ab7;
 		}
 	}
 }

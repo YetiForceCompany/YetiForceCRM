@@ -22,11 +22,13 @@
 	{/function}
 	<div class="row o-chat__view-container">
 		<div class="col-9">
-			<div class="row">
-				<input type="text" class="form-control message js-search-message"{' '} autocomplete="off"{' '}
+			<div class="row px-2">
+				<input type="text"
+					   class="form-control message js-search-message border-top-0 border-left-0 border-right-0"{' '}
+					   autocomplete="off"{' '}
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
 			</div>
-			<div class="d-flex flex-column js-chat-main-content o-chat__main-content">
+			<div class="d-flex flex-column js-chat-main-content o-chat__main-content border-bottom">
 				<div class="row d-flex flex-grow-1">
 					<div class="col-10 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
@@ -41,18 +43,13 @@
 			</div>
 			<div class="row">
 				<div class="input-group">
-					<div class="input-group-prepend">
-							<span class="input-group-text">
-								<span class="fas fa-comments"></span>
-							</span>
-					</div>
-					<textarea class="form-control noresize message js-chat-message" rows="2" autocomplete="off"
+					<textarea class="form-control noresize message js-chat-message border-0" rows="2" autocomplete="off"
 							  placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
 							  data-js="keydown">
 					</textarea>
 				</div>
 				<button type="button" class="btn btn-primary js-btn-send c-chat__btn-send" data-js="click">
-					<span class="fas fa-comment"></span>
+					<span class="fas fa-paper-plane"></span>
 				</button>
 			</div>
 		</div>
