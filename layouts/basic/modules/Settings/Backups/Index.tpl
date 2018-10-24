@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<h5>Lista backupów</h5>
+			<h5>{\App\Language::translate('LBL_BACKUP_LIST',$QUALIFIED_MODULE)}</h5>
 			<div class="listViewContentDiv ps ps--active-y">
 				<table class="table tableBorderHeadBody listViewEntriesTable medium">
 					{if {$STRUCTURE['manage']}}
