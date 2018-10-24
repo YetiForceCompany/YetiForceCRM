@@ -412,8 +412,8 @@ class User
 	 */
 	public static function getImageById($userId)
 	{
-		if (Cache::has('UserProfilePhoto', $userId)) {
-			return Cache::get('UserProfilePhoto', $userId);
+		if (Cache::has('UsergetImageById', $userId)) {
+			return Cache::get('UsergetImageById', $userId);
 		}
 		$emptyImage = [];
 		$userModel = static::getUserModel($userId);
@@ -427,7 +427,7 @@ class User
 		}
 		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
 		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$userModel->getId()}&key={$imageData['key']}";
-		Cache::save('UserProfilePhoto', $userId, $imageData);
+		Cache::save('UsergetImageById', $userId, $imageData);
 		return $imageData;
 	}
 }
