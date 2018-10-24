@@ -215,10 +215,6 @@ var App = {},
 					});
 				}
 				element.addClass('popover-triggered');
-				element.popover('show');
-				element.on('mouseleave', function () {
-					element.popover('hide');
-				});
 			});
 			return selectElement;
 		},
@@ -1691,28 +1687,24 @@ $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 		let currentTarget = $(e.currentTarget);
-		console.log(currentTarget);
-		console.log(currentTarget.hasClass('popover-triggered'));
 		if (!currentTarget.hasClass('popover-triggered')) {
-			console.log('1');
 			if (currentTarget.hasClass('js-popover-tooltip--link')) {
-				console.log('2');
 				app.registerPopoverLink(currentTarget);
 			} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
-				console.log('3');
 				app.registerPopoverLink(currentTarget.children('a'));
 
-			} else {
-				console.log('4');
-
+			} else if (!currentTarget.hasClass('js-popover-tooltip--link') && !currentTarget.data('field-type')) {
 				app.showPopoverElementView(currentTarget);
+				currentTarget.popover('show');
+				currentTarget.on('mouseleave', function () {
+					currentTarget.popover('hide');
+				});
 			}
 		}
 	});
 	$(document).on('mouseenter', '.js-popover-tooltip--ellipsis', (e) => {
 		let currentTarget = $(e.currentTarget);
-		console.log(currentTarget);
-		if (!currentTarget.hasClass('popover-triggered')) {
+		if (!currentTarget.hasClass('popover-triggered') && !currentTarget.find('.popover-triggered')) {
 			app.showPopoverElementView(currentTarget);
 		}
 	});
