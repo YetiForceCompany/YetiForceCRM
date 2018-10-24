@@ -205,14 +205,6 @@ abstract class View extends Base
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page.
-	 *
-	 * @param \App\Request $request - request model
-	 *
-	 * @return <array> - array of Vtiger_CssScript_Model
-	 */
-
-	/**
 	 * Get header css files that need to loaded in the page.
 	 *
 	 * @param \App\Request $request Request instance
@@ -310,7 +302,7 @@ abstract class View extends Base
 			'~layouts/resources/ProgressIndicator.js',
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
-			$jsFileNames[] = '~layouts/resources/Chat.js';
+			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
