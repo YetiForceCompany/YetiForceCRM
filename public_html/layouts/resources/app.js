@@ -150,12 +150,14 @@ var App = {},
 					const self = this;
 					$(this).popover("show");
 					$(".popover").on("mouseleave", function () {
-						$(self).popover('hide');
+						if (!$(".popover:hover").length) {
+							$('.popover').popover('hide');
+						}
 					});
 				},
 				out: function () {
 					if (!$(".popover:hover").length) {
-						$(this).popover('hide');
+						$('.popover').popover('hide');
 					}
 				}
 			});
@@ -213,6 +215,10 @@ var App = {},
 					});
 				}
 				element.addClass('popover-triggered');
+				element.popover('show');
+				element.on('mouseleave', function () {
+					element.popover('hide');
+				});
 			});
 			return selectElement;
 		},
@@ -220,7 +226,7 @@ var App = {},
 		 * Register popover links
 		 * @param {jQuery} selectElement
 		 */
-		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
+		registerPopoverLink: function (selectElement = $('a.js-popover-tooltip--link'), customParams = {}) {
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
@@ -1683,12 +1689,31 @@ var App = {},
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
-	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
-	$(document).on('mouseenter', '.js-popover-tooltip', function () {
-		console.log($(this));
-		if (!$(this).hasClass('popover-triggered')) {
-			console.log('trigger');
-			app.showPopoverElementView($(this));
+	$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+		let currentTarget = $(e.currentTarget);
+		console.log(currentTarget);
+		console.log(currentTarget.hasClass('popover-triggered'));
+		if (!currentTarget.hasClass('popover-triggered')) {
+			console.log('1');
+			if (currentTarget.hasClass('js-popover-tooltip--link')) {
+				console.log('2');
+				app.registerPopoverLink(currentTarget);
+			} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
+				console.log('3');
+				app.registerPopoverLink(currentTarget.children('a'));
+
+			} else {
+				console.log('4');
+
+				app.showPopoverElementView(currentTarget);
+			}
+		}
+	});
+	$(document).on('mouseenter', '.js-popover-tooltip--ellipsis', (e) => {
+		let currentTarget = $(e.currentTarget);
+		console.log(currentTarget);
+		if (!currentTarget.hasClass('popover-triggered')) {
+			app.showPopoverElementView(currentTarget);
 		}
 	});
 	app.registerSticky();
@@ -1696,7 +1721,6 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registerPopoverLink();
 	$('.js-scrollbar').each(function () {
 		app.showNewScrollbar($(this));
 	});
@@ -1704,11 +1728,11 @@ $(document).ready(function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
-	// in IE resize option for textarea is not there, so we have to use .resizable() api
+// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
 		$('textarea').resizable();
 	}
-	// Instantiate Page Controller
+// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController) {
 		pageController.registerEvents();
