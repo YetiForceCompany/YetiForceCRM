@@ -1,0 +1,8 @@
+{
+  "php": {
+    "LBL_DOWNLOAD": "Pobierz",
+    "LBL_FILENAME": "Nazwa pliku",
+    "LBL_BACKUP_LIST": "Lista kopii zapasowych"
+  },
+  "js": {}
+}
