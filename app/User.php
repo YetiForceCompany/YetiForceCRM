@@ -410,7 +410,7 @@ class User
 	 *
 	 * @return string[]
 	 */
-	public static function getProfileImage($userId)
+	public static function getImageById($userId)
 	{
 		if (Cache::has('UserProfilePhoto', $userId)) {
 			return Cache::get('UserProfilePhoto', $userId);
