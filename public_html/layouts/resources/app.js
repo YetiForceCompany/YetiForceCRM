@@ -212,6 +212,7 @@ var App = {},
 						elementParams.callbackShown(e);
 					});
 				}
+				element.addClass('popover-triggered');
 			});
 			return selectElement;
 		},
@@ -1683,6 +1684,13 @@ $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	$(document).on('mouseenter', '.js-popover-tooltip', function () {
+		console.log($(this));
+		if (!$(this).hasClass('popover-triggered')) {
+			console.log('trigger');
+			app.showPopoverElementView($(this));
+		}
+	});
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
