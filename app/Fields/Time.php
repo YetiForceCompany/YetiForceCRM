@@ -15,8 +15,10 @@ namespace App\Fields;
 class Time
 {
 	/**
-	 * Returns time in user format
+	 * Returns time in user format.
+	 *
 	 * @param string $time
+	 *
 	 * @return string
 	 */
 	public static function formatToDisplay($time)
@@ -25,8 +27,10 @@ class Time
 	}
 
 	/**
-	 * Returns time in database format
+	 * Returns time in database format.
+	 *
 	 * @param $time
+	 *
 	 * @return mixed
 	 */
 	public static function formatToDB($time)
