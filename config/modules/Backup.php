@@ -1,11 +1,13 @@
 <?php
 /**
- * Backups module config.
+ * Backup module config.
+ *
+ * @package Config
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	// Backup catalog path
-	'BACKUPS_PATH' => 'backups' //String
+	'BACKUP_PATH' => '' //String
 ];
