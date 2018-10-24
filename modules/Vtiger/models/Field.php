@@ -277,6 +277,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 99:
 						$fieldDataType = 'password';
 						break;
+					case 101:
+						$fieldDataType = 'userReference';
+						break;
 					case 115:
 						$fieldDataType = 'picklist';
 						break;
