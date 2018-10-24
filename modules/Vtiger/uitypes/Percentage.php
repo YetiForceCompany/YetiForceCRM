@@ -70,4 +70,12 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Percentage.tpl';
+	}
 }
