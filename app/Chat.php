@@ -310,8 +310,8 @@ class Chat
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
-			$row['image'] = \Vtiger_Record_Model::getInstanceById($row['userid'], 'Users')->getImage();
-			$row['created'] = Fields\DateTime::formatToMoreReadable($row['created']);
+			$row['image'] = User::getImageById($row['userid']);
+			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userModel->getName();
 			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
 			$rows[] = $row;
@@ -357,7 +357,7 @@ class Chat
 				'message' => $row['messages'],
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => \Vtiger_Record_Model::getInstanceById($row['userid'], 'Users')->getImage()
+				'image' => User::getImageById($row['userid'])
 			];
 		}
 		$dataReader->close();

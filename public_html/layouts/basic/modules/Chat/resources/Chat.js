@@ -333,7 +333,7 @@ window.Chat_JS = class Chat_Js {
 		const currentRecordId = this.getCurrentRecordId();
 		const roomList = this.getRoomList();
 		this.selectRoom(data.currentRoom.roomType, data.currentRoom.recordId);
-		//console.log('currentRoom: ' + JSON.stringify(data.currentRoom));
+		console.log('currentRoom: ' + JSON.stringify(data.currentRoom));
 		for (let key in data.roomList) {
 			let roomTypeList = roomList.find('.js-room-type[data-room-type="' + key + '"]');
 			roomTypeList.html('');

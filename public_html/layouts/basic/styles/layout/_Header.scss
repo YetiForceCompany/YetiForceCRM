@@ -170,26 +170,6 @@
 	.modal-footer {
 		background: #fff;
 	}
-
-	.chatItem {
-		border-bottom: 1px solid #ddd;
-		margin-bottom: 3px;
-		padding: 2px 8px 2px 8px;
-
-		&.active {
-			background: #f9f9f9;
-		}
-
-		.author {
-			padding-bottom: 3px;
-
-			span {
-				vertical-align: top;
-				margin-left: 6px;
-				font-weight: bold;
-			}
-		}
-	}
 }
 
 //navbar search

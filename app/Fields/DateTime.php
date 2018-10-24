@@ -107,10 +107,10 @@ class DateTime
 	 *
 	 * @return string
 	 */
-	public static function formatToMoreReadable(string $dateTime)
+	public static function formatToShort(string $dateTime)
 	{
 		if ((new \DateTime($dateTime))->format('Y-m-d') === date('Y-m-d')) {
-			return (new \DateTimeField($dateTime))->getDisplayTime();
+			return \App\Fields\Time::formatToDisplay($dateTime);
 		}
 		return static::formatToDisplay($dateTime);
 	}
