@@ -14,6 +14,18 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -51,6 +63,14 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 'y', 'ny', 'd'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Theme.tpl';
 	}
 }

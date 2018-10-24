@@ -108,16 +108,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to returns all skins(themes).
-	 *
-	 * @return array
-	 */
-	public function getAllSkins()
-	{
-		return Vtiger_Theme::getAllSkins();
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
