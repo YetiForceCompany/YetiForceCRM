@@ -1499,6 +1499,8 @@
     "JS_MORE": "More",
     "JS_TO_REALIZE": "For processing",
     "JS_HISTORY": "History",
+    "JS_ALL": "Hepsi",
+    "JS_WORK_DAYS": "\u0130\u015f g\u00fcnleri",
     "JS_NOT_SELECTED_WORKFLOW_TRIGGER": "No workflow selected",
     "JS_STARTED_PERFORM_WORKFLOW": "Workflow started",
     "JS_COMPLETED_PERFORM_WORKFLOW": "Workflow completed",

@@ -87,7 +87,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 					'value' => $picklistValue[$picklistName],
 					'color' => $picklistValue['color'],
 					'table' => 'vtiger_' . $picklistName,
-					'field' => $picklistName,]);
+					'field' => $picklistName, ]);
 			}
 		}
 		return $calendarConfig;

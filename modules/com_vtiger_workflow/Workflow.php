@@ -245,6 +245,16 @@ class Workflow
 	}
 
 	/**
+	 * Return workflow schedule timestamp in user format.
+	 *
+	 * @return string
+	 */
+	public function getWFScheduleTimeUserFormat()
+	{
+		return (new DateTimeField($this->schtime))->getDisplayTime();
+	}
+
+	/**
 	 * Return workflow schedule day.
 	 *
 	 * @return int

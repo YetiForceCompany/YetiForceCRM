@@ -1,0 +1,167 @@
+<?php
+
+/**
+ * Chat Entries Action Class.
+ *
+ * @package   Action
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ */
+class Chat_Entries_Action extends \App\Controller\Action
+{
+	use \App\Controller\ExposeMethod;
+
+	/**
+	 * Constructor with a list of allowed methods.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('addMessage');
+		$this->exposeMethod('addRoom');
+		$this->exposeMethod('switchRoom');
+		$this->exposeMethod('removeRoom');
+		$this->exposeMethod('addRoomToFavorite');
+	}
+
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$mode = $request->getMode();
+		if (
+			!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule()) ||
+			($mode === 'addMessage' && !$request->has('room_id')) ||
+			($mode === 'addRoom' && !$request->has('record')) ||
+			($mode === 'switchRoom' && !$request->has('room_id'))
+		) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (
+			$request->has('record') &&
+			!Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isViewable()
+		) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (
+			$request->has('room_id') &&
+			$request->getInteger('room_id') !== 0 &&
+			!Vtiger_Record_Model::getInstanceById($request->getInteger('room_id'))->isViewable()
+		) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/**
+	 * Add entries function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function addMessage(\App\Request $request)
+	{
+		$room = \App\Chat::getInstanceById($request->getInteger('room_id'));
+		$isAssigned = $room->isAssigned();
+		$room->addMessage($request->get('message'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new Chat_Entries_View())->getHTML($request, $room),
+			'user_added_to_room' => $isAssigned !== $room->isAssigned(),
+			'room' => ['name' => $room->getNameOfRoom(), 'room_id' => $room->getRoomId()]
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Add entries function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function addRoom(\App\Request $request)
+	{
+		$room = \App\Chat::createRoom($request->getInteger('record'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'room_id' => $room->getRoomId(),
+			'name' => $room->getNameOfRoom()
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Switch chat room.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function switchRoom(\App\Request $request)
+	{
+		\App\Chat::setCurrentRoomId($request->getInteger('room_id'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new Chat_Entries_View())->getHTML($request),
+			'user_rooms' => \App\Chat::getRoomsByUser()
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Remove chat room from the list of favorites.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function removeRoom(\App\Request $request)
+	{
+		$roomId = $request->getInteger('room_id');
+		if ($roomId === \App\Chat::getCurrentRoomId()) {
+			\App\Chat::setCurrentRoomId(0);
+		}
+		$room = \App\Chat::getInstanceById($roomId);
+		$room->setFavorite(false);
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new Chat_Entries_View())->getHTML(
+				$request, \App\Chat::getInstanceById(\App\Chat::getCurrentRoomId())
+			),
+			'room_id' => \App\Chat::getCurrentRoomId()
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Add room to favorite.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function addRoomToFavorite(\App\Request $request)
+	{
+		$room = \App\Chat::getInstanceById($request->getInteger('room_id'));
+		$room->setFavorite($request->getBoolean('favorite'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'room_id' => $room->getRoomId(),
+			'name_of_room' => $room->getNameOfRoom(),
+			'favorite' => $room->isFavorite(),
+		]);
+		$response->emit();
+	}
+}

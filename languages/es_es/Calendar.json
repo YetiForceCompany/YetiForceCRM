@@ -217,8 +217,6 @@
     "Mobile Call": "Llamada m\u00f3vil",
     "JS_CHANGE_ACTIVITY_TIME": "Cambiar estado a: a procesar o para el hist\u00f3rico",
     "JS_ASSIGNED_TO": "Asignado a",
-    "JS_SWITCHING_DAYS": "D\u00edas de cambio ",
-    "JS_ALL": "Toda la semana",
-    "JS_WORK_DAYS": "D\u00edas laborables"
+    "JS_SWITCHING_DAYS": "D\u00edas de cambio "
   }
 }

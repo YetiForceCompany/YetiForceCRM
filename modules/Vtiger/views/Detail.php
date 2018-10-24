@@ -1061,15 +1061,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showChat(\App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		if (!\App\Privilege::isPermitted('Chat') || !$recordModel->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		return $viewer->view('Detail\Chat.tpl', 'Chat', true);
+		return (new Chat_Entries_View())->getForRecord($request);
 	}
 
 	/**

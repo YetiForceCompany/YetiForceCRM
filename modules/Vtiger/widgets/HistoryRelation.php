@@ -4,9 +4,9 @@
  * Class for history widget.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 {
@@ -54,9 +54,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	{
 		$this->Config['tpl'] = 'HistoryRelation.tpl';
 		$this->Config['url'] = $this->getUrl();
-		$widget = $this->Config;
-
-		return $widget;
+		return $this->Config;
 	}
 
 	public function getConfigTplName()

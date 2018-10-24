@@ -37,11 +37,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			default:
 				break;
 		}
-		$focus = CRMEntity::getInstance($this->get('module'));
-		$basetable = $focus->table_name;
-		$supfield = $basetable . $prefix;
-
-		return $supfield;
+		return CRMEntity::getInstance($this->get('module'))->table_name . $prefix;
 	}
 
 	/**

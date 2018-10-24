@@ -96,9 +96,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
-		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
-
-		return $linkValue;
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
 	}
 
 	/**

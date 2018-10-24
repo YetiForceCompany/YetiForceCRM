@@ -204,10 +204,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEntityMethods()
 	{
-		$emm = new VTEntityMethodManager();
-		$methodNames = $emm->methodsForModule($this->get('module_name'));
-
-		return $methodNames;
+		return (new VTEntityMethodManager())->methodsForModule($this->get('module_name'));
 	}
 
 	/**

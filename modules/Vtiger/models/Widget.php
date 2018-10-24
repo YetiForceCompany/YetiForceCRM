@@ -78,9 +78,7 @@ class Vtiger_Widget_Model extends \App\Base
 	{
 		$url = App\Purifier::decodeHtml($this->get('linkurl')) . '&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
-		$url .= '&widgetid=' . $widgetid . '&active=' . $this->get('active');
-
-		return $url;
+		return $url . '&widgetid=' . $widgetid . '&active=' . $this->get('active');
 	}
 
 	/**

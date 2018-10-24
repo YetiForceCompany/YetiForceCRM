@@ -101,6 +101,21 @@ class DateTime
 	}
 
 	/**
+	 * Crop date if today and only return the hour.
+	 *
+	 * @param string $dateTime Date time
+	 *
+	 * @return string
+	 */
+	public static function formatToMoreReadable(string $dateTime)
+	{
+		if ((new \DateTime($dateTime))->format('Y-m-d') === date('Y-m-d')) {
+			return (new \DateTimeField($dateTime))->getDisplayTime();
+		}
+		return static::formatToDisplay($dateTime);
+	}
+
+	/**
 	 * Function to parse dateTime into days.
 	 *
 	 * @param string $dateTime Date time

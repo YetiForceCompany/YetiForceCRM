@@ -11,6 +11,7 @@
 	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}"/>
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
+	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 	<input type="hidden" id="hiddenDays"
 		   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}"/>

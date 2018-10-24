@@ -119,12 +119,10 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public function isWatchingModuleConfig($member)
 	{
-		$isExists = (new \App\Db\Query())
+		return (new \App\Db\Query())
 			->from('u_#__watchdog_module')
 			->where(['member' => $member, 'module' => $this->get('moduleId')])
 			->exists();
-
-		return $isExists;
 	}
 
 	/**

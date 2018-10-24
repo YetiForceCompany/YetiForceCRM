@@ -64,10 +64,8 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getSearchValues($value)
 	{
-		$roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
+		return (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
 			->createCommand()->queryAllByGroup();
-
-		return $roles;
 	}
 
 	/**

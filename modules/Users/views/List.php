@@ -27,15 +27,10 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
 			'modules.Users.resources.List',
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	/**
