@@ -110,6 +110,14 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
+		return ['y', 'ny', 'd'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isActiveSearchView()
+	{
+		return false;
 	}
 }

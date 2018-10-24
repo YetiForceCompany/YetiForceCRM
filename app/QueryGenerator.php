@@ -880,7 +880,7 @@ class QueryGenerator
 		}
 		unset($this->tablesList[$baseTable]);
 		foreach ($this->tablesList as $tableName) {
-			$joinType = $tableJoin[$tableName] ?? 'INNER JOIN';
+			$joinType = $tableJoin[$tableName] ?? $this->entityModel->getJoinClause($tableName);
 			if ($tableName === 'vtiger_users') {
 				$field = $this->getModuleField($ownerField);
 				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id"]);
