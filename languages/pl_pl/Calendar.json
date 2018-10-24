@@ -185,7 +185,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Kalendarz graficzny",
     "LBL_REMAIND_HOURS": "Przypomnij po wybranej liczbie godzin",
     "LBL_REMAIND_MINS": "Przypomnij po wybranej liczbie minut",
-    "LBL_WORK_DAYS": "Dni robocze"
+    "LBL_WORK_DAYS": "Dni robocze",
+    "LBL_EDIT_FROM_CALENDAR": "Edytuj z kalendarza"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Dodano kalendarz",
@@ -230,8 +231,6 @@
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Nie mo\u017cna powi\u0105za\u0107 kontakt\u00f3w z potencjalnymi klientami",
     "Mobile Call": "Po\u0142\u0105czenie",
     "JS_CHANGE_ACTIVITY_TIME": "Zmie\u0144 czas zdarzenia na do realizacji lub histori\u0119",
-    "JS_SWITCHING_DAYS": "Prze\u0142\u0105czanie dni ",
-    "JS_ALL": "Wszystkie",
-    "JS_WORK_DAYS": "Dni robocze"
+    "JS_SWITCHING_DAYS": "Prze\u0142\u0105czanie dni "
   }
 }

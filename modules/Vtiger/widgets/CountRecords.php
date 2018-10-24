@@ -4,8 +4,8 @@
  * Class for count records widget.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 {
@@ -27,9 +27,7 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 		$this->Config['tpl'] = 'CountRecords.tpl';
 		$this->Config['url'] = $this->getUrl();
 		$this->Config['relatedModules'] = $this->Data['relatedModules'];
-		$widget = $this->Config;
-
-		return $widget;
+		return $this->Config;
 	}
 
 	public function getConfigTplName()

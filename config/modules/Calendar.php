@@ -53,5 +53,9 @@ return [
 	//Show activity status buttons in edit form
 	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => true,
 	//Show default edit form
-	'SHOW_EDIT_FORM' => false
+	'SHOW_EDIT_FORM' => false,
+	//Select event free time automatically
+	'AUTOFILL_TIME' => false,
+	//Shows 'all day' row in agendaWeek and agendaDay view
+	'ALL_DAY_SLOT' => true
 ];

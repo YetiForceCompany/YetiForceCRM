@@ -233,8 +233,6 @@
     "Mobile Call": "Apel mobil",
     "JS_CHANGE_ACTIVITY_TIME": "Schimba statusul in: pentru procesare sau istoric",
     "JS_ASSIGNED_TO": "Repartizat la",
-    "JS_SWITCHING_DAYS": "Schimba zile ",
-    "JS_ALL": "Toate",
-    "JS_WORK_DAYS": "Zile lucratoare"
+    "JS_SWITCHING_DAYS": "Schimba zile "
   }
 }

@@ -42,7 +42,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('ALL_DAY_SLOT', AppConfig::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
+		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
 		$viewer->view($tplName, $request->getModule());
 	}
 
@@ -77,5 +79,13 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		return $this->checkAndConvertCssStyles([
 			'~libraries/fullcalendar/dist/fullcalendar.css',
 		]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		return \App\Language::translate('LBL_QUICK_CREATE', $request->getModule());
 	}
 }

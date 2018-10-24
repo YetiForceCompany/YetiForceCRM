@@ -208,19 +208,59 @@ var App = {},
 					app.registerPopoverManualTrigger(element);
 				}
 				if (elementParams.callbackShown) {
-					element.on('shown.bs.popover', function () {
-						elementParams.callbackShown();
-					})
+					element.on('shown.bs.popover', function (e) {
+						elementParams.callbackShown(e);
+					});
 				}
 			});
 			return selectElement;
+		},
+		/**
+		 * Register popover links
+		 * @param {jQuery} selectElement
+		 */
+		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
+			let params = {
+				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
+				content: '<div class="d-none"></div>',
+				callbackShown: function (e) {
+					let element = $(e.currentTarget);
+					if (!element.attr('href')) {
+						return false;
+					}
+					let link = new URL(element.get(0).href);
+					if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
+						return false;
+					}
+					let url = link.href;
+					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
+					let popoverId = element.attr('aria-describedby');
+					let popoverBoddy = $(`#${popoverId} .popover-body`);
+					popoverBoddy.progressIndicator({});
+					let cacheData = $('[data-url-cached="' + url + '"]').children();
+					if (cacheData.length) {
+						popoverBoddy.progressIndicator({mode: 'hide'}).html(cacheData.clone());
+						if (typeof customParams.callback === 'function') {
+							customParams.callback(popoverBoddy);
+						}
+					} else {
+						AppConnector.request(url).done((data) => {
+							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
+							popoverBoddy.progressIndicator({mode: 'hide'}).html(data);
+							if (typeof customParams.callback === 'function') {
+								customParams.callback(popoverBoddy);
+							}
+						});
+					}
+				}
+			};
+			app.showPopoverElementView(selectElement, params);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
 		 * @params <object> multiSelectElement
 		 * @params <object> select2 params
 		 */
-
 		registerChangeEventForMultiSelect: function (selectElement, params) {
 			if (typeof selectElement === "undefined") {
 				return;
@@ -677,10 +717,9 @@ var App = {},
 				ampmSubmit: false
 			};
 			$('.js-clock__btn').on('click', (e) => {
-				let elem = $(e.currentTarget);
 				e.stopPropagation();
-				let tempElement = elem.closest('.time').find('input.clockPicker');
-				if (tempElement.attr('disabled') !== 'disabled') {
+				let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
+				if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 					tempElement.clockpicker('show');
 				}
 			});
@@ -1649,6 +1688,7 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	app.registerPopoverLink();
 	$('.js-scrollbar').each(function () {
 		app.showNewScrollbar($(this));
 	});

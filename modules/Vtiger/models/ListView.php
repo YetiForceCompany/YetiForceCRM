@@ -508,7 +508,6 @@ class Vtiger_ListView_Model extends \App\Base
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$moduleModel = $this->getModule();
 		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
@@ -525,7 +524,23 @@ class Vtiger_ListView_Model extends \App\Base
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+
+		$listViewRecordModels = $this->getRecordsFromArray($rows);
+		unset($rows);
+		return $listViewRecordModels;
+	}
+
+	/**
+	 * Get models of records from array.
+	 *
+	 * @param array $rows
+	 *
+	 * @return \Vtiger_Record_Model[]
+	 */
+	public function getRecordsFromArray(array $rows)
+	{
 		$listViewRecordModels = $relatedFields = [];
+		$moduleModel = $this->getModule();
 		foreach ($this->getQueryGenerator()->getRelatedFields() as $fieldInfo) {
 			$relatedFields[$fieldInfo['relatedModule']][$fieldInfo['sourceField']][] = $fieldInfo['relatedField'];
 		}
@@ -547,7 +562,6 @@ class Vtiger_ListView_Model extends \App\Base
 			$recordModel->ext = $extRecordModel;
 			$listViewRecordModels[$row['id']] = $recordModel;
 		}
-		unset($rows);
 		return $listViewRecordModels;
 	}
 

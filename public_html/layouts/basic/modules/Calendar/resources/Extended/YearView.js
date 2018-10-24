@@ -146,8 +146,21 @@ var YearView = View.extend({
 			yearViewContainer.height($(window).height() - yearViewContainer.offset().top - $('.js-footer').height()).addClass('u-overflow-y-auto u-overflow-x-hidden');
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
+		this.registerTodayButtonYearChange(calendar);
 		this.registerViewRenderEvents(calendar.view);
 		calendar.view.options.firstLoad = false;
+	},
+
+	/**
+	 * Function extends today button functionality for year view
+	 * @param {$} calendar
+	 */
+	registerTodayButtonYearChange(calendar) {
+		if (calendar.currentDate.format('YYYY') === moment().format('YYYY')) {
+			calendar.el.find('.fc-today-button').addClass('fc-state-disabled');
+		} else {
+			calendar.el.find('.fc-today-button').removeClass('fc-state-disabled');
+		}
 	}
 });
 

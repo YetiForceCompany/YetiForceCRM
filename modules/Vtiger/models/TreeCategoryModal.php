@@ -4,8 +4,8 @@
  * Basic TreeCategoryModal Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
@@ -176,8 +176,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
-		$listEntries = $listViewModel->getListViewEntries($pagingModel);
-		return $listEntries;
+		return $listViewModel->getListViewEntries($pagingModel);
 	}
 
 	private function getRecords()

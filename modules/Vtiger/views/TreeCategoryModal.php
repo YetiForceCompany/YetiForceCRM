@@ -4,8 +4,8 @@
  * Tree Category Modal Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
@@ -60,8 +60,6 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 
 	public function getModalScripts(\App\Request $request)
 	{
-		$parentScriptInstances = parent::getModalScripts($request);
-
 		$scripts = [
 			'~libraries/jstree/dist/jstree.js',
 		];
@@ -73,22 +71,13 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 			$scripts[] = '~layouts/resources/libraries/jstree.edit.js';
 		}
 		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
-
-		$modalInstances = $this->checkAndConvertJsScripts($scripts);
-		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);
-
-		return $scriptInstances;
+		return array_merge($this->checkAndConvertJsScripts($scripts), parent::getModalScripts($request));
 	}
 
 	public function getModalCss(\App\Request $request)
 	{
-		$parentCssInstances = parent::getModalCss($request);
-		$cssFileNames = [
+		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
-		];
-		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$cssInstances = array_merge($modalInstances, $parentCssInstances);
-
-		return $cssInstances;
+		]), parent::getModalCss($request));
 	}
 }

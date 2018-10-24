@@ -1532,6 +1532,8 @@
     "JS_MORE": "M\u00e1s",
     "JS_TO_REALIZE": "A procesar",
     "JS_HISTORY": "Historial",
+    "JS_ALL": "Toda la semana",
+    "JS_WORK_DAYS": "D\u00edas laborables",
     "JS_NOT_SELECTED_WORKFLOW_TRIGGER": "No se ha seleccionado ning\u00fan flujo de trabajo",
     "JS_STARTED_PERFORM_WORKFLOW": "Se inici\u00f3 el flujo de trabajo",
     "JS_COMPLETED_PERFORM_WORKFLOW": "Flujo de trabajo completado",

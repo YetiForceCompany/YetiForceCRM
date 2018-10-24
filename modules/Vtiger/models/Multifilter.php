@@ -305,8 +305,7 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getTotalCountURL()
 	{
-		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId();
-		return $url;
+		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId();
 	}
 
 	/**
@@ -316,7 +315,6 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getListViewURL()
 	{
-		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId();
-		return $url;
+		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId();
 	}
 }
