@@ -76,13 +76,7 @@ class Backup
 	 */
 	public static function getBackupCatalogPath()
 	{
-		$backupPath = \AppConfig::module('Backup', 'BACKUP_PATH');
-		if (empty($backupPath)) {
-			//throw new \App\Exceptions\NoPermittedForAdmin('ERR_CONFIGURE_BEFORE_USE');
-			//set as alert
-			//throw new \App\Exceptions\NoPermittedForAdmin('ERR_CONFIGURE_BEFORE_USE');
-		}
-		return $backupPath;
+		return \AppConfig::module('Backup', 'BACKUP_PATH');
 	}
 
 	/**
