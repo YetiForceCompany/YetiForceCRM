@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" tabindex="-1" data-js="container">
+	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content pl-3 pr-3">
 				<div class="modal-header">
@@ -69,7 +69,8 @@
 													id="viewColumnsSelect"
 													data-js="appendTo">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-													<optgroup	label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
+													<optgroup
+															label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
 																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewSelectColumnName())}
@@ -103,7 +104,8 @@
 																				data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																			{/if}
 																			data-js="data-sort-index|data-field-name">
-																	{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
+																		{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
+																		&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 																	</option>
 																{/foreach}
 															</optgroup>
