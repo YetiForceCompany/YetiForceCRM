@@ -27,7 +27,6 @@ class Backup
 	 */
 	public static function readCatalog($catalogToRead, $module)
 	{
-		//$catalogToRead = $request->getByType('catalog', 'String');
 		$catalogPath = self::getBackupCatalogPath();
 		$catalogToReadArray = $returnStructure = [];
 		$urlDirectory = '';
