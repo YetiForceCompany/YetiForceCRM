@@ -26,10 +26,13 @@ class Backup
 	 *
 	 * @return array
 	 */
-	public static function readCatalog(string $catalogToRead, string $module)
+	public static function readCatalog(string $catalogToRead)
 	{
 		$catalogPath = static::getBackupCatalogPath();
 		$catalogToReadArray = $returnStructure = [];
+		if (empty($catalogPath)) {
+			return [];
+		}
 		$urlDirectory = '';
 		if (!empty($catalogToRead)) {
 			$catalogToReadArray = explode(DIRECTORY_SEPARATOR, $catalogToRead);
@@ -39,22 +42,25 @@ class Backup
 		if (!static::isAllowedDirectory($catalogToRead)) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
-		$catalogs = array_diff(scandir($catalogPath, SCANDIR_SORT_ASCENDING), ['.']);
+
+		$catalogs = new \DirectoryIterator($catalogPath);
 		foreach ($catalogs as $element) {
-			$requestUrl = "index.php?module=$module&parent=Settings&view=Index";
-			if ('..' === $element) {
+			$requestUrl = 'index.php?module=Backup&parent=Settings&view=Index';
+			if ($element->isDot()) {
 				if (!empty($catalogToReadArray)) {
 					array_pop($catalogToReadArray);
 					$parentUrl = implode(DIRECTORY_SEPARATOR, $catalogToReadArray);
 					$returnStructure['manage'] = "$requestUrl&catalog=$parentUrl";
 				}
 			} else {
-				$record['name'] = $element;
+				$record['name'] = $element->getBasename();
 				if (is_dir($catalogPath . DIRECTORY_SEPARATOR . $element)) {
 					$record['directory'] = "$requestUrl&catalog=$urlDirectory$element";
 					$returnStructure['catalogs'][] = $record;
 				} else {
 					$record['directory'] = "$requestUrl&action=downloadFile&mode=download&file=$urlDirectory$element";
+					$record['date'] = \App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $element->getMTime()));
+					$record['size'] = \vtlib\Functions::showBytes($element->getSize());
 					$returnStructure['files'][] = $record;
 				}
 				unset($record);
@@ -72,7 +78,9 @@ class Backup
 	{
 		$backupPath = \AppConfig::module('Backup', 'BACKUP_PATH');
 		if (empty($backupPath)) {
-			throw new \App\Exceptions\NoPermittedForAdmin('ERR_CONFIGURE_BEFORE_USE');
+			//throw new \App\Exceptions\NoPermittedForAdmin('ERR_CONFIGURE_BEFORE_USE');
+			//set as alert
+			//throw new \App\Exceptions\NoPermittedForAdmin('ERR_CONFIGURE_BEFORE_USE');
 		}
 		return $backupPath;
 	}
@@ -86,12 +94,11 @@ class Backup
 	 */
 	public static function isAllowedDirectory(string $dir)
 	{
-		$isAllowed = true;
 		$fullPath = static::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
-		if (!is_writable($fullPath) || !is_dir($fullPath) || is_file($fullPath) || strpos($fullPath, '../') !== false || strpos($fullPath, '..\\') !== false) {
-			$isAllowed = false;
+		if (!is_readable($fullPath) || !is_dir($fullPath) || is_file($fullPath)) {
+			return false;
 		}
-		return $isAllowed;
+		return true;
 	}
 
 	/**
@@ -103,11 +110,10 @@ class Backup
 	 */
 	public static function isAllowedFileDirectory(string $dir)
 	{
-		$isAllowed = true;
 		$fullPath = static::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
-		if (!is_writable($fullPath) || is_dir($fullPath) || !is_file($fullPath) || strpos($fullPath, '../') !== false || strpos($fullPath, '..\\') !== false) {
-			$isAllowed = false;
+		if (!is_readable($fullPath) || is_dir($fullPath) || !is_file($fullPath)) {
+			return false;
 		}
-		return $isAllowed;
+		return true;
 	}
 }

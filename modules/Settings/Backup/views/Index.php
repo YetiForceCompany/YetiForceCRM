@@ -17,10 +17,17 @@ class Settings_Backup_Index_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
+		$catalogPath = \App\Utils\Backup::getBackupCatalogPath();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
+		if (empty($catalogPath)) {
+			$viewer->assign('SHOW_CONFIG_ALERT', true);
+			$catalogStructure = [];
+		} else {
+			$catalogStructure = \App\Utils\Backup::readCatalog($request->getByType('catalog', 'String'));
+		}
+		$viewer->assign('STRUCTURE', $catalogStructure);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('STRUCTURE', \App\Utils\Backup::readCatalog($request->getByType('catalog', 'String'), $request->getByType('module', 2)));
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 }

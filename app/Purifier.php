@@ -359,6 +359,9 @@ class Purifier
 				case 'Version':
 					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : false;
 					break;
+				case 'Path':
+					$value = !preg_match('/(\/|\\\\)\.{2}(\/|\\\\)/im', $input) ? $input : false;
+					break;
 				case 'Text':
 				default:
 					$value = self::purify($input);
