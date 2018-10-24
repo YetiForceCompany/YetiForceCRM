@@ -1,13 +1,15 @@
 <?php
 
 /**
- * Backups class for config.
+ * Backup class for config.
+ *
+ * @package View
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
-class Settings_Backups_Index_View extends Settings_Vtiger_Index_View
+class Settings_Backup_Index_View extends Settings_Vtiger_Index_View
 {
 	/**
 	 * {@inheritdoc}
@@ -18,7 +20,7 @@ class Settings_Backups_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('STRUCTURE', Settings_Backups_Module_Model::readCatalog($request));
+		$viewer->assign('STRUCTURE', \App\Utils\Backup::readCatalog($request->getByType('catalog', 'String'), $request->getByType('module', 2)));
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 }
