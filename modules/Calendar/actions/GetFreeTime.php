@@ -116,6 +116,9 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));
