@@ -2,17 +2,24 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ITEM_USER CLASS=''}
-		<li class="js-item-user {$CLASS}" data-user-id="{$USER['user_id']}" data-js="data">
+		<li class="js-item-user c-chat__user-item {$CLASS}" data-user-id="{$USER['user_id']}" data-js="data">
 			<div class="row">
-				<div class="col-3">
+				<div class="col-3 author">
 					{assign var=IMAGE value=$USER['image']}
-					{if $IMAGE}
+					{assign var=IS_IMAGE value=isset($IMAGE['url'])}
+					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="mr-2{if !$IS_IMAGE} hide{/if}"
+						 alt="{$USER['user_name']}"
+						 title="{$USER['user_name']}"/>
+					<span class="fas fa-user userImage{if $IS_IMAGE} hide{/if}"></span>
+
+
+					{*{if $IMAGE}
 						<img src="{$IMAGE.url}" class="mr-2" alt="{$USER['user_name']}"
 							 title="{$USER['user_name']}"
 							 height="80" align="left">
 					{else}
 						<span class="fas fa-user userImage"></span>
-					{/if}
+					{/if}*}
 				</div>
 				<div class="col-9">
 					<div class="row js-user-name">{$USER['user_name']}</div>
@@ -25,9 +32,7 @@
 	<div class="row chat-view-container">
 		<div class="col-9">
 			<div class="row">
-				<input type="text"
-					   class="form-control message border-top-0 border-left-0 border-right-0 js-search-message"{' '}
-					   autocomplete="off"{' '}
+				<input type="text" class="form-control message js-search-message"{' '} autocomplete="off"{' '}
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content">
@@ -45,16 +50,19 @@
 			</div>
 			<div class="row">
 				<div class="input-group">
-					<textarea class="form-control noresize border-0  message js-chat-message" rows="2"
-							  autocomplete="off"
+					<div class="input-group-prepend">
+							<span class="input-group-text">
+								<span class="fas fa-comments"></span>
+							</span>
+					</div>
+					<textarea class="form-control noresize message js-chat-message" rows="2" autocomplete="off"
 							  placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
 							  data-js="keydown">
 					</textarea>
-					<span class=" flex-shrink-0 fa-layers fa-fw fa-2x u-ml-minus-5px mt-2 js-btn-send">
-						<span class="fas fa-circle text-primary"></span>
-						<span class="fas fa-paper-plane text-light" data-fa-transform="shrink-8"></span>
-					</span>
 				</div>
+				<button type="button" class="btn btn-primary js-btn-send" data-js="click">
+					<span class="fas fa-comment"></span>
+				</button>
 			</div>
 		</div>
 		<div class="col-3">

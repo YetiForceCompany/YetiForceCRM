@@ -12,6 +12,9 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.init(container);
+		this.timerMessage = null;
+		this.timerRoom = null;
+		this.timerGlobal = null;
 	}
 
 	/**
@@ -35,13 +38,9 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} container
 	 */
 	init(container) {
-		console.log('init!!!');
 		this.container = container;
 		this.messageContainer = this.container.find('.js-chat_content');
 		this.sendByEnter = true;
-		this.timerMessage = null;
-		this.timerRoom = null;
-		this.timerGlobal = null;
 		this.maxLengthMessage = this.messageContainer.data('maxLengthMessage');
 	}
 
@@ -302,7 +301,6 @@ window.Chat_JS = class Chat_Js {
 			$(element).removeClass('active');
 		});
 		let itemRoom = roomList.find('.js-room-type[data-room-type=' + roomType + '] .js-room[data-record-id=' + recordId + ']');
-		//console.log('itemRoom: ' + itemRoom.length + ' roomType: ' + roomType + ' recordId: ' + recordId);
 		itemRoom.addClass('active');
 		itemRoom.find('.js-room-cnt').html('');
 		this.messageContainer.data('currentRoomType', roomType);
@@ -333,7 +331,6 @@ window.Chat_JS = class Chat_Js {
 		const currentRecordId = this.getCurrentRecordId();
 		const roomList = this.getRoomList();
 		this.selectRoom(data.currentRoom.roomType, data.currentRoom.recordId);
-		console.log('currentRoom: ' + JSON.stringify(data.currentRoom));
 		for (let key in data.roomList) {
 			let roomTypeList = roomList.find('.js-room-type[data-room-type="' + key + '"]');
 			roomTypeList.html('');
@@ -500,7 +497,6 @@ window.Chat_JS = class Chat_Js {
 		this.getRoomList(true);
 		this.getRoomsDetail(true);
 		this.container.find('.close[data-dismiss="modal"]').on('click', (e) => {
-			console.log('CLOSE MODAL');
 			clearTimeout(this.timerMessage);
 			clearTimeout(this.timerRoom);
 		});

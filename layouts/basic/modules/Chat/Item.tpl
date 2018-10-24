@@ -9,19 +9,12 @@
 		</div>
 		<div class="author js-author" data-role-name="{$ROW['role_name']}" data-js="data">
 			{assign var=IMAGE value=$ROW['image']}
-			<img src="{if isset($IMAGE['url'])}{$IMAGE['url']}{/if}" class="mr-2" alt="{$ROW['user_name']}"
+			{assign var=IS_IMAGE value=isset($IMAGE['url'])}
+			<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="mr-2{if !$IS_IMAGE} hide{/if}"
+				 alt="{$ROW['user_name']}"
 				 title="{$ROW['user_name']}"/>
+			<span class="fas fa-user userImage{if $IS_IMAGE} hide{/if}"></span>
 			<b class="js-user-name" data-js="data">{$ROW['user_name']}</b>
-
-			{*{assign var=IMAGE value=$ROW['image']}
-			{if $IMAGE}
-				<img src="{$IMAGE.url}" class="mr-2" alt="{$ROW['user_name']} {$ROW['last_name']}"
-					 title="{$ROW['user_name']} {$ROW['last_name']}"
-					 height="80" align="left">
-				<br/>
-			{else}
-				<span class="fas fa-user userImage"></span>
-			{/if}*}
 		</div>
 		<div class="messages">{\App\Purifier::decodeHtml($ROW['messages'])}</div>
 	</div>

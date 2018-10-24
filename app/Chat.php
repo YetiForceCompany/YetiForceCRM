@@ -310,7 +310,7 @@ class Chat
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
-			$row['image'] = User::getImageById($row['userid']);
+			$row['image'] = $userModel->getImage();
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userModel->getName();
 			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
@@ -332,7 +332,7 @@ class Chat
 	 *
 	 * @return array
 	 */
-	public function getParticipants($excludedId = [])
+	public function getParticipants()
 	{
 		if (empty($this->recordId) || empty($this->roomType)) {
 			return [];
@@ -345,9 +345,6 @@ class Chat
 		$query = (new \App\DB\Query())
 			->from(['GL' => static::TABLE_NAME['message'][$this->roomType]])
 			->innerJoin(['LM' => $subQuery], 'LM.last_id = GL.id');
-		/*if ($excludedId) {
-			$query->where(['not', ['GL.userid' => $excludedId]]);
-		}*/
 		$dataReader = $query->createCommand()->query();
 		$users = [];
 		while ($row = $dataReader->read()) {
@@ -357,7 +354,7 @@ class Chat
 				'message' => $row['messages'],
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => User::getImageById($row['userid'])
+				'image' => $userModel->getImage()
 			];
 		}
 		$dataReader->close();
