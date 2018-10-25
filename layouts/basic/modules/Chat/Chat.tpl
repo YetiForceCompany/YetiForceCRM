@@ -3,8 +3,8 @@
 	<!-- tpl-Chat-Chat -->
 	{function ITEM_USER CLASS=''}
 		<li class="js-item-user c-chat__user-item {$CLASS}" data-user-id="{$USER['user_id']}" data-js="data">
-			<div class="row px-4">
-				<div class="col-3 c-chat__author">
+			<div class="row px-2">
+				<div class="col-3 px-2 c-chat__author">
 					{assign var=IMAGE value=$USER['image']}
 					{assign var=IS_IMAGE value=isset($IMAGE['url'])}
 					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if}"
@@ -14,7 +14,7 @@
 				</div>
 				<div class="col-9 px-4">
 					<div class="js-user-name">{$USER['user_name']}</div>
-					<div class="js-role font-weight-bold color-blue-600">{$USER['role_name']}</div>
+					<div class="js-role c-chat__user-role font-weight-bold color-blue-600 mb-2">{$USER['role_name']}</div>
 					<div class="js-message c-chat__user-message text-truncate">{$USER['message']}</div>
 				</div>
 			</div>
@@ -64,9 +64,9 @@
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
-			<div class="js-participants-list" data-js="container">
+			<div class="js-participants-list px-3" data-js="container">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
-				<ul class="js-users pl-0" data-js="container">
+				<ul class="js-users pl-0 pb-3 m-0 border-bottom" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}
 						{ITEM_USER USER=$USER}
 					{/foreach}
