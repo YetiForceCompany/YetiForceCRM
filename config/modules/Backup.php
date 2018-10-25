@@ -10,6 +10,7 @@
 return [
 	// Backup catalog path
 	'BACKUP_PATH' => '', //String
+	// Allowed extensions to show on the list
 	'EXT_TO_SHOW' => [ //array
 		'7z',
 		'bz2',
