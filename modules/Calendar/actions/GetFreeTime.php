@@ -40,11 +40,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	 */
 	public function getFreeTimeInDay(string $day, string $activityType, int $ownerId = null)
 	{
-		if (!empty($ownerId)) {
-			$currentUser = \App\User::getUserModel($ownerId);
-		} else {
-			$currentUser = \App\User::getCurrentUserModel();
-		}
+		$currentUser = empty($ownerId) ? \App\User::getCurrentUserModel() : \App\User::getUserModel($ownerId);
 		if (empty($activityType)) {
 			$activityType = $currentUser->get('defaultactivitytype');
 		}
@@ -71,9 +67,9 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 				['deleted' => 0],
 				['smownerid' => $currentUser->getId()],
 				['and',
-					['!=', 'status', 'PLL_POSTPONED'],
-					['!=', 'status', 'PLL_CANCELLED'],
-					['!=', 'status', 'PLL_COMPLETED']
+					['<>', 'status', 'PLL_POSTPONED'],
+					['<>', 'status', 'PLL_CANCELLED'],
+					['<>', 'status', 'PLL_COMPLETED']
 				],
 				['or',
 					['and',
@@ -125,11 +121,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	public function process(\App\Request $request)
 	{
 		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));
-		if (!$request->isEmpty('ownerId')) {
-			$currentUser = \App\User::getUserModel($request->getByType('ownerId', 'Integer'));
-		} else {
-			$currentUser = \App\User::getCurrentUserModel();
-		}
+		$currentUser = $request->isEmpty('ownerId') ? \App\User::getCurrentUserModel() : \App\User::getUserModel($request->getInteger('ownerId'));
 		$startWorkHour = $currentUser->getDetail('start_hour');
 		$endWorkHour = $currentUser->getDetail('end_hour');
 		$activityType = $request->getByType('activitytype', 'Standard');
