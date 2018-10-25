@@ -116,4 +116,19 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
 	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if (!in_array($operator, ['e', 'n'])) {
+			return 'ConditionBuilder/BaseNoValidation.tpl';
+		}
+		return parent::getOperatorTemplateName($operator);
+	}
 }
