@@ -295,11 +295,6 @@ class Chat
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
-	public function search(string $searchVal)
-	{
-		return $this->getEntries(null, '>', $searchVal);
-	}
-
 	/**
 	 * Get entries function.
 	 *
@@ -319,10 +314,6 @@ class Chat
 		}
 		$this->lastMessageId = $messageId;
 		$rows = [];
-
-		//$sql = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->getRawSql();
-		//DebugerEx::log($sql);
-
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
@@ -418,9 +409,10 @@ class Chat
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		if (!\is_null($messageId) && empty($searchVal)) {
+		if (!\is_null($messageId)) {
 			$query->andWhere([$condition, 'C.id', $messageId]);
-		} elseif (!empty($searchVal)) {
+		}
+		if (!empty($searchVal)) {
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {

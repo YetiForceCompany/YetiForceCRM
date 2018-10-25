@@ -44,16 +44,16 @@ class Chat_Entries_View extends \App\Controller\View
 	 */
 	public function send(\App\Request $request)
 	{
-		$mid = $request->getInteger('mid');
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		if (!$chat->isRoomExists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$chat->addMessage($request->get('message'));
+		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($mid));
+		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->assign('SHOW_MORE_BUTTON', false);
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		echo $viewer->view('Entries.tpl', $request->getModule(), true);
 	}
 
@@ -108,9 +108,6 @@ class Chat_Entries_View extends \App\Controller\View
 	 */
 	public function getMore(\App\Request $request)
 	{
-		if (!$request->has('roomType') || !$request->has('recordId') || !$request->has('lastId')) {
-			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||"roomType"||"recordId"||"lastId"', 406);
-		}
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<=');
 		$viewer = $this->getViewer($request);
@@ -129,16 +126,17 @@ class Chat_Entries_View extends \App\Controller\View
 	 */
 	public function search(\App\Request $request)
 	{
-		if (!$request->has('roomType') || !$request->has('recordId') || !$request->has('searchVal')) {
-			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||"roomType"||"recordId"||"searchVal"', 406);
-		}
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
-		$chatEntries = $chat->search($request->getByType('searchVal', 'Text'));
+		$searchVal = $request->getByType('searchVal', 'Text');
+		if (!$request->isEmpty('mid')) {
+			$chatEntries = $chat->getEntries($request->getInteger('mid'), '<=', $searchVal);
+		} else {
+			$chatEntries = $chat->getEntries(null, '>', $searchVal);
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
-		//$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
-		$viewer->assign('SHOW_MORE_BUTTON', false);
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 

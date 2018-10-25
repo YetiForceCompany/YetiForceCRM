@@ -12,6 +12,9 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.init(container);
+		this.sendByEnter = true;
+		this.isSearchMode = false;
+		this.searchValue = null;
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.timerGlobal = null;
@@ -40,8 +43,9 @@ window.Chat_JS = class Chat_Js {
 	init(container) {
 		this.container = container;
 		this.messageContainer = this.container.find('.js-chat_content');
-		this.sendByEnter = true;
 		this.maxLengthMessage = this.messageContainer.data('maxLengthMessage');
+		this.searchInput = this.container.find('.js-search-message');
+		this.searchCancel = this.container.find('.js-search-cancel');
 	}
 
 	/**
@@ -108,15 +112,25 @@ window.Chat_JS = class Chat_Js {
 		}
 		if (len < this.maxLengthMessage) {
 			clearTimeout(this.timerMessage);
+			let mid = null;
+			if (!this.isSearchMode) {
+				mid = this.messageContainer.find('.js-chat-item:last').data('mid')
+			}
 			this.request({
 				view: 'Entries',
 				mode: 'send',
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId(),
 				message: inputMessage.val(),
-				mid: this.messageContainer.find('.js-chat-item:last').data('mid')
+				mid: mid
 			}).done((html) => {
-				this.messageContainer.append(html);
+				if (this.isSearchMode) {
+					this.messageContainer.html(html);
+					this.turnOffSearchMode();
+					this.registerLoadMore();
+				} else {
+					this.messageContainer.append(html);
+				}
 				this.getMessage(true);
 				this.buildParticipantsFromMessage($('<div></div>').html(html));
 				this.scrollToBottom();
@@ -156,21 +170,62 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
-	 * Search messages.
-	 * @param {jQuery} searchInput
+	 * Get more messages.
+	 * @param {jQuery} btn
 	 */
-	searchMessage(searchInput) {
+	getMore(btn) {
 		clearTimeout(this.timerMessage);
 		this.request({
 			view: 'Entries',
-			mode: 'search',
-			searchVal: searchInput.val(),
+			mode: 'getMore',
+			lastId: btn.data('mid'),
 			roomType: this.getCurrentRoomType(),
 			recordId: this.getCurrentRecordId()
 		}, false).done((html) => {
-			this.messageContainer.html(html);
+			if (html) {
+				btn.before(html);
+				btn.remove();
+				this.registerLoadMore();
+			}
+			this.getMessage(true);
+		});
+	}
+
+	/**
+	 * Search messages.
+	 * @param {jQuery} btn
+	 */
+	searchMessage(btn = null) {
+		clearTimeout(this.timerMessage);
+		let mid = null;
+		if (btn !== null) {
+			mid = btn.data('mid');
+		}
+		this.request({
+			view: 'Entries',
+			mode: 'search',
+			searchVal: this.searchInput.val(),
+			mid: mid,
+			roomType: this.getCurrentRoomType(),
+			recordId: this.getCurrentRecordId()
+		}, false).done((html) => {
+			if (btn === null) {
+				this.messageContainer.html(html);
+			} else {
+				btn.before(html);
+				btn.remove();
+			}
 			this.registerLoadMore();
 		});
+	}
+
+	/**
+	 * Turn off search mode.
+	 */
+	turnOffSearchMode() {
+		this.searchCancel.addClass('hide');
+		this.searchInput.val('');
+		this.isSearchMode = false;
 	}
 
 	/**
@@ -529,21 +584,11 @@ window.Chat_JS = class Chat_Js {
 	registerLoadMore() {
 		this.messageContainer.find('.js-load-more').off('click').on('click', (e) => {
 			let btn = $(e.currentTarget);
-			clearTimeout(this.timerMessage);
-			this.request({
-				view: 'Entries',
-				mode: 'getMore',
-				lastId: btn.data('mid'),
-				roomType: this.getCurrentRoomType(),
-				recordId: this.getCurrentRecordId()
-			}, false).done((html) => {
-				if (html) {
-					btn.before(html);
-					btn.remove();
-					this.registerLoadMore();
-				}
-				this.getMessage(true);
-			});
+			if (this.isSearchMode) {
+				this.searchMessage(btn);
+			} else {
+				this.getMore(btn);
+			}
 		});
 	}
 
@@ -551,26 +596,21 @@ window.Chat_JS = class Chat_Js {
 	 * Register search message events.
 	 */
 	registerSearchMessage() {
-		let searchInput = this.container.find('.js-search-message');
-		let searchCancel = this.container.find('.js-search-cancel');
-		console.log('registerSearchMessage: ' + searchInput.length);
-		searchInput.off('keydown').on('keydown', (e) => {
+		this.searchInput.off('keydown').on('keydown', (e) => {
 			if (e.keyCode === 13) {
 				e.preventDefault();
-				console.log('seachMessage: ' + searchInput.val());
-				if (searchInput.val() === '') {
-					searchCancel.addClass('hide');
+				if (this.searchInput.val() === '') {
+					this.searchCancel.addClass('hide');
+					this.isSearchMode = false;
 				} else {
-					searchCancel.removeClass('hide');
-					this.searchMessage(searchInput);
+					this.isSearchMode = true;
+					this.searchCancel.removeClass('hide');
+					this.searchMessage();
 				}
 			}
 		});
-		searchCancel.off('click').on('click', (e) => {
-			searchCancel.addClass('hide');
-			searchInput.val('');
-			console.log('searchCancel');
-			//this.getMessage(true);
+		this.searchCancel.off('click').on('click', (e) => {
+			this.turnOffSearchMode();
 			this.getAll();
 		});
 	}
