@@ -3,7 +3,11 @@
 	li {
 		list-style: none !important;
 	}
-
+	.chat_img-container {
+		border: 2px solid #d2d6de;
+		width: 60px;
+		height: 60px;
+	}
 	.c-chat__btn-send {
 		position: absolute;
 		bottom: 10px;
@@ -15,6 +19,7 @@
 	.c-chat__user-message {
 		max-width: 150px;
 		color: #797676;
+		font-size: 12px;
 	}
 	.c-chat__user-role {
 		font-size: 11px;
@@ -38,11 +43,8 @@
 			}
 
 			img {
-				width: 55px;
-				height: 55px;
-				padding: 2px;
-				border: 2px solid #d2d6de;
-				font-size: 32px;
+				width: 48px;
+				height: 48px;
 			}
 		}
 	}
@@ -51,9 +53,9 @@
 		margin-bottom: 3px;
 		padding: 2px 8px 2px 8px;
 
-		&.active {
+		.messages {
+			font-size: 13px;
 		}
-
 		.c-chat__author {
 			padding-bottom: 3px;
 
@@ -64,11 +66,8 @@
 			}
 
 			img {
-				width: 55px;
-				height: 55px;
-				padding: 2px;
-				border: 2px solid #d2d6de;
-				font-size: 32px;
+				width: 48px;
+				height: 48px;
 			}
 		}
 		.c-chat__triangle {

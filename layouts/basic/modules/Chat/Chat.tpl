@@ -5,13 +5,13 @@
 		<li class="js-item-user c-chat__user-item {$CLASS} border-bottom pb-2 mb-2" data-user-id="{$USER['user_id']}"
 			data-js="data">
 			<div class="row px-2">
-				<div class="col-3 px-2 c-chat__author">
+				<div class="p-1 chat_img-container c-chat__author text-center">
 					{assign var=IMAGE value=$USER['image']}
 					{assign var=IS_IMAGE value=isset($IMAGE['url'])}
 					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if}"
 						 alt="{$USER['user_name']}"
 						 title="{$USER['user_name']}"/>
-					<span class="fas fa-user userImage{if $IS_IMAGE} hide{/if}"></span>
+					<span class="fas fa-user u-font-size-50px userImage {if $IS_IMAGE} hide{/if}"></span>
 				</div>
 				<div class="col-9 px-4">
 					<div class="js-user-name">{$USER['user_name']}</div>

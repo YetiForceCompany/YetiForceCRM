@@ -7,18 +7,15 @@
 		{assign var=IS_IMAGE value=isset($IMAGE['url'])}
 		<div class="c-chat__author js-author  text-center u-w-100px"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
-			<div class="">
+			<div class="p-1 chat_img-container mx-auto">
 				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if}"
 					 alt="{$ROW['user_name']}"
 					 title="{$ROW['user_name']}"/>
+				<span class="fas fa-user u-font-size-50px {if $IS_IMAGE} hide{/if}" title="{$ROW['user_name']}"></span>
 			</div>
-			<span class="fas fa-user userImage{if $IS_IMAGE} hide{/if}"></span>
-			<b class="js-user-name mx-2 {if $IS_IMAGE} hide {/if}" data-js="data">{$ROW['user_name']}</b>
-			<div class="">
-				<small>
-					{$ROW['created']}
-				</small>
-			</div>
+			<span class="u-font-size-10px m-0 text-truncate text-secondary">
+				{$ROW['created']}
+			</span>
 		</div>
 		<div class="u-w-50px">
 			<div class="c-chat__triangle {if $USER == $ROW['userid']} active float-right u-border-right-10px ownerCT_{$ROW['userid']} {else} float-left u-border-left-10px  ownerCT_{$ROW['userid']} {/if}"></div>
