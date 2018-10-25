@@ -22,7 +22,7 @@ class Backup
 	 * @param string $catalogToRead
 	 * @param string $module
 	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermitted
 	 *
 	 * @return array[]
 	 */
@@ -39,28 +39,29 @@ class Backup
 			$catalogPath .= DIRECTORY_SEPARATOR . $catalogToRead;
 			$urlDirectory = $catalogToRead . DIRECTORY_SEPARATOR;
 		}
-		if (!static::isAllowedDirectory($catalogToRead)) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!static::isAllowedDirectory($catalogPath)) {
+			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
 		}
 		$catalogs = new \DirectoryIterator($catalogPath);
+		$allowedExtensions = static::getAllowedExtension();
 		foreach ($catalogs as $element) {
 			$requestUrl = 'index.php?module=Backup&parent=Settings&view=Index';
 			if ($element->isDot()) {
-				if (!empty($catalogToReadArray)) {
+				if (!empty($catalogToReadArray) && empty($returnStructure['manage'])) {
 					array_pop($catalogToReadArray);
 					$parentUrl = implode(DIRECTORY_SEPARATOR, $catalogToReadArray);
-					$returnStructure['manage'] = "$requestUrl&catalog=$parentUrl";
+					$returnStructure['manage'] = "{$requestUrl}&catalog={$parentUrl}";
 				}
 			} else {
 				$record['name'] = $element->getBasename();
-				if (is_dir($catalogPath . DIRECTORY_SEPARATOR . $element)) {
-					$record['directory'] = "$requestUrl&catalog=$urlDirectory$element";
+				if ($element->isDir()) {
+					$record['directory'] = "{$requestUrl}&catalog={$urlDirectory}{$record['name']}";
 					$returnStructure['catalogs'][] = $record;
 				} else {
-					if (!\in_array($element->getExtension(), static::getAllowedExtension())) {
+					if (!\in_array($element->getExtension(), $allowedExtensions)) {
 						continue;
 					}
-					$record['directory'] = "$requestUrl&action=downloadFile&mode=download&file=$urlDirectory$element";
+					$record['directory'] = "{$requestUrl}&action=downloadFile&file={$urlDirectory}{$record['name']}";
 					$record['date'] = \App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $element->getMTime()));
 					$record['size'] = \vtlib\Functions::showBytes($element->getSize());
 					$returnStructure['files'][] = $record;
@@ -94,32 +95,24 @@ class Backup
 	/**
 	 * Check is it an allowed directory.
 	 *
-	 * @param string $dir
+	 * @param string $fullPath
 	 *
 	 * @return bool
 	 */
-	public static function isAllowedDirectory(string $dir)
+	public static function isAllowedDirectory(string $fullPath)
 	{
-		$fullPath = static::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
-		if (!is_readable($fullPath) || !is_dir($fullPath) || is_file($fullPath)) {
-			return false;
-		}
-		return true;
+		return !(!is_readable($fullPath) || !is_dir($fullPath) || is_file($fullPath));
 	}
 
 	/**
 	 * Check is it an allowed file directory.
 	 *
-	 * @param string $dir
+	 * @param string $fullPath
 	 *
 	 * @return bool
 	 */
-	public static function isAllowedFileDirectory(string $dir)
+	public static function isAllowedFileDirectory(string $fullPath)
 	{
-		$fullPath = static::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $dir;
-		if (!is_readable($fullPath) || is_dir($fullPath) || !is_file($fullPath)) {
-			return false;
-		}
-		return true;
+		return !(!is_readable($fullPath) || is_dir($fullPath) || !is_file($fullPath));
 	}
 }
