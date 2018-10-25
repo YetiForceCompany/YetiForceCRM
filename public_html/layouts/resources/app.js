@@ -153,7 +153,7 @@ var App = {},
 					let popoverId = element.attr('aria-describedby');
 					let currentPopover = $(`#${popoverId}`);
 					currentPopover.on("mouseleave", (e) => {
-						if (!currentPopover.is(':hover')) {
+						if (!currentPopover.is(':hover') && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
 							currentPopover.popover('hide');
 						}
 					});
@@ -161,7 +161,7 @@ var App = {},
 				out: function () {
 					let popoverId = $(this).attr('aria-describedby');
 					let currentPopover = $(`#${popoverId}`);
-					if (!currentPopover.is(':hover')) {
+					if (!currentPopover.is(':hover') && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
 						currentPopover.popover('hide');
 					}
 				}
