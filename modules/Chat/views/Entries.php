@@ -80,12 +80,14 @@ class Chat_Entries_View extends \App\Controller\View
 			return;
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
-		if ($request->has('lastId') && !count($chatEntries)) {
+		$numberOfEntries = count($chatEntries);
+		if ($request->has('lastId') && !$numberOfEntries) {
 			return;
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		$viewer->assign('SHOW_MORE_BUTTON', $numberOfEntries > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		if (!$request->has('lastId')) {
 			$viewer->assign('PARTICIPANTS', $chat->getParticipants());
 		}
@@ -109,10 +111,12 @@ class Chat_Entries_View extends \App\Controller\View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$chat = \App\Chat::getInstance('crm', $recordModel->getId());
+		$chatEntries = $chat->getEntries();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
+		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('CURRENT_ROOM', ['roomType' => 'crm', 'recordId' => $recordModel->getId()]);
 		$viewer->assign('PARTICIPANTS', $chat->getParticipants());
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		$viewer->assign('MODULE_NAME', 'Chat');
 		$viewer->assign('CHAT', $chat);
 		return $viewer->view('Detail/Chat.tpl', 'Chat', true);

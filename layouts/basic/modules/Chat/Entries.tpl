@@ -5,7 +5,10 @@
 		<input type="hidden" name="participants" value="{\App\Purifier::encodeHtml(\App\Json::encode($PARTICIPANTS))}"
 			   class="js-participants-data" data-js="data">
 	{/if}
-	{foreach item=ROW from=$CHAT_ENTRIES}
+	{foreach item=ROW key=$KEY_ITEM from=$CHAT_ENTRIES}
+		{if $SHOW_MORE_BUTTON && $KEY_ITEM == 0 }
+			{continue}
+		{/if}
 		{include file=\App\Layout::getTemplatePath('Item.tpl', 'Chat')}
 	{/foreach}
 	<!-- /tpl-Chat-Items -->

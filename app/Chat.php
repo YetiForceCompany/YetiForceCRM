@@ -400,9 +400,12 @@ class Chat
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		$query->orderBy(['created' => \SORT_ASC]);
 		if ($isLimit) {
-			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'));
+			$query->orderBy(['created' => \SORT_DESC]);
+			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT') + 1);
+			$query = (new Db\Query())->from(['C' => $query])->orderBy(['created' => \SORT_ASC]);
+		} else {
+			$query->orderBy(['created' => \SORT_ASC]);
 		}
 		return $query;
 	}
