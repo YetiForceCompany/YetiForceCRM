@@ -107,7 +107,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerDeleteGroup() {
 		this.container.on('click', '.js-group-delete', function (e) {
-			$(e.currentTarget).closest('.js-condition-builder-group-container').remove();
+			$(this).closest('.js-condition-builder-group-container').remove();
 		});
 	};
 
