@@ -1,5 +1,7 @@
 {
   "php": {
+    "LBL_BACKUP_MANAGER": "Manager backup\u00f3w",
+    "LBL_BACKUP_MANAGER_DESCRIPTION": "Zarz\u0105dzanie plikami kopii zapasowych",
     "LBL_DOWNLOAD": "Pobierz",
     "LBL_FILE_NAME": "Nazwa pliku",
     "LBL_FILE_SIZE": "Rozmiar",
