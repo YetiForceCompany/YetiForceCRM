@@ -79,12 +79,14 @@ class Chat_Entries_View extends \App\Controller\View
 		if (!$chat->isRoomExists()) {
 			return;
 		}
+		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
+		if ($request->has('lastId') && !count($chatEntries)) {
+			return;
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		if ($request->has('lastId')) {
-			$viewer->assign('CHAT_ENTRIES', $chat->getEntries($request->getInteger('lastId')));
-		} else {
-			$viewer->assign('CHAT_ENTRIES', $chat->getEntries());
+		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		if (!$request->has('lastId')) {
 			$viewer->assign('PARTICIPANTS', $chat->getParticipants());
 		}
 		$viewer->view('Entries.tpl', $request->getModule());

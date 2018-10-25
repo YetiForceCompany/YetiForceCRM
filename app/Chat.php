@@ -165,10 +165,16 @@ class Chat
 		if (Cache::has('Chat', 'chat_global')) {
 			return Cache::get('Chat', 'chat_global');
 		}
-		return Cache::save('Chat', 'chat_global',
-			(new Db\Query())->select(['name', 'recordid' => 'global_room_id'])
-				->from('u_#__chat_global')->all()
-		);
+		$rooms = [];
+		$dataReader = (new Db\Query())
+			->select(['name', 'recordid' => 'global_room_id'])
+			->from('u_#__chat_global')->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$row['name'] = Language::translate($row['name'], 'Chat');
+			$rooms[] = $row;
+		}
+		$dataReader->close();
+		return Cache::save('Chat', 'chat_global', $rooms);
 	}
 
 	/**
@@ -203,7 +209,7 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$subQuery = (new \App\Db\Query())
+		$subQuery = (new Db\Query())
 			->select(['CR.crmid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['crm']])
 			->innerJoin(['CM' => static::TABLE_NAME['message']['crm']], 'CM.crmid = CR.crmid')
@@ -337,12 +343,12 @@ class Chat
 		if (empty($this->recordId) || empty($this->roomType)) {
 			return [];
 		}
-		$subQuery = (new \App\DB\Query())
+		$subQuery = (new DB\Query())
 			->select(['userid', 'last_id' => new \yii\db\Expression('max(id)')])
 			->from(static::TABLE_NAME['message'][$this->roomType])
 			->where([static::COLUMN_NAME['record'][$this->roomType] => $this->recordId])
 			->groupBy(['userid']);
-		$query = (new \App\DB\Query())
+		$query = (new DB\Query())
 			->from(['GL' => static::TABLE_NAME['message'][$this->roomType]])
 			->innerJoin(['LM' => $subQuery], 'LM.last_id = GL.id');
 		$dataReader = $query->createCommand()->query();
@@ -422,7 +428,7 @@ class Chat
 					->where(['CR.groupid' => $this->recordId])
 					->andWhere(['CR.userid' => $this->userId]);
 			case 'global':
-				return (new \App\Db\Query())
+				return (new Db\Query())
 					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.global_room_id', 'CR.last_message'])
 					->from(['CG' => 'u_#__chat_global'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_global'], "CR.global_room_id = CG.global_room_id AND CR.userid = {$this->userId}")

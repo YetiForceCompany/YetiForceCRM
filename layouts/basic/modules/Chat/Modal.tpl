@@ -4,10 +4,10 @@
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$ROOM['recordid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
 		<li class="text-truncate js-room {if $SELECTED} active{/if} {$CLASS_NAME}"
-			title="{\App\Purifier::encodeHtml(\App\Language::translate($ROOM['name'], 'Chat'))}"
+			title="{\App\Purifier::encodeHtml($ROOM['name'], 'Chat')}"
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
-			<span class="js-room-name" data-js="append|replace">{\App\Language::translate($ROOM['name'], 'Chat')}</span>
+			<span class="js-room-name" data-js="append|replace">{$ROOM['name']}</span>
 			<span class="js-room-cnt badge badge-info ml-1 inline"
 				  data-js="append|replace">{$ROOM['cnt_new_message']}</span>
 		</li>
