@@ -144,20 +144,25 @@ var App = {},
 			});
 		},
 		registerPopoverManualTrigger(element) {
+			console.log(element);
 			element.hoverIntent({
 				timeout: 150,
 				over: function () {
-					const self = this;
-					$(this).popover("show");
-					$(".popover").on("mouseleave", function () {
-						if (!$(".popover:hover").length) {
-							$('.popover').popover('hide');
+					let element = $(this);
+					element.popover("show");
+					let popoverId = element.attr('aria-describedby');
+					let currentPopover = $(`#${popoverId}`);
+					currentPopover.on("mouseleave", (e) => {
+						if (!currentPopover.is(':hover')) {
+							currentPopover.popover('hide');
 						}
 					});
 				},
 				out: function () {
-					if (!$(".popover:hover").length) {
-						$('.popover').popover('hide');
+					let popoverId = $(this).attr('aria-describedby');
+					let currentPopover = $(`#${popoverId}`);
+					if (!currentPopover.is(':hover')) {
+						currentPopover.popover('hide');
 					}
 				}
 			});
@@ -1680,37 +1685,49 @@ var App = {},
 			PNotify.defaults.icons = 'fontawesome5';
 			new PNotify(params);
 			return aDeferred.promise();
+		},
+		registerPopoverEllipsis() {
+			app.showPopoverElementView($('.js-popover-tooltip--ellipsis'));
+			$(document).on('mouseenter', '.js-popover-tooltip--ellipsis', (e) => {
+				let currentTarget = $(e.currentTarget);
+				if (!currentTarget.hasClass('popover-triggered') && !currentTarget.find('.popover-triggered').length) {
+					app.showPopoverElementView(currentTarget);
+				}
+			});
+		},
+		registerPopover() {
+			$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+				let currentTarget = $(e.currentTarget);
+				if (!currentTarget.hasClass('popover-triggered')) {
+					console.log(currentTarget.data('field-type'));
+					if (currentTarget.hasClass('js-popover-tooltip--link')) {
+						app.registerPopoverLink(currentTarget);
+						currentTarget.trigger('mouseover');
+
+					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
+						app.registerPopoverLink(currentTarget.children('a'));
+						currentTarget.trigger('mouseover');
+
+
+					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && !currentTarget.data('field-type')) {
+						app.showPopoverElementView(currentTarget);
+						currentTarget.popover('show');
+						currentTarget.on('mouseleave', function () {
+							currentTarget.popover('hide');
+						});
+					}
+					// if (currentTarget.closest('.popover').length) {
+					// 	currentTarget.popover('show');
+					// }
+				}
+			});
 		}
 	};
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
-	$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
-		let currentTarget = $(e.currentTarget);
-		if (!currentTarget.hasClass('popover-triggered')) {
-			console.log(currentTarget.data('field-type'));
-			if (currentTarget.hasClass('js-popover-tooltip--link')) {
-				app.registerPopoverLink(currentTarget);
-			} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
-				app.registerPopoverLink(currentTarget.children('a'));
-
-			} else if (!currentTarget.hasClass('js-popover-tooltip--link') && !currentTarget.data('field-type')) {
-				app.showPopoverElementView(currentTarget);
-				currentTarget.popover('show');
-				currentTarget.on('mouseleave', function () {
-					currentTarget.popover('hide');
-				});
-			}
-		}
-	});
-	$(document).on('mouseenter', '.js-popover-tooltip--ellipsis', (e) => {
-		let currentTarget = $(e.currentTarget);
-		if (!currentTarget.hasClass('popover-triggered') && !currentTarget.find('.popover-triggered').length) {
-			console.log(currentTarget);
-			app.showPopoverElementView(currentTarget);
-		}
-	});
-	app.showPopoverElementView($('.js-popover-tooltip--ellipsis'));
+	app.registerPopover();
+	app.registerPopoverEllipsis();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
