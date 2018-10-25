@@ -16,10 +16,17 @@ class Settings_Backup_DownloadFile_Action extends Settings_Vtiger_Index_Action
 	 */
 	public function process(\App\Request $request)
 	{
+		if ($request->isEmpty('file')) {
+			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
+		}
 		$requestFilePath = $request->getByType('file', 'Path');
+		$fileExtension = strtolower(array_pop(explode('.', $requestFilePath)));
+		if (!\in_array($fileExtension, \App\Utils\Backup::getAllowedExtension())) {
+			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
+		}
 		$filePath = \App\Utils\Backup::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $requestFilePath;
-		if (!\App\Utils\Backup::isAllowedFileDirectory($requestFilePath)) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!\App\Utils\Backup::isAllowedFileDirectory($filePath)) {
+			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
 		}
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');

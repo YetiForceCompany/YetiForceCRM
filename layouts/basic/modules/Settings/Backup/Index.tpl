@@ -17,7 +17,7 @@
 					</div>
 				{else}
 					<table class="table tableBorderHeadBody listViewEntriesTable medium">
-						{if {$STRUCTURE['manage']}}
+						{if {!empty($STRUCTURE['manage'])}}
 							<tr class="listViewEntries">
 								<td class="border bc-gray-lighter">
 									<a href="{$STRUCTURE['manage']}">

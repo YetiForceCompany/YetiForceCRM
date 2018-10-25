@@ -163,7 +163,7 @@ class Zip extends \ZipArchive
 	 */
 	public function validateFile(string $path)
 	{
-		if ($this->checkFilePath($path)) {
+		if (static::checkFilePath($path)) {
 			return true;
 		}
 		if ($this->checkFiles && !$this->isDir($path)) {
@@ -196,24 +196,24 @@ class Zip extends \ZipArchive
 	 *
 	 * @return bool
 	 */
-	public function checkFilePath(string $path)
+	public static function checkFilePath(string $path)
 	{
 		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
 		if ($matches) {
 			return true;
 		}
-		$absolutes = [];
+		$absolutes = ['YetiTemp'];
 		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
-			if ('.' == $part) {
+			if ('.' === $part) {
 				continue;
 			}
-			if ('..' == $part) {
+			if ('..' === $part) {
 				array_pop($absolutes);
 			} else {
 				$absolutes[] = $part;
 			}
 		}
-		return strpos('YetiTemp/' . implode('/', $absolutes), 'YetiTemp/') !== 0;
+		return $absolutes[0] === 'YetiTemp';
 	}
 
 	/**
