@@ -24,7 +24,7 @@ class Backup
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 *
-	 * @return array
+	 * @return array[]
 	 */
 	public static function readCatalog(string $catalogToRead)
 	{
@@ -84,7 +84,7 @@ class Backup
 	/**
 	 * Return allowed extension of backup file.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function getAllowedExtension()
 	{
