@@ -108,7 +108,6 @@ class Workflow
 			return true;
 		} else {
 			$cs = $this->conditionStrategy;
-
 			return $cs->evaluate($this->test, $recordModel);
 		}
 	}
