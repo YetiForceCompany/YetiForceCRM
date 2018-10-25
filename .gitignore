@@ -48,4 +48,3 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 .babelrc
-/nbproject/private/
