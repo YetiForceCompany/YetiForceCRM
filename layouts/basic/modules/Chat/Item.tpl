@@ -5,7 +5,7 @@
 		 data-mid="{$ROW['id']}" data-user-id="{$ROW['userid']}" data-js="data">
 		{assign var=IMAGE value=$ROW['image']}
 		{assign var=IS_IMAGE value=isset($IMAGE['url'])}
-		<div class="c-chat__author js-author  text-center u-w-100px"
+		<div class="c-chat__author js-author  text-center"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
 			<div class="p-1 chat_img-container mx-auto">
 				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if}"
@@ -17,9 +17,7 @@
 				{$ROW['created']}
 			</span>
 		</div>
-		<div class="u-w-50px">
-			<div class="c-chat__triangle {if $USER == $ROW['userid']} active float-right u-border-right-10px ownerCT_{$ROW['userid']} {else} float-left u-border-left-10px  ownerCT_{$ROW['userid']} {/if}"></div>
-		</div>
+		<div class="c-chat__triangle {if $USER == $ROW['userid']} active float-right u-border-right-10px ownerCT_{$ROW['userid']} {else} float-left u-border-left-10px  ownerCT_{$ROW['userid']} {/if}"></div>
 		<div class="messages col-9 p-3 {if $USER == $ROW['userid']} active float-right ownerCBg_{$ROW['userid']}  {else} float-left ownerCBg_{$ROW['userid']}  {/if}">{\App\Purifier::decodeHtml($ROW['messages'])}</div>
 	</div>
 {/strip}
