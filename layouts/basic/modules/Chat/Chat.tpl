@@ -3,19 +3,19 @@
 	<!-- tpl-Chat-Chat -->
 	{function ITEM_USER CLASS=''}
 		<li class="js-item-user c-chat__user-item {$CLASS}" data-user-id="{$USER['user_id']}" data-js="data">
-			<div class="row">
+			<div class="row px-4">
 				<div class="col-3 c-chat__author">
 					{assign var=IMAGE value=$USER['image']}
 					{assign var=IS_IMAGE value=isset($IMAGE['url'])}
-					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="mr-2{if !$IS_IMAGE} hide{/if}"
+					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if}"
 						 alt="{$USER['user_name']}"
 						 title="{$USER['user_name']}"/>
 					<span class="fas fa-user userImage{if $IS_IMAGE} hide{/if}"></span>
 				</div>
-				<div class="col-9">
-					<div class="row js-user-name">{$USER['user_name']}</div>
-					<div class="row js-role font-weight-bold color-blue-600">{$USER['role_name']}</div>
-					<div class="row js-message c-chat__user-message text-truncate">{$USER['message']}</div>
+				<div class="col-9 px-4">
+					<div class="js-user-name">{$USER['user_name']}</div>
+					<div class="js-role font-weight-bold color-blue-600">{$USER['role_name']}</div>
+					<div class="js-message c-chat__user-message text-truncate">{$USER['message']}</div>
 				</div>
 			</div>
 		</li>
@@ -53,16 +53,20 @@
 				</button>
 			</div>
 		</div>
-		<div class="col-3">
-			<div>
-				<input type="text" class="form-control message js-search-participants" autocomplete="off"
+		<div class="col-3 px-0 bg-color-grey-50">
+			<div class="px-2">
+				<input type="text"
+					   class="form-control message js-search-participants border-top-0 border-right-0 border-left-0  bg-color-grey-50"
+					   autocomplete="off"
 					   placeholder="{\App\Language::translate('LBL_SEARCH_PARTICIPANTS', $MODULE_NAME)}"
 					   data-js="keydown"/>
 			</div>
-			<h5>{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}</h5>
+			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold">
+				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
+			</div>
 			<div class="js-participants-list" data-js="container">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
-				<ul class="js-users" data-js="container">
+				<ul class="js-users pl-0" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}
 						{ITEM_USER USER=$USER}
 					{/foreach}

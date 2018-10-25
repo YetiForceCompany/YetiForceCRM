@@ -18,11 +18,13 @@
 					{$ROW['created']}
 				</small>
 			</div>
-
 		</div>
+		{assign var=USER_COLOR value=\App\Colors::getAllUserColor()}
 		<div class="u-w-50px">
-			<div class="c-chat__triangle float-right"></div>
+			<div class="c-chat__triangle float-right"
+				 {if $USER_COLOR[0]['id'] == $ROW['userid']}style="border-right: 10px solid {$USER_COLOR[0]['color']};"{/if}></div>
 		</div>
-		<div class="messages col-9 bg-primary text-white p-3 testster">{\App\Purifier::decodeHtml($ROW['messages'])}</div>
+		<div class="messages col-9 p-3"
+			 {if $USER_COLOR[0]['id']  == $ROW['userid']}style="background: {$USER_COLOR[0]['color']};"{/if}>{\App\Purifier::decodeHtml($ROW['messages'])}</div>
 	</div>
 {/strip}
