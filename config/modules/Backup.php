@@ -9,5 +9,21 @@
  */
 return [
 	// Backup catalog path
-	'BACKUP_PATH' => '' //String
+	'BACKUP_PATH' => '', //String
+	'EXT_TO_SHOW' => [ //array
+		'7z',
+		'bz2',
+		'gz',
+		'rar',
+		'tar',
+		'tar.bz2',
+		'tar.gz',
+		'tar.lzma',
+		'tbz2',
+		'tgz',
+		'zip',
+		'zipx',
+		'jpg',
+		'jpeg'
+	]
 ];
