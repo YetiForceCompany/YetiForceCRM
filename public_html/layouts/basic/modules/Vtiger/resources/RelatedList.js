@@ -829,7 +829,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPostLoadEvents: function () {
 		var thisInstance = this;
-		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
 		this.registerListScroll();
 		if (this.relatedView === 'ListPreview') {

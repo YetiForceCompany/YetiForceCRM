@@ -616,7 +616,6 @@ jQuery.Class("Vtiger_List_Js", {
 		self.registerListScroll(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		self.registerListViewSpecialOption();
 		var searchInstance = self.getListSearchInstance();
 		if (searchInstance !== false) {
@@ -2070,7 +2069,6 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerListViewSpecialOption();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
-		app.showPopoverElementView(listViewContainer.find('.js-popover-tooltip'));
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOption: function () {

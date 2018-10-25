@@ -262,10 +262,10 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			todyButtonIcon = todayButton.hasClass('fc-state-disabled') ? 'fa-calendar-check' : 'fa-calendar',
 			popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
 		todayButton.removeClass('.fc-button');
-		todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`)
-		app.showPopoverElementView(todayButton.find('.js-popover-tooltip'), {
+		todayButton.html(`<div class="js-popover-tooltip--day-btn" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`)
+		app.showPopoverElementView(todayButton.find('.js-popover-tooltip--day-btn'), {
 			content: popoverContent,
-			container: '.fc-today-button .js-popover-tooltip'
+			container: '.fc-today-button .js-popover-tooltip--day-btn'
 		});
 	}
 
@@ -769,7 +769,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		app.showNewScrollbar(calendarRightPanel.find('.js-calendar__form__wrapper'), {
 			suppressScrollX: true
 		});
-		app.showPopoverElementView(calendarRightPanel.find('.js-popover-tooltip'));
 	}
 
 	registerSiteBarEvents() {
@@ -797,7 +796,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				end: endDate.format(),
 				module: 'Calendar',
 				url: 'index.php?module=Calendar&view=ActivityState&record=' + calendarDetails._recordId,
-				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-link'],
+				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-tooltip js-popover-tooltip--link'],
 				start_display: calendarDetails.date_start.display_value,
 				end_display: calendarDetails.due_date.display_value
 			};
@@ -812,7 +811,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	registerPopoverLink() {
 		$('[data-url-cached]').remove();
-		app.registerPopoverLink(this.getCalendarView().find('a.js-popover-link'), {
+		app.registerPopoverLink(this.getCalendarView().find('a.js-popover-tooltip--link'), {
 			callback: (data) => {
 				data.find('.js-calendar-popover').on('click', (e) => {
 					e.preventDefault();

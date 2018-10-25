@@ -323,7 +323,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
 			App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
-			app.showPopoverElementView(contentContainer.find('.js-popover-tooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
 			if (relatedModuleName) {
@@ -2521,7 +2520,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
 					thisInstance.reloadWidgetActivitesStats(container);
-					app.showPopoverElementView(container.find('.js-popover-tooltip'));
 				}
 			);
 		});
