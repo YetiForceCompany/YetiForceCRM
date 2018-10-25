@@ -692,15 +692,21 @@ class QueryGenerator
 			} else {
 				[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 				if (!empty($sourceFieldName)) {
-					$where[] = $this->getRelatedCondition([
+					$condition = $this->getRelatedCondition([
 						'relatedModule' => $moduleName,
 						'relatedField' => $fieldName,
 						'sourceField' => $sourceFieldName,
 						'value' => $rule['value'],
 						'operator' => $rule['operator']
 					]);
+					if ($condition) {
+						$where[] = $condition;
+					}
 				} else {
-					$where[] = $this->getCondition($fieldName, $rule['value'], $rule['operator']);
+					$condition = $this->getCondition($fieldName, $rule['value'], $rule['operator']);
+					if ($condition) {
+						$where[] = $condition;
+					}
 				}
 			}
 		}
