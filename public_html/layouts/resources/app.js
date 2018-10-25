@@ -144,7 +144,6 @@ var App = {},
 			});
 		},
 		registerPopoverManualTrigger(element) {
-			console.log(element);
 			element.hoverIntent({
 				timeout: 150,
 				over: function () {
@@ -370,7 +369,6 @@ var App = {},
 			$('body').append(container);
 			modalContainer.modal(params);
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-			thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 		},
 		showModalWindow: function (data, url, cb, paramsObject) {
@@ -1699,16 +1697,10 @@ var App = {},
 			$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
 				if (!currentTarget.hasClass('popover-triggered')) {
-					console.log(currentTarget.data('field-type'));
 					if (currentTarget.hasClass('js-popover-tooltip--link')) {
 						app.registerPopoverLink(currentTarget);
-						currentTarget.trigger('mouseover');
-
 					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
 						app.registerPopoverLink(currentTarget.children('a'));
-						currentTarget.trigger('mouseover');
-
-
 					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && !currentTarget.data('field-type')) {
 						app.showPopoverElementView(currentTarget);
 						currentTarget.popover('show');
@@ -1716,9 +1708,10 @@ var App = {},
 							currentTarget.popover('hide');
 						});
 					}
-					// if (currentTarget.closest('.popover').length) {
-					// 	currentTarget.popover('show');
-					// }
+					//condition for triggering nested popover by hoverIntent
+					if (currentTarget.closest('.popover').length) {
+						currentTarget.trigger('mouseover');
+					}
 				}
 			});
 		}
