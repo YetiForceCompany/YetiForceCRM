@@ -4,7 +4,7 @@
 	<div class="tpl-List-Field-UserRole picklistSearchField">
 		<select class="js-picklist-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				name="{$FIELD_MODEL->getFieldName()}" multiple="multiple">
+				name="{$FIELD_MODEL->getFieldName()}" data-js="val" multiple="multiple">
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 			</optgroup>

@@ -518,7 +518,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public static function showDisplayTypeList()
 	{
-		$displayType = [
+		return [
 			1 => 'LBL_DISPLAY_TYPE_1',
 			2 => 'LBL_DISPLAY_TYPE_2',
 			3 => 'LBL_DISPLAY_TYPE_3',
@@ -526,8 +526,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			//5 => 'LBL_DISPLAY_TYPE_5',
 			10 => 'LBL_DISPLAY_TYPE_10',
 		];
-
-		return $displayType;
 	}
 
 	/**

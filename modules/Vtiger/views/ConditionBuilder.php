@@ -15,7 +15,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getByType('sourceModuleName', 2))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
 		}
 	}
 

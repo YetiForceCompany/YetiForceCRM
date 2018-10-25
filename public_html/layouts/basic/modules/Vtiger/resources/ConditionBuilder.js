@@ -75,7 +75,7 @@ class Vtiger_ConditionBuilder_Js {
 					enabled: true
 				}
 			});
-			let container = $(e.currentTarget).closest('.js-condition-builder-group-container').find('> .js-condition-builder-conditions-container');
+			let container = $(this).closest('.js-condition-builder-group-container').find('> .js-condition-builder-conditions-container');
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'ConditionBuilder',
@@ -98,7 +98,7 @@ class Vtiger_ConditionBuilder_Js {
 		this.container.on('click', '.js-group-add', function (e) {
 			let template = self.container.find('.js-condition-builder-group-template').clone();
 			template.removeClass('hide');
-			$(e.currentTarget).closest('.js-condition-builder-group-container').find('> .js-condition-builder-conditions-container').append(template.html());
+			$(this).closest('.js-condition-builder-group-container').find('> .js-condition-builder-conditions-container').append(template.html());
 		});
 	}
 
@@ -116,7 +116,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerDeleteCondition() {
 		this.container.on('click', '.js-condition-delete', function (e) {
-			$(e.currentTarget).closest('.js-condition-builder-conditions-row').remove();
+			$(this).closest('.js-condition-builder-conditions-row').remove();
 		});
 	};
 

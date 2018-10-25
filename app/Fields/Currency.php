@@ -50,4 +50,13 @@ class Currency
 		}
 		return $currencyId;
 	}
+
+	/**
+	 * Return base currency symbol
+	 * @return string
+	 */
+	public static function getBaseCurrencySymbol()
+	{
+		return \vtlib\Functions::getCurrencySymbolandRate(\CurrencyField::getDBCurrencyId())['symbol'] ?? '';
+	}
 }

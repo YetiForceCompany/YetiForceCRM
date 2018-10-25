@@ -5,7 +5,7 @@
 	<div class="tpl-ConditionBuilder-Modules">
 		<select class="js-modules-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				multiple="multiple" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
+				multiple="multiple" data-js="val" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE['name'])}"
 						title="{\App\Purifier::encodeHtml($PICKLIST_VALUE['name'])}" {if in_array(trim($PICKLIST_VALUE['name']), $FIELD_VALUES)} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE['label'])}</option>

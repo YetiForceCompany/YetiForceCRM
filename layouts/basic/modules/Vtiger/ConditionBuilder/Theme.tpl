@@ -5,7 +5,7 @@
 	<div class="tpl-ConditionBuilder-Theme">
 		<select class="js-theme-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				multiple="multiple" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
+				multiple="multiple" data-js="val" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option class="u-bg-{$PICKLIST_NAME} text-light u-hover-bold"
 						value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
