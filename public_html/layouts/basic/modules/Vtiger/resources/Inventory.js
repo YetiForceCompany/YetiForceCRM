@@ -1230,7 +1230,6 @@ $.Class("Vtiger_Inventory_Js", {
 		});
 		this.initItem(newRow);
 		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
-		app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
 		if (rowData) {
 			this.setRowData(newRow, rowData);
 		}

@@ -141,7 +141,6 @@ var YearView = View.extend({
 			if (app.getMainParams('weekCount') === '1') {
 				self.appendWeekButton();
 			}
-			app.showPopoverElementView();
 			let yearViewContainer = self.container.find('.fc-view-container').first();
 			yearViewContainer.height($(window).height() - yearViewContainer.offset().top - $('.js-footer').height()).addClass('u-overflow-y-auto u-overflow-x-hidden');
 			progressInstance.progressIndicator({mode: 'hide'});
