@@ -26,7 +26,8 @@
 					{foreach key=RELATED_FIELD_NAME item=RECORD_STRUCTURE from=$RECORD_STRUCTURE_FIELD}
 						{assign var=RELATED_FIELD_LABEL value=Vtiger_Field_Model::getInstance($RELATED_FIELD_NAME, Vtiger_Module_Model::getInstance($SOURCE_MODULE))->getFieldLabel()}
 						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-							<optgroup label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
+							<optgroup
+									label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 									<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}" {if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)} selected="selected"{/if}>
 										{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
@@ -56,10 +57,9 @@
 			{/if}
 		</div>
 		<div class="col-1">
-			<button class="btn btn-sm btn-danger js-condition-delete" data-js="click">
+			<button type="button" class="btn btn-sm btn-danger js-condition-delete" data-js="click">
 				<span class="fa fa-trash"></span>
 			</button>
 		</div>
 	</div>
-
 {/strip}

@@ -121,6 +121,17 @@ class Vtiger_ConditionBuilder_Js {
 	};
 
 	/**
+	 * Block submit on press enter key
+	 */
+	registerDisableSubmitOnEnter() {
+		this.container.find('.js-condition-builder-value').keydown(function (e) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+			}
+		});
+	};
+
+	/**
 	 * Read conditions in group
 	 * @param {jQuery} container
 	 * @returns {object}
@@ -162,6 +173,7 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerAddGroup();
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
+		this.registerDisableSubmitOnEnter();
 		this.container.find('.js-condition-builder-conditions-row').each(function () {
 			self.registerChangeConditions($(this));
 			self.registerField($(this));

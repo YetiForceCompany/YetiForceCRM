@@ -196,6 +196,18 @@ class CustomView {
 		});
 	}
 
+
+	/**
+	 * Block submit on press enter key
+	 */
+	registerDisableSubmitOnEnter() {
+		this.getContentsContainer().find('#viewname, [name="color"]').keydown(function (e) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+			}
+		});
+	}
+
 	registerEvents() {
 		this.registerIconEvents();
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
@@ -208,5 +220,6 @@ class CustomView {
 			this.loadDateFilterValues();
 		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
+		this.registerDisableSubmitOnEnter();
 	}
 };
