@@ -22,6 +22,7 @@ class Chat_Entries_View extends \App\Controller\View
 		parent::__construct();
 		$this->exposeMethod('send');
 		$this->exposeMethod('get');
+		$this->exposeMethod('getMore');
 	}
 
 	/**
@@ -51,6 +52,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chat->getEntries($mid));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('SHOW_MORE_BUTTON', false);
 		echo $viewer->view('Entries.tpl', $request->getModule(), true);
 	}
 
@@ -91,6 +93,29 @@ class Chat_Entries_View extends \App\Controller\View
 		if (!$request->has('lastId')) {
 			$viewer->assign('PARTICIPANTS', $chat->getParticipants());
 		}
+		$viewer->view('Entries.tpl', $request->getModule());
+	}
+
+	/**
+	 * Get more messages from chat.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function getMore(\App\Request $request)
+	{
+		if (!$request->has('roomType') || !$request->has('recordId') || !$request->has('lastId')) {
+			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||"roomType"||"recordId"', 406);
+		}
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<=');
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 

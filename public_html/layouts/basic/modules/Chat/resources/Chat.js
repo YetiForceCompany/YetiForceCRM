@@ -479,12 +479,36 @@ window.Chat_JS = class Chat_Js {
 
 	}
 
+	/**
+	 * Register load more messages.
+	 */
+	registerLoadMore() {
+		this.messageContainer.find('.js-load-more').off('click').on('click', (e) => {
+			let btn = $(e.currentTarget);
+			clearTimeout(this.timerMessage);
+			this.request({
+				view: 'Entries',
+				mode: 'getMore',
+				lastId: $(e.currentTarget).data('mid'),
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId()
+			}, false).done((html) => {
+				if (html) {
+					btn.before(html);
+					btn.remove();
+					this.registerLoadMore();
+				}
+				this.getMessage(true);
+			});
+		});
+	}
 
 	/**
 	 * Register base events
 	 */
 	registerBaseEvents() {
 		this.registerSendEvent();
+		this.registerLoadMore();
 		//this.registerListenEvent();
 		this.getMessage(true);
 		this.registerCreateRoom();

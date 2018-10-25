@@ -298,22 +298,23 @@ class Chat
 	/**
 	 * Get entries function.
 	 *
-	 * @param null|int $messageId
+	 * @param int|null $messageId
+	 * @param string   $condition
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
 	 *
 	 * @return array
 	 */
-	public function getEntries(?int $messageId = null)
+	public function getEntries(?int $messageId = null, string $condition = '>')
 	{
 		if (!$this->isRoomExists()) {
 			return [];
 		}
-		$query = $this->getQueryMessage();
-		if (!\is_null($messageId)) {
-			$query->andWhere(['>', 'C.id', $messageId]);
-		}
 		$this->lastMessageId = $messageId;
 		$rows = [];
-		$dataReader = $query->createCommand()->query();
+		$dataReader = $this->getQueryMessage($messageId, $condition)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
 			$row['image'] = $userModel->getImage();
@@ -327,7 +328,9 @@ class Chat
 			}
 		}
 		$dataReader->close();
-		$this->updateRoom();
+		if ($condition === '>') {
+			$this->updateRoom();
+		}
 		return $rows;
 	}
 
@@ -370,9 +373,15 @@ class Chat
 	/**
 	 * Get a query for chat messages.
 	 *
+	 * @param int|null $messageId
+	 * @param string   $condition
+	 * @param bool     $isLimit
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
 	 * @return \App\Db\Query
 	 */
-	private function getQueryMessage(bool $isLimit = true): Db\Query
+	private function getQueryMessage(?int $messageId, string $condition = '>', bool $isLimit = true): Db\Query
 	{
 		$query = null;
 		switch ($this->roomType) {
@@ -399,6 +408,9 @@ class Chat
 				break;
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+		}
+		if (!\is_null($messageId)) {
+			$query->andWhere([$condition, 'C.id', $messageId]);
 		}
 		if ($isLimit) {
 			$query->orderBy(['created' => \SORT_DESC]);
