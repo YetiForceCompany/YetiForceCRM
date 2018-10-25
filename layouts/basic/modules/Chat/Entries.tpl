@@ -7,6 +7,11 @@
 	{/if}
 	{foreach item=ROW key=$KEY_ITEM from=$CHAT_ENTRIES}
 		{if $SHOW_MORE_BUTTON && $KEY_ITEM == 0 }
+			<button type="button" class="btn btn-success d-block mr-auto ml-auto mt-3 js-load-more"
+					data-mid="{$ROW['id']}"
+					data-js="click">
+				{\App\Language::translate('LBL_MORE_BTN')}
+			</button>
 			{continue}
 		{/if}
 		{include file=\App\Layout::getTemplatePath('Item.tpl', 'Chat')}
