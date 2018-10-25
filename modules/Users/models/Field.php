@@ -55,20 +55,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get the Webservice Field data type.
-	 *
-	 * @return string Data type of the field
-	 */
-	public function getFieldDataType()
-	{
-		if ($this->get('uitype') === 101) {
-			return 'userReference';
-		} else {
-			return parent::getFieldDataType();
-		}
-	}
-
-	/**
 	 * Function to check whether field is ajax editable'.
 	 *
 	 * @return bool
