@@ -708,7 +708,7 @@ var App = {},
 				elementClockBtn = object;
 				formatTime = elementClockBtn.data('format');
 			}
-			formatTime = formatTime === 12 ? true : false;
+			formatTime = parseInt(formatTime) === 12 ? true : false;
 			let params = {
 				placement: 'bottom',
 				autoclose: true,
