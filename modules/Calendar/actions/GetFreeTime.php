@@ -41,18 +41,18 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	public function getFreeTimeInDay(string $day, string $activityType, int $ownerId = null)
 	{
 		if (!empty($ownerId)) {
-			$currentUser = Users_Record_Model::getInstanceById($ownerId, 'Users');
+			$currentUser = \App\User::getUserModel($ownerId);
 		} else {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$currentUser = \App\User::getCurrentUserModel();
 		}
 		if (empty($activityType)) {
 			$activityType = $currentUser->get('defaultactivitytype');
 		}
-		$typeByDuration = \App\Json::decode($currentUser->get('othereventduration'));
+		$typeByDuration = \App\Json::decode($currentUser->getDetail('othereventduration'));
 		$typeByDuration = array_column($typeByDuration, 'duration', 'activitytype');
 		$durationEvent = $typeByDuration[$activityType] ?? 0;
-		$startWorkHour = $currentUser->get('start_hour');
-		$endWorkHour = $currentUser->get('end_hour');
+		$startWorkHour = $currentUser->getDetail('start_hour');
+		$endWorkHour = $currentUser->getDetail('end_hour');
 		$dbStartDateOject = DateTimeField::convertToDBTimeZone($day . ' ' . $startWorkHour);
 		$dbEndDateObject = DateTimeField::convertToDBTimeZone($day . ' ' . $endWorkHour);
 		$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -61,12 +61,20 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$dbEndDate = $dbEndDateObject->format('Y-m-d');
 		$db = App\Db::getInstance();
 		$startTime = $dbStartDateOject->format('H:i:s');
+		if (\App\Fields\Date::getDiff($dbStartDateTime, $dbEndDateTime, 'minutes') < $durationEvent || strtotime($dbEndDateTime) < strtotime($dbStartDateTime)) {
+			return [];
+		}
 		$dataReader = (new \App\Db\Query())->select(['date_start', 'time_start', 'time_end'])
 			->from('vtiger_activity')
 			->where([
 				'and',
 				['deleted' => 0],
 				['smownerid' => $currentUser->getId()],
+				['and',
+					['!=', 'status', 'PLL_POSTPONED'],
+					['!=', 'status', 'PLL_CANCELLED'],
+					['!=', 'status', 'PLL_COMPLETED']
+				],
 				['or',
 					['and',
 						['>=', new \yii\db\Expression('CONCAT(date_start, ' . $db->quoteValue(' ') . ', time_start)'), $dbStartDateTime],
@@ -80,21 +88,16 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 						['<', 'date_start', $dbStartDate],
 						['>', 'due_date', $dbEndDate],
 					],
-				],
-				['and',
-					['!=', 'status', 'PLL_POSTPONED']
-				],
+				]
 			])->orderBy(['time_start' => SORT_ASC])
 			->createCommand()->query();
-		if (\App\Fields\Date::getDiff($dbStartDateTime, $dbEndDateTime, 'minutes') < $durationEvent || strtotime($dbEndDateTime) < strtotime($dbStartDateTime)) {
-			return [];
-		}
 		while ($row = $dataReader->read()) {
-			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) <= strtotime($startTime) && strtotime($endWorkHour) >= strtotime($startTime)) {
-				$date = new DateTime($row['date_start'] . ' ' . $startTime);
+			$date = new DateTime($row['date_start'] . ' ' . $startTime);
+			$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
+			$endHourFormat = date_format($date, 'H:i:s');
+			$endHour = new DateTimeField($endHourFormat);
+			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) <= strtotime($startTime) && strtotime($endWorkHour) >= strtotime($endHourFormat)) {
 				$startTime = new DateTimeField($startTime);
-				$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
-				$endHour = new DateTimeField(date_format($date, 'H:i:s'));
 				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
 			} else {
 				$startTime = $row['time_end'];
@@ -123,12 +126,12 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	{
 		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));
 		if (!$request->isEmpty('ownerId')) {
-			$currentUser = Users_Record_Model::getInstanceById($request->getByType('ownerId', 'Integer'), 'Users');
+			$currentUser = \App\User::getUserModel($request->getByType('ownerId', 'Integer'));
 		} else {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$currentUser = \App\User::getCurrentUserModel();
 		}
-		$startWorkHour = $currentUser->get('start_hour');
-		$endWorkHour = $currentUser->get('end_hour');
+		$startWorkHour = $currentUser->getDetail('start_hour');
+		$endWorkHour = $currentUser->getDetail('end_hour');
 		$activityType = $request->getByType('activitytype', 'Standard');
 		if (\App\Fields\Date::getDiff($startWorkHour, $endWorkHour, 'minutes') > 0) {
 			$startDate = $this->getFreeTimeInDay($dateStart, $activityType, $currentUser->getId());
