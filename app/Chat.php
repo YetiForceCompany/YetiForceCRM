@@ -331,7 +331,7 @@ class Chat
 		if ($condition === '>') {
 			$this->updateRoom();
 		}
-		return $rows;
+		return \array_reverse($rows);
 	}
 
 	/**
@@ -413,13 +413,9 @@ class Chat
 			$query->andWhere([$condition, 'C.id', $messageId]);
 		}
 		if ($isLimit) {
-			$query->orderBy(['created' => \SORT_DESC]);
 			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT') + 1);
-			$query = (new Db\Query())->from(['C' => $query])->orderBy(['created' => \SORT_ASC]);
-		} else {
-			$query->orderBy(['created' => \SORT_ASC]);
 		}
-		return $query;
+		return $query->orderBy(['created' => \SORT_DESC]);
 	}
 
 	/**

@@ -439,6 +439,7 @@ window.Chat_JS = class Chat_Js {
 				this.getMessage(true);
 				this.getRoomsDetail(true);
 				this.scrollToBottom();
+				this.registerLoadMore();
 			});
 		});
 	}
@@ -489,7 +490,7 @@ window.Chat_JS = class Chat_Js {
 			this.request({
 				view: 'Entries',
 				mode: 'getMore',
-				lastId: $(e.currentTarget).data('mid'),
+				lastId: btn.data('mid'),
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId()
 			}, false).done((html) => {
