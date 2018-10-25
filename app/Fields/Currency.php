@@ -57,6 +57,15 @@ class Currency
 	 */
 	public static function getBaseCurrencySymbol()
 	{
-		return \vtlib\Functions::getCurrencySymbolandRate(\CurrencyField::getDBCurrencyId())['symbol'] ?? '';
+		if (\App\Cache::has('BaseCurrencySymbol', 'Base')) {
+			return \App\Cache::get('BaseCurrencySymbol', 'Base');
+		}
+		$currencySymbol = (new \App\Db\Query())
+			->select(['currency_symbol'])
+			->from('vtiger_currency_info')
+			->where(['defaultid' => '-11', 'deleted' => 0, 'currency_status' => 'Active'])
+			->scalar();
+		\App\Cache::save('BaseCurrencySymbol', 'Base', $currencySymbol);
+		return $currencySymbol;
 	}
 }
