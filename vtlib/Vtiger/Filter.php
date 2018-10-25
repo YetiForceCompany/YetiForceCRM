@@ -150,7 +150,8 @@ class Filter
 			'cvid' => $this->id,
 			'columnindex' => $index,
 			'field_name' => $fieldInstance->name,
-			'module_name' => $fieldInstance->getModuleName()
+			'module_name' => $fieldInstance->getModuleName(),
+			'source_field_name' => $fieldInstance->sourcefieldname
 		])->execute();
 		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE", __METHOD__);
 
@@ -160,93 +161,24 @@ class Filter
 	/**
 	 * Add rule to this filter instance.
 	 *
-	 * @param FieldBasic $fieldInstance
-	 * @param string One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN,
-	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
-	 * @param string Value to use for comparision
-	 * @param int Index count to use
+	 * @param array $conditions
+	 *
+	 * @throws \yii\db\Exception
 	 *
 	 * @return $this
 	 */
-	public function addRule(FieldBasic $fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
+	public function addRule(array $conditions)
 	{
-		if (empty($comparator)) {
+		if (empty($conditions)) {
 			return $this;
 		}
-
-		$comparator = self::translateComparator($comparator);
-		$cvcolvalue = $this->__getColumnValue($fieldInstance);
-
-		$db = \App\Db::getInstance();
-		$db->createCommand()->update('vtiger_cvadvfilter', ['columnindex' => new \yii\db\Expression('columnindex + 1')], ['and', ['cvid' => $this->id], ['>=', 'columnindex', $index]])->execute();
-		$db->createCommand()->insert('vtiger_cvadvfilter', [
-			'cvid' => $this->id,
-			'columnindex' => $index,
-			'columnname' => $cvcolvalue,
-			'comparator' => $comparator,
-			'value' => $comparevalue,
-			'groupid' => $group,
-			'column_condition' => $condition,
-		])->execute();
-		\App\Log::trace('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE", __METHOD__);
-
+		$cvRecordModel = \CustomView_Record_Model::getCleanInstance();
+		$cvRecordModel->set('cvid', $this->id);
+		$cvRecordModel->set('advfilterlist', $conditions);
+		$cvRecordModel->set('advfilterlistDbFormat', true);
+		$cvRecordModel->setConditionsForFilter();
+		\App\Log::trace('Adding Condition');
 		return $this;
-	}
-
-	/**
-	 * Translate comparator (condition) to long or short form.
-	 */
-	public static function translateComparator($value, $tolongform = false)
-	{
-		$comparator = false;
-		if ($tolongform) {
-			$comparator = strtolower($value);
-			if ($comparator == 'e') {
-				$comparator = 'EQUALS';
-			} elseif ($comparator == 'n') {
-				$comparator = 'NOT_EQUALS';
-			} elseif ($comparator == 's') {
-				$comparator = 'STARTS_WITH';
-			} elseif ($comparator == 'ew') {
-				$comparator = 'ENDS_WITH';
-			} elseif ($comparator == 'c') {
-				$comparator = 'CONTAINS';
-			} elseif ($comparator == 'k') {
-				$comparator = 'DOES_NOT_CONTAINS';
-			} elseif ($comparator == 'l') {
-				$comparator = 'LESS_THAN';
-			} elseif ($comparator == 'g') {
-				$comparator = 'GREATER_THAN';
-			} elseif ($comparator == 'm') {
-				$comparator = 'LESS_OR_EQUAL';
-			} elseif ($comparator == 'h') {
-				$comparator = 'GREATER_OR_EQUAL';
-			}
-		} else {
-			$comparator = strtoupper($value);
-			if ($comparator == 'EQUALS') {
-				$comparator = 'e';
-			} elseif ($comparator == 'NOT_EQUALS') {
-				$comparator = 'n';
-			} elseif ($comparator == 'STARTS_WITH') {
-				$comparator = 's';
-			} elseif ($comparator == 'ENDS_WITH') {
-				$comparator = 'ew';
-			} elseif ($comparator == 'CONTAINS') {
-				$comparator = 'c';
-			} elseif ($comparator == 'DOES_NOT_CONTAINS') {
-				$comparator = 'k';
-			} elseif ($comparator == 'LESS_THAN') {
-				$comparator = 'l';
-			} elseif ($comparator == 'GREATER_THAN') {
-				$comparator = 'g';
-			} elseif ($comparator == 'LESS_OR_EQUAL') {
-				$comparator = 'm';
-			} elseif ($comparator == 'GREATER_OR_EQUAL') {
-				$comparator = 'h';
-			}
-		}
-		return $comparator;
 	}
 
 	/**
