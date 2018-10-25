@@ -2,7 +2,8 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ITEM_USER CLASS=''}
-		<li class="js-item-user c-chat__user-item {$CLASS}" data-user-id="{$USER['user_id']}" data-js="data">
+		<li class="js-item-user c-chat__user-item {$CLASS} border-bottom pb-2 mb-2" data-user-id="{$USER['user_id']}"
+			data-js="data">
 			<div class="row px-2">
 				<div class="col-3 px-2 c-chat__author">
 					{assign var=IMAGE value=$USER['image']}
@@ -67,7 +68,7 @@
 			</div>
 			<div class="js-participants-list px-3" data-js="container">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
-				<ul class="js-users pl-0 pb-3 m-0 border-bottom" data-js="container">
+				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}
 						{ITEM_USER USER=$USER}
 					{/foreach}
