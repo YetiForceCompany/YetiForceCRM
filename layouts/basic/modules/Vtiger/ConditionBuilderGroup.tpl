@@ -17,7 +17,7 @@
 			<button type="button" class="btn btn-sm btn-success js-group-add" data-js="click">
 				<span class="fa fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_CONDITION_GROUP',$MODULE_NAME)}
 			</button>
-			{if !$ROOT_ITEM}
+			{if empty($ROOT_ITEM)}
 				<button type="button" class="btn btn-sm btn-danger js-group-delete" data-js="click">
 					<span class="fa fa-trash"></span>
 				</button>
