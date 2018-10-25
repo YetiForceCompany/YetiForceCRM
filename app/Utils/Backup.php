@@ -52,14 +52,14 @@ class Backup
 					$returnStructure['manage'] = "$requestUrl&catalog=$parentUrl";
 				}
 			} else {
-				if (!\in_array($element->getExtension(), static::getAllowedExtension())) {
-					continue;
-				}
 				$record['name'] = $element->getBasename();
 				if (is_dir($catalogPath . DIRECTORY_SEPARATOR . $element)) {
 					$record['directory'] = "$requestUrl&catalog=$urlDirectory$element";
 					$returnStructure['catalogs'][] = $record;
 				} else {
+					if (!\in_array($element->getExtension(), static::getAllowedExtension())) {
+						continue;
+					}
 					$record['directory'] = "$requestUrl&action=downloadFile&mode=download&file=$urlDirectory$element";
 					$record['date'] = \App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $element->getMTime()));
 					$record['size'] = \vtlib\Functions::showBytes($element->getSize());

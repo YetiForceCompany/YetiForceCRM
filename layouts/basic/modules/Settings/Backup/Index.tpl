@@ -65,6 +65,15 @@
 							</tr>
 						{/foreach}
 					</table>
+					{if empty($STRUCTURE['files'])}
+						<table class="emptyRecordsDiv">
+							<tbody>
+							<tr>
+								<td>{\App\Language::translate('LBL_NO_RECORDS_FOUND')}</td>
+							</tr>
+							</tbody>
+						</table>
+					{/if}
 				{/if}
 			</div>
 		</div>

@@ -22,8 +22,6 @@ return [
 		'tbz2',
 		'tgz',
 		'zip',
-		'zipx',
-		'jpg',
-		'jpeg'
+		'zipx'
 	]
 ];
