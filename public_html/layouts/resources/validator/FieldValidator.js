@@ -1037,10 +1037,10 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 		let regexp = '';
 		switch (format) {
 			case 12:
-				regexp = new RegExp('([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)');
+				regexp = new RegExp('^([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)$');
 				break;
 			default:
-				regexp = new RegExp('(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])');
+				regexp = new RegExp('^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])$');
 				break;
 		}
 		if (!regexp.test(this.getFieldValue())) {
