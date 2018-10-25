@@ -87,6 +87,17 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Show progress indicator
+	 * @returns {jQuery}
+	 */
+	progressShow() {
+		return $.progressIndicator({
+			position: 'html',
+			blockInfo: {enabled: true}
+		});
+	}
+
+	/**
 	 * Send chat message.
 	 * @param {jQuery} inputMessage
 	 */
@@ -121,13 +132,44 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
-	 * Show progress indicator
-	 * @returns {jQuery}
+	 * Get the last chat message.
 	 */
-	progressShow() {
-		return $.progressIndicator({
-			position: 'html',
-			blockInfo: {enabled: true}
+	getAll() {
+		clearTimeout(this.timerMessage);
+		this.request({
+			view: 'Entries',
+			mode: 'get',
+			roomType: this.getCurrentRoomType(),
+			recordId: this.getCurrentRecordId()
+		}, false).done((html) => {
+			if (html) {
+				if (!this.isRoomActive()) {
+					this.activateRoom();
+				}
+				this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), false);
+				this.messageContainer.html(html);
+				this.scrollToBottom();
+				this.registerLoadMore();
+			}
+			this.getMessage(true);
+		});
+	}
+
+	/**
+	 * Search messages.
+	 * @param {jQuery} searchInput
+	 */
+	searchMessage(searchInput) {
+		clearTimeout(this.timerMessage);
+		this.request({
+			view: 'Entries',
+			mode: 'search',
+			searchVal: searchInput.val(),
+			roomType: this.getCurrentRoomType(),
+			recordId: this.getCurrentRecordId()
+		}, false).done((html) => {
+			this.messageContainer.html(html);
+			this.registerLoadMore();
 		});
 	}
 
@@ -480,6 +522,7 @@ window.Chat_JS = class Chat_Js {
 
 	}
 
+
 	/**
 	 * Register load more messages.
 	 */
@@ -505,6 +548,34 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Register search message events.
+	 */
+	registerSearchMessage() {
+		let searchInput = this.container.find('.js-search-message');
+		let searchCancel = this.container.find('.js-search-cancel');
+		console.log('registerSearchMessage: ' + searchInput.length);
+		searchInput.off('keydown').on('keydown', (e) => {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+				console.log('seachMessage: ' + searchInput.val());
+				if (searchInput.val() === '') {
+					searchCancel.addClass('hide');
+				} else {
+					searchCancel.removeClass('hide');
+					this.searchMessage(searchInput);
+				}
+			}
+		});
+		searchCancel.off('click').on('click', (e) => {
+			searchCancel.addClass('hide');
+			searchInput.val('');
+			console.log('searchCancel');
+			//this.getMessage(true);
+			this.getAll();
+		});
+	}
+
+	/**
 	 * Register base events
 	 */
 	registerBaseEvents() {
@@ -513,6 +584,7 @@ window.Chat_JS = class Chat_Js {
 		//this.registerListenEvent();
 		this.getMessage(true);
 		this.registerCreateRoom();
+		this.registerSearchMessage();
 	}
 
 	/**

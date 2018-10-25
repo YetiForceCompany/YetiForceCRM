@@ -23,6 +23,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$this->exposeMethod('send');
 		$this->exposeMethod('get');
 		$this->exposeMethod('getMore');
+		$this->exposeMethod('search');
 	}
 
 	/**
@@ -108,7 +109,7 @@ class Chat_Entries_View extends \App\Controller\View
 	public function getMore(\App\Request $request)
 	{
 		if (!$request->has('roomType') || !$request->has('recordId') || !$request->has('lastId')) {
-			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||"roomType"||"recordId"', 406);
+			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||"roomType"||"recordId"||"lastId"', 406);
 		}
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<=');
@@ -116,6 +117,28 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
+		$viewer->view('Entries.tpl', $request->getModule());
+	}
+
+	/**
+	 * Search meassages.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function search(\App\Request $request)
+	{
+		if (!$request->has('roomType') || !$request->has('recordId') || !$request->has('searchVal')) {
+			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||"roomType"||"recordId"||"searchVal"', 406);
+		}
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$chatEntries = $chat->search($request->getByType('searchVal', 'Text'));
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		//$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', false);
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 

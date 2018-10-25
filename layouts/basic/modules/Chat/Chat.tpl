@@ -27,6 +27,7 @@
 					   class="form-control message js-search-message border-top-0 border-left-0 border-right-0"{' '}
 					   autocomplete="off"{' '}
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
+				<button type="button" class="btn btn-danger hide js-search-cancel" data-js="click">X</button>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__main-content border-bottom">
 				<div class="row d-flex flex-grow-1">

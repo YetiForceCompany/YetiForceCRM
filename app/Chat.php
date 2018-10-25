@@ -295,6 +295,11 @@ class Chat
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
+	public function search(string $searchVal)
+	{
+		return $this->getEntries(null, '>', $searchVal);
+	}
+
 	/**
 	 * Get entries function.
 	 *
@@ -307,14 +312,18 @@ class Chat
 	 *
 	 * @return array
 	 */
-	public function getEntries(?int $messageId = null, string $condition = '>')
+	public function getEntries(?int $messageId = null, string $condition = '>', ?string $searchVal = null)
 	{
 		if (!$this->isRoomExists()) {
 			return [];
 		}
 		$this->lastMessageId = $messageId;
 		$rows = [];
-		$dataReader = $this->getQueryMessage($messageId, $condition)->createCommand()->query();
+
+		//$sql = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->getRawSql();
+		//DebugerEx::log($sql);
+
+		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
 			$row['image'] = $userModel->getImage();
@@ -381,7 +390,7 @@ class Chat
 	 *
 	 * @return \App\Db\Query
 	 */
-	private function getQueryMessage(?int $messageId, string $condition = '>', bool $isLimit = true): Db\Query
+	private function getQueryMessage(?int $messageId, string $condition = '>', ?string $searchVal = null, bool $isLimit = true): Db\Query
 	{
 		$query = null;
 		switch ($this->roomType) {
@@ -409,8 +418,10 @@ class Chat
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		if (!\is_null($messageId)) {
+		if (!\is_null($messageId) && empty($searchVal)) {
 			$query->andWhere([$condition, 'C.id', $messageId]);
+		} elseif (!empty($searchVal)) {
+			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
 			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT') + 1);

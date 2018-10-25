@@ -9,7 +9,7 @@
 		{if isset($SHOW_MORE_BUTTON) && $SHOW_MORE_BUTTON && $KEY_ITEM == 0 }
 			<button type="button" class="btn btn-success d-block mr-auto ml-auto mt-3 js-load-more"
 					data-mid="{$ROW['id']}"
-					data-js="click">
+					data-js="click|remove">
 				{\App\Language::translate('LBL_MORE_BTN')}
 			</button>
 			{continue}
