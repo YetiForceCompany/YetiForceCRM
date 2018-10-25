@@ -42,7 +42,6 @@ class Backup
 		if (!static::isAllowedDirectory($catalogToRead)) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
-
 		$catalogs = new \DirectoryIterator($catalogPath);
 		foreach ($catalogs as $element) {
 			$requestUrl = 'index.php?module=Backup&parent=Settings&view=Index';
@@ -53,6 +52,9 @@ class Backup
 					$returnStructure['manage'] = "$requestUrl&catalog=$parentUrl";
 				}
 			} else {
+				if (!\in_array($element->getExtension(), static::getAllowedExtension())) {
+					continue;
+				}
 				$record['name'] = $element->getBasename();
 				if (is_dir($catalogPath . DIRECTORY_SEPARATOR . $element)) {
 					$record['directory'] = "$requestUrl&catalog=$urlDirectory$element";
@@ -77,6 +79,16 @@ class Backup
 	public static function getBackupCatalogPath()
 	{
 		return \AppConfig::module('Backup', 'BACKUP_PATH');
+	}
+
+	/**
+	 * Return allowed extension of backup file.
+	 *
+	 * @return array
+	 */
+	public static function getAllowedExtension()
+	{
+		return \AppConfig::module('Backup', 'EXT_TO_SHOW');
 	}
 
 	/**
