@@ -186,7 +186,7 @@ var App = {},
 			};
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
-				if (element.data('ellipsis')) {
+				if (element.hasClass('js-popover-tooltip--ellipsis')) {
 					defaultParams.trigger = 'hover focus';
 					let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
 					if (!app.isEllipsisActive(popoverText)) {
@@ -1688,6 +1688,7 @@ $(document).ready(function () {
 	$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 		let currentTarget = $(e.currentTarget);
 		if (!currentTarget.hasClass('popover-triggered')) {
+			console.log(currentTarget.data('field-type'));
 			if (currentTarget.hasClass('js-popover-tooltip--link')) {
 				app.registerPopoverLink(currentTarget);
 			} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
@@ -1704,10 +1705,12 @@ $(document).ready(function () {
 	});
 	$(document).on('mouseenter', '.js-popover-tooltip--ellipsis', (e) => {
 		let currentTarget = $(e.currentTarget);
-		if (!currentTarget.hasClass('popover-triggered') && !currentTarget.find('.popover-triggered')) {
+		if (!currentTarget.hasClass('popover-triggered') && !currentTarget.find('.popover-triggered').length) {
+			console.log(currentTarget);
 			app.showPopoverElementView(currentTarget);
 		}
 	});
+	app.showPopoverElementView($('.js-popover-tooltip--ellipsis'));
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
