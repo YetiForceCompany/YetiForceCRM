@@ -1005,7 +1005,7 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		return true;
 	}
 });
-
+Vtiger_Date_Validator_Js("Vtiger_Datetime_Validator_Js", {}, {});
 Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	/**
 	 * Function which invokes field validation
