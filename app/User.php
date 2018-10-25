@@ -413,8 +413,8 @@ class User
 		if (Cache::has('UserImageById', $this->getId())) {
 			return Cache::get('UserImageById', $this->getId());
 		}
-		$imageData = reset(Json::decode($this->getDetail('imagename')));
-		if (empty($imageData)) {
+		$image = Json::decode($this->getDetail('imagename'));
+		if (empty($image) || !($imageData = \current($image))) {
 			return [];
 		}
 		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
