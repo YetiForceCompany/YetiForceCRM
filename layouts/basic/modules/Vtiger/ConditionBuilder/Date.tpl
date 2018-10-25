@@ -5,6 +5,9 @@
 			   data-js="datepicker|val"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}"
 			   value="{\App\Purifier::encodeHtml(DateTimeField::convertToUserFormat($VALUE))}"
+			   data-date-format="{$USER_MODEL->get('date_format')}"
+			   data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}"
+			   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   autocomplete="off"/>
 		<div class="input-group-append">
 			<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">

@@ -986,7 +986,17 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		var fieldDateFormat = fieldData.dateFormat;
 		var fieldValue = this.getFieldValue();
 		try {
-			Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+			if (fieldData.calendarType === 'range') {
+				fieldValue = fieldValue.split(',');
+				if(fieldValue.length !== 2) {
+					throw new Error();
+				}
+			} else {
+				fieldValue = [fieldValue];
+			}
+			for (let key in fieldValue) {
+				Vtiger_Helper_Js.getDateInstance(fieldValue[key], fieldDateFormat);
+			}
 		} catch (err) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_DATE");
 			this.setError(errorInfo);
