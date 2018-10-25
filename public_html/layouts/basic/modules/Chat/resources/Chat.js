@@ -615,6 +615,27 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
+	registerButtonHistory() {
+		this.container.find('.js-btn-history').off('click').on('click', (e) => {
+			console.log('history');
+		});
+	}
+
+	registerButtonSettings() {
+		this.container.find('.js-btn-settings').off('click').on('click', (e) => {
+			console.log('settings');
+		});
+	}
+
+	registerButtonBell() {
+		let btnBell = this.container.find('.js-btn-bell');
+		console.log('btnBell: ' + btnBell.length);
+		btnBell.off('click').on('click', (e) => {
+			console.log('bell');
+			btnBell.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
+		});
+	}
+
 	/**
 	 * Register base events
 	 */
@@ -634,10 +655,20 @@ window.Chat_JS = class Chat_Js {
 		this.getRoomList(true);
 		this.getRoomsDetail(true);
 		this.container.find('.close[data-dismiss="modal"]').on('click', (e) => {
-			clearTimeout(this.timerMessage);
-			clearTimeout(this.timerRoom);
+			this.unregisterEvents();
 		});
 		this.registerBaseEvents();
 		this.registerSwitchRoom();
+		this.registerButtonHistory();
+		this.registerButtonSettings();
+		this.registerButtonBell();
+	}
+
+	/**
+	 * Unregister events.
+	 */
+	unregisterEvents() {
+		clearTimeout(this.timerMessage);
+		clearTimeout(this.timerRoom);
 	}
 }
