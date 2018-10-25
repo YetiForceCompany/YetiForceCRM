@@ -87,7 +87,7 @@ class CustomView
 	/**
 	 * Operators without values.
 	 */
-	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'wr', 'nwr', 'd'];
+	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'wr', 'nwr'];
 
 	/**
 	 * Do we have muliple ids?
