@@ -149,7 +149,7 @@ var App = {},
 				setTimeout(function () {
 					let popoverId = $(e.currentTarget).attr('aria-describedby');
 					let currentPopover = $(`#${popoverId}`);
-					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
+					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 						currentPopover.popover('hide');
 					}
 				}, timeout);
@@ -163,7 +163,7 @@ var App = {},
 					let currentPopover = $(`#${popoverId}`);
 					currentPopover.on("mouseleave", (e) => {
 						setTimeout(function () {
-							if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
+							if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 								currentPopover.popover('hide'); //close current popover
 							}
 							if (!$(":hover").filter($(".popover")).length) {
@@ -240,7 +240,7 @@ var App = {},
 		 * Register popover links
 		 * @param {jQuery} selectElement
 		 */
-		registerPopoverLink: function (selectElement = $('a.js-popover-tooltip--link'), customParams = {}) {
+		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
@@ -1699,15 +1699,15 @@ var App = {},
 			return aDeferred.promise();
 		},
 		registerPopover() {
-			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--link, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
 				if (!currentTarget.hasClass('popover-triggered')) {
-					if (currentTarget.hasClass('js-popover-tooltip--link')) {
-						app.registerPopoverLink(currentTarget);
+					if (currentTarget.hasClass('js-popover-tooltip--record')) {
+						app.registerPopoverRecord(currentTarget);
 						currentTarget.trigger('mouseenter');
-					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
-						app.registerPopoverLink(currentTarget.children('a'));
-					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && !currentTarget.data('field-type')) {
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
+						app.registerPopoverRecord(currentTarget.children('a')); //popoverlink on children doesn't need triggering
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
 						app.showPopoverElementView(currentTarget);
 						currentTarget.popover('show');
 						currentTarget.on('mouseleave', function () {
