@@ -11,6 +11,4 @@
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
 			<script type="text/javascript">app.registerModalController();</script>
-			<div class="modal-header">
-			</div>
 			{/strip}
