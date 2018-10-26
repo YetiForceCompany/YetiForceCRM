@@ -37,7 +37,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			$tmp = [];
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 				if ($column === 'url' && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
-					$url = \App\Purifier::encodeHtml($urlParams[1]);
+					$url = $urlParams[1];
 					$tmp[] = "<a href=\"index.php?$url\" title=\"index.php?$url\">" . substr($url, 0, 50) . '...</a>';
 				} elseif ($column === 'agent') {
 					$tmp[] = "<span title=\"{$log['agent']}\">" . substr($log['agent'], 0, 50) . '...</span>';
