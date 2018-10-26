@@ -54,7 +54,7 @@ class Reservations_Calendar_Model extends \App\Base
 		if (!empty($this->get('user'))) {
 			$owners = $this->get('user');
 			if (!is_array($owners)) {
-				$owners = (int)$owners;
+				$owners = (int) $owners;
 			}
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owners]);
 		}

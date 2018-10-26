@@ -46,6 +46,11 @@ class Calendar_RecordPopover_View extends Vtiger_RecordPopover_View
 		$viewer->view('RecordPopover.tpl', $this->getModuleNameTpl($request));
 	}
 
+	/**
+	 * Get array of fields with icons.
+	 *
+	 * @return array
+	 */
 	public function getFields()
 	{
 		return ['date_start' => 'far fa-clock', 'due_date' => 'far fa-clock', 'location' => 'fas fa-globe',
@@ -54,6 +59,13 @@ class Calendar_RecordPopover_View extends Vtiger_RecordPopover_View
 			'visibility' => 'fas fa-eye', 'assigned_user_id' => 'fas fa-user'];
 	}
 
+	/**
+	 * Get module for tpl file.
+	 *
+	 * @param $request
+	 *
+	 * @return mixed
+	 */
 	public function getModuleNameTpl($request)
 	{
 		return $request->getModule();

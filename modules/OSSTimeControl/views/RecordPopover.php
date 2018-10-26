@@ -14,6 +14,9 @@
  */
 class OSSTimeControl_RecordPopover_View extends Calendar_RecordPopover_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFields()
 	{
 		return ['date_start' => 'far fa-clock', 'time_start' => 'far fa-clock', 'time_end' => 'far fa-clock', 'due_date' => 'far fa-clock', 'sum_time' => 'far fa-clock',
@@ -21,6 +24,9 @@ class OSSTimeControl_RecordPopover_View extends Calendar_RecordPopover_View
 			'osstimecontrol_status' => 'far fa-star', 'assigned_user_id' => 'fas fa-user'];
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getModuleNameTpl($request)
 	{
 		return 'Calendar';

@@ -14,6 +14,9 @@
  */
 class Reservations_RecordPopover_View extends OSSTimeControl_RecordPopover_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFields()
 	{
 		return ['date_start' => 'far fa-clock', 'time_start' => 'far fa-clock', 'time_end' => 'far fa-clock', 'due_date' => 'far fa-clock', 'sum_time' => 'far fa-clock',
