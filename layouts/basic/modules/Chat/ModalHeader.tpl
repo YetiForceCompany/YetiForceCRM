@@ -12,17 +12,5 @@
 			{/foreach}
 			<script type="text/javascript">app.registerModalController();</script>
 			<div class="modal-header">
-				<h5 class="modal-title">
-					{if $MODAL_VIEW->modalIcon}
-						<span class="{$MODAL_VIEW->modalIcon} mr-2"></span>
-					{/if}
-					{$MODAL_TITLE}
-				</h5>
-				{if !$LOCK_EXIT}
-					<button type="button" class="close" data-dismiss="modal"
-							aria-label="{\App\Language::translate('LBL_CANCEL')}">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				{/if}
 			</div>
 			{/strip}
