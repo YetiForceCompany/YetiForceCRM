@@ -48,8 +48,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
-
-				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . ' title=' . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
+				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=\"" . $mailConfig['popup'] . '" title="' . \App\Language::translate('LBL_SEND_EMAIL') . "\">$value</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
 					return "<a class='u-cursor-pointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
@@ -75,8 +74,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
-
-				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . ' title=' . \App\Language::translate('LBL_SEND_EMAIL') . ">{$value}</a>";
+				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=\"" . $mailConfig['popup'] . '" title="' . \App\Language::translate('LBL_SEND_EMAIL') . "\">{$value}</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
 					return "<a class='u-cursor-pointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
