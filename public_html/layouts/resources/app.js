@@ -1699,7 +1699,7 @@ var App = {},
 			return aDeferred.promise();
 		},
 		registerPopover() {
-			$(document).on('mouseenter', '.js-popover-tooltip, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--link, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--link')) {
