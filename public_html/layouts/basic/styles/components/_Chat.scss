@@ -25,10 +25,10 @@
 		font-size: 11px;
 	}
 
-	.o-chat__main-content {
+	.c-chat__scrollbar {
 		position: relative;
 		overflow: hidden;
-		height: calc(100vh - #{$h-footer} - #{calculate-rem(170px)});
+		height: calc(100vh - #{$h-footer} - #{calculate-rem(175px)});
 	}
 
 	.c-chat__user-item {
@@ -54,6 +54,7 @@
 
 		.messages {
 			font-size: 13px;
+			background: #e8e8e8;
 		}
 		.c-chat__author {
 			width: 100px;
@@ -75,6 +76,7 @@
 			height: 0;
 			border-top: 9px solid transparent;
 			border-bottom: 9px solid transparent;
+			color: #e8e8e8;
 		}
 	}
 }
