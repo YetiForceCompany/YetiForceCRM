@@ -52,8 +52,9 @@ class Backup
 					$returnStructure['manage'] = "{$requestUrl}&catalog={$parentUrl}";
 				}
 			} else {
-				$record = [];
-				$record['name'] = $element->getBasename();
+				$record = [
+					'name' => $element->getBasename()
+				];
 				if ($element->isDir()) {
 					$record['url'] = "{$requestUrl}&catalog={$urlDirectory}{$record['name']}";
 					$returnStructure['catalogs'][] = $record;
