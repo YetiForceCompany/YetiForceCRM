@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Base-ConditionBuilderGroup js-condition-builder-group-container pl-4">
+	<div class="tpl-Base-ConditionBuilderGroup c-condition-builder__group pt-2 js-condition-builder-group-container">
 		<div class="btn-group btn-group-toggle js-condition-switch mr-2" data-toggle="buttons">
 			<label class="btn btn-sm btn-outline-primary js-condition-switch-value {if $CONDITIONS_GROUP['condition'] eq 'AND' || empty($CONDITIONS_GROUP['condition'])}active {/if}">
 				<input type="radio" autocomplete="off">

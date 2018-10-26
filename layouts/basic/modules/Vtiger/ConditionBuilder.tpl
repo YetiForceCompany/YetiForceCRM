@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Base-ConditionBuilder js-condition-builder" data-js="container">
+	<div class="tpl-Base-ConditionBuilder c-condition-builder js-condition-builder" data-js="container">
 		<div class="js-condition-builder-group-template hide" data-js="template">
 			{include file=\App\Layout::getTemplatePath('ConditionBuilderGroup.tpl', $MODULE_NAME)}
 		</div>

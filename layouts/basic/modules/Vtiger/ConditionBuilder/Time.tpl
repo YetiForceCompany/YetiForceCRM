@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	<div class="tpl-ConditionBuilder-Time input-group time">
+	<div class="tpl-ConditionBuilder-Time input-group input-group-sm time">
 		<input class="clockPicker form-control js-condition-builder-value"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($VALUE)}"
 			   data-js="timepicker" data-format="{$USER_MODEL->get('hour_format')}"

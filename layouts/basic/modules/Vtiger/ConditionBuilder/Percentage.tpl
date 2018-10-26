@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-ConditionBuilder-Percentage input-group">
+	<div class="tpl-ConditionBuilder-Percentage input-group input-group-sm">
 		<input class="form-control js-condition-builder-value"
 			   type="number"
 			   data-js="val"
