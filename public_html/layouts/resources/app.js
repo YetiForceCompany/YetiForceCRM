@@ -144,20 +144,34 @@ var App = {},
 			});
 		},
 		registerPopoverManualTrigger(element) {
-			element.hoverIntent({
-				timeout: 150,
-				over: function () {
-					const self = this;
-					$(this).popover("show");
-					$(".popover").on("mouseleave", function () {
-						$(self).popover('hide');
-					});
-				},
-				out: function () {
-					if (!$(".popover:hover").length) {
-						$(this).popover('hide');
+			const timeout = 500
+			element.on("mouseleave", (e) => {
+				setTimeout(function () {
+					let popoverId = $(e.currentTarget).attr('aria-describedby');
+					let currentPopover = $(`#${popoverId}`);
+					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+						currentPopover.popover('hide');
 					}
-				}
+				}, timeout);
+			});
+
+			element.on("mouseenter", (e) => {
+				setTimeout(function () {
+					let element = $(e.currentTarget);
+					element.popover("show");
+					let popoverId = element.attr('aria-describedby');
+					let currentPopover = $(`#${popoverId}`);
+					currentPopover.on("mouseleave", (e) => {
+						setTimeout(function () {
+							if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+								currentPopover.popover('hide'); //close current popover
+							}
+							if (!$(":hover").filter($(".popover")).length) {
+								$(".popover").popover('hide'); //close all popovers
+							}
+						}, timeout);
+					});
+				}, timeout);
 			});
 			app.hidePopoversAfterClick(element);
 		},
@@ -184,18 +198,6 @@ var App = {},
 			};
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
-				if (element.data('ellipsis')) {
-					defaultParams.trigger = 'hover focus';
-					let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
-					if (!app.isEllipsisActive(popoverText)) {
-						return;
-					}
-					let iconElement = element.find('.js-popover-icon');
-					if (iconElement.length) {
-						element.find('.js-popover-icon').removeClass('d-none');
-						defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
-					}
-				}
 				let elementParams = $.extend(true, defaultParams, params, element.data());
 				if (element.data('class')) {
 					elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
@@ -212,16 +214,35 @@ var App = {},
 						elementParams.callbackShown(e);
 					});
 				}
+				element.addClass('popover-triggered');
 			});
 			return selectElement;
 		},
+		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis')) {
+			let defaultParams = {
+				trigger: 'hover focus'
+			};
+			selectElement.each(function (index, domElement) {
+				let element = $(domElement);
+				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
+				if (!app.isEllipsisActive(popoverText)) {
+					return;
+				}
+				let iconElement = element.find('.js-popover-icon');
+				if (iconElement.length) {
+					element.find('.js-popover-icon').removeClass('d-none');
+					defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
+				}
+				app.showPopoverElementView(element, defaultParams);
+			});
+		},
 		/**
-		 * Register popover links
+		 * Register popover record
 		 * @param {jQuery} selectElement
 		 */
-		registerPopoverLink: function (selectElement = $('a.js-popover-link'), customParams = {}) {
+		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
 			let params = {
-				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
+				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
@@ -235,21 +256,21 @@ var App = {},
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
 					let popoverId = element.attr('aria-describedby');
-					let popoverBoddy = $(`#${popoverId} .popover-body`);
-					popoverBoddy.progressIndicator({});
-					let cacheData = $('[data-url-cached="' + url + '"]').children();
-					if (cacheData.length) {
-						popoverBoddy.progressIndicator({mode: 'hide'}).html(cacheData.clone());
+					let popoverBody = $(`#${popoverId} .popover-body`);
+					popoverBody.progressIndicator({});
+					let appendPopoverData = (data) => {
+						popoverBody.progressIndicator({mode: 'hide'}).html(data);
 						if (typeof customParams.callback === 'function') {
-							customParams.callback(popoverBoddy);
+							customParams.callback(popoverBody);
 						}
+					};
+					let cacheData = window.popoverCache[url];
+					if (typeof cacheData !== 'undefined') {
+						appendPopoverData(cacheData);
 					} else {
 						AppConnector.request(url).done((data) => {
-							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
-							popoverBoddy.progressIndicator({mode: 'hide'}).html(data);
-							if (typeof customParams.callback === 'function') {
-								customParams.callback(popoverBoddy);
-							}
+							window.popoverCache[url] = data;
+							appendPopoverData(data);
 						});
 					}
 				}
@@ -362,7 +383,6 @@ var App = {},
 			$('body').append(container);
 			modalContainer.modal(params);
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-			thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 		},
 		showModalWindow: function (data, url, cb, paramsObject) {
@@ -1677,18 +1697,38 @@ var App = {},
 			PNotify.defaults.icons = 'fontawesome5';
 			new PNotify(params);
 			return aDeferred.promise();
+		},
+		registerPopover() {
+			window.popoverCache = {};
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+				let currentTarget = $(e.currentTarget);
+				if (!currentTarget.hasClass('popover-triggered')) {
+					if (currentTarget.hasClass('js-popover-tooltip--record')) {
+						app.registerPopoverRecord(currentTarget);
+						currentTarget.trigger('mouseenter');
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
+						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
+						app.showPopoverElementView(currentTarget);
+						currentTarget.popover('show');
+						currentTarget.on('mouseleave', function () {
+							currentTarget.popover('hide');
+						});
+					}
+				}
+			});
 		}
 	};
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
-	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.registerPopover();
+	app.registerPopoverEllipsis();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registerPopoverLink();
 	$('.js-scrollbar').each(function () {
 		app.showNewScrollbar($(this));
 	});
@@ -1696,11 +1736,11 @@ $(document).ready(function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
-	// in IE resize option for textarea is not there, so we have to use .resizable() api
+// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
 		$('textarea').resizable();
 	}
-	// Instantiate Page Controller
+// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController) {
 		pageController.registerEvents();

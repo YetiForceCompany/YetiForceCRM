@@ -509,7 +509,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 		container.find('table').dataTable({
 			order: [[2, 'desc']]
 		});
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		container.find('.showDescription').on('click', function (e) {
 			var html = $(this).closest('td').find('.showDescriptionContent').html();
 			app.showModalWindow(html);
@@ -580,8 +579,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 				thisInstance.registerGithubEvents(container);
 			} else if (mode == 'systemWarnings') {
 				thisInstance.registerSystemWarningsEvents(container);
-			} else if (mode == 'security') {
-				app.showPopoverElementView(container.find('.js-popover-tooltip'));
 			}
 		});
 	},
