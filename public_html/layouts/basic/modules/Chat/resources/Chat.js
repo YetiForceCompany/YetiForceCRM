@@ -393,7 +393,6 @@ window.Chat_JS = class Chat_Js {
 	 * Play sound notification.
 	 */
 	soundNotification() {
-		console.log('soundNotification: ' + this.isSoundNotification);
 		if (this.isSoundNotification) {
 			app.playSound('REMINDERS');
 		}
@@ -641,7 +640,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerButtonHistory() {
 		this.container.find('.js-btn-history').off('click').on('click', (e) => {
-			console.log('history');
+
 		});
 	}
 
@@ -650,7 +649,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerButtonSettings() {
 		this.container.find('.js-btn-settings').off('click').on('click', (e) => {
-			console.log('settings');
+
 		});
 	}
 

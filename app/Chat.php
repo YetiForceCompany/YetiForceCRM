@@ -21,15 +21,13 @@ class Chat
 	 */
 	const TABLE_NAME = [
 		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global'],
-		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global']
+		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global'],
 	];
 
 	/**
 	 * Information about the columns of the database.
 	 */
 	const COLUMN_NAME = [
-		//'record' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
-		//'recordRoom' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
 		'message' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
 		'room' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
 	];
@@ -167,19 +165,20 @@ class Chat
 		if (Cache::has('Chat', 'chat_global')) {
 			return Cache::get('Chat', 'chat_global');
 		}
-		/*$roomIdName = static::COLUMN_NAME['room']['global'];
+		$userId = User::getCurrentUserId();
+		$roomIdName = static::COLUMN_NAME['room']['global'];
 		$messageIdName = static::COLUMN_NAME['message']['global'];
 		$subQuery = (new Db\Query())
-			->select(['CR.' . $roomIdName, 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
-			->from(['CR' => static::TABLE_NAME['room']['global']])
-			->innerJoin(['CM' => static::TABLE_NAME['message']['global']], "CM.{$messageIdName} = CR.{$roomIdName}")
+			->select(['CM.' . $messageIdName, 'CM.userid', 'cnt_new_message' => 'COUNT(*)'])
+			->from(['CM' => static::TABLE_NAME['message']['global']])
+			->leftJoin(['CR' => static::TABLE_NAME['room']['global']], "CR.{$roomIdName} = CM.{$messageIdName} AND CR.userid= CM.userid")
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->orWhere(['CR.last_message' => null])
-			->groupBy(['CR.' . $roomIdName, 'CR.userid']);*/
+			->groupBy(['CM.' . $messageIdName, 'CM.userid']);
 		$dataReader = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.global_room_id', 'cnt_new_message' => new \yii\db\Expression('0')])
+			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message'])
 			->from(['GL' => 'u_#__chat_global'])
-			//->leftJoin(['CNT' => $subQuery], 'CNT.global_room_id = GL.global_room_id AND CNT.userid = GL.userid')
+			->leftJoin(['CNT' => $subQuery], "CNT.{$messageIdName} = GL.global_room_id AND CNT.userid = {$userId}")
 			->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
@@ -467,8 +466,7 @@ class Chat
 					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.global_room_id', 'CR.last_message'])
 					->from(['CG' => 'u_#__chat_global'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_global'], "CR.global_room_id = CG.global_room_id AND CR.userid = {$this->userId}")
-					->where(['CG.global_room_id' => $this->recordId])
-					->andWhere(['CR.userid' => $this->userId]);
+					->where(['CG.global_room_id' => $this->recordId]);
 		}
 		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 	}
@@ -481,11 +479,14 @@ class Chat
 	 */
 	private function updateRoom()
 	{
-		if (\is_array($this->room) && (empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])) {
+		if (
+			\is_array($this->room) && !empty($this->room['userid']) &&
+			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
+		) {
 			Db::getInstance()
 				->createCommand()
 				->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
-					static::COLUMN_NAME['message'][$this->roomType] => $this->recordId,
+					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 					'userid' => $this->userId
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
