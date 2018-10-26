@@ -189,11 +189,7 @@ window.Calendar_Js = class Calendar_Js {
 		}, false);
 		return options;
 	}
-
-	eventRenderer(event, element) {
-		//TODO:Write basci method
-	}
-
+	
 	registerButtonSelectAll() {
 		var selectBtn = $('.selectAllBtn');
 		selectBtn.on('click', function (e) {
