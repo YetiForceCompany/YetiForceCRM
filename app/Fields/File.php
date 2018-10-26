@@ -1071,4 +1071,55 @@ class File
 	{
 		\unlink($value['path']);
 	}
+
+	/**
+	 * Check is it an allowed directory.
+	 *
+	 * @param string $fullPath
+	 *
+	 * @return bool
+	 */
+	public static function isAllowedDirectory(string $fullPath)
+	{
+		return !(!is_readable($fullPath) || !is_dir($fullPath) || is_file($fullPath));
+	}
+
+	/**
+	 * Check is it an allowed file directory.
+	 *
+	 * @param string $fullPath
+	 *
+	 * @return bool
+	 */
+	public static function isAllowedFileDirectory(string $fullPath)
+	{
+		return !(!is_readable($fullPath) || is_dir($fullPath) || !is_file($fullPath));
+	}
+
+	/**
+	 * CheckFilePath.
+	 *
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	public static function checkFilePath(string $path)
+	{
+		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
+		if ($matches) {
+			return true;
+		}
+		$absolutes = ['YetiTemp'];
+		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
+			if ('.' === $part) {
+				continue;
+			}
+			if ('..' === $part) {
+				array_pop($absolutes);
+			} else {
+				$absolutes[] = $part;
+			}
+		}
+		return $absolutes[0] === 'YetiTemp';
+	}
 }

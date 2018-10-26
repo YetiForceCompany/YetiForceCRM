@@ -29,7 +29,7 @@
 						{foreach from=$STRUCTURE['catalogs'] item=$catalog}
 							<tr class="listViewEntries">
 								<td>
-									<a href="{$catalog['directory']}" class="font-weight-bold">
+									<a href="{$catalog['url']}" class="font-weight-bold">
 										<span class="fas fa-folder"></span> {$catalog['name']}
 									</a>
 								</td>
@@ -58,7 +58,7 @@
 								<td>{$file['date']}</td>
 								<td>{$file['size']}</td>
 								<td class="u-w-1em">
-									<a href="{$file['directory']}" class="btn btn-primary btn-sm">
+									<a href="{$file['url']}" class="btn btn-primary btn-sm">
 										<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
 									</a>
 								</td>

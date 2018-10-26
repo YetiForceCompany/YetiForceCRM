@@ -360,7 +360,7 @@ class Purifier
 					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : false;
 					break;
 				case 'Path':
-					$value = \App\Zip::checkFilePath($input) ? $input : false;
+					$value = \App\Fields\File::checkFilePath($input) ? $input : false;
 					break;
 				case 'Text':
 				default:
