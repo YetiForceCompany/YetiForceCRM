@@ -1,6 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.chat-view-container {
-	.js-btn-send {
+.o-chat__view-container {
+	li {
+		list-style: none !important;
+	}
+	.chat_img-container {
+		border: 2px solid #d2d6de;
+		width: 60px;
+		height: 60px;
+	}
+	.c-chat__btn-send {
 		position: absolute;
 		bottom: 10px;
 		right: 10px;
@@ -8,14 +16,66 @@
 		z-index: 1000;
 	}
 
-	.js-message {
+	.c-chat__user-message {
 		max-width: 150px;
+		color: #797676;
+		font-size: 12px;
+	}
+	.c-chat__user-role {
+		font-size: 11px;
 	}
 
-	.js-chat-main-content {
+	.o-chat__main-content {
 		min-height: calc(100vh - 260px);
 		max-height: calc(100vh - 260px);
 		overflow-x: hidden;
 		overflow-y: auto !important;
+	}
+
+	.c-chat__user-item {
+		.c-chat__author {
+			padding-bottom: 3px;
+
+			span {
+				vertical-align: top;
+				margin-left: 6px;
+				font-weight: bold;
+			}
+
+			img {
+				width: 48px;
+				height: 48px;
+			}
+		}
+	}
+
+	.c-chat__item {
+		margin-bottom: 3px;
+		padding: 2px 8px 2px 8px;
+
+		.messages {
+			font-size: 13px;
+		}
+		.c-chat__author {
+			width: 100px;
+			height: 74px;
+
+			span {
+				vertical-align: top;
+				margin-left: 6px;
+				font-weight: bold;
+			}
+
+			img {
+				width: 48px;
+				height: 48px;
+			}
+		}
+		.c-chat__triangle {
+			width: 0;
+			height: 0;
+			border-top: 9px solid transparent;
+			border-bottom: 9px solid transparent;
+		}
 	}
 }

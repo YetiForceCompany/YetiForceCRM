@@ -124,6 +124,7 @@ class Vtiger_Workflow_Handler
 				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {
 					$workflow->markAsCompletedForRecord($recordModel->getId());
 				}
+
 				$workflow->performTasks($recordModel);
 			}
 		}

@@ -4,8 +4,8 @@
  * MailSmtp SaveAjax action model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -25,7 +25,7 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateSmtp(\App\Request $request)
 	{
-		$data = $request->get('param');
+		$data = $request->getArray('param');
 		$encryptInstance = \App\Encryption::getInstance();
 		$data['password'] = $encryptInstance->encrypt($data['password']);
 		$data['smtp_password'] = $encryptInstance->encrypt($data['smtp_password']);
@@ -33,19 +33,16 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$mailer->loadSmtp($data);
 		$testMailer = $mailer->test();
 		if (isset($testMailer['result']) && $testMailer['result'] !== false) {
-			$recordId = $data['record'];
-			if ($data['default']) {
+			if (!empty($data['default'])) {
 				App\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
 			}
-
-			if ($recordId) {
-				$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($recordId);
+			if (!empty($data['record'])) {
+				$recordModel = Settings_MailSmtp_Record_Model::getInstanceById((int) $data['record']);
 			} else {
 				$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();
 			}
-
 			$recordModel->set('mailer_type', $data['mailer_type']);
-			$recordModel->set('default', (int) $data['default']);
+			$recordModel->set('default', (int) ($data['default'] ?? 0));
 			$recordModel->set('name', $data['name']);
 			$recordModel->set('host', $data['host']);
 			$recordModel->set('port', $data['port']);

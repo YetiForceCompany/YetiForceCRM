@@ -4,8 +4,8 @@
  * Mail scanner action creating mail.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 {
@@ -39,15 +39,12 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->getInteger('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
-		$mailModuleActive = \App\Module::getModuleId('OSSMail');
-		$folders = [];
-		if ($mailModuleActive) {
+		$missingFolders = $selectedFolders = $folders = [];
+		if (\App\Module::getModuleId('OSSMail')) {
 			$mailRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$folders = $mailRecordModel->getFolders($record);
 			$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 			$mailScannerFolders = $mailScannerRecordModel->getFolders($record);
-			$selectedFolders = [];
-			$missingFolders = [];
 			foreach ($mailScannerFolders as &$folder) {
 				if (!isset($folders[$folder['folder']])) {
 					$missingFolders[] = $folder['folder'];
@@ -55,7 +52,6 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				$selectedFolders[$folder['type']][] = $folder['folder'];
 			}
 		}
-
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);

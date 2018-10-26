@@ -48,6 +48,8 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		$response = new Vtiger_Response();
 		$response->setResult([
+			'currentRoom' => \App\Chat::getCurrentRoom(),
+			'roomList' => \App\Chat::getRoomsByUser()
 		]);
 		$response->emit();
 	}

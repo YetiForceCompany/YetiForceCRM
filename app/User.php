@@ -402,32 +402,45 @@ class User
 	}
 
 	/**
-	 * Generate profile image info.
-	 *
-	 * @param int|bool $userId
+	 * Get user image details.
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return string[]
+	 * @return array|string[]
 	 */
-	public static function getImageById($userId)
+	public function getImage()
 	{
-		if (Cache::has('UsergetImageById', $userId)) {
-			return Cache::get('UsergetImageById', $userId);
+		if (Cache::has('UserImageById', $this->getId())) {
+			return Cache::get('UserImageById', $this->getId());
 		}
-		$emptyImage = [];
-		$userModel = static::getUserModel($userId);
-		if (empty($userModel)) {
-			return $emptyImage;
-		}
-		$imageData = Json::decode($userModel->getDetail('imagename'));
-		$imageData = reset($imageData);
-		if (empty($imageData)) {
-			return $emptyImage;
+		$image = Json::decode($this->getDetail('imagename'));
+		if (empty($image) || !($imageData = \current($image))) {
+			return [];
 		}
 		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
-		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$userModel->getId()}&key={$imageData['key']}";
-		Cache::save('UsergetImageById', $userId, $imageData);
+		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
+		Cache::save('UserImageById', $this->getId(), $imageData);
 		return $imageData;
+	}
+
+	/**
+	 * Get user image details by id.
+	 *
+	 * @param int $userId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|string[]
+	 */
+	public static function getImageById(int $userId)
+	{
+		if (Cache::has('UserImageById', $userId)) {
+			return Cache::get('UserImageById', $userId);
+		}
+		$userModel = static::getUserModel($userId);
+		if (empty($userModel)) {
+			return [];
+		}
+		return $userModel->getImage();
 	}
 }
