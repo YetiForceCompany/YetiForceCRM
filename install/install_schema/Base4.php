@@ -6,8 +6,8 @@ namespace Importers;
  * Class that imports base database.
  *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base4 extends \App\Db\Importers\Base
 {
@@ -2029,7 +2029,6 @@ class Base4 extends \App\Db\Importers\Base
 					[87, 6, 26, 'getCampaigns', 6, 'Campaigns', 0, 'select', 0, 0, 0],
 					[88, 26, 6, 'getCampaignsRecords', 5, 'Accounts', 0, 'ADD,SELECT', 0, 0, 0],
 					[89, 15, 8, 'getAttachments', 1, 'Documents', 0, 'add,select', 0, 0, 0],
-					[92, 6, 33, 'getDependentsList', 7, 'PBXManager', 0, '', 0, 0, 0],
 					[95, 6, 34, 'getDependentsList', 8, 'Service Contracts', 0, 'ADD', 0, 0, 0],
 					[109, 13, 35, 'getRelatedList', 6, 'Services', 1, 'SELECT', 0, 0, 0],
 					[110, 7, 35, 'getRelatedList', 17, 'Services', 1, 'SELECT', 0, 0, 0],
@@ -8203,7 +8202,6 @@ class Base4 extends \App\Db\Importers\Base
 					[26, 15, 'Scheduler', 'adminIcon-cron', 'LBL_SCHEDULER_DESCRIPTION', 'index.php?module=CronTasks&parent=Settings&view=List', 3, 0, 0, null],
 					[27, 15, 'LBL_WORKFLOW_LIST', 'adminIcon-workflow', 'LBL_AVAILABLE_WORKLIST_LIST', 'index.php?module=com_vtiger_workflow&action=workflowlist', 1, 0, 0, null],
 					[28, 4, 'ModTracker', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_DESCRIPTION', 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', 9, 0, 0, null],
-					[29, 5, 'LBL_PBXMANAGER', 'adminIcon-pbx-manager', 'LBL_PBXMANAGER_DESCRIPTION', 'index.php?module=PBXManager&parent=Settings&view=Index', 22, 0, 0, null],
 					[33, 2, 'LBL_EDIT_FIELDS', 'adminIcon-modules-fields', 'LBL_LAYOUT_EDITOR_DESCRIPTION', 'index.php?module=LayoutEditor&parent=Settings&view=Index', 2, 0, 0, null],
 					[35, 4, 'LBL_PDF', 'adminIcon-modules-pdf-templates', 'LBL_PDF_DESCRIPTION', 'index.php?module=PDF&parent=Settings&view=List', 10, 0, 0, null],
 					[38, 7, 'LBL_PASSWORD_CONF', 'adminIcon-passwords-configuration', 'LBL_PASSWORD_DESCRIPTION', 'index.php?module=Password&parent=Settings&view=Index', 1, 0, 0, null],
@@ -8577,7 +8575,6 @@ class Base4 extends \App\Db\Importers\Base
 					[29, 'Users', 0, -1, 'Users', null, null, 0, 1, 0, null, null, null, 0, 0],
 					[30, 'Import', 0, -1, 'Import', null, null, 1, 0, 0, '1.7', '', null, 0, 0],
 					[32, 'ModTracker', 0, -1, 'ModTracker', null, null, 0, 0, 0, '1.2', '', null, 0, 0],
-					[33, 'PBXManager', 0, -1, 'PBXManager', null, null, 0, 0, 1, '2.1', 'Tools', null, 0, 0],
 					[34, 'ServiceContracts', 0, -1, 'Service Contracts', null, null, 0, 0, 1, '2.4', 'Support', null, 0, 0],
 					[35, 'Services', 0, -1, 'Services', null, null, 0, 0, 1, '2.6', 'Inventory', null, 0, 0],
 					[37, 'Assets', 0, -1, 'Assets', null, null, 0, 0, 1, '2.0', 'Inventory', null, 0, 0],
@@ -9268,7 +9265,6 @@ class Base4 extends \App\Db\Importers\Base
 					[20, 'Groups', 'include/Webservices/VtigerActorOperation.php', 'VtigerActorOperation', 0],
 					[21, 'Currency', 'include/Webservices/VtigerActorOperation.php', 'VtigerActorOperation', 0],
 					[22, 'DocumentFolders', 'include/Webservices/VtigerActorOperation.php', 'VtigerActorOperation', 0],
-					[24, 'PBXManager', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[25, 'ServiceContracts', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[26, 'Services', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[27, 'Assets', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],

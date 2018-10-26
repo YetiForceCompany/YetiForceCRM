@@ -7486,60 +7486,6 @@ CREATE TABLE `vtiger_paymentsoutcf` (
   CONSTRAINT `fk_1_vtiger_paymentsoutcf` FOREIGN KEY (`paymentsoutid`) REFERENCES `vtiger_paymentsout` (`paymentsoutid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_pbxmanager` */
-
-CREATE TABLE `vtiger_pbxmanager` (
-  `pbxmanagerid` int(10) NOT NULL AUTO_INCREMENT,
-  `direction` varchar(10) DEFAULT NULL,
-  `callstatus` varchar(20) DEFAULT NULL,
-  `starttime` datetime DEFAULT NULL,
-  `endtime` datetime DEFAULT NULL,
-  `totalduration` int(10) DEFAULT NULL,
-  `billduration` int(10) DEFAULT NULL,
-  `recordingurl` varchar(200) DEFAULT NULL,
-  `sourceuuid` varchar(100) DEFAULT NULL,
-  `gateway` varchar(20) DEFAULT NULL,
-  `customer` int(10) DEFAULT NULL,
-  `user` smallint(6) DEFAULT NULL,
-  `customernumber` varchar(100) DEFAULT NULL,
-  `customertype` varchar(100) DEFAULT NULL,
-  `customernumber_extra` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`pbxmanagerid`),
-  KEY `index_sourceuuid` (`sourceuuid`),
-  KEY `index_pbxmanager_id` (`pbxmanagerid`),
-  CONSTRAINT `vtiger_pbxmanager_ibfk_1` FOREIGN KEY (`pbxmanagerid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_pbxmanager_gateway` */
-
-CREATE TABLE `vtiger_pbxmanager_gateway` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `gateway` varchar(20) DEFAULT NULL,
-  `parameters` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_pbxmanager_phonelookup` */
-
-CREATE TABLE `vtiger_pbxmanager_phonelookup` (
-  `crmid` int(10) DEFAULT NULL,
-  `setype` varchar(30) DEFAULT NULL,
-  `fnumber` varchar(100) DEFAULT NULL,
-  `rnumber` varchar(100) DEFAULT NULL,
-  `fieldname` varchar(50) DEFAULT NULL,
-  UNIQUE KEY `unique_key` (`crmid`,`setype`,`fieldname`),
-  KEY `index_phone_number` (`fnumber`,`rnumber`),
-  CONSTRAINT `vtiger_pbxmanager_phonelookup_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_pbxmanagercf` */
-
-CREATE TABLE `vtiger_pbxmanagercf` (
-  `pbxmanagerid` int(10) NOT NULL,
-  PRIMARY KEY (`pbxmanagerid`),
-  CONSTRAINT `vtiger_pbxmanagercf_ibfk_1` FOREIGN KEY (`pbxmanagerid`) REFERENCES `vtiger_pbxmanager` (`pbxmanagerid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_picklist` */
 
 CREATE TABLE `vtiger_picklist` (
