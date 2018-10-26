@@ -6,6 +6,9 @@
     "LBL_MESSAGE": "Wiadomo\u015b\u0107",
     "LBL_PARTICIPANTS": "Uczestnicy",
     "LBL_SEARCH_PARTICIPANTS": "Szukaj uczestnik\u00f3w",
-    "LBL_SEARCH_MESSAGE": "Szukaj wiadomo\u015bci"
+    "LBL_SEARCH_MESSAGE": "Szukaj wiadomo\u015bci",
+    "LBL_CREATE_CHAT_ROOM": "Utw\u00f3rz pok\u00f3j chat",
+    "LBL_REMOVE_FROM_FAVORITES": "Usu\u0144 z ulubionych",
+    "LBL_ADD_FROM_FAVORITES": "Dodaj do ulubionych"
   }
 }

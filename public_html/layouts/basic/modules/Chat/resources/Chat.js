@@ -341,7 +341,7 @@ window.Chat_JS = class Chat_Js {
 
 	/**
 	 * Get current room type.
-	 * @returns {int}
+	 * @returns {string}
 	 */
 	getCurrentRoomType() {
 		return this.messageContainer.data('currentRoomType');
@@ -349,10 +349,18 @@ window.Chat_JS = class Chat_Js {
 
 	/**
 	 * Get current record ID.
-	 * @returns {*}
+	 * @returns {int}
 	 */
 	getCurrentRecordId() {
 		return this.messageContainer.data('currentRecordId');
+	}
+
+	/**
+	 * Is this a view for the record.
+	 * @returns {boolean}
+	 */
+	isViewForRecord() {
+		return this.messageContainer.data('viewForRecord');
 	}
 
 	/**
@@ -384,9 +392,11 @@ window.Chat_JS = class Chat_Js {
 	 */
 	scrollToBottom() {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
-		chatContent.animate({
-			scrollTop: chatContent[0].scrollHeight
-		}, 300);
+		if (typeof chatContent[0] !== 'undefined') {
+			chatContent.animate({
+				scrollTop: chatContent[0].scrollHeight
+			}, 300);
+		}
 	}
 
 	/**
@@ -476,7 +486,8 @@ window.Chat_JS = class Chat_Js {
 				mode: 'get',
 				lastId: this.getLastMessageId(),
 				roomType: this.getCurrentRoomType(),
-				recordId: this.getCurrentRecordId()
+				recordId: this.getCurrentRecordId(),
+				viewForRecord: this.isViewForRecord()
 			}, false).done((html) => {
 				if (html) {
 					if (!this.isRoomActive()) {
@@ -557,6 +568,7 @@ window.Chat_JS = class Chat_Js {
 				this.getRoomsDetail(true);
 				this.scrollToBottom();
 				this.registerLoadMore();
+				this.turnOffSearchMode();
 			});
 		});
 	}
@@ -579,6 +591,36 @@ window.Chat_JS = class Chat_Js {
 				});
 			});
 		}
+	}
+
+	/**
+	 * Button favorites.
+	 */
+	registerButtonFavorites() {
+		let btnRemove = this.container.find('.js-remove-from-favorites');
+		let btnAdd = this.container.find('.js-add-from-favorites');
+		btnRemove.off('click').on('click', (e) => {
+			btnRemove.toggleClass('hide');
+			btnAdd.toggleClass('hide');
+			this.request({
+				action: 'Room',
+				mode: 'removeFromFavorites',
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId()
+			}).done(() => {
+			});
+		});
+		btnAdd.off('click').on('click', (e) => {
+			btnRemove.toggleClass('hide');
+			btnAdd.toggleClass('hide');
+			this.request({
+				action: 'Room',
+				mode: 'addToFavorites',
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId()
+			}).done(() => {
+			});
+		});
 	}
 
 	/**
@@ -683,7 +725,12 @@ window.Chat_JS = class Chat_Js {
 		//this.registerListenEvent();
 		this.getMessage(true);
 		this.registerCreateRoom();
+		this.registerButtonFavorites();
 		this.registerSearchMessage();
+		setTimeout(() => {
+			this.scrollToBottom();
+		}, 100);
+
 	}
 
 	/**

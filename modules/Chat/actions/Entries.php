@@ -18,7 +18,6 @@ class Chat_Entries_Action extends \App\Controller\View
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->exposeMethod('send');
 	}
 
 	/**
