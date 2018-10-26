@@ -237,7 +237,7 @@ var App = {},
 			});
 		},
 		/**
-		 * Register popover links
+		 * Register popover record
 		 * @param {jQuery} selectElement
 		 */
 		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
@@ -258,19 +258,19 @@ var App = {},
 					let popoverId = element.attr('aria-describedby');
 					let popoverBody = $(`#${popoverId} .popover-body`);
 					popoverBody.progressIndicator({});
-					let cacheData = $('[data-url-cached="' + url + '"]').children();
-					if (cacheData.length) {
-						popoverBody.progressIndicator({mode: 'hide'}).html(cacheData.clone());
+					let appendPopoverData = (data) => {
+						popoverBody.progressIndicator({mode: 'hide'}).html(data);
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
 						}
+					};
+					let cacheData = window.popoverCache[url];
+					if (typeof cacheData !== 'undefined') {
+						appendPopoverData(cacheData);
 					} else {
 						AppConnector.request(url).done((data) => {
-							$('body').append($('<div>').css({display: 'none'}).attr('data-url-cached', url).html(data));
-							popoverBody.progressIndicator({mode: 'hide'}).html(data);
-							if (typeof customParams.callback === 'function') {
-								customParams.callback(popoverBody);
-							}
+							window.popoverCache[url] = data;
+							appendPopoverData(data);
 						});
 					}
 				}
@@ -1699,6 +1699,7 @@ var App = {},
 			return aDeferred.promise();
 		},
 		registerPopover() {
+			window.popoverCache = {};
 			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
 				if (!currentTarget.hasClass('popover-triggered')) {
@@ -1706,7 +1707,7 @@ var App = {},
 						app.registerPopoverRecord(currentTarget);
 						currentTarget.trigger('mouseenter');
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
-						app.registerPopoverRecord(currentTarget.children('a')); //popoverlink on children doesn't need triggering
+						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
 						app.showPopoverElementView(currentTarget);
 						currentTarget.popover('show');
