@@ -28,6 +28,7 @@
 					   class="form-control u-font-size-13px js-search-message border-top-0 border-left-0 border-right-0"{' '}
 					   autocomplete="off"{' '}
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
+				<span class="fas fa-search c-chat__icon-search"></span>
 				<button type="button" class="btn btn-danger hide js-search-cancel" data-js="click">X</button>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content c-chat__scrollbar js-scrollbar border-bottom"
@@ -65,6 +66,7 @@
 					   placeholder="{\App\Language::translate('LBL_SEARCH_PARTICIPANTS', $MODULE_NAME)}"
 					   data-js="keydown"/>
 			</div>
+			<span class="fas fa-search c-chat__icon-search"></span>
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>

@@ -15,7 +15,15 @@
 		border-radius: 50% !important;
 		z-index: 1000;
 	}
-
+	.c-chat__icon-search {
+		position: absolute;
+		top: 18px;
+		right: 10px;
+		border-radius: 50% !important;
+		z-index: 1000;
+		font-size: 15px;
+		color: #6c7591;
+	}
 	.c-chat__user-message {
 		max-width: 150px;
 		color: #797676;
