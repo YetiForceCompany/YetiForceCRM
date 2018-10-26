@@ -11862,6 +11862,18 @@ ul.tweets li {
   border-top: #e6ecf0 solid 1px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.u-font-size-10px {
+  font-size: 0.625rem; }
+
+.u-font-size-13px {
+  font-size: 0.8125rem; }
+
+.u-font-size-14px {
+  font-size: 0.9375rem; }
+
+.u-font-size-50px {
+  font-size: 3.125rem; }
+
 .u-font-size-19px {
   font-size: 1.1875rem; }
 
@@ -12645,8 +12657,14 @@ ul.tweets li {
   width: 30% !important;
   min-width: 18rem; }
 
+.u-w-50px {
+  width: 50px; }
+
 .u-w-85px {
   width: 85px; }
+
+.u-w-100px {
+  width: 100px; }
 
 .u-w-90per {
   width: 90%; }
@@ -12665,6 +12683,9 @@ ul.tweets li {
     width: 100%; } }
 .u-max-w-150px {
   max-width: 150px; }
+
+.u-h-50px {
+  height: 50px; }
 
 .u-h-600px {
   height: 600px !important; }
@@ -12689,6 +12710,12 @@ ul.tweets li {
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
+
+.u-border-right-10px {
+  border-right: 10px solid; }
+
+.u-border-left-10px {
+  border-left: 10px solid; }
 
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
@@ -13011,12 +13038,17 @@ ul.tweets li {
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px); }
   .c-popover--link label, .c-popover--link__label {
-    margin: 0; }
+    margin: 0;
+    font-weight: bold; }
   .c-popover--link.bs-popover-bottom .arrow::after, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::after, .c-popover--link.bs-popover-bottom .arrow::before, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::before {
     border-bottom-color: #f8f9fa; }
   .c-popover--link__header {
     border-top-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem; }
+    .c-popover--link__header__buttons {
+      float: right !important;
+      margin-top: -0.2rem;
+      margin-left: 5px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
@@ -13224,6 +13256,60 @@ input[type="radio"]:checked {
 
 input[type="radio"]:checked:before {
   background-color: #4a5364; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.o-chat__view-container li {
+  list-style: none !important; }
+.o-chat__view-container .chat_img-container {
+  border: 2px solid #d2d6de;
+  width: 60px;
+  height: 60px; }
+.o-chat__view-container .c-chat__btn-send {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50% !important;
+  z-index: 1000; }
+.o-chat__view-container .c-chat__user-message {
+  max-width: 150px;
+  color: #797676;
+  font-size: 12px; }
+.o-chat__view-container .c-chat__user-role {
+  font-size: 11px; }
+.o-chat__view-container .o-chat__main-content {
+  min-height: calc(100vh - 260px);
+  max-height: calc(100vh - 260px);
+  overflow-x: hidden;
+  overflow-y: auto !important; }
+.o-chat__view-container .c-chat__user-item .c-chat__author {
+  padding-bottom: 3px; }
+  .o-chat__view-container .c-chat__user-item .c-chat__author span {
+    vertical-align: top;
+    margin-left: 6px;
+    font-weight: bold; }
+  .o-chat__view-container .c-chat__user-item .c-chat__author img {
+    width: 48px;
+    height: 48px; }
+.o-chat__view-container .c-chat__item {
+  margin-bottom: 3px;
+  padding: 2px 8px 2px 8px; }
+  .o-chat__view-container .c-chat__item .messages {
+    font-size: 13px; }
+  .o-chat__view-container .c-chat__item .c-chat__author {
+    width: 100px;
+    height: 74px; }
+    .o-chat__view-container .c-chat__item .c-chat__author span {
+      vertical-align: top;
+      margin-left: 6px;
+      font-weight: bold; }
+    .o-chat__view-container .c-chat__item .c-chat__author img {
+      width: 48px;
+      height: 48px; }
+  .o-chat__view-container .c-chat__item .c-chat__triangle {
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
@@ -15246,6 +15332,9 @@ label.btn.btn-outline-primary:not(.active) {
   .modalRightSiteBar .listViewEntriesTable thead > tr > th {
     padding: 2px; }
 
+.active {
+  font-weight: bold; }
+
 .o-chat-modal-window {
   position: fixed;
   top: 0;
@@ -15268,18 +15357,6 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 5px 0; }
   .chatModal .modal-footer {
     background: #fff; }
-  .chatModal .chatItem {
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 3px;
-    padding: 2px 8px 2px 8px; }
-    .chatModal .chatItem.active {
-      background: #f9f9f9; }
-    .chatModal .chatItem .author {
-      padding-bottom: 3px; }
-      .chatModal .chatItem .author span {
-        vertical-align: top;
-        margin-left: 6px;
-        font-weight: bold; }
 
 .navbar .o-global-search__value {
   border-top: none;
@@ -16261,9 +16338,7 @@ label.btn.btn-outline-primary:not(.active) {
   justify-content: space-between;
   flex-wrap: wrap; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-button,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-button {
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button {
     margin-right: 5px;
     border-radius: 0;
     background: #dfdfdf;
@@ -16274,22 +16349,30 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 0.3125rem 1.125rem !important; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-state-active,
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-today-button.fc-state-disabled,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-state-active,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button.fc-state-disabled,
   .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-state-active,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-today-button.fc-state-disabled,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-state-active,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button.fc-state-disabled {
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-today-button.fc-state-disabled {
     z-index: 4;
     background: #337ab7 !important;
     color: #fff !important;
     text-shadow: none;
     opacity: 1; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button-group,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-button-group,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button-group,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-button-group {
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button-group {
     margin-left: 0; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button.fc-state-disabled,
+    .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button.fc-state-disabled {
+      text-shadow: none;
+      cursor: unset;
+      opacity: 1; }
+      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button.fc-state-disabled .svg-inline--fa,
+      .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button.fc-state-disabled .svg-inline--fa {
+        color: #9e9e9e; }
   @media (min-width: 1080px) {
     .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .js-calendar-switch-container,
     .tpl-Calendar-Extended-QuickCreate .fc-toolbar .js-calendar-switch-container {
