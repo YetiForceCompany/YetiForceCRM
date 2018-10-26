@@ -1315,9 +1315,9 @@ CREATE TABLE `u_yf_chat_rooms_crm` (
   `crmid` int(10) DEFAULT NULL,
   `last_message` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`roomid`),
-  KEY `fk_u_yf_chat_rooms_crm_users` (`userid`),
-  KEY `fk_u_yf_chat_rooms_crm_crm` (`crmid`),
-  KEY `last_message` (`last_message`),
+  KEY `u_yf_chat_rooms_crm_userid_idx` (`userid`),
+  KEY `u_yf_chat_rooms_crm_crmid_idx` (`crmid`),
+  KEY `u_yf_chat_rooms_crm_last_message_idx` (`last_message`),
   CONSTRAINT `fk_u_yf_chat_rooms_crm_crm` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `fk_u_yf_chat_rooms_crm_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1345,8 +1345,8 @@ CREATE TABLE `u_yf_chat_rooms_group` (
   `groupid` int(10) NOT NULL,
   `last_message` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`roomid`),
-  KEY `fk_u_yf_chat_rooms_group` (`groupid`),
   KEY `userid` (`userid`),
+  KEY `u_yf_chat_rooms_group_groupid_idx` (`groupid`),
   CONSTRAINT `fk_u_yf_chat_rooms_group` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE,
   CONSTRAINT `fk_u_yf_chat_rooms_group_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
