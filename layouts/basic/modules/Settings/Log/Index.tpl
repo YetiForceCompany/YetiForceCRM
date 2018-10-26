@@ -19,6 +19,29 @@
 				{/foreach}
 			</ul>
 			</p>
+			<div class="row">
+				<div class="col-lg-3 text-right">
+					{\App\Language::translate('LBL_TIME_RANGE')}:
+				</div>
+				<div class="col-lg-6">
+					<div class="input-group input-group-sm logRange">
+						<div class=" input-group-prepend">
+							<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
+								<span class="fas fa-calendar-alt"></span>
+							</span>
+						</div>
+						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}"
+							   class="dateRangeField dateRangeFilter form-control text-center"
+							   data-js="val"
+							   value="{implode(',',\App\Fields\Date::formatRangeToDisplay([date('Y-m-d'),date('Y-m-d')]))}"/>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<button type="button"
+							class="btn btn-primary btn-sm dateRangeBtn"
+							data-js="click">{\App\Language::translate('LBL_FILTER')}</button>
+				</div>
+			</div>
 			<table class="table table-bordered js-data-table" data-js="dataTable">
 				<thead>
 				<tr>
