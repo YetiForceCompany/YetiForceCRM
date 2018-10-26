@@ -16,14 +16,16 @@
 		<div class="row p-0">
 			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
 				<div class="row w-100 text-right pl-5 pr-1 pt-2 pb-2">
-					<span class="fas fa-history ml-auto mr-1 js-btn-history" data-js="click"></span>
-					<span class="fas fa-cog mr-1 js-btn-settings" data-js="click"></span>
-					{*<span class="fas fa-bell mr-1 js-btn-bell" data-js="click" data-icon-on="fa-bell"
-						  data-icon-off="fa-bell-slash"></span>*}
-					<button type="button" class="btn js-btn-bell fas fa-bell">
-						<span class="fas fa-bell mr-1 js-btn-bell" data-js="click" data-icon-on="fa-bell"
-							  data-icon-off="fa-bell-slash"></span>
-					</button>
+					<span class="ml-auto mr-1 js-btn-history" data-js="click">
+						<span class="fas fa-history"></span>
+					</span>
+					<span class="js-btn-settings mr-1" data-js="click">
+						<span class="fas fa-cog"></span>
+					</span>
+					<span class="js-btn-bell mr-1" data-js="click" data-icon-on="fa-bell"
+						  data-icon-off="fa-bell-slash">
+						<span class="fas fa-bell js-icon" data-js="replace"></span>
+					</span>
 				</div>
 				{ROOM_ITEM ROOM=['recordid'=>'', 'name'=>'', 'cnt_new_message'=>''] CLASS_NAME='hide js-temp-item-room'}
 				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}

@@ -18,6 +18,8 @@ window.Chat_JS = class Chat_Js {
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.timerGlobal = null;
+		this.amountOfNewMessages = null;
+		this.isSoundNotification = true;
 	}
 
 	/**
@@ -388,6 +390,16 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Play sound notification.
+	 */
+	soundNotification() {
+		console.log('soundNotification: ' + this.isSoundNotification);
+		if (this.isSoundNotification) {
+			app.playSound('REMINDERS');
+		}
+	}
+
+	/**
 	 * Select room.
 	 * @param {string} roomType
 	 * @param {int} recordId
@@ -427,11 +439,16 @@ window.Chat_JS = class Chat_Js {
 		const currentRoomType = this.getCurrentRoomType();
 		const currentRecordId = this.getCurrentRecordId();
 		const roomList = this.getRoomList();
+		let cnt = 0;
 		this.selectRoom(data.currentRoom.roomType, data.currentRoom.recordId);
 		for (let key in data.roomList) {
 			let roomTypeList = roomList.find('.js-room-type[data-room-type="' + key + '"]');
 			roomTypeList.html('');
 			for (let idx in data.roomList[key]) {
+				let newMessage = data.roomList[key][idx]['cnt_new_message'];
+				if (newMessage !== null) {
+					cnt += newMessage;
+				}
 				let itemRoom = this.createRoomItem(data.roomList[key][idx]);
 				if (key === currentRoomType && data.roomList[key][idx]['recordid'] === currentRecordId) {
 					itemRoom.addClass('active');
@@ -439,6 +456,10 @@ window.Chat_JS = class Chat_Js {
 				roomTypeList.append(itemRoom);
 			}
 		}
+		if (this.amountOfNewMessages !== null && cnt > this.amountOfNewMessages) {
+			this.soundNotification();
+		}
+		this.amountOfNewMessages = cnt;
 		this.registerSwitchRoom();
 	}
 
@@ -615,24 +636,42 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
+	/**
+	 * Register button history.
+	 */
 	registerButtonHistory() {
 		this.container.find('.js-btn-history').off('click').on('click', (e) => {
 			console.log('history');
 		});
 	}
 
+	/**
+	 * Register button settings.
+	 */
 	registerButtonSettings() {
 		this.container.find('.js-btn-settings').off('click').on('click', (e) => {
 			console.log('settings');
 		});
 	}
 
+	/**
+	 * Register button bell.
+	 */
 	registerButtonBell() {
 		let btnBell = this.container.find('.js-btn-bell');
-		console.log('btnBell: ' + btnBell.length);
 		btnBell.off('click').on('click', (e) => {
-			console.log('bell');
-			btnBell.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
+			let icon = btnBell.find('.js-icon');
+			icon.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
+			this.isSoundNotification = icon.hasClass(btnBell.data('iconOn'));
+		});
+	}
+
+	/**
+	 * Register close modal.
+	 */
+	registerCloseModal() {
+		this.container.find('.close[data-dismiss="modal"]').on('click', (e) => {
+			this.unregisterEvents();
 		});
 	}
 
@@ -654,14 +693,12 @@ window.Chat_JS = class Chat_Js {
 	registerModalEvents() {
 		this.getRoomList(true);
 		this.getRoomsDetail(true);
-		this.container.find('.close[data-dismiss="modal"]').on('click', (e) => {
-			this.unregisterEvents();
-		});
 		this.registerBaseEvents();
 		this.registerSwitchRoom();
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
+		this.registerCloseModal();
 	}
 
 	/**
