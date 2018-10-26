@@ -794,7 +794,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				end: endDate.format(),
 				module: 'Calendar',
 				url: 'index.php?module=Calendar&view=ActivityState&record=' + calendarDetails._recordId,
-				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-tooltip js-popover-tooltip--link'],
+				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-tooltip--link'],
 				start_display: calendarDetails.date_start.display_value,
 				end_display: calendarDetails.due_date.display_value
 			};

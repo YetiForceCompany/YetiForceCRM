@@ -44,7 +44,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if (\App\Record::getState($value) !== 'Active') {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$moduleName showReferenceTooltip js-popover-tooltip js-popover-tooltip--link' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
+		return "<a class='modCT_$moduleName showReferenceTooltip js-popover-tooltip--link' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
 	}
 
 	/**
