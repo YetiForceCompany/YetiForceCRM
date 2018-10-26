@@ -23,11 +23,11 @@ class Settings_Backup_DownloadFile_Action extends Settings_Vtiger_Index_Action
 		$extension = explode('.', $requestFilePath);
 		$extension = strtolower(array_pop($extension));
 		if (!\in_array($extension, \App\Utils\Backup::getAllowedExtension())) {
-			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE');
 		}
 		$filePath = \App\Utils\Backup::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $requestFilePath;
 		if (!App\Fields\File::isAllowedFileDirectory($filePath)) {
-			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE');
 		}
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');
