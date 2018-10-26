@@ -85,8 +85,10 @@ window.Calendar_Js = class Calendar_Js {
 	eventRenderer(event, element) {
 		if (event.rendering === 'background') {
 			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
+			element.addClass('u-text-ellipsis--no-hover');
 		}
 	}
+
 
 	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
