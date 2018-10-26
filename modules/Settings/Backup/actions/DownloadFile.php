@@ -17,15 +17,16 @@ class Settings_Backup_DownloadFile_Action extends Settings_Vtiger_Index_Action
 	public function process(\App\Request $request)
 	{
 		if ($request->isEmpty('file')) {
-			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('ERR_FILE_EMPTY_NAME');
 		}
 		$requestFilePath = $request->getByType('file', 'Path');
-		$fileExtension = strtolower(array_pop(explode('.', $requestFilePath)));
-		if (!\in_array($fileExtension, \App\Utils\Backup::getAllowedExtension())) {
+		$extension = explode('.', $requestFilePath);
+		$extension = strtolower(array_pop($extension));
+		if (!\in_array($extension, \App\Utils\Backup::getAllowedExtension())) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
 		}
 		$filePath = \App\Utils\Backup::getBackupCatalogPath() . DIRECTORY_SEPARATOR . $requestFilePath;
-		if (!\App\Utils\Backup::isAllowedFileDirectory($filePath)) {
+		if (!App\Fields\File::isAllowedFileDirectory($filePath)) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
 		}
 		header('Content-Description: File Transfer');
