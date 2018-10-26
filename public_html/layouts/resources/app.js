@@ -144,26 +144,34 @@ var App = {},
 			});
 		},
 		registerPopoverManualTrigger(element) {
-			element.hoverIntent({
-				timeout: 150,
-				over: function () {
-					let element = $(this);
+			const timeout = 500
+			element.on("mouseleave", (e) => {
+				setTimeout(function () {
+					let popoverId = $(e.currentTarget).attr('aria-describedby');
+					let currentPopover = $(`#${popoverId}`);
+					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
+						currentPopover.popover('hide');
+					}
+				}, timeout);
+			});
+
+			element.on("mouseenter", (e) => {
+				setTimeout(function () {
+					let element = $(e.currentTarget);
 					element.popover("show");
 					let popoverId = element.attr('aria-describedby');
 					let currentPopover = $(`#${popoverId}`);
 					currentPopover.on("mouseleave", (e) => {
-						if (!currentPopover.is(':hover') && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
-							currentPopover.popover('hide');
-						}
+						setTimeout(function () {
+							if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
+								currentPopover.popover('hide'); //close current popover
+							}
+							if (!$(":hover").filter($(".popover")).length) {
+								$(".popover").popover('hide'); //close all popovers
+							}
+						}, timeout);
 					});
-				},
-				out: function () {
-					let popoverId = $(this).attr('aria-describedby');
-					let currentPopover = $(`#${popoverId}`);
-					if (!currentPopover.is(':hover') && !currentPopover.find('.js-popover-tooltip--link[aria-describedby]').length) {
-						currentPopover.popover('hide');
-					}
-				}
+				}, timeout);
 			});
 			app.hidePopoversAfterClick(element);
 		},
@@ -228,7 +236,7 @@ var App = {},
 		 */
 		registerPopoverLink: function (selectElement = $('a.js-popover-tooltip--link'), customParams = {}) {
 			let params = {
-				template: '<div class="popover c-popover--link" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>',
+				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
@@ -1699,6 +1707,7 @@ var App = {},
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--link')) {
 						app.registerPopoverLink(currentTarget);
+						currentTarget.trigger('mouseover');
 					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && currentTarget.data('field-type')) {
 						app.registerPopoverLink(currentTarget.children('a'));
 					} else if (!currentTarget.hasClass('js-popover-tooltip--link') && !currentTarget.data('field-type')) {
@@ -1707,10 +1716,6 @@ var App = {},
 						currentTarget.on('mouseleave', function () {
 							currentTarget.popover('hide');
 						});
-					}
-					//condition for triggering nested popover by hoverIntent
-					if (currentTarget.closest('.popover').length) {
-						currentTarget.trigger('mouseover');
 					}
 				}
 			});
