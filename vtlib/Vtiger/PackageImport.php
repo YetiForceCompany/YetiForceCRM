@@ -715,7 +715,7 @@ class PackageImport extends PackageExport
 		$fieldInstance->readonly = (int) $fieldnode->readonly;
 		$fieldInstance->presence = (int) $fieldnode->presence;
 		$fieldInstance->defaultvalue = (string) $fieldnode->defaultvalue;
-		$fieldInstance->maximumlength = (int) $fieldnode->maximumlength;
+		$fieldInstance->maximumlength = (string) $fieldnode->maximumlength;
 		$fieldInstance->sequence = (int) $fieldnode->sequence;
 		$fieldInstance->quickcreate = (int) $fieldnode->quickcreate;
 		$fieldInstance->quicksequence = (int) $fieldnode->quickcreatesequence;
