@@ -51,6 +51,9 @@
 				width: 20px;
 				top: 20px;
 			}
+			&:last-of-type::after {
+				height: 20px;
+			}
 		}
 	}
 }
