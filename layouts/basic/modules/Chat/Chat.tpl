@@ -24,11 +24,14 @@
 	<div class="row o-chat__view-container">
 		<div class="col-9">
 			<div class="row px-2">
-				<input type="text"
-					   class="form-control u-font-size-13px js-search-message border-top-0 border-left-0 border-right-0"{' '}
-					   autocomplete="off"{' '}
-					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
-				<button type="button" class="btn btn-danger hide js-search-cancel" data-js="click">X</button>
+				<div class="input-group">
+					<input type="text"
+						   class="form-control u-font-size-13px js-search-message border-top-0 border-left-0 border-right-0"{' '}
+						   autocomplete="off"{' '}
+						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
+						   data-js="keydown"/>
+					<button type="button" class="btn btn-danger hide mr-1 js-search-cancel" data-js="click">X</button>
+				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__main-content border-bottom">
 				<div class="d-flex flex-grow-1">
@@ -38,6 +41,7 @@
 						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
 						 data-room-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
 						 data-max-length-message="{AppConfig::module('Chat', 'MAX_LENGTH_MESSAGE')}"
+						 data-view-for-record="{if isset($VIEW_FOR_RECORD) && $VIEW_FOR_RECORD}true{else}false{/if}"
 						 data-js="append">
 						{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}
 					</div>
@@ -68,7 +72,7 @@
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
 			<div class="js-participants-list px-3" data-js="container">
-				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
+				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'role_name'=>'', 'message'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}
 						{ITEM_USER USER=$USER}

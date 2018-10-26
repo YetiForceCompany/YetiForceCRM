@@ -69,7 +69,9 @@ class Chat_Entries_View extends \App\Controller\View
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
 			$recordId = $request->getInteger('recordId');
-			\App\Chat::setCurrentRoom($roomType, $recordId);
+			if (!$request->getBoolean('viewForRecord')) {
+				\App\Chat::setCurrentRoom($roomType, $recordId);
+			}
 		} else {
 			$currentRoom = \App\Chat::getCurrentRoom();
 			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['recordId'])) {
@@ -165,6 +167,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		$viewer->assign('MODULE_NAME', 'Chat');
 		$viewer->assign('CHAT', $chat);
+		$viewer->assign('VIEW_FOR_RECORD', true);
 		return $viewer->view('Detail/Chat.tpl', 'Chat', true);
 	}
 
