@@ -24,10 +24,7 @@ class Calendar_RecordPopover_View extends Vtiger_RecordPopover_View
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$fieldsModel = $recordModel->getModule()->getFields();
 		$summaryFields = [];
-		$fields = ['date_start' => 'far fa-clock', 'due_date' => 'far fa-clock', 'location' => 'fas fa-globe',
-			'taskpriority' => 'fas fa-exclamation-circle', 'activitystatus' => 'fas fa-question-circle',
-			'linkextend' => '', 'link' => '', 'process' => '', 'subprocess' => '', 'state' => 'far fa-star',
-			'visibility' => 'fas fa-eye', 'assigned_user_id' => 'fas fa-user'];
+		$fields = $this->getFields();
 		foreach ($fields as $fieldName => $icon) {
 			$fieldModel = $fieldsModel[$fieldName] ?? '';
 			if ($fieldModel && $fieldModel->isViewableInDetailView() && !$recordModel->isEmpty($fieldName)) {
@@ -46,6 +43,19 @@ class Calendar_RecordPopover_View extends Vtiger_RecordPopover_View
 		$viewer->assign('FIELDS_ICON', $fields);
 		$viewer->assign('DETAIL_URL', $detailUrl);
 		$viewer->assign('EDIT_URL', $editUrl);
-		$viewer->view('RecordPopover.tpl', $moduleName);
+		$viewer->view('RecordPopover.tpl', $this->getModuleNameTpl($request));
+	}
+
+	public function getFields()
+	{
+		return ['date_start' => 'far fa-clock', 'due_date' => 'far fa-clock', 'location' => 'fas fa-globe',
+			'taskpriority' => 'fas fa-exclamation-circle', 'activitystatus' => 'fas fa-question-circle',
+			'linkextend' => '', 'link' => '', 'process' => '', 'subprocess' => '', 'state' => 'far fa-star',
+			'visibility' => 'fas fa-eye', 'assigned_user_id' => 'fas fa-user'];
+	}
+
+	public function getModuleNameTpl($request)
+	{
+		return $request->getModule();
 	}
 }
