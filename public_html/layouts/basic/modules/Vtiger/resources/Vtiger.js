@@ -521,7 +521,4 @@ var Vtiger_Index_Js = {
 //On Page Load
 $(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();
-	app.listenPostAjaxReady(function () {
-		Vtiger_Index_Js.registerPostAjaxEvents();
-	});
 });
