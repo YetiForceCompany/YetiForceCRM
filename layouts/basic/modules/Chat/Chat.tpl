@@ -30,7 +30,7 @@
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
 				<button type="button" class="btn btn-danger hide js-search-cancel" data-js="click">X</button>
 			</div>
-			<div class="d-flex flex-column js-chat-main-content o-chat__main-content border-bottom">
+			<div class="d-flex flex-column js-chat-main-content o-chat__main-content js-show-scroll border-bottom">
 				<div class="d-flex flex-grow-1">
 					<div class="col-12 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
@@ -67,7 +67,7 @@
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
-			<div class="js-participants-list px-3" data-js="container">
+			<div class="js-participants-list px-3 js-show-scroll" data-js="container">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}

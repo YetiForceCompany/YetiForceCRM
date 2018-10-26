@@ -26,10 +26,9 @@
 	}
 
 	.o-chat__main-content {
-		min-height: calc(100vh - 260px);
-		max-height: calc(100vh - 260px);
-		overflow-x: hidden;
-		overflow-y: auto !important;
+		position: relative;
+		overflow: hidden;
+		height: calc(100vh - #{$h-footer} - #{calculate-rem(170px)});
 	}
 
 	.c-chat__user-item {
