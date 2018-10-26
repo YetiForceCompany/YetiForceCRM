@@ -6,8 +6,8 @@ namespace Importers;
  * Class that imports base database.
  *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base3 extends \App\Db\Importers\Base
 {
@@ -2053,65 +2053,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_pbxmanager' => [
-				'columns' => [
-					'pbxmanagerid' => $this->primaryKey(10),
-					'direction' => $this->stringType(10),
-					'callstatus' => $this->stringType(20),
-					'starttime' => $this->dateTime(),
-					'endtime' => $this->dateTime(),
-					'totalduration' => $this->integer(10),
-					'billduration' => $this->integer(10),
-					'recordingurl' => $this->stringType(200),
-					'sourceuuid' => $this->stringType(100),
-					'gateway' => $this->stringType(20),
-					'customer' => $this->integer(10),
-					'user' => $this->smallInteger(),
-					'customernumber' => $this->stringType(100),
-					'customertype' => $this->stringType(100),
-					'customernumber_extra' => $this->stringType(100),
-				],
-				'index' => [
-					['index_sourceuuid', 'sourceuuid'],
-					['index_pbxmanager_id', 'pbxmanagerid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanager_gateway' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'gateway' => $this->stringType(20),
-					'parameters' => $this->text(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanager_phonelookup' => [
-				'columns' => [
-					'crmid' => $this->integer(10),
-					'setype' => $this->stringType(30),
-					'fnumber' => $this->stringType(100),
-					'rnumber' => $this->stringType(100),
-					'fieldname' => $this->stringType(50),
-				],
-				'index' => [
-					['unique_key', ['crmid', 'setype', 'fieldname'], true],
-					['index_phone_number', ['fnumber', 'rnumber']],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanagercf' => [
-				'columns' => [
-					'pbxmanagerid' => $this->integer(10)->notNull(),
-				],
-				'primaryKeys' => [
-					['pbxmanagercf_pk', 'pbxmanagerid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_picklist' => [
 				'columns' => [
 					'picklistid' => $this->primaryKey(10),
@@ -2758,9 +2699,6 @@ class Base3 extends \App\Db\Importers\Base
 			['fk_1_vtiger_paymentsincf', 'vtiger_paymentsincf', 'paymentsinid', 'vtiger_paymentsin', 'paymentsinid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_paymentsout', 'vtiger_paymentsout', 'paymentsoutid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_paymentsoutcf', 'vtiger_paymentsoutcf', 'paymentsoutid', 'vtiger_paymentsout', 'paymentsoutid', 'CASCADE', 'RESTRICT'],
-			['vtiger_pbxmanager_ibfk_1', 'vtiger_pbxmanager', 'pbxmanagerid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_pbxmanager_phonelookup_ibfk_1', 'vtiger_pbxmanager_phonelookup', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_pbxmanagercf_ibfk_1', 'vtiger_pbxmanagercf', 'pbxmanagerid', 'vtiger_pbxmanager', 'pbxmanagerid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebook', 'vtiger_pricebook', 'pricebookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebookcf', 'vtiger_pricebookcf', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebookproductrel', 'vtiger_pricebookproductrel', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
@@ -3253,7 +3191,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 3, 'DASHBOARDWIDGET', 'DW_SUMMATION_BY_MONTHS', 'index.php?module=FInvoice&view=ShowWidget&name=SummationByMonths', null, 0, null, null, null, null],
 					[2, 3, 'DASHBOARDWIDGET', 'DW_SUMMATION_BY_USER', 'index.php?module=FInvoice&view=ShowWidget&name=SummationByUser', null, null, null, null, null, null],
 					[3, 3, 'DASHBOARDWIDGET', 'Notifications', 'index.php?module=Notification&view=ShowWidget&name=Notifications', null, 3, null, null, null, null],
-					[5, 0, 'HEADERSCRIPT', 'Incoming Calls', 'modules/PBXManager/resources/PBXManagerJS.js', '', 0, 'modules/PBXManager/PBXManager.php', 'PBXManager', 'checkLinkPermission', null],
 					[11, 7, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
 					[12, 4, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
 					[13, 6, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],

@@ -57,7 +57,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$moduleName = 'Home';
 		}
 		$saveFilterPermitted = true;
-		if (in_array($moduleName, ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'])) {
+		if (in_array($moduleName, ['ModComments', 'RSS', 'Portal', 'Integration', 'DashBoard'])) {
 			$saveFilterPermitted = false;
 		}
 		//See if it is an excluded module, If so search in home module
