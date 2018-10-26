@@ -25,14 +25,14 @@
 		<div class="col-9">
 			<div class="row px-2">
 				<input type="text"
-					   class="form-control u-font-size-13px js-search-message border-top-0 border-left-0 border-right-0"{' '}
+					   class="form-control u-font-size-13px js-search-message border-bottom rounded-0 c-chat__form-control"{' '}
 					   autocomplete="off"{' '}
 					   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
 				<span class="fas fa-search c-chat__icon-search"></span>
 				<button type="button" class="btn btn-danger hide js-search-cancel" data-js="click">X</button>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content c-chat__scrollbar js-scrollbar border-bottom"
-				 data-js=”container”>
+				 data-js=”container|perfectscrollbar”>
 				<div class="d-flex flex-grow-1">
 					<div class="col-12 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
@@ -47,10 +47,12 @@
 			</div>
 			<div class="row">
 				<div class="input-group">
-					<textarea class="form-control noresize u-font-size-13px js-chat-message border-0" rows="2"
-							  autocomplete="off"
-							  placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
-							  data-js="keydown">
+					<textarea
+							class="form-control noresize u-font-size-13px js-chat-message rounded-0 c-chat__form-control"
+							rows="2"
+							autocomplete="off"
+							placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
+							data-js="keydown">
 					</textarea>
 				</div>
 				<button type="button" class="btn btn-primary js-btn-send c-chat__btn-send" data-js="click">
@@ -61,7 +63,7 @@
 		<div class="col-3 px-0 bg-color-grey-50">
 			<div class="px-2">
 				<input type="text"
-					   class="form-control u-font-size-13px js-search-participants border-top-0 border-right-0 border-left-0  bg-color-grey-50"
+					   class="form-control u-font-size-13px js-search-participants border-bottom bg-color-grey-50 rounded-0 c-chat__form-control"
 					   autocomplete="off"
 					   placeholder="{\App\Language::translate('LBL_SEARCH_PARTICIPANTS', $MODULE_NAME)}"
 					   data-js="keydown"/>
@@ -70,7 +72,7 @@
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
-			<div class="js-participants-list px-3 c-chat__scrollbar js-scrollbar" data-js="container">
+			<div class="js-participants-list px-3 c-chat__scrollbar js-scrollbar" data-js="container|perfectscrollbar">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$PARTICIPANTS}

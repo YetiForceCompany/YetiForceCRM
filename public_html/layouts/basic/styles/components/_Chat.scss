@@ -24,6 +24,12 @@
 		font-size: 15px;
 		color: #6c7591;
 	}
+	.c-chat__form-control {
+		border: 0px;
+		&:focus {
+			box-shadow: none;
+		}
+	}
 	.c-chat__user-message {
 		max-width: 150px;
 		color: #797676;
