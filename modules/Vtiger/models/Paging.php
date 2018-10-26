@@ -85,7 +85,7 @@ class Vtiger_Paging_Model extends \App\Base
 
 			return $rangeInfo['start'];
 		}
-		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1);
+		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1) + 1;
 	}
 
 	/**

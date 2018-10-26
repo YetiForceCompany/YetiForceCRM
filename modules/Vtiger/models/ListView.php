@@ -240,7 +240,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
@@ -251,7 +251,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-archive'
 			];
 		}
@@ -262,7 +262,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-trash-alt'
 			];
 		}
@@ -273,7 +273,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-eraser'
 			];
 		}
