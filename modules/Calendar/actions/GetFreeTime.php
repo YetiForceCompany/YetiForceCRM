@@ -86,7 +86,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 					],
 				]
 			])->orderBy(['time_start' => SORT_ASC])
-			->createCommand()->query();
+				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$date = new DateTime($row['date_start'] . ' ' . $startTime);
 			$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
