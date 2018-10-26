@@ -1509,8 +1509,8 @@ CREATE TABLE `u_yf_crmentity_showners` (
 /*Table structure for table `u_yf_cv_condition` */
 
 CREATE TABLE `u_yf_cv_condition` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(10) DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(10) unsigned DEFAULT NULL,
   `field_name` varchar(50) DEFAULT NULL,
   `module_name` varchar(25) DEFAULT NULL,
   `source_field_name` varchar(50) DEFAULT NULL,
@@ -1525,7 +1525,7 @@ CREATE TABLE `u_yf_cv_condition` (
 /*Table structure for table `u_yf_cv_condition_group` */
 
 CREATE TABLE `u_yf_cv_condition_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cvid` int(10) DEFAULT NULL,
   `condition` varchar(3) DEFAULT NULL,
   `parent_id` int(10) DEFAULT NULL,
