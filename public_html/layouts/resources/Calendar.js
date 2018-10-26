@@ -77,6 +77,17 @@ window.Calendar_Js = class Calendar_Js {
 		}
 	}
 
+	/**
+	 * Render event
+	 * @param {Object} event
+	 * @param {jQuery} element
+	 */
+	eventRenderer(event, element) {
+		if (event.rendering === 'background') {
+			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
+		}
+	}
+
 	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
@@ -189,7 +200,7 @@ window.Calendar_Js = class Calendar_Js {
 		}, false);
 		return options;
 	}
-	
+
 	registerButtonSelectAll() {
 		var selectBtn = $('.selectAllBtn');
 		selectBtn.on('click', function (e) {

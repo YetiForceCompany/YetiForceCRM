@@ -199,17 +199,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		}
 	}
 
-	/**
-	 * Render event
-	 * @param {Object} event
-	 * @param {jQuery} element
-	 */
-	eventRenderer(event, element) {
-		if (event.rendering === 'background') {
-			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
-		}
-	}
-
 	getDatesRowView() {
 		this.datesRowView = this.container.find('.js-dates-row');
 		return this.datesRowView;
