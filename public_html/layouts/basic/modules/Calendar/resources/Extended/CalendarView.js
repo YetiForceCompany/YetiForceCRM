@@ -115,7 +115,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				},
 				addCalendarEvent(calendarDetails) {
 					self.getCalendarView().fullCalendar('renderEvent', self.getEventData(calendarDetails));
-					self.registerPopoverLink();
 				}
 			};
 		options = Object.assign(basicOptions, options);
@@ -517,7 +516,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
-			this.registerPopoverLink();
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
@@ -807,21 +805,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	/**
-	 * Register popover link
-	 */
-	registerPopoverLink() {
-		$('[data-url-cached]').remove();
-		app.registerPopoverLink(this.getCalendarView().find('a.js-popover-tooltip--link'), {
-			callback: (data) => {
-				data.find('.js-calendar-popover').on('click', (e) => {
-					e.preventDefault();
-					this.getCalendarSidebarData($(e.currentTarget).attr('href'));
-				});
-			}
-		});
-	}
-
-	/**
 	 * Update Event
 	 * @param {Number} calendarEventId
 	 * @param {Object} calendarDetails
@@ -831,7 +814,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0];
 		$.extend(recordToUpdate, this.getEventData(calendarDetails));
 		calendar.fullCalendar('updateEvent', recordToUpdate);
-		this.registerPopoverLink();
 	}
 
 	getCalendarCreateView() {
@@ -947,6 +929,16 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	/**
+	 * Register popover buttons' click
+	 */
+	registetPopoverClick() {
+		$(document).on('click', '.js-calendar-popover', (e) => {
+			e.preventDefault();
+			this.getCalendarSidebarData($(e.currentTarget).attr('href'));
+		});
+	}
+
+	/**
 	 * Register events
 	 */
 	registerEvents() {
@@ -954,6 +946,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.registerAddForm();
 		this.registerSiteBarEvents();
 		this.registerFilterForm();
+		this.registetPopoverClick();
 		ElementQueries.listen();
 	}
 }
