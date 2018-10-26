@@ -4,7 +4,7 @@
  * Reservations calendar model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Calendar_Model extends \App\Base
 {
@@ -54,7 +54,7 @@ class Reservations_Calendar_Model extends \App\Base
 		if (!empty($this->get('user'))) {
 			$owners = $this->get('user');
 			if (!is_array($owners)) {
-				$owners = (int) $owners;
+				$owners = (int)$owners;
 			}
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owners]);
 		}
@@ -97,7 +97,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
 			$item['end_display'] = $userDateTimeString;
-			$item['className'] = ' ownerCBg_' . $record['smownerid'];
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
 		$dataReader->close();
