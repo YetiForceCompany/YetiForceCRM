@@ -89,7 +89,6 @@ window.Calendar_Js = class Calendar_Js {
 		}
 	}
 
-
 	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
