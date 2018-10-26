@@ -1710,10 +1710,7 @@ var App = {},
 						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
 						app.showPopoverElementView(currentTarget);
-						currentTarget.popover('show');
-						currentTarget.on('mouseleave', function () {
-							currentTarget.popover('hide');
-						});
+						currentTarget.trigger('mouseenter');
 					}
 				}
 			});
