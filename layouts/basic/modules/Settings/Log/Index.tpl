@@ -32,7 +32,7 @@
 						</div>
 						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}"
 							   class="dateRangeField dateRangeFilter form-control text-center"
-							   data-js="val"
+							   data-js="val" data-date-format="{$USER_MODEL->get('date_format')}"
 							   value="{implode(',',\App\Fields\Date::formatRangeToDisplay([date('Y-m-d'),date('Y-m-d')]))}"/>
 					</div>
 				</div>
