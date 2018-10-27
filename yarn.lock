@@ -463,10 +463,10 @@ select@^1.1.2:
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-split.js@^1.5.6:
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.6.tgz#7a20065e66e859d713ce3dfbccfd16c995d547a3"
-  integrity sha512-cYlCrQPRs++gMU+ctCy2vpwl67bcu3AE8nvqBxeWGwnK8PWFAMzmq/ISBHIxR6z8ooyjxBTjLw5Ou9uYTCzOow==
+split.js@^1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.7.tgz#b36dee563963610520e65b25fd113905de2222d4"
+  integrity sha512-eBvwsnc84wvgrYke0etvZjz+gT6r48GUSHJowQ8FX1uf3YZpfzedzEhzuzkBIZUUJNcHgaVJv5DmP6EWpEtA/w==
 
 "svg@https://github.com/kbwood/svg":
   version "0.0.0"
