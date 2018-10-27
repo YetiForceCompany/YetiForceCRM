@@ -243,7 +243,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	/**
 	 * Function appends and shows today button's checkbox
-	 * @param {$} toolbar
+	 * @param {jQuery} toolbar
 	 */
 	showTodayButtonCheckbox(toolbar) {
 		let todayButton = toolbar.find('.fc-today-button'),
