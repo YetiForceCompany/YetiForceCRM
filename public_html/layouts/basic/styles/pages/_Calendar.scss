@@ -798,3 +798,7 @@ $sitebar-border: 1px solid #ccc;
 		height: auto !important;
 	}
 }
+
+.fc-row .fc-content-skeleton {
+	z-index: 1 !important;
+}

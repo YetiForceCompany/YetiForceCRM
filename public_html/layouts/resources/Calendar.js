@@ -84,8 +84,9 @@ window.Calendar_Js = class Calendar_Js {
 	 */
 	eventRenderer(event, element) {
 		if (event.rendering === 'background') {
-			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
-			element.addClass('u-text-ellipsis--no-hover');
+			element.append(`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`);
+			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
+			app.registerPopoverEllipsis(element);
 		}
 	}
 

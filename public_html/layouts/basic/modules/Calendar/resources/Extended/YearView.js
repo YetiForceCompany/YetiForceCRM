@@ -118,7 +118,7 @@ var YearView = View.extend({
 						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 						eventRender: function (event, element) {
 							if (event.rendering === 'background') {
-								element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
+								element.append(`<span class="js-popover-tooltip" data-content="${event.title}" data-toggle="popover"><span class="${event.icon}"></span></span>`);
 								return element;
 							}
 							event.countShow = '99+';
