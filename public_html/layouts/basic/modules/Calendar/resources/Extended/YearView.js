@@ -152,7 +152,7 @@ var YearView = View.extend({
 
 	/**
 	 * Function extends today button functionality for year view
-	 * @param {$} calendar
+	 * @param {jQuery} calendar
 	 */
 	registerTodayButtonYearChange(calendar) {
 		if (calendar.currentDate.format('YYYY') === moment().format('YYYY')) {
