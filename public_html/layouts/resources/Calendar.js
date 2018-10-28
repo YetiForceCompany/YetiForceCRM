@@ -16,21 +16,20 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	setCalendarHeight() {
-		let paddingTop = 15, calendarH;
-		if ('CalendarExtended' === CONFIG.view) {
-			paddingTop = 5;
-		}
+		let calendarPaddingBottom = 8, calendarH;
 		if (this.container.hasClass('js-modal-container')) {
 			if (this.container.closest('.user-info--active').length) {
-				paddingTop = 23;
+				calendarPaddingBottom = 23;
 			} else {
-				paddingTop = 47;
+				calendarPaddingBottom = 60;
 			}
 		}
+		//8 + 48, 32
+//8 55 50
 		if ($(window).width() > 993) {
-			calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
+			calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPaddingBottom;
 			new ResizeSensor(this.container.find('.contentsDiv'), () => {
-				calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
+				calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPaddingBottom;
 				$('.js-calendar__container').fullCalendar('option', 'height', calendarH);
 				$('.js-calendar__container').height(calendarH + 10); // without this line calendar scroll stops working
 			});

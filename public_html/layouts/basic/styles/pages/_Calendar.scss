@@ -680,7 +680,10 @@ $sitebar-border: 1px solid #ccc;
 				position: relative;
 
 				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					height: calc(100vh - #{$h-footer} - #{calculate-rem(118px)} - #{$h-header}); // 118px - modal offsets
+					$modal-body-paddings: 2rem;
+					$h-modal-header: calculate-rem(55px);
+					$h-calendar-form-actions: calculate-rem(49px);
+					height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
 					overflow-y: auto;
 					overflow-x: hidden;
 					margin-top: 1rem;
