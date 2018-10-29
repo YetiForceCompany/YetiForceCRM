@@ -203,7 +203,7 @@ var App = {},
 					elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 				}
 				if (element.hasClass('delay0')) {
-					elementParams.delay = {show: 0, hide: 0}
+					elementParams.delay = {show: 0, hide: 0};
 				}
 				element.popover(elementParams);
 				if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
@@ -263,6 +263,7 @@ var App = {},
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
 						}
+						element.popover('update'); //updates popover with data position 
 					};
 					let cacheData = window.popoverCache[url];
 					if (typeof cacheData !== 'undefined') {
@@ -1695,10 +1696,10 @@ var App = {},
 			new PNotify(params);
 			return aDeferred.promise();
 		},
-    registesterScrollbar(container) {
-			  container.find('.js-scrollbar').each(function () {
-				    app.showNewScrollbar($(this));
-			  });
+		registesterScrollbar(container) {
+			container.find('.js-scrollbar').each(function () {
+				app.showNewScrollbar($(this));
+			});
 		},
 		registerPopover() {
 			window.popoverCache = {};
