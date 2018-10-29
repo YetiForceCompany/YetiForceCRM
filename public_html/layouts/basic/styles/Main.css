@@ -11919,8 +11919,8 @@ ul.tweets li {
     box-shadow: 2px 2px 10px #ced4da; }
 
 .u-text-ellipsis--no-hover,
-.js-popover-tooltip[data-ellipsis] .js-popover-text,
-.js-popover-tooltip[data-ellipsis] .c-popover-text {
+.js-popover-tooltip--ellipsis .js-popover-text,
+.js-popover-tooltip--ellipsis .c-popover-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
@@ -13258,58 +13258,56 @@ input[type="radio"]:checked:before {
   background-color: #4a5364; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.o-chat__view-container li {
+.o-chat li {
   list-style: none !important; }
-.o-chat__view-container .chat_img-container {
+.o-chat__img-container {
   border: 2px solid #d2d6de;
   width: 60px;
   height: 60px; }
-.o-chat__view-container .c-chat__btn-send {
+.o-chat__btn-send {
   position: absolute;
   bottom: 10px;
   right: 10px;
   border-radius: 50% !important;
   z-index: 1000; }
-.o-chat__view-container .c-chat__user-message {
+.o-chat__icon-search {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  border-radius: 50% !important;
+  z-index: 1000;
+  font-size: 15px;
+  color: #6c7591; }
+.o-chat__form-control {
+  border: 0px; }
+  .o-chat__form-control:focus {
+    box-shadow: none; }
+.o-chat__user-message {
   max-width: 150px;
   color: #797676;
   font-size: 12px; }
-.o-chat__view-container .c-chat__user-role {
-  font-size: 11px; }
-.o-chat__view-container .o-chat__main-content {
-  min-height: calc(100vh - 260px);
-  max-height: calc(100vh - 260px);
-  overflow-x: hidden;
-  overflow-y: auto !important; }
-.o-chat__view-container .c-chat__user-item .c-chat__author {
-  padding-bottom: 3px; }
-  .o-chat__view-container .c-chat__user-item .c-chat__author span {
-    vertical-align: top;
-    margin-left: 6px;
-    font-weight: bold; }
-  .o-chat__view-container .c-chat__user-item .c-chat__author img {
-    width: 48px;
-    height: 48px; }
-.o-chat__view-container .c-chat__item {
+.o-chat__scrollbar {
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 2rem - 10.9375rem); }
+.o-chat__author-img {
+  width: 48px;
+  height: 48px; }
+.o-chat__author-name {
+  vertical-align: top;
+  font-weight: bold; }
+.o-chat__triangle {
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  color: #e8e8e8; }
+.o-chat__item {
   margin-bottom: 3px;
   padding: 2px 8px 2px 8px; }
-  .o-chat__view-container .c-chat__item .messages {
-    font-size: 13px; }
-  .o-chat__view-container .c-chat__item .c-chat__author {
-    width: 100px;
-    height: 74px; }
-    .o-chat__view-container .c-chat__item .c-chat__author span {
-      vertical-align: top;
-      margin-left: 6px;
-      font-weight: bold; }
-    .o-chat__view-container .c-chat__item .c-chat__author img {
-      width: 48px;
-      height: 48px; }
-  .o-chat__view-container .c-chat__item .c-chat__triangle {
-    width: 0;
-    height: 0;
-    border-top: 9px solid transparent;
-    border-bottom: 9px solid transparent; }
+.o-chat__messages {
+  font-size: 13px;
+  background: #e8e8e8; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
@@ -13450,6 +13448,8 @@ label.btn.btn-outline-primary:not(.active) {
   max-height: calc(100vh - 100px);
   max-width: calc(100vh - 100px);
   overflow: auto; }
+  .listViewEntries .actions .dropdown-menu {
+    overflow: unset; }
   @media (min-width: 768px) {
     .dropdown-menu.historyList {
       left: auto;
@@ -16638,6 +16638,9 @@ label.btn.btn-outline-primary:not(.active) {
   display: none; }
 .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
   height: auto !important; }
+
+.fc-row .fc-content-skeleton {
+  z-index: 1 !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
