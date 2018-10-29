@@ -133,7 +133,34 @@ class CustomView {
 			autoInputFallback: false
 		});
 	}
-
+	getDuplicateFields(){
+		let fields = [];
+		const container = this.getContentsContainer();
+		container.find('.js-duplicates-container .js-duplicates-row').each(function(){
+			fields.push({
+				fieldid: $(this).find('.js-duplicates-field').val(),
+				ignore: $(this).find('.js-duplicates-ignore').is(':checked')
+			})
+		});
+		return fields;
+	}
+	/**
+	 * Register events for block "Find duplicates"
+	 */
+	registerDuplicatesEvents(){
+		const container = this.getContentsContainer();
+		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container select.js-duplicates-field'));
+		container.on('click', '.js-duplicates-remove', function(e) {
+			$(this).closest('.js-duplicates-row').remove();
+		});
+		container.find('.js-duplicate-add-field').on('click', function(){
+			let template = container.find('.js-duplicates-field-template').clone();
+			template.removeClass('d-none');
+			template.removeClass('js-duplicates-field-template');
+			App.Fields.Picklist.showSelect2ElementView(template.find('select.js-duplicates-field'));
+			container.find('.js-duplicates-container').append(template);
+		});
+	}
 	registerSubmitEvent(select2Element) {
 		$("#CustomView").on('submit', (e) => {
 			let selectElement = this.getColumnSelectElement();
@@ -187,6 +214,7 @@ class CustomView {
 				//handled advanced filters saved values.
 				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
+				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
 				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
 				this.saveAndViewFilter();
 				return false;
@@ -213,6 +241,7 @@ class CustomView {
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
+		this.registerDuplicatesEvents();
 		let select2Element = App.Fields.Picklist.showSelect2ElementView(this.getColumnSelectElement());
 		this.registerSubmitEvent(select2Element);
 		$('.stndrdFilterDateSelect').datepicker();

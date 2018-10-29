@@ -348,7 +348,7 @@ class CustomView_Record_Model extends \App\Base
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
-		$setDefault = (int) ($this->get('setdefault'));
+		$setDefault = (int)($this->get('setdefault'));
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
@@ -436,6 +436,22 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Return list of field to detect duplicates
+	 * @return array
+	 * @throws \App\Db\Exception
+	 */
+	public function getDuplicateFields(): array
+	{
+		$dataReader = (new \App\Db\Query())->from('u_#__cv_duplicates')->where(['cvid' => $this->getId()])->createCommand()->query();
+		$data = [];
+		while ($row = $dataReader->read()) {
+			$data[] = $row;
+		}
+		return $data;
+	}
+
+
+	/**
 	 * Add condition to database.
 	 *
 	 * @param array $rule
@@ -452,7 +468,7 @@ class CustomView_Record_Model extends \App\Base
 		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		$operator = $rule['operator'];
 		$value = $rule['value'];
-		if (!$this->get('advfilterlistDbFormat') &&  !in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
+		if (!$this->get('advfilterlistDbFormat') && !in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
 			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
 				->getUITypeModel()
 				->getDbConditionBuilderValue($rule['value'], $operator);
@@ -553,6 +569,7 @@ class CustomView_Record_Model extends \App\Base
 		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
+		$this->setDuplicateFields();
 	}
 
 	/**
@@ -566,7 +583,7 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->max('sequence');
 
-		return (int) $maxSequence + 1;
+		return (int)$maxSequence + 1;
 	}
 
 	/**
@@ -587,8 +604,30 @@ class CustomView_Record_Model extends \App\Base
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
 		$dbCommand->delete('u_#__cv_condition_group', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('u_#__cv_duplicates', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
+		$this->setDuplicateFields();
+	}
+
+	/**
+	 * Save fields to detect dupllicates
+	 * @return void
+	 */
+	private function setDuplicateFields()
+	{
+		$fields = $this->get('duplicatefields');
+		if (empty($fields)) {
+			return;
+		}
+		$dbCommand = App\Db::getInstance()->createCommand();
+		foreach ($fields as $data) {
+			$dbCommand->insert('u_#__cv_duplicates', [
+				'cvid' => $this->getId(),
+				'fieldid' => $data['fieldid'],
+				'ignore' => $data['ignore']
+			])->execute();
+		}
 	}
 
 	/**

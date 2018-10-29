@@ -1,3 +1,8 @@
+/*
+SQLyog Ultimate v12.5.1 (64 bit)
+MySQL - 10.2.8-MariaDB : Database - yetiforce
+*********************************************************************
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1534,6 +1539,18 @@ CREATE TABLE `u_yf_cv_condition_group` (
   KEY `u_yf_cv_condition_group_cvid_idx` (`cvid`),
   CONSTRAINT `u_yf_cv_condition_group_fk` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_cv_duplicates` */
+
+CREATE TABLE `u_yf_cv_duplicates` (
+  `cvid` int(10) DEFAULT NULL,
+  `fieldid` int(10) DEFAULT NULL,
+  `ignore` tinyint(1) NOT NULL DEFAULT 0,
+  KEY `u_yf_cv_duplicates_cvid_idx` (`cvid`),
+  KEY `u_yf_cv_duplicates_fieldid_idx` (`fieldid`),
+  CONSTRAINT `u_yf_cv_duplicates_cvid_fk` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_cv_duplicates_fieldid_fk` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_dashboard_type` */
 

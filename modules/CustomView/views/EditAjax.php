@@ -56,6 +56,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('MODE', '');
 		}
 		$viewer->assign('ADVANCE_CRITERIA', $customViewModel->getConditions());
+		$viewer->assign('DUPLICATE_FIELDS', $customViewModel->getDuplicateFields());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
