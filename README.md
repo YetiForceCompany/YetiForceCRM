@@ -1,4 +1,4 @@
-# YetiForceCRM
+![image](https://user-images.githubusercontent.com/10197525/47644330-20530f80-db6e-11e8-9278-18c516fffb7d.png)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
 [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
