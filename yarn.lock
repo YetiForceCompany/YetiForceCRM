@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.7.tgz#4336c4b06d0b5608ff1215464b66fcf9f4795284"
   integrity sha512-ego8jRVSHfq/iq4KRZJKQeUAdi3ZjGNrqw4oPN3fNdvTBnLCSntwVCnc37bsAJP9UB8MhrTfPnZYxkv2vpS4pg==
 
-"@fortawesome/fontawesome-common-types@^0.2.5":
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.6.tgz#3f26b9d1bf2d057dfe0f448fe4a2c372508e97f0"
-  integrity sha512-AoBpRaR7IVaXgF2rh0G6cY+WSQhGqDf+JheJMGoSH0E0YjVIUxwha7Nf0SuwQuSQe1GwxZbuaoPUTXA74cRS3w==
+"@fortawesome/fontawesome-common-types@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.7.tgz#fe76803922db0eb4393675199c2e0c3bad52629c"
+  integrity sha512-lFgL3Kqfwk8WS66pkBx5rpd7IQuo8UuahZXH9iuV9UrPK8eDzLccCYopnhTUgsz7+aJpMpqjVyv/N/11j5TtVw==
 
 "@fortawesome/fontawesome-free-brands@^5.0.9":
   version "5.0.13"
@@ -72,10 +72,10 @@ blueimp-canvas-to-blob@3.5.0:
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz#5679ac32f6a2835821f0c3ad661719ff85a9236b"
   integrity sha1-VnmsMvaig1gh8MOtZhcZ/4WpI2s=
 
-blueimp-file-upload@^9.24.0:
-  version "9.25.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.25.0.tgz#6fda92e25db2f089654e54beab7f27efcc6958a0"
-  integrity sha512-wFxRTio6Sfen2SYhWlGXD/R3q7xfqR/iycqV6kBLkfrrvimYnx5CFzh1Lr1ronNHEOhuoioofgIodmpO0M4n+A==
+blueimp-file-upload@^9.25.1:
+  version "9.25.1"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.25.1.tgz#761626fa91b128a34c02c04b1a0c2c38e2250389"
+  integrity sha512-xUqNBE5jxrsWpXLC+KRLK8t5m6/1/pFevY5SUjUJy+mGbP+U4yVTZx+ccHvEpYyK2c4/zk4sA8ZTugePfhSSKQ==
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -463,10 +463,10 @@ select@^1.1.2:
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-split.js@^1.5.6:
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.6.tgz#7a20065e66e859d713ce3dfbccfd16c995d547a3"
-  integrity sha512-cYlCrQPRs++gMU+ctCy2vpwl67bcu3AE8nvqBxeWGwnK8PWFAMzmq/ISBHIxR6z8ooyjxBTjLw5Ou9uYTCzOow==
+split.js@^1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.7.tgz#b36dee563963610520e65b25fd113905de2222d4"
+  integrity sha512-eBvwsnc84wvgrYke0etvZjz+gT6r48GUSHJowQ8FX1uf3YZpfzedzEhzuzkBIZUUJNcHgaVJv5DmP6EWpEtA/w==
 
 "svg@https://github.com/kbwood/svg":
   version "0.0.0"

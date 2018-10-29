@@ -77,6 +77,19 @@ window.Calendar_Js = class Calendar_Js {
 		}
 	}
 
+	/**
+	 * Render event
+	 * @param {Object} event
+	 * @param {jQuery} element
+	 */
+	eventRenderer(event, element) {
+		if (event.rendering === 'background') {
+			element.append(`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`);
+			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
+			app.registerPopoverEllipsis(element);
+		}
+	}
+
 	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
@@ -188,10 +201,6 @@ window.Calendar_Js = class Calendar_Js {
 			app.moduleCacheSet('browserHistoryEvent', true)
 		}, false);
 		return options;
-	}
-
-	eventRenderer(event, element) {
-		//TODO:Write basci method
 	}
 
 	registerButtonSelectAll() {

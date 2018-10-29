@@ -76,7 +76,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				$('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
-				app.showPopoverElementView($(data).find('.js-popover-tooltip'));
 			});
 
 		});

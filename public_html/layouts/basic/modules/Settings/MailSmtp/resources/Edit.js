@@ -49,7 +49,6 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 		}
 		this.registerSubmitForm();
 		this.registerPreviewPassword();
-		app.showPopoverElementView(form.find('.js-popover-tooltip'));
 
 		form.find(".saveSendMail").on('click', function () {
 			if (form.find(".saveMailContent").hasClass("d-none")) {

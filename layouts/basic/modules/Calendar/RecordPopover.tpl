@@ -4,11 +4,11 @@
 		<h5 class="c-popover--link__header px-2 py-2 bg-light">
 			{$RECORD->getDisplayName()}
 			<div class="c-popover--link__header__buttons btn-group">
-				<a class="btn btn-sm btn-outline-secondary js-calendar-popover" href="{$DETAIL_URL}" data-js="click">
+				<a class="btn btn-sm btn-outline-secondary js-calendar-popover__button" href="{$DETAIL_URL}" data-js="click">
 					<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list"></span>
 				</a>
 				{if $EDIT_URL}
-					<a class="btn btn-sm btn-outline-secondary js-calendar-popover" href="{$EDIT_URL}" data-js="click">
+					<a class="btn btn-sm btn-outline-secondary js-calendar-popover__button" href="{$EDIT_URL}" data-js="click">
 						<span title="{\App\Language::translate('LBL_EDIT', $MODULE_NAME)}" class="fas fa-edit"></span>
 					</a>
 				{/if}

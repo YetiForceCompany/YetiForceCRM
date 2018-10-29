@@ -163,16 +163,17 @@ class Zip extends \ZipArchive
 	 */
 	public function validateFile(string $path)
 	{
-		if (\App\Fields\File::checkFilePath($path)) {
+		if (!Fields\File::checkFilePath($path)) {
 			return true;
 		}
+		$validate = false;
 		if ($this->checkFiles && !$this->isDir($path)) {
 			$extension = pathinfo($path, PATHINFO_EXTENSION);
 			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
-				return true;
+				$validate = true;
 			}
 			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
-				return true;
+				$validate = true;
 			}
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
@@ -183,10 +184,10 @@ class Zip extends \ZipArchive
 				'validateAllCodeInjection' => true,
 			]);
 			if (!$fileInstance->validate()) {
-				return true;
+				$validate = true;
 			}
 		}
-		return false;
+		return $validate;
 	}
 
 	/**

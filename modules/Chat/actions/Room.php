@@ -22,6 +22,8 @@ class Chat_Room_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('getAll');
 		$this->exposeMethod('create');
+		$this->exposeMethod('removeFromFavorites');
+		$this->exposeMethod('addToFavorites');
 	}
 
 	/**
@@ -69,6 +71,38 @@ class Chat_Room_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 		]);
+		$response->emit();
+	}
+
+	/**
+	 * Remove from favorites.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function removeFromFavorites(\App\Request $request)
+	{
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Add to favorites.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function addToFavorites(\App\Request $request)
+	{
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
 		$response->emit();
 	}
 }

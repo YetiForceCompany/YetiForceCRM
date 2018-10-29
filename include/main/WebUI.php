@@ -232,8 +232,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (empty($moduleModel)) {
-			\App\Log::error("HandlerModule: $moduleName", 'Loader');
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
+			\App\Log::error('HandlerModule: ' . $moduleName, 'Loader');
+			throw new \App\Exceptions\AppException('ERR_MODULE_DOES_NOT_EXIST||' . $moduleName, 405);
 		}
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {

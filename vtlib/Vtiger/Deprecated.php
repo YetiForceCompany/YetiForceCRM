@@ -100,7 +100,7 @@ class Deprecated
 	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
-			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($filepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}

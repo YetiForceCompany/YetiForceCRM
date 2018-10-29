@@ -167,19 +167,23 @@ class Chat
 		}
 		$userId = User::getCurrentUserId();
 		$roomIdName = static::COLUMN_NAME['room']['global'];
-		$messageIdName = static::COLUMN_NAME['message']['global'];
-		$subQuery = (new Db\Query())
-			->select(['CM.' . $messageIdName, 'CM.userid', 'cnt_new_message' => 'COUNT(*)'])
-			->from(['CM' => static::TABLE_NAME['message']['global']])
-			->leftJoin(['CR' => static::TABLE_NAME['room']['global']], "CR.{$roomIdName} = CM.{$messageIdName} AND CR.userid= CM.userid")
-			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
-			->orWhere(['CR.last_message' => null])
-			->groupBy(['CM.' . $messageIdName, 'CM.userid']);
-		$dataReader = (new Db\Query())
+		$cntQuery = (new \App\Db\Query())
+			->select([new \yii\db\Expression('COUNT(*)')])
+			->from(['CM' => 'u_yf_chat_messages_global'])
+			->where([
+				'CM.globalid' => new \yii\db\Expression('CR.global_room_id')
+			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
+		$subQuery = (new \App\Db\Query())
+			->select([
+				'CR.*',
+				'cnt_new_message' => $cntQuery
+			])
+			->from(['CR' => 'u_yf_chat_rooms_global']);
+		$query = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message'])
 			->from(['GL' => 'u_#__chat_global'])
-			->leftJoin(['CNT' => $subQuery], "CNT.{$messageIdName} = GL.global_room_id AND CNT.userid = {$userId}")
-			->createCommand()->query();
+			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.global_room_id AND CNT.userid = {$userId}");
+		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
@@ -281,6 +285,35 @@ class Chat
 		if ($this->isRoomExists() && isset($this->room['room_id'])) {
 			$this->roomId = $this->room['room_id'];
 		}
+		if ($this->roomType === 'crm' && !$this->isRoomExists()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
+			$this->room = [
+				'roomid' => null,
+				'userid' => null,
+				'record_id' => $recordModel->getId(),
+				'last_message' => null
+			];
+		}
+	}
+
+	/**
+	 * Get room type.
+	 *
+	 * @return string|null
+	 */
+	public function getRoomType(): ?string
+	{
+		return $this->roomType;
+	}
+
+	/**
+	 * Get record ID.
+	 *
+	 * @return int|null
+	 */
+	public function getRecordId(): ?int
+	{
+		return $this->recordId;
 	}
 
 	/**
@@ -291,6 +324,16 @@ class Chat
 	public function isRoomExists(): bool
 	{
 		return $this->room !== false;
+	}
+
+	/**
+	 * Is the user assigned to the chat room.
+	 *
+	 * @return bool
+	 */
+	public function isAssigned()
+	{
+		return !empty($this->room['userid']);
 	}
 
 	/**
@@ -391,6 +434,39 @@ class Chat
 	}
 
 	/**
+	 * Remove room from favorites.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function removeFromFavorites()
+	{
+		if (!empty($this->roomType) && !empty($this->recordId)) {
+			Db::getInstance()->createCommand()->delete(
+				static::TABLE_NAME['room'][$this->roomType], [
+				'userid' => $this->userId,
+				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+			])->execute();
+		}
+	}
+
+	/**
+	 * Add room to favorites.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function addToFavorites()
+	{
+		if (!empty($this->roomType) && !empty($this->recordId)) {
+			Db::getInstance()->createCommand()->insert(
+				static::TABLE_NAME['room'][$this->roomType], [
+				'userid' => $this->userId,
+				'last_message' => null,
+				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+			])->execute();
+		}
+	}
+
+	/**
 	 * Get a query for chat messages.
 	 *
 	 * @param int|null $messageId
@@ -479,8 +555,18 @@ class Chat
 	 */
 	private function updateRoom()
 	{
-		if (
-			\is_array($this->room) && !empty($this->room['userid']) &&
+		if ($this->roomType === 'global' && !$this->isAssigned()) {
+			Db::getInstance()->createCommand()
+				->insert(static::TABLE_NAME['room'][$this->roomType], [
+					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
+					'last_message' => $this->lastMessageId,
+					'userid' => $this->userId,
+				])->execute();
+			$this->room['last_message'] = $this->lastMessageId;
+			$this->room['record_id'] = $this->recordId;
+			$this->room['userid'] = $this->userId;
+		} elseif (
+			\is_array($this->room) && $this->isAssigned() &&
 			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
 		) {
 			Db::getInstance()

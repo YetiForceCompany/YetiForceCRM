@@ -17,7 +17,6 @@ window.Chat_JS = class Chat_Js {
 		this.searchValue = null;
 		this.timerMessage = null;
 		this.timerRoom = null;
-		this.timerGlobal = null;
 		this.amountOfNewMessages = null;
 		this.isSoundNotification = true;
 	}
@@ -36,6 +35,21 @@ window.Chat_JS = class Chat_Js {
 			Chat_Js.instance[typeInstance].init(container);
 		}
 		return Chat_Js.instance[typeInstance];
+	}
+
+	/**
+	 * Register tracking events.
+	 */
+	static registerTrackingEvents() {
+		Chat_Js.timerGlobal = setTimeout(() => {
+		}, 1000);
+	}
+
+	/**
+	 * Unregister tracking events.
+	 */
+	static unregisterTrackingEvents() {
+		clearTimeout(Chat_Js.timerGlobal);
 	}
 
 	/**
@@ -99,7 +113,10 @@ window.Chat_JS = class Chat_Js {
 	progressShow() {
 		return $.progressIndicator({
 			position: 'html',
-			blockInfo: {enabled: true}
+			blockInfo: {
+				enabled: true,
+				elementToBlock: this.messageContainer
+			},
 		});
 	}
 
@@ -277,7 +294,7 @@ window.Chat_JS = class Chat_Js {
 			if (lastMessage.length) {
 				participants.append(
 					this.createParticipantItem({
-						userName: lastMessage.find('.js-user-name').html(),
+						userName: lastMessage.find('.js-author').data('userName'),
 						role: lastMessage.find('.js-author').data('roleName'),
 						message: lastMessage.find('.messages').html(),
 						userId: userId,
@@ -341,7 +358,7 @@ window.Chat_JS = class Chat_Js {
 
 	/**
 	 * Get current room type.
-	 * @returns {int}
+	 * @returns {string}
 	 */
 	getCurrentRoomType() {
 		return this.messageContainer.data('currentRoomType');
@@ -349,10 +366,18 @@ window.Chat_JS = class Chat_Js {
 
 	/**
 	 * Get current record ID.
-	 * @returns {*}
+	 * @returns {int}
 	 */
 	getCurrentRecordId() {
 		return this.messageContainer.data('currentRecordId');
+	}
+
+	/**
+	 * Is this a view for the record.
+	 * @returns {boolean}
+	 */
+	isViewForRecord() {
+		return this.messageContainer.data('viewForRecord');
 	}
 
 	/**
@@ -384,9 +409,11 @@ window.Chat_JS = class Chat_Js {
 	 */
 	scrollToBottom() {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
-		chatContent.animate({
-			scrollTop: chatContent[0].scrollHeight
-		}, 300);
+		if (chatContent.length) {
+			chatContent.animate({
+				scrollTop: chatContent[0].scrollHeight
+			}, 300);
+		}
 	}
 
 	/**
@@ -476,7 +503,8 @@ window.Chat_JS = class Chat_Js {
 				mode: 'get',
 				lastId: this.getLastMessageId(),
 				roomType: this.getCurrentRoomType(),
-				recordId: this.getCurrentRecordId()
+				recordId: this.getCurrentRecordId(),
+				viewForRecord: this.isViewForRecord()
 			}, false).done((html) => {
 				if (html) {
 					if (!this.isRoomActive()) {
@@ -557,6 +585,7 @@ window.Chat_JS = class Chat_Js {
 				this.getRoomsDetail(true);
 				this.scrollToBottom();
 				this.registerLoadMore();
+				this.turnOffSearchMode();
 			});
 		});
 	}
@@ -582,6 +611,36 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Button favorites.
+	 */
+	registerButtonFavorites() {
+		let btnRemove = this.container.find('.js-remove-from-favorites');
+		let btnAdd = this.container.find('.js-add-from-favorites');
+		btnRemove.off('click').on('click', (e) => {
+			btnRemove.toggleClass('hide');
+			btnAdd.toggleClass('hide');
+			this.request({
+				action: 'Room',
+				mode: 'removeFromFavorites',
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId()
+			}).done(() => {
+			});
+		});
+		btnAdd.off('click').on('click', (e) => {
+			btnRemove.toggleClass('hide');
+			btnAdd.toggleClass('hide');
+			this.request({
+				action: 'Room',
+				mode: 'addToFavorites',
+				roomType: this.getCurrentRoomType(),
+				recordId: this.getCurrentRecordId()
+			}).done(() => {
+			});
+		});
+	}
+
+	/**
 	 * Register listen event.
 	 */
 
@@ -589,14 +648,6 @@ window.Chat_JS = class Chat_Js {
 		this.getMessage(true);
 		this.getRoomsDetail(true);
 	}*/
-
-	/**
-	 * Register tracking events
-	 */
-	registerTrackingEvents() {
-
-	}
-
 
 	/**
 	 * Register load more messages.
@@ -671,6 +722,7 @@ window.Chat_JS = class Chat_Js {
 	registerCloseModal() {
 		this.container.find('.close[data-dismiss="modal"]').on('click', (e) => {
 			this.unregisterEvents();
+			Chat_Js.registerTrackingEvents();
 		});
 	}
 
@@ -683,7 +735,12 @@ window.Chat_JS = class Chat_Js {
 		//this.registerListenEvent();
 		this.getMessage(true);
 		this.registerCreateRoom();
+		this.registerButtonFavorites();
 		this.registerSearchMessage();
+		setTimeout(() => {
+			this.scrollToBottom();
+		}, 100);
+
 	}
 
 	/**
@@ -698,6 +755,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonSettings();
 		this.registerButtonBell();
 		this.registerCloseModal();
+		Chat_Js.unregisterTrackingEvents();
 	}
 
 	/**

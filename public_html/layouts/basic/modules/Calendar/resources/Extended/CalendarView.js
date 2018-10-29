@@ -115,7 +115,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				},
 				addCalendarEvent(calendarDetails) {
 					self.getCalendarView().fullCalendar('renderEvent', self.getEventData(calendarDetails));
-					self.registerPopoverLink();
 				}
 			};
 		options = Object.assign(basicOptions, options);
@@ -200,17 +199,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		}
 	}
 
-	/**
-	 * Render event
-	 * @param {Object} event
-	 * @param {jQuery} element
-	 */
-	eventRenderer(event, element) {
-		if (event.rendering === 'background') {
-			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
-		}
-	}
-
 	getDatesRowView() {
 		this.datesRowView = this.container.find('.js-dates-row');
 		return this.datesRowView;
@@ -255,17 +243,17 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	/**
 	 * Function appends and shows today button's checkbox
-	 * @param {$} toolbar
+	 * @param {jQuery} toolbar
 	 */
 	showTodayButtonCheckbox(toolbar) {
 		let todayButton = toolbar.find('.fc-today-button'),
 			todyButtonIcon = todayButton.hasClass('fc-state-disabled') ? 'fa-calendar-check' : 'fa-calendar',
 			popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
 		todayButton.removeClass('.fc-button');
-		todayButton.html(`<div class="js-popover-tooltip" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`)
-		app.showPopoverElementView(todayButton.find('.js-popover-tooltip'), {
+		todayButton.html(`<div class="js-popover-tooltip--day-btn" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`)
+		app.showPopoverElementView(todayButton.find('.js-popover-tooltip--day-btn'), {
 			content: popoverContent,
-			container: '.fc-today-button .js-popover-tooltip'
+			container: '.fc-today-button .js-popover-tooltip--day-btn'
 		});
 	}
 
@@ -517,7 +505,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
-			this.registerPopoverLink();
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
@@ -769,7 +756,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		app.showNewScrollbar(calendarRightPanel.find('.js-calendar__form__wrapper'), {
 			suppressScrollX: true
 		});
-		app.showPopoverElementView(calendarRightPanel.find('.js-popover-tooltip'));
 	}
 
 	registerSiteBarEvents() {
@@ -797,7 +783,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				end: endDate.format(),
 				module: 'Calendar',
 				url: 'index.php?module=Calendar&view=ActivityState&record=' + calendarDetails._recordId,
-				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-link'],
+				className: ['ownerCBg_' + calendarDetails.assigned_user_id.value, ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value, 'js-popover-tooltip--record'],
 				start_display: calendarDetails.date_start.display_value,
 				end_display: calendarDetails.due_date.display_value
 			};
@@ -805,21 +791,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			eventObject.url = 'index.php?module=Calendar&view=EventForm&record=' + eventObject.id;
 		}
 		return eventObject;
-	}
-
-	/**
-	 * Register popover link
-	 */
-	registerPopoverLink() {
-		$('[data-url-cached]').remove();
-		app.registerPopoverLink(this.getCalendarView().find('a.js-popover-link'), {
-			callback: (data) => {
-				data.find('.js-calendar-popover').on('click', (e) => {
-					e.preventDefault();
-					this.getCalendarSidebarData($(e.currentTarget).attr('href'));
-				});
-			}
-		});
 	}
 
 	/**
@@ -832,7 +803,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0];
 		$.extend(recordToUpdate, this.getEventData(calendarDetails));
 		calendar.fullCalendar('updateEvent', recordToUpdate);
-		this.registerPopoverLink();
 	}
 
 	getCalendarCreateView() {
@@ -948,6 +918,16 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	/**
+	 * Register popover buttons' click
+	 */
+	registetPopoverButtonsClickEvent() {
+		$(document).on('click', '.js-calendar-popover__button', (e) => {
+			e.preventDefault();
+			this.getCalendarSidebarData($(e.currentTarget).attr('href'));
+		});
+	}
+
+	/**
 	 * Register events
 	 */
 	registerEvents() {
@@ -955,6 +935,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.registerAddForm();
 		this.registerSiteBarEvents();
 		this.registerFilterForm();
+		this.registetPopoverButtonsClickEvent();
 		ElementQueries.listen();
 	}
 }

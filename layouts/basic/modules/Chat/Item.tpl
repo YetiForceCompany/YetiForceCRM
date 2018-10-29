@@ -6,6 +6,7 @@
 		{assign var=IMAGE value=$ROW['image']}
 		{assign var=IS_IMAGE value=isset($IMAGE['url'])}
 		<div class="o-chat__author js-author  text-center"
+			 data-user-name="{$ROW['user_name']}"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
 			<div class="p-1 o-chat__img-container mx-auto">
 				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__img"

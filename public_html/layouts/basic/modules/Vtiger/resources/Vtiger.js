@@ -391,102 +391,6 @@ var Vtiger_Index_Js = {
 			}, 600);
 		});
 	},
-	/**
-	 * Function to trigger tooltip feature.
-	 */
-	registerTooltipEvents: function () {
-		const references = $.unique($.merge($('.showReferenceTooltip'), $('[data-field-type="reference"] > a'), $('[data-field-type="multireference"] > a')));
-		let lastPopovers = [];
-		// Fetching reference fields often is not a good idea on a given page.
-		// The caching is done based on the URL so we can reuse.
-		let CACHE_ENABLED = true;
-
-		function prepareAndShowTooltipView() {
-			hideAllTooltipViews();
-			const el = jQuery(this);
-			let url = el.attr('href') ? el.attr('href') : '';
-			if (url === '') {
-				return;
-			}
-			// Rewrite URL to retrieve Tooltip view.
-			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
-			let cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
-			if (cachedView && cachedView.length) {
-				showTooltip(el, cachedView.html());
-			} else {
-				AppConnector.request(url).done(function (data) {
-					cachedView = jQuery('<div>').css({display: 'none'}).attr('data-url-cached', url);
-					cachedView.html(data);
-					jQuery('body').append(cachedView);
-					showTooltip(el, data);
-				});
-			}
-		}
-
-		function get_popover_placement(el) {
-			if (window.innerWidth - jQuery(el).offset().left < 400 || checkLastElement(el)) {
-				return 'left';
-			}
-			return 'right';
-		}
-
-		//The function checks if the selected element is the last element of the table in list view.
-		function checkLastElement(el) {
-			let parent = el.closest('tr');
-			let lastElementTd = parent.find('td.listViewEntryValue:last a');
-			return el.attr('href') === lastElementTd.attr('href');
-		}
-
-		function showTooltip(el, data) {
-			el.popover({
-				//title: '', - Is derived from the Anchor Element (el).
-				trigger: 'manual',
-				content: data,
-				delay: 100,
-				animation: false,
-				html: true,
-				placement: get_popover_placement(el),
-			});
-			lastPopovers.push(el.popover('show'));
-			registerToolTipDestroy();
-		}
-
-		function hideAllTooltipViews() {
-			$.each(lastPopovers, function (index, element) {
-				element.popover('hide');
-			});
-			lastPopovers = [];
-		}
-
-		function hidePop() {
-			$(".popover").on("mouseleave", function () {
-				hideAllTooltipViews();
-			});
-			$(this).on("mouseleave", function () {
-				setTimeout(function () {
-					if (!$(".popover:hover").length) {
-						hideAllTooltipViews();
-					}
-				}, 100);
-			});
-		}
-
-		function registerToolTipDestroy() {
-			$('button[name="vtTooltipClose"]').on('click', function (e) {
-				const lastPopover = lastPopovers.pop();
-				lastPopover.popover('hide');
-				$('.popover').css("display", "none", "important");
-			});
-		}
-
-		references.hoverIntent({
-			interval: 100,
-			sensitivity: 7,
-			timeout: 10,
-			over: prepareAndShowTooltipView,
-			out: hidePop
-		});
-	},
 	changeWatching: function (instance) {
 		var value, module, state, className, user, record;
 		if (instance != undefined) {
@@ -609,19 +513,12 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerReminders();
-		Vtiger_Index_Js.registerTooltipEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
 		Vtiger_Index_Js.registerAterloginEvents();
 	},
-	registerPostAjaxEvents: function () {
-		Vtiger_Index_Js.registerTooltipEvents();
-	}
 }
 //On Page Load
 $(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();
-	app.listenPostAjaxReady(function () {
-		Vtiger_Index_Js.registerPostAjaxEvents();
-	});
 });

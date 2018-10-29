@@ -58,8 +58,7 @@ class UserPrivilegesFile
 				$tabsPermissionArr = PrivilegeUtil::getCombinedUserModulesPermissions($userid);
 				$actionPermissionArr = PrivilegeUtil::getCombinedUserActionsPermissions($userid);
 				$userRole = PrivilegeUtil::getRoleByUsers($userid);
-				$userRoleInfo = PrivilegeUtil::getRoleDetail($userRole);
-				$userRoleParent = $userRoleInfo['parentrole'];
+				$userRoleParent = PrivilegeUtil::getRoleDetail($userRole)['parentrole'];
 				$subRoles = PrivilegeUtil::getRoleSubordinates($userRole);
 				$subRoleAndUsers = [];
 				foreach ($subRoles as $subRoleId) {

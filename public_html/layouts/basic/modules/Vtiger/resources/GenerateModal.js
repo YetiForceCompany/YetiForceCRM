@@ -56,7 +56,6 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	},
 	registerEvents: function () {
 		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerGenetateButton(container);
 	}
 

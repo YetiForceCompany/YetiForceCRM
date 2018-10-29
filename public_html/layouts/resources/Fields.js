@@ -28,7 +28,7 @@ App.Fields = {
 				registerForAddon = true;
 			}
 			let elements = $('.' + clasName, parentElement);
-			if (parentElement.hasClass('dateField')) {
+			if (parentElement.hasClass(clasName)) {
 				elements = parentElement;
 			}
 			if (elements.length === 0) {
@@ -39,7 +39,7 @@ App.Fields = {
 				$('.js-date__btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
-					$(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();
+					$(e.currentTarget).closest('.date').find('input.' + clasName).get(0).focus();
 				});
 			}
 			let format = CONFIG.dateFormat;
