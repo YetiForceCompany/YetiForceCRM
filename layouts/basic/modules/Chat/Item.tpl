@@ -5,14 +5,15 @@
 		 data-mid="{$ROW['id']}" data-user-id="{$ROW['userid']}" data-js="data">
 		{assign var=IMAGE value=$ROW['image']}
 		{assign var=IS_IMAGE value=isset($IMAGE['url'])}
-		<div class="o-chat__author js-author  text-center"
+		<div class="u-w-100px js-author text-center"
 			 data-user-name="{$ROW['user_name']}"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
 			<div class="p-1 o-chat__img-container mx-auto">
-				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__img"
+				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
 					 alt="{$ROW['user_name']}"
 					 title="{$ROW['user_name']}"/>
-				<span class="fas fa-user u-font-size-50px {if $IS_IMAGE} hide{/if} o-chat__name" title="{$ROW['user_name']}"></span>
+				<span class="fas fa-user u-font-size-50px {if $IS_IMAGE} hide{/if} o-chat__author-name"
+					  title="{$ROW['user_name']}"></span>
 			</div>
 			<span class="u-font-size-10px m-0 text-truncate text-secondary">
 				{$ROW['created']}
