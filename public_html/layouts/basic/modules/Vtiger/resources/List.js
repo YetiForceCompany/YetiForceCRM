@@ -948,8 +948,8 @@ jQuery.Class("Vtiger_List_Js", {
 		$('.js-page--previous').on('click', () => {
 			thisInstance.jumpToPreviousPage();
 		});
-		$('.pageNumber').on('click', () => {
-			thisInstance.jumpClickedToPage(this);
+		$('.pageNumber').on('click', (e) => {
+			thisInstance.jumpToClickedPage($(e.currentTarget));
 		});
 		$('.js-count-number-records').on('click', () => {
 			thisInstance.updatePaginationAjax(true);
@@ -1016,12 +1016,12 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Jump to clicked page function
 	 * @param {jQuery} obj
 	 */
-	jumpClickedToPage(obj) {
+	jumpToClickedPage(obj) {
 		const thisInstance = this;
-		if ($(obj).hasClass("disabled")) {
+		if (obj.hasClass("disabled")) {
 			return false;
 		}
-		let pageNumberData = $(obj).data("id"),
+		let pageNumberData = obj.data("id"),
 			urlParams = {
 				"orderby": $('#orderBy').val(),
 				"sortorder": $("#sortOrder").val(),
