@@ -8,7 +8,7 @@
 			{\App\Language::translate('LBL_CREATE_CHAT_ROOM', $MODULE_NAME)}
 		</button>
 	</div>
-	<div class="{if !$CHAT->isRoomExists()}hide {/if} js-container-chat">
+	<div class="{if !$CHAT->isRoomExists()}hide {/if} js-container-chat o-chat__detail">
 		<div class="w-100 text-center mb-2">
 			<button type="button"
 					class="btn btn-danger{if !$CHAT->isAssigned()} hide{/if} js-remove-from-favorites m-auto"
