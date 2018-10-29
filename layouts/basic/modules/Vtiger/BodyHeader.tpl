@@ -259,13 +259,15 @@
 						</div>
 					{/if}
 					{if \App\Privilege::isPermitted('Chat')}
-						<div class="tpl-Chat-HeaderButton o-action-menu__item">
-							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip"
+						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip js-header-chat-button"
 							   role="button"
 							   data-url="index.php?module=Chat&view=Modal"
-							   data-js="popover|modal" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-		<span class="fas fa-comments fa-fw"
-			  title="{\App\Language::translate('LBL_CHAT')}"></span>
+							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
+							   href="#">
+								<span class="fas fa-comments fa-fw"
+									  title="{\App\Language::translate('LBL_CHAT')}"></span>
+								<span class="badge badge-danger mr-1 hide js-badge" data-js="change">0</span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 							</a>
 						</div>

@@ -39,10 +39,36 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Get chat header button.
+	 * @returns {jQuery}
+	 */
+	static getHeaderChatButton() {
+		if (typeof Chat_Js.headerChatButton === 'undefined') {
+			Chat_Js.headerChatButton = $('.js-header-chat-button');
+		}
+		return Chat_Js.headerChatButton;
+	}
+
+	/**
 	 * Register tracking events.
 	 */
 	static registerTrackingEvents() {
-
+		Chat_Js.timerGlobal = setTimeout(() => {
+			AppConnector.request({
+				data: {
+					module: 'Chat',
+					action: 'Room',
+					mode: 'tracking'
+				}
+			}).done(function (data) {
+				if (data.result == 1) {
+					Chat_Js.getHeaderChatButton().toggleClass('btn-light').toggleClass('btn-danger');
+				} else if (Chat_Js.getHeaderChatButton().hasClass('btn-danger')) {
+					Chat_Js.getHeaderChatButton().removeClass('btn-danger').addClass('btn-light');
+				}
+				Chat_Js.registerTrackingEvents();
+			});
+		}, 1000);
 	}
 
 	/**
