@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm d-flex js-condition-builder-conditions-row" data-js="container">
+	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row" data-js="container">
 		{if !$SELECTED_FIELD_MODEL && $CONDITIONS_ROW}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
 			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getOperators()}
@@ -49,14 +49,14 @@
 				{/foreach}
 			</select>
 		</div>
-		<div class="col-4 input-group input-group-sm">
+		<div class="col-4">
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
 				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE)
 			FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
 			{/if}
 		</div>
-		<div class="col-1">
+		<div class="col-1 d-flex justify-content-end">
 			<button type="button" class="btn btn-sm btn-danger js-condition-delete" data-js="click">
 				<span class="fa fa-trash"></span>
 			</button>
