@@ -4,7 +4,7 @@
 Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 	registerDataTable: function () {
 		let container = $('.tpl-Settings-Log-Index');
-		App.Fields.Date.registerRange(container.find('.logRange'));
+		App.Fields.Date.registerRange(container.find('.js-log-range'));
 
 		let table = container.find('.js-data-table').dataTable({
 			searching: false,
@@ -13,14 +13,14 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 			scrollX: true,
 			bAutoWidth: false,
 			ajax: {
-				url: "index.php",
-				type: "POST",
+				url: 'index.php',
+				type: 'POST',
 				data: function (d) {
-					d.module = "Log";
-					d.parent = "Settings";
-					d.action = "Data";
+					d.module = 'Log';
+					d.parent = 'Settings';
+					d.action = 'Data';
 					d.type = container.find('.nav .active').data('type');
-					d.range = container.find('.dateRangeFilter').val();
+					d.range = container.find('.js-date-range-filter').val();
 					return d;
 
 				},
@@ -62,7 +62,7 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 					}
 				}
 		});
-		container.find('.dateRangeBtn').click(function (e) {
+		container.find('.js-date-range-btn').click(function (e) {
 			table.DataTable().ajax.reload();
 		})
 	},
@@ -70,5 +70,4 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 		this._super();
 		this.registerDataTable();
 	}
-})
-;
+});
