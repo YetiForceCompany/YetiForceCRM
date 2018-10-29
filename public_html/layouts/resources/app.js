@@ -1728,7 +1728,6 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registerPopoverLink();
 	app.registesterScrollbar($(document));
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
