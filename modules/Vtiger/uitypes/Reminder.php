@@ -108,7 +108,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getOperators()
 	{
-		return ['y', 'ny', 'd'];
+		return ['y', 'ny'];
 	}
 
 	/**

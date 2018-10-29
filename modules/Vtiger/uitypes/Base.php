@@ -377,7 +377,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 
 	/**

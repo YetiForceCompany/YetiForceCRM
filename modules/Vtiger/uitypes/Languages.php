@@ -50,6 +50,6 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'y', 'ny', 'd'];
+		return ['e', 'n', 'y', 'ny'];
 	}
 }

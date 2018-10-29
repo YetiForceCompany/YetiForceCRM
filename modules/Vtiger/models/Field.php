@@ -1481,9 +1481,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if ($operator === 'd') {
-			return 'ConditionBuilder/Duplicate.tpl';
-		}
 		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
 			return;
 		}

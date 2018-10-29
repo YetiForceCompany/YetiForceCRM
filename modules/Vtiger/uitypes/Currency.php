@@ -129,7 +129,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}
 
 	/**

@@ -63,7 +63,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'y', 'ny', 'd'];
+		return ['e', 'n', 'y', 'ny'];
 	}
 
 	/**

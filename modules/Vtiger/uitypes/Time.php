@@ -186,7 +186,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny', 'd'];
+		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny'];
 	}
 
 	/**

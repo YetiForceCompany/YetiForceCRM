@@ -72,6 +72,6 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }

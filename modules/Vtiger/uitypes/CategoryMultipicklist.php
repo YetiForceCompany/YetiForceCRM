@@ -92,6 +92,6 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}
 }

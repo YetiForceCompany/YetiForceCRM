@@ -506,6 +506,26 @@ class CustomView
 	}
 
 	/**
+	 * Get fields to detect duplicates.
+	 *
+	 * @param int $viewId
+	 *
+	 * @return array
+	 */
+	public static function getDuplicateFields(int $viewId): array
+	{
+		if (Cache::has('getDuplicateFields', $viewId)) {
+			return Cache::get('getDuplicateFields', $viewId);
+		}
+		$data = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'u_#__cv_duplicates.ignore'])
+			->from('u_#__cv_duplicates')
+			->innerJoin('vtiger_field', 'vtiger_field.fieldid = u_#__cv_duplicates.fieldid')
+			->where(['u_#__cv_duplicates.cvid' => $viewId])->all();
+		Cache::save('getDuplicateFields', $viewId, $data);
+		return $data;
+	}
+
+	/**
 	 * To get the customViewId of the specified module.
 	 *
 	 * @return int|string

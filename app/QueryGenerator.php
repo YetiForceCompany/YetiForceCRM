@@ -655,6 +655,9 @@ class QueryGenerator
 				$this->addCustomViewFields($cvColumn);
 			}
 		}
+		foreach (CustomView::getDuplicateFields($viewId) as $fields) {
+			$this->setSearchFieldsForDuplicates($fields['fieldname'], (bool) $fields['ignore']);
+		}
 		if ($this->moduleName === 'Calendar' && !in_array('activitytype', $this->fields)) {
 			$this->fields[] = 'activitytype';
 		}

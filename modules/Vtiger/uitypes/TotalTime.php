@@ -22,6 +22,6 @@ class Vtiger_TotalTime_UIType extends Vtiger_Double_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}
 }

@@ -436,18 +436,15 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Return list of field to detect duplicates
-	 * @return array
+	 * Return list of field to detect duplicates.
+	 *
 	 * @throws \App\Db\Exception
+	 *
+	 * @return array
 	 */
 	public function getDuplicateFields(): array
 	{
-		$dataReader = (new \App\Db\Query())->from('u_#__cv_duplicates')->where(['cvid' => $this->getId()])->createCommand()->query();
-		$data = [];
-		while ($row = $dataReader->read()) {
-			$data[] = $row;
-		}
-		return $data;
+		return (new \App\Db\Query())->select(['fieldid', 'ignore'])->from('u_#__cv_duplicates')->where(['cvid' => $this->getId()])->all();
 	}
 
 
@@ -611,7 +608,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Save fields to detect dupllicates
+	 * Save fields to detect dupllicates.
+	 *
 	 * @return void
 	 */
 	private function setDuplicateFields()

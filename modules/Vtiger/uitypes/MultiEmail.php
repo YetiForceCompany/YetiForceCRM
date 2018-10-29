@@ -110,6 +110,6 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function getOperators()
 	{
-		return ['c', 'k', 'y', 'ny', 'd'];
+		return ['c', 'k', 'y', 'ny'];
 	}
 }

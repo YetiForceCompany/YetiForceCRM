@@ -277,14 +277,6 @@ class BaseField
 	}
 
 	/**
-	 * Duplicates.
-	 */
-	public function operatorD()
-	{
-		$this->queryGenerator->setSearchFieldsForDuplicates($this->getField()->getName(), $this->getValue());
-	}
-
-	/**
 	 * Get field model.
 	 *
 	 * @return \Vtiger_Field_Model

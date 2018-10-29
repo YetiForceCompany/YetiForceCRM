@@ -45,6 +45,6 @@ class Vtiger_ReferenceExtend_UIType extends Vtiger_Reference_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'];
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}
 }

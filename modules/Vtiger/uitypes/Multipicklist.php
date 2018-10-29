@@ -11,7 +11,6 @@
 
 class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 {
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -119,7 +118,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}
 
 	/**

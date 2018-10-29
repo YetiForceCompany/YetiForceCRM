@@ -168,6 +168,6 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['y', 'ny', 'd'];
+		return ['y', 'ny'];
 	}
 }

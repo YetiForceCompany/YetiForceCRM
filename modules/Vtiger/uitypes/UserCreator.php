@@ -50,7 +50,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'y', 'ny', 'om', 'd'];
+		return ['e', 'n', 'y', 'ny', 'om'];
 	}
 
 	/**

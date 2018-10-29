@@ -77,6 +77,6 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'ew', 'c', 'k', 'y', 'ny', 'd'];
+		return ['e', 'n', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }
