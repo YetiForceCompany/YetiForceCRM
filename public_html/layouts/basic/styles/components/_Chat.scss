@@ -40,18 +40,13 @@
 		overflow: hidden;
 		height: calc(100vh - #{$h-footer} - #{calculate-rem(175px)});
 	}
-	&__img {
+	&__author-img {
 		width: 48px;
 		height: 48px;
 	}
-	&__name {
+	&__author-name {
 		vertical-align: top;
-		margin-left: 6px;
 		font-weight: bold;
-	}
-	&__author {
-		width: 100px;
-		height: 74px;
 	}
 	&__triangle {
 		width: 0;
