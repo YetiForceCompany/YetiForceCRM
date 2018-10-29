@@ -13,7 +13,13 @@ $.Class("Base_Unlock_JS", {}, {
 			AppConnector.request($(this).serializeFormData()).done((response) => {
 				let result = response.result;
 				if (result.success && result.url) {
-					window.location.href = result.url;
+					if (CONFIG.view === 'ListPreview') {
+						app.hideModalWindow();
+						$('.listPreviewframe')[0].src = result.url.replace("view=Detail", "view=DetailPreview");
+						progressIndicator.progressIndicator({mode: 'hide'});
+					} else {
+						window.location.href = result.url;
+					}
 				} else {
 					Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_ERROR')});
 					progressIndicator.progressIndicator({mode: 'hide'});
