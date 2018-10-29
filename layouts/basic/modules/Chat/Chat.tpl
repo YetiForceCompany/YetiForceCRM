@@ -24,14 +24,15 @@
 	<div class="row o-chat">
 		<div class="col-9">
 			<div class="row px-2">
-        <div class="input-group">
-				    <input type="text"
-					      class="form-control u-font-size-13px js-search-message border-bottom rounded-0 o-chat__form-control"{' '}
-					      autocomplete="off"{' '}
-					      placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
-				     <span class="fas fa-search o-chat__icon-search"></span>
-				     <button type="button" class="btn btn-danger hide mr-1 js-search-cancel" data-js="click">X</button>
-        </div>
+				<div class="input-group">
+					<input type="text"
+						   class="form-control u-font-size-13px js-search-message border-bottom rounded-0 o-chat__form-control"{' '}
+						   autocomplete="off"{' '}
+						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
+						   data-js="keydown"/>
+					<span class="fas fa-search o-chat__icon-search"></span>
+					<button type="button" class="btn btn-danger hide mr-1 js-search-cancel" data-js="click">X</button>
+				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
 				 data-js=”container|perfectscrollbar”>
@@ -64,12 +65,15 @@
 			</div>
 		</div>
 		<div class="col-3 px-0 bg-color-grey-50">
-			<div class="px-2">
+			<div class="px-2 input-group">
 				<input type="text"
 					   class="form-control u-font-size-13px js-search-participants border-bottom bg-color-grey-50 rounded-0 o-chat__form-control"
 					   autocomplete="off"
 					   placeholder="{\App\Language::translate('LBL_SEARCH_PARTICIPANTS', $MODULE_NAME)}"
 					   data-js="keydown"/>
+				<button type="button" class="btn btn-danger mr-1 hide js-search-participants-cancel" data-js="click">
+					X
+				</button>
 			</div>
 			<span class="fas fa-search o-chat__icon-search"></span>
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">

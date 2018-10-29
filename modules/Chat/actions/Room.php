@@ -24,6 +24,8 @@ class Chat_Room_Action extends \App\Controller\Action
 		$this->exposeMethod('create');
 		$this->exposeMethod('removeFromFavorites');
 		$this->exposeMethod('addToFavorites');
+		$this->exposeMethod('searchParticipants');
+		$this->exposeMethod('tracking');
 	}
 
 	/**
@@ -103,6 +105,31 @@ class Chat_Room_Action extends \App\Controller\Action
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Search participants.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function searchParticipants(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult(
+			\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))
+				->getParticipants(\strtolower($request->getByType('searchVal', 'Text')))
+		);
+		$response->emit();
+	}
+
+	/**
+	 * @param \App\Request $request
+	 */
+	public function tracking(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult(1);
 		$response->emit();
 	}
 }

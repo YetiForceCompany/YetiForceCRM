@@ -15,6 +15,7 @@ window.Chat_JS = class Chat_Js {
 		this.sendByEnter = true;
 		this.isSearchMode = false;
 		this.searchValue = null;
+		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
@@ -41,8 +42,7 @@ window.Chat_JS = class Chat_Js {
 	 * Register tracking events.
 	 */
 	static registerTrackingEvents() {
-		Chat_Js.timerGlobal = setTimeout(() => {
-		}, 1000);
+
 	}
 
 	/**
@@ -62,19 +62,23 @@ window.Chat_JS = class Chat_Js {
 		this.maxLengthMessage = this.messageContainer.data('maxLengthMessage');
 		this.searchInput = this.container.find('.js-search-message');
 		this.searchCancel = this.container.find('.js-search-cancel');
+		this.searchParticipantsInput = this.container.find('.js-search-participants');
+		this.searchParticipantsCancel = this.container.find('.js-search-participants-cancel');
+		this.participants = this.container.find('.js-participants-list .js-users');
 	}
 
 	/**
 	 * Sending HTTP requests to the chat module.
 	 * @param {object} data
 	 * @param {bool} progress
+	 * @param {jQuery} elementTo
 	 * @returns {object}
 	 */
-	request(data = {}, progress = true) {
+	request(data = {}, progress = true, elementTo = this.messageContainer) {
 		const aDeferred = $.Deferred();
 		let progressIndicator = null;
 		if (progress) {
-			progressIndicator = this.progressShow();
+			progressIndicator = this.progressShow(elementTo);
 		}
 		AppConnector.request($.extend({module: 'Chat'}, data)).done((data) => {
 			aDeferred.resolve(data);
@@ -107,15 +111,16 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
-	 * Show progress indicator
+	 * Show progress indicator.
+	 * @param {jQuery} elementTo
 	 * @returns {jQuery}
 	 */
-	progressShow() {
+	progressShow(elementTo) {
 		return $.progressIndicator({
 			position: 'html',
 			blockInfo: {
 				enabled: true,
-				elementToBlock: this.messageContainer
+				elementToBlock: elementTo
 			},
 		});
 	}
@@ -248,6 +253,41 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Turn off search participants mode.
+	 */
+	turnOffSearchParticipantsMode() {
+		this.searchParticipantsCancel.addClass('hide');
+		this.searchParticipantsInput.val('');
+		this.isSearchParticipantsMode = false;
+	}
+
+	/**
+	 * Search participants.
+	 */
+	searchParticipants() {
+		this.request({
+			action: 'Room',
+			mode: 'searchParticipants',
+			searchVal: this.searchParticipantsInput.val(),
+			roomType: this.getCurrentRoomType(),
+			recordId: this.getCurrentRecordId()
+		}, true, this.participants).done((data) => {
+			this.participants.html('');
+			let len = data.result.length;
+			for (let i = 0; i < len; ++i) {
+				this.participants.append(
+					this.createParticipantItem({
+						userName: data.result[i]['user_name'],
+						role: data.result[i]['role_name'],
+						message: data.result[i]['message'],
+						userId: data.result[i]['user_id'],
+					})
+				);
+			}
+		});
+	}
+
+	/**
 	 * Create a user element.
 	 * @param {object}
 	 * @returns {jQuery}
@@ -286,13 +326,12 @@ window.Chat_JS = class Chat_Js {
 		if (!participantsId.length) {
 			return;
 		}
-		const participants = this.container.find('.js-participants-list .js-users');
 		let len = participantsId.length;
 		for (let i = 0; i < len; ++i) {
 			let userId = participantsId[i];
 			let lastMessage = this.messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
 			if (lastMessage.length) {
-				participants.append(
+				this.participants.append(
 					this.createParticipantItem({
 						userName: lastMessage.find('.js-author').data('userName'),
 						role: lastMessage.find('.js-author').data('roleName'),
@@ -308,8 +347,11 @@ window.Chat_JS = class Chat_Js {
 	 * Build a list of participants from the message.
 	 */
 	buildParticipantsFromMessage(messageContainer) {
+		if (this.isSearchParticipantsMode) {
+			return;
+		}
 		let currentParticipants = [];
-		this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
+		this.participants.find('.js-item-user').each((index, element) => {
 			let userId = $(element).data('userId');
 			currentParticipants.push(userId);
 			let lastMessage = messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
@@ -328,15 +370,17 @@ window.Chat_JS = class Chat_Js {
 	 * @param {bool} add
 	 */
 	buildParticipantsFromInput(element, reload = false) {
-		const participants = this.container.find('.js-participants-list .js-users');
+		if (this.isSearchParticipantsMode) {
+			return;
+		}
 		if (reload) {
-			participants.html('');
+			this.participants.html('');
 		}
 		if (element.length) {
 			let users = JSON.parse(element.val());
 			let len = users.length;
 			for (let i = 0; i < len; ++i) {
-				participants.append(
+				this.participants.append(
 					this.createParticipantItem({
 						userName: users[i]['user_name'],
 						role: users[i]['role_name'],
@@ -409,6 +453,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	scrollToBottom() {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
+		chatContent.scrollTop(0);
 		if (chatContent.length) {
 			chatContent.animate({
 				scrollTop: chatContent[0].scrollHeight
@@ -577,7 +622,8 @@ window.Chat_JS = class Chat_Js {
 				mode: 'get',
 				roomType: roomType,
 				recordId: recordId
-			}).done((html) => {
+			}, true, this.container).done((html) => {
+				this.turnOffSearchParticipantsMode();
 				this.selectRoom(roomType, recordId);
 				this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), true);
 				this.messageContainer.html(html);
@@ -624,7 +670,6 @@ window.Chat_JS = class Chat_Js {
 				mode: 'removeFromFavorites',
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId()
-			}).done(() => {
 			});
 		});
 		btnAdd.off('click').on('click', (e) => {
@@ -635,7 +680,6 @@ window.Chat_JS = class Chat_Js {
 				mode: 'addToFavorites',
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId()
-			}).done(() => {
 			});
 		});
 	}
@@ -683,6 +727,28 @@ window.Chat_JS = class Chat_Js {
 		this.searchCancel.off('click').on('click', (e) => {
 			this.turnOffSearchMode();
 			this.getAll();
+		});
+	}
+
+	/**
+	 * Register search participants.
+	 */
+	registerSearchParticipants() {
+		this.searchParticipantsInput.off('keydown').on('keydown', (e) => {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+				if (this.searchParticipantsInput.val() === '') {
+					this.turnOffSearchParticipantsMode();
+				} else {
+					this.isSearchParticipantsMode = true;
+					this.searchParticipantsCancel.removeClass('hide');
+				}
+				this.searchParticipants();
+			}
+		});
+		this.searchParticipantsCancel.off('click').on('click', (e) => {
+			this.turnOffSearchParticipantsMode();
+			this.searchParticipants();
 		});
 	}
 
@@ -737,6 +803,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerCreateRoom();
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
+		this.registerSearchParticipants();
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);

@@ -286,11 +286,10 @@ class Chat
 			$this->roomId = $this->room['room_id'];
 		}
 		if ($this->roomType === 'crm' && !$this->isRoomExists()) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 			$this->room = [
 				'roomid' => null,
 				'userid' => null,
-				'record_id' => $recordModel->getId(),
+				'record_id' => $recordId,
 				'last_message' => null
 			];
 		}
@@ -404,7 +403,7 @@ class Chat
 	 *
 	 * @return array
 	 */
-	public function getParticipants()
+	public function getParticipants(?string $searchValue = null)
 	{
 		if (empty($this->recordId) || empty($this->roomType)) {
 			return [];
@@ -421,13 +420,23 @@ class Chat
 		$participants = [];
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
-			$participants[] = [
-				'user_id' => $row['userid'],
-				'message' => $row['messages'],
-				'user_name' => $userModel->getName(),
-				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $userModel->getImage()
-			];
+			if (empty($searchValue)) {
+				$participants[] = [
+					'user_id' => $row['userid'],
+					'message' => $row['messages'],
+					'user_name' => $userModel->getName(),
+					'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
+					'image' => $userModel->getImage()
+				];
+			} elseif (\strpos(\strtolower($userModel->getName()), $searchValue) !== false) {
+				$participants[] = [
+					'user_id' => $row['userid'],
+					'message' => $row['messages'],
+					'user_name' => $userModel->getName(),
+					'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
+					'image' => $userModel->getImage()
+				];
+			}
 		}
 		$dataReader->close();
 		return $participants;
