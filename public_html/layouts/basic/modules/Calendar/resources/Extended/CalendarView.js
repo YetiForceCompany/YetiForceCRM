@@ -736,6 +736,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				self.refreshDatesRowView(calendarView.fullCalendar('getView'));
 				self.getSidebarView().find('.js-qc-form').html('');
 				self.getCalendarCreateView();
+				window.popoverCache = {};
 			}
 		};
 		return returnFunction;
