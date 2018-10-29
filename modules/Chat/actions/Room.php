@@ -86,8 +86,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult([
-		]);
+		$response->setResult(true);
 		$response->emit();
 	}
 
@@ -103,8 +102,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult([
-		]);
+		$response->setResult(true);
 		$response->emit();
 	}
 }

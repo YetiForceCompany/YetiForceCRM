@@ -17,7 +17,6 @@ window.Chat_JS = class Chat_Js {
 		this.searchValue = null;
 		this.timerMessage = null;
 		this.timerRoom = null;
-		this.timerGlobal = null;
 		this.amountOfNewMessages = null;
 		this.isSoundNotification = true;
 	}
@@ -36,6 +35,21 @@ window.Chat_JS = class Chat_Js {
 			Chat_Js.instance[typeInstance].init(container);
 		}
 		return Chat_Js.instance[typeInstance];
+	}
+
+	/**
+	 * Register tracking events.
+	 */
+	static registerTrackingEvents() {
+		Chat_Js.timerGlobal = setTimeout(() => {
+		}, 1000);
+	}
+
+	/**
+	 * Unregister tracking events.
+	 */
+	static unregisterTrackingEvents() {
+		clearTimeout(Chat_Js.timerGlobal);
 	}
 
 	/**
@@ -99,7 +113,10 @@ window.Chat_JS = class Chat_Js {
 	progressShow() {
 		return $.progressIndicator({
 			position: 'html',
-			blockInfo: {enabled: true}
+			blockInfo: {
+				enabled: true,
+				elementToBlock: this.messageContainer
+			},
 		});
 	}
 
@@ -277,7 +294,7 @@ window.Chat_JS = class Chat_Js {
 			if (lastMessage.length) {
 				participants.append(
 					this.createParticipantItem({
-						userName: lastMessage.find('.js-user-name').html(),
+						userName: lastMessage.find('.js-author').data('userName'),
 						role: lastMessage.find('.js-author').data('roleName'),
 						message: lastMessage.find('.messages').html(),
 						userId: userId,
@@ -392,7 +409,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	scrollToBottom() {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
-		if (typeof chatContent[0] !== 'undefined') {
+		if (chatContent.length) {
 			chatContent.animate({
 				scrollTop: chatContent[0].scrollHeight
 			}, 300);
@@ -633,14 +650,6 @@ window.Chat_JS = class Chat_Js {
 	}*/
 
 	/**
-	 * Register tracking events
-	 */
-	registerTrackingEvents() {
-
-	}
-
-
-	/**
 	 * Register load more messages.
 	 */
 	registerLoadMore() {
@@ -713,6 +722,7 @@ window.Chat_JS = class Chat_Js {
 	registerCloseModal() {
 		this.container.find('.close[data-dismiss="modal"]').on('click', (e) => {
 			this.unregisterEvents();
+			Chat_Js.registerTrackingEvents();
 		});
 	}
 
@@ -745,6 +755,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonSettings();
 		this.registerButtonBell();
 		this.registerCloseModal();
+		Chat_Js.unregisterTrackingEvents();
 	}
 
 	/**
