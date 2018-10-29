@@ -375,10 +375,7 @@ var App = {},
 					height: '5em',
 					toolbar: 'Min'
 				});
-				let modalScroll = modalContainer.find('.js-show-scroll');
-				if (modalScroll.length) {
-					app.showNewScrollbar(modalScroll);
-				}
+				app.registesterScrollbar(modalContainer);
 			});
 			$('body').append(container);
 			modalContainer.modal(params);
@@ -1698,6 +1695,11 @@ var App = {},
 			new PNotify(params);
 			return aDeferred.promise();
 		},
+    registesterScrollbar(container) {
+			  container.find('.js-scrollbar').each(function () {
+				    app.showNewScrollbar($(this));
+			  });
+		},
 		registerPopover() {
 			window.popoverCache = {};
 			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
@@ -1726,9 +1728,7 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	$('.js-scrollbar').each(function () {
-		app.showNewScrollbar($(this));
-	});
+	app.registesterScrollbar($(document));
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()

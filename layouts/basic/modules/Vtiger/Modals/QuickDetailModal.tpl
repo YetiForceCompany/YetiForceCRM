@@ -11,7 +11,7 @@
 					<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 				{/foreach}
 				<script type="text/javascript">app.registerModalController();</script>
-				<div class="modal-body col-md-12 js-show-scroll" data-js="perfectscrollbar">
+				<div class="modal-body col-md-12 js-scrollbar" data-js="perfectscrollbar">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<div class="quickDetailContent">
 						<div class="row">

@@ -1,81 +1,71 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.o-chat__view-container {
+.o-chat {
 	li {
 		list-style: none !important;
 	}
-	.chat_img-container {
+	&__img-container {
 		border: 2px solid #d2d6de;
 		width: 60px;
 		height: 60px;
 	}
-	.c-chat__btn-send {
+	&__btn-send {
 		position: absolute;
 		bottom: 10px;
 		right: 10px;
 		border-radius: 50% !important;
 		z-index: 1000;
 	}
-
-	.c-chat__user-message {
+	&__icon-search {
+		position: absolute;
+		top: 18px;
+		right: 10px;
+		border-radius: 50% !important;
+		z-index: 1000;
+		font-size: 15px;
+		color: #6c7591;
+	}
+	&__form-control {
+		border: 0px;
+		&:focus {
+			box-shadow: none;
+		}
+	}
+	&__user-message {
 		max-width: 150px;
 		color: #797676;
 		font-size: 12px;
 	}
-	.c-chat__user-role {
-		font-size: 11px;
+	&__scrollbar {
+		position: relative;
+		overflow: hidden;
+		height: calc(100vh - #{$h-footer} - #{calculate-rem(175px)});
 	}
-
-	.o-chat__main-content {
-		min-height: calc(100vh - 260px);
-		max-height: calc(100vh - 260px);
-		overflow-x: hidden;
-		overflow-y: auto !important;
+	&__img {
+		width: 48px;
+		height: 48px;
 	}
-
-	.c-chat__user-item {
-		.c-chat__author {
-			padding-bottom: 3px;
-
-			span {
-				vertical-align: top;
-				margin-left: 6px;
-				font-weight: bold;
-			}
-
-			img {
-				width: 48px;
-				height: 48px;
-			}
-		}
+	&__name {
+		vertical-align: top;
+		margin-left: 6px;
+		font-weight: bold;
 	}
-
-	.c-chat__item {
+	&__author {
+		width: 100px;
+		height: 74px;
+	}
+	&__triangle {
+		width: 0;
+		height: 0;
+		border-top: 9px solid transparent;
+		border-bottom: 9px solid transparent;
+		color: #e8e8e8;
+	}
+	&__item {
 		margin-bottom: 3px;
 		padding: 2px 8px 2px 8px;
-
-		.messages {
-			font-size: 13px;
-		}
-		.c-chat__author {
-			width: 100px;
-			height: 74px;
-
-			span {
-				vertical-align: top;
-				margin-left: 6px;
-				font-weight: bold;
-			}
-
-			img {
-				width: 48px;
-				height: 48px;
-			}
-		}
-		.c-chat__triangle {
-			width: 0;
-			height: 0;
-			border-top: 9px solid transparent;
-			border-bottom: 9px solid transparent;
-		}
+	}
+	&__messages {
+		font-size: 13px;
+		background: #e8e8e8;
 	}
 }
