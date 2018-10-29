@@ -31,54 +31,51 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		$supportedCurrencies = [];
 		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$dateCur = date('Y-m-d', strtotime('last monday'));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
-
-		$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
+		$tableUrl = 'http://api.nbp.pl/api/exchangerates/tables/a/';
 		$newXmlSrc = '';
 
-		$file = file($txtSrc);
-		$fileNum = count($file);
 		$numberOfDays = 1;
+		$iterationsLimit = 60;
 		$stateA = false;
-
 		while (!$stateA) {
-			for ($i = 0; $i < $fileNum; ++$i) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
+			$url = $tableUrl . $dateCur . '/?format=json';
+			try {
+				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 5, 'connect_timeout' => 1]);
+				if ($tryTable->getStatusCode() == 200) {
 					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
+					$newXmlSrc = $url;
+					$tableBody = $tryTable->getBody();
 				}
+			} catch (\Throwable $exc) {
+				throw new \App\Exceptions\IntegrationException('Error when downloading NBP currency table: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			}
 
 			if (!$stateA) {
 				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
+				$dateCur = date('Y-m-d', $newDate);
 				++$numberOfDays;
+				if ($numberOfDays > $iterationsLimit) {
+					break;
+				}
 			}
 		}
-		$headers = get_headers($newXmlSrc, 1);
-		if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
-			$xml = simplexml_load_file($newXmlSrc);
-			$xmlObj = $xml->children();
-			$num = count($xmlObj->pozycja);
-			for ($i = 0; $i <= $num; ++$i) {
-				if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-					continue;
+		if ($stateA && $tableBody) {
+			$json = \App\Json::decode($tableBody);
+			if (!empty($json) && !empty($json[0]) && !empty($json[0]['rates'])) {
+				foreach ($json[0]['rates'] as $rawCurrency) {
+					if (empty($rawCurrency['currency'])) {
+						continue;
+					}
+					if ($rawCurrency['code'] === 'XDR') {
+						continue;
+					}
+					$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($rawCurrency['code'])] = $rawCurrency['code'];
 				}
-				$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
-				if ($currencyCode == 'XDR') {
-					continue;
-				}
-				$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
-				$supportedCurrencies[$currencyName] = $currencyCode;
+			} else {
+				throw new \App\Exceptions\IntegrationException('Can not parse server response' . $newXmlSrc);
 			}
 		} else {
-			App\Log::warning('Can not connect to the server' . $newXmlSrc);
+			throw new \App\Exceptions\IntegrationException('Can not connect to the server' . $newXmlSrc);
 		}
 		return $supportedCurrencies;
 	}
