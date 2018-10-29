@@ -10,7 +10,7 @@
 		<div class="modelContainer modal quickCreateContainer" tabindex="-1" role="dialog">
 			<div class="modal-dialog modal-fullscreen modal-full" role="document">
 				<div class="modal-content">
-					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between py-2">
+					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between py-2 js-modal-header" data-js="height">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
 								{if $RECORD}

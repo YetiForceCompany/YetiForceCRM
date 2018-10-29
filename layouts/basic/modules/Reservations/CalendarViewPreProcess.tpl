@@ -7,5 +7,5 @@
 			 data-js="height">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
-		<div id="centerPanel" class="contentsDiv">
+		<div id="centerPanel" class="contentsDiv js-contents-div" data-js="css">
 			{/strip}
