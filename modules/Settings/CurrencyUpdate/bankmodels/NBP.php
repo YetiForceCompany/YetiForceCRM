@@ -45,7 +45,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$tableBody = $tryTable->getBody();
 				}
 			} catch (\Throwable $exc) {
-				throw new \App\Exceptions\IntegrationException('Error when downloading NBP currency table: ' . $url . ' | ' . $exc->getMessage());
+				throw new \App\Exceptions\IntegrationException('ERR_CURRENCY_TABLE_DOWNLOAD||' . $url . '||' . $exc->getMessage());
 			}
 
 			if (!$stateA) {
@@ -53,7 +53,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 				$dateCur = date('Y-m-d', $newDate);
 				++$numberOfDays;
 				if ($numberOfDays > $iterationsLimit) {
-					throw new \App\Exceptions\IntegrationException('Iterations limit exceeded when searching rate table for NBP.');
+					throw new \App\Exceptions\IntegrationException('ERR_ITERATIONS_LIMIT_EXCEEDED');
 				}
 			}
 		}
@@ -70,10 +70,10 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($rawCurrency['code'])] = $rawCurrency['code'];
 				}
 			} else {
-				throw new \App\Exceptions\IntegrationException('Can not parse server response' . $newJsonSrc);
+				throw new \App\Exceptions\IntegrationException('ERR_CANNOT_PARSE_SERVER_RESPONSE||' . $newJsonSrc);
 			}
 		} else {
-			throw new \App\Exceptions\IntegrationException('Can not connect to the server' . $newJsonSrc);
+			throw new \App\Exceptions\IntegrationException('ERR_CANNOT_CONNECT_TO_REMOTE' . $newJsonSrc);
 		}
 		return $supportedCurrencies;
 	}
@@ -117,7 +117,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$tableBody = $tryTable->getBody();
 				}
 			} catch (\Throwable $exc) {
-				throw new \App\Exceptions\IntegrationException('Error when downloading NBP currency table: ' . $url . ' | ' . $exc->getMessage());
+				throw new \App\Exceptions\IntegrationException('ERR_CURRENCY_TABLE_DOWNLOAD||' . $url . '||' . $exc->getMessage());
 			}
 			if ($stateA === false) {
 				$dateCur = strtotime("-$numberOfDays day", strtotime($dateCur));
