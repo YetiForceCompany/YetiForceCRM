@@ -1,4 +1,4 @@
-![awards_fb_new](https://user-images.githubusercontent.com/10197525/47670440-75624600-dbad-11e8-9caa-6a928d135e23.jpg)
+![awards_all_eng_new](https://user-images.githubusercontent.com/10197525/47670510-aa6e9880-dbad-11e8-9720-be7f34dba9e1.jpg)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
 [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
