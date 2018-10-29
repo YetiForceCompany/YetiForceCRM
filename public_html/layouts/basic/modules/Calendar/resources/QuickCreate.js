@@ -40,7 +40,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 						this.isSwitchAllDays = true;
 					}
 					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
-					//calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
 					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
 						this.registerViewRenderEvents(this.getCalendarView().fullCalendar('getView'));
 					}
