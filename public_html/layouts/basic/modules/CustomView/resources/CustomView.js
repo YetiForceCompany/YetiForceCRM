@@ -133,6 +133,11 @@ class CustomView {
 			autoInputFallback: false
 		});
 	}
+
+	/**
+	 * Get list of fields to duplicates
+	 * @returns {Array}
+	 */
 	getDuplicateFields(){
 		let fields = [];
 		const container = this.getContentsContainer();

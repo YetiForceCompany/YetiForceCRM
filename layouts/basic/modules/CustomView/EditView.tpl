@@ -160,12 +160,14 @@
 								<input type="hidden" name="duplicatefields" value="">
 								<button type="button" class="btn btn-success btn-sm js-duplicate-add-field"
 										data-js="click">{\App\Language::translate('LBL_ADD_FIELD',$MODULE_NAME)}</button>
-								<div class="js-duplicates-field-template js-duplicates-row d-none">
+								<div class="js-duplicates-field-template js-duplicates-row d-none" data-js="container|clone">
 									{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
 								</div>
 								<div class="js-duplicates-container" data-js="container">
 									{foreach from=$DUPLICATE_FIELDS item=FIELD}
-										{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
+										<div class="js-duplicates-row my-1" data-js="container">
+											{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
+										</div>
 									{/foreach}
 								</div>
 							</div>

@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-CustomView-Dupli d-flex">
+	<div class="tpl-CustomView-DuplicateRow d-flex">
 		<div class="col-5">
 			<select class="form-control js-duplicates-field" data-js="select2|val">
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
@@ -16,13 +16,14 @@
 		<div class="col-5">
 			<label>
 				{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES',$MODULE_NAME)}
-				<input type="checkbox" class="ml-2 js-duplicates-ignore"
+				<input type="checkbox" class="ml-2 js-duplicates-ignore" data-js="is"
 					   {if isset($FIELD['ignore']) && $FIELD['ignore']}checked{/if}>
 			</label>
 		</div>
 		<div class="col-2">
-			<button type="button" class="btn btn-sm btn-danger js-duplicates-remove" data-js="click"><span
-						class="fa fa-trash"></span></button>
+			<button type="button" class="btn btn-sm btn-danger js-duplicates-remove" data-js="click">
+				<span class="fa fa-trash"></span>
+			</button>
 		</div>
 	</div>
 {/strip}
