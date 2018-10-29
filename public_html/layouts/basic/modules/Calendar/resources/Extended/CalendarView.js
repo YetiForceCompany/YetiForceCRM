@@ -61,7 +61,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					right: 'today'
 				},
 				editable: !self.readonly,
-				height: self.setCalendarHeight(),
 				views: {
 					basic: {
 						eventLimit: false,
