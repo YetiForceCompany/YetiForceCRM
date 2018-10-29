@@ -64,3 +64,8 @@
 		background: #e8e8e8;
 	}
 }
+.o-chat__detail {
+	.o-chat__scrollbar {
+		height: calc(100vh - #{calculate-rem(425px)});
+	}
+}
