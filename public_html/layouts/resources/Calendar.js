@@ -16,22 +16,22 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	setCalendarHeight() {
-		let calendarPaddingBottom = 8, calendarH;
-		if (this.container.hasClass('js-modal-container')) {
-			if (this.container.closest('.user-info--active').length) {
-				calendarPaddingBottom = 23;
-			} else {
-				calendarPaddingBottom = 60;
-			}
-		}
-		//8 + 48, 32
-//8 55 50
+		let calendarH;
 		if ($(window).width() > 993) {
-			calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPaddingBottom;
+			let calendarContainer = this.container.find('.js-calendar__container'),
+				calendarPadding;
+			if (this.container.hasClass('js-modal-container')) {
+				calendarPadding = this.container.find('.js-modal-header').outerHeight(); // modal needs bigger padding to prevent modal's scrollbar
+			} else {
+				calendarPadding = this.container.find('.js-contents-div').css('margin-left').replace('px', ''); //equals calendar padding bottom to left margin
+			}
+			let setCalendarH = () => {
+				return $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPadding;
+			};
+			calendarH = setCalendarH();
 			new ResizeSensor(this.container.find('.contentsDiv'), () => {
-				calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPaddingBottom;
-				$('.js-calendar__container').fullCalendar('option', 'height', calendarH);
-				$('.js-calendar__container').height(calendarH + 10); // without this line calendar scroll stops working
+				calendarContainer.fullCalendar('option', 'height', setCalendarH());
+				calendarContainer.height(calendarH + 10); // without this line calendar scroll stops working
 			});
 		} else if ($(window).width() < 993) {
 			calendarH = 'auto';
