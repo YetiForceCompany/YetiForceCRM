@@ -942,19 +942,20 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	registerPageNavigationEvents() {
 		const thisInstance = this;
-		let aDeferred = $.Deferred();
+		let aDeferred = $.Deferred(),
+			pageNumber = $('#pageNumber');
 		$('#listViewNextPageButton').on('click', function (e) {
 			if ($(this).hasClass('disabled')) {
 				return;
 			}
-			if ($('#noOfEntries').val() == $('#pageLimit').val()) {
+			if ($('#noOfEntries').val() === $('#pageLimit').val()) {
 				let urlParams = {
 						orderby: $('#orderBy').val(),
 						sortorder: $("#sortOrder").val(),
 						viewname: thisInstance.getCurrentCvId()
 					},
-					nextPageNumber = parseInt(parseFloat($('#pageNumber').val())) + 1;
-				$('#pageNumber').val(nextPageNumber);
+					nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
+				pageNumber.val(nextPageNumber);
 				$('.js-page-jump').val(nextPageNumber);
 				thisInstance.getListViewRecords(urlParams).done(function (data) {
 					thisInstance.updatePagination(nextPageNumber);
@@ -965,17 +966,16 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			return aDeferred.promise();
 		});
-		$('#listViewPreviousPageButton').on('click', function () {
-			let aDeferred = $.Deferred(),
-				pageNumber = $('#pageNumber').val();
-			if (pageNumber > 1) {
+		$('.js-page--previous').on('click', function () {
+			let aDeferred = $.Deferred();
+			if (pageNumber.val() > 1) {
 				let urlParams = {
 						"orderby": $('#orderBy').val(),
 						"sortorder": $('#sortOrder').val(),
 						"viewname": thisInstance.getCurrentCvId()
 					},
-					previousPageNumber = parseInt(parseFloat(pageNumber)) - 1;
-				$('#pageNumber').val(previousPageNumber);
+					previousPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
+				pageNumber.val(previousPageNumber);
 				$('.js-page-jump').val(previousPageNumber);
 				thisInstance.getListViewRecords(urlParams).done(function (data) {
 					thisInstance.updatePagination(previousPageNumber);
@@ -989,18 +989,18 @@ jQuery.Class("Vtiger_List_Js", {
 			if ($(this).hasClass("disabled")) {
 				return false;
 			}
-			let pageNumber = $(this).data("id"),
+			let pageNumberData = $(this).data("id"),
 				urlParams = {
 					"orderby": $('#orderBy').val(),
 					"sortorder": $("#sortOrder").val(),
 					"viewname": thisInstance.getCurrentCvId(),
-					"page": pageNumber
+					"page": pageNumberData
 				},
-				previousPageNumber = parseInt(parseFloat(pageNumber)) - 1;
-			$('#pageNumber').val(previousPageNumber);
+				previousPageNumber = parseInt(parseFloat(pageNumberData)) - 1;
+			pageNumber.val(previousPageNumber);
 			$('.js-page-jump').val(previousPageNumber);
 			thisInstance.getListViewRecords(urlParams).done(function (data) {
-				thisInstance.updatePagination(pageNumber);
+				thisInstance.updatePagination(pageNumberData);
 			}).fail(function (textStatus, errorThrown) {
 			});
 		});
@@ -1008,21 +1008,21 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.updatePaginationAjax(true);
 		});
 
-		$('#listViewPageJumpDropDown').on('click', 'li', function (e) {
+		$('.js-page--jump-drop-down').on('click', 'li', function (e) {
 			e.stopImmediatePropagation();
 		}).on('keypress', '.js-page-jump', function (e) {
 			if (13 === e.which) {
 				e.stopImmediatePropagation();
-				let element = jQuery(e.currentTarget),
+				let element = $(e.currentTarget),
 					response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
 				if (typeof response !== "undefined") {
 					element.validationEngine('showPrompt', response, '', "topLeft", true);
 				} else {
 					element.validationEngine('hideAll');
-					let currentPageElement = jQuery('#pageNumber'),
+					let currentPageElement = $('#pageNumber'),
 						currentPageNumber = currentPageElement.val(),
-						newPageNumber = parseInt(jQuery(e.currentTarget).val()),
-						totalPages = parseInt(jQuery('#totalPageCount').text());
+						newPageNumber = parseInt($(e.currentTarget).val()),
+						totalPages = parseInt($('#totalPageCount').text());
 					if (newPageNumber > totalPages) {
 						element.validationEngine('showPrompt', app.vtranslate('JS_PAGE_NOT_EXIST'), '', "topLeft", true);
 						return;
