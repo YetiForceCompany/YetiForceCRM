@@ -17,4 +17,6 @@ return [
 	'refresh_time_global' => 1000,
 	// Default sound notification.
 	'default_sound_notification' => true,
+	// Show the number of new messages.
+	'show_number_of_new_messages' => true,
 ];

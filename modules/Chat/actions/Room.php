@@ -108,6 +108,8 @@ class Chat_Room_Action extends \App\Controller\Action
 	}
 
 	/**
+	 * Track the number of new messages.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function tracking(\App\Request $request)

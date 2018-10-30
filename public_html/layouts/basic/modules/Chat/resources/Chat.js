@@ -64,23 +64,27 @@ window.Chat_JS = class Chat_Js {
 	 * Register tracking events.
 	 */
 	static registerTrackingEvents() {
+		const headerChatButton = Chat_Js.getHeaderChatButton();
+		const showNumberOfNewMessages = headerChatButton.data('showNumberOfNewMessages');
 		Chat_Js.timerGlobal = setTimeout(() => {
 			AppConnector.request({
-				data: {
-					module: 'Chat',
-					action: 'Room',
-					mode: 'tracking'
-				}
+				module: 'Chat',
+				action: 'Room',
+				mode: 'tracking'
 			}).done(function (data) {
-				let badge = Chat_Js.getHeaderChatButton().find('.js-badge');
+				const badge = headerChatButton.find('.js-badge');
 				if (data.result > 0) {
-					Chat_Js.getHeaderChatButton().toggleClass('btn-light').toggleClass('btn-danger');
-					badge.removeClass('hide');
-					badge.html(data.result);
-				} else if (Chat_Js.getHeaderChatButton().hasClass('btn-danger')) {
-					Chat_Js.getHeaderChatButton().removeClass('btn-danger').addClass('btn-light');
-					badge.addClass('hide');
-					badge.html('');
+					headerChatButton.toggleClass('btn-light').toggleClass('btn-danger');
+					if (showNumberOfNewMessages) {
+						badge.removeClass('hide');
+						badge.html(data.result);
+					}
+				} else if (headerChatButton.hasClass('btn-danger')) {
+					headerChatButton.removeClass('btn-danger').addClass('btn-light');
+					if (showNumberOfNewMessages) {
+						badge.addClass('hide');
+						badge.html('');
+					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages && app.getCookie("chat-isSoundNotification") === "true") {
 					app.playSound('REMINDERS');
