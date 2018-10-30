@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AddressFinder;
+namespace App\Map\Address;
 
 /**
  * Base caching class.

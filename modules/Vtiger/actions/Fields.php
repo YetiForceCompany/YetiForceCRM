@@ -205,7 +205,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function findAddress(\App\Request $request)
 	{
-		$instance = \App\AddressFinder::getInstance($request->getByType('type'));
+		$instance = \App\Map\Address::getInstance($request->getByType('type'));
 		$response = new Vtiger_Response();
 		if ($instance) {
 			$response->setResult($instance->find($request->getByType('value', 'Text')));
