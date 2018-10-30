@@ -146,11 +146,11 @@ class Composer
 	 */
 	public static function install(\Composer\Script\Event $event)
 	{
-		static::clear();
 		$event->getComposer();
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
 			return true;
 		}
+		static::clear();
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg'];
 		foreach (static::$publicPackage as $package) {
