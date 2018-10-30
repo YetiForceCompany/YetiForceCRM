@@ -287,7 +287,12 @@ class Chat
 		return $numberOfNewMessages;
 	}
 
-	public static function isNewMessages()
+	/**
+	 * Is there any new message.
+	 *
+	 * @return bool
+	 */
+	public static function isNewMessages(): bool
 	{
 		$key = 'totalNumberOfNewMessages';
 		if (Cache::has('Chat', $key)) {
@@ -296,6 +301,11 @@ class Chat
 		return false;
 	}
 
+	/**
+	 * Get number of new messages.
+	 *
+	 * @return array
+	 */
 	public static function getNumberOfNewMessagesCache()
 	{
 		$key = 'numberOfNewMessages';
