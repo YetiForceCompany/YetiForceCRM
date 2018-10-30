@@ -100,10 +100,11 @@ window.Chat_JS = class Chat_Js {
 	 */
 	static unregisterTrackingEvents() {
 		clearTimeout(Chat_Js.timerGlobal);
-		let badge = Chat_Js.getHeaderChatButton().find('.js-badge');
+		const headerChatButton = Chat_Js.getHeaderChatButton();
+		let badge = headerChatButton.find('.js-badge');
 		badge.addClass('hide');
 		badge.html('');
-		Chat_Js.getHeaderChatButton().removeClass('btn-danger').addClass('btn-light');
+		headerChatButton.removeClass('btn-danger').addClass('btn-light');
 	}
 
 	/**
