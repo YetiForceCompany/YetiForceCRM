@@ -118,7 +118,7 @@ window.Calendar_Js = class Calendar_Js {
 		}
 		let options = {
 			timeFormat: userDefaultTimeFormat,
-			axisFormat: userDefaultTimeFormat,
+			slotLabelFormat: userDefaultTimeFormat,
 			defaultView: userDefaultActivityView,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
