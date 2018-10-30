@@ -150,7 +150,6 @@ class Composer
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
 			return true;
 		}
-		var_dump($_SERVER);
 		//static::clear();
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg'];
@@ -184,6 +183,7 @@ class Composer
 			}
 			if ((\in_array(strtolower($object->getFilename()), self::$clearFiles)) && (is_dir($object->getPathname()) || file_exists($object->getPathname()))) {
 				$deleted[] = $object->getPathname();
+				\var_dump($object->getPathname());
 			}
 		}
 		$deletedCount = 0;
@@ -200,6 +200,7 @@ class Composer
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
 							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()]) && !$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
 								\vtlib\Functions::recurseDelete($level3->getPathname(), true);
+								\var_dump($level3->getPathname());
 								$deletedCount++;
 							}
 						}
