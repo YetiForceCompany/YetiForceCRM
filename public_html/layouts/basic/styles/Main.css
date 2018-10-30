@@ -12663,8 +12663,8 @@ ul.tweets li {
 .u-w-85px {
   width: 85px; }
 
-.u-w-100px {
-  width: 100px; }
+.u-w-125px {
+  width: 125px; }
 
 .u-w-90per {
   width: 90%; }
@@ -13302,12 +13302,18 @@ input[type="radio"]:checked:before {
   border-top: 9px solid transparent;
   border-bottom: 9px solid transparent;
   color: #e8e8e8; }
+.o-chat__name {
+  opacity: 0.5;
+  color: black; }
 .o-chat__item {
   margin-bottom: 3px;
   padding: 2px 8px 2px 8px; }
 .o-chat__messages {
   font-size: 13px;
   background: #e8e8e8; }
+
+.o-chat__detail .o-chat__scrollbar {
+  height: calc(100vh - 25.625rem); }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
