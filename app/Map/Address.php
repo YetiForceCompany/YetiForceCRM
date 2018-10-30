@@ -7,12 +7,12 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App;
+namespace App\Map;
 
 /**
  * Custom colors stylesheet file generator.
  */
-class AddressFinder
+class Address
 {
 	/**
 	 * Providers cache.
@@ -23,7 +23,7 @@ class AddressFinder
 	/**
 	 * Providers instance cache.
 	 *
-	 * @var AddressFinder\Base[]
+	 * @var Address\Base[]
 	 */
 	private static $providerInstanceCache = [];
 
@@ -51,7 +51,7 @@ class AddressFinder
 		if (self::$providersCache) {
 			return self::$providersCache;
 		}
-		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/AddressFinder');
+		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
 		foreach ($dir as $fileinfo) {
 			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
 				self::$providersCache[] = $fileName;
@@ -65,14 +65,14 @@ class AddressFinder
 	 *
 	 * @param string $type
 	 *
-	 * @return \App\AddressFinder\Base
+	 * @return \App\Map\Address\Base
 	 */
 	public static function getInstance($type)
 	{
 		if (isset(self::$providerInstanceCache[$type])) {
 			return self::$providerInstanceCache[$type];
 		}
-		$className = "\App\AddressFinder\\$type";
+		$className = "\App\Map\Address\\$type";
 		return self::$providerInstanceCache[$type] = new $className();
 	}
 

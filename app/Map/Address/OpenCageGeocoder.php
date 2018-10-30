@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AddressFinder;
+namespace App\Map\Address;
 
 /**
  * Address finder OpenCageGeocoder class.
@@ -27,7 +27,7 @@ class OpenCageGeocoder extends Base
 	 */
 	public static function isActive()
 	{
-		return (bool) \App\AddressFinder::getConfig()['opencage_data']['nominatim'];
+		return (bool)\App\Map\Address::getConfig()['opencage_data']['nominatim'];
 	}
 
 	/**
@@ -35,7 +35,7 @@ class OpenCageGeocoder extends Base
 	 */
 	public function find($value)
 	{
-		$config = \App\AddressFinder::getConfig();
+		$config = \App\Map\Address::getConfig();
 		$urlAddress = static::$url . 'json?q=' . $value . '&pretty=1';
 		$urlAddress .= '&language=' . \App\Language::getLanguageTag();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];

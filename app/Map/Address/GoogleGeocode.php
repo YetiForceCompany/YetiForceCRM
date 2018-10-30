@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AddressFinder;
+namespace App\Map\Address;
 
 /**
  * Address finder Google class.
@@ -27,7 +27,7 @@ class GoogleGeocode extends Base
 	 */
 	public static function isActive()
 	{
-		return (bool) \App\AddressFinder::getConfig()['google_map_api']['nominatim'];
+		return (bool) \App\Map\Address::getConfig()['google_map_api']['nominatim'];
 	}
 
 	/**
@@ -35,7 +35,7 @@ class GoogleGeocode extends Base
 	 */
 	public function find($value)
 	{
-		$key = \App\AddressFinder::getConfig()['google_map_api']['key'];
+		$key = \App\Map\Address::getConfig()['google_map_api']['key'];
 		$lang = \App\Language::getShortLanguageName();
 		$response = \Requests::get(static::$url . "key={$key}&address=$value");
 		if (!$response->success) {
