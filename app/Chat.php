@@ -121,15 +121,17 @@ class Chat
 	public static function createRoom(string $roomType, int $recordId)
 	{
 		$instance = new self($roomType, $recordId);
+		$userId = User::getCurrentUserId();
 		$table = static::TABLE_NAME['room'][$roomType];
 		$recordIdName = static::COLUMN_NAME['room'][$roomType];
 		Db::getInstance()->createCommand()->insert($table, [
-			'userid' => User::getCurrentUserId(),
+			'userid' => $userId,
 			'last_message' => null,
 			$recordIdName => $recordId
 		])->execute();
 		$instance->recordId = $recordId;
 		$instance->roomType = $roomType;
+		Cache::delete("Chat_{$roomType}", $userId);
 		return $instance;
 	}
 
@@ -162,10 +164,10 @@ class Chat
 	 */
 	public static function getRoomsGlobal()
 	{
-		if (Cache::has('Chat', 'chat_global')) {
-			return Cache::get('Chat', 'chat_global');
-		}
 		$userId = User::getCurrentUserId();
+		if (Cache::has('Chat_global', $userId)) {
+			return Cache::get('Chat_global', $userId);
+		}
 		$roomIdName = static::COLUMN_NAME['room']['global'];
 		$cntQuery = (new \App\Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
@@ -190,7 +192,7 @@ class Chat
 			$rooms[] = $row;
 		}
 		$dataReader->close();
-		return Cache::save('Chat', 'chat_global', $rooms);
+		return Cache::save('Chat_global', $userId, $rooms);
 	}
 
 	/**
@@ -205,6 +207,9 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
+		if (Cache::has('Chat_group', $userId)) {
+			return Cache::get('Chat_group', $userId);
+		}
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])
@@ -212,13 +217,15 @@ class Chat
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.groupid', 'CR.userid']);
-		return (new Db\Query())
+		$rows = (new Db\Query())
 			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
 			->from(['GR' => 'u_#__chat_rooms_group'])
 			->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.groupid = GR.groupid AND CNT.userid = GR.userid')
 			->where(['GR.userid' => $userId])
 			->all();
+		Cache::save('Chat_global', $userId, $rows);
+		return $rows;
 	}
 
 	/**
@@ -233,6 +240,9 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
+		if (Cache::has('Chat_crm', $userId)) {
+			return Cache::get('Chat_crm', $userId);
+		}
 		$subQuery = (new Db\Query())
 			->select(['CR.crmid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['crm']])
@@ -240,13 +250,15 @@ class Chat
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.crmid', 'CR.userid']);
-		return (new Db\Query())
+		$rows = (new Db\Query())
 			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'CNT.cnt_new_message'])
 			->from(['C' => 'u_#__chat_rooms_crm'])
 			->leftJoin(['CL' => 'u_#__crmentity_label'], 'CL.crmid = C.crmid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.crmid = C.crmid AND CNT.userid = C.userid')
 			->where(['C.userid' => $userId])
 			->all();
+		Cache::save('Chat_crm', $userId, $rows);
+		return $rows;
 	}
 
 	/**
@@ -258,16 +270,11 @@ class Chat
 	 */
 	public static function getRoomsByUser(?int $userId = null)
 	{
-		if (Cache::staticHas('roomsByUser', $userId)) {
-			return Cache::staticGet('roomsByUser', $userId);
-		}
-		$roomsByUser = [
+		return [
 			'crm' => static::getRoomsCrm($userId),
 			'group' => static::getRoomsGroup($userId),
 			'global' => static::getRoomsGlobal(),
 		];
-		Cache::staticSave('roomsByUser', $userId, $roomsByUser);
-		return $roomsByUser;
 	}
 
 	/**
@@ -294,84 +301,13 @@ class Chat
 	 */
 	public static function isNewMessages(): bool
 	{
-		$key = 'totalNumberOfNewMessages';
-		if (Cache::has('Chat', $key)) {
-			return Cache::get('Chat', $key) > 0;
+		$userId = User::getCurrentUserId();
+		if (Cache::has('Chat.getNumberOfNewMessages', $userId)) {
+			return Cache::get('Chat.getNumberOfNewMessages', $userId) > 0;
 		}
-		return false;
-	}
-
-	/**
-	 * Get number of new messages.
-	 *
-	 * @return array
-	 */
-	public static function getNumberOfNewMessagesCache()
-	{
-		$key = 'numberOfNewMessages';
-		if (Cache::has('Chat', $key)) {
-			return Cache::get('Chat', $key);
-		}
-		$total = 0;
-		$rooms = [
-			'crm' => [],
-			'group' => [],
-			'global' => [],
-		];
-		$roomInfo = static::getRoomsByUser();
-		foreach (['crm', 'group', 'global'] as $roomTypeVal) {
-			foreach ($roomInfo[$roomTypeVal] as $item) {
-				$val = $rooms[$roomTypeVal][$item['recordid']] ?? 0;
-				$rooms[$roomTypeVal][$item['recordid']] = $val + (int) $item['cnt_new_message'];
-				$total += (int) $item['cnt_new_message'];
-			}
-		}
-		Cache::save('Chat', 'totalNumberOfNewMessages', $total);
-		Cache::save('Chat', $key, $rooms);
-		return $rooms;
-	}
-
-	/**
-	 * Increment the number of new messages.
-	 *
-	 * @param string $roomType
-	 * @param int    $recordId
-	 */
-	public static function incrementNumberOfNewMessages(string $roomType, int $recordId)
-	{
-		$key = 'numberOfNewMessages';
-		if (Cache::has('Chat', $key)) {
-			$rooms = Cache::get('Chat', $key);
-			if (isset($rooms[$roomType][$recordId])) {
-				$rooms[$roomType][$recordId] = $rooms[$roomType][$recordId] + 1;
-				Cache::save('Chat', $key, $rooms);
-				$total = Cache::get('Chat', 'totalNumberOfNewMessages') + 1;
-				Cache::save('Chat', 'totalNumberOfNewMessages', $total);
-			}
-		} else {
-			static::getNumberOfNewMessagesCache();
-		}
-	}
-
-	/**
-	 * Reset the number of new messages.
-	 *
-	 * @param string $roomType
-	 * @param int    $recordId
-	 */
-	public static function resetNumberOfNewMessages(string $roomType, int $recordId)
-	{
-		$key = 'numberOfNewMessages';
-		if (Cache::has('Chat', $key)) {
-			$rooms = Cache::get('Chat', $key);
-			if (isset($rooms[$roomType][$recordId])) {
-				$val = $rooms[$roomType][$recordId];
-				$rooms[$roomType][$recordId] = 0;
-				Cache::save('Chat', $key, $rooms);
-				$total = Cache::get('Chat', 'totalNumberOfNewMessages') - $val;
-				Cache::save('Chat', 'totalNumberOfNewMessages', $total);
-			}
-		}
+		$numberOfNewMessages = static::getNumberOfNewMessages();
+		Cache::save('Chat.getNumberOfNewMessages', $userId, $numberOfNewMessages);
+		return $numberOfNewMessages > 0;
 	}
 
 	/**
@@ -463,8 +399,7 @@ class Chat
 			'created' => date('Y-m-d H:i:s'),
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
-		Cache::staticDelete('roomsByUser', $this->userId);
-		static::incrementNumberOfNewMessages($this->roomType, $this->recordId);
+		Cache::delete("Chat_{$this->roomType}", $this->userId);
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
@@ -665,7 +600,6 @@ class Chat
 	 */
 	private function updateRoom()
 	{
-		static::resetNumberOfNewMessages($this->roomType, $this->recordId);
 		if ($this->roomType === 'global' && !$this->isAssigned()) {
 			Db::getInstance()->createCommand()
 				->insert(static::TABLE_NAME['room'][$this->roomType], [
