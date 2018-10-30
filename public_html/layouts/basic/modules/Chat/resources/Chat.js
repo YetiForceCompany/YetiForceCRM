@@ -458,9 +458,20 @@ window.Chat_JS = class Chat_Js {
 		return itemRoom;
 	}
 
+	/**
+	 * Get room name.
+	 * @param {object}
+	 * @param {string} roomType
+	 */
 	getRoomName(data, roomType) {
-		let containerFooter = this.container.find('.js-chat-footer');
-		containerFooter.find('.js-footer-group-name').text(app.vtranslate('JS_ROOM_' + roomType.toUpperCase()));
+		let container = this.container;
+		let containerFooter = container.find('.js-chat-footer');
+		let containerGroup = container.find('.js-group-name');
+		containerGroup.each(function (e) {
+			if ($(this).data('group') == roomType) {
+				containerFooter.find('.js-footer-group-name').text($(this).text());
+			}
+		})
 		containerFooter.find('.js-footer-room-name').text(data.find('.js-room-name').text());
 	}
 
