@@ -13,14 +13,6 @@
 class Chat_Entries_Action extends \App\Controller\View
 {
 	/**
-	 * Constructor with a list of allowed methods.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Function to check permission.
 	 *
 	 * @param \App\Request $request

@@ -24,14 +24,17 @@
 	<div class="row o-chat">
 		<div class="col-9">
 			<div class="row px-2">
-        <div class="input-group">
-				    <input type="text"
-					      class="form-control u-font-size-13px js-search-message border-bottom rounded-0 o-chat__form-control"{' '}
-					      autocomplete="off"{' '}
-					      placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}" data-js="keydown"/>
-				     <span class="fas fa-search o-chat__icon-search"></span>
-				     <button type="button" class="btn btn-danger hide mr-1 js-search-cancel" data-js="click">X</button>
-        </div>
+				<div class="input-group">
+					<input type="text"
+						   class="form-control u-font-size-13px js-search-message border-bottom rounded-0 o-chat__form-control"{' '}
+						   autocomplete="off"{' '}
+						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
+						   data-js="keydown"/>
+					<span class="fas fa-search o-chat__icon-search"></span>
+					<button type="button" class="btn btn-danger hide mr-1 js-search-cancel" data-js="click">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
 				 data-js=”container|perfectscrollbar”>
@@ -39,9 +42,9 @@
 					<div class="col-12 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
-						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
-						 data-room-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
-						 data-max-length-message="{AppConfig::module('Chat', 'MAX_LENGTH_MESSAGE')}"
+						 data-message-timer="{AppConfig::module('Chat', 'refresh_time')}"
+						 data-room-timer="{AppConfig::module('Chat', 'refresh_time')}"
+						 data-max-length-message="{AppConfig::module('Chat', 'max_length_message')}"
 						 data-view-for-record="{if isset($VIEW_FOR_RECORD) && $VIEW_FOR_RECORD}true{else}false{/if}"
 						 data-js="append">
 						{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}
@@ -64,12 +67,15 @@
 			</div>
 		</div>
 		<div class="col-3 px-0 bg-color-grey-50">
-			<div class="px-2">
+			<div class="px-2 input-group">
 				<input type="text"
 					   class="form-control u-font-size-13px js-search-participants border-bottom bg-color-grey-50 rounded-0 o-chat__form-control"
 					   autocomplete="off"
 					   placeholder="{\App\Language::translate('LBL_SEARCH_PARTICIPANTS', $MODULE_NAME)}"
 					   data-js="keydown"/>
+				<button type="button" class="btn btn-danger mr-1 hide js-search-participants-cancel" data-js="click">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<span class="fas fa-search o-chat__icon-search"></span>
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
@@ -78,10 +84,28 @@
 			<div class="js-participants-list px-3 o-chat__scrollbar js-scrollbar" data-js="container|perfectscrollbar">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'role_name'=>'', 'message'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
-					{foreach item=USER from=$PARTICIPANTS}
+					{foreach item=USER from=$CHAT->getParticipants()}
 						{ITEM_USER USER=$USER}
 					{/foreach}
 				</ul>
+			</div>
+			<div>
+				{if !(isset($IS_MODAL_VIEW) && $IS_MODAL_VIEW) }
+					<button type="button"
+							class="btn btn-danger{if !$CHAT->isAssigned()} hide{/if} js-remove-from-favorites"
+							data-js="click">
+						<span class="fa fa-minus mr-2"
+							  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
+						{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}
+					</button>
+					<button type="button"
+							class="btn btn-success{if $CHAT->isAssigned()} hide{/if} js-add-from-favorites"
+							data-js="click">
+						<span class="fa fa-plus mr-2"
+							  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
+						{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}
+					</button>
+				{/if}
 			</div>
 		</div>
 	</div>

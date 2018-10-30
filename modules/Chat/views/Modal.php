@@ -35,23 +35,17 @@ class Chat_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'ModalHeader.tpl';
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$chat = \App\Chat::getInstance();
 		$chatEntries = $chat->getEntries();
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		$viewer->assign('CHAT', $chat);
 		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->assign('PARTICIPANTS', $chat->getParticipants());
+		$viewer->assign('IS_MODAL_VIEW', true);
+		$viewer->assign('IS_SOUND_NOTIFICATION', $this->isSoundNotification());
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
@@ -72,5 +66,25 @@ class Chat_Modal_View extends \App\Controller\Modal
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Chat.resources.Modal'
 		]));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'ModalHeader.tpl';
+	}
+
+	/**
+	 * Check if sound notification is enabled.
+	 *
+	 * @return bool
+	 */
+	private function isSoundNotification(): bool
+	{
+		return isset($_COOKIE['chat-isSoundNotification']) ?
+			filter_var($_COOKIE['chat-isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
+			\AppConfig::module('Chat', 'default_sound_notification');
 	}
 }

@@ -15,10 +15,11 @@ window.Chat_JS = class Chat_Js {
 		this.sendByEnter = true;
 		this.isSearchMode = false;
 		this.searchValue = null;
+		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
-		this.isSoundNotification = true;
+		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
 	}
 
 	/**
@@ -38,11 +39,60 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Get chat header button.
+	 * @returns {jQuery}
+	 */
+	static getHeaderChatButton() {
+		if (typeof Chat_Js.headerChatButton === 'undefined') {
+			Chat_Js.headerChatButton = $('.js-header-chat-button');
+		}
+		return Chat_Js.headerChatButton;
+	}
+
+	/**
+	 * Return the time value for the global timer.
+	 * @returns {int}
+	 */
+	static getRefreshTimeGlobal() {
+		if (typeof Chat_Js.refreshTimerGlobal === 'undefined') {
+			Chat_Js.refreshTimeGlobal = Chat_Js.getHeaderChatButton().data('refreshTimeGlobal');
+		}
+		return Chat_Js.refreshTimeGlobal;
+	}
+
+	/**
 	 * Register tracking events.
 	 */
 	static registerTrackingEvents() {
+		const headerChatButton = Chat_Js.getHeaderChatButton();
+		const showNumberOfNewMessages = headerChatButton.data('showNumberOfNewMessages');
 		Chat_Js.timerGlobal = setTimeout(() => {
-		}, 1000);
+			AppConnector.request({
+				module: 'Chat',
+				action: 'Room',
+				mode: 'tracking'
+			}).done(function (data) {
+				const badge = headerChatButton.find('.js-badge');
+				if (data.result > 0) {
+					headerChatButton.toggleClass('btn-light').toggleClass('btn-danger');
+					if (showNumberOfNewMessages) {
+						badge.removeClass('hide');
+						badge.html(data.result);
+					}
+				} else if (headerChatButton.hasClass('btn-danger')) {
+					headerChatButton.removeClass('btn-danger').addClass('btn-light');
+					if (showNumberOfNewMessages) {
+						badge.addClass('hide');
+						badge.html('');
+					}
+				}
+				if (data.result > Chat_Js.amountOfNewMessages && app.getCookie("chat-isSoundNotification") === "true") {
+					app.playSound('CHAT');
+				}
+				Chat_Js.amountOfNewMessages = data.result;
+				Chat_Js.registerTrackingEvents();
+			});
+		}, Chat_Js.getRefreshTimeGlobal());
 	}
 
 	/**
@@ -50,6 +100,11 @@ window.Chat_JS = class Chat_Js {
 	 */
 	static unregisterTrackingEvents() {
 		clearTimeout(Chat_Js.timerGlobal);
+		const headerChatButton = Chat_Js.getHeaderChatButton();
+		let badge = headerChatButton.find('.js-badge');
+		badge.addClass('hide');
+		badge.html('');
+		headerChatButton.removeClass('btn-danger').addClass('btn-light');
 	}
 
 	/**
@@ -62,19 +117,23 @@ window.Chat_JS = class Chat_Js {
 		this.maxLengthMessage = this.messageContainer.data('maxLengthMessage');
 		this.searchInput = this.container.find('.js-search-message');
 		this.searchCancel = this.container.find('.js-search-cancel');
+		this.searchParticipantsInput = this.container.find('.js-search-participants');
+		this.searchParticipantsCancel = this.container.find('.js-search-participants-cancel');
+		this.participants = this.container.find('.js-participants-list .js-users');
 	}
 
 	/**
 	 * Sending HTTP requests to the chat module.
 	 * @param {object} data
 	 * @param {bool} progress
+	 * @param {jQuery} elementTo
 	 * @returns {object}
 	 */
-	request(data = {}, progress = true) {
+	request(data = {}, progress = true, elementTo = this.messageContainer) {
 		const aDeferred = $.Deferred();
 		let progressIndicator = null;
 		if (progress) {
-			progressIndicator = this.progressShow();
+			progressIndicator = this.progressShow(elementTo);
 		}
 		AppConnector.request($.extend({module: 'Chat'}, data)).done((data) => {
 			aDeferred.resolve(data);
@@ -107,15 +166,16 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
-	 * Show progress indicator
+	 * Show progress indicator.
+	 * @param {jQuery} elementTo
 	 * @returns {jQuery}
 	 */
-	progressShow() {
+	progressShow(elementTo) {
 		return $.progressIndicator({
 			position: 'html',
 			blockInfo: {
 				enabled: true,
-				elementToBlock: this.messageContainer
+				elementToBlock: elementTo
 			},
 		});
 	}
@@ -248,6 +308,30 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Turn off search participants mode.
+	 */
+	turnOffSearchParticipantsMode() {
+		this.searchParticipantsCancel.addClass('hide');
+		this.searchParticipantsInput.val('');
+		this.isSearchParticipantsMode = false;
+		this.participants.find('.js-item-user').each((index, element) => {
+			$(element).removeClass('hide');
+		});
+	}
+
+	/**
+	 * Search participants.
+	 */
+	searchParticipants() {
+		let searchVal = this.searchParticipantsInput.val().toLowerCase();
+		this.participants.find('.js-item-user').each((index, element) => {
+			let userName = $(element).find('.js-user-name').text().toLowerCase();
+			$(element).toggleClass('hide', !(userName.indexOf(searchVal) >= 0));
+		});
+		this.container.find('.js-participants-list').scrollTop(0);
+	}
+
+	/**
 	 * Create a user element.
 	 * @param {object}
 	 * @returns {jQuery}
@@ -286,13 +370,12 @@ window.Chat_JS = class Chat_Js {
 		if (!participantsId.length) {
 			return;
 		}
-		const participants = this.container.find('.js-participants-list .js-users');
 		let len = participantsId.length;
 		for (let i = 0; i < len; ++i) {
 			let userId = participantsId[i];
 			let lastMessage = this.messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
 			if (lastMessage.length) {
-				participants.append(
+				this.participants.append(
 					this.createParticipantItem({
 						userName: lastMessage.find('.js-author').data('userName'),
 						role: lastMessage.find('.js-author').data('roleName'),
@@ -308,8 +391,11 @@ window.Chat_JS = class Chat_Js {
 	 * Build a list of participants from the message.
 	 */
 	buildParticipantsFromMessage(messageContainer) {
+		if (this.isSearchParticipantsMode) {
+			return;
+		}
 		let currentParticipants = [];
-		this.container.find('.js-participants-list .js-users .js-item-user').each((index, element) => {
+		this.participants.find('.js-item-user').each((index, element) => {
 			let userId = $(element).data('userId');
 			currentParticipants.push(userId);
 			let lastMessage = messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
@@ -328,15 +414,17 @@ window.Chat_JS = class Chat_Js {
 	 * @param {bool} add
 	 */
 	buildParticipantsFromInput(element, reload = false) {
-		const participants = this.container.find('.js-participants-list .js-users');
+		if (this.isSearchParticipantsMode) {
+			return;
+		}
 		if (reload) {
-			participants.html('');
+			this.participants.html('');
 		}
 		if (element.length) {
 			let users = JSON.parse(element.val());
 			let len = users.length;
 			for (let i = 0; i < len; ++i) {
-				participants.append(
+				this.participants.append(
 					this.createParticipantItem({
 						userName: users[i]['user_name'],
 						role: users[i]['role_name'],
@@ -409,6 +497,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	scrollToBottom() {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
+		chatContent.scrollTop(0);
 		if (chatContent.length) {
 			chatContent.animate({
 				scrollTop: chatContent[0].scrollHeight
@@ -421,7 +510,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	soundNotification() {
 		if (this.isSoundNotification) {
-			app.playSound('REMINDERS');
+			app.playSound('CHAT');
 		}
 	}
 
@@ -453,7 +542,11 @@ window.Chat_JS = class Chat_Js {
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
 		itemRoom.find('.js-room-name').html(data.name);
 		itemRoom.attr('title', data.name + ' rid: ' + data.recordid);
-		itemRoom.find('.js-room-cnt').html(data['cnt_new_message']);
+		if (data['cnt_new_message'] == 0) {
+			itemRoom.find('.js-room-cnt').html('');
+		} else {
+			itemRoom.find('.js-room-cnt').html(data['cnt_new_message']);
+		}
 		itemRoom.attr('data-record-id', data.recordid);
 		return itemRoom;
 	}
@@ -595,7 +688,8 @@ window.Chat_JS = class Chat_Js {
 				mode: 'get',
 				roomType: roomType,
 				recordId: recordId
-			}).done((html) => {
+			}, true, this.container).done((html) => {
+				this.turnOffSearchParticipantsMode();
 				this.selectRoom(roomType, recordId);
 				this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), true);
 				this.messageContainer.html(html);
@@ -642,7 +736,6 @@ window.Chat_JS = class Chat_Js {
 				mode: 'removeFromFavorites',
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId()
-			}).done(() => {
 			});
 		});
 		btnAdd.off('click').on('click', (e) => {
@@ -653,7 +746,6 @@ window.Chat_JS = class Chat_Js {
 				mode: 'addToFavorites',
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId()
-			}).done(() => {
 			});
 		});
 	}
@@ -705,6 +797,26 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Register search participants.
+	 */
+	registerSearchParticipants() {
+		this.searchParticipantsInput.off('keyup').on('keyup', (e) => {
+			let len = this.searchParticipantsInput.val().length;
+			if (1 < len) {
+				this.isSearchParticipantsMode = true;
+				this.searchParticipantsCancel.removeClass('hide');
+			} else {
+				this.turnOffSearchParticipantsMode();
+			}
+			this.searchParticipants();
+		});
+		this.searchParticipantsCancel.off('click').on('click', (e) => {
+			this.turnOffSearchParticipantsMode();
+			this.searchParticipants();
+		});
+	}
+
+	/**
 	 * Register button history.
 	 */
 	registerButtonHistory() {
@@ -731,6 +843,7 @@ window.Chat_JS = class Chat_Js {
 			let icon = btnBell.find('.js-icon');
 			icon.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
 			this.isSoundNotification = icon.hasClass(btnBell.data('iconOn'));
+			app.setCookie("chat-isSoundNotification", this.isSoundNotification, 365);
 		});
 	}
 
@@ -755,6 +868,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerCreateRoom();
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
+		this.registerSearchParticipants();
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);
