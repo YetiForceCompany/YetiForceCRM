@@ -410,13 +410,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		});
 		params.callbackFunction = this.registerAfterSubmitForm(this, rightFormCreate);
 		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
-		$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-			let ckEditorInstance = new Vtiger_CkEditor_Js();
-			ckEditorInstance.loadCkEditor($(element), {
-				height: '5em',
-				toolbar: 'Min'
-			});
-		});
+		new App.Fields.Text.Editor(sideBar.find('.js-editor'), {height: '5em', toolbar: 'Min'});
 	}
 
 	/**
