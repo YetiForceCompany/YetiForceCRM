@@ -33,7 +33,8 @@
 				{ROOM_ITEM ROOM=['recordid'=>'', 'name'=>'', 'cnt_new_message'=>''] CLASS_NAME='hide js-temp-item-room'}
 				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
-					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold">
+					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
+						 data-group="{$KEY}">
 						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
 					</div>
 					<ul class="js-room-type pl-2 u-font-size-13px" data-room-type="{$KEY}" data-js="data">
