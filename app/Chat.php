@@ -258,18 +258,15 @@ class Chat
 	 */
 	public static function getRoomsByUser(?int $userId = null)
 	{
-		$cacheKey = "room_by_user.{$userId}";
-		$rr = Cache::staticHas('Chat', $cacheKey);
-		DebugerEx::log($rr);
-		if (Cache::staticHas('Chat', $cacheKey)) {
-			return Cache::staticGet('Chat', $cacheKey);
+		if (Cache::staticHas('roomsByUser', $userId)) {
+			return Cache::staticGet('roomsByUser', $userId);
 		}
 		$roomsByUser = [
 			'crm' => static::getRoomsCrm($userId),
 			'group' => static::getRoomsGroup($userId),
 			'global' => static::getRoomsGlobal(),
 		];
-		Cache::staticSave('Chat', $cacheKey, $roomsByUser);
+		Cache::staticSave('roomsByUser', $userId, $roomsByUser);
 		return $roomsByUser;
 	}
 
@@ -379,7 +376,7 @@ class Chat
 			'created' => date('Y-m-d H:i:s'),
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
-		Cache::staticDelete('Chat', "room_by_user.{$this->userId}");
+		Cache::staticDelete('roomsByUser', $this->userId);
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 

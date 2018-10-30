@@ -84,7 +84,7 @@
 			<div class="js-participants-list px-3 o-chat__scrollbar js-scrollbar" data-js="container|perfectscrollbar">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'role_name'=>'', 'message'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
-					{foreach item=USER from=$PARTICIPANTS}
+					{foreach item=USER from=$CHAT->getParticipants()}
 						{ITEM_USER USER=$USER}
 					{/foreach}
 				</ul>

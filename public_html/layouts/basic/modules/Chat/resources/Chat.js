@@ -324,7 +324,7 @@ window.Chat_JS = class Chat_Js {
 	searchParticipants() {
 		let searchVal = this.searchParticipantsInput.val().toLowerCase();
 		this.participants.find('.js-item-user').each((index, element) => {
-			let userName = $(element).find('.js-user-name').html().toLowerCase();
+			let userName = $(element).find('.js-user-name').text().toLowerCase();
 			$(element).toggleClass('hide', !(userName.indexOf(searchVal) >= 0));
 		});
 		this.container.find('.js-participants-list').scrollTop(0);
@@ -781,17 +781,15 @@ window.Chat_JS = class Chat_Js {
 	 * Register search participants.
 	 */
 	registerSearchParticipants() {
-		this.searchParticipantsInput.off('keydown').on('keydown', (e) => {
-			if (e.keyCode === 13) {
-				e.preventDefault();
-				if (this.searchParticipantsInput.val() === '') {
-					this.turnOffSearchParticipantsMode();
-				} else {
-					this.isSearchParticipantsMode = true;
-					this.searchParticipantsCancel.removeClass('hide');
-				}
-				this.searchParticipants();
+		this.searchParticipantsInput.off('keyup').on('keyup', (e) => {
+			let len = this.searchParticipantsInput.val().length;
+			if (2 === len) {
+				this.isSearchParticipantsMode = true;
+				this.searchParticipantsCancel.removeClass('hide');
+			} else if (len === 0) {
+				this.turnOffSearchParticipantsMode();
 			}
+			this.searchParticipants();
 		});
 		this.searchParticipantsCancel.off('click').on('click', (e) => {
 			this.turnOffSearchParticipantsMode();
