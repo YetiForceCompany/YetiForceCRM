@@ -87,7 +87,7 @@ window.Chat_JS = class Chat_Js {
 					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages && app.getCookie("chat-isSoundNotification") === "true") {
-					app.playSound('REMINDERS');
+					app.playSound('CHAT');
 				}
 				Chat_Js.amountOfNewMessages = data.result;
 				Chat_Js.registerTrackingEvents();
@@ -510,7 +510,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	soundNotification() {
 		if (this.isSoundNotification) {
-			app.playSound('REMINDERS');
+			app.playSound('CHAT');
 		}
 	}
 
