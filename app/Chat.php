@@ -192,7 +192,8 @@ class Chat
 			$rooms[] = $row;
 		}
 		$dataReader->close();
-		return Cache::save('Chat_global', $userId, $rooms);
+		Cache::save('Chat_global', $userId, $rooms);
+		return $rooms;
 	}
 
 	/**
@@ -224,7 +225,7 @@ class Chat
 			->leftJoin(['CNT' => $subQuery], 'CNT.groupid = GR.groupid AND CNT.userid = GR.userid')
 			->where(['GR.userid' => $userId])
 			->all();
-		Cache::save('Chat_global', $userId, $rows);
+		Cache::save('Chat_group', $userId, $rows);
 		return $rows;
 	}
 
