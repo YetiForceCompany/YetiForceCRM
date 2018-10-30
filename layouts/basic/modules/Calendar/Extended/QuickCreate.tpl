@@ -3,6 +3,7 @@
 	<div class="tpl-Calendar-Extended-QuickCreate quick-calendar-modal">
 		<input value="{AppConfig::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type"
 			   data-js="value">
+		<input type="hidden" id="showType" value="current"/>
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}"/>
 		{/foreach}
