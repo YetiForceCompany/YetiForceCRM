@@ -158,8 +158,8 @@
 							</div>
 							<div class="c-panel__body py-1 d-none">
 								<input type="hidden" name="duplicatefields" value="">
-								<button type="button" class="btn btn-success btn-sm js-duplicate-add-field"
-										data-js="click">{\App\Language::translate('LBL_ADD_FIELD',$MODULE_NAME)}</button>
+								<button type="button" class="btn btn-success btn-sm js-duplicate-add-field mb-1"
+										data-js="click"><span class="fa fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_FIELD',$MODULE_NAME)}</button>
 								<div class="js-duplicates-field-template js-duplicates-row d-none" data-js="container|clone">
 									{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
 								</div>

@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-CustomView-DuplicateRow d-flex">
+	<div class="tpl-CustomView-DuplicateRow d-flex my-1">
 		<div class="col-5">
 			<select class="form-control js-duplicates-field" data-js="select2|val">
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
@@ -13,7 +13,7 @@
 				{/foreach}
 			</select>
 		</div>
-		<div class="col-5">
+		<div class="col-5 mt-2">
 			<label>
 				{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES',$MODULE_NAME)}
 				<input type="checkbox" class="ml-2 js-duplicates-ignore" data-js="is"

@@ -52,7 +52,8 @@ class Currency
 	}
 
 	/**
-	 * Return base currency symbol
+	 * Return base currency symbol.
+	 *
 	 * @return string
 	 */
 	public static function getBaseCurrencySymbol()
