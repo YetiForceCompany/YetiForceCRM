@@ -8,8 +8,8 @@
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
 			<span class="js-room-name" data-js="append|replace">{$ROOM['name']}</span>
-			<span class="js-room-cnt badge badge-info inline float-right"
-				  data-js="append|replace">{$ROOM['cnt_new_message']}</span>
+			<span class="js-room-cnt badge badge-info ml-1 inline"
+				  data-js="append|replace">{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}</span>
 		</li>
 	{/function}
 	<div class="modal-body pt-0 pb-0">
@@ -22,9 +22,14 @@
 					<span class="js-btn-settings mr-1" data-js="click">
 						<span class="fas fa-cog"></span>
 					</span>
-					<span class="js-btn-bell mr-1" data-js="click" data-icon-on="fas fa-volume-up"
-						  data-icon-off="fas fa-volume-off">
-						<span class="fas fa-volume-up js-icon" data-js="replace"></span>
+					<span class="mr-1" data-icon-on="fa-bell"
+						  data-icon-off="fa-bell-slash" data-js="click">
+						<span class="fas fa-bell"></span>
+					</span>
+					<span class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
+						  data-icon-off="fa-volume-off" data-js="click">
+						<span class="fas {if $IS_SOUND_NOTIFICATION}fa-volume-up{else}fa-volume-off{/if} js-icon"
+							  data-js="replace"></span>
 					</span>
 					<button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
