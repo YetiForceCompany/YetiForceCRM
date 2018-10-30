@@ -61,7 +61,6 @@ class Chat_Modal_View extends \App\Controller\Modal
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->view('ModalFooter.tpl', $request->getModule());
 	}
 
