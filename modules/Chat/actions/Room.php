@@ -113,7 +113,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function tracking(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$response->setResult(1);
+		$response->setResult(\App\Chat::getNumberOfNewMessages());
 		$response->emit();
 	}
 }

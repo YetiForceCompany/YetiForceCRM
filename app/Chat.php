@@ -266,6 +266,23 @@ class Chat
 	}
 
 	/**
+	 * Rerun the number of new messages.
+	 *
+	 * @return int
+	 */
+	public static function getNumberOfNewMessages(): int
+	{
+		$numberOfNewMessages = 0;
+		$roomInfo = static::getRoomsByUser();
+		foreach (['crm', 'group', 'global'] as $roomType) {
+			foreach ($roomInfo[$roomType] as $item) {
+				$numberOfNewMessages += $item['cnt_new_message'];
+			}
+		}
+		return $numberOfNewMessages;
+	}
+
+	/**
 	 * Chat constructor.
 	 *
 	 * @param null|string $roomType
@@ -511,7 +528,7 @@ class Chat
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\AppConfig::module('Chat', 'ROWS_LIMIT') + 1);
+			$query->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
 		}
 		return $query->orderBy(['created' => \SORT_DESC]);
 	}

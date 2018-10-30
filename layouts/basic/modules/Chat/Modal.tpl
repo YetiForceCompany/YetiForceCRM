@@ -22,9 +22,9 @@
 					<span class="js-btn-settings mr-1" data-js="click">
 						<span class="fas fa-cog"></span>
 					</span>
-					<span class="js-btn-bell mr-1" data-js="click" data-icon-on="fa-volume"
-						  data-icon-off="fa-volume-slash">
-						<span class="fas fa-volume js-icon" data-js="replace"></span>
+					<span class="js-btn-bell mr-1" data-js="click" data-icon-on="fa-volume-up"
+						  data-icon-off="fa-volume-off">
+						<span class="fas fa-volume-up js-icon" data-js="replace"></span>
 					</span>
 					<button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>

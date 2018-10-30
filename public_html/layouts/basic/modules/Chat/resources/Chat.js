@@ -50,6 +50,17 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Return the time value for the global timer.
+	 * @returns {int}
+	 */
+	static getRefreshTimeGlobal() {
+		if (typeof Chat_Js.refreshTimerGlobal === 'undefined') {
+			Chat_Js.refreshTimeGlobal = Chat_Js.getHeaderChatButton().data('refreshTimeGlobal');
+		}
+		return Chat_Js.refreshTimeGlobal;
+	}
+
+	/**
 	 * Register tracking events.
 	 */
 	static registerTrackingEvents() {
@@ -61,14 +72,19 @@ window.Chat_JS = class Chat_Js {
 					mode: 'tracking'
 				}
 			}).done(function (data) {
-				if (data.result == 1) {
+				let badge = Chat_Js.getHeaderChatButton().find('.js-badge');
+				if (data.result > 0) {
 					Chat_Js.getHeaderChatButton().toggleClass('btn-light').toggleClass('btn-danger');
+					badge.removeClass('hide');
+					badge.html(data.result);
 				} else if (Chat_Js.getHeaderChatButton().hasClass('btn-danger')) {
 					Chat_Js.getHeaderChatButton().removeClass('btn-danger').addClass('btn-light');
+					badge.addClass('hide');
+					badge.html('');
 				}
 				Chat_Js.registerTrackingEvents();
 			});
-		}, 1000);
+		}, Chat_Js.getRefreshTimeGlobal());
 	}
 
 	/**
@@ -76,6 +92,10 @@ window.Chat_JS = class Chat_Js {
 	 */
 	static unregisterTrackingEvents() {
 		clearTimeout(Chat_Js.timerGlobal);
+		let badge = Chat_Js.getHeaderChatButton().find('.js-badge');
+		badge.addClass('hide');
+		badge.html('');
+		Chat_Js.getHeaderChatButton().removeClass('btn-danger').addClass('btn-light');
 	}
 
 	/**

@@ -49,9 +49,11 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$chat = \App\Chat::getInstance();
 		$chatEntries = $chat->getEntries();
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		$viewer->assign('CHAT', $chat);
 		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'ROWS_LIMIT'));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('PARTICIPANTS', $chat->getParticipants());
+		$viewer->assign('IS_MODAL_VIEW', true);
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
