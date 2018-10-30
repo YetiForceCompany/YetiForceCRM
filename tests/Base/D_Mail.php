@@ -14,6 +14,7 @@ class D_Mail extends \Tests\Base
 {
 	/**
 	 * Check if mailbox access data is set.
+	 * @codeCoverageIgnore
 	 */
 	protected function setUp()
 	{

@@ -13,13 +13,21 @@ namespace Tests\Base;
 class G_Cron extends \Tests\Base
 {
 	/**
-	 * Cron testing.
+	 * Remove file if using php7.1
+	 * @codeCoverageIgnore
 	 */
-	public function test()
+	public function setUp()
 	{
 		if (\App\Version::compare(PHP_VERSION, '7.1.x')) {
 			\unlink('app/SystemWarnings/Security/Dependencies.php');
 		}
+	}
+
+	/**
+	 * Cron testing.
+	 */
+	public function test()
+	{
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_cron_task', [
 				'status' => 0,
