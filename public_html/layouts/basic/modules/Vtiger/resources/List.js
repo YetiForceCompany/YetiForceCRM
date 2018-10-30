@@ -607,6 +607,7 @@ jQuery.Class("Vtiger_List_Js", {
 				app.notifyPostAjaxReady();
 			});
 			thisInstance.postLoadListViewRecordsEvents(listViewContentsContainer);
+			thisInstance.massUpdatePagination(urlParams);
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 		});
@@ -941,46 +942,48 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register List view Page Navigation
 	 */
 	registerPageNavigationEvents() {
-		const thisInstance = this;
-		$('.js-next-page').on('click', () => {
-			thisInstance.jumpToNextPage();
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
+		$('.js-next-page').on('click', (e) => {
+			self.jumpToNextPage(e);
 		});
 		$('.js-page--previous').on('click', () => {
-			thisInstance.jumpToPreviousPage();
+			self.jumpToPreviousPage();
 		});
 		$('.pageNumber').on('click', (e) => {
-			thisInstance.jumpToClickedPage($(e.currentTarget));
+			self.jumpToClickedPage($(e.currentTarget));
 		});
 		$('.js-count-number-records').on('click', () => {
-			thisInstance.updatePaginationAjax(true);
+			self.updatePaginationAjax(true);
 		});
 		$('.js-page--jump-drop-down').on('click', 'li', (e) => {
 			e.stopImmediatePropagation();
 		}).on('keypress', '.js-page-jump', (e) => {
-			thisInstance.jumpToPage(e);
+			self.jumpToPage(e);
 		});
 	},
 	/**
 	 * Jump to next page
 	 */
-	jumpToNextPage() {
-		const thisInstance = this;
+	jumpToNextPage(e) {
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
 		let aDeferred = $.Deferred(),
-			pageNumber = $('#pageNumber');
-		if ($(this).hasClass('disabled')) {
+			element = $(e.currentTarget),
+			pageNumber = listViewPageDiv.find('#pageNumber');
+		if (listViewPageDiv.find(element).hasClass('disabled')) {
 			return;
 		}
-		if ($('#noOfEntries').val() === $('#pageLimit').val()) {
+		if (listViewPageDiv.find('#noOfEntries').val() === listViewPageDiv.find('#pageLimit').val()) {
 			let urlParams = {
-					orderby: $('#orderBy').val(),
-					sortorder: $("#sortOrder").val(),
-					viewname: thisInstance.getCurrentCvId()
+					orderby: listViewPageDiv.find('#orderBy').val(),
+					sortorder: listViewPageDiv.find("#sortOrder").val(),
+					viewname: self.getCurrentCvId()
 				},
 				nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
 			pageNumber.val(nextPageNumber);
-			$('.js-page-jump').val(nextPageNumber);
-			thisInstance.getListViewRecords(urlParams).done(function (data) {
-				thisInstance.updatePagination(nextPageNumber);
+			listViewPageDiv.find('.js-page-jump').val(nextPageNumber);
+			self.getListViewRecords(urlParams).done(function (data) {
 				aDeferred.resolve();
 			}).fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
@@ -992,20 +995,20 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Jump to previous page
 	 */
 	jumpToPreviousPage() {
-		const thisInstance = this;
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
 		let aDeferred = $.Deferred(),
-			pageNumber = $('#pageNumber');
+			pageNumber = listViewPageDiv.find('#pageNumber');
 		if (pageNumber.val() > 1) {
 			let urlParams = {
-					"orderby": $('#orderBy').val(),
-					"sortorder": $('#sortOrder').val(),
-					"viewname": thisInstance.getCurrentCvId()
+					orderby: listViewPageDiv.find('#orderBy').val(),
+					sortorder: listViewPageDiv.find('#sortOrder').val(),
+					viewname: self.getCurrentCvId()
 				},
 				previousPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
 			pageNumber.val(previousPageNumber);
-			$('.js-page-jump').val(previousPageNumber);
-			thisInstance.getListViewRecords(urlParams).done(function (data) {
-				thisInstance.updatePagination(previousPageNumber);
+			listViewPageDiv.find('.js-page-jump').val(previousPageNumber);
+			self.getListViewRecords(urlParams).done(function (data) {
 				aDeferred.resolve();
 			}).fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
@@ -1014,27 +1017,25 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	/**
 	 * Jump to clicked page function
-	 * @param {jQuery} obj
+	 * @param {jQuery} element
 	 */
-	jumpToClickedPage(obj) {
-		const thisInstance = this;
-		if (obj.hasClass("disabled")) {
+	jumpToClickedPage(element) {
+		if (element.hasClass('disabled')) {
 			return false;
 		}
-		let pageNumberData = obj.data("id"),
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
+		let pageNumberData = element.data("id"),
 			urlParams = {
-				"orderby": $('#orderBy').val(),
-				"sortorder": $("#sortOrder").val(),
-				"viewname": thisInstance.getCurrentCvId(),
-				"page": pageNumberData
+				orderby: listViewPageDiv.find('#orderBy').val(),
+				sortorder: listViewPageDiv.find("#sortOrder").val(),
+				viewname: self.getCurrentCvId(),
+				page: pageNumberData
 			},
 			previousPageNumber = parseInt(parseFloat(pageNumberData)) - 1;
-		$('#pageNumber').val(previousPageNumber);
-		$('.js-page-jump').val(previousPageNumber);
-		thisInstance.getListViewRecords(urlParams).done(function (data) {
-			thisInstance.updatePagination(pageNumberData);
-		}).fail(function (textStatus, errorThrown) {
-		});
+		listViewPageDiv.find('#pageNumber').val(previousPageNumber);
+		listViewPageDiv.find('.js-page-jump').val(previousPageNumber);
+		self.getListViewRecords(urlParams);
 	},
 	/**
 	 * Jump to page function
@@ -1042,7 +1043,8 @@ jQuery.Class("Vtiger_List_Js", {
 	 * @returns {boolean}
 	 */
 	jumpToPage(e) {
-		const thisInstance = this;
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
 		if (13 === e.which) {
 			e.stopImmediatePropagation();
 			let element = $(e.currentTarget),
@@ -1051,10 +1053,10 @@ jQuery.Class("Vtiger_List_Js", {
 				element.validationEngine('showPrompt', response, '', "topLeft", true);
 			} else {
 				element.validationEngine('hideAll');
-				let currentPageElement = $('#pageNumber'),
+				let currentPageElement = listViewPageDiv.find('#pageNumber'),
 					currentPageNumber = parseInt(currentPageElement.val()),
 					newPageNumber = parseInt($(e.currentTarget).val()),
-					totalPages = parseInt($('.js-page--total').text());
+					totalPages = parseInt(listViewPageDiv.find('.js-page--total').text());
 				if (newPageNumber > totalPages) {
 					element.validationEngine('showPrompt', app.vtranslate('JS_PAGE_NOT_EXIST'), '', "topLeft", true);
 					return;
@@ -1068,10 +1070,8 @@ jQuery.Class("Vtiger_List_Js", {
 					return;
 				}
 				currentPageElement.val(newPageNumber);
-				thisInstance.getListViewRecords().done(function (data) {
-					thisInstance.updatePagination(newPageNumber);
+				self.getListViewRecords().done(function (data) {
 					element.closest('.btn-group ').removeClass('open');
-				}).fail(function (textStatus, errorThrown) {
 				});
 			}
 			return false;
@@ -1111,21 +1111,22 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	updatePagination: function (pageNumber) {
 		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
-		var thisInstance = this;
-		var cvId = thisInstance.getCurrentCvId();
-		var params = {};
+		const thisInstance = this;
+		let cvId = thisInstance.getCurrentCvId(),
+			params = {};
 		params['module'] = app.getModuleName();
-		if ('Settings' == app.getParentModuleName())
+		if ('Settings' == app.getParentModuleName()) {
 			params['parent'] = 'Settings';
+		}
 		params['view'] = 'Pagination';
 		params['viewname'] = cvId;
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
-		params['sourceModule'] = jQuery('#moduleFilter').val();
+		params['sourceModule'] = $('#moduleFilter').val();
 		params['totalCount'] = $('.pagination').data('totalCount');
-		var searchInstance = this.getListSearchInstance();
+		let searchInstance = this.getListSearchInstance();
 		if (searchInstance !== false) {
-			var searchValue = searchInstance.getAlphabetSearchValue();
+			let searchValue = searchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
@@ -1133,9 +1134,9 @@ jQuery.Class("Vtiger_List_Js", {
 				params['operator'] = 's';
 			}
 		}
-		params['noOfEntries'] = jQuery('#noOfEntries').val();
+		params['noOfEntries'] = $('#noOfEntries').val();
 		AppConnector.request(params).done(function (data) {
-			jQuery('.paginationDiv').html(data);
+			$('.paginationDiv').html(data);
 			thisInstance.registerPageNavigationEvents();
 
 		});
@@ -1145,16 +1146,15 @@ jQuery.Class("Vtiger_List_Js", {
 	 * @param {boolean} force
 	 */
 	updatePaginationAjax(force = false) {
-		const self = this;
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
 		let params = self.getDefaultParams(),
-			container = $('.paginationDiv');
-		app.hidePopover($(self));
-		let paramsNotifier = {
+			container = listViewPageDiv.find('.paginationDiv');
+		Vtiger_Helper_Js.showMessage({
 			title: app.vtranslate('JS_LBL_PERMISSION'),
 			text: app.vtranslate('JS_GET_PAGINATION_INFO'),
 			type: 'info',
-		};
-		Vtiger_Helper_Js.showMessage(paramsNotifier);
+		});
 		if (container.find('.js-pagination-list').data('total-count') > 0 || force) {
 			params.totalCount = -1;
 			params.view = 'Pagination';
@@ -1655,7 +1655,6 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 				Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
 					let progressIndicatorElement = $.progressIndicator(),
-						selectedIdsCount = listInstance.readSelectedIds(false).length,
 						postData = {
 							viewname: listInstance.getCurrentCvId(),
 							selected_ids: listInstance.readSelectedIds(true),
@@ -1680,10 +1679,7 @@ jQuery.Class("Vtiger_List_Js", {
 						if (data && data.result && data.result.notify) {
 							Vtiger_Helper_Js.showMessage(data.result.notify);
 						}
-						thisInstance.getListViewRecords().done(function (data) {
-							thisInstance.massUpdatePagination(postData.viewname, selectedIdsCount);
-						});
-						thisInstance.writeSelectedIds([]);
+						thisInstance.getListViewRecords();
 					}).fail(function (error, err) {
 						progressIndicatorElement.progressIndicator({mode: 'hide'});
 					});
@@ -1695,32 +1691,34 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	/**
 	 * Update pagination row
-	 * @param {string} viewName
-	 * @param {int[]} selectedIdsCount
 	 */
-	massUpdatePagination(viewName, selectedIdsCount) {
-		const self = this;
-		let paginationObject = $('.js-pagination-list'),
+	massUpdatePagination(urlParams = []) {
+		const self = this,
+			listViewPageDiv = this.getListViewContainer();
+		let paginationObject = listViewPageDiv.find('.js-pagination-list'),
 			totalCount = paginationObject.data('totalCount'),
-			orderBy = $('#orderBy').val(),
-			sortOrder = $("#sortOrder").val(),
-			pageNumber = parseInt($('#pageNumber').val());
-		if (totalCount !== '' && totalCount !== 0) {
-			totalCount = totalCount - selectedIdsCount;
-			paginationObject.data('totalCount', totalCount);
+			pageNumber = parseInt(listViewPageDiv.find('#pageNumber').val()),
+			tempPageNumber = pageNumber,
+			selectedIds = self.readSelectedIds(false);
+		if ('all' === selectedIds[0]) {
+			pageNumber = 1;
+		} else {
+			if ('' !== totalCount && 0 !== totalCount) {
+				totalCount = totalCount - selectedIds.length;
+				paginationObject.data('totalCount', totalCount);
+			}
+			if (listViewPageDiv.find('#noOfEntries').val() <= 0 && pageNumber !== 1) {
+				pageNumber--;
+			}
 		}
-		if ($('#noOfEntries').val() <= 0 && pageNumber !== 1) {
-			pageNumber--;
+		self.updatePagination(pageNumber);
+		if (tempPageNumber !== pageNumber) {
+			if (!$.isEmptyObject(urlParams)) {
+				urlParams['page'] = pageNumber;
+			}
+			self.getListViewRecords(urlParams);
 		}
-		let urlParams = {
-			viewname: viewName,
-			orderby: orderBy,
-			sortorder: sortOrder,
-			page: pageNumber,
-		};
-		self.getListViewRecords(urlParams).done(function () {
-			self.updatePagination(pageNumber);
-		});
+		self.writeSelectedIds([]);
 	},
 	/*
 	 * Function to register the click event of email field
