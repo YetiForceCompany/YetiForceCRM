@@ -403,7 +403,7 @@ class Chat
 	 *
 	 * @return array
 	 */
-	public function getParticipants(?string $searchValue = null)
+	public function getParticipants()
 	{
 		if (empty($this->recordId) || empty($this->roomType)) {
 			return [];
@@ -420,23 +420,13 @@ class Chat
 		$participants = [];
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
-			if (empty($searchValue)) {
-				$participants[] = [
-					'user_id' => $row['userid'],
-					'message' => $row['messages'],
-					'user_name' => $userModel->getName(),
-					'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-					'image' => $userModel->getImage()
-				];
-			} elseif (\strpos(\strtolower($userModel->getName()), $searchValue) !== false) {
-				$participants[] = [
-					'user_id' => $row['userid'],
-					'message' => $row['messages'],
-					'user_name' => $userModel->getName(),
-					'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-					'image' => $userModel->getImage()
-				];
-			}
+			$participants[] = [
+				'user_id' => $row['userid'],
+				'message' => $row['messages'],
+				'user_name' => $userModel->getName(),
+				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
+				'image' => $userModel->getImage()
+			];
 		}
 		$dataReader->close();
 		return $participants;

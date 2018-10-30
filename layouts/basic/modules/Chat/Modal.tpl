@@ -9,7 +9,7 @@
 			data-js="click">
 			<span class="js-room-name" data-js="append|replace">{$ROOM['name']}</span>
 			<span class="js-room-cnt badge badge-info ml-1 inline"
-				  data-js="append|replace">{$ROOM['cnt_new_message']}</span>
+				  data-js="append|replace">{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}</span>
 		</li>
 	{/function}
 	<div class="modal-body pt-0 pb-0">

@@ -285,32 +285,21 @@ window.Chat_JS = class Chat_Js {
 		this.searchParticipantsCancel.addClass('hide');
 		this.searchParticipantsInput.val('');
 		this.isSearchParticipantsMode = false;
+		this.participants.find('.js-item-user').each((index, element) => {
+			$(element).removeClass('hide');
+		});
 	}
 
 	/**
 	 * Search participants.
 	 */
 	searchParticipants() {
-		this.request({
-			action: 'Room',
-			mode: 'searchParticipants',
-			searchVal: this.searchParticipantsInput.val(),
-			roomType: this.getCurrentRoomType(),
-			recordId: this.getCurrentRecordId()
-		}, true, this.participants).done((data) => {
-			this.participants.html('');
-			let len = data.result.length;
-			for (let i = 0; i < len; ++i) {
-				this.participants.append(
-					this.createParticipantItem({
-						userName: data.result[i]['user_name'],
-						role: data.result[i]['role_name'],
-						message: data.result[i]['message'],
-						userId: data.result[i]['user_id'],
-					})
-				);
-			}
+		let searchVal = this.searchParticipantsInput.val().toLowerCase();
+		this.participants.find('.js-item-user').each((index, element) => {
+			let userName = $(element).find('.js-user-name').html().toLowerCase();
+			$(element).toggleClass('hide', !(userName.indexOf(searchVal) >= 0));
 		});
+		this.container.find('.js-participants-list').scrollTop(0);
 	}
 
 	/**
@@ -523,7 +512,11 @@ window.Chat_JS = class Chat_Js {
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
 		itemRoom.find('.js-room-name').html(data.name);
 		itemRoom.attr('title', data.name + ' rid: ' + data.recordid);
-		itemRoom.find('.js-room-cnt').html(data['cnt_new_message']);
+		if (data['cnt_new_message'] == 0) {
+			itemRoom.find('.js-room-cnt').html('');
+		} else {
+			itemRoom.find('.js-room-cnt').html(data['cnt_new_message']);
+		}
 		itemRoom.attr('data-record-id', data.recordid);
 		return itemRoom;
 	}
