@@ -559,10 +559,10 @@ window.Chat_JS = class Chat_Js {
 	getRoomName(data, roomType) {
 		let container = this.container;
 		let containerFooter = container.find('.js-chat-footer');
-		let containerGroup = container.find('.js-group-name');
-		containerGroup.each(function (e) {
-			if ($(this).data('group') == roomType) {
-				containerFooter.find('.js-footer-group-name').text($(this).text());
+		container.find('.js-group-name').each(function (e) {
+			let element = $(this);
+			if (element.data('group') == roomType) {
+				containerFooter.find('.js-footer-group-name').text(element.text());
 			}
 		})
 		containerFooter.find('.js-footer-room-name').text(data.find('.js-room-name').text());

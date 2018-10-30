@@ -55,6 +55,11 @@
 		border-bottom: 9px solid transparent;
 		color: #e8e8e8;
 	}
+	&__name {
+		opacity: 0.5;
+		color: black;
+	}
+
 	&__item {
 		margin-bottom: 3px;
 		padding: 2px 8px 2px 8px;
