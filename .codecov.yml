@@ -12,4 +12,4 @@ coverage:
     patch: off
 ignore:
 - tests/copy/.*
-comment: off
+comment: on
