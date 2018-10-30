@@ -1717,7 +1717,25 @@ var App = {},
 					}
 				}
 			});
-		}
+		},
+		showNotify: function (params, desktop = false) {
+			if (typeof params.type === 'undefined') {
+				params.type = 'info';
+			}
+			if (typeof params.title === 'undefined') {
+				params.title = app.vtranslate('JS_MESSAGE');
+			}
+			if (desktop) {
+				params = $.extend(params, {
+					modules: {
+						Desktop: {
+							desktop: true
+						}
+					}
+				});
+			}
+			Vtiger_Helper_Js.showPnotify(params);
+		},
 	};
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();

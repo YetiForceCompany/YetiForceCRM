@@ -525,6 +525,7 @@ window.Chat_JS = class Chat_Js {
 		});
 		let itemRoom = roomList.find('.js-room-type[data-room-type=' + roomType + '] .js-room[data-record-id=' + recordId + ']');
 		itemRoom.addClass('active');
+		this.getRoomName(itemRoom, roomType);
 		itemRoom.find('.js-room-cnt').html('');
 		this.messageContainer.data('currentRoomType', roomType);
 		this.messageContainer.data('currentRecordId', recordId);
@@ -547,6 +548,23 @@ window.Chat_JS = class Chat_Js {
 		}
 		itemRoom.attr('data-record-id', data.recordid);
 		return itemRoom;
+	}
+
+	/**
+	 * Get room name.
+	 * @param {object}
+	 * @param {string} roomType
+	 */
+	getRoomName(data, roomType) {
+		let container = this.container;
+		let containerFooter = container.find('.js-chat-footer');
+		let containerGroup = container.find('.js-group-name');
+		containerGroup.each(function (e) {
+			if ($(this).data('group') == roomType) {
+				containerFooter.find('.js-footer-group-name').text($(this).text());
+			}
+		})
+		containerFooter.find('.js-footer-room-name').text(data.find('.js-room-name').text());
 	}
 
 	/**

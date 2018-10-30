@@ -240,46 +240,4 @@ class Vtiger_Util_Helper
 		}
 		return false;
 	}
-
-	/*
-	 * Function used to get default value based on data type
-	 * @param $dataType - data type of field
-	 * @return returns default value for data type if match case found
-	 * else returns empty string
-	 */
-
-	public function getDefaultMandatoryValue($dataType)
-	{
-		switch ($dataType) {
-			case 'date':
-				$dateObject = new DateTime();
-				$value = DateTimeField::convertToUserFormat($dateObject->format('Y-m-d'));
-				break;
-			case 'time':
-				$value = '00:00:00';
-				break;
-			case 'boolean':
-				$value = false;
-				break;
-			case 'email':
-				$value = '??@??.??';
-				break;
-			case 'url':
-				$value = '???.??';
-				break;
-			case 'integer':
-				$value = 0;
-				break;
-			case 'double':
-				$value = 00.00;
-				break;
-			case 'currency':
-				$value = 0.00;
-				break;
-			default:
-				$value = '?????';
-				break;
-		}
-		return $value;
-	}
 }

@@ -3,7 +3,7 @@
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$ROOM['recordid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
-		<li class="text-truncate js-room {if $SELECTED} active{/if} {$CLASS_NAME}"
+		<li class="text-truncate js-room {if $SELECTED} active{/if} {$CLASS_NAME} p-1"
 			title="{\App\Purifier::encodeHtml($ROOM['name'], 'Chat')}"
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
@@ -22,7 +22,7 @@
 					<span class="js-btn-settings mr-1" data-js="click">
 						<span class="fas fa-cog"></span>
 					</span>
-					<span class="js-btn-bell mr-1" data-icon-on="fa-bell"
+					<span class="mr-1" data-icon-on="fa-bell"
 						  data-icon-off="fa-bell-slash" data-js="click">
 						<span class="fas fa-bell"></span>
 					</span>
@@ -38,7 +38,8 @@
 				{ROOM_ITEM ROOM=['recordid'=>'', 'name'=>'', 'cnt_new_message'=>''] CLASS_NAME='hide js-temp-item-room'}
 				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
-					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold">
+					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
+						 data-group="{$KEY}">
 						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
 					</div>
 					<ul class="js-room-type pl-2 u-font-size-13px" data-room-type="{$KEY}" data-js="data">

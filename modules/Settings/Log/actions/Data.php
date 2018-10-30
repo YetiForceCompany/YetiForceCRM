@@ -17,6 +17,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
+		$range = $request->getByType('range', 'DateRangeUserFormat');
 		if (!isset(App\Log::$tableColumnMapping[$type])) {
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
@@ -24,6 +25,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		$logsCountAll = $logsCount = (int) $query->count('*');
 		$query->offset($request->getInteger('start', 0));
 		$query->limit($request->getInteger('limit', 10));
+		$query->where(['between', 'date', $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
 		$order = $request->getArray('order', false);
 		if (isset($order['0']['column'])) {
 			$column = \App\Log::$tableColumnMapping[$type][$order['0']['column']];
