@@ -15,4 +15,6 @@ return [
 	'max_length_message' => 500,
 	// Refresh time for global timer.
 	'refresh_time_global' => 1000,
+	// Default sound notification.
+	'default_sound_notification' => true,
 ];

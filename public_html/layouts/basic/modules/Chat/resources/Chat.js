@@ -19,7 +19,7 @@ window.Chat_JS = class Chat_Js {
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
-		this.isSoundNotification = true;
+		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
 	}
 
 	/**
@@ -82,6 +82,10 @@ window.Chat_JS = class Chat_Js {
 					badge.addClass('hide');
 					badge.html('');
 				}
+				if (data.result > Chat_Js.amountOfNewMessages && app.getCookie("chat-isSoundNotification") === "true") {
+					app.playSound('REMINDERS');
+				}
+				Chat_Js.amountOfNewMessages = data.result;
 				Chat_Js.registerTrackingEvents();
 			});
 		}, Chat_Js.getRefreshTimeGlobal());
@@ -818,6 +822,7 @@ window.Chat_JS = class Chat_Js {
 			let icon = btnBell.find('.js-icon');
 			icon.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
 			this.isSoundNotification = icon.hasClass(btnBell.data('iconOn'));
+			app.setCookie("chat-isSoundNotification", this.isSoundNotification, 365);
 		});
 	}
 

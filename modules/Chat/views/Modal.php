@@ -54,6 +54,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('PARTICIPANTS', $chat->getParticipants());
 		$viewer->assign('IS_MODAL_VIEW', true);
+		$viewer->assign('IS_SOUND_NOTIFICATION', $this->isSoundNotification());
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
@@ -74,5 +75,15 @@ class Chat_Modal_View extends \App\Controller\Modal
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Chat.resources.Modal'
 		]));
+	}
+
+	/**
+	 * @return bool|mixed
+	 */
+	private function isSoundNotification()
+	{
+		return isset($_COOKIE['chat-isSoundNotification']) ?
+			filter_var($_COOKIE['chat-isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
+			\AppConfig::module('Chat', 'default_sound_notification');
 	}
 }
