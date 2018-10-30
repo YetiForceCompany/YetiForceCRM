@@ -296,7 +296,7 @@ class Chat
 	{
 		$key = 'totalNumberOfNewMessages';
 		if (Cache::has('Chat', $key)) {
-			return Cache::get('Chat', 'totalNumberOfNewMessages') > 0;
+			return Cache::get('Chat', $key) > 0;
 		}
 		return false;
 	}
@@ -350,6 +350,27 @@ class Chat
 			}
 		} else {
 			static::getNumberOfNewMessagesCache();
+		}
+	}
+
+	/**
+	 * Reset the number of new messages.
+	 *
+	 * @param string $roomType
+	 * @param int    $recordId
+	 */
+	public static function resetNumberOfNewMessages(string $roomType, int $recordId)
+	{
+		$key = 'numberOfNewMessages';
+		if (Cache::has('Chat', $key)) {
+			$rooms = Cache::get('Chat', $key);
+			if (isset($rooms[$roomType][$recordId])) {
+				$val = $rooms[$roomType][$recordId];
+				$rooms[$roomType][$recordId] = 0;
+				Cache::save('Chat', $key, $rooms);
+				$total = Cache::get('Chat', 'totalNumberOfNewMessages') - $val;
+				Cache::save('Chat', 'totalNumberOfNewMessages', $total);
+			}
 		}
 	}
 
@@ -644,8 +665,7 @@ class Chat
 	 */
 	private function updateRoom()
 	{
-		Cache::delete('Chat', 'numberOfNewMessages');
-		Cache::delete('Chat', 'totalNumberOfNewMessages');
+		static::resetNumberOfNewMessages($this->roomType, $this->recordId);
 		if ($this->roomType === 'global' && !$this->isAssigned()) {
 			Db::getInstance()->createCommand()
 				->insert(static::TABLE_NAME['room'][$this->roomType], [
