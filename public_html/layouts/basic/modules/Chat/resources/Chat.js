@@ -802,10 +802,10 @@ window.Chat_JS = class Chat_Js {
 	registerSearchParticipants() {
 		this.searchParticipantsInput.off('keyup').on('keyup', (e) => {
 			let len = this.searchParticipantsInput.val().length;
-			if (2 === len) {
+			if (1 < len) {
 				this.isSearchParticipantsMode = true;
 				this.searchParticipantsCancel.removeClass('hide');
-			} else if (len === 0) {
+			} else {
 				this.turnOffSearchParticipantsMode();
 			}
 			this.searchParticipants();
