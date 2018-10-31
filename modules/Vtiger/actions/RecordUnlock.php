@@ -13,7 +13,7 @@
 /**
  * Class Vtiger_Unlock_Action.
  */
-class Vtiger_Unlock_Action extends \App\Controller\Action
+class Vtiger_RecordUnlock_Action extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}
