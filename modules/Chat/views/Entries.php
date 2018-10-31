@@ -186,9 +186,7 @@ class Chat_Entries_View extends \App\Controller\View
 		if ($request->isEmpty('mid')) {
 			$chatEntries = $chat->getHistory();
 		} else {
-			//$since = $request->getByType('mid', 'Date');
-			$since = $request->getByType('mid', 'Text');
-			$chatEntries = $chat->getHistory((new \DateTime($since))->format('Y-m-d H:i:s'));
+			$chatEntries = $chat->getHistory($request->getByType('mid', 'DateTime'));
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());

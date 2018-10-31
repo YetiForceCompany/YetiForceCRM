@@ -470,7 +470,7 @@ class Chat
 			'created' => date('Y-m-d H:i:s'),
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
-		Cache::delete("Chat_{$this->roomType}", $this->userId);
+		Cache::delete("Chat_{$this->roomType}", '');
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
