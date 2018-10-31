@@ -310,14 +310,14 @@ class Chat
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['global'])
 				->groupBy([static::COLUMN_NAME['message']['global']]);
-		$queryGlobal = (new Db\Query())
+		return (new Db\Query())
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
 			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
 			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], 'GL.global_room_id = CG.global_room_id')
 			->where(['GL.userid' => $userId])
-			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]]);
-		return $queryGlobal->exists();
+			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
+			->exists();
 	}
 
 	/**
@@ -335,13 +335,13 @@ class Chat
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['crm'])
 				->groupBy([static::COLUMN_NAME['message']['crm']]);
-		$queryCrm = (new Db\Query())
+		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['C' => static::TABLE_NAME['room']['crm']])
 			->innerJoin(['CM' => $subQueryCrm], 'CM.crmid = C.crmid')
 			->where(['C.userid' => $userId])
-			->andWhere(['<', 'C.last_message', new \yii\db\Expression('CM.id')]);
-		return $queryCrm->exists();
+			->andWhere(['<', 'C.last_message', new \yii\db\Expression('CM.id')])
+			->exists();
 	}
 
 	/**
@@ -359,13 +359,13 @@ class Chat
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['group'])
 				->groupBy([static::COLUMN_NAME['message']['group']]);
-		$queryGroup = (new Db\Query())
+		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['GR' => static::TABLE_NAME['room']['group']])
 			->innerJoin(['CM' => $subQueryGroup], 'CM.groupid = GR.groupid')
 			->where(['GR.userid' => $userId])
-			->andWhere(['<', 'GR.last_message', new \yii\db\Expression('CM.id')]);
-		return $queryGroup->exists();
+			->andWhere(['<', 'GR.last_message', new \yii\db\Expression('CM.id')])
+			->exists();
 	}
 
 	/**
