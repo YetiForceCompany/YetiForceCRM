@@ -5,8 +5,8 @@
 	}
 	&__img-container {
 		border: 2px solid #d2d6de;
-		width: 60px;
-		height: 60px;
+		width: 50px;
+		height: 50px;
 	}
 	&__btn-send {
 		position: absolute;
@@ -23,6 +23,19 @@
 		z-index: 1000;
 		font-size: 15px;
 		color: #6c7591;
+	}
+	&__btn-favorite {
+		position: absolute;
+		bottom: 0px;
+		right: 268px;
+		z-index: 1000;
+		font-size: 15px;
+		color: #6c7591;
+	}
+	&__icon-container {
+		a {
+			color: black !important;
+		}
 	}
 	&__form-control {
 		border: 0px;
@@ -58,6 +71,7 @@
 	&__name {
 		opacity: 0.5;
 		color: black;
+		background: #e8e8e8;
 	}
 
 	&__item {
@@ -68,10 +82,19 @@
 		font-size: 13px;
 		background: #e8e8e8;
 	}
+
+	&__room {
+		background: #d5d7de;
+	}
+	&__room-hover {
+		&:hover {
+			background: #d5d7de;
+		}
+	}
 }
 
 .o-chat__detail {
 	.o-chat__scrollbar {
-		height: calc(100vh - #{calculate-rem(410px)});
+		height: calc(100vh - #{calculate-rem(361px)});
 	}
 }
