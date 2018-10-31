@@ -22,9 +22,11 @@ class A_LanguageFiles extends \Tests\Base
 			if ($item->isFile()) {
 				try {
 					$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
+					// @codeCoverageIgnoreStart
 				} catch (\Seld\JsonLint\ParsingException $e) {
 					$this->fail("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
 				}
+				// @codeCoverageIgnoreEnd
 			}
 		}
 	}
