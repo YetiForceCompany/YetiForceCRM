@@ -309,8 +309,8 @@ class Chat
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
 			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
-			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], 'GL.global_room_id = CG.global_room_id')
-			->where(['GL.userid' => $userId])
+			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], "GL.global_room_id = CG.global_room_id AND Gl.userid = {$userId}")
+			->where(['or', ['GL.userid' => null], ['GL.userid' => $userId]])
 			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
 			->exists();
 	}
@@ -489,11 +489,18 @@ class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$userModel = User::getUserModel($row['userid']);
-			$row['image'] = $userModel->getImage();
+			if (User::isExists($row['userid'])) {
+				$userModel = User::getUserModel($row['userid']);
+				$userImage = $userModel->getImage();
+				$userName = $userModel->getName();
+				$userRoleName = $userModel->getRoleInstance()->getName();
+			} else {
+				$userImage = $userName = $userRoleName = null;
+			}
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			$row['user_name'] = $userModel->getName();
-			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
+			$row['image'] = $userImage;
+			$row['user_name'] = $userName;
+			$row['role_name'] = $userRoleName;
 			$rows[] = $row;
 			$mid = (int) $row['id'];
 			if ($this->lastMessageId < $mid) {
@@ -553,6 +560,7 @@ class Chat
 		$userModel = User::getUserModel($this->userId);
 		$userimage = $userModel->getImage();
 		$userName = $userModel->getName();
+		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -560,7 +568,7 @@ class Chat
 			$row['image'] = $userimage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
-			$row['role_name'] = $userModel->getRoleInstance()->getName();
+			$row['role_name'] = $userRoleName;
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
