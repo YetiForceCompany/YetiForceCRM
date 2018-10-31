@@ -6,7 +6,7 @@
 			{if $CUSTOM_FIELDS_HEADER}
 				{foreach from=$CUSTOM_FIELDS_HEADER item=ROW}
 					<div class="badge badge-info d-flex flex-nowrap align-items-center justify-content-center my-1 js-popover-tooltip--ellipsis"
-						 data-content="{htmlentities($ROW['title'])} {htmlentities($ROW['badge'])}" data-toggle="popover"
+						 data-content="{\App\Purifier::encodeHtml($ROW['title'])} {\App\Purifier::encodeHtml($ROW['badge'])}" data-toggle="popover"
 						 data-js="popover | mouseenter"
 						 {if isset($ROW['action']) && $ROW['action']}onclick="{\App\Purifier::encodeHtml($ROW['action'])}"{/if}>
 						<div class="c-popover-text">
@@ -22,7 +22,7 @@
 					{if !$RECORD->isEmpty($NAME)}
 						{assign var=VALUE value=$RECORD->getDisplayValue($NAME)}
 						<div class="badge {if $FIELD_MODEL->getHeaderValue('class')}{$FIELD_MODEL->getHeaderValue('class')}{else}badge-info{/if} d-flex flex-nowrap align-items-center justify-content-center mt-1 js-popover-tooltip--ellipsis"
-							 data-content="{htmlentities(\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME))}: <string>{htmlentities($VALUE)}</string>"
+							 data-content="{\App\Purifier::encodeHtml(\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME))}: <string>{\App\Purifier::encodeHtml($VALUE)}</string>"
 							 data-toggle="popover" data-js="popover | mouseenter">
 							<div class="c-popover-text">
 								<span class="mr-1">
