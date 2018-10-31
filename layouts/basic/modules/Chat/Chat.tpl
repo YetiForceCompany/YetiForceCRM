@@ -11,7 +11,7 @@
 					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
 						 alt="{$USER['user_name']}"
 						 title="{$USER['user_name']}"/>
-					<span class="fas fa-user u-font-size-50px userImage {if $IS_IMAGE} hide{/if} o-chat__author-name"></span>
+					<span class="fas fa-user u-font-size-38px userImage {if $IS_IMAGE} hide{/if} o-chat__author-name"></span>
 				</div>
 				<div class="col-9 px-4">
 					<div class="js-user-name u-font-size-13px">{$USER['user_name']}</div>
@@ -25,15 +25,15 @@
 		<div class="col-9">
 			<div class="row px-2">
 				<div class="input-group">
+					<button type="button" class="btn btn-sm btn-danger hide mr-1 js-search-cancel" data-js="click">
+						<span aria-hidden="true">&times;</span>
+					</button>
 					<input type="text"
 						   class="form-control u-font-size-13px js-search-message border-bottom rounded-0 o-chat__form-control"{' '}
 						   autocomplete="off"{' '}
 						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
 						   data-js="keydown"/>
 					<span class="fas fa-search o-chat__icon-search"></span>
-					<button type="button" class="btn btn-danger hide mr-1 js-search-cancel" data-js="click">
-						<span aria-hidden="true">&times;</span>
-					</button>
 				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
