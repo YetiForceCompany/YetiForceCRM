@@ -89,7 +89,7 @@
 					{/foreach}
 				</ul>
 			</div>
-			<div>
+			<div class="o-chat__btn-favorite">
 				{if !(isset($IS_MODAL_VIEW) && $IS_MODAL_VIEW) }
 					<button type="button"
 							class="btn btn-danger{if !$CHAT->isAssigned()} hide{/if} js-remove-from-favorites"

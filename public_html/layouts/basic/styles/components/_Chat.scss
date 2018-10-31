@@ -24,6 +24,14 @@
 		font-size: 15px;
 		color: #6c7591;
 	}
+	&__btn-favorite {
+		position: absolute;
+		bottom: 0px;
+		right: 268px;
+		z-index: 1000;
+		font-size: 15px;
+		color: #6c7591;
+	}
 	&__form-control {
 		border: 0px;
 		&:focus {
@@ -82,6 +90,6 @@
 
 .o-chat__detail {
 	.o-chat__scrollbar {
-		height: calc(100vh - #{calculate-rem(410px)});
+		height: calc(100vh - #{calculate-rem(361px)});
 	}
 }
