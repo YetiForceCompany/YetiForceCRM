@@ -295,7 +295,7 @@ class Install_Index_View extends \App\Controller\View
 		$cssFileNames = [
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css',
-			'~libraries/fontawesome-web/css/fontawesome-all.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~install/tpl/resources/css/style.css',
 			'~install/tpl/resources/css/mkCheckbox.css'
 		];
