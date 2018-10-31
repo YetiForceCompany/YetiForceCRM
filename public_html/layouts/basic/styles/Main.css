@@ -11871,8 +11871,8 @@ ul.tweets li {
 .u-font-size-14px {
   font-size: 0.9375rem; }
 
-.u-font-size-50px {
-  font-size: 3.125rem; }
+.u-font-size-38px {
+  font-size: 2.375rem; }
 
 .u-font-size-19px {
   font-size: 1.1875rem; }
@@ -13262,8 +13262,8 @@ input[type="radio"]:checked:before {
   list-style: none !important; }
 .o-chat__img-container {
   border: 2px solid #d2d6de;
-  width: 60px;
-  height: 60px; }
+  width: 50px;
+  height: 50px; }
 .o-chat__btn-send {
   position: absolute;
   bottom: 10px;
@@ -13278,6 +13278,15 @@ input[type="radio"]:checked:before {
   z-index: 1000;
   font-size: 15px;
   color: #6c7591; }
+.o-chat__btn-favorite {
+  position: absolute;
+  bottom: 0px;
+  right: 268px;
+  z-index: 1000;
+  font-size: 15px;
+  color: #6c7591; }
+.o-chat__icon-container a {
+  color: black !important; }
 .o-chat__form-control {
   border: 0px; }
   .o-chat__form-control:focus {
@@ -13304,16 +13313,21 @@ input[type="radio"]:checked:before {
   color: #e8e8e8; }
 .o-chat__name {
   opacity: 0.5;
-  color: black; }
+  color: black;
+  background: #e8e8e8; }
 .o-chat__item {
   margin-bottom: 3px;
   padding: 2px 8px 2px 8px; }
 .o-chat__messages {
   font-size: 13px;
   background: #e8e8e8; }
+.o-chat__room {
+  background: #d5d7de; }
+.o-chat__room-hover:hover {
+  background: #d5d7de; }
 
 .o-chat__detail .o-chat__scrollbar {
-  height: calc(100vh - 25.625rem); }
+  height: calc(100vh - 22.5625rem); }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
@@ -15708,6 +15722,9 @@ label.btn.btn-outline-primary:not(.active) {
     .related .nav-pills .dropdown-menu .nav-link {
       border-radius: 0;
       font-weight: bold; }
+    .related .nav-pills .dropdown-menu .c-tab__text {
+      display: inline !important;
+      margin-left: 0.25rem; }
 
 @media only screen and (max-width: 768px) {
   .dropdown-menu {
