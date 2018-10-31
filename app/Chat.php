@@ -469,6 +469,32 @@ class Chat
 	}
 
 	/**
+	 * Get user info.
+	 *
+	 * @param int $userId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getUserInfo(int $userId)
+	{
+		if (User::isExists($userId)) {
+			$userModel = User::getUserModel($userId);
+			$userImage = $userModel->getImage();
+			$userName = $userModel->getName();
+			$userRoleName = $userModel->getRoleInstance()->getName();
+		} else {
+			$userImage = $userName = $userRoleName = null;
+		}
+		return [
+			'user_name' => $userName,
+			'role_name' => $userRoleName,
+			'image' => $userImage,
+		];
+	}
+
+	/**
 	 * Get entries function.
 	 *
 	 * @param int|null $messageId
@@ -489,18 +515,12 @@ class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if (User::isExists($row['userid'])) {
-				$userModel = User::getUserModel($row['userid']);
-				$userImage = $userModel->getImage();
-				$userName = $userModel->getName();
-				$userRoleName = $userModel->getRoleInstance()->getName();
-			} else {
-				$userImage = $userName = $userRoleName = null;
-			}
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			$row['image'] = $userImage;
-			$row['user_name'] = $userName;
-			$row['role_name'] = $userRoleName;
+			[
+				'user_name' => $row['user_name'],
+				'role_name' => $row['role_name'],
+				'image' => $row['image']
+			] = $this->getUserInfo($row['userid']);
 			$rows[] = $row;
 			$mid = (int) $row['id'];
 			if ($this->lastMessageId < $mid) {
@@ -512,6 +532,31 @@ class Chat
 			$this->updateRoom();
 		}
 		return \array_reverse($rows);
+	}
+
+	/**
+	 * Get history by type.
+	 *
+	 * @param string   $roomType
+	 * @param int|null $messageId
+	 *
+	 * @return array
+	 */
+	public function getHistoryByType(string $roomType = 'global', ?int $messageId = null)
+	{
+		$query = (new Db\Query())
+			->select([
+				'id', 'messages', 'userid', 'created',
+				'recordid' => static::COLUMN_NAME['message'][$roomType],
+			])
+			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
+			->where(['userid' => $this->userId])
+			->orderBy(['id' => \SORT_DESC])
+			->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
+		if (!\is_null($messageId)) {
+			$query->where(['<', 'id', $messageId]);
+		}
+		return $query->all();
 	}
 
 	/**

@@ -925,7 +925,7 @@ window.Chat_JS = class Chat_Js {
 		}
 		btnDesktop.off('click').on('click', (e) => {
 			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
-			if (icon.hasClass(iconOn)) {
+			if (btnDesktop.find('.js-icon').hasClass(iconOn)) {
 				if (!Chat_Js.checkDesktopPermission()) {
 					PNotify.modules.Desktop.permission();
 					app.setCookie("chat-isDesktopNotification", true, 365);
