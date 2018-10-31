@@ -217,7 +217,7 @@ abstract class View extends Base
 			'~layouts/resources/icons/userIcons.css',
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
-			'~libraries/fontawesome-web/css/fontawesome-all.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -249,10 +249,7 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/@fortawesome/fontawesome/index.js',
-			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
-			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
-			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
+			'~libraries/@fortawesome/fontawesome-free/js/all.js'
 		]);
 	}
 
@@ -562,7 +559,7 @@ abstract class View extends Base
 					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
 					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
 					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-					 'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+					 'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
 					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 					 'rowHeight' => $userModel->getDetail('rowheight'),
 					 'userId' => $userModel->getId(),
@@ -574,7 +571,7 @@ abstract class View extends Base
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),
+					 'debug' => (bool)\AppConfig::debug('JS_DEBUG'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
@@ -586,7 +583,7 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if ((int) \App\Session::get('ShowUserPasswordChange') === 1) {
+			if ((int)\App\Session::get('ShowUserPasswordChange') === 1) {
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}
