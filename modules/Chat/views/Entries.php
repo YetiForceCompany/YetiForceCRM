@@ -24,6 +24,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$this->exposeMethod('get');
 		$this->exposeMethod('getMore');
 		$this->exposeMethod('search');
+		$this->exposeMethod('history');
 	}
 
 	/**
@@ -169,6 +170,29 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer->assign('CHAT', $chat);
 		$viewer->assign('VIEW_FOR_RECORD', true);
 		return $viewer->view('Detail/Chat.tpl', 'Chat', true);
+	}
+
+	/**
+	 * Get history.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function history(\App\Request $request)
+	{
+		$chat = \App\Chat::getInstance();
+		if ($request->isEmpty('mid')) {
+			$chatEntries = $chat->getHistory();
+		} else {
+			$chatEntries = $chat->getHistory($request->getByType('mid', 'DateTime'));
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('CHAT_ENTRIES', $chatEntries);
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'rows_limit'));
+		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
 	/**

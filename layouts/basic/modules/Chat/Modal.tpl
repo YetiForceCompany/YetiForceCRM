@@ -17,10 +17,10 @@
 			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
 				<div class="w-100 text-right p-2 o-chat__icon-container">
 					<a class="ml-auto mr-1 js-btn-history" data-js="click" href="#">
-						<span class="fas fa-history"
+          	<span class="fas fa-history"
 							  title="{\App\Language::translate('LBL_HISTORY_CHAT', $MODULE_NAME)}"></span>
 					</a>
-					<a class="mr-1" data-icon-on="fa-bell"
+					<a class="js-btn-desktop-notification mr-1" data-icon-on="fa-bell"
 					   data-icon-off="fa-bell-slash" data-js="click" href="#">
 						<span class="fas fa-bell"
 							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}"></span>

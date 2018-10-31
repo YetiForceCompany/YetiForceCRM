@@ -27,7 +27,7 @@ class OpenCageGeocoder extends Base
 	 */
 	public static function isActive()
 	{
-		return (bool)\App\Map\Address::getConfig()['opencage_data']['nominatim'];
+		return (bool) \App\Map\Address::getConfig()['opencage_data']['nominatim'];
 	}
 
 	/**

@@ -10,7 +10,8 @@
 		 stopOnIncomplete="true"
 		 printerClass="YtResultPrinter"
 		 printerFile="printer.php"
-		 bootstrap="bootstrap.php">
+		 bootstrap="bootstrap.php"
+		 timeoutForLargeTests="1000">
 	<testsuites>
 		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>

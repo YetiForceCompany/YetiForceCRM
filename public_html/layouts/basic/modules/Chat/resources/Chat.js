@@ -14,6 +14,7 @@ window.Chat_JS = class Chat_Js {
 		this.init(container);
 		this.sendByEnter = true;
 		this.isSearchMode = false;
+		this.isHistoryMode = false;
 		this.searchValue = null;
 		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
@@ -86,8 +87,21 @@ window.Chat_JS = class Chat_Js {
 						badge.html('');
 					}
 				}
-				if (data.result > Chat_Js.amountOfNewMessages && app.getCookie("chat-isSoundNotification") === "true") {
-					app.playSound('CHAT');
+				if (data.result > Chat_Js.amountOfNewMessages) {
+					if (app.getCookie("chat-isSoundNotification") === "true") {
+						app.playSound('CHAT');
+					}
+					if (Chat_Js.desktopPermission()) {
+						let message = app.vtranslate('JS_CHAT_NEW_MESSAGE');
+						if (showNumberOfNewMessages) {
+							message += ' ' + data.result;
+						}
+						app.showNotify({
+							text: message,
+							title: app.vtranslate('JS_CHAT'),
+							type: 'success'
+						}, true);
+					}
 				}
 				Chat_Js.amountOfNewMessages = data.result;
 				Chat_Js.registerTrackingEvents();
@@ -105,6 +119,37 @@ window.Chat_JS = class Chat_Js {
 		badge.addClass('hide');
 		badge.html('');
 		headerChatButton.removeClass('btn-danger').addClass('btn-light');
+	}
+
+	/**
+	 * Check if the user has enabled notifications.
+	 * @returns {boolean}
+	 */
+	static desktopPermission() {
+		if (!Chat_Js.isDesktopNotification()) {
+			return false;
+		}
+		if (!Chat_Js.checkDesktopPermission()) {
+			app.setCookie("chat-isDesktopNotification", false, 365);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check if the user has enabled notifications.
+	 * @returns {boolean}
+	 */
+	static isDesktopNotification() {
+		return app.getCookie("chat-isDesktopNotification") === "true";
+	}
+
+	/**
+	 * Check desktop permission.
+	 * @returns {boolean}
+	 */
+	static checkDesktopPermission() {
+		return PNotify.modules.Desktop.checkPermission() === 0;
 	}
 
 	/**
@@ -275,6 +320,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} btn
 	 */
 	searchMessage(btn = null) {
+		this.isHistoryMode = false;
 		clearTimeout(this.timerMessage);
 		let mid = null;
 		if (btn !== null) {
@@ -287,6 +333,33 @@ window.Chat_JS = class Chat_Js {
 			mid: mid,
 			roomType: this.getCurrentRoomType(),
 			recordId: this.getCurrentRecordId()
+		}, false).done((html) => {
+			if (btn === null) {
+				this.messageContainer.html(html);
+			} else {
+				btn.before(html);
+				btn.remove();
+			}
+			this.registerLoadMore();
+		});
+	}
+
+	/**
+	 * Get history.
+	 * @param {jQuery} btn
+	 */
+	history(btn = null) {
+		this.isSearchMode = false;
+		this.isHistoryMode = true;
+		clearTimeout(this.timerMessage);
+		let mid = null;
+		if (btn !== null) {
+			mid = btn.data('mid');
+		}
+		this.request({
+			view: 'Entries',
+			mode: 'history',
+			mid: mid
 		}, false).done((html) => {
 			if (btn === null) {
 				this.messageContainer.html(html);
@@ -543,7 +616,7 @@ window.Chat_JS = class Chat_Js {
 		let itemRoom = this.container.find('.js-room-list .js-temp-item-room').clone(false, false);
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
 		itemRoom.find('.js-room-name').html(data.name);
-		itemRoom.attr('title', data.name + ' rid: ' + data.recordid);
+		itemRoom.attr('title', data.name);
 		if (data['cnt_new_message'] == 0) {
 			itemRoom.find('.js-room-cnt').html('');
 		} else {
@@ -701,6 +774,7 @@ window.Chat_JS = class Chat_Js {
 				this.scrollToBottom();
 				this.registerLoadMore();
 				this.turnOffSearchMode();
+				this.isHistoryMode = false;
 			});
 		});
 	}
@@ -770,6 +844,8 @@ window.Chat_JS = class Chat_Js {
 			let btn = $(e.currentTarget);
 			if (this.isSearchMode) {
 				this.searchMessage(btn);
+			} else if (this.isHistoryMode) {
+				this.history(btn);
 			} else {
 				this.getMore(btn);
 			}
@@ -808,7 +884,7 @@ window.Chat_JS = class Chat_Js {
 			if (1 < len) {
 				this.isSearchParticipantsMode = true;
 				this.searchParticipantsCancel.removeClass('hide');
-			} else {
+			} else if (len === 0) {
 				this.turnOffSearchParticipantsMode();
 			}
 			this.searchParticipants();
@@ -824,7 +900,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerButtonHistory() {
 		this.container.find('.js-btn-history').off('click').on('click', (e) => {
-
+			this.history();
 		});
 	}
 
@@ -834,6 +910,30 @@ window.Chat_JS = class Chat_Js {
 	registerButtonSettings() {
 		this.container.find('.js-btn-settings').off('click').on('click', (e) => {
 
+		});
+	}
+
+	/**
+	 * Register button desktop notification.
+	 */
+	registerButtonDesktopNotification() {
+		let btnDesktop = this.container.find('.js-btn-desktop-notification');
+		let iconOn = btnDesktop.data('iconOn');
+		let iconOff = btnDesktop.data('iconOff');
+		if (Chat_Js.isDesktopNotification() && !Chat_Js.checkDesktopPermission()) {
+			app.setCookie("chat-isDesktopNotification", false, 365);
+			btnDesktop.find('.js-icon').removeClass(iconOn).addClass(iconOff);
+		} else if (Chat_Js.isDesktopNotification()) {
+			btnDesktop.find('.js-icon').removeClass(iconOff).addClass(iconOn);
+		}
+		btnDesktop.off('click').on('click', (e) => {
+			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
+			if (icon.hasClass(iconOn)) {
+				if (!Chat_Js.checkDesktopPermission()) {
+					PNotify.modules.Desktop.permission();
+					app.setCookie("chat-isDesktopNotification", true, 365);
+				}
+			}
 		});
 	}
 
@@ -889,6 +989,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
+		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
 		Chat_Js.unregisterTrackingEvents();
 	}

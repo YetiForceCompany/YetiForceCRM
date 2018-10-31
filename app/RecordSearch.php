@@ -121,10 +121,14 @@ class RecordSearch
 				}
 				break;
 			case 'FulltextBegin':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
+				$query->addOrderBy('matcher');
 				break;
 			case 'FulltextWord':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
+				$query->addOrderBy('matcher');
 				break;
 		}
 		return $query->andWhere($where);
@@ -137,6 +141,8 @@ class RecordSearch
 	 */
 	public function getLabelQuery()
 	{
+		$db = \App\Db::getInstance();
+
 		$query = (new \App\Db\Query())->select(['cl.crmid', 'cl.label'])
 			->from('u_#__crmentity_label cl')->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid');
 		if ($this->moduleName) {
@@ -154,10 +160,14 @@ class RecordSearch
 				$where[] = ['like', 'cl.label', $this->searchValue];
 				break;
 			case 'FulltextBegin':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
+				$query->addOrderBy('matcher');
 				break;
 			case 'FulltextWord':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
+				$query->addOrderBy('matcher');
 				break;
 		}
 		if ($this->checkPermissions) {

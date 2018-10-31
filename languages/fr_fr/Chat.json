@@ -1,0 +1,14 @@
+{
+  "php": {
+    "LBL_ROOM_CRM": "Favourites",
+    "LBL_ROOM_GROUP": "Group room",
+    "LBL_ROOM_GLOBAL": "Global room",
+    "LBL_MESSAGE": "Massage",
+    "LBL_PARTICIPANTS": "Participants",
+    "LBL_SEARCH_PARTICIPANTS": "Search participants",
+    "LBL_SEARCH_MESSAGE": "Search messages",
+    "LBL_CREATE_CHAT_ROOM": "Create chat room",
+    "LBL_REMOVE_FROM_FAVORITES": "Remove from favourites",
+    "LBL_ADD_FROM_FAVORITES": "Add to favourites"
+  }
+}
