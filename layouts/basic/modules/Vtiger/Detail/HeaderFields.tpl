@@ -8,7 +8,7 @@
 					<div class="badge badge-info d-flex flex-nowrap align-items-center justify-content-center my-1 js-popover-tooltip--ellipsis"
 						 data-content="{$ROW['title']} {$ROW['badge']}" data-toggle="popover"
 						 data-js="popover | mouseenter"
-						 {if $ROW['action']}onclick="{\App\Purifier::encodeHtml($ROW['action'])}"{/if}>
+						 {if isset($ROW['action']) && $ROW['action']}onclick="{\App\Purifier::encodeHtml($ROW['action'])}"{/if}>
 						<div class="c-popover-text">
 							<span class="mr-1">{$ROW['title']}</span>
 							{$ROW['badge']}
