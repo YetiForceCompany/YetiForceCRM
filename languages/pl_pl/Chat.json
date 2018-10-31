@@ -10,6 +10,10 @@
     "LBL_CREATE_CHAT_ROOM": "Utw\u00f3rz pok\u00f3j chat",
     "LBL_REMOVE_FROM_FAVORITES": "Usu\u0144 z ulubionych",
     "LBL_ADD_FROM_FAVORITES": "Dodaj do ulubionych",
-    "LBL_EARLIER": "Wcze\u015bniejsze"
+    "LBL_EARLIER": "Wcze\u015bniejsze",
+    "LBL_NOTIFICATION": "Powiadomienia czata",
+    "LBL_SOUND_OFF": "D\u017awi\u0119k wy\u0142\u0105czony",
+    "LBL_SOUND_ON": "D\u017awi\u0119k w\u0142\u0105czony",
+    "LBL_HISTORY_CHAT": "Historia czatu"
   }
 }

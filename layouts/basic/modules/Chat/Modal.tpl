@@ -15,19 +15,22 @@
 	<div class="modal-body pt-0 pb-0">
 		<div class="row p-0">
 			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
-				<div class="w-100 text-right p-2  ">
-					<span class="ml-auto mr-1 js-btn-history u-cursor-pointer" data-js="click">
-						<span class="fas fa-history"></span>
-					</span>
-					<span class="mr-1 u-cursor-pointer" data-icon-on="fa-bell"
-						  data-icon-off="fa-bell-slash" data-js="click">
-						<span class="fas fa-bell"></span>
-					</span>
-					<span class="js-btn-bell mr-1 u-cursor-pointer" data-icon-on="fa-volume-up"
-						  data-icon-off="fa-volume-off" data-js="click">
+				<div class="w-100 text-right p-2 o-chat__icon-container">
+					<a class="ml-auto mr-1 js-btn-history" data-js="click" href="#">
+						<span class="fas fa-history"
+							  title="{\App\Language::translate('LBL_HISTORY_CHAT', $MODULE_NAME)}"></span>
+					</a>
+					<a class="mr-1" data-icon-on="fa-bell"
+					   data-icon-off="fa-bell-slash" data-js="click" href="#">
+						<span class="fas fa-bell"
+							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}"></span>
+					</a>
+					<a class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
+					   data-icon-off="fa-volume-off" data-js="click" href="#">
 						<span class="fas {if $IS_SOUND_NOTIFICATION}fa-volume-up{else}fa-volume-off{/if} js-icon"
-							  data-js="replace"></span>
-					</span>
+							  data-js="replace"
+							  title="{\App\Language::translate('LBL_SOUND_ON', $MODULE_NAME)}"></span>
+					</a>
 					<button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

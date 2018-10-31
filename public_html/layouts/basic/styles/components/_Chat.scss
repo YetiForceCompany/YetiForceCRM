@@ -32,6 +32,11 @@
 		font-size: 15px;
 		color: #6c7591;
 	}
+	&__icon-container {
+		a {
+			color: black !important;
+		}
+	}
 	&__form-control {
 		border: 0px;
 		&:focus {
