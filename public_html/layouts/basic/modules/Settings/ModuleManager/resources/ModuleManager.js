@@ -46,6 +46,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		})
 		data.find('[name="saveButton"]').on('click', function (e) {
 			if (form.validationEngine('validate')) {
+				data.find('[name="saveButton"]').attr("disabled", true);
 				var formData = form.serializeFormData();
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('Adding a Key'),
@@ -66,6 +67,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 							text: result.text,
 							type: 'error'
 						});
+						data.find('[name="saveButton"]').attr("disabled", false);
 					} else {
 						window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
 					}
