@@ -77,9 +77,9 @@
 											<a target="_blank" id="{$ID}_link"
 											   class="u-cursor-pointer col-12 form-row py-1" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 												onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
-												<span class="col-7 text-left u-text-ellipsis">{$recordObject->getName()} {if $recordObject->get('smownerid')}({$recordObject->getDisplayValue('smownerid',$ID,true)}){/if}</span>
+												<span class="col-8 text-left u-text-ellipsis">{$recordObject->getName()} {if $recordObject->get('smownerid')}({$recordObject->getDisplayValue('smownerid',$ID,true)}){/if}</span>
 												<span id="{$ID}_time"
-													  class="col-5 text-right px-0 u-text-ellipsis">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
+													  class="col-4 text-right px-0 u-text-ellipsis">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
 											</a>
 										</li>
 									{else}
