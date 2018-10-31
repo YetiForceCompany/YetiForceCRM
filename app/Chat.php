@@ -514,6 +514,63 @@ class Chat
 	}
 
 	/**
+	 * Get history.
+	 *
+	 * @param null|string $since
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getHistory(?string $since = null)
+	{
+		$queryGroup = (new Db\Query())
+			->select([
+				'messages', 'userid', 'created',
+				'recordid' => static::COLUMN_NAME['message']['group'],
+				'room_type' => new \yii\db\Expression("'group'")
+			])
+			->from(['GR' => static::TABLE_NAME['message']['group']])
+			->where(['userid' => $this->userId]);
+		$queryGlobal = (new Db\Query())
+			->select([
+				'messages', 'userid', 'created',
+				'recordid' => static::COLUMN_NAME['message']['global'],
+				'room_type' => new \yii\db\Expression("'global'")
+			])
+			->from(['GR' => static::TABLE_NAME['message']['global']])
+			->where(['userid' => $this->userId]);
+		$queryCrm = (new Db\Query())
+			->select([
+				'messages', 'userid', 'created',
+				'recordid' => static::COLUMN_NAME['message']['crm'],
+				'room_type' => new \yii\db\Expression("'crm'")
+			])
+			->from(['C' => static::TABLE_NAME['message']['crm']])
+			->union($queryGroup, true)
+			->union($queryGlobal, true)
+			->where(['userid' => $this->userId]);
+		$query = (new Db\Query())->from(['T' => $queryCrm])
+			->orderBy(['created' => \SORT_DESC])
+			->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
+		if (!empty($since)) {
+			$query->where(['<', 'created', $since]);
+		}
+		$userModel = User::getUserModel($this->userId);
+		$rows = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$row['id'] = $row['created'];
+			$row['image'] = $userModel->getImage();
+			$row['created'] = Fields\DateTime::formatToShort($row['created']);
+			$row['user_name'] = $userModel->getName();
+			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
+			$rows[] = $row;
+		}
+		return \array_reverse($rows);
+	}
+
+	/**
 	 * Get getParticipants.
 	 *
 	 * @param int[] $excludedId
