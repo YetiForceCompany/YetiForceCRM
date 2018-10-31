@@ -14,6 +14,7 @@ window.Chat_JS = class Chat_Js {
 		this.init(container);
 		this.sendByEnter = true;
 		this.isSearchMode = false;
+		this.isHistoryMode = false;
 		this.searchValue = null;
 		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
@@ -319,6 +320,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} btn
 	 */
 	searchMessage(btn = null) {
+		this.isHistoryMode = false;
 		clearTimeout(this.timerMessage);
 		let mid = null;
 		if (btn !== null) {
@@ -331,6 +333,33 @@ window.Chat_JS = class Chat_Js {
 			mid: mid,
 			roomType: this.getCurrentRoomType(),
 			recordId: this.getCurrentRecordId()
+		}, false).done((html) => {
+			if (btn === null) {
+				this.messageContainer.html(html);
+			} else {
+				btn.before(html);
+				btn.remove();
+			}
+			this.registerLoadMore();
+		});
+	}
+
+	/**
+	 * Get history.
+	 * @param {jQuery} btn
+	 */
+	history(btn = null) {
+		this.isSearchMode = false;
+		this.isHistoryMode = true;
+		clearTimeout(this.timerMessage);
+		let mid = null;
+		if (btn !== null) {
+			mid = btn.data('mid');
+		}
+		this.request({
+			view: 'Entries',
+			mode: 'history',
+			mid: mid
 		}, false).done((html) => {
 			if (btn === null) {
 				this.messageContainer.html(html);
@@ -742,6 +771,7 @@ window.Chat_JS = class Chat_Js {
 				this.scrollToBottom();
 				this.registerLoadMore();
 				this.turnOffSearchMode();
+				this.isHistoryMode = false;
 			});
 		});
 	}
@@ -811,6 +841,8 @@ window.Chat_JS = class Chat_Js {
 			let btn = $(e.currentTarget);
 			if (this.isSearchMode) {
 				this.searchMessage(btn);
+			} else if (this.isHistoryMode) {
+				this.history(btn);
 			} else {
 				this.getMore(btn);
 			}
@@ -865,7 +897,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerButtonHistory() {
 		this.container.find('.js-btn-history').off('click').on('click', (e) => {
-
+			this.history();
 		});
 	}
 
@@ -947,8 +979,8 @@ window.Chat_JS = class Chat_Js {
 	 * Register modal events
 	 */
 	registerModalEvents() {
-		this.getRoomList(true);
-		this.getRoomsDetail(true);
+		//this.getRoomList(true);
+		//this.getRoomsDetail(true);
 		this.registerBaseEvents();
 		this.registerSwitchRoom();
 		this.registerButtonHistory();
