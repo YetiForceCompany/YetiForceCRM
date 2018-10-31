@@ -595,12 +595,10 @@ window.Chat_JS = class Chat_Js {
 	selectRoom(roomType, recordId) {
 		const roomList = this.getRoomList();
 		roomList.find('.js-room').each((index, element) => {
-			$(element).removeClass('active');
-			$(element).removeClass('o-chat__room');
+			$(element).removeClass('active o-chat__room');
 		});
 		let itemRoom = roomList.find('.js-room-type[data-room-type=' + roomType + '] .js-room[data-record-id=' + recordId + ']');
-		itemRoom.addClass('active');
-		itemRoom.addClass('o-chat__room');
+		itemRoom.addClass('active o-chat__room');
 		this.getRoomName(itemRoom, roomType);
 		itemRoom.find('.js-room-cnt').html('');
 		this.messageContainer.data('currentRoomType', roomType);
@@ -663,8 +661,7 @@ window.Chat_JS = class Chat_Js {
 				}
 				let itemRoom = this.createRoomItem(data.roomList[key][idx]);
 				if (key === currentRoomType && data.roomList[key][idx]['recordid'] === currentRecordId) {
-					itemRoom.addClass('active');
-					itemRoom.addClass('o-chat__room');
+					itemRoom.addClass('active o-chat__room');
 				}
 				roomTypeList.append(itemRoom);
 			}
