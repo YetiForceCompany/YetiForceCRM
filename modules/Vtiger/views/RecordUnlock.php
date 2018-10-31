@@ -11,9 +11,9 @@
  */
 
 /**
- * Class Vtiger_Unlock_View.
+ * Class Vtiger_RecordUnlock_View.
  */
-class Vtiger_Unlock_View extends \App\Controller\Modal
+class Vtiger_RecordUnlock_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
@@ -47,7 +47,7 @@ class Vtiger_Unlock_View extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('Modals/Unlock.tpl', $request->getModule());
+		$viewer->view('Modals/RecordUnlock.tpl', $request->getModule());
 	}
 
 	/**
