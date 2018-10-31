@@ -979,8 +979,8 @@ window.Chat_JS = class Chat_Js {
 	 * Register modal events
 	 */
 	registerModalEvents() {
-		//this.getRoomList(true);
-		//this.getRoomsDetail(true);
+		this.getRoomList(true);
+		this.getRoomsDetail(true);
 		this.registerBaseEvents();
 		this.registerSwitchRoom();
 		this.registerButtonHistory();
