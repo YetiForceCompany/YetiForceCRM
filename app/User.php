@@ -413,7 +413,7 @@ class User
 		if (Cache::has('UserImageById', $this->getId())) {
 			return Cache::get('UserImageById', $this->getId());
 		}
-		$image = Json::decode($this->getDetail('imagename'));
+		$image = Json::decode(Purifier::decodeHtml($this->getDetail('imagename')));
 		if (empty($image) || !($imageData = \current($image))) {
 			return [];
 		}
