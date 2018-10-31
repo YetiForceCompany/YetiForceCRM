@@ -296,6 +296,79 @@ class Chat
 	}
 
 	/**
+	 * Is there any new message for global.
+	 *
+	 * @param int $userId
+	 *
+	 * @return bool
+	 */
+	public static function isNewMessagesForGlobal(int $userId): bool
+	{
+		$subQueryGlobal = (new Db\Query())
+			->select([
+				static::COLUMN_NAME['message']['global'],
+				'id' => new \yii\db\Expression('max(id)')
+			])->from(static::TABLE_NAME['message']['global'])
+				->groupBy([static::COLUMN_NAME['message']['global']]);
+		$queryGlobal = (new Db\Query())
+			->select(['CG.name', 'CM.id'])
+			->from(['CG' => 'u_#__chat_global'])
+			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
+			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], 'GL.global_room_id = CG.global_room_id')
+			->where(['GL.userid' => $userId])
+			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]]);
+		return $queryGlobal->exists();
+	}
+
+	/**
+	 * Is there any new message for crm.
+	 *
+	 * @param int $userId
+	 *
+	 * @return bool
+	 */
+	public static function isNewMessagesForCrm(int $userId): bool
+	{
+		$subQueryCrm = (new Db\Query())
+			->select([
+				static::COLUMN_NAME['message']['crm'],
+				'id' => new \yii\db\Expression('max(id)')
+			])->from(static::TABLE_NAME['message']['crm'])
+				->groupBy([static::COLUMN_NAME['message']['crm']]);
+		$queryCrm = (new Db\Query())
+			->select(['CM.id'])
+			->from(['C' => static::TABLE_NAME['room']['crm']])
+			->innerJoin(['CM' => $subQueryCrm], 'CM.crmid = C.crmid')
+			->where(['C.userid' => $userId])
+			->andWhere(['<', 'C.last_message', new \yii\db\Expression('CM.id')]);
+		return $queryCrm->exists();
+	}
+
+	/**
+	 * Is there any new message for group.
+	 *
+	 * @param int $userId
+	 *
+	 * @return bool
+	 */
+	public static function isNewMessagesForGroup(int $userId): bool
+	{
+		$subQueryGroup = (new Db\Query())
+			->select([
+				static::COLUMN_NAME['message']['group'],
+				'id' => new \yii\db\Expression('max(id)')
+			])->from(static::TABLE_NAME['message']['group'])
+				->groupBy([static::COLUMN_NAME['message']['group']]);
+		$queryGroup = (new Db\Query())
+			->select(['CM.id'])
+			->from(['GR' => static::TABLE_NAME['room']['group']])
+			->innerJoin(['CM' => $subQueryGroup], 'CM.groupid = GR.groupid')
+			->where(['GR.userid' => $userId])
+			->andWhere(['<', 'GR.last_message', new \yii\db\Expression('CM.id')]);
+		return $queryGroup->exists();
+	}
+
+	/**
 	 * Is there any new message.
 	 *
 	 * @return bool
@@ -303,12 +376,9 @@ class Chat
 	public static function isNewMessages(): bool
 	{
 		$userId = User::getCurrentUserId();
-		if (Cache::has('Chat.getNumberOfNewMessages', $userId)) {
-			return Cache::get('Chat.getNumberOfNewMessages', $userId) > 0;
-		}
-		$numberOfNewMessages = static::getNumberOfNewMessages();
-		Cache::save('Chat.getNumberOfNewMessages', $userId, $numberOfNewMessages);
-		return $numberOfNewMessages > 0;
+		return static::isNewMessagesForGlobal($userId) ||
+			static::isNewMessagesForCrm($userId) ||
+			static::isNewMessagesForGroup($userId);
 	}
 
 	/**

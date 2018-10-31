@@ -541,7 +541,7 @@ window.Chat_JS = class Chat_Js {
 		let itemRoom = this.container.find('.js-room-list .js-temp-item-room').clone(false, false);
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
 		itemRoom.find('.js-room-name').html(data.name);
-		itemRoom.attr('title', data.name + ' rid: ' + data.recordid);
+		itemRoom.attr('title', data.name);
 		if (data['cnt_new_message'] == 0) {
 			itemRoom.find('.js-room-cnt').html('');
 		} else {
@@ -805,7 +805,7 @@ window.Chat_JS = class Chat_Js {
 			if (1 < len) {
 				this.isSearchParticipantsMode = true;
 				this.searchParticipantsCancel.removeClass('hide');
-			} else {
+			} else if (len === 0) {
 				this.turnOffSearchParticipantsMode();
 			}
 			this.searchParticipants();
