@@ -183,7 +183,6 @@ class Chat_Entries_View extends \App\Controller\View
 	public function history(\App\Request $request)
 	{
 		$chat = \App\Chat::getInstance();
-		\App\DebugerEx::log($request->isEmpty('mid'));
 		if ($request->isEmpty('mid')) {
 			$chatEntries = $chat->getHistory();
 		} else {
