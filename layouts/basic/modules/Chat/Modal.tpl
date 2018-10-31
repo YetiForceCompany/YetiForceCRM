@@ -26,8 +26,8 @@
 							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}"></span>
 					</a>
 					<a class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
-					   data-icon-off="fa-volume-off" data-js="click" href="#">
-						<span class="fas {if $IS_SOUND_NOTIFICATION}fa-volume-up{else}fa-volume-off{/if} js-icon"
+					   data-icon-off="fa-volume-mute" data-js="click" href="#">
+						<span class="fas {if $IS_SOUND_NOTIFICATION}fa-volume-up{else}fa-volume-mute{/if} js-icon"
 							  data-js="replace"
 							  title="{\App\Language::translate('LBL_SOUND_ON', $MODULE_NAME)}"></span>
 					</a>
