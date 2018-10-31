@@ -3,7 +3,7 @@
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$ROOM['recordid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
-		<li class="text-truncate js-room {if $SELECTED} active{/if} {$CLASS_NAME} p-1"
+		<li class="text-truncate js-room o-chat__room-hover u-cursor-pointer {if $SELECTED} active o-chat__room {/if} {$CLASS_NAME} py-1 pr-1 pl-3"
 			title="{\App\Purifier::encodeHtml($ROOM['name'], 'Chat')}"
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
@@ -16,17 +16,14 @@
 		<div class="row p-0">
 			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
 				<div class="w-100 text-right p-2  ">
-					<span class="ml-auto mr-1 js-btn-history" data-js="click">
+					<span class="ml-auto mr-1 js-btn-history u-cursor-pointer" data-js="click">
 						<span class="fas fa-history"></span>
 					</span>
-					<span class="js-btn-settings mr-1" data-js="click">
-						<span class="fas fa-cog"></span>
-					</span>
-					<span class="mr-1" data-icon-on="fa-bell"
+					<span class="mr-1 u-cursor-pointer" data-icon-on="fa-bell"
 						  data-icon-off="fa-bell-slash" data-js="click">
 						<span class="fas fa-bell"></span>
 					</span>
-					<span class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
+					<span class="js-btn-bell mr-1 u-cursor-pointer" data-icon-on="fa-volume-up"
 						  data-icon-off="fa-volume-off" data-js="click">
 						<span class="fas {if $IS_SOUND_NOTIFICATION}fa-volume-up{else}fa-volume-off{/if} js-icon"
 							  data-js="replace"></span>
@@ -40,9 +37,12 @@
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
 					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
 						 data-group="{$KEY}">
+						{if $KEY === 'crm'}<span class="fas fa-star mr-2"></span>{/if}
+						{if $KEY === 'group'}<span class="fas fa-users mr-2"></span>{/if}
+						{if $KEY === 'global'}<span class="fas fa-globe mr-2"></span>{/if}
 						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
 					</div>
-					<ul class="js-room-type pl-2 u-font-size-13px" data-room-type="{$KEY}" data-js="data">
+					<ul class="js-room-type u-font-size-13px p-0" data-room-type="{$KEY}" data-js="data">
 						{foreach item=ROOM from=$GROUP_ROOM}
 							{ROOM_ITEM ROOM=$ROOM CLASS_NAME='' ROOM_TYPE=$KEY }
 						{/foreach}

@@ -58,6 +58,7 @@
 	&__name {
 		opacity: 0.5;
 		color: black;
+		background: #e8e8e8;
 	}
 
 	&__item {
@@ -67,6 +68,15 @@
 	&__messages {
 		font-size: 13px;
 		background: #e8e8e8;
+	}
+
+	&__room {
+		background: #d5d7de;
+	}
+	&__room-hover {
+		&:hover {
+			background: #d5d7de;
+		}
 	}
 }
 
