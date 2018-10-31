@@ -83,8 +83,8 @@ class Address
 	 */
 	public static function getConfig()
 	{
-		if (Cache::has('AddressFinder', 'Config')) {
-			return Cache::get('AddressFinder', 'Config');
+		if (\App\Cache::has('AddressFinder', 'Config')) {
+			return \App\Cache::get('AddressFinder', 'Config');
 		}
 		$query = (new \App\Db\Query())->from('s_#__address_finder_config');
 		$dataReader = $query->createCommand()->query();
@@ -92,7 +92,7 @@ class Address
 		while ($row = $dataReader->read()) {
 			$config[$row['type']][$row['name']] = $row['val'];
 		}
-		Cache::save('AddressFinder', 'Config', $config, Cache::LONG);
+		\App\Cache::save('AddressFinder', 'Config', $config, \App\Cache::LONG);
 		return $config;
 	}
 }
