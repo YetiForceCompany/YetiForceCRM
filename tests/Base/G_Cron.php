@@ -17,7 +17,7 @@ class G_Cron extends \Tests\Base
 	 * Prepare mail config for mail functionalities
 	 * @codeCoverageIgnore
 	 */
-	public function setUp()
+	public static function setUpBeforeClass()
 	{
 		if (\App\Version::compare(PHP_VERSION, '7.1.x')) {
 			\unlink('app/SystemWarnings/Security/Dependencies.php');
