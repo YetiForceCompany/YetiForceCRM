@@ -22,9 +22,9 @@
 					<span class="js-btn-settings mr-1" data-js="click">
 						<span class="fas fa-cog"></span>
 					</span>
-					<span class="mr-1" data-icon-on="fa-bell"
+					<span class="js-btn-desktop-notification mr-1" data-icon-on="fa-bell"
 						  data-icon-off="fa-bell-slash" data-js="click">
-						<span class="fas fa-bell"></span>
+						<span class="fas fa-bell-slash js-icon"></span>
 					</span>
 					<span class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
 						  data-icon-off="fa-volume-off" data-js="click">

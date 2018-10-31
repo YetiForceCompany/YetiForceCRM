@@ -86,8 +86,21 @@ window.Chat_JS = class Chat_Js {
 						badge.html('');
 					}
 				}
-				if (data.result > Chat_Js.amountOfNewMessages && app.getCookie("chat-isSoundNotification") === "true") {
-					app.playSound('CHAT');
+				if (data.result > Chat_Js.amountOfNewMessages) {
+					if (app.getCookie("chat-isSoundNotification") === "true") {
+						app.playSound('CHAT');
+					}
+					if (Chat_Js.desktopPermission()) {
+						let message = app.vtranslate('JS_CHAT_NEW_MESSAGE');
+						if (showNumberOfNewMessages) {
+							message += ' ' + data.result;
+						}
+						app.showNotify({
+							text: message,
+							title: app.vtranslate('JS_CHAT'),
+							type: 'success'
+						}, true);
+					}
 				}
 				Chat_Js.amountOfNewMessages = data.result;
 				Chat_Js.registerTrackingEvents();
@@ -105,6 +118,37 @@ window.Chat_JS = class Chat_Js {
 		badge.addClass('hide');
 		badge.html('');
 		headerChatButton.removeClass('btn-danger').addClass('btn-light');
+	}
+
+	/**
+	 * Check if the user has enabled notifications.
+	 * @returns {boolean}
+	 */
+	static desktopPermission() {
+		if (!Chat_Js.isDesktopNotification()) {
+			return false;
+		}
+		if (!Chat_Js.checkDesktopPermission()) {
+			app.setCookie("chat-isDesktopNotification", false, 365);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check if the user has enabled notifications.
+	 * @returns {boolean}
+	 */
+	static isDesktopNotification() {
+		return app.getCookie("chat-isDesktopNotification") === "true";
+	}
+
+	/**
+	 * Check desktop permission.
+	 * @returns {boolean}
+	 */
+	static checkDesktopPermission() {
+		return PNotify.modules.Desktop.checkPermission() === 0;
 	}
 
 	/**
@@ -835,6 +879,30 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Register button desktop notification.
+	 */
+	registerButtonDesktopNotification() {
+		let btnDesktop = this.container.find('.js-btn-desktop-notification');
+		let iconOn = btnDesktop.data('iconOn');
+		let iconOff = btnDesktop.data('iconOff');
+		if (Chat_Js.isDesktopNotification() && !Chat_Js.checkDesktopPermission()) {
+			app.setCookie("chat-isDesktopNotification", false, 365);
+			btnDesktop.find('.js-icon').removeClass(iconOn).addClass(iconOff);
+		} else if (Chat_Js.isDesktopNotification()) {
+			btnDesktop.find('.js-icon').removeClass(iconOff).addClass(iconOn);
+		}
+		btnDesktop.off('click').on('click', (e) => {
+			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
+			if (icon.hasClass(iconOn)) {
+				if (!Chat_Js.checkDesktopPermission()) {
+					PNotify.modules.Desktop.permission();
+					app.setCookie("chat-isDesktopNotification", true, 365);
+				}
+			}
+		});
+	}
+
+	/**
 	 * Register button bell.
 	 */
 	registerButtonBell() {
@@ -886,6 +954,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
+		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
 		Chat_Js.unregisterTrackingEvents();
 	}
