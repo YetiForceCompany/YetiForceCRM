@@ -526,7 +526,7 @@ class File
 	{
 		if ($checkInAttachments) {
 			$hash = hash('sha1', $this->getContents()) . \App\Encryption::generatePassword(10);
-			if ((new \App\Db\Query())->from('u_#__file_upload_temp')->where(['key' => $hash])->exists() || ($uploadFilePath && file_exists($uploadFilePath . $hash))) {
+			if ($uploadFilePath && file_exists($uploadFilePath . $hash)) {
 				$hash = $this->generateHash($checkInAttachments);
 			}
 			return $hash;
@@ -1018,20 +1018,38 @@ class File
 	 */
 	public static function updateUploadFiles(array $value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
 	{
-		$previousValue = $recordModel->getPreviousValue($fieldModel->getName());
-		$previousValue = $previousValue ? static::parse($previousValue) : [];
+		$previousValue = $recordModel->get($fieldModel->getName());
+		$previousValue = ($previousValue && $previousValue !== '[]') ? static::parse(\App\Json::decode($previousValue)) : [];
 		$value = static::parse($value);
-		foreach ($value as $item) {
-			if (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
-				$value[$item['key']]['path'] = $uploadFile['path'] . $item['key'];
+		$new = [];
+		$save = false;
+		foreach ($value as $key => $item) {
+			if (isset($previousValue[$item['key']])) {
+				$value[$item['key']] = $previousValue[$item['key']];
+			} elseif (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
+				$new[] = $value[$item['key']] = [
+					'name' => $uploadFile['name'],
+					'size' => $item['size'],
+					'path' => $uploadFile['path'] . $item['key'],
+					'key' => $item['key'],
+				];
+				$save = true;
 			}
 		}
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($previousValue as $item) {
 			if (!isset($value[$item['key']])) {
-				static::removeUploadFile($item);
+				$dbCommand->delete('u_#__file_upload_temp', ['key' => $item['key']])->execute();
+				$save = true;
+				if (\file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'])) {
+					\unlink(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path']);
+				} else {
+					Log::info('File to delete does not exist', __METHOD__);
+				}
 			}
 		}
-		return array_values($value);
+		unset($dbCommand);
+		return [array_values($value), $new, $save];
 	}
 
 	/**
@@ -1060,16 +1078,6 @@ class File
 	{
 		$row = (new \App\Db\Query())->from('u_#__file_upload_temp')->where(['key' => $key])->one();
 		return $row ?: [];
-	}
-
-	/**
-	 * Remove file.
-	 *
-	 * @param array $value
-	 */
-	public static function removeUploadFile(array $value)
-	{
-		\unlink($value['path']);
 	}
 
 	/**

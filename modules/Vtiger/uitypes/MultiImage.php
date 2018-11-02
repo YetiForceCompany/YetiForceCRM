@@ -22,12 +22,14 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
-		$value = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
-		$this->validate($value, true);
-		if ($request->getBoolean('_isDuplicateRecord')) {
-			$this->duplicateValueFromRecord($value, $request);
+		[$value, $newValues, $save] = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
+		$this->validate($newValues, true);
+		if ($save) {
+			if ($request->getBoolean('_isDuplicateRecord')) {
+				$this->duplicateValueFromRecord($value, $request);
+			}
+			$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 		}
-		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
 	/**
