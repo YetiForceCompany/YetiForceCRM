@@ -70,10 +70,10 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($rawCurrency['code'])] = $rawCurrency['code'];
 				}
 			} else {
-				throw new \App\Exceptions\IntegrationException('ERR_CANNOT_PARSE_SERVER_RESPONSE||' . $newJsonSrc);
+				\App\Log::error('Cannot parse server response' . $tableBody, __METHOD__);
 			}
 		} else {
-			throw new \App\Exceptions\IntegrationException('ERR_CANNOT_CONNECT_TO_REMOTE' . $newJsonSrc);
+			throw new \App\Exceptions\IntegrationException('ERR_CANNOT_CONNECT_TO_REMOTE' . $tableBody);
 		}
 		return $supportedCurrencies;
 	}
