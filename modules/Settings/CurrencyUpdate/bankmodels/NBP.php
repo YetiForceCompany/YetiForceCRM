@@ -117,7 +117,6 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$tableBody = $tryTable->getBody();
 				}
 			} catch (\Throwable $exc) {
-				throw new \App\Exceptions\IntegrationException('ERR_CURRENCY_TABLE_DOWNLOAD||' . $url . '||' . $exc->getMessage());
 			}
 			if ($stateA === false) {
 				$dateCur = strtotime("-$numberOfDays day", strtotime($dateCur));
