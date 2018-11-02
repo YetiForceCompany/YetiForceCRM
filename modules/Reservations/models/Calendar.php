@@ -15,14 +15,14 @@ class Reservations_Calendar_Model extends \App\Base
 	 */
 	public function getEntity()
 	{
-		$db = App\Db::getInstance();
-		$module = 'Reservations';
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = (new \App\Db\Query())->from('vtiger_reservations')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
-			->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')
-			->where(['vtiger_crmentity.deleted' => 0]);
-
+		$queryGenerator = new App\QueryGenerator('Reservations');
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'title', 'assigned_user_id']);
+		if (!$this->isEmpty('types')) {
+			$queryGenerator->addNativeCondition(['vtiger_reservations.type' => $this->get('types')]);
+		}
+		if (!$this->isEmpty('user')) {
+			$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $this->get('user')]);
+		}
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -30,78 +30,46 @@ class Reservations_Calendar_Model extends \App\Base
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query->andWhere([
-				'and',
-				['or',
-					['and',
-						['>=', new \yii\db\Expression('CONCAT(vtiger_reservations.date_start, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_start)'), $dbStartDateTime],
-						['<=', new \yii\db\Expression('CONCAT(vtiger_reservations.date_start, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_start)'), $dbEndDateTime],
-					],
-					['and',
-						['>=', new \yii\db\Expression('CONCAT(vtiger_reservations.due_date, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_end)'), $dbStartDateTime],
-						['<=', new \yii\db\Expression('CONCAT(vtiger_reservations.due_date, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_end)'), $dbEndDateTime],
-					],
-					['and',
-						['<', 'vtiger_reservations.date_start', $dbStartDate],
-						['>', 'vtiger_reservations.due_date', $dbEndDate],
-					],
+			$queryGenerator->addNativeCondition([
+				'or',
+				[
+					'and',
+					['>=', new \yii\db\Expression("CONCAT(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start)"), $dbEndDateTime],
 				],
+				[
+					'and',
+					['>=', new \yii\db\Expression("CONCAT(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end)"), $dbEndDateTime],
+				],
+				[
+					'and',
+					['<', 'vtiger_reservations.date_start', $dbStartDate],
+					['>', 'vtiger_reservations.due_date', $dbEndDate],
+				]
 			]);
 		}
-		if ($this->get('types')) {
-			$query->andWhere(['vtiger_reservations.type' => $this->get('types')]);
-		}
-		if (!empty($this->get('user'))) {
-			$owners = $this->get('user');
-			if (!is_array($owners)) {
-				$owners = (int) $owners;
-			}
-			$query->andWhere(['vtiger_crmentity.smownerid' => $owners]);
-		}
-		\App\PrivilegeQuery::getConditions($query, $module);
-		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
-		$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
-		$dataReader = $query->createCommand()->query();
+
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$result = [];
 		while ($record = $dataReader->read()) {
-			$crmid = $record['reservationsid'];
-			$item['id'] = $crmid;
+			$item = [];
+			$item['id'] = $record['id'];
 			$item['title'] = \App\Purifier::encodeHtml($record['title']);
-			$item['type'] = $fieldType->getDisplayValue($record['type']);
-			$item['status'] = \App\Purifier::encodeHtml($record['reservations_status']);
-			$item['totalTime'] = \App\Fields\Time::formatToHourText($record['sum_time'], 'short');
-			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
-			if ($record['relatedida']) {
-				$item['company'] = \App\Record::getLabel($record['relatedida']);
-			}
-			if ($record['relatedidb']) {
-				$item['process'] = \App\Record::getLabel($record['relatedidb']);
-				$item['processId'] = $record['relatedidb'];
-				$item['processType'] = \App\Record::getType($record['relatedidb']);
-				$item['processLabel'] = \App\Language::translate(\App\Record::getType($record['relatedidb']));
-			}
-			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
-			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
-			$dateTimeComponents = explode(' ', $userDateTimeString);
-			$dateComponent = $dateTimeComponents[0];
-			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-			$item['start'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-			$item['start_display'] = $userDateTimeString;
-			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
-			$dateTimeComponents = explode(' ', $userDateTimeString);
-			$dateComponent = $dateTimeComponents[0];
-			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-			$item['end_display'] = $userDateTimeString;
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['smownerid'];
+			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $record['id'];
+
+			$dateTimeInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$item['start'] = DateTimeField::convertToUserTimeZone($record['date_start'] . ' ' . $record['time_start'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
+			$item['start_display'] = $dateTimeInstance->getDisplayDateTimeValue();
+
+			$dateTimeInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$item['end'] = DateTimeField::convertToUserTimeZone($record['due_date'] . ' ' . $record['time_end'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
+			$item['end_display'] = $dateTimeInstance->getDisplayDateTimeValue();
+
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'];
 			$result[] = $item;
 		}
 		$dataReader->close();
-
 		return $result;
 	}
 

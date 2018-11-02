@@ -39,14 +39,7 @@ window.OSSTimeControl_Calendar_Js = class OSSTimeControl_Calendar_Js extends Cal
 			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
 			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
-			totalTime: calendarDetails.sum_time.display_value,
-			number: calendarDetails.osstimecontrol_no.display_value,
-			type: calendarDetails.timecontrol_type.display_value,
-			type_value: calendarDetails.timecontrol_type.value,
-			status: calendarDetails.osstimecontrol_status.display_value,
-			sta: calendarDetails.osstimecontrol_status.value,
-			smownerid: calendarDetails.assigned_user_id.display_value,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	}
@@ -102,5 +95,16 @@ window.OSSTimeControl_Calendar_Js = class OSSTimeControl_Calendar_Js extends Cal
 				}
 			});
 		});
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	getDefaultParams() {
+		let params = super.getDefaultParams();
+		if ($('#timecontrolTypes').length > 0) {
+			params.types = $('#timecontrolTypes').val();
+		}
+		return params;
 	}
 }
