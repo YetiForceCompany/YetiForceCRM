@@ -549,7 +549,6 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-
 		return ['vtiger_crmentity' => $row];
 	}
 

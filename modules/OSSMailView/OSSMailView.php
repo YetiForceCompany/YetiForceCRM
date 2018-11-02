@@ -32,7 +32,7 @@ class OSSMailView extends CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossmailview' => 'ossmailviewid',
-		'vtiger_ossmailviewcf' => 'ossmailviewid',];
+		'vtiger_ossmailviewcf' => 'ossmailviewid', ];
 
 	/**
 	 * Mandatory for Listing (Related listview).
