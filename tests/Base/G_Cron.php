@@ -14,7 +14,8 @@ class G_Cron extends \Tests\Base
 {
 	/**
 	 * Remove file if using php7.1
-	 * Prepare mail config for mail functionalities
+	 * Prepare mail config for mail functionalities.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	public static function setUpBeforeClass()

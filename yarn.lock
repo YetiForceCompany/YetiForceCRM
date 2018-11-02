@@ -2,43 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-common-types@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.7.tgz#4336c4b06d0b5608ff1215464b66fcf9f4795284"
-  integrity sha512-ego8jRVSHfq/iq4KRZJKQeUAdi3ZjGNrqw4oPN3fNdvTBnLCSntwVCnc37bsAJP9UB8MhrTfPnZYxkv2vpS4pg==
-
-"@fortawesome/fontawesome-common-types@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.7.tgz#fe76803922db0eb4393675199c2e0c3bad52629c"
-  integrity sha512-lFgL3Kqfwk8WS66pkBx5rpd7IQuo8UuahZXH9iuV9UrPK8eDzLccCYopnhTUgsz7+aJpMpqjVyv/N/11j5TtVw==
-
-"@fortawesome/fontawesome-free-brands@^5.0.9":
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.13.tgz#4d15ff4e1e862d5e4a4df3654f8e8acbd47e9c09"
-  integrity sha512-xC/sEPpfcJPvUbud2GyscLCLQlE2DVBYaTHVwuyVGliYBdYejSEYMINU8FN5A0xhO68yCbpCfMlBv6Gqby+jww==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.7"
-
-"@fortawesome/fontawesome-free-regular@^5.0.9":
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.13.tgz#eb78c30184e3f456a423a1dcfa0f682f7b50de4a"
-  integrity sha512-36lz9Idww1L4QaaTcv7GZiOeIP9emJFDUsedvRovI10kmwyd6rN0PKkIjnq0FB4foLhX4Rou8vnbCCmjtqiLug==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.7"
-
-"@fortawesome/fontawesome-free-solid@^5.0.9":
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.13.tgz#24b61aaf471a9d34a5364b052d64a516285ba894"
-  integrity sha512-b+krVnqkdDt52Yfev0x0ZZgtxBQsLw00Zfa3uaVWIDzpNZVtrEXuxldUSUaN/ihgGhSNi8VpvDAdNPVgCKOSxw==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.7"
-
-"@fortawesome/fontawesome@^1.1.5":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.8.tgz#75fe66a60f95508160bb16bd781ad7d89b280f5b"
-  integrity sha512-c0/MtkPVT0fmiFcCyYoPjkG9PkMOvfrZw2+0BaJ+Rh6UEcK1AR/LaRgrHHjUkbAbs9LXxQJhFS8CJ4uSnK2+JA==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.7"
+"@fortawesome/fontawesome-free@^5.4.2":
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.4.2.tgz#b2d782da69c45ea61954291e2615a8f7741c96b2"
+  integrity sha512-lpruVv/4AkKUujyzHCNJ8yOceBf7Na/pFaX52ZI/BFMCYkUEwiQ1P0viZg//+WelrNNEgvMOvCMDEDaOMZ/u1w==
 
 add@^2.0.6:
   version "2.0.6"
@@ -73,9 +40,9 @@ blueimp-canvas-to-blob@3.5.0:
   integrity sha1-VnmsMvaig1gh8MOtZhcZ/4WpI2s=
 
 blueimp-file-upload@^9.25.1:
-  version "9.25.1"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.25.1.tgz#761626fa91b128a34c02c04b1a0c2c38e2250389"
-  integrity sha512-xUqNBE5jxrsWpXLC+KRLK8t5m6/1/pFevY5SUjUJy+mGbP+U4yVTZx+ccHvEpYyK2c4/zk4sA8ZTugePfhSSKQ==
+  version "9.26.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.26.0.tgz#5764bfcc41608309748c515b8645f330a84fcb12"
+  integrity sha512-SgengPRTGGZslQjgDQdps/pBWQ6AJxYbc1sU8223dDBCrccT7O+64qbqg3mbtwKIDybFeHTf4V7RobtaukAN7A==
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
