@@ -1649,6 +1649,10 @@
     "JS_ERROR_MAX_VALUE": "Entered value is out of allowed range",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved.",
     "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Select value from list or write value then press enter",
-    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated.",
+    "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
+    "JS_MESSAGE_TOO_LONG": "Message is too long",
+    "JS_CHAT_NEW_MESSAGE": "New message",
+    "JS_CHAT": "Czat"
   }
 }
