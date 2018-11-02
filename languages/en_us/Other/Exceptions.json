@@ -27,6 +27,11 @@
     "ERR_FIELD_NOT_FOUND": "Field not found",
     "ERR_NO_VALUE": "No value",
     "ERR_API": "Error in API",
-    "ERR_NO_PERMISSIONS_TO_FIELD": "No permissions to the field"
+    "ERR_NO_PERMISSIONS_TO_FIELD": "No permissions to the field",
+    "ERR_NO_PERMITTED_TO_VIEW": "No permissions to view",
+    "ERR_CURRENCY_TABLE_DOWNLOAD": "Error while downloading the exchange rate table.",
+    "ERR_ITERATIONS_LIMIT_EXCEEDED": "Exceeded iteration limit.",
+    "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
+    "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server"
   }
 }
