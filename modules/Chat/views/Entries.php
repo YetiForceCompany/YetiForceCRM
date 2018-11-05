@@ -190,9 +190,10 @@ class Chat_Entries_View extends \App\Controller\View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
+		$viewer->assign('HISTORY_GROUP', $chat->getHistoryByType($request->getByType('groupHistory', 2)));
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'rows_limit'));
-		$viewer->view('Entries.tpl', $request->getModule());
+		$viewer->view('History.tpl', $request->getModule());
 	}
 
 	/**
