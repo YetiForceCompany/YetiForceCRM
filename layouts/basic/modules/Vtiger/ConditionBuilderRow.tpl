@@ -1,3 +1,4 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row" data-js="container">
 		{if !$SELECTED_FIELD_MODEL && $CONDITIONS_ROW}

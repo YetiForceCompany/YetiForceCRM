@@ -154,7 +154,7 @@ class CustomView {
 	 */
 	registerDuplicatesEvents(){
 		const container = this.getContentsContainer();
-		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container select.js-duplicates-field'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
 		container.on('click', '.js-duplicates-remove', function(e) {
 			$(this).closest('.js-duplicates-row').remove();
 		});
@@ -162,7 +162,7 @@ class CustomView {
 			let template = container.find('.js-duplicates-field-template').clone();
 			template.removeClass('d-none');
 			template.removeClass('js-duplicates-field-template');
-			App.Fields.Picklist.showSelect2ElementView(template.find('select.js-duplicates-field'));
+			App.Fields.Picklist.showSelect2ElementView(template.find('.js-duplicates-field'));
 			container.find('.js-duplicates-container').append(template);
 		});
 	}

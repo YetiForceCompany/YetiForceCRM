@@ -423,8 +423,8 @@ class CustomView
 	 */
 	public static function getConditions($id): array
 	{
-		if (Cache::has('getConditionsForFilter', $id)) {
-			return Cache::get('getConditionsForFilter', $id);
+		if (Cache::has('CustomView_GetConditions', $id)) {
+			return Cache::get('CustomView_GetConditions', $id);
 		}
 		$dataReader = (new \App\Db\Query())->select([
 			'u_#__cv_condition.group_id',
@@ -481,7 +481,7 @@ class CustomView
 			}
 		}
 		$conditions = static::sortConditions($conditions);
-		Cache::save('getConditionsForFilter', $id, $conditions, Cache::LONG);
+		Cache::save('CustomView_GetConditions', $id, $conditions, Cache::LONG);
 		return $conditions;
 	}
 
@@ -514,14 +514,14 @@ class CustomView
 	 */
 	public static function getDuplicateFields(int $viewId): array
 	{
-		if (Cache::has('getDuplicateFields', $viewId)) {
-			return Cache::get('getDuplicateFields', $viewId);
+		if (Cache::has('CustomView_GetDuplicateFields', $viewId)) {
+			return Cache::get('CustomView_GetDuplicateFields', $viewId);
 		}
 		$data = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'u_#__cv_duplicates.ignore'])
 			->from('u_#__cv_duplicates')
 			->innerJoin('vtiger_field', 'vtiger_field.fieldid = u_#__cv_duplicates.fieldid')
 			->where(['u_#__cv_duplicates.cvid' => $viewId])->all();
-		Cache::save('getDuplicateFields', $viewId, $data);
+		Cache::save('CustomView_GetDuplicateFields', $viewId, $data);
 		return $data;
 	}
 

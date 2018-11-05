@@ -26,13 +26,14 @@ class Vtiger_ConditionBuilder_Js {
 					enabled: true
 				}
 			});
+			let currentTarget = $(e.currentTarget)
 			let requestParams = {};
-			if ($(e.currentTarget).hasClass('js-conditions-fields')) {
+			if (currentTarget.hasClass('js-conditions-fields')) {
 				requestParams = {
 					module: app.getModuleName(),
 					view: 'ConditionBuilder',
 					sourceModuleName: self.sourceModuleName,
-					fieldname: $(e.currentTarget).val()
+					fieldname: currentTarget.val()
 				}
 			} else {
 				requestParams = {
@@ -40,7 +41,7 @@ class Vtiger_ConditionBuilder_Js {
 					view: 'ConditionBuilder',
 					sourceModuleName: self.sourceModuleName,
 					fieldname: container.find('.js-conditions-fields').val(),
-					operator: $(e.currentTarget).val(),
+					operator: currentTarget.val(),
 				};
 			}
 			AppConnector.request(requestParams).done(function (data) {
@@ -143,14 +144,15 @@ class Vtiger_ConditionBuilder_Js {
 		arr['condition'] = condition;
 		let rules = [];
 		container.find('> .js-condition-builder-conditions-container >').each(function () {
-			if ($(this).hasClass('js-condition-builder-conditions-row')) {
+			let	element = $(this)
+			if (element.hasClass('js-condition-builder-conditions-row')) {
 				rules.push({
-					'fieldname': $(this).find('.js-conditions-fields').val(),
-					'operator': $(this).find('.js-conditions-operator').val(),
-					'value': $(this).find('.js-condition-builder-value').val(),
+					'fieldname': element.find('.js-conditions-fields').val(),
+					'operator': element.find('.js-conditions-operator').val(),
+					'value': element.find('.js-condition-builder-value').val(),
 				});
-			} else if ($(this).hasClass('js-condition-builder-group-container')) {
-				rules.push(self.readCondition($(this)));
+			} else if (element.hasClass('js-condition-builder-group-container')) {
+				rules.push(self.readCondition(element));
 			}
 		})
 		arr['rules'] = rules;

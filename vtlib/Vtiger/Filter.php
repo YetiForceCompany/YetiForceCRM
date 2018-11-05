@@ -177,7 +177,7 @@ class Filter
 		$cvRecordModel->set('advfilterlist', $conditions);
 		$cvRecordModel->set('advfilterlistDbFormat', true);
 		$cvRecordModel->setConditionsForFilter();
-		\App\Log::trace('Adding Condition');
+		\App\Log::trace('Adding Condition', __METHOD__);
 		return $this;
 	}
 

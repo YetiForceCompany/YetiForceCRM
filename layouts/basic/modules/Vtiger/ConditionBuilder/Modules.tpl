@@ -2,7 +2,7 @@
 {strip}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getModulesListValues()}
 	{assign var=FIELD_VALUES value=explode(',', $VALUE)}
-	<div class="tpl-ConditionBuilder-Modules">
+	<div class="tpl-Base-ConditionBuilder-Modules">
 		<select class="js-modules-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				multiple="multiple" data-js="val" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">

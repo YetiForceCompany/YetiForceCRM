@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{assign var=FIELD_VALUES value=explode('##', $VALUE)}
-	<div class="tpl-List-Field-UserRole picklistSearchField">
+	<div class="tpl-Base-ConditionBuilder-UserRole picklistSearchField">
+		{assign var=FIELD_VALUES value=explode('##', $VALUE)}
 		<select class="js-picklist-field select2 form-control js-condition-builder-value"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				name="{$FIELD_MODEL->getFieldName()}" data-js="val" multiple="multiple">

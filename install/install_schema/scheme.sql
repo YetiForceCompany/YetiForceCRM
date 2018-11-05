@@ -1,8 +1,3 @@
-/*
-SQLyog Ultimate v12.5.1 (64 bit)
-MySQL - 10.2.8-MariaDB : Database - yetiforce
-*********************************************************************
-*/
 
 /*!40101 SET NAMES utf8 */;
 

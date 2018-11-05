@@ -91,7 +91,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			$customViewData['advfilterlist'] = $advFilterList;
 		}
 		$duplicateFields = $request->get('duplicatefields');
-		if (!empty($advFilterList)) {
+		if (!empty($duplicateFields)) {
 			$customViewData['duplicatefields'] = $duplicateFields;
 		}
 		return $customViewModel->setData($customViewData);

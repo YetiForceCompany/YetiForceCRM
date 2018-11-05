@@ -50,23 +50,4 @@ class Currency
 		}
 		return $currencyId;
 	}
-
-	/**
-	 * Return base currency symbol.
-	 *
-	 * @return string
-	 */
-	public static function getBaseCurrencySymbol()
-	{
-		if (\App\Cache::has('BaseCurrencySymbol', 'Base')) {
-			return \App\Cache::get('BaseCurrencySymbol', 'Base');
-		}
-		$currencySymbol = (new \App\Db\Query())
-			->select(['currency_symbol'])
-			->from('vtiger_currency_info')
-			->where(['defaultid' => '-11', 'deleted' => 0, 'currency_status' => 'Active'])
-			->scalar();
-		\App\Cache::save('BaseCurrencySymbol', 'Base', $currencySymbol);
-		return $currencySymbol;
-	}
 }

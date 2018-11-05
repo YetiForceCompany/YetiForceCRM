@@ -32,8 +32,9 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 				$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
 			}
 		}
+		$fieldInfo = false;
 		if ($request->isEmpty('fieldname')) {
-			$fieldModel = reset($sourceModuleModel->getFields());
+			$fieldModel = current($sourceModuleModel->getFields());
 		} else {
 			$fieldInfo = $request->getForSql('fieldname', false);
 			[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $fieldInfo), 3, false);

@@ -702,14 +702,11 @@ class QueryGenerator
 						'value' => $rule['value'],
 						'operator' => $rule['operator']
 					]);
-					if ($condition) {
-						$where[] = $condition;
-					}
 				} else {
 					$condition = $this->getCondition($fieldName, $rule['value'], $rule['operator']);
-					if ($condition) {
-						$where[] = $condition;
-					}
+				}
+				if ($condition) {
+					$where[] = $condition;
 				}
 			}
 		}
@@ -1038,7 +1035,7 @@ class QueryGenerator
 	{
 		$field = $this->addRelatedJoin($condition);
 		if (!$field) {
-			Log::error('Not found source field');
+			Log::error('Not found source field', __METHOD__);
 			return false;
 		}
 		$queryField = $this->getQueryRelatedField($field, $condition);
