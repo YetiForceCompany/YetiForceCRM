@@ -122,4 +122,14 @@ class Chat_Room_Action extends \App\Controller\Action
 		}
 		$response->emit();
 	}
+
+	/**
+	 * Function to check if session is extend.
+	 *
+	 * @return bool
+	 */
+	public function isSessionExtend()
+	{
+		return false;
+	}
 }
