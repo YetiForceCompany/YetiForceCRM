@@ -22,9 +22,9 @@
 		</li>
 	{/function}
 	<div class="row o-chat">
-		<div class="col-9">
+		<div class="col-9 js-message-container" data-js=”class: .js-message-container”>
 			<div class="row px-2">
-				<div class="input-group">
+				<div class="input-group js-input-group-search" data-js=”class: .js-input-group-search”>
 					<button type="button" class="btn btn-sm btn-danger hide mr-1 js-search-cancel" data-js="click">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -34,6 +34,25 @@
 						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
 						   data-js="keydown"/>
 					<span class="fas fa-search o-chat__icon-search"></span>
+				</div>
+				<div class="js-nav-history hide" data-js=”class: .js-nav-history”>
+					<ul class="nav nav-tabs">
+						<li class="nav-item js-link" data-group-name="crm">
+							<a class="nav-link  active" href="#" role="tab" data-toggle="tab">
+								{\App\Language::translate('LBL_ROOM_CRM', $MODULE_NAME)}
+							</a>
+						</li>
+						<li class="nav-item js-link" data-group-name="group">
+							<a class="nav-link" href="#" role="tab" data-toggle="tab">
+								{\App\Language::translate('LBL_ROOM_GROUP', $MODULE_NAME)}
+							</a>
+						</li>
+						<li class="nav-item js-link" data-group-name="global">
+							<a class="nav-link" href="#" role="tab" data-toggle="tab">
+								{\App\Language::translate('LBL_ROOM_GLOBAL', $MODULE_NAME)}
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
@@ -66,7 +85,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="col-3 px-0 bg-color-grey-50">
+		<div class="col-3 px-0 bg-color-grey-50 js-users" data-js=”class: .js-users”>
 			<div class="px-2 input-group">
 				<input type="text"
 					   class="form-control u-font-size-13px js-search-participants border-bottom bg-color-grey-50 rounded-0 o-chat__form-control"
