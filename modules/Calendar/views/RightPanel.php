@@ -34,6 +34,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 	public function getUsersList(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$this->getHistoryParams($request, $viewer);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
@@ -69,6 +70,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 	public function getGroupsList(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$this->getHistoryParams($request, $viewer);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
@@ -104,5 +106,20 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ACTIVITY_TYPE', Calendar_Module_Model::getCalendarTypes());
 		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
+	}
+
+	/**
+	 * Get and set history params
+	 * @param \App\Request $request
+	 */
+	public function getHistoryParams(\App\Request $request, $viewer)
+	{
+		if ($request->get('history')) {
+			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
+			$viewer->assign('HIDDEN_DAYS', $request->get('hiddenDays'));
+			$viewer->assign('TIME', $request->get('time'));
+			$viewer->assign('HISTORY_USERS', explode(',', $request->get('user')));
+		}
+		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
 	}
 }
