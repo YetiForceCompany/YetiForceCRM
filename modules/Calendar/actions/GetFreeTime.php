@@ -86,20 +86,27 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 					],
 				]
 			])->orderBy(['time_start' => SORT_ASC])
-				->createCommand()->query();
+			->createCommand()->query();
+		$recordsEndTime = '';
 		while ($row = $dataReader->read()) {
 			$date = new DateTime($row['date_start'] . ' ' . $startTime);
 			$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
 			$endHourFormat = date_format($date, 'H:i:s');
 			$endHour = new DateTimeField($endHourFormat);
-			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) <= strtotime($startTime) && strtotime($endWorkHour) >= strtotime($endHourFormat)) {
+			if (strtotime($startTime) >= strtotime($recordsEndTime) && \App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) <= strtotime($startTime) && strtotime($endWorkHour) >= strtotime($endHourFormat) && strtotime($startTime) <= strtotime($row['time_end']) && strtotime($startTime) <= strtotime($row['time_start'])) {
 				$startTime = new DateTimeField($startTime);
 				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
 			} else {
 				$startTime = $row['time_end'];
+				if (empty($recordsEndTime) || $row['time_end'] > $recordsEndTime) {
+					$recordsEndTime = $row['time_end'];
+				}
 			}
 		}
 		$dataReader->close();
+		if (!empty($recordsEndTime)) {
+			$startTime = $recordsEndTime;
+		}
 		$date = new DateTime($day . ' ' . $startTime);
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
 		if (strtotime(date_format($date, 'H:i:s')) > strtotime($endWorkHour) || strtotime(date_format($date, 'H:i:s')) < strtotime($startWorkHour)) {
