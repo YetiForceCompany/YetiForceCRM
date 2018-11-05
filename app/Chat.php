@@ -304,15 +304,41 @@ class Chat
 				static::COLUMN_NAME['message']['global'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['global'])
-				->groupBy([static::COLUMN_NAME['message']['global']]);
+			->groupBy([static::COLUMN_NAME['message']['global']]);
 		return (new Db\Query())
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
 			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
-			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], 'GL.global_room_id = CG.global_room_id')
-			->where(['GL.userid' => $userId])
+			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], "GL.global_room_id = CG.global_room_id AND Gl.userid = {$userId}")
+			->where(['or', ['GL.userid' => null], ['GL.userid' => $userId]])
 			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
 			->exists();
+	}
+
+	/**
+	 * Get user info.
+	 *
+	 * @param int $userId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getUserInfo(int $userId)
+	{
+		if (User::isExists($userId)) {
+			$userModel = User::getUserModel($userId);
+			$userImage = $userModel->getImage();
+			$userName = $userModel->getName();
+			$userRoleName = $userModel->getRoleInstance()->getName();
+		} else {
+			$userImage = $userName = $userRoleName = null;
+		}
+		return [
+			'user_name' => $userName,
+			'role_name' => $userRoleName,
+			'image' => $userImage,
+		];
 	}
 
 	/**
@@ -329,7 +355,7 @@ class Chat
 				static::COLUMN_NAME['message']['crm'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['crm'])
-				->groupBy([static::COLUMN_NAME['message']['crm']]);
+			->groupBy([static::COLUMN_NAME['message']['crm']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['C' => static::TABLE_NAME['room']['crm']])
@@ -353,7 +379,7 @@ class Chat
 				static::COLUMN_NAME['message']['group'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['group'])
-				->groupBy([static::COLUMN_NAME['message']['group']]);
+			->groupBy([static::COLUMN_NAME['message']['group']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['GR' => static::TABLE_NAME['room']['group']])
@@ -465,7 +491,7 @@ class Chat
 			'created' => date('Y-m-d H:i:s'),
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
-		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
+		return $this->lastMessageId = (int)$db->getLastInsertID("{$table}_id_seq");
 	}
 
 	/**
@@ -492,10 +518,12 @@ class Chat
 			$userModel = User::getUserModel($row['userid']);
 			$row['image'] = $userModel->getImage();
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			$row['user_name'] = $userModel->getName();
-			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
+			['user_name' => $row['user_name'],
+				'role_name' => $row['role_name'],
+				'image' => $row['image']
+			] = $this->getUserInfo($row['userid']);
 			$rows[] = $row;
-			$mid = (int) $row['id'];
+			$mid = (int)$row['id'];
 			if ($this->lastMessageId < $mid) {
 				$this->lastMessageId = $mid;
 			}
@@ -505,6 +533,31 @@ class Chat
 			$this->updateRoom();
 		}
 		return \array_reverse($rows);
+	}
+
+	/**
+	 * Get history by type.
+	 *
+	 * @param string   $roomType
+	 * @param int|null $messageId
+	 *
+	 * @return array
+	 */
+	public function getHistoryByType(string $roomType = 'global', ?int $messageId = null)
+	{
+		$query = (new Db\Query())
+			->select([
+				'id', 'messages', 'userid', 'created',
+				'recordid' => static::COLUMN_NAME['message'][$roomType],
+			])
+			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
+			->where(['userid' => $this->userId])
+			->orderBy(['id' => \SORT_DESC])
+			->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
+		if (!\is_null($messageId)) {
+			$query->where(['<', 'id', $messageId]);
+		}
+		return $query->all();
 	}
 
 	/**
@@ -553,6 +606,7 @@ class Chat
 		$userModel = User::getUserModel($this->userId);
 		$userimage = $userModel->getImage();
 		$userName = $userModel->getName();
+		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -560,7 +614,7 @@ class Chat
 			$row['image'] = $userimage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
-			$row['role_name'] = $userModel->getRoleInstance()->getName();
+			$row['role_name'] = $userRoleName;
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
@@ -736,7 +790,7 @@ class Chat
 			$this->room['userid'] = $this->userId;
 		} elseif (
 			\is_array($this->room) && $this->isAssigned() &&
-			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
+			(empty($this->room['last_message']) || $this->lastMessageId > (int)$this->room['last_message'])
 		) {
 			Db::getInstance()
 				->createCommand()

@@ -18,11 +18,11 @@
 				<div class="w-100 text-right p-2 o-chat__icon-container">
 					<a class="ml-auto mr-1 js-btn-history" data-js="click" href="#">
           	<span class="fas fa-history"
-							  title="{\App\Language::translate('LBL_HISTORY_CHAT', $MODULE_NAME)}"></span>
+				  title="{\App\Language::translate('LBL_HISTORY_CHAT', $MODULE_NAME)}"></span>
 					</a>
 					<a class="js-btn-desktop-notification mr-1" data-icon-on="fa-bell"
 					   data-icon-off="fa-bell-slash" data-js="click" href="#">
-						<span class="fas fa-bell"
+						<span class="js-icon fas fa-bell"
 							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}"></span>
 					</a>
 					<a class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
