@@ -347,6 +347,8 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
+					filebrowserBrowseUrl: '/browser/browse.php',
+					filebrowserUploadUrl: '/uploader/upload.php',
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
