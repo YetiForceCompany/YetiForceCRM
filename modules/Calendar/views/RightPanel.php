@@ -109,17 +109,19 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Get and set history params
+	 * Get and set history params.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getHistoryParams(\App\Request $request, $viewer)
 	{
-		if ($request->get('history')) {
+		if ($request->has('history')) {
 			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
-			$viewer->assign('HIDDEN_DAYS', $request->get('hiddenDays'));
-			$viewer->assign('TIME', $request->get('time'));
-			$viewer->assign('HISTORY_USERS', explode(',', $request->get('user')));
+			$historyUsers = explode(',', $request->getByType('user', 'string'));
+			$viewer->assign('HIDDEN_DAYS', $request->getByType('hiddenDays', 'string'));
+			$viewer->assign('TIME', $request->getByType('time', 'string'));
 		}
+		$viewer->assign('HISTORY_USERS', $historyUsers ?? '');
 		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
 	}
 }
