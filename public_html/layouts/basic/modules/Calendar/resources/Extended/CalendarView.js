@@ -362,6 +362,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
+			user = app.getMainParams('usersId');
+		}
+		if (user === 'undefined') {
 			user = [app.getMainParams('userId')];
 		}
 		subDatesElements.each(function (key, element) {
@@ -459,8 +462,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			cvid = self.getCurrentCvId(),
 			calendarInstance = this.getCalendarView();
 		calendarInstance.fullCalendar('removeEvents');
-		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		let user = self.getSelectedUsersCalendar();
+		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
+			user = self.getSelectedUsersCalendar();
 		if (0 === user.length) {
 			user = [app.getMainParams('userId')];
 		}
@@ -493,6 +496,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				cvid: this.browserHistoryConfig.cvid
 			});
 			connectorMethod = window["AppConnector"]["request"];
+			app.setMainParams('showType', this.browserHistoryConfig.time);
+			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
@@ -854,10 +859,15 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
 		thisInstance.getCalendarCreateView();
-		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').done(
+		let user = app.getMainParams('usersId');
+		if (user === 'undefined') {
+			user = [app.getMainParams('userId')];
+		}
+		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList&history=true&user=${user}`).done(
 			function (data) {
 				if (data) {
-					let formContainer = sideBar.find('.js-users-form');
+					let view = thisInstance.getCalendarView().fullCalendar('getView'),
+						formContainer = sideBar.find('.js-users-form');
 					formContainer.html(data);
 					thisInstance.registerUsersChange(formContainer);
 					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
