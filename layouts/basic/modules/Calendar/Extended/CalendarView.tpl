@@ -3,8 +3,6 @@
 	<!-- tpl-Calendar-Extended-CalendarView -->
 	<input value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}" type="hidden" id="activity_view"/>
 	<input value="{$CURRENT_USER->get('hour_format')}" type="hidden" id="time_format"/>
-	<input value="{$CURRENT_USER->get('start_hour')}" type="hidden" id="start_hour"/>
-	<input value="{$CURRENT_USER->get('end_hour')}" type="hidden" id="end_hour"/>
 	<input value="{$CURRENT_USER->get('date_format')}" type="hidden" id="date_format"/>
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>

@@ -3,8 +3,6 @@
 	<input type="hidden" id="currentView" value="{$VIEW}"/>
 	<input type="hidden" id="activity_view" value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}"/>
 	<input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}"/>
-	<input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}"/>
-	<input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}"/>
 	<input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}"/>
 	<input type="hidden" id="showType" value="current"/>
 	<input type="hidden" id="switchingDays" value="workDays"/>

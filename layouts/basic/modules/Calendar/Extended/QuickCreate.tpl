@@ -41,8 +41,6 @@
 						<div class="col-8 pt-2">
 							<input type="hidden" id="hiddenDays"
 								   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
-							<input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}"/>
-							<input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}"/>
 							<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 							<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 							<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>

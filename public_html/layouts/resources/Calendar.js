@@ -436,10 +436,10 @@ window.Calendar_Unselectable_Js = class Calendar_Unselectable_Js extends Calenda
 			if ('month' == view.name) {
 				let diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24));
 				if (diffDays > 1) {
-					let defaultFirstHour = jQuery('#start_hour').val();
+					let defaultFirstHour = app.getMainParams('startHour');
 					let explodedTime = defaultFirstHour.split(':');
 					startTimeString = explodedTime['0'];
-					let defaultLastHour = jQuery('#end_hour').val();
+					let defaultLastHour = app.getMainParams('endHour');
 					explodedTime = defaultLastHour.split(':');
 					endTimeString = explodedTime['0'];
 				} else {

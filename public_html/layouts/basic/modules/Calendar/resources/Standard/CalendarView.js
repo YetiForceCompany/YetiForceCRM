@@ -108,8 +108,8 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 
 	selectDays(startDate, endDate) {
 		var thisInstance = this;
-		var start_hour = $('#start_hour').val();
-		var end_hour = $('#end_hour').val();
+		var start_hour = app.getMainParams('startHour');
+		var end_hour = app.getMainParams('endHour');
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
