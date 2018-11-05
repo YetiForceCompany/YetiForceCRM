@@ -550,6 +550,7 @@ abstract class View extends Base
 					 'endHour' => $userModel->getDetail('end_hour'),
 					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
 					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+					 'eventLimit' => \AppConfig::module('Calendar', 'EVENT_LIMIT'),
 					 'timeZone' => $userModel->getDetail('time_zone'),
 					 'currencyId' => $userModel->getDetail('currency_id'),
 					 'currencyName' => $userModel->getDetail('currency_name'),
@@ -559,7 +560,7 @@ abstract class View extends Base
 					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
 					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
 					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-					 'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+					 'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
 					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 					 'rowHeight' => $userModel->getDetail('rowheight'),
 					 'userId' => $userModel->getId(),
@@ -571,7 +572,7 @@ abstract class View extends Base
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),
+					 'debug' => (bool)\AppConfig::debug('JS_DEBUG'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
@@ -583,7 +584,7 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if ((int) \App\Session::get('ShowUserPasswordChange') === 1) {
+			if ((int)\App\Session::get('ShowUserPasswordChange') === 1) {
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}

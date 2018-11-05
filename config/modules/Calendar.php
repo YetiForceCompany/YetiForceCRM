@@ -11,7 +11,7 @@ return [
 	'WEEK_COUNT' => true, //Boolean
 	// Limits the number of events displayed on a day.
 	// Boolean, Integer. default: false
-	'EVENT_LIMIT' => 10,
+	'EVENT_LIMIT' => 5,
 	// Show calendar timeline in monthly view
 	// false = basicWeek, true = agendaWeek
 	'SHOW_TIMELINE_WEEK' => true, // Boolean
