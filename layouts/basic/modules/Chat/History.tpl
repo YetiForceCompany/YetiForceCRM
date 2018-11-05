@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Chat-History js-chat-history o-chat-history  ">
+	<div class="tpl-Chat-History">
 		{foreach item=HISTORY key=$KEY_ITEM from=$HISTORY_GROUP}
 			<div class="my-3">
 				<div class="m-0 w-100 row">
