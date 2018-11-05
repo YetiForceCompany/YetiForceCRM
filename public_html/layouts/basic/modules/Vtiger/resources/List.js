@@ -1938,7 +1938,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.type) {
-					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('d-none')
+					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).removeClass('d-none')
 						.on('click', function (e) {
 							var element = jQuery(e.currentTarget);
 							var url = element.data('url');
