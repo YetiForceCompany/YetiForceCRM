@@ -2,9 +2,9 @@
 'use strict';
 /**
  *  Class representing an extended calendar.
- * @extends Calendar_CalendarStandard_Js
+ * @extends Calendar_Calendar_Js
  */
-window.Calendar_CalendarExtended_Js = class extends Calendar_CalendarStandard_Js {
+window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);

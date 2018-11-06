@@ -12,10 +12,10 @@ window.Reservations_Calendar_Js = class extends Calendar_Unselectable_Js {
 	}
 
 	addCalendarEvent(calendarDetails, dateFormat) {
-		if ($("#calendarUserList").val() !== 'undefined' && $("#calendarUserList").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
+		if ($("#calendar-users").val() !== 'undefined' && $("#calendar-users").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendar-users").val()) < 0) {
 			return;
 		}
-		if ($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0) {
+		if ($.inArray(calendarDetails.type.value, $("#calendar-types").val()) < 0) {
 			return;
 		}
 		var calendar = this.getCalendarView();

@@ -12,14 +12,14 @@ window.OSSTimeControl_Calendar_Js = class extends Calendar_Unselectable_Js {
 	}
 
 	addCalendarEvent(calendarDetails, dateFormat) {
-		let usersList = $("#calendarUserList").val();
+		let usersList = $("#calendar-users").val();
 		if (typeof usersList === 'undefined' || usersList.length === 0) {
 			usersList = [CONFIG.userId.toString()];
 		}
 		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0) {
 			return;
 		}
-		const types = $("#timecontrolTypes").val();
+		const types = $("#calendar-types").val();
 		if ($.inArray(calendarDetails.timecontrol_type.value, types) < 0 && types.length > 0) {
 			return;
 		}

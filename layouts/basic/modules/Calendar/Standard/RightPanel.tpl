@@ -3,7 +3,7 @@
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div>
 			<p class="rounded m-1">
-				<select class="select2 form-control" multiple="multiple" id="calendarUserList"
+				<select class="select2 form-control" id="calendar-users" multiple="multiple"
 						title="{\App\Language::translate('LBL_USERS',$MODULE)}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<option class="ownerCBg_{$OWNER_ID}" value="{$OWNER_ID}"
@@ -32,7 +32,7 @@
 	{if !empty($ACTIVITY_TYPE)}
 		<div>
 			<p class="rounded m-1">
-				<select class="select2 form-control" multiple="multiple" id="calendarActivityTypeList"
+				<select class="select2 form-control" id="calendar-types" multiple="multiple"
 						title="{\App\Language::translate('Activity Type',$MODULE)}">
 					{foreach item=ITEM from=$ACTIVITY_TYPE}
 						<option class="picklistCBr_Calendar_activitytype_{$ITEM}" value="{$ITEM}">

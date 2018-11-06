@@ -16,7 +16,7 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 
 	/**
 	 * Function sets calendar moduls's options
-	 * Overwrites Calendar_CalendarStandard_Js
+	 * Overwrites Calendar_Calendar_Js
 	 */
 	setCalendarModuleOptions() {
 		return {hiddenDays: app.getMainParams('hiddenDays', true)};

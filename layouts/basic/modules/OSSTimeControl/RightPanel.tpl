@@ -4,7 +4,7 @@
 		<div class="calendarUserList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
-					<select name="calendarUserList" class="select2 col-12" id="calendarUserList" multiple>
+					<select name="calendarUserList" class="select2 col-12" id="calendar-users" multiple>
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 								<option value="{$OWNER_ID}" class="ownerCBg_{$OWNER_ID} marginBottom5px"
@@ -29,7 +29,7 @@
 		<div class="calendarTypeList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
-					<select name="timecontrolTypes" class="select2 col-12 form-control" id="timecontrolTypes" multiple>
+					<select name="timecontrolTypes" class="select2 col-12 form-control" id="calendar-types" multiple>
 						{foreach item=ITEM from=$ALL_ACTIVETYPES_LIST}
 							<option value="{$ITEM}"
 									class="picklistCBr_OSSTimeControl_timecontrol_type_{$ITEM} marginBottom5px">{\App\Language::translate($ITEM,$MODULE)}</option>

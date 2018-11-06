@@ -12,7 +12,7 @@
  *  Class representing a standard calendar.
  * @extends Calendar_Js
  */
-window.Calendar_CalendarStandard_Js = class extends Calendar_Js {
+window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);
@@ -64,12 +64,12 @@ window.Calendar_CalendarStandard_Js = class extends Calendar_Js {
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var types = [];
 		var formatDate = CONFIG.dateFormat.toUpperCase();
-		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
+		types = thisInstance.getValuesFromSelect2($("#calendar-types"), types);
 		if (types.length == 0) {
 			allEvents = true;
 		}
 		var user = [];
-		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
+		user = thisInstance.getValuesFromSelect2($("#calendar-users"), user);
 		if (user.length == 0) {
 			user = [CONFIG.userId];
 		}
@@ -174,7 +174,7 @@ window.Calendar_CalendarStandard_Js = class extends Calendar_Js {
 
 	addCalendarEvent(calendarDetails) {
 		const thisInstance = this;
-		let usersList = $("#calendarUserList").val();
+		let usersList = $("#calendar-users").val();
 		if (usersList.length === 0) {
 			usersList = [CONFIG.userId.toString()];
 		}
@@ -182,8 +182,8 @@ window.Calendar_CalendarStandard_Js = class extends Calendar_Js {
 		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupList) < 0 || groupList.length === 0)) {
 			return;
 		}
-		let types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
-		if (types.length !== 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
+		let types = thisInstance.getValuesFromSelect2($("#calendar-types"), []);
+		if (types.length !== 0 && $.inArray(calendarDetails.activitytype.value, $("#calendar-types").val()) < 0) {
 			return;
 		}
 		var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');

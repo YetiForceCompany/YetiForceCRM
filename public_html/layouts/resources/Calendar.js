@@ -139,6 +139,9 @@ window.Calendar_Js = class {
 			eventResize: function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);
 			},
+			viewRender: function () {
+				self.loadCalendarData();
+			},
 			eventRender: self.eventRenderer,
 			height: this.setCalendarHeight(this.container)
 		}
@@ -265,8 +268,7 @@ window.Calendar_Js = class {
 	 */
 	registerEvents() {
 		this.renderCalendar();
-		this.registerLoadCalendarData();
-		this.registerChangeView();
+		this.registerSitebarEvents();
 		this.registerButtonSelectAll();
 		this.registerAddButton();
 	}
@@ -278,45 +280,32 @@ window.Calendar_Js = class {
 		this.getCalendarView().fullCalendar(this.calendarOptions);
 	}
 
-	registerLoadCalendarData() {
-		let self = this;
-		let widgets = $('.siteBarRight .widgetContainer').length;
-		$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
-			widgets -= 1;
-			if (widgets == 0) {
-				self.loadCalendarData(true);
-			}
+	registerSitebarEvents() {
+		$('.bodyContents').on('Vtiger.Widget.Load.undefined', () => {
+			this.registerSelect2Event()
 		});
 	}
 
-	registerChangeView() {
-		let self = this;
-		self.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
-			self.loadCalendarData();
-		});
-	}
-
-	loadCalendarData(allEvents) {
+	loadCalendarData() {
 		let progressInstance = jQuery.progressIndicator();
 		let self = this;
 		self.getCalendarView().fullCalendar('removeEvents');
 		let view = self.getCalendarView().fullCalendar('getView');
 		let start_date = view.start.format();
 		let end_date = view.end.format();
-		let user,
+		let user = [],
 			types;
-		if (jQuery('#calendarUserList').length == 0) {
+		if (app.moduleCacheGet('calendar-users')) {
+			user = app.moduleCacheGet('calendar-users');
+		} else {
 			user = CONFIG.userId;
-		} else {
-			user = jQuery('#calendarUserList').val();
 		}
-		if (jQuery('#timecontrolTypes').length > 0) {
-			types = jQuery('#timecontrolTypes').val();
+		if (app.moduleCacheGet('calendar-types')) {
+			types = app.moduleCacheGet('calendar-types');
 		} else {
-			allEvents = true;
+			types = null;
 		}
-
-		if (allEvents == true || types != null) {
+		if (user.length !== 0 && (types === null || types.length !== 0)) {
 			let params = {
 				module: CONFIG.module,
 				action: 'Calendar',
@@ -328,7 +317,6 @@ window.Calendar_Js = class {
 			};
 			AppConnector.request(params).done(function (events) {
 				self.getCalendarView().fullCalendar('addEventSource', events.result);
-				self.registerSelect2Event();
 				progressInstance.hide();
 			});
 		} else {
@@ -350,20 +338,18 @@ window.Calendar_Js = class {
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
-		App.Fields.Picklist.showSelect2ElementView($('#timecontrolTypes'));
-		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendar-users, #calendar-types'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
 			let element = $(this);
 			let value = element.val();
 			if (value == null) {
 				value = '';
 			}
-			self.loadCalendarData();
 			if (element.attr('type') == 'checkbox') {
 				value = element.is(':checked');
 			}
 			app.moduleCacheSet(element.attr('id'), value);
+			self.loadCalendarData();
 		});
 	}
 
