@@ -124,9 +124,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Function to check if session is extend.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public function isSessionExtend()
 	{
