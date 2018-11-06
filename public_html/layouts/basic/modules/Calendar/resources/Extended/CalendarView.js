@@ -863,7 +863,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		if (user === undefined) {
 			user = [app.getMainParams('userId')];
 		}
-		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList&history=true&user=${user}`).done(
+		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList&user=${user}`).done(
 			function (data) {
 				if (data) {
 					let formContainer = sideBar.find('.js-users-form');
@@ -876,7 +876,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				}
 			}
 		);
-		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList&history=true&user=${user}`).done(
+		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList&user=${user}`).done(
 			function (data) {
 				if (data) {
 					let formContainer = sideBar.find('.js-group-form');
