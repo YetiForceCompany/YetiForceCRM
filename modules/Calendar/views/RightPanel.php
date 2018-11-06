@@ -75,7 +75,6 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
-
 		switch ($clendarallorecords) {
 			case 1:
 				$groups = [];
@@ -116,12 +115,8 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 	public function getHistoryParams(\App\Request $request, $viewer)
 	{
 		if ($request->has('history')) {
-			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
 			$historyUsers = explode(',', $request->getByType('user', 'string'));
-			$viewer->assign('HIDDEN_DAYS', $request->getByType('hiddenDays', 'string'));
-			$viewer->assign('TIME', $request->getByType('time', 'string'));
 		}
-		$viewer->assign('HISTORY_USERS', $historyUsers ?? '');
-		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
+		$viewer->assign('HISTORY_USERS', $historyUsers ?? []);
 	}
 }
