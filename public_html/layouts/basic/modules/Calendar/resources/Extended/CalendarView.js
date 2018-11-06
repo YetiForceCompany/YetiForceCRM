@@ -50,7 +50,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	renderCalendar() {
 		let self = this,
-			basicOptions = this.setCalendarMergedOptions(),
+			basicOptions = this.setCalendarOptions(),
 			options = {
 				firstLoad: true,
 				header: {

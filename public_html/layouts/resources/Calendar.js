@@ -1,20 +1,26 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-window.Calendar_Js = class Calendar_Js {
-
+/** Class representing a calendar. */
+window.Calendar_Js = class {
+	/**
+	 * Create calendar's options
+	 * @param {jQuery} container
+	 * @param {bool} readonly
+	 */
 	constructor(container = $('.js-base-container'), readonly = false) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
 		this.readonly = readonly;
 		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryConfig();
-		this.calendarBasicOptions = this.setCalendarBasicOptions();
-		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
-		this.calendarModuleOptions = this.setCalendarModuleOptions();
-		this.calendarMergedOptions = this.setCalendarMergedOptions();
+		this.calendarOptions = this.setCalendarOptions();
 	}
 
+	/**
+	 * Returns counted calendar height
+	 * @returns {(number|string)}
+	 */
 	setCalendarHeight() {
 		let calendarH;
 		if ($(window).width() > 993) {
@@ -39,12 +45,15 @@ window.Calendar_Js = class Calendar_Js {
 		return calendarH;
 	}
 
+	/**
+	 * Invokes fullcalendar with merged options
+	 */
 	renderCalendar() {
-		this.getCalendarView().fullCalendar(this.calendarMergedOptions);
+		this.getCalendarView().fullCalendar(this.calendarOptions);
 	}
 
-	setCalendarMergedOptions() {
-		return Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions, this.browserHistoryConfig);
+	setCalendarOptions() {
+		return Object.assign(this.setCalendarBasicOptions(), this.setCalendarAdvancedOptions(), this.setCalendarModuleOptions(), this.browserHistoryConfig);
 	}
 
 	setCalendarModuleOptions() {
@@ -398,8 +407,11 @@ window.Calendar_Js = class Calendar_Js {
 		this.registerAddButton();
 	}
 };
-
-window.Calendar_Unselectable_Js = class Calendar_Unselectable_Js extends Calendar_Js {
+/**
+ *  Class representing a calendar with creating events by day click instead of selecting days.
+ * @extends Calendar_Js
+ */
+window.Calendar_Unselectable_Js = class extends Calendar_Js {
 
 	setCalendarModuleOptions() {
 		let self = this;
