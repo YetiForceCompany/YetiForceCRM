@@ -6219,7 +6219,7 @@ button.bg-dark:focus {
 .position-relative, .c-float-label__container {
   position: relative !important; }
 
-.position-absolute, .c-badge__icon {
+.position-absolute {
   position: absolute !important; }
 
 .position-fixed {
@@ -17088,6 +17088,10 @@ td.fieldValue input, td.fieldValue .input-group {
 
 .listViewEntriesTable .listViewEntries .unreviewed .badge {
   margin-left: 4px; }
+.listViewEntriesTable .listViewEntries .c-badge__icon {
+  padding: 6px;
+  text-align: center;
+  vertical-align: middle; }
 .listViewEntriesTable td.listViewEntryValue {
   vertical-align: middle;
   cursor: pointer;
