@@ -27,8 +27,7 @@
 				<div class="input-group js-input-group-search" data-js="class: .js-input-group-search">
 					<div class="input-group-prepend">
 						<span class="input-group-text bg-white hide js-search-cancel border-bottom o-chat__form-control rounded-0">
-							<span class="u-cursor-pointer" data-js="click"
-								  aria-hidden="true">&times;</span>
+							<span class="u-cursor-pointer" data-js="click" aria-hidden="true">&times;</span>
 						</span>
 					</div>
 					<input type="text"
@@ -37,8 +36,9 @@
 						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
 						   data-js="keydown"/>
 					<div class="input-group-append">
-						<span class="input-group-text bg-white border-bottom o-chat__form-control"><span
-									class="fas fa-search"></span></span>
+						<span class="input-group-text bg-white border-bottom o-chat__form-control u-cursor-pointer js-icon-search-message">
+							<span class="fas fa-search"></span>
+						</span>
 					</div>
 				</div>
 				<div class="js-chat-nav-history hide" data-js="class:hide">
