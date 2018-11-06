@@ -8,7 +8,7 @@
 		<div class="u-w-125px js-author text-center"
 			 data-user-name="{$ROW['user_name']}"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
-			<div class="p-1 o-chat__img-container mx-auto">
+			<div class="o-chat__img-container mx-auto {if !$IS_IMAGE} p-1 {/if}">
 				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
 					 alt="{$ROW['user_name']}"
 					 title="{$ROW['user_name']}"/>
