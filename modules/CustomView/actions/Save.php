@@ -90,7 +90,12 @@ class CustomView_Save_Action extends \App\Controller\Action
 		if (!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;
 		}
-		$duplicateFields = $request->get('duplicatefields');
+		$duplicateFields = $request->getMultiDimensionArray('duplicatefields', [
+			[
+				'fieldid' => 'Integer',
+				'ignore' => 'Bool'
+			]
+		]);
 		if (!empty($duplicateFields)) {
 			$customViewData['duplicatefields'] = $duplicateFields;
 		}
