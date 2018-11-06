@@ -389,7 +389,7 @@ window.Chat_JS = class Chat_Js {
 		let messageContainer = container.find('.js-message-container');
 		messageContainer.removeClass('col-9');
 		messageContainer.addClass('col-12');
-		container.find('.js-nav-history').removeClass('hide');
+		container.find('.js-chat-nav-history').removeClass('hide');
 		container.find('.js-chat-message').addClass('hide');
 		container.find('.js-btn-send').addClass('hide');
 		container.find('.js-input-group-search').addClass('hide');
@@ -406,7 +406,7 @@ window.Chat_JS = class Chat_Js {
 		let messageContainer = container.find('.js-message-container');
 		messageContainer.removeClass('col-12');
 		messageContainer.addClass('col-9');
-		container.find('.js-nav-history').addClass('hide');
+		container.find('.js-chat-nav-history').addClass('hide');
 		container.find('.js-chat-message').removeClass('hide');
 		container.find('.js-btn-send').removeClass('hide');
 	}
@@ -417,7 +417,7 @@ window.Chat_JS = class Chat_Js {
 	selectNavHistory() {
 		const self = this;
 		let container = this.container;
-		let navLink = container.find('.js-link');
+		let navLink = container.find('.js-chat-link');
 		navLink.each(function (e) {
 			let element = $(this);
 			element.on('click', () => {

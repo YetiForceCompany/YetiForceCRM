@@ -304,12 +304,12 @@ class Chat
 				static::COLUMN_NAME['message']['global'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['global'])
-			->groupBy([static::COLUMN_NAME['message']['global']]);
+				->groupBy([static::COLUMN_NAME['message']['global']]);
 		return (new Db\Query())
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
 			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
-			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], "GL.global_room_id = CG.global_room_id AND Gl.userid = {$userId}")
+			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], "GL.global_room_id = CG.global_room_id AND GL.userid = {$userId}")
 			->where(['or', ['GL.userid' => null], ['GL.userid' => $userId]])
 			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
 			->exists();
@@ -355,7 +355,7 @@ class Chat
 				static::COLUMN_NAME['message']['crm'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['crm'])
-			->groupBy([static::COLUMN_NAME['message']['crm']]);
+				->groupBy([static::COLUMN_NAME['message']['crm']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['C' => static::TABLE_NAME['room']['crm']])
@@ -379,7 +379,7 @@ class Chat
 				static::COLUMN_NAME['message']['group'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['group'])
-			->groupBy([static::COLUMN_NAME['message']['group']]);
+				->groupBy([static::COLUMN_NAME['message']['group']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['GR' => static::TABLE_NAME['room']['group']])
@@ -491,7 +491,7 @@ class Chat
 			'created' => date('Y-m-d H:i:s'),
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
-		return $this->lastMessageId = (int)$db->getLastInsertID("{$table}_id_seq");
+		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
 
 	/**
@@ -523,7 +523,7 @@ class Chat
 				'image' => $row['image']
 			] = $this->getUserInfo($row['userid']);
 			$rows[] = $row;
-			$mid = (int)$row['id'];
+			$mid = (int) $row['id'];
 			if ($this->lastMessageId < $mid) {
 				$this->lastMessageId = $mid;
 			}
@@ -553,7 +553,7 @@ class Chat
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->where(['userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
-			->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
+			->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (!\is_null($messageId)) {
 			$query->where(['<', 'id', $messageId]);
 		}
@@ -735,9 +735,9 @@ class Chat
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
+			$query->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		}
-		return $query->orderBy(['created' => \SORT_DESC]);
+		return $query->orderBy(['id' => \SORT_DESC]);
 	}
 
 	/**
@@ -790,7 +790,7 @@ class Chat
 			$this->room['userid'] = $this->userId;
 		} elseif (
 			\is_array($this->room) && $this->isAssigned() &&
-			(empty($this->room['last_message']) || $this->lastMessageId > (int)$this->room['last_message'])
+			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
 		) {
 			Db::getInstance()
 				->createCommand()

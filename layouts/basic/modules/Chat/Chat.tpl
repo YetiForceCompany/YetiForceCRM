@@ -35,19 +35,19 @@
 						   data-js="keydown"/>
 					<span class="fas fa-search o-chat__icon-search"></span>
 				</div>
-				<div class="js-nav-history hide" data-js="class: .js-nav-history">
+				<div class="js-chat-nav-history hide" data-js="class:hide">
 					<ul class="nav nav-tabs">
-						<li class="nav-item js-link" data-group-name="crm">
+						<li class="nav-item js-chat-link" data-group-name="crm">
 							<a class="nav-link  active" href="#" role="tab" data-toggle="tab">
 								{\App\Language::translate('LBL_ROOM_CRM', $MODULE_NAME)}
 							</a>
 						</li>
-						<li class="nav-item js-link" data-group-name="group">
+						<li class="nav-item js-chat-link" data-group-name="group">
 							<a class="nav-link" href="#" role="tab" data-toggle="tab">
 								{\App\Language::translate('LBL_ROOM_GROUP', $MODULE_NAME)}
 							</a>
 						</li>
-						<li class="nav-item js-link" data-group-name="global">
+						<li class="nav-item js-chat-link" data-group-name="global">
 							<a class="nav-link" href="#" role="tab" data-toggle="tab">
 								{\App\Language::translate('LBL_ROOM_GLOBAL', $MODULE_NAME)}
 							</a>
@@ -61,9 +61,9 @@
 					<div class="col-12 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
-						 data-message-timer="{AppConfig::module('Chat', 'refresh_time')}"
-						 data-room-timer="{AppConfig::module('Chat', 'refresh_time')}"
-						 data-max-length-message="{AppConfig::module('Chat', 'max_length_message')}"
+						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_MESSAGE_TIME')}"
+						 data-room-timer="{AppConfig::module('Chat', 'REFRESH_ROOM_TIME')}"
+						 data-max-length-message="{AppConfig::module('Chat', 'MAX_LENGTH_MESSAGE')}"
 						 data-view-for-record="{if isset($VIEW_FOR_RECORD) && $VIEW_FOR_RECORD}true{else}false{/if}"
 						 data-js="append">
 						{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}
