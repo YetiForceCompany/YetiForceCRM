@@ -6219,7 +6219,7 @@ button.bg-dark:focus {
 .position-relative, .c-float-label__container {
   position: relative !important; }
 
-.position-absolute, .c-badge__icon {
+.position-absolute {
   position: absolute !important; }
 
 .position-fixed {
@@ -12663,6 +12663,9 @@ ul.tweets li {
 .u-w-85px {
   width: 85px; }
 
+.u-w-79px {
+  width: 79px; }
+
 .u-w-125px {
   width: 125px; }
 
@@ -13299,9 +13302,11 @@ input[type="radio"]:checked:before {
   position: relative;
   overflow: hidden;
   height: calc(100vh - 2rem - 10.9375rem); }
+.o-chat__scrollbar--history {
+  height: calc(100vh - 2rem - 7.8125rem) !important; }
 .o-chat__author-img {
-  width: 48px;
-  height: 48px; }
+  width: 44px;
+  height: 46px; }
 .o-chat__author-name {
   vertical-align: top;
   font-weight: bold; }
@@ -17088,6 +17093,10 @@ td.fieldValue input, td.fieldValue .input-group {
 
 .listViewEntriesTable .listViewEntries .unreviewed .badge {
   margin-left: 4px; }
+.listViewEntriesTable .listViewEntries .c-badge__icon {
+  padding: 6px;
+  text-align: center;
+  vertical-align: middle; }
 .listViewEntriesTable td.listViewEntryValue {
   vertical-align: middle;
   cursor: pointer;

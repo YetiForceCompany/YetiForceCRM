@@ -83,8 +83,8 @@ class Chat_Modal_View extends \App\Controller\Modal
 	 */
 	private function isSoundNotification(): bool
 	{
-		return isset($_COOKIE['chat-isSoundNotification']) ?
-			filter_var($_COOKIE['chat-isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
-			\AppConfig::module('Chat', 'default_sound_notification');
+		return isset($_COOKIE['chat - isSoundNotification']) ?
+			filter_var($_COOKIE['chat - isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
+			\AppConfig::module('Chat', 'DEFAULT_SOUND_NOTIFICATION');
 	}
 }

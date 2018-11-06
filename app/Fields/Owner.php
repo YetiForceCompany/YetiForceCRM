@@ -35,7 +35,6 @@ class Owner
 		} elseif (is_object($currentUser) && get_class($currentUser) === 'Users_Record_Model') {
 			$currentUser = \App\User::getUserModel($currentUser->getId());
 		}
-
 		$cacheKey = $moduleName . $currentUser->getId();
 		$instance = \Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {

@@ -5,9 +5,9 @@
 		<li class="js-item-user o-chat__user-item {$CLASS} border-bottom pb-2 mb-2" data-user-id="{$USER['user_id']}"
 			data-js="data">
 			<div class="row px-2">
-				<div class="p-1 o-chat__img-container text-center">
-					{assign var=IMAGE value=$USER['image']}
-					{assign var=IS_IMAGE value=isset($IMAGE['url'])}
+				{assign var=IMAGE value=$USER['image']}
+				{assign var=IS_IMAGE value=isset($IMAGE['url'])}
+				<div class="o-chat__img-container {if !$IS_IMAGE} p-1 {/if} text-center">
 					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
 						 alt="{$USER['user_name']}"
 						 title="{$USER['user_name']}"/>
@@ -22,29 +22,54 @@
 		</li>
 	{/function}
 	<div class="row o-chat">
-		<div class="col-9">
+		<div class="col-9 js-message-container" data-js="class: .js-message-container">
 			<div class="row px-2">
-				<div class="input-group">
-					<button type="button" class="btn btn-sm btn-danger hide mr-1 js-search-cancel" data-js="click">
-						<span aria-hidden="true">&times;</span>
-					</button>
+				<div class="input-group js-input-group-search" data-js="class: .js-input-group-search">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white hide js-search-cancel border-bottom o-chat__form-control rounded-0">
+							<span class="u-cursor-pointer" data-js="click" aria-hidden="true">&times;</span>
+						</span>
+					</div>
 					<input type="text"
 						   class="form-control u-font-size-13px js-search-message border-bottom rounded-0 o-chat__form-control"{' '}
 						   autocomplete="off"{' '}
 						   placeholder="{\App\Language::translate('LBL_SEARCH_MESSAGE', $MODULE_NAME)}"
 						   data-js="keydown"/>
-					<span class="fas fa-search o-chat__icon-search"></span>
+					<div class="input-group-append">
+						<span class="input-group-text bg-white border-bottom o-chat__form-control u-cursor-pointer js-icon-search-message">
+							<span class="fas fa-search"></span>
+						</span>
+					</div>
+				</div>
+				<div class="js-chat-nav-history hide" data-js="class:hide">
+					<ul class="nav nav-tabs">
+						<li class="nav-item js-chat-link" data-group-name="crm">
+							<a class="nav-link  active" href="#" role="tab" data-toggle="tab">
+								{\App\Language::translate('LBL_ROOM_CRM', $MODULE_NAME)}
+							</a>
+						</li>
+						<li class="nav-item js-chat-link" data-group-name="group">
+							<a class="nav-link" href="#" role="tab" data-toggle="tab">
+								{\App\Language::translate('LBL_ROOM_GROUP', $MODULE_NAME)}
+							</a>
+						</li>
+						<li class="nav-item js-chat-link" data-group-name="global">
+							<a class="nav-link" href="#" role="tab" data-toggle="tab">
+								{\App\Language::translate('LBL_ROOM_GLOBAL', $MODULE_NAME)}
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
-				 data-js=”container|perfectscrollbar”>
+				 data-js="container|perfectscrollbar">
 				<div class="d-flex flex-grow-1">
 					<div class="col-12 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
-						 data-message-timer="{AppConfig::module('Chat', 'refresh_time')}"
-						 data-room-timer="{AppConfig::module('Chat', 'refresh_time')}"
-						 data-max-length-message="{AppConfig::module('Chat', 'max_length_message')}"
+						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_MESSAGE_TIME')}"
+						 data-room-timer="{AppConfig::module('Chat', 'REFRESH_ROOM_TIME')}"
+						 data-max-length-message="{AppConfig::module('Chat', 'MAX_LENGTH_MESSAGE')}"
 						 data-view-for-record="{if isset($VIEW_FOR_RECORD) && $VIEW_FOR_RECORD}true{else}false{/if}"
 						 data-js="append">
 						{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}
@@ -66,18 +91,24 @@
 				</button>
 			</div>
 		</div>
-		<div class="col-3 px-0 bg-color-grey-50">
+		<div class="col-3 px-0 bg-color-grey-50 js-users" data-js="class: .js-users">
 			<div class="px-2 input-group">
+				<div class="input-group-prepend">
+						<span class="input-group-text bg-color-grey-50 hide js-search-participants-cancel border-bottom o-chat__form-control rounded-0">
+							<span class="u-cursor-pointer" data-js="click"
+								  aria-hidden="true">&times;</span>
+						</span>
+				</div>
 				<input type="text"
 					   class="form-control u-font-size-13px js-search-participants border-bottom bg-color-grey-50 rounded-0 o-chat__form-control"
 					   autocomplete="off"
 					   placeholder="{\App\Language::translate('LBL_SEARCH_PARTICIPANTS', $MODULE_NAME)}"
 					   data-js="keydown"/>
-				<button type="button" class="btn btn-danger mr-1 hide js-search-participants-cancel" data-js="click">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<div class="input-group-append">
+						<span class="input-group-text bg-color-grey-50 border-bottom o-chat__form-control"><span
+									class="fas fa-search"></span></span>
+				</div>
 			</div>
-			<span class="fas fa-search o-chat__icon-search"></span>
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>

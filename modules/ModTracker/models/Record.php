@@ -139,23 +139,30 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
+	/**
+	 * Gets unreviewed entries.
+	 *
+	 * @param int|int[] $recordsId
+	 * @param bool|int  $userId
+	 * @param bool      $sort
+	 *
+	 * @return array
+	 */
 	public static function getUnreviewed($recordsId, $userId = false, $sort = false)
 	{
 		if ($userId === false) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$userId = $currentUser->getId();
+			$userId = \App\User::getCurrentUserId();
 		}
 		$query = (new \App\Db\Query())->select('crmid, last_reviewed_users AS u')->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordsId])
 			->andWhere(['<>', 'status', self::DISPLAYED]);
 		if ($sort) {
-			$query->addSelect('vtiger_ossmailview.type');
-			$query->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id');
-			$query->leftJoin('vtiger_ossmailview', 'vtiger_modtracker_relations.targetid = vtiger_ossmailview.ossmailviewid');
-			$query->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');
+			$query->addSelect('vtiger_ossmailview.type')
+				->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id')
+				->leftJoin('vtiger_ossmailview', 'vtiger_modtracker_relations.targetid = vtiger_ossmailview.ossmailviewid')
+				->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');
 		}
 		$dataReader = $query->createCommand()->query();
-
 		$changes = [];
 		while ($row = $dataReader->read()) {
 			$changes[$row['crmid']][] = $row;
@@ -168,12 +175,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				if (strpos($row['u'], "#$userId#") !== false) {
 					break;
 				}
-				if (isset($row['type'])) {
-					if ((int) $row['type'] === 1) {
-						++$mails;
-					} elseif ((int) $row['type'] !== 0) {
-						++$all;
-					}
+				if (isset($row['type']) && (int) $row['type'] === 1) {
+					++$mails;
+				} elseif (!isset($row['type'])) {
+					++$all;
 				}
 			}
 			$unreviewed[$crmId]['a'] = $all;

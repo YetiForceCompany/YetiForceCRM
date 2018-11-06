@@ -272,7 +272,7 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Get the last chat message.
 	 */
-	getAll() {
+	getAll(reloadParticipants = true) {
 		clearTimeout(this.timerMessage);
 		this.request({
 			view: 'Entries',
@@ -284,7 +284,9 @@ window.Chat_JS = class Chat_Js {
 				if (!this.isRoomActive()) {
 					this.activateRoom();
 				}
-				this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), false);
+				if (reloadParticipants) {
+					this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), true);
+				}
 				this.messageContainer.html(html);
 				this.scrollToBottom();
 				this.registerLoadMore();
@@ -341,6 +343,7 @@ window.Chat_JS = class Chat_Js {
 				btn.remove();
 			}
 			this.registerLoadMore();
+			this.scrollToBottom();
 		});
 	}
 
@@ -349,6 +352,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} btn
 	 */
 	history(btn = null) {
+		let container = this.container;
 		this.isSearchMode = false;
 		this.isHistoryMode = true;
 		clearTimeout(this.timerMessage);
@@ -356,19 +360,88 @@ window.Chat_JS = class Chat_Js {
 		if (btn !== null) {
 			mid = btn.data('mid');
 		}
-		this.request({
-			view: 'Entries',
-			mode: 'history',
-			mid: mid
-		}, false).done((html) => {
-			if (btn === null) {
-				this.messageContainer.html(html);
-			} else {
-				btn.before(html);
-				btn.remove();
-			}
-			this.registerLoadMore();
-		});
+		let groupSearch = container.find('.js-input-group-search');
+		if (groupSearch.hasClass('hide')) {
+			container.find('.js-room.active').click();
+		} else {
+			this.turnOffInputAndBtn();
+			this.request({
+				view: 'Entries',
+				mode: 'history',
+				mid: mid,
+				groupHistory: 'crm'
+			}, false).done((html) => {
+				if (btn === null) {
+					this.messageContainer.html(html);
+				} else {
+					btn.before(html);
+					btn.remove();
+				}
+				this.registerLoadMore();
+			});
+		}
+	}
+
+	/**
+	 * Turn off input and button.
+	 */
+	turnOffInputAndBtn() {
+		let container = this.container;
+		container.find('.js-users').addClass('hide');
+		container.find('.js-scrollbar').addClass('o-chat__scrollbar--history');
+		let messageContainer = container.find('.js-message-container');
+		messageContainer.removeClass('col-9');
+		messageContainer.addClass('col-12');
+		container.find('.js-chat-nav-history').removeClass('hide');
+		container.find('.js-chat-message').addClass('hide');
+		container.find('.js-btn-send').addClass('hide');
+		container.find('.js-input-group-search').addClass('hide');
+	}
+
+	/**
+	 * Turn on input and button.
+	 */
+	turnOnInputAndBtn() {
+		let container = this.container;
+		container.find('.js-input-group-search').removeClass('hide');
+		container.find('.js-users').removeClass('hide');
+		container.find('.js-scrollbar').removeClass('o-chat__scrollbar--history');
+		let messageContainer = container.find('.js-message-container');
+		messageContainer.removeClass('col-12');
+		messageContainer.addClass('col-9');
+		container.find('.js-chat-nav-history').addClass('hide');
+		container.find('.js-chat-message').removeClass('hide');
+		container.find('.js-btn-send').removeClass('hide');
+	}
+
+	/**
+	 * Select nav history.
+	 */
+	selectNavHistory() {
+		const self = this;
+		let container = this.container;
+		let navLink = container.find('.js-chat-link');
+		navLink.each(function (e) {
+			let element = $(this);
+			element.on('click', () => {
+				self.request({
+					view: 'Entries',
+					mode: 'history',
+					groupHistory: element.data('group-name')
+				}, false).done((html) => {
+					self.messageContainer.html(html);
+				});
+			})
+		})
+	}
+
+	/**
+	 * Turn on after click in room.
+	 */
+	turnOnInputAndBtnInRoom() {
+		this.container.on('click', '.js-room', () => {
+			this.turnOnInputAndBtn();
+		})
 	}
 
 	/**
@@ -503,6 +576,7 @@ window.Chat_JS = class Chat_Js {
 						role: users[i]['role_name'],
 						message: users[i]['message'],
 						userId: users[i]['user_id'],
+						image: users[i]['image'],
 					})
 				);
 			}
@@ -866,9 +940,21 @@ window.Chat_JS = class Chat_Js {
 				}
 			}
 		});
+		this.container.find('.js-icon-search-message').on('click', (e) => {
+			e.preventDefault();
+			if (this.searchInput.val() === '') {
+				this.searchCancel.addClass('hide');
+				this.isSearchMode = false;
+			} else {
+				this.isSearchMode = true;
+				this.searchCancel.removeClass('hide');
+				this.searchMessage();
+			}
+		});
 		this.searchCancel.off('click').on('click', (e) => {
+			e.preventDefault();
 			this.turnOffSearchMode();
-			this.getAll();
+			this.getAll(false);
 		});
 	}
 
@@ -988,6 +1074,8 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonBell();
 		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
+		this.turnOnInputAndBtnInRoom();
+		this.selectNavHistory();
 		Chat_Js.unregisterTrackingEvents();
 	}
 

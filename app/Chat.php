@@ -309,10 +309,36 @@ class Chat
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
 			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
-			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], 'GL.global_room_id = CG.global_room_id')
-			->where(['GL.userid' => $userId])
+			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], "GL.global_room_id = CG.global_room_id AND GL.userid = {$userId}")
+			->where(['or', ['GL.userid' => null], ['GL.userid' => $userId]])
 			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
 			->exists();
+	}
+
+	/**
+	 * Get user info.
+	 *
+	 * @param int $userId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getUserInfo(int $userId)
+	{
+		if (User::isExists($userId)) {
+			$userModel = User::getUserModel($userId);
+			$image = $userModel->getImage();
+			$userName = $userModel->getName();
+			$userRoleName = $userModel->getRoleInstance()->getName();
+		} else {
+			$image = $userName = $userRoleName = null;
+		}
+		return [
+			'user_name' => $userName,
+			'role_name' => $userRoleName,
+			'image' => $image['url'] ?? '',
+		];
 	}
 
 	/**
@@ -490,10 +516,13 @@ class Chat
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
-			$row['image'] = $userModel->getImage();
+			$image = $userModel->getImage();
+			$row['image'] = $image['url'] ?? '';
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			$row['user_name'] = $userModel->getName();
-			$row['role_name'] = Language::translate($userModel->getRoleInstance()->getName());
+			['user_name' => $row['user_name'],
+				'role_name' => $row['role_name'],
+				'image' => $row['image']
+			] = $this->getUserInfo($row['userid']);
 			$rows[] = $row;
 			$mid = (int) $row['id'];
 			if ($this->lastMessageId < $mid) {
@@ -505,6 +534,31 @@ class Chat
 			$this->updateRoom();
 		}
 		return \array_reverse($rows);
+	}
+
+	/**
+	 * Get history by type.
+	 *
+	 * @param string   $roomType
+	 * @param int|null $messageId
+	 *
+	 * @return array
+	 */
+	public function getHistoryByType(string $roomType = 'global', ?int $messageId = null)
+	{
+		$query = (new Db\Query())
+			->select([
+				'id', 'messages', 'userid', 'created',
+				'recordid' => static::COLUMN_NAME['message'][$roomType],
+			])
+			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
+			->where(['userid' => $this->userId])
+			->orderBy(['id' => \SORT_DESC])
+			->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
+		if (!\is_null($messageId)) {
+			$query->where(['<', 'id', $messageId]);
+		}
+		return $query->all();
 	}
 
 	/**
@@ -553,14 +607,15 @@ class Chat
 		$userModel = User::getUserModel($this->userId);
 		$userimage = $userModel->getImage();
 		$userName = $userModel->getName();
+		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['id'] = $row['created'];
-			$row['image'] = $userimage;
+			$row['image'] = $userimage['url'] ?? '';
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
-			$row['role_name'] = $userModel->getRoleInstance()->getName();
+			$row['role_name'] = $userRoleName;
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
@@ -590,12 +645,13 @@ class Chat
 		$participants = [];
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
+			$image = $userModel->getImage();
 			$participants[] = [
 				'user_id' => $row['userid'],
 				'message' => $row['messages'],
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $userModel->getImage()
+				'image' => $image['url'] ?? ''
 			];
 		}
 		$dataReader->close();
@@ -681,9 +737,9 @@ class Chat
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
+			$query->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		}
-		return $query->orderBy(['created' => \SORT_DESC]);
+		return $query->orderBy(['id' => \SORT_DESC]);
 	}
 
 	/**

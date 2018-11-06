@@ -19,7 +19,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body js-panel__body m-0 p-0" data-js=”value”>
+					<div class="card-body js-panel__body m-0 p-0" data-js="value">
 						<div class="form-group p-1 m-0">
 							<div class="input-group">
 								<input type="text" class="form-control text-right" readonly="readonly"/>
@@ -53,7 +53,7 @@
 						</div>
 					</div>
 					<div class="card-body js-panel__body p-0 m-0 js-default-tax" data-js="data-tax-default-value|value" data-tax-default-value="{$TAX_DEFAULT['value']}"></div>
-					<div class="card-footer js-panel__footer p-1 m-0 " data-js=”value”>
+					<div class="card-footer js-panel__footer p-1 m-0 " data-js="value">
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -95,7 +95,7 @@
 						<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE)}</strong>
 					</div>
 					<div class="card-body js-panel__body p-0 m-0"></div>
-					<div class="card-footer js-panel__footer p-1" data-js=”value”>
+					<div class="card-footer js-panel__footer p-1" data-js="value">
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
 								<div class="input-group-prepend">

@@ -263,8 +263,8 @@
 							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip js-header-chat-button"
 							   role="button"
 							   data-url="index.php?module=Chat&view=Modal"
-							   data-refresh-time-global="{AppConfig::module('Chat', 'refresh_time_global')}"
-							   data-show-number-of-new-messages="{if AppConfig::module('Chat', 'show_number_of_new_messages')}true{else}false{/if}"
+							   data-refresh-time-global="{AppConfig::module('Chat', 'REFRESH_TIME_GLOBAL')}"
+							   data-show-number-of-new-messages="{if AppConfig::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')}true{else}false{/if}"
 							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
 							   href="#">
 								<span class="fas fa-comments fa-fw"

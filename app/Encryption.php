@@ -122,7 +122,7 @@ class Encryption extends Base
 		} catch (\Exception $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
-			$transactionAdmin->rollback();
+			$transactionAdmin->rollBack();
 			if (isset($config)) {
 				$config->revert();
 			}
@@ -130,7 +130,7 @@ class Encryption extends Base
 		} catch (\Error $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
-			$transactionAdmin->rollback();
+			$transactionAdmin->rollBack();
 			if (isset($config)) {
 				$config->revert();
 			}
