@@ -13,91 +13,22 @@ window.Calendar_Js = class {
 		this.calendarCreateView = false;
 		this.container = container;
 		this.readonly = readonly;
-		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryConfig();
+		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
 	}
 
 	/**
-	 * Returns counted calendar height
-	 * @returns {(number|string)}
+	 * Set calendar's options
+	 * @returns {object}
 	 */
-	setCalendarHeight() {
-		let calendarH;
-		if ($(window).width() > 993) {
-			let calendarContainer = this.container.find('.js-calendar__container'),
-				calendarPadding;
-			if (this.container.hasClass('js-modal-container')) {
-				calendarPadding = this.container.find('.js-modal-header').outerHeight(); // modal needs bigger padding to prevent modal's scrollbar
-			} else {
-				calendarPadding = this.container.find('.js-contents-div').css('margin-left').replace('px', ''); //equals calendar padding bottom to left margin
-			}
-			let setCalendarH = () => {
-				return $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPadding;
-			};
-			calendarH = setCalendarH();
-			new ResizeSensor(this.container.find('.contentsDiv'), () => {
-				calendarContainer.fullCalendar('option', 'height', setCalendarH());
-				calendarContainer.height(calendarH + 10); // without this line calendar scroll stops working
-			});
-		} else if ($(window).width() < 993) {
-			calendarH = 'auto';
-		}
-		return calendarH;
-	}
-
-	/**
-	 * Invokes fullcalendar with merged options
-	 */
-	renderCalendar() {
-		this.getCalendarView().fullCalendar(this.calendarOptions);
-	}
-
 	setCalendarOptions() {
 		return Object.assign(this.setCalendarBasicOptions(), this.setCalendarAdvancedOptions(), this.setCalendarModuleOptions(), this.browserHistoryConfig);
 	}
 
-	setCalendarModuleOptions() {
-		return {};
-	}
-
-	setCalendarAdvancedOptions() {
-		let self = this;
-		return {
-			header: {
-				left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
-				center: 'title today',
-				right: 'prev,next'
-			},
-			allDaySlot: app.getMainParams('allDaySlot'),
-			views: {
-				basic: {
-					eventLimit: false,
-				}
-			},
-			eventDrop: function (event, delta, revertFunc) {
-				self.updateEvent(event, delta, revertFunc);
-			},
-			eventResize: function (event, delta, revertFunc) {
-				self.updateEvent(event, delta, revertFunc);
-			},
-			eventRender: self.eventRenderer,
-			height: this.setCalendarHeight(this.container)
-		}
-	}
-
 	/**
-	 * Render event
-	 * @param {Object} event
-	 * @param {jQuery} element
+	 * Set calendar's basic options
+	 * @returns {object}
 	 */
-	eventRenderer(event, element) {
-		if (event.rendering === 'background') {
-			element.append(`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`);
-			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
-			app.registerPopoverEllipsis(element);
-		}
-	}
-
 	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
@@ -158,10 +89,14 @@ window.Calendar_Js = class {
 			let e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
-		return $.extend(this.getCalendarMinimalConfig(), options);
+		return Object.assign(this.setCalendarMinimalOptions(), options);
 	}
 
-	getCalendarMinimalConfig() {
+	/**
+	 * Set calendar's minimal options
+	 * @returns {object}
+	 */
+	setCalendarMinimalOptions() {
 		let hiddenDays = [];
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
@@ -180,7 +115,120 @@ window.Calendar_Js = class {
 		};
 	}
 
-	setBrowserHistoryConfig() {
+	/**
+	 * Set calendar's advanced options
+	 * @returns {object}
+	 */
+	setCalendarAdvancedOptions() {
+		let self = this;
+		return {
+			header: {
+				left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+				center: 'title today',
+				right: 'prev,next'
+			},
+			allDaySlot: app.getMainParams('allDaySlot'),
+			views: {
+				basic: {
+					eventLimit: false,
+				}
+			},
+			eventDrop: function (event, delta, revertFunc) {
+				self.updateEvent(event, delta, revertFunc);
+			},
+			eventResize: function (event, delta, revertFunc) {
+				self.updateEvent(event, delta, revertFunc);
+			},
+			eventRender: self.eventRenderer,
+			height: this.setCalendarHeight(this.container)
+		}
+	}
+
+	/**
+	 * Update calendar's event
+	 * @param {Object} event
+	 * @param {Object} delta
+	 * @param {Object} revertFunc
+	 */
+	updateEvent(event, delta, revertFunc) {
+		let progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		let start = event.start.format();
+		let params = {
+			module: CONFIG.module,
+			action: 'Calendar',
+			mode: 'updateEvent',
+			id: event.id,
+			start: start,
+			delta: delta._data,
+			allDay: event.allDay
+		};
+		AppConnector.request(params).done(function (response) {
+			if (!response['result']) {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+				revertFunc();
+			}
+			progressInstance.progressIndicator({'mode': 'hide'});
+		}).fail(function () {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+			revertFunc();
+		});
+	}
+
+	/**
+	 * Render event
+	 * @param {Object} event
+	 * @param {jQuery} element
+	 */
+	eventRenderer(event, element) {
+		if (event.rendering === 'background') {
+			element.append(`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`);
+			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
+			app.registerPopoverEllipsis(element);
+		}
+	}
+
+	/**
+	 * Returns counted calendar height
+	 * @returns {(number|string)}
+	 */
+	setCalendarHeight() {
+		let calendarH;
+		if ($(window).width() > 993) {
+			let calendarContainer = this.container.find('.js-calendar__container'),
+				calendarPadding;
+			if (this.container.hasClass('js-modal-container')) {
+				calendarPadding = this.container.find('.js-modal-header').outerHeight(); // modal needs bigger padding to prevent modal's scrollbar
+			} else {
+				calendarPadding = this.container.find('.js-contents-div').css('margin-left').replace('px', ''); //equals calendar padding bottom to left margin
+			}
+			let setCalendarH = () => {
+				return $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPadding;
+			};
+			calendarH = setCalendarH();
+			new ResizeSensor(this.container.find('.contentsDiv'), () => {
+				calendarContainer.fullCalendar('option', 'height', setCalendarH());
+				calendarContainer.height(calendarH + 10); // without this line calendar scroll stops working
+			});
+		} else if ($(window).width() < 993) {
+			calendarH = 'auto';
+		}
+		return calendarH;
+	}
+
+	/**
+	 * Set calendar module's options
+	 * @returns {object}
+	 */
+	setCalendarModuleOptions() {
+		return {};
+	}
+
+	/**
+	 * Set calendar options from browser history
+	 * @returns {object}
+	 */
+	setBrowserHistoryOptions() {
 		let historyParams = app.getMainParams('historyParams', true),
 			options;
 		if (historyParams && (historyParams.length || Object.keys(historyParams).length) && app.moduleCacheGet('browserHistoryEvent')) {
@@ -211,51 +259,40 @@ window.Calendar_Js = class {
 		return options;
 	}
 
-	registerButtonSelectAll() {
-		let selectBtn = $('.selectAllBtn');
-		selectBtn.on('click', function (e) {
-			let selectAllLabel = $(this).find('.selectAll');
-			let deselectAllLabel = $(this).find('.deselectAll');
-			if (selectAllLabel.hasClass('d-none')) {
-				selectAllLabel.removeClass('d-none');
-				deselectAllLabel.addClass('d-none');
-				$(this).closest('.quickWidget').find('select option').prop("selected", false);
-			} else {
-				$(this).closest('.quickWidget').find('select option').prop("selected", true);
-				deselectAllLabel.removeClass('d-none');
-				selectAllLabel.addClass('d-none');
+	/**
+	 * Register events
+	 * @returns {object}
+	 */
+	registerEvents() {
+		this.renderCalendar();
+		this.registerLoadCalendarData();
+		this.registerChangeView();
+		this.registerButtonSelectAll();
+		this.registerAddButton();
+	}
+
+	/**
+	 * Invokes fullcalendar with merged options
+	 */
+	renderCalendar() {
+		this.getCalendarView().fullCalendar(this.calendarOptions);
+	}
+
+	registerLoadCalendarData() {
+		let self = this;
+		let widgets = $('.siteBarRight .widgetContainer').length;
+		$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
+			widgets -= 1;
+			if (widgets == 0) {
+				self.loadCalendarData(true);
 			}
-			$(this).closest('.quickWidget').find('select').trigger("change");
 		});
 	}
 
-	registerSelect2Event() {
+	registerChangeView() {
 		let self = this;
-		$('.siteBarRight .select2').each(function (index) {
-			let name = $(this).attr('id');
-			let value = app.moduleCacheGet(name);
-			let element = $('#' + name);
-			if (element.length > 0 && value != null) {
-				if (element.prop('tagName') == 'SELECT') {
-					element.val(value);
-				}
-			}
-		});
-		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
-		App.Fields.Picklist.showSelect2ElementView($('#timecontrolTypes'));
-		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
-		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
-			let element = $(this);
-			let value = element.val();
-			if (value == null) {
-				value = '';
-			}
+		self.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
 			self.loadCalendarData();
-			if (element.attr('type') == 'checkbox') {
-				value = element.is(':checked');
-			}
-			app.moduleCacheSet(element.attr('id'), value);
 		});
 	}
 
@@ -300,32 +337,66 @@ window.Calendar_Js = class {
 		}
 	}
 
-	updateEvent(event, delta, revertFunc) {
-		let progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-		let start = event.start.format();
-		let params = {
-			module: CONFIG.module,
-			action: 'Calendar',
-			mode: 'updateEvent',
-			id: event.id,
-			start: start,
-			delta: delta._data,
-			allDay: event.allDay
-		};
-		AppConnector.request(params).done(function (response) {
-			if (!response['result']) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-				revertFunc();
+	registerSelect2Event() {
+		let self = this;
+		$('.siteBarRight .select2').each(function (index) {
+			let name = $(this).attr('id');
+			let value = app.moduleCacheGet(name);
+			let element = $('#' + name);
+			if (element.length > 0 && value != null) {
+				if (element.prop('tagName') == 'SELECT') {
+					element.val(value);
+				}
 			}
-			progressInstance.progressIndicator({'mode': 'hide'});
-		}).fail(function () {
-			progressInstance.progressIndicator({'mode': 'hide'});
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-			revertFunc();
+		});
+		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
+		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
+		App.Fields.Picklist.showSelect2ElementView($('#timecontrolTypes'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
+		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
+			let element = $(this);
+			let value = element.val();
+			if (value == null) {
+				value = '';
+			}
+			self.loadCalendarData();
+			if (element.attr('type') == 'checkbox') {
+				value = element.is(':checked');
+			}
+			app.moduleCacheSet(element.attr('id'), value);
 		});
 	}
 
-	addCalendarEvent(calendarDetails, dateFormat) {
+	registerButtonSelectAll() {
+		let selectBtn = $('.selectAllBtn');
+		selectBtn.on('click', function (e) {
+			let selectAllLabel = $(this).find('.selectAll');
+			let deselectAllLabel = $(this).find('.deselectAll');
+			if (selectAllLabel.hasClass('d-none')) {
+				selectAllLabel.removeClass('d-none');
+				deselectAllLabel.addClass('d-none');
+				$(this).closest('.quickWidget').find('select option').prop("selected", false);
+			} else {
+				$(this).closest('.quickWidget').find('select option').prop("selected", true);
+				deselectAllLabel.removeClass('d-none');
+				selectAllLabel.addClass('d-none');
+			}
+			$(this).closest('.quickWidget').find('select').trigger("change");
+		});
+	}
+
+	registerAddButton() {
+		const self = this;
+		$('.js-add').on('click', (e) => {
+			self.getCalendarCreateView().done((data) => {
+				const headerInstance = new Vtiger_Header_Js();
+				headerInstance.handleQuickCreateData(data, {
+					callbackFunction: (data) => {
+						self.addCalendarEvent(data.result);
+					}
+				});
+			});
+		});
 	}
 
 	getCalendarCreateView() {
@@ -360,51 +431,14 @@ window.Calendar_Js = class {
 		return aDeferred.promise();
 	}
 
+	addCalendarEvent(calendarDetails, dateFormat) {
+	}
+
 	getCalendarView() {
 		if (this.calendarView == false) {
 			this.calendarView = this.container.find('.js-calendar__container');
 		}
 		return this.calendarView;
-	}
-
-	registerChangeView() {
-		let self = this;
-		self.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
-			self.loadCalendarData();
-		});
-	}
-
-	registerAddButton() {
-		const self = this;
-		$('.js-add').on('click', (e) => {
-			self.getCalendarCreateView().done((data) => {
-				const headerInstance = new Vtiger_Header_Js();
-				headerInstance.handleQuickCreateData(data, {
-					callbackFunction: (data) => {
-						self.addCalendarEvent(data.result);
-					}
-				});
-			});
-		});
-	}
-
-	registerLoadCalendarData() {
-		let self = this;
-		let widgets = $('.siteBarRight .widgetContainer').length;
-		$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
-			widgets -= 1;
-			if (widgets == 0) {
-				self.loadCalendarData(true);
-			}
-		});
-	}
-
-	registerEvents() {
-		this.renderCalendar();
-		this.registerLoadCalendarData();
-		this.registerChangeView();
-		this.registerButtonSelectAll();
-		this.registerAddButton();
 	}
 };
 

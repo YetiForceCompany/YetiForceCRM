@@ -108,7 +108,7 @@ FC.views.year = View.extend({
 		connectorMethod(options).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
 				let calendarInstance = new Calendar_CalendarStandard_Js(self.container, self.readonly);
-				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
+				let basicOptions = calendarInstance.setCalendarMinimalOptions(),
 					monthOptions = {
 						defaultView: 'month',
 						titleFormat: 'MMMM',
