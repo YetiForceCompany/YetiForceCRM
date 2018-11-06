@@ -407,6 +407,7 @@ window.Calendar_Js = class {
 		this.registerAddButton();
 	}
 };
+
 /**
  *  Class representing a calendar with creating events by day click instead of selecting days.
  * @extends Calendar_Js

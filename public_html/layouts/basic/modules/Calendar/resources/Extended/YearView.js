@@ -1,9 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-var FC = $.fullCalendar; // a reference to FullCalendar's root namespace
-var View = FC.View;      // the class that all views must inherit from
+var FC = $.fullCalendar, // a reference to FullCalendar's root namespace
+	View = FC.View;      // the class that all views must inherit from
 
-var YearView = View.extend({
+/**
+ * Creates fullcalendar's View year subclass
+ */
+FC.views.year = View.extend({
 	calendarView: false,
 	renderHtml: function (year) {
 		let col2Breakpoint = 'col-xxl-2';
@@ -104,7 +107,7 @@ var YearView = View.extend({
 		}
 		connectorMethod(options).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				let calendarInstance = new Calendar_Calendar_Js(self.container, self.readonly);
+				let calendarInstance = new Calendar_CalendarStandard_Js(self.container, self.readonly);
 				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
 					monthOptions = {
 						defaultView: 'month',
@@ -162,5 +165,3 @@ var YearView = View.extend({
 		}
 	}
 });
-
-FC.views.year = YearView; // register our class with the view system

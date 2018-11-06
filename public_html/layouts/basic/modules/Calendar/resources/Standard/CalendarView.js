@@ -8,7 +8,11 @@
  *************************************************************************************/
 'use strict';
 
-window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
+/**
+ *  Class representing a standard calendar.
+ * @extends Calendar_Js
+ */
+window.Calendar_CalendarStandard_Js = class extends Calendar_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);

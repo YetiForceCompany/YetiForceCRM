@@ -1,7 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
+/**
+ *  Class representing a modal calendar.
+ * @extends Calendar_CalendarExtended_Js
+ */
+window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);
@@ -12,7 +16,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	/**
 	 * Function sets calendar moduls's options
-	 * Overwrites Calendar_Calendar_Js
+	 * Overwrites Calendar_CalendarStandard_Js
 	 */
 	setCalendarModuleOptions() {
 		return {hiddenDays: app.getMainParams('hiddenDays', true)};
