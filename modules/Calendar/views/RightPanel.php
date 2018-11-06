@@ -115,7 +115,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 	public function getHistoryParams(\App\Request $request, $viewer)
 	{
 		if ($request->has('history')) {
-			$historyUsers = explode(',', $request->getByType('user', 'string'));
+			$historyUsers = explode(',', $request->getByType('user', 'Text'));
 		}
 		$viewer->assign('HISTORY_USERS', $historyUsers ?? []);
 	}
