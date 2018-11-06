@@ -364,7 +364,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		if (user.length === 0) {
 			user = app.getMainParams('usersId');
 		}
-		if (user === 'undefined') {
+		if (user === undefined) {
 			user = [app.getMainParams('userId')];
 		}
 		subDatesElements.each(function (key, element) {
@@ -860,14 +860,13 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let sideBar = thisInstance.getSidebarView();
 		thisInstance.getCalendarCreateView();
 		let user = app.getMainParams('usersId');
-		if (user === 'undefined') {
+		if (user === undefined) {
 			user = [app.getMainParams('userId')];
 		}
 		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList&history=true&user=${user}`).done(
 			function (data) {
 				if (data) {
-					let view = thisInstance.getCalendarView().fullCalendar('getView'),
-						formContainer = sideBar.find('.js-users-form');
+					let formContainer = sideBar.find('.js-users-form');
 					formContainer.html(data);
 					thisInstance.registerUsersChange(formContainer);
 					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
@@ -877,7 +876,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				}
 			}
 		);
-		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').done(
+		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList&history=true&user=${user}`).done(
 			function (data) {
 				if (data) {
 					let formContainer = sideBar.find('.js-group-form');

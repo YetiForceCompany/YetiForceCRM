@@ -16,13 +16,20 @@
 				</div>
 				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						{assign var=CHECKED value=""}
+						{if empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID}
+							{assign var=CHECKED value="checked"}
+						{elseif is_array($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS)}
+							{assign var=CHECKED value="checked"}
+						{elseif $OWNER_ID === $HISTORY_USERS}
+							{assign var=CHECKED value="checked"}
+						{/if}
 						<li class="js-filter__item__container m-0 p-0 col-12 mb-1" data-js="classs: d-none">
 							<div class="mr-0 col-12 form-row d-flex align-items-center">
 								<div class="mr-2">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 										   class="js-input-user-owner-id alignMiddle mr-2"
-											{if $USER_MODEL->getId() eq $OWNER_ID || in_array($OWNER_ID, $HISTORY_USERS)} checked{/if}>
-
+											{$CHECKED}>
 									<div class="js-pin-user d-inline-block align-middle text-center"
 										 data-elementid="{$OWNER_ID}"
 										 data-js="click|data-elementid">
@@ -70,12 +77,20 @@
 				</div>
 				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+						{assign var=CHECKED value=""}
+						{if empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID}
+							{assign var=CHECKED value="checked"}
+						{elseif is_array($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS)}
+							{assign var=CHECKED value="checked"}
+						{elseif $OWNER_ID === $HISTORY_USERS}
+							{assign var=CHECKED value="checked"}
+						{/if}
 						<li class="js-filter__item__container m-0 p-0 col-12 mb-1" data-js="classs: d-none">
 							<div class="mr-0 col-12 form-row d-flex align-items-center">
 								<div class="col-1">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 										   class="js-input-user-owner-id alignMiddle"
-											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
+											{$CHECKED}>
 								</div>
 								<label class="m-0 col-10 js-filter__item__value u-text-ellipsis"
 									   for="ownerId{$OWNER_ID}">
