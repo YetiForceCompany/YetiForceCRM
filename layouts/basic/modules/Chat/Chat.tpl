@@ -22,9 +22,9 @@
 		</li>
 	{/function}
 	<div class="row o-chat">
-		<div class="col-9 js-message-container" data-js=”class: .js-message-container”>
+		<div class="col-9 js-message-container" data-js="class: .js-message-container">
 			<div class="row px-2">
-				<div class="input-group js-input-group-search" data-js=”class: .js-input-group-search”>
+				<div class="input-group js-input-group-search" data-js="class: .js-input-group-search">
 					<button type="button" class="btn btn-sm btn-danger hide mr-1 js-search-cancel" data-js="click">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -35,7 +35,7 @@
 						   data-js="keydown"/>
 					<span class="fas fa-search o-chat__icon-search"></span>
 				</div>
-				<div class="js-nav-history hide" data-js=”class: .js-nav-history”>
+				<div class="js-nav-history hide" data-js="class: .js-nav-history">
 					<ul class="nav nav-tabs">
 						<li class="nav-item js-link" data-group-name="crm">
 							<a class="nav-link  active" href="#" role="tab" data-toggle="tab">
@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
-				 data-js=”container|perfectscrollbar”>
+				 data-js="container|perfectscrollbar">
 				<div class="d-flex flex-grow-1">
 					<div class="col-12 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
@@ -85,7 +85,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="col-3 px-0 bg-color-grey-50 js-users" data-js=”class: .js-users”>
+		<div class="col-3 px-0 bg-color-grey-50 js-users" data-js="class: .js-users">
 			<div class="px-2 input-group">
 				<input type="text"
 					   class="form-control u-font-size-13px js-search-participants border-bottom bg-color-grey-50 rounded-0 o-chat__form-control"

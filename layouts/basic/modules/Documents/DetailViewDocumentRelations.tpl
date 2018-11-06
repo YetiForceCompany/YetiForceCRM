@@ -9,7 +9,7 @@
 				<div class="widgetContainer_{$REL_MODULE} widgetContentBlock"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule={$REL_MODULE}&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="{$REL_MODULE}">
-					<div class="js-detail-widget-content" data-js=”container|value”>
+					<div class="js-detail-widget-content" data-js="container|value">
 
 					</div>
 				</div>
