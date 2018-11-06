@@ -936,6 +936,17 @@ window.Chat_JS = class Chat_Js {
 				}
 			}
 		});
+		this.container.find('.js-icon-search-message').on('click', (e) => {
+			e.preventDefault();
+			if (this.searchInput.val() === '') {
+				this.searchCancel.addClass('hide');
+				this.isSearchMode = false;
+			} else {
+				this.isSearchMode = true;
+				this.searchCancel.removeClass('hide');
+				this.searchMessage();
+			}
+		});
 		this.searchCancel.off('click').on('click', (e) => {
 			this.turnOffSearchMode();
 			this.getAll();
