@@ -60,10 +60,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 				});
 			$viewer->assign('FAVOURITES_USERS', $favouriteUsers);
 		}
-		if (!empty($users) && $request->has('history')) {
-			$historyUsers = explode(',', $request->getByType('user', 'Text'));
-		}
-		$viewer->assign('HISTORY_USERS', $historyUsers ?? []);
+		$viewer->assign('HISTORY_USERS', $request->getExploded('user', ',', 'Integer'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
 		$viewer->assign('USER_MODEL', $currentUser);
@@ -95,10 +92,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 			default:
 				break;
 		}
-		if (!empty($groups) && $request->has('history')) {
-			$historyUsers = explode(',', $request->getByType('user', 'Text'));
-		}
-		$viewer->assign('HISTORY_USERS', $historyUsers ?? []);
+		$viewer->assign('HISTORY_USERS', $request->getExploded('user', ',', 'Integer'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', $groups);
 		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
