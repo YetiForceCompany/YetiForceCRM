@@ -279,7 +279,7 @@ class Deprecated
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 &&
 			$profileGlobalPermission[2] == 1) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
-				if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
+				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
 					$permittedModules[] = ($tabid);
 				}
 			}
