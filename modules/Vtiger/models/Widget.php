@@ -54,8 +54,7 @@ class Vtiger_Widget_Model extends \App\Base
 	 */
 	public function getPosition(int $position, string $coordinate)
 	{
-		$positionData = $this->get('position');
-		if ($positionData) {
+		if ($positionData = $this->get('position')) {
 			$positionData = \App\Json::decode(App\Purifier::decodeHtml($positionData));
 			if (isset($positionData[App\Session::get('fingerprint')])) {
 				$position = (int) $positionData[App\Session::get('fingerprint')][$coordinate];
