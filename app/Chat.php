@@ -328,16 +328,16 @@ class Chat
 	{
 		if (User::isExists($userId)) {
 			$userModel = User::getUserModel($userId);
-			$userImage = $userModel->getImage();
+			$image = $userModel->getImage();
 			$userName = $userModel->getName();
 			$userRoleName = $userModel->getRoleInstance()->getName();
 		} else {
-			$userImage = $userName = $userRoleName = null;
+			$image = $userName = $userRoleName = null;
 		}
 		return [
 			'user_name' => $userName,
 			'role_name' => $userRoleName,
-			'image' => $userImage,
+			'image' => $image['url'] ?? '',
 		];
 	}
 
@@ -516,7 +516,8 @@ class Chat
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
-			$row['image'] = $userModel->getImage();
+			$image = $userModel->getImage();
+			$row['image'] = $image['url'] ?? '';
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			['user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
@@ -611,7 +612,7 @@ class Chat
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['id'] = $row['created'];
-			$row['image'] = $userimage;
+			$row['image'] = $userimage['url'] ?? '';
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
@@ -644,12 +645,13 @@ class Chat
 		$participants = [];
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
+			$image = $userModel->getImage();
 			$participants[] = [
 				'user_id' => $row['userid'],
 				'message' => $row['messages'],
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $userModel->getImage()
+				'image' => $image['url'] ?? ''
 			];
 		}
 		$dataReader->close();

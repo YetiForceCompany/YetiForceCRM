@@ -12663,6 +12663,9 @@ ul.tweets li {
 .u-w-85px {
   width: 85px; }
 
+.u-w-79px {
+  width: 79px; }
+
 .u-w-125px {
   width: 125px; }
 
@@ -13299,9 +13302,11 @@ input[type="radio"]:checked:before {
   position: relative;
   overflow: hidden;
   height: calc(100vh - 2rem - 10.9375rem); }
+.o-chat__scrollbar--history {
+  height: calc(100vh - 2rem - 7.8125rem) !important; }
 .o-chat__author-img {
-  width: 48px;
-  height: 48px; }
+  width: 44px;
+  height: 46px; }
 .o-chat__author-name {
   vertical-align: top;
   font-weight: bold; }

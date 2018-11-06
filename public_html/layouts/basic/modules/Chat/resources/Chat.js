@@ -272,7 +272,7 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Get the last chat message.
 	 */
-	getAll() {
+	getAll(reloadParticipants = true) {
 		clearTimeout(this.timerMessage);
 		this.request({
 			view: 'Entries',
@@ -284,7 +284,9 @@ window.Chat_JS = class Chat_Js {
 				if (!this.isRoomActive()) {
 					this.activateRoom();
 				}
-				this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), false);
+				if (reloadParticipants) {
+					this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), true);
+				}
 				this.messageContainer.html(html);
 				this.scrollToBottom();
 				this.registerLoadMore();
@@ -341,6 +343,7 @@ window.Chat_JS = class Chat_Js {
 				btn.remove();
 			}
 			this.registerLoadMore();
+			this.scrollToBottom();
 		});
 	}
 
@@ -573,6 +576,7 @@ window.Chat_JS = class Chat_Js {
 						role: users[i]['role_name'],
 						message: users[i]['message'],
 						userId: users[i]['user_id'],
+						image: users[i]['image'],
 					})
 				);
 			}
@@ -948,8 +952,9 @@ window.Chat_JS = class Chat_Js {
 			}
 		});
 		this.searchCancel.off('click').on('click', (e) => {
+			e.preventDefault();
 			this.turnOffSearchMode();
-			this.getAll();
+			this.getAll(false);
 		});
 	}
 
