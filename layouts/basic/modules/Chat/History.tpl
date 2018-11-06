@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<div class="d-flex py-0 align-items-center">
-					<div class="p-1 o-chat__img-container">
+					<div class="o-chat__img-container {if !$IS_IMAGE} p-1 {/if} text-center">
 						<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}"
 							 class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
 							 alt="{$ROW['user_name']}"
