@@ -25,6 +25,13 @@ class Encryption extends Base
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 	];
+	/**
+	 * @var array Recommended encryption methods
+	 */
+	public static $recomendedMethods = [
+		'AES-256-CBC', 'AES-256-CTR', 'AES-192-CBC',
+		'AES-192-CTR', 'DES-EDE3-CBC', 'DES-EDE3-CFB',
+	];
 
 	/**
 	 * Function to get instance.
