@@ -195,7 +195,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 	.sub-date-list {
 		text-align: center;
-
+		background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(134, 134, 134, 0.1) 100%);
+		background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(134, 134, 134, 0.1) 100%);
+		background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(134, 134, 134, 0.1));
+		background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(134, 134, 134, 0.1));
+		background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(134, 134, 134, 0.1) 100%);
 		.sub-record {
 			$margin: calculate-rem(5px);
 			height: calculate-rem(30px);
@@ -206,10 +210,13 @@ $h-calendar-form-actions: calculate-rem(49px);
 			.sub-record-content {
 				padding: 6px 3px;
 				height: 100%;
+				&:hover {
+					border-color: #dfdfdf !important;
+				}
 			}
 
 			.sub-record-content.active {
-				background-color: inherit !important;
+				background-color: #fff !important;
 				cursor: default;
 			}
 		}
