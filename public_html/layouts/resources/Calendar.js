@@ -4,7 +4,7 @@
 /** Class representing a calendar. */
 window.Calendar_Js = class {
 	/**
-	 * Create calendar's options
+	 * Create calendar's options.
 	 * @param {jQuery} container
 	 * @param {bool} readonly
 	 */
@@ -18,7 +18,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Set calendar's options
+	 * Set calendar's options.
 	 * @returns {object}
 	 */
 	setCalendarOptions() {
@@ -26,7 +26,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Set calendar's basic options
+	 * Set calendar's basic options.
 	 * @returns {object}
 	 */
 	setCalendarBasicOptions() {
@@ -93,7 +93,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Set calendar's minimal options
+	 * Set calendar's minimal options.
 	 * @returns {object}
 	 */
 	setCalendarMinimalOptions() {
@@ -116,7 +116,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Set calendar's advanced options
+	 * Set calendar's advanced options.
 	 * @returns {object}
 	 */
 	setCalendarAdvancedOptions() {
@@ -148,7 +148,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Update calendar's event
+	 * Update calendar's event.
 	 * @param {Object} event
 	 * @param {Object} delta
 	 * @param {Object} revertFunc
@@ -179,7 +179,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Render event
+	 * Render event.
 	 * @param {Object} event
 	 * @param {jQuery} element
 	 */
@@ -192,7 +192,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Returns counted calendar height
+	 * Returns counted calendar height.
 	 * @returns {(number|string)}
 	 */
 	setCalendarHeight() {
@@ -220,7 +220,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Set calendar module's options
+	 * Set calendar module's options.
 	 * @returns {object}
 	 */
 	setCalendarModuleOptions() {
@@ -228,7 +228,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Set calendar options from browser history
+	 * Set calendar options from browser history.
 	 * @returns {object}
 	 */
 	setBrowserHistoryOptions() {
@@ -263,7 +263,7 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Register events
+	 * Register events.
 	 * @returns {object}
 	 */
 	registerEvents() {
@@ -274,18 +274,24 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Invokes fullcalendar with merged options
+	 * Invokes fullcalendar with options.
 	 */
 	renderCalendar() {
 		this.getCalendarView().fullCalendar(this.calendarOptions);
 	}
 
+	/**
+	 * Register sitebar events.
+	 */
 	registerSitebarEvents() {
 		$('.bodyContents').on('Vtiger.Widget.Load.undefined', () => {
 			this.registerSelect2Event()
 		});
 	}
 
+	/**
+	 * Load calendar data.
+	 */
 	loadCalendarData() {
 		let progressInstance = jQuery.progressIndicator();
 		let self = this;
@@ -325,6 +331,9 @@ window.Calendar_Js = class {
 		}
 	}
 
+	/**
+	 * Register select2 event.
+	 */
 	registerSelect2Event() {
 		let self = this;
 		$('.siteBarRight .select2').each(function (index) {
@@ -353,6 +362,9 @@ window.Calendar_Js = class {
 		});
 	}
 
+	/**
+	 * Register button select all.
+	 */
 	registerButtonSelectAll() {
 		let selectBtn = $('.selectAllBtn');
 		selectBtn.on('click', function (e) {
@@ -371,6 +383,9 @@ window.Calendar_Js = class {
 		});
 	}
 
+	/**
+	 * Register add button.
+	 */
 	registerAddButton() {
 		const self = this;
 		$('.js-add').on('click', (e) => {
@@ -385,6 +400,10 @@ window.Calendar_Js = class {
 		});
 	}
 
+	/**
+	 * Get calendar create view.
+	 * @returns {promise}
+	 */
 	getCalendarCreateView() {
 		let self = this;
 		let aDeferred = jQuery.Deferred();
@@ -404,6 +423,10 @@ window.Calendar_Js = class {
 		return aDeferred.promise();
 	}
 
+	/**
+	 * Load calendar create view.
+	 * @returns {promise}
+	 */
 	loadCalendarCreateView() {
 		let aDeferred = jQuery.Deferred();
 		let moduleName = app.getModuleName();
@@ -417,9 +440,16 @@ window.Calendar_Js = class {
 		return aDeferred.promise();
 	}
 
-	addCalendarEvent(calendarDetails, dateFormat) {
+	/**
+	 * Add calendar event.
+	 */
+	addCalendarEvent() {
 	}
 
+	/**
+	 * Get calendar container.
+	 * @returns {(boolean|jQuery)}
+	 */
 	getCalendarView() {
 		if (this.calendarView == false) {
 			this.calendarView = this.container.find('.js-calendar__container');
@@ -433,20 +463,27 @@ window.Calendar_Js = class {
  * @extends Calendar_Js
  */
 window.Calendar_Unselectable_Js = class extends Calendar_Js {
-
+	/**
+	 * Set calendar module options.
+	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
+	 */
 	setCalendarModuleOptions() {
 		let self = this;
 		return {
 			allDaySlot: false,
 			dayClick: function (date) {
-				self.dayClick(date.format());
+				self.registerDayClickEvent(date.format());
 				self.getCalendarView().fullCalendar('unselect');
 			},
 			selectable: false
 		};
 	}
 
-	dayClick(date) {
+	/**
+	 * Register day click event.
+	 * @param date {string}
+	 */
+	registerDayClickEvent(date) {
 		let self = this;
 		self.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
