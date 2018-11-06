@@ -74,7 +74,7 @@
     "sass-material-colors": "^0.0.5",
     "select2": "^4.0.6-rc.1",
     "select2-theme-bootstrap4": "^0.2.0-beta.2",
-    "split.js": "^1.5.7"
+    "split.js": "^1.5.9"
   },
   "resolutions": {},
   "bugs": {
