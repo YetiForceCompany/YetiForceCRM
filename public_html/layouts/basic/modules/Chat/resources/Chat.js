@@ -343,7 +343,9 @@ window.Chat_JS = class Chat_Js {
 				btn.remove();
 			}
 			this.registerLoadMore();
-			this.scrollToBottom();
+			if (mid == null) {
+				this.scrollToBottom();
+			}
 		});
 	}
 
