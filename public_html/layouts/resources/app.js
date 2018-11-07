@@ -197,6 +197,7 @@ var App = {},
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 				container: 'body',
+				boundary: 'viewport',
 				delay: {"show": 300, "hide": 100}
 			};
 			selectElement.each(function (index, domElement) {
