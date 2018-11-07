@@ -280,8 +280,12 @@ class WorkFlowScheduler
 			default:
 				break;
 		}
+		if (in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
+			$value = App\Fields\DateTime::formatToDisplay($value);
+		} else {
+			$value = App\Fields\Date::formatToDisplay($value);
+		}
 		date_default_timezone_set($default_timezone);
-
 		return $value;
 	}
 }
