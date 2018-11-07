@@ -94,7 +94,13 @@
 							data-js="click">
 						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
 					</button>
+					<button type="button"
+							class="btn btn-sm btn-danger hide js-btn-more-remove"
+							data-js="click">
+						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
+					</button>
 				</div>
+
 				<!-- GLOBAL -->
 				<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
 					 data-group="global">
