@@ -27,8 +27,11 @@ class File extends Base
 					continue;
 				}
 				unlink($item->getPathname());
-				if (!empty($sessionData['authenticated_user_id']) && !empty($sessionData['user_name'])) {
-					yield $sessionData['user_name'];
+				if (!empty($sessionData['authenticated_user_id'])) {
+					$userName = \App\User::getUserModel(empty($sessionData['baseUserId']) ? $sessionData['authenticated_user_id'] : $sessionData['baseUserId'])->getDetail('user_name');
+					if (!empty($userName)) {
+						yield $userName;
+					}
 				}
 			}
 		}
