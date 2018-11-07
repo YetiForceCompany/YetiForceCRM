@@ -250,6 +250,7 @@ var App = {},
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				manualTriggerDelay: app.getMainParams('popoverRecordDelay'),
+				placement: 'right',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
 					if (!element.attr('href')) {
