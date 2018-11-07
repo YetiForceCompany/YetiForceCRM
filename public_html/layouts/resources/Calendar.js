@@ -481,7 +481,7 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 
 	/**
 	 * Register day click event.
-	 * @param date {string}
+	 * @param {string} date
 	 */
 	registerDayClickEvent(date) {
 		let self = this;
