@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ITEM_USER CLASS=''}
-		<li class="js-item-user o-chat__user-item {$CLASS} border-bottom pb-2 mb-2" data-user-id="{$USER['user_id']}"
+		<li class="js-item-user o-chat__user-item {$CLASS} border-bottom pb-1 mb-2" data-user-id="{$USER['user_id']}"
 			data-js="data">
 			<div class="row px-2">
 				{assign var=IMAGE value=$USER['image']}
@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-9 px-4">
 					<div class="js-user-name u-font-size-13px">{$USER['user_name']}</div>
-					<div class="js-role u-font-size-10px font-weight-bold color-blue-600 mb-2">{$USER['role_name']}</div>
+					<div class="js-role u-font-size-10px font-weight-bold color-blue-600">{$USER['role_name']}</div>
 					<div class="js-message o-chat__user-message text-truncate">{$USER['message']}</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="js-chat-nav-history hide" data-js="class:hide">
+				<div class="js-chat-nav-history w-100 hide" data-js="class:hide">
 					<ul class="nav nav-tabs">
 						<li class="nav-item js-chat-link" data-group-name="crm">
 							<a class="nav-link active" href="#" role="tab" data-toggle="tab">
@@ -112,7 +112,7 @@
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
-			<div class="js-participants-list px-3 o-chat__scrollbar js-scrollbar" data-js="container|perfectscrollbar">
+			<div class="js-participants-list px-3 o-chat__scrollbar o-chat__entries-scrollbar js-scrollbar" data-js="container|perfectscrollbar">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'role_name'=>'', 'message'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$CHAT->getParticipants()}
@@ -120,7 +120,7 @@
 					{/foreach}
 				</ul>
 			</div>
-			<div class="o-chat__btn-favorite">
+			<div class="o-chat__btn-favorite col-12 p-2">
 				{if !(isset($IS_MODAL_VIEW) && $IS_MODAL_VIEW) }
 					<button type="button"
 							class="btn btn-danger{if !$CHAT->isAssigned()} hide{/if} js-remove-from-favorites"

@@ -169,7 +169,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
     "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
     "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
-    "LBL_WORK_DAYS": "D\u00edas laborables"
+    "LBL_WORK_DAYS": "D\u00edas laborables",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "No se puede seleccionar el contacto de \"Potenciales\"",

@@ -14,7 +14,8 @@
     "LBL_NOTIFICATION": "Powiadomienia czata",
     "LBL_SOUND_OFF": "D\u017awi\u0119k wy\u0142\u0105czony",
     "LBL_SOUND_ON": "D\u017awi\u0119k w\u0142\u0105czony",
-    "LBL_HISTORY_CHAT": "Historia czatu",
-    "LBL_MORE": "wi\u0119cej"
+    "LBL_HISTORY_CHAT": "Historia",
+    "LBL_MORE": "poka\u017c",
+    "LBL_HIDE": "ukryj"
   }
 }

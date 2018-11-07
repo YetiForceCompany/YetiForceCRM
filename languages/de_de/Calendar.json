@@ -184,7 +184,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Grafischer Kalendar",
     "LBL_REMAIND_HOURS": "Erinnern, nach der gew\u00e4hlten Anzahl von Stunden",
     "LBL_REMAIND_MINS": "Erinnern, nach der gew\u00e4hlten Anzahl von Minuten",
-    "LBL_WORK_DAYS": "Arbeitstage"
+    "LBL_WORK_DAYS": "Arbeitstage",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Kontakt aus Lead nicht verwendbar",

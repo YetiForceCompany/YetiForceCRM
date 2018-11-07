@@ -4,7 +4,7 @@
 		{assign var=ROOM_TYPE value=$CURRENT_ROOM['roomType']}
 		{assign var=ROOMS_USER value=\App\Chat::getRoomsByUser()}
 		{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$ROOM_TYPE"|upper}
-		<div class="float-left col-8 text-uppercase">
+		<div class="float-left col-8 text-uppercase js-footer-history" data-js="class .js-footer-history">
 			<ol class="breadcrumb m-0 p-0">
 				<li class="breadcrumb-item">
 					<span class="js-footer-group-name"
@@ -14,6 +14,14 @@
 					<span class="js-footer-room-name o-chat-footer" data-js="container">
 						{if isset($ROOMS_USER[$ROOM_TYPE][0]['name'])}{$ROOMS_USER[$ROOM_TYPE][0]['name']}{/if}
 					</span>
+				</li>
+			</ol>
+		</div>
+		<div class="float-left col-8 hide text-uppercase js-footer-history-hide"
+			 data-js="class .js-footer-history-hide">
+			<ol class="breadcrumb m-0 p-0">
+				<li class="breadcrumb-item active">
+					<span class="o-chat-footer">{\App\Language::translate('LBL_HISTORY_CHAT', $MODULE_NAME)}</span>
 				</li>
 			</ol>
 		</div>

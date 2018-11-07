@@ -13284,10 +13284,11 @@ input[type="radio"]:checked:before {
 .o-chat__btn-favorite {
   position: absolute;
   bottom: 0px;
-  right: 268px;
+  right: 0px;
   z-index: 1000;
   font-size: 15px;
-  color: #6c7591; }
+  color: #6c7591;
+  background: #fafafa !important; }
 .o-chat__icon-container a {
   color: black !important; }
 .o-chat__form-control {
@@ -13327,12 +13328,22 @@ input[type="radio"]:checked:before {
   font-size: 13px;
   background: #e8e8e8; }
 .o-chat__room {
-  background: #d5d7de; }
+  background: #d5d7de;
+  color: #73b5d9; }
+.o-chat__room-hover .o-chat__pin-favorites {
+  display: none !important; }
 .o-chat__room-hover:hover {
   background: #d5d7de; }
+  .o-chat__room-hover:hover .o-chat__pin-favorites {
+    display: block !important; }
 
 .o-chat__detail .o-chat__scrollbar {
   height: calc(100vh - 22.5625rem); }
+.o-chat__detail .o-chat__entries-scrollbar {
+  height: calc(100vh - 25.9375rem) !important; }
+
+.o-chat-footer {
+  color: #73b5d9; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
