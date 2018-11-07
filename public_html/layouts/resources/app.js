@@ -249,7 +249,7 @@ var App = {},
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
-				manualTriggerDelay: app.getMainParams('popoverRecordDelay'),
+				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 				placement: 'right',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
