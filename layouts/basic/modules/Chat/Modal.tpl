@@ -57,9 +57,9 @@
 					<span class="fas fa-star mr-2"></span>
 					{\App\Language::translate('LBL_ROOM_CRM', $MODULE_NAME)}
 				</div>
-				<ul class="js-room-type u-font-size-13px p-0" data-room-type="crm" data-favorite="true" data-js="data">
+				<ul class="js-room-type u-font-size-13px p-0" data-room-type="crm" data-favorite="false" data-js="data">
 					{foreach item=ROOM from=$ROOMS_BY_USER['crm']}
-						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='' ROOM_TYPE='crm' FAVORITE_BTN=true}
+						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='' ROOM_TYPE='crm' FAVORITE_BTN=false}
 					{/foreach}
 				</ul>
 				<!-- GROUP -->
@@ -72,7 +72,7 @@
 					data-js="data">
 					{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getInstance('CustomView')->getGroups(false)}
 						{assign var=TRANSLATE_GROUP value=\App\Language::translate($GROUP_NAME)}
-						{assign var=SELECTED value=$CURRENT_ROOM['recordId'] == $GROUP && $CURRENT_ROOM['roomType'] === 'group'}
+						{assign var=SELECTED value=isset($GROUP) && $CURRENT_ROOM['recordId'] == $GROUP && $CURRENT_ROOM['roomType'] === 'group'}
 						<div class="w-100 row m-0 hide js-group js-hide">
 							<li class="text-truncate col-12 js-room js-group-room o-chat__room-hover {if $CHAT->isAssigned()} hide {/if} u-cursor-pointer d-flex  {if $SELECTED}active o-chat__room{/if} py-1 pr-1 pl-3"
 								title="{\App\Purifier::encodeHtml($TRANSLATE_GROUP)}"

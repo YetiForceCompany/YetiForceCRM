@@ -88,9 +88,6 @@ window.Chat_JS = class Chat_Js {
 					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages) {
-					var soundsConfig = app.getMainParams('sounds');
-					console.log('soundNotification: ' + JSON.stringify(soundsConfig));
-
 					if (app.getCookie("chat-isSoundNotification") === "true") {
 						app.playSound('CHAT');
 					}
@@ -382,6 +379,9 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
+	/**
+	 * Get unread messages.
+	 */
 	unread() {
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
@@ -656,10 +656,6 @@ window.Chat_JS = class Chat_Js {
 	 * Play sound notification.
 	 */
 	soundNotification() {
-
-		var soundsConfig = app.getMainParams('sounds');
-
-		console.log('soundNotification: ' + JSON.stringify(soundsConfig));
 		if (this.isSoundNotification) {
 			app.playSound('CHAT');
 		}
@@ -1107,10 +1103,11 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
-	//
+	/**
+	 * Register button unread.
+	 */
 	registerButtonUnread() {
 		this.container.find('.js-btn-unread').off('click').on('click', (e) => {
-			//console.log('registerButtonUnread');
 			this.unread();
 		});
 	}
@@ -1156,6 +1153,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonBell();
 		this.registerButtonUnread();
 		this.registerButtonFavoritesInGroup();
+		this.registerButtonFavoritesInCrm();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
 		this.registerCloseModal();

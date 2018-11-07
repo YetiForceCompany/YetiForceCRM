@@ -11,12 +11,5 @@
 				{include file=\App\Layout::getTemplatePath('Item.tpl', 'Chat')}
 			{/foreach}
 		{/foreach}
-
-		{*
-		{assign var=MESSAGE value=\App\Chat::getUnreadByType('global')}
-		{foreach item=ROW from=$MESSAGE}
-			{include file=\App\Layout::getTemplatePath('Item.tpl', 'Chat')}
-		{/foreach}
-		*}
 	</div>
 {/strip}
