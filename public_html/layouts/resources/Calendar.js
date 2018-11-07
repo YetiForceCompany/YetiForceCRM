@@ -295,6 +295,7 @@ window.Calendar_Js = class {
 	loadCalendarData() {
 		const defaultParams = this.getDefaultParams();
 		this.getCalendarView().fullCalendar('removeEvents');
+		console.log(defaultParams.emptyFilters);
 		if (!defaultParams.emptyFilters) {
 			const progressInstance = $.progressIndicator();
 			AppConnector.request(defaultParams).done((events) => {
@@ -318,26 +319,20 @@ window.Calendar_Js = class {
 			users = CONFIG.userId;
 		}
 		let params = {
-				module: CONFIG.module,
-				action: 'Calendar',
-				mode: 'getEvent',
-				start: view.start.format(formatDate),
-				end: view.end.format(formatDate),
-				user: users,
-				emptyFilters: users.length == 0 ? true : false
-			},
-			calendarTypes = $("#calendar-types");
-		if (calendarTypes.length > 0) {
-			if (app.moduleCacheGet('calendar-types')) {
-				params.types = app.moduleCacheGet('calendar-types');
-			} else {
-				params.types = null;
-			}
-			console.log(params.types);
-			console.log(params.types !== null || params.types.length === 0);
-			params.emptyFilters = users.length === 0 && (params.types !== null || params.types.length === 0);
-			console.log(params.emptyFilters);
+			module: CONFIG.module,
+			action: 'Calendar',
+			mode: 'getEvent',
+			start: view.start.format(formatDate),
+			end: view.end.format(formatDate),
+			user: users,
+			emptyFilters: users.length == 0 ? true : false
 		}
+		if (app.moduleCacheGet('calendar-types')) {
+			params.types = app.moduleCacheGet('calendar-types');
+		} else {
+			params.types = null;
+		}
+		params.emptyFilters = users.length === 0 || params.types.length === 0 || (users.length === 0 && (params.types !== null || params.types.length === 0));
 		return params;
 	}
 
@@ -350,10 +345,19 @@ window.Calendar_Js = class {
 			let name = $(this).attr('id');
 			let value = app.moduleCacheGet(name);
 			let element = $('#' + name);
-			if (element.length > 0 && value != null) {
+			if (element.length > 0 && value !== null) {
+				console.log(element);
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(value);
 				}
+			} else if (element.length > 0 && value === null) {
+				let allOptions = [];
+				element.find('option').each((i, e) => {
+					console.log(e);
+					allOptions.push($(e.currentTarget).val());
+				});
+				element.val(allOptions);
+				app.moduleCacheSet(name, value);
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
@@ -473,7 +477,8 @@ window.Calendar_Js = class {
  *  Class representing a calendar with creating events by day click instead of selecting days.
  * @extends Calendar_Js
  */
-window.Calendar_Unselectable_Js = class extends Calendar_Js {
+window
+	.Calendar_Unselectable_Js = class extends Calendar_Js {
 	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
