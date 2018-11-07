@@ -27,11 +27,8 @@ class File extends Base
 					continue;
 				}
 				unlink($item->getPathname());
-				if (!empty($sessionData['authenticated_user_id'])) {
-					$userName = \App\User::getUserModel(empty($sessionData['baseUserId']) ? $sessionData['authenticated_user_id'] : $sessionData['baseUserId'])->getDetail('user_name');
-					if (!empty($userName)) {
-						yield $userName;
-					}
+				if (!empty($sessionData['authenticated_user_id']) && !empty($sessionData['user_name'])) {
+					yield $sessionData['user_name'];
 				}
 			}
 		}
@@ -49,7 +46,7 @@ class File extends Base
 	 *
 	 * @example http://php.net/manual/en/function.session-decode.php#108037
 	 */
-	public static function unserialize($session)
+	public static function unserialize(string $session)
 	{
 		$method = ini_get('session.serialize_handler');
 		switch ($method) {
@@ -73,7 +70,7 @@ class File extends Base
 	 *
 	 * @return array
 	 */
-	private static function unserializePhp($session)
+	private static function unserializePhp(string $session)
 	{
 		$return = [];
 		$offset = 0;
@@ -99,7 +96,7 @@ class File extends Base
 	 *
 	 * @return array
 	 */
-	private static function unserializePhpBinary($session)
+	private static function unserializePhpBinary(string $session)
 	{
 		$return = [];
 		$offset = 0;
