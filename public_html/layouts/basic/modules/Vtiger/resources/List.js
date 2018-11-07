@@ -1545,7 +1545,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	appendFilterActionsTemplate: function (liElement) {
 		let currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
-		let template = $(`<span class="js-filter-actions o-filter-actions float-right">
+		let template = $(`<span class="js-filter-actions o-filter-actions noWrap float-right">
 					<span ${currentOptionElement.data('featured') === 1 ? 'title="' + app.vtranslate('JS_REMOVE_TO_FAVORITES') + '"' : 'title="' + app.vtranslate('JS_ADD_TO_FAVORITES') + '"'} data-value="favorites" data-js="click"
 						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'}"></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
@@ -1559,7 +1559,7 @@ jQuery.Class("Vtiger_List_Js", {
 					<span title="${app.vtranslate('JS_APPROVE')}" data-value="approve" data-js="click"
 						  class="fas fa-check mr-1 js-filter-approve ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
 				</span>`);
-		template.appendTo(liElement);
+		template.appendTo(liElement.find('.js-filter__title'));
 	},
 	/*
 	 * Function to register the hover event for customview filter options
@@ -1819,22 +1819,37 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	changeCustomFilterElementView: function () {
-		var thisInstance = this;
-		var filterSelectElement = this.getFilterSelectElement();
+		const thisInstance = this;
+		let filterSelectElement = this.getFilterSelectElement();
 		if (filterSelectElement.length > 0 && filterSelectElement.is("select")) {
 			App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 				templateSelection: function (data) {
-					var resultContainer = jQuery('<span></span>');
-					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
+					let resultContainer = $('<span></span>');
+					resultContainer.append($($('.filterImage').clone().get(0)).show());
 					resultContainer.append(data.text);
 					return resultContainer;
 				},
 				customSortOptGroup: true,
+				templateResult: function (data) {
+					let actualElement = $(data.element);
+					if (actualElement.is('option')) {
+						let additionalText = '';
+						if (actualElement.attr('data-option') !== undefined) {
+							additionalText = '<div class="u-max-w-lg-100 u-text-ellipsis--no-hover d-inline-block small">' + actualElement.attr('data-option') + '</div>';
+						}
+						return '<div class="js-filter__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' + actualElement.text() + '</div></div>' + additionalText;
+					} else {
+						return actualElement.attr('label');
+					}
+				},
+				escapeMarkup: function (markup) {
+					return markup;
+				},
 				closeOnSelect: true
 			});
 
-			var select2Instance = filterSelectElement.data('select2');
-			jQuery('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('d-none').on('click', function (e) {
+			let select2Instance = filterSelectElement.data('select2');
+			$('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('d-none').on('click', function (e) {
 				thisInstance.createFilterClickEvent(e);
 			});
 		}
