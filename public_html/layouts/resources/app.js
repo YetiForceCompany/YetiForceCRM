@@ -158,21 +158,24 @@ var App = {},
 			element.on("mouseenter", (e) => {
 				setTimeout(function () {
 					let element = $(e.currentTarget);
-					element.popover("show");
-					let popoverId = element.attr('aria-describedby');
-					let currentPopover = $(`#${popoverId}`);
-					currentPopover.on("mouseleave", (e) => {
-						setTimeout(function () {
-							if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
-								currentPopover.popover('hide'); //close current popover
-							}
-							if (!$(":hover").filter($(".popover")).length) {
-								$(".popover").popover('hide'); //close all popovers
-							}
-						}, timeout);
-					});
+					if (element.is(':hover')) {
+						element.popover("show");
+						let popoverId = element.attr('aria-describedby');
+						let currentPopover = $(`#${popoverId}`);
+						currentPopover.on("mouseleave", (e) => {
+							setTimeout(function () {
+								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+									currentPopover.popover('hide'); //close current popover
+								}
+								if (!$(":hover").filter($(".popover")).length) {
+									$(".popover").popover('hide'); //close all popovers
+								}
+							}, timeout);
+						});
+					}
 				}, timeout);
 			});
+
 			app.hidePopoversAfterClick(element);
 		},
 		isEllipsisActive(element) {
