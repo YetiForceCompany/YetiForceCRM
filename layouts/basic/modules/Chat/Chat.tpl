@@ -64,7 +64,7 @@
 			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
 				 data-js="container|perfectscrollbar">
 				<div class="d-flex flex-grow-1">
-					<div class="col-12 js-chat_content h-100 w-100 mb-4"
+					<div class="col-12 px-2 js-chat_content h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
 						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_MESSAGE_TIME')}"

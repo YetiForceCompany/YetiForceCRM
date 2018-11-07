@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$ROOM['recordid'] && $CURRENT_ROOM['roomType']==$ROOM_TYPE }
+		{assign var=SELECTED value=$CURRENT_ROOM['recordId'] == $ROOM['recordid'] && $CURRENT_ROOM['roomType'] == $ROOM_TYPE }
 		<li class="text-truncate js-room o-chat__room-hover u-cursor-pointer {if $SELECTED} active o-chat__room {/if} {$CLASS_NAME} py-1 pr-1 pl-3"
 			title="{\App\Purifier::encodeHtml($ROOM['name'], 'Chat')}"
 			data-record-id="{$ROOM['recordid']}"
@@ -54,21 +54,47 @@
 					<span class="fas fa-users mr-2"></span>
 					{\App\Language::translate('LBL_ROOM_GROUP', $MODULE_NAME)}
 				</div>
-				<ul class="js-room-type u-font-size-13px p-0" data-room-type="group" data-js="data">
+				<ul class="js-room-type u-font-size-13px p-0" data-room-type="group"
+					data-js="data">
 					{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getInstance('CustomView')->getGroups(false)}
 						{assign var=TRANSLATE_GROUP value=\App\Language::translate($GROUP_NAME)}
-						{assign var=SELECTED value=$CURRENT_ROOM['recordId']==$GROUP && $CURRENT_ROOM['roomType']=== 'group'}
-						<li class="text-truncate js-room o-chat__room-hover u-cursor-pointer {if $SELECTED}active o-chat__room{/if} py-1 pr-1 pl-3"
-							title="{\App\Purifier::encodeHtml($TRANSLATE_GROUP)}"
-							data-record-id="{$GROUP_ID}"
-							data-js="click">
-							<span class="js-room-name" data-js="append|replace">{$TRANSLATE_GROUP}</span>
-							<span class="js-room-cnt badge badge-info ml-1 inline" data-js="append|replace">
-						{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}
-						</span>
-						</li>
+						{assign var=SELECTED value=$CURRENT_ROOM['recordId'] == $GROUP && $CURRENT_ROOM['roomType'] === 'group'}
+						<div class="w-100 row m-0 hide js-group js-hide">
+							<li class="text-truncate col-11 js-room js-group-room o-chat__room-hover {if $CHAT->isAssigned()} hide {/if} u-cursor-pointer d-flex  {if $SELECTED}active o-chat__room{/if} py-1 pr-1 pl-3"
+								title="{\App\Purifier::encodeHtml($TRANSLATE_GROUP)}"
+								data-record-id="{$GROUP_ID}"
+								data-js="click">
+								<div class="col-9 p-0">
+									<span class="js-room-name" data-js="append|replace">{$TRANSLATE_GROUP}</span>
+								</div>
+								<div class="col-3 p-0 text-right">
+								<span class="js-room-cnt badge badge-info ml-1 inline" data-js="append|replace">
+								{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}
+								</span>
+								</div>
+							</li>
+							<div class="col-1  text-right px-2 d-flex align-items-center">
+								<a class="{if $CHAT->isAssigned()} hide{/if} js-remove-favorites" data-js="click"
+								   href="#" data-record-id="{$GROUP_ID}">
+						<span class="fas fa-thumbtack text-danger"
+							  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
+								</a>
+								<a class="{if !$CHAT->isAssigned()} hide{/if} js-add-favorites" data-js="click"
+								   href="#" data-record-id="{$GROUP_ID}">
+						<span class="fas fa-thumbtack text-success"
+							  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
+								</a>
+							</div>
+						</div>
 					{/foreach}
 				</ul>
+				<div class="col-12 px-2 text-right mb-1">
+					<button type="button"
+							class="btn btn-sm btn-success js-btn-more"
+							data-js="click">
+						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
+					</button>
+				</div>
 				<!-- GLOBAL -->
 				<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
 					 data-group="global">

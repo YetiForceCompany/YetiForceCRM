@@ -88,6 +88,7 @@
 
 	&__room {
 		background: #d5d7de;
+		color: #73b5d9;
 	}
 	&__room-hover {
 		&:hover {
@@ -100,4 +101,7 @@
 	.o-chat__scrollbar {
 		height: calc(100vh - #{calculate-rem(361px)});
 	}
+}
+.o-chat-footer{
+	color: #73b5d9;
 }
