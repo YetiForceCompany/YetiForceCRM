@@ -60,11 +60,11 @@
 						{assign var=TRANSLATE_GROUP value=\App\Language::translate($GROUP_NAME)}
 						{assign var=SELECTED value=$CURRENT_ROOM['recordId'] == $GROUP && $CURRENT_ROOM['roomType'] === 'group'}
 						<div class="w-100 row m-0 hide js-group js-hide">
-							<li class="text-truncate col-11 js-room js-group-room o-chat__room-hover {if $CHAT->isAssigned()} hide {/if} u-cursor-pointer d-flex  {if $SELECTED}active o-chat__room{/if} py-1 pr-1 pl-3"
+							<li class="text-truncate col-12 js-room js-group-room o-chat__room-hover {if $CHAT->isAssigned()} hide {/if} u-cursor-pointer d-flex  {if $SELECTED}active o-chat__room{/if} py-1 pr-1 pl-3"
 								title="{\App\Purifier::encodeHtml($TRANSLATE_GROUP)}"
 								data-record-id="{$GROUP_ID}"
 								data-js="click">
-								<div class="col-9 p-0">
+								<div class="col-8 p-0">
 									<span class="js-room-name" data-js="append|replace">{$TRANSLATE_GROUP}</span>
 								</div>
 								<div class="col-3 p-0 text-right">
@@ -72,33 +72,35 @@
 								{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}
 								</span>
 								</div>
-							</li>
-							<div class="col-1  text-right px-2 d-flex align-items-center">
-								<a class="{if $CHAT->isAssigned()} hide{/if} js-remove-favorites" data-js="click"
-								   href="#" data-record-id="{$GROUP_ID}">
+								<div class="col-1 text-right px-2 d-flex align-items-center o-chat__pin-favorites">
+									<a class="{if $CHAT->isAssigned()} hide{/if} js-remove-favorites"
+									   data-js="click"
+									   href="#" data-record-id="{$GROUP_ID}">
 						<span class="fas fa-thumbtack text-danger"
 							  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
-								</a>
-								<a class="{if !$CHAT->isAssigned()} hide{/if} js-add-favorites" data-js="click"
-								   href="#" data-record-id="{$GROUP_ID}">
-						<span class="fas fa-thumbtack text-success"
+									</a>
+
+									<a class="{if !$CHAT->isAssigned()} hide{/if} js-add-favorites"
+									   data-js="click"
+									   href="#" data-record-id="{$GROUP_ID}">
+						<span class="fas fa-thumbtack text-light"
 							  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
-								</a>
-							</div>
+									</a>
+								</div>
+							</li>
+
 						</div>
 					{/foreach}
 				</ul>
 				<div class="col-12 px-2 text-right mb-1">
-					<button type="button"
-							class="btn btn-sm btn-success js-btn-more"
-							data-js="click">
+					<a class="text-success js-btn-more" href="#"
+					   data-js="click">
 						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
-					</button>
-					<button type="button"
-							class="btn btn-sm btn-danger hide js-btn-more-remove"
-							data-js="click">
-						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
-					</button>
+					</a>
+					<a class="text-danger hide js-btn-more-remove" href="#"
+					   data-js="click">
+						{\App\Language::translate('LBL_HIDE', $MODULE_NAME)}
+					</a>
 				</div>
 
 				<!-- GLOBAL -->

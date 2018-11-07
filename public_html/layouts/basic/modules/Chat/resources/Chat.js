@@ -908,7 +908,8 @@ window.Chat_JS = class Chat_Js {
 			let btnRemoveFavorites = element.find('.js-remove-favorites');
 			let btnAddFavorites = element.find('.js-add-favorites');
 
-			btnRemoveFavorites.on('click', () => {
+			btnRemoveFavorites.on('click', (e) => {
+				e.stopPropagation();
 				btnRemoveFavorites.toggleClass('hide');
 				btnAddFavorites.toggleClass('hide');
 				element.addClass('js-hide');
@@ -919,7 +920,8 @@ window.Chat_JS = class Chat_Js {
 					recordId: btnAddFavorites.data('record-id')
 				});
 			})
-			btnAddFavorites.on('click', () => {
+			btnAddFavorites.on('click', (e) => {
+				e.stopPropagation();
 				btnRemoveFavorites.toggleClass('hide');
 				btnAddFavorites.toggleClass('hide');
 				element.removeClass('js-hide');
