@@ -44,7 +44,7 @@
 				<div class="js-chat-nav-history hide" data-js="class:hide">
 					<ul class="nav nav-tabs">
 						<li class="nav-item js-chat-link" data-group-name="crm">
-							<a class="nav-link  active" href="#" role="tab" data-toggle="tab">
+							<a class="nav-link active" href="#" role="tab" data-toggle="tab">
 								{\App\Language::translate('LBL_ROOM_CRM', $MODULE_NAME)}
 							</a>
 						</li>

@@ -25,6 +25,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$this->exposeMethod('getMore');
 		$this->exposeMethod('search');
 		$this->exposeMethod('history');
+		$this->exposeMethod('unread');
 	}
 
 	/**
@@ -183,17 +184,26 @@ class Chat_Entries_View extends \App\Controller\View
 	public function history(\App\Request $request)
 	{
 		$chat = \App\Chat::getInstance();
+		$groupHistory = $request->getByType('groupHistory', 2);
 		if ($request->isEmpty('mid')) {
-			$chatEntries = $chat->getHistory();
+			$chatEntries = $chat->getHistoryByType($groupHistory);
 		} else {
-			$chatEntries = $chat->getHistory($request->getByType('mid', 'DateTime'));
+			$chatEntries = $chat->getHistoryByType($groupHistory, $request->getInteger('mid'));
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->assign('HISTORY_GROUP', $chat->getHistoryByType($request->getByType('groupHistory', 2)));
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
-		$viewer->view('History.tpl', $request->getModule());
+		$viewer->view('Entries.tpl', $request->getModule());
+	}
+
+	/**
+	 * @param \App\Request $request
+	 */
+	public function unread(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->view('Unread.tpl', $request->getModule());
 	}
 
 	/**

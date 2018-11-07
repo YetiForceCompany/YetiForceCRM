@@ -88,6 +88,9 @@ window.Chat_JS = class Chat_Js {
 					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages) {
+					var soundsConfig = app.getMainParams('sounds');
+					console.log('soundNotification: ' + JSON.stringify(soundsConfig));
+
 					if (app.getCookie("chat-isSoundNotification") === "true") {
 						app.playSound('CHAT');
 					}
@@ -352,9 +355,9 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Get history.
 	 * @param {jQuery} btn
+	 * @param {string} groupHistory
 	 */
-	history(btn = null) {
-		let container = this.container;
+	history(btn = null, groupHistory = 'crm') {
 		this.isSearchMode = false;
 		this.isHistoryMode = true;
 		clearTimeout(this.timerMessage);
@@ -362,26 +365,33 @@ window.Chat_JS = class Chat_Js {
 		if (btn !== null) {
 			mid = btn.data('mid');
 		}
-		let groupSearch = container.find('.js-input-group-search');
-		if (groupSearch.hasClass('hide')) {
-			container.find('.js-room.active').click();
-		} else {
-			this.turnOffInputAndBtn();
-			this.request({
-				view: 'Entries',
-				mode: 'history',
-				mid: mid,
-				groupHistory: 'crm'
-			}, false).done((html) => {
-				if (btn === null) {
-					this.messageContainer.html(html);
-				} else {
-					btn.before(html);
-					btn.remove();
-				}
-				this.registerLoadMore();
-			});
-		}
+		this.turnOffInputAndBtn();
+		this.request({
+			view: 'Entries',
+			mode: 'history',
+			mid: mid,
+			groupHistory: groupHistory
+		}, false).done((html) => {
+			if (btn === null) {
+				this.messageContainer.html(html);
+			} else {
+				btn.before(html);
+				btn.remove();
+			}
+			this.registerLoadMore();
+		});
+	}
+
+	unread() {
+		this.isSearchMode = false;
+		this.isHistoryMode = false;
+		clearTimeout(this.timerMessage);
+		this.request({
+			view: 'Entries',
+			mode: 'unread'
+		}, false).done((html) => {
+			this.messageContainer.html(html);
+		});
 	}
 
 	/**
@@ -420,21 +430,11 @@ window.Chat_JS = class Chat_Js {
 	 * Select nav history.
 	 */
 	selectNavHistory() {
-		const self = this;
-		let container = this.container;
-		let navLink = container.find('.js-chat-link');
-		navLink.each(function (e) {
-			let element = $(this);
-			element.on('click', () => {
-				self.request({
-					view: 'Entries',
-					mode: 'history',
-					groupHistory: element.data('group-name')
-				}, false).done((html) => {
-					self.messageContainer.html(html);
-				});
-			})
-		})
+		this.container.find('.js-chat-nav-history .js-chat-link').each((index, element) => {
+			$(element).off('click').on('click', () => {
+				this.history(null, $(element).data('groupName'));
+			});
+		});
 	}
 
 	/**
@@ -658,6 +658,10 @@ window.Chat_JS = class Chat_Js {
 	 * Play sound notification.
 	 */
 	soundNotification() {
+
+		var soundsConfig = app.getMainParams('sounds');
+
+		console.log('soundNotification: ' + JSON.stringify(soundsConfig));
 		if (this.isSoundNotification) {
 			app.playSound('CHAT');
 		}
@@ -686,7 +690,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {object}
 	 * @returns {jQuery}
 	 */
-	createRoomItem(data = {}) {
+	createRoomItem(data = {}, favorite = false) {
 		let itemRoom = this.container.find('.js-room-list .js-temp-item-room').clone(false, false);
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
 		itemRoom.find('.js-room-name').html(data.name);
@@ -695,6 +699,9 @@ window.Chat_JS = class Chat_Js {
 			itemRoom.find('.js-room-cnt').html('');
 		} else {
 			itemRoom.find('.js-room-cnt').html(data['cnt_new_message']);
+		}
+		if (favorite) {
+			itemRoom.find('.js-remove-favorites').removeClass('hide');
 		}
 		itemRoom.attr('data-record-id', data.recordid);
 		return itemRoom;
@@ -735,7 +742,7 @@ window.Chat_JS = class Chat_Js {
 				if (newMessage !== null) {
 					cnt += newMessage;
 				}
-				let itemRoom = this.createRoomItem(data.roomList[key][idx]);
+				let itemRoom = this.createRoomItem(data.roomList[key][idx], roomTypeList.data('favorite'));
 				if (key === currentRoomType && data.roomList[key][idx]['recordid'] === currentRecordId) {
 					itemRoom.addClass('active o-chat__room');
 				}
@@ -969,7 +976,10 @@ window.Chat_JS = class Chat_Js {
 			if (this.isSearchMode) {
 				this.searchMessage(btn);
 			} else if (this.isHistoryMode) {
-				this.history(btn);
+				this.history(
+					btn,
+					this.container.find('.js-chat-nav-history .js-chat-link .active').closest('.js-chat-link').data('groupName')
+				);
 			} else {
 				this.getMore(btn);
 			}
@@ -1064,7 +1074,7 @@ window.Chat_JS = class Chat_Js {
 		}
 		btnDesktop.off('click').on('click', (e) => {
 			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
-			if (icon.hasClass(iconOn)) {
+			if (btnDesktop.find('.js-icon').hasClass(iconOn)) {
 				if (!Chat_Js.checkDesktopPermission()) {
 					PNotify.modules.Desktop.permission();
 					app.setCookie("chat-isDesktopNotification", true, 365);
@@ -1083,6 +1093,14 @@ window.Chat_JS = class Chat_Js {
 			icon.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
 			this.isSoundNotification = icon.hasClass(btnBell.data('iconOn'));
 			app.setCookie("chat-isSoundNotification", this.isSoundNotification, 365);
+		});
+	}
+
+	//
+	registerButtonUnread() {
+		this.container.find('.js-btn-unread').off('click').on('click', (e) => {
+			//console.log('registerButtonUnread');
+			this.unread();
 		});
 	}
 
@@ -1125,6 +1143,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
+		this.registerButtonUnread();
 		this.registerButtonFavoritesInGroup();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();

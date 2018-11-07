@@ -11,8 +11,9 @@
 						  data-js="container">{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}</span>
 				</li>
 				<li class="breadcrumb-item active">
-					<span class="js-footer-room-name o-chat-footer"
-						  data-js="container">{$ROOMS_USER[$ROOM_TYPE][0]['name']}</span>
+					<span class="js-footer-room-name o-chat-footer" data-js="container">
+						{if isset($ROOMS_USER[$ROOM_TYPE][0]['name'])}{$ROOMS_USER[$ROOM_TYPE][0]['name']}{/if}
+					</span>
 				</li>
 			</ol>
 		</div>
