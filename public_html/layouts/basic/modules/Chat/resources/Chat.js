@@ -409,8 +409,7 @@ window.Chat_JS = class Chat_Js {
 	selectNavHistory() {
 		const self = this;
 		let container = this.container;
-		let navLink = container.find('.js-chat-link');
-		navLink.each(function (e) {
+		container.find('.js-chat-link').each(function (e) {
 			let element = $(this);
 			element.on('click', () => {
 				self.request({
