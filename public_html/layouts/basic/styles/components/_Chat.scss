@@ -103,6 +103,9 @@
 		height: calc(100vh - #{calculate-rem(361px)});
 
 	}
+	.o-chat__entries-scrollbar {
+		height: calc(100vh - #{calculate-rem(415px)}) !important;
+	}
 }
 
 .o-chat-footer {
