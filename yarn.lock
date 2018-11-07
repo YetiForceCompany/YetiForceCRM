@@ -40,9 +40,9 @@ blueimp-canvas-to-blob@3.5.0:
   integrity sha1-VnmsMvaig1gh8MOtZhcZ/4WpI2s=
 
 blueimp-file-upload@^9.25.1:
-  version "9.26.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.26.0.tgz#5764bfcc41608309748c515b8645f330a84fcb12"
-  integrity sha512-SgengPRTGGZslQjgDQdps/pBWQ6AJxYbc1sU8223dDBCrccT7O+64qbqg3mbtwKIDybFeHTf4V7RobtaukAN7A==
+  version "9.27.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.27.0.tgz#27293a8af0f87956d22dcc24bd1df6d7390ff2dc"
+  integrity sha512-uGfoaq1H+q4/EQLA35UJjLOf+K9X9zoDO0cuux3EDS+gI+yrIlkjeKNj9648vywQyD7MZUkyjlxzdIDQ0BrHTA==
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -167,9 +167,9 @@ color-name@^1.0.0:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 css-element-queries@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.5.tgz#4f032f017693a2d410872db46a4caa932c62c71a"
-  integrity sha512-CtSZISHGWI7DT0ee+f1XJs0qvYn72XptLCrUx6RNvghpBEzjeBdAK6sQ2byiukosr6aNwQvoF9y7LXGbWB5DLQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.1.0.tgz#aa411134bfecacab1240d9b760b1ed2ed2c3e3b4"
+  integrity sha512-oLFKjj8eWnyJuZaH9hYc8Z79m1KflQtR8ft1NsAjTARGZHSiqk6i7hzjNnkQc+U+sVPRII9n+Jhx9/xnzFER/g==
 
 css-line-break@1.0.1:
   version "1.0.1"
@@ -363,9 +363,9 @@ jstree-bootstrap-theme@^1.0.1:
     jquery ">=1.9.1"
 
 jstree@^3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.6.tgz#8da21f101196751031f77e18d3345b6566c2e907"
-  integrity sha512-60yWq6batzrakamfhJKB/pQsR6E7O27pafHr5p/klEE3rDQjGY0zxV+C8+ljPVw90LmUJyUXEIuNbeQJB2xqcg==
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.7.tgz#41df485d66148836ac389603a3e12f4574b06251"
+  integrity sha512-yzzalO1TbZ4HdPezO43LesGI4Wv2sB0Nl+4GfwO0YYvehGws5qtTAhlBISxfur9phMLwCtf9GjHlRx2ZLXyRnw==
   dependencies:
     jquery ">=1.9.1"
 
