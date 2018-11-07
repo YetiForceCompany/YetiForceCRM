@@ -112,7 +112,7 @@
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
-			<div class="js-participants-list px-3 o-chat__scrollbar js-scrollbar" data-js="container|perfectscrollbar">
+			<div class="js-participants-list px-3 o-chat__scrollbar o-chat__entries-scrollbar js-scrollbar" data-js="container|perfectscrollbar">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'role_name'=>'', 'message'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$CHAT->getParticipants()}
