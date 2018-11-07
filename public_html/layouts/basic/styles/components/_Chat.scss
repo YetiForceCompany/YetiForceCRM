@@ -27,10 +27,11 @@
 	&__btn-favorite {
 		position: absolute;
 		bottom: 0px;
-		right: 268px;
+		right: 0px;
 		z-index: 1000;
 		font-size: 15px;
 		color: #6c7591;
+		background: #fafafa !important;
 	}
 	&__icon-container {
 		a {
@@ -100,8 +101,10 @@
 .o-chat__detail {
 	.o-chat__scrollbar {
 		height: calc(100vh - #{calculate-rem(361px)});
+
 	}
 }
-.o-chat-footer{
+
+.o-chat-footer {
 	color: #73b5d9;
 }
