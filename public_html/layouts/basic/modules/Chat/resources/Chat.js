@@ -900,6 +900,57 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
+
+	registerButtonFavoritesInGroup() {
+		const self = this;
+		let groupContainer = this.container.find('.js-group');
+		groupContainer.each(function (e) {
+			let element = $(this);
+			let btnRemoveFavorites = element.find('.js-remove-favorites');
+			let btnAddFavorites = element.find('.js-add-favorites');
+
+			btnRemoveFavorites.on('click', () => {
+				btnRemoveFavorites.toggleClass('hide');
+				btnAddFavorites.toggleClass('hide');
+				element.addClass('js-hide');
+				self.request({
+					action: 'Room',
+					mode: 'removeFromFavorites',
+					roomType: 'group',
+					recordId: btnAddFavorites.data('record-id')
+				});
+			})
+			btnAddFavorites.on('click', () => {
+				btnRemoveFavorites.toggleClass('hide');
+				btnAddFavorites.toggleClass('hide');
+				element.removeClass('js-hide');
+				self.request({
+					action: 'Room',
+					mode: 'addToFavorites',
+					roomType: 'group',
+					recordId: btnAddFavorites.data('record-id')
+				});
+			})
+		})
+
+	}
+
+
+	registerButtonMoreInRoom() {
+		let container = this.container;
+		let btnMore = container.find('.js-btn-more');
+		let groupContainer = container.find('.js-group');
+
+		groupContainer.each(function (e) {
+			let element = $(this);
+			btnMore.on('click', () => {
+				if (element.hasClass('js-hide')) {
+					element.toggleClass('hide');
+				}
+			})
+		})
+	}
+
 	/**
 	 * Register listen event.
 	 */
@@ -1074,6 +1125,8 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
+		this.registerButtonFavoritesInGroup();
+		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
 		this.turnOnInputAndBtnInRoom();
