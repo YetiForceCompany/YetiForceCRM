@@ -1019,7 +1019,8 @@ class File
 	public static function updateUploadFiles(array $value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
 	{
 		$previousValue = $recordModel->get($fieldModel->getName());
-		$previousValue = ($previousValue && $previousValue !== '[]') ? static::parse(\App\Json::decode($previousValue)) : [];
+		$previousValue = ($previousValue && $previousValue !== '[]' && $previousValue !== "''") ?
+			static::parse(\App\Json::decode($previousValue)) : [];
 		$value = static::parse($value);
 		$new = [];
 		$save = false;
