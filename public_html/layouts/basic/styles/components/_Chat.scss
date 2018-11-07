@@ -92,15 +92,15 @@
 		color: #73b5d9;
 	}
 	&__room-hover {
+		.o-chat__pin-favorites {
+			display: none !important;
+		}
 		&:hover {
 			background: #d5d7de;
 			.o-chat__pin-favorites {
-				display: block;
+				display: block !important;
 			}
 		}
-	}
-	&__pin-favorites {
-		display: none;
 	}
 }
 
