@@ -184,7 +184,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
     "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
     "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
-    "LBL_WORK_DAYS": "Work days"
+    "LBL_WORK_DAYS": "Work days",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Cant select contact from leads",
