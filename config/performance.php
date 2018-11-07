@@ -97,5 +97,5 @@ $PERFORMANCE_CONFIG = [
 	// Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
 	'LIMITED_INFO_IN_FOOTER' => false,
 	// Popover record's trigger delay in ms
-	'POPOVER_RECORD_DELAY' => 500
+	'RECORD_POPOVER_DELAY' => 500
 ];
