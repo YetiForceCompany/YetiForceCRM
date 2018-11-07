@@ -359,6 +359,9 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
+			user = app.getMainParams('usersId');
+		}
+		if (user === undefined) {
 			user = [app.getMainParams('userId')];
 		}
 		subDatesElements.each(function (key, element) {
@@ -456,8 +459,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			cvid = self.getCurrentCvId(),
 			calendarInstance = this.getCalendarView();
 		calendarInstance.fullCalendar('removeEvents');
-		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		let user = self.getSelectedUsersCalendar();
+		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
+			user = self.getSelectedUsersCalendar();
 		if (0 === user.length) {
 			user = [app.getMainParams('userId')];
 		}
@@ -490,6 +493,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				cvid: this.browserHistoryConfig.cvid
 			});
 			connectorMethod = window["AppConnector"]["request"];
+			app.setMainParams('showType', this.browserHistoryConfig.time);
+			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
@@ -849,7 +854,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
 		thisInstance.getCalendarCreateView();
-		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').done(
+		let user = app.getMainParams('usersId');
+		if (user === undefined) {
+			user = [app.getMainParams('userId')];
+		}
+		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList&user=${user}`).done(
 			function (data) {
 				if (data) {
 					let formContainer = sideBar.find('.js-users-form');
@@ -862,7 +871,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				}
 			}
 		);
-		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').done(
+		AppConnector.request(`index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList&user=${user}`).done(
 			function (data) {
 				if (data) {
 					let formContainer = sideBar.find('.js-group-form');

@@ -11,4 +11,5 @@ $SOUNDS_CONFIG = [
 	//Table with file names
 	'REMINDERS' => 'sound_1.mp3',
 	'CHAT' => 'sound_1.mp3',
+	'MAILS' => 'sound_1.mp3',
 ];

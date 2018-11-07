@@ -343,7 +343,9 @@ window.Chat_JS = class Chat_Js {
 				btn.remove();
 			}
 			this.registerLoadMore();
-			this.scrollToBottom();
+			if (mid == null) {
+				this.scrollToBottom();
+			}
 		});
 	}
 
@@ -390,28 +392,15 @@ window.Chat_JS = class Chat_Js {
 		container.find('.js-users').addClass('hide');
 		container.find('.js-scrollbar').addClass('o-chat__scrollbar--history');
 		let messageContainer = container.find('.js-message-container');
+		container.find('.js-footer-history-hide').removeClass('hide');
+		container.find('.js-footer-history').addClass('hide');
+		container.find('.js-room').removeClass('active o-chat__room');
 		messageContainer.removeClass('col-9');
 		messageContainer.addClass('col-12');
 		container.find('.js-chat-nav-history').removeClass('hide');
 		container.find('.js-chat-message').addClass('hide');
 		container.find('.js-btn-send').addClass('hide');
 		container.find('.js-input-group-search').addClass('hide');
-	}
-
-	/**
-	 * Turn on input and button.
-	 */
-	turnOnInputAndBtn() {
-		let container = this.container;
-		container.find('.js-input-group-search').removeClass('hide');
-		container.find('.js-users').removeClass('hide');
-		container.find('.js-scrollbar').removeClass('o-chat__scrollbar--history');
-		let messageContainer = container.find('.js-message-container');
-		messageContainer.removeClass('col-12');
-		messageContainer.addClass('col-9');
-		container.find('.js-chat-nav-history').addClass('hide');
-		container.find('.js-chat-message').removeClass('hide');
-		container.find('.js-btn-send').removeClass('hide');
 	}
 
 	/**
@@ -440,7 +429,18 @@ window.Chat_JS = class Chat_Js {
 	 */
 	turnOnInputAndBtnInRoom() {
 		this.container.on('click', '.js-room', () => {
-			this.turnOnInputAndBtn();
+			let container = this.container;
+			container.find('.js-input-group-search').removeClass('hide');
+			container.find('.js-users').removeClass('hide');
+			container.find('.js-scrollbar').removeClass('o-chat__scrollbar--history');
+			let messageContainer = container.find('.js-message-container');
+			container.find('.js-footer-history-hide').addClass('hide');
+			container.find('.js-footer-history').removeClass('hide');
+			messageContainer.removeClass('col-12');
+			messageContainer.addClass('col-9');
+			container.find('.js-chat-nav-history').addClass('hide');
+			container.find('.js-chat-message').removeClass('hide');
+			container.find('.js-btn-send').removeClass('hide');
 		})
 	}
 
@@ -899,6 +899,70 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Button favorites in group.
+	 */
+	registerButtonFavoritesInGroup() {
+		const self = this;
+		this.container.find('.js-group').each(function (e) {
+			let element = $(this);
+			let btnRemoveFavorites = element.find('.js-remove-favorites');
+			let btnAddFavorites = element.find('.js-add-favorites');
+
+			btnRemoveFavorites.on('click', (e) => {
+				e.stopPropagation();
+				btnRemoveFavorites.toggleClass('hide');
+				btnAddFavorites.toggleClass('hide');
+				element.addClass('js-hide');
+				self.request({
+					action: 'Room',
+					mode: 'removeFromFavorites',
+					roomType: 'group',
+					recordId: btnAddFavorites.data('record-id')
+				});
+			})
+			btnAddFavorites.on('click', (e) => {
+				e.stopPropagation();
+				btnRemoveFavorites.toggleClass('hide');
+				btnAddFavorites.toggleClass('hide');
+				element.removeClass('js-hide');
+				self.request({
+					action: 'Room',
+					mode: 'addToFavorites',
+					roomType: 'group',
+					recordId: btnAddFavorites.data('record-id')
+				});
+			})
+		})
+
+	}
+
+	/**
+	 * Button more in room.
+	 */
+	registerButtonMoreInRoom() {
+		let container = this.container;
+		let btnMore = container.find('.js-btn-more');
+		let btnMoreRemove = container.find('.js-btn-more-remove');
+		container.find('.js-group.js-hide').each(function (e) {
+			let element = $(this);
+			btnMoreRemove.on('click', () => {
+				btnMoreRemove.addClass('hide');
+				btnMore.removeClass('hide');
+				if (element.hasClass('js-hide')) {
+					element.addClass('hide');
+				}
+			})
+			btnMore.on('click', () => {
+				btnMoreRemove.removeClass('hide');
+				btnMore.addClass('hide');
+				if (element.hasClass('js-hide')) {
+					element.removeClass('hide');
+				}
+			})
+		})
+	}
+
+	/**
 	 * Register listen event.
 	 */
 
@@ -1072,6 +1136,8 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
+		this.registerButtonFavoritesInGroup();
+		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
 		this.turnOnInputAndBtnInRoom();

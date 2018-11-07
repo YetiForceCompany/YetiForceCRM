@@ -143,8 +143,8 @@ var App = {},
 				}, 100);
 			});
 		},
-		registerPopoverManualTrigger(element) {
-			const timeout = 500
+		registerPopoverManualTrigger(element, manualTriggerDelay) {
+			const hideDelay = 500;
 			element.on("mouseleave", (e) => {
 				setTimeout(function () {
 					let popoverId = $(e.currentTarget).attr('aria-describedby');
@@ -152,27 +152,30 @@ var App = {},
 					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 						currentPopover.popover('hide');
 					}
-				}, timeout);
+				}, hideDelay);
 			});
 
 			element.on("mouseenter", (e) => {
 				setTimeout(function () {
 					let element = $(e.currentTarget);
-					element.popover("show");
-					let popoverId = element.attr('aria-describedby');
-					let currentPopover = $(`#${popoverId}`);
-					currentPopover.on("mouseleave", (e) => {
-						setTimeout(function () {
-							if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
-								currentPopover.popover('hide'); //close current popover
-							}
-							if (!$(":hover").filter($(".popover")).length) {
-								$(".popover").popover('hide'); //close all popovers
-							}
-						}, timeout);
-					});
-				}, timeout);
+					if (element.is(':hover')) {
+						element.popover("show");
+						let popoverId = element.attr('aria-describedby');
+						let currentPopover = $(`#${popoverId}`);
+						currentPopover.on("mouseleave", (e) => {
+							setTimeout(function () {
+								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+									currentPopover.popover('hide'); //close current popover
+								}
+								if (!$(":hover").filter($(".popover")).length) {
+									$(".popover").popover('hide'); //close all popovers
+								}
+							}, hideDelay);
+						});
+					}
+				}, manualTriggerDelay);
 			});
+
 			app.hidePopoversAfterClick(element);
 		},
 		isEllipsisActive(element) {
@@ -190,10 +193,12 @@ var App = {},
 		showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 			let defaultParams = {
 				trigger: 'manual',
+				manualTriggerDelay: 500,
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 				container: 'body',
+				boundary: 'viewport',
 				delay: {"show": 300, "hide": 100}
 			};
 			selectElement.each(function (index, domElement) {
@@ -207,7 +212,7 @@ var App = {},
 				}
 				element.popover(elementParams);
 				if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
-					app.registerPopoverManualTrigger(element);
+					app.registerPopoverManualTrigger(element, elementParams.manualTriggerDelay);
 				}
 				if (elementParams.callbackShown) {
 					element.on('shown.bs.popover', function (e) {
@@ -244,6 +249,8 @@ var App = {},
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
+				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
+				placement: 'right',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
 					if (!element.attr('href')) {

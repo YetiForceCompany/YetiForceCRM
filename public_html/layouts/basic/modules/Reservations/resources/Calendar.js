@@ -38,4 +38,4 @@ window.Reservations_Calendar_Js = class extends Calendar_Unselectable_Js {
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	}
-}
+};

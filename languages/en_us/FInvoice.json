@@ -38,6 +38,6 @@
     "PLL_CANCELLED": "Cancelled",
     "PLL_ACCEPTED": "Accepted",
     "LBL_YEAR": "Year",
-    "FL_ISSUE_TIME": "Issue time"
+    "FL_ISSUE_TIME": "Invoice date"
   }
 }

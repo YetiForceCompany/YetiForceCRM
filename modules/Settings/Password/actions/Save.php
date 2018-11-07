@@ -4,7 +4,7 @@
  * Settings Password save action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 {
@@ -58,9 +58,19 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		if ($method && strlen($password) !== App\Encryption::getLengthVector($method)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
-		(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => App\Json::encode([$method, $password])]))->save();
+		\AppConfig::set('securityKeys', 'encryptionMethod', $method);
+		\AppConfig::set('securityKeys', 'encryptionPass', $password);
+		$instance = new App\Encryption();
+		$instance->set('method', $method);
+		$instance->set('vector', $password);
+		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
 		$response = new Vtiger_Response();
-		$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
+		if (empty($instance->encrypt('test'))) {
+			$response->setResult(App\Language::translate('LBL_NO_REGISTER_ENCRYPTION', $request->getModule(false)));
+		} else {
+			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => App\Json::encode([$method, $password])]))->save();
+			$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
+		}
 		$response->emit();
 	}
 }

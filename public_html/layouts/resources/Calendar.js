@@ -285,50 +285,60 @@ window.Calendar_Js = class {
 	 */
 	registerSitebarEvents() {
 		$('.bodyContents').on('Vtiger.Widget.Load.undefined', () => {
-			this.registerSelect2Event()
+			this.registerSelect2Event();
 		});
 	}
 
 	/**
-	 * Load calendar data.
+	 * Load calendar data
 	 */
 	loadCalendarData() {
-		let progressInstance = jQuery.progressIndicator();
-		let self = this;
-		self.getCalendarView().fullCalendar('removeEvents');
-		let view = self.getCalendarView().fullCalendar('getView');
-		let start_date = view.start.format();
-		let end_date = view.end.format();
-		let user = [],
-			types;
+		const defaultParams = this.getDefaultParams();
+		this.getCalendarView().fullCalendar('removeEvents');
+		if (!defaultParams.emptyFilters) {
+			const progressInstance = $.progressIndicator();
+			AppConnector.request(defaultParams).done((events) => {
+				this.getCalendarView().fullCalendar('addEventSource', events.result);
+				progressInstance.hide();
+			});
+		}
+	}
+
+	/**
+	 * Default params
+	 * @returns {{module: *, action: string, mode: string, start: *, end: *, user: *, emptyFilters: boolean}}
+	 */
+	getDefaultParams() {
+		let formatDate = CONFIG.dateFormat.toUpperCase(),
+			view = this.getCalendarView().fullCalendar('getView'),
+			users;
 		if (app.moduleCacheGet('calendar-users')) {
-			user = app.moduleCacheGet('calendar-users');
+			users = app.moduleCacheGet('calendar-users');
 		} else {
-			user = CONFIG.userId;
+			users = CONFIG.userId;
 		}
-		if (app.moduleCacheGet('calendar-types')) {
-			types = app.moduleCacheGet('calendar-types');
-		} else {
-			types = null;
-		}
-		if (user.length !== 0 && (types === null || types.length !== 0)) {
-			let params = {
+		let params = {
 				module: CONFIG.module,
 				action: 'Calendar',
 				mode: 'getEvent',
-				start: start_date,
-				end: end_date,
-				user: user,
-				types: types
-			};
-			AppConnector.request(params).done(function (events) {
-				self.getCalendarView().fullCalendar('addEventSource', events.result);
-				progressInstance.hide();
-			});
-		} else {
-			self.getCalendarView().fullCalendar('removeEvents');
-			progressInstance.hide();
+				start: view.start.format(formatDate),
+				end: view.end.format(formatDate),
+				user: users,
+				emptyFilters: users.length == 0 ? true : false
+			},
+			calendarTypes = $("#calendar-types");
+		if (calendarTypes.length > 0) {
+			if (app.moduleCacheGet('calendar-types')) {
+				params.types = app.moduleCacheGet('calendar-types');
+			} else {
+				params.types = null;
+			}
+			console.log(params.types);
+			console.log(params.types !== null || params.types.length === 0);
+			params.emptyFilters = users.length === 0 && (params.types !== null || params.types.length === 0);
+			console.log(params.emptyFilters);
 		}
+		return params;
 	}
 
 	/**
@@ -456,7 +466,8 @@ window.Calendar_Js = class {
 		}
 		return this.calendarView;
 	}
-};
+}
+;
 
 /**
  *  Class representing a calendar with creating events by day click instead of selecting days.

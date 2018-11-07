@@ -5,7 +5,7 @@
 		 data-mid="{$ROW['id']}" data-user-id="{$ROW['userid']}" data-js="data">
 		{assign var=IMAGE value=$ROW['image']}
 		{assign var=IS_IMAGE value=isset($IMAGE['url'])}
-		<div class="u-w-125px js-author text-center"
+		<div class="u-w-50px {if $USER_ID == $ROW['userid']} mr-3 {else} ml-3 {/if} js-author text-center"
 			 data-user-name="{$ROW['user_name']}"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
 			<div class="o-chat__img-container mx-auto {if !$IS_IMAGE} p-1 {/if}">
@@ -20,7 +20,7 @@
 			</span>
 		</div>
 		<div class="o-chat__triangle ownerCT_{$ROW['userid']} {if $USER_ID == $ROW['userid']} active float-right u-border-right-10px  {else} float-left u-border-left-10px  {/if}"></div>
-		<div class="col-8  px-0">
+		<div class="col-9  px-0">
 			<div class="o-chat__name u-font-size-10px m-0 w-100 ownerCBg_{$ROW['userid']} row">
 				<span class="u-font-size-10px m-0 text-truncate text-left col-6 p-1">
 					{$ROW['user_name']}
