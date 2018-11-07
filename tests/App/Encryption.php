@@ -23,7 +23,7 @@ class Encryption extends \Tests\Base
 	{
 		$instance = new \App\Encryption();
 		$testText = 'TEST TEXT';
-		$this->assertSame($testText, $instance->encrypt($testText), 'Encryption is enabled');
+		$this->assertSame($testText, $instance->encrypt($testText), 'Encryption should be disabeld');
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Encryption extends \Tests\Base
 	{
 		$instance = new \App\Encryption();
 		$testText = 'TEST TEXT';
-		$this->assertSame($testText, $instance->decrypt($testText), 'Encryption is enabled');
+		$this->assertSame($testText, $instance->decrypt($testText), 'Encryption should be disabeld');
 	}
 
 	public function testAvailableMethods()
@@ -61,15 +61,14 @@ class Encryption extends \Tests\Base
 	}
 
 	/**
-	 * /**
 	 * Testing process function.
 	 *
 	 * @dataProvider encryptionProvider
 	 *
-	 * @param $method
-	 * @param $password
+	 * @param string $method
+	 * @param string $password
 	 */
-	public function testEncryptionWithPass($method, $password)
+	public function testEncryptionWithPass(string $method, string $password)
 	{
 		\AppConfig::set('securityKeys', 'encryptionMethod', $method);
 		\AppConfig::set('securityKeys', 'encryptionPass', $password);
