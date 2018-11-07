@@ -163,16 +163,17 @@ class Zip extends \ZipArchive
 	 */
 	public function validateFile(string $path)
 	{
-		if ($this->checkFilePath($path)) {
+		if (!Fields\File::checkFilePath($path)) {
 			return true;
 		}
+		$validate = false;
 		if ($this->checkFiles && !$this->isDir($path)) {
 			$extension = pathinfo($path, PATHINFO_EXTENSION);
 			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
-				return true;
+				$validate = true;
 			}
 			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
-				return true;
+				$validate = true;
 			}
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
@@ -183,37 +184,10 @@ class Zip extends \ZipArchive
 				'validateAllCodeInjection' => true,
 			]);
 			if (!$fileInstance->validate()) {
-				return true;
+				$validate = true;
 			}
 		}
-		return false;
-	}
-
-	/**
-	 * CheckFilePath.
-	 *
-	 * @param string $path
-	 *
-	 * @return bool
-	 */
-	public function checkFilePath(string $path)
-	{
-		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
-		if ($matches) {
-			return true;
-		}
-		$absolutes = [];
-		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
-			if ('.' == $part) {
-				continue;
-			}
-			if ('..' == $part) {
-				array_pop($absolutes);
-			} else {
-				$absolutes[] = $part;
-			}
-		}
-		return strpos('YetiTemp/' . implode('/', $absolutes), 'YetiTemp/') !== 0;
+		return $validate;
 	}
 
 	/**

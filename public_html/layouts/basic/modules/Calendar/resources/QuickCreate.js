@@ -5,13 +5,21 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	constructor(container, readonly) {
 		super(container, readonly);
-		this.isSwitchAllDays = app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all' ? false : true;
+		this.isSwitchAllDays = false;
 		this.renderCalendar();
 		this.registerEvents();
 	}
 
 	/**
-	 * Functions register calendar events
+	 * Function sets calendar moduls's options
+	 * Overwrites Calendar_Calendar_Js
+	 */
+	setCalendarModuleOptions() {
+		return {hiddenDays: app.getMainParams('hiddenDays', true)};
+	}
+
+	/**
+	 * Function registers calendar events
 	 * Overwrites Calendar_CalendarExtended_Js
 	 */
 	registerEvents() {
@@ -21,7 +29,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	}
 
 	/**
-	 * Functions register calendar switch event
+	 * Function registers calendar switch event
 	 * Overwrites Calendar_CalendarExtended_Js
 	 */
 	registerSwitchEvents() {
@@ -40,7 +48,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 						this.isSwitchAllDays = true;
 					}
 					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
-					//calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
 					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
 						this.registerViewRenderEvents(this.getCalendarView().fullCalendar('getView'));
 					}
@@ -50,7 +57,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	}
 
 	/**
-	 * Functions register select's user change event
+	 * Function registers select's user change event
 	 * Overwrites Calendar_CalendarExtended_Js
 	 */
 	registerUsersChange() {

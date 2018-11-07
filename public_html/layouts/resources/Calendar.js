@@ -16,23 +16,22 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	setCalendarHeight() {
-		let paddingTop = 15, calendarH;
-		if ('CalendarExtended' === CONFIG.view) {
-			paddingTop = 5;
-		}
-		if (this.container.hasClass('js-modal-container')) {
-			if (this.container.closest('.user-info--active').length) {
-				paddingTop = 23;
-			} else {
-				paddingTop = 47;
-			}
-		}
+		let calendarH;
 		if ($(window).width() > 993) {
-			calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
+			let calendarContainer = this.container.find('.js-calendar__container'),
+				calendarPadding;
+			if (this.container.hasClass('js-modal-container')) {
+				calendarPadding = this.container.find('.js-modal-header').outerHeight(); // modal needs bigger padding to prevent modal's scrollbar
+			} else {
+				calendarPadding = this.container.find('.js-contents-div').css('margin-left').replace('px', ''); //equals calendar padding bottom to left margin
+			}
+			let setCalendarH = () => {
+				return $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - calendarPadding;
+			};
+			calendarH = setCalendarH();
 			new ResizeSensor(this.container.find('.contentsDiv'), () => {
-				calendarH = $(window).height() - this.container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
-				$('.js-calendar__container').fullCalendar('option', 'height', calendarH);
-				$('.js-calendar__container').height(calendarH + 10); // without this line calendar scroll stops working
+				calendarContainer.fullCalendar('option', 'height', setCalendarH());
+				calendarContainer.height(calendarH + 10); // without this line calendar scroll stops working
 			});
 		} else if ($(window).width() < 993) {
 			calendarH = 'auto';
@@ -77,6 +76,19 @@ window.Calendar_Js = class Calendar_Js {
 		}
 	}
 
+	/**
+	 * Render event
+	 * @param {Object} event
+	 * @param {jQuery} element
+	 */
+	eventRenderer(event, element) {
+		if (event.rendering === 'background') {
+			element.append(`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`);
+			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
+			app.registerPopoverEllipsis(element);
+		}
+	}
+
 	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
@@ -106,7 +118,7 @@ window.Calendar_Js = class Calendar_Js {
 		}
 		let options = {
 			timeFormat: userDefaultTimeFormat,
-			axisFormat: userDefaultTimeFormat,
+			slotLabelFormat: userDefaultTimeFormat,
 			defaultView: userDefaultActivityView,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
@@ -188,10 +200,6 @@ window.Calendar_Js = class Calendar_Js {
 			app.moduleCacheSet('browserHistoryEvent', true)
 		}, false);
 		return options;
-	}
-
-	eventRenderer(event, element) {
-		//TODO:Write basci method
 	}
 
 	registerButtonSelectAll() {

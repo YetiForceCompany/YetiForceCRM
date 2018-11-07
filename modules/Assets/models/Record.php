@@ -4,9 +4,9 @@
  * Record Class for Assets.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Assets_Record_Model extends Vtiger_Record_Model
 {
@@ -45,13 +45,12 @@ class Assets_Record_Model extends Vtiger_Record_Model
 		}
 		if (strtotime('+' . $renewalTime, $dateInService) < time()) {
 			if ($methodExist) {
-				return $classFunction['class']::$classFunction['method']($this, 'PLL_NOT_RENEWED_VERIFICATION');
+				return \call_user_func_array("{$classFunction['class']}::{$classFunction['method']}", [$this, 'PLL_NOT_RENEWED_VERIFICATION']);
 			}
-
 			return 'PLL_NOT_RENEWED_VERIFICATION';
 		}
 		if ($methodExist) {
-			return $classFunction['class']::$classFunction['method']($this, 'PLL_WAITING_FOR_RENEWAL', $renewalTime);
+			return \call_user_func_array("{$classFunction['class']}::{$classFunction['method']}", [$this, 'PLL_WAITING_FOR_RENEWAL', $renewalTime]);
 		}
 		return 'PLL_WAITING_FOR_RENEWAL';
 	}

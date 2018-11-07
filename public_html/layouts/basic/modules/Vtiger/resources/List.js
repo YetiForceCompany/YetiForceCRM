@@ -616,7 +616,6 @@ jQuery.Class("Vtiger_List_Js", {
 		self.registerListScroll(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		self.registerListViewSpecialOption();
 		var searchInstance = self.getListSearchInstance();
 		if (searchInstance !== false) {
@@ -1939,7 +1938,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.type) {
-					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('d-none')
+					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).removeClass('d-none')
 						.on('click', function (e) {
 							var element = jQuery(e.currentTarget);
 							var url = element.data('url');
@@ -2070,7 +2069,6 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerListViewSpecialOption();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
-		app.showPopoverElementView(listViewContainer.find('.js-popover-tooltip'));
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOption: function () {

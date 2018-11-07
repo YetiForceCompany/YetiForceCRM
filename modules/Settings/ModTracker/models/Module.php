@@ -4,13 +4,13 @@
  * Settings ModTracker module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public function getModTrackerModules($active = false)
 	{
-		$restrictedModules = ['Integration', 'Dashboard', 'PBXManager'];
+		$restrictedModules = ['Integration', 'Dashboard'];
 		$query = (new \App\Db\Query())->select(['vtiger_tab.name', 'vtiger_tab.tabid', 'vtiger_modtracker_tabs.visible'])
 			->from('vtiger_tab')
 			->leftJoin('vtiger_modtracker_tabs', 'vtiger_tab.tabid = vtiger_modtracker_tabs.tabid')

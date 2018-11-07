@@ -323,7 +323,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
 			App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
-			app.showPopoverElementView(contentContainer.find('.js-popover-tooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
 			if (relatedModuleName) {
@@ -1078,9 +1077,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -1091,7 +1090,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 									'enabled': true
 								}
 							});
-							window.location.reload();
+							if (window !== window.parent) {
+								window.location.href = window.location.href.replace("view=Detail", "view=DetailPreview");
+							} else {
+								window.location.reload();
+							}
 						}
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
 						elementTarget.data('prevValue', ajaxEditNewValue);
@@ -1655,7 +1658,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
 
-		jQuery('.related', detailContainer).on('click', 'li', function (e, urlAttributes) {
+		jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (e, urlAttributes) {
 			var tabElement = jQuery(e.currentTarget);
 			if (!tabElement.hasClass('dropdown')) {
 				var element = jQuery('<div></div>');
@@ -2287,8 +2290,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
-		if (typeof Chat_JS !== 'undefined' && this.getSelectedTab().data('labelKey') === 'LBL_CHAT') {
-			Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
+		if (typeof Chat_JS !== 'undefined') {
+			if (this.getSelectedTab().data('labelKey') === 'LBL_CHAT') {
+				Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
+			} else {
+				Chat_JS.getInstance(detailContentsHolder, 'detail').unregisterEvents();
+			}
 		}
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
@@ -2517,7 +2524,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
 					thisInstance.reloadWidgetActivitesStats(container);
-					app.showPopoverElementView(container.find('.js-popover-tooltip'));
 				}
 			);
 		});

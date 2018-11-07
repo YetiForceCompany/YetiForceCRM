@@ -22,6 +22,9 @@ class Chat_Room_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('getAll');
 		$this->exposeMethod('create');
+		$this->exposeMethod('removeFromFavorites');
+		$this->exposeMethod('addToFavorites');
+		$this->exposeMethod('tracking');
 	}
 
 	/**
@@ -48,6 +51,8 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		$response = new Vtiger_Response();
 		$response->setResult([
+			'currentRoom' => \App\Chat::getCurrentRoom(),
+			'roomList' => \App\Chat::getRoomsByUser()
 		]);
 		$response->emit();
 	}
@@ -68,5 +73,61 @@ class Chat_Room_Action extends \App\Controller\Action
 		$response->setResult([
 		]);
 		$response->emit();
+	}
+
+	/**
+	 * Remove from favorites.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function removeFromFavorites(\App\Request $request)
+	{
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Add to favorites.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function addToFavorites(\App\Request $request)
+	{
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Track the number of new messages.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function tracking(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		if (AppConfig::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
+			$response->setResult(\App\Chat::getNumberOfNewMessages());
+		} else {
+			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
+		}
+		$response->emit();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSessionExtend()
+	{
+		return false;
 	}
 }

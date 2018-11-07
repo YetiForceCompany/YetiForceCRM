@@ -54,10 +54,18 @@
 							<optgroup class="p-0">
 								<option value="">{App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 							</optgroup>
-							{foreach from=$AVAILABLE_METHODS item=METHOD}
-								<option value="{$METHOD}"
-										{if $ENCRYPT->get('method') === $METHOD}selected{/if}>{$METHOD}</option>
-							{/foreach}
+							<optgroup label="{\App\Language::translate('LBL_RECOMENDED_METHODS', $QUALIFIED_MODULE)}">
+								{foreach from=$RECOMENDED_METHODS item=METHOD}
+									<option value="{$METHOD}"
+											{if $ENCRYPT->get('method') === $METHOD}selected{/if}>{$METHOD}</option>
+								{/foreach}
+							</optgroup>
+							<optgroup label="{\App\Language::translate('LBL_OTHER_METHODS', $QUALIFIED_MODULE)}">
+								{foreach from=$AVAILABLE_METHODS item=METHOD}
+									<option value="{$METHOD}"
+											{if $ENCRYPT->get('method') === $METHOD}selected{/if}>{$METHOD}</option>
+								{/foreach}
+							</optgroup>
 						</select>
 					</div>
 				</div>

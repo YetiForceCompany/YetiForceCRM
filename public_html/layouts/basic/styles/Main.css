@@ -6219,7 +6219,7 @@ button.bg-dark:focus {
 .position-relative, .c-float-label__container {
   position: relative !important; }
 
-.position-absolute, .c-badge__icon {
+.position-absolute {
   position: absolute !important; }
 
 .position-fixed {
@@ -11862,6 +11862,18 @@ ul.tweets li {
   border-top: #e6ecf0 solid 1px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.u-font-size-10px {
+  font-size: 0.625rem; }
+
+.u-font-size-13px {
+  font-size: 0.8125rem; }
+
+.u-font-size-14px {
+  font-size: 0.9375rem; }
+
+.u-font-size-38px {
+  font-size: 2.375rem; }
+
 .u-font-size-19px {
   font-size: 1.1875rem; }
 
@@ -11907,8 +11919,8 @@ ul.tweets li {
     box-shadow: 2px 2px 10px #ced4da; }
 
 .u-text-ellipsis--no-hover,
-.js-popover-tooltip[data-ellipsis] .js-popover-text,
-.js-popover-tooltip[data-ellipsis] .c-popover-text {
+.js-popover-tooltip--ellipsis .js-popover-text,
+.js-popover-tooltip--ellipsis .c-popover-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
@@ -12645,8 +12657,17 @@ ul.tweets li {
   width: 30% !important;
   min-width: 18rem; }
 
+.u-w-50px {
+  width: 50px; }
+
 .u-w-85px {
   width: 85px; }
+
+.u-w-79px {
+  width: 79px; }
+
+.u-w-125px {
+  width: 125px; }
 
 .u-w-90per {
   width: 90%; }
@@ -12665,6 +12686,9 @@ ul.tweets li {
     width: 100%; } }
 .u-max-w-150px {
   max-width: 150px; }
+
+.u-h-50px {
+  height: 50px; }
 
 .u-h-600px {
   height: 600px !important; }
@@ -12689,6 +12713,12 @@ ul.tweets li {
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
+
+.u-border-right-10px {
+  border-right: 10px solid; }
+
+.u-border-left-10px {
+  border-left: 10px solid; }
 
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
@@ -13011,12 +13041,17 @@ ul.tweets li {
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px); }
   .c-popover--link label, .c-popover--link__label {
-    margin: 0; }
+    margin: 0;
+    font-weight: bold; }
   .c-popover--link.bs-popover-bottom .arrow::after, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::after, .c-popover--link.bs-popover-bottom .arrow::before, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::before {
     border-bottom-color: #f8f9fa; }
   .c-popover--link__header {
     border-top-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem; }
+    .c-popover--link__header__buttons {
+      float: right !important;
+      margin-top: -0.2rem;
+      margin-left: 5px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
@@ -13226,6 +13261,80 @@ input[type="radio"]:checked:before {
   background-color: #4a5364; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.o-chat li {
+  list-style: none !important; }
+.o-chat__img-container {
+  border: 2px solid #d2d6de;
+  width: 50px;
+  height: 50px; }
+.o-chat__btn-send {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50% !important;
+  z-index: 1000; }
+.o-chat__icon-search {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  border-radius: 50% !important;
+  z-index: 1000;
+  font-size: 15px;
+  color: #6c7591; }
+.o-chat__btn-favorite {
+  position: absolute;
+  bottom: 0px;
+  right: 268px;
+  z-index: 1000;
+  font-size: 15px;
+  color: #6c7591; }
+.o-chat__icon-container a {
+  color: black !important; }
+.o-chat__form-control {
+  border: 0px; }
+  .o-chat__form-control:focus {
+    box-shadow: none; }
+.o-chat__user-message {
+  max-width: 150px;
+  color: #797676;
+  font-size: 12px; }
+.o-chat__scrollbar {
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 2rem - 10.9375rem); }
+.o-chat__scrollbar--history {
+  height: calc(100vh - 2rem - 7.8125rem) !important; }
+.o-chat__author-img {
+  width: 44px;
+  height: 46px; }
+.o-chat__author-name {
+  vertical-align: top;
+  font-weight: bold; }
+.o-chat__triangle {
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  color: #e8e8e8; }
+.o-chat__name {
+  opacity: 0.5;
+  color: black;
+  background: #e8e8e8; }
+.o-chat__item {
+  margin-bottom: 3px;
+  padding: 2px 8px 2px 8px; }
+.o-chat__messages {
+  font-size: 13px;
+  background: #e8e8e8; }
+.o-chat__room {
+  background: #d5d7de; }
+.o-chat__room-hover:hover {
+  background: #d5d7de; }
+
+.o-chat__detail .o-chat__scrollbar {
+  height: calc(100vh - 22.5625rem); }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
   padding-top: 0.2rem; }
 
@@ -13364,6 +13473,8 @@ label.btn.btn-outline-primary:not(.active) {
   max-height: calc(100vh - 100px);
   max-width: calc(100vh - 100px);
   overflow: auto; }
+  .listViewEntries .actions .dropdown-menu {
+    overflow: unset; }
   @media (min-width: 768px) {
     .dropdown-menu.historyList {
       left: auto;
@@ -15246,6 +15357,9 @@ label.btn.btn-outline-primary:not(.active) {
   .modalRightSiteBar .listViewEntriesTable thead > tr > th {
     padding: 2px; }
 
+.active {
+  font-weight: bold; }
+
 .o-chat-modal-window {
   position: fixed;
   top: 0;
@@ -15268,18 +15382,6 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 5px 0; }
   .chatModal .modal-footer {
     background: #fff; }
-  .chatModal .chatItem {
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 3px;
-    padding: 2px 8px 2px 8px; }
-    .chatModal .chatItem.active {
-      background: #f9f9f9; }
-    .chatModal .chatItem .author {
-      padding-bottom: 3px; }
-      .chatModal .chatItem .author span {
-        vertical-align: top;
-        margin-left: 6px;
-        font-weight: bold; }
 
 .navbar .o-global-search__value {
   border-top: none;
@@ -15625,6 +15727,9 @@ label.btn.btn-outline-primary:not(.active) {
     .related .nav-pills .dropdown-menu .nav-link {
       border-radius: 0;
       font-weight: bold; }
+    .related .nav-pills .dropdown-menu .c-tab__text {
+      display: inline !important;
+      margin-left: 0.25rem; }
 
 @media only screen and (max-width: 768px) {
   .dropdown-menu {
@@ -16261,9 +16366,7 @@ label.btn.btn-outline-primary:not(.active) {
   justify-content: space-between;
   flex-wrap: wrap; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-button,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-button {
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button {
     margin-right: 5px;
     border-radius: 0;
     background: #dfdfdf;
@@ -16274,22 +16377,30 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 0.3125rem 1.125rem !important; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-state-active,
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-today-button.fc-state-disabled,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-state-active,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button.fc-state-disabled,
   .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-state-active,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-today-button.fc-state-disabled,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-state-active,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button.fc-state-disabled {
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-today-button.fc-state-disabled {
     z-index: 4;
     background: #337ab7 !important;
     color: #fff !important;
     text-shadow: none;
     opacity: 1; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button-group,
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-button-group,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button-group,
-  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-button-group {
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button-group {
     margin-left: 0; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button.fc-state-disabled,
+    .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button.fc-state-disabled {
+      text-shadow: none;
+      cursor: unset;
+      opacity: 1; }
+      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .fc-today-button.fc-state-disabled .svg-inline--fa,
+      .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .fc-today-button.fc-state-disabled .svg-inline--fa {
+        color: #9e9e9e; }
   @media (min-width: 1080px) {
     .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .js-calendar-switch-container,
     .tpl-Calendar-Extended-QuickCreate .fc-toolbar .js-calendar-switch-container {
@@ -16472,7 +16583,7 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
     position: relative; }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-      height: calc(100vh - 2rem - 7.375rem - 3.125rem);
+      height: calc(100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
       overflow-y: auto;
       overflow-x: hidden;
       margin-top: 1rem; }
@@ -16545,16 +16656,28 @@ label.btn.btn-outline-primary:not(.active) {
 .user-info--active .o-calendar__tab--filters, .user-info--active .o-calendar__form {
   height: calc(100vh - calc(2rem + 1rem) - 3.125rem); }
 
+.user-info--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+  height: calc(100vh - calc(2rem + 1rem) - 3.125rem - 3.0625rem - 3.4375rem - 2rem); }
+
 .limited-footer--active .o-calendar__tab--filters, .limited-footer--active .o-calendar__form {
   height: calc(100vh - 1rem - 3.125rem); }
 
+.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+  height: calc(100vh - 1rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem); }
+
 .limited-footer--active.limited-footer--active .o-calendar__tab--filters, .limited-footer--active.limited-footer--active .o-calendar__form {
   height: calc(100vh - 2rem - 3.125rem); }
+
+.limited-footer--active.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+  height: calc(100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem); }
 
 .tpl-Calendar-Extended-QuickCreate .boxEventTitle {
   display: none; }
 .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
   height: auto !important; }
+
+.fc-row .fc-content-skeleton {
+  z-index: 1 !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
@@ -16970,6 +17093,10 @@ td.fieldValue input, td.fieldValue .input-group {
 
 .listViewEntriesTable .listViewEntries .unreviewed .badge {
   margin-left: 4px; }
+.listViewEntriesTable .listViewEntries .c-badge__icon {
+  padding: 6px;
+  text-align: center;
+  vertical-align: middle; }
 .listViewEntriesTable td.listViewEntryValue {
   vertical-align: middle;
   cursor: pointer;

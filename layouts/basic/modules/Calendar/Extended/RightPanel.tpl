@@ -21,8 +21,7 @@
 								<div class="mr-2">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 										   class="js-input-user-owner-id alignMiddle mr-2"
-											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
-
+											{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
 									<div class="js-pin-user d-inline-block align-middle text-center"
 										 data-elementid="{$OWNER_ID}"
 										 data-js="click|data-elementid">
@@ -75,7 +74,7 @@
 								<div class="col-1">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 										   class="js-input-user-owner-id alignMiddle"
-											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
+											{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
 								</div>
 								<label class="m-0 col-10 js-filter__item__value u-text-ellipsis"
 									   for="ownerId{$OWNER_ID}">

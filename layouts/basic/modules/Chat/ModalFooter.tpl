@@ -1,30 +1,23 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Chat-ModalFooter modal-footer">
-		{if !empty($BTN_SUCCESS)}
-			<button class="btn btn-success" type="submit" name="saveButton" data-js="click">
-				<span class="fas fa-check mr-1"></span>
-				<strong>
-					{if !empty($QUALIFIED_MODULE)}
-						{\App\Language::translate($BTN_SUCCESS, $QUALIFIED_MODULE)}
-					{else}
-						{\App\Language::translate($BTN_SUCCESS)}
-					{/if}
-				</strong>
-			</button>
-		{/if}
-		{if !empty($BTN_DANGER) && empty($LOCK_EXIT)}
-			<button class="btn btn-danger" type="reset" data-dismiss="modal">
-				<span class="fas fa-times mr-1"></span>
-				<strong>
-					{if !empty($QUALIFIED_MODULE)}
-						{\App\Language::translate($BTN_DANGER, $QUALIFIED_MODULE)}
-					{else}
-						{\App\Language::translate($BTN_DANGER)}
-					{/if}
-				</strong>
-			</button>
-		{/if}
+	<div class="tpl-Chat-ModalFooter modal-footer bg-color-grey-200 js-chat-footer p-1">
+		{assign var=ROOM_TYPE value=$CURRENT_ROOM['roomType']}
+		{assign var=ROOMS_USER value=\App\Chat::getRoomsByUser()}
+		{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$ROOM_TYPE"|upper}
+		<div class="float-left col-8 text-uppercase">
+			<ol class="breadcrumb m-0 p-0">
+				<li class="breadcrumb-item">
+					<span class="js-footer-group-name"
+						  data-js="container">{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}</span>
+				</li>
+				<li class="breadcrumb-item active">
+					<span class="js-footer-room-name o-chat-footer"
+						  data-js="container">{$ROOMS_USER[$ROOM_TYPE][0]['name']}</span>
+				</li>
+			</ol>
+		</div>
+		<div class="float-right col-4">
+		</div>
 	</div>
 	</div><!-- Close DIV modal-content -->
 	</div><!-- Close DIV modal-dialog -->

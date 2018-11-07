@@ -718,7 +718,6 @@
     "LBL_MASS_ADD_COMMENT": "Massenhinzuf\u00fcgen Kommentar",
     "LBL_MASS_SEND_EMAIL": "Massensenden E-Mails",
     "LBL_MASS_SEND_SMS": "Massensenden SMS",
-    "PBXManager": "Telefonanlage",
     "Vat ID": "MwSt",
     "Registration number 1": "NCR",
     "Registration number 2": "Steuernummer",
@@ -1374,11 +1373,6 @@
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "Sie sind nicht berechtigt, diesen Datensatz nach dem Speichern anzuzeigen. M\u00f6chten Sie fortfahren?",
     "JS_NUMBER_SHOULD_BE_LESS_THAN_32": "Zahl sollte kleiner sein als 32",
     "JS_PAGE_NOT_EXIST": "Seite existiert nicht",
-    "JS_PBX_CALL_FROM": "Anruf von",
-    "JS_PBX_FILL_ALL_FIELDS": "Bitte f\u00fcllen Sie alle Felder aus",
-    "JS_PBX_INCOMING_CALL": "Eingehender Anruf",
-    "JS_PBX_OUTGOING_FAILURE": "Anruf fehlgeschlagen",
-    "JS_PBX_OUTGOING_SUCCESS": "H\u00f6rer abnehmen, um die Nummer zu w\u00e4hlen",
     "JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100": "Prozentwert muss kleiner sein als 100",
     "JS_PHONE_NUMBER_LENGTH_EXCEEDED": "Telefonnummernl\u00e4nge \u00fcberschritten",
     "JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT": "Bitte Basisw\u00e4hrung f\u00fcr das Produkt aktivieren",
@@ -1611,6 +1605,10 @@
     "JS_WAIT_FOR_FILE_UPLOAD": "Warten bis Dateien geladen wurden",
     "JS_ERROR_MAX_VALUE": "Eingabewert ist au\u00dferhalb der erlaubten Werte",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Firmenname \u00e4ndern. Der Name YetiForce ist reserviert.",
-    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Modul '${sourceModule}' f\u00FCr Position'${position}' wurde nicht aktiviert."
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Modul '${sourceModule}' f\u00FCr Position'${position}' wurde nicht aktiviert.",
+    "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
+    "JS_MESSAGE_TOO_LONG": "Message is too long",
+    "JS_CHAT_NEW_MESSAGE": "New message",
+    "JS_CHAT": "Czat"
   }
 }

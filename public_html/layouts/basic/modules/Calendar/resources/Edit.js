@@ -85,47 +85,50 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		}
 	},
 	setDefaultEndTime: function (container) {
-		var dateStartElement = container.find('[name="date_start"]');
-		var startTimeElement = container.find('[name="time_start"]');
-		var endTimeElement = container.find('[name="time_end"]');
-		var endDateElement = container.find('[name="due_date"]');
-		if (jQuery('[name="userChangedEndDateTime"]').val() == '1') {
-			return;
-		}
-
-		var startDate = dateStartElement.val();
-		var startTime = startTimeElement.val();
-
-		var result = Vtiger_Time_Validator_Js.invokeValidation(startTimeElement);
-		if (result != true) {
-			return;
-		}
-		var startDateTime = startDate + ' ' + startTime;
-		var dateFormat = container.find('[name="due_date"]').data('dateFormat').toUpperCase();
-		var timeFormat = endTimeElement.data('format');
-		let activityType = container.find('[name="activitytype"]').val();
-		let activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val());
-		let minutes = 0;
-		for (let i in activityDurations) {
-			if (activityDurations[i].activitytype === activityType) {
-				minutes = parseInt(activityDurations[i].duration);
-				break;
+		const self = this;
+		if (container.find('.js-autofill').is(':checked')) {
+			self.getFreeTime(container);
+		} else {
+			if ('1' === $('[name="userChangedEndDateTime"]').val()) {
+				return;
 			}
+			let dateStartElement = container.find('[name="date_start"]'),
+				startTimeElement = container.find('[name="time_start"]'),
+				endTimeElement = container.find('[name="time_end"]'),
+				endDateElement = container.find('[name="due_date"]'),
+				startDate = dateStartElement.val(),
+				startTime = startTimeElement.val(),
+				result = Vtiger_Time_Validator_Js.invokeValidation(startTimeElement);
+			if (true !== result) {
+				return;
+			}
+			let startDateTime = startDate + ' ' + startTime,
+				dateFormat = container.find('[name="due_date"]').data('dateFormat').toUpperCase(),
+				timeFormat = endTimeElement.data('format'),
+				activityType = container.find('[name="activitytype"]').val(),
+				activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val()),
+				minutes = 0;
+			for (let i in activityDurations) {
+				if (activityDurations[i].activitytype === activityType) {
+					minutes = parseInt(activityDurations[i].duration);
+					break;
+				}
+			}
+			let endDateString = moment(startDateTime, dateFormat).add(minutes, 'minutes').format(dateFormat),
+				defaultTimeFormat = 'HH:mm';
+			if (12 === timeFormat) {
+				defaultTimeFormat = 'hh:mm A';
+			}
+			endDateElement.val(endDateString);
+			endTimeElement.val(moment(startTime, defaultTimeFormat).add(minutes, 'minutes').format(defaultTimeFormat));
 		}
-		let endDateString = moment(startDateTime, dateFormat).add(minutes, 'minutes').format(dateFormat);
-		let defaultTimeFormat = 'HH:mm';
-		if (timeFormat == 12) {
-			defaultTimeFormat = 'hh:mm A';
-		}
-		endDateElement.val(endDateString);
-		endTimeElement.val(moment(startTime, defaultTimeFormat).add(minutes, 'minutes').format(defaultTimeFormat));
 	},
 	/**
 	 * Function to change the end time based on default call duration
 	 */
 	registerActivityTypeChangeEvent: function (container) {
-		var thisInstance = this;
-		container.on('change', 'select[name="activitytype"]', function (e) {
+		const thisInstance = this;
+		container.on('change', '[name="activitytype"]', function (e) {
 			thisInstance.setDefaultEndTime(container);
 		});
 	},
@@ -313,19 +316,26 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
 		var timeEnd = container.find('[name="time_end"], [data-element-name="time_end"]');
 		var dateStart = container.find('[name="date_start"], [data-element-name="date_start"]');
+		var ownerId = container.find('[name="assigned_user_id"], [data-element-name="assigned_user_id"]');
 		var params = {
 			module: 'Calendar',
 			action: 'GetFreeTime',
 			dateStart: dateStart.val(),
+			ownerId: ownerId.val(),
 			activitytype: container.find('[name="activitytype"]').val()
 		};
 		let progress = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
 		AppConnector.request(params).done(function (data) {
 			progress.progressIndicator({mode: 'hide'});
-			timeStart.val(data.result.time_start);
-			timeEnd.val(data.result.time_end);
-			dateStart.val(data.result.date_start);
-			container.find('[name="due_date"]').val(data.result.date_start);
+			if (data.result.date_start !== null) {
+				timeStart.val(data.result.time_start);
+				timeEnd.val(data.result.time_end);
+				dateStart.val(data.result.date_start);
+				container.find('[name="due_date"]').val(data.result.date_start);
+			} else {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR_MAX_VALUE'));
+				container.find('.js-autofill').prop('checked', false).trigger('change');
+			}
 		});
 	},
 	registerAutoFillHours: function (container) {
@@ -333,7 +343,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		let allDay = container.find('[name="allday"]'),
 			timeStart = container.find('[name="time_start"]'),
 			timeEnd = container.find('[name="time_end"]'),
-			dateEnd = container.find('[name="due_date"]');
+			dateEnd = container.find('[name="due_date"]'),
+			autoFill = container.find('.js-autofill');
+		container.find('.js-autofill__icon').on('click', function (e) {
+			if (autoFill.is(':checked')) {
+				$(e.currentTarget).closest('.input-group-text').removeClass('bg-color-blue-700').removeClass('text-white');
+				autoFill.prop('checked', false).trigger('change');
+			} else {
+				$(e.currentTarget).closest('.input-group-text').addClass('bg-color-blue-700').addClass('text-white');
+				autoFill.prop('checked', true).trigger('change');
+			}
+		});
 		container.find('.js-autofill').on('change', function (e) {
 			let currentTarget = $(e.currentTarget);
 			if (currentTarget.is(':checked')) {

@@ -326,6 +326,19 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'DateTime': // date in base format Y-m-d H:i:s
+					$arrInput = \explode(' ', $input);
+					if (\is_array($arrInput) && count($arrInput) === 2) {
+						[$dateInput, $timeInput] = $arrInput;
+						[$y, $m, $d] = Fields\Date::explode($dateInput);
+						if (
+							checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) &&
+							preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $timeInput)
+						) {
+							$value = $input;
+						}
+					}
+					break;
 				case 'Bool':
 					if (is_bool($input) || strcasecmp('true', (string) $input) === 0 || (string) $value === '1') {
 						$value = (bool) $input;
@@ -358,6 +371,9 @@ class Purifier
 					break;
 				case 'Version':
 					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
+					break;
+				case 'Path':
+					$value = Fields\File::checkFilePath($input) ? $input : false;
 					break;
 				case 'Text':
 				default:

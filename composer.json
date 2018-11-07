@@ -13,7 +13,6 @@
     "System CRM"
   ],
   "homepage": "https://yetiforce.com/",
-  "type": "project",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
     "wiki": "https://yetiforce.com/en/documentation.html",
@@ -71,6 +70,10 @@
     "facebook/webdriver": "^1.6.0",
     "phpunit/phpunit": "7.*",
     "seld/jsonlint": "*"
+  },
+  "suggest": {
+    "ext-apcu": "Cache meta data in apcu to improve system performance",
+    "ext-opcache": "Improve system performance"
   },
   "archive": {
     "exclude": [

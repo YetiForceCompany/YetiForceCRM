@@ -1,4 +1,4 @@
-# YetiForceCRM
+![awards_all_eng_new](https://user-images.githubusercontent.com/10197525/47670510-aa6e9880-dbad-11e8-9720-be7f34dba9e1.jpg)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
 [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
@@ -10,6 +10,7 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM "Percentage of issues still open")
 [![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
+[![dependencies Status](https://david-dm.org/YetiForceCompany/YetiForceCRM/status.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
 <a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/16547/badge.svg"/>
@@ -22,7 +23,7 @@
 [![SecurityHeaders.io](https://securityheadersiobadges.azurewebsites.net/create/badge?domain=https://gitdeveloper.yetiforce.com/)](https://securityheaders.io/?q=https://gitdeveloper.yetiforce.com/&hide=on&followRedirects=on)
 [![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
-[![Download YetiForce CRM](https://img.shields.io/sourceforge/dw/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
+[![Download YetiForce CRM](https://img.shields.io/sourceforge/dm/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>

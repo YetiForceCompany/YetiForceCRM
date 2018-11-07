@@ -3,7 +3,7 @@
  * OSSTimeControl CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -54,7 +54,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['osstimecontrol_no', 'assigned_user_id', 'createdtime'];
+	public $relationFields = ['name', 'date_start', 'due_date', 'osstimecontrol_status', 'timecontrol_type', 'assigned_user_id', 'time_start', 'time_end', 'sum_time'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support

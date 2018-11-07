@@ -11,7 +11,7 @@
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
 						<div class="d-flex">
-							<span class="c-badge__icon {$HISTORY['class']} userIcon-{$HISTORY['type']}"
+							<span class="position-absolute c-badge__icon {$HISTORY['class']} userIcon-{$HISTORY['type']}"
 								  aria-hidden="true"></span>
 							<div class="w-100 ml-5 p-1 timeline-item">
 								<div class="float-left imageContainer">

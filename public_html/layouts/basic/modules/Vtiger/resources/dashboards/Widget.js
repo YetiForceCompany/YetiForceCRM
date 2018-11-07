@@ -1375,7 +1375,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
 		this.registerContentAutoResize();
-		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
@@ -2367,7 +2366,6 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerFilterChangeEvent();
-		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 	},
 	refreshWidget: function () {
 		var thisInstance = this;
@@ -2436,6 +2434,7 @@ YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedUpcomingCalendarTasks_
 YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedOverDueCalendarTasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_OverdueActivities_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
@@ -2691,7 +2690,6 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 		this.registerRecordsCount();
-		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 	},
 	postRefreshWidget: function () {
 		this.registerRecordsCount();

@@ -27,7 +27,13 @@
     "ERR_FIELD_NOT_FOUND": "Nie znaleziono pola",
     "ERR_NO_VALUE": "Brak warto\u015bci",
     "ERR_API": "B\u0142\u0105d w API",
+    "ERR_MODULE_DOES_NOT_EXIST": "Moduł o nazwie %s nie istnieje",
+    "ERR_RECORD_NOT_FOUND": "Nie istnieje rekord o ID: %s",
     "ERR_NO_PERMISSIONS_TO_FIELD": "Brak uprawnie\u0144 do danego pola",
-    "ERR_NO_PERMITTED_TO_VIEW": "Brak uprawnie\u0144 do widoku"
+    "ERR_NO_PERMITTED_TO_VIEW": "Brak uprawnie\u0144 do widoku",
+    "ERR_CURRENCY_TABLE_DOWNLOAD": "B\u0142\u0105d podczas pobierania tabeli kurs\u00f3w walut.",
+    "ERR_ITERATIONS_LIMIT_EXCEEDED": "Przekroczono dopuszczalny limit iteracji.",
+    "ERR_CANNOT_PARSE_SERVER_RESPONSE": "B\u0142\u0105d podczas parsowania odpowiedzi serwera",
+    "ERR_CANNOT_CONNECT_TO_REMOTE": "B\u0142\u0105d podczas połączenia do serwera zdalnego"
   }
 }

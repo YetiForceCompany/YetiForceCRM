@@ -1,5 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 $sitebar-border: 1px solid #ccc;
+$modal-body-paddings: 2rem;
+$h-modal-header: calculate-rem(55px);
+$h-calendar-form-actions: calculate-rem(49px);
 
 .calendarViewContainer {
 	.widget_header {
@@ -680,7 +683,7 @@ $sitebar-border: 1px solid #ccc;
 				position: relative;
 
 				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					height: calc(100vh - #{$h-footer} - #{calculate-rem(118px)} - #{$h-header}); // 118px - modal offsets
+					height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
 					overflow-y: auto;
 					overflow-x: hidden;
 					margin-top: 1rem;
@@ -776,11 +779,19 @@ $sitebar-border: 1px solid #ccc;
 	}
 }
 
+.user-info--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+	height: calc(100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
+}
+
 .limited-footer--active .o-calendar {
 	&__tab--filters,
 	&__form {
 		height: calc(100vh - #{$h-footer-limited} - #{$h-header});
 	}
+}
+
+.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+	height: calc(100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
 }
 
 .limited-footer--active.limited-footer--active .o-calendar {
@@ -790,6 +801,10 @@ $sitebar-border: 1px solid #ccc;
 	}
 }
 
+.limited-footer--active.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+	height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
+}
+
 .tpl-Calendar-Extended-QuickCreate {
 	.boxEventTitle {
 		display: none;
@@ -797,4 +812,8 @@ $sitebar-border: 1px solid #ccc;
 	.o-calendar__form {
 		height: auto !important;
 	}
+}
+
+.fc-row .fc-content-skeleton {
+	z-index: 1 !important;
 }

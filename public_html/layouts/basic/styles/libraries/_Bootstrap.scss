@@ -16,6 +16,11 @@ label.btn.btn-outline-primary {
 	max-height: calc(100vh - 100px);
 	max-width: calc(100vh - 100px);
 	overflow: auto;
+
+	@at-root .listViewEntries .actions #{&} {
+		overflow: unset;
+	}
+
 	&.historyList {
 		@include media-breakpoint-up(md) {
 			left: auto;

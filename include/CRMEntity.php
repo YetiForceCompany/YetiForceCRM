@@ -193,7 +193,7 @@ class CRMEntity
 			}
 			$resultRow = $query->one();
 			if (empty($resultRow)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
 			} else {
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';

@@ -104,11 +104,17 @@ function checkMails(users) {
 						element.data('nomail', num);
 						reloadSelect = true;
 					} else {
+						let prevVal = element.data('nomail');
+						element.data('nomail', num);
 						var text = '';
 						if (num > 0) {
-							text = '(' + num + ')';
+							text = ' <span class="badge badge-danger mr-1">' + num + '</span>';
 						}
-						element.text(text);
+						element.html(text);
+						if ((prevVal < num && prevVal >= 0) || (!prevVal && num > 0)) {
+							element.parent().effect("pulsate", 1500);
+							app.playSound('MAILS');
+						}
 					}
 				}
 			});

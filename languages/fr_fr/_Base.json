@@ -856,7 +856,6 @@
     "LBL_MASS_ADD_COMMENT": "Ajouter des commentaires en masse",
     "LBL_MASS_SEND_EMAIL": "Emails de masse",
     "LBL_MASS_SEND_SMS": "SMS de masse",
-    "PBXManager": "Liste des appels",
     "Vat ID": "TVA",
     "Registration number 1": "RCS",
     "Registration number 2": "N\u00b0 de TVA",
@@ -1429,11 +1428,6 @@
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "Vous n'aurez pas les permissions n\u00e9cessaires pour voir cet enregistrement apr\u00e8s l'avoir sauvegard\u00e9. Voulez-vous continuer?",
     "JS_NUMBER_SHOULD_BE_LESS_THAN_32": "Le nombre doit \u00eatre inf\u00e9rieur \u00e0 32",
     "JS_PAGE_NOT_EXIST": "La page n'existe pas",
-    "JS_PBX_CALL_FROM": "Appel de",
-    "JS_PBX_FILL_ALL_FIELDS": "Merci de saisir tous les champs",
-    "JS_PBX_INCOMING_CALL": "Appel entrant",
-    "JS_PBX_OUTGOING_FAILURE": "Appel \u00e9chou\u00e9",
-    "JS_PBX_OUTGOING_SUCCESS": "Veuillez prendre le combin\u00e9 pour num\u00e9roter",
     "JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100": "Le pourcentage doit \u00eatre inf\u00e9rieure \u00e0 100",
     "JS_PHONE_NUMBER_LENGTH_EXCEEDED": "Le num\u00e9ro de t\u00e9l\u00e9phone est trop long",
     "JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT": "Merci d'activer la devise de base pour les produits ",
@@ -1668,6 +1662,10 @@
     "JS_ERROR_MAX_VALUE": "Entered value is out of allowed range",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved.",
     "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Select value from list or write value then press enter",
-    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated.",
+    "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
+    "JS_MESSAGE_TOO_LONG": "Message is too long",
+    "JS_CHAT_NEW_MESSAGE": "New message",
+    "JS_CHAT": "Czat"
   }
 }

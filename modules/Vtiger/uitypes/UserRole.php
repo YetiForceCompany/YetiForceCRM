@@ -83,6 +83,13 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	{
 		return ['e', 'c'];
 	}
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/UserRole.tpl';
+	}
 
 	/**
 	 * {@inheritdoc}

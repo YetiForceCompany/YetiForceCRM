@@ -107,7 +107,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
 			$item['end_display'] = $userDateTimeString;
-			$item['className'] = ' ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_OSSTimeControl_timecontrol_type_' . $record['timecontrol_type'];
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_OSSTimeControl_timecontrol_type_' . $record['timecontrol_type'];
 			$result[] = $item;
 		}
 		$dataReader->close();

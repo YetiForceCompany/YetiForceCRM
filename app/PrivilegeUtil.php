@@ -364,8 +364,9 @@ class PrivilegeUtil
 	/**
 	 * Function to get the vtiger_role information of the specified vtiger_role.
 	 *
-	 * @param $roleId -- RoleId :: Type varchar
-	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
+	 * @param $roleId
+	 *
+	 * @return array|bool|string
 	 */
 	public static function getRoleDetail($roleId)
 	{

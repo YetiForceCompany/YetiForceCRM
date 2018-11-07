@@ -4,7 +4,7 @@
  * OSSMailView CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView extends CRMEntity
 {
@@ -92,7 +92,7 @@ class OSSMailView extends CRMEntity
 	public $mandatory_fields = ['subject', 'from'];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
-	public $default_order_by = '';
+	public $default_order_by = 'date';
 	public $default_sort_order = 'DESC';
 	public $unit_price;
 

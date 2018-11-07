@@ -217,7 +217,7 @@ abstract class View extends Base
 			'~layouts/resources/icons/userIcons.css',
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
-			'~libraries/fontawesome-web/css/fontawesome-all.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -249,10 +249,7 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/@fortawesome/fontawesome/index.js',
-			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
-			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
-			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
+			'~libraries/@fortawesome/fontawesome-free/js/all.js'
 		]);
 	}
 
@@ -278,6 +275,7 @@ abstract class View extends Base
 			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
 			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
 			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
+			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
