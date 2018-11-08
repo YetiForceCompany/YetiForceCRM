@@ -165,8 +165,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
