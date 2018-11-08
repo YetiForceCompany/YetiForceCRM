@@ -589,7 +589,7 @@ class Chat
 		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
 		switch ($roomType) {
 			case 'crm':
-				$query->select(['M.*', 'name' => 'RN.label'])
+				$query->select(['M.*', 'name' => 'RN.label', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 					->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
@@ -597,7 +597,7 @@ class Chat
 					->leftJoin(['RN' => 'u_#__crmentity_label'], "RN.crmid = M.{$columnMessage}");
 				break;
 			case 'group':
-				$query->select(['M.*', 'name' => 'RN.groupname'])
+				$query->select(['M.*', 'name' => 'RN.groupname', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 					->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
@@ -605,7 +605,7 @@ class Chat
 					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
 				break;
 			case 'global':
-				$query->select(['M.*', 'name' => 'RN.name'])
+				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 					->leftJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
@@ -615,6 +615,53 @@ class Chat
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
 			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
+	}
+
+	/**
+	 * Get last message id.
+	 *
+	 * @param array $messages
+	 *
+	 * @return array
+	 */
+	private static function getLastMessageId($messages = [])
+	{
+		$room = [];
+		foreach ($messages as $message) {
+			$id = $message['id'];
+			$recordId = $message['recordid'];
+			if (!isset($room[$recordId]['id']) || $room[$recordId]['id'] < $id) {
+				$room[$recordId] = ['id' => $id, 'last_message' => $message['last_message']];
+			}
+		}
+		return $room;
+	}
+
+	/**
+	 * Mark as read.
+	 *
+	 * @param string $roomType
+	 * @param array  $messages
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private static function markAsRead(string $roomType, $messages = [])
+	{
+		$room = static::getLastMessageId($messages);
+		foreach ($room as $id => $lastMessage) {
+			if (empty($lastMessage['last_message'])) {
+				Db::getInstance()->createCommand()->insert(static::TABLE_NAME['room'][$roomType], [
+					'last_message' => $lastMessage['id'],
+					static::COLUMN_NAME['room'][$roomType] => $id,
+					'userid' => User::getCurrentUserId(),
+				])->execute();
+			} else {
+				Db::getInstance()->createCommand()->update(
+					static::TABLE_NAME['room'][$roomType], ['last_message' => $lastMessage['id']],
+					[static::COLUMN_NAME['room'][$roomType] => $id, 'userid' => User::getCurrentUserId()]
+				)->execute();
+			}
+		}
 	}
 
 	/**
@@ -644,10 +691,13 @@ class Chat
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
 				'image' => $image['url'] ?? '',
-				'room_name' => $row['name']
+				'room_name' => $row['name'],
+				'recordid' => $row['recordid'],
+				'last_message' => $row['last_message'],
 			];
 		}
 		$dataReader->close();
+		static::markAsRead($roomType, $rows);
 		return $rows;
 	}
 
