@@ -358,7 +358,7 @@ window.Calendar_Js = class {
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		App.Fields.Picklist.showSelect2ElementView($('#calendar-users, #calendar-types'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendar-users, #calendar-types, #calendarGroupList'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
 			let element = $(this);
 			let value = element.val();
@@ -456,6 +456,19 @@ window.Calendar_Js = class {
 	 */
 	addCalendarEvent(calendarDetails) {
 		const moduleName = CONFIG.module;
+		let usersSelect = $("#calendar-users");
+		if (CONFIG.searchShowOwnerOnlyInList) {
+			let allOptions = [];
+			usersSelect.find('option').each((i, option) => {
+				allOptions.push($(option).val());
+			});
+			if ($.inArray(calendarDetails.assigned_user_id.value, allOptions) < 0) {
+				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((data) => {
+					$('.calendarUserList').replaceWith(data);
+					this.registerSelect2Event();
+				});
+			}
+		}
 		if ($("#calendar-users").val() !== 'undefined' && $("#calendar-users").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendar-users").val()) < 0) {
 			return;
 		}
