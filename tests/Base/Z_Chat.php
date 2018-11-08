@@ -22,6 +22,7 @@ class Chat extends \Tests\Base
 	 * @var int[]
 	 */
 	private static $listId;
+
 	/**
 	 * Is chat active.
 	 *
@@ -37,23 +38,18 @@ class Chat extends \Tests\Base
 	private static $globalRoom = false;
 
 	/**
-	 * @codeCoverageIgnore
-	 * Setting of tests.
+	 * List of user IDs.
+	 *
+	 * @var int[]
 	 */
-	public static function setUpBeforeClass()
-	{
-		static::$chatActive = \App\Module::isModuleActive('Chat');
-		if (!static::$chatActive) {
-			(new \Settings_ModuleManager_Module_Model())->enableModule('Chat');
-		}
-		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+	private static $users = [];
 
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
-		$recordModel->set('lastname', 'Test chat');
-		$recordModel->save();
-		static::$listId[] = $recordModel->getId();
-	}
+	/**
+	 * List of user IDs.
+	 *
+	 * @var int[]
+	 */
+	private static $usersToRemove = [];
 
 	/**
 	 * Get key of chat room.
@@ -96,6 +92,55 @@ class Chat extends \Tests\Base
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Create User.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param $login
+	 *
+	 * @return mixed
+	 */
+	private static function createUser($login)
+	{
+		$userId = \App\User::getUserIdByName($login);
+		if ($userId !== false) {
+			return $userId;
+		}
+		$user = \Vtiger_Record_Model::getCleanInstance('Users');
+		$user->set('user_name', $login);
+		$user->set('email1', $login . '@yetiforce.com');
+		$user->set('first_name', $login);
+		$user->set('last_name', $login);
+		$user->set('user_password', 'demo');
+		$user->set('confirm_password', 'demo');
+		$user->set('roleid', 'H3');
+		$user->set('is_admin', 0);
+		$user->save();
+		static::$usersToRemove[] = $user->getId();
+		return $user->getId();
+	}
+
+	/**
+	 * @codeCoverageIgnore
+	 * Setting of tests.
+	 */
+	public static function setUpBeforeClass()
+	{
+		static::$chatActive = \App\Module::isModuleActive('Chat');
+		if (!static::$chatActive) {
+			(new \Settings_ModuleManager_Module_Model())->enableModule('Chat');
+		}
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
+		$recordModel->set('lastname', 'Test chat');
+		$recordModel->save();
+		static::$listId[] = $recordModel->getId();
+		static::$users[] = static::createUser('test_1');
+		static::$users[] = static::createUser('test_2');
 	}
 
 	/**
@@ -154,6 +199,29 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Testing the method for checking new messages.
+	 */
+	public function testNewMessage()
+	{
+		$chat = \App\Chat::getInstance();
+		$this->assertFalse(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		$chat->addMessage('test 2');
+		$this->assertTrue(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		//Switch user
+		\App\User::setCurrentUserId(static::$users[0]);
+		$chat = \App\Chat::getInstance();
+		$this->assertTrue(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		$chat->getEntries();
+		$this->assertFalse(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		//Switch user
+		\App\User::setCurrentUserId(static::$users[1]);
+		$chat = \App\Chat::getInstance();
+		$this->assertTrue(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		$chat->getEntries();
+		$this->assertFalse(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+	}
+
+	/**
 	 * Testing creating a chat room.
 	 */
 	public function testCreatingChatRoomCrm()
@@ -168,7 +236,7 @@ class Chat extends \Tests\Base
 		$this->assertSame($recordModel->getId(), $chat->getRecordId());
 		$rooms = \App\Chat::getRoomsByUser();
 		$key = static::getKeyRoom($rooms, 'crm', (int) $recordModel->getId());
-		$this->assertNotFalse($key, 'Problem with the method "getRoomsByUser"');
+		$this->assertNotFalse($key, 'Problem with the method "getRoomsByUser". Crm id=' . $recordModel->getId());
 		$this->assertSame($recordModel->getDisplayName(), $rooms['crm'][$key]['name']);
 	}
 
@@ -224,12 +292,16 @@ class Chat extends \Tests\Base
 	 */
 	public static function tearDownAfterClass()
 	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		if (!static::$chatActive) {
 			(new \Settings_ModuleManager_Module_Model())->disableModule('Chat');
 		}
 		foreach (static::$listId as $id) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
 			$recordModel->delete();
+		}
+		foreach (static::$usersToRemove as $id) {
+			\Users_Record_Model::deleteUserPermanently($id, \App\User::getActiveAdminId());
 		}
 	}
 }

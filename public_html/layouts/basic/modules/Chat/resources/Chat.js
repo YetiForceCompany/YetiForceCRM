@@ -418,7 +418,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	selectNavHistory() {
 		this.container.find('.js-chat-nav-history .js-chat-link').each((index, element) => {
-			$(element).off('click').on('click', () => {
+			$(element).on('click', () => {
 				this.history(null, $(element).data('groupName'));
 			});
 		});
