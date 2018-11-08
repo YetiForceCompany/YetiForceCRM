@@ -571,6 +571,7 @@ abstract class View extends Base
 					 'sounds' => \AppConfig::sounds(),
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'recordPopoverDelay' => \AppConfig::performance('RECORD_POPOVER_DELAY'),
+					 'searchShowOwnerOnlyInList' => \AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),
