@@ -3,7 +3,7 @@
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
-			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value>
+			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}"/>
 				<div class="form-row align-items-center py-1">
 					<div class="col-9 col-md-5 col-sm-6">
