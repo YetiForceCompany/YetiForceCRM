@@ -120,7 +120,7 @@ class Currency extends \Tests\Base
 	/**
 	 * Testing deletet currency creation.
 	 */
-	public function testDeletetCurrency()
+	public function testDeleteCurrency()
 	{
 		\Settings_Currency_Module_Model::delete(static::$id);
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['id' => static::$id, 'deleted' => 1]])->exists());
