@@ -295,7 +295,6 @@ window.Calendar_Js = class {
 	loadCalendarData() {
 		const defaultParams = this.getDefaultParams();
 		this.getCalendarView().fullCalendar('removeEvents');
-		console.log(defaultParams.emptyFilters);
 		if (!defaultParams.emptyFilters) {
 			const progressInstance = $.progressIndicator();
 			AppConnector.request(defaultParams).done((events) => {
@@ -325,14 +324,14 @@ window.Calendar_Js = class {
 			start: view.start.format(formatDate),
 			end: view.end.format(formatDate),
 			user: users,
-			emptyFilters: users.length == 0 ? true : false
+			emptyFilters: users.length === 0
 		}
 		if (app.moduleCacheGet('calendar-types')) {
 			params.types = app.moduleCacheGet('calendar-types');
+			params.emptyFilters = users.length === 0 || params.types.length === 0;
 		} else {
 			params.types = null;
 		}
-		params.emptyFilters = users.length === 0 || params.types.length === 0 || (users.length === 0 && (params.types !== null || params.types.length === 0));
 		return params;
 	}
 
@@ -341,23 +340,21 @@ window.Calendar_Js = class {
 	 */
 	registerSelect2Event() {
 		let self = this;
-		$('.siteBarRight .select2').each(function (index) {
+		$('.siteBarRight .select2').each(function () {
 			let name = $(this).attr('id');
-			let value = app.moduleCacheGet(name);
+			let cachedValue = app.moduleCacheGet(name);
 			let element = $('#' + name);
-			if (element.length > 0 && value !== null) {
-				console.log(element);
+			if (element.length > 0 && cachedValue !== null) {
 				if (element.prop('tagName') == 'SELECT') {
-					element.val(value);
+					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && value === null) {
+			} else if (element.length > 0 && cachedValue === null && !element.find(':selected').length) {
 				let allOptions = [];
-				element.find('option').each((i, e) => {
-					console.log(e);
-					allOptions.push($(e.currentTarget).val());
+				element.find('option').each((i, option) => {
+					allOptions.push($(option).val());
 				});
 				element.val(allOptions);
-				app.moduleCacheSet(name, value);
+				app.moduleCacheSet(name, cachedValue);
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
