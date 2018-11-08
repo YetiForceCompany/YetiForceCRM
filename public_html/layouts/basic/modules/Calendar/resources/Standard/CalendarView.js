@@ -173,44 +173,58 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	}
 
 	addCalendarEvent(calendarDetails) {
-		const thisInstance = this;
-		let usersList = $("#calendar-users").val();
-		if (usersList.length === 0) {
-			usersList = [CONFIG.userId.toString()];
-		}
-		let groupList = $("#calendarGroupList").val();
-		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupList) < 0 || groupList.length === 0)) {
+		const moduleName = CONFIG.module;
+		let groupSelect = $('#calendarGroupList');
+		let usersSelect = $('#calendar-users');
+		if (!usersSelect.length || !groupSelect.length) {
 			return;
 		}
-		let types = thisInstance.getValuesFromSelect2($("#calendar-types"), []);
-		if (types.length !== 0 && $.inArray(calendarDetails.activitytype.value, $("#calendar-types").val()) < 0) {
+		if ($.inArray(calendarDetails.assigned_user_id.value, usersSelect) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
+			if (CONFIG.searchShowOwnerOnlyInList) {
+				let allOptions = [];
+				console.log(usersSelect.add(groupSelect));
+				usersSelect.add(groupSelect).find('option').each((i, option) => {
+					console.log(option);
+					allOptions.push($(option).val());
+				});
+				if ($.inArray(calendarDetails.assigned_user_id.value, allOptions) < 0) {
+					console.log(calendarDetails.assigned_user_id);
+					AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((data) => {
+						$('.calendarUserList').replaceWith(data);
+						this.registerSelect2Event();
+					});
+				}
+			}
 			return;
 		}
+		let taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 		var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
-		var calendar = this.getCalendarView();
-		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 		if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
 			return false;
 		}
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
-		var eventObject = {
-			id: calendarDetails._recordId,
-			title: calendarDetails.subject.display_value,
-			start: startDate.format(),
-			end: endDate.format(),
-			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
-			activitytype: calendarDetails.activitytype.value,
+		let calendarTypes = $("#calendar-types"),
+			eventTypeKeyName = '';
+		if (calendarTypes.length) {
+			Object.keys(calendarDetails).forEach(function (key, index) {
+				if (key.endsWith('type')) { // there are different names for event types in modules
+					eventTypeKeyName = key;
+				}
+			});
+			if ($.inArray(calendarDetails[eventTypeKeyName]['value'], calendarTypes.val()) < 0) {
+				return;
+			}
+		}
+		const calendar = this.getCalendarView();
+		const eventObject = {
 			allDay: calendarDetails.allday.value == 'on',
-			state: calendarDetails.state.value,
-			vis: calendarDetails.visibility.value,
-			sta: calendarDetails.activitystatus.value,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-			start_display: calendarDetails.date_start.display_value,
-			end_display: calendarDetails.due_date.display_value,
-			smownerid: calendarDetails.assigned_user_id.display_value,
-			pri: calendarDetails.taskpriority.value,
-			lok: calendarDetails.location.display_value
+			id: calendarDetails._recordId,
+			title: calendarDetails._recordLabel,
+			start: calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value).format(),
+			end: calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value).format(),
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			url: `index.php?module=${moduleName}&view=Detail&record=${calendarDetails._recordId}`,
+			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${moduleName}_${calendarTypes.length ? eventTypeKeyName + '_' + calendarDetails[eventTypeKeyName]['value'] : ''}`
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	}
