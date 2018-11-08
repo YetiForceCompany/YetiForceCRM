@@ -8,7 +8,7 @@
 							<span class="fas fa-ellipsis-h fa-fw"
 								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 		</a>
-		<div class="detailViewToolbar my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row"
+		<div class="my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row"
 			 id="o-view-actions__container">
 			{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
 				<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
