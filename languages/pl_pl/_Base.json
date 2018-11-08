@@ -1583,7 +1583,7 @@
     "JS_EMAIL_RESET_RELATIONS_CONFIRMATION": "Czy jeste\u015b pewien, \u017ce chcesz ponownie zresetowa\u0107 powi\u0105zane maile?",
     "JS_MASS_REVIEWING_CHANGES_CONFIRMATION": "Czy jeste\u015b pewien, \u017ce chcesz zapozna\u0107 si\u0119 ze zmianami wybranych rekord\u00f3w?",
     "JS_LBL_REVIEW_CHANGES": "Zapoznanie si\u0119 ze zmianami",
-    "JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY": "Waluta bazowa musi by\u0107 zmieniona na wy\u0142\u0105czony",
+    "JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY": "jest walut\u0105 podstawow\u0105 i nie mo\u017ce zosta\u0107 wy\u0142\u0105czona",
     "JS_MARKED_AS_READ": "Oznacz jako przeczytane",
     "JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE": "Co najmniej jeden z za\u0142\u0105czonych plik\u00f3w jest za du\u017cy",
     "JS_LAST_7_DAYS": "Poprzednie 7 dni",
