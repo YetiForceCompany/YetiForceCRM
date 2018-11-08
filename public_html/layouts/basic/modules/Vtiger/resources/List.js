@@ -1834,8 +1834,8 @@ jQuery.Class("Vtiger_List_Js", {
 					let actualElement = $(data.element);
 					if (actualElement.is('option')) {
 						let additionalText = '';
-						if (actualElement.attr('data-option') !== undefined) {
-							additionalText = '<div class="u-max-w-lg-100 u-text-ellipsis--no-hover d-inline-block small">' + actualElement.attr('data-option') + '</div>';
+						if (actualElement.data('option') !== undefined) {
+							additionalText = '<div class="u-max-w-lg-100 u-text-ellipsis--no-hover d-inline-block small">' + actualElement.data('option') + '</div>';
 						}
 						return '<div class="js-filter__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' + actualElement.text() + '</div></div>' + additionalText;
 					} else {
