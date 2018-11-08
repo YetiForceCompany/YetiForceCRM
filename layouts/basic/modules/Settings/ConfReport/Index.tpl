@@ -1,15 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-ConfReport-Index">
-		<div class="o-breadcrumb js-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
+		<div class="o-breadcrumb js-header-toggle widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
 			<div class="o-breadcrumb__container">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
-			<a class="btn btn-outline-dark d-md-none my-auto o-breadcrumb__actions-btn js-breadcrumb__actions-btn"
+			<a class="btn btn-outline-dark d-md-none my-auto o-header-toggle__actions-btn js-header-toggle__actions-btn"
 			   href="#" data-js="click" role="button" aria-expanded="false" aria-controls="o-view-actions__container">
 				<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 			</a>
-			<div class="detailViewToolbar my-auto o-breadcrumb__actions js-breadcrumb__actions d-flex float-right flex-column flex-md-row ml-md-2 pb-md-2 pb-lg-0"
+			<div class="detailViewToolbar my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row ml-md-2 pb-md-2 pb-lg-0"
 				 id="o-view-actions__container">
 				<button class="btn btn-info js-check-php mr-md-2 flex-md-nowrap mt-1 mt-md-0" data-js="click">
 					<span class="fab fa-php mr-1"></span>{App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
