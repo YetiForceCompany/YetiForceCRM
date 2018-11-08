@@ -26,9 +26,11 @@ class CurrencyUpdate extends \Tests\Base
 			$this->assertInternalType('array', $moduleModel->getUnSupportedCurrencies(), 'getUnSupportedCurrencies should always return array');
 			$this->assertInternalType('numeric', $moduleModel->getCRMConversionRate('PLN', 'USD'), 'getCRMConversionRate should always return number');
 			$this->assertInternalType('numeric', $moduleModel->convertFromTo(12, 'PLN', 'USD'), 'convertFromTo should always return number');
+			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
 			$this->markTestSkipped('Possibly connection error from integration:' . $e->getMessage());
 		}
+		// @codeCoverageIgnoreEnd
 		$this->assertInternalType('integer', $moduleModel->getActiveBankId(), 'Expected active bank id as integer');
 		$this->assertTrue($moduleModel->setActiveBankById($moduleModel->getActiveBankId()), 'setActiveBankById should return true');
 		$this->assertNotEmpty($moduleModel->getActiveBankName(), 'Active bank name should be not empty');
@@ -39,14 +41,12 @@ class CurrencyUpdate extends \Tests\Base
 	 */
 	public function testBanks()
 	{
-		$moduleModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$dataReader = (new \App\Db\Query())->select(['id', 'currency_code'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
 			->andWhere(['<>', 'defaultid', -11])->createCommand()->query();
 		$currencyList = [];
 		while ($row = $dataReader->read()) {
-			echo $row['id'] . PHP_EOL;
 			$currencyList[$row['currency_code']] = $row['id'];
 		}
 		try {
@@ -63,8 +63,10 @@ class CurrencyUpdate extends \Tests\Base
 				$this->assertNotEmpty($bank->getMainCurrencyCode(), 'Main bank currency should be not empty');
 				$this->assertNull($bank->getRates($currencyList, date('Y-m-d'), true), 'Expected nothing/null');
 			}
+			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
 			$this->markTestSkipped('Possibly connection error from integration:' . $e->getMessage());
 		}
+		// @codeCoverageIgnoreEnd
 	}
 }
