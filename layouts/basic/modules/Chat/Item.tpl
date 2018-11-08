@@ -3,17 +3,16 @@
 	{assign var=USER_ID value=$USER_MODEL->getId()}
 	<div class="tpl-Chat-Item js-chat-item o-chat__item chatItem {if $USER_ID == $ROW['userid']} active flex-row {else} flex-row-reverse {/if} my-3 d-flex align-items-center"
 		 data-mid="{$ROW['id']}" data-user-id="{$ROW['userid']}" data-js="data">
-		{assign var=IMAGE value=$ROW['image']}
-		{assign var=IS_IMAGE value=isset($IMAGE['url'])}
+		{assign var=IS_IMAGE value=!empty($ROW['image'])}
 		<div class="u-w-50px {if $USER_ID == $ROW['userid']} mr-3 {else} ml-3 {/if} js-author text-center"
 			 data-user-name="{$ROW['user_name']}"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
-			<div class="o-chat__img-container mx-auto {if !$IS_IMAGE} p-1 {/if}">
-				<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
+			<div class="js-image o-chat__img-container mx-auto {if !$IS_IMAGE} p-1 {/if}" data-js="copy">
+				<img src="{$ROW['image']}" class="{if !$IS_IMAGE} hide{/if} js-src o-chat__author-img"
 					 alt="{$ROW['user_name']}"
-					 title="{$ROW['user_name']}"/>
-				<span class="fas fa-user u-font-size-38px {if $IS_IMAGE} hide{/if} o-chat__author-name"
-					  title="{$ROW['user_name']}"></span>
+					 title="{$ROW['user_name']}" data-js="hide"/>
+				<span class="js-icon fas fa-user u-font-size-38px {if $IS_IMAGE} hide{/if} o-chat__author-name"
+					  title="{$ROW['user_name']}" data-js="hide"></span>
 			</div>
 			<span class="u-font-size-10px m-0 text-truncate text-secondary">
 				{vtlib\Functions::getInitials($ROW['user_name'])}

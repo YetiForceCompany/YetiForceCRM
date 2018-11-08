@@ -490,6 +490,10 @@ window.Chat_JS = class Chat_Js {
 		itemUser.find('.js-role').html(data.role);
 		itemUser.find('.js-message').html(data.message);
 		itemUser.data('userId', data.userId);
+		if (data.image !== '') {
+			itemUser.find('.js-image .js-icon').addClass('hide');
+			itemUser.find('.js-image .js-src').removeClass('hide').attr('src', data.image);
+		}
 		return itemUser;
 	}
 
@@ -527,6 +531,7 @@ window.Chat_JS = class Chat_Js {
 						role: lastMessage.find('.js-author').data('roleName'),
 						message: lastMessage.find('.messages').html(),
 						userId: userId,
+						image: lastMessage.find('.js-author .js-image .js-src').attr('src')
 					})
 				);
 			}

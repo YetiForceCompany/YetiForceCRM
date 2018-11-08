@@ -5,13 +5,13 @@
 		<li class="js-item-user o-chat__user-item {$CLASS} border-bottom pb-1 mb-2" data-user-id="{$USER['user_id']}"
 			data-js="data">
 			<div class="row px-2">
-				{assign var=IMAGE value=$USER['image']}
-				{assign var=IS_IMAGE value=isset($IMAGE['url'])}
-				<div class="o-chat__img-container {if !$IS_IMAGE} p-1 {/if} text-center">
-					<img src="{if $IS_IMAGE}{$IMAGE['url']}{/if}" class="{if !$IS_IMAGE} hide{/if} o-chat__author-img"
+				{assign var=IS_IMAGE value=!empty($USER['image'])}
+				<div class="js-image o-chat__img-container {if !$IS_IMAGE} p-1 {/if} text-center" data-js="append">
+					<img src="{$USER['image']}" class="js-src {if !$IS_IMAGE} hide{/if} o-chat__author-img"
 						 alt="{$USER['user_name']}"
-						 title="{$USER['user_name']}"/>
-					<span class="fas fa-user u-font-size-38px userImage {if $IS_IMAGE} hide{/if} o-chat__author-name"></span>
+						 title="{$USER['user_name']}" data-js="hide"/>
+					<span class="js-icon fas fa-user u-font-size-38px userImage {if $IS_IMAGE} hide{/if} o-chat__author-name"
+						  data-js="hide"></span>
 				</div>
 				<div class="col-9 px-4">
 					<div class="js-user-name u-font-size-13px">{$USER['user_name']}</div>
@@ -112,7 +112,8 @@
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
 			</div>
-			<div class="js-participants-list px-3 o-chat__scrollbar o-chat__entries-scrollbar js-scrollbar" data-js="container|perfectscrollbar">
+			<div class="js-participants-list px-3 o-chat__scrollbar o-chat__entries-scrollbar js-scrollbar"
+				 data-js="container|perfectscrollbar">
 				{ITEM_USER USER=['user_id'=>'', 'user_name'=>'', 'role_name'=>'', 'message'=>'', 'image'=>null] CLASS='js-temp-item-user hide'}
 				<ul class="js-users pl-0 m-0" data-js="container">
 					{foreach item=USER from=$CHAT->getParticipants()}
