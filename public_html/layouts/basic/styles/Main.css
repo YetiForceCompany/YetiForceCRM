@@ -13329,7 +13329,7 @@ input[type="radio"]:checked:before {
   background: #e8e8e8; }
 .o-chat__room {
   background: #d5d7de;
-  color: #73b5d9; }
+  color: #177e96; }
 .o-chat__room-hover .o-chat__pin-favorites {
   display: none !important; }
 .o-chat__room-hover:hover {
@@ -13343,7 +13343,7 @@ input[type="radio"]:checked:before {
   height: calc(100vh - 25.9375rem) !important; }
 
 .o-chat-footer {
-  color: #73b5d9; }
+  color: #177e96; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
@@ -16964,18 +16964,34 @@ label.btn.btn-outline-primary:not(.active) {
     border-bottom-color: #2e7d32; }
     .c-arrows__item.before:after {
       border-left-color: #2e7d32; }
+    .c-arrows__item.before .c-arrows__text {
+      font-weight: bold;
+      color: #fff; }
+  .c-arrows__item.before:hover {
+    border-top-color: #1b5e20;
+    border-bottom-color: #1b5e20; }
+    .c-arrows__item.before:hover:after {
+      border-left-color: #1b5e20; }
   .c-arrows__item.after {
-    border-top-color: #c8e6c9;
-    border-bottom-color: #c8e6c9;
-    font-weight: bold; }
+    border-top-color: #64b5f6;
+    border-bottom-color: #64b5f6; }
     .c-arrows__item.after:after {
-      border-left-color: #c8e6c9; }
+      border-left-color: #64b5f6; }
+    .c-arrows__item.after .c-arrows__text {
+      font-weight: bold;
+      color: #fff; }
+  .c-arrows__item.after:hover {
+    border-top-color: #42a5f5;
+    border-bottom-color: #42a5f5; }
+    .c-arrows__item.after:hover:after {
+      border-left-color: #42a5f5; }
   .c-arrows__item.active {
-    border-top-color: #66bb6a;
-    border-bottom-color: #66bb6a; }
+    border-top-color: #ffeb3b;
+    border-bottom-color: #ffeb3b; }
     .c-arrows__item.active:after {
-      border-left-color: #66bb6a; }
+      border-left-color: #ffeb3b; }
     .c-arrows__item.active .c-arrows__text {
+      color: #343a40;
       font-weight: bold; }
 .c-arrows__link {
   display: inline-block;
