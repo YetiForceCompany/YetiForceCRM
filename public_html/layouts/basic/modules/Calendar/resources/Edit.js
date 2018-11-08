@@ -141,8 +141,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			thisInstance.setDefaultEndTime(container);
 		});
 		container.find('[name="date_start"]').on('change', function (e) {
-			let startDateElement = $(e.currentTarget),
-				endDateElement = container.find('[name="due_date"]'),
+			let endDateElement = container.find('[name="due_date"]'),
 				start = thisInstance.getDateInstance(container, 'start'),
 				end = thisInstance.getDateInstance(container, 'end'),
 				dateFormat = CONFIG.dateFormat.toUpperCase();
@@ -152,7 +151,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				endDateElement.val(moment(end).format(dateFormat));
 				App.Fields.Date.register(container);
 			}
-			startDateElement.closest('.fieldValue').find('[name="time_start"]').trigger('changeTime');
 		});
 		container.find('input[name="time_start"]').on('focus', function (e) {
 			let element = $(e.currentTarget);
@@ -167,7 +165,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			}
 			let element = $(e.currentTarget);
 			if (element.val() !== element.data('prevValue') || data.forceChange) {
-				e = jQuery.Event("keydown");
+				e = $.Event("keydown");
 				e.which = 13;
 				e.keyCode = 13;
 				element.trigger(e);
