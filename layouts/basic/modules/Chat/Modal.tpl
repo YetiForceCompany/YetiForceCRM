@@ -1,21 +1,30 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Chat-Modal -->
-	{function ROOM_ITEM CLASS_NAME='' FAVORITE_BTN=false}
+	{function ROOM_ITEM CLASS_NAME='' ROOM_TYPE='' FAVORITE_ADD_BTN=false FAVORITE_REMOVE_BTN=false}
 		{assign var=SELECTED value=$CURRENT_ROOM['recordId'] == $ROOM['recordid'] && $CURRENT_ROOM['roomType'] == $ROOM_TYPE }
-		<li class="text-truncate js-room o-chat__room-hover u-cursor-pointer {if $SELECTED} active o-chat__room {/if} {$CLASS_NAME} py-1 pr-1 pl-3"
+		<li class="text-truncate col-12 js-room o-chat__room-hover u-cursor-pointer d-flex {if $SELECTED} active o-chat__room {/if} {$CLASS_NAME} py-1 pr-1 pl-3"
 			title="{\App\Purifier::encodeHtml($ROOM['name'], 'Chat')}"
 			data-record-id="{$ROOM['recordid']}"
 			data-js="click">
-			<span class="js-room-name" data-js="append|replace">{$ROOM['name']}</span>
-			<span class="js-room-cnt badge badge-info ml-1 inline" data-js="append|replace">
-				{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}
-			</span>
-			<a href="#" class="inline mr-2 js-remove-favorites{if !$FAVORITE_BTN} hide{/if}"
-			   data-record-id="{$ROOM['recordid']}" data-js="click">
-				<span class="fas fa-thumbtack text-danger"
-					  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
-			</a>
+			<div class="col-8 p-0">
+				<span class="js-room-name" data-js="append|replace">{$ROOM['name']}</span>
+			</div>
+			<div class="col-3 p-0 text-right">
+				<span class="js-room-cnt badge badge-info ml-1 inline" data-js="append|replace">
+					{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}
+				</span>
+			</div>
+			<div class="col-1 text-right px-2 d-flex align-items-center o-chat__pin-favorites">
+				<a href="#" class="{if !$FAVORITE_REMOVE_BTN} hide{/if} js-remove-favorites" data-js="click">
+					<span class="fas fa-thumbtack text-danger"
+						  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
+				</a>
+				<a href="#" class="{if !$FAVORITE_ADD_BTN} hide{/if} js-add-favorites" data-js="click">
+					<span class="fas fa-thumbtack text-light"
+						  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
+				</a>
+			</div>
 		</li>
 	{/function}
 	<div class="modal-body pt-0 pb-0">
@@ -50,84 +59,50 @@
 					</button>
 				</div>
 				{ROOM_ITEM ROOM=['recordid'=>'', 'name'=>'', 'cnt_new_message'=>''] CLASS_NAME='hide js-temp-item-room'}
-				{assign var=ROOMS_BY_USER value=\App\Chat::getRoomsByUser()}
-				<!-- CRM -->
-				<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
-					 data-group="crm">
-					<span class="fas fa-star mr-2"></span>
-					{\App\Language::translate('LBL_ROOM_CRM', $MODULE_NAME)}
-				</div>
-				<ul class="js-room-type u-font-size-13px p-0" data-room-type="crm" data-favorite="false" data-js="data">
-					{foreach item=ROOM from=$ROOMS_BY_USER['crm']}
-						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='' ROOM_TYPE='crm' FAVORITE_BTN=false}
-					{/foreach}
-				</ul>
-				<!-- GROUP -->
-				<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
-					 data-group="group">
-					<span class="fas fa-users mr-2"></span>
-					{\App\Language::translate('LBL_ROOM_GROUP', $MODULE_NAME)}
-				</div>
-				<ul class="js-room-type u-font-size-13px p-0" data-room-type="group" data-favorite="false"
-					data-js="data">
-					{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getInstance('CustomView')->getGroups(false)}
-						{assign var=TRANSLATE_GROUP value=\App\Language::translate($GROUP_NAME)}
-						{assign var=SELECTED value=isset($GROUP) && $CURRENT_ROOM['recordId'] == $GROUP && $CURRENT_ROOM['roomType'] === 'group'}
-						<div class="w-100 row m-0 hide js-group js-hide">
-							<li class="text-truncate col-12 js-room js-group-room o-chat__room-hover {if $CHAT->isAssigned()} hide {/if} u-cursor-pointer d-flex  {if $SELECTED}active o-chat__room{/if} py-1 pr-1 pl-3"
-								title="{\App\Purifier::encodeHtml($TRANSLATE_GROUP)}"
-								data-record-id="{$GROUP_ID}"
-								data-js="click">
-								<div class="col-8 p-0">
-									<span class="js-room-name" data-js="append|replace">{$TRANSLATE_GROUP}</span>
-								</div>
-								<div class="col-3 p-0 text-right">
-									<span class="js-room-cnt badge badge-info ml-1 inline" data-js="append|replace">
-										{if $ROOM['cnt_new_message'] > 0}{$ROOM['cnt_new_message']}{/if}
-									</span>
-								</div>
-								<div class="col-1 text-right px-2 d-flex align-items-center o-chat__pin-favorites">
-									<a class="{if $CHAT->isAssigned()} hide{/if} js-remove-favorites"
-									   data-js="click"
-									   href="#" data-record-id="{$GROUP_ID}">
-										<span class="fas fa-thumbtack text-danger"
-											  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
-									</a>
-									<a class="{if !$CHAT->isAssigned()} hide{/if} js-add-favorites"
-									   data-js="click"
-									   href="#" data-record-id="{$GROUP_ID}">
-										<span class="fas fa-thumbtack text-light"
-											  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
-									</a>
-								</div>
-							</li>
+				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}
+					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
+					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
+						 data-group="{$KEY}">
+						{if $KEY === 'crm'}<span class="fas fa-star mr-2"></span>{/if}
+						{if $KEY === 'group'}<span class="fas fa-users mr-2"></span>{/if}
+						{if $KEY === 'global'}<span class="fas fa-globe mr-2"></span>{/if}
+						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
+					</div>
+					{assign var=FAVORITE_REMOVE_BTN value=$KEY==='crm' || $KEY==='group'}
+					<ul class="js-room-type u-font-size-13px p-0" data-room-type="{$KEY}"
+						data-favorite-remove-btn="{if $FAVORITE_REMOVE_BTN}true{else}false{/if}" data-js="data">
+						{foreach item=ROOM from=$GROUP_ROOM}
+							{ROOM_ITEM ROOM=$ROOM CLASS_NAME='' ROOM_TYPE=$KEY FAVORITE_REMOVE_BTN=$FAVORITE_REMOVE_BTN }
+						{/foreach}
+					</ul>
+					{if $KEY==='group'}
+						{assign var=USER_GROUP value=[]}
+						{foreach item=ROOM from=$GROUP_ROOM}
+							{$USER_GROUP[]=$ROOM['recordid']}
+						{/foreach}
+						<ul class="js-room-type js-hide-group hide u-font-size-13px p-0" data-room-type="{$KEY}"
+							data-js="data">
+							{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getInstance('CustomView')->getGroups(false)}
+								{if in_array($GROUP_ID, $USER_GROUP)}
+									{continue}
+								{/if}
+								{assign var=TRANSLATE_GROUP value=\App\Language::translate($GROUP_NAME)}
+								{assign var=SELECTED value=false}
+								{ROOM_ITEM ROOM=['name'=>$TRANSLATE_GROUP, 'recordid'=>$GROUP_ID, 'cnt_new_message'=>0] CLASS_NAME='' ROOM_TYPE=$KEY FAVORITE_ADD_BTN=true}
+							{/foreach}
+						</ul>
+						<div class="col-12 px-2 text-right mb-1">
+							<a class="text-success js-btn-more" href="#"
+							   data-js="click">
+								{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
+							</a>
+							<a class="text-danger hide js-btn-more-remove" href="#"
+							   data-js="click">
+								{\App\Language::translate('LBL_HIDE', $MODULE_NAME)}
+							</a>
 						</div>
-					{/foreach}
-				</ul>
-				<div class="col-12 px-2 text-right mb-1">
-					<a class="text-success js-btn-more" href="#"
-					   data-js="click">
-						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
-					</a>
-					<a class="text-danger hide js-btn-more-remove" href="#"
-					   data-js="click">
-						{\App\Language::translate('LBL_HIDE', $MODULE_NAME)}
-					</a>
-				</div>
-
-				<!-- GLOBAL -->
-				<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
-					 data-group="global">
-					<span class="fas fa-globe mr-2"></span>
-					{\App\Language::translate('LBL_ROOM_GLOBAL', $MODULE_NAME)}
-				</div>
-				<ul class="js-room-type u-font-size-13px p-0" data-room-type="global" data-favorite="false"
-					data-js="data">
-					{foreach item=ROOM from=$ROOMS_BY_USER['global']}
-						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='' ROOM_TYPE='global'}
-					{/foreach}
-				</ul>
-				<!-- - -->
+					{/if}
+				{/foreach}
 			</div>
 			<div class="col-10 m-0">
 				{include file=\App\Layout::getTemplatePath('Chat.tpl', 'Chat')}

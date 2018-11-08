@@ -114,8 +114,8 @@ class Chat extends \Tests\Base
 		$user->set('email1', $login . '@yetiforce.com');
 		$user->set('first_name', $login);
 		$user->set('last_name', $login);
-		$user->set('user_password', 'demo');
-		$user->set('confirm_password', 'demo');
+		$user->set('user_password', 'Demo12345678T');
+		$user->set('confirm_password', 'Demo12345678T');
 		$user->set('roleid', 'H3');
 		$user->set('is_admin', 0);
 		$user->save();
@@ -164,6 +164,35 @@ class Chat extends \Tests\Base
 		$chat = \App\Chat::getInstance();
 		$this->assertSame($chat->getRoomType(), 'global');
 		$this->assertSame($chat->getRecordId(), static::$globalRoom['global_room_id']);
+	}
+
+	/**
+	 * Chat testing for groups.
+	 */
+	public function testGroup()
+	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$groups = \App\Fields\Owner::getInstance('CustomView')->getGroups(false);
+		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
+		$groupId = key($groups);
+		$chat = \App\Chat::getInstance('group', $groupId);
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
+		$cntEntries = count($chat->getEntries());
+		$id = $chat->addMessage('Test MSG');
+		$this->assertInternalType('integer', $id);
+		$rowMsg = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
+			->where(['id' => $id])->one();
+		$this->assertNotFalse($rowMsg, "The message {$id} does not exist");
+		$this->assertSame('Test MSG', $rowMsg['messages']);
+		$this->assertSame(\App\User::getCurrentUserId(), $rowMsg['userid']);
+		$entries = $chat->getEntries();
+		$this->assertCount($cntEntries + 1, $entries, 'Too many messages in the chat room');
+		$key = static::getKeyMessage($entries, $id);
+		$this->assertNotFalse($key, 'Problem with the method "getEntries"');
+		$this->assertSame($rowMsg['messages'], $entries[$key]['messages']);
+		$this->assertSame(\App\User::getCurrentUserModel()->getName(), $entries[$key]['user_name']);
 	}
 
 	/**

@@ -422,7 +422,7 @@ class Chat
 		if ($this->isRoomExists() && isset($this->room['room_id'])) {
 			$this->roomId = $this->room['room_id'];
 		}
-		if ($this->roomType === 'crm' && !$this->isRoomExists()) {
+		if (($this->roomType === 'crm' || $this->roomType === 'group') && !$this->isRoomExists()) {
 			$this->room = [
 				'roomid' => null,
 				'userid' => null,
