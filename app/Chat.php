@@ -586,11 +586,10 @@ class Chat
 		$userId = User::getCurrentUserId();
 		$columnRoom = static::COLUMN_NAME['room'][$roomType];
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
-		$query = (new Db\Query());
+		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
 		switch ($roomType) {
 			case 'crm':
 				$query->select(['M.*', 'name' => 'RN.label'])
-					->from(['M' => static::TABLE_NAME['message'][$roomType]])
 					->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
@@ -599,7 +598,6 @@ class Chat
 				break;
 			case 'group':
 				$query->select(['M.*', 'name' => 'RN.groupname'])
-					->from(['M' => static::TABLE_NAME['message'][$roomType]])
 					->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
@@ -608,7 +606,6 @@ class Chat
 				break;
 			case 'global':
 				$query->select(['M.*', 'name' => 'RN.name'])
-					->from(['M' => static::TABLE_NAME['message'][$roomType]])
 					->leftJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
