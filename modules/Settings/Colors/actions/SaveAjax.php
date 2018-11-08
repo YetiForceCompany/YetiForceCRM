@@ -3,8 +3,8 @@
  * Basic colors action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Sławomir Kłos <s.klos@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 /**
@@ -161,7 +161,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => \App\Colors::activeModuleColor($request->getInteger('record'), $request->getByType('status', 'Text'), ($request->isEmpty('color') || $request->get('color') === '#') ? '' : $request->getByType('color', 'Color')),
+			'color' => \App\Colors::activeModuleColor($request->getInteger('record'), $request->getBoolean('status'), ($request->isEmpty('color') || $request->get('color') === '#') ? '' : $request->getByType('color', 'Color')),
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false)),
 		]);
 		$response->emit();
