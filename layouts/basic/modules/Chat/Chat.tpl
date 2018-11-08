@@ -7,10 +7,10 @@
 			<div class="row px-2">
 				{assign var=IS_IMAGE value=!empty($USER['image'])}
 				<div class="js-image o-chat__img-container {if !$IS_IMAGE} p-1 {/if} text-center" data-js="append">
-					<img src="{$USER['image']}" class="js-src {if !$IS_IMAGE} hide{/if} o-chat__author-img"
+					<img src="{$USER['image']}" class="js-chat-image_src {if !$IS_IMAGE} hide{/if} o-chat__author-img"
 						 alt="{$USER['user_name']}"
 						 title="{$USER['user_name']}" data-js="hide"/>
-					<span class="js-icon fas fa-user u-font-size-38px userImage {if $IS_IMAGE} hide{/if} o-chat__author-name"
+					<span class="js-chat-image_icon fas fa-user u-font-size-38px userImage {if $IS_IMAGE} hide{/if} o-chat__author-name"
 						  data-js="hide"></span>
 				</div>
 				<div class="col-9 px-4">

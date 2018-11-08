@@ -198,6 +198,8 @@ class Chat_Entries_View extends \App\Controller\View
 	}
 
 	/**
+	 * Get unread messages.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function unread(\App\Request $request)

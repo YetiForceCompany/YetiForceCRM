@@ -8,10 +8,10 @@
 			 data-user-name="{$ROW['user_name']}"
 			 data-role-name="{$ROW['role_name']}" data-js="data">
 			<div class="js-image o-chat__img-container mx-auto {if !$IS_IMAGE} p-1 {/if}" data-js="copy">
-				<img src="{$ROW['image']}" class="{if !$IS_IMAGE} hide{/if} js-src o-chat__author-img"
+				<img src="{$ROW['image']}" class="{if !$IS_IMAGE} hide{/if} js-chat-image_src o-chat__author-img"
 					 alt="{$ROW['user_name']}"
 					 title="{$ROW['user_name']}" data-js="hide"/>
-				<span class="js-icon fas fa-user u-font-size-38px {if $IS_IMAGE} hide{/if} o-chat__author-name"
+				<span class="js-chat-image_icon fas fa-user u-font-size-38px {if $IS_IMAGE} hide{/if} o-chat__author-name"
 					  title="{$ROW['user_name']}" data-js="hide"></span>
 			</div>
 			<span class="u-font-size-10px m-0 text-truncate text-secondary">
