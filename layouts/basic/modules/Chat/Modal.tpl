@@ -82,22 +82,22 @@
 						{/foreach}
 						<ul class="js-room-type js-hide-group hide u-font-size-13px p-0" data-room-type="{$KEY}"
 							data-js="data">
+							{assign var=CNT_GROUP value=0}
 							{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getInstance('CustomView')->getGroups(false)}
 								{if in_array($GROUP_ID, $USER_GROUP)}
 									{continue}
 								{/if}
+								{assign var=CNT_GROUP value=$CNT_GROUP+1}
 								{assign var=TRANSLATE_GROUP value=\App\Language::translate($GROUP_NAME)}
 								{assign var=SELECTED value=false}
 								{ROOM_ITEM ROOM=['name'=>$TRANSLATE_GROUP, 'recordid'=>$GROUP_ID, 'cnt_new_message'=>0] CLASS_NAME='' ROOM_TYPE=$KEY FAVORITE_ADD_BTN=true}
 							{/foreach}
 						</ul>
 						<div class="col-12 px-2 text-right mb-1">
-							<a class="text-success js-btn-more" href="#"
-							   data-js="click">
+							<a href="#" class="text-success js-btn-more{if $CNT_GROUP===0} hide{/if}" data-js="click">
 								{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
 							</a>
-							<a class="text-danger hide js-btn-more-remove" href="#"
-							   data-js="click">
+							<a href="#" class="text-danger hide js-btn-more-remove" data-js="click">
 								{\App\Language::translate('LBL_HIDE', $MODULE_NAME)}
 							</a>
 						</div>

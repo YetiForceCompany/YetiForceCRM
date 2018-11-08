@@ -941,6 +941,9 @@ window.Chat_JS = class Chat_Js {
 					item.find('.js-remove-favorites').addClass('hide');
 					item.find('.js-add-favorites').removeClass('hide');
 					listGroup.append(item);
+					this.container.find('.js-btn-more-remove').removeClass('hide');
+					this.container.find('.js-btn-more').addClass('hide');
+					listGroup.removeClass('hide');
 				} else {
 					item.remove();
 				}
@@ -964,6 +967,9 @@ window.Chat_JS = class Chat_Js {
 					item.find('.js-remove-favorites').removeClass('hide');
 					item.find('.js-add-favorites').addClass('hide');
 					listGroup.append(item);
+					if (this.getRoomList().find('.js-hide-group .js-room').length === 0) {
+						this.container.find('.js-btn-more-remove').addClass('hide');
+					}
 				} else {
 					item.remove();
 				}
@@ -989,15 +995,6 @@ window.Chat_JS = class Chat_Js {
 			btnMoreRemove.toggleClass('hide');
 		});
 	}
-
-	/**
-	 * Register listen event.
-	 */
-
-	/*registerListenEvent() {
-		this.getMessage(true);
-		this.getRoomsDetail(true);
-	}*/
 
 	/**
 	 * Register load more messages.
