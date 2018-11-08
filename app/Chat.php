@@ -575,6 +575,52 @@ class Chat
 	}
 
 	/**
+	 * Get query for unread messages.
+	 *
+	 * @param string $roomType
+	 *
+	 * @return \App\Db\Query
+	 */
+	private static function getQueryForUnread(string $roomType = 'global'): \App\Db\Query
+	{
+		$userId = User::getCurrentUserId();
+		$columnRoom = static::COLUMN_NAME['room'][$roomType];
+		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		$query = (new Db\Query());
+		switch ($roomType) {
+			case 'crm':
+				$query->select(['M.*', 'name' => 'RN.label'])
+					->from(['M' => static::TABLE_NAME['message'][$roomType]])
+					->innerJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'u_#__crmentity_label'], "RN.crmid = M.{$columnMessage}");
+				break;
+			case 'group':
+				$query->select(['M.*', 'name' => 'RN.groupname'])
+					->from(['M' => static::TABLE_NAME['message'][$roomType]])
+					->innerJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
+				break;
+			case 'global':
+				$query->select(['M.*', 'name' => 'RN.name'])
+					->from(['M' => static::TABLE_NAME['message'][$roomType]])
+					->leftJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'u_#__chat_global'], "RN.global_room_id = M.{$columnMessage}");
+				break;
+		}
+		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
+			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
+	}
+
+	/**
 	 * Get unread messages.
 	 *
 	 * @param string $roomType
@@ -585,46 +631,14 @@ class Chat
 	 */
 	public static function getUnreadByType(string $roomType = 'global')
 	{
-		$userId = User::getCurrentUserId();
-		$param = ['M.*'];
-		switch ($roomType) {
-			case 'crm':
-				$param['name'] = 'RN.label';
-				break;
-			case 'group':
-				$param['name'] = 'RN.groupname';
-				break;
-			case 'global':
-				$param['name'] = 'RN.name';
-				break;
-		}
-		$query = (new Db\Query())
-			->select($param)
-			->from(['M' => static::TABLE_NAME['message'][$roomType]])
-			->leftJoin(
-				['R' => static::TABLE_NAME['room'][$roomType]],
-				'R.' . static::COLUMN_NAME['room'][$roomType] . ' = M.' . static::COLUMN_NAME['message'][$roomType] . " AND R.userid = {$userId}"
-			)
-			->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]]);
-		switch ($roomType) {
-			case 'crm':
-				$query->leftJoin(['RN' => 'u_#__crmentity_label'], 'RN.crmid = M.' . static::COLUMN_NAME['message'][$roomType]);
-				$query->orderBy(['M.crmid' => \SORT_ASC, 'id' => \SORT_DESC]);
-				break;
-			case 'group':
-				$query->leftJoin(['RN' => 'vtiger_groups'], 'RN.groupid = M.' . static::COLUMN_NAME['message'][$roomType]);
-				$query->orderBy(['M.groupid' => \SORT_ASC, 'id' => \SORT_DESC]);
-				break;
-			case 'global':
-				$query->leftJoin(['RN' => 'u_#__chat_global'], 'RN.global_room_id = M.' . static::COLUMN_NAME['message'][$roomType]);
-				$query->orderBy(['M.globalid' => \SORT_ASC, 'id' => \SORT_DESC]);
-				break;
-		}
-		$dataReader = $query->createCommand()->query();
+		$dataReader = static::getQueryForUnread($roomType)->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
 			$image = $userModel->getImage();
+			if ($roomType === 'global') {
+				$row['name'] = Language::translate($row['name']);
+			}
 			$rows[] = [
 				'id' => $row['id'],
 				'userid' => $row['userid'],

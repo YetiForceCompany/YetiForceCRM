@@ -389,7 +389,7 @@ window.Chat_JS = class Chat_Js {
 		this.request({
 			view: 'Entries',
 			mode: 'unread'
-		}, false).done((html) => {
+		}, true).done((html) => {
 			this.messageContainer.html(html);
 		});
 	}
@@ -1107,7 +1107,7 @@ window.Chat_JS = class Chat_Js {
 	 * Register button unread.
 	 */
 	registerButtonUnread() {
-		this.container.find('.js-btn-unread').off('click').on('click', (e) => {
+		this.container.find('.js-btn-unread').on('click', (e) => {
 			this.unread();
 		});
 	}
@@ -1153,7 +1153,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonBell();
 		this.registerButtonUnread();
 		this.registerButtonFavoritesInGroup();
-		this.registerButtonFavoritesInCrm();
+		//this.registerButtonFavoritesInCrm();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
