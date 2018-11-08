@@ -517,15 +517,15 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	toggleBreadcrumActions(container) {
-		if (!container.find('.js-breadcrumb').length) {
+		if (!container.find('.js-header-toggle').length) {
 			return;
 		}
-		let breadcrumb = container.find('.js-breadcrumb'),
-			actionBtn = breadcrumb.find('.js-breadcrumb__actions-btn'),
+		let breadcrumb = container.find('.js-header-toggle'),
+			actionBtn = breadcrumb.find('.js-header-toggle__actions-btn'),
 			cssActionsTop = {top: breadcrumb.offset().top + breadcrumb.height()};
-		breadcrumb.find('.o-breadcrumb__actions').css(cssActionsTop);
+		breadcrumb.find('.o-header-toggle__actions').css(cssActionsTop);
 		actionBtn.on('click', () => {
-			breadcrumb.find('.o-breadcrumb__actions').toggleClass('is-active');
+			breadcrumb.find('.o-header-toggle__actions').toggleClass('is-active');
 		});
 	},
 	registerMobileEvents: function () {
@@ -596,7 +596,7 @@ $.Class("Vtiger_Header_Js", {
 		$('.actionMenu').removeClass('actionMenuOn');
 	},
 	hideBreadcrumbActionMenu: function () {
-		$('.js-breadcrumb__actions').removeClass('is-active');
+		$('.js-header-toggle__actions').removeClass('is-active');
 	},
 	hideReminderNotice: function () {
 		$('.remindersNoticeContainer').removeClass('toggled');
@@ -685,9 +685,6 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
-		if (typeof Chat_JS !== 'undefined') {
-			Chat_JS.registerTrackingEvents();
-		}
 		const container = thisInstance.getContentsContainer(),
 			menuContainer = container.find('.js-menu--scroll'),
 			quickCreateModal = container.find('.quickCreateModules');
