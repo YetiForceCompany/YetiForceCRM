@@ -454,7 +454,36 @@ window.Calendar_Js = class {
 	/**
 	 * Add calendar event.
 	 */
-	addCalendarEvent() {
+	addCalendarEvent(calendarDetails) {
+		const moduleName = CONFIG.module;
+		if ($("#calendar-users").val() !== 'undefined' && $("#calendar-users").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendar-users").val()) < 0) {
+			return;
+		}
+		let calendarTypes = $("#calendar-types"),
+			eventTypeKeyName = '';
+		if (calendarTypes.length) {
+			Object.keys(calendarDetails).forEach(function (key, index) {
+				if (key.endsWith('type')) { // there are different names for event types in modules
+					eventTypeKeyName = key;
+				}
+			});
+			if ($.inArray(calendarDetails[eventTypeKeyName]['value'], calendarTypes.val()) < 0) {
+				return;
+			}
+		}
+
+		const calendar = this.getCalendarView();
+		const eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails._recordLabel,
+			start: calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value).format(),
+			end: calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value).format(),
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			url: `index.php?module=${moduleName}&view=Detail&record=${calendarDetails._recordId}`,
+			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${moduleName}_${calendarTypes.length ? eventTypeKeyName + '_' + calendarDetails[eventTypeKeyName]['value'] : ''}`
+		};
+		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	}
 
 	/**
@@ -467,15 +496,13 @@ window.Calendar_Js = class {
 		}
 		return this.calendarView;
 	}
-}
-;
+};
 
 /**
  *  Class representing a calendar with creating events by day click instead of selecting days.
  * @extends Calendar_Js
  */
-window
-	.Calendar_Unselectable_Js = class extends Calendar_Js {
+window.Calendar_Unselectable_Js = class extends Calendar_Js {
 	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
