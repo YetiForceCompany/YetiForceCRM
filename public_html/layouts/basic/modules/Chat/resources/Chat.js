@@ -380,9 +380,19 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Turn off unread mode.
+	 */
+	turnOffUnreadMode() {
+		this.container.find('.js-chat-message-block').removeClass('hide');
+		this.container.find('.js-input-group-search').removeClass('hide');
+	}
+
+	/**
 	 * Get unread messages.
 	 */
 	unread() {
+		this.container.find('.js-chat-message-block').addClass('hide');
+		this.container.find('.js-input-group-search').addClass('hide');
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
 		clearTimeout(this.timerMessage);
@@ -391,6 +401,8 @@ window.Chat_JS = class Chat_Js {
 			mode: 'unread'
 		}, true).done((html) => {
 			this.messageContainer.html(html);
+			this.participants.html('');
+			this.buildParticipantsFromMessage($('<div></div>').html(html));
 		});
 	}
 
@@ -719,7 +731,7 @@ window.Chat_JS = class Chat_Js {
 			if (element.data('group') == roomType) {
 				containerFooter.find('.js-footer-group-name').text(element.text());
 			}
-		})
+		});
 		containerFooter.find('.js-footer-room-name').text(data.find('.js-room-name').text());
 	}
 
@@ -777,7 +789,6 @@ window.Chat_JS = class Chat_Js {
 					if (!this.isRoomActive()) {
 						this.activateRoom();
 					}
-					//this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), false);
 					this.messageContainer.append(html);
 					this.buildParticipantsFromMessage($('<div></div>').html(html));
 					this.scrollToBottom();
@@ -855,6 +866,7 @@ window.Chat_JS = class Chat_Js {
 				this.registerLoadMore();
 				this.turnOffSearchMode();
 				this.isHistoryMode = false;
+				this.turnOffUnreadMode();
 			});
 		});
 	}
@@ -1150,7 +1162,6 @@ window.Chat_JS = class Chat_Js {
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);
-
 	}
 
 	/**

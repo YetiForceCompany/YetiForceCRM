@@ -76,7 +76,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row js-chat-message-block" data-js="hide">
 				<div class="input-group">
 					<textarea
 							class="form-control noresize u-font-size-13px js-chat-message rounded-0 o-chat__form-control"
