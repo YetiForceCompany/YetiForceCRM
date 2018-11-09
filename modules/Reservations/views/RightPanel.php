@@ -4,7 +4,7 @@
  * Reservations RightPanel view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_RightPanel_View extends Vtiger_IndexAjax_View
 {
@@ -58,11 +58,7 @@ class Reservations_RightPanel_View extends Vtiger_IndexAjax_View
 	public function getTypesList(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ALL_ACTIVETYPES_LIST', Reservations_Calendar_Model::getCalendarTypes());
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', $currentUser);
-		$viewer->view('RightPanel.tpl', $moduleName);
+		$viewer->view('RightPanel.tpl', $request->getModule());
 	}
 }

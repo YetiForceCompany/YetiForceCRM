@@ -23,7 +23,7 @@ window.Reservations_Calendar_Js = class Reservations_Calendar_Js extends Calenda
 		if ($("#calendarUserList").val() !== 'undefined' && $("#calendarUserList").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
 			return;
 		}
-		if ($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0) {
+		if ($.inArray(calendarDetails.type.value, $("#reservationType").val()) < 0) {
 			return;
 		}
 		var calendar = this.getCalendarView();
@@ -98,5 +98,16 @@ window.Reservations_Calendar_Js = class Reservations_Calendar_Js extends Calenda
 				}
 			});
 		});
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	getDefaultParams() {
+		let params = super.getDefaultParams();
+		if ($('#reservationType').length > 0) {
+			params.types = $('#reservationType').val();
+		}
+		return params;
 	}
 }

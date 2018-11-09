@@ -33,10 +33,9 @@
 		<div class="calendarTypeList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
-					<select class="select2 form-control col-12" id="timecontrolTypes" name="timecontrolTypes" multiple>
+					<select class="select2 form-control col-12" id="reservationType" name="reservationType" multiple="multiple">
 						{foreach key=ITEM_ID item=ITEM from=$ALL_ACTIVETYPES_LIST}
-							<option class="picklistCBg_OSSTimeControl_timecontrol_type_{$ITEM} marginBottom5px"
-									value="{$ITEM_ID}">{\App\Language::translate($ITEM,$MODULE)}</option>
+							<option value="{$ITEM_ID}" class="mb-1">{\App\Language::translate($ITEM,$MODULE_NAME)}</option>
 						{/foreach}
 					</select>
 				</div>

@@ -297,7 +297,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$actualConversionRate = $productBaseConvRate * $conversionRate;
 
 					$priceDetails[$i]['check_value'] = false;
-					$priceDetails[$i]['curvalue'] = '0';
+					$priceDetails[$i]['curvalue'] = 0;
 					$priceDetails[$i]['conversionrate'] = $actualConversionRate;
 
 					$isBaseCurrency = false;

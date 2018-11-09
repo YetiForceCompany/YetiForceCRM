@@ -184,7 +184,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
     "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
     "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
-    "LBL_WORK_DAYS": "Jours travaill\u00e9s"
+    "LBL_WORK_DAYS": "Jours travaill\u00e9s",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "JS_Normal": "Normal",

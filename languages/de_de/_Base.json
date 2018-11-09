@@ -1298,7 +1298,11 @@
     "LBL_SHOP_YETIFORCE": "Shop",
     "LBL_PRINT": "Drucken",
     "LBL_IMAGE_DOWNLOAD": "Bild speichern",
-    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Anzahl der zusammenfu00fchrten Datens\u00e4tze wurde auf %d reduziert."
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Anzahl der zusammenfu00fchrten Datens\u00e4tze wurde auf %d reduziert.",
+    "LBL_USE_VARIABLES": "In this field you can use variables, you just need to copy any variable to the clipboard from the panel and paste in here. The field can contain several variables.",
+    "BTN_RECORD_OPEN": "Unblock record",
+    "LBL_REMOVE_RELATION": "Remove relation",
+    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed."
   },
   "js": {
     "JS_APPROVE": "Approve",

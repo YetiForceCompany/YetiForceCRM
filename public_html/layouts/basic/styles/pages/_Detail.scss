@@ -447,17 +447,30 @@
 
 		&.before {
 			@include c-arrows-color(material-color('green', '800'));
+			.c-arrows__text {
+				font-weight: bold;
+				color: $white;
+			}
+		}
+		&.before:hover {
+			@include c-arrows-color(material-color('green', '900'));
 		}
 
 		&.after {
-			@include c-arrows-color(material-color('green', '100'));
-			font-weight: bold;
+			@include c-arrows-color(material-color('blue', '300'));
+			.c-arrows__text {
+				font-weight: bold;
+				color: $white;
+			}
+		}
+		&.after:hover {
+			@include c-arrows-color(material-color('blue', '400'));
 		}
 
 		&.active {
-			@include c-arrows-color(material-color('green', '400'));
-
+			@include c-arrows-color(material-color('yellow', '500'));
 			.c-arrows__text {
+				color: $dark;
 				font-weight: bold;
 			}
 		}

@@ -62,4 +62,16 @@ class Json
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
 	}
+
+	/**
+	 * Determine whether a variable is empty.
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	public static function isEmpty(string $value)
+	{
+		return empty($value) || $value === '[]' || $value === '""';
+	}
 }

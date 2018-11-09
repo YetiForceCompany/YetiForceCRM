@@ -37,7 +37,8 @@
     "FL_STATUS": "Statut",
     "PLL_TRANSFER": "Virement",
     "PLL_CASH": "En esp\u00e8ces",
-    "LBL_YEAR": "Ann\u00e9es"
+    "LBL_YEAR": "Ann\u00e9es",
+    "FL_ISSUE_TIME": "Invoice date"
   },
   "js": {}
 }

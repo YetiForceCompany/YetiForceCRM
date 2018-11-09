@@ -15,6 +15,37 @@ namespace App\Fields;
 class Currency
 {
 	/**
+	 * Function returns the currency in user specified format.
+	 *
+	 * @param string $value Date time
+	 *
+	 * @return string
+	 */
+	public static function formatToDisplay($value, $user = null, $skipConversion = false, $skipFormatting = false)
+	{
+		if (empty($value)) {
+			return 0;
+		}
+		return \CurrencyField::convertToUserFormat($value, $user, $skipConversion, $skipFormatting);
+	}
+
+	/**
+	 * Function to get value for db format.
+	 *
+	 * @param string $value
+	 *
+	 * @return float
+	 */
+	public static function formatToDb(string $value): float
+	{
+		if (empty($value)) {
+			return 0;
+		}
+		$currentUser = \App\User::getCurrentUserModel();
+		return str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+	}
+
+	/**
 	 * Get currency by module name.
 	 *
 	 * @param bool|string $type

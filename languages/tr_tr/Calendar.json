@@ -184,7 +184,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
     "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
     "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
-    "LBL_WORK_DAYS": "\u0130\u015f g\u00fcnleri"
+    "LBL_WORK_DAYS": "\u0130\u015f g\u00fcnleri",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "\u0130lanlardan ileti\u015fim se\u00e7emiyorum",

@@ -700,10 +700,9 @@ App.Fields = {
 	},
 	MultiImage: {
 		currentFileUploads: 0,
-
 		register(container) {
-			$('.js-multi-image', container).toArray().forEach((fileUploadInput) => {
-				new MultiImage(fileUploadInput);
+			$('.js-multi-image', container).each(function () {
+				new MultiImage($(this));
 			});
 		}
 	},

@@ -233,9 +233,7 @@ window.Calendar_Js = class Calendar_Js {
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
-		App.Fields.Picklist.showSelect2ElementView($('#timecontrolTypes'));
-		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
+		App.Fields.Picklist.showSelect2ElementView(this.container.find('.siteBarRight .select2'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
 			var element = $(this);
 			var value = element.val();
@@ -250,44 +248,35 @@ window.Calendar_Js = class Calendar_Js {
 		});
 	}
 
-	loadCalendarData(allEvents) {
-		var progressInstance = jQuery.progressIndicator();
-		var thisInstance = this;
-		thisInstance.getCalendarView().fullCalendar('removeEvents');
-		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var start_date = view.start.format();
-		var end_date = view.end.format();
-		var user;
-		if (jQuery('#calendarUserList').length == 0) {
-			user = CONFIG.userId;
-		} else {
-			user = jQuery('#calendarUserList').val();
-		}
-		if (jQuery('#timecontrolTypes').length > 0) {
-			var types = jQuery('#timecontrolTypes').val();
-		} else {
-			allEvents = true;
-		}
+	/**
+	 * Default params
+	 * @returns {{module: *, action: string, mode: string, start: *, end: *, user: *}}
+	 */
+	getDefaultParams() {
+		let formatDate = CONFIG.dateFormat.toUpperCase(),
+			view = this.getCalendarView().fullCalendar('getView'),
+			user = $('#calendarUserList').val();
+		return {
+			module: CONFIG.module,
+			action: 'Calendar',
+			mode: 'getEvent',
+			start: view.start.format(formatDate),
+			end: view.end.format(formatDate),
+			user: user ? user : [CONFIG.userId]
+		};
+	}
 
-		if (allEvents == true || types != null) {
-			var params = {
-				module: CONFIG.module,
-				action: 'Calendar',
-				mode: 'getEvent',
-				start: start_date,
-				end: end_date,
-				user: user,
-				types: types
-			};
-			AppConnector.request(params).done(function (events) {
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				thisInstance.registerSelect2Event();
-				progressInstance.hide();
-			});
-		} else {
-			thisInstance.getCalendarView().fullCalendar('removeEvents');
+	/**
+	 * Load calendar data
+	 */
+	loadCalendarData() {
+		let progressInstance = jQuery.progressIndicator();
+		this.getCalendarView().fullCalendar('removeEvents');
+		AppConnector.request(this.getDefaultParams()).done((events) => {
+			this.getCalendarView().fullCalendar('addEventSource', events.result);
+			this.registerSelect2Event();
 			progressInstance.hide();
-		}
+		});
 	}
 
 	updateEvent(event, delta, revertFunc) {
@@ -316,7 +305,7 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	addCalendarEvent(calendarDetails, dateFormat) {
-		//TODO: Write basic method
+		//YTTODO: Write basic method
 	}
 
 	getCalendarCreateView() {
@@ -385,7 +374,8 @@ window.Calendar_Js = class Calendar_Js {
 		$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
 			widgets -= 1;
 			if (widgets == 0) {
-				thisInstance.loadCalendarData(true);
+				thisInstance.registerSelect2Event();
+				thisInstance.loadCalendarData();
 			}
 		});
 	}

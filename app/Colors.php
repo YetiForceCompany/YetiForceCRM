@@ -299,24 +299,18 @@ class Colors
 	 * Set module color active flag.
 	 *
 	 * @param int    $id
-	 * @param string $status
+	 * @param bool   $active
 	 * @param string $color
 	 *
 	 * @return string
 	 */
-	public static function activeModuleColor($id, $status, $color)
+	public static function activeModuleColor($id, $active, $color)
 	{
-		$colorActive = $status == 'true' ? 1 : 0;
-		if ($color === '') {
-			$color = self::getRandomColor();
-			$set = ['color' => ltrim($color, '#'), 'coloractive' => $colorActive];
-		} else {
-			$set = ['coloractive' => $colorActive];
-		}
+		$color = empty($color) && $active ? self::getRandomColor() : $color;
+		$set = ['coloractive' => (int) $active, 'color' => $active ? ltrim($color, '#') : null];
 		Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
 		Cache::clear();
 		self::generate('module');
-
 		return $color;
 	}
 
