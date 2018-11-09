@@ -81,4 +81,42 @@ class Currency
 		}
 		return $currencyId;
 	}
+
+	/**
+	 * Get all currencies.
+	 *
+	 * @param bool $onlyActive
+	 *
+	 * @return array
+	 */
+	public static function getAll($onlyActive = false)
+	{
+		if (\App\Cache::has('CurrencyGetAll', 'All')) {
+			$currencies = \App\Cache::get('CurrencyGetAll', 'All');
+		} else {
+			$currencies = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
+			\App\Cache::save('CurrencyGetAll', 'All', $currencies);
+		}
+		if ($onlyActive) {
+			foreach ($currencies as $id => $currency) {
+				if ($currency['currency_status'] !== 'Active') {
+					unset($currencies[$id]);
+				}
+			}
+		}
+		return $currencies;
+	}
+
+	/**
+	 * Get currency by id.
+	 *
+	 * @param int $currencyId
+	 *
+	 * @return array
+	 */
+	public static function getById(int $currencyId)
+	{
+		$currencyInfo = static::getAll();
+		return $currencyInfo[$currencyId] ?? [];
+	}
 }
