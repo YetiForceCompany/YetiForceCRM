@@ -172,58 +172,18 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		});
 	}
 
-	addCalendarEvent(calendarDetails) {
-		const moduleName = CONFIG.module;
-		let groupSelect = $('#calendarGroupList');
-		let usersSelect = $('#calendar-users');
-		if ($.inArray(calendarDetails.assigned_user_id.value, usersSelect) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
-			if (CONFIG.searchShowOwnerOnlyInList) {
-				let allOptions = [];
-				usersSelect.add(groupSelect).find('option').each((i, option) => {
-					allOptions.push($(option).val());
-				});
-				if ($.inArray(calendarDetails.assigned_user_id.value, allOptions) < 0) {
-					AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((usersData) => {
-						$('.js-calendar__filter--users').html(usersData);
-						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done((groupsData) => {
-							$('.js-calendar__filter--groups').html(groupsData);
-							this.registerSelect2Event();
-						});
-					});
-				}
+	isNewEventToDisplay(eventObject) {
+		if (super.isNewEventToDisplay(eventObject)) {
+			let taskstatus = $.inArray(eventObject.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
+			var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
+			if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
+				return false;
+			} else {
+				return true;
 			}
-			return;
-		}
-		let taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
-		var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
-		if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
+		} else {
 			return false;
 		}
-		let calendarTypes = $("#calendar-types"),
-			eventTypeKeyName = '';
-		if (calendarTypes.length) {
-			Object.keys(calendarDetails).forEach(function (key, index) {
-				if (key.endsWith('type')) { // there are different names for event types in modules
-					eventTypeKeyName = key;
-				}
-			});
-			if ($.inArray(calendarDetails[eventTypeKeyName]['value'], calendarTypes.val()) < 0) {
-				return;
-			}
-		}
-		const calendar = this.getCalendarView();
-		const eventObject = {
-			allDay: calendarDetails.allday.value == 'on',
-			id: calendarDetails._recordId,
-			title: calendarDetails._recordLabel,
-			start: calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value).format(),
-			end: calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value).format(),
-			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
-			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
-			url: `index.php?module=${moduleName}&view=Detail&record=${calendarDetails._recordId}`,
-			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${moduleName}_${calendarTypes.length ? eventTypeKeyName + '_' + calendarDetails[eventTypeKeyName]['value'] : ''}`
-		};
-		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	}
 
 	getCalendarCreateView() {

@@ -15,6 +15,7 @@ window.Calendar_Js = class {
 		this.readonly = readonly;
 		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
+		this.eventTypeKeyName = false;
 	}
 
 	/**
@@ -452,39 +453,9 @@ window.Calendar_Js = class {
 	}
 
 	/**
-	 * Add calendar event.
+	 * Add event data to render.
 	 */
-	addCalendarEvent(calendarDetails) {
-		const moduleName = CONFIG.module;
-		let usersSelect = $("#calendar-users");
-		if (CONFIG.searchShowOwnerOnlyInList) {
-			let allOptions = [];
-			usersSelect.find('option').each((i, option) => {
-				allOptions.push($(option).val());
-			});
-			if ($.inArray(calendarDetails.assigned_user_id.value, allOptions) < 0) {
-				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((data) => {
-					$('.js-calendar__filter--users').html(data);
-					this.registerSelect2Event();
-				});
-			}
-		}
-		if ($("#calendar-users").val() !== 'undefined' && $("#calendar-users").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendar-users").val()) < 0) {
-			return;
-		}
-		let calendarTypes = $("#calendar-types"),
-			eventTypeKeyName = '';
-		if (calendarTypes.length) {
-			Object.keys(calendarDetails).forEach(function (key, index) {
-				if (key.endsWith('type')) { // there are different names for event types in modules
-					eventTypeKeyName = key;
-				}
-			});
-			if ($.inArray(calendarDetails[eventTypeKeyName]['value'], calendarTypes.val()) < 0) {
-				return;
-			}
-		}
-
+	getEventRenderData(calendarDetails) {
 		const calendar = this.getCalendarView();
 		const eventObject = {
 			id: calendarDetails._recordId,
@@ -493,10 +464,66 @@ window.Calendar_Js = class {
 			end: calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value).format(),
 			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
 			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
-			url: `index.php?module=${moduleName}&view=Detail&record=${calendarDetails._recordId}`,
-			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${moduleName}_${calendarTypes.length ? eventTypeKeyName + '_' + calendarDetails[eventTypeKeyName]['value'] : ''}`
+			url: `index.php?module=${CONFIG.module}&view=Detail&record=${calendarDetails._recordId}`,
+			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${CONFIG.module}_${$('#calendar-types').length ? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value'] : ''}`,
+			allDay: calendarDetails.allday.value == 'on'
 		};
-		this.getCalendarView().fullCalendar('renderEvent', eventObject);
+		return eventObject;
+	}
+
+	isNewEventToDisplay(eventObject) {
+		let groupSelect = $('#calendarGroupList');
+		let usersSelect = $('#calendar-users');
+		if ($.inArray(eventObject.assigned_user_id.value, usersSelect.val()) < 0 && ($.inArray(eventObject.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
+			this.refreshFilterValues(usersSelect.add(groupSelect));
+			return false;
+		}
+		let calendarTypes = $("#calendar-types");
+		if (calendarTypes.length) {
+			if (!this.eventTypeKeyName) {
+				this.setEventTypeKey(eventObject);
+			}
+			if ($.inArray(eventObject[this.eventTypeKeyName]['value'], calendarTypes.val()) < 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	setEventTypeKey(eventObject) {
+		let self = this;
+		Object.keys(eventObject).forEach(function (key, index) {
+			if (key.endsWith('type')) { // there are different names for event types in modules
+				self.eventTypeKeyName = key;
+			}
+		});
+	}
+
+	refreshFilterValues(filtersValues) {
+		if (CONFIG.searchShowOwnerOnlyInList) {
+			let allOptions = [];
+			filtersValues.find('option').each((i, option) => {
+				allOptions.push($(option).val());
+			});
+			if ($.inArray(eventObject.assigned_user_id.value, allOptions) < 0) {
+				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((usersData) => {
+					$('.js-calendar__filter--users').html(usersData);
+					AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done((groupsData) => {
+						$('.js-calendar__filter--groups').html(groupsData);
+						this.registerSelect2Event();
+					});
+				});
+			}
+		}
+	}
+
+	/**
+	 * Add calendar event.
+	 */
+	addCalendarEvent(eventObject) {
+		if (this.isNewEventToDisplay(eventObject)) {
+			this.getCalendarView().fullCalendar('renderEvent', this.getEventRenderData(eventObject));
+		}
 	}
 
 	/**
