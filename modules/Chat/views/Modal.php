@@ -46,6 +46,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('IS_MODAL_VIEW', true);
 		$viewer->assign('IS_SOUND_NOTIFICATION', $this->isSoundNotification());
+		$viewer->assign('IS_DESKTOP_NOTIFICATION', $this->isDesktopNotification());
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
@@ -86,5 +87,16 @@ class Chat_Modal_View extends \App\Controller\Modal
 		return isset($_COOKIE['chat - isSoundNotification']) ?
 			filter_var($_COOKIE['chat - isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
 			\AppConfig::module('Chat', 'DEFAULT_SOUND_NOTIFICATION');
+	}
+
+	/**
+	 * Check if desktop notification is enabled.
+	 *
+	 * @return bool
+	 */
+	private function isDesktopNotification(): bool
+	{
+		return isset($_COOKIE['chat - isDesktopNotification']) ?
+			filter_var($_COOKIE['chat - isDesktopNotification'], FILTER_VALIDATE_BOOLEAN) : false;
 	}
 }
