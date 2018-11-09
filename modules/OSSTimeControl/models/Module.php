@@ -37,12 +37,14 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				'linklabel' => 'LBL_USERS',
 				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--users',
 			]);
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_TYPE',
 				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--types',
 			]);
 		}
 		return $links;

@@ -276,6 +276,7 @@ var App = {},
 					if (typeof cacheData !== 'undefined') {
 						appendPopoverData(cacheData);
 					} else {
+						console.log(url);
 						AppConnector.request(url).done((data) => {
 							window.popoverCache[url] = data;
 							appendPopoverData(data);

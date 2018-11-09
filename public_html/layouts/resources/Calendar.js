@@ -464,7 +464,7 @@ window.Calendar_Js = class {
 			});
 			if ($.inArray(calendarDetails.assigned_user_id.value, allOptions) < 0) {
 				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((data) => {
-					$('.calendarUserList').replaceWith(data);
+					$('.js-calendar__filter--users').html(data);
 					this.registerSelect2Event();
 				});
 			}

@@ -100,18 +100,21 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linklabel' => 'Activity Type',
 				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--types',
 			]);
 			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGETRIGHT',
 				'linklabel' => 'LBL_USERS',
 				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--users',
 			]);
 			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGETRIGHT',
 				'linklabel' => 'LBL_GROUPS',
 				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--groups',
 			]);
 		}
 		return $links;

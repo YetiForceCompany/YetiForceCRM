@@ -176,22 +176,19 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		const moduleName = CONFIG.module;
 		let groupSelect = $('#calendarGroupList');
 		let usersSelect = $('#calendar-users');
-		if (!usersSelect.length || !groupSelect.length) {
-			return;
-		}
 		if ($.inArray(calendarDetails.assigned_user_id.value, usersSelect) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
 			if (CONFIG.searchShowOwnerOnlyInList) {
 				let allOptions = [];
-				console.log(usersSelect.add(groupSelect));
 				usersSelect.add(groupSelect).find('option').each((i, option) => {
-					console.log(option);
 					allOptions.push($(option).val());
 				});
 				if ($.inArray(calendarDetails.assigned_user_id.value, allOptions) < 0) {
-					console.log(calendarDetails.assigned_user_id);
-					AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((data) => {
-						$('.calendarUserList').replaceWith(data);
-						this.registerSelect2Event();
+					AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((usersData) => {
+						$('.js-calendar__filter--users').html(usersData);
+						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done((groupsData) => {
+							$('.js-calendar__filter--groups').html(groupsData);
+							this.registerSelect2Event();
+						});
 					});
 				}
 			}

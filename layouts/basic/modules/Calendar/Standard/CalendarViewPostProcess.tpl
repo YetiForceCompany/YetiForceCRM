@@ -59,7 +59,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="widgetContainer panel-collapse"
+					<div class="widgetContainer panel-collapse {$SIDEBARWIDGET->get('linkclass')}"
 						 id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"
 						 data-url="{$SIDEBARWIDGET->getUrl()}">
 						<div class="card-body"></div>
