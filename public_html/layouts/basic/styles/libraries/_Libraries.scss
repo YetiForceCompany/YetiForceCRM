@@ -292,3 +292,10 @@ ul.ui-autocomplete {
 	width: auto;
 }
 
+.ps__rail-x, .ps__rail-y {
+	z-index: 2000; //overflow floatThead in list
+}
+
+.dropdown-menu.show {
+	z-index: 3000; //overflow floatThead and ps scrollbar in list
+}
