@@ -368,7 +368,7 @@ window.Chat_JS = class Chat_Js {
 			mode: 'history',
 			mid: mid,
 			groupHistory: groupHistory
-		}, false).done((html) => {
+		}, true).done((html) => {
 			if (btn === null) {
 				this.messageContainer.html(html);
 			} else {
@@ -391,6 +391,7 @@ window.Chat_JS = class Chat_Js {
 	 * Get unread messages.
 	 */
 	unread() {
+		this.container.find('.js-chat-nav-history').addClass('hide');
 		this.container.find('.js-chat-message-block').addClass('hide');
 		this.container.find('.js-input-group-search').addClass('hide');
 		this.isSearchMode = false;

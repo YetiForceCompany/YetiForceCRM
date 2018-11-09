@@ -63,9 +63,13 @@
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
 					<div class="text-uppercase bg-color-grey-200 p-2 font-weight-bold js-group-name" data-js="data"
 						 data-group="{$KEY}">
-						{if $KEY === 'crm'}<span class="fas fa-star mr-2"></span>{/if}
-						{if $KEY === 'group'}<span class="fas fa-users mr-2"></span>{/if}
-						{if $KEY === 'global'}<span class="fas fa-globe mr-2"></span>{/if}
+						{if $KEY === 'crm'}
+							<span class="fas fa-star mr-2"></span>
+						{elseif $KEY === 'group'}
+							<span class="fas fa-users mr-2"></span>
+						{elseif $KEY === 'global'}
+							<span class="fas fa-globe mr-2"></span>
+						{/if}
 						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
 					</div>
 					{assign var=FAVORITE_REMOVE_BTN value=$KEY==='crm' || $KEY==='group'}
