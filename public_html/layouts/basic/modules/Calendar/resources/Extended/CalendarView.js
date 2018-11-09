@@ -465,6 +465,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			user = self.getSelectedUsersCalendar();
 		if (0 === user.length) {
+			user = app.getMainParams('usersId');
+		}
+		if (user === undefined) {
 			user = [app.getMainParams('userId')];
 		}
 		self.clearFilterButton(user, cvid);
@@ -486,18 +489,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let connectorMethod = window["AppConnector"]["request"];
 		if (!this.readonly) {
 			connectorMethod = window["AppConnector"]["requestPjax"];
-		}
-		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && view.options.firstLoad) {
-			options = Object.assign(options, {
-				start: this.browserHistoryConfig.start,
-				end: this.browserHistoryConfig.end,
-				user: this.browserHistoryConfig.user,
-				time: this.browserHistoryConfig.time,
-				cvid: this.browserHistoryConfig.cvid
-			});
-			connectorMethod = window["AppConnector"]["request"];
-			app.setMainParams('showType', this.browserHistoryConfig.time);
-			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');

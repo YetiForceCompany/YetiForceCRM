@@ -174,7 +174,7 @@ window.Calendar_Js = class Calendar_Js {
 	setBrowserHistoryConfig() {
 		let historyParams = app.getMainParams('historyParams', true),
 			options;
-		if (historyParams && (historyParams.length || Object.keys(historyParams).length) && app.moduleCacheGet('browserHistoryEvent')) {
+		if (historyParams && (historyParams.length || Object.keys(historyParams).length)) {
 			options = {
 				start: historyParams.start,
 				end: historyParams.end,
@@ -183,7 +183,8 @@ window.Calendar_Js = class Calendar_Js {
 				}),
 				time: historyParams.time,
 				hiddenDays: historyParams.hiddenDays.split(",").map((x) => {
-					return parseInt(x)
+					let parsedValue = parseInt(x);
+					return isNaN(parsedValue) ? '' : parsedValue;
 				}),
 				cvid: historyParams.cvid,
 				defaultView: historyParams.viewType
@@ -193,6 +194,9 @@ window.Calendar_Js = class Calendar_Js {
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
 			app.moduleCacheSet('browserHistoryEvent', false)
+			app.setMainParams('showType', options.time);
+			app.setMainParams('usersId', options.user);
+			app.setMainParams('defaultView', options.defaultView);
 		} else {
 			options = null;
 		}
