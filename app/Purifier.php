@@ -345,8 +345,7 @@ class Purifier
 					}
 					break;
 				case 'NumberInUserFormat': // number in user format
-					$currentUser = User::getCurrentUserModel();
-					$input = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $input);
+					$input = Fields\Currency::formatToDb($input);
 					if (is_numeric($input)) {
 						$value = $input;
 					}
