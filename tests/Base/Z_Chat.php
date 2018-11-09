@@ -22,6 +22,7 @@ class Chat extends \Tests\Base
 	 * @var int[]
 	 */
 	private static $listId;
+
 	/**
 	 * Is chat active.
 	 *
@@ -37,23 +38,11 @@ class Chat extends \Tests\Base
 	private static $globalRoom = false;
 
 	/**
-	 * @codeCoverageIgnore
-	 * Setting of tests.
+	 * List of user IDs.
+	 *
+	 * @var int[]
 	 */
-	public static function setUpBeforeClass()
-	{
-		static::$chatActive = \App\Module::isModuleActive('Chat');
-		if (!static::$chatActive) {
-			(new \Settings_ModuleManager_Module_Model())->enableModule('Chat');
-		}
-		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
-		$recordModel->set('lastname', 'Test chat');
-		$recordModel->save();
-		static::$listId[] = $recordModel->getId();
-	}
+	private static $users = [];
 
 	/**
 	 * Get key of chat room.
@@ -99,6 +88,23 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * @codeCoverageIgnore
+	 * Setting of tests.
+	 */
+	public static function setUpBeforeClass()
+	{
+		static::$chatActive = \App\Module::isModuleActive('Chat');
+		if (!static::$chatActive) {
+			(new \Settings_ModuleManager_Module_Model())->enableModule('Chat');
+		}
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$recordModel = C_RecordActions::createContactRecord();
+		static::$listId[] = $recordModel->getId();
+		static::$users[] = A_User::createUsersRecord('test_1', false)->getId();
+		static::$users[] = A_User::createUsersRecord('test_2', false)->getId();
+	}
+
+	/**
 	 * Configuration testing.
 	 */
 	public function testConfiguration()
@@ -119,6 +125,35 @@ class Chat extends \Tests\Base
 		$chat = \App\Chat::getInstance();
 		$this->assertSame($chat->getRoomType(), 'global');
 		$this->assertSame($chat->getRecordId(), static::$globalRoom['global_room_id']);
+	}
+
+	/**
+	 * Chat testing for groups.
+	 */
+	public function testGroup()
+	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$groups = \App\Fields\Owner::getInstance('CustomView')->getGroups(false);
+		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
+		$groupId = key($groups);
+		$chat = \App\Chat::getInstance('group', $groupId);
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
+		$cntEntries = count($chat->getEntries());
+		$id = $chat->addMessage('Test MSG');
+		$this->assertInternalType('integer', $id);
+		$rowMsg = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
+			->where(['id' => $id])->one();
+		$this->assertNotFalse($rowMsg, "The message {$id} does not exist");
+		$this->assertSame('Test MSG', $rowMsg['messages']);
+		$this->assertSame(\App\User::getCurrentUserId(), $rowMsg['userid']);
+		$entries = $chat->getEntries();
+		$this->assertCount($cntEntries + 1, $entries, 'Too many messages in the chat room');
+		$key = static::getKeyMessage($entries, $id);
+		$this->assertNotFalse($key, 'Problem with the method "getEntries"');
+		$this->assertSame($rowMsg['messages'], $entries[$key]['messages']);
+		$this->assertSame(\App\User::getCurrentUserModel()->getName(), $entries[$key]['user_name']);
 	}
 
 	/**
@@ -154,6 +189,29 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Testing the method for checking new messages.
+	 */
+	public function testNewMessage()
+	{
+		$chat = \App\Chat::getInstance();
+		$this->assertFalse(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		$chat->addMessage('test 2');
+		$this->assertTrue(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		//Switch user
+		\App\User::setCurrentUserId(static::$users[0]);
+		$chat = \App\Chat::getInstance();
+		$this->assertTrue(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		$chat->getEntries();
+		$this->assertFalse(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		//Switch user
+		\App\User::setCurrentUserId(static::$users[1]);
+		$chat = \App\Chat::getInstance();
+		$this->assertTrue(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+		$chat->getEntries();
+		$this->assertFalse(\App\Chat::isNewMessages(), 'Problem with the method "isNewMessages"');
+	}
+
+	/**
 	 * Testing creating a chat room.
 	 */
 	public function testCreatingChatRoomCrm()
@@ -168,7 +226,7 @@ class Chat extends \Tests\Base
 		$this->assertSame($recordModel->getId(), $chat->getRecordId());
 		$rooms = \App\Chat::getRoomsByUser();
 		$key = static::getKeyRoom($rooms, 'crm', (int) $recordModel->getId());
-		$this->assertNotFalse($key, 'Problem with the method "getRoomsByUser"');
+		$this->assertNotFalse($key, 'Problem with the method "getRoomsByUser". Crm id=' . $recordModel->getId());
 		$this->assertSame($recordModel->getDisplayName(), $rooms['crm'][$key]['name']);
 	}
 
@@ -224,6 +282,7 @@ class Chat extends \Tests\Base
 	 */
 	public static function tearDownAfterClass()
 	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		if (!static::$chatActive) {
 			(new \Settings_ModuleManager_Module_Model())->disableModule('Chat');
 		}

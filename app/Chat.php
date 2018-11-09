@@ -422,7 +422,7 @@ class Chat
 		if ($this->isRoomExists() && isset($this->room['room_id'])) {
 			$this->roomId = $this->room['room_id'];
 		}
-		if ($this->roomType === 'crm' && !$this->isRoomExists()) {
+		if (($this->roomType === 'crm' || $this->roomType === 'group') && !$this->isRoomExists()) {
 			$this->room = [
 				'roomid' => null,
 				'userid' => null,
@@ -556,69 +556,165 @@ class Chat
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (!\is_null($messageId)) {
-			$query->where(['<', 'id', $messageId]);
-		}
-		return $query->all();
-	}
-
-	/**
-	 * Get history.
-	 *
-	 * @param null|string $since
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array
-	 */
-	public function getHistory(?string $since = null)
-	{
-		$queryGroup = (new Db\Query())
-			->select([
-				'messages', 'userid', 'created',
-				'recordid' => static::COLUMN_NAME['message']['group'],
-				'room_type' => new \yii\db\Expression("'group'")
-			])
-			->from(['GR' => static::TABLE_NAME['message']['group']])
-			->where(['userid' => $this->userId]);
-		$queryGlobal = (new Db\Query())
-			->select([
-				'messages', 'userid', 'created',
-				'recordid' => static::COLUMN_NAME['message']['global'],
-				'room_type' => new \yii\db\Expression("'global'")
-			])
-			->from(['GR' => static::TABLE_NAME['message']['global']])
-			->where(['userid' => $this->userId]);
-		$queryCrm = (new Db\Query())
-			->select([
-				'messages', 'userid', 'created',
-				'recordid' => static::COLUMN_NAME['message']['crm'],
-				'room_type' => new \yii\db\Expression("'crm'")
-			])
-			->from(['C' => static::TABLE_NAME['message']['crm']])
-			->union($queryGroup, true)
-			->union($queryGlobal, true)
-			->where(['userid' => $this->userId]);
-		$query = (new Db\Query())->from(['T' => $queryCrm])
-			->orderBy(['created' => \SORT_DESC])
-			->limit(\AppConfig::module('Chat', 'rows_limit') + 1);
-		if (!empty($since)) {
-			$query->where(['<', 'created', $since]);
+			$query->andWhere(['<=', 'id', $messageId]);
 		}
 		$userModel = User::getUserModel($this->userId);
-		$userimage = $userModel->getImage();
+		$userImage = $userModel->getImage()['url'] ?? '';
 		$userName = $userModel->getName();
 		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$row['id'] = $row['created'];
-			$row['image'] = $userimage['url'] ?? '';
+			$row['image'] = $userImage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
+	}
+
+	/**
+	 * Get query for unread messages.
+	 *
+	 * @param string $roomType
+	 *
+	 * @return \App\Db\Query
+	 */
+	private static function getQueryForUnread(string $roomType = 'global'): \App\Db\Query
+	{
+		$userId = User::getCurrentUserId();
+		$columnRoom = static::COLUMN_NAME['room'][$roomType];
+		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
+		switch ($roomType) {
+			case 'crm':
+				$query->select(['M.*', 'name' => 'RN.label', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+					->innerJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'u_#__crmentity_label'], "RN.crmid = M.{$columnMessage}");
+				break;
+			case 'group':
+				$query->select(['M.*', 'name' => 'RN.groupname', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+					->innerJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
+				break;
+			case 'global':
+				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+					->leftJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'u_#__chat_global'], "RN.global_room_id = M.{$columnMessage}");
+				break;
+		}
+		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
+			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
+	}
+
+	/**
+	 * Get last message id.
+	 *
+	 * @param array $messages
+	 *
+	 * @return array
+	 */
+	private static function getLastMessageId($messages = [])
+	{
+		$room = [];
+		foreach ($messages as $message) {
+			$id = $message['id'];
+			$recordId = $message['recordid'];
+			if (!isset($room[$recordId]['id']) || $room[$recordId]['id'] < $id) {
+				$room[$recordId] = ['id' => $id, 'last_message' => $message['last_message']];
+			}
+		}
+		return $room;
+	}
+
+	/**
+	 * Mark as read.
+	 *
+	 * @param string $roomType
+	 * @param array  $messages
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private static function markAsRead(string $roomType, $messages = [])
+	{
+		$room = static::getLastMessageId($messages);
+		foreach ($room as $id => $lastMessage) {
+			if (empty($lastMessage['last_message'])) {
+				Db::getInstance()->createCommand()->insert(static::TABLE_NAME['room'][$roomType], [
+					'last_message' => $lastMessage['id'],
+					static::COLUMN_NAME['room'][$roomType] => $id,
+					'userid' => User::getCurrentUserId(),
+				])->execute();
+			} else {
+				Db::getInstance()->createCommand()->update(
+					static::TABLE_NAME['room'][$roomType], ['last_message' => $lastMessage['id']],
+					[static::COLUMN_NAME['room'][$roomType] => $id, 'userid' => User::getCurrentUserId()]
+				)->execute();
+			}
+		}
+	}
+
+	/**
+	 * Get unread messages.
+	 *
+	 * @param string $roomType
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function getUnreadByType(string $roomType = 'global')
+	{
+		$dataReader = static::getQueryForUnread($roomType)->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			$userModel = User::getUserModel($row['userid']);
+			$image = $userModel->getImage();
+			if ($roomType === 'global') {
+				$row['name'] = Language::translate($row['name']);
+			}
+			$rows[] = [
+				'id' => $row['id'],
+				'userid' => $row['userid'],
+				'messages' => $row['messages'],
+				'created' => Fields\DateTime::formatToShort($row['created']),
+				'user_name' => $userModel->getName(),
+				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
+				'image' => $image['url'] ?? '',
+				'room_name' => $row['name'],
+				'recordid' => $row['recordid'],
+				'last_message' => $row['last_message'],
+			];
+		}
+		$dataReader->close();
+		static::markAsRead($roomType, $rows);
+		return $rows;
+	}
+
+	/**
+	 * Get all unread messages.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function getUnread()
+	{
+		return [
+			'crm' => static::getUnreadByType('crm'),
+			'group' => static::getUnreadByType('group'),
+			'global' => static::getUnreadByType('global'),
+		];
 	}
 
 	/**

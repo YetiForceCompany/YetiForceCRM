@@ -62,7 +62,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		if (!static::$isLogin) {
 			$this->url('index.php');
 			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
-			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys('demo');
+			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 			static::$isLogin = true;
 		}

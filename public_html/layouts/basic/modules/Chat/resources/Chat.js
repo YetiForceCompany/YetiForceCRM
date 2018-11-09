@@ -352,9 +352,9 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Get history.
 	 * @param {jQuery} btn
+	 * @param {string} groupHistory
 	 */
-	history(btn = null) {
-		let container = this.container;
+	history(btn = null, groupHistory = 'crm') {
 		this.isSearchMode = false;
 		this.isHistoryMode = true;
 		clearTimeout(this.timerMessage);
@@ -362,26 +362,49 @@ window.Chat_JS = class Chat_Js {
 		if (btn !== null) {
 			mid = btn.data('mid');
 		}
-		let groupSearch = container.find('.js-input-group-search');
-		if (groupSearch.hasClass('hide')) {
-			container.find('.js-room.active').click();
-		} else {
-			this.turnOffInputAndBtn();
-			this.request({
-				view: 'Entries',
-				mode: 'history',
-				mid: mid,
-				groupHistory: 'crm'
-			}, false).done((html) => {
-				if (btn === null) {
-					this.messageContainer.html(html);
-				} else {
-					btn.before(html);
-					btn.remove();
-				}
-				this.registerLoadMore();
-			});
-		}
+		this.turnOffInputAndBtn();
+		this.request({
+			view: 'Entries',
+			mode: 'history',
+			mid: mid,
+			groupHistory: groupHistory
+		}, true).done((html) => {
+			if (btn === null) {
+				this.messageContainer.html(html);
+			} else {
+				btn.before(html);
+				btn.remove();
+			}
+			this.registerLoadMore();
+		});
+	}
+
+	/**
+	 * Turn off unread mode.
+	 */
+	turnOffUnreadMode() {
+		this.container.find('.js-chat-message-block').removeClass('hide');
+		this.container.find('.js-input-group-search').removeClass('hide');
+	}
+
+	/**
+	 * Get unread messages.
+	 */
+	unread() {
+		this.container.find('.js-chat-nav-history').addClass('hide');
+		this.container.find('.js-chat-message-block').addClass('hide');
+		this.container.find('.js-input-group-search').addClass('hide');
+		this.isSearchMode = false;
+		this.isHistoryMode = false;
+		clearTimeout(this.timerMessage);
+		this.request({
+			view: 'Entries',
+			mode: 'unread'
+		}, true).done((html) => {
+			this.messageContainer.html(html);
+			this.participants.html('');
+			this.buildParticipantsFromMessage($('<div></div>').html(html));
+		});
 	}
 
 	/**
@@ -407,20 +430,11 @@ window.Chat_JS = class Chat_Js {
 	 * Select nav history.
 	 */
 	selectNavHistory() {
-		const self = this;
-		let container = this.container;
-		container.find('.js-chat-link').each(function (e) {
-			let element = $(this);
-			element.on('click', () => {
-				self.request({
-					view: 'Entries',
-					mode: 'history',
-					groupHistory: element.data('group-name')
-				}, false).done((html) => {
-					self.messageContainer.html(html);
-				});
-			})
-		})
+		this.container.find('.js-chat-nav-history .js-chat-link').each((index, element) => {
+			$(element).on('click', () => {
+				this.history(null, $(element).data('groupName'));
+			});
+		});
 	}
 
 	/**
@@ -489,6 +503,10 @@ window.Chat_JS = class Chat_Js {
 		itemUser.find('.js-role').html(data.role);
 		itemUser.find('.js-message').html(data.message);
 		itemUser.data('userId', data.userId);
+		if (data.image !== '') {
+			itemUser.find('.js-image .js-chat-image_icon').addClass('hide');
+			itemUser.find('.js-image .js-chat-image_src').removeClass('hide').attr('src', data.image);
+		}
 		return itemUser;
 	}
 
@@ -526,6 +544,7 @@ window.Chat_JS = class Chat_Js {
 						role: lastMessage.find('.js-author').data('roleName'),
 						message: lastMessage.find('.messages').html(),
 						userId: userId,
+						image: lastMessage.find('.js-author .js-image .js-chat-image_src').attr('src')
 					})
 				);
 			}
@@ -683,7 +702,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {object}
 	 * @returns {jQuery}
 	 */
-	createRoomItem(data = {}) {
+	createRoomItem(data = {}, favorite = false) {
 		let itemRoom = this.container.find('.js-room-list .js-temp-item-room').clone(false, false);
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
 		itemRoom.find('.js-room-name').html(data.name);
@@ -692,6 +711,9 @@ window.Chat_JS = class Chat_Js {
 			itemRoom.find('.js-room-cnt').html('');
 		} else {
 			itemRoom.find('.js-room-cnt').html(data['cnt_new_message']);
+		}
+		if (favorite) {
+			itemRoom.find('.js-remove-favorites').removeClass('hide');
 		}
 		itemRoom.attr('data-record-id', data.recordid);
 		return itemRoom;
@@ -710,7 +732,7 @@ window.Chat_JS = class Chat_Js {
 			if (element.data('group') == roomType) {
 				containerFooter.find('.js-footer-group-name').text(element.text());
 			}
-		})
+		});
 		containerFooter.find('.js-footer-room-name').text(data.find('.js-room-name').text());
 	}
 
@@ -725,14 +747,14 @@ window.Chat_JS = class Chat_Js {
 		let cnt = 0;
 		this.selectRoom(data.currentRoom.roomType, data.currentRoom.recordId);
 		for (let key in data.roomList) {
-			let roomTypeList = roomList.find('.js-room-type[data-room-type="' + key + '"]');
+			let roomTypeList = roomList.find('.js-room-type[data-room-type="' + key + '"]').not(".js-hide-group");
 			roomTypeList.html('');
 			for (let idx in data.roomList[key]) {
 				let newMessage = data.roomList[key][idx]['cnt_new_message'];
 				if (newMessage !== null) {
 					cnt += newMessage;
 				}
-				let itemRoom = this.createRoomItem(data.roomList[key][idx]);
+				let itemRoom = this.createRoomItem(data.roomList[key][idx], roomTypeList.data('favoriteRemoveBtn'));
 				if (key === currentRoomType && data.roomList[key][idx]['recordid'] === currentRecordId) {
 					itemRoom.addClass('active o-chat__room');
 				}
@@ -744,6 +766,7 @@ window.Chat_JS = class Chat_Js {
 		}
 		this.amountOfNewMessages = cnt;
 		this.registerSwitchRoom();
+		this.registerButtonFavoritesInModal();
 	}
 
 	/**
@@ -767,7 +790,6 @@ window.Chat_JS = class Chat_Js {
 					if (!this.isRoomActive()) {
 						this.activateRoom();
 					}
-					//this.buildParticipantsFromInput($('<div></div>').html(html).find('.js-participants-data'), false);
 					this.messageContainer.append(html);
 					this.buildParticipantsFromMessage($('<div></div>').html(html));
 					this.scrollToBottom();
@@ -845,6 +867,7 @@ window.Chat_JS = class Chat_Js {
 				this.registerLoadMore();
 				this.turnOffSearchMode();
 				this.isHistoryMode = false;
+				this.turnOffUnreadMode();
 			});
 		});
 	}
@@ -898,77 +921,81 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
-	 * Button favorites in group.
+	 * Register buttons favorites in modal.
 	 */
-	registerButtonFavoritesInGroup() {
-		const self = this;
-		this.container.find('.js-group').each(function (e) {
-			let element = $(this);
-			let btnRemoveFavorites = element.find('.js-remove-favorites');
-			let btnAddFavorites = element.find('.js-add-favorites');
-
-			btnRemoveFavorites.on('click', (e) => {
-				e.stopPropagation();
-				btnRemoveFavorites.toggleClass('hide');
-				btnAddFavorites.toggleClass('hide');
-				element.addClass('js-hide');
-				self.request({
-					action: 'Room',
-					mode: 'removeFromFavorites',
-					roomType: 'group',
-					recordId: btnAddFavorites.data('record-id')
-				});
-			})
-			btnAddFavorites.on('click', (e) => {
-				e.stopPropagation();
-				btnRemoveFavorites.toggleClass('hide');
-				btnAddFavorites.toggleClass('hide');
-				element.removeClass('js-hide');
-				self.request({
-					action: 'Room',
-					mode: 'addToFavorites',
-					roomType: 'group',
-					recordId: btnAddFavorites.data('record-id')
-				});
-			})
-		})
-
+	registerButtonFavoritesInModal() {
+		this.getRoomList().find('.js-room .js-remove-favorites').off('click').on('click', (e) => {
+			clearTimeout(this.timerMessage);
+			e.stopPropagation();
+			let btn = $(e.currentTarget);
+			let item = btn.closest('.js-room');
+			let roomType = btn.closest('.js-room-type').data('roomType');
+			this.request({
+				action: 'Room',
+				mode: 'removeFromFavorites',
+				roomType: roomType,
+				recordId: item.data('recordId')
+			}).done(() => {
+				if (roomType === 'group') {
+					let listGroup = this.getRoomList().find('.js-hide-group');
+					item.detach();
+					item.find('.js-remove-favorites').addClass('hide');
+					item.find('.js-add-favorites').removeClass('hide');
+					listGroup.append(item);
+					this.container.find('.js-btn-more-remove').removeClass('hide');
+					this.container.find('.js-btn-more').addClass('hide');
+					listGroup.removeClass('hide');
+				} else {
+					item.remove();
+				}
+				this.getRoomsDetail(true);
+			});
+		});
+		this.getRoomList().find('.js-room .js-add-favorites').off('click').on('click', (e) => {
+			e.stopPropagation();
+			let btn = $(e.currentTarget);
+			let item = btn.closest('.js-room');
+			let roomType = btn.closest('.js-room-type').data('roomType');
+			this.request({
+				action: 'Room',
+				mode: 'addToFavorites',
+				roomType: roomType,
+				recordId: item.data('recordId')
+			}).done(() => {
+				if (roomType === 'group') {
+					let listGroup = this.getRoomList().find('.js-room-type[data-room-type=group]').not('.js-hide-group');
+					item.detach();
+					item.find('.js-remove-favorites').removeClass('hide');
+					item.find('.js-add-favorites').addClass('hide');
+					listGroup.append(item);
+					if (this.getRoomList().find('.js-hide-group .js-room').length === 0) {
+						this.container.find('.js-btn-more-remove').addClass('hide');
+					}
+				} else {
+					item.remove();
+				}
+			});
+		});
 	}
 
 	/**
 	 * Button more in room.
 	 */
 	registerButtonMoreInRoom() {
-		let container = this.container;
-		let btnMore = container.find('.js-btn-more');
-		let btnMoreRemove = container.find('.js-btn-more-remove');
-		container.find('.js-group.js-hide').each(function (e) {
-			let element = $(this);
-			btnMoreRemove.on('click', () => {
-				btnMoreRemove.addClass('hide');
-				btnMore.removeClass('hide');
-				if (element.hasClass('js-hide')) {
-					element.addClass('hide');
-				}
-			})
-			btnMore.on('click', () => {
-				btnMoreRemove.removeClass('hide');
-				btnMore.addClass('hide');
-				if (element.hasClass('js-hide')) {
-					element.removeClass('hide');
-				}
-			})
-		})
+		let btnMore = this.container.find('.js-btn-more');
+		let btnMoreRemove = this.container.find('.js-btn-more-remove');
+		let listHideGroup = this.container.find('.js-hide-group');
+		btnMore.on('click', (e) => {
+			listHideGroup.toggleClass('hide');
+			btnMore.toggleClass('hide');
+			btnMoreRemove.toggleClass('hide');
+		});
+		btnMoreRemove.on('click', (e) => {
+			listHideGroup.toggleClass('hide');
+			btnMore.toggleClass('hide');
+			btnMoreRemove.toggleClass('hide');
+		});
 	}
-
-	/**
-	 * Register listen event.
-	 */
-
-	/*registerListenEvent() {
-		this.getMessage(true);
-		this.getRoomsDetail(true);
-	}*/
 
 	/**
 	 * Register load more messages.
@@ -979,7 +1006,10 @@ window.Chat_JS = class Chat_Js {
 			if (this.isSearchMode) {
 				this.searchMessage(btn);
 			} else if (this.isHistoryMode) {
-				this.history(btn);
+				this.history(
+					btn,
+					this.container.find('.js-chat-nav-history .js-chat-link .active').closest('.js-chat-link').data('groupName')
+				);
 			} else {
 				this.getMore(btn);
 			}
@@ -1074,7 +1104,7 @@ window.Chat_JS = class Chat_Js {
 		}
 		btnDesktop.off('click').on('click', (e) => {
 			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
-			if (icon.hasClass(iconOn)) {
+			if (btnDesktop.find('.js-icon').hasClass(iconOn)) {
 				if (!Chat_Js.checkDesktopPermission()) {
 					PNotify.modules.Desktop.permission();
 					app.setCookie("chat-isDesktopNotification", true, 365);
@@ -1093,6 +1123,15 @@ window.Chat_JS = class Chat_Js {
 			icon.toggleClass(btnBell.data('iconOn')).toggleClass(btnBell.data('iconOff'));
 			this.isSoundNotification = icon.hasClass(btnBell.data('iconOn'));
 			app.setCookie("chat-isSoundNotification", this.isSoundNotification, 365);
+		});
+	}
+
+	/**
+	 * Register button unread.
+	 */
+	registerButtonUnread() {
+		this.container.find('.js-btn-unread').on('click', (e) => {
+			this.unread();
 		});
 	}
 
@@ -1121,7 +1160,6 @@ window.Chat_JS = class Chat_Js {
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);
-
 	}
 
 	/**
@@ -1135,7 +1173,8 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonHistory();
 		this.registerButtonSettings();
 		this.registerButtonBell();
-		this.registerButtonFavoritesInGroup();
+		this.registerButtonUnread();
+		this.registerButtonFavoritesInModal();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
 		this.registerCloseModal();
