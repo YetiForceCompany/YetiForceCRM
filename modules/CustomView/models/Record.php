@@ -348,7 +348,7 @@ class CustomView_Record_Model extends \App\Base
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
-		$setDefault = (int)($this->get('setdefault'));
+		$setDefault = (int) ($this->get('setdefault'));
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
@@ -447,7 +447,6 @@ class CustomView_Record_Model extends \App\Base
 		return (new \App\Db\Query())->select(['fieldid', 'ignore'])->from('u_#__cv_duplicates')->where(['cvid' => $this->getId()])->all();
 	}
 
-
 	/**
 	 * Add condition to database.
 	 *
@@ -484,16 +483,16 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Add group to database.
 	 *
-	 * @param array $rule
-	 * @param int   $parentId
-	 * @param int   $index
+	 * @param array|null $rule
+	 * @param int        $parentId
+	 * @param int        $index
 	 *
 	 * @throws \App\Exceptions\Security
 	 * @throws \yii\db\Exception
 	 *
 	 * @return void
 	 */
-	private function addGroup(array $rule, int $parentId, int $index)
+	private function addGroup(?array $rule, int $parentId, int $index)
 	{
 		if (empty($rule)) {
 			return;
@@ -580,7 +579,7 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->max('sequence');
 
-		return (int)$maxSequence + 1;
+		return (int) $maxSequence + 1;
 	}
 
 	/**
@@ -645,10 +644,10 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-			->from('vtiger_cvcolumnlist')
-			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-			->createCommand()->queryAllByGroup(1);
+		->from('vtiger_cvcolumnlist')
+		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+		->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);

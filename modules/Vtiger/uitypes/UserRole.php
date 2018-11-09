@@ -83,6 +83,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	{
 		return ['e', 'c'];
 	}
+
 	/**
 	 * {@inheritdoc}
 	 */

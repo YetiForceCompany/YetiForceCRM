@@ -226,7 +226,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			'C0E0DA', 'FFB5B5', 'F0B9C8', 'FF7DFF', 'D881ED', 'B7B7FF', 'A6DEEE', 'CFE7E2', 'FFC8C8',
 			'F4CAD6', 'FFA8FF', 'EFCDF8', 'C6C6FF', 'C0E7F3', 'DCEDEA', 'FFEAEA', 'F8DAE2', 'FFC4FF',
 			'EFCDF8', 'DBDBFF', 'D8F0F8', 'E7F3F1', 'FFEAEA', 'FAE7EC', 'FFE3FF', 'F8E9FC', 'EEEEFF',
-			'EFF9FC', 'F2F9F8', 'FFFDFD', 'FEFAFB', 'FFFDFF', 'FFFFFF', 'FDFDFF', 'FAFDFE', 'F7FBFA',];
+			'EFF9FC', 'F2F9F8', 'FFFDFD', 'FEFAFB', 'FFFDFF', 'FFFFFF', 'FDFDFF', 'FAFDFE', 'F7FBFA', ];
 
 		$color = '#' . $defaultColors[$indexColor];
 		++$indexColor;
