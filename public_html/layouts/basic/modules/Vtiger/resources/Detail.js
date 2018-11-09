@@ -1475,6 +1475,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (url) {
 				if (currentTarget.hasClass('showEdit')) {
 					var headerInstance = Vtiger_Header_Js.getInstance();
+					if (window !== window.parent) {
+						headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+					}
 					headerInstance.getQuickCreateForm(url, 'Calendar', {noCache: true}).done((data) => {
 						headerInstance.handleQuickCreateData(data, {
 							callbackFunction: () => {
