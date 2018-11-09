@@ -29,7 +29,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$data = $this->getWidgetData($moduleName, $owner);
-		$viewer->assign('USERID', $owner);
+		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -29,9 +29,22 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$this->validate($val, true);
+			$values[] = \App\Purifier::decodeHtml($val);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || $value === '' || $value === null) {
+		if (isset($this->validate[$value]) || $value === '' || $value === null) {
 			return;
 		}
 		foreach (explode(',', $value) as $row) {
@@ -72,5 +85,13 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}
 }

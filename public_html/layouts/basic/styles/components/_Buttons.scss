@@ -53,6 +53,11 @@
 	@include button-variant($color-indigo-dark, $color-indigo-dark);
 }
 
+.c-btn-light-green {
+	@include button-variant(material-color('light-green', '500'), material-color('light-green', '500'));
+	color: $white;
+}
+
 .c-btn-link {
 	@at-root .detailViewTitle #{&} {
 		height: max-content;

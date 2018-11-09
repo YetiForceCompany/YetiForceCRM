@@ -31,9 +31,9 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$orderBy = $request->getForSql('orderby');
 
 		$params = ['status' => [
-				$stateActivityLabels['not_started'],
-				$stateActivityLabels['in_realization'],
-			],
+			$stateActivityLabels['not_started'],
+			$stateActivityLabels['in_realization'],
+		],
 		];
 		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
 			$params['activitytype'] = $request->getByType('activitytype');
@@ -59,6 +59,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('HREFNAMELENGTH', \AppConfig::main('href_max_length'));
 		$viewer->assign('NAMELENGTH', \AppConfig::main('title_max_length'));
 		$viewer->assign('OWNER', $owner);
+		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);

@@ -417,4 +417,12 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	{
 		return ['text'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['y', 'ny'];
+	}
 }

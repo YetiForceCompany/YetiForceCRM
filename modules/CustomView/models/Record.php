@@ -348,7 +348,7 @@ class CustomView_Record_Model extends \App\Base
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
-		$setDefault = (int) ($this->get('setdefault'));
+		$setDefault = (int)($this->get('setdefault'));
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
@@ -394,10 +394,6 @@ class CustomView_Record_Model extends \App\Base
 		$db = App\Db::getInstance();
 		$cvId = $this->getId();
 		$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 		// To Delete the mini list widget associated with the filter
 		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
@@ -422,110 +418,113 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Returns condition.
+	 * array() [
+	 * 'condition' => "AND" or "OR"
+	 * 'rules' => [[
+	 *        'fieldname' => name of fields
+	 *        'operator' => operator, for instance: 'e'
+	 *        'value' => values
+	 *    ]]
+	 * ].
+	 *
+	 * @return array
+	 */
+	public function getConditions(): array
+	{
+		return \App\CustomView::getConditions($this->getId());
+	}
+
+	/**
+	 * Return list of field to detect duplicates.
+	 *
+	 * @throws \App\Db\Exception
+	 *
+	 * @return array
+	 */
+	public function getDuplicateFields(): array
+	{
+		return (new \App\Db\Query())->select(['fieldid', 'ignore'])->from('u_#__cv_duplicates')->where(['cvid' => $this->getId()])->all();
+	}
+
+
+	/**
+	 * Add condition to database.
+	 *
+	 * @param array $rule
+	 * @param int   $parentId
+	 * @param int   $index
+	 *
+	 * @throws \App\Exceptions\Security
+	 * @throws \yii\db\Exception
+	 *
+	 * @return void
+	 */
+	private function addCondition(array $rule, int $parentId, int $index)
+	{
+		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		$operator = $rule['operator'];
+		$value = $rule['value'];
+		if (!$this->get('advfilterlistDbFormat') && !in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
+			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
+				->getUITypeModel()
+				->getDbConditionBuilderValue($rule['value'], $operator);
+		}
+		\App\Db::getInstance()->createCommand()->insert('u_#__cv_condition', [
+			'group_id' => $parentId,
+			'field_name' => $fieldName,
+			'module_name' => $fieldModuleName,
+			'source_field_name' => $sourceFieldName,
+			'operator' => $operator,
+			'value' => $value,
+			'index' => $index
+		])->execute();
+	}
+
+	/**
+	 * Add group to database.
+	 *
+	 * @param array $rule
+	 * @param int   $parentId
+	 * @param int   $index
+	 *
+	 * @throws \App\Exceptions\Security
+	 * @throws \yii\db\Exception
+	 *
+	 * @return void
+	 */
+	private function addGroup(array $rule, int $parentId, int $index)
+	{
+		if (empty($rule)) {
+			return;
+		}
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('u_#__cv_condition_group', [
+			'cvid' => $this->getId(),
+			'condition' => $rule['condition'] === 'AND' ? 'AND' : 'OR',
+			'parent_id' => $parentId,
+			'index' => $index
+		])->execute();
+		$index = 0;
+		$parentId = $db->getLastInsertID('u_#__cv_condition_group_id_seq');
+		foreach ($rule['rules'] as $ruleInfo) {
+			if (isset($ruleInfo['condition'])) {
+				$this->addGroup($ruleInfo, $parentId, $index);
+			} else {
+				$this->addCondition($ruleInfo, $parentId, $index);
+			}
+			$index++;
+		}
+	}
+
+	/**
 	 * Set conditions for filter.
+	 *
+	 * @return void
 	 */
 	public function setConditionsForFilter()
 	{
-		$db = \App\Db::getInstance();
-		$moduleModel = $this->getModule();
-		$cvId = $this->getId();
-
-		$stdFilterList = $this->get('stdfilterlist');
-		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
-			$db->createCommand()
-				->insert('vtiger_cvstdfilter', [
-					'cvid' => $cvId,
-					'columnname' => $stdFilterList['columnname'],
-					'stdfilter' => $stdFilterList['stdfilter'],
-					'startdate' => trim($stdFilterList['startdate'], "'"),
-					'enddate' => trim($stdFilterList['enddate'], "'"),
-				])->execute();
-		}
-
-		$advFilterList = $this->get('advfilterlist');
-		if (!empty($advFilterList)) {
-			foreach ($advFilterList as $groupIndex => $groupInfo) {
-				if (empty($groupInfo)) {
-					continue;
-				}
-				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'] ?? false;
-
-				foreach ($groupColumns as $columnIndex => $columnCondition) {
-					if (empty($columnCondition)) {
-						continue;
-					}
-					$advFilterColumn = $columnCondition['columnname'];
-					$advFilterComparator = $columnCondition['comparator'];
-					$advFitlerValue = $columnCondition['value'];
-					$advFilterColumnCondition = $columnCondition['column_condition'];
-
-					$columnInfo = explode(':', $advFilterColumn);
-					$fieldName = $columnInfo[2];
-					$fieldModel = $moduleModel->getField($fieldName);
-					$fieldType = $fieldModel->getFieldDataType();
-					if ($fieldType === 'currency') {
-						if ($fieldModel->get('uitype') == '72') {
-							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue, null, true);
-						} else {
-							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
-						}
-					} elseif (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
-						$tempVal = explode(',', $advFitlerValue);
-						$val = [];
-						$countTempVal = count($tempVal);
-						for ($x = 0; $x < $countTempVal; ++$x) {
-							//if date and time given then we have to convert the date and
-							//leave the time as it is, if date only given then temp_time
-							//value will be empty
-							if (trim($tempVal[$x]) !== '' && trim($tempVal[$x]) !== '--') {
-								$date = new DateTimeField(trim($tempVal[$x]));
-								if ($fieldType === 'date') {
-									$val[$x] = DateTimeField::convertToDBFormat(trim($tempVal[$x]));
-								} elseif ($fieldType === 'datetime') {
-									$val[$x] = $date->getDBInsertDateTimeValue();
-								} else {
-									$val[$x] = $date->getDBInsertTimeValue();
-								}
-							}
-						}
-						$advFitlerValue = implode(',', $val);
-					}
-					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
-						$advFitlerValue = '';
-					}
-					$db->createCommand()
-						->insert('vtiger_cvadvfilter', [
-							'cvid' => $cvId,
-							'columnindex' => $columnIndex,
-							'columnname' => $advFilterColumn,
-							'comparator' => $advFilterComparator,
-							'value' => $advFitlerValue,
-							'groupid' => $groupIndex,
-							'column_condition' => $advFilterColumnCondition,
-						])->execute();
-
-					// Update the condition expression for the group to which the condition column belongs
-					$groupConditionExpression = '';
-					if (!empty($advFilterList[$groupIndex]['conditionexpression'])) {
-						$groupConditionExpression = $advFilterList[$groupIndex]['conditionexpression'];
-					}
-					$groupConditionExpression = $groupConditionExpression . ' ' . $columnIndex . ' ' . $advFilterColumnCondition;
-					$advFilterList[$groupIndex]['conditionexpression'] = $groupConditionExpression;
-				}
-				if (empty($advFilterList[$groupIndex]['conditionexpression'])) {
-					continue; // Case when the group doesn't have any column criteria
-				}
-				$db->createCommand()
-					->insert('vtiger_cvadvfilter_grouping', [
-						'groupid' => $groupIndex,
-						'cvid' => $cvId,
-						'group_condition' => $groupCondition,
-						'condition_expression' => $advFilterList[$groupIndex]['conditionexpression'],
-					])->execute();
-			}
-		}
+		$this->addGroup($this->get('advfilterlist'), 0, 0);
 	}
 
 	public function setColumnlist()
@@ -567,6 +566,7 @@ class CustomView_Record_Model extends \App\Base
 		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
+		$this->setDuplicateFields();
 	}
 
 	/**
@@ -580,7 +580,7 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->max('sequence');
 
-		return (int) $maxSequence + 1;
+		return (int)$maxSequence + 1;
 	}
 
 	/**
@@ -600,11 +600,32 @@ class CustomView_Record_Model extends \App\Base
 		], ['cvid' => $cvId]
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
-		$dbCommand->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('u_#__cv_condition_group', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('u_#__cv_duplicates', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
+		$this->setDuplicateFields();
+	}
+
+	/**
+	 * Save fields to detect dupllicates.
+	 *
+	 * @return void
+	 */
+	private function setDuplicateFields()
+	{
+		$fields = $this->get('duplicatefields');
+		if (empty($fields)) {
+			return;
+		}
+		$dbCommand = App\Db::getInstance()->createCommand();
+		foreach ($fields as $data) {
+			$dbCommand->insert('u_#__cv_duplicates', [
+				'cvid' => $this->getId(),
+				'fieldid' => $data['fieldid'],
+				'ignore' => $data['ignore']
+			])->execute();
+		}
 	}
 
 	/**
@@ -624,139 +645,13 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-		->from('vtiger_cvcolumnlist')
-		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-		->createCommand()->queryAllByGroup(1);
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);
-	}
-
-	/**
-	 * Function to get the Standard filter condition for the current custom view.
-	 *
-	 * @return array Standard filter condition
-	 */
-	public function getStandardCriteria()
-	{
-		$cvId = $this->getId();
-		if (empty($cvId)) {
-			return [];
-		}
-		$stdFilterRow = (new App\Db\Query())->select(['vtiger_cvstdfilter.*'])->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
-		if ($stdFilterRow) {
-			$stdFilterList = [];
-			$stdFilterList['columnname'] = $stdFilterRow['columnname'];
-			$stdFilterList['stdfilter'] = $stdFilterRow['stdfilter'];
-
-			if ($stdFilterRow['stdfilter'] === 'custom' || $stdFilterRow['stdfilter'] === '') {
-				if ($stdFilterRow['startdate'] != '0000-00-00' && $stdFilterRow['startdate'] != '') {
-					$startDateTime = new DateTimeField($stdFilterRow['startdate'] . ' ' . date('H:i:s'));
-					$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
-				}
-				if ($stdFilterRow['enddate'] != '0000-00-00' && $stdFilterRow['enddate'] != '') {
-					$endDateTime = new DateTimeField($stdFilterRow['enddate'] . ' ' . date('H:i:s'));
-					$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
-				}
-			} else { //if it is not custom get the date according to the selected duration
-				$dateFilter = DateTimeRange::getDateRangeByType($stdFilterRow['stdfilter']);
-				$startDateTime = new DateTimeField($dateFilter[0] . ' ' . date('H:i:s'));
-				$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($dateFilter[1] . ' ' . date('H:i:s'));
-				$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
-			}
-		}
-		return $stdFilterList ?? [];
-	}
-
-	/**
-	 * Function to get the list of advanced filter conditions for the current custom view.
-	 *
-	 * @return array - All the advanced filter conditions for the custom view, grouped by the condition grouping
-	 */
-	public function getAdvancedCriteria()
-	{
-		$defaultCharset = AppConfig::main('default_charset');
-
-		$cvId = $this->getId();
-		$advFtCriteria = [];
-		if (empty($cvId)) {
-			return $advFtCriteria;
-		}
-		$query = (new App\Db\Query())->from('vtiger_cvadvfilter_grouping')->where(['cvid' => $this->getId()])->orderBy('groupid');
-		$dataReader = $query->createCommand()->query();
-
-		$i = 1;
-		$j = 0;
-		while ($relCriteriaGroup = $dataReader->read()) {
-			$groupId = $relCriteriaGroup['groupid'];
-			$groupCondition = $relCriteriaGroup['group_condition'];
-			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId])
-				->andWhere(['and', new \yii\db\Expression('`vtiger_cvadvfilter`.`groupid` = `vtiger_cvadvfilter_grouping`.`groupid`')])
-				->orderBy('vtiger_cvadvfilter.columnindex')->all();
-
-			if (!$rows) {
-				continue;
-			}
-
-			foreach ($rows as $relCriteriaRow) {
-				$criteria = [];
-				$criteria['columnname'] = html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, $defaultCharset);
-				$criteria['comparator'] = $relCriteriaRow['comparator'];
-				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
-				$col = explode(':', $relCriteriaRow['columnname']);
-				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
-					$tempVal = explode(',', $relCriteriaRow['value']);
-					$val = [];
-					$countTempVal = count($tempVal);
-					for ($x = 0; $x < $countTempVal; ++$x) {
-						if ($col[4] === 'D') {
-							/* while inserting in db for due_date it was taking date and time values also as it is
-							 * date time field. We only need to take date from that value
-							 */
-							if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
-								$originalValue = $tempVal[$x];
-								$dateTime = explode(' ', $originalValue);
-								$tempVal[$x] = $dateTime[0];
-							}
-							$date = new DateTimeField(trim($tempVal[$x]));
-							$val[$x] = $date->getDisplayDate();
-						} elseif ($col[4] === 'DT') {
-							$comparator = ['e', 'n', 'b', 'a'];
-							if (in_array($criteria['comparator'], $comparator)) {
-								$originalValue = $tempVal[$x];
-								$dateTime = explode(' ', $originalValue);
-								$tempVal[$x] = $dateTime[0];
-							}
-							$date = new DateTimeField(trim($tempVal[$x]));
-							$val[$x] = $date->getDisplayDateTimeValue();
-						} else {
-							$date = new DateTimeField(trim($tempVal[$x]));
-							$val[$x] = $date->getDisplayTime();
-						}
-					}
-					$advFilterVal = implode(',', $val);
-				}
-				$criteria['value'] = \App\Purifier::encodeHtml(App\Purifier::decodeHtml($advFilterVal));
-				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
-
-				$groupId = $relCriteriaRow['groupid'];
-				$advFtCriteria[$groupId]['columns'][$j] = $criteria;
-				$advFtCriteria[$groupId]['condition'] = $groupCondition;
-				++$j;
-			}
-			if (!empty($advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'])) {
-				$advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
-			}
-			++$i;
-		}
-		$dataReader->close();
-		// Clear the condition (and/or) for last group, if any.
-		if (!empty($advFtCriteria[$i - 1]['condition'])) {
-			$advFtCriteria[$i - 1]['condition'] = '';
-		}
-		return $advFtCriteria;
 	}
 
 	/**
@@ -1019,83 +914,6 @@ class CustomView_Record_Model extends \App\Base
 			$query->andWhere(['<>', 'cvid', $cvid]);
 		}
 		return $query->exists();
-	}
-
-	/**
-	 * Function used to transform the older filter condition to suit newer filters.
-	 * The newer filters have only two groups one with ALL(AND) condition between each
-	 * filter and other with ANY(OR) condition, this functions tranforms the older
-	 * filter with 'AND' condition between filters of a group and will be placed under
-	 * match ALL conditions group and the rest of it will be placed under match Any group.
-	 *
-	 * @return <Array>
-	 */
-	public function transformToNewAdvancedFilter()
-	{
-		$standardFilter = $this->transformStandardFilter();
-		$advancedFilter = $this->getAdvancedCriteria();
-		$allGroupColumns = $anyGroupColumns = [];
-		foreach ($advancedFilter as $index => $group) {
-			$columns = $group['columns'];
-			$and = $or = 0;
-			$block = $group['condition'];
-			if (count($columns) != 1) {
-				foreach ($columns as $column) {
-					if ($column['column_condition'] == 'and') {
-						++$and;
-					} else {
-						++$or;
-					}
-				}
-				if ($and == count($columns) - 1 && count($columns) != 1) {
-					$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-				} else {
-					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-				}
-			} elseif ($block == 'and' || $index == 1) {
-				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-			} else {
-				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-			}
-		}
-		if ($standardFilter) {
-			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
-		}
-		$transformedAdvancedCondition = [];
-		$transformedAdvancedCondition[1] = ['columns' => $allGroupColumns, 'condition' => 'and'];
-		$transformedAdvancedCondition[2] = ['columns' => $anyGroupColumns, 'condition' => ''];
-
-		return $transformedAdvancedCondition;
-	}
-
-	/*
-	 *  Function used to tranform the standard filter as like as advanced filter format
-	 * 	@returns array of tranformed standard filter
-	 */
-
-	public function transformStandardFilter()
-	{
-		$standardFilter = $this->getStandardCriteria();
-		if (!empty($standardFilter)) {
-			$tranformedStandardFilter = [];
-			$tranformedStandardFilter['comparator'] = 'bw';
-
-			$fields = explode(':', $standardFilter['columnname']);
-
-			if ($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' || ($fields[0] == 'vtiger_activity' && $fields[1] == 'date_start')) {
-				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':DT';
-				$date[] = $standardFilter['startdate'] . ' 00:00:00';
-				$date[] = $standardFilter['enddate'] . ' 00:00:00';
-				$tranformedStandardFilter['value'] = implode(',', $date);
-			} else {
-				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':D';
-				$tranformedStandardFilter['value'] = $standardFilter['startdate'] . ',' . $standardFilter['enddate'];
-			}
-
-			return [$tranformedStandardFilter];
-		} else {
-			return false;
-		}
 	}
 
 	/**

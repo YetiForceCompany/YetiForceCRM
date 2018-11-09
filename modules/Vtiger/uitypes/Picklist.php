@@ -14,6 +14,18 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values= [];
+		foreach ($value as $val) {
+			$values[]= parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($value === '') {
@@ -67,5 +79,25 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	public function getHeaderTypes()
 	{
 		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
 	}
 }

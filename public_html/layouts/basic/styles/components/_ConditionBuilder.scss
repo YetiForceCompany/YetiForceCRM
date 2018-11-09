@@ -1,0 +1,62 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.c-condition-builder {
+	&__row {
+		position: relative;
+		margin-left: calculate-rem(20px);
+		&::after,
+		&::before {
+			content: "";
+			height: 100%;
+			position: absolute;
+			top: 0;
+		}
+
+		&::after {
+			border-left: solid 1px $primary;
+		}
+
+		&::before {
+			width: 20px;
+			height: calculate-rem(24px);
+			border-bottom: solid 1px $primary;
+		}
+		&:last-of-type::after {
+			height: calculate-rem(24px);
+		}
+	}
+
+	&__group {
+		.c-condition-builder__group {
+			margin-left: calculate-rem(20px);
+			position: relative;
+			padding-left: 1rem;
+			&::after,
+			&::before {
+				content: "";
+				height: 100%;
+				position: absolute;
+				top: 0;
+				background: $primary;
+				left: 0;
+			}
+
+			&::after {
+				border-left: solid 1px $primary;
+
+			}
+
+			&::before {
+				height: 1px;
+				border-bottom: solid 1px $primary;
+				width: 20px;
+				top: calculate-rem(23px);
+			}
+			&:last-of-type::after {
+				height: calculate-rem(23px);
+			}
+		}
+	}
+}
+
+

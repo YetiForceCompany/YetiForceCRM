@@ -255,7 +255,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $this->getName(true);
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
-			if (file_put_contents($method['function_path'], $scriptData) == false) {
+			if (file_put_contents($method['function_path'], $scriptData) === false) {
 				$messages['error'][] = \App\Language::translateArgs('LBL_FAILED_TO_SAVE_SCRIPT', $moduleName, basename($method['function_path'], $method['function_path']));
 			}
 		} else {
