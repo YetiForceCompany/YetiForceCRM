@@ -22,6 +22,7 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 			'linkhint' => 'LBL_SHOW_EMPLOYEES_HIERARCHY',
 			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
 			'linkicon' => 'fas fa-user',
+			'linkclass' => 'btn-outline-dark btn-sm'
 		];
 		$linkModelLists['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
 
