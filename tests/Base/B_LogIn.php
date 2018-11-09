@@ -19,7 +19,7 @@ class B_LogIn extends \Tests\Base
 	{
 		$userName = 'demo';
 		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
-		if ($userRecordModel->doLogin($userName)) {
+		if ($userRecordModel->doLogin(A_User::$defaultPassrowd)) {
 			\App\Session::set('authenticated_user_id', \Tests\Base\A_User::createUsersRecord()->getId());
 			\App\Session::set('app_unique_key', \AppConfig::main('application_unique_key'));
 			\App\Session::set('user_name', $userName);
@@ -35,7 +35,7 @@ class B_LogIn extends \Tests\Base
 	{
 		$userName = 'Demo';
 		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
-		$this->assertTrue($userRecordModel->doLogin('demo'));
+		$this->assertTrue($userRecordModel->doLogin(A_User::$defaultPassrowd));
 		$this->assertTrue(\App\User::getUserModel($userRecordModel->getId())->getDetail('user_name') !== $userName);
 	}
 
