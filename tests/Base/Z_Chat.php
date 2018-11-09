@@ -95,35 +95,6 @@ class Chat extends \Tests\Base
 	}
 
 	/**
-	 * Create User.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param $login
-	 *
-	 * @return mixed
-	 */
-	private static function createUser($login)
-	{
-		$userId = \App\User::getUserIdByName($login);
-		if ($userId !== false) {
-			return $userId;
-		}
-		$user = \Vtiger_Record_Model::getCleanInstance('Users');
-		$user->set('user_name', $login);
-		$user->set('email1', $login . '@yetiforce.com');
-		$user->set('first_name', $login);
-		$user->set('last_name', $login);
-		$user->set('user_password', 'Demo12345678T');
-		$user->set('confirm_password', 'Demo12345678T');
-		$user->set('roleid', 'H3');
-		$user->set('is_admin', 0);
-		$user->save();
-		static::$usersToRemove[] = $user->getId();
-		return $user->getId();
-	}
-
-	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
@@ -134,13 +105,10 @@ class Chat extends \Tests\Base
 			(new \Settings_ModuleManager_Module_Model())->enableModule('Chat');
 		}
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
-		$recordModel->set('lastname', 'Test chat');
-		$recordModel->save();
+		$recordModel = C_RecordActions::createContactRecord();
 		static::$listId[] = $recordModel->getId();
-		static::$users[] = static::createUser('test_1');
-		static::$users[] = static::createUser('test_2');
+		static::$users[] = A_User::createUsersRecord('test_1', false)->getId();
+		static::$users[] = A_User::createUsersRecord('test_2', false)->getId();
 	}
 
 	/**

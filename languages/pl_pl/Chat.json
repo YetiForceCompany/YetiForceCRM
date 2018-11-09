@@ -17,6 +17,7 @@
     "LBL_HISTORY_CHAT": "Historia",
     "LBL_MORE": "poka\u017c",
     "LBL_HIDE": "ukryj",
-    "LBL_NO_MESSAGES": "Brak wiadomo\u015bci"
+    "LBL_NO_MESSAGES": "Brak wiadomo\u015bci",
+    "LBL_UNREAD": "Nieprzeczytane"
   }
 }

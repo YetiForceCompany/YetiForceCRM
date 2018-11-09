@@ -33,7 +33,7 @@
 				<div class="w-100 text-right p-2 o-chat__icon-container">
 					<a class="ml-auto mr-1 js-btn-unread" data-js="click" href="#">
 						<span class="fas fa-comments"
-							  title="{\App\Language::translate('LBL_HISTORY_CHAT', $MODULE_NAME)}">
+							  title="{\App\Language::translate('LBL_UNREAD', $MODULE_NAME)}">
 						</span>
 					</a>
 					<a class="ml-auto mr-1 js-btn-history" data-js="click" href="#">

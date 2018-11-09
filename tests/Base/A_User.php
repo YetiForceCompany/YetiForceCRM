@@ -28,23 +28,22 @@ class A_User extends \Tests\Base
 	 *
 	 * @return \Users_Record_Model
 	 */
-	public static function createUsersRecord()
+	public static function createUsersRecord($login = 'demo', $cache = true)
 	{
-		if (static::$record) {
+		if (static::$record && $cache) {
 			return static::$record;
 		}
 		$user = \Vtiger_Record_Model::getCleanInstance('Users');
-		$user->set('user_name', 'demo');
-		$user->set('email1', 'demo@yetiforce.com');
+		$user->set('user_name', $login);
+		$user->set('email1', "{$login}@yetiforce.com");
 		$user->set('first_name', 'Demo');
 		$user->set('last_name', 'YetiForce');
-		$user->set('user_password', 'demo');
-		$user->set('confirm_password', 'demo');
+		$user->set('user_password', 'Demo12345678T');
+		$user->set('confirm_password', 'Demo12345678T');
 		$user->set('roleid', 'H2');
 		$user->set('is_admin', 'on');
 		$user->save();
-		static::$record = $user;
-		return $user;
+		return static::$record = $user;
 	}
 
 	/**
