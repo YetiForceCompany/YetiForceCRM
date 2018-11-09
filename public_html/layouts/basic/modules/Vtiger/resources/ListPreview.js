@@ -61,8 +61,15 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
-		app.showNewScrollbarLeft(this.list);
+		app.showNewScrollbarTopBottomRight(this.list, {wheelPropagation: false});
+		let list = this.list;
+		this.listFloatThead = this.list.find('.js-floatThead');
+		this.listFloatThead.floatThead({
+			scrollContainer: function () {
+				return list;
+			}
+		});
+
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -247,6 +254,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
 					app.moduleCacheSet('gutterMidPosition', split.getSizes());
 				}
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			}
 		});
