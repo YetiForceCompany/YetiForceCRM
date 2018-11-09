@@ -2031,6 +2031,11 @@ jQuery.Class("Vtiger_List_Js", {
 					container.height(windowH - (containerOffsetTop + footerH));
 				}
 				app.showNewScrollbarTopBottomRight(container);
+				container.find('.js-floatThead').floatThead({
+					scrollContainer: function () {
+						return container;
+					}
+				});
 			}
 		}
 	},
