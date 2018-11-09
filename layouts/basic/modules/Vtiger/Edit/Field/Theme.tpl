@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getAllSkins()}
+	{assign var=PICKLIST_VALUES value=Vtiger_Theme::getAllSkins()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<div class="tpl-Edit-Field-Theme">
 		<select class="select2 form-control" name="{$FIELD_MODEL->getFieldName()}"

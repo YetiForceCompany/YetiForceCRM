@@ -986,7 +986,17 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		var fieldDateFormat = fieldData.dateFormat;
 		var fieldValue = this.getFieldValue();
 		try {
-			Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+			if (fieldData.calendarType === 'range') {
+				fieldValue = fieldValue.split(',');
+				if(fieldValue.length !== 2) {
+					throw new Error();
+				}
+			} else {
+				fieldValue = [fieldValue];
+			}
+			for (let key in fieldValue) {
+				Vtiger_Helper_Js.getDateInstance(fieldValue[key], fieldDateFormat);
+			}
 		} catch (err) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_DATE");
 			this.setError(errorInfo);
@@ -995,7 +1005,7 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		return true;
 	}
 });
-
+Vtiger_Date_Validator_Js("Vtiger_Datetime_Validator_Js", {}, {});
 Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	/**
 	 * Function which invokes field validation
@@ -1020,10 +1030,20 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
-		var fieldValue = this.getFieldValue();
-		var time = fieldValue.replace(fieldValue.match(/[AP]M/i), '');
-		var timeValue = time.split(":");
-		if (isNaN(timeValue[0]) && isNaN(timeValue[1])) {
+		let format = CONFIG.hourFormat;
+		if (this.field.data('format') && [12, 24].indexOf(this.field.data('format')) != -1) {
+			format = this.field.data('format');
+		}
+		let regexp = '';
+		switch (format) {
+			case 12:
+				regexp = new RegExp('^([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)$');
+				break;
+			default:
+				regexp = new RegExp('^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])$');
+				break;
+		}
+		if (!regexp.test(this.getFieldValue())) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TIME");
 			this.setError(errorInfo);
 			return false;

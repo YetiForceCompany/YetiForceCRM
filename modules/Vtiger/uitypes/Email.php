@@ -12,6 +12,17 @@
 class Vtiger_Email_UIType extends Vtiger_Base_UIType
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		if (in_array($operator, ['e', 'n'])) {
+			$this->validate($value, true);
+		}
+		return $this->getDBValue($value);
+	}
+
+	/**
 	 * Verification of data.
 	 *
 	 * @param string $value
@@ -94,5 +105,28 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Email.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if (!in_array($operator, ['e', 'n'])) {
+			return 'ConditionBuilder/BaseNoValidation.tpl';
+		}
+		return parent::getOperatorTemplateName($operator);
 	}
 }

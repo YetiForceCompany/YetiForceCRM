@@ -24,6 +24,18 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = is_array($value) ? implode('|', $value) : $value;
@@ -210,5 +222,21 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	public function getRangeValues()
 	{
 		return '65535';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'om'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Owner.tpl';
 	}
 }

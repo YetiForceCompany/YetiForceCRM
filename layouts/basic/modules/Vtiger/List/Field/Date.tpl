@@ -25,6 +25,6 @@
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
 					data-module-name="{$FIELD_MODEL->getModuleName()}"
-				{/if} autocomplete="off"/>
+				{/if} autocomplete="off" {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 	</div>
 {/strip}

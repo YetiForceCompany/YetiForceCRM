@@ -12,6 +12,14 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 {
 	/**
 	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
 	 *
 	 * @example validate('[{"e":"a.adach@yetiforce.com","o":0},{"e":"test@yetiforce.com","o":0}]');
 	 */
@@ -95,5 +103,13 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiEmail.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['c', 'k', 'y', 'ny'];
 	}
 }

@@ -59,4 +59,12 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 	{
 		return false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
 }
