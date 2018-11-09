@@ -12,9 +12,11 @@
 						data-js="container">
 						{assign var=ARROW_CLASS value="before"}
 						{foreach from=$PICKLIST_VALUES item=VALUE_DATA name=picklistValues}
+							{assign var=PICKLIST_LABEL value=$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
 							<li class="c-arrows__item {if $smarty.foreach.picklistValues.first}first{/if} {if $VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && $VALUE_DATA['picklistValue'] !== $RECORD->get($NAME) && isset($PICKLIST_OF_FIELD[$VALUE_DATA['picklistValue']])} u-cursor-pointer js-access{/if}"
 								data-picklist-value="{$VALUE_DATA['picklistValue']}"
-								data-js="confirm|click">
+								data-picklist-label="{\App\Purifier::encodeHtml($PICKLIST_LABEL)}"
+								data-js="confirm|click|data">
 								<a class="c-arrows__link pr-1">
 									{if isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']]) }
 									<span class="c-arrows__icon fas fa-lock"></span>
@@ -24,7 +26,7 @@
 										  data-trigger="hover focus"
 										  data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}"
 									{else}"{/if}>
-									{$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
+									{$PICKLIST_LABEL}
 									</span>
 								</a>
 							</li>

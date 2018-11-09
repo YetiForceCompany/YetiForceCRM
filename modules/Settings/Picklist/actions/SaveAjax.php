@@ -88,7 +88,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$newValue = $request->getByType('newValue', 'Text');
 		$pickListFieldName = $request->getForSql('picklistName');
 		$oldValue = $request->getByType('oldValue', 'Text');
-		$id = $request->getInteger('picklist_valueid');
+		$id = $request->getInteger('primaryKeyId');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
@@ -104,12 +104,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'));
-				$moduleModel->updateCloseState(
-					$id,
-					$fieldModel,
-					$newValue,
-					$request->getBoolean('close_state')
-				);
+				if ($fieldModel->getUIType() === 15) {
+					$moduleModel->updateCloseState($request->getInteger('picklist_valueid'), $fieldModel, $newValue, $request->getBoolean('close_state'));
+				}
 				$response->setResult([
 					'success',
 					$status,
