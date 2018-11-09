@@ -17,7 +17,7 @@
 			{else}
 				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
 			{/if}
-			{assign var="CURRENCY_SYMBOLAND" value=vtlib\Functions::getCurrencySymbolandRate($CURRENCY)}
+			{assign var="CURRENCY_SYMBOLAND" value=\App\Fields\Currency::getById($CURRENCY)}
 		{/if}
 		{if count($FIELDS[0]) neq 0}
 			<table class="table table-bordered inventoryHeader blockContainer">
