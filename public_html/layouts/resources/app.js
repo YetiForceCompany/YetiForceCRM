@@ -808,10 +808,10 @@ var App = {},
 				return;
 			return new PerfectScrollbar(element[0], options);
 		},
-		showNewScrollbarTopBottomRight: function (element) {
+		showNewScrollbarTopBottomRight: function (element, options = {}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
 			let scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
 				top: 0,
@@ -821,7 +821,7 @@ var App = {},
 				top: 2,
 				bottom: 'auto'
 			});
-			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 			return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 		},
 		showNewScrollbarTopBottom: function (element) {
@@ -845,12 +845,9 @@ var App = {},
 				bottom: 'auto'
 			});
 		},
-		showNewScrollbarLeft: function (element, options) {
+		showNewScrollbarLeft: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-			options.wheelPropagation = true;
 			new PerfectScrollbar(element[0], options);
 			var scrollbarLeftElement = element.children('.ps__rail-y').first();
 			scrollbarLeftElement.css({
@@ -862,9 +859,7 @@ var App = {},
 				right: 'auto'
 			});
 		},
-		showScrollBar: function (element, options) {
-			if (typeof options === "undefined")
-				options = {};
+		showScrollBar: function (element, options = {}) {
 			if (typeof options.height === "undefined")
 				options.height = element.css('height');
 			return element.slimScroll(options);
