@@ -45,13 +45,6 @@ class Chat extends \Tests\Base
 	private static $users = [];
 
 	/**
-	 * List of user IDs.
-	 *
-	 * @var int[]
-	 */
-	private static $usersToRemove = [];
-
-	/**
 	 * Get key of chat room.
 	 *
 	 * @codeCoverageIgnore
@@ -296,9 +289,6 @@ class Chat extends \Tests\Base
 		foreach (static::$listId as $id) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
 			$recordModel->delete();
-		}
-		foreach (static::$usersToRemove as $id) {
-			\Users_Record_Model::deleteUserPermanently($id, \App\User::getActiveAdminId());
 		}
 	}
 }

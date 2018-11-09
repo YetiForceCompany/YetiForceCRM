@@ -13,37 +13,48 @@ namespace Tests\Base;
 class A_User extends \Tests\Base
 {
 	/**
+	 * The default user password.
+	 *
+	 * @var string
+	 */
+	public static $defaultPassrowd = 'Demo12345678T';
+	/**
 	 * User id.
 	 */
 	private static $id;
+
 	/**
-	 * Demo user record model cache.
+	 * List of \Users_Record_Model.
 	 *
-	 * @var \Users_Record_Model
+	 * @var \Users_Record_Model[]
 	 */
-	private static $record;
+	private static $record = [];
 
 	/**
 	 * Create/return users module record model with demo user.
 	 *
+	 * @param string $login
+	 *
+	 * @throws \Exception
+	 *
 	 * @return \Users_Record_Model
 	 */
-	public static function createUsersRecord($login = 'demo', $cache = true)
+	public static function createUsersRecord($login = 'demo')
 	{
-		if (static::$record && $cache) {
-			return static::$record;
+		if (isset(static::$record[$login])) {
+			return static::$record[$login];
 		}
 		$user = \Vtiger_Record_Model::getCleanInstance('Users');
 		$user->set('user_name', $login);
 		$user->set('email1', "{$login}@yetiforce.com");
 		$user->set('first_name', 'Demo');
 		$user->set('last_name', 'YetiForce');
-		$user->set('user_password', 'Demo12345678T');
-		$user->set('confirm_password', 'Demo12345678T');
+		$user->set('user_password', static::$defaultPassrowd);
+		$user->set('confirm_password', static::$defaultPassrowd);
 		$user->set('roleid', 'H2');
 		$user->set('is_admin', 'on');
 		$user->save();
-		return static::$record = $user;
+		return static::$record[$login] = $user;
 	}
 
 	/**
