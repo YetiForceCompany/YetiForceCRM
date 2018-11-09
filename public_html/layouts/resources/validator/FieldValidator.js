@@ -866,76 +866,20 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 		return true;
 	}
 });
-Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
+Vtiger_Currency_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 	/**
 	 *Function which invokes field validation
-	 *@param accepts field element as parameter
+	 * @param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation: function (field, rules, i, options) {
-		var instance = new Vtiger_NumberUserFormat_Validator_Js();
+		let instance = new Vtiger_Currency_Validator_Js();
 		instance.setElement(field);
-		var response = instance.validate();
-		if (response != true) {
+		if (instance.validate() !== true) {
 			return instance.getError();
 		}
 	}
 
-}, {
-	/**
-	 * Function to validate the Positive Numbers
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var response = this._super();
-		if (response != true) {
-			return response;
-		}
-		var fieldValue = this.getFieldValue();
-		var decimalSeparator = CONFIG.currencyDecimalSeparator;
-		var groupSeparator = CONFIG.currencyGroupingSeparator;
-		fieldValue = fieldValue.split(groupSeparator).join("");
-
-		var spacePattern = /\s/;
-		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
-			fieldValue = fieldValue.replace(/ /g, '');
-
-		var strippedValue = fieldValue.replace(decimalSeparator, '.');
-		var errorInfo;
-
-		if (isNaN(strippedValue)) {
-			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-			this.setError(errorInfo);
-			return false;
-		}
-		if (strippedValue < 0) {
-			errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
-			this.setError(errorInfo);
-			return false;
-		}
-		strippedValue = parseFloat(strippedValue);
-		if (strippedValue != strippedValue.toString()) {
-			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-			this.setError(errorInfo);
-			return false;
-		}
-		var maximumLength = null;
-		if (this.getElement().data().fieldinfo) {
-			maximumLength = this.getElement().data().fieldinfo.maximumlength;
-		} else {
-			maximumLength = this.getElement().data('maximumlength');
-		}
-		if (!maximumLength) {
-			return true;
-		}
-		if (strippedValue > parseFloat(maximumLength)) {
-			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-			this.setError(errorInfo);
-			return false;
-		}
-		return true;
-	}
 });
 
 Vtiger_Base_Validator_Js("Vtiger_ReferenceField_Validator_Js", {}, {
@@ -988,7 +932,7 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		try {
 			if (fieldData.calendarType === 'range') {
 				fieldValue = fieldValue.split(',');
-				if(fieldValue.length !== 2) {
+				if (fieldValue.length !== 2) {
 					throw new Error();
 				}
 			} else {
