@@ -37,7 +37,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public function getCurrencyNum()
 	{
-		return count(vtlib\Functions::getAllCurrency(true));
+		return count(\App\Fields\Currency::getAll(true));
 	}
 
 	/*
@@ -256,10 +256,10 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
 		if (is_numeric($from)) {
-			$from = vtlib\Functions::getAllCurrency(true)[$from]['currency_code'];
+			$from = \App\Fields\Currency::getAll(true)[$from]['currency_code'];
 		}
 		if (is_numeric($to)) {
-			$to = vtlib\Functions::getAllCurrency(true)[$to]['currency_code'];
+			$to = \App\Fields\Currency::getAll(true)[$to]['currency_code'];
 		}
 		// get present conversion rate from crm
 		if (empty($date)) {

@@ -76,9 +76,9 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
-			$selectedCurrency = vtlib\Functions::getCurrencySymbolandRate($currency);
-			$price = (float) $price * $selectedCurrency['rate'];
-			$symbol = $selectedCurrency['symbol'];
+			$selectedCurrency = \App\Fields\Currency::getById($currency);
+			$price = (float) $price * $selectedCurrency['conversion_rate'];
+			$symbol = $selectedCurrency['currency_symbol'];
 		}
 		$totalPrice = $price + $balance;
 

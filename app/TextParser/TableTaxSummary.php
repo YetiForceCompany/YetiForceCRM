@@ -39,7 +39,7 @@ class TableTaxSummary extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencyData = \App\Fields\Currency::getById($currency);
 		}
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px}' .
@@ -70,7 +70,7 @@ class TableTaxSummary extends Base
 					$tax_AMOUNT += $tax;
 					$html .= '<tr>
 										<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
 				$html .= '<tr>

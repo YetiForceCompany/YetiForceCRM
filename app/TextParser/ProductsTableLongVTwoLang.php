@@ -40,8 +40,8 @@ class ProductsTableLongVTwoLang extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
-			$currencySymbol = $currencySymbolRate['symbol'];
+			$currencyData = \App\Fields\Currency::getById($currency);
+			$currencySymbol = $currencyData['currency_symbol'];
 		}
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px; width:100%}' .

@@ -115,9 +115,9 @@ class CurrencyField
 		} else {
 			$this->currencyId = self::getDBCurrencyId();
 		}
-		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($this->currencyId);
-		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
-		$this->conversionRate = $currencyRateAndSymbol['rate'];
+		$currencyData = \App\Fields\Currency::getById($this->currencyId);
+		$this->currencySymbol = $currencyData['currency_symbol'];
+		$this->conversionRate = $currencyData['conversion_rate'];
 		$this->currencySymbolPlacement = $user->getDetail('currency_symbol_placement');
 		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && (int) $user->getDetail('no_of_currency_decimals') !== 0) ? 2 : (int) $user->getDetail('no_of_currency_decimals');
 	}
