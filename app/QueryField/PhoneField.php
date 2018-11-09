@@ -11,14 +11,4 @@ namespace App\QueryField;
  */
 class PhoneField extends StringField
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getListViewFields()
-	{
-		if ($fieldModel = $this->queryGenerator->getModuleField($this->fieldModel->getName() . '_extra')) {
-			return $fieldModel;
-		}
-		return false;
-	}
 }
