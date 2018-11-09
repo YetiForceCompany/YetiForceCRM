@@ -58,19 +58,53 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get price details.
+	 * Get price details.
 	 *
-	 * @return <Array> List of prices
+	 * @return array
 	 */
 	public function getPriceDetails()
 	{
-		$priceDetails = $this->get('priceDetails');
-		if (!empty($priceDetails)) {
-			return $priceDetails;
+		if (empty($this->ext['priceDetails'])) {
+			$baseCurrencyId = $userCurrencyId = (int) \App\User::getCurrentUserModel()->getDetail('currency_id');
+			$fieldInfo = $this->getField('unit_price')->getFieldInfo();
+			$data = $priceDetails = [];
+			$new = $this->isNew();
+			$unitPrice = $this->get('unit_price');
+			$baseRate = 1 / \App\Fields\Currency::getById($userCurrencyId)['conversion_rate'];
+			if (!$new) {
+				$data = (new App\Db\Query())->select(['currencyid', 'actual_price'])->from('vtiger_productcurrencyrel')->where(['productid' => $this->getId()])->createCommand()->queryAllByGroup();
+				$baseRate = self::getBaseConversionRateForProduct($this->getId(), 'edit', $this->getModuleName());
+				$baseCurrencyId = $this->get('baseCurrencyDetails')['currencyid'] ?? \App\Fields\Currency::getCurrencyByModule($this->getId(), $this->getModuleName());
+			}
+			foreach (\App\Fields\Currency::getAll(true) as $id => $currency) {
+				$currency['productid'] = $this->getId();
+				$check = false;
+				$value = 0;
+				$conversionrRate = $baseRate * $currency['conversion_rate'];
+				if (!$new) {
+					if (isset($data[$currency['id']])) {
+						$value = $data[$currency['id']];
+						$check = true;
+					} elseif ($unitPrice) {
+						$value = $unitPrice * $conversionrRate;
+					}
+				}
+				$priceDetails[] = array_merge($currency,
+					[
+						'curname' => 'curname' . $currency['id'],
+						'conversionrate' => $conversionrRate,
+						'check_value' => $check,
+						'curvalue' => \App\Fields\Currency::formatToDisplay($value),
+						'is_basecurrency' => $baseCurrencyId === (int) $id,
+						'fieldInfo' => array_merge($fieldInfo, [
+							'name' => 'curname' . $currency['id'],
+							'currency_symbol' => $currency['currency_symbol'],
+						]),
+					]);
+			}
+			$this->ext['priceDetails'] = $priceDetails;
 		}
-		$priceDetails = $this->getPriceDetailsForProduct($this->getId(), $this->get('unit_price'), 'available', $this->getModuleName());
-		$this->set('priceDetails', $priceDetails);
-		return $priceDetails;
+		return $this->ext['priceDetails'];
 	}
 
 	/**
@@ -219,107 +253,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return $status;
 	}
 
-	public function getPriceDetailsForProduct($productId, $unitPrice, $available = 'available', $itemType = 'Products')
-	{
-		\App\Log::trace('Entering into function getPriceDetailsForProduct(' . $productId . ')');
-		$fieldInfo = $this->getField('unit_price')->getFieldInfo();
-		if ($productId) {
-			$productCurrencyId = \App\Fields\Currency::getCurrencyByModule($productId, $itemType);
-			$productBaseConvRate = self::getBaseConversionRateForProduct($productId, 'edit', $itemType);
-			// Detail View
-			if ($available == 'available_associated') {
-				$query = (new App\Db\Query())->select(['vtiger_currency_info.*', 'vtiger_productcurrencyrel.converted_price', 'vtiger_productcurrencyrel.actual_price'])->from('vtiger_currency_info')->innerJoin('vtiger_productcurrencyrel', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')->where(['vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0, 'vtiger_productcurrencyrel.productid' => $productId])->andWhere(['<>', 'vtiger_currency_info.id', $productCurrencyId]);
-			} else { // Edit View
-				$query = (new App\Db\Query())->select(['vtiger_currency_info.*', 'vtiger_productcurrencyrel.converted_price', 'vtiger_productcurrencyrel.actual_price'])->from('vtiger_currency_info')->leftJoin('vtiger_productcurrencyrel', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')->where(['vtiger_productcurrencyrel.productid' => $productId, 'vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0]);
-			}
-			$priceDetails = [];
-			$dataReader = $query->createCommand()->query();
-			$i = 0;
-			while ($row = $dataReader->read()) {
-				$priceDetails[$i]['productid'] = $productId;
-				$priceDetails[$i]['currencylabel'] = $row['currency_name'];
-				$priceDetails[$i]['currencycode'] = $row['currency_code'];
-				$priceDetails[$i]['currencysymbol'] = $row['currency_symbol'];
-				$currencyId = $row['id'];
-				$priceDetails[$i]['curid'] = $currencyId;
-				$priceDetails[$i]['curname'] = 'curname' . $row['id'];
-				$curValue = $row['actual_price'];
-
-				// Get the conversion rate for the given currency, get the conversion rate of the product currency to base currency.
-				// Both together will be the actual conversion rate for the given currency.
-				$conversionRate = $row['conversion_rate'];
-				$actualConversionRate = $productBaseConvRate * $conversionRate;
-
-				$isBaseCurrency = false;
-				if ($currencyId == $productCurrencyId) {
-					$isBaseCurrency = true;
-				}
-
-				if ($curValue === null || $curValue === '') {
-					$priceDetails[$i]['check_value'] = false;
-					if ($unitPrice !== null) {
-						$curValue = CurrencyField::convertFromMasterCurrency($unitPrice, $actualConversionRate);
-					} else {
-						$curValue = '0';
-					}
-				} else {
-					$priceDetails[$i]['check_value'] = true;
-				}
-				$priceDetails[$i]['curvalue'] = CurrencyField::convertToUserFormat($curValue, null, true);
-				$priceDetails[$i]['conversionrate'] = $actualConversionRate;
-				$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
-				$fieldInfo['name'] = $priceDetails[$i]['curname'];
-				$fieldInfo['currency_symbol'] = $priceDetails[$i]['currencysymbol'];
-				$priceDetails[$i]['fieldInfo'] = $fieldInfo;
-				++$i;
-			}
-			$dataReader->close();
-		} else {
-			if ($available === 'available') { // Create View
-				$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
-				$query = (new App\Db\Query())->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0]);
-
-				$dataReader = $query->createCommand()->query();
-				$i = 0;
-				while ($row = $dataReader->read()) {
-					$priceDetails[$i]['currencylabel'] = $row['currency_name'];
-					$priceDetails[$i]['currencycode'] = $row['currency_code'];
-					$priceDetails[$i]['currencysymbol'] = $row['currency_symbol'];
-					$currencyId = $row['id'];
-					$priceDetails[$i]['curid'] = $currencyId;
-					$priceDetails[$i]['curname'] = 'curname' . $row['id'];
-
-					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
-					// Both together will be the actual conversion rate for the given currency.
-					$conversionRate = $row['conversion_rate'];
-					$userCurSymConvRate = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
-					$productBaseConvRate = 1 / $userCurSymConvRate['rate'];
-					$actualConversionRate = $productBaseConvRate * $conversionRate;
-
-					$priceDetails[$i]['check_value'] = false;
-					$priceDetails[$i]['curvalue'] = 0;
-					$priceDetails[$i]['conversionrate'] = $actualConversionRate;
-
-					$isBaseCurrency = false;
-					if ($currencyId === $userCurrencyId) {
-						$isBaseCurrency = true;
-					}
-					$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
-					$fieldInfo['name'] = $priceDetails[$i]['curname'];
-					$fieldInfo['currency_symbol'] = $priceDetails[$i]['currencysymbol'];
-					$priceDetails[$i]['fieldInfo'] = $fieldInfo;
-					++$i;
-				}
-				$dataReader->close();
-			} else {
-				\App\Log::trace('Product id is empty. we cannot retrieve the associated prices.');
-			}
-		}
-
-		\App\Log::trace('Exit from function getPriceDetailsForProduct(' . $productId . ')');
-		return $priceDetails;
-	}
-
 	/**
 	 * nction used to get the conversion rate for the product base currency with respect to the CRM base currency.
 	 *
@@ -370,7 +303,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (\App\Request::_get('ajxaction') != 'DETAIL_VIEW_BASIC' && \App\Request::_get('action') != 'MassSave') {
+		if (\App\Request::_get('ajxaction') !== 'DETAIL_VIEW_BASIC' && \App\Request::_get('action') !== 'MassSave') {
 			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel
@@ -394,8 +327,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertPriceInformation()
 	{
-		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
+		$request = App\Request::init();
 		$productBaseConvRate = self::getBaseConversionRateForProduct($this->getId(), $this->isNew() ? 'new' : 'edit');
 		$currencySet = false;
 		$currencyDetails = vtlib\Functions::getAllCurrency(true);
@@ -406,11 +339,10 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$curName = $currency['currency_name'];
 			$curCheckName = 'cur_' . $curid . '_check';
 			$curValue = 'curname' . $curid;
-			if (\App\Request::_get($curCheckName) === 'on' || \App\Request::_get($curCheckName) === 1) {
-				$requestPrice = CurrencyField::convertToDBFormat(\App\Request::_get('unit_price'), null, true);
-				$actualPrice = CurrencyField::convertToDBFormat(\App\Request::_get($curValue), null, true);
+			if ($request->getRaw($curCheckName) === 'on' || $request->get($curCheckName) === 1) {
+				$actualPrice = $request->getByType($curValue, 'NumberInUserFormat');
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
-				$convertedPrice = $actualConversionRate * $requestPrice;
+				$convertedPrice = $actualConversionRate * $request->getByType('unit_price', 'NumberInUserFormat');
 				\App\Log::trace("Going to save the Product - $curName currency relationship");
 				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
 					'productid' => $this->getId(),
@@ -418,7 +350,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					'converted_price' => $convertedPrice,
 					'actual_price' => $actualPrice,
 				])->execute();
-				if (\App\Request::_get('base_currency') === $curValue) {
+				if ($request->getByType('base_currency', 2) === $curValue) {
 					$currencySet = true;
 					$db->createCommand()
 						->update($this->getEntity()->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->getEntity()->table_index => $this->getId()])

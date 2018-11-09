@@ -472,15 +472,6 @@ class CurrencyField
 		return round($amount * $conversionRate, $currencyField->maxNumberOfDecimals);
 	}
 
-	/** This function returns the amount converted from master currency.
-	 * param $amount - amount to be converted.
-	 * param $crate - conversion rate.
-	 */
-	public static function convertFromMasterCurrency($amount, $conversionRate)
-	{
-		return $amount * $conversionRate;
-	}
-
 	public function currencyDecimalFormat($value, $user = null)
 	{
 		if (!$user) {
