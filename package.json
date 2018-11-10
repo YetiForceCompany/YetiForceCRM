@@ -36,7 +36,7 @@
     "clipboard": ">=2.0.0",
     "clockpicker": "^0.0.7",
     "color-convert": "^1.9.3",
-    "css-element-queries": "^1.0.5",
+    "css-element-queries": "^1.1.1",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-responsive-bs4": "^2.2.3",
