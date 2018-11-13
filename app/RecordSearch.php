@@ -32,7 +32,7 @@ class RecordSearch
 		if (!$limit) {
 			$limit = 20;
 		}
-		$this->limit = (int)$limit;
+		$this->limit = (int) $limit;
 		$this->userId = \App\User::getCurrentUserId();
 	}
 
