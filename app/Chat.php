@@ -40,13 +40,6 @@ class Chat
 	private $roomType;
 
 	/**
-	 * ID of chat room.
-	 *
-	 * @var int
-	 */
-	private $roomId;
-
-	/**
 	 * ID record associated with the chat room.
 	 *
 	 * @var int|null
