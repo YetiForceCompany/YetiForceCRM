@@ -75,8 +75,11 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
 			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')]);
 		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
-
-		return $query->all();
+		$sortedArray = $query->all();
+		usort($sortedArray, function ($a, $b) {
+			return strtotime($a['due_date']) - strtotime($b['due_date']);
+		});
+		return $sortedArray;
 	}
 
 	/**
