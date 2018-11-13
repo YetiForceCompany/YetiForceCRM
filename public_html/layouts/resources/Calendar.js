@@ -312,16 +312,14 @@ window.Calendar_Js = class {
 	getDefaultParams() {
 		let formatDate = CONFIG.dateFormat.toUpperCase(),
 			view = this.getCalendarView().fullCalendar('getView'),
-			users;
+			users = [];
 		if (app.moduleCacheGet('calendar-users')) {
 			users = app.moduleCacheGet('calendar-users');
-		} else {
-			users = CONFIG.userId;
 		}
 		let params = {
 			module: CONFIG.module,
 			action: 'Calendar',
-			mode: 'getEvent',
+			mode: 'getEvents',
 			start: view.start.format(formatDate),
 			end: view.end.format(formatDate),
 			user: users,
@@ -331,7 +329,7 @@ window.Calendar_Js = class {
 			params.types = app.moduleCacheGet('calendar-types');
 			params.emptyFilters = users.length === 0 || params.types.length === 0;
 		} else {
-			params.types = null;
+			params.types = [];
 		}
 		return params;
 	}
@@ -342,9 +340,9 @@ window.Calendar_Js = class {
 	registerSelect2Event() {
 		let self = this;
 		$('.siteBarRight .select2').each(function () {
-			let name = $(this).attr('id');
+			let element = $(this);
+			let name = element.data('cache');
 			let cachedValue = app.moduleCacheGet(name);
-			let element = $('#' + name);
 			if (element.length > 0 && cachedValue !== null) {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
@@ -358,9 +356,10 @@ window.Calendar_Js = class {
 				app.moduleCacheSet(name, cachedValue);
 			}
 		});
-		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		App.Fields.Picklist.showSelect2ElementView($('#calendar-users, #calendar-types, #calendarGroupList'));
-		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
+		let selectsElements = $('.siteBarRight .select2, .siteBarRight .filterField');
+		selectsElements.off('change');
+		App.Fields.Picklist.showSelect2ElementView(selectsElements);
+		selectsElements.on('change', function () {
 			let element = $(this);
 			let value = element.val();
 			if (value == null) {
@@ -369,7 +368,7 @@ window.Calendar_Js = class {
 			if (element.attr('type') == 'checkbox') {
 				value = element.is(':checked');
 			}
-			app.moduleCacheSet(element.attr('id'), value);
+			app.moduleCacheSet(element.data('cache'), value);
 			self.loadCalendarData();
 		});
 	}
@@ -465,15 +464,15 @@ window.Calendar_Js = class {
 			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
 			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: `index.php?module=${CONFIG.module}&view=Detail&record=${calendarDetails._recordId}`,
-			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${CONFIG.module}_${$('#calendar-types').length ? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value'] : ''}`,
+			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${CONFIG.module}_${$('[data-cache="calendar-types"]').length ? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value'] : ''}`,
 			allDay: calendarDetails.allday.value == 'on'
 		};
 		return eventObject;
 	}
 
 	isNewEventToDisplay(eventObject) {
-		let groupSelect = $('#calendarGroupList');
-		let usersSelect = $('#calendar-users');
+		let groupSelect = $('[data-cache="calendar-groups"]');
+		let usersSelect = $('[data-cache="calendar-users"]');
 		if ($.inArray(eventObject.assigned_user_id.value, usersSelect.val()) < 0 && ($.inArray(eventObject.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
 			this.refreshFilterValues(eventObject, usersSelect.add(groupSelect));
 			return false;
