@@ -32,7 +32,7 @@ class RecordSearch
 		if (!$limit) {
 			$limit = 20;
 		}
-		$this->limit = (int) $limit;
+		$this->limit = (int)$limit;
 		$this->userId = \App\User::getCurrentUserId();
 	}
 
@@ -141,8 +141,6 @@ class RecordSearch
 	 */
 	public function getLabelQuery()
 	{
-		$db = \App\Db::getInstance();
-
 		$query = (new \App\Db\Query())->select(['cl.crmid', 'cl.label'])
 			->from('u_#__crmentity_label cl')->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid');
 		if ($this->moduleName) {

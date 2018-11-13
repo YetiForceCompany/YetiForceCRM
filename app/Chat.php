@@ -40,13 +40,6 @@ class Chat
 	private $roomType;
 
 	/**
-	 * ID of chat room.
-	 *
-	 * @var int
-	 */
-	private $roomId;
-
-	/**
 	 * ID record associated with the chat room.
 	 *
 	 * @var int|null
@@ -304,7 +297,7 @@ class Chat
 				static::COLUMN_NAME['message']['global'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['global'])
-				->groupBy([static::COLUMN_NAME['message']['global']]);
+			->groupBy([static::COLUMN_NAME['message']['global']]);
 		return (new Db\Query())
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
@@ -355,7 +348,7 @@ class Chat
 				static::COLUMN_NAME['message']['crm'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['crm'])
-				->groupBy([static::COLUMN_NAME['message']['crm']]);
+			->groupBy([static::COLUMN_NAME['message']['crm']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['C' => static::TABLE_NAME['room']['crm']])
@@ -379,7 +372,7 @@ class Chat
 				static::COLUMN_NAME['message']['group'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['group'])
-				->groupBy([static::COLUMN_NAME['message']['group']]);
+			->groupBy([static::COLUMN_NAME['message']['group']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['GR' => static::TABLE_NAME['room']['group']])
@@ -491,7 +484,7 @@ class Chat
 			'created' => date('Y-m-d H:i:s'),
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
-		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
+		return $this->lastMessageId = (int)$db->getLastInsertID("{$table}_id_seq");
 	}
 
 	/**
@@ -524,7 +517,7 @@ class Chat
 				'image' => $row['image']
 			] = $this->getUserInfo($row['userid']);
 			$rows[] = $row;
-			$mid = (int) $row['id'];
+			$mid = (int)$row['id'];
 			if ($this->lastMessageId < $mid) {
 				$this->lastMessageId = $mid;
 			}
@@ -888,7 +881,7 @@ class Chat
 			$this->room['userid'] = $this->userId;
 		} elseif (
 			\is_array($this->room) && $this->isAssigned() &&
-			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
+			(empty($this->room['last_message']) || $this->lastMessageId > (int)$this->room['last_message'])
 		) {
 			Db::getInstance()
 				->createCommand()
