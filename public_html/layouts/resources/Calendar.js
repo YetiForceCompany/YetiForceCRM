@@ -465,19 +465,18 @@ window.Calendar_Js = class {
 			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: `index.php?module=${CONFIG.module}&view=Detail&record=${calendarDetails._recordId}`,
 			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${CONFIG.module}_${$('[data-cache="calendar-types"]').length ? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value'] : ''}`,
-			allDay: calendarDetails.allday.value == 'on'
+			allDay: typeof calendarDetails.allday === 'undefined' ? false : calendarDetails.allday.value == 'on'
 		};
 		return eventObject;
 	}
 
 	isNewEventToDisplay(eventObject) {
-		let groupSelect = $('[data-cache="calendar-groups"]');
-		let usersSelect = $('[data-cache="calendar-users"]');
-		if ($.inArray(eventObject.assigned_user_id.value, usersSelect.val()) < 0 && ($.inArray(eventObject.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
-			this.refreshFilterValues(eventObject, usersSelect.add(groupSelect));
+		let ownerSelects = $('[data-cache="calendar-users"]').add($('[data-cache="calendar-groups"]'));
+		if ($.inArray(eventObject.assigned_user_id.value, ownerSelects.val()) < 0) {
+			this.refreshFilterValues(eventObject, ownerSelects);
 			return false;
 		}
-		let calendarTypes = $("#calendar-types");
+		let calendarTypes = $('[data-cache="calendar-types"]');
 		if (calendarTypes.length) {
 			if (!this.eventTypeKeyName) {
 				this.setEventTypeKey(eventObject);
