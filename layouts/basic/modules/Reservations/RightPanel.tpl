@@ -3,7 +3,7 @@
 	{if !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="row no-margin">
 			<div class="col-12 marginTB10">
-				<select class="select2 col-12" data-cache="calendar-users" multiple>
+				<select class="select2 col-12 js-calendar__filter__select" data-cache="calendar-users" multiple data-js="data | value">
 					{if !empty($ALL_ACTIVEUSER_LIST)}
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -30,7 +30,7 @@
 	{if !empty($ALL_ACTIVETYPES_LIST)}
 		<div class="row no-margin">
 			<div class="col-12 marginTB10">
-				<select class="select2 form-control col-12" name="reservationType" data-cache="calendar-types" multiple="multiple">
+				<select class="select2 form-control col-12 js-calendar__filter__select" name="reservationType" data-cache="calendar-types" multiple="multiple" data-js="data | value">
 					{foreach key=ITEM_ID item=ITEM from=$ALL_ACTIVETYPES_LIST}
 						<option value="{$ITEM_ID}" class="mb-1">{\App\Language::translate($ITEM,$MODULE_NAME)}</option>
 					{/foreach}

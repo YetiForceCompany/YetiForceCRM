@@ -339,7 +339,7 @@ window.Calendar_Js = class {
 	 */
 	registerSelect2Event() {
 		let self = this;
-		$('.siteBarRight .select2').each(function () {
+		$('.siteBarRight .js-calendar__filter__select').each(function () {
 			let element = $(this);
 			let name = element.data('cache');
 			let cachedValue = app.moduleCacheGet(name);
@@ -464,19 +464,19 @@ window.Calendar_Js = class {
 			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
 			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: `index.php?module=${CONFIG.module}&view=Detail&record=${calendarDetails._recordId}`,
-			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${CONFIG.module}_${$('[data-cache="calendar-types"]').length ? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value'] : ''}`,
+			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${CONFIG.module}_${$('.js-calendar__filter__select[data-cache="calendar-types"]').length ? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value'] : ''}`,
 			allDay: typeof calendarDetails.allday === 'undefined' ? false : calendarDetails.allday.value == 'on'
 		};
 		return eventObject;
 	}
 
 	isNewEventToDisplay(eventObject) {
-		let ownerSelects = $('[data-cache="calendar-users"]').add($('[data-cache="calendar-groups"]'));
+		let ownerSelects = $('.js-calendar__filter__select[data-cache="calendar-users"]').add($('.js-calendar__filter__select[data-cache="calendar-groups"]'));
 		if ($.inArray(eventObject.assigned_user_id.value, ownerSelects.val()) < 0) {
 			this.refreshFilterValues(eventObject, ownerSelects);
 			return false;
 		}
-		let calendarTypes = $('[data-cache="calendar-types"]');
+		let calendarTypes = $('.js-calendar__filter__select[data-cache="calendar-types"]');
 		if (calendarTypes.length) {
 			if (!this.eventTypeKeyName) {
 				this.setEventTypeKey(eventObject);
