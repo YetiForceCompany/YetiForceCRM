@@ -38,7 +38,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	{
 		self::$testDir = App\Fields\File::getTmpPath() . 'backups';
 		$config = new \App\Configurator('backup');
-		$config->set('BACKUP_PATH', App\Purifier::purifyByType(self::$testDir, 'Path'));
+		$config->set('BACKUP_PATH', self::$testDir);
 		$config->save();
 		self::$testDir .= DIRECTORY_SEPARATOR;
 		if (is_dir(self::$testDir) === false) {
