@@ -84,8 +84,8 @@ class Chat_Modal_View extends \App\Controller\Modal
 	 */
 	private function isSoundNotification(): bool
 	{
-		return isset($_COOKIE['chat - isSoundNotification']) ?
-			filter_var($_COOKIE['chat - isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
+		return isset($_COOKIE['chat-isSoundNotification']) ?
+			filter_var($_COOKIE['chat-isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
 			\AppConfig::module('Chat', 'DEFAULT_SOUND_NOTIFICATION');
 	}
 
@@ -96,7 +96,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 	 */
 	private function isDesktopNotification(): bool
 	{
-		return isset($_COOKIE['chat - isDesktopNotification']) ?
-			filter_var($_COOKIE['chat - isDesktopNotification'], FILTER_VALIDATE_BOOLEAN) : false;
+		return isset($_COOKIE['chat-isDesktopNotification']) ?
+			filter_var($_COOKIE['chat-isDesktopNotification'], FILTER_VALIDATE_BOOLEAN) : false;
 	}
 }
