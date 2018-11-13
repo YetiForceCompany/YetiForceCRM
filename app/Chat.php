@@ -88,14 +88,20 @@ class Chat
 	public static function getCurrentRoom()
 	{
 		if (!isset($_SESSION['chat'])) {
-			$row = (new Db\Query())->from('u_#__chat_global')->where(['name' => 'LBL_GENERAL'])->one();
-			if ($row === false) {
-				return false;
-			}
-			return [
-				'roomType' => 'global',
-				'recordId' => $row[static::COLUMN_NAME['room']['global']]
-			];
+			return static::getDefaultRoom();
+		}
+		$recordId = $_SESSION['chat']['recordId'];
+		switch ($_SESSION['chat']['roomType']) {
+			case 'crm':
+				if (!\Vtiger_Record_Model::getInstanceById($recordId)->isViewable()) {
+					return static::getDefaultRoom();
+				}
+				break;
+			case 'group':
+				if (!isset(Fields\Owner::getUserGroups()[$recordId])) {
+					return static::getDefaultRoom();
+				}
+				break;
 		}
 		return $_SESSION['chat'];
 	}
@@ -158,13 +164,13 @@ class Chat
 	{
 		$userId = User::getCurrentUserId();
 		$roomIdName = static::COLUMN_NAME['room']['global'];
-		$cntQuery = (new \App\Db\Query())
+		$cntQuery = (new Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
 			->from(['CM' => 'u_yf_chat_messages_global'])
 			->where([
 				'CM.globalid' => new \yii\db\Expression('CR.global_room_id')
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
-		$subQuery = (new \App\Db\Query())
+		$subQuery = (new Db\Query())
 			->select([
 				'CR.*',
 				'cnt_new_message' => $cntQuery
@@ -196,7 +202,7 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$groups = \App\Fields\Owner::getUserGroups();
+		$groups = Fields\Owner::getUserGroups();
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])
@@ -580,6 +586,28 @@ class Chat
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
+	}
+
+	/**
+	 * Get default room.
+	 *
+	 * @return array|false
+	 */
+	private static function getDefaultRoom()
+	{
+		if (Cache::has('Chat', 'DefaultRoom')) {
+			return Cache::get('Chat', 'DefaultRoom');
+		}
+		$room = false;
+		$row = (new Db\Query())->from('u_#__chat_global')->where(['name' => 'LBL_GENERAL'])->one();
+		if ($row !== false) {
+			$room = [
+				'roomType' => 'global',
+				'recordId' => $row[static::COLUMN_NAME['room']['global']]
+			];
+		}
+		Cache::save('Chat', 'DefaultRoom', $room);
+		return $room;
 	}
 
 	/**
