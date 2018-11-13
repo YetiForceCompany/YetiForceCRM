@@ -72,10 +72,8 @@
 					</th>
 				{/foreach}
 			</tr>
-			</thead>
-			<tbody>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
-				<tr>
+				<tr class="bg-white">
 					<td class="listViewSearchTd">
 						<div class="flexWrapper">
 							<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
@@ -106,6 +104,8 @@
 					<td class="reducePadding"></td>
 				</tr>
 			{/if}
+			</thead>
+			<tbody>
 			{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 				{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
