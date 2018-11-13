@@ -63,7 +63,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var commActHeight = $('.commonActionsContainer').height();
 		app.showNewScrollbarTopBottomRight(this.list, {wheelPropagation: false});
 		let list = this.list;
-		this.listFloatThead = this.list.find('.js-floatThead');
+		this.listFloatThead = this.list.find('.js-fixed-thead');
 		this.listFloatThead.floatThead({
 			scrollContainer: function () {
 				return list;
