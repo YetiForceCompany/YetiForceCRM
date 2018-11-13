@@ -57,27 +57,14 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		return data;
 	}
 
-	loadCalendarData(allEvents) {
-		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-		var thisInstance = this;
-		thisInstance.getCalendarView().fullCalendar('removeEvents');
-		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var types = [];
-		var formatDate = CONFIG.dateFormat.toUpperCase();
-		types = thisInstance.getValuesFromSelect2($("#calendar-types"), types);
-		if (types.length == 0) {
-			allEvents = true;
-		}
-		var user = [];
-		user = thisInstance.getValuesFromSelect2($("#calendar-users"), user);
-		if (user.length == 0) {
-			user = [CONFIG.userId];
-		}
-		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user);
-		var filters = [];
-		$(".calendarFilters .filterField").each(function (index) {
-			var element = $(this);
-			var name, value;
+	getDefaultParams() {
+		let parentParams = super.getDefaultParams(),
+			users = app.moduleCacheGet('calendar-groups') || [],
+			filters = [];
+		$(".calendarFilters .filterField").each(function () {
+			let element = $(this),
+				name,
+				value;
 			if (element.attr('type') == 'checkbox') {
 				name = element.val();
 				value = element.prop('checked') ? 1 : 0;
@@ -87,27 +74,16 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			}
 			filters.push({name: name, value: value});
 		});
-		if (allEvents == true || types.length > 0) {
-			var params = {
-				module: 'Calendar',
-				action: 'Calendar',
-				mode: 'getEvents',
-				start: view.start.format(formatDate),
-				end: view.end.format(formatDate),
-				user: user,
-				time: app.getMainParams('showType'),
-				types: types,
-				filters: filters
-			};
-			AppConnector.request(params).done(function (events) {
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				progressInstance.progressIndicator({mode: 'hide'});
-				thisInstance.registerSelect2Event();
-			});
-		} else {
-			thisInstance.getCalendarView().fullCalendar('removeEvents');
-			progressInstance.progressIndicator({mode: 'hide'});
+		let params = {
+			time: app.getMainParams('showType'),
+			filters: filters
+		};
+		if (users.length) {
+			params.user = parentParams.user.concat(users);
+			params.emptyFilters = false;
 		}
+		params = Object.assign(parentParams, params);
+		return params;
 	}
 
 	selectDays(startDate, endDate) {
