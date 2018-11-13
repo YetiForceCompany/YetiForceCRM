@@ -21,16 +21,16 @@
 		</div>
 	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
-		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts w-100 mt-1 mb-2 mx-3" role="alert">
+		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts w-100 mt-1 mb-2 mx-3 d-flex justify-content-between" role="alert">
 			{if $SERVICE_CONTRACTS}
-				<ul class="nav nav-pills float-right relative top10" role="tablist">
+				<strong class="u-white-space-nowrap mr-1 align-self-center">{\App\Language::translate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
+				<ul class="nav nav-pills flex-nowrap js-scrollbar mr-2" role="tablist" data-js="scroll">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
-						<li role="presentation" class="btn btn-light js-popover-tooltip" data-js="popover" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
+						<li role="presentation" class="btn btn-light js-popover-tooltip  mr-1" data-js="popover" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
 							<span class="fas fa-link"></span> {$ROW['subject']} {if $ROW['due_date']}({$ROW['due_date']}){/if}
 						</li>
 					{/foreach}
 				</ul>
-				<strong>{\App\Language::translate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
 			{else}
 				<strong>{\App\Language::translate('LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS',$MODULE)}</strong>
 			{/if}
