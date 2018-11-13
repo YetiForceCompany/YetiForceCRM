@@ -300,7 +300,6 @@ class CustomView
 	}
 
 	/** @var \Vtiger_Module_Model */
-	private $module;
 	private $moduleName;
 	private $user;
 	private $defaultViewId;
