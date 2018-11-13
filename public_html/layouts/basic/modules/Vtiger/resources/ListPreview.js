@@ -81,14 +81,15 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		let mainViewPortWidthCss = {width: mainBody.height()};
 		this.gutter.addClass('js-fixed-scroll');
 		let fixedElements = container.find('.js-fixed-scroll');
+		let fixedThead = this.list.siblings('.floatThead-container');
 		mainBody.on('scroll', () => {
 			if (mainBody.scrollTop() >= listOffsetTop) {
-				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
+				fixedThead.add(fixedElements).css({top: mainBody.scrollTop() - listOffsetTop});
 				fixedElements.css(mainViewPortHeightCss);
 				this.rotatedText.css(mainViewPortHeightCss);
 				this.rotatedText.css(mainViewPortWidthCss);
 			} else {
-				fixedElements.css({top: 'initial'});
+				fixedThead.add(fixedElements).css({top: 'initial'});
 				fixedElements.css({height: initialH + mainBody.scrollTop()})
 				this.rotatedText.css({
 					width: initialH + mainBody.scrollTop(),
