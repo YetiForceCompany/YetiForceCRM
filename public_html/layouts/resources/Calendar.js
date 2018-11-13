@@ -475,7 +475,7 @@ window.Calendar_Js = class {
 		let groupSelect = $('#calendarGroupList');
 		let usersSelect = $('#calendar-users');
 		if ($.inArray(eventObject.assigned_user_id.value, usersSelect.val()) < 0 && ($.inArray(eventObject.assigned_user_id.value, groupSelect.val())) < 0 || groupSelect.val().length === 0) {
-			this.refreshFilterValues(usersSelect.add(groupSelect));
+			this.refreshFilterValues(eventObject, usersSelect.add(groupSelect));
 			return false;
 		}
 		let calendarTypes = $("#calendar-types");
@@ -499,7 +499,7 @@ window.Calendar_Js = class {
 		});
 	}
 
-	refreshFilterValues(filtersValues) {
+	refreshFilterValues(eventObject, filtersValues) {
 		if (CONFIG.searchShowOwnerOnlyInList) {
 			let allOptions = [];
 			filtersValues.find('option').each((i, option) => {
@@ -507,11 +507,23 @@ window.Calendar_Js = class {
 			});
 			if ($.inArray(eventObject.assigned_user_id.value, allOptions) < 0) {
 				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((usersData) => {
-					$('.js-calendar__filter--users').html(usersData);
-					AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done((groupsData) => {
-						$('.js-calendar__filter--groups').html(groupsData);
+					let filterUsers = $('.js-calendar__filter--users');
+					let filterGroups = $('.js-calendar__filter--groups');
+					filterUsers.html(usersData);
+					if (usersData) {
+						filterUsers.closest('.js-toggle-panel').removeClass('d-none');
+					}
+					if (filterGroups.length) {
+						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done((groupsData) => {
+							filterGroups.html(groupsData);
+							if (groupsData) {
+								filterGroups.closest('.js-toggle-panel').removeClass('d-none');
+							}
+							this.registerSelect2Event();
+						});
+					} else {
 						this.registerSelect2Event();
-					});
+					}
 				});
 			}
 		}
