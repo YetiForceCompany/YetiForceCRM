@@ -19,7 +19,7 @@
 				<a href="index.php?module={if isset($ROOM['moduleName'])}{$ROOM['moduleName']}{/if}&view=Detail&record={$ROOM['recordid']}"
 				   class="{if $ROOM_TYPE!=='crm'}hide js-link{/if}" data-js="hide">
 					<span class="fas fa-link"
-						  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
+						  title="{\App\Language::translate('LBL_DETAIL_VIEW', $MODULE_NAME)}"></span>
 				</a>
 			</div>
 			<div class="col-1 text-right px-2 d-flex align-items-center o-chat__pin-favorites">
