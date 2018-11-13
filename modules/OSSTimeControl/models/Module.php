@@ -18,31 +18,25 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+		$links = parent::getSideBarLinks($linkParams);
+		array_unshift($links['SIDEBARLINK'], Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_CALENDAR_VIEW',
 			'linkurl' => $this->getCalendarViewUrl(),
-			'linkicon' => 'fas fa-calendar-alt',
-		]);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_RECORDS_LIST',
-			'linkurl' => $this->getListViewUrl(),
-			'linkicon' => 'fas fa-list',
-		]);
+			'linkicon' => 'fas fa-calendar-alt'
+		]));
 		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
 				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => '',
+				'linkicon' => ''
 			]);
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_TYPE',
 				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
-				'linkicon' => '',
+				'linkicon' => ''
 			]);
 		}
 		return $links;
