@@ -13,7 +13,7 @@ class Reservations_Calendar_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('getEvent');
+		$this->exposeMethod('getEvents');
 		$this->exposeMethod('updateEvent');
 	}
 
@@ -31,7 +31,7 @@ class Reservations_Calendar_Action extends \App\Controller\Action
 		}
 	}
 
-	public function getEvent(\App\Request $request)
+	public function getEvents(\App\Request $request)
 	{
 		$record = Reservations_Calendar_Model::getInstance();
 		$record->set('user', $request->getArray('user'));

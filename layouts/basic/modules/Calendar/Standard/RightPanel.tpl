@@ -2,7 +2,7 @@
 {strip}
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="rounded m-1">
-			<select class="select2 form-control" id="calendar-users" multiple="multiple"
+			<select class="select2 form-control" data-cache="calendar-users" multiple="multiple"
 					title="{\App\Language::translate('LBL_USERS',$MODULE)}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 					<option class="ownerCBg_{$OWNER_ID}" value="{$OWNER_ID}"
@@ -15,7 +15,7 @@
 	{/if}
 	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div class="rounded m-1">
-			<select class="select2 form-control" multiple="multiple" id="calendarGroupList"
+			<select class="select2 form-control" data-cache="calendar-groups" multiple="multiple"
 					title="{\App\Language::translate('LBL_GROUPS',$MODULE)}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 					<option class="ownerCBg_{$OWNER_ID}" value="{$OWNER_ID}">
@@ -27,7 +27,7 @@
 	{/if}
 	{if !empty($ACTIVITY_TYPE)}
 		<div class="rounded m-1">
-			<select class="select2 form-control" id="calendar-types" multiple="multiple"
+			<select class="select2 form-control" data-cache="calendar-types" multiple="multiple"
 					title="{\App\Language::translate('Activity Type',$MODULE)}">
 				{foreach item=ITEM from=$ACTIVITY_TYPE}
 					<option class="picklistCBr_Calendar_activitytype_{$ITEM}" value="{$ITEM}">
