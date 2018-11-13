@@ -702,11 +702,15 @@ window.Chat_JS = class Chat_Js {
 	 * @param {object}
 	 * @returns {jQuery}
 	 */
-	createRoomItem(data = {}, favorite = false) {
+	createRoomItem(data = {}, favorite = false, roomType = 'global') {
 		let itemRoom = this.container.find('.js-room-list .js-temp-item-room').clone(false, false);
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
+		itemRoom.addClass('d-flex');
 		itemRoom.find('.js-room-name').html(data.name);
 		itemRoom.attr('title', data.name);
+		if (roomType === 'crm') {
+			itemRoom.find('.js-link').removeClass('hide').attr('href', "index.php?module=Contacts&view=Detail&record=" + data.recordid);
+		}
 		if (data['cnt_new_message'] == 0) {
 			itemRoom.find('.js-room-cnt').html('');
 		} else {
@@ -754,7 +758,7 @@ window.Chat_JS = class Chat_Js {
 				if (newMessage !== null) {
 					cnt += newMessage;
 				}
-				let itemRoom = this.createRoomItem(data.roomList[key][idx], roomTypeList.data('favoriteRemoveBtn'));
+				let itemRoom = this.createRoomItem(data.roomList[key][idx], roomTypeList.data('favoriteRemoveBtn'), key);
 				if (key === currentRoomType && data.roomList[key][idx]['recordid'] === currentRecordId) {
 					itemRoom.addClass('active o-chat__room');
 				}

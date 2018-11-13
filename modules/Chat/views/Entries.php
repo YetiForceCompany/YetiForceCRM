@@ -15,6 +15,13 @@ class Chat_Entries_View extends \App\Controller\View
 	use \App\Controller\ExposeMethod;
 
 	/**
+	 * Record model.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	private $recordModel;
+
+	/**
 	 * Constructor with a list of allowed methods.
 	 */
 	public function __construct()
@@ -36,6 +43,24 @@ class Chat_Entries_View extends \App\Controller\View
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
+		}
+		if ($request->has('roomType') && !$request->has('recordId')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NOT_ALLOWED_VALUE', 406);
+		} elseif ($request->has('roomType') && $request->has('recordId')) {
+			$recordId = $request->getInteger('recordId');
+			switch ($request->getByType('roomType')) {
+				case 'crm':
+					$this->recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					if (!$this->recordModel->isViewable()) {
+						throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+					}
+					break;
+				case 'group':
+					if (!isset(\App\Fields\Owner::getInstance('CustomView')->getGroups(false)[$recordId])) {
+						throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+					}
+					break;
+			}
 		}
 	}
 

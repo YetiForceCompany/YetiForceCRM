@@ -170,11 +170,11 @@ class Chat
 				'cnt_new_message' => $cntQuery
 			])
 			->from(['CR' => 'u_yf_chat_rooms_global']);
-		$query = (new Db\Query())
+		$dataReader = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message'])
 			->from(['GL' => 'u_#__chat_global'])
-			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.global_room_id AND CNT.userid = {$userId}");
-		$dataReader = $query->createCommand()->query();
+			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.global_room_id AND CNT.userid = {$userId}")
+			->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
@@ -196,6 +196,7 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
+		$groups = \App\Fields\Owner::getInstance('CustomView')->getGroups(false);
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])
@@ -203,13 +204,19 @@ class Chat
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.groupid', 'CR.userid']);
-		$rows = (new Db\Query())
+		$dataReader = (new Db\Query())
 			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
 			->from(['GR' => 'u_#__chat_rooms_group'])
 			->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.groupid = GR.groupid AND CNT.userid = GR.userid')
-			->where(['GR.userid' => $userId])
-			->all();
+			->where(['GR.userid' => $userId])->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			if (isset($groups[$row['recordid']])) {
+				$rows[] = $row;
+			}
+		}
+		$dataReader->close();
 		return $rows;
 	}
 
