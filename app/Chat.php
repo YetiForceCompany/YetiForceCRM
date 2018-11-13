@@ -239,13 +239,19 @@ class Chat
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.crmid', 'CR.userid']);
-		$rows = (new Db\Query())
+		$dataReader = (new Db\Query())
 			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'CNT.cnt_new_message'])
 			->from(['C' => 'u_#__chat_rooms_crm'])
 			->leftJoin(['CL' => 'u_#__crmentity_label'], 'CL.crmid = C.crmid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.crmid = C.crmid AND CNT.userid = C.userid')
-			->where(['C.userid' => $userId])
-			->all();
+			->where(['C.userid' => $userId])->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			if (\Vtiger_Record_Model::getInstanceById($row['recordid'])->isViewable()) {
+				$rows[] = $row;
+			}
+		}
+		$dataReader->close();
 		return $rows;
 	}
 
