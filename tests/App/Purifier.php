@@ -41,7 +41,7 @@ class Purifier extends \Tests\Base
 			['TimeInUserFormat', 'NotSame', '24:12:00', '24:12', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],
 			['Bool', 'Same', true, true, 'Sample text should be unchanged', false],
 			['Bool', 'NotSame', 'Test-text', 'Test-text', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['NumberInUserFormat', 'Same', '1234567890', '1234567890', 'Sample text should be unchanged', false],
+			['NumberInUserFormat', 'Same', 1234567890.0, '1234567890', 'Sample text should be unchanged and converted to decimal', false],
 			['NumberInUserFormat', 'NotSame', '12345X7890', '12345X7890', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['Integer', 'Same', 1234, 1234, 'Sample integer should be unchanged', false],
 			['Integer', 'NotSame', '12X4', '12X4', 'Sample integer should be purified', \App\Exceptions\IllegalValue::class],
