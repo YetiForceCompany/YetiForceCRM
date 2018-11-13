@@ -36,13 +36,17 @@ class Currency
 	 *
 	 * @return float
 	 */
-	public static function formatToDb(string $value): float
+	public static function formatToDb(string $value): ?float
 	{
 		if (empty($value)) {
 			return 0;
 		}
 		$currentUser = \App\User::getCurrentUserModel();
-		return str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+		$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+		if (!\is_numeric($value)) {
+			return null;
+		}
+		return $value;
 	}
 
 	/**
