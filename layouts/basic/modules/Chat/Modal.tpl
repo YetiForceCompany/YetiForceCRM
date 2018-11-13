@@ -16,7 +16,7 @@
 				</span>
 			</div>
 			<div class="col-1 text-right px-2 d-flex align-items-center o-chat__pin-favorites">
-				<a href="index.php?module=Contacts&view=Detail&record={$ROOM['recordid']}"
+				<a href="index.php?module={if isset($ROOM['moduleName'])}{$ROOM['moduleName']}{/if}&view=Detail&record={$ROOM['recordid']}"
 				   class="{if $ROOM_TYPE!=='crm'}hide js-link{/if}" data-js="hide">
 					<span class="fas fa-link"
 						  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
@@ -94,7 +94,7 @@
 						<ul class="js-room-type js-hide-group hide u-font-size-13px p-0" data-room-type="{$KEY}"
 							data-js="data">
 							{assign var=CNT_GROUP value=0}
-							{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getInstance('CustomView')->getGroups(false)}
+							{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getUserGroups()}
 								{if in_array($GROUP_ID, $USER_GROUP)}
 									{continue}
 								{/if}

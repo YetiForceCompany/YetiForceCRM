@@ -133,7 +133,7 @@ class Chat extends \Tests\Base
 	public function testGroup()
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$groups = \App\Fields\Owner::getInstance('CustomView')->getGroups(false);
+		$groups = \App\Fields\Owner::getUserGroups();
 		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
 		$groupId = key($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);

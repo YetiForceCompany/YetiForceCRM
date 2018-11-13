@@ -196,7 +196,7 @@ class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$groups = \App\Fields\Owner::getInstance('CustomView')->getGroups(false);
+		$groups = \App\Fields\Owner::getUserGroups();
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])
@@ -247,7 +247,9 @@ class Chat
 			->where(['C.userid' => $userId])->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
-			if (\Vtiger_Record_Model::getInstanceById($row['recordid'])->isViewable()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($row['recordid']);
+			if ($recordModel->isViewable()) {
+				$row['moduleName'] = $recordModel->getModuleName();
 				$rows[] = $row;
 			}
 		}

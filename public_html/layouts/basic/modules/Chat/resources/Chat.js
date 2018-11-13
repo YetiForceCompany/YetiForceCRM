@@ -709,7 +709,9 @@ window.Chat_JS = class Chat_Js {
 		itemRoom.find('.js-room-name').html(data.name);
 		itemRoom.attr('title', data.name);
 		if (roomType === 'crm') {
-			itemRoom.find('.js-link').removeClass('hide').attr('href', "index.php?module=Contacts&view=Detail&record=" + data.recordid);
+			itemRoom.find('.js-link')
+				.removeClass('hide')
+				.attr('href', "index.php?module=" + data['moduleName'] + "&view=Detail&record=" + data.recordid);
 		}
 		if (data['cnt_new_message'] == 0) {
 			itemRoom.find('.js-room-cnt').html('');
