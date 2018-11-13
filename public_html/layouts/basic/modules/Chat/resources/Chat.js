@@ -1117,10 +1117,11 @@ window.Chat_JS = class Chat_Js {
 								type: 'info',
 								animation: 'show'
 							});
+						} else {
+							app.setCookie("chat-isDesktopNotification", true, 365);
 						}
 					}, 2000);
 				}
-				app.setCookie("chat-isDesktopNotification", true, 365);
 			} else {
 				app.setCookie("chat-isDesktopNotification", false, 365);
 			}
