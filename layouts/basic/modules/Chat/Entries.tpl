@@ -11,6 +11,7 @@
 					class="btn btn-sm btn-light text-secondary col-2 d-block mr-auto ml-auto mt-3 js-load-more"
 					data-mid="{$ROW['id']}"
 					data-js="click|remove">
+				<span class="fas fa-angle-double-up mr-2"></span>
 				{\App\Language::translate('LBL_EARLIER', 'Chat')|upper}
 			</button>
 			{continue}

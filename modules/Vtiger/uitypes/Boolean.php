@@ -73,4 +73,24 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	{
 		return ['tinyint', 'smallint'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Boolean.tpl';
+	}
 }

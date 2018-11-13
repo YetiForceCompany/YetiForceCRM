@@ -148,9 +148,8 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		if (in_array($recordModuleName, ['Products', 'Services'])) {
 			$conversionRate = 1;
 			$info['unitPriceValues'] = $recordModel->getListPriceValues($recordModel->getId());
-			$priceDetails = $recordModel->getPriceDetails();
-			foreach ($priceDetails as $currencyDetails) {
-				if ($currencyId == $currencyDetails['curid']) {
+			foreach ($recordModel->getPriceDetails() as $currencyDetails) {
+				if ($currencyId === (int) $currencyDetails['id']) {
 					$conversionRate = $currencyDetails['conversionrate'];
 				}
 			}

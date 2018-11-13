@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" tabindex="-1" data-js="container">
+	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content pl-3 pr-3">
 				<div class="modal-header">
@@ -69,7 +69,8 @@
 													id="viewColumnsSelect"
 													data-js="appendTo">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-													<optgroup	label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
+													<optgroup
+															label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
 																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewSelectColumnName())}
@@ -103,7 +104,8 @@
 																				data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																			{/if}
 																			data-js="data-sort-index|data-field-name">
-																	{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
+																		{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
+																		&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 																	</option>
 																{/foreach}
 															</optgroup>
@@ -150,6 +152,28 @@
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader c-panel__header">
+					<span class="iconToggle fas fa-chevron-right small m-1 mt-2" data-hide="fas fa-chevron-right"
+						  data-show="fas fa-chevron-down"></span>
+								<h5 class="">{\App\Language::translate('LBL_FIND_DUPLICATES',$MODULE_NAME)}</h5>
+							</div>
+							<div class="c-panel__body py-1 d-none">
+								<input type="hidden" name="duplicatefields" value="">
+								<button type="button" class="btn btn-success btn-sm js-duplicate-add-field mb-1"
+										data-js="click"><span class="fa fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_FIELD',$MODULE_NAME)}</button>
+								<div class="js-duplicates-field-template js-duplicates-row d-none" data-js="container|clone">
+									{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
+								</div>
+								<div class="js-duplicates-container" data-js="container">
+									{foreach from=$DUPLICATE_FIELDS item=FIELD}
+										<div class="js-duplicates-row my-1" data-js="container">
+											{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
+										</div>
+									{/foreach}
+								</div>
+							</div>
+						</div>
+						<div class="js-toggle-panel c-panel" data-js="click">
+							<div class="blockHeader c-panel__header">
 					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}
@@ -158,9 +182,9 @@
 							<div class="c-panel__body py-1">
 								<div class="filterConditionsDiv">
 									<div class="row">
-							<span class="col-md-12">
-								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
-							</span>
+										<span class="col-md-12">
+											{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE}
+										</span>
 									</div>
 								</div>
 							</div>

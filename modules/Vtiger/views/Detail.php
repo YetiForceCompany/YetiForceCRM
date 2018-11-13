@@ -165,8 +165,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -219,7 +217,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/split.js/split.js',
+			'~libraries/split.js/dist/split.js',
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',

@@ -1569,8 +1569,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainer.html('');
 		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
-		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length)) {
-			thisInstance.setFilterToCache(params.url, params.data);
+		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length || parent.find('.listSearchContributor'))) {
+			thisInstance.setFilterToCache(params.url ? params.url : params, params.data ? params.data : {});
 		}
 		AppConnector.request(params).done((data) => {
 			data = $(data);
@@ -2797,6 +2797,7 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 			}
 		}
 		this.registerRecordsCount();
+		this.registerCache(container);
 	},
 });
 YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {

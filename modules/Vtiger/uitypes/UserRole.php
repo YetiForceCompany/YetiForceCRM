@@ -79,8 +79,28 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getOperators()
+	{
+		return ['e', 'c'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/UserRole.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if ($operator === 'e') {
+			return 'ConditionBuilder/UserRole.tpl';
+		} else {
+			return 'ConditionBuilder/Base.tpl';
+		}
 	}
 }

@@ -28,6 +28,14 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return $this->getDBValue($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -52,14 +60,14 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$extra = '';
-		if ($recordModel) {
-			$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
-			if ($extra) {
-				$extra = ' ' . $extra;
-			}
-		}
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+			if ($recordModel) {
+				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
+				if ($extra) {
+					$extra = ' ' . $extra;
+				}
+			}
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse($value);
@@ -67,6 +75,8 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
 			} catch (\libphonenumber\NumberParseException $e) {
 			}
+		} else {
+			$rfc3966 = 'tel:' . $rfc3966;
 		}
 		if ($rawText) {
 			return $international . $extra;
@@ -91,6 +101,8 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
 			} catch (\libphonenumber\NumberParseException $e) {
 			}
+		} else {
+			$rfc3966 = 'tel:' . $rfc3966;
 		}
 		if ($rawText) {
 			return $international;
@@ -107,5 +119,13 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Phone.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }

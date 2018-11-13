@@ -251,7 +251,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
-		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields[] = $groupByField;
 		}

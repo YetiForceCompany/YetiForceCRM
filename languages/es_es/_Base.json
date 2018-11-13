@@ -187,6 +187,7 @@
     "LBL_ADD_CC": "A\u00f1adir Cc",
     "LBL_ADD_COMMENT": "A\u00f1adir comentario",
     "LBL_ADD_CONDITION": "A\u00f1adir condici\u00f3n",
+    "LBL_ADD_CONDITION_GROUP": "Add group",
     "LBL_ADD_EVENT": "A\u00f1adir evento",
     "LBL_ADD_GROUP": "A\u00f1adir grupo",
     "LBL_ADD_MANAGE_MODULES": "A\u00f1adir\/Administrar m\u00f3dulos",
@@ -421,7 +422,6 @@
     "LBL_CURRENT_FY": "FiscalYear(FY) Actual",
     "LBL_PREVIOUS_FQ": "FiscalQuarter(FQ) Anterior",
     "LBL_PREVIOUS_FY": "FiscalYear(FY) Anterior",
-    "LBL_DUPLICATES": "Mostrar duplicados",
     "LBL_NEXT_MONTH": "Pr\u00f3ximo mes",
     "LBL_NEXT_WEEK": "Pr\u00f3xima semana",
     "LBL_LAST_7_DAYS": "\u00daltimos 7 d\u00edas",
@@ -1319,7 +1319,11 @@
     "LBL_SHOP_YETIFORCE": "Store",
     "LBL_PRINT": "Print",
     "LBL_IMAGE_DOWNLOAD": "Download image",
-    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d.",
+    "LBL_USE_VARIABLES": "In this field you can use variables, you just need to copy any variable to the clipboard from the panel and paste in here. The field can contain several variables.",
+    "BTN_RECORD_OPEN": "Unblock record",
+    "LBL_REMOVE_RELATION": "Remove relation",
+    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed."
   },
   "js": {
     "JS_APPROVE": "Approve",

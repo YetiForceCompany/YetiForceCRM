@@ -22,6 +22,20 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return '';
 	}
 
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		if ($operator === 'bw') {
+			$values = explode(',', $value);
+			foreach ($values as &$val) {
+				$this->validate($val, true);
+				$val =	$this->getDBValue($val);
+			}
+			return implode(',', $values);
+		}
+		$this->validate($value, true);
+		return $this->getDBValue($value);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -154,5 +168,29 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$defaultValue = $textParser->getContent();
 		}
 		return $defaultValue;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'] + array_keys(App\CustomView::DATE_FILTER_CONDITIONS);
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if ($operator === 'bw') {
+			return 'ConditionBuilder/DateRange.tpl';
+		} else {
+			return 'ConditionBuilder/Date.tpl';
+		}
 	}
 }

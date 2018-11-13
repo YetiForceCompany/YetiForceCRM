@@ -85,6 +85,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',
+			'modules.Vtiger.resources.ConditionBuilder',
 			"modules.$moduleName.resources.AdvanceFilter",
 			'modules.Vtiger.resources.SearchAdvanceFilter',
 			"modules.$moduleName.resources.SearchAdvanceFilter",

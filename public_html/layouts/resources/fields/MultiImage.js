@@ -19,12 +19,12 @@ class MultiImage {
 			showCarousel: true,
 		};
 		this.detailView = false;
-		this.elements.fileInput = $(element).find('.js-multi-image__file').eq(0);
+		this.elements.fileInput = element.find('.js-multi-image__file').eq(0);
 		if (this.elements.fileInput.length === 0) {
 			this.detailView = true;
 		}
-		this.elements.component = $(element).eq(0);
-		this.elements.form = $(element).closest('form').eq(0);
+		this.elements.component = element.eq(0);
+		this.elements.form = element.closest('form').eq(0);
 		$(this.elements.form).on('submit', this.onFormSubmit);
 		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
 		this.elements.values = this.elements.component.find('.js-multi-image__values').eq(0);

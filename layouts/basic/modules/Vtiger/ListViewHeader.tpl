@@ -48,10 +48,15 @@
 												data-featured="{$CUSTOM_VIEW->isFeatured()}"
 												data-pending="{$CUSTOM_VIEW->isPending()}" {' '}
 												data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}"
+												{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'}
+													data-option="{$CUSTOM_VIEW->getOwnerName()}"
+												{/if}
 												id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {' '}
 												value="{$CUSTOM_VIEW->get('cvid')}" {' '}
 												data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}
-												class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
+												class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
+											{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+										</option>
 									{/foreach}
 								</optgroup>
 							{/foreach}
