@@ -250,4 +250,12 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	{
 		return ['text'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
 }

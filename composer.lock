@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "ckeditor/ckeditor",
-            "version": "4.10.1",
+            "version": "4.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "e5999810955383eb4f72c03a5af7f2dfd59390a0"
+                "reference": "70e6f8f01c3d7d8f713291984017a6005c4e737a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/e5999810955383eb4f72c03a5af7f2dfd59390a0",
-                "reference": "e5999810955383eb4f72c03a5af7f2dfd59390a0",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/70e6f8f01c3d7d8f713291984017a6005c4e737a",
+                "reference": "70e6f8f01c3d7d8f713291984017a6005c4e737a",
                 "shasum": ""
             },
             "type": "library",
@@ -45,7 +45,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2018-09-11T18:33:38+00:00"
+            "time": "2018-11-08T18:19:19+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -910,16 +910,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.0",
+            "version": "1.34.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
+                "reference": "3b903d236ccd757d29c20632bf55ae91071c1b6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3b903d236ccd757d29c20632bf55ae91071c1b6f",
+                "reference": "3b903d236ccd757d29c20632bf55ae91071c1b6f",
                 "shasum": ""
             },
             "require": {
@@ -927,8 +927,11 @@
                 "symfony/translation": "~2.6 || ~3.0 || ~4.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2",
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
+            },
+            "suggest": {
+                "friendsofphp/php-cs-fixer": "Needed for the `composer phpcs` command. Allow to automatically fix code style.",
+                "phpstan/phpstan": "Needed for the `composer phpstan` command. Allow to detect potential errors."
             },
             "type": "library",
             "extra": {
@@ -961,7 +964,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20T19:36:25+00:00"
+            "time": "2018-11-13T07:01:46+00:00"
         },
         {
             "name": "phpmailer/phpmailer",

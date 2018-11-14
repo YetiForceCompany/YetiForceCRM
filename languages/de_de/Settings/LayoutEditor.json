@@ -178,7 +178,9 @@
     "LBL_WRONG_RELATION": "Ung\u00fcltiger verkn\u00fcpfter Wert",
     "Image": "Bild Datei",
     "MultiImage": "Bild Dateien",
-    "DateTime": "Datum und Uhrzeit Datei"
+    "DateTime": "Datum und Uhrzeit Datei",
+    "LBL_HEADER_TYPE_VALUE": "Value",
+    "LBL_HEADER_TYPE_PROGRESS": "Progress bar"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name existiert bereits",

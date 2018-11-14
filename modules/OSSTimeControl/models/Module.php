@@ -18,19 +18,13 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+		$links = parent::getSideBarLinks($linkParams);
+		array_unshift($links['SIDEBARLINK'], Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_CALENDAR_VIEW',
 			'linkurl' => $this->getCalendarViewUrl(),
-			'linkicon' => 'fas fa-calendar-alt',
-		]);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_RECORDS_LIST',
-			'linkurl' => $this->getListViewUrl(),
-			'linkicon' => 'fas fa-list',
-		]);
+			'linkicon' => 'fas fa-calendar-alt'
+		]));
 		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
@@ -96,7 +90,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$color = App\Fields\Owner::getColor($row['smownerid']);
 			$userTime['labels'][] = vtlib\Functions::getInitials($ownerName);
 			$userTime['datasets'][0]['tooltips'][] = $ownerName;
-			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
+			$userTime['datasets'][0]['data'][] = (float)$row['sumtime'];
 			$userTime['datasets'][0]['backgroundColor'][] = $color;
 			$userTime['datasets'][0]['borderColor'][] = $color;
 		}
@@ -138,7 +132,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				$color = App\Fields\Owner::getColor($row['smownerid']);
 				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
 				$chartData['datasets'][0]['tooltips'][] = $ownerName;
-				$chartData['datasets'][0]['data'][] = (float) $row['time'];
+				$chartData['datasets'][0]['data'][] = (float)$row['time'];
 				$chartData['datasets'][0]['backgroundColor'][] = $color;
 				$chartData['datasets'][0]['borderColor'][] = $color;
 			}

@@ -21,22 +21,16 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		$fldModule = $this->getModuleName();
 		$id = $this->getId();
-		$typeofdata = $this->get('typeofdata');
 		$fieldname = $this->getName();
-		$oldfieldlabel = $this->get('label');
 		$tablename = $this->get('table');
 		$columnName = $this->get('column');
-		$fieldtype = explode('~', $typeofdata);
 		$tabId = $this->getModuleId();
-		$deleteColumnName = $tablename . ':' . $columnName . ':' . $fieldname . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel) . ':' . $fieldtype[0];
-		$columnCvstdfilter = $tablename . ':' . $columnName . ':' . $fieldname . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel);
 		if ($tablename !== 'vtiger_crmentity') {
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
-		$db->createCommand()->delete('vtiger_cvstdfilter', ['columnname' => $columnCvstdfilter])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter', ['columnname' => $deleteColumnName])->execute();
+		$db->createCommand()->delete('u_#__cv_condition', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
 		if ($fldModule === 'Leads') {
 			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();

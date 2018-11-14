@@ -30,7 +30,7 @@
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</div>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
+		<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
 			<thead>
 			<tr class="listViewHeaders">
 				<th>
@@ -96,7 +96,7 @@
 								{assign var=SEARCH_INFO value=[]}
 							{/if}
 							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
-						FIELD_MODEL=$LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+							FIELD_MODEL=$LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 					<td class="reducePadding"></td>

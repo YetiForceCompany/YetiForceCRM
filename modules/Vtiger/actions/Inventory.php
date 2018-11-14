@@ -76,9 +76,9 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
-			$selectedCurrency = vtlib\Functions::getCurrencySymbolandRate($currency);
-			$price = (float) $price * $selectedCurrency['rate'];
-			$symbol = $selectedCurrency['symbol'];
+			$selectedCurrency = \App\Fields\Currency::getById($currency);
+			$price = (float) $price * $selectedCurrency['conversion_rate'];
+			$symbol = $selectedCurrency['currency_symbol'];
 		}
 		$totalPrice = $price + $balance;
 
@@ -148,9 +148,8 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		if (in_array($recordModuleName, ['Products', 'Services'])) {
 			$conversionRate = 1;
 			$info['unitPriceValues'] = $recordModel->getListPriceValues($recordModel->getId());
-			$priceDetails = $recordModel->getPriceDetails();
-			foreach ($priceDetails as $currencyDetails) {
-				if ($currencyId == $currencyDetails['curid']) {
+			foreach ($recordModel->getPriceDetails() as $currencyDetails) {
+				if ($currencyId === (int) $currencyDetails['id']) {
 					$conversionRate = $currencyDetails['conversionrate'];
 				}
 			}

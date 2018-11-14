@@ -307,8 +307,8 @@ class TextParser extends \Tests\Base
 		$employeeUser->set('email1', $userName . '@yetiforce.com');
 		$employeeUser->set('first_name', $userName);
 		$employeeUser->set('last_name', 'YetiForce');
-		$employeeUser->set('user_password', 'demo');
-		$employeeUser->set('confirm_password', 'demo');
+		$employeeUser->set('user_password', \Tests\Base\A_User::$defaultPassrowd);
+		$employeeUser->set('confirm_password', \Tests\Base\A_User::$defaultPassrowd);
 		$employeeUser->set('roleid', 'H2');
 		$employeeUser->set('is_admin', 'on');
 		$employeeUser->save();
@@ -374,9 +374,10 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
-		$contactModel = \Tests\Base\C_RecordActions::createContactRecord();
+		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord(false);
+		$contactModel = \Tests\Base\C_RecordActions::createContactRecord(false);
 		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|All|5)$';
-		$result = \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+		$result = \App\TextParser::getInstanceByModel($accountModel)->withoutTranslations(true)
 			->setContent($text)
 			->parse()
 			->getContent();

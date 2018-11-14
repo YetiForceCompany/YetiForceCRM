@@ -277,6 +277,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 99:
 						$fieldDataType = 'password';
 						break;
+					case 101:
+						$fieldDataType = 'userReference';
+						break;
 					case 115:
 						$fieldDataType = 'picklist';
 						break;
@@ -990,6 +993,21 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Returns instance of field.
+	 *
+	 * @param string|array $fieldInfo
+	 *
+	 * @return bool|null|\Vtiger_Field_Model|\vtlib\Field
+	 */
+	public static function getInstanceFromFilter($fieldInfo)
+	{
+		if (is_string($fieldInfo)) {
+			$fieldInfo = array_combine(['module_name', 'field_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
+		}
+		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
+	}
+
+	/**
 	 * Function checks if the current Field is Read/Write.
 	 *
 	 * @return bool
@@ -1463,7 +1481,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES)) {
+		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
 			return;
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);

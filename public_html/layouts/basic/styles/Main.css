@@ -13155,6 +13155,28 @@ ul.tweets li {
     .c-btn-done:not(:disabled):not(.disabled):active:focus, .c-btn-done:not(:disabled):not(.disabled).active:focus, .show > .c-btn-done.dropdown-toggle:focus {
       box-shadow: 0 0 0 0.2rem rgba(57, 73, 171, 0.5); }
 
+.c-btn-light-green {
+  color: #212529;
+  background-color: #8bc34a;
+  border-color: #8bc34a;
+  color: #fff; }
+  .c-btn-light-green:hover {
+    color: #fff;
+    background-color: #78ad39;
+    border-color: #71a436; }
+  .c-btn-light-green:focus, .c-btn-light-green.focus {
+    box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, 0.5); }
+  .c-btn-light-green.disabled, .c-btn-light-green:disabled {
+    color: #212529;
+    background-color: #8bc34a;
+    border-color: #8bc34a; }
+  .c-btn-light-green:not(:disabled):not(.disabled):active, .c-btn-light-green:not(:disabled):not(.disabled).active, .show > .c-btn-light-green.dropdown-toggle {
+    color: #fff;
+    background-color: #71a436;
+    border-color: #6a9a33; }
+    .c-btn-light-green:not(:disabled):not(.disabled):active:focus, .c-btn-light-green:not(:disabled):not(.disabled).active:focus, .show > .c-btn-light-green.dropdown-toggle:focus {
+      box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, 0.5); }
+
 .detailViewTitle .c-btn-link {
   height: max-content; }
 @media (max-width: 767.98px) {
@@ -13329,7 +13351,7 @@ input[type="radio"]:checked:before {
   background: #e8e8e8; }
 .o-chat__room {
   background: #d5d7de;
-  color: #73b5d9; }
+  color: #177e96; }
 .o-chat__room-hover .o-chat__pin-favorites {
   display: none !important; }
 .o-chat__room-hover:hover {
@@ -13343,7 +13365,45 @@ input[type="radio"]:checked:before {
   height: calc(100vh - 25.9375rem) !important; }
 
 .o-chat-footer {
-  color: #73b5d9; }
+  color: #177e96; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.c-condition-builder__row {
+  position: relative;
+  margin-left: 1.25rem; }
+  .c-condition-builder__row::after, .c-condition-builder__row::before {
+    content: "";
+    height: 100%;
+    position: absolute;
+    top: 0; }
+  .c-condition-builder__row::after {
+    border-left: solid 1px #337ab7; }
+  .c-condition-builder__row::before {
+    width: 20px;
+    height: 1.5rem;
+    border-bottom: solid 1px #337ab7; }
+  .c-condition-builder__row:last-of-type::after {
+    height: 1.5rem; }
+.c-condition-builder__group .c-condition-builder__group {
+  margin-left: 1.25rem;
+  position: relative;
+  padding-left: 1rem; }
+  .c-condition-builder__group .c-condition-builder__group::after, .c-condition-builder__group .c-condition-builder__group::before {
+    content: "";
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: #337ab7;
+    left: 0; }
+  .c-condition-builder__group .c-condition-builder__group::after {
+    border-left: solid 1px #337ab7; }
+  .c-condition-builder__group .c-condition-builder__group::before {
+    height: 1px;
+    border-bottom: solid 1px #337ab7;
+    width: 20px;
+    top: 1.4375rem; }
+  .c-condition-builder__group .c-condition-builder__group:last-of-type::after {
+    height: 1.4375rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
@@ -13472,6 +13532,12 @@ header .c-header__btn__container .select2-selection {
 
 .leaflet-popup-content {
   width: auto; }
+
+.ps__rail-x, .ps__rail-y {
+  z-index: 2000; }
+
+.dropdown-menu.show {
+  z-index: 3000; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
@@ -15455,6 +15521,32 @@ label.btn.btn-outline-primary:not(.active) {
   display: none; }
 
 @media (max-width: 767.98px) {
+  .o-header-toggle__actions-btn {
+    font-size: 1.0625rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem; }
+  .o-header-toggle__actions {
+    position: fixed;
+    left: auto;
+    right: -100%;
+    width: 100%;
+    color: #fff;
+    background-color: #f2f4f6;
+    z-index: 2000;
+    padding: 30px;
+    -webkit-transition: right ease-in-out 0.35s;
+    transition: right ease-in-out 0.35s;
+    text-align: center;
+    overflow: auto; }
+    .o-header-toggle__actions.is-active {
+      right: 0; }
+
+  .o-header-toggle__detail .o-header-toggle__actions {
+    top: 193px !important;
+    position: absolute !important; }
+  .o-header-toggle__detail .c-btn-link--responsive {
+    height: auto !important; } }
+@media (max-width: 767.98px) {
   .actionMenu .c-header__btn--mobile {
     display: block; }
   .actionMenu .c-header__label--sm-down {
@@ -15516,27 +15608,6 @@ label.btn.btn-outline-primary:not(.active) {
   .c-menu__container.js-expand + .c-header .c-header__btn:not(.c-header__btn--mobile),
   .c-menu__container.js-expand + .c-header .c-header__btn__container {
     margin-bottom: 0.25rem; } }
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-@media (max-width: 767.98px) {
-  .o-breadcrumb__actions-btn {
-    font-size: 1.0625rem;
-    padding-left: 0.4rem;
-    padding-right: 0.4rem; }
-  .o-breadcrumb__actions {
-    position: fixed;
-    left: auto;
-    right: -100%;
-    width: 100%;
-    color: #fff;
-    background-color: #f2f4f6;
-    z-index: 2000;
-    padding: 30px;
-    -webkit-transition: right ease-in-out 0.35s;
-    transition: right ease-in-out 0.35s;
-    text-align: center;
-    overflow: auto; }
-    .o-breadcrumb__actions.is-active {
-      right: 0; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .user-info--active .c-menu__container {
   bottom: calc(2rem + 1rem); }

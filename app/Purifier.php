@@ -272,15 +272,15 @@ class Purifier
 				$value[$k] = static::purifyByType($v, $type);
 			}
 		} else {
-			$value = false;
+			$value = null;
 			switch ($type) {
 				case 'Standard': // only word
 				case 1:
-					$value = preg_match('/^[\-_a-zA-Z]+$/', $input) ? $input : false;
+					$value = preg_match('/^[\-_a-zA-Z]+$/', $input) ? $input : null;
 					break;
 				case 'Alnum': // word and int
 				case 2:
-					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : false;
+					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
@@ -292,17 +292,17 @@ class Purifier
 					}
 					break;
 				case 'Time':
-					if (preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $input)) {
+					if (preg_match('/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])$/', $input)) {
 						$value = $input;
 					}
 					break;
 				case 'TimeInUserFormat':
 					if (\App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
-						if (preg_match('/([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)/', $input)) {
+						if (preg_match('/^([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)$/', $input)) {
 							$value = Fields\Time::formatToDB($input);
 						}
 					} else {
-						if (preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])/', $input)) {
+						if (preg_match('/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])$/', $input)) {
 							$value = Fields\Time::formatToDB($input);
 						}
 					}
@@ -340,13 +340,12 @@ class Purifier
 					}
 					break;
 				case 'Bool':
-					if (is_bool($input) || strcasecmp('true', (string) $input) === 0) {
-						$value = $input;
+					if (is_bool($input) || strcasecmp('true', (string) $input) === 0 || (string) $value === '1') {
+						$value = (bool) $input;
 					}
 					break;
 				case 'NumberInUserFormat': // number in user format
-					$currentUser = User::getCurrentUserModel();
-					$input = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $input);
+					$input = Fields\Currency::formatToDb($input);
 					if (is_numeric($input)) {
 						$value = $input;
 					}
@@ -362,7 +361,7 @@ class Purifier
 					}
 					break;
 				case 'Color': // colors
-					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : false;
+					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : null;
 					break;
 				case 'Year': // 2018 etc
 					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && strlen((string) $input) === 4) {
@@ -370,7 +369,7 @@ class Purifier
 					}
 					break;
 				case 'Version':
-					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : false;
+					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
 					break;
 				case 'Path':
 					$value = Fields\File::checkFilePath($input) ? $input : false;
@@ -380,7 +379,7 @@ class Purifier
 					$value = self::purify($input);
 					break;
 			}
-			if ($value === false) {
+			if ($value === null) {
 				\App\Log::error('purifyByType: ' . $input, 'IllegalValue');
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}

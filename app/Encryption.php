@@ -29,8 +29,7 @@ class Encryption extends Base
 	 * @var array Recommended encryption methods
 	 */
 	public static $recomendedMethods = [
-		'AES-256-CBC', 'AES-256-CTR', 'AES-192-CBC',
-		'AES-192-CTR', 'DES-EDE3-CBC', 'DES-EDE3-CFB',
+		'AES-256-CBC', 'AES-256-CTR', 'AES-192-CBC', 'AES-192-CTR'
 	];
 
 	/**

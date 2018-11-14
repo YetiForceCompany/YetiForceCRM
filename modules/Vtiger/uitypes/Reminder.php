@@ -102,4 +102,20 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	{
 		return 'Detail/Field/Reminder.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isActiveSearchView()
+	{
+		return false;
+	}
 }

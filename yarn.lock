@@ -40,9 +40,9 @@ blueimp-canvas-to-blob@3.5.0:
   integrity sha1-VnmsMvaig1gh8MOtZhcZ/4WpI2s=
 
 blueimp-file-upload@^9.25.1:
-  version "9.27.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.27.0.tgz#27293a8af0f87956d22dcc24bd1df6d7390ff2dc"
-  integrity sha512-uGfoaq1H+q4/EQLA35UJjLOf+K9X9zoDO0cuux3EDS+gI+yrIlkjeKNj9648vywQyD7MZUkyjlxzdIDQ0BrHTA==
+  version "9.28.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.28.0.tgz#e11a7eac367d2b3fc0f1cd9d1717299686bd98b4"
+  integrity sha512-Qvb5/CFlmIZ2cBoItpU2zQhUIvtZsSk9tV+X632uyrDpdpvdaJxDR9Wo8i7aUhfnbO1dbLuS5/auaA04Vk+XHw==
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -131,9 +131,9 @@ chartjs-plugin-funnel@^1.1.2:
     chart.js ">2.7.0"
 
 clipboard@>=2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.1.tgz#a12481e1c13d8a50f5f036b0560fe5d16d74e46a"
-  integrity sha512-7yhQBmtN+uYZmfRjjVjKa0dZdWuabzpSKGtyQZN+9C8xlC788SSJjOHWh7tzurfwTqTD5UDYAhIv5fRJg3sHjQ==
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
+  integrity sha512-Vw26VSLRpJfBofiVaFb/I8PVfdI1OxKcYShe6fm0sP/DtmiWQNCjhM/okTvdCo0G+lMMm1rMYbk4IK4x1X+kgQ==
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -167,9 +167,9 @@ color-name@^1.0.0:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 css-element-queries@^1.0.5:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.1.0.tgz#aa411134bfecacab1240d9b760b1ed2ed2c3e3b4"
-  integrity sha512-oLFKjj8eWnyJuZaH9hYc8Z79m1KflQtR8ft1NsAjTARGZHSiqk6i7hzjNnkQc+U+sVPRII9n+Jhx9/xnzFER/g==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.1.1.tgz#129e104ecb277aa6337b7302cbb6d511c2d1633a"
+  integrity sha512-/PX6Bkk77ShgbOx/mpawHdEvS3PGgy1mmMktcztDPndWdMJxcorcQiivrs+nEljqtBpvNEhAmQky9tQR6FSm8Q==
 
 css-line-break@1.0.1:
   version "1.0.1"
@@ -274,9 +274,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^4.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.2.tgz#df85411fabdcad323606a045a055fea90d8d7afe"
-  integrity sha512-9m7Q/bb7HAkTCvX61Bynp+52QYi67pb4qTvpit+p3iovnJimDiwH6bWB0J9SMpCXMm39xLUoznDzEz8BiNj9MQ==
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.3.tgz#04f91cba299cb8c80f4ee8ba66087fae86c33ebf"
+  integrity sha512-4VXomRC/ITucrBFN4L094GSF7VQU+9+8PTld2CuP0Z2WCIlcXbCqq6Pi2JsN6RVOr1uzaEFnTlN58TaECTF8lQ==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
@@ -410,9 +410,9 @@ pnotify@^4.0.0-alpha.2:
   integrity sha512-onzGW2UjHHeYB8B+Bea7fbH0wmhqwIExR8QoEB+saGQ0qbxTyWCeBVd1c+yhtrGFpXPN00gzMFFWIyzZmNZZWw==
 
 popper.js@^1.14.4:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
-  integrity sha1-juwdj/AqWjoVLdQ0FKFce3n9abY=
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.5.tgz#98abcce7c7c34c4ee47fcbc6b3da8af2c0a127bc"
+  integrity sha512-fs4Sd8bZLgEzrk8aS7Em1qh+wcawtE87kRUJQhK6+LndyV1HerX7+LURzAylVaTyWIn5NTB/lyjnWqw/AZ6Yrw==
 
 respond.js@^1.4.2:
   version "1.4.2"

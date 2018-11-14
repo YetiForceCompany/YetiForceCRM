@@ -15,6 +15,41 @@ namespace App\Fields;
 class Currency
 {
 	/**
+	 * Function returns the currency in user specified format.
+	 *
+	 * @param string $value Date time
+	 *
+	 * @return string
+	 */
+	public static function formatToDisplay($value, $user = null, $skipConversion = false, $skipFormatting = false)
+	{
+		if (empty($value)) {
+			return 0;
+		}
+		return \CurrencyField::convertToUserFormat($value, $user, $skipConversion, $skipFormatting);
+	}
+
+	/**
+	 * Function to get value for db format.
+	 *
+	 * @param string $value
+	 *
+	 * @return float
+	 */
+	public static function formatToDb(string $value): ?float
+	{
+		if (empty($value)) {
+			return 0;
+		}
+		$currentUser = \App\User::getCurrentUserModel();
+		$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+		if (!\is_numeric($value)) {
+			return null;
+		}
+		return $value;
+	}
+
+	/**
 	 * Get currency by module name.
 	 *
 	 * @param bool|string $type
@@ -49,5 +84,43 @@ class Currency
 			$currencyId = $row;
 		}
 		return $currencyId;
+	}
+
+	/**
+	 * Get all currencies.
+	 *
+	 * @param bool $onlyActive
+	 *
+	 * @return array
+	 */
+	public static function getAll($onlyActive = false)
+	{
+		if (\App\Cache::has('CurrencyGetAll', 'All')) {
+			$currencies = \App\Cache::get('CurrencyGetAll', 'All');
+		} else {
+			$currencies = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
+			\App\Cache::save('CurrencyGetAll', 'All', $currencies);
+		}
+		if ($onlyActive) {
+			foreach ($currencies as $id => $currency) {
+				if ($currency['currency_status'] !== 'Active') {
+					unset($currencies[$id]);
+				}
+			}
+		}
+		return $currencies;
+	}
+
+	/**
+	 * Get currency by id.
+	 *
+	 * @param int $currencyId
+	 *
+	 * @return array
+	 */
+	public static function getById(int $currencyId)
+	{
+		$currencyInfo = static::getAll();
+		return $currencyInfo[$currencyId] ?? [];
 	}
 }

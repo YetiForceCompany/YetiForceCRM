@@ -43,6 +43,19 @@ class G_Cron extends \Tests\Base
 					'uid' => '0',
 				])->execute();
 		}
+		foreach (['EUR', 'USD', 'GBP', 'CNY'] as $value) {
+			$row = (new \App\Db\Query())
+				->select(['vtiger_currencies.*'])
+				->from('vtiger_currencies')
+				->leftJoin('vtiger_currency_info', 'vtiger_currencies.currency_code = vtiger_currency_info.currency_code')
+				->where(['vtiger_currencies.currency_code' => $value, 'vtiger_currency_info.currency_code' => null])->one();
+			if ($row) {
+				unset($row['currencyid']);
+				$row['conversion_rate'] = 1;
+				$row['currency_status'] = 'Active';
+				\App\Db::getInstance()->createCommand()->insert('vtiger_currency_info', $row)->execute();
+			}
+		}
 	}
 
 	/**

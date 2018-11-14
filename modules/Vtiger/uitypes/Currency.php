@@ -18,11 +18,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($this->getFieldModel()->get('uitype') === 72) {
-			return CurrencyField::convertToDBFormat($value, null, true);
-		} else {
-			return CurrencyField::convertToDBFormat($value);
-		}
+		return CurrencyField::convertToDBFormat($value, null, $this->getFieldModel()->get('uitype') === 72);
 	}
 
 	/**
@@ -34,14 +30,12 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if ($isUserFormat) {
-			$currentUser = \App\User::getCurrentUserModel();
-			$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+			$value = App\Fields\Currency::formatToDb($value);
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$maximumLength = $this->getFieldModel()->get('maximumlength');
-		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
+		if (($maximumLength = $this->getFieldModel()->get('maximumlength')) && ($value > $maximumLength || $value < -$maximumLength)) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -52,21 +46,16 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$uiType = $this->getFieldModel()->get('uitype');
-		if ($value) {
-			if ($uiType === 72) {
-				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-				$value = CurrencyField::convertToUserFormat($value, null, true);
-			} else {
-				$value = CurrencyField::convertToUserFormat($value);
-			}
-			if (!$this->edit) {
-				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
-			}
-
-			return \App\Purifier::encodeHtml($value);
+		if (!$value) {
+			return 0;
 		}
-		return 0;
+		$uiType = $this->getFieldModel()->get('uitype');
+		// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
+		$value = CurrencyField::convertToUserFormat($value, null, $uiType === 72);
+		if (!$this->edit) {
+			$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
@@ -76,7 +65,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		if (!empty($value)) {
 			$this->edit = true;
-
 			return $this->getDisplayValue($value);
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -99,7 +87,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				$moduleName = \App\Record::getType($recordId);
 			}
 			$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $moduleName);
-			$currencySymbol = \vtlib\Functions::getCurrencySymbolandRate($currencyId)['symbol'];
+			$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
 		} else {
 			$currencyModal = new CurrencyField($value);
 			$currencyModal->initialize();
@@ -122,5 +110,25 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['decimal'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Currency.tpl';
 	}
 }

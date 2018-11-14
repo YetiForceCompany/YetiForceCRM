@@ -6,7 +6,6 @@ class Vtiger_Basic_Filter
 	protected $columnList = [];
 	protected $cvadvFilterAnd = [];
 	protected $cvadvFilterOr = [];
-	protected $cvstdFilter = [];
 
 	public function getViewName()
 	{
@@ -16,11 +15,6 @@ class Vtiger_Basic_Filter
 	public function getColumnList()
 	{
 		return $this->columnList;
-	}
-
-	public function getStdCriteria()
-	{
-		return $this->cvstdFilter;
 	}
 
 	public function getAdvftCriteria(\CustomView $cv)

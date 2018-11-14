@@ -72,6 +72,6 @@ class Json
 	 */
 	public static function isEmpty(string $value)
 	{
-		return empty($value) || $value !== '[]' || $value !== '""';
+		return empty($value) || $value === '[]' || $value === '""';
 	}
 }

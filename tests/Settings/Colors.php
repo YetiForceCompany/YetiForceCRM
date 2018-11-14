@@ -97,9 +97,9 @@ class Colors extends \Tests\Base
 	public function testActiveModuleColor()
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
-		\App\Colors::activeModuleColor($moduleId, 'true', '#A0B584');
+		\App\Colors::activeModuleColor($moduleId, true, '#A0B584');
 		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 1, 'Returned module color state is different from provided');
-		$this->assertNotEmpty(\App\Colors::activeModuleColor($moduleId, 'true', ''), 'Returned module color should be random generated if provided empty string');
+		$this->assertNotEmpty(\App\Colors::activeModuleColor($moduleId, true, ''), 'Returned module color should be random generated if provided empty string');
 	}
 
 	/**
@@ -166,7 +166,7 @@ class Colors extends \Tests\Base
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::updateUserColor(\App\User::getActiveAdminId(), '#E6FAD8');
 		\App\Colors::updateGroupColor((new\App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar(), '#E6FAD8');
-		\App\Colors::activeModuleColor($moduleId, 'false', '#A0B584');
+		\App\Colors::activeModuleColor($moduleId, false, '#A0B584');
 		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 0, 'Returned module color state is different from provided');
 		\App\Colors::updateModuleColor($moduleId, '');
 	}

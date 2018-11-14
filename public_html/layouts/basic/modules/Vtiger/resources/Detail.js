@@ -1475,6 +1475,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (url) {
 				if (currentTarget.hasClass('showEdit')) {
 					var headerInstance = Vtiger_Header_Js.getInstance();
+					if (window !== window.parent) {
+						headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+					}
 					headerInstance.getQuickCreateForm(url, 'Calendar', {noCache: true}).done((data) => {
 						headerInstance.handleQuickCreateData(data, {
 							callbackFunction: () => {
@@ -2257,7 +2260,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		const self = this;
 		let picklistValue = $(element).data('picklistValue');
 		Vtiger_Helper_Js.showConfirmationBox({
-			title: picklistValue,
+			title: $(element).data('picklistLabel'),
 			message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
 		}).done(() => {
 			const progressIndicatorElement = $.progressIndicator();

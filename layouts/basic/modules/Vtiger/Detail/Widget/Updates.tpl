@@ -3,7 +3,7 @@
 	<div class="tpl-Detail-Widget-Updates c-detail-widget u-mb-13px js-detail-widget" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value>
+			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<div class="form-row align-items-center py-1">
 					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">

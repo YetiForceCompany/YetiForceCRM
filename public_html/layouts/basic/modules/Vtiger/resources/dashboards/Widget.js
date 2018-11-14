@@ -1569,8 +1569,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainer.html('');
 		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
-		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length)) {
-			thisInstance.setFilterToCache(params.url, params.data);
+		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length || parent.find('.listSearchContributor'))) {
+			thisInstance.setFilterToCache(params.url ? params.url : params, params.data ? params.data : {});
 		}
 		AppConnector.request(params).done((data) => {
 			data = $(data);
@@ -2222,7 +2222,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
 						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per">' + event.event[key].count + '</span>' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per"><span class="u-text-contrast">' + event.event[key].count + '</span></span>' +
 						'</a>\n';
 				}
 				element += '</div>';
@@ -2797,6 +2797,7 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 			}
 		}
 		this.registerRecordsCount();
+		this.registerCache(container);
 	},
 });
 YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {

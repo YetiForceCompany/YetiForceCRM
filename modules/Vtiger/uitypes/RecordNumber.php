@@ -34,4 +34,20 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 
 		return $value;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
 }

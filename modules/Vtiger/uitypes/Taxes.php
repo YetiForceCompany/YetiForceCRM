@@ -23,11 +23,26 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
+		}
+		if (!$isUserFormat) {
+			$value = explode(',', $value);
 		}
 		if (!is_array($value)) {
 			$value = [$value];
@@ -114,5 +129,21 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Taxes.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
 	}
 }

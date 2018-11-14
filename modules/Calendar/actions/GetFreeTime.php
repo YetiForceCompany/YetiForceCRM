@@ -87,31 +87,44 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 				]
 			])->orderBy(['time_start' => SORT_ASC])
 				->createCommand()->query();
+		$recordsEndTime = '';
 		while ($row = $dataReader->read()) {
 			$date = new DateTime($row['date_start'] . ' ' . $startTime);
 			$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
 			$endHourFormat = date_format($date, 'H:i:s');
-			$endHour = new DateTimeField($endHourFormat);
-			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent && strtotime($startWorkHour) <= strtotime($startTime) && strtotime($endWorkHour) >= strtotime($endHourFormat)) {
+			$convertedStartTime = strtotime($startTime);
+			if (strtotime($startWorkHour) <= $convertedStartTime &&
+				$convertedStartTime >= strtotime($recordsEndTime) &&
+				$convertedStartTime <= strtotime($row['time_start']) &&
+				\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent &&
+				strtotime($endWorkHour) >= strtotime($endHourFormat)) {
+				$endTime = new DateTimeField($endHourFormat);
 				$startTime = new DateTimeField($startTime);
-				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
+				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endTime->getDisplayTime()];
 			} else {
 				$startTime = $row['time_end'];
+				if (empty($recordsEndTime) || strtotime($row['time_end']) > strtotime($recordsEndTime)) {
+					$recordsEndTime = $row['time_end'];
+				}
 			}
 		}
 		$dataReader->close();
+		if (!empty($recordsEndTime)) {
+			$startTime = $recordsEndTime;
+		}
 		$date = new DateTime($day . ' ' . $startTime);
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
-		if (strtotime(date_format($date, 'H:i:s')) > strtotime($endWorkHour) || strtotime(date_format($date, 'H:i:s')) < strtotime($startWorkHour)) {
+		$formattedDate = strtotime(date_format($date, 'H:i:s'));
+		if ($formattedDate > strtotime($endWorkHour) || $formattedDate < strtotime($startWorkHour)) {
 			$date->add(new DateInterval('P1D'));
 			while (in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
 			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'), $activityType, $currentUser->getId());
 		} else {
-			$endHour = new DateTimeField(date_format($date, 'H:i:s'));
+			$endTime = new DateTimeField(date_format($date, 'H:i:s'));
 			$startTime = new DateTimeField($startTime);
-			return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
+			return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endTime->getDisplayTime()];
 		}
 	}
 

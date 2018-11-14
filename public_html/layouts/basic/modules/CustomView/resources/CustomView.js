@@ -15,7 +15,8 @@ class CustomView {
 		let progressIndicatorElement = $.progressIndicator();
 		app.showModalWindow(null, url, () => {
 			this.contentsCotainer = $('.js-filter-modal__container');
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(this.contentsCotainer.find('.filterContainer'));
+			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(this.contentsCotainer.find('.js-condition-builder'), this.contentsCotainer.find('#sourceModule').val());
+			this.advanceFilterInstance.registerEvents();
 			//This will store the columns selection container
 			this.columnSelectElement = false;
 			this.registerEvents();
@@ -133,6 +134,38 @@ class CustomView {
 		});
 	}
 
+	/**
+	 * Get list of fields to duplicates
+	 * @returns {Array}
+	 */
+	getDuplicateFields(){
+		let fields = [];
+		const container = this.getContentsContainer();
+		container.find('.js-duplicates-container .js-duplicates-row').each(function(){
+			fields.push({
+				fieldid: $(this).find('.js-duplicates-field').val(),
+				ignore: $(this).find('.js-duplicates-ignore').is(':checked')
+			})
+		});
+		return fields;
+	}
+	/**
+	 * Register events for block "Find duplicates"
+	 */
+	registerDuplicatesEvents(){
+		const container = this.getContentsContainer();
+		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
+		container.on('click', '.js-duplicates-remove', function(e) {
+			$(this).closest('.js-duplicates-row').remove();
+		});
+		container.find('.js-duplicate-add-field').on('click', function(){
+			let template = container.find('.js-duplicates-field-template').clone();
+			template.removeClass('d-none');
+			template.removeClass('js-duplicates-field-template');
+			App.Fields.Picklist.showSelect2ElementView(template.find('.js-duplicates-field'));
+			container.find('.js-duplicates-container').append(template);
+		});
+	}
 	registerSubmitEvent(select2Element) {
 		$("#CustomView").on('submit', (e) => {
 			let selectElement = this.getColumnSelectElement();
@@ -184,8 +217,9 @@ class CustomView {
 					$('#stdfilterlist').val(JSON.stringify(stdfilterlist));
 				}
 				//handled advanced filters saved values.
-				let advfilterlist = this.advanceFilterInstance.getValues();
+				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
+				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
 				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
 				this.saveAndViewFilter();
 				return false;
@@ -195,11 +229,24 @@ class CustomView {
 		});
 	}
 
+
+	/**
+	 * Block submit on press enter key
+	 */
+	registerDisableSubmitOnEnter() {
+		this.getContentsContainer().find('#viewname, [name="color"]').keydown(function (e) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+			}
+		});
+	}
+
 	registerEvents() {
 		this.registerIconEvents();
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
+		this.registerDuplicatesEvents();
 		let select2Element = App.Fields.Picklist.showSelect2ElementView(this.getColumnSelectElement());
 		this.registerSubmitEvent(select2Element);
 		$('.stndrdFilterDateSelect').datepicker();
@@ -207,5 +254,6 @@ class CustomView {
 			this.loadDateFilterValues();
 		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
+		this.registerDisableSubmitOnEnter();
 	}
 };

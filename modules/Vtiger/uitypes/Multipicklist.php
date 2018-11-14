@@ -14,6 +14,18 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (is_array($value)) {
@@ -99,5 +111,25 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
 	}
 }
