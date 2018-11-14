@@ -13,6 +13,8 @@
     "LBL_ADD_FOLDER": "Adauga dosar",
     "LBL_ADD_NEW_FOLDER": "Adauga dosar nou",
     "LBL_ADD_RECORD": "Adauga inregistrare",
+    "LBL_ADD_RELATION": "Add document",
+    "LBL_SELECT_RELATION": "Select document",
     "LBL_CHECK_FILE_INTEGRITY": "Verifica integritate fisier",
     "LBL_DENIED_DOCUMENTS": "Documente respinse",
     "LBL_DESCRIPTION": "Descriere",
