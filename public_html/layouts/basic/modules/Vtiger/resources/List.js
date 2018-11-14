@@ -2010,6 +2010,8 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			delete params['view'];
 			app.hidePopover(button);
+			let scrollLeft = listContainer.scrollLeft();
+			let scrollTop = listContainer.scrollTop();
 			AppConnector.request(params).done((response) => {
 				if (response.success) {
 					calculateValue.html(response.result);
@@ -2017,6 +2019,8 @@ jQuery.Class("Vtiger_List_Js", {
 					calculateValue.html('');
 				}
 				self.registerFixedThead(listContainer);
+				listContainer.scrollLeft(scrollLeft);
+				listContainer.scrollTop(scrollTop);
 				progress.progressIndicator({mode: 'hide'});
 			});
 		});
