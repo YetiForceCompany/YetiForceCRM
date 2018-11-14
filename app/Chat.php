@@ -14,7 +14,7 @@ namespace App;
 /**
  * Class Chat.
  */
-class Chat
+final class Chat
 {
 	/**
 	 * Information about the tables of the database.
