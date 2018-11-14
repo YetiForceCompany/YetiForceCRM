@@ -67,6 +67,16 @@ window.Chat_JS = class Chat_Js {
 	static registerTrackingEvents() {
 		const headerChatButton = Chat_Js.getHeaderChatButton();
 		const showNumberOfNewMessages = headerChatButton.data('showNumberOfNewMessages');
+		if (headerChatButton.data('userSwitched')) {
+			headerChatButton.on('click', (e) => {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_CHAT_USER_SWITCHED'),
+					type: 'error',
+					animation: 'show'
+				});
+			});
+			return;
+		}
 		Chat_Js.timerGlobal = setTimeout(() => {
 			AppConnector.request({
 				module: 'Chat',

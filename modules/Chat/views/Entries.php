@@ -44,6 +44,9 @@ class Chat_Entries_View extends \App\Controller\View
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
+		if (\App\User::getCurrentUserId() !== \App\User::getCurrentUserRealId()) {
+			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
+		}
 		if ($request->has('roomType') && !$request->has('recordId')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		} elseif ($request->has('roomType') && $request->has('recordId')) {

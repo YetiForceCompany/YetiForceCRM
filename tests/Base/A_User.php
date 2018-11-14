@@ -43,6 +43,9 @@ class A_User extends \Tests\Base
 	{
 		if (isset(static::$record[$login])) {
 			return static::$record[$login];
+		} elseif (($userId = \App\User::getUserIdByName($login))) {
+			static::$record[$login] = \Vtiger_Record_Model::getInstanceById($userId, 'Users');
+			return static::$record[$login];
 		}
 		$user = \Vtiger_Record_Model::getCleanInstance('Users');
 		$user->set('user_name', $login);

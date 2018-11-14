@@ -15,7 +15,7 @@
 					  title="{$ROW['user_name']}" data-js="hide"></span>
 			</div>
 			<span class="u-font-size-10px m-0 text-truncate text-secondary">
-				{vtlib\Functions::getInitials($ROW['user_name'])}
+				{if !empty($ROW['user_name'])}{vtlib\Functions::getInitials($ROW['user_name'])}{/if}
 			</span>
 		</div>
 		<div class="o-chat__triangle ownerCT_{$ROW['userid']} {if $USER_ID == $ROW['userid']} active float-right u-border-right-10px  {else} float-left u-border-left-10px  {/if}"></div>
