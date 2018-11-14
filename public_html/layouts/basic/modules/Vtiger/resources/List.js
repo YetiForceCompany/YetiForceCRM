@@ -2044,14 +2044,14 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	registerFixedThead(container) {
-		let listTable = container.find('.js-fixed-thead');
-		listTable.floatThead('destroy');
-		listTable.floatThead({
+		this.listFloatThead = container.find('.js-fixed-thead');
+		this.listFloatThead.floatThead('destroy');
+		this.listFloatThead.floatThead({
 			scrollContainer: function () {
 				return container;
 			}
 		});
-		listTable.floatThead('reflow');
+		this.listFloatThead.floatThead('reflow');
 	},
 	registerMassActionsBtnMergeEvents() {
 		this.getListViewContainer().on('click', '.js-mass-action--merge', (e) => {
