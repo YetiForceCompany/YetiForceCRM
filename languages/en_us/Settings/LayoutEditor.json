@@ -181,7 +181,9 @@
     "LBL_WRONG_RELATION": "Invalid relation value",
     "Image": "Image file",
     "MultiImage": "Multi image files",
-    "DateTime": "Date and time file"
+    "DateTime": "Date and time file",
+    "LBL_HEADER_TYPE_VALUE": "Value",
+    "LBL_HEADER_TYPE_PROGRESS": "Progress bar"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
