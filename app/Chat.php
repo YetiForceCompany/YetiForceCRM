@@ -344,14 +344,14 @@ class Chat
 			$userModel = User::getUserModel($userId);
 			$image = $userModel->getImage();
 			$userName = $userModel->getName();
-			$userRoleName = $userModel->getRoleInstance()->getName();
+			$userRoleName = Language::translate($userModel->getRoleInstance()->getName());
 		} else {
 			$image = $userName = $userRoleName = null;
 		}
 		return [
 			'user_name' => $userName,
 			'role_name' => $userRoleName,
-			'image' => $image['url'] ?? '',
+			'image' => $image['url'] ?? null,
 		];
 	}
 
@@ -776,14 +776,13 @@ class Chat
 		$dataReader = $query->createCommand()->query();
 		$participants = [];
 		while ($row = $dataReader->read()) {
-			$userModel = User::getUserModel($row['userid']);
-			$image = $userModel->getImage();
+			$user = $this->getUserInfo($row['userid']);
 			$participants[] = [
 				'user_id' => $row['userid'],
 				'message' => $row['messages'],
-				'user_name' => $userModel->getName(),
-				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $image['url'] ?? ''
+				'user_name' => $user['user_name'],
+				'role_name' => $user['role_name'],
+				'image' => $user['image']
 			];
 		}
 		$dataReader->close();
