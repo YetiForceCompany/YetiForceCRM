@@ -13546,7 +13546,18 @@ header .c-header__btn__container .select2-selection {
 .dropdown-menu.show {
   z-index: 3000; }
 
+.listViewPageDiv select.select2,
+.listViewPageDiv .select2noactive {
+  height: 0 !important; }
+
+.js-fixed-thead tfoot td {
+  border-top: unset !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.table thead th, .c-detail-widget__table thead th,
+.table-bordered thead td {
+  border-bottom-width: 1px; }
+
 label.btn.btn-outline-primary:not(.active) {
   background: #fff; }
   label.btn.btn-outline-primary:not(.active):hover {

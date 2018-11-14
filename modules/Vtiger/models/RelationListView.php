@@ -538,8 +538,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'module' => $this->getParentRecordModel()->getModuleName(),
 				'relmodule' => $this->getRelatedModuleModel()->getName(),
 				'crmid' => $this->getParentRecordModel()->getId(),
-				'userid' => App\User::getCurrentUserId(),])
-			->column();
+				'userid' => App\User::getCurrentUserId(), ])
+				->column();
 	}
 
 	/**
