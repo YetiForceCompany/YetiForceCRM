@@ -23,7 +23,7 @@
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
 		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts w-100 mt-1 mb-2 mx-3 d-flex flex-column flex-sm-row justify-content-between u-overflow-x-hidden" role="alert">
 			{if $SERVICE_CONTRACTS}
-				<strong class="u-white-space-nowrap mr-1 align-self-center">{\App\Language::translate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
+				<strong class="u-white-space-nowrap mr-2 align-self-center">{\App\Language::translate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
 				<ul class="nav nav-pills flex-nowrap js-scrollbar" role="tablist" data-js="scroll">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
 						<li role="presentation" class="btn btn-light js-popover-tooltip  mr-1" data-js="popover" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
