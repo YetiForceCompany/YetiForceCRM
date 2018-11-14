@@ -1,10 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
+/**
+ *  Class representing an extended calendar.
+ * @extends Calendar_Calendar_Js
+ */
+window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);
-		this.datesRowView = false;
 		this.sidebarView = {
 			length: 0
 		};
@@ -35,7 +38,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			appendSubDateRow: self.appendSubDateRow,
 			refreshDatesRowView: self.refreshDatesRowView,
 			generateYearList: self.generateYearList,
-			getDatesRowView: self.getDatesRowView,
 			updateCountTaskCalendar: self.updateCountTaskCalendar,
 			registerDatesChange: self.registerDatesChange,
 			addHeaderButtons: self.addHeaderButtons,
@@ -52,7 +54,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	renderCalendar() {
 		let self = this,
-			basicOptions = this.setCalendarMergedOptions(),
+			basicOptions = this.setCalendarOptions(),
 			options = {
 				firstLoad: true,
 				header: {
@@ -198,11 +200,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		}
 	}
 
-	getDatesRowView() {
-		this.datesRowView = this.container.find('.js-dates-row');
-		return this.datesRowView;
-	}
-
 	/**
 	 * Appends subdate row to calendar header and register its scroll
 	 * @param toolbar
@@ -315,7 +312,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	registerDatesChange() {
-		this.getDatesRowView().find('.js-sub-record').on('click', (e) => {
+		this.container.find('.js-dates-row .js-sub-record').on('click', (e) => {
 			let currentTarget = $(e.currentTarget);
 			currentTarget.addClass('active');
 			this.getCalendarView().fullCalendar('gotoDate', moment(currentTarget.data('date'), "YYYY-MM-DD"));
@@ -357,7 +354,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	updateCountTaskCalendar() {
-		let datesView = this.getDatesRowView(),
+		let datesView = this.container.find('.js-dates-row'),
 			subDatesElements = datesView.find('.js-sub-record'),
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
@@ -526,8 +523,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	generateYearList(dateStart, dateEnd) {
-		const thisInstance = this,
-			datesView = thisInstance.getDatesRowView();
+		const datesView = this.container.find('.js-dates-row');
 		let prevYear = moment(dateStart).subtract(1, 'year'),
 			actualYear = moment(dateStart),
 			nextYear = moment(dateStart).add(1, 'year'),
@@ -554,7 +550,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	generateSubMonthList(dateStart, dateEnd) {
-		let datesView = this.getDatesRowView(),
+		let datesView = this.container.find('.js-dates-row'),
 			activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1,
 			html = '',
 			active = '';
@@ -577,7 +573,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	generateSubWeekList(dateStart, dateEnd) {
-		let datesView = this.getDatesRowView(),
+		let datesView = this.container.find('.js-dates-row'),
 			prevWeeks = moment(dateStart).subtract(5, 'weeks'),
 			actualWeek = moment(dateStart).format('WW'),
 			nextWeeks = moment(dateStart).add(6, 'weeks'),
@@ -600,8 +596,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	generateSubDaysList(dateStart, dateEnd) {
-		const thisInstance = this;
-		let datesView = thisInstance.getDatesRowView(),
+		let datesView = this.container.find('.js-dates-row'),
 			prevDays = moment(dateStart).subtract(5, 'days'),
 			actualDay = moment(dateStart).format('DDD'),
 			nextDays = moment(dateStart).add(7, 'days'),
@@ -633,8 +628,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	selectDays(startDate, endDate) {
 		this.container.find('.js-right-panel-event-link').tab('show');
-		let start_hour = $('#start_hour').val(),
-			end_hour = $('#end_hour').val(),
+		let start_hour = app.getMainParams('startHour'),
+			end_hour = app.getMainParams('endHour'),
 			view = this.getCalendarView().fullCalendar('getView');
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');

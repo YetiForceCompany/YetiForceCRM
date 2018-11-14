@@ -1,15 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-CalendarView -->
-	<input value="{$VIEW}" type="hidden" id="currentView"/>
 	<input value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}" type="hidden" id="activity_view"/>
 	<input value="{$CURRENT_USER->get('hour_format')}" type="hidden" id="time_format"/>
-	<input value="{$CURRENT_USER->get('start_hour')}" type="hidden" id="start_hour"/>
-	<input value="{$CURRENT_USER->get('end_hour')}" type="hidden" id="end_hour"/>
 	<input value="{$CURRENT_USER->get('date_format')}" type="hidden" id="date_format"/>
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>
-	<input value="{$EVENT_LIMIT}" type="hidden" id="eventLimit"/>
 	<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 	<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 	<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
