@@ -316,10 +316,7 @@ window.Calendar_Js = class {
 	getDefaultParams() {
 		let formatDate = CONFIG.dateFormat.toUpperCase(),
 			view = this.getCalendarView().fullCalendar('getView'),
-			users = [];
-		if (app.moduleCacheGet('calendar-users')) {
-			users = app.moduleCacheGet('calendar-users');
-		}
+			users = app.moduleCacheGet('calendar-users') || CONFIG.userId;
 		let params = {
 			module: CONFIG.module,
 			action: 'Calendar',
