@@ -1103,7 +1103,7 @@ window.Chat_JS = class Chat_Js {
 			btnDesktop.find('.js-icon').removeClass(iconOff).addClass(iconOn);
 		}
 		btnDesktop.off('click').on('click', (e) => {
-			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
+			btnDesktop.find('.js-icon').toggleClass(iconOn + " " + iconOff);
 			if (btnDesktop.find('.js-icon').hasClass(iconOn)) {
 				if (!Chat_Js.checkDesktopPermission()) {
 					PNotify.modules.Desktop.permission();
@@ -1166,7 +1166,6 @@ window.Chat_JS = class Chat_Js {
 	registerBaseEvents() {
 		this.registerSendEvent();
 		this.registerLoadMore();
-		//this.registerListenEvent();
 		this.getMessage(true);
 		this.registerCreateRoom();
 		this.registerButtonFavorites();
