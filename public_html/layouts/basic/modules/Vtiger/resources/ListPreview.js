@@ -100,6 +100,17 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 	},
+	registerFixedThead() {
+		let list = this.list;
+		this.listFloatThead = list.find('.js-fixed-thead');
+		this.listFloatThead.floatThead('destroy');
+		this.listFloatThead.floatThead({
+			scrollContainer: function () {
+				return list;
+			}
+		});
+		this.listFloatThead.floatThead('reflow');
+	},
 	getSecondColMinWidth: function (container) {
 		let maxWidth, thisWidth;
 		container.find('.listViewEntries').each(function (i) {
