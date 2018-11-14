@@ -11953,6 +11953,13 @@ ul.tweets li {
 .u-font-size-44px {
   font-size: 2.75rem; }
 
+.u-text-contrast {
+  background: inherit;
+  color: transparent;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  filter: invert(1) grayscale(1) contrast(500); }
+
 .u-m-5px {
   margin: 5px; }
 
@@ -15695,20 +15702,20 @@ label.btn.btn-outline-primary:not(.active) {
     white-space: normal; }
 .c-menu__item .tpl-menu-SubMenu,
 .c-menu__item .tpl-menu-Profile_submenu {
-  background: #f8f9fa;
-  color: #4a5364; }
+  background: #202c40;
+  color: #fff; }
   .c-menu__item .tpl-menu-SubMenu a,
   .c-menu__item .tpl-menu-Profile_submenu a {
     font-size: 14px;
-    color: #4a5364;
-    background: #f8f9fa; }
+    color: #fff;
+    background: #202c40; }
     .c-menu__item .tpl-menu-SubMenu a:hover, .c-menu__item .tpl-menu-SubMenu a:focus,
     .c-menu__item .tpl-menu-Profile_submenu a:hover,
     .c-menu__item .tpl-menu-Profile_submenu a:focus {
-      background: white; }
+      background: #293851; }
     .c-menu__item .tpl-menu-SubMenu a.active,
     .c-menu__item .tpl-menu-Profile_submenu a.active {
-      background: #e9ecef; }
+      background: #18202f; }
     .c-menu__item .tpl-menu-SubMenu a.hasIcon,
     .c-menu__item .tpl-menu-Profile_submenu a.hasIcon {
       padding: 6px 12px; }
@@ -15719,12 +15726,12 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 6px 12px; }
   .c-menu__item .tpl-menu-SubMenu button,
   .c-menu__item .tpl-menu-Profile_submenu button {
-    background: #dae0e5; }
+    background: #0f151e; }
     .c-menu__item .tpl-menu-SubMenu button:hover, .c-menu__item .tpl-menu-SubMenu button:focus,
     .c-menu__item .tpl-menu-Profile_submenu button:hover,
     .c-menu__item .tpl-menu-Profile_submenu button:focus {
-      color: #f8f9fa;
-      background: #4a5364; }
+      color: #202c40;
+      background: #fff; }
     .c-menu__item .tpl-menu-SubMenu button.hasIcon,
     .c-menu__item .tpl-menu-Profile_submenu button.hasIcon {
       padding: 6px 12px; }
@@ -15737,6 +15744,8 @@ label.btn.btn-outline-primary:not(.active) {
     font-size: 1.6em;
     height: 100%;
     min-width: 42px; }
+  .c-menu__body .tpl-menu-SubMenu .menuIcon {
+    padding-left: 0.625rem; }
 .c-menu__header {
   height: 3.25rem;
   padding-right: 0;
