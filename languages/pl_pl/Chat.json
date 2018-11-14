@@ -19,6 +19,9 @@
     "LBL_HIDE": "ukryj",
     "LBL_NO_MESSAGES": "Brak wiadomo\u015bci",
     "LBL_UNREAD": "Nieprzeczytane",
-    "LBL_DETAIL_VIEW": "Podgl\u0105d rekordu"
+    "LBL_DETAIL_VIEW": "Podgl\u0105d rekordu",
+    "LBL_ROOM_DESCRIPTION_CRM": "Lista pokoj\u00f3w czatu z ulubionymi rekordami",
+    "LBL_ROOM_DESCRIPTION_GROUP": "Lista pokoj\u00f3w czatu z powi\u0105zanymi z grupami u\u017cytkownika",
+    "LBL_ROOM_DESCRIPTION_GLOBAL": "Lista pokoj\u00f3w czatu widoczna dla wszystkich u\u017cytkownik\u00f3w"
   }
 }

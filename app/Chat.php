@@ -47,7 +47,7 @@ final class Chat
 	private $recordId;
 
 	/**
-	 * @var []|false
+	 * @var array|false
 	 */
 	private $room = false;
 

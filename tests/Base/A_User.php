@@ -33,6 +33,8 @@ class A_User extends \Tests\Base
 	/**
 	 * Create/return users module record model with demo user.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $login
 	 *
 	 * @throws \Exception

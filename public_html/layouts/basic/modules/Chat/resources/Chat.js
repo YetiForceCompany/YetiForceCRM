@@ -513,7 +513,7 @@ window.Chat_JS = class Chat_Js {
 		itemUser.find('.js-role').html(data.role);
 		itemUser.find('.js-message').html(data.message);
 		itemUser.data('userId', data.userId);
-		if (data.image !== '') {
+		if (data.image) {
 			itemUser.find('.js-image .js-chat-image_icon').addClass('hide');
 			itemUser.find('.js-image .js-chat-image_src').removeClass('hide').attr('src', data.image);
 		}
@@ -1167,7 +1167,6 @@ window.Chat_JS = class Chat_Js {
 	registerBaseEvents() {
 		this.registerSendEvent();
 		this.registerLoadMore();
-		//this.registerListenEvent();
 		this.getMessage(true);
 		this.registerCreateRoom();
 		this.registerButtonFavorites();

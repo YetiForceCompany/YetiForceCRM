@@ -78,9 +78,13 @@
 							<span class="fas fa-globe mr-2"></span>
 						{/if}
 						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
+						<div class="js-popover-tooltip ml-2 float-right" data-js="popover"
+							 data-content="{\App\Language::translate(strtoupper("LBL_ROOM_DESCRIPTION_"|cat:$KEY), $MODULE_NAME)}">
+							<span class="fas fa-info-circle"></span>
+						</div>
 					</div>
 					{assign var=FAVORITE_REMOVE_BTN value=$KEY==='crm' || $KEY==='group'}
-					<ul class="js-room-type u-font-size-13px p-0" data-room-type="{$KEY}"
+					<ul class="js-room-type u-font-size-13px p-0 mb-0" data-room-type="{$KEY}"
 						data-favorite-remove-btn="{if $FAVORITE_REMOVE_BTN}true{else}false{/if}" data-js="data">
 						{foreach item=ROOM from=$GROUP_ROOM}
 							{ROOM_ITEM ROOM=$ROOM ROOM_TYPE=$KEY FAVORITE_REMOVE_BTN=$FAVORITE_REMOVE_BTN }
@@ -91,7 +95,7 @@
 						{foreach item=ROOM from=$GROUP_ROOM}
 							{$USER_GROUP[]=$ROOM['recordid']}
 						{/foreach}
-						<ul class="js-room-type js-hide-group hide u-font-size-13px p-0" data-room-type="{$KEY}"
+						<ul class="js-room-type js-hide-group hide u-font-size-13px p-0 mb-0" data-room-type="{$KEY}"
 							data-js="data">
 							{assign var=CNT_GROUP value=0}
 							{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getUserGroups()}
