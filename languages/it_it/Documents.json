@@ -13,6 +13,8 @@
     "LBL_ADD_FOLDER": "Add folder",
     "LBL_ADD_NEW_FOLDER": "Add new folder",
     "LBL_ADD_RECORD": "Add record",
+    "LBL_ADD_RELATION": "Add document",
+    "LBL_SELECT_RELATION": "Select document",
     "LBL_CHECK_FILE_INTEGRITY": "Check file integrity",
     "LBL_DENIED_DOCUMENTS": "Denied documents",
     "LBL_DESCRIPTION": "Description",
