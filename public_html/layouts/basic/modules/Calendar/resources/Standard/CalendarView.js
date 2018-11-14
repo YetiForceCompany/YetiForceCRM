@@ -8,7 +8,11 @@
  *************************************************************************************/
 'use strict';
 
-window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
+/**
+ *  Class representing a standard calendar.
+ * @extends Calendar_Js
+ */
+window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);
@@ -53,27 +57,14 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 		return data;
 	}
 
-	loadCalendarData(allEvents) {
-		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-		var thisInstance = this;
-		thisInstance.getCalendarView().fullCalendar('removeEvents');
-		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var types = [];
-		var formatDate = CONFIG.dateFormat.toUpperCase();
-		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
-		if (types.length == 0) {
-			allEvents = true;
-		}
-		var user = [];
-		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
-		if (user.length == 0) {
-			user = [CONFIG.userId];
-		}
-		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user);
-		var filters = [];
-		$(".calendarFilters .filterField").each(function (index) {
-			var element = $(this);
-			var name, value;
+	getDefaultParams() {
+		let parentParams = super.getDefaultParams(),
+			users = app.moduleCacheGet('calendar-groups') || [],
+			filters = [];
+		$(".calendarFilters .filterField").each(function () {
+			let element = $(this),
+				name,
+				value;
 			if (element.attr('type') == 'checkbox') {
 				name = element.val();
 				value = element.prop('checked') ? 1 : 0;
@@ -83,33 +74,22 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 			}
 			filters.push({name: name, value: value});
 		});
-		if (allEvents == true || types.length > 0) {
-			var params = {
-				module: 'Calendar',
-				action: 'Calendar',
-				mode: 'getEvents',
-				start: view.start.format(formatDate),
-				end: view.end.format(formatDate),
-				user: user,
-				time: app.getMainParams('showType'),
-				types: types,
-				filters: filters
-			};
-			AppConnector.request(params).done(function (events) {
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				progressInstance.progressIndicator({mode: 'hide'});
-				thisInstance.registerSelect2Event();
-			});
-		} else {
-			thisInstance.getCalendarView().fullCalendar('removeEvents');
-			progressInstance.progressIndicator({mode: 'hide'});
+		let params = {
+			time: app.getMainParams('showType'),
+			filters: filters
+		};
+		if (users.length) {
+			params.user = parentParams.user.concat(users);
+			params.emptyFilters = false;
 		}
+		params = Object.assign(parentParams, params);
+		return params;
 	}
 
 	selectDays(startDate, endDate) {
 		var thisInstance = this;
-		var start_hour = $('#start_hour').val();
-		var end_hour = $('#end_hour').val();
+		var start_hour = app.getMainParams('startHour');
+		var end_hour = app.getMainParams('endHour');
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
@@ -168,47 +148,18 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 		});
 	}
 
-	addCalendarEvent(calendarDetails) {
-		const thisInstance = this;
-		let usersList = $("#calendarUserList").val();
-		if (usersList.length === 0) {
-			usersList = [CONFIG.userId.toString()];
-		}
-		let groupList = $("#calendarGroupList").val();
-		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupList) < 0 || groupList.length === 0)) {
-			return;
-		}
-		let types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
-		if (types.length !== 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
-			return;
-		}
-		var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
-		var calendar = this.getCalendarView();
-		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
-		if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
+	isNewEventToDisplay(eventObject) {
+		if (super.isNewEventToDisplay(eventObject)) {
+			let taskstatus = $.inArray(eventObject.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
+			var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
+			if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
 			return false;
 		}
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
-		var eventObject = {
-			id: calendarDetails._recordId,
-			title: calendarDetails.subject.display_value,
-			start: startDate.format(),
-			end: endDate.format(),
-			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
-			activitytype: calendarDetails.activitytype.value,
-			allDay: calendarDetails.allday.value == 'on',
-			state: calendarDetails.state.value,
-			vis: calendarDetails.visibility.value,
-			sta: calendarDetails.activitystatus.value,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-			start_display: calendarDetails.date_start.display_value,
-			end_display: calendarDetails.due_date.display_value,
-			smownerid: calendarDetails.assigned_user_id.display_value,
-			pri: calendarDetails.taskpriority.value,
-			lok: calendarDetails.location.display_value
-		};
-		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	}
 
 	getCalendarCreateView() {

@@ -38,7 +38,6 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
 		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
