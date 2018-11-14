@@ -1987,11 +1987,12 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerSummationEvent: function () {
-		var thisInstance = this;
-		this.getListViewContentContainer().on('click', '.listViewSummation button', function () {
+		let self = this;
+		let listContainer = this.getListViewContentContainer();
+		listContainer.on('click', '.listViewSummation button', function () {
 			var button = $(this);
 			var calculateValue = button.closest('td').find('.calculateValue');
-			var params = thisInstance.getDefaultParams();
+			var params = self.getDefaultParams();
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 				position: 'html',
@@ -2003,18 +2004,19 @@ jQuery.Class("Vtiger_List_Js", {
 			params['mode'] = 'calculate';
 			params['fieldName'] = button.data('field');
 			params['calculateType'] = button.data('operator');
-			if (thisInstance.checkListRecordSelected() != true) {
-				params['selected_ids'] = thisInstance.readSelectedIds(true);
-				params['excluded_ids'] = thisInstance.readExcludedIds(true);
+			if (self.checkListRecordSelected() != true) {
+				params['selected_ids'] = self.readSelectedIds(true);
+				params['excluded_ids'] = self.readExcludedIds(true);
 			}
 			delete params['view'];
 			app.hidePopover(button);
-			AppConnector.request(params).done(function (response) {
+			AppConnector.request(params).done((response) => {
 				if (response.success) {
 					calculateValue.html(response.result);
 				} else {
 					calculateValue.html('');
 				}
+				self.registerFixedThead(listContainer);
 				progress.progressIndicator({mode: 'hide'});
 			});
 		});
