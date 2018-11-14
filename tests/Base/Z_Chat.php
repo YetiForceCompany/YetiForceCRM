@@ -273,6 +273,21 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Chat room switching test.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function testSwitchRoom()
+	{
+		\App\Chat::setCurrentRoom('crm', static::$listId[0]);
+		$this->assertSame($_SESSION['chat']['roomType'], 'crm');
+		$this->assertSame($_SESSION['chat']['recordId'], static::$listId[0]);
+		$currentRoom = \App\Chat::getCurrentRoom();
+		$this->assertSame($currentRoom['roomType'], 'crm');
+		$this->assertSame($currentRoom['recordId'], static::$listId[0]);
+	}
+
+	/**
 	 * Testing the removal of Crm chat room.
 	 *
 	 * @throws \Exception
@@ -294,7 +309,20 @@ class Chat extends \Tests\Base
 				->where([\App\Chat::COLUMN_NAME['message']['crm'] => $recordId])->exists(),
 			"Messages {$recordId} exist"
 		);
-		unset(static::$listId[0]);
+	}
+
+	/**
+	 * Test the current chat room after deleting the record.
+	 */
+	public function testCurrentRoomAfterDeletingRecord()
+	{
+		$this->assertSame($_SESSION['chat']['roomType'], 'crm');
+		$this->assertSame($_SESSION['chat']['recordId'], static::$listId[0]);
+		\vtlib\Functions::clearCacheMetaDataRecord(static::$listId[0]);
+		$this->assertFalse(\App\Record::isExists(static::$listId[0]), 'The record should not exist');
+		$currentRoom = \App\Chat::getCurrentRoom();
+		$this->assertSame($currentRoom['roomType'], 'global');
+		$this->assertSame($currentRoom['recordId'], static::$globalRoom['global_room_id']);
 	}
 
 	/**
@@ -343,6 +371,7 @@ class Chat extends \Tests\Base
 	 */
 	public static function tearDownAfterClass()
 	{
+		unset(static::$listId[0]);
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		if (!static::$chatActive) {
 			(new \Settings_ModuleManager_Module_Model())->disableModule('Chat');

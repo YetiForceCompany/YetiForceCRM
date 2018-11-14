@@ -93,7 +93,7 @@ class Chat
 		$recordId = $_SESSION['chat']['recordId'];
 		switch ($_SESSION['chat']['roomType']) {
 			case 'crm':
-				if (!\Vtiger_Record_Model::getInstanceById($recordId)->isViewable()) {
+				if (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable()) {
 					return static::getDefaultRoom();
 				}
 				break;
