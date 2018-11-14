@@ -13,6 +13,8 @@
     "LBL_ADD_FOLDER": "Dodaj katalog",
     "LBL_ADD_NEW_FOLDER": "Dodaj nowy katalog",
     "LBL_ADD_RECORD": "Dodaj dokument",
+    "LBL_ADD_RELATION": "Dodaj dokument",
+    "LBL_SELECT_RELATION": "Wybierz dokument",
     "LBL_CHECK_FILE_INTEGRITY": "Sprawd\u017a czy plik istnieje",
     "LBL_DENIED_DOCUMENTS": "Nie masz uprawnie\u0144 do dokument\u00f3w",
     "LBL_DESCRIPTION": "Opis",

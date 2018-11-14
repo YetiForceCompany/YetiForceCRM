@@ -487,7 +487,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			'linktype' => 'LISTVIEWBASIC',
 			// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
 			//'linklabel' => \App\Language::translate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-			'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
+			'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
 			'linkurl' => $this->getCreateViewUrl(),
 			'linkqcs' => $relatedModel->isQuickCreateSupported(),
 			'linkicon' => 'fas fa-plus',
