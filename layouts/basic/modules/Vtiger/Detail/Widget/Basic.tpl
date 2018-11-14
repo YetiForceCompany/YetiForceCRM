@@ -55,22 +55,22 @@
 									{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 									{if !empty($WIDGET['data']['actionSelect'])}
 										{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-										<button class="btn btn-sm btn-light selectRelation" type="button"
+										<button class="btn btn-sm btn-light selectRelation js-popover-tooltip"
+												type="button" data-placement="top"
 												data-modulename="{$RELATIONMODEL->getRelationModuleName()}"
 												{if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if}
-												title="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}"
-												alt="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}">
+												data-content="{\App\Language::translate('LBL_SELECT_RELATION',$RELATIONMODEL->getRelationModuleName())}">
 											<span class="fas fa-search"></span>
 										</button>
 									{/if}
 									{if !empty($WIDGET['data']['action']) && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
 										{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-										<button class="btn btn-sm btn-light {if $WIDGET['isInventory']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if}"
+										<button class="btn btn-sm btn-light {if $WIDGET['isInventory']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if} js-popover-tooltip"
 												type="button" data-url="{$WIDGET['actionURL']}"
 												{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if}
-												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"
-												alt="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}">
+												data-placement="top"
+												data-content="{\App\Language::translate('LBL_ADD_RELATION',$RELATIONMODEL->getRelationModuleName())}">
 											<span class="fas fa-plus"></span>
 										</button>
 									{/if}

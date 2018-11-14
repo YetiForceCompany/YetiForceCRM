@@ -40,7 +40,7 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
 			<thead>
-			<tr class="{if $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
+			<tr class="{if isset($CUSTOM_VIEWS) && $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
 				<th class="p-2">
 					<label class="sr-only" for="listViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
 					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}"/>
@@ -72,10 +72,8 @@
 					</th>
 				{/foreach}
 			</tr>
-			</thead>
-			<tbody>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
-				<tr>
+				<tr class="bg-white">
 					<td class="listViewSearchTd">
 						<div class="flexWrapper">
 							<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
@@ -106,6 +104,8 @@
 					<td class="reducePadding"></td>
 				</tr>
 			{/if}
+			</thead>
+			<tbody>
 			{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 				{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}

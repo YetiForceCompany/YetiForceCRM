@@ -1,5 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
+//table
+.table thead th,
+.table-bordered thead td {
+	border-bottom-width: 1px;
+}
+
 //Switch button
 label.btn.btn-outline-primary {
 	&:not(.active) {
