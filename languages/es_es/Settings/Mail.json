@@ -37,6 +37,7 @@
     "LBL_MANUAL_SENDING": "Env\u00edo manual",
     "LBL_EMAILS_TO_SEND": "Correos para enviar",
     "LBL_RECORD_ACCEPTED": "Registro aceptado",
+    "LBL_TO": "To",
     "LBL_EMAILS_TO_SEND_DESCRIPTION": "Lista de correos para enviar. El env\u00edo de mensajes de correo se realiza en cron.",
     "LBL_MAIL_QUEUE_PAGE_TITLE": "Correos para enviar",
     "LBL_EMAIL_WAS_SENT": "Se ha enviado un correo electr\u00f3nico, la vista previa no est\u00e1 disponible."
