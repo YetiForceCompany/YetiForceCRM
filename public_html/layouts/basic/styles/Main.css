@@ -13533,6 +13533,12 @@ header .c-header__btn__container .select2-selection {
 .leaflet-popup-content {
   width: auto; }
 
+.ps__rail-x, .ps__rail-y {
+  z-index: 2000; }
+
+.dropdown-menu.show {
+  z-index: 3000; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
   background: #fff; }
