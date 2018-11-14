@@ -40,7 +40,7 @@
     "LBL_CURRENCY_UPDATE": "Actualizare Valuta",
     "LBL_MULTI_REFERENCE_VALUE": "Campurile cu campuri multiple sunt actualizate",
     "LBL_CRMACTIVITY_DAYS": "Actualizati campurile de activitate din calendar in modulele aferente",
-    "Activity State": "Starea activitatii",
+    "Activity state": "Starea activitatii",
     "LBL_ASSETS_RENEWAL": "Reinnoirea activelor",
     "LBL_SOLD_SERVICES_RENEWAL": "Reinnoirea Serviciilor vandute",
     "LBL_SEND_NOTIFICATIONS": "Trimite notificari",
@@ -61,7 +61,9 @@
     "LBL_BROWSING_HISTORY": "Stergeti istoricul de navigare",
     "LBK_SYSTEM_WARNINGS": "Notificari cu avertismente de sistem",
     "LBL_BATCH_PROCESSES": "Procese lot pentru deservirea actiunilor de lunga durata",
-    "LBL_BATCH_METHODS": "Metode lot"
+    "LBL_BATCH_METHODS": "Metode lot",
+    "LBL_ARCHIVE_OLD_RECORDS": "Archive old records",
+    "LBL_GET_SOCIAL_MEDIA_MESSAGES": "Download messages from social media"
   },
   "js": {
     "Recommended frequency for Scheduled Import is 15 mins": "Frecventa recomandata pentru Importul programat este de 15 minute",
