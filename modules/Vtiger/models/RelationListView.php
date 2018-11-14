@@ -498,7 +498,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'fas fa-plus',
+				'linkicon' => 'adminIcon-document-templates',
 			];
 		}
 		foreach ($addLinkList as &$addLink) {
@@ -538,8 +538,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'module' => $this->getParentRecordModel()->getModuleName(),
 				'relmodule' => $this->getRelatedModuleModel()->getName(),
 				'crmid' => $this->getParentRecordModel()->getId(),
-				'userid' => App\User::getCurrentUserId(), ])
-				->column();
+				'userid' => App\User::getCurrentUserId(),])
+			->column();
 	}
 
 	/**
