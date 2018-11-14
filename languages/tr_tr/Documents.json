@@ -13,6 +13,8 @@
     "LBL_ADD_FOLDER": "Klas\u00f6r ekle",
     "LBL_ADD_NEW_FOLDER": "Yeni klas\u00f6r ekle",
     "LBL_ADD_RECORD": "Kay\u0131t ekle",
+    "LBL_ADD_RELATION": "Add document",
+    "LBL_SELECT_RELATION": "Select document",
     "LBL_CHECK_FILE_INTEGRITY": "Dosya b\u00fct\u00fcnl\u00fc\u011f\u00fcn\u00fc kontrol et",
     "LBL_DENIED_DOCUMENTS": "Reddedilen belgeler",
     "LBL_DESCRIPTION": "A\u00e7\u0131klama",

@@ -13,56 +13,6 @@ namespace vtlib;
 
 class Functions
 {
-	protected static function getCurrencyInfo($currencyid)
-	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
-		} else {
-			$currencyInfo = self::getAllCurrency();
-		}
-		return $currencyInfo[$currencyid] ?? false;
-	}
-
-	public static function getAllCurrency($onlyActive = false)
-	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
-		} else {
-			$currencyInfo = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
-			\App\Cache::save('AllCurrency', 'All', $currencyInfo);
-		}
-		if ($onlyActive) {
-			$currencies = [];
-			foreach ($currencyInfo as $currencyId => $currency) {
-				if ($currency['currency_status'] === 'Active') {
-					$currencies[$currencyId] = $currency;
-				}
-			}
-
-			return $currencies;
-		} else {
-			return $currencyInfo;
-		}
-	}
-
-	public static function getCurrencyName($currencyid, $show_symbol = true)
-	{
-		$currencyInfo = self::getCurrencyInfo($currencyid);
-		if ($show_symbol) {
-			return sprintf('%s : %s', \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
-		}
-		return $currencyInfo['currency_name'];
-	}
-
-	public static function getCurrencySymbolandRate($currencyid)
-	{
-		$currencyInfo = self::getCurrencyInfo($currencyid);
-		return [
-			'rate' => $currencyInfo['conversion_rate'],
-			'symbol' => $currencyInfo['currency_symbol'],
-		];
-	}
-
 	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
 	{
 		if (\App\Cache::has('moduleTabs', 'all')) {
@@ -686,7 +636,7 @@ class Functions
 
 	public static function getDefaultCurrencyInfo()
 	{
-		$allCurrencies = self::getAllCurrency(true);
+		$allCurrencies = \App\Fields\Currency::getAll(true);
 		foreach ($allCurrencies as $currency) {
 			if ((int) $currency['defaultid'] === -11) {
 				return $currency;

@@ -292,3 +292,21 @@ ul.ui-autocomplete {
 	width: auto;
 }
 
+//-------- floatThead --------//
+
+.ps__rail-x, .ps__rail-y {
+	z-index: 2000; //overflow floatThead in list
+}
+
+.dropdown-menu.show {
+	z-index: 3000; //overflow floatThead and ps scrollbar in list
+}
+
+.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
+.listViewPageDiv .select2noactive {
+	height: 0 !important;
+}
+
+.js-fixed-thead tfoot td {
+	border-top: unset !important; //floatThead added this to table, causing additional border
+}

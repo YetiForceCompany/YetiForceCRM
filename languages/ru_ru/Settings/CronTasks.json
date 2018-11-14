@@ -62,7 +62,9 @@
     "LBK_SYSTEM_WARNINGS": "Notifications with system warnings",
     "LBL_BATCH_PROCESSES": "Batch processes for servicing long-lasting actions",
     "LBL_CLEAR_FILE_UPLOAD_TEMP": "Clear temporary files directory",
-    "LBL_SESSION_CLEANER": "Clear inactive sessions"
+    "LBL_SESSION_CLEANER": "Clear inactive sessions",
+    "LBL_ARCHIVE_OLD_RECORDS": "Archive old records",
+    "LBL_GET_SOCIAL_MEDIA_MESSAGES": "Download messages from social media"
   },
   "js": {
     "FREQUENCY_NUMBER": "\u0427\u0430\u0441\u0442\u043e\u0442\u0430 \u0443\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u0432 \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u043b\u0430\u0445",

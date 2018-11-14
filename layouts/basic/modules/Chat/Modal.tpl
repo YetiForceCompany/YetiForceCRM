@@ -50,7 +50,7 @@
 					</a>
 					<a class="js-btn-desktop-notification mr-1" data-icon-on="fa-bell"
 					   data-icon-off="fa-bell-slash" data-js="click" href="#">
-						<span class="js-icon fas fa-bell"
+						<span class="js-icon fas {if $IS_DESKTOP_NOTIFICATION}fa-bell{else}fa-bell-slash{/if}"
 							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}">
 						</span>
 					</a>

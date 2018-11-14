@@ -39,7 +39,7 @@ class TableCurrencySTwoLang extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencyData = \App\Fields\Currency::getById($currency);
 		}
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px}' .
@@ -56,7 +56,7 @@ class TableCurrencySTwoLang extends Base
 				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 			}
 			if (in_array('tax', $columns) && in_array('taxmode', $columns) && in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
-				$RATE = $baseCurrency['conversion_rate'] / $currencySymbolRate['rate'];
+				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
 				$html .= '<table class="productTable colapseBorder">
 								<thead>
 									<tr>

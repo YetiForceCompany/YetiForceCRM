@@ -144,7 +144,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function parseMigration($modulenode)
 	{
-		if (!$this->_migrations) {
+		if (empty($this->_migrations)) {
 			$this->_migrations = [];
 			if (!empty($modulenode->migrations) &&
 				!empty($modulenode->migrations->migration)) {

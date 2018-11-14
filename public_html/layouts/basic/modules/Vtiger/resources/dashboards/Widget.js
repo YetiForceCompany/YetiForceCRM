@@ -2163,7 +2163,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		//Default first day of the week
 		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
+		var defaultFirstHour = app.getMainParams('startHour');
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
 		var defaultDate = app.getMainParams('defaultDate');
@@ -2222,7 +2222,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
 						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per">' + event.event[key].count + '</span>' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per"><span class="u-text-contrast">' + event.event[key].count + '</span></span>' +
 						'</a>\n';
 				}
 				element += '</div>';
@@ -2236,14 +2236,15 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			}).on('mouseleave', function () {
 			$(this).find(".plus").remove();
 		});
+		let formatDate = CONFIG.dateFormat.toUpperCase();
 		thisInstance.getCalendarView().find("td.fc-day-top").on('click', function () {
-			var date = $(this).data('date');
-			var params = {
-				noCache: true
-			};
-			params.data = {
-				date_start: date,
-				due_date: date
+			let date = moment($(this).data('date')).format(formatDate);
+			let params = {
+				noCache: true,
+				data: {
+					date_start: date,
+					due_date: date
+				}
 			};
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');

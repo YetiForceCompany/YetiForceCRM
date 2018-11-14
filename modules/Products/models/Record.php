@@ -127,7 +127,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 		$baseCurrencyDetails = ['currencyid' => $baseCurrency];
 
-		$baseCurrencySymbolDetails = \vtlib\Functions::getCurrencySymbolandRate($baseCurrency);
+		$baseCurrencySymbolDetails = \App\Fields\Currency::getById($baseCurrency);
 		$baseCurrencyDetails = array_merge($baseCurrencyDetails, $baseCurrencySymbolDetails);
 		$this->set('baseCurrencyDetails', $baseCurrencyDetails);
 
@@ -331,7 +331,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$request = App\Request::init();
 		$productBaseConvRate = self::getBaseConversionRateForProduct($this->getId(), $this->isNew() ? 'new' : 'edit');
 		$currencySet = false;
-		$currencyDetails = vtlib\Functions::getAllCurrency(true);
+		$currencyDetails = \App\Fields\Currency::getAll(true);
 		if (!$this->isNew()) {
 			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->getId()])->execute();
 		}

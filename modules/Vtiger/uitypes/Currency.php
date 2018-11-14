@@ -87,7 +87,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				$moduleName = \App\Record::getType($recordId);
 			}
 			$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $moduleName);
-			$currencySymbol = \vtlib\Functions::getCurrencySymbolandRate($currencyId)['symbol'];
+			$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
 		} else {
 			$currencyModal = new CurrencyField($value);
 			$currencyModal->initialize();

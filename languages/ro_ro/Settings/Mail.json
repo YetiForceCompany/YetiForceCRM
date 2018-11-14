@@ -37,6 +37,7 @@
     "LBL_MANUAL_SENDING": "Trimitere manuala",
     "LBL_EMAILS_TO_SEND": "Email-uri pentru a fi trimise",
     "LBL_RECORD_ACCEPTED": "Inregistrare acceptata",
+    "LBL_TO": "To",
     "LBL_EMAILS_TO_SEND_DESCRIPTION": "Lista email-urilor pentru trimitere. Trimiterea mesajelor e-mail are loc in cron.",
     "LBL_MAIL_QUEUE_PAGE_TITLE": "Email-uri de trimis",
     "LBL_EMAIL_WAS_SENT": "Email-ul a fost trimis, previzualizarea este indisponibila."

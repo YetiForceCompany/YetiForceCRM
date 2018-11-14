@@ -15,6 +15,9 @@
     "LBL_SOUND_OFF": "Sound off",
     "LBL_SOUND_ON": "Sound on",
     "LBL_HISTORY_CHAT": "Chat history",
-    "LBL_MORE": "more"
+    "LBL_MORE": "more",
+    "LBL_HIDE": "hide",
+    "LBL_NO_MESSAGES": "No messages",
+    "LBL_UNREAD": "Unread"
   }
 }

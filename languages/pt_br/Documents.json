@@ -13,6 +13,8 @@
     "LBL_ADD_FOLDER": "Adicionar Pasta",
     "LBL_ADD_NEW_FOLDER": "Adicionar Pasta",
     "LBL_ADD_RECORD": "Adicionar Documento",
+    "LBL_ADD_RELATION": "Add document",
+    "LBL_SELECT_RELATION": "Select document",
     "LBL_CHECK_FILE_INTEGRITY": "Checar integridade arquivo",
     "LBL_DENIED_DOCUMENTS": "Documentos Negados",
     "LBL_DESCRIPTION": "Descri\u00e7\u00e3o",

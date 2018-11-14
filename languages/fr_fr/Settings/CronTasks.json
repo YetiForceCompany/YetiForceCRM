@@ -55,11 +55,13 @@
     "LBL_CURRENCY_UPDATE": "Mise \u00e0 jour devise",
     "LBL_MULTI_REFERENCE_VALUE": "Mise \u00e0 jour de champs multir\u00e9f\u00e9rence",
     "LBL_CRMACTIVITY_DAYS": "Metter \u00e0 jour les activit\u00e9s calendrier dans les modules li\u00e9s",
-    "Activity State": "\u00c9tat d'activit\u00e9",
+    "Activity state": "\u00c9tat d'activit\u00e9",
     "LBL_SEND_NOTIFICATIONS": "Envoyer des notifications",
     "LBL_BATCH_METHODS": "Batch methods",
     "LBL_CLEAR_FILE_UPLOAD_TEMP": "Clear temporary files directory",
-    "LBL_SESSION_CLEANER": "Clear inactive sessions"
+    "LBL_SESSION_CLEANER": "Clear inactive sessions",
+    "LBL_ARCHIVE_OLD_RECORDS": "Archive old records",
+    "LBL_GET_SOCIAL_MEDIA_MESSAGES": "Download messages from social media"
   },
   "js": {
     "Recommended frequency for Scheduled Import is 15 mins": "La fr\u00e9quence recommand\u00e9e pour les imports programm\u00e9s est de 15 mins",

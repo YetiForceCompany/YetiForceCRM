@@ -38,7 +38,7 @@
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</span>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<table class="table table-bordered listViewEntriesTable">
+			<table class="table table-bordered listViewEntriesTable js-fixed-thead" data-js="floatThead">
 				<thead>
 					<tr class="listViewHeaders">
 						<th width="5%">

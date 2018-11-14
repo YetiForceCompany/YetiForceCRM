@@ -61,8 +61,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
-		app.showNewScrollbarLeft(this.list);
+		app.showNewScrollbarTopBottomRight(this.list, {wheelPropagation: false});
+		this.registerFixedThead(this.list);
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -74,14 +74,15 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		let mainViewPortWidthCss = {width: mainBody.height()};
 		this.gutter.addClass('js-fixed-scroll');
 		let fixedElements = container.find('.js-fixed-scroll');
+		let fixedThead = this.list.siblings('.floatThead-container');
 		mainBody.on('scroll', () => {
 			if (mainBody.scrollTop() >= listOffsetTop) {
-				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
+				fixedThead.add(fixedElements).css({top: mainBody.scrollTop() - listOffsetTop});
 				fixedElements.css(mainViewPortHeightCss);
 				this.rotatedText.css(mainViewPortHeightCss);
 				this.rotatedText.css(mainViewPortWidthCss);
 			} else {
-				fixedElements.css({top: 'initial'});
+				fixedThead.add(fixedElements).css({top: 'initial'});
 				fixedElements.css({height: initialH + mainBody.scrollTop()})
 				this.rotatedText.css({
 					width: initialH + mainBody.scrollTop(),
@@ -98,6 +99,17 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				app.moduleCacheSet('userSplitSet', defaultGutterPosition);
 			}
 		});
+	},
+	registerFixedThead() {
+		let list = this.list;
+		this.listFloatThead = list.find('.js-fixed-thead');
+		this.listFloatThead.floatThead('destroy');
+		this.listFloatThead.floatThead({
+			scrollContainer: function () {
+				return list;
+			}
+		});
+		this.listFloatThead.floatThead('reflow');
 	},
 	getSecondColMinWidth: function (container) {
 		let maxWidth, thisWidth;
@@ -247,6 +259,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
 					app.moduleCacheSet('gutterMidPosition', split.getSizes());
 				}
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			}
 		});
