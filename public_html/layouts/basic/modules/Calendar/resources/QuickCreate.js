@@ -1,7 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
+/**
+ *  Class representing a modal calendar.
+ * @extends Calendar_CalendarExtended_Js
+ */
+window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);
@@ -82,23 +86,23 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	 * @param endDate
 	 */
 	selectDays(startDate, endDate) {
-		let start_hour = $('#start_hour').val(),
-			end_hour = $('#end_hour').val(),
+		let startHour = app.getMainParams('startHour'),
+			endHour = app.getMainParams('endHour'),
 			view = this.getCalendarView().fullCalendar('getView');
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
 		startDate = startDate.format();
 		endDate = endDate.format();
-		if (start_hour == '') {
-			start_hour = '00';
+		if (startHour == '') {
+			startHour = '00';
 		}
-		if (end_hour == '') {
-			end_hour = '00';
+		if (endHour == '') {
+			endHour = '00';
 		}
 		if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
-			startDate = startDate + 'T' + start_hour + ':00';
-			endDate = endDate + 'T' + end_hour + ':00';
+			startDate = startDate + 'T' + startHour + ':00';
+			endDate = endDate + 'T' + endHour + ':00';
 			if (startDate == endDate) {
 				let activityType = this.container.find('[name="activitytype"]').val();
 				let activityDurations = JSON.parse(this.container.find('[name="defaultOtherEventDuration"]').val());

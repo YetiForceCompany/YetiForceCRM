@@ -1119,12 +1119,27 @@ window.Chat_JS = class Chat_Js {
 			btnDesktop.find('.js-icon').removeClass(iconOff).addClass(iconOn);
 		}
 		btnDesktop.off('click').on('click', (e) => {
-			btnDesktop.find('.js-icon').toggleClass(iconOn).toggleClass(iconOff);
+			btnDesktop.find('.js-icon').toggleClass(iconOn + " " + iconOff);
 			if (btnDesktop.find('.js-icon').hasClass(iconOn)) {
 				if (!Chat_Js.checkDesktopPermission()) {
 					PNotify.modules.Desktop.permission();
-					app.setCookie("chat-isDesktopNotification", true, 365);
+					setTimeout(() => {
+						if (!Chat_Js.checkDesktopPermission()) {
+							app.setCookie("chat-isDesktopNotification", false, 365);
+							btnDesktop.find('.js-icon').removeClass(iconOn).addClass(iconOff);
+							this.desktopNotificationShouldReload = true;
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('JS_NO_DESKTOP_PERMISSION'),
+								type: 'info',
+								animation: 'show'
+							});
+						} else {
+							app.setCookie("chat-isDesktopNotification", true, 365);
+						}
+					}, 2000);
 				}
+			} else {
+				app.setCookie("chat-isDesktopNotification", false, 365);
 			}
 		});
 	}

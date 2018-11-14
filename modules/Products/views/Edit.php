@@ -42,7 +42,7 @@ class Products_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('PRICE_DETAILS', $priceDetails);
 		$viewer->assign('BASE_CURRENCY_NAME', $currencyName);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
-		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
+		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['currency_symbol']);
 		parent::process($request);
 	}
 

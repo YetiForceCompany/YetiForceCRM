@@ -9,13 +9,16 @@
 							<div class="col-12 col-lg-9 mb-1 p-0 u-text-ellipsis">
 								 <span class="fa-layers fa-fw mr-2 ">
 									 <i class="fas fa-circle" data-fa-transform="grow-6"></i>
-									 <i class="fa-inverse fas fa-long-arrow-alt-down text-white" data-fa-transform="shrink-6 left-4"></i>
-									 <i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8 right-3"></i>
+									 <i class="fa-inverse fas fa-long-arrow-alt-down text-white"
+										data-fa-transform="shrink-6 left-4"></i>
+									 <i class="fa-inverse fas fa-percent text-white"
+										data-fa-transform="shrink-8 right-3"></i>
 								 </span>
 								<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
 							</div>
 							<div class="col-12 col-lg-3 p-0 groupDiscount changeDiscount  {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['discountmode'] == '1'}d-none{/if}">
-								<button type="button" class="btn btn-primary btn-sm c-btn-block-md-down float-right">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
+								<button type="button"
+										class="btn btn-primary btn-sm c-btn-block-md-down float-right">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
 							</div>
 						</div>
 					</div>
@@ -25,7 +28,7 @@
 								<input type="text" class="form-control text-right" readonly="readonly"/>
 								<div class="input-group-append">
 									{if in_array("currency",$COLUMNS)}
-										<div class="input-group-text currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
+										<div class="input-group-text currencySymbol">{$CURRENCY_SYMBOLAND['currency_symbol']}</div>
 									{/if}
 								</div>
 							</div>
@@ -42,17 +45,21 @@
 							<div class="col-12 col-lg-9 mb-1 p-0 u-text-ellipsis">
 								 <span class="fa-layers fa-fw mr-2">
 									 <i class="fas fa-circle" data-fa-transform="grow-6"></i>
-									 <i class="fa-inverse fas fa-long-arrow-alt-up text-white" data-fa-transform="shrink-6 left-4"></i>
-									 <i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8 right-3"></i>
+									 <i class="fa-inverse fas fa-long-arrow-alt-up text-white"
+										data-fa-transform="shrink-6 left-4"></i>
+									 <i class="fa-inverse fas fa-percent text-white"
+										data-fa-transform="shrink-8 right-3"></i>
 								 </span>
 								<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}</strong>
 							</div>
 							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['taxmode'] == '1'}d-none{/if}">
-								<button type="button" class="btn btn-primary btn-sm float-right c-btn-block-md-down">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
+								<button type="button"
+										class="btn btn-primary btn-sm float-right c-btn-block-md-down">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
 							</div>
 						</div>
 					</div>
-					<div class="card-body js-panel__body p-0 m-0 js-default-tax" data-js="data-tax-default-value|value" data-tax-default-value="{$TAX_DEFAULT['value']}"></div>
+					<div class="card-body js-panel__body p-0 m-0 js-default-tax" data-js="data-tax-default-value|value"
+						 data-tax-default-value="{$TAX_DEFAULT['value']}"></div>
 					<div class="card-footer js-panel__footer p-1 m-0 " data-js="value">
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
@@ -62,7 +69,7 @@
 								<input type="text" class="form-control text-right" readonly="readonly"/>
 								<div class="input-group-append">
 									{if in_array("currency",$COLUMNS)}
-										<div class="input-group-text currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
+										<div class="input-group-text currencySymbol">{$CURRENCY_SYMBOLAND['currency_symbol']}</div>
 									{/if}
 								</div>
 							</div>
@@ -77,7 +84,7 @@
 								<input type="text" class="form-control text-right" readonly="readonly"/>
 								<div class="input-group-append">
 									{if in_array("currency",$COLUMNS)}
-										<div class="input-group-text currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
+										<div class="input-group-text currencySymbol">{$CURRENCY_SYMBOLAND['currency_symbol']}</div>
 									{/if}
 								</div>
 							</div>

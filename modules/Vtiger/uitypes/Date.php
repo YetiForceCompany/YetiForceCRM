@@ -28,7 +28,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$values = explode(',', $value);
 			foreach ($values as &$val) {
 				$this->validate($val, true);
-				$val =	$this->getDBValue($val);
+				$val = $this->getDBValue($val);
 			}
 			return implode(',', $values);
 		}
@@ -49,7 +49,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		} else {
 			list($y, $m, $d) = explode('-', $value);
 		}
-		if (!checkdate($m, $d, $y)) {
+		if (!is_numeric($m) || !is_numeric($d) || !is_numeric($y) || !checkdate($m, $d, $y)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;

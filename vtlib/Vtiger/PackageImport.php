@@ -328,7 +328,7 @@ class PackageImport extends PackageExport
 		if ($manifestxml_found && $layoutfile_found && $moduleVersionFound) {
 			$validzip = true;
 		}
-		if ($manifestxml_found && $languagefile_found && $extensionfile_found && $moduleVersionFound) {
+		if ($manifestxml_found && $extensionfile_found && $moduleVersionFound) {
 			$validzip = true;
 		}
 		if ($manifestxml_found && $updatefile_found && $moduleVersionFound) {

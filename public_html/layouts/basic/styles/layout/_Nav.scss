@@ -158,20 +158,20 @@
 
 		.tpl-menu-SubMenu,
 		.tpl-menu-Profile_submenu {
-			background: $color-menu;
-			color: $bg-menu;
+			background: $bg-sub-menu;
+			color: $color-navbar;
 
 			a {
 				font-size: 14px;
-				color: $bg-menu;
-				background: $color-menu;
+				color: $color-navbar;
+				background: $bg-sub-menu;
 
 				&:hover, &:focus {
-					background: lighten($color-menu, 5%);
+					background: lighten($bg-sub-menu, 5%);
 				}
 
 				&.active {
-					background: darken($color-menu, 5%);
+					background: darken($bg-sub-menu, 5%);
 				}
 
 				&.hasIcon {
@@ -186,11 +186,11 @@
 			}
 
 			button {
-				background: darken($color-menu, 10%);
+				background: darken($bg-sub-menu, 10%);
 
 				&:hover, &:focus {
-					color: $color-menu;
-					background: $bg-menu;
+					color: $bg-sub-menu;
+					background: $color-navbar;
 				}
 
 				&.hasIcon {
@@ -210,6 +210,14 @@
 			font-size: 1.6em;
 			height: 100%;
 			min-width: 42px;
+		}
+		.tpl-menu-SubMenu {
+			.menuIcon {
+				padding-left: calculate-rem(10px);
+				//font-size: 1.6em;
+				//height: 100%;
+				//min-width: 42px;
+			}
 		}
 	}
 

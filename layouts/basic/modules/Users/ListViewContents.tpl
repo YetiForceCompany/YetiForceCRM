@@ -45,7 +45,7 @@
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE}">
+		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} js-fixed-thead" data-js="floatThead">
 			<thead>
 			<tr class="listViewHeaders">
 				<th width="2%" colspan="2">
@@ -63,10 +63,8 @@
 				{/foreach}
 				<th>{\App\Language::translate('LBL_ACTIONS')}</th>
 			</tr>
-			</thead>
-			<tbody>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
-				<tr>
+				<tr class="bg-white">
 					<td class="listViewSearchTd" colspan="2">
 						<div class="flexWrapper">
 							<a class="btn btn-light" role="button" href="javascript:void(0);" data-trigger="listSearch">
@@ -98,6 +96,8 @@
 					<td></td>
 				</tr>
 			{/if}
+			</thead>
+			<tbody>
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}'
 					data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'

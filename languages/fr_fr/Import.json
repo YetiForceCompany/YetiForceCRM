@@ -16,6 +16,7 @@
     "Merge": "Fusionner",
     "Overwrite": "R\u00e9\u00e9crire",
     "Skip": "Passer",
+    "LBL_FILL_EMPTY": "Fill in (update only empty fields in the record, do not change existing values)",
     "LBL_IMPORT_STEP_1": "Etape 1",
     "LBL_IMPORT_STEP_1_DESCRIPTION": "Choisir le fichier",
     "LBL_IMPORT_SUPPORTED_FILE_TYPES": "Format support\u00e9s",
@@ -75,7 +76,8 @@
     "LBL_DETAILS": "D\u00e9tails",
     "skipped": "Enregistrements non pris en compte",
     "failed": "Enregistrements \u00e9chou\u00e9s",
-    "LBL_SELECT_FILE": "Choississez le fichier \u00e0 importer"
+    "LBL_SELECT_FILE": "Choississez le fichier \u00e0 importer",
+        "LBL_MERGE_TYPE_INFO": "Skip: exisitng records are skipped and not updated.\n\nOverwrite: existing recorda are overwritten with data from file or default values are filled in if required values in record and file are empty. If not marked as required, values are overwritten in the record with empty values from the file. \n\nMerge: record values are overwritten with values from the file if values from the file are not empty (however, if they are empty, values from the record are kept). \n\nFill in: only empty fields in the record are updated. Values from the field are not overwritten if there is already an exisitng value in the record."
   },
   "js": {}
 }

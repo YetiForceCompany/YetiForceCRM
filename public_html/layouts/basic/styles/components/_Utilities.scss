@@ -133,6 +133,14 @@
 	font-size: calculate-rem(44px);
 }
 
+.u-text-contrast {
+	background: inherit;
+	color: transparent;
+	-webkit-background-clip: text !important;
+	background-clip: text !important;
+	filter: invert(1) grayscale(1) contrast(500);
+}
+
 //--- MARGIN ---//
 .u-m-5px {
 	margin: 5px;

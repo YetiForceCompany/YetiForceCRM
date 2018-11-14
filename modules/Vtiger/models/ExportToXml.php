@@ -97,7 +97,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				$valueData = $field->getCurrencyParam([], $value);
 				$valueNewData = [];
 				foreach ($valueData as $currencyId => &$data) {
-					$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+					$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
 					$data['value'] = $currencyName;
 					$valueNewData[$currencyName] = $data;
 				}
