@@ -16,9 +16,9 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		$values= [];
+		$values = [];
 		foreach ($value as $val) {
-			$values[]= parent::getDbConditionBuilderValue($val, $operator);
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
 		}
 		return implode('##', $values);
 	}
@@ -42,7 +42,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
 		$value = App\Colors::sanitizeValue($value);
 
-		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\"><span>$dispalyValue</span></span>";
 	}
 
 	/**
