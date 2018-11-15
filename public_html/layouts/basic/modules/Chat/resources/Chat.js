@@ -68,10 +68,12 @@ window.Chat_JS = class Chat_Js {
 	static registerTrackingEvents() {
 		const headerChatButton = Chat_Js.getHeaderChatButton();
 		const showNumberOfNewMessages = headerChatButton.data('showNumberOfNewMessages');
+		const lblChatNewMessage = headerChatButton.data('lblChatNewMessage');
+		const lblChat = headerChatButton.data('lblChat');
 		if (headerChatButton.data('userSwitched')) {
 			headerChatButton.on('click', (e) => {
 				Vtiger_Helper_Js.showPnotify({
-					text: app.vtranslate('JS_CHAT_USER_SWITCHED'),
+					text: headerChatButton.data('lblChatUserSwitched'),
 					type: 'error',
 					animation: 'show'
 				});
@@ -103,13 +105,13 @@ window.Chat_JS = class Chat_Js {
 						app.playSound('CHAT');
 					}
 					if (Chat_Js.desktopPermission()) {
-						let message = app.vtranslate('JS_CHAT_NEW_MESSAGE');
+						let message = lblChatNewMessage;
 						if (showNumberOfNewMessages) {
 							message += ' ' + data.result;
 						}
 						app.showNotify({
 							text: message,
-							title: app.vtranslate('JS_CHAT'),
+							title: lblChat,
 							type: 'success'
 						}, true);
 					}

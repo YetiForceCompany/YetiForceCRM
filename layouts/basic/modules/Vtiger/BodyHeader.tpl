@@ -267,6 +267,9 @@
 							   data-url="index.php?module=Chat&view=Modal"
 							   data-refresh-time-global="{AppConfig::module('Chat', 'REFRESH_TIME_GLOBAL')}"
 							   data-show-number-of-new-messages="{if AppConfig::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')}true{else}false{/if}"
+							   data-lbl-chat-user-switched="{\App\Language::translate('LBL_CHAT_USER_SWITCHED', 'Chat')}"
+							   data-lbl-chat-new-message="{\App\Language::translate('LBL_CHAT_NEW_MESSAGE', 'Chat')}"
+							   data-lbl-chat="{\App\Language::translate('LBL_CHAT')}"
 							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
 							   href="#">
 								<span class="fas fa-comments fa-fw"
