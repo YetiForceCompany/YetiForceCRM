@@ -148,7 +148,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public static function createProductRecord($cache = true)
 	{
-		if (!empty(static::$recordProducts) && static::$recordProducts->getId() && $cache) {
+		if (static::$recordProducts && $cache) {
 			return static::$recordProducts;
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Products');
