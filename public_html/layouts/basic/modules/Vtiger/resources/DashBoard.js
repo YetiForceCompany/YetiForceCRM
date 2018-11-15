@@ -56,7 +56,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		return this.container;
 	},
 	getCurrentDashboard: function () {
-		return $('.selectDashboard li a.active').closest('li').data('id') || 1;
+		return $('.selectDashboard li a.active').closest('li').data('id');
 	},
 	getWidgetInstance: function (widgetContainer) {
 		var id = widgetContainer.attr('id');
