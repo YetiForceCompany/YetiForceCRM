@@ -31,6 +31,12 @@ class C_RecordActions extends \Tests\Base
 	 */
 	protected static $recordContacts;
 	/**
+	 * Temporary Products record object.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected static $recordProducts;
+	/**
 	 * Temporary Leads record object.
 	 *
 	 * @var \Vtiger_Record_Model
@@ -132,6 +138,23 @@ class C_RecordActions extends \Tests\Base
 		$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
 		$record->save();
 		static::$recordAccounts = $record;
+		return $record;
+	}
+
+	/**
+	 * Creating Product module record for tests.
+	 *
+	 * @var bool
+	 */
+	public static function createProductRecord($cache = true)
+	{
+		if (static::$recordProducts && $cache) {
+			return static::$recordProducts;
+		}
+		$record = \Vtiger_Record_Model::getCleanInstance('Products');
+		$record->set('productname', 'System CRM YetiForce');
+		$record->save();
+		static::$recordProducts = $record;
 		return $record;
 	}
 
