@@ -451,6 +451,9 @@
 				font-weight: bold;
 				color: $white;
 			}
+			.c-arrows__icon {
+				color: $white;
+			}
 		}
 		&.before:hover {
 			@include c-arrows-color(material-color('green', '900'));
@@ -460,6 +463,9 @@
 			@include c-arrows-color(material-color('blue', '300'));
 			.c-arrows__text {
 				font-weight: bold;
+				color: $white;
+			}
+			.c-arrows__icon {
 				color: $white;
 			}
 		}
@@ -472,6 +478,9 @@
 			.c-arrows__text {
 				color: $dark;
 				font-weight: bold;
+			}
+			.c-arrows__icon {
+				color: $dark;
 			}
 		}
 	}
