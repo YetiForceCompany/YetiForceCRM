@@ -62,8 +62,8 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public function testFileAndCatalogExist()
 	{
 		$this->url('index.php?module=Backup&parent=Settings&view=Index');
-		$this->assertSame(self::$catalogName, $this->driver->findElement(WebDriverBy::cssSelector('table:first-child td:first-child'))->getText(), 'Catalog does not exist');
-		$this->assertSame(self::$fileName, $this->driver->findElement(WebDriverBy::cssSelector('table:nth-child(2) td:first-child'))->getText(), 'File does not exist');
+		$this->assertSame(self::$catalogName, $this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv table:first-child td:first-child'))->getText(), 'Catalog does not exist');
+		$this->assertSame(self::$fileName, $this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv table:nth-child(2) td:first-child'))->getText(), 'File does not exist');
 		$this->assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
 	}
 
