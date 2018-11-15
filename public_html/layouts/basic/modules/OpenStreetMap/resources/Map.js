@@ -179,7 +179,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_MESSAGE_TITLE'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success',
 				});
@@ -221,7 +220,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_MESSAGE_TITLE'),
 					text: app.vtranslate('JS_MESSAGE_DOWNLOADED_ADDRESS_DATA'),
 					type: 'success',
 				});
