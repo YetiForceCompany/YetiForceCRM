@@ -98,7 +98,7 @@
 						<ul class="js-room-type js-hide-group hide u-font-size-13px p-0 mb-0" data-room-type="{$KEY}"
 							data-js="data">
 							{assign var=CNT_GROUP value=0}
-							{foreach item=GROUP_NAME key=GROUP_ID from=\App\Fields\Owner::getUserGroups()}
+							{foreach item=GROUP_NAME key=GROUP_ID from=\App\User::getCurrentUserModel()->getGroupNames()}
 								{if in_array($GROUP_ID, $USER_GROUP)}
 									{continue}
 								{/if}

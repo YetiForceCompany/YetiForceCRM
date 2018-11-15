@@ -153,9 +153,9 @@ class Chat extends \Tests\Base
 	public function testGroup()
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$groups = \App\User::getCurrentUserModel()->getGroups();
+		$groups = \App\User::getCurrentUserModel()->getGroupNames();
 		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
-		$groupId = \current($groups);
+		$groupId = \key($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
 		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
@@ -366,72 +366,36 @@ class Chat extends \Tests\Base
 	}
 
 	/**
-	 * Testing retrieving information about rooms.
+	 * Message history test.
 	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function testRoomGetAll()
-	{
-		$userModel = \App\User::getUserModel(static::$users[1]);
-		$userName = $userModel->getDetail('user_name');
-		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
-		$this->assertTrue($userRecordModel->doLogin(A_User::$defaultPassrowd), "Login failed for user '{$userName}'");
-		\App\Session::set('authenticated_user_id', $userModel->getId());
-		\App\Session::set('app_unique_key', \AppConfig::main('application_unique_key'));
-		\App\Session::set('user_name', $userName);
-		\App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userModel->getId()));
-		ob_start();
-		(new \Vtiger_WebUI())->process(new \App\Request([
-			'module' => 'Chat',
-			'action' => 'Room',
-			'mode' => 'getAll'
-		]));
-		$out = ob_get_contents();
-		ob_end_clean();
-		$roomsInfo = \App\Json::decode($out);
-		$this->assertTrue(\is_array($roomsInfo));
-	}
-
-	/**
-	 * Testing the sending method.
-	 *
-	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \yii\db\Exception
 	 */
-	public function testSend()
+	public function testHistory()
 	{
-		$appUser = (new class() extends \App\User {
-			public static function clearUserRealId()
-			{
-				self::$currentUserRealId = false;
-			}
-		});
-		$appUser::clearUserRealId();
-		ob_start();
-		(new \Vtiger_WebUI())->process(new \App\Request([
-			'module' => 'Chat',
-			'view' => 'Entries',
-			'mode' => 'get',
-			'roomType' => 'global',
-			'recordId' => static::$globalRoom['global_room_id'],
-		]));
-		ob_end_clean();
+		$userId = \App\User::getCurrentUserId();
+		$userName = \App\User::getCurrentUserModel()->getName();
 		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
-		$entries = $chat->getEntries();
-		ob_start();
-		(new \Vtiger_WebUI())->process(new \App\Request([
-			'module' => 'Chat',
-			'view' => 'Entries',
-			'mode' => 'send',
-			'message' => 'testSend'
-		]));
-		ob_end_clean();
-		$entriesAfter = $chat->getEntries();
-		$lastMessage = $entriesAfter[count($entriesAfter) - 1];
-		$this->assertCount(count($entries) + 1, $entriesAfter);
-		$this->assertSame('testSend', $lastMessage['messages']);
-		$this->assertSame(static::$users[1], $lastMessage['userid']);
+		$globalHistory = $chat->getHistoryByType('global');
+		$this->assertInternalType('array', $globalHistory);
+		foreach ($globalHistory as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+		$globalCrm = $chat->getHistoryByType('crm');
+		$this->assertInternalType('array', $globalCrm);
+		foreach ($globalCrm as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+		$globalGroup = $chat->getHistoryByType('group');
+		$this->assertInternalType('array', $globalGroup);
+		foreach ($globalGroup as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
 	}
 
 	/**

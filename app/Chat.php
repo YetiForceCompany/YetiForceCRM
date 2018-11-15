@@ -98,7 +98,7 @@ final class Chat
 				}
 				break;
 			case 'group':
-				if (!isset(User::getCurrentUserModel()->getGroups()[$recordId])) {
+				if (!isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
 					return static::getDefaultRoom();
 				}
 				break;
@@ -202,7 +202,7 @@ final class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$groups = User::getUserModel($userId)->getGroups();
+		$groups = User::getUserModel($userId)->getGroupNames();
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])
@@ -433,9 +433,6 @@ final class Chat
 		$this->roomType = $roomType;
 		$this->recordId = $recordId;
 		$this->room = $this->getQueryRoom()->one();
-		if ($this->isRoomExists() && isset($this->room['room_id'])) {
-			$this->roomId = $this->room['room_id'];
-		}
 		if (($this->roomType === 'crm' || $this->roomType === 'group') && !$this->isRoomExists()) {
 			$this->room = [
 				'roomid' => null,
@@ -529,9 +526,6 @@ final class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$userModel = User::getUserModel($row['userid']);
-			$image = $userModel->getImage();
-			$row['image'] = $image['url'] ?? '';
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			['user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
