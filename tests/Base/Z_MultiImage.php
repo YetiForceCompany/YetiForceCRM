@@ -54,7 +54,7 @@ class Z_MultiImage extends \Tests\Base
 	public function providerDeleteImageForRecord()
 	{
 		return [
-			['Users', \App\User::getCurrentUserId(), 'imagename', 9],
+			['Users', \App\User::getUserIdByName('admin'), 'imagename', 9],
 			['Contacts', \Tests\Base\C_RecordActions::createContactRecord()->getId(), 'imagename', 10],
 			['Products', \Tests\Base\C_RecordActions::createProductRecord()->getId(), 'imagename', 11],
 		];
