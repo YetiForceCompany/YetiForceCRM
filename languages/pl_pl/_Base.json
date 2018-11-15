@@ -1628,6 +1628,7 @@
     "JS_CHAT_NEW_MESSAGE": "Nowa wiadomo\u015b\u0107",
     "JS_CHAT": "Czat",
     "JS_CHAT_USER_SWITCHED": "Czat jest nieaktywny, je\u015bli prze\u0142\u0105czy\u0142e\u015b si\u0119 na innego u\u017cytkownika.",
-    "JS_NO_DESKTOP_PERMISSION": "Nie uda\u0142o si\u0119 uzyska\u0107 zgody na powiadomienia, sprawd\u017a ustawienia przegl\u0105darki."
+    "JS_NO_DESKTOP_PERMISSION": "Nie uda\u0142o si\u0119 uzyska\u0107 zgody na powiadomienia, sprawd\u017a ustawienia przegl\u0105darki.",
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Wczytano dane adresowe"
   }
 }

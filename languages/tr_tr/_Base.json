@@ -1308,6 +1308,8 @@
     "JS_SAVE_NOTIFY_SUCCESS": "Saved successfully",
     "JS_SAVE_NOTIFY_OK": "Changes have been saved",
     "JS_SAVE_LOADER_INFO": "Saving data...",
+    "JS_SAVED_FROM": "from",
+    "JS_SAVED_TO": "to",
     "JS_OF": "of",
     "AM": "AM",
     "JS_LBL_NO_TAXES": "Selected product does not contain tax",
@@ -1515,6 +1517,7 @@
     "JS_AUGUST": "August",
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Cannot select related Contacts for Leads",
     "JS_DAY": "Day",
+    "JS_DAY_SHORT": "D.",
     "JS_DEC": "Dec",
     "JS_DECEMBER": "December",
     "JS_FEB": "Feb",
@@ -1551,6 +1554,7 @@
     "JS_WEDNESDAY": "Wednesday",
     "JS_WED": "Wed",
     "JS_WEEK": "Week",
+    "JS_WEEK_SHORT": "WK",
     "JS_ADD_EVENT_TASK": "Add Event\/To Do",
     "JS_FUTURE_EVENT_CANNOT_BE_HELD": "Cannot hold future event",
     "JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED": "An incorrect range of dates was entered",
@@ -1656,6 +1660,8 @@
     "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
     "JS_MESSAGE_TOO_LONG": "Message is too long",
     "JS_CHAT_NEW_MESSAGE": "New message",
-    "JS_CHAT": "Czat"
+    "JS_CHAT": "Czat",
+    "JS_LBL_MESSAGE_TITLE": "Message",
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
   }
 }

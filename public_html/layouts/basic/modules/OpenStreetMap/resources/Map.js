@@ -179,7 +179,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success',
 				});
@@ -221,8 +220,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_PERMISSION'),
-					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+					text: app.vtranslate('JS_MESSAGE_DOWNLOADED_ADDRESS_DATA'),
 					type: 'success',
 				});
 				container.find('.countRecords' + moduleName).html(response.result.count);
@@ -475,7 +473,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var startIconLayer = false;
 		container.on('click', '.startTrack', function (e) {
-			if(startIconLayer) {
+			if (startIconLayer) {
 				map.removeLayer(startIconLayer);
 			}
 			var currentTarget = $(e.currentTarget);
@@ -500,7 +498,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var endIconLayer = false;
 		container.on('click', '.endTrack', function (e) {
-			if(endIconLayer) {
+			if (endIconLayer) {
 				map.removeLayer(endIconLayer);
 			}
 			var currentTarget = $(e.currentTarget);
@@ -575,7 +573,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}
 		});
 		container.on('click', '.searchInRadius', function (e) {
-			if(endIconLayer) {
+			if (endIconLayer) {
 				map.removeLayer(endIconLayer);
 			}
 			var currentTarget = $(e.currentTarget);
@@ -633,7 +631,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				if(thisInstance.routeLayer) {
+				if (thisInstance.routeLayer) {
 					map.removeLayer(thisInstance.routeLayer);
 				}
 				var route = L.geoJson(response.result.geoJson);
