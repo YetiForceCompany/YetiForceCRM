@@ -324,6 +324,27 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Testing a CRM chat room.
+	 */
+	public function testRoomCrm()
+	{
+		$userId = \App\User::getActiveAdminId();
+		\App\User::setCurrentUserId($userId);
+		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
+		$chat = \App\Chat::getInstance('crm', static::$listId[0]);
+		$chat->addToFavorites();
+		$this->assertTrue(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
+		$id = $chat->addMessage('testRoomCrm');
+		$this->assertInternalType('integer', $id);
+		$rowMsg = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
+			->where(['id' => $id])->one();
+		$this->assertNotFalse($rowMsg, "The message {$id} does not exist");
+		$this->assertSame('testRoomCrm', $rowMsg['messages']);
+		$this->assertSame(\App\User::getCurrentUserId(), $rowMsg['userid']);
+	}
+
+	/**
 	 * Chat room switching test.
 	 *
 	 * @throws \App\Exceptions\IllegalValue
