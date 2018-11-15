@@ -155,6 +155,7 @@ class Chat extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$groups = \App\User::getCurrentUserModel()->getGroupNames();
 		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
+		$this->assertCount(0, \App\Chat::getRoomsGroup(), 'There should not be visible rooms');
 		$groupId = \key($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
@@ -174,6 +175,56 @@ class Chat extends \Tests\Base
 		$this->assertNotFalse($key, 'Problem with the method "getEntries"');
 		$this->assertSame($rowMsg['messages'], $entries[$key]['messages']);
 		$this->assertSame(\App\User::getCurrentUserModel()->getName(), $entries[$key]['user_name']);
+	}
+
+	/**
+	 * Test assigning a user to a group room.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function testAssigningToGroup()
+	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$groups = \App\User::getCurrentUserModel()->getGroupNames();
+		$groupId = \key($groups);
+		$chat = \App\Chat::getInstance('group', $groupId);
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
+		$chat->addToFavorites();
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertTrue($chat->isAssigned(), "The user should be assigned '{$groups[$groupId]}'");
+		$row = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['room'][$chat->getRoomType()])
+			->where(['userid' => \App\User::getCurrentUserId()])
+			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
+			->one();
+		$this->assertNotFalse($row, 'Problem with methods "addToFavorites"');
+		$this->assertNull($row['last_message'], 'Problem with methods "addToFavorites"');
+	}
+
+	/**
+	 * Remove test from favorites.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function testRemoveFromFavorites()
+	{
+		$groups = \App\User::getCurrentUserModel()->getGroupNames();
+		$groupId = \key($groups);
+		$chat = \App\Chat::getInstance('group', $groupId);
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertTrue($chat->isAssigned(), "The user should be assigned '{$groups[$groupId]}'");
+		$chat->removeFromFavorites();
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
+		$this->assertFalse((new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['room'][$chat->getRoomType()])
+			->where(['userid' => \App\User::getCurrentUserId()])
+			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
+			->exists(),
+			'Problem with methods "removeFromFavorites"'
+		);
 	}
 
 	/**

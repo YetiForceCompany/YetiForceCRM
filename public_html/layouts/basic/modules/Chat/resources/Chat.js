@@ -15,6 +15,7 @@ window.Chat_JS = class Chat_Js {
 		this.sendByEnter = true;
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
+		this.isUnreadMode = false;
 		this.searchValue = null;
 		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
@@ -367,6 +368,7 @@ window.Chat_JS = class Chat_Js {
 	history(btn = null, groupHistory = 'crm') {
 		this.isSearchMode = false;
 		this.isHistoryMode = true;
+		this.isUnreadMode = false;
 		clearTimeout(this.timerMessage);
 		let mid = null;
 		if (btn !== null) {
@@ -393,20 +395,19 @@ window.Chat_JS = class Chat_Js {
 	 * Turn off unread mode.
 	 */
 	turnOffUnreadMode() {
-		this.container.find('.js-chat-message-block').removeClass('hide');
-		this.container.find('.js-input-group-search').removeClass('hide');
+		this.turnOnInputAndBtnInRoom();
+		this.isUnreadMode = false;
 	}
 
 	/**
 	 * Get unread messages.
 	 */
 	unread() {
-		this.container.find('.js-chat-nav-history').addClass('hide');
-		this.container.find('.js-chat-message-block').addClass('hide');
-		this.container.find('.js-input-group-search').addClass('hide');
+		clearTimeout(this.timerMessage);
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
-		clearTimeout(this.timerMessage);
+		this.isUnreadMode = true;
+		this.turnOffInputAndBtn();
 		this.request({
 			view: 'Entries',
 			mode: 'unread'
@@ -424,16 +425,22 @@ window.Chat_JS = class Chat_Js {
 		let container = this.container;
 		container.find('.js-users').addClass('hide');
 		container.find('.js-scrollbar').addClass('o-chat__scrollbar--history');
-		let messageContainer = container.find('.js-message-container');
 		container.find('.js-footer-history-hide').removeClass('hide');
 		container.find('.js-footer-history').addClass('hide');
 		container.find('.js-room').removeClass('active o-chat__room');
-		messageContainer.removeClass('col-9');
-		messageContainer.addClass('col-12');
-		container.find('.js-chat-nav-history').removeClass('hide');
+		this.messageContainer.removeClass('col-9');
+		this.messageContainer.addClass('col-12');
 		container.find('.js-chat-message').addClass('hide');
 		container.find('.js-btn-send').addClass('hide');
 		container.find('.js-input-group-search').addClass('hide');
+		let footer = container.find('.js-chat-footer');
+		if (this.isHistoryMode) {
+			this.container.find('.js-chat-nav-history').removeClass('hide');
+			this.container.find('.js-footer-history-hide .js-breadcrumb-item').text(footer.data('lblHistory'));
+		} else if (this.isUnreadMode) {
+			this.container.find('.js-chat-nav-history').addClass('hide');
+			this.container.find('.js-footer-history-hide .js-breadcrumb-item').text(footer.data('lblUnread'));
+		}
 	}
 
 	/**

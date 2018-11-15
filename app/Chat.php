@@ -796,6 +796,7 @@ final class Chat
 				'userid' => $this->userId,
 				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 			])->execute();
+			unset($this->room['userid']);
 		}
 	}
 
@@ -813,6 +814,7 @@ final class Chat
 				'last_message' => null,
 				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 			])->execute();
+			$this->room['userid'] = $this->userId;
 		}
 	}
 
