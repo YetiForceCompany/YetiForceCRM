@@ -121,12 +121,12 @@
 		{/if}
 	</div>
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg" href="#">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}
-				&nbsp;{\App\Language::translate($MODULE ,$MODULE)}
+		<strong><a id="selectAllMsg" href="#">{\App\Language::translate('LBL_SELECT_ALL',$MODULE_NAME)}
+				&nbsp;{\App\Language::translate($MODULE_NAME ,$MODULE_NAME)}
 				&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="deSelectAllMsg" href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+		<strong><a id="deSelectAllMsg" href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE_NAME)}</a></strong>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 		{/strip}
