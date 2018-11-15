@@ -1686,24 +1686,17 @@ jQuery.Class("Vtiger_List_Js", {
 				Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
 					var postData = {
-						viewname: listInstance.getCurrentCvId(),
 						selected_ids: listInstance.readSelectedIds(true),
 						excluded_ids: listInstance.readExcludedIds(true)
 					};
 					var listViewInstance = Vtiger_List_Js.getInstance();
 					if (listViewInstance.getListSearchInstance()) {
-						var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 						postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-						if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-							postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
-							postData['search_value'] = searchValue;
-							postData['operator'] = 's';
-						}
 					}
 					AppConnector.request({
 						type: "POST",
 						url: target.data('url'),
-						data: postData
+						data: Object.assign(thisInstance.getDefaultParams(), postData)
 					}).done(function (data) {
 						progressIndicatorElement.progressIndicator({mode: 'hide'});
 						if (data && data.result && data.result.notify) {
