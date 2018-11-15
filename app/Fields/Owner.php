@@ -46,16 +46,6 @@ class Owner
 		return $instance;
 	}
 
-	/**
-	 * Get user groups.
-	 *
-	 * @return string[]
-	 */
-	public static function getUserGroups()
-	{
-		return static::getInstance('CustomView')->getGroups(false);
-	}
-
 	public function find($value)
 	{
 		$this->searchValue = $value;

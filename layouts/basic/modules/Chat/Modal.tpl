@@ -16,7 +16,7 @@
 				</span>
 			</div>
 			<div class="col-1 text-right px-2 d-flex align-items-center o-chat__pin-favorites">
-				<a href="index.php?module={if isset($ROOM['moduleName'])}{$ROOM['moduleName']}{/if}&view=Detail&record={$ROOM['recordid']}"
+				<a href="{if isset($ROOM['moduleName'])}index.php?module={$ROOM['moduleName']}&view=Detail&record={$ROOM['recordid']}{else}#{/if}"
 				   class="{if $ROOM_TYPE!=='crm'}hide js-link{/if}" data-js="hide">
 					<span class="fas fa-link"
 						  title="{\App\Language::translate('LBL_DETAIL_VIEW', $MODULE_NAME)}"></span>

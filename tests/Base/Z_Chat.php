@@ -153,9 +153,9 @@ class Chat extends \Tests\Base
 	public function testGroup()
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$groups = \App\Fields\Owner::getUserGroups();
+		$groups = \App\User::getCurrentUserModel()->getGroups();
 		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
-		$groupId = key($groups);
+		$groupId = \current($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
 		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");

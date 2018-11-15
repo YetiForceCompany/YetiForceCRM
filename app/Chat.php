@@ -98,7 +98,7 @@ final class Chat
 				}
 				break;
 			case 'group':
-				if (!isset(Fields\Owner::getUserGroups()[$recordId])) {
+				if (!isset(User::getCurrentUserModel()->getGroups()[$recordId])) {
 					return static::getDefaultRoom();
 				}
 				break;
@@ -202,7 +202,7 @@ final class Chat
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$groups = Fields\Owner::getUserGroups();
+		$groups = User::getUserModel($userId)->getGroups();
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])

@@ -59,7 +59,7 @@ class Chat_Entries_View extends \App\Controller\View
 					}
 					break;
 				case 'group':
-					if (!isset(\App\Fields\Owner::getUserGroups()[$recordId])) {
+					if (!\App\User::getCurrentUserModel()->getGroups()[$recordId]) {
 						throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 					}
 					break;
