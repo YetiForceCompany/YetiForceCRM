@@ -50,15 +50,10 @@ jQuery.Class("Vtiger_List_Js", {
 	triggerSendEmail: function (params) {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
+		if (validationResult !== true) {
 			var postData = listInstance.getDefaultParams();
 			delete postData.parent;
-			postData.module = app.getModuleName();
 			postData.view = 'SendMailModal';
-			postData.selected_ids = selectedIds;
-			postData.excluded_ids = excludedIds;
 			postData.cvid = listInstance.getCurrentCvId();
 			if (params) {
 				jQuery.extend(postData, params);
@@ -151,27 +146,11 @@ jQuery.Class("Vtiger_List_Js", {
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
 			var progressIndicatorElement = jQuery.progressIndicator();
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var postData = {
-				viewname: cvId,
-				selected_ids: selectedIds,
-				excluded_ids: excludedIds
-			};
-			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
-				postData['search_value'] = searchValue;
-				postData['operator'] = 's';
-			}
-
 			var actionParams = {
 				type: "POST",
 				url: massActionUrl,
 				dataType: "application/x-msexcel",
-				data: postData
+				data: this.getDefaultParams
 			};
 			//can't use AppConnector to get files with a post request so we add a form to the body and submit it
 			var form = $('<form method="POST" action="' + massActionUrl + '">');
@@ -251,30 +230,11 @@ jQuery.Class("Vtiger_List_Js", {
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
 			var progressIndicatorElement = jQuery.progressIndicator();
-			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var postData = {
-				"viewname": cvId,
-				"selected_ids": selectedIds,
-				"excluded_ids": excludedIds
-			};
-			var listViewInstance = Vtiger_List_Js.getInstance();
-			if (listViewInstance.getListSearchInstance()) {
-				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-				if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
-					postData['search_value'] = searchValue;
-					postData['operator'] = 's';
-				}
-			}
 			var actionParams = {
 				"type": "POST",
 				"url": massActionUrl,
 				"dataType": "html",
-				"data": postData
+				"data": this.getDefaultParams()
 			};
 			if (typeof css === "undefined") {
 				css = {};
@@ -353,23 +313,16 @@ jQuery.Class("Vtiger_List_Js", {
 	 * returns UI
 	 */
 	triggerExportAction: function (exportActionUrl) {
-		var listInstance = Vtiger_List_Js.getInstance();
-		// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-		var selectedIds = listInstance.readSelectedIds(true);
-		var excludedIds = listInstance.readExcludedIds(true);
-		var cvId = listInstance.getCurrentCvId();
-		var pageNumber = jQuery('#pageNumber').val();
-		if ('undefined' === typeof cvId)
-			exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&page=' + pageNumber;
+		let params = this.getDefaultParams();
+		if ('undefined' === typeof params.viewname)
+			exportActionUrl += '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&page=' + params.page;
 		else
-			exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
-		var listViewInstance = Vtiger_List_Js.getInstance();
-		if (listViewInstance.getListSearchInstance()) {
-			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-			exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-				exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
-				exportActionUrl += '&search_value=' + searchValue;
+			exportActionUrl += '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&viewname=' + params.viewname + '&page=' + params.page;
+		if (this.getListSearchInstance()) {
+			exportActionUrl += "&search_params=" + params.search_params;
+			if ((typeof params.search_value !== "undefined") && (params.search_value.length > 0)) {
+				exportActionUrl += '&search_key=' + params.search_key;
+				exportActionUrl += '&search_value=' + params.search_value;
 				exportActionUrl += '&operator=s';
 			}
 		}
@@ -387,29 +340,11 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = listInstance.getListViewContentContainer();
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
-	getSelectedRecordsParams: function (checkList, urlSearchParams) {
-		var listInstance = Vtiger_List_Js.getInstance();
-		if (checkList == false || listInstance.checkListRecordSelected() != true) {
-			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var postData = {
-				viewname: cvId,
-				selected_ids: selectedIds,
-				excluded_ids: excludedIds
-			};
-
-			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
-				postData['search_value'] = searchValue;
-				postData['operator'] = 's';
-			}
-			return postData;
+	getSelectedRecordsParams: function (checkList) {
+		if (checkList == false || this.checkListRecordSelected() !== true) {
+			return this.getDefaultParams();
 		} else {
-			listInstance.noRecordSelectedAlert();
+			this.noRecordSelectedAlert();
 		}
 		return false;
 	},
@@ -445,20 +380,16 @@ jQuery.Class("Vtiger_List_Js", {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
-			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
 			var message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
 			var title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message, 'title': title}).done(function (e) {
-				var url = reviewUrl + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
+				let params = this.getDefaultParams();
+				var url = reviewUrl + '&viewname=' + params.viewname + '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids;
 				if (listInstance.getListSearchInstance()) {
-					var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
-					url += "&search_params=" + JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
-					if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-						url += '&search_key=' + listInstance.getListSearchInstance().getAlphabetSearchField();
-						url += '&search_value=' + searchValue;
+					url += "&search_params=" + params.search_params;
+					if ((typeof searchValue !== "undefined") && (params.search_value.length > 0)) {
+						url += '&search_key=' + params.search_key;
+						url += '&search_value=' + params.search_value;
 						url += '&operator=s';
 					}
 				}
@@ -552,7 +483,7 @@ jQuery.Class("Vtiger_List_Js", {
 		return this.filterSelectElement;
 	},
 	getDefaultParams: function () {
-		var params = {
+		let params = {
 			module: app.getModuleName(),
 			page: jQuery('#pageNumber').val(),
 			view: app.getViewName(),
@@ -560,7 +491,7 @@ jQuery.Class("Vtiger_List_Js", {
 			orderby: jQuery('#orderBy').val(),
 			sortorder: jQuery("#sortOrder").val(),
 			entityState: jQuery("#entityState").val(),
-		}
+		};
 		if (app.getParentModuleName()) {
 			params.parent = app.getParentModuleName();
 		}
@@ -569,10 +500,14 @@ jQuery.Class("Vtiger_List_Js", {
 			var searchValue = listSearchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(listSearchInstance.getListSearchParams(true));
 			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-				params['search_key'] = listSearchInstance.getAlphabetSearchField();
-				params['search_value'] = searchValue;
-				params['operator'] = 's';
+				params.search_key = listSearchInstance.getAlphabetSearchField();
+				params.search_value = searchValue;
+				params.operator = 's';
 			}
+		}
+		if (this.checkListRecordSelected() !== true) {
+			params.selected_ids = this.readSelectedIds(true);
+			params.excluded_ids = this.readExcludedIds(true);
 		}
 		return params;
 	},
@@ -1131,8 +1066,8 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	getPageJumpParams: function () {
 		var params = this.getDefaultParams();
-		params['view'] = "ListAjax";
-		params['mode'] = "getPageCount";
+		params.view = "ListAjax";
+		params.mode = "getPageCount";
 
 		return params;
 	},
@@ -1142,29 +1077,15 @@ jQuery.Class("Vtiger_List_Js", {
 	updatePagination: function (pageNumber) {
 		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
 		var thisInstance = this;
-		var cvId = thisInstance.getCurrentCvId();
 		var params = {};
-		params['module'] = app.getModuleName();
-		if ('Settings' == app.getParentModuleName())
-			params['parent'] = 'Settings';
-		params['view'] = 'Pagination';
-		params['viewname'] = cvId;
-		params['page'] = pageNumber;
-		params['mode'] = 'getPagination';
-		params['sourceModule'] = jQuery('#moduleFilter').val();
-		params['totalCount'] = $('.pagination').data('totalCount');
-		var searchInstance = this.getListSearchInstance();
-		if (searchInstance !== false) {
-			var searchValue = searchInstance.getAlphabetSearchValue();
-			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
-				params['search_value'] = searchValue;
-				params['operator'] = 's';
-			}
-		}
-		params['noOfEntries'] = jQuery('#noOfEntries').val();
-		AppConnector.request(params).done(function (data) {
+		params.module = app.getModuleName();
+		params.view = 'Pagination';
+		params.page = pageNumber;
+		params.mode = 'getPagination';
+		params.sourceModule = jQuery('#moduleFilter').val();
+		params.totalCount = $('.pagination').data('totalCount');
+		params.noOfEntries = jQuery('#noOfEntries').val();
+		AppConnector.request(Object.assign(this.getDefaultParams(), params)).done(function (data) {
 			jQuery('.paginationDiv').html(data);
 			thisInstance.registerPageNavigationEvents();
 
@@ -1417,9 +1338,9 @@ jQuery.Class("Vtiger_List_Js", {
 					sorceModuleName: app.getModuleName(),
 				};
 				if (currentOptionElement.data('featured') === 1) {
-					params['actions'] = 'remove'
+					params.actions = 'remove'
 				} else {
-					params['actions'] = 'add'
+					params.actions = 'add'
 				}
 				AppConnector.request(params).done(function (data) {
 					window.location.reload();
@@ -1685,18 +1606,10 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 				Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
-					var postData = {
-						selected_ids: listInstance.readSelectedIds(true),
-						excluded_ids: listInstance.readExcludedIds(true)
-					};
-					var listViewInstance = Vtiger_List_Js.getInstance();
-					if (listViewInstance.getListSearchInstance()) {
-						postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-					}
 					AppConnector.request({
 						type: "POST",
 						url: target.data('url'),
-						data: Object.assign(thisInstance.getDefaultParams(), postData)
+						data: thisInstance.getDefaultParams()
 					}).done(function (data) {
 						progressIndicatorElement.progressIndicator({mode: 'hide'});
 						if (data && data.result && data.result.notify) {
@@ -1993,15 +1906,11 @@ jQuery.Class("Vtiger_List_Js", {
 					enabled: true
 				}
 			});
-			params['action'] = 'List';
-			params['mode'] = 'calculate';
-			params['fieldName'] = button.data('field');
-			params['calculateType'] = button.data('operator');
-			if (self.checkListRecordSelected() != true) {
-				params['selected_ids'] = self.readSelectedIds(true);
-				params['excluded_ids'] = self.readExcludedIds(true);
-			}
-			delete params['view'];
+			params.action = 'List';
+			params.mode = 'calculate';
+			params.fieldName = button.data('field');
+			params.calculateType = button.data('operator');
+			delete params.view;
 			app.hidePopover(button);
 			let scrollLeft = listContainer.scrollLeft();
 			let scrollTop = listContainer.scrollTop();
