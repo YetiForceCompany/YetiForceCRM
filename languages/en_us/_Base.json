@@ -1669,7 +1669,6 @@
     "JS_MESSAGE_TOO_LONG": "Message is too long",
     "JS_CHAT_NEW_MESSAGE": "New message",
     "JS_CHAT": "Czat",
-    "JS_LBL_MESSAGE_TITLE": "Message",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
   }
 }
