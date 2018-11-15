@@ -11,7 +11,6 @@ namespace App;
  */
 class Utils
 {
-
 	/**
 	 * Function to capture the initial letters of words.
 	 *

@@ -15,7 +15,7 @@ class PriceBooks_RecordsList_View extends Vtiger_RecordsList_View
 	public function initializeContent(\App\Request $request)
 	{
 		if ($request->isEmpty('currency_id', true)) {
-			$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo();
+			$defaultCurrency = \App\Fields\Currency::getDefault();
 			$request->set('currency_id', $defaultCurrency['id']);
 		}
 		parent::initializeContent($request);

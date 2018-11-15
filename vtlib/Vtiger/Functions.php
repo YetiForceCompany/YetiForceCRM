@@ -609,29 +609,6 @@ class Functions
 		return $return;
 	}
 
-	public static function getDiskSpace($dir = '')
-	{
-		if ($dir == '') {
-			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		}
-		$total = disk_total_space($dir);
-		$free = disk_free_space($dir);
-		$used = $total - $free;
-
-		return ['total' => $total, 'free' => $free, 'used' => $used];
-	}
-
-	public static function getDefaultCurrencyInfo()
-	{
-		$allCurrencies = \App\Fields\Currency::getAll(true);
-		foreach ($allCurrencies as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
-				return $currency;
-			}
-		}
-		return false;
-	}
-
 	/*
 	 * Checks if given date is working day, if not returns last working day
 	 * @param <Date> $date
@@ -747,7 +724,7 @@ class Functions
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
 		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
+		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
 
 		if (empty($date)) {
