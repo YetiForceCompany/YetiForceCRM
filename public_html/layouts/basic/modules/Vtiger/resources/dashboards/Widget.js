@@ -2699,43 +2699,31 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
 	// Override widget specific functions.
 	postLoadWidget: function () {
-		this.reinitNotebookView();
+		this.registerNotebookEvents();
 	},
-	reinitNotebookView: function () {
-		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
-			'height': '200px'
+	registerNotebookEvents: function () {
+		this.container.on('click', '.dashboard_notebookWidget_edit', () => {
+			this.editNotebookContent();
 		});
-		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
-			self.editNotebookContent();
-		});
-		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
-			self.saveNotebookContent();
+		this.container.on('click', '.dashboard_notebookWidget_save', () => {
+			this.saveNotebookContent();
 		});
 	},
 	editNotebookContent: function () {
-		jQuery('.dashboard_notebookWidget_text', this.container).show();
-		jQuery('.dashboard_notebookWidget_view', this.container).hide();
-		$('body').on('click', function (e) {
-			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
-				$('.dashboard_notebookWidget_save').trigger('click');
-			}
-		});
+		$('.dashboard_notebookWidget_text', this.container).show();
+		$('.dashboard_notebookWidget_view', this.container).hide();
 	},
 	saveNotebookContent: function () {
-		$('body').off('click');
-		var self = this;
-		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-		var url = this.container.data('url');
-		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-		var refreshContainer = this.container.find('.dashboardWidgetContent');
+		let textarea = $('.dashboard_notebookWidget_textarea', this.container),
+			url = this.container.data('url'),
+			params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val()),
+			refreshContainer = this.container.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
-		AppConnector.request(params).done(function (data) {
+		AppConnector.request(params).done((data) => {
 			refreshContainer.progressIndicator({
 				'mode': 'hide'
 			});
-			jQuery('.dashboardWidgetContent', self.container).html(data);
-			self.reinitNotebookView();
+			$('.dashboardWidgetContent', this.container).html(data);
 		});
 	}
 });
