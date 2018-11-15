@@ -622,18 +622,6 @@ class Functions
 		return isset($initial[0]) ? implode('', $initial[0]) : '';
 	}
 
-	public static function getDiskSpace($dir = '')
-	{
-		if ($dir == '') {
-			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		}
-		$total = disk_total_space($dir);
-		$free = disk_free_space($dir);
-		$used = $total - $free;
-
-		return ['total' => $total, 'free' => $free, 'used' => $used];
-	}
-
 	public static function getDefaultCurrencyInfo()
 	{
 		$allCurrencies = \App\Fields\Currency::getAll(true);

@@ -1609,6 +1609,7 @@
     "JS_EMAIL_RESTRICTED_DOMAINS": "Dom\u00ednio restrito. Por favor, digite um outro diferente.",
     "JS_EMAIL_RESET_RELATIONS_CONFIRMATION": "Tem certeza que deseja redefinir os e-mails relacionados novamente?",
     "JS_MASS_REVIEWING_CHANGES_CONFIRMATION": "Tem certeza que desena revisar as altera\u00e7\u00f5es nos registros selecioandos?",
+    "JS_LBL_REVIEW_CHANGES": "Review changes",
     "JS_MARKED_AS_READ": "Marcar como lido",
     "JS_LAST_7_DAYS": "Last 7 days",
     "JS_LAST_30_DAYS": "Last 30 days",
@@ -1650,6 +1651,7 @@
     "JS_MESSAGE_TOO_LONG": "Message is too long",
     "JS_CHAT_NEW_MESSAGE": "New message",
     "JS_CHAT": "Czat",
+    "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
     "JS_LBL_MESSAGE_TITLE": "Message",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
   }
