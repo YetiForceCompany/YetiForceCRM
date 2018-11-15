@@ -944,19 +944,19 @@ jQuery.Class("Vtiger_List_Js", {
 	registerPageNavigationEvents() {
 		const self = this,
 			listViewPageDiv = this.getListViewContainer();
-		$('.js-next-page').on('click', (e) => {
+		listViewPageDiv.find('.js-next-page').on('click', (e) => {
 			self.jumpToNextPage(e);
 		});
-		$('.js-page--previous').on('click', () => {
+		listViewPageDiv.find('.js-page--previous').on('click', () => {
 			self.jumpToPreviousPage();
 		});
-		$('.pageNumber').on('click', (e) => {
+		listViewPageDiv.find('.pageNumber').on('click', (e) => {
 			self.jumpToClickedPage($(e.currentTarget));
 		});
-		$('.js-count-number-records').on('click', () => {
+		listViewPageDiv.find('.js-count-number-records').on('click', () => {
 			self.updatePaginationAjax(true);
 		});
-		$('.js-page--jump-drop-down').on('click', 'li', (e) => {
+		listViewPageDiv.find('.js-page--jump-drop-down').on('click', 'li', (e) => {
 			e.stopImmediatePropagation();
 		}).on('keypress', '.js-page-jump', (e) => {
 			self.jumpToPage(e);
@@ -1055,7 +1055,7 @@ jQuery.Class("Vtiger_List_Js", {
 				element.validationEngine('hideAll');
 				let currentPageElement = listViewPageDiv.find('#pageNumber'),
 					currentPageNumber = parseInt(currentPageElement.val()),
-					newPageNumber = parseInt($(e.currentTarget).val()),
+					newPageNumber = parseInt(element.val()),
 					totalPages = parseInt(listViewPageDiv.find('.js-page--total').text());
 				if (newPageNumber > totalPages) {
 					element.validationEngine('showPrompt', app.vtranslate('JS_PAGE_NOT_EXIST'), '', "topLeft", true);
@@ -1070,9 +1070,7 @@ jQuery.Class("Vtiger_List_Js", {
 					return;
 				}
 				currentPageElement.val(newPageNumber);
-				self.getListViewRecords().done(function (data) {
-					element.closest('.btn-group ').removeClass('open');
-				});
+				self.getListViewRecords();
 			}
 			return false;
 		}
