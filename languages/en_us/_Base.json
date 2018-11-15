@@ -1315,6 +1315,8 @@
     "JS_SAVE_NOTIFY_OK": "Changes have been saved",
     "JS_SAVE_NOTIFY_SUCCESS": "Saved successfully",
     "JS_SAVE_LOADER_INFO": "Saving data...",
+    "JS_SAVED_FROM": "from",
+    "JS_SAVED_TO": "to",
     "JS_OF": "of",
     "AM": "AM",
     "JS_LBL_NO_TAXES": "Selected product does not contain tax",
@@ -1522,6 +1524,7 @@
     "JS_AUGUST": "August",
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Cannot select related Contacts for Leads",
     "JS_DAY": "Day",
+    "JS_DAY_SHORT": "D.",
     "JS_DEC": "Dec",
     "JS_DECEMBER": "December",
     "JS_FEB": "Feb",
@@ -1558,6 +1561,7 @@
     "JS_WEDNESDAY": "Wednesday",
     "JS_WED": "Wed",
     "JS_WEEK": "Week",
+    "JS_WEEK_SHORT": "WK",
     "JS_ADD_EVENT_TASK": "Add Event\/To Do",
     "JS_FUTURE_EVENT_CANNOT_BE_HELD": "Cannot hold future event",
     "JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED": "An incorrect range of dates was entered",
@@ -1622,6 +1626,7 @@
     "JS_EMAIL_RESTRICTED_DOMAINS": "Domain restricted. Please enter a different one.",
     "JS_EMAIL_RESET_RELATIONS_CONFIRMATION": "Are you sure you want to reset related mails once again?",
     "JS_MASS_REVIEWING_CHANGES_CONFIRMATION": "Are you sure you want to review changes in the selected records?",
+    "JS_LBL_REVIEW_CHANGES": "Review changes",
     "JS_MARKED_AS_READ": "Marked as read",
     "JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE": "At least one of the attached files is too large",
     "JS_LAST_7_DAYS": "Last 7 days",
@@ -1664,6 +1669,8 @@
     "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
     "JS_MESSAGE_TOO_LONG": "Message is too long",
     "JS_CHAT_NEW_MESSAGE": "New message",
-    "JS_CHAT": "Czat"
+    "JS_CHAT": "Czat",
+    "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
   }
 }

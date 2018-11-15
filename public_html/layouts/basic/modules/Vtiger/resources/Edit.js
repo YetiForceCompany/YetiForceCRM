@@ -1282,13 +1282,14 @@ $.Class("Vtiger_Edit_Js", {
 	},
 	registerFocusFirstField: function (container) {
 		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker)').each(function (n, e) {
-			var element = $(e);
+			let element = $(e);
 			if (!element.prop('readonly') && !element.prop('disabled')) {
 				element = element.get(0);
-				var elemLen = element.value.length;
-
-				element.selectionStart = elemLen;
-				element.selectionEnd = elemLen;
+				if (element.type !== 'number') {
+					let elemLen = element.value.length;
+					element.selectionStart = elemLen;
+					element.selectionEnd = elemLen;
+				}
 				element.focus();
 				return false;
 			}
