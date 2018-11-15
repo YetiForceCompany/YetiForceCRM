@@ -310,3 +310,7 @@ ul.ui-autocomplete {
 .js-fixed-thead tfoot td {
 	border-top: unset !important; //floatThead added this to table, causing additional border
 }
+
+.floatThead-wrapper {
+	overflow: hidden; //prevent fixed thead from overflowing table
+}
