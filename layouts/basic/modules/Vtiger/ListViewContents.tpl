@@ -22,14 +22,6 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
-	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg" href="#">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}
-				&nbsp;{\App\Language::translate($MODULE ,$MODULE)}
-				&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
-	</div>
-	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="deSelectAllMsg" href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
-	</div>
 	<div class="listViewEntriesDiv u-overflow-scroll-xs-down">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
@@ -40,6 +32,11 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
 			<thead>
+			<tr class="d-none">
+				<td>
+
+				</td>
+			</tr>
 			<tr class="{if isset($CUSTOM_VIEWS) && $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
 				<th class="p-2">
 					<label class="sr-only" for="listViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
