@@ -53,7 +53,7 @@ class Colors
 		$colors = [];
 		foreach (self::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . self::getContrast($item['color']) . ' !important;}' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$colors[$item['id']] = $item['color'];
@@ -61,7 +61,7 @@ class Colors
 		}
 		foreach (self::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . self::getContrast($item['color']) . ' !important;}' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$colors[$item['id']] = $item['color'];
@@ -80,7 +80,7 @@ class Colors
 		foreach (self::getAllModuleColor() as $item) {
 			if (ltrim($item['color'], '#')) {
 				$css .= '.modCrBr_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.modCBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCBg_' . $item['module'] . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . self::getContrast($item['color']) . ' !important;}' . PHP_EOL;
 				$css .= '.modCT_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
@@ -105,7 +105,7 @@ class Colors
 								if (strpos($item['color'], '#') === false) {
 									$item['color'] = '#' . $item['color'];
 								}
-								$contrastColor = hexdec($item['color']) > 0xffffff / 1.3 ? 'black' : 'white';
+								$contrastColor = self::getContrast($item['color']);
 								$css .= '.picklistCBr_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 								$css .= '.picklistCBg_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;}' . PHP_EOL;
 								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
@@ -333,5 +333,18 @@ class Colors
 		}
 		Cache::save('getAllFilterColors', $byFilterValue, $filterColors);
 		return $filterColors;
+	}
+
+	/**
+	 * Get contrast color.
+	 *
+	 * @param $hexcolor
+	 *
+	 * @return string
+	 */
+	public static function getContrast($hexcolor)
+	{
+		$contrastRatio = 1.3; // higher number = more black color
+		return hexdec($hexcolor) > 0xffffff / $contrastRatio ? 'black' : 'white';
 	}
 }
