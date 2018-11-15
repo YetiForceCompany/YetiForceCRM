@@ -2091,11 +2091,11 @@ jQuery.Class("Vtiger_List_Js", {
 		//Just reset all the checkboxes on page load: added for chrome issue.
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
-		this.registerListScroll(listViewContainer);
 		this.getListSearchInstance(false);
 		this.registerListViewSpecialOption();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
+		this.registerListScroll(listViewContainer);
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOption: function () {
