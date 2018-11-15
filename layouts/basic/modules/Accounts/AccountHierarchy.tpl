@@ -11,11 +11,11 @@
 -->*}
 {strip}
 	<div class="tpl-AccountHierarchy modelContainer modal fade" id="accountHierarchyContainer" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog c-modal-xxl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span class="fas fa-sitemap"></span>
+						<span class="fas fa-sitemap u-mr-5px"></span>
 						{\App\Language::translate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
