@@ -66,15 +66,17 @@
 						</span>
 					</span>
 				{/if}
-				<div class="input-group-append row">
-					<div class="hide js-currencies-container" data-js="container">
-						{include file=\App\Layout::getTemplatePath('Edit/Currencies.tpl', $MODULE_NAME)}
+				{if $VIEW eq 'Edit'}
+					<div class="input-group-append row">
+						<div class="hide js-currencies-container" data-js="container">
+							{include file=\App\Layout::getTemplatePath('Edit/Currencies.tpl', $MODULE_NAME)}
+						</div>
+						<button type="button" class="btn btn-light js-more-currencies js-popover-tooltip"
+								data-content="{\App\Language::translate('LBL_MORE_CURRENCIES', $MODULE)}" data-js="click">
+							<span class="adminIcon-currencies" title=""></span>
+						</button>
 					</div>
-					<button type="button" class="btn btn-light js-more-currencies js-popover-tooltip"
-							data-content="{\App\Language::translate('LBL_MORE_CURRENCIES', $MODULE)}" data-js="click">
-						<span class="adminIcon-currencies" title=""></span>
-					</button>
-				</div>
+				{/if}
 			</div>
 			<input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
 			<input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" value="on">
