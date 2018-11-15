@@ -1341,6 +1341,8 @@
     "JS_SAVE_NOTIFY_OK": "Los cambios han sido guardados",
     "JS_SAVE_NOTIFY_SUCCESS": "Saved successfully",
     "JS_SAVE_LOADER_INFO": "Guardando datos...",
+    "JS_SAVED_FROM": "from",
+    "JS_SAVED_TO": "to",
     "JS_OF": "de",
     "AM": "AM",
     "JS_LBL_NO_TAXES": "El producto seleccionado no contiene impuestos",
@@ -1548,6 +1550,7 @@
     "JS_AUGUST": "Agosto",
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "No se pueden seleccionar Contactos relacionados con Potenciales",
     "JS_DAY": "D\u00eda",
+    "JS_DAY_SHORT": "D.",
     "JS_DEC": "Dic",
     "JS_DECEMBER": "Diciembre",
     "JS_FEB": "Feb",
@@ -1584,6 +1587,7 @@
     "JS_WEDNESDAY": "Mi\u00e9rcoles",
     "JS_WED": "Mi\u00e9",
     "JS_WEEK": "Semana",
+    "JS_WEEK_SHORT": "WK",
     "JS_ADD_EVENT_TASK": "A\u00f1adir Evento\/Tarea",
     "JS_FUTURE_EVENT_CANNOT_BE_HELD": "No se puede celebrar un evento futuro",
     "JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED": "Se introdujo un rango incorrecto de fechas",
@@ -1692,6 +1696,8 @@
     "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
     "JS_MESSAGE_TOO_LONG": "Message is too long",
     "JS_CHAT_NEW_MESSAGE": "New message",
-    "JS_CHAT": "Czat"
+    "JS_CHAT": "Czat",
+    "JS_LBL_MESSAGE_TITLE": "Message",
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
   }
 }
