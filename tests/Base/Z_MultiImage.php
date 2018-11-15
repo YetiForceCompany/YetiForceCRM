@@ -38,7 +38,7 @@ class Z_MultiImage extends \Tests\Base
 	{
 		$data = [];
 		foreach (static::$files as $i => $name) {
-			$data[] = ['Users', \App\User::getCurrentUserId(), 'imagename', $i];
+			$data[] = ['Users', \App\User::getUserIdByName('admin'), 'imagename', $i];
 			$data[] = ['Contacts', \Tests\Base\C_RecordActions::createContactRecord()->getId(), 'imagename', $i];
 			$data[] = ['Products', \Tests\Base\C_RecordActions::createProductRecord()->getId(), 'imagename', $i];
 		}
