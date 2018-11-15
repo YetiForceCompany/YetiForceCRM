@@ -42,7 +42,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
 		$value = App\Colors::sanitizeValue($value);
 
-		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\"><span>$dispalyValue</span></span>";
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
 	}
 
 	/**
