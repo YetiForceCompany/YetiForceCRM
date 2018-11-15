@@ -16,7 +16,7 @@
 						<p>{\App\Language::translate('ERR_CONFIG_ALERT_DESC', $QUALIFIED_MODULE)}</p>
 					</div>
 				{else}
-					<table class="table tableBorderHeadBody listViewEntriesTable medium catalog-list-table">
+					<table class="table tableBorderHeadBody listViewEntriesTable medium">
 						{if {!empty($STRUCTURE['manage'])}}
 							<tr class="listViewEntries">
 								<td class="border bc-gray-lighter">
@@ -27,8 +27,8 @@
 							</tr>
 						{/if}
 						{foreach from=$STRUCTURE['catalogs'] item=$catalog}
-							<tr class="listViewEntries catalog-list-records">
-								<td class="catalog-record-name">
+							<tr class="listViewEntries">
+								<td>
 									<a href="{$catalog['url']}" class="font-weight-bold">
 										<span class="fas fa-folder"></span> {$catalog['name']}
 									</a>
@@ -36,7 +36,7 @@
 							</tr>
 						{/foreach}
 					</table>
-					<table class="table table-striped table-bordered dataTable file-list-table">
+					<table class="table table-striped table-bordered dataTable">
 						<tr class="c-tab--border-active listViewHeaders">
 							<th class="p-2">
 								{\App\Language::translate('LBL_FILE_NAME',$QUALIFIED_MODULE)}
@@ -52,11 +52,10 @@
 							</th>
 						</tr>
 						{foreach from=$STRUCTURE['files'] item=$file}
-							<tr class="listViewEntries file-list-records"
-								data-recordurl="index.php?module=Accounts&view=Detail&record=166">
-								<td class="file-record-name">{$file['name']}</td>
-								<td class="file-record-date">{$file['date']}</td>
-								<td class="file-record-size">{$file['size']}</td>
+							<tr class="listViewEntries">
+								<td>{$file['name']}</td>
+								<td>{$file['date']}</td>
+								<td>{$file['size']}</td>
 								<td class="u-w-1em">
 									<a href="{$file['url']}" class="btn btn-primary btn-sm">
 										<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
