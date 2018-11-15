@@ -133,7 +133,7 @@ class Z_MultiImage extends \Tests\Base
 	 */
 	public function testAddMultiImage()
 	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(\Tests\Base\C_RecordActions::createProductRecord()->getId(), 'Products');
+		$recordModel = \Vtiger_Record_Model::getInstanceById(\Tests\Base\C_RecordActions::createProductRecord(false)->getId(), 'Products');
 		$attach = [];
 		foreach (static::$files as $i => $name) {
 			$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . $name;
