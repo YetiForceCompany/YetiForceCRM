@@ -25,7 +25,7 @@ class Z_MultiImage extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
-		\mkdir('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage');
+		\mkdir('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage', 0777, true);
 	}
 
 	/**
