@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Base-dashboards-DashBoardPreProcessAjax mt-2 mb-2">
-		<ul class="nav nav-tabs massEditTabs selectDashboard{if count($DASHBOARD_TYPES) === 1} d-none {/if}ml-sm-2">
+		<ul class="nav nav-tabs massEditTabs selectDashboard{if count($DASHBOARD_TYPES) === 1} d-none{/if} ml-sm-2">
 			{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 				<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}" data-js="data-id">
 					<a class="nav-link {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active {/if}"
