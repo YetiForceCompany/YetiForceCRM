@@ -1381,6 +1381,8 @@
     "JS_HOURS_SHOULD_BE_SMALLER_THAN": "Heures ouvr\u00e9es ne peuvent pas d\u00e9passer 24 heures",
     "JS_SAVE_NOTIFY_OK": "Les modifications ont \u00e9t\u00e9 sauvegard\u00e9es",
     "JS_SAVE_LOADER_INFO": "Sauvegarde des donn\u00e9es",
+    "JS_SAVED_FROM": "from",
+    "JS_SAVED_TO": "to",
     "JS_OF": "de",
     "JS_LBL_NO_TAXES": "Le produit s\u00e9lectionn\u00e9 n'a pas de taxe",
     "INVALID_NUMBER": "Nombre invalide",
@@ -1576,6 +1578,7 @@
     "JS_AUGUST": "Ao\u00fbt",
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Ne peux pas s\u00e9lectionner des Contacts \u00e0 lier aux Prospects",
     "JS_DAY": "Jour",
+    "JS_DAY_SHORT": "D.",
     "JS_DECEMBER": "D\u00e9cembre",
     "JS_FEB": "F\u00e9v",
     "JS_FEBRUARY": "F\u00e9vrier",
@@ -1606,6 +1609,7 @@
     "JS_WEDNESDAY": "Mercredi",
     "JS_WED": "Mer",
     "JS_WEEK": "Semaine",
+    "JS_WEEK_SHORT": "WK",
     "JS_ADD_EVENT_TASK": "Ajouter un \u00e9v\u00e9nement\/t\u00e2che",
     "JS_FUTURE_EVENT_CANNOT_BE_HELD": "Futur \u00e9v\u00e9nement ne peut \u00eatre tenu",
     "JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED": "Une mauvaise p\u00e9riode a \u00e9t\u00e9 saisie",
@@ -1677,6 +1681,8 @@
     "JS_DATES_SELECTED_HOLIDAYS": "Selected dates include holidays. Do you want to save?",
     "JS_MESSAGE_TOO_LONG": "Message is too long",
     "JS_CHAT_NEW_MESSAGE": "New message",
-    "JS_CHAT": "Czat"
+    "JS_CHAT": "Czat",
+    "JS_LBL_MESSAGE_TITLE": "Message",
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
   }
 }
