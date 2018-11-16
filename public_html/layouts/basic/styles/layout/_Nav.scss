@@ -175,7 +175,7 @@
 				}
 
 				&.hasIcon {
-					padding: 6px 12px;
+					padding: calculate-rem(6px);
 				}
 			}
 
@@ -212,12 +212,18 @@
 		height: 100%;
 		min-width: 42px;
 
-		&--fa {
-			font-size: 2.8em;
-		}
-
-		@at-root .tpl-menu-SubMenu & {
-			padding-left: calculate-rem(10px);
+		//&--fa {
+		//	font-size: 2.6em;
+		//}
+		&--sub {
+			display: none;
+			@at-root .tpl-menu-SubMenu & {
+				display: inline-block;
+				margin-right: 0.4rem;
+				font-size: calculate-rem(10px);
+				margin-top: auto;
+				margin-bottom: auto;
+			}
 		}
 	}
 
