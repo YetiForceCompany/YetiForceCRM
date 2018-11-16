@@ -102,7 +102,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 		$tableUrl = 'http://api.nbp.pl/api/exchangerates/tables/a/';
 
 		$numberOfDays = 1;

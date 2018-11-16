@@ -609,30 +609,6 @@ class Functions
 		return $return;
 	}
 
-	/**
-	 * Function to capture the initial letters of words.
-	 *
-	 * @param string $name
-	 *
-	 * @return string
-	 */
-	public static function getInitials(string $name): string
-	{
-		preg_match_all('#(?<=\s|\b)\pL|[()]#u', $name, $initial);
-		return isset($initial[0]) ? implode('', $initial[0]) : '';
-	}
-
-	public static function getDefaultCurrencyInfo()
-	{
-		$allCurrencies = \App\Fields\Currency::getAll(true);
-		foreach ($allCurrencies as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
-				return $currency;
-			}
-		}
-		return false;
-	}
-
 	/*
 	 * Checks if given date is working day, if not returns last working day
 	 * @param <Date> $date
@@ -748,7 +724,7 @@ class Functions
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
 		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
+		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
 
 		if (empty($date)) {

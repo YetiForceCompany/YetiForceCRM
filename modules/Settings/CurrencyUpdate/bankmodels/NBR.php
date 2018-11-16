@@ -68,7 +68,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 
 		// how old is the currency rate
 		$now = time(); // or your date as well
