@@ -40,6 +40,7 @@ class Cron
 	public function init()
 	{
 		static::$timeStart = microtime(true);
+		static::generateStatusFile();
 		if (!\AppConfig::debug('DEBUG_CRON')) {
 			return;
 		}
@@ -47,7 +48,6 @@ class Cron
 			throw new \App\Exceptions\CacheException('ERR_CRON_LOG_DIRECTORY_CREATION_ERROR');
 		}
 		static::initLogFile();
-		static::generateStatusFile();
 	}
 
 	/**
