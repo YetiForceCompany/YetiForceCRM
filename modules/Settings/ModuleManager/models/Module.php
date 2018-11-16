@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord'];
 
 	/**
 	 * @var array Base module tools exceptions.
