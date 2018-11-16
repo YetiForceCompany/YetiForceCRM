@@ -27,6 +27,8 @@ $DEBUG_CONFIG = [
 	'DEBUG_CONSOLE_ALLOWED_IPS' => false,
 	// Stop the running process of the system if there is and error in sql query
 	'SQL_DIE_ON_ERROR' => false,
+	// Debug cron => cache/logs/cron/
+	'DEBUG_CRON' => false,
 	// Debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console

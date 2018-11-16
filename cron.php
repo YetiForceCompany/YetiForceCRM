@@ -15,14 +15,8 @@ chdir(__DIR__);
 include_once __DIR__ . '/include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
-$cronLogPath = ROOT_DIRECTORY . '/cache/logs/cron/';
-if (!file_exists($cronLogPath)) {
-	mkdir($cronLogPath);
-}
-$cronLogPath .= date('Ymd_Hi') . '.log';
-$deleteCronFile = true;
-file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - File start' . PHP_EOL);
-file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php return ' . App\Utils::varExport(array_merge(\App\Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
+$cronObj = new \App\Cron();
+$cronObj->init();
 
 App\Session::init();
 \App\Session::set('last_activity', microtime(true));
@@ -30,11 +24,11 @@ $authenticatedUserId = App\Session::get('authenticated_user_id');
 $appUniqueKey = App\Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === AppConfig::main('application_unique_key'));
 $response = '';
-file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - SAPI: ' . PHP_SAPI . PHP_EOL, FILE_APPEND);
-file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - User: ' . Users::getActiveAdminId() . PHP_EOL, FILE_APPEND);
+$cronObj->log('SAPI: ' . PHP_SAPI, 'info', false);
+$cronObj->log('User: ' . Users::getActiveAdminId(), 'info', false);
 if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') === \App\Request::_get('app_key')) {
 	$cronTasks = false;
-	file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Cron start: ' . PHP_EOL, FILE_APPEND);
+	$cronObj->log('Cron start:', 'info', false);
 	vtlib\Cron::setCronAction(true);
 	if (\App\Request::_has('service')) {
 		// Run specific service
@@ -43,7 +37,6 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 		// Run all service
 		$cronTasks = vtlib\Cron::listAllActiveInstances();
 	}
-	$cronStart = microtime(true);
 	//set global current user permissions
 	App\User::setCurrentUserId(Users::getActiveAdminId());
 	if ($user) {
@@ -52,13 +45,14 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 	$response .= sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
-			file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Task start: ' . $cronTask->getName() . PHP_EOL, FILE_APPEND);
+			$cronObj->log('Task start: ' . $cronTask->getName(), 'info', false);
+			$startTaskTime = microtime(true);
 			\App\Log::trace($cronTask->getName() . ' - Start', 'Cron');
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.
 			if ($cronTask->hadTimeout()) {
 				$response .= sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Cron task had timedout as it was not completed last time it run' . PHP_EOL, FILE_APPEND);
+				$cronObj->log('Cron task had timedout as it was not completed last time it run');
 				if (AppConfig::main('unblockedTimeoutCronTasks')) {
 					$cronTask->unlockTask();
 				}
@@ -66,13 +60,15 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			// Not ready to run yet?
 			if ($cronTask->isRunning()) {
 				\App\Log::trace($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning', 'Cron');
-				file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Task omitted, it has not been finished during the last scanning' . PHP_EOL, FILE_APPEND);
+				$cronObj->log('Task omitted, it has not been finished during the last scanning', 'warning');
+				$cronObj->log('End task, time: ' . round(microtime(true) - $startTaskTime, 2));
 				$response .= sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
 			// Not ready to run yet?
 			if (!$cronTask->isRunnable()) {
-				file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Not ready to run as the time to run again is not completed' . PHP_EOL, FILE_APPEND);
+				$cronObj->log('Not ready to run as the time to run again is not completed');
+				$cronObj->log('End task, time: ' . round(microtime(true) - $startTaskTime, 2));
 				\App\Log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed', 'Cron');
 				$response .= sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
@@ -80,7 +76,6 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			// Mark the status - running
 			$cronTask->markRunning();
 			$response .= sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-			$startTaskTime = microtime(true);
 
 			ob_start();
 			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
@@ -90,19 +85,17 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 
 			$taskTime = round(microtime(true) - $startTaskTime, 2);
 			if ($taskResponse !== '') {
-				file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - The task returned a message: ' . PHP_EOL . $taskResponse . PHP_EOL, FILE_APPEND);
+				$cronObj->log('The task returned a message: ' . PHP_EOL . $taskResponse, 'error');
 				\App\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse, 'Cron');
 				$response .= 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
-				$deleteCronFile = false;
 			}
 			// Mark the status - finished
 			$cronTask->markFinished();
 			$response .= sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
-			file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - End task, time: ' . PHP_EOL . $taskTime . PHP_EOL, FILE_APPEND);
+			$cronObj->log('End task, time: ' . $taskTime);
 		} catch (Throwable $e) {
-			$deleteCronFile = false;
-			file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString() . PHP_EOL, FILE_APPEND);
+			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
 			echo $response;
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
@@ -112,12 +105,8 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			}
 		}
 	}
-	file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - End CRON' . PHP_EOL, FILE_APPEND);
-	$response .= sprintf('===============  %s (' . round(microtime(true) - $cronStart, 2) . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
+
+	$cronObj->log('End CRON (' . $cronObj->getRunTime() . ')', 'info', false);
+	$response .= sprintf('===============  %s (' . $cronObj->getRunTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 	echo $response;
-}
-if ($deleteCronFile) {
-	unlink($cronLogPath);
-} else {
-	file_put_contents($cronLogPath, PHP_EOL . '------------------------------------' . PHP_EOL . \App\Log::getlastLogs() . PHP_EOL, FILE_APPEND);
 }
