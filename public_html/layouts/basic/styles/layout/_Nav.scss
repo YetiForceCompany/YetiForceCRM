@@ -204,20 +204,20 @@
 		height: calc(100% - 50px);
 		width: 100%;
 		position: relative;
+	}
 
-		.modulesList .menuIcon {
-			padding-right: 18px;
-			font-size: 1.6em;
-			height: 100%;
-			min-width: 42px;
+	&__item__icon {
+		padding-right: 18px;
+		font-size: 1.6em;
+		height: 100%;
+		min-width: 42px;
+
+		&--fa {
+			font-size: 2.8em;
 		}
-		.tpl-menu-SubMenu {
-			.menuIcon {
-				padding-left: calculate-rem(10px);
-				//font-size: 1.6em;
-				//height: 100%;
-				//min-width: 42px;
-			}
+
+		@at-root .tpl-menu-SubMenu & {
+			padding-left: calculate-rem(10px);
 		}
 	}
 
