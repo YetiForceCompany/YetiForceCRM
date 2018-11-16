@@ -2,8 +2,8 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 {
@@ -67,7 +67,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		// number of currencies
 		$curr_num = $moduleModel->getCurrencyNum();
 		// get info about main currency
-		$mainCurrencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
+		$mainCurrencyInfo = \App\Fields\Currency::getDefault();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
