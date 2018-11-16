@@ -23,8 +23,7 @@
 			{/if}
 			<input type="hidden" name="action" value="Save"/>
 			<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
-			<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}"/>
-			<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}"/>
+			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 			{if $MODE === 'duplicate'}
 				<input type="hidden" name="_isDuplicateRecord" value="true"/>
 				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>

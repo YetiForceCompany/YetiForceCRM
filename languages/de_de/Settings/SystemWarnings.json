@@ -30,6 +30,21 @@
     "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Schwachstellen in Bibliotheken",
     "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Schwachstellen in Bibliotheken wurden entdeckt, es ist erforderlich diese schnellstm\u00f6glichst zu aktualisieren:",
     "LBL_MECHANISM_ENCRYPTION": "Verschl\u00fcsselungs Mechanismus",
-    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Keine Verschl\u00fcsselung bedeutet, dass sensible Daten wie Passw\u00f6rter oder Zugangsschl\u00fcssel, lesbar in der Datenbank gesichert werden."
+    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Keine Verschl\u00fcsselung bedeutet, dass sensible Daten wie Passw\u00f6rter oder Zugangsschl\u00fcssel, lesbar in der Datenbank gesichert werden.",
+    "LBL_RECOMMENDED_VALUE": "Erforderlich",
+    "LBL_CONFIG_DOC_URL": "https:\/\/yetiforce.com\/en\/knowledge-base\/documentation\/implementer-documentation\/item\/web-server-requirements",
+    "LBL_CONFIG_DOC_URL_LABEL": "Webserver Anforderungen unter yetiforce.com",
+    "LBL_CONFIG_SERVER_DESC": "Die Server Konfiguration wurde nicht richtig eingestellt. Es kann Probleme mit dem System geben, oder die eingegebenen Daten k\u00f6nnen besch\u00e4digt oder gel\u00f6scht werden. Weitere Informationen finden Sie im Artikel %s. Erkannte Probleme:",
+    "LBL_PERFORMANCE": "Performance",
+    "LBL_PHPEXT": "PHP Extensions",
+    "LBL_DATABASE": "Datenbasis",
+    "LBL_STABILITY": "Stabilit\u00e4t",
+    "LBL_CONFIG_SERVER": "Server Konfiguration",
+    "LBL_SECURITY": "Sicherheit",
+    "LBL_NO_FILE_WRITE_RIGHTS": "Keine Datei Schreibrechte",
+    "LBL_SECURITY_CONF": "Sicherheits Konfiguration",
+    "LBL_SECURITY_CONF_DESC": "Fehler bei der Konfiguration von Parametern im Zusammenhang mit der Systemsicherheit erkannt. Es kann Probleme mit dem System geben, oder die eingegebenen Daten k\u00f6nnen besch\u00e4digt oder gel\u00f6scht werden. Weitere Informationen finden Sie im Artikel %s. Passen Sie folgende Parameter an:",
+    "LBL_LIB_REQUIRED": "Erforderlich",
+    "LBL_LIB_OPTIONAL": "Optional"
   }
 }

@@ -3,14 +3,12 @@
 	<input type="hidden" id="currentView" value="{$VIEW}"/>
 	<input type="hidden" id="activity_view" value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}"/>
 	<input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}"/>
-	<input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}"/>
-	<input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}"/>
 	<input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}"/>
 	<input type="hidden" id="showType" value="current"/>
 	<input type="hidden" id="switchingDays" value="workDays"/>
-	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}"/>
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
+	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 	<input type="hidden" id="hiddenDays"
 		   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}"/>
@@ -38,8 +36,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="o-calendar-container">
-			<div id="calendarview"></div>
+		<div class="o-calendar__container">
+			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
 {/strip}

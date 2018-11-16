@@ -13,14 +13,18 @@
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues(true)}
 	{if isset($SEARCH_INFO['searchValue'])}
-		{assign var=SEARCH_VALUES value=explode('##', $SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode('##', \App\Purifier::decodeHtml($SEARCH_INFO['searchValue']))}
 	{else}
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
 	<div class="tpl-Base-List-Field-PickList picklistSearchField">
 		<select class="select2 listSearchContributor form-control" name="{$FIELD_MODEL->getName()}" multiple="multiple"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"
-				data-fieldinfo='{$FIELD_INFO|escape}'>
+				data-fieldinfo='{$FIELD_INFO|escape}'
+				{if !empty($FIELD_MODEL->get('source_field_name'))}
+			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+			data-module-name="{$FIELD_MODEL->getModuleName()}"
+				{/if}>
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 			</optgroup>

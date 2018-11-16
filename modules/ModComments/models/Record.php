@@ -139,9 +139,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getCommentedTime()
 	{
-		$commentTime = $this->get('createdtime');
-
-		return $commentTime;
+		return $this->get('createdtime');
 	}
 
 	/**
@@ -151,9 +149,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getModifiedTime()
 	{
-		$commentTime = $this->get('modifiedtime');
-
-		return $commentTime;
+		return $this->get('modifiedtime');
 	}
 
 	/**

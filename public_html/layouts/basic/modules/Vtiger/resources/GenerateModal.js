@@ -36,7 +36,7 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 						document.progressLoader.progressIndicator({'mode': 'hide'});
 						if (method.val() == 1) {
 							for (var i in records) {
-								var win = window.open(actionUrl + records[i], '_blank');
+								window.open(actionUrl + records[i], '_blank');
 							}
 						}
 					}
@@ -56,7 +56,6 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	},
 	registerEvents: function () {
 		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerGenetateButton(container);
 	}
 

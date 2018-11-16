@@ -18,31 +18,27 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+		$links = parent::getSideBarLinks($linkParams);
+		array_unshift($links['SIDEBARLINK'], Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_CALENDAR_VIEW',
 			'linkurl' => $this->getCalendarViewUrl(),
-			'linkicon' => 'fas fa-calendar-alt',
-		]);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_RECORDS_LIST',
-			'linkurl' => $this->getListViewUrl(),
-			'linkicon' => 'fas fa-list',
-		]);
+			'linkicon' => 'fas fa-calendar-alt'
+		]));
 		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
 				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--users',
 			]);
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_TYPE',
 				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
 				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--types',
 			]);
 		}
 		return $links;
@@ -78,7 +74,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 		$userTime = [
 			'labels' => [],
-			'title' => \App\Language::translate('LBL_SUM', $this->getName(true)) . ': ' . \App\Fields\Time::formatToHourText($totalTime, 'full'),
+			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\Time::formatToHourText($totalTime, 'full'),
 			'datasets' => [
 				[
 					'data' => [],
@@ -92,7 +88,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
 			$color = App\Fields\Owner::getColor($row['smownerid']);
-			$userTime['labels'][] = vtlib\Functions::getInitials($ownerName);
+			$userTime['labels'][] = \App\Utils::getInitials($ownerName);
 			$userTime['datasets'][0]['tooltips'][] = $ownerName;
 			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
 			$userTime['datasets'][0]['backgroundColor'][] = $color;
@@ -134,7 +130,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			while ($row = $dataReader->read()) {
 				$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
 				$color = App\Fields\Owner::getColor($row['smownerid']);
-				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
+				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
 				$chartData['datasets'][0]['tooltips'][] = $ownerName;
 				$chartData['datasets'][0]['data'][] = (float) $row['time'];
 				$chartData['datasets'][0]['backgroundColor'][] = $color;

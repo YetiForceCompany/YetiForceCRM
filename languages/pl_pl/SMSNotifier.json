@@ -1,11 +1,10 @@
 {
   "php": {
-    "providertype": "Provider",
-    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS max 160 characters allowed",
-    "LBL_SEREVER_CONFIG": "New Configuration",
-    "username": "User Name",
-    "password": "Password",
-    "isactive": "Active",
+    "providertype": "Dostawca",
+    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS maksymalnie 160 znak\u00f3w",
+    "username": "Nazwa u\u017cytkownika",
+    "password": "Has\u0142o",
+    "isactive": "Aktywny",
     "SINGLE_SMSNotifier": "SMS Notifier",
     "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Wy\u015blij smsa do zaznaczonych numer\u00f3w",
     "LBL_STEP_1": "Krok 1",

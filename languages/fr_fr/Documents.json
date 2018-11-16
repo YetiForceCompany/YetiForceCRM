@@ -19,6 +19,8 @@
     "LBL_ADD_FOLDER": "Ajouter un dossier",
     "LBL_ADD_NEW_FOLDER": "Cr\u00e9er un nouveau dossier",
     "LBL_ADD_RECORD": "Ajouter un enregistrement",
+    "LBL_ADD_RELATION": "Add document",
+    "LBL_SELECT_RELATION": "Select document",
     "LBL_CHECK_FILE_INTEGRITY": "V\u00e9rifier l'int\u00e9gritit\u00e9 du fichier",
     "LBL_DENIED_DOCUMENTS": "Documents refus\u00e9s",
     "LBL_DOCUMENTS_MOVED_SUCCESSFULLY": "Documents d\u00e9plac\u00e9s avec succ\u00e8s",

@@ -25,6 +25,8 @@ leaflet.markercluster/ISSUE_TEMPLATE.md
 jQuery-Validation-Engine/releases.html
 jQuery-Validation-Engine/runDemo.bat
 jQuery-Validation-Engine/runDemo.sh
+jQuery-Validation-Engine/js/jquery-1.8.2.min.js
+jQuery-Validation-Engine/js/libs
 jquery-gantt-editor/gantt.html
 footable/icomoon
 footable/js
@@ -41,7 +43,9 @@ clockpicker/assets
 clockpicker/src
 clockpicker/jquery.html
 delegate/dist
-fontawesome-web/less
+@fortawesome/fontawesome-free/less
+@fortawesome/fontawesome-free/scss
+@fortawesome/fontawesome-free/sprites
 fontawesome-web/scss
 good-listener/dist
 html2canvas/flow-typed
@@ -51,8 +55,10 @@ jquery-outside-events/unit
 jquery-outside-events/shared
 jQuery-Validation-Engine/less
 jstorage/debian
-jstree-bootstrap-theme/libs
-jstree-bootstrap-theme/.esformatter
+jstree-bootstrap-theme/dist/libs/
+jstree-bootstrap-theme/dist/.esformatter
+jstree-bootstrap-theme/dist/jstree.js
+jstree-bootstrap-theme/dist/jstree.min.js
 leaflet.awesome-markers/screenshots
 leaflet.markercluster/spec
 mousetrap/plugins

@@ -53,6 +53,7 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
+		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $params['status']]]);

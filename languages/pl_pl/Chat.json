@@ -1,0 +1,29 @@
+{
+  "php": {
+    "LBL_ROOM_CRM": "Ulubione",
+    "LBL_ROOM_GROUP": "Grupowe",
+    "LBL_ROOM_GLOBAL": "Globalne",
+    "LBL_MESSAGE": "Wiadomo\u015b\u0107",
+    "LBL_PARTICIPANTS": "Uczestnicy",
+    "LBL_SEARCH_PARTICIPANTS": "Szukaj uczestnik\u00f3w",
+    "LBL_SEARCH_MESSAGE": "Szukaj wiadomo\u015bci",
+    "LBL_CREATE_CHAT_ROOM": "Utw\u00f3rz pok\u00f3j chat",
+    "LBL_REMOVE_FROM_FAVORITES": "Usu\u0144 z ulubionych",
+    "LBL_ADD_FROM_FAVORITES": "Dodaj do ulubionych",
+    "LBL_EARLIER": "Wcze\u015bniejsze",
+    "LBL_NOTIFICATION": "Powiadomienia czata",
+    "LBL_SOUND_OFF": "D\u017awi\u0119k wy\u0142\u0105czony",
+    "LBL_SOUND_ON": "D\u017awi\u0119k w\u0142\u0105czony",
+    "LBL_HISTORY_CHAT": "Historia",
+    "LBL_MORE": "poka\u017c",
+    "LBL_HIDE": "ukryj",
+    "LBL_NO_MESSAGES": "Brak wiadomo\u015bci",
+    "LBL_UNREAD": "Nieprzeczytane",
+    "LBL_DETAIL_VIEW": "Podgl\u0105d rekordu",
+    "LBL_ROOM_DESCRIPTION_CRM": "Lista pokoi czatu z rekordami oznaczonymi jako ulubione",
+    "LBL_ROOM_DESCRIPTION_GROUP": "Lista pokoi czatu z grupami u\u017cytkownika",
+    "LBL_ROOM_DESCRIPTION_GLOBAL": "Lista pokoi czatu widoczna dla wszystkich u\u017cytkownik\u00f3w",
+    "LBL_CHAT_USER_SWITCHED": "Czat jest nieaktywny, je\u015bli prze\u0142\u0105czy\u0142e\u015b si\u0119 na innego u\u017cytkownika.",
+    "LBL_CHAT_NEW_MESSAGE": "Nowa wiadomo\u015b\u0107"
+  }
+}

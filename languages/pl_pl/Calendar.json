@@ -47,11 +47,12 @@
     "LBL_SELECT_ACTIVITY_TYPE": "Wybierz typ terminu",
     "LBL_SELECT_CALENDAR_COLOR": "Wybierz kolor kalendarza",
     "LBL_SELECT_USER_CALENDAR": "Wybierz kalendarz u\u017cytkownika",
+    "LBL_SELECT_GROUP_CALENDAR": "Wybierz kalendarz grupy",
     "LBL_SELECT_USERS": "Zaznacz u\u017cytkownik\u00f3w",
     "LBL_SHARED_CALENDAR": "Wsp\u00f3lny kalendarz",
     "LBL_STATUS": "Status",
     "Status": "Status",
-    "LBL_TASK_INFORMATION": "Szczeg\u00f3\u0142y zadania",
+    "LBL_TASK_INFORMATION": "Szczeg\u00f3\u0142y",
     "LBL_TASKS": "Zadania",
     "LBL_TASK": "Zadanie",
     "LBL_TODOS": "Zadania",
@@ -130,6 +131,8 @@
     "LBL_FILTER": "Filtry",
     "LBL_MEET": "SPOTKANIE",
     "LBL_PHONE": "TELEFON",
+    "LBL_EDIT_EVENT": "Edytuj termin",
+    "LBL_USER_NAME": "Nazwa u\u017cytkownika",
     "LBL_AUTO_FILL_DESCRIPTION": "Wype\u0142nienie daty rozpocz\u0119cia na podstawie pierwszego wolnego terminu",
     "LBL_CACHE_SELECTED_FILTERS": "Zmieni\u0142e\u015b standardowy widok w kalendarzu, aby go wyczy\u015bci\u0107 wci\u015bnij przycisk \"Wyczy\u015b\u0107 widok\".",
     "LBL_CACHE_CLEAR": "Wyczy\u015b\u0107 widok",
@@ -178,7 +181,12 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 tylko kolejne rekordy",
     "LBL_DELETE_ALL_EVENTS": "Usu\u0144 wszystkie rekordy",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 wszystkie rekordy w serii",
-    "LBL_REPEATEVENT": "Powt\u00f3rz raz co"
+    "LBL_REPEATEVENT": "Powt\u00f3rz raz co",
+    "LBL_VIEW_CALENDAREXTENDED": "Kalendarz graficzny",
+    "LBL_REMAIND_HOURS": "Przypomnij po wybranej liczbie godzin",
+    "LBL_REMAIND_MINS": "Przypomnij po wybranej liczbie minut",
+    "LBL_WORK_DAYS": "Dni robocze",
+    "LBL_EDIT_FROM_CALENDAR": "Edytuj z kalendarza"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Dodano kalendarz",
@@ -189,7 +197,7 @@
     "JS_NO_CALENDAR_VIEWS_TO_ADD": "Brak kalendarzy do dodania",
     "JS_NO_DELETE_PERMISSION": "Nie masz uprawnie\u0144 do usuwania wpis\u00f3w w kalendarzu.",
     "JS_NO_EDIT_PERMISSION": "Nie masz uprawnie\u0144 do modyfikowania wpis\u00f3w w kalendarzu",
-    "JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR": "Zadanie zosta\u0142o poprawnie dodane do kalendarza",
+    "JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR": "Wpis zosta\u0142 poprawnie dodany do kalendarza",
     "JS_RECORD_DELETED": "Zdarzenie zosta\u0142o usuni\u0119te",
     "JS_START_DATE": "Czas rozpocz\u0119cia",
     "JS_END_DATE": "Czas zako\u0144czenia",
@@ -223,8 +231,6 @@
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Nie mo\u017cna powi\u0105za\u0107 kontakt\u00f3w z potencjalnymi klientami",
     "Mobile Call": "Po\u0142\u0105czenie",
     "JS_CHANGE_ACTIVITY_TIME": "Zmie\u0144 czas zdarzenia na do realizacji lub histori\u0119",
-    "JS_SWITCHING_DAYS": "Prze\u0142\u0105czanie dni ",
-    "JS_ALL": "Wszystkie",
-    "JS_WORK_DAYS": "Dni robocze"
+    "JS_SWITCHING_DAYS": "Prze\u0142\u0105czanie dni "
   }
 }

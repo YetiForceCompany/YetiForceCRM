@@ -75,6 +75,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~layouts/resources/Calendar.js',
 			'modules.Calendar.resources.Standard.CalendarView'
 		]));
 	}
@@ -96,10 +97,17 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if ($request->getBoolean('history')) {
+			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
+			$viewer->assign('HIDDEN_DAYS', $request->get('hiddenDays'));
+			$viewer->assign('TIME', $request->get('time'));
+		}
+		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
 		$viewer->assign('CURRENT_USER', $currentUserModel);
-		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
+		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('ALL_DAY_SLOT', AppConfig::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
 			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),

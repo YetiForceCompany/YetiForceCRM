@@ -66,11 +66,9 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
 		$importDataController = new Import_Data_Action($importInfo, $this->user);
-		if (!$batchImport) {
-			if (!$importDataController->initializeImport()) {
-				Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
-			}
+		if (!$batchImport && !$importDataController->initializeImport()) {
+			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+			throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
 		}
 
 		$importDataController->importData();

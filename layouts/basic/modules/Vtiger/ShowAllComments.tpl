@@ -50,8 +50,7 @@
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 						   aria-describedby="commentSearchAddon"
 						   data-js="keypress|data">
-					<button class="btn btn-outline-dark border-0 h-100 js-search-icon searchIcon" type="button"
-							data-js="click">
+					<button class="btn btn-outline-dark border-0 h-100 js-search-icon searchIcon" type="button" data-js="click">
 						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 					</button>
 				</div>

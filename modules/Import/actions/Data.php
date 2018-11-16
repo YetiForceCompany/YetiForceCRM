@@ -126,10 +126,8 @@ class Import_Data_Action extends \App\Controller\Action
 			return \App\Cache::staticGet('DefaultMandatoryFieldValues', $key);
 		}
 		$defaultMandatoryValues = [];
-		if (!empty($this->defaultValues)) {
-			if (!is_array($this->defaultValues)) {
-				$this->defaultValues = \App\Json::decode($this->defaultValues);
-			}
+		if (!empty($this->defaultValues) && !is_array($this->defaultValues)) {
+			$this->defaultValues = \App\Json::decode($this->defaultValues);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
@@ -411,7 +409,7 @@ class Import_Data_Action extends \App\Controller\Action
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
-						foreach ($currencyParam as $key => $currencyData) {
+						foreach ($currencyParam as $currencyData) {
 							$valueData = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
@@ -575,8 +573,7 @@ class Import_Data_Action extends \App\Controller\Action
 		foreach ($explodedValue as $key => $value) {
 			$explodedValue[$key] = trim($value);
 		}
-		$implodeValue = implode(' |##| ', $explodedValue);
-		return $implodeValue;
+		return implode(' |##| ', $explodedValue);
 	}
 
 	/**
@@ -633,13 +630,11 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
-			if (\App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
-				try {
-					$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
-				} catch (Exception $e) {
-					$entityId = false;
-				}
+		if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
+			try {
+				$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
+			} catch (Exception $e) {
+				$entityId = false;
 			}
 		}
 		return $entityId;
@@ -854,7 +849,7 @@ class Import_Data_Action extends \App\Controller\Action
 	public static function runScheduledImport()
 	{
 		$scheduledImports = self::getScheduledImport();
-		foreach ($scheduledImports as $scheduledId => $importDataController) {
+		foreach ($scheduledImports as $importDataController) {
 			$importDataController->batchImport = false;
 			if (!$importDataController->initializeImport()) {
 				continue;

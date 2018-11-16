@@ -35,6 +35,7 @@ class Twitter extends \Tests\Base
 	 * @param string $twitterLogin
 	 *
 	 * @throws \yii\db\Exception
+	 * @codeCoverageIgnore
 	 */
 	private static function addTwitter(string $twitterLogin)
 	{
@@ -67,7 +68,6 @@ class Twitter extends \Tests\Base
 		$param['blockid'] = $block->id;
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
 
 		static::addTwitter('yeti');
@@ -82,6 +82,101 @@ class Twitter extends \Tests\Base
 	{
 		$this->assertTrue(\is_array(\AppConfig::module('Contacts', 'enable_social')), 'Module Contacts not configured for social media');
 		$this->assertTrue(\in_array('twitter', \AppConfig::module('Contacts', 'enable_social')), 'Module Contacts not configured for social media');
+	}
+
+	/**
+	 * Check if the Twitter field exists.
+	 */
+	public function testFieldTwitter()
+	{
+		$this->assertInternalType('integer', static::$twitterFields[0]->getId());
+		$this->assertTrue(
+			(new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
+			'Field twitter not exists'
+		);
+		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
+			->getFieldByName(static::$twitterFields[0]->getFieldName());
+		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
+		$this->assertSame(
+			static::$twitterFields[0]->getId(),
+			$fieldModel->getId(),
+			'Vtiger_Field_Model problem'
+		);
+	}
+
+	/**
+	 * Validation testing for uitype twitter.
+	 *
+	 * @param mixed $value
+	 *
+	 * @throws \App\Exceptions\Security
+	 *
+	 * @dataProvider providerUiTypeWrongData
+	 */
+	public function testUiTypeWrongData($value)
+	{
+		$this->expectExceptionCode(406);
+		static::$twitterFields[0]->getUITypeModel()->validate($value, false);
+	}
+
+	/**
+	 * Validation testing for uitype twitter - user format.
+	 *
+	 * @param mixed $value
+	 *
+	 * @throws \App\Exceptions\Security
+	 *
+	 * @dataProvider providerUiTypeWrongData
+	 */
+	public function testUiTypeUserFormatWrongData($value)
+	{
+		$this->expectExceptionCode(406);
+		static::$twitterFields[0]->getUITypeModel()->validate($value, true);
+	}
+
+	/**
+	 * Validation testing for uitype twitter.
+	 *
+	 * @param $value
+	 *
+	 * @throws \App\Exceptions\Security
+	 * @dataProvider providerUiTypeGoodData
+	 */
+	public function testUiTypeGoodData($value)
+	{
+		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value, false));
+	}
+
+	/**
+	 * Data provider for testUiTypeWrongData.
+	 *
+	 * @return []
+	 * @codeCoverageIgnore
+	 */
+	public function providerUiTypeWrongData()
+	{
+		return [
+			['$#@%^$^%'],
+			['gfdsgf abc'],
+			['abcde1234567890abcde'],
+		];
+	}
+
+	/**
+	 * Data provider for testUiTypeGoodData.
+	 *
+	 * @return []
+	 * @codeCoverageIgnore
+	 */
+	public function providerUiTypeGoodData()
+	{
+		return [
+			['abc'],
+			['yf123'],
+			['YFlogin'],
+		];
 	}
 
 	/**

@@ -340,7 +340,7 @@
     "LBL_2FA_TITLE": "Weryfikacja dwuetapowa",
     "LBL_2FA_DESCRIPTION": "Wprowad\u017a kod z aplikacji do generowania kod\u00f3w jednorazowych (np. Google Authenticator)",
     "LBL_2FA_SECRET_ALREADY_SET": "Klucz prywatny (TOTP) jest ju\u017c wygenerowany, aby go zmieni\u0107 aktywuj ponownie nowy klucz.",
-    "FL_AUTHY_METHODS":"Metoda autentykacji 2FA",
+    "FL_AUTHY_METHODS": "Metoda autentykacji 2FA",
     "FL_LOGIN_METHOD": "Metoda uwierzytelniania",
     "PLL_AUTHY_TOTP": "Kod jednorazowy (TOTP)",
     "FL_AUTHY_SECRET_TOTP": "Klucz prywatny (TOTP)",

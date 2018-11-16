@@ -284,7 +284,7 @@
 					</table>
 					<div class="float-right py-1">
 						{if $RELATED_RECORD->isViewable()}
-							<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+							<a class="addButton" href="{$RELATED_RECORD->getDetailViewUrl()}">
 								<button type="button" class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
 										data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}">
 									<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"

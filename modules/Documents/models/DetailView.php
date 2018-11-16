@@ -32,6 +32,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_DOWNLOAD_FILE',
 				'linkurl' => $recordModel->getDownloadFileURL(),
 				'linkicon' => 'fas fa-download',
+				'linkclass' => 'btn-outline-dark btn-sm',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -40,21 +41,21 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 			'linklabel' => 'LBL_CHECK_FILE_INTEGRITY',
 			'linkurl' => $recordModel->checkFileIntegrityURL(),
 			'linkicon' => 'fas fa-check',
+			'linkclass' => 'btn-outline-dark btn-sm',
 		];
 		$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
-			if ($currentUserModel->hasModulePermission('OSSMail') && AppConfig::main('isActiveSendingMails')) {
-				$basicActionLink = [
-					'linktype' => 'DETAIL_VIEW_BASIC',
-					'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
-					'linkhref' => true,
-					'linktarget' => '_blank',
-					'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
-					'linkicon' => 'fas fa-envelope',
-				];
-				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-			}
+		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I' && $currentUserModel->hasModulePermission('OSSMail') && AppConfig::main('isActiveSendingMails')) {
+			$basicActionLink = [
+				'linktype' => 'DETAIL_VIEW_BASIC',
+				'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
+				'linkhref' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
+				'linkicon' => 'fas fa-envelope',
+				'linkclass' => 'btn-outline-dark btn-sm',
+			];
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

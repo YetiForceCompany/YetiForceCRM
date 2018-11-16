@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Vtiger_Detail_View.
+ *
+ * @package View
+ */
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
@@ -52,6 +57,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showOpenStreetMap');
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
+		$this->exposeMethod('showChat');
 	}
 
 	/**
@@ -88,7 +94,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
@@ -159,12 +165,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+			$this->record->getWidgets();
 			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
@@ -213,7 +217,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/split.js/split.js',
+			'~libraries/split.js/dist/split.js',
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
@@ -304,7 +308,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordModel = $this->record->getRecord();
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
@@ -994,7 +998,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 
-	public function showOpenStreetMap($request)
+	/**
+	 * Show open street map.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showOpenStreetMap(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -1013,8 +1027,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Show social media.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
 	 */
-	public function showSocialMedia($request)
+	public function showSocialMedia(\App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 		if (!Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
@@ -1026,6 +1045,21 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show chat for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showChat(\App\Request $request)
+	{
+		return (new Chat_Entries_View())->getForRecord($request);
 	}
 
 	/**

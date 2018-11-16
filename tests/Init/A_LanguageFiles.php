@@ -17,9 +17,16 @@ class A_LanguageFiles extends \Tests\Base
 	 */
 	public function testLoadFiles()
 	{
+		$parser = new \Seld\JsonLint\JsonParser();
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
-				$this->assertNotEmpty(\json_decode(\file_get_contents($item->getPathname()), true), 'File: ' . $item->getPathname());
+				try {
+					$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
+					// @codeCoverageIgnoreStart
+				} catch (\Seld\JsonLint\ParsingException $e) {
+					$this->fail("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
+				}
+				// @codeCoverageIgnoreEnd
 			}
 		}
 	}

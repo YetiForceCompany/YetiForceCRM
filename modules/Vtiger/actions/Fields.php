@@ -4,9 +4,9 @@
  * Fields Action Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Fields_Action extends \App\Controller\Action
 {
@@ -38,7 +38,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if ($request->getMode() !== 'findAddress') {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
-				throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 			}
 		}
 	}
@@ -51,6 +51,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('getUserRole');
 		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('findAddress');
+		$this->exposeMethod('verifyIsHolidayDate');
 	}
 
 	/**
@@ -66,7 +67,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($this->fieldModel->getFieldDataType() !== 'owner' && $this->fieldModel->getFieldDataType() !== 'sharedOwner') {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$moduleName = $request->getModule();
 		$searchValue = $request->get('value');
@@ -119,7 +120,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($this->fieldModel->getFieldDataType() !== 'userRole') {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$searchValue = $request->get('value');
 		$response = new Vtiger_Response();
@@ -146,7 +147,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$this->fieldModel->isReferenceField()) {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$response = new Vtiger_Response();
 		$rows = (new \App\RecordSearch($request->get('value'), $this->fieldModel->getReferenceList()))->search();
@@ -176,7 +177,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	public function verifyPhoneNumber(\App\Request $request)
 	{
 		if ($this->fieldModel->getFieldDataType() !== 'phone') {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$response = new Vtiger_Response();
 		$data = ['isValidNumber' => false];
@@ -204,11 +205,39 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function findAddress(\App\Request $request)
 	{
-		$instance = \App\AddressFinder::getInstance($request->getByType('type'));
+		$instance = \App\Map\Address::getInstance($request->getByType('type'));
 		$response = new Vtiger_Response();
 		if ($instance) {
 			$response->setResult($instance->find($request->getByType('value', 'Text')));
 		}
 		$response->emit();
+	}
+
+	/**
+	 * Verify is holiday date.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function verifyIsHolidayDate(\App\Request $request)
+	{
+		if ($this->fieldModel->getFieldDataType() === 'datetime' || $this->fieldModel->getFieldDataType() === 'date') {
+			$response = new Vtiger_Response();
+			$result = false;
+			if ($request->isEmpty('date', true)) {
+				$data['message'] = \App\Language::translate('LBL_NO_DATE');
+			} else {
+				$holidays = Settings_PublicHoliday_Module_Model::getHolidays($request->getArray('date', 'DateInUserFormat'));
+				if (!empty($holidays)) {
+					$result = true;
+				}
+			}
+			$data = ['isHolidayDate' => $result];
+			$response->setResult($data);
+			$response->emit();
+		} else {
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
+		}
 	}
 }

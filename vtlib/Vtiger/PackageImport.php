@@ -328,7 +328,7 @@ class PackageImport extends PackageExport
 		if ($manifestxml_found && $layoutfile_found && $moduleVersionFound) {
 			$validzip = true;
 		}
-		if ($manifestxml_found && $languagefile_found && $extensionfile_found && $moduleVersionFound) {
+		if ($manifestxml_found && $extensionfile_found && $moduleVersionFound) {
 			$validzip = true;
 		}
 		if ($manifestxml_found && $updatefile_found && $moduleVersionFound) {
@@ -715,7 +715,7 @@ class PackageImport extends PackageExport
 		$fieldInstance->readonly = (int) $fieldnode->readonly;
 		$fieldInstance->presence = (int) $fieldnode->presence;
 		$fieldInstance->defaultvalue = (string) $fieldnode->defaultvalue;
-		$fieldInstance->maximumlength = (int) $fieldnode->maximumlength;
+		$fieldInstance->maximumlength = (string) $fieldnode->maximumlength;
 		$fieldInstance->sequence = (int) $fieldnode->sequence;
 		$fieldInstance->quickcreate = (int) $fieldnode->quickcreate;
 		$fieldInstance->quicksequence = (int) $fieldnode->quickcreatesequence;
@@ -808,18 +808,18 @@ class PackageImport extends PackageExport
 		$filterInstance->sequence = $customviewnode->sequence;
 		$filterInstance->description = $customviewnode->description;
 		$filterInstance->sort = $customviewnode->sort;
-
 		$moduleInstance->addFilter($filterInstance);
-
 		foreach ($customviewnode->fields->field as $fieldnode) {
-			$fieldInstance = $this->__GetModuleFieldFromCache($moduleInstance, $fieldnode->fieldname);
-			$filterInstance->addField($fieldInstance, $fieldnode->columnindex);
-
-			if (!empty($fieldnode->rules->rule)) {
-				foreach ($fieldnode->rules->rule as $rulenode) {
-					$filterInstance->addRule($fieldInstance, $rulenode->comparator, $rulenode->value, $rulenode->columnindex);
-				}
+			if ((string) $fieldnode->modulename === $moduleInstance->name) {
+				$fieldInstance = $this->__GetModuleFieldFromCache($moduleInstance, $fieldnode->fieldname);
+			} else {
+				$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, Module::getInstance((string) $fieldnode->modulename));
 			}
+			$fieldInstance->sourcefieldname = (string) $fieldnode->sourcefieldname;
+			$filterInstance->addField($fieldInstance, $fieldnode->columnindex);
+		}
+		if (!empty($customviewnode->rules)) {
+			$filterInstance->addRule(\App\Json::decode($customviewnode->rules));
 		}
 	}
 

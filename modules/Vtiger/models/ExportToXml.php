@@ -60,7 +60,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$this->inventoryFields = $inventoryFieldModel->getFields();
 		$table = $inventoryFieldModel->getTableName('data');
-		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy('seq', SORT_ASC)->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy(['seq' => SORT_ASC])->createCommand()->query();
 		while ($inventoryRow = $dataReader->read()) {
 			$entries[] = $inventoryRow;
 		}
@@ -97,7 +97,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				$valueData = $field->getCurrencyParam([], $value);
 				$valueNewData = [];
 				foreach ($valueData as $currencyId => &$data) {
-					$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+					$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
 					$data['value'] = $currencyName;
 					$valueNewData[$currencyName] = $data;
 				}

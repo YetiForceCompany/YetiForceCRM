@@ -64,7 +64,6 @@
 }
 
 .c-badge__icon {
-	@extend .position-absolute;
 	@extend .rounded-circle;
 	@extend .text-white;
 	@extend .text-center;
@@ -276,3 +275,36 @@
 		height: calculate-rem(40px);
 	}
 }
+
+.c-popover--link {
+	max-width: 30%;
+	.popover-body {
+		padding: 0;
+		border-top-left-radius: calc(0.3rem - 1px);
+		border-top-right-radius: calc(0.3rem - 1px);
+	}
+
+	label,
+	&__label {
+		margin: 0;
+		font-weight: bold;
+	}
+
+	&.bs-popover-bottom .arrow {
+		&::after,
+		&::before {
+			border-bottom-color: $light;
+		}
+	}
+
+	&__header {
+		border-top-left-radius: 0.3rem;
+		border-top-right-radius: 0.3rem;
+		&__buttons {
+			float: right !important;
+			margin-top: -0.2rem;
+			margin-left: 5px;
+		}
+	}
+}
+

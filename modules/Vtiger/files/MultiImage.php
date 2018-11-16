@@ -3,8 +3,9 @@
  * Multi image class to handle files.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -48,7 +49,7 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$key = $request->getByType('key', 2);
-		$value =  \App\Json::decode($recordModel->get($request->getByType('field', 2)));
+		$value = \App\Json::decode($recordModel->get($request->getByType('field', 2)));
 		foreach ($value as $item) {
 			if ($item['key'] === $key) {
 				$file = \App\Fields\File::loadFromInfo([

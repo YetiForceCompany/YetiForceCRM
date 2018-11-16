@@ -20,9 +20,7 @@ class Deprecated
 	{
 		$entityInfo = \App\Module::getEntityInfo($module);
 		$fieldsName = $entityInfo['fieldname'];
-		$displayName = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
-
-		return $displayName;
+		return self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 	}
 
 	/**
@@ -102,7 +100,7 @@ class Deprecated
 	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
-			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($filepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -167,9 +165,7 @@ class Deprecated
 		} else {
 			$formattedNameListString = $input[$fieldsName];
 		}
-		$sqlString = 'CONCAT(' . $formattedNameListString . ')';
-
-		return $sqlString;
+		return 'CONCAT(' . $formattedNameListString . ')';
 	}
 
 	/**
@@ -283,7 +279,7 @@ class Deprecated
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 &&
 			$profileGlobalPermission[2] == 1) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
-				if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
+				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
 					$permittedModules[] = ($tabid);
 				}
 			}

@@ -143,22 +143,39 @@ var App = {},
 				}, 100);
 			});
 		},
-		registerPopoverManualTrigger(element) {
-			element.hoverIntent({
-				timeout: 150,
-				over: function () {
-					const self = this;
-					$(this).popover("show");
-					$(".popover").on("mouseleave", function () {
-						$(self).popover('hide');
-					});
-				},
-				out: function () {
-					if (!$(".popover:hover").length) {
-						$(this).popover('hide');
+		registerPopoverManualTrigger(element, manualTriggerDelay) {
+			const hideDelay = 500;
+			element.on("mouseleave", (e) => {
+				setTimeout(function () {
+					let popoverId = $(e.currentTarget).attr('aria-describedby');
+					let currentPopover = $(`#${popoverId}`);
+					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+						currentPopover.popover('hide');
 					}
-				}
+				}, hideDelay);
 			});
+
+			element.on("mouseenter", (e) => {
+				setTimeout(function () {
+					let element = $(e.currentTarget);
+					if (element.is(':hover')) {
+						element.popover("show");
+						let popoverId = element.attr('aria-describedby');
+						let currentPopover = $(`#${popoverId}`);
+						currentPopover.on("mouseleave", (e) => {
+							setTimeout(function () {
+								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+									currentPopover.popover('hide'); //close current popover
+								}
+								if (!$(":hover").filter($(".popover")).length) {
+									$(".popover").popover('hide'); //close all popovers
+								}
+							}, hideDelay);
+						});
+					}
+				}, manualTriggerDelay);
+			});
+
 			app.hidePopoversAfterClick(element);
 		},
 		isEllipsisActive(element) {
@@ -173,49 +190,106 @@ var App = {},
 			clone.remove();
 			return false;
 		},
-		showPopoverElementView: function (selectElement, params = {}) {
+		showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 			let defaultParams = {
 				trigger: 'manual',
+				manualTriggerDelay: 500,
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 				container: 'body',
-				delay: {"show": 300, "hide": 100},
+				boundary: 'viewport',
+				delay: {"show": 300, "hide": 100}
 			};
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
-				if (element.data('ellipsis')) {
-					defaultParams.trigger = 'hover focus';
-					let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
-					if (!app.isEllipsisActive(popoverText)) {
-						return;
-					}
-					let iconElement = element.find('.js-popover-icon');
-					if (iconElement.length) {
-						element.find('.js-popover-icon').removeClass('d-none');
-						defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
-					}
-				}
 				let elementParams = $.extend(true, defaultParams, params, element.data());
 				if (element.data('class')) {
 					elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 				}
 				if (element.hasClass('delay0')) {
-					elementParams.delay = {show: 0, hide: 0}
+					elementParams.delay = {show: 0, hide: 0};
 				}
 				element.popover(elementParams);
 				if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
-					app.registerPopoverManualTrigger(element);
+					app.registerPopoverManualTrigger(element, elementParams.manualTriggerDelay);
 				}
+				if (elementParams.callbackShown) {
+					element.on('shown.bs.popover', function (e) {
+						elementParams.callbackShown(e);
+					});
+				}
+				element.addClass('popover-triggered');
 			});
 			return selectElement;
+		},
+		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis')) {
+			let defaultParams = {
+				trigger: 'hover focus'
+			};
+			selectElement.each(function (index, domElement) {
+				let element = $(domElement);
+				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
+				if (!app.isEllipsisActive(popoverText)) {
+					return;
+				}
+				let iconElement = element.find('.js-popover-icon');
+				if (iconElement.length) {
+					element.find('.js-popover-icon').removeClass('d-none');
+					defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
+				}
+				app.showPopoverElementView(element, defaultParams);
+			});
+		},
+		/**
+		 * Register popover record
+		 * @param {jQuery} selectElement
+		 */
+		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+			let params = {
+				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
+				content: '<div class="d-none"></div>',
+				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
+				placement: 'right',
+				callbackShown: function (e) {
+					let element = $(e.currentTarget);
+					if (!element.attr('href')) {
+						return false;
+					}
+					let link = new URL(element.get(0).href);
+					if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
+						return false;
+					}
+					let url = link.href;
+					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
+					let popoverId = element.attr('aria-describedby');
+					let popoverBody = $(`#${popoverId} .popover-body`);
+					popoverBody.progressIndicator({});
+					let appendPopoverData = (data) => {
+						popoverBody.progressIndicator({mode: 'hide'}).html(data);
+						if (typeof customParams.callback === 'function') {
+							customParams.callback(popoverBody);
+						}
+						element.popover('update'); //updates popover with data position 
+					};
+					let cacheData = window.popoverCache[url];
+					if (typeof cacheData !== 'undefined') {
+						appendPopoverData(cacheData);
+					} else {
+						AppConnector.request(url).done((data) => {
+							window.popoverCache[url] = data;
+							appendPopoverData(data);
+						});
+					}
+				}
+			};
+			app.showPopoverElementView(selectElement, params);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
 		 * @params <object> multiSelectElement
 		 * @params <object> select2 params
 		 */
-
 		registerChangeEventForMultiSelect: function (selectElement, params) {
 			if (typeof selectElement === "undefined") {
 				return;
@@ -309,15 +383,11 @@ var App = {},
 					height: '5em',
 					toolbar: 'Min'
 				});
-				let modalScroll = modalContainer.find('.js-show-scroll');
-				if (modalScroll.length) {
-					app.showNewScrollbar(modalScroll);
-				}
+				app.registesterScrollbar(modalContainer);
 			});
 			$('body').append(container);
 			modalContainer.modal(params);
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-			thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 		},
 		showModalWindow: function (data, url, cb, paramsObject) {
@@ -397,6 +467,11 @@ var App = {},
 		 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 		 */
 		hideModalWindow: function (callback, id) {
+			if (window.parent !== window) {
+				this.childFrame = true;
+				window.parent.app.hideModalWindow(callback, id);
+				return;
+			}
 			let container;
 			if (callback && typeof callback === 'object') {
 				container = callback;
@@ -658,7 +733,7 @@ var App = {},
 				elementClockBtn = object;
 				formatTime = elementClockBtn.data('format');
 			}
-			formatTime = formatTime === 12 ? true : false;
+			formatTime = parseInt(formatTime) === 12 ? true : false;
 			let params = {
 				placement: 'bottom',
 				autoclose: true,
@@ -667,10 +742,9 @@ var App = {},
 				ampmSubmit: false
 			};
 			$('.js-clock__btn').on('click', (e) => {
-				let elem = $(e.currentTarget);
 				e.stopPropagation();
-				let tempElement = elem.closest('.time').find('input.clockPicker');
-				if (tempElement.attr('disabled') !== 'disabled') {
+				let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
+				if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 					tempElement.clockpicker('show');
 				}
 			});
@@ -734,10 +808,10 @@ var App = {},
 				return;
 			return new PerfectScrollbar(element[0], options);
 		},
-		showNewScrollbarTopBottomRight: function (element) {
+		showNewScrollbarTopBottomRight: function (element, options = {}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
 			let scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
 				top: 0,
@@ -747,7 +821,7 @@ var App = {},
 				top: 2,
 				bottom: 'auto'
 			});
-			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 			return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 		},
 		showNewScrollbarTopBottom: function (element) {
@@ -771,12 +845,9 @@ var App = {},
 				bottom: 'auto'
 			});
 		},
-		showNewScrollbarLeft: function (element, options) {
+		showNewScrollbarLeft: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-			options.wheelPropagation = true;
 			new PerfectScrollbar(element[0], options);
 			var scrollbarLeftElement = element.children('.ps__rail-y').first();
 			scrollbarLeftElement.css({
@@ -788,9 +859,7 @@ var App = {},
 				right: 'auto'
 			});
 		},
-		showScrollBar: function (element, options) {
-			if (typeof options === "undefined")
-				options = {};
+		showScrollBar: function (element, options = {}) {
 			if (typeof options.height === "undefined")
 				options.height = element.css('height');
 			return element.slimScroll(options);
@@ -1077,7 +1146,7 @@ var App = {},
 			}
 			let value = app.cacheParams[param];
 			if (json) {
-				if (value !== '') {
+				if (value) {
 					value = JSON.parse(value);
 				} else {
 					value = [];
@@ -1400,21 +1469,6 @@ var App = {},
 			}
 			return $(window).height() * percantage / 100;
 		},
-		setCalendarHeight() {
-			const container = $('.js-base-container');
-			const paddingTop = 15;
-			if ($(window).width() > 993) {
-				let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
-				new ResizeSensor(container.find('.contentsDiv'), () => {
-					calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
-					$('#calendarview').fullCalendar('option', 'height', calendarH);
-					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stops working
-				});
-				return calendarH;
-			} else if ($(window).width() < 993) {
-				return 'auto';
-			}
-		},
 		clearBrowsingHistory: function () {
 			AppConnector.request({
 				module: 'Home',
@@ -1422,6 +1476,17 @@ var App = {},
 			}).done(function (response) {
 				$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 			});
+		},
+		/**
+		 * Open url in top window
+		 * @param string url
+		 */
+		openUrl(url) {
+			if (window.location !== window.top.location) {
+				window.top.location.href = url;
+			} else {
+				window.location.href = url;
+			}
 		},
 		showConfirmation: function (data, element) {
 			var params = {};
@@ -1443,7 +1508,7 @@ var App = {},
 			Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 				if (params.type == 'href') {
 					AppConnector.request(params.url).done(function (data) {
-						window.location.href = data.result;
+						app.openUrl(data.result);
 					});
 				} else if (params.type == 'reloadTab') {
 					AppConnector.request(params.url).done(function (data) {
@@ -1632,29 +1697,68 @@ var App = {},
 			PNotify.defaults.icons = 'fontawesome5';
 			new PNotify(params);
 			return aDeferred.promise();
-		}
+		},
+		registesterScrollbar(container) {
+			container.find('.js-scrollbar').each(function () {
+				app.showNewScrollbar($(this));
+			});
+		},
+		registerPopover() {
+			window.popoverCache = {};
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+				let currentTarget = $(e.currentTarget);
+				if (!currentTarget.hasClass('popover-triggered')) {
+					if (currentTarget.hasClass('js-popover-tooltip--record')) {
+						app.registerPopoverRecord(currentTarget);
+						currentTarget.trigger('mouseenter');
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
+						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
+						app.showPopoverElementView(currentTarget);
+						currentTarget.trigger('mouseenter');
+					}
+				}
+			});
+		},
+		showNotify: function (params, desktop = false) {
+			if (typeof params.type === 'undefined') {
+				params.type = 'info';
+			}
+			if (typeof params.title === 'undefined') {
+				params.title = app.vtranslate('JS_MESSAGE');
+			}
+			if (desktop) {
+				params = $.extend(params, {
+					modules: {
+						Desktop: {
+							desktop: true
+						}
+					}
+				});
+			}
+			Vtiger_Helper_Js.showPnotify(params);
+		},
 	};
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
-	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.registerPopover();
+	app.registerPopoverEllipsis();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	$('.js-scrollbar').each(function () {
-		app.showNewScrollbar($(this));
-	});
+	app.registesterScrollbar($(document));
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
-	// in IE resize option for textarea is not there, so we have to use .resizable() api
+// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
 		$('textarea').resizable();
 	}
-	// Instantiate Page Controller
+// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController) {
 		pageController.registerEvents();

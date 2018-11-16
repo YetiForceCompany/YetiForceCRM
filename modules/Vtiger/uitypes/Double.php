@@ -27,7 +27,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -37,7 +37,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$maximumLength = (float) $this->getFieldModel()->get('maximumlength') +1;
+		$maximumLength = (float) $this->getFieldModel()->get('maximumlength') + 1;
 		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
@@ -74,5 +74,13 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['decimal'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}
 }

@@ -34,6 +34,10 @@
 .picklistCBg_Calendar_activitytype_Meeting { background: #FFD500 !important; }
 .picklistCT_Calendar_activitytype_Meeting { color: #FFD500 !important; }
 .picklistLb_Calendar_activitytype_Meeting { background: #FFD500; padding: 2px 7px 3px 7px;}
+.picklistCBr_Calendar_activitytype_Task { border-color: #00d4f5 !important; }
+.picklistCBg_Calendar_activitytype_Task { background: #00d4f5 !important; }
+.picklistCT_Calendar_activitytype_Task { color: #00d4f5 !important; }
+.picklistLb_Calendar_activitytype_Task { background: #00d4f5; padding: 2px 7px 3px 7px;}
 .picklistCBr_HelpDesk_ticketstatus_Open { border-color: #855000 !important; }
 .picklistCBg_HelpDesk_ticketstatus_Open { background: #855000 !important; }
 .picklistCT_HelpDesk_ticketstatus_Open { color: #855000 !important; }

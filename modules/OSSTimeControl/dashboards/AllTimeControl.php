@@ -4,8 +4,8 @@
  * Wdiget to show work time.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -87,7 +87,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			if (!in_array($row['smownerid'], $smOwners)) {
 				$smOwners[] = $row['smownerid'];
 				$ownerName = \App\Fields\Owner::getUserLabel($row['smownerid']);
-				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
+				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
 				$chartData['fullLabels'][] = $ownerName;
 			}
 		}
@@ -138,7 +138,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$viewer->assign('TCPMODULE_MODEL', Settings_TimeControlProcesses_Module_Model::getCleanInstance()->getConfigInstance());
-		$viewer->assign('USERID', $user);
+		$viewer->assign('OWNER', $user);
 		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		$viewer->assign('DATA', $this->getWidgetTimeControl($user, $time));
 		$viewer->assign('WIDGET', $widget);

@@ -18,7 +18,7 @@
 				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="pl-1">
-				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip" data-ellipsis="true" data-content="{$RECORD->getName()}" data-toggle="popover" data-js="tooltip">
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
 					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>
@@ -35,18 +35,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('company')}" data-toggle="popover" data-js="tooltip">
-					<span class="designation_label text-muted u-white-space-nowrap">{$RECORD->getDisplayValue('designation')}</span>
-					{if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
-						&nbsp;{\App\Language::translate('LBL_AT')}&nbsp;
-					{/if}
-					<span class="js-popover-text" data-js="clone">
-						<span class="company_label">{$RECORD->getDisplayValue('company')}</span>
-					</span>
-					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
-
-				</div>
-				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
+				<div class="js-popover-tooltip--ellipsis d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
 					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 					</span>
@@ -55,7 +44,7 @@
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content='{$SHOWNERS}' data-toggle="popover" data-js="tooltip">
+					<div class="js-popover-tooltip--ellipsis d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter">
 						<span class="mr-1 text-muted u-white-space-nowrap">
 							{\App\Language::translate('Share with users',$MODULE_NAME)}:
 						</span>

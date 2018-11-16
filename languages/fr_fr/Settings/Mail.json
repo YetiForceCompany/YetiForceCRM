@@ -38,8 +38,9 @@
     "LBL_ADD_SIGNATURE": "Activer un pied de page g\u00e9n\u00e9ral pour tous les mails sortants",
     "LBL_SIGNATURE": "Signature globale",
     "LBL_SAVED_SIGNATURE": "Signature sauvegard\u00e9e",
+    "LBL_TO": "To",
     "LBL_VIEW_AUTOLOGIN": "Login automatique",
     "LBL_VIEW_CONFIG": "Configuration g\u00e9n\u00e9rale"
   },
-  "js": []
+  "js": {}
 }

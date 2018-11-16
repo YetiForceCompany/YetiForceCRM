@@ -29,6 +29,7 @@
     "LBL_INSTALLATION_WIZARD": "Kurulum sihirbaz\u0131",
     "LBL_INSTALL_BUTTON": "Y\u00fckle",
     "LBL_INSTALL_PREREQUISITES": "Verify server configuration",
+    "LBL_LIBRARY_NAME": "Library name",
     "LBL_MORE_INFORMATION": "Daha fazla bilgi",
     "LBL_NEXT": "Sonraki",
     "LBL_ONE_LAST_THING": "Son bir \u015fey...",
@@ -70,6 +71,7 @@
     "LBL_PDO_SUPPORT": "PDO deste\u011fi",
     "LBL_OPEN_SSL": "openssl deste\u011fi",
     "LBL_LICENSE": "Lisans",
+    "LBL_EXTERNAL_LIBRARIES_LICENSES": "Third-party library licenses",
     "LBL_CURL": "cURL deste\u011fi",
     "LBL_INDUSTRY_OPTION": "L\u00fctfen uygun end\u00fcstri se\u00e7eneklerini se\u00e7in.",
     "LBL_ERROR_LOGIN": "Yetkilendirme hatas\u0131, girilen veriler yanl\u0131\u015f.",
@@ -99,7 +101,8 @@
     "LBL_WRONG_USERNAME_OR_PASSWORD": "Yanl\u0131\u015f oturum a\u00e7ma veya \u015fifre",
     "LBL_DESCRIPTION_CONDITIONS": "Veri Ge\u00e7i\u015fi i\u015flemi s\u0131ras\u0131nda a\u015fa\u011f\u0131daki mod\u00fcller ile ilgili t\u00fcm verileri kaybedersiniz: MailManager, EmailTemplates, Workflows. \r\n L\u00fctfen ta\u015f\u0131ma test a\u015famas\u0131nda oldu\u011funa dikkat edin, b\u00f6ylece olas\u0131 t\u00fcm yedek kopyalar\u0131 olu\u015fturun ve herhangi bir \u00f6ng\u00f6r\u00fclemeyen olay durumunda g\u00fcvenlik prosed\u00fcrlerini takip etmelisiniz.",
     "LBL_MIGRATION_IN_PROGRESS": "Veri Ge\u00e7i\u015fi devam ediyor",
-    "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard"
+    "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
+    "LBL_VERSION": "Version"
   },
   "js": {
     "JS_ALL": "Hepsi",

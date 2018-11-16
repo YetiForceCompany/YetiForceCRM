@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
@@ -26,9 +26,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 			$source = 'http://www.bnr.ro/files/xml/years/nbrfxrates' . $year . '.xml';
 		}
 
-		$xml = simplexml_load_file($source);
-
-		return $xml;
+		return simplexml_load_file($source);
 	}
 
 	// Returns list of currencies supported by this bank
@@ -70,7 +68,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 
 		// how old is the currency rate
 		$now = time(); // or your date as well

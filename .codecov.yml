@@ -7,8 +7,9 @@ coverage:
         target: 100%
         paths: "tests/"
       app:
-        target: 40%
-        paths: "!tests/"
+        target: 39%
+        paths: "app/"
     patch: off
 ignore:
- - tests/copy/.*
+- tests/copy/.*
+comment: off

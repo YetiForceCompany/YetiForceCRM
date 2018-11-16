@@ -3,9 +3,11 @@
 /**
  * Inventory Currency Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -23,15 +25,19 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	];
 
 	/**
-	 * Getting value to display.
-	 *
-	 * @param int $value
-	 *
-	 * @return string
+	 * {@inheritdoc}
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Currency.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
-		return vtlib\Functions::getCurrencyName($value, false);
+		return \App\Fields\Currency::getById($value)['currency_name'];
 	}
 
 	public function getCurrencyParam($currencies, $param = false)
@@ -52,13 +58,13 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
 	{
 		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column)) {
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$value = $request->getInteger($column);
+		$value = $request->getInteger($column . $i);
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('currencyparam'));
+		$value = \App\Json::encode($request->getArray('currencyparam' . $i));
 		$this->validate($value, 'currencyparam', true);
 		$insertData['currencyparam'] = $value;
 	}

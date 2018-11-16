@@ -47,69 +47,60 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		});
 		return fields;
 	},
-	getCurrentDashboardId: function () {
-		return $('.selectDashboard li.active').data('id');
+	getCurrentDashboardId() {
+		return $('.selectDashboard li a.active').parent().data('id');
 	},
-	registerAddedDashboard: function () {
-		var thisInstance = this;
-		$('.addDashboard').on('click', function () {
-			var data = {
+	registerAddedDashboard() {
+		const thisInstance = this;
+		$('.addDashboard').on('click', () => {
+			app.showModalWindow({
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType',
-				sendByAjaxCb: function () {
-					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home').done(function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
+				sendByAjaxCb: () => {
+					let contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home').done((data) => {
+						thisInstance.updateContentsDiv(contentsDiv, data);
 					});
 				},
-			};
-			app.showModalWindow(data);
-		});
-	},
-	registerSelectDashboard: function () {
-		var thisInstance = this;
-		$('.selectDashboard li').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
-			var dashboardId = currentTarget.data('id');
-			var contentsDiv = $('.contentsDiv');
-			thisInstance.getModuleLayoutEditor('Home', dashboardId).done(function (data) {
-				contentsDiv.html(data);
-				thisInstance.registerEvents();
 			});
 		});
 	},
-	registerDashboardAction: function () {
-		var thisInstance = this;
-		$('.editDashboard').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
+	registerSelectDashboard() {
+		const thisInstance = this;
+		$('.selectDashboard li').on('click', (e) => {
+			let contentsDiv = $('.contentsDiv');
+			thisInstance.getModuleLayoutEditor($('#selectedModuleName').val(), $(e.currentTarget).data('id')).done((data) => {
+				thisInstance.updateContentsDiv(contentsDiv, data);
+			});
+		});
+	},
+	registerDashboardAction() {
+		const thisInstance = this;
+		$('.editDashboard').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
 			e.stopPropagation();
-			var data = {
+			app.showModalWindow({
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType&dashboardId=' + currentTarget.closest('li').data('id'),
-				sendByAjaxCb: function () {
-					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done(function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
+				sendByAjaxCb: () => {
+					let contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done((data) => {
+						thisInstance.updateContentsDiv(contentsDiv, data);
 					});
 				},
-			};
-			app.showModalWindow(data);
+			});
 		});
-		$('.deleteDashboard').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
+		$('.deleteDashboard').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
 			e.stopPropagation();
-			var params = {
+			AppConnector.request({
 				parent: 'Settings',
 				module: app.getModuleName(),
 				action: 'Dashboard',
 				mode: 'delete',
 				dashboardId: currentTarget.closest('li').data('id')
-			};
-			AppConnector.request(params).done(function () {
-				var contentsDiv = $('.contentsDiv');
-				thisInstance.getModuleLayoutEditor('Home', 1).done(function (data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
+			}).done(() => {
+				let contentsDiv = $('.contentsDiv');
+				thisInstance.getModuleLayoutEditor('Home', 1).done((data) => {
+					thisInstance.updateContentsDiv(contentsDiv, data);
 				});
 			});
 		});
@@ -989,7 +980,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		var table = contents.find('.editFieldsTable');
 		contents.on('click', '.deleteCustomBlock', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
@@ -1019,28 +1009,31 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	/**
 	 * Function to register the change event for layout editor modules list
 	 */
-	registerModulesChangeEvent: function () {
-		var thisInstance = this;
-		var container = jQuery('#widgetsManagementEditorContainer');
-		var contentsDiv = container.closest('.contentsDiv');
-
+	registerModulesChangeEvent() {
+		const thisInstance = this;
+		let container = $('#widgetsManagementEditorContainer');
+		let contentsDiv = container.closest('.contentsDiv');
 		App.Fields.Picklist.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'));
-
-		container.on('change', '[name="widgetsManagementEditorModules"]', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var selectedModule = currentTarget.val();
-			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).done(function (data) {
-				contentsDiv.html(data);
-				thisInstance.registerEvents();
+		container.on('change', '[name="widgetsManagementEditorModules"]', (e) => {
+			thisInstance.getModuleLayoutEditor($(e.currentTarget).val(), thisInstance.getCurrentDashboardId()).done((data) => {
+				thisInstance.updateContentsDiv(contentsDiv, data);
 			});
 		});
-
+	},
+	/**
+	 * Update contents div and register events.
+	 * @param {jQuery} contentsDiv
+	 * @param {HTMLElement} data
+	 */
+	updateContentsDiv(contentsDiv, data) {
+		contentsDiv.html(data);
+		App.Fields.Picklist.showSelect2ElementView(contentsDiv.find('.select2'));
+		this.registerEvents();
 	},
 	/**
 	 * Function to get the respective module layout editor through pjax
 	 */
 	getModuleLayoutEditor: function (selectedModule, selectedDashboard) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',

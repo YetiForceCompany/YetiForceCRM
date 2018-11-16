@@ -92,9 +92,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 			if ($allValuesEmpty) {
 				continue;
 			}
-			$fieldNames = array_keys($mappedData);
-			$fieldValues = array_values($mappedData);
-			$this->addRecordToDB($fieldNames, $fieldValues);
+			$this->addRecordToDB($mappedData);
 		}
 	}
 }

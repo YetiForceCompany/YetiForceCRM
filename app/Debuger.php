@@ -11,7 +11,6 @@ namespace App;
  */
 use DebugBar;
 use DebugBar\DataCollector;
-use Yii;
 
 class Debuger
 {

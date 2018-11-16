@@ -15,10 +15,8 @@ class Project_RelationListView_Model extends Vtiger_RelationListView_Model
 		$createViewUrl = parent::getCreateViewUrl();
 
 		$relationModuleModel = $this->getRelationModel()->getRelationModuleModel();
-		if ($relationModuleModel->getName() == 'HelpDesk') {
-			if ($relationModuleModel->getField('parent_id')->isViewable()) {
-				$createViewUrl .= '&parent_id=' . $this->getParentRecordModel()->get('linktoaccountscontacts');
-			}
+		if ($relationModuleModel->getName() == 'HelpDesk' && $relationModuleModel->getField('parent_id')->isViewable()) {
+			$createViewUrl .= '&parent_id=' . $this->getParentRecordModel()->get('linktoaccountscontacts');
 		}
 		return $createViewUrl;
 	}

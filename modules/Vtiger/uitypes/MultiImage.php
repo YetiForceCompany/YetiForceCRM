@@ -6,6 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Michał Lorencik <m.lorencik@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -22,12 +23,14 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
-		$value = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
-		$this->validate($value, true);
-		if ($request->getBoolean('_isDuplicateRecord')) {
-			$this->duplicateValueFromRecord($value, $request);
+		[$value, $newValues, $save] = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
+		$this->validate($newValues, true);
+		if ($save) {
+			if ($request->getBoolean('_isDuplicateRecord')) {
+				$this->duplicateValueFromRecord($value, $request);
+			}
+			$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 		}
-		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
 	/**
@@ -397,11 +400,12 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public static function deleteRecord(\Vtiger_Record_Model $recordModel)
 	{
 		foreach ($recordModel->getModule()->getFieldsByType(['multiImage', 'image']) as $fieldModel) {
-			if (!$recordModel->isEmpty($fieldModel->getName()) && $recordModel->get($fieldModel->getName()) !== '[]' && $recordModel->get($fieldModel->getName()) !== '""') {
-				$image = array_shift(\App\Json::decode($recordModel->get($fieldModel->getName())));
-				$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
-				if (file_exists($path)) {
-					unlink($path);
+			if (!$recordModel->isEmpty($fieldModel->getName()) && !\App\Json::isEmpty($recordModel->get($fieldModel->getName()))) {
+				foreach (\App\Json::decode($recordModel->get($fieldModel->getName())) as $image) {
+					$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
+					if (file_exists($path)) {
+						unlink($path);
+					}
 				}
 			}
 		}
@@ -413,5 +417,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['y', 'ny'];
 	}
 }

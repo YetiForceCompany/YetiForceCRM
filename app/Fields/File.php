@@ -526,7 +526,7 @@ class File
 	{
 		if ($checkInAttachments) {
 			$hash = hash('sha1', $this->getContents()) . \App\Encryption::generatePassword(10);
-			if ((new \App\Db\Query())->from('u_#__file_upload_temp')->where(['key' => $hash])->exists() || ($uploadFilePath && file_exists($uploadFilePath . $hash))) {
+			if ($uploadFilePath && file_exists($uploadFilePath . $hash)) {
 				$hash = $this->generateHash($checkInAttachments);
 			}
 			return $hash;
@@ -712,8 +712,8 @@ class File
 		$fileName = \App\TextParser::textTruncate($file->getName(), 50, false);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		$record->setData($params);
-		$record->set('notes_title', $fileName);
-		$record->set('filename', $file->getName());
+		$record->set('notes_title', \App\Purifier::decodeHtml(\App\Purifier::purify($fileName)));
+		$record->set('filename', \App\Purifier::decodeHtml(\App\Purifier::purify($file->getName())));
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
 		$record->set('folderid', 'T2');
@@ -1018,20 +1018,38 @@ class File
 	 */
 	public static function updateUploadFiles(array $value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
 	{
-		$previousValue = $recordModel->getPreviousValue($fieldModel->getName());
-		$previousValue = $previousValue ? static::parse($previousValue) : [];
+		$previousValue = $recordModel->get($fieldModel->getName());
+		$previousValue = ($previousValue && !\App\Json::isEmpty($previousValue)) ? static::parse(\App\Json::decode($previousValue)) : [];
 		$value = static::parse($value);
-		foreach ($value as $item) {
-			if (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
-				$value[$item['key']]['path'] = $uploadFile['path'] . $item['key'];
+		$new = [];
+		$save = false;
+		foreach ($value as $key => $item) {
+			if (isset($previousValue[$item['key']])) {
+				$value[$item['key']] = $previousValue[$item['key']];
+			} elseif (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
+				$new[] = $value[$item['key']] = [
+					'name' => $uploadFile['name'],
+					'size' => $item['size'],
+					'path' => $uploadFile['path'] . $item['key'],
+					'key' => $item['key'],
+				];
+				$save = true;
 			}
 		}
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($previousValue as $item) {
 			if (!isset($value[$item['key']])) {
-				static::removeUploadFile($item);
+				$dbCommand->delete('u_#__file_upload_temp', ['key' => $item['key']])->execute();
+				$save = true;
+				if (\file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'])) {
+					\unlink(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path']);
+				} else {
+					Log::info('File to delete does not exist', __METHOD__);
+				}
 			}
 		}
-		return array_values($value);
+		unset($dbCommand);
+		return [array_values($value), $new, $save];
 	}
 
 	/**
@@ -1063,12 +1081,53 @@ class File
 	}
 
 	/**
-	 * Remove file.
+	 * Check is it an allowed directory.
 	 *
-	 * @param array $value
+	 * @param string $fullPath
+	 *
+	 * @return bool
 	 */
-	public static function removeUploadFile(array $value)
+	public static function isAllowedDirectory(string $fullPath)
 	{
-		\unlink($value['path']);
+		return !(!is_readable($fullPath) || !is_dir($fullPath) || is_file($fullPath));
+	}
+
+	/**
+	 * Check is it an allowed file directory.
+	 *
+	 * @param string $fullPath
+	 *
+	 * @return bool
+	 */
+	public static function isAllowedFileDirectory(string $fullPath)
+	{
+		return !(!is_readable($fullPath) || is_dir($fullPath) || !is_file($fullPath));
+	}
+
+	/**
+	 * CheckFilePath.
+	 *
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	public static function checkFilePath(string $path)
+	{
+		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
+		if ($matches) {
+			return true;
+		}
+		$absolutes = ['YetiTemp'];
+		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
+			if ('.' === $part) {
+				continue;
+			}
+			if ('..' === $part) {
+				array_pop($absolutes);
+			} else {
+				$absolutes[] = $part;
+			}
+		}
+		return $absolutes[0] === 'YetiTemp';
 	}
 }

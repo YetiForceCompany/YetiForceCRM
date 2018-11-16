@@ -19,6 +19,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $uitype_instance;
 	public $picklistValues;
 	/**
+	 * @var bool
+	 */
+	protected $isCalculateField = true;
+	/**
 	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
 	 */
 	protected $uitypeModel;
@@ -189,11 +193,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to retrieve display type of a field.
 	 *
-	 * @return string display type of the field
+	 * @return int display type of the field
 	 */
 	public function getDisplayType()
 	{
-		return $this->get('displaytype');
+		return (int) $this->get('displaytype');
 	}
 
 	/**
@@ -273,6 +277,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 99:
 						$fieldDataType = 'password';
 						break;
+					case 101:
+						$fieldDataType = 'userReference';
+						break;
 					case 115:
 						$fieldDataType = 'picklist';
 						break;
@@ -314,6 +321,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 314:
 						$fieldDataType = 'multiEmail';
+						break;
+					case 315:
+						$fieldDataType = 'multiDependField';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -508,7 +518,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public static function showDisplayTypeList()
 	{
-		$displayType = [
+		return [
 			1 => 'LBL_DISPLAY_TYPE_1',
 			2 => 'LBL_DISPLAY_TYPE_2',
 			3 => 'LBL_DISPLAY_TYPE_3',
@@ -516,8 +526,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			//5 => 'LBL_DISPLAY_TYPE_5',
 			10 => 'LBL_DISPLAY_TYPE_10',
 		];
-
-		return $displayType;
 	}
 
 	/**
@@ -740,6 +748,20 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Function to get value for customview.
+	 *
+	 * @param string $sourceFieldName
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function getCustomViewSelectColumnName(string $sourceFieldName = '')
+	{
+		return "{$this->getModuleName()}:{$this->get('name')}" . ($sourceFieldName ? ":$sourceFieldName" : '');
+	}
+
+	/**
 	 * Function to get the custom view column name transformation of the field.
 	 *
 	 * @return string - tablename:columnname:fieldname:module_fieldlabel:fieldtype
@@ -849,7 +871,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 			case 'modules':
-				foreach ($this->getModulesListValues() as $moduleId => $module) {
+				foreach ($this->getModulesListValues() as $module) {
 					$modulesList[$module['name']] = $module['label'];
 				}
 				$this->fieldInfo['picklistvalues'] = $modulesList;
@@ -922,26 +944,24 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
-		$fieldModelList = Vtiger_Cache::get('ModuleFields', $moduleModel->id);
-		if (!$fieldModelList) {
-			$fieldObjects = parent::getAllForModule($moduleModel);
-
-			$fieldModelList = [];
-			//if module dont have any fields
-			if (!is_array($fieldObjects)) {
-				$fieldObjects = [];
-			}
-
-			foreach ($fieldObjects as &$fieldObject) {
-				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
-				$fieldModelList[$block][] = $fieldModelObject;
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
-			}
-
-			Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
+		if (\App\Cache::has('ModuleFields', $moduleModel->id)) {
+			return \App\Cache::get('ModuleFields', $moduleModel->id);
 		}
+		$fieldModelList = [];
+		$fieldObjects = parent::getAllForModule($moduleModel);
+		$fieldModelList = [];
+		//if module dont have any fields
+		if (!is_array($fieldObjects)) {
+			$fieldObjects = [];
+		}
+		foreach ($fieldObjects as &$fieldObject) {
+			$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
+			$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
+			$fieldModelList[$block][] = $fieldModelObject;
+			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+		}
+		\App\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
 		return $fieldModelList;
 	}
 
@@ -970,6 +990,21 @@ class Vtiger_Field_Model extends vtlib\Field
 			return self::getInstanceFromFieldObject($fieldObject);
 		}
 		return false;
+	}
+
+	/**
+	 * Returns instance of field.
+	 *
+	 * @param string|array $fieldInfo
+	 *
+	 * @return bool|null|\Vtiger_Field_Model|\vtlib\Field
+	 */
+	public static function getInstanceFromFilter($fieldInfo)
+	{
+		if (is_string($fieldInfo)) {
+			$fieldInfo = array_combine(['module_name', 'field_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
+		}
+		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
 	}
 
 	/**
@@ -1124,17 +1159,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get Default Field Value.
 	 *
-	 * @return string defaultvalue
+	 * @throws \Exception
+	 *
+	 * @return mixed
 	 */
 	public function getDefaultFieldValue()
 	{
-		if ($this->defaultvalue && $this->getFieldDataType() === 'date') {
-			$textParser = \App\TextParser::getInstance($this->getModuleName());
-			$textParser->setContent($this->defaultvalue)->parse();
-
-			return $textParser->getContent();
-		}
-		return $this->defaultvalue;
+		return $this->getUITypeModel()->getDefaultValue();
 	}
 
 	/**
@@ -1275,7 +1306,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->getUIType() === 71 || $this->getUIType() === 7;
+		return $this->isCalculateField && ($this->getUIType() === 71 || $this->getUIType() === 7);
 	}
 
 	/**
@@ -1397,25 +1428,62 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
-				break;
+			// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
-				break;
+			// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
-				break;
+			// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:
 				return null;
 		}
+	}
+
+	/**
+	 * Return allowed operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getOperators()
+	{
+		$operators = $this->getUITypeModel()->getOperators();
+		$oper = [];
+		foreach ($operators as $op) {
+			$label = '';
+			if (isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
+				$label = \App\CustomView::ADVANCED_FILTER_OPTIONS[$op];
+			}
+			if (isset(\App\CustomView::DATE_FILTER_CONDITIONS[$op])) {
+				$label = \App\CustomView::DATE_FILTER_CONDITIONS[$op]['label'];
+			}
+			$oper[$op] = $label;
+		}
+		return $oper;
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator)
+	{
+		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
+			return;
+		}
+		return $this->getUITypeModel()->getOperatorTemplateName($operator);
 	}
 }

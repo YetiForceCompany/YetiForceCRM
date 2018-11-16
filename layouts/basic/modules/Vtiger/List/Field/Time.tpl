@@ -20,6 +20,10 @@
 	<div class="tpl-List-Field-Time picklistSearchField">
 		<input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" value="{$FIELD_VALUE}"
-			   name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' autocomplete="off"/>
+			   name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}'
+				{if !empty($FIELD_MODEL->get('source_field_name'))}
+					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+					data-module-name="{$FIELD_MODEL->getModuleName()}"
+				{/if} autocomplete="off"/>
 	</div>
 {/strip}

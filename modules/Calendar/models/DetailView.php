@@ -70,7 +70,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => '#',
 				'linkdata' => ['url' => $recordModel->getActivityStateModalUrl()],
 				'linkicon' => 'fas fa-check',
-				'linkclass' => 'showModal closeCalendarRekord',
+				'linkclass' => 'btn-outline-dark btn-sm showModal closeCalendarRekord',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -81,6 +81,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(this)',
 				'linkdata' => ['location' => $recordModel->getDisplayValue('location')],
 				'linkicon' => 'fas fa-map-marker-alt',
+				'linkclass' => 'btn-outline-dark btn-sm'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -92,13 +93,13 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				}
 			}
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'DETAIL_VIEW_EXTENDED',
-					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'fas fa-trash-alt',
-					'linkclass' => 'entityStateBtn',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+				'linktype' => 'DETAIL_VIEW_EXTENDED',
+				'linklabel' => 'LBL_MOVE_TO_TRASH',
+				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn-outline-dark btn-sm entityStateBtn',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 			]);
 		}
 		if ($recordModel->privilegeToDelete() && $recordModel->get('reapeat') === 1) {
@@ -108,11 +109,12 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				}
 			}
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'DETAIL_VIEW_EXTENDED',
-					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'fas fa-eraser',
-					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
+				'linktype' => 'DETAIL_VIEW_EXTENDED',
+				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
+				'linkicon' => 'fas fa-eraser',
+				'linkclass' => 'btn-outline-dark btn-sm',
+				'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
 			]);
 		}
 		return $linkModelList;

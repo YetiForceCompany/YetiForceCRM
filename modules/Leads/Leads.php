@@ -60,7 +60,7 @@ class Leads extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = ['leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation'];
+	public $emailTemplate_defaultFields = ['leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
@@ -90,7 +90,7 @@ class Leads extends CRMEntity
 			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid', ];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries

@@ -71,6 +71,13 @@ class Request
 	protected $purifiedValuesByExploded = [];
 
 	/**
+	 * Purified request values for multi dimension array.
+	 *
+	 * @var array
+	 */
+	protected $purifiedValuesByMultiDimension = [];
+
+	/**
 	 * Purified request values for date range.
 	 *
 	 * @var array
@@ -252,6 +259,77 @@ class Request
 			}
 
 			return $this->purifiedValuesByExploded[$key] = $value;
+		}
+		return $value;
+	}
+
+	/**
+	 * Purify multi dimension array.
+	 *
+	 * @param mixed        $values
+	 * @param string|array $template
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return mixed
+	 */
+	private function purifyMultiDimensionArray($values, $template)
+	{
+		if (is_array($template)) {
+			foreach ($values as $firstKey => $value) {
+				if (is_array($value)) {
+					if (count($template) === 1) {
+						$template = current($template);
+					}
+					foreach ($value as $secondKey => $val) {
+						if (!isset($template[$secondKey])) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
+						}
+						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $template[$secondKey]);
+					}
+				} else {
+					if (!isset($template[$firstKey])) {
+						throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}", 406);
+					}
+					$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
+				}
+			}
+		} else {
+			$values = $template ? Purifier::purifyByType($values, $template) : Purifier::purify($values);
+		}
+		return $values;
+	}
+
+	/**
+	 * Function to get multi dimension array.
+	 *
+	 * @param string $key
+	 * @param array  $template
+	 *
+	 * @return array
+	 */
+	public function getMultiDimensionArray(string $key, array $template): array
+	{
+		if (isset($this->purifiedValuesByMultiDimension[$key])) {
+			return $this->purifiedValuesByMultiDimension[$key];
+		}
+		$value = [];
+		if (isset($this->rawValues[$key])) {
+			$value = $this->rawValues[$key];
+			if (!$value) {
+				return [];
+			}
+			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+				$decodeValue = Json::decode($value);
+				if (isset($decodeValue)) {
+					$value = $decodeValue;
+				} else {
+					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
+				}
+			}
+			$value = $this->purifyMultiDimensionArray($value, $template);
+			settype($value, 'array');
+			return $this->purifiedValuesByMultiDimension[$key] = $value;
 		}
 		return $value;
 	}
@@ -441,10 +519,8 @@ class Request
 	public function getModule($raw = true)
 	{
 		$moduleName = $this->getByType('module', 2);
-		if (!$raw) {
-			if (!$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
-				$moduleName = "$parentModule:$moduleName";
-			}
+		if (!$raw && !$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
+			$moduleName = "$parentModule:$moduleName";
 		}
 		return $moduleName;
 	}
@@ -521,6 +597,9 @@ class Request
 		if (isset($this->purifiedValuesByExploded[$key])) {
 			unset($this->purifiedValuesByExploded[$key]);
 		}
+		if (isset($this->purifiedValuesByMultiDimension[$key])) {
+			unset($this->purifiedValuesByMultiDimension[$key]);
+		}
 		if (isset($this->rawValues[$key])) {
 			unset($this->rawValues[$key]);
 		}
@@ -558,12 +637,9 @@ class Request
 	 */
 	public function validateReadAccess()
 	{
-		// Referer check if present - to over come
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId()) {
-			//Check for user post authentication.
-			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
-				throw new \App\Exceptions\Csrf('Illegal request');
-			}
+		// Referer check if present - to over come && Check for user post authentication.
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
+			throw new \App\Exceptions\Csrf('Illegal request');
 		}
 	}
 
@@ -576,10 +652,8 @@ class Request
 	 */
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
-		if (!$skipRequestTypeCheck) {
-			if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-				throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
-			}
+		if (!$skipRequestTypeCheck && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+			throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		if (class_exists('CSRFConfig') && !\CsrfMagic\Csrf::check(false)) {

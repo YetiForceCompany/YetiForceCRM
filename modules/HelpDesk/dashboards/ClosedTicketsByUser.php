@@ -4,8 +4,8 @@
  * Widget showing ticket which have closed. We can filter by date.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -44,13 +44,13 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = (new App\Db\Query())->select([
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'vtiger_crmentity.smownerid',
-			])->from('vtiger_troubletickets')
-				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
-				->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
-				->where(['vtiger_crmentity.deleted' => 0]);
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'vtiger_crmentity.smownerid',
+		])->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
@@ -80,7 +80,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		$chartData['show_chart'] = (bool) $dataReader->count();
 		while ($row = $dataReader->read()) {
 			$label = \App\Fields\Owner::getLabel($row['smownerid']);
-			$chartData['labels'][] = vtlib\Functions::getInitials($label);
+			$chartData['labels'][] = \App\Utils::getInitials($label);
 			$chartData['datasets'][0]['titlesFormatted'][] = $label;
 			$chartData['datasets'][0]['data'][] = (int) $row['count'];
 			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor((int) $row['smownerid']);

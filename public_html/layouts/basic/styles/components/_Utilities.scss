@@ -39,8 +39,30 @@
 	@extend .font-weight-bold;
 }
 
+.u-font-size-10px {
+	font-size: calculate-rem(10px);
+}
+
+.u-font-size-13px {
+	font-size: calculate-rem(13px);
+}
+
+.u-font-size-14px {
+	font-size: calculate-rem(15px);
+}
+
+.u-font-size-38px {
+	font-size: calculate-rem(38px);
+}
+
 .u-font-size-19px {
 	font-size: calculate-rem(19px);
+}
+
+@for $i from 1 through 9 {
+	.u-font-weight-#{$i*100} {
+		font-weight: #{$i*100} !important;
+	}
 }
 
 .u-text-ellipsis {
@@ -64,8 +86,8 @@
 }
 
 .u-text-ellipsis--no-hover,
-.js-popover-tooltip[data-ellipsis] .js-popover-text,
-.js-popover-tooltip[data-ellipsis] .c-popover-text {
+.js-popover-tooltip--ellipsis .js-popover-text,
+.js-popover-tooltip--ellipsis .c-popover-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -236,8 +258,20 @@
 	min-width: 18rem;
 }
 
+.u-w-50px {
+	width: 50px;
+}
+
 .u-w-85px {
 	width: 85px;
+}
+
+.u-w-79px {
+	width: 79px;
+}
+
+.u-w-125px {
+	width: 125px;
 }
 
 .u-w-90per {
@@ -246,6 +280,10 @@
 
 .u-min-w-650px {
 	min-width: 650px !important;
+}
+
+.u-w-1em {
+	width: 1em;
 }
 
 @include media-breakpoint-down(sm) {
@@ -265,6 +303,10 @@
 }
 
 //--- HEIGHT ---//
+.u-h-50px {
+	height: 50px;
+}
+
 .u-h-600px {
 	height: 600px !important;
 }
@@ -285,12 +327,28 @@
 	height: 70vh !important;
 }
 
+.u-h-1em {
+	height: 1em;
+}
+
+.u-min-h-30per {
+	min-height: 30%;
+}
+
 //--- WHITE SPACE ---//
 .u-white-space-nowrap {
 	white-space: nowrap !important;
 }
 
 //--- BORDER ---//
+.u-border-right-10px {
+	border-right: 10px solid
+}
+
+.u-border-left-10px {
+	border-left: 10px solid
+}
+
 @media only screen and (max-width: 990px) {
 	.u-border-bottom-label-md {
 		border-bottom: 1px solid #dee2e6;
@@ -334,6 +392,10 @@
 	z-index: -1;
 }
 
+.u-z-index-100 {
+	z-index: 100;
+}
+
 .u-white-space-n {
 	white-space: normal !important;
 }
@@ -355,6 +417,14 @@
 	overflow: auto !important;
 }
 
+.u-overflow-y-auto {
+	overflow-y: auto !important;
+}
+
+.u-overflow-x-hidden {
+	overflow-x: hidden !important;
+}
+
 @include media-breakpoint-down(xs) {
 	.u-overflow-scroll-xs-down {
 		overflow: scroll !important;
@@ -368,6 +438,9 @@
 }
 
 @include media-breakpoint-down(lg) {
+	.u-overflow-auto-lg-down {
+		overflow: auto !important;
+	}
 	.u-remove-dropdown-icon-down-lg {
 		.dropdown-toggle::after {
 			display: none;

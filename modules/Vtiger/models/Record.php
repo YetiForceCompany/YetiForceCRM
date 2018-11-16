@@ -365,16 +365,23 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to get the display value in ListView.
 	 *
-	 * @param string $fieldName
-	 * @param bool   $rawText
+	 * @param string|Vtiger_Field_Model $field
+	 * @param bool                      $rawText
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return mixed
 	 */
-	public function getListViewDisplayValue($fieldName, $rawText = false)
+	public function getListViewDisplayValue($field, $rawText = false)
 	{
-		return $this->getModule()->getFieldByName($fieldName)->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $this->getId(), $this, $rawText);
+		if ($field instanceof Vtiger_Field_Model) {
+			if (!empty($field->get('source_field_name')) && isset($this->ext[$field->get('source_field_name')][$field->getModuleName()])) {
+				return $this->ext[$field->get('source_field_name')][$field->getModuleName()]->getListViewDisplayValue($field, $rawText);
+			}
+		} else {
+			$field = $this->getModule()->getFieldByName($field);
+		}
+		return $field->getUITypeModel()->getListViewDisplayValue($this->get($field->getFieldName()), $this->getId(), $this, $rawText);
 	}
 
 	/**
@@ -542,7 +549,6 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-
 		return ['vtiger_crmentity' => $row];
 	}
 
@@ -1074,9 +1080,9 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Set inventory raw data.
 	 *
-	 * @param array $data
+	 * @param \App\Request $data
 	 */
-	public function setInventoryRawData($data)
+	public function setInventoryRawData(\App\Request $data)
 	{
 		$this->inventoryRawData = $data;
 	}
@@ -1116,7 +1122,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getInventoryDefaultDataFields()
 	{
-		$lastItem = end($this->getInventoryData());
+		$inventoryData = $this->getInventoryData();
+		$lastItem = end($inventoryData);
 		$defaultData = [];
 		if (!empty($lastItem)) {
 			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
@@ -1431,13 +1438,40 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
-		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
-			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_DELETE',
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
-				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-			]);
+		if ($relationModel->privilegeToDelete()) {
+			if ($this->privilegeToMoveToTrash()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_REMOVE_RELATION',
+					'linkicon' => 'fas fa-unlink',
+					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+					'linkdata' => [
+						'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+						'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
+						'id' => $this->getId()
+					]
+				]);
+			}
+			if ($this->privilegeToMoveToTrash()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
+					'linkicon' => 'fas fa-trash-alt',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+					'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
+				]);
+			}
+			if ($this->privilegeToDelete()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'linkicon' => 'fas fa-eraser',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+					'linkclass' => 'btn-sm btn-black relationDelete entityStateBtn'
+				]);
+			}
 		}
 		return $links;
 	}
@@ -1572,13 +1606,23 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$image = [];
 		if (!$this->isEmpty('imagename') && $this->get('imagename') !== '[]' && $this->get('imagename') !== '""') {
-			$image = array_shift(\App\Json::decode($this->get('imagename')));
+			$image = \App\Json::decode($this->get('imagename'));
+			$image = reset($image);
+			if (empty($image['path'])) {
+				\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
+				return [];
+			}
 			$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
 		} else {
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
 				if (!$this->isEmpty($fieldModel->getName()) && $this->get($fieldModel->getName()) !== '[]' && $this->get($fieldModel->getName()) !== '""') {
-					$image = array_shift(\App\Json::decode($this->get($fieldModel->getName())));
+					$image = \App\Json::decode($this->get($fieldModel->getName()));
+					$image = reset($image);
+					if (empty($image['path'])) {
+						\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get($fieldModel->getName())}]");
+						return [];
+					}
 					$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 					$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field={$fieldModel->getName()}&record={$this->getId()}&key={$image['key']}";
 					break;

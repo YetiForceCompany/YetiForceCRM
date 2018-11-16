@@ -4,8 +4,8 @@
  * Time control user group parser class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 {
@@ -42,9 +42,7 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 			$html .= '<td class="center">' . \App\Fields\Time::formatToHourText($data['time'], 'short') . '</td>';
 			$html .= '</tr>';
 		}
-		$html .= '</tbody></table>';
-
-		return $html;
+		return $html . '</tbody></table>';
 	}
 
 	protected function getUserList()

@@ -4,6 +4,7 @@
     "SVendorEnquiries": "Demande de fournisseur",
     "SQuoteEnquiries": "Demandes de devis",
     "SINGLE_SQuoteEnquiries": "Demande de devis",
+    "LBL_SCALCULATIONS_INFORMATION": "Basic information",
     "LBL_QUOTESENQUIRES_INFORMATION": "Information",
     "LBL_CUSTOM_INFORMATION": "Information syst\u00e8mes",
     "LBL_DESCRIPTION_INFORMATION": "Description",
@@ -26,5 +27,5 @@
     "PLL_COMPLETED": "Termin\u00e9",
     "LBL_CHANGE_STATUS": "Modifier le statut"
   },
-  "js": []
+  "js": {}
 }

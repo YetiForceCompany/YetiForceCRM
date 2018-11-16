@@ -1,4 +1,3 @@
-{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -10,44 +9,16 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
+{strip}
+<!-- tpl-Base-DetailViewHeader -->
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
 <div class="detailViewContainer">
 	<div class="row detailViewTitle p-0">
 		{if $SHOW_BREAD_CRUMBS}
-			<div class="o-breadcrumb js-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
+			<div class="o-breadcrumb js-header-toggle widget_header mb-2 d-flex justify-content-between px-2 w-100">
 				<div class="o-breadcrumb__container">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				</div>
-				<a class="btn btn-outline-dark d-md-none my-auto o-breadcrumb__actions-btn js-breadcrumb__actions-btn"
-				   href="#" data-js="click" role="button"
-				   aria-expanded="false" aria-controls="o-view-actions__container">
-							<span class="fas fa-ellipsis-h fa-fw"
-								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
-				</a>
-				<div class="detailViewToolbar my-auto o-breadcrumb__actions js-breadcrumb__actions d-flex float-right flex-column flex-md-row"
-					 id="o-view-actions__container">
-					{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
-						<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
-							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewAdditional' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-							{/foreach}
-						</div>
-					{/if}
-					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-						<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
-							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-							{/foreach}
-						</div>
-					{/if}
-					{if $DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
-						<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
-							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewExtended' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-							{/foreach}
-						</div>
-					{/if}
 				</div>
 			</div>
 		{/if}
@@ -69,5 +40,6 @@
 						   value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
 				{/if}
 				<div class="contents">
+					<!-- /tpl-Base-DetailViewHeader -->
 					{/strip}
 

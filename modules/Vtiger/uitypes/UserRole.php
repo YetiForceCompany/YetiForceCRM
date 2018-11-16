@@ -16,7 +16,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
@@ -64,10 +64,8 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getSearchValues($value)
 	{
-		$roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
+		return (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
 			->createCommand()->queryAllByGroup();
-
-		return $roles;
 	}
 
 	/**
@@ -76,5 +74,33 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/UserRole.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'c'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/UserRole.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if ($operator === 'e') {
+			return 'ConditionBuilder/UserRole.tpl';
+		} else {
+			return 'ConditionBuilder/Base.tpl';
+		}
 	}
 }

@@ -344,24 +344,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$numMsg = imap_num_msg($mbox);
 		$getEmails = false;
 		if ($msgno === 0 && $numMsg !== 0) {
-			$lastEmailUid = imap_uid($mbox, $numMsg);
-			if ($lastScanUid === 1) {
-				$getEmails = true;
+			if ($lastScanUid === 0) {
 				$msgno = 1;
-			} elseif ($lastEmailUid > $lastScanUid) {
-				$exit = true;
-				while ($exit) {
-					++$lastScanUid;
-					$lastScanedNum = imap_msgno($mbox, $lastScanUid);
-					if ($lastScanedNum !== 0) {
-						$exit = false;
-						$msgno = $lastScanedNum;
-					} elseif ($lastScanUid === $lastEmailUid) {
-						$exit = false;
-						$msgno = $numMsg;
+				$getEmails = true;
+			} elseif (imap_uid($mbox, $numMsg) > $lastScanUid) {
+				foreach (imap_search($mbox, 'ALL', SE_UID) as $uid) {
+					if ($uid > $lastScanUid) {
+						$msgno = imap_msgno($mbox, $uid);
+						$getEmails = true;
+						break;
 					}
 				}
-				$getEmails = true;
 			}
 		} elseif ($msgno < $numMsg) {
 			++$msgno;
@@ -513,18 +506,20 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			\App\Log::warning(\App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return \App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$countEmails = 0;
-		$scanId = 0;
 		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
 			\App\Log::info('There are no accounts to be scanned');
 			return false;
 		}
 		$this->setCronStatus(2);
+		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$countEmails = 0;
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
+			if (!$this->isConnection($account)) {
+				continue;
+			}
 			foreach ($scannerModel->getFolders($account['user_id']) as &$folderRow) {
 				$folder = $folderRow['folder'];
 				\App\Log::trace('Start checking folder: ' . $folder);
@@ -541,7 +536,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 						return 'ok';
 					}
 				} else {
-					\App\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , Error: " . imap_last_error());
+					\App\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , type: {folderRow['type']} ,  Error: " . imap_last_error());
 				}
 			}
 		}
@@ -550,6 +545,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('End executeCron');
 
 		return 'ok';
+	}
+
+	/**
+	 * Function checks connection to mailbox.
+	 *
+	 * @param array $account
+	 *
+	 * @return bool
+	 */
+	public function isConnection(array $account)
+	{
+		$result = false;
+		try {
+			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '');
+			if (is_resource($mbox)) {
+				imap_close($mbox);
+				$result = true;
+			}
+		} catch (\Throwable $e) {
+			$result = false;
+		}
+		return $result;
 	}
 
 	/**
@@ -708,19 +725,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function verificationCron()
 	{
 		$checkCronStatus = self::checkCronStatus();
-		if ($checkCronStatus !== false) {
-			if (!(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
-				$db = App\Db::getInstance();
-				$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
-				$config = self::getConfig('cron');
-				$mailStatus = \App\Mailer::addMail([
-					'to' => $config['email'],
-					'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-					'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
-				]);
-				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
-				$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
-			}
+		if ($checkCronStatus !== false && !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
+			$db = App\Db::getInstance();
+			$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
+			$config = self::getConfig('cron');
+			$mailStatus = \App\Mailer::addMail([
+				'to' => $config['email'],
+				'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
+				'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+			]);
+			$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
+			$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
 		}
 	}
 

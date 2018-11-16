@@ -80,19 +80,24 @@ class CustomView_Save_Action extends \App\Controller\Action
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
+				$cvIdDefault = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
 		}
 		$customViewData['columnslist'] = $selectedColumnsList;
-		$stdFilterList = $request->get('stdfilterlist');
-		if (!empty($stdFilterList)) {
-			$customViewData['stdfilterlist'] = $stdFilterList;
-		}
 		$advFilterList = $request->get('advfilterlist');
 		if (!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;
+		}
+		$duplicateFields = $request->getMultiDimensionArray('duplicatefields', [
+			[
+				'fieldid' => 'Integer',
+				'ignore' => 'Bool'
+			]
+		]);
+		if (!empty($duplicateFields)) {
+			$customViewData['duplicatefields'] = $duplicateFields;
 		}
 		return $customViewModel->setData($customViewData);
 	}

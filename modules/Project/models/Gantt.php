@@ -101,7 +101,7 @@ class Project_Gantt_Model
 		}
 		unset($task);
 		$hasChild = [];
-		foreach ($parents as $childId => $parentsId) {
+		foreach ($parents as $parentsId) {
 			foreach ($parentsId as $parentId) {
 				if (!in_array($parentId, $hasChild)) {
 					$hasChild[] = $parentId;

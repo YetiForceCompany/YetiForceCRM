@@ -167,10 +167,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getCleanInstance($qualifiedModuleName)
 	{
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-		$recordModel = new $recordModelClass();
-
-		return $recordModel;
+		$className = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		return new $className();
 	}
 
 	/**

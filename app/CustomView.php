@@ -46,7 +46,6 @@ class CustomView
 		'om' => 'LBL_CURRENTLY_LOGGED_USER',
 		'wr' => 'LBL_IS_WATCHING_RECORD',
 		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
-		'd' => 'LBL_DUPLICATES',
 	];
 
 	/**
@@ -83,6 +82,11 @@ class CustomView
 		'next90days' => ['label' => 'LBL_NEXT_90_DAYS'],
 		'next120days' => ['label' => 'LBL_NEXT_120_DAYS'],
 	];
+
+	/**
+	 * Operators without values.
+	 */
+	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'wr', 'nwr'];
 
 	/**
 	 * Do we have muliple ids?
@@ -296,7 +300,6 @@ class CustomView
 	}
 
 	/** @var \Vtiger_Module_Model */
-	private $module;
 	private $moduleName;
 	private $user;
 	private $defaultViewId;
@@ -362,8 +365,8 @@ class CustomView
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (is_numeric($cvId)) {
-			$query = (new Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
-			$columnList = $query->createCommand()->queryAllByGroup();
+			$query = (new Db\Query())->select(['columnindex', 'field_name', 'module_name', 'source_field_name'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
+			$columnList = $query->createCommand()->queryAllByGroup(1);
 			if ($columnList) {
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
@@ -402,205 +405,122 @@ class CustomView
 	}
 
 	/**
-	 * Get the standard filter.
+	 * Returns conditions for filter.
 	 *
-	 * @param mixed $cvId
-	 *
-	 * @return array
-	 */
-	public function getStdFilterByCvidFromDb($cvId)
-	{
-		if (Cache::has('getStdFilterByCvid', $cvId)) {
-			return Cache::get('getStdFilterByCvid', $cvId);
-		}
-		if (is_numeric($cvId)) {
-			$stdFilter = (new Db\Query())->select('vtiger_cvstdfilter.*')
-				->from('vtiger_cvstdfilter')
-				->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')
-				->where(['vtiger_cvstdfilter.cvid' => $cvId])
-				->one();
-		} else {
-			$stdFilter = $this->getCustomViewFromFile($cvId)->getStdCriteria();
-		}
-		if ($stdFilter) {
-			$stdFilter = static::resolveDateFilterValue($stdFilter);
-		}
-		Cache::save('getStdFilterByCvid', $cvId, $stdFilter);
-		return $stdFilter;
-	}
-
-	/**
-	 * Get the standard filter.
-	 *
-	 * @param mixed $cvIds (comma separated ids)
+	 * @param int|string $id
 	 *
 	 * @return array
+	 *               [
+	 *               'condition' => "AND" or "OR"
+	 *               'rules' => [[
+	 *               'fieldname' => name of fields
+	 *               'operator' => operator, for instance: 'e'
+	 *               'value' => values
+	 *               ]]
+	 *               ]
 	 */
-	public function getStdFilterByCvid($cvIds)
+	public static function getConditions($id): array
 	{
-		if (Cache::has('getStdFilterByCvid', $cvIds)) {
-			return Cache::get('getStdFilterByCvid', $cvIds);
+		if (Cache::has('CustomView_GetConditions', $id)) {
+			return Cache::get('CustomView_GetConditions', $id);
 		}
-		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getStdFilterByCvidFromDb($cvIds);
-		}
-		$stdFilters = [];
-		foreach (explode(',', $cvIds) as $cvId) {
-			$stdFilters[] = $this->getStdFilterByCvidFromDb($cvId);
-		}
-		Cache::save('getStdFilterByCvid', $cvId, $stdFilters);
-		return $stdFilters;
-	}
-
-	/**
-	 * Resolve date filter value.
-	 *
-	 * @param array $dateFilterRow
-	 *
-	 * @return array
-	 */
-	public static function resolveDateFilterValue($dateFilterRow)
-	{
-		$stdfilterlist = ['columnname' => $dateFilterRow['columnname'], 'stdfilter' => $dateFilterRow['stdfilter']];
-		if ($dateFilterRow['stdfilter'] === 'custom' || $dateFilterRow['stdfilter'] === '' || $dateFilterRow['stdfilter'] === 'e' || $dateFilterRow['stdfilter'] === 'n') {
-			if ($dateFilterRow['startdate'] !== '0000-00-00' && $dateFilterRow['startdate'] !== '') {
-				$startDateTime = new \DateTimeField($dateFilterRow['startdate'] . ' ' . date('H:i:s'));
-				$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
+		$dataReader = (new \App\Db\Query())->select([
+			'u_#__cv_condition.group_id',
+			'u_#__cv_condition.field_name',
+			'u_#__cv_condition.module_name',
+			'u_#__cv_condition.source_field_name',
+			'u_#__cv_condition.operator',
+			'u_#__cv_condition.value',
+			'condition_index' => 'u_#__cv_condition.index',
+			'u_#__cv_condition_group.condition',
+			'u_#__cv_condition_group.parent_id',
+			'group_index' => 'u_#__cv_condition_group.index'
+		])->from('u_#__cv_condition')
+			->innerJoin('u_#__cv_condition_group', 'u_#__cv_condition_group.id = u_#__cv_condition.group_id')
+			->where(['u_#__cv_condition_group.cvid' => $id])
+			->orderBy(['u_#__cv_condition_group.parent_id' => SORT_ASC])
+			->createCommand()->query();
+		$referenceGroup = $referenceParent = $conditions = [];
+		while ($condition = $dataReader->read()) {
+			$value = $condition['value'];
+			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
+			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
+				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
+					'fieldname' => $fieldName,
+					'operator' => $condition['operator'],
+					'value' => $value
+				];
+			} elseif (isset($referenceGroup[$condition['parent_id']])) {
+				$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
+					'condition' => $condition['condition'],
+					'rules' => [
+						$condition['condition_index'] => [
+							'fieldname' => $fieldName,
+							'operator' => $condition['operator'],
+							'value' => $value
+						]
+					]
+				];
+				$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
+				$referenceGroup[$condition['group_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
+			} else {
+				$conditions = [
+					'condition' => $condition['condition'],
+					'rules' => [
+						$condition['condition_index'] => [
+							'fieldname' => $fieldName,
+							'operator' => $condition['operator'],
+							'value' => $value
+						]
+					]
+				];
+				$referenceParent[$condition['parent_id']] = &$conditions['rules'];
+				$referenceGroup[$condition['group_id']] = &$conditions['rules'];
 			}
-			if ($dateFilterRow['enddate'] !== '0000-00-00' && $dateFilterRow['enddate'] !== '') {
-				$endDateTime = new \DateTimeField($dateFilterRow['enddate'] . ' ' . date('H:i:s'));
-				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
-			}
-		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = \DateTimeRange::getDateRangeByType($dateFilterRow['stdfilter']);
-			$startDateTime = new \DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
-			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
-			$endDateTime = new \DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
-			$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 		}
-		return $stdfilterlist;
+		$conditions = static::sortConditions($conditions);
+		Cache::save('CustomView_GetConditions', $id, $conditions, Cache::LONG);
+		return $conditions;
 	}
 
 	/**
-	 * Get the Advanced filter for the given customview Id.
+	 * Sorting conditions.
 	 *
-	 * @param mixed $cvId
+	 * @param array|null $array
 	 *
-	 * @return array
+	 * @return array|null
 	 */
-	public function getAdvFilterByCvidFromDb($cvId)
+	private static function sortConditions(?array $arrayToSort): ?array
 	{
-		if (Cache::has('getAdvFilterByCvid', $cvId)) {
-			return Cache::get('getAdvFilterByCvid', $cvId);
-		}
-		if (!$this->module) {
-			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
-		}
-		$advftCriteria = [];
-		if (is_numeric($cvId)) {
-			$dataReaderGroup = (new Db\Query())->from('vtiger_cvadvfilter_grouping')
-				->where(['cvid' => $cvId])
-				->orderBy('groupid')
-				->createCommand()->query();
-			while ($relCriteriaGroup = $dataReaderGroup->read()) {
-				$dataReader = (new Db\Query())->select('vtiger_cvadvfilter.*')
-					->from('vtiger_customview')
-					->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')
-					->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid AND vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
-					->where(['vtiger_customview.cvid' => $cvId, 'vtiger_cvadvfilter.groupid' => $relCriteriaGroup['groupid']])
-					->orderBy('vtiger_cvadvfilter.columnindex')
-					->createCommand()->query();
-				if (!$dataReader->count()) {
-					continue;
-				}
-				$key = (int) $relCriteriaGroup['groupid'] === 1 ? 'and' : 'or';
-				while ($relCriteriaRow = $dataReader->read()) {
-					$advftCriteria[$key][] = $this->getAdvftCriteria($relCriteriaRow);
+		if (isset($arrayToSort['rules'])) {
+			ksort($arrayToSort['rules']);
+			foreach ($arrayToSort['rules'] as $rule) {
+				if (isset($rule['condition'])) {
+					static::sortConditions($rule);
 				}
 			}
-		} else {
-			$fromFile = $this->getCustomViewFromFile($cvId)->getAdvftCriteria($this);
-			$advftCriteria = $fromFile;
 		}
-		Cache::save('getAdvFilterByCvid', $cvId, $advftCriteria);
-
-		return $advftCriteria;
+		return $arrayToSort;
 	}
 
 	/**
-	 * Get the Advanced filter for the given customview Id.
+	 * Get fields to detect duplicates.
 	 *
-	 * @param mixed $cvIds (comma separated ids)
-	 *
-	 * @return array
-	 */
-	public function getAdvFilterByCvid($cvIds)
-	{
-		if (Cache::has('getAdvFilterByCvid', $cvIds)) {
-			return Cache::get('getAdvFilterByCvid', $cvIds);
-		}
-		if (!$this->module) {
-			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
-		}
-		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getAdvFilterByCvidFromDb($cvIds);
-		}
-		$advftCriteria = [];
-		foreach (explode(',', $cvIds) as $cvId) {
-			foreach ($this->getAdvFilterByCvidFromDb($cvId) as $criteria) {
-				$advftCriteria[] = $criteria;
-			}
-		}
-		Cache::save('getAdvFilterByCvid', $cvIds, $advftCriteria);
-		return $advftCriteria;
-	}
-
-	/**
-	 * Get the Advanced filter Criteria.
-	 *
-	 * @param array $relCriteriaRow
+	 * @param int $viewId
 	 *
 	 * @return array
 	 */
-	public function getAdvftCriteria($relCriteriaRow)
+	public static function getDuplicateFields(int $viewId): array
 	{
-		$comparator = $relCriteriaRow['comparator'];
-		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \AppConfig::main('default_charset'));
-		list($tableName, $columnName, $fieldName, , $fieldType) = explode(':', $relCriteriaRow['columnname']);
-		if (strpos($advFilterVal, ',') !== false && in_array($this->module->getFieldByName($fieldName)->getFieldDataType(), ['picklist', 'multipicklist', 'sharedOwner', 'owner', 'userCreator', 'multiReferenceValue', 'tree', 'taxes', 'modules', 'country', 'companySelect', 'categoryMultipicklist'])) {
-			$advFilterVal = str_replace(',', '##', $advFilterVal);
+		if (Cache::has('CustomView_GetDuplicateFields', $viewId)) {
+			return Cache::get('CustomView_GetDuplicateFields', $viewId);
 		}
-		if ($fieldType === 'D' || ($fieldType === 'T' && $columnName !== 'time_start' && $columnName !== 'time_end') || ($fieldType === 'DT')) {
-			$tempVal = explode(',', $relCriteriaRow['value']);
-			$val = [];
-			foreach ($tempVal as $key => $value) {
-				if ($fieldType === 'D') {
-					/*
-					 * while inserting in db for due_date it was taking date and time values also as it is
-					 * date time field. We only need to take date from that value
-					 */
-					if ($tableName === 'vtiger_activity' && $columnName === 'due_date') {
-						$values = explode(' ', $value);
-						$value = $values[0];
-					}
-					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayDate();
-				} elseif ($fieldType === 'DT') {
-					if (in_array($comparator, ['e', 'n', 'b', 'a'])) {
-						$dateTime = explode(' ', $value);
-						$value = $dateTime[0];
-					}
-					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayDateTimeValue();
-				} else {
-					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayTime();
-				}
-			}
-			$advFilterVal = implode(',', $val);
-		}
-		return [
-			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \AppConfig::main('default_charset')),
-			'comparator' => $comparator,
-			'value' => $advFilterVal,
-		];
+		$data = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'u_#__cv_duplicates.ignore'])
+			->from('u_#__cv_duplicates')
+			->innerJoin('vtiger_field', 'vtiger_field.fieldid = u_#__cv_duplicates.fieldid')
+			->where(['u_#__cv_duplicates.cvid' => $viewId])->all();
+		Cache::save('CustomView_GetDuplicateFields', $viewId, $data);
+		return $data;
 	}
 
 	/**

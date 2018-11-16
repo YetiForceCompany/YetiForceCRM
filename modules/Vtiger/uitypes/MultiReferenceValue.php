@@ -4,9 +4,9 @@
  * UIType MultiReferenceValue Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 {
@@ -124,7 +124,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 305])->andWhere(['<>', 'presence', 1])
 			->andWhere(['like', 'fieldparams', '{"module":"' . $moduelName . '"%', false])->distinct()->column();
-		App\Cache::get('getMultiReferenceModules', $moduelName, $moduleIds, App\Cache::LONG);
+		App\Cache::save('getMultiReferenceModules', $moduelName, $moduleIds, App\Cache::LONG);
 
 		return $moduleIds;
 	}
@@ -249,5 +249,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
 	}
 }

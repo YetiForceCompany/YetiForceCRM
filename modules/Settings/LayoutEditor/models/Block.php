@@ -11,15 +11,6 @@
 
 class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 {
-	public function isActionsAllowed()
-	{
-		$actionNotSupportedModules = ['calendar', 'events'];
-		if (in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
-			return false;
-		}
-		return true;
-	}
-
 	/**
 	 * Function to check whether adding custom field is allowed or not.
 	 *
@@ -28,7 +19,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 	public function isAddCustomFieldEnabled()
 	{
 		$actionNotSupportedModules = ['calendar', 'events', 'faq', 'helpdesk'];
-		$blocksEliminatedArray = ['calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_CUSTOM_INFORMATION', 'LBL_RELATED_TO', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION'],
+		$blocksEliminatedArray = ['calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_RELATED_TO', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION'],
 			'helpdesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
 			'faq' => ['LBL_COMMENT_INFORMATION']];
 		if (in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
@@ -72,10 +63,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$blockInstance = parent::getInstance($value, $moduleInstance);
-		$blockModel = self::getInstanceFromBlockObject($blockInstance);
-
-		return $blockModel;
+		return self::getInstanceFromBlockObject(parent::getInstance($value, $moduleInstance));
 	}
 
 	/**

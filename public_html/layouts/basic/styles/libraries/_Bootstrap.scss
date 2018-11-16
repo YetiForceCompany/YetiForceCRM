@@ -1,5 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
+//table
+.table thead th,
+.table-bordered thead td {
+	border-bottom-width: 1px;
+}
+
 //Switch button
 label.btn.btn-outline-primary {
 	&:not(.active) {
@@ -16,6 +22,11 @@ label.btn.btn-outline-primary {
 	max-height: calc(100vh - 100px);
 	max-width: calc(100vh - 100px);
 	overflow: auto;
+
+	@at-root .listViewEntries .actions #{&} {
+		overflow: unset;
+	}
+
 	&.historyList {
 		@include media-breakpoint-up(md) {
 			left: auto;

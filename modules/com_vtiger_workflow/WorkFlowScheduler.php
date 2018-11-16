@@ -91,7 +91,7 @@ class WorkFlowScheduler
 		date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
-		foreach ($scheduledWorkflows as $i => &$workflow) {
+		foreach ($scheduledWorkflows as &$workflow) {
 			$tm = new VTTaskManager();
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {
@@ -168,6 +168,7 @@ class WorkFlowScheduler
 		 */
 		if ($conditions) {
 			foreach ($conditions as &$condition) {
+				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
 				if ($operation === 'has changed') {
@@ -187,7 +188,7 @@ class WorkFlowScheduler
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
 				}
-				if ($sourceField) {
+				if (!empty($sourceField)) {
 					$queryGenerator->addRelatedCondition([
 						'sourceField' => $sourceField,
 						'relatedModule' => $relatedModule,
@@ -279,8 +280,12 @@ class WorkFlowScheduler
 			default:
 				break;
 		}
+		if (in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
+			$value = App\Fields\DateTime::formatToDisplay($value);
+		} else {
+			$value = App\Fields\Date::formatToDisplay($value);
+		}
 		date_default_timezone_set($default_timezone);
-
 		return $value;
 	}
 }

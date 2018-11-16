@@ -28,7 +28,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards('Header');
+			$widgets = $dashBoardModel->getDashboards(0);
 		} else {
 			$widgets = [];
 		}
@@ -59,7 +59,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards('Header');
+			$widgets = $dashBoardModel->getDashboards(0);
 		} else {
 			$widgets = [];
 		}

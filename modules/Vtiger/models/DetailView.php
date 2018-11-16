@@ -94,7 +94,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
 					'linkicon' => 'fas fa-plus-circle',
 					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
-					'linkclass' => 'btn-outline-warning',
+					'linkclass' => 'btn-outline-warning btn-sm',
 				];
 			}
 		}
@@ -107,17 +107,17 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => '',
 					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
 					'linkicon' => 'fas fa-external-link-alt',
-					'linkclass' => 'btn showModal',
+					'linkclass' => 'btn showModal btn-outline-dark btn-sm',
 					'linkhint' => 'BTN_GENERATE_RECORD',
 				];
 			}
 		}
 		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
-			$class = 'btn-outline-dark';
+			$class = 'btn-outline-dark btn-sm';
 			$iconclass = 'fa-eye-slash';
 			if ($watchdog->isWatchingRecord()) {
-				$class = 'btn-dark';
+				$class = 'btn-dark btn-sm';
 				$iconclass = 'fa-eye';
 			}
 			$detailViewLinks[] = [
@@ -138,6 +138,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
 				'linkicon' => 'fas fa-paper-plane',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
+				'linkclass' => 'btn-outline-dark btn-sm',
 			];
 		}
 		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
@@ -146,6 +147,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
 				'linkdata' => ['url' => "index.php?module=PermissionInspector&view=UserListModal&srcModule=$moduleName&srcRecord=$recordId"],
 				'linkicon' => 'fas fa-user-secret',
+				'linkclass' => 'btn-outline-dark btn-sm',
 				'modalView' => true,
 			];
 		}
@@ -158,16 +160,16 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
-				'linkclass' => 'btn',
+				'linkclass' => 'btn btn-outline-dark btn-sm',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			]);
 		} elseif ($recordModel->isUnlockByFields()) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_OPEN',
-				'linkdata' => ['url' => 'index.php?module=' . $recordModel->getModuleName() . '&view=Unlock&record=' . $recordModel->getId()],
+				'linkdata' => ['url' => 'index.php?module=' . $recordModel->getModuleName() . '&view=RecordUnlock&record=' . $recordModel->getId()],
 				'linkicon' => 'fas fa-lock-open',
-				'linkclass' => 'js-show-modal',
+				'linkclass' => 'js-show-modal btn-outline-dark btn-sm',
 				'linkhint' => 'BTN_RECORD_OPEN'
 			]);
 		}
@@ -183,7 +185,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'),
 				],
 				'linkicon' => 'fas fa-undo-alt',
-				'linkclass' => 'entityStateBtn',
+				'linkclass' => 'entityStateBtn btn-outline-dark btn-sm',
 				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
 			]);
 		}
@@ -198,7 +200,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
 				],
 				'linkicon' => 'fas fa-archive',
-				'linkclass' => 'entityStateBtn',
+				'linkclass' => 'entityStateBtn btn-outline-dark btn-sm',
 				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 			]);
 		}
@@ -213,7 +215,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
 				],
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'entityStateBtn',
+				'linkclass' => 'entityStateBtn btn-outline-dark btn-sm',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
@@ -228,7 +230,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'),
 				],
 				'linkicon' => 'fas fa-eraser',
-				'linkclass' => 'btn-black',
+				'linkclass' => 'btn-black btn-sm',
 			]);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
@@ -237,6 +239,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
 				'linkicon' => 'fas fa-clone',
+				'linkclass' => 'btn-outline-dark btn-sm',
 				'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 			]);
 		}
@@ -249,6 +252,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
 					'linkicon' => 'fas fa-file-excel',
+					'linkclass' => 'btn-outline-dark btn-sm',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				]);
 			}

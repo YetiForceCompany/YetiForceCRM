@@ -9,73 +9,75 @@
  *************************************************************************************/
 'use strict';
 
-var Vtiger_CustomView_Js;
-Vtiger_CustomView_Js = {
-	init(container) {
-		this.contentsCotainer = container;
-		Vtiger_CustomView_Js.registerEvents();
-		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(this.contentsCotainer.find('.filterContainer'));
-		//This will store the columns selection container
-		this.columnSelectElement = false;
-		return this;
-	},
-	loadFilterView: function (url) {
-		let self = this;
-		var progressIndicatorElement = $.progressIndicator();
-		app.showModalWindow(null, url, function () {
+class CustomView {
+
+	constructor(url) {
+		let progressIndicatorElement = $.progressIndicator();
+		app.showModalWindow(null, url, () => {
+			this.contentsCotainer = $('.js-filter-modal__container');
+			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(this.contentsCotainer.find('.js-condition-builder'), this.contentsCotainer.find('#sourceModule').val());
+			this.advanceFilterInstance.registerEvents();
+			//This will store the columns selection container
+			this.columnSelectElement = false;
+			this.registerEvents();
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			Vtiger_CustomView_Js = self.init($('.js-filter-modal__container'));
 		});
-	},
-	loadDateFilterValues: function () {
-		var selectedDateFilter = $('#standardDateFilter option:selected');
-		var currentDate = selectedDateFilter.data('currentdate');
-		var endDate = selectedDateFilter.data('enddate');
+	}
+
+	loadDateFilterValues() {
+		let selectedDateFilter = $('#standardDateFilter option:selected');
+		let currentDate = selectedDateFilter.data('currentdate');
+		let endDate = selectedDateFilter.data('enddate');
 		$("#standardFilterCurrentDate").val(currentDate);
 		$("#standardFilterEndDate").val(endDate);
-	},
+	}
+
 	/**
 	 * Function to get the contents container
 	 * @return : jQuery object of contents container
 	 */
-	getContentsContainer: function () {
-		if (Vtiger_CustomView_Js.contentsCotainer == false) {
-			Vtiger_CustomView_Js.contentsCotainer = $('.js-filter-modal__container');
+	getContentsContainer() {
+		if (this.contentsCotainer == false) {
+			this.contentsCotainer = $('.js-filter-modal__container');
 		}
-		return Vtiger_CustomView_Js.contentsCotainer;
-	},
+		return this.contentsCotainer;
+	}
+
 	/**
 	 * Function to get the view columns selection element
 	 * @return : jQuery object of view columns selection element
 	 */
-	getColumnSelectElement: function () {
-		if (Vtiger_CustomView_Js.columnSelectElement == false) {
-			Vtiger_CustomView_Js.columnSelectElement = $('#viewColumnsSelect');
+	getColumnSelectElement() {
+		if (this.columnSelectElement == false) {
+			this.columnSelectElement = $('#viewColumnsSelect');
 		}
-		return Vtiger_CustomView_Js.columnSelectElement;
-	},
+		return this.columnSelectElement;
+	}
+
 	/**
 	 * Function which will get the selected columns
 	 * @return : array of selected values
 	 */
-	getSelectedColumns: function () {
-		var columnListSelectElement = Vtiger_CustomView_Js.getColumnSelectElement();
+	getSelectedColumns() {
+		let columnListSelectElement = this.getColumnSelectElement();
 		return columnListSelectElement.val();
-	},
-	saveFilter: function () {
-		var aDeferred = $.Deferred();
-		var formData = $("#CustomView").serializeFormData();
+	}
+
+	saveFilter() {
+		let aDeferred = $.Deferred();
+		let formData = $("#CustomView").serializeFormData();
 		AppConnector.request(formData, true).done(function (data) {
 			aDeferred.resolve(data);
 		}).fail(function (error) {
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
-	},
-	saveAndViewFilter: function () {
-		Vtiger_CustomView_Js.saveFilter().done(function (response) {
+	}
+
+	saveAndViewFilter() {
+		this.saveFilter().done(function (response) {
 			if (response.success) {
-				var url;
+				let url;
 				if (app.getParentModuleName() == 'Settings') {
 					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 				} else {
@@ -84,15 +86,15 @@ Vtiger_CustomView_Js = {
 				window.location.href = url;
 			} else {
 				$.unblockUI();
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
 					text: response.error['message']
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			}
 		});
-	},
-	registerIconEvents: function () {
+	}
+
+	registerIconEvents() {
 		this.getContentsContainer().find('.js-filter-preferences').on('change', '.js-filter-preference', (e) => {
 			let currentTarget = $(e.currentTarget);
 			let iconElement = currentTarget.next();
@@ -102,8 +104,9 @@ Vtiger_CustomView_Js = {
 				iconElement.removeClass(iconElement.data('check')).addClass(iconElement.data('unchecked'));
 			}
 		});
-	},
-	registerBlockToggleEvent: function () {
+	}
+
+	registerBlockToggleEvent() {
 		const container = this.getContentsContainer();
 		container.on('click', '.blockHeader', function (e) {
 			const target = $(e.target);
@@ -121,44 +124,66 @@ Vtiger_CustomView_Js = {
 				iconToggle.removeClass(iconToggle.data('show')).addClass(iconToggle.data('hide'));
 			}
 		});
-	},
-	registerColorEvent: function () {
-		var container = this.getContentsContainer();
+	}
+
+	registerColorEvent() {
+		const container = this.getContentsContainer();
 		container.find('.js-color-picker').colorpicker({
 			format: 'hex',
 			autoInputFallback: false
 		});
-	},
-	registerEvents: function () {
-		this.registerIconEvents();
-		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
-		this.registerBlockToggleEvent();
-		this.registerColorEvent();
-		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement());
-		$('.stndrdFilterDateSelect').datepicker();
-		$("#standardDateFilter").on('change', function () {
-			Vtiger_CustomView_Js.loadDateFilterValues();
-		});
+	}
 
-		$("#CustomView").on('submit', function (e) {
-			var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
+	/**
+	 * Get list of fields to duplicates
+	 * @returns {Array}
+	 */
+	getDuplicateFields(){
+		let fields = [];
+		const container = this.getContentsContainer();
+		container.find('.js-duplicates-container .js-duplicates-row').each(function(){
+			fields.push({
+				fieldid: $(this).find('.js-duplicates-field').val(),
+				ignore: $(this).find('.js-duplicates-ignore').is(':checked')
+			})
+		});
+		return fields;
+	}
+	/**
+	 * Register events for block "Find duplicates"
+	 */
+	registerDuplicatesEvents(){
+		const container = this.getContentsContainer();
+		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
+		container.on('click', '.js-duplicates-remove', function(e) {
+			$(this).closest('.js-duplicates-row').remove();
+		});
+		container.find('.js-duplicate-add-field').on('click', function(){
+			let template = container.find('.js-duplicates-field-template').clone();
+			template.removeClass('d-none');
+			template.removeClass('js-duplicates-field-template');
+			App.Fields.Picklist.showSelect2ElementView(template.find('.js-duplicates-field'));
+			container.find('.js-duplicates-container').append(template);
+		});
+	}
+	registerSubmitEvent(select2Element) {
+		$("#CustomView").on('submit', (e) => {
+			let selectElement = this.getColumnSelectElement();
 			if ($('#viewname').val().length > 40) {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_VIEWNAME_ALERT')
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 				e.preventDefault();
 				return;
 			}
-
 			//Mandatory Fields selection validation
 			//Any one Mandatory Field should select while creating custom view.
-			var mandatoryFieldsList = JSON.parse($('#mandatoryFieldsList').val());
-			var selectedOptions = selectElement.val();
-			var mandatoryFieldsMissing = true;
+			let mandatoryFieldsList = JSON.parse($('#mandatoryFieldsList').val());
+			let selectedOptions = selectElement.val();
+			let mandatoryFieldsMissing = true;
 			if (selectedOptions) {
-				for (var i = 0; i < selectedOptions.length; i++) {
+				for (let i = 0; i < selectedOptions.length; i++) {
 					if ($.inArray(selectedOptions[i], mandatoryFieldsList) >= 0) {
 						mandatoryFieldsMissing = false;
 						break;
@@ -179,10 +204,10 @@ Vtiger_CustomView_Js = {
 				select2Element.validationEngine('hide');
 			}
 			//Mandatory Fields validation ends
-			var result = $(e.currentTarget).validationEngine('validate');
+			let result = $(e.currentTarget).validationEngine('validate');
 			if (result == true) {
 				//handled standard filters saved values.
-				var stdfilterlist = {};
+				let stdfilterlist = {};
 
 				if (($('#standardFilterCurrentDate').val() != '') && ($('#standardFilterEndDate').val() != '') && ($('select.standardFilterColumn option:selected').val() != 'none')) {
 					stdfilterlist['columnname'] = $('select.standardFilterColumn option:selected').val();
@@ -191,17 +216,44 @@ Vtiger_CustomView_Js = {
 					stdfilterlist['enddate'] = $('#standardFilterEndDate').val();
 					$('#stdfilterlist').val(JSON.stringify(stdfilterlist));
 				}
-
 				//handled advanced filters saved values.
-				var advfilterlist = Vtiger_CustomView_Js.advanceFilterInstance.getValues();
+				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
-				$('input[name="columnslist"]', Vtiger_CustomView_Js.getContentsContainer()).val(JSON.stringify(Vtiger_CustomView_Js.getSelectedColumns()));
-				Vtiger_CustomView_Js.saveAndViewFilter();
+				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
+				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
+				this.saveAndViewFilter();
 				return false;
 			} else {
 				app.formAlignmentAfterValidation($(e.currentTarget));
 			}
 		});
+	}
+
+
+	/**
+	 * Block submit on press enter key
+	 */
+	registerDisableSubmitOnEnter() {
+		this.getContentsContainer().find('#viewname, [name="color"]').keydown(function (e) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+			}
+		});
+	}
+
+	registerEvents() {
+		this.registerIconEvents();
+		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
+		this.registerBlockToggleEvent();
+		this.registerColorEvent();
+		this.registerDuplicatesEvents();
+		let select2Element = App.Fields.Picklist.showSelect2ElementView(this.getColumnSelectElement());
+		this.registerSubmitEvent(select2Element);
+		$('.stndrdFilterDateSelect').datepicker();
+		$("#standardDateFilter").on('change', () => {
+			this.loadDateFilterValues();
+		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
+		this.registerDisableSubmitOnEnter();
 	}
 };

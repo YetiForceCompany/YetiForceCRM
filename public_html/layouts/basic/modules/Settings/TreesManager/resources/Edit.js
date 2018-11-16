@@ -106,7 +106,6 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							label: app.vtranslate('JS_JSTREE_REMOVE'),
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference);
-								var obj = inst.get_node(data.reference);
 								var id = inst.get_selected();
 								var status = true;
 								$.each(id, function (index, value) {

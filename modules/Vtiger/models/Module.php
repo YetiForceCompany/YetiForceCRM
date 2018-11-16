@@ -182,15 +182,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getInstance($mixed)
 	{
-		$instance = Vtiger_Cache::get('module', $mixed);
-		if (!$instance) {
-			$instance = false;
-			$moduleObject = parent::getInstance($mixed);
-			if ($moduleObject) {
-				$instance = self::getInstanceFromModuleObject($moduleObject);
-				Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				Vtiger_Cache::set('module', $moduleObject->name, $instance);
-			}
+		if (is_numeric($mixed)) {
+			$mixed = \App\Module::getModuleName($mixed);
+		}
+		if (\App\Cache::staticHas('module', $mixed)) {
+			return \App\Cache::staticGet('module', $mixed);
+		}
+		$instance = false;
+		$moduleObject = parent::getInstance($mixed);
+		if ($moduleObject) {
+			$instance = self::getInstanceFromModuleObject($moduleObject);
+			\App\Cache::staticSave('module', $moduleObject->name, $instance);
 		}
 		return $instance;
 	}
@@ -822,9 +824,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$restrictListString = $restrictList ? 1 : 0;
 		if ($tree) {
 			$userModel = App\User::getCurrentUserModel();
-			$quickCreateModulesTree = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
-			if ($quickCreateModulesTree !== false) {
-				return $quickCreateModulesTree;
+			$quickCreateModulesTreeCache = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
+			if ($quickCreateModulesTreeCache !== false) {
+				return $quickCreateModulesTreeCache;
 			}
 		} else {
 			$quickCreateModules = App\Cache::get('getQuickCreateModules', $restrictListString);
@@ -853,11 +855,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
-				if ($tree) {
-					$quickCreateModules[$row['tabid']] = $moduleModel;
-				} else {
-					$quickCreateModules[$row['name']] = $moduleModel;
-				}
+				$quickCreateModules[$row['name']] = $moduleModel;
 			}
 		}
 		if ($tree) {
@@ -867,9 +865,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 				if (!empty($parent['childs'])) {
 					$items = [];
 					foreach ($parent['childs'] as $child) {
-						if (isset($quickCreateModules[$child['tabid']])) {
-							$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
-							unset($quickCreateModules[$child['tabid']]);
+						if (isset($quickCreateModules[$child['mod']])) {
+							$items[$quickCreateModules[$child['mod']]->name] = $quickCreateModules[$child['mod']];
+							unset($quickCreateModules[$child['mod']]);
 						}
 					}
 					if (!empty($items)) {
@@ -931,9 +929,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public static function getCleanInstance($moduleName)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $moduleName);
-		$instance = new $modelClassName();
-
-		return $instance;
+		return new $modelClassName();
 	}
 
 	/**
@@ -1202,20 +1198,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get Specific Relation Query for this Module.
-	 *
-	 * @param <type> $relatedModule
-	 *
-	 * @return <type>
-	 */
-	public function getSpecificRelationQuery($relatedModule)
-	{
-		if ($relatedModule == 'Documents') {
-			return ' AND vtiger_notes.filestatus = 1 ';
-		}
-	}
-
-	/**
 	 * Function to get Settings links.
 	 *
 	 * @return <Array>
@@ -1480,7 +1462,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						continue;
 					}
 					if (isset($sourceRecordData[$fieldName])) {
-						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData), $recordModel);
+						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData, false), $recordModel);
 					} else {
 						$defaultValue = $fieldModel->getDefaultFieldValue();
 						if ($defaultValue !== '') {

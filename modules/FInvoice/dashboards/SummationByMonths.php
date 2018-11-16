@@ -4,9 +4,9 @@
  * FInvoice Summation By Months Dashboard Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -29,7 +29,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$data = $this->getWidgetData($moduleName, $owner);
-		$viewer->assign('USERID', $owner);
+		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -108,7 +108,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$years = array_values(array_unique($years));
 		$chartData['years'] = $years;
-		foreach ($yearsData as $year => $data) {
+		foreach ($yearsData as $data) {
 			$chartData['datasets'][] = $data;
 		}
 		return $chartData;

@@ -37,6 +37,7 @@
     "PLL_FOR_APPROVAL": "For approval",
     "PLL_CANCELLED": "Cancelled",
     "PLL_ACCEPTED": "Accepted",
-    "LBL_YEAR": "Year"
+    "LBL_YEAR": "Year",
+    "FL_ISSUE_TIME": "Invoice date"
   }
 }

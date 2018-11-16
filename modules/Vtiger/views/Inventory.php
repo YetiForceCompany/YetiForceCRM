@@ -4,8 +4,8 @@
  * Basic Inventory View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 {
@@ -33,7 +33,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('GLOBAL_DISCOUNTS', $inventoryModel->getGlobalDiscounts());
-		$viewer->assign('CURRENCY_SYMBOL', vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', \App\Fields\Currency::getById($currency)['currency_symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('DISCOUNT_TYPE', $discountType);
@@ -70,7 +70,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODULE', $recordModule);
 		$viewer->assign('GLOBAL_TAXES', Vtiger_Inventory_Model::getGlobalTaxes());
-		$viewer->assign('CURRENCY_SYMBOL', vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', \App\Fields\Currency::getById($currency)['currency_symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('TAX_TYPE', $taxType);

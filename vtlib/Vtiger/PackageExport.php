@@ -514,18 +514,15 @@ class PackageExport
 	 */
 	public function exportCustomViews(ModuleBasic $moduleInstance)
 	{
-		$db = \PearDatabase::getInstance();
-
-		$customviewres = $db->pquery('SELECT * FROM vtiger_customview WHERE entitytype = ?', [$moduleInstance->name]);
-		if (!$customviewres->rowCount()) {
+		$customViewDataReader = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleInstance->name])
+			->createCommand()->query();
+		if (!$customViewDataReader->count()) {
 			return;
 		}
-
 		$this->openNode('customviews');
-		while ($row = $db->getRow($customviewres)) {
+		while ($row = $customViewDataReader->read()) {
 			$setdefault = ($row['setdefault'] == 1) ? 'true' : 'false';
 			$setmetrics = ($row['setmetrics'] == 1) ? 'true' : 'false';
-
 			$this->openNode('customview');
 			$this->outputNode($row['viewname'], 'viewname');
 			$this->outputNode($setdefault, 'setdefault');
@@ -536,33 +533,22 @@ class PackageExport
 			$this->outputNode($row['sequence'], 'sequence');
 			$this->outputNode('<![CDATA[' . $row['description'] . ']]>', 'description');
 			$this->outputNode($row['sort'], 'sort');
-
 			$this->openNode('fields');
 			$cvid = $row['cvid'];
-			$cvcolumnres = $db->pquery('SELECT * FROM vtiger_cvcolumnlist WHERE cvid=?', [$cvid]);
-			while ($cvRow = $db->getRow($cvcolumnres)) {
-				$cvColumnNames = explode(':', $cvRow['columnname']);
-
+			$cvColumnDataReader = (new \App\Db\Query())->from('vtiger_cvcolumnlist')->where(['cvid' => $cvid])->createCommand()->query();
+			while ($cvRow = $cvColumnDataReader->read()) {
 				$this->openNode('field');
-				$this->outputNode($cvColumnNames[2], 'fieldname');
+				$this->outputNode($cvRow['field_name'], 'fieldname');
+				$this->outputNode($cvRow['module_name'], 'modulename');
+				$this->outputNode($cvRow['source_field_name'], 'sourcefieldname');
 				$this->outputNode($cvRow['columnindex'], 'columnindex');
-
-				$cvcolumnruleres = $db->pquery('SELECT * FROM vtiger_cvadvfilter WHERE cvid=? && columnname=?', [$cvid, $cvRow['columnname']]);
-				if ($cvcolumnruleres->rowCount()) {
-					$this->openNode('rules');
-					while ($rulesRow = $db->getRow($cvcolumnruleres)) {
-						$cvColumnRuleComp = Filter::translateComparator($rulesRow['comparator'], true);
-						$this->openNode('rule');
-						$this->outputNode($rulesRow['columnindex'], 'columnindex');
-						$this->outputNode($cvColumnRuleComp, 'comparator');
-						$this->outputNode($rulesRow['value'], 'value');
-						$this->closeNode('rule');
-					}
-					$this->closeNode('rules');
-				}
 				$this->closeNode('field');
 			}
+			$rules = \App\CustomView::getConditions($cvid);
 			$this->closeNode('fields');
+			if (!empty($rules)) {
+				$this->outputNode('<![CDATA[' . \App\Json::encode($rules) . ']]>', 'rules');
+			}
 			$this->closeNode('customview');
 		}
 		$this->closeNode('customviews');

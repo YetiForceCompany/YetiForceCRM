@@ -6,9 +6,18 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::decodeHtml($value);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 *
@@ -16,24 +25,26 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$rawValue = $value;
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value)) {
 			return;
-		}
-		if (is_string($value)) {
+		} elseif (is_string($value)) {
 			$value = \App\Json::decode($value);
-		} elseif (!is_array($value)) {
+		}
+		if (!is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		foreach ($value as $item) {
-			if (!is_array($item) || !array_key_exists('e', $item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		$rawValue = \App\Json::encode($value);
+		if (!isset($this->validate[$rawValue])) {
+			foreach ($value as $item) {
+				if (!is_array($item) || !isset($item['e'])) {
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+				}
+				if (!filter_var($item['e'], FILTER_VALIDATE_EMAIL) || $item['e'] !== filter_var($item['e'], FILTER_SANITIZE_EMAIL)) {
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+				}
 			}
-			if (!filter_var($item['e'], FILTER_VALIDATE_EMAIL) || $item['e'] !== filter_var($item['e'], FILTER_SANITIZE_EMAIL)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-			}
+			$this->validate[$rawValue] = true;
 		}
-		$this->validate[$rawValue] = true;
 	}
 
 	/**
@@ -41,7 +52,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Json::encode($value);
+		return $value ? \App\Json::encode($value) : '';
 	}
 
 	/**
@@ -92,5 +103,13 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiEmail.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['c', 'k', 'y', 'ny'];
 	}
 }

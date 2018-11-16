@@ -37,6 +37,7 @@
     "PLL_FOR_APPROVAL": "Do akceptacji",
     "PLL_CANCELLED": "Anulowano",
     "PLL_ACCEPTED": "Zaakceptowano",
-    "LBL_YEAR": "Rok"
+    "LBL_YEAR": "Rok",
+    "FL_ISSUE_TIME": "Data wystawienia"
   }
 }

@@ -43,14 +43,17 @@ class Vtiger_ListView_Model extends \App\Base
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->getName());
 		if ($viewId) {
+			$instance->set('viewId', $viewId);
 			$queryGenerator->initForCustomViewById($viewId);
 		} else {
-			if (!$queryGenerator->initForDefaultCustomView()) {
+			if ($viewId = $queryGenerator->initForDefaultCustomView()) {
+				$instance->set('viewId', $viewId);
+			} else {
 				$queryGenerator->loadListFields();
 			}
 		}
 		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
-		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
+		\App\Cache::staticSave('ListView_Model', $cacheName, $instance);
 
 		return $instance;
 	}
@@ -393,17 +396,42 @@ class Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Function to get the list view header.
 	 *
-	 * @return array - List of Vtiger_Field_Model instances
+	 * @return Vtiger_Field_Model[] - List of Vtiger_Field_Model instances
 	 */
 	public function getListViewHeaders()
 	{
 		$headerFieldModels = [];
-		$headerFields = $this->getQueryGenerator()->getListViewFields();
-		foreach ($headerFields as $fieldName => $fieldsModel) {
+		if ($this->isEmpty('viewId')) {
+			$headerFields = $this->getQueryGenerator()->getListViewFields();
+		} else {
+			$headerFields = [];
+			if (!$this->isEmpty('header_fields')) {
+				$fields = $this->get('header_fields');
+			} else {
+				$customView = App\CustomView::getInstance($this->getModule()->getName());
+				$fields = $customView->getColumnsListByCvid($this->get('viewId'));
+			}
+			foreach ($fields as $fieldInfo) {
+				$fieldName = $fieldInfo['field_name'];
+				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
+				if (!empty($fieldInfo['source_field_name'])) {
+					$fieldModel->set('source_field_name', $fieldInfo['source_field_name']);
+					$fieldModel->set('isCalculateField', false);
+				} else {
+					$queryGenerator = $this->getQueryGenerator();
+					if ($field = $queryGenerator->getQueryField($fieldName)->getListViewFields()) {
+						$queryGenerator->setField($field->getName());
+						$headerFields[] = $field;
+					}
+				}
+				$headerFields[] = $fieldModel;
+			}
+		}
+		foreach ($headerFields as $fieldsModel) {
 			if ($fieldsModel && (!$fieldsModel->isViewable() || !$fieldsModel->getPermissions())) {
 				continue;
 			}
-			$headerFieldModels[$fieldName] = $fieldsModel;
+			$headerFieldModels[] = $fieldsModel;
 		}
 		return $headerFieldModels;
 	}
@@ -415,11 +443,15 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			$field = $this->getModule()->getFieldByColumn($orderBy);
-			if ($field) {
-				$orderBy = $field->getName();
-			}
-			if ($field || $orderBy === 'id') {
+			[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $orderBy), 3, false);
+			if ($sourceFieldName) {
+				return $this->getQueryGenerator()->setRelatedOrder([
+					'sourceField' => $sourceFieldName,
+					'relatedModule' => $moduleName,
+					'relatedField' => $fieldName,
+					'relatedSortOrder' => $this->getForSql('sortorder')
+				]);
+			} else {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
 			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
@@ -476,7 +508,6 @@ class Vtiger_ListView_Model extends \App\Base
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$moduleModel = $this->getModule();
 		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
@@ -493,11 +524,44 @@ class Vtiger_ListView_Model extends \App\Base
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-		$listViewRecordModels = [];
-		foreach ($rows as $row) {
-			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
-		}
+
+		$listViewRecordModels = $this->getRecordsFromArray($rows);
 		unset($rows);
+		return $listViewRecordModels;
+	}
+
+	/**
+	 * Get models of records from array.
+	 *
+	 * @param array $rows
+	 *
+	 * @return \Vtiger_Record_Model[]
+	 */
+	public function getRecordsFromArray(array $rows)
+	{
+		$listViewRecordModels = $relatedFields = [];
+		$moduleModel = $this->getModule();
+		foreach ($this->getQueryGenerator()->getRelatedFields() as $fieldInfo) {
+			$relatedFields[$fieldInfo['relatedModule']][$fieldInfo['sourceField']][] = $fieldInfo['relatedField'];
+		}
+		foreach ($rows as $fieldName => $row) {
+			$extRecordModel = [];
+			foreach ($relatedFields as $relatedModuleName => $fields) {
+				foreach ($fields as $sourceField => $field) {
+					$recordData = [
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+					];
+					foreach ($field as $relatedFieldName) {
+						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
+						unset($row[$sourceField . $relatedModuleName . $relatedFieldName]);
+					}
+					$extRecordModel[$sourceField][$relatedModuleName] = Vtiger_Module_Model::getInstance($relatedModuleName)->getRecordFromArray($recordData);
+				}
+			}
+			$recordModel = $moduleModel->getRecordFromArray($row);
+			$recordModel->ext = $extRecordModel;
+			$listViewRecordModels[$row['id']] = $recordModel;
+		}
 		return $listViewRecordModels;
 	}
 

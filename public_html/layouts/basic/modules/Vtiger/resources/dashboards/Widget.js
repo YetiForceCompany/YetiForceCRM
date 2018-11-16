@@ -1375,7 +1375,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
 		this.registerContentAutoResize();
-		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
@@ -1453,6 +1452,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				.appendTo(container);
 			a[0].click();
 			a.remove();
+		});
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
 		});
 	},
 	registerChangeSorting: function registerChangeSorting() {
@@ -1567,8 +1569,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainer.html('');
 		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
-		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length)) {
-			thisInstance.setFilterToCache(params.url, params.data);
+		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length || parent.find('.listSearchContributor'))) {
+			thisInstance.setFilterToCache(params.url ? params.url : params, params.data ? params.data : {});
 		}
 		AppConnector.request(params).done((data) => {
 			data = $(data);
@@ -1608,9 +1610,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		App.Fields.Date.register(container);
 		App.Fields.Date.registerRange(container);
 		search.on('change apply.daterangepicker', (e) => {
-			const searchParams = [];
+			let searchParams = [];
 			container.find('.listSearchContributor').each((index, domElement) => {
-				const searchInfo = [];
+				let searchInfo = [];
 				const searchContributorElement = $(domElement);
 				const fieldInfo = searchContributorElement.data('fieldinfo');
 				const fieldName = searchContributorElement.attr('name');
@@ -2161,14 +2163,16 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		//Default first day of the week
 		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
+		var defaultFirstHour = app.getMainParams('startHour');
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
 		var defaultDate = app.getMainParams('defaultDate');
 		if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 			defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 		}
-
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+		});
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: ' ',
@@ -2232,14 +2236,15 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			}).on('mouseleave', function () {
 			$(this).find(".plus").remove();
 		});
+		let formatDate = CONFIG.dateFormat.toUpperCase();
 		thisInstance.getCalendarView().find("td.fc-day-top").on('click', function () {
-			var date = $(this).data('date');
-			var params = {
-				noCache: true
-			};
-			params.data = {
-				date_start: date,
-				due_date: date
+			let date = moment($(this).data('date')).format(formatDate);
+			let params = {
+				noCache: true,
+				data: {
+					date_start: date,
+					due_date: date
+				}
 			};
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
@@ -2328,7 +2333,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
-			this.calendarView = this.getContainer().find('#calendarview');
+			this.calendarView = this.getContainer().find('.js-calendar__container');
 		}
 		return this.calendarView;
 	},
@@ -2362,7 +2367,6 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerFilterChangeEvent();
-		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 	},
 	refreshWidget: function () {
 		var thisInstance = this;
@@ -2402,15 +2406,19 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 			}
 		})
 	},
+
 	registerListViewButton: function () {
 		const thisInstance = this,
 			container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
 			let status;
-			if (container.data('name') === 'OverdueActivities') {
+			let activitiesStatus = container.data('name');
+			if (activitiesStatus === 'OverdueActivities') {
 				status = 'PLL_OVERDUE';
+			} else if (activitiesStatus === 'CalendarActivities') {
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED';
 			} else {
-				status = 'PLL_IN_REALIZATION,PLL_PLANNED';
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED##PLL_OVERDUE';
 			}
 			let url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
@@ -2418,7 +2426,7 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 			if (owner.val() !== 'all') {
 				url += '["assigned_user_id","e","' + owner.val() + '"],';
 			}
-			url += '["activitystatus","e","' + status + '"]]]';
+			url += '["activitystatus","e","' + encodeURIComponent(status) + '"]]]';
 			window.location.href = url;
 		});
 	}
@@ -2427,6 +2435,7 @@ YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedUpcomingCalendarTasks_
 YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedOverDueCalendarTasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_OverdueActivities_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
@@ -2682,7 +2691,6 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 		this.registerRecordsCount();
-		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 	},
 	postRefreshWidget: function () {
 		this.registerRecordsCount();
@@ -2691,43 +2699,31 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
 	// Override widget specific functions.
 	postLoadWidget: function () {
-		this.reinitNotebookView();
+		this.registerNotebookEvents();
 	},
-	reinitNotebookView: function () {
-		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
-			'height': '200px'
+	registerNotebookEvents: function () {
+		this.container.on('click', '.dashboard_notebookWidget_edit', () => {
+			this.editNotebookContent();
 		});
-		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
-			self.editNotebookContent();
-		});
-		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
-			self.saveNotebookContent();
+		this.container.on('click', '.dashboard_notebookWidget_save', () => {
+			this.saveNotebookContent();
 		});
 	},
 	editNotebookContent: function () {
-		jQuery('.dashboard_notebookWidget_text', this.container).show();
-		jQuery('.dashboard_notebookWidget_view', this.container).hide();
-		$('body').on('click', function (e) {
-			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
-				$('.dashboard_notebookWidget_save').trigger('click');
-			}
-		});
+		$('.dashboard_notebookWidget_text', this.container).show();
+		$('.dashboard_notebookWidget_view', this.container).hide();
 	},
 	saveNotebookContent: function () {
-		$('body').off('click');
-		var self = this;
-		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-		var url = this.container.data('url');
-		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-		var refreshContainer = this.container.find('.dashboardWidgetContent');
+		let textarea = $('.dashboard_notebookWidget_textarea', this.container),
+			url = this.container.data('url'),
+			params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val()),
+			refreshContainer = this.container.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
-		AppConnector.request(params).done(function (data) {
+		AppConnector.request(params).done((data) => {
 			refreshContainer.progressIndicator({
 				'mode': 'hide'
 			});
-			jQuery('.dashboardWidgetContent', self.container).html(data);
-			self.reinitNotebookView();
+			$('.dashboardWidgetContent', this.container).html(data);
 		});
 	}
 });
@@ -2790,6 +2786,7 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 			}
 		}
 		this.registerRecordsCount();
+		this.registerCache(container);
 	},
 });
 YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {

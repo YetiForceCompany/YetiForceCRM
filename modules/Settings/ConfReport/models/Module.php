@@ -477,13 +477,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getDenyPublicDirState()
 	{
 		$baseUrl = \AppConfig::main('site_URL');
-		$denyPublicDirState = [
+		return [
 			'config/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'config')],
 			'cache/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'cache')],
 			'storage/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'storage')],
 			'user_privileges/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'user_privileges')],
 		];
-		return $denyPublicDirState;
 	}
 
 	/**
@@ -805,7 +804,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$ini = static::getPhpIniConf();
 		$cliConf = static::getPhpIniConfCron();
-		$directiveValues = [
+		return [
 			'Xdebug' => [
 				'www' => $ini['Xdebug'],
 				'cli' => $cliConf['Xdebug'] ?? '',
@@ -819,7 +818,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'incorrect' => ($ini['OPcache'] !== 'On') || (isset($cliConf['OPcache']) && $cliConf['Xdebug'] !== 'On')
 			]
 		];
-		return $directiveValues;
 	}
 
 	private static function checkExtension($row)

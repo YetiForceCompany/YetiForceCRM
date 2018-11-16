@@ -76,7 +76,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				$('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
-				app.showPopoverElementView($(data).find('.js-popover-tooltip'));
 			});
 
 		});
@@ -609,7 +608,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	 * @params - recurringType - which recurringtype is selected
 	 */
 	changeRecurringTypesUIStyles: function (recurringType) {
-		var thisInstance = this;
 		if (recurringType == 'Daily' || recurringType == 'Yearly') {
 			$('#repeatWeekUI').removeClass('show').addClass('d-none');
 			$('#repeatMonthUI').removeClass('show').addClass('d-none');

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
@@ -20,48 +20,54 @@
 	</div>
 	{if $SHOW_FOOTER}
 		<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
-		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}"
+		<footer class="c-footer fixed-bottom js-footer{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if AppConfig::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
 				data-js="height">
 			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
-					<span class="mr-1"> {$USER_MODEL->getName()}</span>(
-					<span>{$USER_MODEL->get('email1')}</span>
-					{if !empty($USER_MODEL->get('phone_crm_extension'))}
-					,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
-					{/if})
+					<p>
+						<span class="mr-1"> {$USER_MODEL->getName()}</span>(
+						<span>{$USER_MODEL->get('email1')}</span>
+						{if !empty($USER_MODEL->get('phone_crm_extension'))}
+						,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
+						{/if})
+					</p>
 				</div>
 			{/if}
 			<div class="container-fluid px-0 px-md-1">
-				<ul class="float-left pagination border-0">
-					<li class="page-item">
-						<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
-							<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
-						</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer">
-							<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
-						</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"
-						   rel="noreferrer">
-							<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
-						</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
-							<span class="fab fa-github-square fa-2x" title="Github"></span>
-						</a>
-					</li>
-				</ul>
-				<div class="float-right p-0">
-					<ul class="pagination">
+				{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+					<ul class="float-left pagination border-0">
 						<li class="page-item">
-							<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
-								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
+							<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
+								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
+						<li class="page-item">
+							<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer">
+								<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
+							</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"
+							   rel="noreferrer">
+								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
+							</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
+								<span class="fab fa-github-square fa-2x" title="Github"></span>
+							</a>
+						</li>
+					</ul>
+				{/if}
+				<div class="float-right p-0">
+					<ul class="pagination">
+						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+							<li class="page-item">
+								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
+									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
+								</a>
+							</li>
+						{/if}
 						<li class="page-item u-cursor-pointer">
 							<a class="page-link" data-toggle="modal" href="#" role="button"
 							   data-target="#yetiforceDetails">
@@ -76,9 +82,12 @@
 						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
-						<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
+						<p class="text-center text-center">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}
+								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+									<br/>
+									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base',$FOOTOSP)}
+								{/if}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
@@ -86,13 +95,17 @@
 						<p class="text-center">
 							<span class="d-none d-sm-inline">
 								Copyright &copy; YetiForce.com All rights reserved.
-							[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}
-								s.]<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}
+								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+									<br/>
+									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
+								{/if}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
 					{/if}
 				</div>
+			</div>
 		</footer>
 		<div class="modal fade" id="yetiforceDetails" tabindex="-1" role="dialog" aria-labelledby="yetiforceDetails">
 			<div class="modal-dialog modal-lg" role="document">
@@ -107,9 +120,11 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p class="text-center"><img class="u-h-120px"
-													src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
-													title="YetiForceCRM" alt="YetiForceCRM"/></p>
+						<p class="text-center">
+							<img class="u-h-120px"
+								 src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
+								 title="YetiForceCRM" alt="YetiForceCRM"/>
+						</p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p>The Program is provided AS IS, without warranty. Licensed under <a
 									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"

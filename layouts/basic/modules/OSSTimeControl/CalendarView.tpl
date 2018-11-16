@@ -3,12 +3,10 @@
 	<input type="hidden" id="currentView" value="{$VIEW}"/>
 	<input type="hidden" id="activity_view" value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}"/>
 	<input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}"/>
-	<input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}"/>
-	<input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}"/>
 	<input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}"/>
-	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}"/>
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
+	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 	<div class="calendarViewContainer rowContent">
 		<div class="d-flex flex-md-nowrap mt-2">
 			<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">
@@ -19,9 +17,9 @@
 				</button>
 			</div>
 		</div>
-		<div class="o-calendar-container">
+		<div class="o-calendar__container">
 			<p class="m-0"><!-- Divider --></p>
-			<div id="calendarview"></div>
+			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
 {/strip}

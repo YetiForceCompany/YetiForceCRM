@@ -37,11 +37,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			default:
 				break;
 		}
-		$focus = CRMEntity::getInstance($this->get('module'));
-		$basetable = $focus->table_name;
-		$supfield = $basetable . $prefix;
-
-		return $supfield;
+		return CRMEntity::getInstance($this->get('module'))->table_name . $prefix;
 	}
 
 	/**
@@ -60,7 +56,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			if (!App\Db::getInstance()->isTableExists($table)) {
 				return false;
 			}
-			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy('sequence', SORT_ASC);
+			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy(['sequence' => SORT_ASC]);
 			if ($ids) {
 				$query->andWhere(['id' => $ids]);
 			}
@@ -130,7 +126,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			return $this->columns;
 		}
 		$columnsArray = [];
-		foreach ($this->getFields() as $key => $field) {
+		foreach ($this->getFields() as $field) {
 			$column = $field->getColumnName();
 			if (!empty($column) && $column != '-') {
 				$columnsArray[] = $column;

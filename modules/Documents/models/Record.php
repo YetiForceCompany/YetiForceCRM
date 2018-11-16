@@ -156,9 +156,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public static function getFileIconByFileType($fileType)
 	{
-		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
-
-		return $fileIcon;
+		return \App\Layout\Icon::getIconByFileType($fileType);
 	}
 
 	/**
@@ -284,10 +282,8 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				'type' => $fileDetails['type'],
 				'path' => $uploadFilePath,
 			])->execute();
-			if (\App\Request::_get('mode') === 'edit') {
-				if (!empty($id) && !empty(\App\Request::_get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
-				}
+			if (\App\Request::_get('mode') === 'edit' && !empty($id) && !empty(\App\Request::_get('fileid'))) {
+				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
 			}
 			if ($moduleName === 'Documents') {
 				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();

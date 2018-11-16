@@ -21,9 +21,21 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -125,5 +137,21 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['integer', 'smallint'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny', 'om', 'wr', 'nwr'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Owner.tpl';
 	}
 }

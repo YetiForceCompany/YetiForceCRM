@@ -2,10 +2,10 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_CurrencyUpdate_Module_Model extends \App\Base
 {
@@ -13,9 +13,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/*
@@ -39,7 +37,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public function getCurrencyNum()
 	{
-		return count(vtlib\Functions::getAllCurrency(true));
+		return count(\App\Fields\Currency::getAll(true));
 	}
 
 	/*
@@ -173,24 +171,18 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public function getRatesHistory($bankId, $dateCur, \App\Request $request)
 	{
-		$query = new App\Db\Query();
-		$query->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])
+		$query = (new App\Db\Query())->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])
 			->from('yetiforce_currencyupdate')
 			->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id')
 			->innerJoin('yetiforce_currencyupdate_banks', 'yetiforce_currencyupdate_banks.id = yetiforce_currencyupdate.bank_id')
 			->where(['yetiforce_currencyupdate.bank_id' => $bankId]);
 		// filter by date - if not exists then display this months history
-		$filter = $request->get('duedate');
-		if ($filter == '' && $dateCur) {
+		if ($request->get('duedate') == '' && $dateCur) {
 			$query->andWhere(['between', 'exchange_date', date('Y-m-01'), date('Y-m-t')]);
 		} else {
 			$query->andWhere(['exchange_date' => $dateCur]);
 		}
-		$query->orderBy(['exchange_date' => SORT_DESC, 'currency_code' => SORT_ASC]);
-		$dataReader = $query->createCommand()->query();
-		$history = $dataReader->readAll();
-
-		return $history;
+		return $query->orderBy(['exchange_date' => SORT_DESC, 'currency_code' => SORT_ASC])->all();
 	}
 
 	/*
@@ -260,14 +252,14 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
-		$mainCurrencyCode = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrencyCode = \App\Fields\Currency::getDefault()['currency_code'];
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
 		if (is_numeric($from)) {
-			$from = vtlib\Functions::getAllCurrency(true)[$from]['currency_code'];
+			$from = \App\Fields\Currency::getAll(true)[$from]['currency_code'];
 		}
 		if (is_numeric($to)) {
-			$to = vtlib\Functions::getAllCurrency(true)[$to]['currency_code'];
+			$to = \App\Fields\Currency::getAll(true)[$to]['currency_code'];
 		}
 		// get present conversion rate from crm
 		if (empty($date)) {
@@ -287,8 +279,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$fromExchange = (float) ($query->scalar());
 				$exchange = 1 / ($fromExchange * $convertToMainCurrency);
 			}
-		}
-		// get conversion rate from archive
+		} // get conversion rate from archive
 		else {
 			$query = new App\Db\Query();
 			$query->from('yetiforce_currencyupdate')

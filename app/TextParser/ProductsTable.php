@@ -37,7 +37,7 @@ class ProductsTable extends Base
 		}
 		if (in_array('currency', $columns)) {
 			$currency = count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null ? $inventoryRows[0]['currency'] : $baseCurrency['id'];
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencyData = \App\Fields\Currency::getById($currency);
 		}
 		$html .= '<style>' .
 			'.colapseBorder {border-collapse: collapse;}' .
@@ -159,7 +159,7 @@ class ProductsTable extends Base
 							</thead>
 							<tbody>
 								<tr>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';
@@ -181,19 +181,19 @@ class ProductsTable extends Base
 					$tax_AMOUNT += $tax;
 					$html .= '<tr>
 										<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
 				$html .= '<tr>
 									<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>';
 
 				if (in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
-					$RATE = $baseCurrency['conversion_rate'] / $currencySymbolRate['rate'];
+					$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
 					$html .= '<br /><table class="pTable colapseBorder">
 								<thead>
 									<tr>

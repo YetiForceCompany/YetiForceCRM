@@ -1,5 +1,5 @@
-﻿{strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+﻿{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{strip}
 	<div class="tpl-Settings-WidgetsManagement-Configuration" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
 		<div class="widget_header row align-items-lg-center">
@@ -119,7 +119,7 @@
 													</button>
 												</div>
 											{/if}
-											{if $SPECIAL_WIDGETS['Notebook']}
+											{if isset($SPECIAL_WIDGETS['Notebook']) && $SPECIAL_WIDGETS['Notebook']}
 												{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm addNotebook" type="button"
@@ -267,7 +267,7 @@
 											</button>
 										</div>
 									{/if}
-									{if $SPECIAL_WIDGETS['Notebook']}
+									{if isset($SPECIAL_WIDGETS['Notebook']) && $SPECIAL_WIDGETS['Notebook']}
 										{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addNotebook specialWidget"
@@ -322,7 +322,9 @@
 															{continue}
 														{/if}
 														<option value="{$WIDGET->get('linkid')}"
-																data-name="{$WIDGET->get('linklabel')}">{\App\Language::translate($WIDGET->getTitle(), $QUALIFIED_MODULE)}</option>
+																data-name="{$WIDGET->get('linklabel')}">
+															{\App\Language::translate($WIDGET->getTitle(), $QUALIFIED_MODULE)}
+														</option>
 													{/foreach}
 												</select>
 											</div>

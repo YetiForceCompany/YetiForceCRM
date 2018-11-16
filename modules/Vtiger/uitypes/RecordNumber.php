@@ -14,7 +14,7 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
@@ -33,5 +33,21 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 		$recordModel->set($this->getFieldModel()->getFieldName(), $value);
 
 		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }

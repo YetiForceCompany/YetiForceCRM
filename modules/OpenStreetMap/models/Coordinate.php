@@ -86,7 +86,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
 		$html = '';
-		foreach ($row as $fieldName => $value) {
+		foreach ($row as $value) {
 			if (!empty($value)) {
 				$html .= \App\Purifier::encodeHtml($value) . '<br />';
 			}
@@ -144,9 +144,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \App\Language::translate('LBL_START', 'OpenStreetMap') . '</button><br />';
 		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \App\Language::translate('LBL_END', 'OpenStreetMap') . '</button><br />';
 		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br />';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
-
-		return $html;
+		return $html . '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 	}
 
 	public static $colors = [];
@@ -253,13 +251,8 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
-		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields[] = $groupByField;
-			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
-			if ($fieldModel !== false) {
-				$groupByFieldColumn = $fieldModel->get('column');
-			}
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setFields($fields);
@@ -285,7 +278,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
-					'color' => self::getMarkerColor($row[$groupByFieldColumn]),
+					'color' => self::getMarkerColor(empty($groupByField) ? '' : $row[$groupByField])
 				];
 			}
 		}
@@ -427,7 +420,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				->select('crmids')
 				->from('u_#__openstreetmap_cache')
 				->where(['user_id' => $userId, 'module_name' => $moduleName])
-				->createCommand($db)->queryColumn(0);
+				->createCommand($db)->queryColumn();
 			if (!empty($records)) {
 				$this->set('srcModuleModel', Vtiger_Module_Model::getInstance($moduleName));
 				$coordinates[$moduleName] = $this->readCoordinatesByRecords($records);

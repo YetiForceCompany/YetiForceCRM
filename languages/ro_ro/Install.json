@@ -30,6 +30,7 @@
     "LBL_INSTALLATION_WIZARD": "Expert de instalare",
     "LBL_INSTALL_BUTTON": "Instalare",
     "LBL_INSTALL_PREREQUISITES": "Conditii preliminare de instalare",
+    "LBL_LIBRARY_NAME": "Library name",
     "LBL_MORE_INFORMATION": "Mai multe informatii",
     "LBL_NEXT": "Urmatorul",
     "LBL_ONE_LAST_THING": "Inca un lucru...",
@@ -71,6 +72,7 @@
     "LBL_PDO_SUPPORT": "Suport PDO",
     "LBL_OPEN_SSL": "suport openssl",
     "LBL_LICENSE": "Licenta",
+    "LBL_EXTERNAL_LIBRARIES_LICENSES": "Third-party library licenses",
     "LBL_CURL": "suport cURL",
     "LBL_INDUSTRY_OPTION": "Selectati optiunea corespunzatoare pentru industrie.",
     "LBL_ERROR_LOGIN": "Eroare de autorizare, datele introduse sunt incorecte.",
@@ -100,7 +102,8 @@
     "LBL_WRONG_USERNAME_OR_PASSWORD": "Utilizator sau parola incorecta",
     "LBL_DESCRIPTION_CONDITIONS": "In timpul migrarii veti pierde toate datele legate de urmatoarele module: Manager Mail, Sabloane Email, Fluxuri de lucru \r\n Retineti ca migrarea se afla inca in stadiul de testare, astfel incat ar trebui sa faceti toate copiile de rezerva posibile si sa urmati procedurile de securitate in cazul unor evenimente neprevazute.",
     "LBL_MIGRATION_IN_PROGRESS": "Migrare in curs",
-    "LBL_SETUP_WIZARD_HEADER": "Expert instalare YetiForce"
+    "LBL_SETUP_WIZARD_HEADER": "Expert instalare YetiForce",
+    "LBL_VERSION": "Version"
   },
   "js": {
     "JS_ALL": "Toate",

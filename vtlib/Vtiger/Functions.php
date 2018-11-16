@@ -13,58 +13,6 @@ namespace vtlib;
 
 class Functions
 {
-	protected static function getCurrencyInfo($currencyid)
-	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
-		} else {
-			$currencyInfo = self::getAllCurrency();
-		}
-		return $currencyInfo[$currencyid] ?? false;
-	}
-
-	public static function getAllCurrency($onlyActive = false)
-	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
-		} else {
-			$currencyInfo = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
-			\App\Cache::save('AllCurrency', 'All', $currencyInfo);
-		}
-		if ($onlyActive) {
-			$currencies = [];
-			foreach ($currencyInfo as $currencyId => $currency) {
-				if ($currency['currency_status'] === 'Active') {
-					$currencies[$currencyId] = $currency;
-				}
-			}
-
-			return $currencies;
-		} else {
-			return $currencyInfo;
-		}
-	}
-
-	public static function getCurrencyName($currencyid, $show_symbol = true)
-	{
-		$currencyInfo = self::getCurrencyInfo($currencyid);
-		if ($show_symbol) {
-			return sprintf('%s : %s', \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
-		}
-		return $currencyInfo['currency_name'];
-	}
-
-	public static function getCurrencySymbolandRate($currencyid)
-	{
-		$currencyInfo = self::getCurrencyInfo($currencyid);
-		$currencyRateSymbol = [
-			'rate' => $currencyInfo['conversion_rate'],
-			'symbol' => $currencyInfo['currency_symbol'],
-		];
-
-		return $currencyRateSymbol;
-	}
-
 	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
 	{
 		if (\App\Cache::has('moduleTabs', 'all')) {
@@ -143,33 +91,6 @@ class Functions
 			return \App\Cache::get('moduleTabByName', $name);
 		}
 		return $id ? \App\Cache::get('moduleTabById', $id) : null;
-	}
-
-	/**
-	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname).
-	 *
-	 * @param string $mixed - the module name
-	 *
-	 * @return string $fieldsname - the entity field name for the module
-	 */
-	public static function getEntityModuleSQLColumnString($mixed)
-	{
-		$data = [];
-		$info = \App\Module::getEntityInfo($mixed);
-		if ($info) {
-			$data['tablename'] = $info['tablename'];
-			$fieldnames = $info['fieldname'];
-			if (strpos(',', $fieldnames) !== false) {
-				$fieldnames = sprintf('concat(%s)', implode(",' ',", $info['fieldnameArr']));
-			}
-			$data['fieldname'] = $fieldnames;
-			$colums = [];
-			foreach ($info['fieldnameArr'] as $fieldname) {
-				$colums[] = $info['tablename'] . '.' . $fieldname;
-			}
-			$data['colums'] = implode(',', $colums);
-		}
-		return $data;
 	}
 
 	// MODULE RECORD
@@ -315,9 +236,7 @@ class Functions
 	{
 		$str = preg_replace("/(\r\n)/", '\\r\\n', $str);
 		$str = preg_replace("/'/", ' ', $str);
-		$str = preg_replace('/"/', ' ', $str);
-
-		return $str;
+		return preg_replace('/"/', ' ', $str);
 	}
 
 	public static function suppressHTMLTags($string)
@@ -690,42 +609,6 @@ class Functions
 		return $return;
 	}
 
-	/**
-	 * Function to capture the initial letters of words.
-	 *
-	 * @param string $name
-	 *
-	 * @return string
-	 */
-	public static function getInitials(string $name): string
-	{
-		preg_match_all('#(?<=\s|\b)\pL|[()]#u', $name, $initial);
-		return isset($initial[0]) ? implode('', $initial[0]) : '';
-	}
-
-	public static function getDiskSpace($dir = '')
-	{
-		if ($dir == '') {
-			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		}
-		$total = disk_total_space($dir);
-		$free = disk_free_space($dir);
-		$used = $total - $free;
-
-		return ['total' => $total, 'free' => $free, 'used' => $used];
-	}
-
-	public static function getDefaultCurrencyInfo()
-	{
-		$allCurrencies = self::getAllCurrency(true);
-		foreach ($allCurrencies as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
-				return $currency;
-			}
-		}
-		return false;
-	}
-
 	/*
 	 * Checks if given date is working day, if not returns last working day
 	 * @param <Date> $date
@@ -825,9 +708,7 @@ class Functions
 		// Replace non-alphanumeric characters with our delimiter
 		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
 		// Remove delimiter from ends
-		$str = trim($str, $delimiter);
-
-		return $str;
+		return trim($str, $delimiter);
 	}
 
 	/*
@@ -843,7 +724,7 @@ class Functions
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
 		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
+		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
 
 		if (empty($date)) {

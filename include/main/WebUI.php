@@ -50,9 +50,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		if (!$this->hasLogin()) {
 			$returnUrl = $request->getServer('QUERY_STRING');
-			if ($returnUrl && !$_SESSION['return_params']) {
+			if ($returnUrl && !\App\Session::has('return_params')) {
 				//Take the url that user would like to redirect after they have successfully logged in.
-				App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
+				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 			}
 			if (!$request->isAjax()) {
 				header('Location: index.php');
@@ -184,7 +184,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$this->triggerPostProcess($handler, $request);
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-			$messageHeader ='LBL_ERROR';
+			$messageHeader = 'LBL_ERROR';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$messageHeader = 'LBL_PERMISSION_DENIED';
 			} elseif ($e instanceof \App\Exceptions\Security) {
@@ -232,8 +232,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (empty($moduleModel)) {
-			\App\Log::error("HandlerModule: $moduleName", 'Loader');
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
+			\App\Log::error('HandlerModule: ' . $moduleName, 'Loader');
+			throw new \App\Exceptions\AppException('ERR_MODULE_DOES_NOT_EXIST||' . $moduleName, 405);
 		}
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {

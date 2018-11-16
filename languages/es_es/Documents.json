@@ -13,6 +13,8 @@
     "LBL_ADD_FOLDER": "A\u00f1adir carpeta",
     "LBL_ADD_NEW_FOLDER": "A\u00f1adir nueva carpeta",
     "LBL_ADD_RECORD": "A\u00f1adir",
+    "LBL_ADD_RELATION": "Add document",
+    "LBL_SELECT_RELATION": "Select document",
     "LBL_CHECK_FILE_INTEGRITY": "Comprobar la integridad del fichero",
     "LBL_DENIED_DOCUMENTS": "Documentos denegados",
     "LBL_DESCRIPTION": "Descripci\u00f3n",

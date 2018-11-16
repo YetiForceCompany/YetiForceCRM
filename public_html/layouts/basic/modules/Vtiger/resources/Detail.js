@@ -94,7 +94,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		);
 	},
 	transferOwnershipSave: function (form) {
-		var thisInstance = this;
 		var transferOwner = jQuery('#transferOwnerId').val();
 		var relatedModules = jQuery('#related_modules').val();
 		var recordId = jQuery('#recordId').val();
@@ -265,7 +264,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (widgetContent.find('[name="relatedModule"]').length) {
 				thisInstance.registerShowSummary(widgetContent);
 			}
-			if (relatedModuleName === 'Emails') {
+			if (relatedModuleName === 'OSSMailView') {
 				Vtiger_Index_Js.registerMailButtons(widgetContent);
 				widgetContent.find('.showMailModal').on('click', function (e) {
 					let progressIndicatorElement = jQuery.progressIndicator();
@@ -324,7 +323,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
 			App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
-			app.showPopoverElementView(contentContainer.find('.js-popover-tooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
 			if (relatedModuleName) {
@@ -472,7 +470,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.markTabAsSelected(moduleTab);
 	},
 	deSelectAllrelatedTabs: function () {
-		var relatedTabContainer = this.getTabContainer();
 		this.getTabs().removeClass('active');
 	},
 	markTabAsSelected: function (tabElement) {
@@ -1082,13 +1079,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 							textTrusted: true
 						});
 						if (postSaveRecordDetails['isEditable'] === false) {
-							const progressIndicatorElement = jQuery.progressIndicator({
+							jQuery.progressIndicator({
 								'position': 'html',
 								'blockInfo': {
 									'enabled': true
 								}
 							});
-							window.location.reload();
+							if (window !== window.parent) {
+								window.location.href = window.location.href.replace("view=Detail", "view=DetailPreview");
+							} else {
+								window.location.reload();
+							}
 						}
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
 						elementTarget.data('prevValue', ajaxEditNewValue);
@@ -1218,7 +1219,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var dateStartFormat = jQuery(dateStartEl).data('date-format');
 		var validDateFromat = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay, type);
 		var map = jQuery.extend({}, ['#b6a996,black'])
-		var thisInstance = this;
 
 		var params = {
 			module: 'Calendar',
@@ -1321,7 +1321,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerAddingInventoryRecords: function () {
-		var thisInstance = this;
 		jQuery('.createInventoryRecordFromFilter').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var createUrl = currentElement.data('url');
@@ -1338,9 +1337,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerEmailEvent: function () {
-		var thisInstance = this;
 		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
-			var currentElement = jQuery(e.currentTarget);
 			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')}).done(function (data) {
 				AppConnector.request({
 					module: 'OSSMailView',
@@ -1367,7 +1364,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var widget = summaryWidgetContainer.find('.widgetContentBlock');
 		var url = '&' + widget.data('url');
 		var urlParams = {};
-		var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+		url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
@@ -1383,7 +1380,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var selectedFilter = element.find('option:selected').val();
 				var fieldlable = element.data('fieldlable');
 				var filter = element.data('filter');
-				value = {};
 				if (selectedFilter != fieldlable) {
 					value = [[filter, 'e', selectedFilter]];
 				} else {
@@ -1448,7 +1444,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		/**
 		 * Function to handle the ajax edit for summary view fields
 		 */
-		var formElement = thisInstance.getForm();
 		summaryViewContainer.off('click').on('click', '.row .js-detail-quick-edit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('d-none');
@@ -1472,8 +1467,32 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
 			var url = currentTarget.data('url');
-			if (url && typeof url !== "undefined") {
-				app.showModalWindow(null, url);
+			if (url) {
+				if (currentTarget.hasClass('showEdit')) {
+					var headerInstance = Vtiger_Header_Js.getInstance();
+					if (window !== window.parent) {
+						headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+					}
+					headerInstance.getQuickCreateForm(url, 'Calendar', {noCache: true}).done((data) => {
+						headerInstance.handleQuickCreateData(data, {
+							callbackFunction: () => {
+								let widget = currentTarget.closest('.widgetContentBlock');
+								if (widget.length) {
+									thisInstance.loadWidget(widget);
+									let updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
+									if (updatesWidget.length > 0) {
+										thisInstance.loadWidget(updatesWidget);
+									}
+								} else {
+									thisInstance.loadRelatedList();
+								}
+								thisInstance.registerRelatedModulesRecordCount();
+							}
+						});
+					});
+				} else {
+					app.showModalWindow(null, url);
+				}
 			}
 		});
 
@@ -1481,7 +1500,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Register the event to edit Description for related activities
 		 */
 		summaryViewContainer.on('click', '.editDescription', function (e) {
-			var thisInstance = this;
 			var currentTarget = jQuery(e.currentTarget);
 			var currentDiv = currentTarget.closest('.activityDescription');
 			var editElement = currentDiv.find('.edit');
@@ -1638,7 +1656,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
 
-		jQuery('.related', detailContainer).on('click', 'li', function (e, urlAttributes) {
+		jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (e, urlAttributes) {
 			var tabElement = jQuery(e.currentTarget);
 			if (!tabElement.hasClass('dropdown')) {
 				var element = jQuery('<div></div>');
@@ -1871,7 +1889,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 			var fieldName = fieldContainer.data('fieldname');
 			fieldName = fieldName.replace("q_", "");
-			var prevValue = fieldContainer.data('prevvalue');
 			var fieldValue = fieldElement.val();
 			var errorExists = fieldElement.validationEngine('validate');
 			if (errorExists) {
@@ -1899,7 +1916,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.showPopoverElementView(form.find('.js-help-info'));
 	},
 	registerRelatedModulesRecordCount: function (tabContainer) {
-		var thisInstance = this;
 		var counter = [];
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
@@ -2194,7 +2210,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params['mailFilter'] = $('[name="mailFilter"]').val();
 		AppConnector.request(params).done(function (data) {
 			widgetDataContainer.html(data);
-			app.event.trigger("DetailView.Widget.AfterLoad", widgetDataContainer, 'Emails', thisInstance);
+			app.event.trigger("DetailView.Widget.AfterLoad", widgetDataContainer, params['module'], thisInstance);
 			progress.progressIndicator({'mode': 'hide'});
 		});
 	},
@@ -2202,7 +2218,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
 	},
 	registerMapsEvents: function (container) {
-		var coordinates = container.find('#coordinates').val();
 		if (container.find('#coordinates').length) {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.registerDetailView(container);
@@ -2229,14 +2244,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	/**
 	 * Show confirmation on event click
-	 * @param jQuery element
-	 * @param string picklistName
+	 * @param {jQuery} element
+	 * @param {string} picklistName
 	 */
 	showProgressConfirmation(element, picklistName) {
 		const self = this;
 		let picklistValue = $(element).data('picklistValue');
 		Vtiger_Helper_Js.showConfirmationBox({
-			title: picklistValue,
+			title: $(element).data('picklistLabel'),
 			message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
 		}).done(() => {
 			const progressIndicatorElement = $.progressIndicator();
@@ -2269,6 +2284,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
+		if (typeof Chat_JS !== 'undefined') {
+			if (this.getSelectedTab().data('labelKey') === 'LBL_CHAT') {
+				Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
+			} else {
+				Chat_JS.getInstance(detailContentsHolder, 'detail').unregisterEvents();
+			}
+		}
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);
@@ -2496,7 +2518,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
 					thisInstance.reloadWidgetActivitesStats(container);
-					app.showPopoverElementView(container.find('.js-popover-tooltip'));
 				}
 			);
 		});

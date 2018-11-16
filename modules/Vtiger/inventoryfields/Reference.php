@@ -3,6 +3,8 @@
 /**
  * Inventory Reference Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -17,11 +19,15 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '-2147483648,2147483647';
 
 	/**
-	 * Getting value to display.
-	 *
-	 * @param type $value
-	 *
-	 * @return type
+	 * {@inheritdoc}
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Reference.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
@@ -37,15 +43,11 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (\App\Record::getState($value) !== 'Active') {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$moduleName showReferenceTooltip' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
+		return "<a class='modCT_$moduleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
 	}
 
 	/**
-	 * Getting value to display.
-	 *
-	 * @param type $value
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function getEditValue($value)
 	{

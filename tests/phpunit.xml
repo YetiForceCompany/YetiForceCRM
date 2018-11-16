@@ -10,13 +10,14 @@
 		 stopOnIncomplete="true"
 		 printerClass="YtResultPrinter"
 		 printerFile="printer.php"
-		 bootstrap="bootstrap.php">
+		 bootstrap="bootstrap.php"
+		 timeoutForLargeTests="1000">
 	<testsuites>
 		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
-		<testsuite name="Entity">
-			<directory suffix=".php">./Entity/</directory>
+		<testsuite name="Base">
+			<directory suffix=".php">./Base/</directory>
 		</testsuite>
 		<testsuite name="Integrations">
 			<directory suffix=".php">./Integrations/</directory>
@@ -47,7 +48,6 @@
 			<exclude>
 				<directory suffix=".php">../modules/Vtiger/pdfs</directory>
 				<directory suffix=".php">../modules/OSSMail</directory>
-				<directory suffix=".php">../modules/PBXManager</directory>
 				<file>../modules/API/cron/CalDav.php</file>
 				<file>../modules/API/cron/CardDav.php</file>
 				<file>../modules/Assets/cron/Renewal.php</file>
@@ -75,8 +75,4 @@
 	<listeners>
 		<listener class="YtTimes" file="./times.php"/>
 	</listeners>
-	<logging>
-		<log type="coverage-clover" target="coverage.xml"/>
-		<log type="junit" target="execution.xml"/>
-	</logging>
 </phpunit>

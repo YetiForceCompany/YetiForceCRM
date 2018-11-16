@@ -116,9 +116,8 @@ class Accounts extends CRMEntity
 	{
 		\App\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
 
-		$listview_header = [];
-		$listview_entries = [];
-
+		$listViewHeader = [];
+		$listViewEntries = [];
 		$listColumns = $listColumns ? $listColumns : AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -127,7 +126,7 @@ class Accounts extends CRMEntity
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
 			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
-				$listview_header[] = $fieldLabel;
+				$listViewHeader[] = $fieldLabel;
 			}
 			$field = \App\Field::getFieldInfo($fieldName, 'Accounts');
 			$hierarchyFields[] = $field;
@@ -136,9 +135,8 @@ class Accounts extends CRMEntity
 		$accountsList = [];
 
 		// Get the accounts hierarchy from the top most account in the hierarch of the current account, including the current account
-		$encountered_accounts = [$id];
-		$accountsList = $this->__getParentAccounts($id, $accountsList, $encountered_accounts);
-
+		$encounteredAccounts = [$id];
+		$accountsList = $this->__getParentAccounts($id, $accountsList, $encounteredAccounts);
 		$baseId = current(array_keys($accountsList));
 		$accountsList = [$baseId => $accountsList[$baseId] ?? []];
 
@@ -146,9 +144,9 @@ class Accounts extends CRMEntity
 		$accountsList[$baseId] = $this->__getChildAccounts($baseId, $accountsList[$baseId], $accountsList[$baseId]['depth']);
 
 		// Create array of all the accounts in the hierarchy
-		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listview_entries);
+		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listViewEntries);
 
-		$accountHierarchy = ['header' => $listview_header, 'entries' => $listview_entries];
+		$accountHierarchy = ['header' => $listViewHeader, 'entries' => $listViewEntries];
 		\App\Log::trace('Exiting getAccountHierarchy method ...');
 
 		return $accountHierarchy;
@@ -160,13 +158,12 @@ class Accounts extends CRMEntity
 	 * @param int   $id              - Id of the record highest in hierarchy
 	 * @param array $accountInfoBase
 	 * @param int   $accountId       - accountid
-	 * @param array $listviewEntries
+	 * @param array $listViewEntries
 	 *                               returns All the parent accounts of the given accountid in array format
 	 */
-	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
+	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listViewEntries)
 	{
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
-
 		$hasRecordViewAccess = \App\Privilege::isPermitted('Accounts', 'DetailView', $accountId);
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
@@ -185,8 +182,8 @@ class Accounts extends CRMEntity
 						$data = '<strong>' . $data . '</strong>';
 					}
 					// - to show the hierarchy of the Accounts
-					$account_depth = str_repeat(' .. ', $accountInfoBase['depth']);
-					$data = $account_depth . $data;
+					$accountDepth = str_repeat(' .. ', $accountInfoBase['depth']);
+					$data = $accountDepth . $data;
 				} elseif ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
 				} else {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
@@ -196,185 +193,167 @@ class Accounts extends CRMEntity
 				$accountInfoData[] = ['data' => $data, 'fieldname' => $fieldName, 'rawData' => $rawData];
 			}
 		}
-		$listviewEntries[$accountId] = $accountInfoData;
+		$listViewEntries[$accountId] = $accountInfoData;
 		if (is_array($accountInfoBase)) {
 			foreach ($accountInfoBase as $accId => $accountInfo) {
 				if (is_array($accountInfo) && (int) $accId) {
-					$listviewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listviewEntries);
+					$listViewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listViewEntries);
 				}
 			}
 		}
 		\App\Log::trace('Exiting getHierarchyData method ...');
 
-		return $listviewEntries;
+		return $listViewEntries;
 	}
 
 	/**
 	 * Function to Recursively get all the upper accounts of a given Account.
 	 *
-	 * @param int   $id              - accountid
-	 * @param array $parent_accounts - Array of all the parent accounts
-	 *                               returns All the parent accounts of the given accountid in array format
+	 * @param int   $id             - accountid
+	 * @param array $parentAccounts - Array of all the parent accounts
+	 *                              returns All the parent accounts of the given accountid in array format
 	 */
-	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
+	public function __getParentAccounts($id, &$parentAccounts, &$encounteredAccounts, $depthBase = 0)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
-
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
-
-			return $parent_accounts;
+			return $parentAccounts;
 		}
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
-			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			' FROM vtiger_account' .
-			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid' .
-			' INNER JOIN vtiger_accountaddress ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid ' .
-			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
-			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
-			' WHERE vtiger_crmentity.deleted = 0 and vtiger_account.accountid = ?';
-		$res = $adb->pquery($query, [$id]);
-
-		if ($adb->getRowCount($res) > 0) {
-			$row = $adb->getRow($res);
-			$parentid = $row['parentid'];
-			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encountered_accounts)) {
-				$encountered_accounts[] = $parentid;
-				$this->__getParentAccounts($parentid, $parent_accounts, $encountered_accounts, $depthBase + 1);
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$row = (new App\Db\Query())->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_accountaddress', 'vtiger_accountaddress.accountaddressid = vtiger_account.accountid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.accountid' => $id])->one();
+		if ($row) {
+			$parentId = $row['parentid'];
+			if ($parentId != '' && $parentId != 0 && !in_array($parentId, $encounteredAccounts)) {
+				$encounteredAccounts[] = $parentId;
+				$this->__getParentAccounts($parentId, $parentAccounts, $encounteredAccounts, $depthBase + 1);
 			}
-			$parent_account_info = [];
+			$parentAccountInfo = [];
 			$depth = 0;
-			if (isset($parent_accounts[$parentid])) {
-				$depth = $parent_accounts[$parentid]['depth'] + 1;
+			if (isset($parentAccounts[$parentId])) {
+				$depth = $parentAccounts[$parentId]['depth'] + 1;
 			}
-			$parent_account_info['depth'] = $depth;
+			$parentAccountInfo['depth'] = $depth;
 			foreach ($this->hierarchyFields as &$field) {
 				$fieldName = $field['fieldname'];
 
 				if ($fieldName == 'assigned_user_id') {
-					$parent_account_info[$fieldName] = $row['user_name'];
+					$parentAccountInfo[$fieldName] = $row['user_name'];
 				} elseif ($fieldName == 'shownerid') {
 					$sharedOwners = \App\Fields\SharedOwner::getById($row['accountid']);
 					if (!empty($sharedOwners)) {
 						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
-						$parent_account_info[$fieldName] = $sharedOwners;
+						$parentAccountInfo[$fieldName] = $sharedOwners;
 					}
 				} else {
-					$parent_account_info[$fieldName] = $row[$field['columnname']];
+					$parentAccountInfo[$fieldName] = $row[$field['columnname']];
 				}
 			}
-			$parent_accounts[$id] = $parent_account_info;
+			$parentAccounts[$id] = $parentAccountInfo;
 		}
 		\App\Log::trace('Exiting __getParentAccounts method ...');
-
-		return $parent_accounts;
+		return $parentAccounts;
 	}
 
 	/**
 	 * Function to Recursively get all the child accounts of a given Account.
 	 *
-	 * @param int   $id             - accountid
-	 * @param array $child_accounts - Array of all the child accounts
-	 * @param int   $depth          - Depth at which the particular account has to be placed in the hierarchy
-	 *                              returns All the child accounts of the given accountid in array format
+	 * @param int   $id            - accountid
+	 * @param array $childAccounts - Array of all the child accounts
+	 * @param int   $depth         - Depth at which the particular account has to be placed in the hierarchy
+	 *                             returns All the child accounts of the given accountid in array format
 	 */
-	public function __getChildAccounts($id, &$child_accounts, $depthBase)
+	public function __getChildAccounts($id, &$childAccounts, $depthBase)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
-
 		if (empty($id) || $depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
-
-			return $child_accounts;
+			return $childAccounts;
 		}
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
-			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			' FROM vtiger_account' .
-			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid' .
-			' INNER JOIN vtiger_accountaddress ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid ' .
-			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
-			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
-			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
-		$res = $adb->pquery($query, [$id]);
-
-		if ($adb->getRowCount($res) > 0) {
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$dataReader = (new App\Db\Query())
+			->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_accountaddress', 'vtiger_account.accountid = vtiger_accountaddress.accountaddressid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])->createCommand()->query();
+		if ($dataReader->count() > 0) {
 			$depth = $depthBase + 1;
-			while ($row = $adb->getRow($res)) {
-				$child_acc_id = $row['accountid'];
-				$child_account_info = [];
-				$child_account_info['depth'] = $depth;
+			while ($row = $dataReader->read()) {
+				$childAccId = $row['accountid'];
+				$childAccountInfo = [];
+				$childAccountInfo['depth'] = $depth;
 				foreach ($this->hierarchyFields as &$field) {
 					$fieldName = $field['fieldname'];
 					if ($fieldName == 'assigned_user_id') {
-						$child_account_info[$fieldName] = $row['user_name'];
+						$childAccountInfo[$fieldName] = $row['user_name'];
 					} elseif ($fieldName == 'shownerid') {
-						$sharedOwners = \App\Fields\SharedOwner::getById($child_acc_id);
+						$sharedOwners = \App\Fields\SharedOwner::getById($childAccId);
 						if (!empty($sharedOwners)) {
 							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
-							$child_account_info[$fieldName] = $sharedOwners;
+							$childAccountInfo[$fieldName] = $sharedOwners;
 						}
 					} else {
-						$child_account_info[$fieldName] = $row[$field['columnname']];
+						$childAccountInfo[$fieldName] = $row[$field['columnname']];
 					}
 				}
-				$child_accounts[$child_acc_id] = $child_account_info;
-				$this->__getChildAccounts($child_acc_id, $child_accounts[$child_acc_id], $depth);
+				$childAccounts[$childAccId] = $childAccountInfo;
+				$this->__getChildAccounts($childAccId, $childAccounts[$childAccId], $depth);
 			}
 		}
 		\App\Log::trace('Exiting __getChildAccounts method ...');
-
-		return $child_accounts;
+		return $childAccounts;
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		if (empty($return_module) || empty($return_id)) {
+		if (empty($returnModule) || empty($returnId)) {
 			return;
 		}
-
-		if ($return_module === 'Campaigns') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ($return_module === 'Products') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
+		if ($returnModule === 'Campaigns') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
+		} elseif ($returnModule === 'Products') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $returnId])->execute();
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
-	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmId, $withModule, $withCrmIds, $relatedName = false)
 	{
-		if (!is_array($with_crmids)) {
-			$with_crmids = [$with_crmids];
+		if (!is_array($withCrmIds)) {
+			$withCrmIds = [$withCrmIds];
 		}
-		if (!in_array($with_module, ['Products', 'Campaigns'])) {
-			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName);
+		if (!in_array($withModule, ['Products', 'Campaigns'])) {
+			parent::saveRelatedModule($module, $crmId, $withModule, $withCrmIds, $relatedName);
 		} else {
-			foreach ($with_crmids as $with_crmid) {
-				if ($with_module == 'Products') {
+			foreach ($withCrmIds as $withCrmId) {
+				if ($withModule == 'Products') {
 					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
-						'crmid' => $crmid,
-						'productid' => $with_crmid,
+						'crmid' => $crmId,
+						'productid' => $withCrmId,
 						'setype' => $module,
 						'rel_created_user' => \App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s'),
 					])->execute();
-				} elseif ($with_module == 'Campaigns') {
-					$checkResult = (new \App\Db\Query())->from('vtiger_campaign_records')->where(['campaignid' => $with_crmid, 'crmid' => $crmid])->exists();
+				} elseif ($withModule == 'Campaigns') {
+					$checkResult = (new \App\Db\Query())->from('vtiger_campaign_records')->where(['campaignid' => $withCrmId, 'crmid' => $crmId])->exists();
 					if ($checkResult) {
 						continue;
 					}
 					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-						'campaignid' => $with_crmid,
-						'crmid' => $crmid,
+						'campaignid' => $withCrmId,
+						'crmid' => $crmId,
 						'campaignrelstatusid' => 1,
 					])->execute();
 				}

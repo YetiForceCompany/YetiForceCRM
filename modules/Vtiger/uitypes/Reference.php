@@ -25,9 +25,17 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -88,9 +96,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
-		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
-
-		return $linkValue;
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
 	}
 
 	/**
@@ -135,5 +141,13 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['bigint', 'integer', 'smallint'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }

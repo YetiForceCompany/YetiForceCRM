@@ -3,8 +3,8 @@
  * Cron task to review changes in records.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $db = \App\Db::getInstance();
 $query = (new \App\Db\Query())->from('u_#__reviewed_queue');
@@ -89,7 +89,7 @@ class CronReviewed
 		$data = $this->get('data');
 		if ('all' === $this->get('selected_ids')) {
 			$data['module'] = \App\Module::getModuleName($this->get('tabid'));
-			$request = new \App\Request($data, $data);
+			$request = new \App\Request($data, false);
 			$this->recordList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		} else {
 			$this->recordList = $this->get('selected_ids');
@@ -147,8 +147,8 @@ class CronReviewed
 		$lastReviewedUsers[] = $this->get('userid');
 
 		return $db->createCommand()->update(
-				'vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $id]
-			)->execute();
+			'vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $id]
+		)->execute();
 	}
 
 	/**

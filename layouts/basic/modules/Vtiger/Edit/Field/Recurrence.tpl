@@ -66,6 +66,9 @@
 				   name="{$FIELD_MODEL->getFieldName()}"
 				   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}"/>
 			{assign var="RECURRING_INFORMATION" value=Vtiger_Recurrence_UIType::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
+			{if empty($RECURRING_INFORMATION)}
+				{assign var="RECURRING_INFORMATION" value=['FREQ'=>'','INTERVAL'=>0]}
+			{/if}
 			<div class="clearfix form-row">
 				<div class="col-4 mb-2">
 					<span class="col-form-label float-left">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>

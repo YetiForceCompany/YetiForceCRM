@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
@@ -31,54 +31,49 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		$supportedCurrencies = [];
 		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$dateCur = date('Y-m-d', strtotime('last monday'));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
+		$tableUrl = 'http://api.nbp.pl/api/exchangerates/tables/a/';
 
-		$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
-
-		$file = file($txtSrc);
-		$fileNum = count($file);
 		$numberOfDays = 1;
+		$iterationsLimit = 60;
 		$stateA = false;
-
 		while (!$stateA) {
-			for ($i = 0; $i < $fileNum; ++$i) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
+			$url = $tableUrl . $dateCur . '/?format=json';
+			try {
+				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				if ($tryTable->getStatusCode() == 200) {
 					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
+					$tableBody = $tryTable->getBody();
 				}
+			} catch (\Throwable $exc) {
+				throw new \App\Exceptions\IntegrationException('ERR_CURRENCY_TABLE_DOWNLOAD||' . $url . '||' . $exc->getMessage());
 			}
 
 			if (!$stateA) {
 				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
+				$dateCur = date('Y-m-d', $newDate);
 				++$numberOfDays;
+				if ($numberOfDays > $iterationsLimit) {
+					throw new \App\Exceptions\IntegrationException('ERR_ITERATIONS_LIMIT_EXCEEDED');
+				}
 			}
 		}
-		$headers = get_headers($newXmlSrc, 1);
-		if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
-			$xml = simplexml_load_file($newXmlSrc);
-			$xmlObj = $xml->children();
-			$num = count($xmlObj->pozycja);
-			for ($i = 0; $i <= $num; ++$i) {
-				if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-					continue;
+		if ($stateA && $tableBody) {
+			$json = \App\Json::decode($tableBody);
+			if (!empty($json) && !empty($json[0]) && !empty($json[0]['rates'])) {
+				foreach ($json[0]['rates'] as $rawCurrency) {
+					if (empty($rawCurrency['currency'])) {
+						continue;
+					}
+					if ($rawCurrency['code'] === 'XDR') {
+						continue;
+					}
+					$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($rawCurrency['code'])] = $rawCurrency['code'];
 				}
-				$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
-				if ($currencyCode == 'XDR') {
-					continue;
-				}
-				$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
-				$supportedCurrencies[$currencyName] = $currencyCode;
+			} else {
+				\App\Log::error('Cannot parse server response' . $tableBody, __METHOD__);
 			}
 		} else {
-			App\Log::warning('Can not connect to the server' . $newXmlSrc);
+			throw new \App\Exceptions\IntegrationException('ERR_CANNOT_CONNECT_TO_REMOTE' . $tableBody);
 		}
 		return $supportedCurrencies;
 	}
@@ -102,75 +97,56 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$selectedBank = $moduleModel->getActiveBankId();
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
-
+		$dateCur = $dateParam;
 		// check if data is correct, currency rates can be retrieved only for working days
 		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
-		$dateCur = $dateParam;
-		$chosenYear = date('Y', strtotime($dateCur));
-		$date = substr(str_replace('-', '', $dateCur), 2);
+		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
+		$tableUrl = 'http://api.nbp.pl/api/exchangerates/tables/a/';
 
-		if (date('Y') == $chosenYear) {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		} else {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir' . $chosenYear . '.txt';
-		}
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
-
-		$file = file($txtSrc);
-		$fileNum = count($file);
 		$numberOfDays = 1;
+		$iterationsLimit = 60;
 		$stateA = false;
-
-		while (!$stateA && $file) {
-			for ($i = 0; $i < $fileNum; ++$i) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
+		while (!$stateA) {
+			$url = $tableUrl . $dateCur . '/?format=json';
+			try {
+				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				if ($tryTable->getStatusCode() == 200) {
 					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
+					$tableBody = $tryTable->getBody();
 				}
+			} catch (\Throwable $exc) {
 			}
 			if ($stateA === false) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
+				$dateCur = strtotime("-$numberOfDays day", strtotime($dateCur));
+				$dateCur = date('Y-m-d', $dateCur);
 				++$numberOfDays;
+				if ($numberOfDays > $iterationsLimit) {
+					break;
+				}
 			}
 		}
 
-		$xml = simplexml_load_file($newXmlSrc);
-
-		$xmlObj = $xml->children();
-
-		$num = count($xmlObj->pozycja);
-		$datePublicationOfFile = (string) $xmlObj->data_publikacji;
+		$json = \App\Json::decode($tableBody);
+		$datePublicationOfFile = (string) $json[0]['effectiveDate'];
 
 		$exchangeRate = 1.0;
 		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
 		if ($mainCurrency !== $this->getMainCurrencyCode()) {
-			for ($i = 0; $i <= $num; ++$i) {
-				if ((string) $xmlObj->pozycja[$i]->kod_waluty === $mainCurrency) {
-					$exchangeRate = (float) str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
+			foreach ($json[0]['rates'] as $item) {
+				if ($item['code'] === $mainCurrency) {
+					$exchangeRate = (float) $item['mid'];
 				}
 			}
 		}
-		for ($i = 0; $i <= $num; ++$i) {
-			if (!isset($xmlObj->pozycja[$i]) && $xmlObj->pozycja[$i]->nazwa_waluty) {
-				continue;
-			}
-			$currency = (string) $xmlObj->pozycja[$i]->kod_waluty;
+		foreach ($json[0]['rates'] as $item) {
+			$currency = $item['code'];
 			foreach ($otherCurrencyCode as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
-					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-					$exchange = ((float) $exchange) / ((float) $xmlObj->pozycja[$i]->przelicznik);
+					$exchange = $item['mid'];
 					$exchangeVtiger = $exchangeRate / $exchange;
 					$exchange = $exchangeRate ? ($exchange / $exchangeRate) : 0;
-
 					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 					}

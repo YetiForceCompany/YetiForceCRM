@@ -24,6 +24,16 @@
     "ERR_FILE_XPACKET_CODE_INJECTION": "File contains dangerous XPACKET code and was rejected",
     "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "No permissions to create directories",
     "ERR_AUTO_LOGOUT": "Logged out automatically due to no activity",
-    "ERR_FIELD_NOT_FOUND": "Field not found"
+    "ERR_FIELD_NOT_FOUND": "Field not found",
+    "ERR_NO_VALUE": "No value",
+    "ERR_API": "Error in API",
+    "ERR_MODULE_DOES_NOT_EXIST": "Module %s does not exist",
+    "ERR_RECORD_NOT_FOUND": "There is no record with ID: %s",
+    "ERR_NO_PERMISSIONS_TO_FIELD": "No permissions to the field",
+    "ERR_NO_PERMITTED_TO_VIEW": "No permissions to view",
+    "ERR_CURRENCY_TABLE_DOWNLOAD": "Error while downloading the exchange rate table.",
+    "ERR_ITERATIONS_LIMIT_EXCEEDED": "Exceeded iteration limit.",
+    "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
+    "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server"
   }
 }

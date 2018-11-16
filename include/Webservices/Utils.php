@@ -242,8 +242,6 @@ class WebservicesUtils
 	public static function vtwsTransferRelatedRecords($sourceRecordId, $destinationRecordId)
 	{
 		$db = \App\Db::getInstance();
-		//PBXManager
-		$db->createCommand()->update('vtiger_pbxmanager', ['customer' => $destinationRecordId], ['customer' => $sourceRecordId])->execute();
 		//OSSPasswords
 		$db->createCommand()->update('vtiger_osspasswords', ['linkto' => $destinationRecordId], ['linkto' => $sourceRecordId])->execute();
 		//Contacts

@@ -1,0 +1,14 @@
+{
+  "php": {
+    "LBL_BACKUP_MANAGER": "Manager backup\u00f3w",
+    "LBL_BACKUP_MANAGER_DESCRIPTION": "Zarz\u0105dzanie plikami kopii zapasowych",
+    "LBL_DOWNLOAD": "Pobierz",
+    "LBL_FILE_NAME": "Nazwa pliku",
+    "LBL_FILE_SIZE": "Rozmiar",
+    "LBL_FILE_DATE": "Data modyfikacji",
+    "LBL_BACKUP_LIST": "Lista kopii zapasowych",
+    "ERR_CONFIG_ALERT_TITLE": "Manager backup\u00f3w jest wy\u0142\u0105czony",
+    "ERR_CONFIG_ALERT_DESC": "Ustaw odpowiedni\u0105 \u015bcie\u017ck\u0119 w zmiennej BACKUP_PATH w pliku konfiguracyjnym [config\/modules\/Backup.php] aby go w\u0142\u0105czy\u0107."
+  },
+  "js": {}
+}

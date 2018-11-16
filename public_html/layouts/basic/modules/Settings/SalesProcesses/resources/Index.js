@@ -3,7 +3,6 @@
 
 jQuery.Class("Settings_SalesProcesses_Index_Js", {}, {
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.on('change', '.configField', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};

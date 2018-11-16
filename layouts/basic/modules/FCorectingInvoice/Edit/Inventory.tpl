@@ -52,7 +52,7 @@
 	{else}
 		{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
 	{/if}
-	{assign var="CURRENCY_SYMBOLAND" value=vtlib\Functions::getCurrencySymbolandRate($CURRENCY)}
+	{assign var="CURRENCY_SYMBOLAND" value=\App\Fields\Currency::getById($CURRENCY)}
 {/if}
 {assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
 <input type="hidden" class="aggregationTypeDiscount" value="{$DISCOUNTS_CONFIG['aggregation']}">

@@ -132,6 +132,9 @@ AppConnector = {
 		};
 		jQuery.ajax(params);
 		if (pjaxMode) {
+			if (typeof params.data.historyUrl !== 'undefined') {
+				fullUrl = params.data.historyUrl;
+			}
 			if (fullUrl === '') {
 				fullUrl = 'index.php?' + $.param(params.data);
 			} else if (fullUrl.indexOf('index.php?') === -1) {

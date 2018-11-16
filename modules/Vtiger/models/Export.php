@@ -288,7 +288,7 @@ class Vtiger_Export_Model extends \App\Base
 					$recordModule = \App\Record::getType($value);
 					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
-						foreach ($displayValueArray as $k => $v) {
+						foreach ($displayValueArray as $v) {
 							$displayValue = $v;
 						}
 					}
@@ -353,7 +353,7 @@ class Vtiger_Export_Model extends \App\Base
 					if (is_array($valueData)) {
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => $data) {
-							$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+							$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
 							$data['value'] = $currencyName;
 							$valueNewData[$currencyName] = $data;
 						}

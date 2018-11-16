@@ -165,7 +165,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if ($relatedModule && $notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$this->setFromUserValue('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
-			$this->setFromUserValue('title', $textParser->setContent($this->get('title'))->parse()->getContent());
+			$this->setFromUserValue('title', \App\TextParser::textTruncate($textParser->setContent($this->get('title'))->parse()->getContent(), 252));
 		}
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];

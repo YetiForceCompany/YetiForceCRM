@@ -23,24 +23,19 @@ class Credits
 	 * @var array
 	 */
 	public static $licenses = [
+		'bootstrap-tabdrop' => 'Apache-2.0',
+		'color-convert' => 'MIT',
+		'jquery-timers' => 'WTFPL', //jquery-gantt-editor
+		'svg' => 'MIT', //jquery-gantt-editor
+		'@fortawesome/fontawesome-free' => 'MIT',
+		'fontawesome-web' => 'MIT',
+		'jquery-ui-touch-punch' => 'MIT',
 		'ckeditor/ckeditor' => 'MPL-1.1+',
 		'block-ui' => 'MIT',
-		'dompurify' => 'Apache-2.0',
-		'html5shiv' => 'MIT',
 		'jquery-slimscroll' => 'MIT',
-		'optimist' => 'MIT',
-		'color-convert' => 'MIT',
-		'humanize' => 'MIT',
-		'microplugin' => 'Apache-2.0',
-		'@fortawesome/fontawesome-free-regular' => 'MIT',
-		'@fortawesome/fontawesome-free-solid' => 'MIT',
-		'@fortawesome/fontawesome-free-brands' => 'MIT',
-		'fontawesome-web' => 'MIT',
-		'svg' => 'MIT',
-		'jquery-timers' => 'WTFPL',
-		'bootstrap-tabdrop' => 'Apache-2.0',
-		'jquery-ui-touch-punch' => 'MIT',
+		'html5shiv' => 'MIT',
 		'jquery-lazy' => 'MIT',
+		'dompurify' => 'Apache-2.0',
 	];
 	/**
 	 * Information about forks CRM.

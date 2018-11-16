@@ -28,6 +28,7 @@
     "LBL_INSTALLATION_WIZARD": "Asistente de instalaci\u00f3n",
     "LBL_INSTALL_BUTTON": "Instalar",
     "LBL_INSTALL_PREREQUISITES": "Verify server configuration",
+    "LBL_LIBRARY_NAME": "Library name",
     "LBL_MORE_INFORMATION": "M\u00e1s informaci\u00f3n",
     "LBL_NEXT": "Siguiente",
     "LBL_ONE_LAST_THING": "Una \u00faltima cosa...",
@@ -69,6 +70,7 @@
     "LBL_PDO_SUPPORT": "Soporte PDO",
     "LBL_OPEN_SSL": "Soporte para openssl",
     "LBL_LICENSE": "Licencia",
+    "LBL_EXTERNAL_LIBRARIES_LICENSES": "Third-party library licenses",
     "LBL_CURL": "Soporte cURL",
     "LBL_INDUSTRY_OPTION": "Seleccione la opci\u00f3n de la industria apropiada.",
     "LBL_ERROR_LOGIN": "Error de autorizaci\u00f3n, los datos ingresados son incorrectos.",
@@ -98,7 +100,8 @@
     "LBL_WRONG_USERNAME_OR_PASSWORD": "Usuario o contrase\u00f1a incorrectos",
     "LBL_DESCRIPTION_CONDITIONS": "Advertencia! Durante la migraci\u00f3n perder\u00e1 todos los datos relacionados con los siguientes m\u00f3dulos: Administrador de Correo, Plantillas de Correo, Flujos de Trabajo.  Tenga en cuenta que la migraci\u00f3n a\u00fan est\u00e1 en su fase de prueba, por lo que debe hacer todas las copias de seguridad posibles y seguir los procedimientos de seguridad en caso de cualquier evento imprevisto.",
     "LBL_MIGRATION_IN_PROGRESS": "Migraci\u00f3n en curso",
-    "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard"
+    "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
+    "LBL_VERSION": "Version"
   },
   "js": {
     "JS_ALL": "Todo",

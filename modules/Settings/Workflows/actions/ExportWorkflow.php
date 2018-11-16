@@ -4,8 +4,8 @@
  * Export to XML Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Action
 {
@@ -40,7 +40,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 					$value = $workflowModel->get($field);
 					$xmlColumn = $xml->createElement($field, html_entity_decode($value, ENT_COMPAT, 'UTF-8'));
 				}
-			} else {
+			} elseif (isset($workflowObject->$field)) {
 				$value = $workflowObject->$field;
 				$xmlColumn = $xml->createElement($field, html_entity_decode($value, ENT_COMPAT, 'UTF-8'));
 			}

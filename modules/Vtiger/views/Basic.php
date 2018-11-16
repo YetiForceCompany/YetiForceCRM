@@ -48,9 +48,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
-		if (\App\Module::isModuleActive('Chat')) {
-			$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries());
-		}
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if ($display) {
 			$this->preProcessDisplay($request);
@@ -71,10 +68,8 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/clockpicker/dist/jquery-clockpicker.js',
 			'~libraries/inputmask/dist/jquery.inputmask.bundle.js',
 			'~libraries/mousetrap/mousetrap.js',
@@ -90,17 +85,13 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',
+			'modules.Vtiger.resources.ConditionBuilder',
 			"modules.$moduleName.resources.AdvanceFilter",
 			'modules.Vtiger.resources.SearchAdvanceFilter',
 			"modules.$moduleName.resources.SearchAdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
 			'~libraries/html2canvas/dist/html2canvas.js',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 }

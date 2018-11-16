@@ -113,7 +113,6 @@ class Project extends CRMEntity
 	{
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
-			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
@@ -140,8 +139,6 @@ class Project extends CRMEntity
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
 		} elseif ($eventType === 'module.postupdate') {
-			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
-
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -207,7 +204,7 @@ class Project extends CRMEntity
 			'vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid', ];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relModule => $relTable) {
+			foreach ($relTableArr as $relTable) {
 				$idField = $tblFieldArr[$relTable];
 				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries

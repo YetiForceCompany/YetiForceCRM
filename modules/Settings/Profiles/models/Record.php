@@ -324,9 +324,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$allModulePermissions = $this->getModulePermissions();
-		$moduleModel = $allModulePermissions[$tabId];
-
-		return $moduleModel;
+		return $allModulePermissions[$tabId];
 	}
 
 	/**
@@ -485,7 +483,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$moduleFields = $moduleModel->getFields();
 				$allFieldPermissions = $this->getProfileTabFieldPermissions($id);
-				foreach ($moduleFields as $fieldName => $fieldModel) {
+				foreach ($moduleFields as $fieldModel) {
 					$fieldPermissions = [];
 					$fieldId = $fieldModel->getId();
 					$fieldPermissions['visible'] = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
@@ -738,28 +736,26 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			'tabid' => $tabId,
 			'permissions' => $isModulePermitted,
 		])->execute();
-		if (isset($permissions['fields'])) {
-			if (is_array($permissions['fields'])) {
-				foreach ($permissions['fields'] as $fieldId => $stateValue) {
-					$dbCommand->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])->execute();
-					if ($stateValue == self::PROFILE_FIELD_INACTIVE) {
-						$visible = Settings_Profiles_Module_Model::FIELD_INACTIVE;
-						$readOnly = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
-					} elseif ($stateValue == self::PROFILE_FIELD_READONLY) {
-						$visible = Settings_Profiles_Module_Model::FIELD_ACTIVE;
-						$readOnly = Settings_Profiles_Module_Model::FIELD_READONLY;
-					} else {
-						$visible = Settings_Profiles_Module_Model::FIELD_ACTIVE;
-						$readOnly = Settings_Profiles_Module_Model::FIELD_READWRITE;
-					}
-					$dbCommand->insert('vtiger_profile2field', [
-						'profileid' => $profileId,
-						'tabid' => $tabId,
-						'fieldid' => $fieldId,
-						'visible' => $visible,
-						'readonly' => $readOnly,
-					])->execute();
+		if (isset($permissions['fields']) && is_array($permissions['fields'])) {
+			foreach ($permissions['fields'] as $fieldId => $stateValue) {
+				$dbCommand->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])->execute();
+				if ($stateValue == self::PROFILE_FIELD_INACTIVE) {
+					$visible = Settings_Profiles_Module_Model::FIELD_INACTIVE;
+					$readOnly = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
+				} elseif ($stateValue == self::PROFILE_FIELD_READONLY) {
+					$visible = Settings_Profiles_Module_Model::FIELD_ACTIVE;
+					$readOnly = Settings_Profiles_Module_Model::FIELD_READONLY;
+				} else {
+					$visible = Settings_Profiles_Module_Model::FIELD_ACTIVE;
+					$readOnly = Settings_Profiles_Module_Model::FIELD_READWRITE;
 				}
+				$dbCommand->insert('vtiger_profile2field', [
+					'profileid' => $profileId,
+					'tabid' => $tabId,
+					'fieldid' => $fieldId,
+					'visible' => $visible,
+					'readonly' => $readOnly,
+				])->execute();
 			}
 		}
 	}

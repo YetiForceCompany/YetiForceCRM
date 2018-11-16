@@ -1,12 +1,24 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-YetiForce-Status">
-		<div class="o-breadcrumb js-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
+		<div class="o-breadcrumb js-header-toggle widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
 			<div class="o-breadcrumb__container">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
 		<div class="js-Settings-YetiForce-Status-table container" data-js="container">
+			<div class="row mb-2">
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="alert-heading">
+						<span class="fas fa-info-circle mr-1"></span>
+						{\App\Language::Translate('LBL_YETIFORCE_STATUS_HEADER',$QUALIFIED_MODULE)}
+					</h4>
+					<p>{\App\Language::Translate('LBL_YETIFORCE_STATUS_FULL_DESC',$QUALIFIED_MODULE)}</p>
+				</div>
+			</div>
 			<div class="row mb-2">
 				<div class="col-lg-4">
 					<strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>

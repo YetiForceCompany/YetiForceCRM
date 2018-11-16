@@ -53,7 +53,14 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 				$users[$currentUser->getId()] = $currentUser->getName();
 				break;
 		}
-
+		if (!empty($users) && $favouriteUsers = $currentUser->getFavouritesUsers()) {
+			uksort($users,
+				function ($a, $b) use ($favouriteUsers) {
+					return !isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]);
+				});
+			$viewer->assign('FAVOURITES_USERS', $favouriteUsers);
+		}
+		$viewer->assign('HISTORY_USERS', $request->getExploded('user', ',', 'Integer'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
 		$viewer->assign('USER_MODEL', $currentUser);
@@ -67,7 +74,6 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
-
 		switch ($clendarallorecords) {
 			case 1:
 				$groups = [];
@@ -86,6 +92,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 			default:
 				break;
 		}
+		$viewer->assign('HISTORY_USERS', $request->getExploded('user', ',', 'Integer'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', $groups);
 		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);

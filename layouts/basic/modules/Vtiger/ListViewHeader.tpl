@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="listViewPageDiv">
-	<div class="listViewTopMenuDiv noprint mb-2">
+	<div class="listViewTopMenuDiv noprint">
 		<div class="listViewActionsDiv row">
 			<div class="col-12 d-inline-flex flex-wrap">
 				<div class="c-list__buttons d-flex flex-wrap flex-sm-nowrap u-w-sm-down-100">
@@ -45,12 +45,18 @@
 												data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {' '}
 												data-editable="{$CUSTOM_VIEW->isEditable()}"
 												data-deletable="{$CUSTOM_VIEW->privilegeToDelete()}" {' '}
+												data-featured="{$CUSTOM_VIEW->isFeatured()}"
 												data-pending="{$CUSTOM_VIEW->isPending()}" {' '}
 												data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}"
+												{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'}
+													data-option="{$CUSTOM_VIEW->getOwnerName()}"
+												{/if}
 												id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {' '}
 												value="{$CUSTOM_VIEW->get('cvid')}" {' '}
 												data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}
-												class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
+												class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
+											{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+										</option>
 									{/foreach}
 								</optgroup>
 							{/foreach}
@@ -89,14 +95,14 @@
 			</div>
 		</div>
 		{if $CUSTOM_VIEWS|@count gt 0}
-			<ul class="nav nav-tabs pt-2" role="tablist">
+			<ul class="c-tab--border nav nav-tabs" role="tablist">
 				{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 					{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 						{if $CUSTOM_VIEW->isFeatured()}
 							<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
 								<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
-								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
+								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')}; border-color: {$CUSTOM_VIEW->get('color')} {$CUSTOM_VIEW->get('color')} #fff"{/if}
 								   data-toggle="tab" role="tab"
 								   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}

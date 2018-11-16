@@ -64,9 +64,6 @@ class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response)
 	{
-		file_put_contents('xxxx.txt', print_r([
-			$request->getHeaders(),
-		], true), FILE_APPEND);
 		if (strpos($request->getHeader('Authorization'), 'Basic') === 0) {
 			return $this->checkBasic($request, $response);
 		} else {

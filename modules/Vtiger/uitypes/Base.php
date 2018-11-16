@@ -38,6 +38,20 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 *
+	 * @param mixed  $value
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$this->validate($value, true);
+		return $this->getDBValue($value);
+	}
+
+	/**
 	 * Set value from request.
 	 *
 	 * @param \App\Request        $request
@@ -59,7 +73,6 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Set default value from request.
 	 *
 	 * @param \App\Request $request
-	 * @param bool         $requestFieldName
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
@@ -72,6 +85,18 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get Default Field Value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return mixed
+	 */
+	public function getDefaultValue()
+	{
+		return $this->getFieldModel()->get('defaultvalue');
+	}
+
+	/**
 	 * Verification of data.
 	 *
 	 * @param string $value
@@ -81,7 +106,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -343,5 +368,27 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getHeaderTypes()
 	{
 		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
+	}
+
+	/**
+	 * Return allowed operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Base.tpl';
 	}
 }

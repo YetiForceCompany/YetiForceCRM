@@ -15,6 +15,30 @@
 	}
 }
 
+.limited-footer--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer-limited;
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		.c-menu {
+			&__container {
+				bottom: $h-footer;
+			}
+		}
+	}
+}
+
+.user-info--active.limited-footer--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer;
+		}
+	}
+}
+
 .c-menu {
 	&__container {
 		position: fixed;
@@ -45,7 +69,7 @@
 
 	@include media-breakpoint-down(sm) {
 		&__container {
-			bottom: $h-footer-mobile;
+			bottom: $h-footer-limited;
 		}
 	}
 
@@ -134,20 +158,20 @@
 
 		.tpl-menu-SubMenu,
 		.tpl-menu-Profile_submenu {
-			background: $color-menu;
-			color: $bg-menu;
+			background: $bg-sub-menu;
+			color: $color-navbar;
 
 			a {
 				font-size: 14px;
-				color: $bg-menu;
-				background: $color-menu;
+				color: $color-navbar;
+				background: $bg-sub-menu;
 
 				&:hover, &:focus {
-					background: lighten($color-menu, 5%);
+					background: lighten($bg-sub-menu, 5%);
 				}
 
 				&.active {
-					background: darken($color-menu, 5%);
+					background: darken($bg-sub-menu, 5%);
 				}
 
 				&.hasIcon {
@@ -162,11 +186,11 @@
 			}
 
 			button {
-				background: darken($color-menu, 10%);
+				background: darken($bg-sub-menu, 10%);
 
 				&:hover, &:focus {
-					color: $color-menu;
-					background: $bg-menu;
+					color: $bg-sub-menu;
+					background: $color-navbar;
 				}
 
 				&.hasIcon {
@@ -186,6 +210,14 @@
 			font-size: 1.6em;
 			height: 100%;
 			min-width: 42px;
+		}
+		.tpl-menu-SubMenu {
+			.menuIcon {
+				padding-left: calculate-rem(10px);
+				//font-size: 1.6em;
+				//height: 100%;
+				//min-width: 42px;
+			}
 		}
 	}
 
@@ -255,8 +287,8 @@
 			}
 
 			.c-badge--top-right {
-				position:inherit;
-				margin-left:5px;
+				position: inherit;
+				margin-left: 5px;
 			}
 
 			&.show .dropdown-toggle,
@@ -291,6 +323,11 @@
 				border-radius: 0;
 				font-weight: bold;
 			}
+
+			.c-tab__text {
+				display: inline !important;
+				margin-left: 0.25rem;
+			}
 		}
 	}
 }
@@ -315,6 +352,29 @@
 		@extend .small;
 	}
 
+	&--border {
+		border-bottom: 0;
+
+		.nav-link {
+			&:not(.active) {
+				border-color: transparent !important;
+			}
+			&.active {
+				border-bottom-color: transparent !important;
+			}
+
+			&.active:after {
+				content: '';
+				width: 100%;
+				right: 0;
+				top: calculate-rem(35px);
+				position: absolute;
+				border: solid 1px;
+				z-index: -1;
+			}
+		}
+	}
+
 	&--gray {
 		background: $bg-rtabs;
 	}
@@ -334,3 +394,29 @@
 	}
 }
 
+.dashboardViewContainer {
+	.nav-inverted-tabs {
+		.nav-item {
+			.nav-link {
+				border: 1px solid #ffffff;
+				border-top: 0;
+				border-radius: 0 0 0.25rem 0.25rem;
+				font-size: 0.85em;
+				&:hover {
+					border: 1px solid #dee2e6;
+					border-top: 0;
+				}
+				&.active {
+					color: #495057;
+					background: #f8f9fa;
+					border: 1px solid #dee2e6;
+					border-top: 0;
+					border-radius: 0 0 0.25rem 0.25rem;
+					&:hover {
+						background: #dee2e6;
+					}
+				}
+			}
+		}
+	}
+}

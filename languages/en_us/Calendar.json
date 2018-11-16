@@ -48,10 +48,11 @@
     "LBL_SELECT_ACTIVITY_TYPE": "Select activity type",
     "LBL_SELECT_CALENDAR_COLOR": "Select Calendar color",
     "LBL_SELECT_USER_CALENDAR": "Select User Calendar",
+    "LBL_SELECT_GROUP_CALENDAR": "Select group calendar",
     "LBL_SELECT_USERS": "Select Users",
     "LBL_SHARED_CALENDAR": "Shared Calendar",
     "LBL_STATUS": "Status",
-    "LBL_TASK_INFORMATION": "To Do details",
+    "LBL_TASK_INFORMATION": "Details",
     "LBL_TASKS": "To Do",
     "LBL_TASK": "To Do",
     "LBL_TODOS": "To Do",
@@ -126,6 +127,11 @@
     "LBL_RELATED_TO": "Related to",
     "LBL_NO_AVAILABLE_ACTIONS": "No available actions",
     "LBL_CALENDAR_FILTERS": "Filters",
+    "LBL_FILTER": "Filters",
+    "LBL_MEET": "MEETING",
+    "LBL_PHONE": "PHONE",
+    "LBL_EDIT_EVENT": "Edit event",
+    "LBL_USER_NAME": "User name",
     "LBL_AUTO_FILL_DESCRIPTION": "Fill the start date based on the first available date",
     "LBL_CACHE_SELECTED_FILTERS": "Standard view in calendar changed. Click \"Clear view\" to clear it.",
     "LBL_CACHE_CLEAR": "Clear view",
@@ -174,7 +180,12 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Only subsequent records will be deleted",
     "LBL_DELETE_ALL_EVENTS": "Delete all records",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "All records in sequence will be deleted",
-    "LBL_REPEATEVENT": "Once in every"
+    "LBL_REPEATEVENT": "Once in every",
+    "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
+    "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
+    "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
+    "LBL_WORK_DAYS": "Work days",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Cant select contact from leads",
@@ -223,8 +234,6 @@
     "Mobile Call": "Mobile Call",
     "JS_CHANGE_ACTIVITY_TIME": "Change status to: for processing or history",
     "JS_ASSIGNED_TO": "Assigned To",
-    "JS_SWITCHING_DAYS": "Switch days ",
-    "JS_ALL": "All",
-    "JS_WORK_DAYS": "Work days"
+    "JS_SWITCHING_DAYS": "Switch days "
   }
 }

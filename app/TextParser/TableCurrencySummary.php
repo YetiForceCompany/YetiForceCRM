@@ -39,7 +39,7 @@ class TableCurrencySummary extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencyData = \App\Fields\Currency::getById($currency);
 		}
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px}' .
@@ -55,10 +55,9 @@ class TableCurrencySummary extends Base
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 			}
-			if (in_array('tax', $columns) && in_array('taxmode', $columns)) {
-				if (in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
-					$RATE = $baseCurrency['conversion_rate'] / $currencySymbolRate['rate'];
-					$html .= '<table class="productTable colapseBorder">
+			if (in_array('tax', $columns) && in_array('taxmode', $columns) && in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
+				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
+				$html .= '<table class="productTable colapseBorder">
 								<thead>
 									<tr>
 
@@ -68,22 +67,21 @@ class TableCurrencySummary extends Base
 									</tr>
 								</thead>
 								<tbody>';
-					$currencyAmount = 0;
-					foreach ($taxes as $key => &$tax) {
-						$currencyAmount += $tax;
+				$currencyAmount = 0;
+				foreach ($taxes as $key => &$tax) {
+					$currencyAmount += $tax;
 
-						$html .= '<tr>
+					$html .= '<tr>
 									<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
 									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
-					}
-					$html .= '<tr>
+				}
+				$html .= '<tr>
 								<td class="textAlignRight tBorder" width="80px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>
 					</table>';
-				}
 			}
 		}
 		return $html;

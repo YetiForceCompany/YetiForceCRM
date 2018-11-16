@@ -48,6 +48,7 @@
     "LBL_SELECT_ACTIVITY_TYPE": "Etkinlik t\u00fcr\u00fcn\u00fc se\u00e7in",
     "LBL_SELECT_CALENDAR_COLOR": "Takvim rengini se\u00e7in",
     "LBL_SELECT_USER_CALENDAR": "Kullan\u0131c\u0131 Takvimini Se\u00e7in",
+    "LBL_SELECT_GROUP_CALENDAR": "Select group calendar",
     "LBL_SELECT_USERS": "Kullan\u0131c\u0131lar\u0131 Se\u00e7",
     "LBL_SHARED_CALENDAR": "Payla\u015f\u0131lan Takvim",
     "LBL_STATUS": "Durum",
@@ -126,6 +127,11 @@
     "LBL_RELATED_TO": "\u0130li\u015fkili",
     "LBL_NO_AVAILABLE_ACTIONS": "Mevcut eylem yok",
     "LBL_CALENDAR_FILTERS": "Filtreler",
+    "LBL_FILTER": "Filters",
+    "LBL_MEET": "MEETING",
+    "LBL_PHONE": "PHONE",
+    "LBL_EDIT_EVENT": "Edit event",
+    "LBL_USER_NAME": "User name",
     "LBL_AUTO_FILL_DESCRIPTION": "Ba\u015flama tarihini ilk kullan\u0131labilir tarihe g\u00f6re doldurun",
     "LBL_CACHE_SELECTED_FILTERS": "Takvimdeki standart g\u00f6r\u00fcn\u00fcm de\u011fi\u015fti. Temizlemek i\u00e7in \"G\u00f6r\u00fcn\u00fcm\u00fc temizle\" yi t\u0131klay\u0131n. ",
     "LBL_CACHE_CLEAR": "G\u00f6r\u00fcn\u00fcm\u00fc temizle",
@@ -174,7 +180,12 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Yaln\u0131zca sonraki kay\u0131tlar silinecek",
     "LBL_DELETE_ALL_EVENTS": "T\u00fcm kay\u0131tlar\u0131 sil",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "S\u0131ral\u0131 t\u00fcm kay\u0131tlar silinir",
-    "LBL_REPEATEVENT": "Her vaktinde"
+    "LBL_REPEATEVENT": "Her vaktinde",
+    "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
+    "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
+    "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
+    "LBL_WORK_DAYS": "\u0130\u015f g\u00fcnleri",
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "\u0130lanlardan ileti\u015fim se\u00e7emiyorum",
@@ -223,8 +234,6 @@
     "Mobile Call": "Mobil Arama",
     "JS_CHANGE_ACTIVITY_TIME": "Durumunu \u015fu \u015fekilde de\u011fi\u015ftir: i\u015flem veya ge\u00e7mi\u015f i\u00e7in",
     "JS_ASSIGNED_TO": "Atanan",
-    "JS_SWITCHING_DAYS": "G\u00fcnleri de\u011fi\u015ftir",
-    "JS_ALL": "Hepsi",
-    "JS_WORK_DAYS": "\u0130\u015f g\u00fcnleri"
+    "JS_SWITCHING_DAYS": "G\u00fcnleri de\u011fi\u015ftir"
   }
 }

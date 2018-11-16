@@ -16,7 +16,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		parent::validate($value, $isUserFormat);
@@ -43,5 +43,13 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	public function getPicklistValues()
 	{
 		return \App\Language::getAll();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
 	}
 }

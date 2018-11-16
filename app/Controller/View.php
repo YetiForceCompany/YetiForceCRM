@@ -205,14 +205,6 @@ abstract class View extends Base
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page.
-	 *
-	 * @param \App\Request $request - request model
-	 *
-	 * @return <array> - array of Vtiger_CssScript_Model
-	 */
-
-	/**
 	 * Get header css files that need to loaded in the page.
 	 *
 	 * @param \App\Request $request Request instance
@@ -225,7 +217,7 @@ abstract class View extends Base
 			'~layouts/resources/icons/userIcons.css',
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
-			'~libraries/fontawesome-web/css/fontawesome-all.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -257,10 +249,7 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/@fortawesome/fontawesome/index.js',
-			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
-			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
-			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
+			'~libraries/@fortawesome/fontawesome-free/js/all.js'
 		]);
 	}
 
@@ -286,6 +275,7 @@ abstract class View extends Base
 			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
 			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
 			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
+			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
@@ -303,12 +293,16 @@ abstract class View extends Base
 			'~libraries/footable/dist/footable.js',
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
+			'~libraries/floatthead/dist/jquery.floatThead.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
+		if (\App\Privilege::isPermitted('Chat')) {
+			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
+		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(\Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
@@ -557,6 +551,7 @@ abstract class View extends Base
 					 'endHour' => $userModel->getDetail('end_hour'),
 					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
 					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+					 'eventLimit' => \AppConfig::module('Calendar', 'EVENT_LIMIT'),
 					 'timeZone' => $userModel->getDetail('time_zone'),
 					 'currencyId' => $userModel->getDetail('currency_id'),
 					 'currencyName' => $userModel->getDetail('currency_name'),
@@ -576,6 +571,8 @@ abstract class View extends Base
 					 'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
 					 'sounds' => \AppConfig::sounds(),
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+					 'recordPopoverDelay' => \AppConfig::performance('RECORD_POPOVER_DELAY'),
+					 'searchShowOwnerOnlyInList' => \AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),

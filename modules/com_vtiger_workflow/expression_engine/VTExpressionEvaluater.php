@@ -136,9 +136,7 @@ class VTFieldExpressionEvaluater
 	public static function __vt_time_diffdays($arr)
 	{
 		$timediff = static::__vt_time_diff($arr);
-		$days_diff = floor($timediff / (60 * 60 * 24));
-
-		return $days_diff;
+		return floor($timediff / (60 * 60 * 24));
 	}
 
 	public static function __vt_add_days($arr)
@@ -154,9 +152,7 @@ class VTFieldExpressionEvaluater
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
-		$date = strftime('%Y-%m-%d', $baseDate + ($noOfDays * 24 * 60 * 60));
-
-		return $date;
+		return strftime('%Y-%m-%d', $baseDate + ($noOfDays * 24 * 60 * 60));
 	}
 
 	public static function __vt_sub_days($arr)
@@ -172,23 +168,21 @@ class VTFieldExpressionEvaluater
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
-		$date = strftime('%Y-%m-%d', $baseDate - ($noOfDays * 24 * 60 * 60));
-
-		return $date;
+		return strftime('%Y-%m-%d', $baseDate - ($noOfDays * 24 * 60 * 60));
 	}
 
 	public static function __vt_get_date($arr)
 	{
 		$type = $arr[0];
 		switch ($type) {
-			case 'today': return date('Y-m-d');
-				break;
-			case 'tomorrow': return date('Y-m-d', strtotime('+1 day'));
-				break;
-			case 'yesterday': return date('Y-m-d', strtotime('-1 day'));
-				break;
-			default: return date('Y-m-d');
-				break;
+			case 'today':
+				return date('Y-m-d');
+			case 'tomorrow':
+				return date('Y-m-d', strtotime('+1 day'));
+			case 'yesterday':
+				return date('Y-m-d', strtotime('-1 day'));
+			default:
+				return date('Y-m-d');
 		}
 	}
 

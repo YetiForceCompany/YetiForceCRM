@@ -516,7 +516,6 @@ class TextParser
 				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
 			default:
 				return $key;
-				break;
 		}
 	}
 
@@ -663,10 +662,8 @@ class TextParser
 			return implode($this->relatedRecordSeparator, $return);
 		}
 		$module = Record::getType($relatedId);
-		if (!empty($module)) {
-			if (($relatedModule && $relatedModule !== $module)) {
-				return '';
-			}
+		if (!empty($module) && ($relatedModule && $relatedModule !== $module)) {
+			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
 		$instance = static::getInstanceByModel($relatedRecordModel);
@@ -793,6 +790,14 @@ class TextParser
 			$pagingModel->set('limit', (int) $limit);
 		}
 		if ($columns) {
+			$headerFields = [];
+			foreach (explode(',', $columns) as $fieldName) {
+				$headerFields[] = [
+					'field_name' => $fieldName,
+					'module_name' => $moduleName
+				];
+			}
+			$listView->set('header_fields', $headerFields);
 			$listView->getQueryGenerator()->setFields(explode(',', $columns));
 			$listView->getQueryGenerator()->setField('id');
 		}

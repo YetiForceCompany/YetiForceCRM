@@ -4,10 +4,13 @@
  * OSSMailView DetailView model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewLinks($linkParams)
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -29,7 +32,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_REPLY',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
 					'linkicon' => 'fas fa-reply',
-					'linkclass' => 'sendMailBtn',
+					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
@@ -37,7 +40,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
 					'linkicon' => 'fas fa-reply-all',
-					'linkclass' => 'sendMailBtn',
+					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
@@ -45,7 +48,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_FORWARD',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
 					'linkicon' => 'fas fa-share',
-					'linkclass' => 'sendMailBtn',
+					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
 			} else {
 				$detailViewLinks[] = [
@@ -55,7 +58,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_REPLY',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'reply'),
 					'linkicon' => 'fas fa-reply',
-					'linkclass' => 'sendMailBtn',
+					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
@@ -64,7 +67,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'replyAll'),
 					'linkicon' => 'fas fa-reply-all',
-					'linkclass' => 'sendMailBtn',
+					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
@@ -73,7 +76,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_FORWARD',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'forward'),
 					'linkicon' => 'fas fa-share',
-					'linkclass' => 'sendMailBtn',
+					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
 			}
 
@@ -84,6 +87,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhint' => 'LBL_PRINT',
 					'linkurl' => 'javascript:OSSMailView_Detail_Js.printMail();',
 					'linkicon' => 'fas fa-print',
+					'linkclass' => 'btn-outline-dark btn-sm',
 				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {

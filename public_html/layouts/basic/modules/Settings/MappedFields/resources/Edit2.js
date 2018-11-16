@@ -116,7 +116,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		this.registerEventsForEditView();
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 	},
 	/**
 	 * Function to register event for adding new convert to field mapping
@@ -154,7 +153,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	 * Function to register on change event for select2 element
 	 */
 	registerOnChangeEventForSourceModule: function () {
-		var thisInstance = this;
 		var form = this.getContainer();
 		form.on('change', '.sourceFields', function (e) {
 			var element = jQuery(e.currentTarget);
@@ -181,7 +179,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 					options.append(element);
 				}
 			})
-			fieldsBasedOnType = false;
 
 			container.find('.selectedFieldDataType').html(selectedOption.data('type-name') ? selectedOption.data('type-name') : '');
 			fieldsSelectElement.html(options.children());

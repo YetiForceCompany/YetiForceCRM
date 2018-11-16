@@ -402,7 +402,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getDependentsList()
 	{
-		$fieldModel = $this->getRelationField(true);
+		$fieldModel = $this->getRelationField();
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addNativeCondition([
 			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId(),
@@ -661,7 +661,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
-		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
+		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName(), 'sourceModule' => $eventHandler->getModuleName()];
 		$relationModel = \Vtiger_Relation_Model::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
 
 		$updateRecords = [$params['sourceRecordId']];
@@ -673,7 +673,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($relationModel->transferDb($params)) {
 				$updateRecords[] = $params['fromRecordId'];
 				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
-					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()],
+					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserRealId()],
 					['crmid' => $updateRecords])->execute();
 				$eventHandler->trigger('EntityAfterTransferLink');
 				$updateRecords = [];
@@ -693,9 +693,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$count = $dbCommand->update('vtiger_crmentityrel', ['crmid' => $params['sourceRecordId']],
 			['crmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']])->execute();
-		$count += $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
-			['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
-		return $count;
+		return $count + $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
+				['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
 	}
 
 	/**
@@ -1048,7 +1047,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$relatedModel = $this->getRelationModuleModel();
 			$relatedModelFields = $relatedModel->getFields();
 
-			foreach ($relatedModelFields as $fieldName => $fieldModel) {
+			foreach ($relatedModelFields as $fieldModel) {
 				if ($fieldModel->isViewable()) {
 					$fields[] = $fieldModel;
 				}

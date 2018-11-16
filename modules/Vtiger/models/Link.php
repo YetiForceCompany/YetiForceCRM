@@ -228,9 +228,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		//Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
 			//To convert single quotes and double quotes
-			$url = \App\Purifier::encodeHtml($url);
-
-			return $url;
+			return \App\Purifier::encodeHtml($url);
 		}
 		$module = $parent = false;
 		$sourceModule = false;
@@ -288,7 +286,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			if ($relationModel && $relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
-				foreach ($fieldList as $fieldName => $fieldModel) {
+				foreach ($fieldList as $fieldModel) {
 					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
 						if (in_array($sourceModuleModel->get('name'), $referenceList)) {
@@ -303,11 +301,8 @@ class Vtiger_Link_Model extends vtlib\Link
 			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 
-		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		$url = \App\Purifier::encodeHtml($url);
-
-		return $url;
+		return \App\Purifier::encodeHtml(implode('&', $parametersParts));
 	}
 
 	/**

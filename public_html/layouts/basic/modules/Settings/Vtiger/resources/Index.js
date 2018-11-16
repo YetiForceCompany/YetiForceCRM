@@ -74,7 +74,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 		$('li[data-mode="systemWarnings"] a').click();
 	},
 	showSecurity: function () {
-		$('li[data-mode="security"] a').click();
+		app.openUrl('index.php?module=Log&parent=' + app.getParentModuleName() + '&view=Index&type=access_for_admin');
 	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
@@ -134,7 +134,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 					'view': 'IndexAjax'
 				}
 				AppConnector.request(params).done(function (data) {
-					var shortCutsMainContainer = $('#settingsShortCutsContainer');
 					var existingDivBlock = $('#settingsShortCutsContainer');
 					$(data).appendTo(existingDivBlock);
 					progressIndicatorElement.progressIndicator({
@@ -510,7 +509,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 		container.find('table').dataTable({
 			order: [[2, 'desc']]
 		});
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		container.find('.showDescription').on('click', function (e) {
 			var html = $(this).closest('td').find('.showDescriptionContent').html();
 			app.showModalWindow(html);
@@ -581,8 +579,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 				thisInstance.registerGithubEvents(container);
 			} else if (mode == 'systemWarnings') {
 				thisInstance.registerSystemWarningsEvents(container);
-			} else if (mode == 'security') {
-				app.showPopoverElementView(container.find('.js-popover-tooltip'));
 			}
 		});
 	},

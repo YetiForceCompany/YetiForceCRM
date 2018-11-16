@@ -513,7 +513,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function buildSingleColors(&$chartData)
 	{
-		foreach ($chartData['datasets'] as $datasetIndex => &$dataset) {
+		foreach ($chartData['datasets'] as &$dataset) {
 			$dataset['backgroundColor'] = \App\Colors::EMPTY_COLOR;
 		}
 	}
@@ -739,10 +739,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$params]);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
-		$query = $queryGenerator->createQuery();
-		// we want colors from picklists if available
-		$query = $this->addPicklistsToQuery($query);
-		return $query;
+		return $this->addPicklistsToQuery($queryGenerator->createQuery());
 	}
 
 	/**
@@ -763,12 +760,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function normalizeData()
 	{
-		foreach ($this->data as $dividingValueKey => &$dividing) {
+		foreach ($this->data as &$dividing) {
 			foreach ($dividing as $groupValueKey => &$values) {
 				// iterate data one more time to search other group values
 				$values[$this->valueType] = (float) $values[$this->valueType];
 				foreach ($values as $valueKey => $value) {
-					foreach ($this->data as $otherDividingValueKey => &$otherDividing) {
+					foreach ($this->data as &$otherDividing) {
 						if (!isset($otherDividing[$groupValueKey][$valueKey])) {
 							// if record doesn't have this value,
 							// doesn't have records with picklist value that other records have
@@ -979,8 +976,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$picklist = false;
 		$assignedUserId = false;
 		$recordId = false;
-		foreach ($this->rows as $dividingValue => $dividing) {
-			foreach ($dividing as $groupValue => $group) {
+		foreach ($this->rows as $dividing) {
+			foreach ($dividing as $group) {
 				foreach ($group as $row) {
 					if (!empty($row['picklist_id'])) {
 						$picklist = true;

@@ -62,8 +62,7 @@ class VTWorkflowUtils
 	 */
 	public function vtGetModules()
 	{
-		$modules_not_supported = ['PBXManager'];
-		$query = (new \App\Db\Query())->select(['vtiger_field.tabid', 'name'])->from('vtiger_field')->innerJoin('vtiger_tab', 'vtiger_field.tabid=vtiger_tab.tabid')->where(['vtiger_tab.isentitytype' => 1, 'vtiger_tab.presence' => [0, 2]])->andWhere(['NOT IN', 'vtiger_tab.name', $modules_not_supported])->distinct();
+		$query = (new \App\Db\Query())->select(['vtiger_field.tabid', 'name'])->from('vtiger_field')->innerJoin('vtiger_tab', 'vtiger_field.tabid=vtiger_tab.tabid')->where(['vtiger_tab.isentitytype' => 1, 'vtiger_tab.presence' => [0, 2]])->distinct();
 		$modules = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

@@ -59,11 +59,9 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$dataReader = $query->createCommand()->query();
 		$pickListValues = [];
 		while ($row = $dataReader->read()) {
-			if ($intersectionMode) {
-				//not equal if specify that the picklistvalue is not present for all the roles
-				if ((int) $row['rolecount'] !== count($roleIdList)) {
-					continue;
-				}
+			//second not equal if specify that the picklistvalue is not present for all the roles
+			if ($intersectionMode && (int) $row['rolecount'] !== count($roleIdList)) {
+				continue;
 			}
 			//Need to decode the picklist values twice which are saved from old ui
 			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));

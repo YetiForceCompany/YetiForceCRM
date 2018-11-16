@@ -25,6 +25,12 @@ class Encryption extends Base
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 	];
+	/**
+	 * @var array Recommended encryption methods
+	 */
+	public static $recomendedMethods = [
+		'AES-256-CBC', 'AES-256-CTR', 'AES-192-CBC', 'AES-192-CTR'
+	];
 
 	/**
 	 * Function to get instance.
@@ -122,7 +128,7 @@ class Encryption extends Base
 		} catch (\Exception $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
-			$transactionAdmin->rollback();
+			$transactionAdmin->rollBack();
 			if (isset($config)) {
 				$config->revert();
 			}
@@ -130,7 +136,7 @@ class Encryption extends Base
 		} catch (\Error $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
-			$transactionAdmin->rollback();
+			$transactionAdmin->rollBack();
 			if (isset($config)) {
 				$config->revert();
 			}

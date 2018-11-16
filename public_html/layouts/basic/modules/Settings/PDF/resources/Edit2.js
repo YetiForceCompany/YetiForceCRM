@@ -144,7 +144,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerEditors(container);
 		App.Fields.Text.registerCopyClipboard(container);
 	}

@@ -15,6 +15,30 @@ namespace App\Fields;
 class Time
 {
 	/**
+	 * Returns time in user format.
+	 *
+	 * @param string $time
+	 *
+	 * @return string
+	 */
+	public static function formatToDisplay($time)
+	{
+		return (new \DateTimeField($time))->getDisplayTime();
+	}
+
+	/**
+	 * Returns time in database format.
+	 *
+	 * @param $time
+	 *
+	 * @return mixed
+	 */
+	public static function formatToDB($time)
+	{
+		return (new \DateTimeField(date(Date::currentUserJSDateFormat()) . ' ' . $time))->getDBInsertTimeValue();
+	}
+
+	/**
 	 * Convert seconds to decimal time format.
 	 *
 	 * @param int $seconds

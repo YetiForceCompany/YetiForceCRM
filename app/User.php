@@ -6,9 +6,9 @@ namespace App;
  * User basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class User
 {
@@ -247,6 +247,18 @@ class User
 	}
 
 	/**
+	 * Get user group names.
+	 *
+	 * @return string[]
+	 */
+	public function getGroupNames()
+	{
+		return array_filter(\App\Fields\Owner::getInstance('CustomView')->getGroups(false), function ($key) {
+			return \in_array($key, $this->getGroups());
+		}, ARRAY_FILTER_USE_KEY);
+	}
+
+	/**
 	 * Get user role Id.
 	 *
 	 * @return string
@@ -374,7 +386,7 @@ class User
 				$adminId = (new Db\Query())->select('id')
 					->from('vtiger_users')
 					->where(['is_admin' => 'on', 'status' => 'Active'])
-					->orderBy('id', SORT_ASC)
+					->orderBy(['id' => SORT_ASC])
 					->limit(1)->scalar();
 			}
 			Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
@@ -399,5 +411,48 @@ class User
 		Cache::save(__METHOD__, $name, $userId, Cache::LONG);
 
 		return $userId;
+	}
+
+	/**
+	 * Get user image details.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|string[]
+	 */
+	public function getImage()
+	{
+		if (Cache::has('UserImageById', $this->getId())) {
+			return Cache::get('UserImageById', $this->getId());
+		}
+		$image = Json::decode($this->getDetail('imagename'));
+		if (empty($image) || !($imageData = \current($image))) {
+			return [];
+		}
+		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
+		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
+		Cache::save('UserImageById', $this->getId(), $imageData);
+		return $imageData;
+	}
+
+	/**
+	 * Get user image details by id.
+	 *
+	 * @param int $userId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|string[]
+	 */
+	public static function getImageById(int $userId)
+	{
+		if (Cache::has('UserImageById', $userId)) {
+			return Cache::get('UserImageById', $userId);
+		}
+		$userModel = static::getUserModel($userId);
+		if (empty($userModel)) {
+			return [];
+		}
+		return $userModel->getImage();
 	}
 }

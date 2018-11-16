@@ -28,7 +28,7 @@ App.Fields = {
 				registerForAddon = true;
 			}
 			let elements = $('.' + clasName, parentElement);
-			if (parentElement.hasClass('dateField')) {
+			if (parentElement.hasClass(clasName)) {
 				elements = parentElement;
 			}
 			if (elements.length === 0) {
@@ -39,7 +39,7 @@ App.Fields = {
 				$('.js-date__btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
-					$(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();
+					$(e.currentTarget).closest('.date').find('input.' + clasName).get(0).focus();
 				});
 			}
 			let format = CONFIG.dateFormat;
@@ -68,7 +68,8 @@ App.Fields = {
 				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
-				format: format
+				format: format,
+				enableOnReadonly: false
 			};
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
@@ -656,11 +657,21 @@ App.Fields = {
 				});
 
 				if (select.hasClass('js-select2-sortable')) {
+					self.sortSelect2Options(select);
 					self.registerSelect2Sortable(select, params.sortableCb);
 				}
 			})
 
 			return selectElement;
+		},
+		/**
+		 * Sort elements (options) in select by data-sort-index
+		 * @param {jQuery} select2 element
+		 */
+		sortSelect2Options(select) {
+			select.find('option[data-sort-index]').sort((a, b) => {
+				return ($(b).data('sort-index')) < ($(a).data('sort-index')) ? 1 : -1;
+			}).appendTo(select);
 		},
 		/**
 		 * Register select2 drag and drop sorting
@@ -689,10 +700,9 @@ App.Fields = {
 	},
 	MultiImage: {
 		currentFileUploads: 0,
-
 		register(container) {
-			$('.js-multi-image', container).toArray().forEach((fileUploadInput) => {
-				new MultiImage(fileUploadInput);
+			$('.js-multi-image', container).each(function () {
+				new MultiImage($(this));
 			});
 		}
 	},
@@ -793,6 +803,97 @@ App.Fields = {
 					.removeClass('fa-check-square').addClass('fa-square');
 			}
 		}
+	},
+	MultiDependField: {
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		register(container) {
+			container.find('.js-multi-field').each((index, element) => {
+				const inputElement = $(element);
+				const fields = inputElement.find('.js-multi-field-val').data('fields');
+				inputElement.find('.js-add-item').on('click', (e) => {
+					App.Fields.MultiDependField.addRow(inputElement, fields);
+				});
+				App.Fields.MultiDependField.registerRow(inputElement, fields);
+			});
+		},
+		/**
+		 * Register row
+		 * @param {jQuery} inputElement
+		 * @param {Object} fields
+		 */
+		registerRow(inputElement, fields) {
+			for (let i in fields) {
+				inputElement.find('[name="' + fields[i] + '"]').on('change', (e) => {
+					App.Fields.MultiDependField.parseToJson(inputElement, fields);
+				});
+			}
+			inputElement.find('.js-remove-item').on('click', (e) => {
+				App.Fields.MultiDependField.removeRow($(e.target), inputElement);
+				App.Fields.MultiDependField.parseToJson(inputElement.closest('.js-multi-field'), fields);
+			});
+		},
+		/**
+		 * Invoked after clicking the remove button
+		 * @param {jQuery} element
+		 * @param {jQuery} container
+		 */
+		removeRow(element, container) {
+			if (container.find('.js-multi-field-row').length > 1) {
+				element.closest('.js-multi-field-row').remove();
+			}
+		},
+		/**
+		 * Convert data to json
+		 * @param {jQuery} element
+		 * @param {Object} fields
+		 */
+		parseToJson(element, fields) {
+			let arr = [];
+			let allFields = $(element).find('.js-multi-field-row');
+			let arrayLength = allFields.length;
+			for (let i = 0; i < arrayLength; ++i) {
+				let partData = {},
+					skip = false;
+				for (let k in fields) {
+					partData[fields[k]] = $(allFields[i]).find('[name="' + fields[k] + '"]').val();
+					if (k == 0 && partData[fields[k]] === '') {
+						skip = true;
+						break;
+					}
+				}
+				if (!skip) {
+					arr.push(partData);
+				}
+			}
+			$(element).find('input.js-multi-field-val').val(JSON.stringify(arr));
+		},
+		/**
+		 * Invoked after clicking the add button
+		 * @param {jQuery} container
+		 * @param {Object} fields
+		 */
+		addRow(container, fields) {
+			let newField;
+			let lastField = container.find('.js-multi-field-row').last();
+			let selectFields = lastField.find('select.select2');
+			if (selectFields.length) {
+				selectFields.select2('destroy').removeAttr('data-select2-id').find('option').removeAttr('data-select2-id');
+				newField = lastField.clone(false, false);
+				App.Fields.Picklist.showSelect2ElementView(lastField.find('select.select2'));
+			} else {
+				newField = lastField.clone(false, false);
+			}
+			for (let i in fields) {
+				newField.find('[name="' + fields[i] + '"]').val('');
+			}
+			newField.insertAfter(container.find('.js-multi-field-row').last());
+			App.Fields.Picklist.showSelect2ElementView(newField.find('select.select2'));
+			App.Fields.Date.register(newField);
+			App.Fields.MultiDependField.registerRow(container, fields);
+		},
 	},
 	DependentSelect: {
 		/**

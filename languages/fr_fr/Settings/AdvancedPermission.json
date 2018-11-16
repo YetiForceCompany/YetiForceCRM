@@ -23,5 +23,5 @@
     "ERR_INACTIVE_ALERT_TITLE": "Les autorisations avanc\u00e9es sont d\u00e9sactiv\u00e9es",
     "ERR_INACTIVE_ALERT_DESC": "Modifiez le param\u00e8tre PERMITTED_BY_ADVANCED_PERMISSION dans le fichier config\/security.php pour l'activer."
   },
-  "js": []
+  "js": {}
 }

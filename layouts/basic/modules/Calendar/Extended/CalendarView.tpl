@@ -1,59 +1,62 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-CalendarView -->
-	<input value="{$VIEW}" type="hidden" id="currentView"/>
 	<input value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}" type="hidden" id="activity_view"/>
 	<input value="{$CURRENT_USER->get('hour_format')}" type="hidden" id="time_format"/>
-	<input value="{$CURRENT_USER->get('start_hour')}" type="hidden" id="start_hour"/>
-	<input value="{$CURRENT_USER->get('end_hour')}" type="hidden" id="end_hour"/>
 	<input value="{$CURRENT_USER->get('date_format')}" type="hidden" id="date_format"/>
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>
-	<input value="{$EVENT_LIMIT}" type="hidden" id="eventLimit"/>
+	<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 	<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 	<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
+	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
-	<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
-		<div class="widget_header row marginbottomZero marginRightMinus20">
-			<div class="pull-left paddingLeftMd">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
-			</div>
-			<div class="col-xs-10 col-sm-7">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			</div>
-		</div>
-		<div class="alert alert-info marginTop10 hide" id="moduleCacheAlert" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close" data-js="click">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-			<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear" data-js="click">
-				{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}
-			</button>
-		</div>
-		<div class="hide">
-			{foreach item=ITEM from=$ACTIVITY_TYPE}
-				<span value="{$ITEM}" class="btn btn-success buttonCBr_Calendar_activitytype_{$ITEM}">
-					{\App\Language::translate($ITEM,$MODULE)}
-				</span>
-			{/foreach}
-		</div>
-		<div class="row">
-			<div id="datesColumn">
-				<p><!-- Divider --></p>
-				<div class="col-md-1 col-sm-1 hidden-xs">
-					<div class="dateList">
-					</div>
-					<div class="subDateList">
-					</div>
+	<input value="{\App\Purifier::encodeHtml(\App\Json::encode($HISTORY_PARAMS))}" type="hidden" id="historyParams"/>
+	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'SHOW_EDIT_FORM'))}" type="hidden" id="showEditForm"/>
+	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
+		<div class="o-calendar__container mt-2" data-js="offset">
+			<div class="d-none js-calendar__header-buttons">
+				<div class="js-calendar__view-btn mb-1 mb-sm-0 mr-1">
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn'}
 				</div>
-				<div id="calendarview" class="col-md-11 paddingLefttZero bottom_margin"></div>
+				<div class="js-calendar__filter-container">
+					{if $CUSTOM_VIEWS|@count gt 0}
+						<ul class="nav nav-pills u-w-fit js-calendar__extended-filter-tab" data-js="change"
+							role="tablist">
+							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+									{if $CUSTOM_VIEW->isFeatured()}
+										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
+											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
+											<a class="nav-link{if $VIEWID eq $CUSTOM_VIEW->getId() || (!empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()})} active show{/if}"
+											   href="#"
+											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
+											   data-toggle="tab" role="tab"
+											   aria-selected="{if $VIEWID eq $CUSTOM_VIEW->getId() || (!empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()})}true{else}false{/if}">
+												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+												{if $CUSTOM_VIEW->get('description')}
+													<span class="js-popover-tooltip fas fa-info-circle"
+														  data-js="popover"
+														  data-placement="auto right"
+														  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+												{/if}
+											</a>
+										</li>
+									{/if}
+								{/foreach}
+							{/foreach}
+						</ul>
+					{/if}
+					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip" role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"
+					   data-js="class: d-none | popover">
+						<span class="fas fa-eraser" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="o-calendar-container">
-			<div id="calendarview"></div>
+			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
+	<!-- /tpl-Calendar-Extended-CalendarView -->
 {/strip}

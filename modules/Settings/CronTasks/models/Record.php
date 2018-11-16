@@ -109,10 +109,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($maxExecutionTime > $iniMaxExecutionTime) {
 			$maxExecutionTime = $iniMaxExecutionTime;
 		}
-		if ($lastEnd < $lastStart && $this->isRunning()) {
-			if (time() > ($lastStart + $maxExecutionTime)) {
-				return true;
-			}
+		if ($lastEnd < $lastStart && $this->isRunning() && time() > ($lastStart + $maxExecutionTime)) {
+			return true;
 		}
 		return false;
 	}
@@ -144,10 +142,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTimeDiff()
 	{
-		$lastStart = (int) ($this->get('laststart'));
-		$lastEnd = (int) ($this->get('lastend'));
-		$timeDiff = $lastEnd - $lastStart;
-		return $timeDiff;
+		return (int) ($this->get('lastend')) - (int) ($this->get('laststart'));
 	}
 
 	/**

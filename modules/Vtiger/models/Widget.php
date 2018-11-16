@@ -42,30 +42,28 @@ class Vtiger_Widget_Model extends \App\Base
 		return $defaultSize;
 	}
 
-	public function getPositionCol($default = 0)
+	/**
+	 * Function to get the position of the widget.
+	 *
+	 * @param int    $defaultPosition
+	 * @param string $coordinate
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return int
+	 */
+	public function getPosition(int $position, string $coordinate)
 	{
-		$position = $this->get('position');
-		if ($position) {
-			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-			if (isset($position[App\Session::get('fingerprint')])) {
-				return (int) $position[App\Session::get('fingerprint')]['col'];
+		if ($positionData = $this->get('position')) {
+			$positionData = \App\Json::decode(App\Purifier::decodeHtml($positionData));
+			if (isset($positionData[App\Session::get('fingerprint')])) {
+				$position = (int) $positionData[App\Session::get('fingerprint')][$coordinate];
 			}
-			return (int) ($position['col']);
-		}
-		return $default;
-	}
-
-	public function getPositionRow($default = 0)
-	{
-		$position = $this->get('position');
-		if ($position) {
-			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-			if (isset($position[App\Session::get('fingerprint')])) {
-				return (int) $position[App\Session::get('fingerprint')]['row'];
+			if (isset($positionData[$coordinate])) {
+				$position = (int) ($positionData[$coordinate]);
 			}
-			return (int) ($position['row']);
 		}
-		return $default;
+		return $position;
 	}
 
 	/**
@@ -77,9 +75,7 @@ class Vtiger_Widget_Model extends \App\Base
 	{
 		$url = App\Purifier::decodeHtml($this->get('linkurl')) . '&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
-		$url .= '&widgetid=' . $widgetid . '&active=' . $this->get('active');
-
-		return $url;
+		return $url . '&widgetid=' . $widgetid . '&active=' . $this->get('active');
 	}
 
 	/**
