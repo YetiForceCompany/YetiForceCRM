@@ -9416,12 +9416,6 @@ hr {
   border-color: #eeeff2 #eeeff2 #c3c6d1;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); }
 
-#selectAllMsgDiv, #deSelectAllMsgDiv {
-  display: none;
-  background-color: #fafad2;
-  padding: 0.01%;
-  text-align: center; }
-
 .blockUI form, #globalmodal form {
   margin: 0 0 0; }
 
@@ -9492,7 +9486,7 @@ hr {
   border-radius: 2px; }
   .commentContainer hr {
     margin: 0 !important; }
-  .commentContainer .commentsList > .liStyleNone > .commentDetails .commentDiv {
+  .commentContainer .commentsList > .liStyleNone > .commentDetails .comment-div {
     width: 100%; }
   .commentContainer .singleComment {
     border-bottom: 1px solid #ddd; }
@@ -9536,12 +9530,12 @@ hr {
   margin-left: 0;
   padding-left: 0; }
 
-.singleComment .editedStatus {
+.singleComment .edited-status {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word; }
-  .singleComment .editedStatus p {
+  .singleComment .edited-status p {
     margin-bottom: 0; }
 .singleComment .commentActionsDiv p {
   margin-bottom: 0; }
@@ -9556,7 +9550,7 @@ hr {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word; }
-  .recentComments .commentDiv {
+  .recentComments .comment-div {
     min-width: 100%; }
   .recentComments .addCommentBlock {
     border: 0;
@@ -13543,8 +13537,13 @@ header .c-header__btn__container .select2-selection {
 .listViewPageDiv .select2noactive {
   height: 0 !important; }
 
-.js-fixed-thead tfoot td {
-  border-top: unset !important; }
+.js-fixed-thead {
+  table-layout: unset !important; }
+  .js-fixed-thead tfoot td {
+    border-top: unset !important; }
+
+.floatThead-wrapper {
+  overflow: hidden; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
@@ -17229,6 +17228,15 @@ td.fieldValue input, td.fieldValue .input-group {
   /*for IE*/
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100); }
+
+#selectAllMsgDiv, #deSelectAllMsgDiv {
+  display: none;
+  background-color: #fafad2;
+  text-align: center; }
+  #selectAllMsgDiv div, #deSelectAllMsgDiv div {
+    width: 100%;
+    top: 0;
+    left: 0; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (min-width: 992px) {
