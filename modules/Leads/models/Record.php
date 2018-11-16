@@ -103,16 +103,13 @@ class Leads_Record_Model extends Vtiger_Record_Model
 				if (empty($row['leadfid'])) {
 					continue;
 				}
-
 				$leadFieldInstance = $leadFieldInstances[$row['leadfid']];
 				if (!$leadFieldInstance) {
 					continue;
 				}
-
 				$leadFieldName = $leadFieldInstance->getName();
-				$accountFieldInstance = $accountFieldInstances[$row['accountfid']];
-				if ($row['accountfid'] && $accountFieldInstance) {
-					$mappingFields['Accounts'][$accountFieldInstance->getName()] = $leadFieldName;
+				if ($row['accountfid'] && isset($accountFieldInstances[$row['accountfid']])) {
+					$mappingFields['Accounts'][$accountFieldInstances[$row['accountfid']]->getName()] = $leadFieldName;
 				}
 			}
 			$dataReader->close();
