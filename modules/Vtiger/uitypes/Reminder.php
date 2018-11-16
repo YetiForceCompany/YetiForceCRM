@@ -118,4 +118,12 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	{
 		return false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEditable()
+	{
+		return false;
+	}
 }
