@@ -604,15 +604,6 @@ $.Class("Vtiger_Header_Js", {
 	hideReminderNotification: function () {
 		$('.remindersNotificationContainer').removeClass('toggled');
 	},
-	showPdfModal: function (url) {
-		var params = {};
-		if (app.getViewName() == 'List') {
-			var selected = Vtiger_List_Js.getSelectedRecordsParams(false, true);
-			$.extend(params, selected);
-		}
-		url += '&' + $.param(params);
-		app.showModalWindow(null, url);
-	},
 	registerFooTable: function () {
 		var container = $('.tableRWD');
 		container.find('thead tr th:gt(1)').attr('data-hide', 'phone');
