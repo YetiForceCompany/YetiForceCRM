@@ -2633,28 +2633,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 	updateWindowHeight: function (currentHeight, frame) {
 		frame.height(currentHeight);
 	},
-	subProductsCache: [],
 	loadSubProducts: function (parentRow) {
 		const thisInstance = this;
-		let recordId = parentRow.data('product-id');
-		thisInstance.removeSubProducts(parentRow);
-		if (thisInstance.subProductsCache[recordId]) {
-			thisInstance.addSubProducts(parentRow, thisInstance.subProductsCache[recordId]);
-			return false;
-		}
-		let subProrductParams = {
-			module: "Products",
-			action: "SubProducts",
-			record: recordId
-		};
+		let recordId = parentRow.data('product-id'),
+			subProrductParams = {
+				module: "Products",
+				action: "SubProducts",
+				record: recordId
+			};
 		AppConnector.request(subProrductParams).done(function (data) {
 			let responseData = data.result;
-			thisInstance.subProductsCache[recordId] = responseData;
 			thisInstance.addSubProducts(parentRow, responseData);
 		});
-	},
-	removeSubProducts: function (parentRow) {
-		$('.js-subproducts-container ul', parentRow).find("li").remove();
 	},
 	addSubProducts: function (parentRow, responseData) {
 		let subProductsContainer = $('.js-subproducts-container ul', parentRow);
