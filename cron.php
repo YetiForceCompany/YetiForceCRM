@@ -118,4 +118,6 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 }
 if ($deleteCronFile) {
 	unlink($cronLogPath);
+} else {
+	file_put_contents($cronLogPath, PHP_EOL . '------------------------------------' . PHP_EOL . \App\Log::getlastLogs() . PHP_EOL, FILE_APPEND);
 }
