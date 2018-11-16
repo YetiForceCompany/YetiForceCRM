@@ -22,11 +22,15 @@ class Cron
 	/**
 	 * @var string Log files directory path
 	 */
-	public static $logPath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
+	public static $logPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
 	/**
-	 * @var bool Current log file name
+	 * @var bool|string Current log file name
 	 */
 	public static $logFile = false;
+	/**
+	 * @var bool Logging enabled flag
+	 */
+	public static $logActive = false;
 	/**
 	 * @var bool Flag to keep log file after run finish
 	 */
@@ -41,13 +45,13 @@ class Cron
 	{
 		static::$timeStart = microtime(true);
 		static::generateStatusFile();
-		if (!\AppConfig::debug('DEBUG_CRON')) {
+		if (!(static::$logActive = \AppConfig::debug('DEBUG_CRON'))) {
 			return;
 		}
 		if (!is_dir(static::$logPath) && !mkdir(static::$logPath, 0777, true) && !is_dir(static::$logPath)) {
 			throw new \App\Exceptions\CacheException('ERR_CRON_LOG_DIRECTORY_CREATION_ERROR');
 		}
-		static::initLogFile();
+		$this->initLogFile();
 	}
 
 	/**
@@ -59,7 +63,7 @@ class Cron
 	 */
 	public function log($message, $level = 'info', $indent = true)
 	{
-		if (!\AppConfig::debug('DEBUG_CRON')) {
+		if (!static::$logActive) {
 			return;
 		}
 		if (\in_array($level, ['warning', 'error'])) {
@@ -68,33 +72,18 @@ class Cron
 		if ($indent) {
 			$message = '   ' . $message;
 		}
-		switch ($level) {
-			case 'error':
-				$code = 'E';
-				break;
-			case 'warning':
-				$code = 'W';
-				break;
-			default:
-				$code = 'I';
-				break;
-		}
-
-		file_put_contents(static::$logPath . static::$logFile, date('Y-m-d H:i:s') . ' ' . $code . ' - ' . $message . PHP_EOL, FILE_APPEND);
+		file_put_contents(static::$logPath . static::$logFile, date('Y-m-d H:i:s') . ' [' . $level . '] - ' . $message . PHP_EOL, FILE_APPEND);
 	}
 
 	/**
 	 * Init variables and create/append a log file.
 	 */
-	protected static function initLogFile()
+	protected function initLogFile()
 	{
-		if (!\AppConfig::debug('DEBUG_CRON')) {
-			return;
-		}
 		if (!static::$logFile) {
 			static::$logFile = date('Ymd_Hi') . '.log';
 		}
-		file_put_contents(static::$logPath . static::$logFile, date('Y-m-d H:i:s') . ' I - File start' . PHP_EOL, FILE_APPEND);
+		$this->log('File start', 'info', false);
 	}
 
 	/**
@@ -113,10 +102,12 @@ class Cron
 	public function __destruct()
 	{
 		if (!static::$keepLogFile) {
-			if (!\AppConfig::debug('DEBUG_CRON')) {
+			if (!static::$logActive) {
 				return;
 			}
-			unlink(static::$logPath . static::$logFile);
+			if (\file_exists(static::$logPath . static::$logFile)) {
+				unlink(static::$logPath . static::$logFile);
+			}
 		} else {
 			static::log('------------------------------------' . PHP_EOL . \App\Log::getlastLogs(), 'info', false);
 		}
@@ -129,9 +120,6 @@ class Cron
 	 */
 	public function getRunTime()
 	{
-		if (!static::$timeStart) {
-			return null;
-		}
-		return round(microtime(true) - static::$timeStart, 2);
+		return static::$timeStart ? round(microtime(true) - static::$timeStart, 2) : null;
 	}
 }
