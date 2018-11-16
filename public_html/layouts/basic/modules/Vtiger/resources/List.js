@@ -1081,18 +1081,17 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	updatePagination: function (pageNumber) {
 		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
-		var thisInstance = this;
-		var params = {};
-		params.module = app.getModuleName();
-		params.view = 'Pagination';
-		params.page = pageNumber;
-		params.mode = 'getPagination';
-		params.sourceModule = jQuery('#moduleFilter').val();
-		params.totalCount = $('.pagination').data('totalCount');
-		params.noOfEntries = jQuery('#noOfEntries').val();
-		AppConnector.request(Object.assign(this.getDefaultParams(), params)).done(function (data) {
+		AppConnector.request(Object.assign(this.getDefaultParams(), {
+			module: app.getModuleName(),
+			view: 'Pagination',
+			page: pageNumber,
+			mode: 'getPagination',
+			sourceModule: jQuery('#moduleFilter').val(),
+			totalCount: $('.pagination').data('totalCount'),
+			noOfEntries: jQuery('#noOfEntries').val()
+		})).done((data) => {
 			jQuery('.paginationDiv').html(data);
-			thisInstance.registerPageNavigationEvents();
+			this.registerPageNavigationEvents();
 
 		});
 	},
