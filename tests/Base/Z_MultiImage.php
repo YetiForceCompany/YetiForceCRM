@@ -20,6 +20,15 @@ class Z_MultiImage extends \Tests\Base
 	public static $files = ['0.jpg', '1.png', '2.png', '3.jpg'];
 
 	/**
+	 * @var bool get contact from cache
+	 */
+	private static $cacheContact = false;
+	/**
+	 * @var bool get product from cache
+	 */
+	private static $cacheProduct = false;
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
@@ -38,9 +47,9 @@ class Z_MultiImage extends \Tests\Base
 	{
 		$data = [];
 		foreach (static::$files as $i => $name) {
-			$data[] = ['Users', \App\User::getUserIdByName('admin'), 'imagename', $i];
-			$data[] = ['Contacts', \Tests\Base\C_RecordActions::createContactRecord()->getId(), 'imagename', $i];
-			$data[] = ['Products', \Tests\Base\C_RecordActions::createProductRecord()->getId(), 'imagename', $i];
+			$data[] = ['Users', 'imagename', $i];
+			$data[] = ['Contacts', 'imagename', $i];
+			$data[] = ['Products', 'imagename', $i];
 		}
 		return $data;
 	}
@@ -54,9 +63,9 @@ class Z_MultiImage extends \Tests\Base
 	public function providerDeleteImageForRecord()
 	{
 		return [
-			['Users', \App\User::getUserIdByName('admin'), 'imagename', 9],
-			['Contacts', \Tests\Base\C_RecordActions::createContactRecord()->getId(), 'imagename', 10],
-			['Products', \Tests\Base\C_RecordActions::createProductRecord()->getId(), 'imagename', 11],
+			['Users', 'imagename', 9],
+			['Contacts', 'imagename', 10],
+			['Products', 'imagename', 11],
 		];
 	}
 
@@ -71,8 +80,24 @@ class Z_MultiImage extends \Tests\Base
 	 * @throws \App\Exceptions\AppException
 	 * @dataProvider providerImageForRecord
 	 */
-	public function testAttachImageToRecord($module, $record, $field, $file)
+	public function testAttachImageToRecord($module, $field, $file)
 	{
+		switch ($module) {
+			case 'Users':
+				$record = \App\User::getUserIdByName('admin');
+				break;
+			case 'Contacts':
+				$record = \Tests\Base\C_RecordActions::createContactRecord(static::$cacheContact)->getId();
+				static::$cacheContact = true;
+				break;
+			case 'Products':
+				$record = \Tests\Base\C_RecordActions::createProductRecord(static::$cacheProduct)->getId();
+				static::$cacheProduct = true;
+				break;
+			default:
+				return;
+				break;
+		}
 		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . static::$files[$file];
 		$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr(static::$files[$file], \strpos(static::$files[$file], '.'));
 		\copy($filePathSrc, $filePathDst);
@@ -114,8 +139,24 @@ class Z_MultiImage extends \Tests\Base
 	 * @throws \App\Exceptions\AppException
 	 * @dataProvider providerDeleteImageForRecord
 	 */
-	public function testDeleteImage($module, $record, $field, $file)
+	public function testDeleteImage($module, $field, $file)
 	{
+		switch ($module) {
+			case 'Users':
+				$record = \App\User::getUserIdByName('admin');
+				break;
+			case 'Contacts':
+				$record = \Tests\Base\C_RecordActions::createContactRecord(static::$cacheContact)->getId();
+				static::$cacheContact = true;
+				break;
+			case 'Products':
+				$record = \Tests\Base\C_RecordActions::createProductRecord(static::$cacheProduct)->getId();
+				static::$cacheProduct = true;
+				break;
+			default:
+				return;
+				break;
+		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
 		$data = \App\Json::decode($recordModel->get($field));
 		\Vtiger_MultiImage_UIType::deleteRecord($recordModel);
