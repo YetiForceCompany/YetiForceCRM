@@ -127,12 +127,11 @@ class Currency
 	/**
 	 * Get current default currency data.
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
 	public static function getDefault()
 	{
-		$allCurrencies = \App\Fields\Currency::getAll(true);
-		foreach ($allCurrencies as $currency) {
+		foreach (\App\Fields\Currency::getAll(true) as $currency) {
 			if ((int) $currency['defaultid'] === -11) {
 				return $currency;
 			}
