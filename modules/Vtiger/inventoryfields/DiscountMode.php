@@ -37,10 +37,10 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
 	{
 		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column)) {
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$value = $request->getInteger($column);
+		$value = $request->getInteger($column . $i);
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}

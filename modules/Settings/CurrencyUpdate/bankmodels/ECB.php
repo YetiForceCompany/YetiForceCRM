@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
@@ -65,7 +65,7 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 
 		// source, ECB has 2 sources for older rates
 		// 0 - last 90 days

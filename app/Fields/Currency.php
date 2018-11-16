@@ -123,4 +123,19 @@ class Currency
 		$currencyInfo = static::getAll();
 		return $currencyInfo[$currencyId] ?? [];
 	}
+
+	/**
+	 * Get current default currency data.
+	 *
+	 * @return bool|array
+	 */
+	public static function getDefault()
+	{
+		foreach (\App\Fields\Currency::getAll(true) as $currency) {
+			if ((int) $currency['defaultid'] === -11) {
+				return $currency;
+			}
+		}
+		return false;
+	}
 }

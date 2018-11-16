@@ -332,40 +332,25 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function copyMenu($fromRole, $toRole)
 	{
 		$db = \App\Db::getInstance();
-		$nextId = $db->getUniqueID('yetiforce_menu', 'id', false);
-
-		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $fromRole]);
-		$dataReader = $query->createCommand()->query();
-		$rows = $dataReader->readAll();
-
-		if ($rows) {
-			foreach ($rows as &$row) {
-				$oldAndNewIds[$row['id']] = $nextId;
-				$nextId += 1;
-			}
-			foreach ($rows as &$row) {
-				if (array_key_exists($row['parentid'], $oldAndNewIds)) {
-					$parentId = $oldAndNewIds[$row['parentid']];
-				} else {
-					$parentId = 0;
+		$menuData = (new \App\Db\Query())->from('yetiforce_menu')
+			->where(['role' => $fromRole])
+			->orderBy(['parentid' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->queryAllByGroup(1);
+		if ($menuData) {
+			$related = [];
+			foreach ($menuData as $menuId => $menuItem) {
+				if (isset($related[$menuId])) {
+					$diff = array_diff_key($menuData, $related);
+					$menuId = key($diff);
+					$menuItem = current($diff);
 				}
-
-				$params = [
-					'role' => $toRole,
-					'parentid' => $parentId,
-					'type' => $row['type'],
-					'sequence' => $row['sequence'],
-					'module' => $row['module'],
-					'label' => $row['label'],
-					'newwindow' => $row['newwindow'],
-					'dataurl' => $row['dataurl'],
-					'showicon' => $row['showicon'],
-					'icon' => $row['icon'],
-					'sizeicon' => $row['sizeicon'],
-					'hotkey' => $row['hotkey'],
-					'filters' => $row['filters'],
-				];
-				$db->createCommand()->insert('yetiforce_menu', $params)->execute();
+				if ($menuItem['parentid'] && !isset($related[$menuItem['parentid']])) {
+					$menuId = $menuItem['parentid'];
+					$menuItem = $menuData[$menuId];
+				}
+				$menuItem['role'] = $toRole;
+				$menuItem['parentid'] = $related[$menuItem['parentid']] ?? $menuItem['parentid'];
+				$db->createCommand()->insert('yetiforce_menu', $menuItem)->execute();
+				$related[$menuId] = $db->getLastInsertID('yetiforce_menu_id_seq');
 			}
 			$this->generateFileMenu($toRole);
 		}

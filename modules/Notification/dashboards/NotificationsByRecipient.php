@@ -4,8 +4,8 @@
  * Notifications Dashboard Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -53,7 +53,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 				['smcreatorid' => array_keys($accessibleUsers)],
 				['>=', 'createdtime', $time[0] . ' 00:00:00'],
 				['<=', 'createdtime', $time[1] . ' 23:59:59'],
-		]);
+			]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smownerid']);
 		$dataReader = $query->createCommand()->query();
@@ -71,7 +71,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		];
 		while ($row = $dataReader->read()) {
 			$label = $accessibleUsers[$row['smownerid']];
-			$chartData['labels'][] = vtlib\Functions::getInitials($label);
+			$chartData['labels'][] = \App\Utils::getInitials($label);
 			$chartData['datasets'][0]['titlesFormatted'][] = $label;
 			$chartData['datasets'][0]['data'][] = $row['count'];
 			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['smownerid'], $time);

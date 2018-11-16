@@ -252,7 +252,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
-		$mainCurrencyCode = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrencyCode = \App\Fields\Currency::getDefault()['currency_code'];
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
 		if (is_numeric($from)) {

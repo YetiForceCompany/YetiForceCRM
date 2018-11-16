@@ -155,7 +155,7 @@ class Calendar_RecuringEvents_Model extends \App\Base
 		if (!$this->isNew) {
 			switch ($this->typeSaving) {
 				case self::UPDATE_ALL_EVENTS:
-					$dates = false;
+					$dates = [];
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
 					$itemNumber = 0;
 					foreach ($recordsIds as $recordId => $data) {

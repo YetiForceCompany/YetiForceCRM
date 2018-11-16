@@ -23,15 +23,15 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$query = new \App\Db\Query();
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
-				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
-				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
+			'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
+			'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
 					vtiger_users.cal_color ELSE vtiger_groups.color END"),
-				'id' => 'smownerid', ])
-				->from('vtiger_troubletickets')
-				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
-				->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-				->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
-				->where(['vtiger_crmentity.deleted' => 0]);
+			'id' => 'smownerid', ])
+			->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
@@ -54,7 +54,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$chartData['show_chart'] = (bool) $dataReader->count();
 		while ($row = $dataReader->read()) {
 			$label = trim($row['name']);
-			$chartData['labels'][] = vtlib\Functions::getInitials($label);
+			$chartData['labels'][] = \App\Utils::getInitials($label);
 			$chartData['datasets'][0]['titlesFormatted'][] = $label;
 			$chartData['datasets'][0]['data'][] = (int) $row['count'];
 			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['id']);

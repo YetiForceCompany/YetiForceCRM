@@ -35,17 +35,6 @@
 						</div>
 					{/if}
 				</div>
-				<div class="js-popover-tooltip--ellipsis d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('company'))}" data-toggle="popover" data-js="popover | mouseenter">
-					<span class="designation_label text-muted u-white-space-nowrap">{$RECORD->getDisplayValue('designation')}</span>
-					{if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
-						&nbsp;{\App\Language::translate('LBL_AT')}&nbsp;
-					{/if}
-					<span class="js-popover-text" data-js="clone">
-						<span class="company_label">{$RECORD->getDisplayValue('company')}</span>
-					</span>
-					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
-
-				</div>
 				<div class="js-popover-tooltip--ellipsis d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
 					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:

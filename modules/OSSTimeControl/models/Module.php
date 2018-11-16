@@ -88,7 +88,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
 			$color = App\Fields\Owner::getColor($row['smownerid']);
-			$userTime['labels'][] = vtlib\Functions::getInitials($ownerName);
+			$userTime['labels'][] = \App\Utils::getInitials($ownerName);
 			$userTime['datasets'][0]['tooltips'][] = $ownerName;
 			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
 			$userTime['datasets'][0]['backgroundColor'][] = $color;
@@ -130,7 +130,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			while ($row = $dataReader->read()) {
 				$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
 				$color = App\Fields\Owner::getColor($row['smownerid']);
-				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
+				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
 				$chartData['datasets'][0]['tooltips'][] = $ownerName;
 				$chartData['datasets'][0]['data'][] = (float) $row['time'];
 				$chartData['datasets'][0]['backgroundColor'][] = $color;
