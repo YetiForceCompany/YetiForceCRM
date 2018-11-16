@@ -18,6 +18,12 @@
     "LBL_MORE": "poka\u017c",
     "LBL_HIDE": "ukryj",
     "LBL_NO_MESSAGES": "Brak wiadomo\u015bci",
-    "LBL_UNREAD": "Nieprzeczytane"
+    "LBL_UNREAD": "Nieprzeczytane",
+    "LBL_DETAIL_VIEW": "Podgl\u0105d rekordu",
+    "LBL_ROOM_DESCRIPTION_CRM": "Lista pokoi czatu z rekordami oznaczonymi jako ulubione",
+    "LBL_ROOM_DESCRIPTION_GROUP": "Lista pokoi czatu z grupami u\u017cytkownika",
+    "LBL_ROOM_DESCRIPTION_GLOBAL": "Lista pokoi czatu widoczna dla wszystkich u\u017cytkownik\u00f3w",
+    "LBL_CHAT_USER_SWITCHED": "Czat jest nieaktywny, je\u015bli prze\u0142\u0105czy\u0142e\u015b si\u0119 na innego u\u017cytkownika.",
+    "LBL_CHAT_NEW_MESSAGE": "Nowa wiadomo\u015b\u0107"
   }
 }

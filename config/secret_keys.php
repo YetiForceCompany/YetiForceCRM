@@ -9,5 +9,5 @@ $SECURITY_KEYS_CONFIG = [
 	// Key to encrypt passwords, changing the key results in the loss of all encrypted data.
 	'encryptionPass' => 'yeti',
 	// encryption method
-	'encryptionMethod' => '',
+	'encryptionMethod' => 'AES-256-CBC',
 ];

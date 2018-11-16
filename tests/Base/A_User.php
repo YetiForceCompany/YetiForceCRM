@@ -33,6 +33,8 @@ class A_User extends \Tests\Base
 	/**
 	 * Create/return users module record model with demo user.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $login
 	 *
 	 * @throws \Exception
@@ -42,6 +44,9 @@ class A_User extends \Tests\Base
 	public static function createUsersRecord($login = 'demo')
 	{
 		if (isset(static::$record[$login])) {
+			return static::$record[$login];
+		} elseif (($userId = \App\User::getUserIdByName($login))) {
+			static::$record[$login] = \Vtiger_Record_Model::getInstanceById($userId, 'Users');
 			return static::$record[$login];
 		}
 		$user = \Vtiger_Record_Model::getCleanInstance('Users');

@@ -92,6 +92,24 @@
 			</div>
 		</div>
 		<div class="col-3 px-0 bg-color-grey-50 js-users" data-js="class: .js-users">
+			{if !(isset($IS_MODAL_VIEW) && $IS_MODAL_VIEW) }
+				<div class="mb-3 mt-0">
+					<button type="button"
+							class="btn btn-danger ml-2{if !$CHAT->isAssigned()} hide{/if} js-remove-from-favorites"
+							data-js="click">
+						<span class="fa fa-minus mr-2"
+							  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
+						{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}
+					</button>
+					<button type="button"
+							class="btn btn-success ml-2{if $CHAT->isAssigned()} hide{/if} js-add-from-favorites"
+							data-js="click">
+						<span class="fa fa-plus mr-2"
+							  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
+						{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}
+					</button>
+				</div>
+			{/if}
 			<div class="px-2 input-group">
 				<div class="input-group-prepend">
 						<span class="input-group-text bg-color-grey-50 hide js-search-participants-cancel border-bottom o-chat__form-control rounded-0">
@@ -111,6 +129,7 @@
 			</div>
 			<div class="text-uppercase bg-color-grey-200 p-2 my-2 font-weight-bold u-font-size-14px">
 				{\App\Language::translate('LBL_PARTICIPANTS', $MODULE_NAME)}
+
 			</div>
 			<div class="js-participants-list px-3 o-chat__scrollbar o-chat__entries-scrollbar js-scrollbar"
 				 data-js="container|perfectscrollbar">
@@ -120,24 +139,6 @@
 						{ITEM_USER USER=$USER}
 					{/foreach}
 				</ul>
-			</div>
-			<div class="o-chat__btn-favorite col-12 p-2">
-				{if !(isset($IS_MODAL_VIEW) && $IS_MODAL_VIEW) }
-					<button type="button"
-							class="btn btn-danger{if !$CHAT->isAssigned()} hide{/if} js-remove-from-favorites"
-							data-js="click">
-						<span class="fa fa-minus mr-2"
-							  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}"></span>
-						{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE_NAME)}
-					</button>
-					<button type="button"
-							class="btn btn-success{if $CHAT->isAssigned()} hide{/if} js-add-from-favorites"
-							data-js="click">
-						<span class="fa fa-plus mr-2"
-							  title="{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}"></span>
-						{\App\Language::translate('LBL_ADD_FROM_FAVORITES', $MODULE_NAME)}
-					</button>
-				{/if}
 			</div>
 		</div>
 	</div>

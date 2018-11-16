@@ -247,6 +247,18 @@ class User
 	}
 
 	/**
+	 * Get user group names.
+	 *
+	 * @return string[]
+	 */
+	public function getGroupNames()
+	{
+		return array_filter(\App\Fields\Owner::getInstance('CustomView')->getGroups(false), function ($key) {
+			return \in_array($key, $this->getGroups());
+		}, ARRAY_FILTER_USE_KEY);
+	}
+
+	/**
 	 * Get user role Id.
 	 *
 	 * @return string

@@ -15,6 +15,7 @@ window.Chat_JS = class Chat_Js {
 		this.sendByEnter = true;
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
+		this.isUnreadMode = false;
 		this.searchValue = null;
 		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
@@ -67,6 +68,18 @@ window.Chat_JS = class Chat_Js {
 	static registerTrackingEvents() {
 		const headerChatButton = Chat_Js.getHeaderChatButton();
 		const showNumberOfNewMessages = headerChatButton.data('showNumberOfNewMessages');
+		const lblChatNewMessage = headerChatButton.data('lblChatNewMessage');
+		const lblChat = headerChatButton.data('lblChat');
+		if (headerChatButton.data('userSwitched')) {
+			headerChatButton.on('click', (e) => {
+				Vtiger_Helper_Js.showPnotify({
+					text: headerChatButton.data('lblChatUserSwitched'),
+					type: 'error',
+					animation: 'show'
+				});
+			});
+			return;
+		}
 		Chat_Js.timerGlobal = setTimeout(() => {
 			AppConnector.request({
 				module: 'Chat',
@@ -92,13 +105,13 @@ window.Chat_JS = class Chat_Js {
 						app.playSound('CHAT');
 					}
 					if (Chat_Js.desktopPermission()) {
-						let message = app.vtranslate('JS_CHAT_NEW_MESSAGE');
+						let message = lblChatNewMessage;
 						if (showNumberOfNewMessages) {
 							message += ' ' + data.result;
 						}
 						app.showNotify({
 							text: message,
-							title: app.vtranslate('JS_CHAT'),
+							title: lblChat,
 							type: 'success'
 						}, true);
 					}
@@ -357,6 +370,7 @@ window.Chat_JS = class Chat_Js {
 	history(btn = null, groupHistory = 'crm') {
 		this.isSearchMode = false;
 		this.isHistoryMode = true;
+		this.isUnreadMode = false;
 		clearTimeout(this.timerMessage);
 		let mid = null;
 		if (btn !== null) {
@@ -383,20 +397,19 @@ window.Chat_JS = class Chat_Js {
 	 * Turn off unread mode.
 	 */
 	turnOffUnreadMode() {
-		this.container.find('.js-chat-message-block').removeClass('hide');
-		this.container.find('.js-input-group-search').removeClass('hide');
+		this.turnOnInputAndBtnInRoom();
+		this.isUnreadMode = false;
 	}
 
 	/**
 	 * Get unread messages.
 	 */
 	unread() {
-		this.container.find('.js-chat-nav-history').addClass('hide');
-		this.container.find('.js-chat-message-block').addClass('hide');
-		this.container.find('.js-input-group-search').addClass('hide');
+		clearTimeout(this.timerMessage);
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
-		clearTimeout(this.timerMessage);
+		this.isUnreadMode = true;
+		this.turnOffInputAndBtn();
 		this.request({
 			view: 'Entries',
 			mode: 'unread'
@@ -414,16 +427,22 @@ window.Chat_JS = class Chat_Js {
 		let container = this.container;
 		container.find('.js-users').addClass('hide');
 		container.find('.js-scrollbar').addClass('o-chat__scrollbar--history');
-		let messageContainer = container.find('.js-message-container');
 		container.find('.js-footer-history-hide').removeClass('hide');
 		container.find('.js-footer-history').addClass('hide');
 		container.find('.js-room').removeClass('active o-chat__room');
-		messageContainer.removeClass('col-9');
-		messageContainer.addClass('col-12');
-		container.find('.js-chat-nav-history').removeClass('hide');
+		this.messageContainer.removeClass('col-9');
+		this.messageContainer.addClass('col-12');
 		container.find('.js-chat-message').addClass('hide');
 		container.find('.js-btn-send').addClass('hide');
 		container.find('.js-input-group-search').addClass('hide');
+		let footer = container.find('.js-chat-footer');
+		if (this.isHistoryMode) {
+			this.container.find('.js-chat-nav-history').removeClass('hide');
+			this.container.find('.js-footer-history-hide .js-breadcrumb-item').text(footer.data('lblHistory'));
+		} else if (this.isUnreadMode) {
+			this.container.find('.js-chat-nav-history').addClass('hide');
+			this.container.find('.js-footer-history-hide .js-breadcrumb-item').text(footer.data('lblUnread'));
+		}
 	}
 
 	/**
@@ -503,7 +522,7 @@ window.Chat_JS = class Chat_Js {
 		itemUser.find('.js-role').html(data.role);
 		itemUser.find('.js-message').html(data.message);
 		itemUser.data('userId', data.userId);
-		if (data.image !== '') {
+		if (data.image) {
 			itemUser.find('.js-image .js-chat-image_icon').addClass('hide');
 			itemUser.find('.js-image .js-chat-image_src').removeClass('hide').attr('src', data.image);
 		}
@@ -702,11 +721,17 @@ window.Chat_JS = class Chat_Js {
 	 * @param {object}
 	 * @returns {jQuery}
 	 */
-	createRoomItem(data = {}, favorite = false) {
+	createRoomItem(data = {}, favorite = false, roomType = 'global') {
 		let itemRoom = this.container.find('.js-room-list .js-temp-item-room').clone(false, false);
 		itemRoom.removeClass('js-temp-item-room').removeClass('hide');
+		itemRoom.addClass('d-flex');
 		itemRoom.find('.js-room-name').html(data.name);
 		itemRoom.attr('title', data.name);
+		if (roomType === 'crm') {
+			itemRoom.find('.js-link')
+				.removeClass('hide')
+				.attr('href', "index.php?module=" + data['moduleName'] + "&view=Detail&record=" + data.recordid);
+		}
 		if (data['cnt_new_message'] == 0) {
 			itemRoom.find('.js-room-cnt').html('');
 		} else {
@@ -754,7 +779,7 @@ window.Chat_JS = class Chat_Js {
 				if (newMessage !== null) {
 					cnt += newMessage;
 				}
-				let itemRoom = this.createRoomItem(data.roomList[key][idx], roomTypeList.data('favoriteRemoveBtn'));
+				let itemRoom = this.createRoomItem(data.roomList[key][idx], roomTypeList.data('favoriteRemoveBtn'), key);
 				if (key === currentRoomType && data.roomList[key][idx]['recordid'] === currentRecordId) {
 					itemRoom.addClass('active o-chat__room');
 				}

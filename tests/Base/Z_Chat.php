@@ -88,6 +88,26 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Get user from participants.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param array $participants
+	 * @param int   $userId
+	 *
+	 * @return bool|int|string
+	 */
+	private static function getUserFromParticipants($participants, int $userId)
+	{
+		foreach ($participants as $key => $val) {
+			if ($val['user_id'] === $userId) {
+				return $key;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
@@ -100,8 +120,8 @@ class Chat extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$recordModel = C_RecordActions::createContactRecord();
 		static::$listId[] = $recordModel->getId();
-		static::$users[] = A_User::createUsersRecord('test_1', false)->getId();
-		static::$users[] = A_User::createUsersRecord('test_2', false)->getId();
+		static::$users[] = A_User::createUsersRecord('test_1')->getId();
+		static::$users[] = A_User::createUsersRecord('test_2')->getId();
 	}
 
 	/**
@@ -133,9 +153,10 @@ class Chat extends \Tests\Base
 	public function testGroup()
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$groups = \App\Fields\Owner::getInstance('CustomView')->getGroups(false);
+		$groups = \App\User::getCurrentUserModel()->getGroupNames();
 		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
-		$groupId = key($groups);
+		$this->assertCount(0, \App\Chat::getRoomsGroup(), 'There should not be visible rooms');
+		$groupId = \key($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
 		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
@@ -154,6 +175,56 @@ class Chat extends \Tests\Base
 		$this->assertNotFalse($key, 'Problem with the method "getEntries"');
 		$this->assertSame($rowMsg['messages'], $entries[$key]['messages']);
 		$this->assertSame(\App\User::getCurrentUserModel()->getName(), $entries[$key]['user_name']);
+	}
+
+	/**
+	 * Test assigning a user to a group room.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function testAssigningToGroup()
+	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$groups = \App\User::getCurrentUserModel()->getGroupNames();
+		$groupId = \key($groups);
+		$chat = \App\Chat::getInstance('group', $groupId);
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
+		$chat->addToFavorites();
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertTrue($chat->isAssigned(), "The user should be assigned '{$groups[$groupId]}'");
+		$row = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['room'][$chat->getRoomType()])
+			->where(['userid' => \App\User::getCurrentUserId()])
+			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
+			->one();
+		$this->assertNotFalse($row, 'Problem with methods "addToFavorites"');
+		$this->assertNull($row['last_message'], 'Problem with methods "addToFavorites"');
+	}
+
+	/**
+	 * Remove test from favorites.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function testRemoveFromFavorites()
+	{
+		$groups = \App\User::getCurrentUserModel()->getGroupNames();
+		$groupId = \key($groups);
+		$chat = \App\Chat::getInstance('group', $groupId);
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertTrue($chat->isAssigned(), "The user should be assigned '{$groups[$groupId]}'");
+		$chat->removeFromFavorites();
+		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
+		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
+		$this->assertFalse((new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['room'][$chat->getRoomType()])
+			->where(['userid' => \App\User::getCurrentUserId()])
+			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
+			->exists(),
+			'Problem with methods "removeFromFavorites"'
+		);
 	}
 
 	/**
@@ -253,6 +324,75 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Testing a CRM chat room.
+	 */
+	public function testRoomCrm()
+	{
+		$userId = \App\User::getActiveAdminId();
+		\App\User::setCurrentUserId($userId);
+		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
+		$chat = \App\Chat::getInstance('crm', static::$listId[0]);
+		$chat->addToFavorites();
+		$this->assertTrue(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
+		$id = $chat->addMessage('testRoomCrm');
+		$this->assertInternalType('integer', $id);
+		$rowMsg = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
+			->where(['id' => $id])->one();
+		$this->assertNotFalse($rowMsg, "The message {$id} does not exist");
+		$this->assertSame('testRoomCrm', $rowMsg['messages']);
+		$this->assertSame(\App\User::getCurrentUserId(), $rowMsg['userid']);
+	}
+
+	/**
+	 * Chat room switching test.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function testSwitchRoom()
+	{
+		\App\Chat::setCurrentRoom('crm', static::$listId[0]);
+		$this->assertSame($_SESSION['chat']['roomType'], 'crm');
+		$this->assertSame($_SESSION['chat']['recordId'], static::$listId[0]);
+		$currentRoom = \App\Chat::getCurrentRoom();
+		$this->assertSame($currentRoom['roomType'], 'crm');
+		$this->assertSame($currentRoom['recordId'], static::$listId[0]);
+	}
+
+	/**
+	 * Message history test.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function testHistory()
+	{
+		$userId = \App\User::getCurrentUserId();
+		$userName = \App\User::getCurrentUserModel()->getName();
+		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
+		$globalHistory = $chat->getHistoryByType('global');
+		$this->assertInternalType('array', $globalHistory);
+		foreach ($globalHistory as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+		$globalCrm = $chat->getHistoryByType('crm');
+		$this->assertInternalType('array', $globalCrm);
+		foreach ($globalCrm as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+		$globalGroup = $chat->getHistoryByType('group');
+		$this->assertInternalType('array', $globalGroup);
+		foreach ($globalGroup as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+	}
+
+	/**
 	 * Testing the removal of Crm chat room.
 	 *
 	 * @throws \Exception
@@ -277,11 +417,66 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Test the current chat room after deleting the record.
+	 */
+	public function testCurrentRoomAfterDeletingRecord()
+	{
+		$this->assertSame($_SESSION['chat']['roomType'], 'crm');
+		$this->assertSame($_SESSION['chat']['recordId'], static::$listId[0]);
+		\vtlib\Functions::clearCacheMetaDataRecord(static::$listId[0]);
+		$this->assertFalse(\App\Record::isExists(static::$listId[0]), 'The record should not exist');
+		$currentRoom = \App\Chat::getCurrentRoom();
+		$this->assertSame($currentRoom['roomType'], 'global');
+		$this->assertSame($currentRoom['recordId'], static::$globalRoom['global_room_id']);
+	}
+
+	/**
+	 * The test checks what happens when the user is removed.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function testRemoveUser()
+	{
+		\App\User::setCurrentUserId(static::$users[0]);
+		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
+		$id = $chat->addMessage('testRemoveUser');
+		$entries = $chat->getEntries();
+		\Users_Record_Model::deleteUserPermanently(static::$users[0], \App\User::getActiveAdminId());
+		\App\Cache::clear(static::$users[0]);
+		\App\User::clearCache();
+		$this->assertFalse(\App\User::isExists(static::$users[0]), 'The user should not exist');
+		//Switch user
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
+		$rowMsg = (new \App\Db\Query())
+			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
+			->where(['id' => $id])->one();
+		$this->assertNotFalse($rowMsg, "The message {$id} does not exist");
+		$this->assertSame('testRemoveUser', $rowMsg['messages']);
+		$this->assertSame(static::$users[0], $rowMsg['userid']);
+		$entriesAfter = $chat->getEntries();
+		$this->assertCount(\count($entries), $entriesAfter, 'The number of messages should be the same');
+		$key = static::getKeyMessage($entriesAfter, $id);
+		$this->assertNotFalse($key, 'Problem with the method "getEntries"');
+		$this->assertSame($rowMsg['messages'], $entriesAfter[$key]['messages']);
+		$this->assertNull($entriesAfter[$key]['user_name'], 'User name should be null');
+		$this->assertNull($entriesAfter[$key]['role_name'], 'User role should be null');
+		$this->assertNull($entriesAfter[$key]['image'], 'User image should be null');
+		$participants = $chat->getParticipants();
+		$keyUser = static::getUserFromParticipants($participants, static::$users[0]);
+		$this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
+		$this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
+	}
+
+	/**
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass()
 	{
+		unset(static::$listId[0]);
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		if (!static::$chatActive) {
 			(new \Settings_ModuleManager_Module_Model())->disableModule('Chat');

@@ -70,8 +70,7 @@ class Chat_Room_Action extends \App\Controller\Action
 		}
 		\App\Chat::createRoom($request->getByType('roomType'), $recordModel->getId());
 		$response = new Vtiger_Response();
-		$response->setResult([
-		]);
+		$response->setResult(true);
 		$response->emit();
 	}
 

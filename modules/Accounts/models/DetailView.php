@@ -122,7 +122,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fa-twitter',
 			];
 		}
-		if (\App\Module::isModuleActive('Chat') && $recordModel->isViewable()) {
+		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && \App\Module::isModuleActive('Chat')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_CHAT',
