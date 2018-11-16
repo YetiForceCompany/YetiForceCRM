@@ -29,6 +29,7 @@ class Users_Logout_Action extends \App\Controller\Action
 			App\Session::regenerateId(true); // to overcome session id reuse.
 		}
 		App\Session::destroy();
+		OSSMail_Logout_Model::logoutCurrentUser();
 
 		//Track the logout History
 		$moduleName = $request->getModule();
