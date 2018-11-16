@@ -3,8 +3,12 @@
 	<strong>{$FIELD->getDisplayValue($ITEM_VALUE)}</strong>
 	{foreach item=FIELD2 from=$FIELDS[2]}
 		{if $FIELD2->getName() == 'Comment'}
-			<br />
+			<br/>
 			{$FIELD2->getDisplayValue($INVENTORY_ROW[$FIELD2->get('columnname')])}
 		{/if}
 	{/foreach}
+	<div class="js-subproducts-container" data-js="append">
+		<ul class="float-left">
+		</ul>
+	</div>
 {/strip}

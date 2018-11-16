@@ -22,14 +22,6 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
-	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg" href="#">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}
-				&nbsp;{\App\Language::translate($MODULE ,$MODULE)}
-				&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
-	</div>
-	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="deSelectAllMsg" href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
-	</div>
 	<div class="listViewEntriesDiv u-overflow-scroll-xs-down">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>

@@ -60,7 +60,7 @@
 					{if $INVENTORY_ROW['name']}
 						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
 					{/if}
-					<tr>
+					<tr class="js-inventory-row" data-product-id="{$INVENTORY_ROW['name']}" data-js="data-product-id">
 						{foreach item=FIELD from=$FIELDS[1]}
 							<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
