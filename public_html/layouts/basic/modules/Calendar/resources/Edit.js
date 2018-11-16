@@ -52,7 +52,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		container.find('.recurringType').on('change', function (e) {
 			thisInstance.changeRecurringTypesUIStyles(jQuery(e.currentTarget).val());
 		});
-		container.find('.repeatUI [name="calendarEndType"]').on('change', function (e) {
+		container.find('.js-repeat-ui [name="calendarEndType"]').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var value = currentTarget.val();
 			if (value === 'never') {
@@ -203,7 +203,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var freq = form.find('.recurringType').val();
 		var rule = 'FREQ=' + freq;
 		rule += ';INTERVAL=' + form.find('.repeatFrequency').val();
-		var endValue = form.find('.repeatUI [name="calendarEndType"]:checked').val();
+		var endValue = form.find('.js-repeat-ui [name="calendarEndType"]:checked').val();
 		if (endValue === 'count') {
 			rule += ';COUNT=' + form.find('.countEvents').val();
 		} else if (endValue === 'until') {
