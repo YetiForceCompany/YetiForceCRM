@@ -1092,7 +1092,6 @@ jQuery.Class("Vtiger_List_Js", {
 		})).done((data) => {
 			jQuery('.paginationDiv').html(data);
 			this.registerPageNavigationEvents();
-
 		});
 	},
 	/*
