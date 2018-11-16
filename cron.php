@@ -100,7 +100,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			$response .= sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
 			file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - End task, time: ' . PHP_EOL . $taskTime . PHP_EOL, FILE_APPEND);
-		} catch (\App\Exceptions\AppException $e) {
+		} catch (Throwable $e) {
 			$deleteCronFile = false;
 			file_put_contents($cronLogPath, date('Y-m-d H:i:s') . ' - Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString() . PHP_EOL, FILE_APPEND);
 			echo $response;
