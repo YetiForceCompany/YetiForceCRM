@@ -360,6 +360,39 @@ class Chat extends \Tests\Base
 	}
 
 	/**
+	 * Message history test.
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function testHistory()
+	{
+		$userId = \App\User::getCurrentUserId();
+		$userName = \App\User::getCurrentUserModel()->getName();
+		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
+		$globalHistory = $chat->getHistoryByType('global');
+		$this->assertInternalType('array', $globalHistory);
+		foreach ($globalHistory as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+		$globalCrm = $chat->getHistoryByType('crm');
+		$this->assertInternalType('array', $globalCrm);
+		foreach ($globalCrm as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+		$globalGroup = $chat->getHistoryByType('group');
+		$this->assertInternalType('array', $globalGroup);
+		foreach ($globalGroup as $message) {
+			$this->assertSame($userId, $message['userid']);
+			$this->assertSame($userName, $message['user_name']);
+			$this->assertNotNull($message['messages']);
+		}
+	}
+
+	/**
 	 * Testing the removal of Crm chat room.
 	 *
 	 * @throws \Exception
@@ -435,39 +468,6 @@ class Chat extends \Tests\Base
 		$keyUser = static::getUserFromParticipants($participants, static::$users[0]);
 		$this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
 		$this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
-	}
-
-	/**
-	 * Message history test.
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 */
-	public function testHistory()
-	{
-		$userId = \App\User::getCurrentUserId();
-		$userName = \App\User::getCurrentUserModel()->getName();
-		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
-		$globalHistory = $chat->getHistoryByType('global');
-		$this->assertInternalType('array', $globalHistory);
-		foreach ($globalHistory as $message) {
-			$this->assertSame($userId, $message['userid']);
-			$this->assertSame($userName, $message['user_name']);
-			$this->assertNotNull($message['messages']);
-		}
-		$globalCrm = $chat->getHistoryByType('crm');
-		$this->assertInternalType('array', $globalCrm);
-		foreach ($globalCrm as $message) {
-			$this->assertSame($userId, $message['userid']);
-			$this->assertSame($userName, $message['user_name']);
-			$this->assertNotNull($message['messages']);
-		}
-		$globalGroup = $chat->getHistoryByType('group');
-		$this->assertInternalType('array', $globalGroup);
-		foreach ($globalGroup as $message) {
-			$this->assertSame($userId, $message['userid']);
-			$this->assertSame($userName, $message['user_name']);
-			$this->assertNotNull($message['messages']);
-		}
 	}
 
 	/**
