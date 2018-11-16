@@ -28,7 +28,7 @@ $PERFORMANCE_CONFIG = [
 	// Enable automatic records list refreshing while changing the value of the selection list
 	'AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE' => true,
 	// Show in search engine/filters only users and groups available in records list. It might result in a longer search time.
-	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
+	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => false,
 	// Time to update number of notifications in seconds
 	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 100,
 	// Search owners by AJAX. We recommend selecting the "true" value if there are numerous users in the system.
