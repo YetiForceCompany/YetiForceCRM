@@ -4,8 +4,8 @@
  * Switch Users Action Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_SwitchUsers_Action extends \App\Controller\Action
 {
@@ -78,6 +78,7 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 			'status' => $status,
 		])->execute();
 		\App\CustomView::resetCurrentView();
+		OSSMail_Logout_Model::logoutCurrentUser();
 		header('Location: index.php');
 	}
 }
