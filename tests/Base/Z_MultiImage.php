@@ -34,7 +34,7 @@ class Z_MultiImage extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
-		\mkdir('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage', 0777, true);
+		\mkdir(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage', 0777, true);
 	}
 
 	/**
@@ -188,7 +188,6 @@ class Z_MultiImage extends \Tests\Base
 				'key' => $hash[$i],
 				'path' => $fileObj->getPath()
 			];
-			$size[$i] = \vtlib\Functions::showBytes($fileObj->getSize());
 		}
 		$recordModel->set('imagename', \App\Json::encode($attach));
 		$recordModel->save();
