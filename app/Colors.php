@@ -344,7 +344,7 @@ class Colors
 	 */
 	public static function getContrast($hexcolor)
 	{
-		$contrastRatio = 1.3; // higher number = more black color
+		$contrastRatio = 1.9; // higher number = more black color
 		return hexdec($hexcolor) > 0xffffff / $contrastRatio ? 'black' : 'white';
 	}
 }
