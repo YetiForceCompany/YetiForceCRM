@@ -42,7 +42,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 		$config->save();
 		self::$testDir .= DIRECTORY_SEPARATOR;
 		if (is_dir(self::$testDir) === false) {
-			if (mkdir(self::$testDir)) {
+			if (mkdir(self::$testDir, true)) {
 				self::$fileName = date('Ymd_His') . '.zip';
 				self::$catalogName = 'backup_catalog_' . date('Ymd_His');
 				$zip = \App\Zip::createFile(self::$testDir . self::$fileName);
@@ -62,6 +62,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public function testFileAndCatalogExist()
 	{
 		$this->url('index.php?module=Backup&parent=Settings&view=Index');
+		var_dump($this->driver->getPageSource());
 		$this->assertSame(self::$catalogName, $this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv table:first-child td:first-child'))->getText(), 'Catalog does not exist');
 		$this->assertSame(self::$fileName, $this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv table:nth-child(2) td:first-child'))->getText(), 'File does not exist');
 		$this->assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
