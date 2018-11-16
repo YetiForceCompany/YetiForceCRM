@@ -51,7 +51,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult !== true) {
-			var postData = listInstance.getDefaultParams();
+			var postData = listInstance.getSearchParams();
 			delete postData.parent;
 			postData.view = 'SendMailModal';
 			postData.cvid = listInstance.getCurrentCvId();
@@ -150,7 +150,7 @@ jQuery.Class("Vtiger_List_Js", {
 				type: "POST",
 				url: massActionUrl,
 				dataType: "application/x-msexcel",
-				data: this.getDefaultParams
+				data: this.getSearchParams()
 			};
 			//can't use AppConnector to get files with a post request so we add a form to the body and submit it
 			var form = $('<form method="POST" action="' + massActionUrl + '">');
@@ -234,7 +234,7 @@ jQuery.Class("Vtiger_List_Js", {
 				"type": "POST",
 				"url": massActionUrl,
 				"dataType": "html",
-				"data": this.getDefaultParams()
+				"data": this.getSearchParams()
 			};
 			if (typeof css === "undefined") {
 				css = {};
@@ -313,7 +313,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 * returns UI
 	 */
 	triggerExportAction: function (exportActionUrl) {
-		let params = this.getDefaultParams();
+		let params = this.getSearchParams();
 		if ('undefined' === typeof params.viewname)
 			exportActionUrl += '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&page=' + params.page;
 		else
@@ -342,7 +342,7 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	getSelectedRecordsParams: function (checkList) {
 		if (checkList == false || this.checkListRecordSelected() !== true) {
-			return this.getDefaultParams();
+			return this.getSearchParams();
 		} else {
 			this.noRecordSelectedAlert();
 		}
@@ -383,7 +383,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
 			var title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message, 'title': title}).done(function (e) {
-				let params = this.getDefaultParams();
+				let params = this.getSearchParams();
 				var url = reviewUrl + '&viewname=' + params.viewname + '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids;
 				if (listInstance.getListSearchInstance()) {
 					url += "&search_params=" + params.search_params;
@@ -482,6 +482,14 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return this.filterSelectElement;
 	},
+	getSearchParams() {
+		let params = this.getDefaultParams();
+		if (this.checkListRecordSelected() !== true) {
+			params.selected_ids = this.readSelectedIds(true);
+			params.excluded_ids = this.readExcludedIds(true);
+		}
+		return params;
+	},
 	getDefaultParams: function () {
 		let params = {
 			module: app.getModuleName(),
@@ -505,12 +513,9 @@ jQuery.Class("Vtiger_List_Js", {
 				params.operator = 's';
 			}
 		}
-		if (this.checkListRecordSelected() !== true) {
-			params.selected_ids = this.readSelectedIds(true);
-			params.excluded_ids = this.readExcludedIds(true);
-		}
 		return params;
 	},
+
 	/*
 	 * Function which will give you all the list view params
 	 */
@@ -1609,7 +1614,7 @@ jQuery.Class("Vtiger_List_Js", {
 					AppConnector.request({
 						type: "POST",
 						url: target.data('url'),
-						data: thisInstance.getDefaultParams()
+						data: thisInstance.getSearchParams()
 					}).done(function (data) {
 						progressIndicatorElement.progressIndicator({mode: 'hide'});
 						if (data && data.result && data.result.notify) {
@@ -1898,7 +1903,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listContainer.on('click', '.listViewSummation button', function () {
 			var button = $(this);
 			var calculateValue = button.closest('td').find('.calculateValue');
-			var params = self.getDefaultParams();
+			var params = self.getSearchParams();
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 				position: 'html',
