@@ -95,7 +95,7 @@ class Z_MultiImage extends \Tests\Base
 				static::$cacheProduct = true;
 				break;
 			default:
-				return;
+				return; // @codeCoverageIgnore
 				break;
 		}
 		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . static::$files[$file];
@@ -154,7 +154,7 @@ class Z_MultiImage extends \Tests\Base
 				static::$cacheProduct = true;
 				break;
 			default:
-				return;
+				return; // @codeCoverageIgnore
 				break;
 		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
