@@ -25,7 +25,8 @@ class YtTimes implements PHPUnit\Framework\TestListener
 	public function endTest(Test $test, float $time): void
 	{
 		$time = round($time, 2);
-		echo " - $time second(s) | Assertions: " . $test->getNumAssertions();
+		//echo " - $time second(s) | Assertions: " . $test->getNumAssertions();
+		echo " - $time second(s) | Assertions: " . class_basename($test);
 	}
 
 	public function addError(Test $test, \Throwable $t, float $time): void
