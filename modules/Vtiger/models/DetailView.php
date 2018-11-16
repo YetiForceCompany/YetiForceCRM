@@ -250,9 +250,9 @@ class Vtiger_DetailView_Model extends \App\Base
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
+					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
 					'linkicon' => 'fas fa-file-excel',
-					'linkclass' => 'btn-outline-dark btn-sm',
+					'linkclass' => 'btn-outline-dark btn-sm showModal',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				]);
 			}
