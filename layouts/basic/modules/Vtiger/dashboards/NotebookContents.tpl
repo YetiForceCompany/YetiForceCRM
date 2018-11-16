@@ -8,51 +8,33 @@
 * Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
-	<div class="tpl-Base-dashboards-NotebookContents p-5">
-		<div>
-			<div class="dashboard_notebookWidget_view row">
-				<div>
-					<span class="col-md-10 muted">
-						<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
-					</span>
-					<span class="col-md-2">
-						<span class="float-right">
-							<button class="btn btn-sm btn-light float-right dashboard_notebookWidget_edit">
-								<strong>{\App\Language::translate('LBL_EDIT', $MODULE_NAME)}</strong>
-							</button>
-						</span>
-					</span>
+	<div class="tpl-Base-dashboards-NotebookContents">
+		<div class="dashboard_notebookWidget_view row">
+			<div class="d-flex justify-content-between w-100 mb-1">
+				<div class="muted align-self-center">
+					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</div>
-				<div class="col-md-12 pushDown2per">
-					<div class="dashboard_notebookWidget_viewarea boxSizingBorderBox"
-						 style="background-color:white;border: 1px solid #CCC">
-						{$WIDGET->getContent()|nl2br}
-					</div>
-				</div>
+				<button class="btn btn-sm btn-light dashboard_notebookWidget_edit">
+					<span class="fas fa-edit mr-1"></span>{\App\Language::translate('LBL_EDIT', $MODULE_NAME)}
+				</button>
 			</div>
-			<div class="dashboard_notebookWidget_text" style="display:none;">
-				<div class="row">
-					<span class="col-md-10 muted">
-						<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
-					</span>
-					<span class="col-md-2">
-						<span class="float-right">
-							<button class="btn btn-sm btn-success float-right dashboard_notebookWidget_save">
-								<strong>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</strong>
-							</button>
-						</span>
-					</span>
+			<div class="w-100 dashboard_notebookWidget_viewarea boxSizingBorderBox border rounded p-1">
+				{$WIDGET->getContent()|nl2br}
+			</div>
+		</div>
+		<div class="dashboard_notebookWidget_text" style="display:none;">
+			<div class="d-flex justify-content-between w-100 mb-1">
+				<div class="muted align-self-center">
+					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</div>
-				<div class="row pushDown2per">
-					<span class="col-md-12">
-						<textarea class="dashboard_notebookWidget_textarea form-control boxSizingBorderBox"
-								  style="background-color: #ffffdd;resize: none;"
-								  data-note-book-id="{$WIDGET->get('id')}">
+				<button class="btn btn-sm btn-success float-right dashboard_notebookWidget_save">
+					<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+				</button>
+			</div>
+			<textarea class="w-100 dashboard_notebookWidget_textarea form-control boxSizingBorderBox border rounded p-1"
+					  data-note-book-id="{$WIDGET->get('id')}">
 							{$WIDGET->getContent()}
 						</textarea>
-					</span>
-				</div>
-			</div>
 		</div>
 	</div>
 {/strip}
