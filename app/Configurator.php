@@ -18,7 +18,8 @@ class Configurator extends Base
 	private static $paths = [
 		'securityKeys' => 'config/secret_keys.php',
 		'security' => 'config/security.php',
-		'yetiforce' => 'config/modules/YetiForce.php'
+		'yetiforce' => 'config/modules/YetiForce.php',
+		'backup' => 'config/modules/Backup.php'
 	];
 
 	/** @var string Type of configuration */

@@ -523,7 +523,7 @@ hr {
 		margin: 0 !important;
 	}
 
-	.commentsList > .liStyleNone > .commentDetails .commentDiv {
+	.commentsList > .liStyleNone > .commentDetails .comment-div {
 		width: 100%;
 	}
 
@@ -584,7 +584,7 @@ hr {
 }
 
 .singleComment {
-	.editedStatus {
+	.edited-status {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -613,7 +613,7 @@ hr {
 	box-sizing: border-box;
 	word-wrap: break-word;
 
-	.commentDiv {
+	.comment-div {
 		min-width: 100%;
 	}
 

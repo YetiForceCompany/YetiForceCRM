@@ -14,7 +14,7 @@
 	{if !empty($CHILD_COMMENTS)}
 		<div class="ml-4">
 	{/if}
-	<div class="js-commentsBody commentsBody">
+	<div class="js-comments-body commentsBody" data-js="html">
 		{if !empty($PARENT_COMMENTS) && !empty($SHOW_CHILD_COMMENTS)}
 			{foreach key=CURRENT_COMMENT_KEY item=CURRENT_COMMENT from=$PARENT_COMMENTS}
 				{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$CURRENT_COMMENT CURRENT_COMMENT=$CURRENT_COMMENT}
@@ -22,7 +22,7 @@
 		{else}
 			{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 		{/if}
-		<div class="tpl-CommentsList js-noCommentsMsgContainer summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}"
+		<div class="js-no-comments-msg-container summaryWidgetContainer {if !empty($PARENT_COMMENTS)}d-none{/if}"
 			 data-js="container">
 			<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}</p>
 		</div>
@@ -39,16 +39,17 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+								  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
+								  name="commentcontent"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
-					<button class="u-cursor-pointer closeCommentBlock mt-3 btn btn-warning float-right cancel"
+					<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 							type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
-					<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+					<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 							data-mode="add"
 							data-js="click|data-mode">
 						<span class="visible-xs-inline-block fas fa-check"></span>
@@ -64,7 +65,7 @@
 					<input type="text" name="reasonToEdit"
 						   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
 						   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-						   class="js-reasonToEdit input-block-level form-control"
+						   class="js-reason-to-edit input-block-level form-control"
 						   data-js="value"
 					>
 				</div>
@@ -76,16 +77,17 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+								  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
+								  name="commentcontent"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
-					<button class="u-cursor-pointer closeCommentBlock mt-3 btn btn-warning float-right cancel"
+					<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 							type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
-					<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+					<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 							data-mode="edit"
 							data-js="click|data-mode">
 						<span class="visible-xs-inline-block fas fa-check"></span>

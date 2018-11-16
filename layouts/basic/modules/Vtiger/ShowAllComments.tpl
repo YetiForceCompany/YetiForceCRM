@@ -17,17 +17,18 @@
 	<div class="col-md-12 form-row m-0 commentsBar px-0">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 			<div class="commentTitle col-12 pt-2">
-				<div class="js-addCommentBlock addCommentBlock" data-js="container">
+				<div class="js-add-comment-block addCommentBlock" data-js="container">
 					<div class="input-group">
 						<span class="input-group-prepend">
 							<div class="input-group-text"><span class="fas fa-comments"></span></div>
 						</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent"
-								  class="commentcontent form-control"
+								  class="js-comment-content commentcontent form-control"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								  data-js="val"></textarea>
 					</div>
-					<button class="btn btn-success mt-3 js-saveComment saveComment float-right" type="button"
+					<button class="btn btn-success mt-3 js-save-comment float-right" type="button"
 							data-mode="add"
 							data-js="click|data-mode">
 						<span class="visible-xs-inline-block fas fa-check"></span>
@@ -45,12 +46,11 @@
 			{/if}
 			<div class="col-6 col-lg-6 col-md-6 col-sm-6 p-0">
 				<div class="input-group-append bg-white rounded-right">
-					<input type="text" class="js-commentSearch form-control commentSearch"
+					<input type="text" class="js-comment-search form-control"
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 						   aria-describedby="commentSearchAddon"
 						   data-js="keypress|data">
-					<button class="btn btn-outline-dark border-0 h-100 js-searchIcon searchIcon" type="button"
-							data-js="click">
+					<button class="btn btn-outline-dark border-0 h-100 js-search-icon searchIcon" type="button" data-js="click">
 						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 					</button>
 				</div>
@@ -60,7 +60,7 @@
 					 data-toggle="buttons">
 					<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
-							<input class="js-detailHierarchyComments detailHierarchyComments" type="radio"
+							<input class="js-detail-hierarchy-comments" type="radio"
 								   name="options" id="option1"
 								   value="current" autocomplete="off"
 								   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
@@ -68,7 +68,7 @@
 							> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
 						</label>
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
-							<input class="js-detailHierarchyComments detailHierarchyComments" type="radio"
+							<input class="js-detail-hierarchy-comments" type="radio"
 								   name="options" id="option2" value="all"
 								   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
 								   data-js="change"

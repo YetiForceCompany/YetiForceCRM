@@ -52,8 +52,7 @@
 							</th>
 						</tr>
 						{foreach from=$STRUCTURE['files'] item=$file}
-							<tr class="listViewEntries"
-								data-recordurl="index.php?module=Accounts&view=Detail&record=166">
+							<tr class="listViewEntries">
 								<td>{$file['name']}</td>
 								<td>{$file['date']}</td>
 								<td>{$file['size']}</td>
