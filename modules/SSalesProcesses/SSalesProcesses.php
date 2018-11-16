@@ -10,7 +10,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 {
 	public $table_name = 'u_yf_ssalesprocesses';
 	public $table_index = 'ssalesprocessesid';
-	protected $lockFields = ['ssalesprocesses_status' => []];
+	protected $lockFields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.
