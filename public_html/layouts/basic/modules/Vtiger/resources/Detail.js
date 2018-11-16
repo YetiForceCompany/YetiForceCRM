@@ -2633,6 +2633,42 @@ jQuery.Class("Vtiger_Detail_Js", {
 	updateWindowHeight: function (currentHeight, frame) {
 		frame.height(currentHeight);
 	},
+	subProductsCache: [],
+	loadSubProducts: function (parentRow) {
+		const thisInstance = this;
+		let recordId = parentRow.data('product-id');
+		thisInstance.removeSubProducts(parentRow);
+		if (thisInstance.subProductsCache[recordId]) {
+			thisInstance.addSubProducts(parentRow, thisInstance.subProductsCache[recordId]);
+			return false;
+		}
+		let subProrductParams = {
+			module: "Products",
+			action: "SubProducts",
+			record: recordId
+		};
+		AppConnector.request(subProrductParams).done(function (data) {
+			let responseData = data.result;
+			thisInstance.subProductsCache[recordId] = responseData;
+			thisInstance.addSubProducts(parentRow, responseData);
+		});
+	},
+	removeSubProducts: function (parentRow) {
+		$('.js-subproducts-container ul', parentRow).find("li").remove();
+	},
+	addSubProducts: function (parentRow, responseData) {
+		let subProductsContainer = $('.js-subproducts-container ul', parentRow);
+		for (let id in responseData) {
+			let productText = $("<li>").text(responseData[id]);
+			subProductsContainer.append(productText);
+		}
+	},
+	registerSubProducts: function (container) {
+		const thisInstance = this;
+		container.find('.inventoryItems .js-inventory-row').each(function (index) {
+			thisInstance.loadSubProducts($(this), false);
+		});
+	},
 	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
@@ -2650,6 +2686,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			// Not detail view page
 			return;
 		}
+		this.registerSubProducts(detailViewContainer);
 		this.registerSetReadRecord(detailViewContainer);
 		this.registerEventForPicklistDependencySetup(this.getForm());
 		this.getForm().validationEngine(app.validationEngineOptionsForRecord);
