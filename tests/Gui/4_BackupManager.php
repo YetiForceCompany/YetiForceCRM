@@ -7,6 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
+
 use Facebook\WebDriver\WebDriverBy;
 
 class Gui_BackupManager extends \Tests\GuiBase
@@ -36,7 +37,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function setUpBeforeClass()
 	{
-		self::$testDir = \ROOT_DIRECTORY . 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'backups';
+		self::$testDir = \ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'backups';
 		$config = new \App\Configurator('backup');
 		$config->set('BACKUP_PATH', self::$testDir);
 		$config->save();
