@@ -136,7 +136,6 @@
 				right: 12px;
 				font-size: 10px;
 				line-height: 24px;
-
 			}
 
 			&.collapsed {
@@ -212,9 +211,6 @@
 		height: 100%;
 		min-width: 42px;
 
-		//&--fa {
-		//	font-size: 2.6em;
-		//}
 		&--sub {
 			display: none;
 			@at-root .tpl-menu-SubMenu & {

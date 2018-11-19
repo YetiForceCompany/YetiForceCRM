@@ -26,7 +26,7 @@
 			</li>
 			<li class="nav-item" data-mode="security">
 				<a class="nav-link" href="#" data-toggle="tab">
-					<span class="menuIcon adminIcon-security position-relative u-position-t-2px u-font-size-19px mr-1"
+					<span class="adminIcon-security position-relative u-position-t-2px u-font-size-19px mr-1"
 						  aria-hidden="true"></span>
 					{\App\Language::translate('LBL_SECURITY', $QUALIFIED_MODULE)}
 				</a>

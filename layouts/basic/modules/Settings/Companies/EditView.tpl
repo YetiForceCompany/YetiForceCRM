@@ -15,7 +15,7 @@
 		<form name="EditCompanies" action="index.php" method="post" id="EditView" enctype="multipart/form-data">
 		<div class="card mb-2">
 			<div class="card-header">
-				<span class="menuIcon adminIcon-company-detlis" aria-hidden="true"></span> {App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
+				<span class="adminIcon-company-detlis" aria-hidden="true"></span> {App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="card-body">
 					{if $COMPANY_COLUMNS}

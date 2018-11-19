@@ -26,7 +26,7 @@
 				<ul class="nav nav-tabs layoutTabs massEditTabs my-2 m-sm-2">
 					<li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#logs">
-							<span class="menuIcon adminIcon-logs mr-1"></span>
+							<span class="adminIcon-logs mr-1"></span>
 							<strong>{\App\Language::translate('LBL_LOGS', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>
