@@ -97,5 +97,7 @@ $PERFORMANCE_CONFIG = [
 	// Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
 	'LIMITED_INFO_IN_FOOTER' => false,
 	// Popover record's trigger delay in ms
-	'RECORD_POPOVER_DELAY' => 500
+	'RECORD_POPOVER_DELAY' => 500,
+	// Empty value when is not selected item in picklist depedency
+	'PICKLIST_DEPEDENCY_DEFAULT_EMPTY' => true,
 ];

@@ -243,6 +243,7 @@ class Picklist
 		$dataReader = $query->createCommand()->query();
 		$picklistDependencyDatasource = [];
 		static::$picklistDependencyFields[$module] = [];
+		$isEmptyDefaultValue = \AppConfig::performance('PICKLIST_DEPEDENCY_DEFAULT_EMPTY');
 		while ($row = $dataReader->read()) {
 			$pickArray = [];
 			$sourceField = $row['sourcefield'];
@@ -263,11 +264,15 @@ class Picklist
 			} else {
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
 			}
-			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				foreach (self::getValuesName($targetField) as $picklistValue) {
-					$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
+			if (!isset($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
+				if (!$isEmptyDefaultValue) {
+					foreach (self::getValuesName($targetField) as $picklistValue) {
+						$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
+					}
+					$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
+				} else {
+					$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = [];
 				}
-				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
 			}
 		}
 		\App\Cache::save('picklistDependencyFields', $module, static::$picklistDependencyFields[$module]);
