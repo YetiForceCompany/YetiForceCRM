@@ -720,8 +720,9 @@ App.Fields = {
 			});
 		},
 		userOptionClickEvent(element) {
-			element.on('mouseup', function (e) {
-				let liElement = $(this).closest('.select2-results__option'),
+			element.on('mouseup', '[data-fa-i2svg].js-user-favorites', function (event) {
+				let thisInstance = $(this),
+					liElement = thisInstance.closest('.select2-results__option'),
 					id = liElement.attr("id"),
 					idArr = id.split("-"),
 					currentOptionId = '';
@@ -731,8 +732,15 @@ App.Fields = {
 				let params = {
 					userId: currentOptionId
 				};
-				AppConnector.request(params).done(function (data) {
-				});
+				//AppConnector.request(params).done(function (data) {
+				if (thisInstance.data('prefix') === 'far') {
+					thisInstance.addClass('fas').removeClass('far');
+					thisInstance.data('prefix', 'fas');
+				} else {
+					thisInstance.addClass('far').removeClass('fas');
+					thisInstance.data('prefix', 'far');
+				}
+				//});
 				event.stopPropagation();
 			});
 		},
