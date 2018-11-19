@@ -25,4 +25,7 @@ return [
 			];
 		},
 	],
+	// Restricts the results to the specified country or countries.The country code is a two letter
+	// code as defined by the ISO 3166-1 Alpha 2 (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-, It should be array such like ['en','fr']
+	'OPENCAGE_COUNTRY_CODE' => [],
 ];
