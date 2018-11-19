@@ -37,11 +37,12 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function setUpBeforeClass()
 	{
-		self::$testDir = \ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'backups';
+		self::$testDir = \ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'backups';
 		$config = new \App\Configurator('backup');
 		$config->set('BACKUP_PATH', self::$testDir);
 		$config->save();
 		self::$testDir .= DIRECTORY_SEPARATOR;
+		echo 'setUpBeforeClass';
 		if (is_dir(self::$testDir) === false) {
 			var_dump('Create catalog');
 			if (\mkdir(self::$testDir, 0777, true)) {
