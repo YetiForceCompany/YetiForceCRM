@@ -1289,6 +1289,7 @@
   },
   "js": {
     "JS_APPROVE": "Approve",
+    "JS_ADD_RECORD": "The record has been added.",
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "A responsabilidade dos registros foi transferida com sucesso.",
     "JS_SUMMARY": "Resumo",
     "JS_LOADING_PLEASE_WAIT": "Carregando... Por favor, aguarde.",
