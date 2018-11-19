@@ -35,7 +35,7 @@ class OSSMail_Logout_Model
 	 *
 	 * @param int $userId Crm user ID
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function getSessId(int $userId)
 	{
@@ -44,17 +44,9 @@ class OSSMail_Logout_Model
 		$arraySess = [];
 		$dataReader = (new \App\Db\Query())->from('roundcube_session')->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$sessData = explode(';', base64_decode($row['vars']));
-			if (is_array($sessData)) {
-				foreach ($sessData as $val) {
-					$data = explode('|', $val);
-					if (isset($data[0]) && $data[0] === 'user_id') {
-						$param = explode(':', $data[1]);
-						if ($param !== false && isset($param[2]) && in_array((int) str_replace('"', '', $param[2]), $roundCubeUsers)) {
-							$arraySess[] = $row['sess_id'];
-						}
-					}
-				}
+			$sessData = \App\Session\File::unserialize(base64_decode($row['vars']));
+			if (isset($sessData['user_id']) && in_array((int) $sessData['user_id'], $roundCubeUsers)) {
+				$arraySess[] = $row['sess_id'];
 			}
 		}
 		$dataReader->close();
@@ -71,7 +63,7 @@ class OSSMail_Logout_Model
 	public static function logutUserById(int $userId)
 	{
 		$sessId = static::getSessId($userId);
-		if (count($sessId)) {
+		if ($sessId) {
 			\App\Db::getInstance()->createCommand()
 				->delete('roundcube_session', ['sess_id' => $sessId])
 				->execute();

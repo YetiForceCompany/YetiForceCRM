@@ -9,16 +9,13 @@
  */
 if (!headers_sent()) {
 	$dbCommand = \App\Db::getInstance()->createCommand();
-	foreach (App\Session::clean() as $userName) {
+	foreach (App\Session::clean() as $userId => $userName) {
 		$dbCommand->insert('vtiger_loginhistory', [
 			'user_name' => $userName,
 			'logout_time' => date('Y-m-d H:i:s'),
 			'status' => 'Automatic signed off'
 		])->execute();
-		$userId = \App\User::getUserIdByName($userName);
-		if ($userId) {
-			OSSMail_Logout_Model::logutUserById($userId);
-		}
+		OSSMail_Logout_Model::logutUserById($userId);
 	}
 } else {
 	\App\Log::warning('Session cleaning has been omitted because the server headers have already been sent');
