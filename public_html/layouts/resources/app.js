@@ -869,18 +869,19 @@ var App = {},
 			container.on('mousedown', (e) => {
 				let clickedMouseButton = e.which; // get clicked button id
 				if (clickedMouseButton == 2 && middleScroll == false) {
-					$('body').addClass('u-cursor-scroll-all');
 					middleScroll = true;
 					let mouseY = e.pageY,
 						mouseX = e.pageX;
 					$(document).on('mousemove', (e) => {
 						if (middleScroll == true) {
-							let mouseMoveY = (mouseY - e.pageY) * -1,
+							$('body').addClass('u-cursor-scroll-all');
+							let mouseMoveY = mouseY - e.pageY,
+								scrollSlowerRate = 100, // higher number = slower scroll
 								contentScrollY = container.scrollTop(),
-								scrollerY = contentScrollY + mouseMoveY,
-								mouseMoveX = (mouseX - e.pageX) * -1,
+								scrollerY = contentScrollY - mouseMoveY - scrollSlowerRate,
+								mouseMoveX = mouseX - e.pageX,
 								contentScrollX = container.scrollLeft(),
-								scrollerX = contentScrollX + mouseMoveX;
+								scrollerX = contentScrollX - mouseMoveX - scrollSlowerRate;
 							container.scrollTop(scrollerY);
 							container.scrollLeft(scrollerX);
 						}
