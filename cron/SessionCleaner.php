@@ -15,6 +15,10 @@ if (!headers_sent()) {
 			'logout_time' => date('Y-m-d H:i:s'),
 			'status' => 'Automatic signed off'
 		])->execute();
+		$userId = \App\User::getUserIdByName($userName);
+		if ($userId) {
+			OSSMail_Logout_Model::logutUserById($userId);
+		}
 	}
 } else {
 	\App\Log::warning('Session cleaning has been omitted because the server headers have already been sent');
