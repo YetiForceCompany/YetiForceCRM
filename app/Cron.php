@@ -59,7 +59,7 @@ class Cron
 		}
 		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {
 			static::$logActive = false;
-			Log::error('The mechanism of cron logs has been disabled !!!. No access to the log directory "cache/logs"');
+			Log::error("The mechanism of cron logs has been disabled !!!. No access to the log directory '{$this->logPath}'");
 		}
 		if (!$this->logFile) {
 			$this->logFile = date('Ymd_Hi') . '.log';
