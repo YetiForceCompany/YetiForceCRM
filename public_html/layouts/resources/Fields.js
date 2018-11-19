@@ -354,7 +354,7 @@ App.Fields = {
 							});
 						}
 					},
-					extraPlugins: 'colorbutton,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
