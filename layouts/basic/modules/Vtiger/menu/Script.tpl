@@ -7,7 +7,7 @@
 			{if $HASCHILDS == 'true'} data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button"{/if}
 			href="{$MENU['dataurl']}" 
 			{if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}"{/if}>
-			{$ICON}
+			<span class="fas fa-greater-than c-menu__item__icon--sub"></span>{$ICON}
 			<span class="c-menu__item__text js-menu__item__text" data-js="class: u-white-space-n">
 				{\App\Language::translate($MENU['name'],'Menu')}
 			</span>
