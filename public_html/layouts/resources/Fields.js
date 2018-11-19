@@ -533,6 +533,10 @@ App.Fields = {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
+					let actualElement = $(data.element);
+					if (typeof selectElement.data('showAdditionalIcons') !== "undefined" && actualElement.is('option')) {
+						return '<div class="js-user__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' + actualElement.text() + '</div></div>';
+					}
 					if (typeof data.name === "undefined") {
 						return data.text;
 					}
@@ -541,6 +545,9 @@ App.Fields = {
 					} else {
 						return '<span>' + data.name + '</span>';
 					}
+				};
+				params.escapeMarkup = function (markup) {
+					return markup;
 				};
 			}
 			if (typeof params.templateSelection === "undefined") {
@@ -651,6 +658,9 @@ App.Fields = {
 						}
 						var element = $(e.currentTarget);
 						var instance = element.data('select2');
+						if (typeof data.showAdditionalIcons !== "undefined") {
+							self.registerCustomFilterOptionsHoverEvent(instance.$dropdown);
+						}
 						instance.$dropdown.css('z-index', 1000002);
 					}).on("select2:unselect", function (e) {
 					select.data('unselecting', true);
@@ -696,6 +706,24 @@ App.Fields = {
 					cb(select);
 				}
 			});
+		},
+		registerCustomFilterOptionsHoverEvent(element) {
+			element.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
+				let liElement = $(event.currentTarget),
+					liUserOptions = liElement.find('.js-user-actions');
+				if (liElement.hasClass('group-result')) {
+					return;
+				}
+				if (event.type === 'mouseenter' && liUserOptions.length === 0) {
+					this.appendOptionActionsTemplate(liElement);
+				}
+			});
+		},
+		appendOptionActionsTemplate(liElement) {
+			let template = $(`<span class="js-user-actions o-filter-actions noWrap float-right">
+					<span data-value="favorites" data-js="click" class=" mr-1 js-user-favorites far fa-star"></span>
+				</span>`);
+			template.appendTo(liElement.find('.js-user__title'));
 		},
 	},
 	MultiImage: {
