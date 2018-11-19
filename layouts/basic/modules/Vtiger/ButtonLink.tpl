@@ -62,6 +62,8 @@
 			{/if}
 			{if !empty($LABEL) && !empty($CLASS) && $CLASS == 'c-btn-link--responsive'}
 				<span class="d-{$BREAKPOINT}-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
+			{elseif !empty($LABEL) && $LINK->get('showLabel') == 1}
+				{\App\Language::translate($LABEL, $BTN_MODULE)}
 			{/if}
 			{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 	</div>
