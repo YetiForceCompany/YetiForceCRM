@@ -3099,14 +3099,6 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 480px) {
-	.detailViewToolbar {
-		text-align: center !important;
-
-		.btn-group, > div {
-			float: none !important;
-		}
-	}
-
 	.tl-text {
 		.tl-headline-date, h3.tl-headline-date {
 			line-height: 31px;
