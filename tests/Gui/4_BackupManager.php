@@ -70,7 +70,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public function testFileAndCatalogExist()
 	{
 		static::$isLogin = false;
-		//$this->login();
+		$this->login();
 		$this->url('index.php?module=Backup&parent=Settings&view=Index');
 		var_dump('#@@@@###@@@@###############');
 		var_dump(self::$testDir);
