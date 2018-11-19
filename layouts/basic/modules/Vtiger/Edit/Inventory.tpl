@@ -17,7 +17,7 @@
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
 		{assign var="IS_OPTIONAL_ITEMS" value=AppConfig::module($MODULE, 'INVENTORY_IS_OPTIONAL')}
 		{if in_array("currency",$COLUMNS)}
-			{if count($INVENTORY_ROWS) > 0}
+			{if count($INVENTORY_ROWS) > 0 && !empty($INVENTORY_ROWS[0]['currency'])}
 				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}
 			{else}
 				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
