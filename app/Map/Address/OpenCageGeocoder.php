@@ -50,6 +50,9 @@ class OpenCageGeocoder extends Base
 			$rows = [];
 			if ($body['total_results']) {
 				$mainMapping = \AppConfig::module('AddressFinder', 'REMAPPING_OPENCAGE');
+				if (!is_callable($mainMapping)) {
+					$mainMapping = [$this, 'parseRow'];
+				}
 				$countryMapping = \AppConfig::module('AddressFinder', 'REMAPPING_OPENCAGE_FOR_COUNTRY');
 				foreach ($body['results'] as $row) {
 					$mappingFunction = $mainMapping;
@@ -67,5 +70,28 @@ class OpenCageGeocoder extends Base
 			return false;
 		}
 		return $rows;
+	}
+
+	/**
+	 * Main function to parse information about address.
+	 *
+	 * @param array $row
+	 *
+	 * @return array
+	 */
+	private function parseRow(array $row)
+	{
+		return [
+			'addresslevel1' => [$row['components']['country'] ?? '', $row['components']['ISO_3166-1_alpha-2'] ?? ''],
+			'addresslevel2' => $row['components']['state'] ?? '',
+			'addresslevel3' => $row['components']['state_district'] ?? '',
+			'addresslevel4' => $row['components']['county'] ?? '',
+			'addresslevel5' => $row['components']['city'] ?? $row['components']['town'] ?? $row['components']['village'] ?? '',
+			'addresslevel6' => $row['components']['suburb'] ?? $row['components']['neighbourhood'] ?? $row['components']['city_district'] ?? '',
+			'addresslevel7' => $row['components']['postcode'] ?? '',
+			'addresslevel8' => $row['components']['road'] ?? '',
+			'buildingnumber' => $row['components']['house_number'] ?? '',
+			'localnumber' => $row['components']['local_number'] ?? '',
+		];
 	}
 }
