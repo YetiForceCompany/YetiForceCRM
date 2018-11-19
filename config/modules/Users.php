@@ -14,4 +14,6 @@ return [
 	'CHECK_LAST_USERNAME' => true,
 	// Show role name
 	'SHOW_ROLE_NAME' => true,
+	// Activation of favorite owners
+	'FAVORITE_OWNERS' => true,
 ];
