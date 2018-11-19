@@ -54,12 +54,12 @@
 						</optgroup>
 					{/if}
 					{if AppConfig::module('Users','FAVORITE_OWNERS')}
-						{assign var=FAVORITE_OWNERS value=\App\Fields\Owner::getFavortes(\App\Module::getModuleId($MODULE_NAME), $CURRENT_USER_ID)}
+						{assign var=FAVORITE_OWNERS value=\App\Fields\Owner::getFavorites(\App\Module::getModuleId($MODULE_NAME), $CURRENT_USER_ID)}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
 							{assign var=ALL_ACTIVEUSER_LIST value=array_diff_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS)}
 							{assign var=ALL_ACTIVEGROUP_LIST value=array_diff_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
-							{OPTGRUOP BLOCK_NAME='LBL_FAVORITES' OWNERS=$FAVORITE_OWNERS}
+							{OPTGRUOP BLOCK_NAME='LBL_FAVORITE_OWNERS' OWNERS=$FAVORITE_OWNERS}
 						{/if}
 					{/if}
 					{OPTGRUOP BLOCK_NAME='LBL_USERS' OWNERS=$ALL_ACTIVEUSER_LIST}
