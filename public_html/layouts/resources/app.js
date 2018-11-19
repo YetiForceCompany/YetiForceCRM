@@ -864,6 +864,10 @@ var App = {},
 				options.height = element.css('height');
 			return element.slimScroll(options);
 		},
+		/**
+		 * Register middle scroll hack for scrollbar libraries
+		 * @param {jQuery} container
+		 */
 		registerMiddleClickScroll(container) {
 			let middleScroll = false;
 			container.on('mousedown', (e) => {
