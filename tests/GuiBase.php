@@ -22,7 +22,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 */
 	public $logs;
 	public $driver;
-	protected static $isLogin = false;
+	public $currentUrl;
 
 	/**
 	 * @codeCoverageIgnore
@@ -40,6 +40,11 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		throw $t;
 	}
 
+	public function log($msg, $level = 'info')
+	{
+		$this->logs[] = ['message' => $msg, 'level' => $level, 'url' => $this->currentUrl];
+	}
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -51,18 +56,21 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function url($url)
 	{
+		$this->currentUrl = \AppConfig::main('site_URL') . $url;
 		$this->driver->get(\AppConfig::main('site_URL') . $url);
 	}
 
 	/**
 	 * Testing login page display.
+	 * @param string $login    username
+	 * @param string $password password associated to user
 	 */
-	public function login()
+	public function login($login = 'demo', $password = null)
 	{
 		if (!$this->getLoginStatus()) {
 			$this->url('index.php');
-			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
-			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
+			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys($login);
+			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys($password ?? \Tests\Base\A_User::$defaultPassrowd);
 			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 		}
 	}
