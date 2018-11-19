@@ -88,7 +88,11 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function tearDownAfterClass()
 	{
-		\vtlib\Functions::recurseDelete(self::$testDir, true);
+		if (is_dir(self::$testDir)) {
+			\vtlib\Functions::recurseDelete(self::$testDir, true);
+		} else {
+			echo 'Backup dir not exists, nothing to remove';
+		}
 		$config = new \App\Configurator('backup');
 		$config->set('BACKUP_PATH', '');
 		$config->save();

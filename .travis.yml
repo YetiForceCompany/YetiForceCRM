@@ -117,6 +117,9 @@ jobs:
     - cd tests
     - ../vendor/bin/phpunit --debug --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
     - sudo ls -all
+    - cd tmp
+    - sudo ls -all
+    - cd ..
     - cd ..
     - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
     - sudo ls -all
