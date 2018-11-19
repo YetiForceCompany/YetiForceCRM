@@ -16,8 +16,6 @@ include_once __DIR__ . '/include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronObj = new \App\Cron();
-$cronObj->init();
-
 App\Session::init();
 \App\Session::set('last_activity', microtime(true));
 $authenticatedUserId = App\Session::get('authenticated_user_id');
@@ -28,7 +26,8 @@ $cronObj->log('SAPI: ' . PHP_SAPI, 'info', false);
 $cronObj->log('User: ' . Users::getActiveAdminId(), 'info', false);
 if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') === \App\Request::_get('app_key')) {
 	$cronTasks = false;
-	$cronObj->log('Cron start:', 'info', false);
+	$cronObj->log('Cron start', 'info', false);
+	$cronObj::$cronTimeStart = microtime(true);
 	vtlib\Cron::setCronAction(true);
 	if (\App\Request::_has('service')) {
 		// Run specific service
@@ -61,14 +60,12 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			if ($cronTask->isRunning()) {
 				\App\Log::trace($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning', 'Cron');
 				$cronObj->log('Task omitted, it has not been finished during the last scanning', 'warning');
-				$cronObj->log('End task, time: ' . round(microtime(true) - $startTaskTime, 2));
 				$response .= sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
 			// Not ready to run yet?
 			if (!$cronTask->isRunnable()) {
 				$cronObj->log('Not ready to run as the time to run again is not completed');
-				$cronObj->log('End task, time: ' . round(microtime(true) - $startTaskTime, 2));
 				\App\Log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed', 'Cron');
 				$response .= sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
@@ -106,7 +103,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 		}
 	}
 
-	$cronObj->log('End CRON (' . $cronObj->getRunTime() . ')', 'info', false);
-	$response .= sprintf('===============  %s (' . $cronObj->getRunTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
+	$cronObj->log('End CRON (' . $cronObj->getCronExecutionTime() . ')', 'info', false);
+	$response .= sprintf('===============  %s (' . $cronObj->getCronExecutionTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 	echo $response;
 }
