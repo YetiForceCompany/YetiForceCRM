@@ -59,12 +59,21 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 */
 	public function login()
 	{
-		if (!static::$isLogin) {
+		if (!$this->getLoginStatus()) {
 			$this->url('index.php');
 			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
 			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
-			static::$isLogin = true;
 		}
+	}
+
+	/**
+	 * Check if we are already logged in
+	 * @return bool
+	 */
+	protected function getLoginStatus()
+	{
+		$this->url('index.php?module=Users&view=LoginStatus');
+		return ($this->driver->getPageSource() === '1');
 	}
 }
