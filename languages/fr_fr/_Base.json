@@ -1326,6 +1326,7 @@
   },
   "js": {
     "JS_APPROVE": "Approve",
+    "JS_ADD_RECORD": "The record has been added.",
     "AM": "AM",
     "JS_INFORMATION": "Information",
     "JS_LBL_PERMISSION": "Permissions",
