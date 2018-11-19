@@ -131,7 +131,7 @@ class Session
 	/**
 	 * Function to clean session. Removed old session.
 	 *
-	 * @return string
+	 * @return \Generator
 	 */
 	public static function clean()
 	{
