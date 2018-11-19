@@ -15,5 +15,5 @@ return [
 	// Show role name
 	'SHOW_ROLE_NAME' => true,
 	// Activation of favorite owners
-	'FAVORITE_OWNERS' => true,
+	'FAVORITE_OWNERS' => false,
 ];

@@ -650,7 +650,7 @@ class Owner
 	{
 		$cacheName = "{$tabId}:{$userId}";
 		if (!\App\Cache::has('getFavoriteOwners', $cacheName)) {
-			\App\Cache::set('getFavoriteOwners', $cacheName, (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])
+			\App\Cache::save('getFavoriteOwners', $cacheName, (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])
 				->from('u_#__favorite_owners')
 				->where(['tabid' => $tabId, 'userid' => $userId])->createCommand()->queryAllByGroup());
 		}
