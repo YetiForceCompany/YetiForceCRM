@@ -234,7 +234,7 @@ jQuery.Class("Vtiger_List_Js", {
 				"type": "POST",
 				"url": massActionUrl,
 				"dataType": "html",
-				"data": this.getSearchParams()
+				"data": listInstance.getSearchParams()
 			};
 			if (typeof css === "undefined") {
 				css = {};

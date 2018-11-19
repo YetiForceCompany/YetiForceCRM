@@ -84,7 +84,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 
-		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"']) && !empty($selectedIds) && count($selectedIds) > 0) {
+		if (!empty($selectedIds) && !in_array($selectedIds[0], ['all', '"all"']) && count($selectedIds) > 0) {
 			$queryGenerator = new \App\QueryGenerator($sourceModule);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
 

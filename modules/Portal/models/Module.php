@@ -108,9 +108,9 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 		$params = [];
-		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
+		if (!empty($selectedIds) && $selectedIds[0] != 'all' && count($selectedIds) > 0) {
 			$params = ['portalid' => $selectedIds];
-		} elseif ($selectedIds == 'all') {
+		} elseif ($selectedIds[0] == 'all') {
 			if (empty($searchValue) && count($excludedIds) > 0) {
 				$params = ['not in', 'portalid', $excludedIds];
 			} elseif (!empty($searchValue) && count($excludedIds) < 1) {
