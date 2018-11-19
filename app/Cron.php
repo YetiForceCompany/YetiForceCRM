@@ -13,8 +13,6 @@ namespace App;
 
 /**
  * Class to handle Cron operations.
- *
- * @package App
  */
 class Cron
 {
