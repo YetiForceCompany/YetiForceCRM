@@ -864,6 +864,27 @@ var App = {},
 				options.height = element.css('height');
 			return element.slimScroll(options);
 		},
+		registerMiddleClickScroll(container) {
+			let middleScroll = false;
+			container.on('mousedown', (e) => {
+				let clickedMouseButton = e.which; // get clicked button id
+				if (clickedMouseButton == 2 && middleScroll == false) {
+					middleScroll = true;
+					var mouseY = e.pageY;
+					$(document).on('mousemove', (e) => {
+						if (middleScroll == true) {
+							let mouselive = (mouseY - e.pageY) * -1,
+								contentscroll = container.scrollTop(),
+								scroller = contentscroll + mouselive;
+							container.scrollTop(scroller);
+						}
+					});
+				}
+				else if (clickedMouseButton == 2 && middleScroll == true) {
+					return middleScroll = false;
+				}
+			});
+		},
 		/**
 		 * Function returns translated string
 		 */
