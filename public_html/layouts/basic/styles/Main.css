@@ -10766,7 +10766,7 @@ span[name=existingImages] img {
 .checkboxForm {
   padding-top: 7px; }
 
-.ui-draggable-menuShortcut .menuIcon {
+.ui-draggable-menuShortcut .c-menu__item__icon {
   padding-right: 18px;
   font-size: 24px;
   height: 100%; }
@@ -12755,6 +12755,9 @@ ul.tweets li {
 
 .u-cursor-grab {
   cursor: -webkit-grab; }
+
+.u-cursor-scroll-all * {
+  cursor: all-scroll !important; }
 
 .u-overflow-auto {
   overflow: auto !important; }
@@ -15721,7 +15724,7 @@ label.btn.btn-outline-primary:not(.active) {
       background: #18202f; }
     .c-menu__item .tpl-menu-SubMenu a.hasIcon,
     .c-menu__item .tpl-menu-Profile_submenu a.hasIcon {
-      padding: 6px 12px; }
+      padding: 0.375rem; }
   .c-menu__item .tpl-menu-SubMenu .menuLabel > a,
   .c-menu__item .tpl-menu-Profile_submenu .menuLabel > a {
     font-weight: 600;
@@ -15742,13 +15745,19 @@ label.btn.btn-outline-primary:not(.active) {
   height: calc(100% - 50px);
   width: 100%;
   position: relative; }
-  .c-menu__body .modulesList .menuIcon {
-    padding-right: 18px;
-    font-size: 1.6em;
-    height: 100%;
-    min-width: 42px; }
-  .c-menu__body .tpl-menu-SubMenu .menuIcon {
-    padding-left: 0.625rem; }
+.c-menu__item__icon {
+  padding-right: 18px;
+  font-size: 1.6em;
+  height: 100%;
+  min-width: 42px; }
+  .c-menu__item__icon--sub {
+    display: none; }
+    .tpl-menu-SubMenu .c-menu__item__icon--sub {
+      display: inline-block;
+      margin-right: 0.4rem;
+      font-size: 0.625rem;
+      margin-top: auto;
+      margin-bottom: auto; }
 .c-menu__header {
   height: 3.25rem;
   padding-right: 0;
@@ -15812,8 +15821,7 @@ label.btn.btn-outline-primary:not(.active) {
       color: #f1f1f1;
       background: #404952; }
   .related .nav-pills .dropdown-menu {
-    min-width: 300px;
-    z-index: 1025; }
+    min-width: 300px; }
     .related .nav-pills .dropdown-menu .nav-item {
       margin: 0;
       float: none !important;
