@@ -719,10 +719,28 @@ App.Fields = {
 				}
 			});
 		},
+		userOptionClickEvent(element) {
+			element.on('mouseup', function (e) {
+				let liElement = $(this).closest('.select2-results__option'),
+					id = liElement.attr("id"),
+					idArr = id.split("-"),
+					currentOptionId = '';
+				if (idArr.length > 0) {
+					currentOptionId = idArr[idArr.length - 1];
+				}
+				let params = {
+					userId: currentOptionId
+				};
+				AppConnector.request(params).done(function (data) {
+				});
+				event.stopPropagation();
+			});
+		},
 		appendOptionActionsTemplate(liElement) {
 			let template = $(`<span class="js-user-actions o-filter-actions noWrap float-right">
 					<span data-value="favorites" data-js="click" class=" mr-1 js-user-favorites far fa-star"></span>
 				</span>`);
+			this.userOptionClickEvent(template);
 			template.appendTo(liElement.find('.js-user__title'));
 		},
 	},
