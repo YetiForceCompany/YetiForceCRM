@@ -869,20 +869,27 @@ var App = {},
 			container.on('mousedown', (e) => {
 				let clickedMouseButton = e.which; // get clicked button id
 				if (clickedMouseButton == 2 && middleScroll == false) {
+					container.css('cursor', 'all-scroll !important');
+
 					middleScroll = true;
-					var mouseY = e.pageY;
+					let mouseY = e.pageY,
+						mouseX = e.pageX;
 					$(document).on('mousemove', (e) => {
 						if (middleScroll == true) {
-							let mouselive = (mouseY - e.pageY) * -1,
-								contentscroll = container.scrollTop(),
-								scroller = contentscroll + mouselive;
-							container.scrollTop(scroller);
+							let mouseMoveY = (mouseY - e.pageY) * -1,
+								contentScrollY = container.scrollTop(),
+								scrollerY = contentScrollY + mouseMoveY,
+								mouseMoveX = (mouseX - e.pageX) * -1,
+								contentScrollX = container.scrollLeft(),
+								scrollerX = contentScrollX + mouseMoveX;
+							container.scrollTop(scrollerY);
+							container.scrollLeft(scrollerX);
 						}
 					});
 				}
-				else if (clickedMouseButton == 2 && middleScroll == true) {
-					return middleScroll = false;
-				}
+			});
+			container.on('mouseup', () => {
+				middleScroll = false;
 			});
 		},
 		/**
