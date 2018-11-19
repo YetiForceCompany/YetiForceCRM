@@ -1607,8 +1607,7 @@ class Vtiger_Record_Model extends \App\Base
 		$image = [];
 		if (!$this->isEmpty('imagename') && $this->get('imagename') !== '[]' && $this->get('imagename') !== '""') {
 			$image = \App\Json::decode($this->get('imagename'));
-			$image = reset($image);
-			if (empty($image['path'])) {
+			if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
 				\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
 				return [];
 			}
@@ -1618,9 +1617,8 @@ class Vtiger_Record_Model extends \App\Base
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
 				if (!$this->isEmpty($fieldModel->getName()) && $this->get($fieldModel->getName()) !== '[]' && $this->get($fieldModel->getName()) !== '""') {
 					$image = \App\Json::decode($this->get($fieldModel->getName()));
-					$image = reset($image);
-					if (empty($image['path'])) {
-						\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get($fieldModel->getName())}]");
+					if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
+						\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
 						return [];
 					}
 					$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
