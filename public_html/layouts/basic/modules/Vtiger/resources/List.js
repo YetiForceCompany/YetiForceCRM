@@ -1958,6 +1958,7 @@ jQuery.Class("Vtiger_List_Js", {
 				container.siblings('.floatThead-container').remove();
 				app.showNewScrollbarTopBottomRight(container);
 				this.registerFixedThead(container);
+				app.registerMiddleClickScroll(container);
 			}
 		}
 	},
