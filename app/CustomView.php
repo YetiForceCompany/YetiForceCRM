@@ -323,7 +323,7 @@ class CustomView
 			Cache::staticSave('getCustomView', $cvId, $filter);
 		} else {
 			Log::error(Language::translate('LBL_NOT_FOUND_VIEW') . "cvId: $cvId");
-			throw new Exceptions\AppException('LBL_NOT_FOUND_VIEW');
+			throw new Exceptions\AppException('ERR_NOT_FOUND_VIEW');
 		}
 		return $filter;
 	}
