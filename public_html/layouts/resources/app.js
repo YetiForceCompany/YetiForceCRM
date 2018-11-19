@@ -914,26 +914,19 @@ var App = {},
 		},
 		cacheGet: function (key, defvalue) {
 			key = this.cacheNSKey(key);
-			return $.jStorage.get(key, defvalue);
+			return localStorage.getItem(key, defvalue);
 		},
-		cacheSet: function (key, value, ttl) {
-			key = this.cacheNSKey(key);
-			$.jStorage.set(key, value);
-			if (ttl) {
-				$.jStorage.setTTL(key, ttl);
-			}
+		cacheSet: function (key, value) {
+			localStorage.setItem(key, value);
 		},
 		cacheClear: function (key) {
 			key = this.cacheNSKey(key);
-			return $.jStorage.deleteKey(key);
+			return localStorage.removeItem(key);
 		},
-		moduleCacheSet: function (key, value, ttl) {
-			if (ttl == undefined) {
-				ttl = 12 * 60 * 60 * 1000;
-			}
+		moduleCacheSet: function (key, value) {
 			var orgKey = key;
 			key = this.getModuleName() + '_' + key;
-			this.cacheSet(key, value, ttl);
+			this.cacheSet(key, value);
 
 			var cacheKey = 'mCache' + this.getModuleName();
 			var moduleCache = this.cacheGet(cacheKey);
