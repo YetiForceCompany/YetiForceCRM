@@ -1310,6 +1310,7 @@
   },
   "js": {
     "JS_APPROVE": "Approve",
+    "JS_ADD_RECORD": "The record has been added.",
     "JS_SUMMARY": "Summe",
     "JS_LOADING_PLEASE_WAIT": "Laden, bitte warten.",
     "JS_SELECTED_RECORDS": "Selektierte Daten",
