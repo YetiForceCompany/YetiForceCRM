@@ -6,7 +6,7 @@
 			<hr>
 		</div>
 		<div class="col-md-12{if $IS_POPUP === true} knowledgePopoutContent{/if}">
-			{\App\Purifier::encodeHtml($CONTENT)}
+			{\App\Purifier::purifyHtml($CONTENT)}
 		</div>
 	</div>
 {/strip}
