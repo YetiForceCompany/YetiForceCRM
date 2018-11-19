@@ -9,7 +9,7 @@
 			   href="#" data-js="click" role="button" aria-expanded="false" aria-controls="o-view-actions__container">
 				<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 			</a>
-			<div class="detailViewToolbar my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row ml-md-2 pb-md-2 pb-lg-0"
+			<div class="my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row ml-md-2 pb-md-2 pb-lg-0"
 				 id="o-view-actions__container">
 				<button class="btn btn-info js-check-php mr-md-2 flex-md-nowrap mt-1 mt-md-0" data-js="click">
 					<span class="fab fa-php mr-1"></span>{App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
