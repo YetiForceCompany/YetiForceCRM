@@ -413,6 +413,13 @@
 	cursor: -webkit-grab;
 }
 
+.u-cursor-scroll-all {
+	* {
+		cursor: all-scroll !important;
+	}
+
+}
+
 .u-overflow-auto {
 	overflow: auto !important;
 }

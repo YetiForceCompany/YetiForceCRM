@@ -869,8 +869,7 @@ var App = {},
 			container.on('mousedown', (e) => {
 				let clickedMouseButton = e.which; // get clicked button id
 				if (clickedMouseButton == 2 && middleScroll == false) {
-					container.css('cursor', 'all-scroll !important');
-
+					$('body').addClass('u-cursor-scroll-all');
 					middleScroll = true;
 					let mouseY = e.pageY,
 						mouseX = e.pageX;
@@ -889,6 +888,7 @@ var App = {},
 				}
 			});
 			container.on('mouseup', () => {
+				$('body').removeClass('u-cursor-scroll-all');
 				middleScroll = false;
 			});
 		},
