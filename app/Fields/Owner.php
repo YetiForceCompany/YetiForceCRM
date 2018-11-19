@@ -639,6 +639,19 @@ class Owner
 	}
 
 	/**
+	 * Gets favorite owners.
+	 *
+	 * @param int $tabId
+	 * @param int $userId
+	 *
+	 * @return array
+	 */
+	public static function getFavortes(int $tabId, int $userId): array
+	{
+		return (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])->from('u_#__favorite_owners')->where(['tabid' => $tabId, 'userid' => $userId])->createCommand()->queryAllByGroup();
+	}
+
+	/**
 	 * @var string|bool Owners color
 	 */
 	protected static $colorsCache = false;

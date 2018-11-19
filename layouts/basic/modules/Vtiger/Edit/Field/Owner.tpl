@@ -23,7 +23,20 @@
 		{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
-		{assign var=FOUND_SELECT_VALUE value=0}
+		{assign var=FAVORITE_OWNERS value=[]}
+		{function OPTGRUOP BLOCK_NAME='' OWNERS=[]}
+			{if $OWNERS}
+				<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
+						<option value="{$OWNER_ID}"
+								data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
+								data-userId="{$CURRENT_USER_ID}">
+							{$OWNER_NAME}
+						</option>
+					{/foreach}
+				</optgroup>
+			{/if}
+		{/function}
 		<div>
 			<select class="select2 form-control {$ASSIGNED_USER_ID}"
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
@@ -34,32 +47,23 @@
 				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{/if}>
 				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
 					{if $VIEW eq 'MassEdit'}
 						<optgroup class="p-0">
-							<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+							<option value="">{\App\Language::translate('LBL_SELECT_OPTION', '_Base')}</option>
 						</optgroup>
 					{/if}
-					{if $ALL_ACTIVEUSER_LIST}
-						<optgroup label="{\App\Language::translate('LBL_USERS')}">
-							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-								<option value="{$OWNER_ID}"
-										data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
-										data-userId="{$CURRENT_USER_ID}">
-									{$OWNER_NAME}
-								</option>
-							{/foreach}
-						</optgroup>
+					{if AppConfig::module('Users','FAVORITE_OWNERS')}
+						{assign var=FAVORITE_OWNERS value=\App\Fields\Owner::getFavortes(\App\Module::getModuleId($MODULE_NAME), $CURRENT_USER_ID)}
+						{if $FAVORITE_OWNERS}
+							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
+							{assign var=ALL_ACTIVEUSER_LIST value=array_diff_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS)}
+							{assign var=ALL_ACTIVEGROUP_LIST value=array_diff_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
+							{OPTGRUOP BLOCK_NAME='LBL_FAVORITES' OWNERS=$FAVORITE_OWNERS}
+						{/if}
 					{/if}
-					{if $ALL_ACTIVEGROUP_LIST}
-						<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
-							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-								<option value="{$OWNER_ID}"
-										data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}>
-									{\App\Language::translate($OWNER_NAME, $MODULE)}
-								</option>
-							{/foreach}
-						</optgroup>
-					{/if}
+					{OPTGRUOP BLOCK_NAME='LBL_USERS' OWNERS=$ALL_ACTIVEUSER_LIST}
+					{OPTGRUOP BLOCK_NAME='LBL_GROUPS' OWNERS=$ALL_ACTIVEGROUP_LIST}
 					{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_VALUE == '')}
 						{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($FIELD_VALUE)}
 						<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected
