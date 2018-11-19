@@ -36,7 +36,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function setUpBeforeClass()
 	{
-		self::$testDir = App\Fields\File::getTmpPath() . 'backups';
+		self::$testDir = 'tests/data/backups/';
 		$config = new \App\Configurator('backup');
 		$config->set('BACKUP_PATH', self::$testDir);
 		$config->save();
