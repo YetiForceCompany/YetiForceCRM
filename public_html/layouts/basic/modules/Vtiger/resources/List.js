@@ -1594,36 +1594,49 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerMassRecordsEvents: function () {
-		var thisInstance = this;
-		jQuery('.listViewActionsDiv').on('click', '.massRecordEvent', function (event) {
-			var target = $(this);
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
-				var params = {};
-				if (target.data('confirm')) {
-					params.message = target.data('confirm');
-					params.title = target.html();
-				} else {
-					params.message = target.html();
-				}
-				Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
-					var progressIndicatorElement = jQuery.progressIndicator();
-					AppConnector.request({
-						type: "POST",
-						url: target.data('url'),
-						data: thisInstance.getSearchParams()
-					}).done(function (data) {
-						progressIndicatorElement.progressIndicator({mode: 'hide'});
-						if (data && data.result && data.result.notify) {
-							Vtiger_Helper_Js.showMessage(data.result.notify);
-						}
-						thisInstance.getListViewRecords();
-						thisInstance.writeSelectedIds([]);
-					}).fail(function (error, err) {
-						progressIndicatorElement.progressIndicator({mode: 'hide'});
+		const self = this;
+		this.getListViewContainer().on('click', '.js-mass-record-event', function () {
+			let target = $(this);
+			let listInstance = Vtiger_List_Js.getInstance();
+			if (listInstance.checkListRecordSelected() != true) {
+				if (target.data('type') === 'modal') {
+					let vars = {};
+					target.data('url').replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+						vars[key] = value;
 					});
-				});
+					AppConnector.request({
+						type: 'POST',
+						url: target.data('url'),
+						data: $.extend(self.getSearchParams(), vars)
+					}).done(function (modal) {
+						app.showModalWindow(modal);
+					});
+				} else {
+					let params = {};
+					if (target.data('confirm')) {
+						params.message = target.data('confirm');
+						params.title = target.html();
+					} else {
+						params.message = target.html();
+					}
+					Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
+						let progressIndicatorElement = jQuery.progressIndicator();
+						AppConnector.request({
+							type: 'POST',
+							url: target.data('url'),
+							data: self.getSearchParams()
+						}).done(function (data) {
+							progressIndicatorElement.progressIndicator({mode: 'hide'});
+							if (data && data.result && data.result.notify) {
+								Vtiger_Helper_Js.showMessage(data.result.notify);
+							}
+							self.getListViewRecords();
+							self.writeSelectedIds([]);
+						}).fail(function (error, err) {
+							progressIndicatorElement.progressIndicator({mode: 'hide'});
+						});
+					});
+				}
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}

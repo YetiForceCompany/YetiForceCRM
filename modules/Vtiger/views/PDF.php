@@ -4,9 +4,9 @@
  * Export PDF Modal View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
@@ -37,7 +37,6 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$recordId = $request->getInteger('record');
 		$view = $request->getByType('fromview', 1);
 		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
 
@@ -47,12 +46,11 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		} elseif ($view === 'List') {
 			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForModule($moduleName, $view));
 		}
-		$postVars = [
+		$viewer->assign('ALL_RECORDS', $allRecords);
+		$viewer->assign('EXPORT_VARS', [
 			'record' => $recordId,
 			'fromview' => $view,
-		];
-		$viewer->assign('ALL_RECORDS', $allRecords);
-		$viewer->assign('EXPORT_VARS', $postVars);
+		]);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->view('ExportPDF.tpl', $moduleName);
 		$this->postProcess($request);
