@@ -132,14 +132,19 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listView->set('search_params', $transformedSearchParams);
 		}
-		$queryGenerator = $listView->getQueryGenerator();
+		if ($sourceModule) {
+			$queryGenerator = $listView->getRelationQuery(true);
+		} else {
+			$listView->loadListViewCondition();
+			$queryGenerator = $listView->getQueryGenerator();
+		}
 		$moduleModel = $queryGenerator->getModuleModel();
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
 		$queryGenerator->setFields(['id', $request->getByType('field')]);
 		$queryGenerator->addCondition($request->getByType('field'), '', 'ny');
 		$selected = $request->getArray('selected_ids', 2);
-		if ($selected && $selected !== 'all') {
+		if ($selected && $selected[0] !== 'all') {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);
 		}
 		$excluded = $request->getArray('excluded_ids', 2);

@@ -137,6 +137,11 @@ class Mailer
 	public static function addMail($params)
 	{
 		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
+		$params['date'] = date('Y-m-d H:i:s');
+		if (empty($params['owner'])) {
+			$owner = User::getCurrentUserRealId();
+			$params['owner'] = $owner ? $owner : 0;
+		}
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
 		}
@@ -161,11 +166,7 @@ class Mailer
 			Log::warning('No target email address provided', 'Mailer');
 			return false;
 		}
-		if (empty($params['owner'])) {
-			$owner = User::getCurrentUserRealId();
-			$params['owner'] = $owner ? $owner : 0;
-		}
-		$params['date'] = date('Y-m-d H:i:s');
+
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($params[$key])) {
 				if (!is_array($params[$key])) {
