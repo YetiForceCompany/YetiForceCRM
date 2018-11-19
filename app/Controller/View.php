@@ -267,7 +267,6 @@ abstract class View extends Base
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
 			'~libraries/jquery.class.js/jquery.class.js',
-			'~libraries/jstorage/jstorage.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
 			'~libraries/pnotify/dist/iife/PNotify.js',
@@ -294,6 +293,7 @@ abstract class View extends Base
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
 			'~libraries/floatthead/dist/jquery.floatThead.js',
+			'~libraries/store/dist/store.legacy.min.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
@@ -561,7 +561,7 @@ abstract class View extends Base
 					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
 					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
 					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-					 'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+					 'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
 					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 					 'rowHeight' => $userModel->getDetail('rowheight'),
 					 'userId' => $userModel->getId(),
@@ -575,7 +575,7 @@ abstract class View extends Base
 					 'searchShowOwnerOnlyInList' => \AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),
+					 'debug' => (bool)\AppConfig::debug('JS_DEBUG'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
@@ -587,7 +587,7 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if ((int) \App\Session::get('ShowUserPasswordChange') === 1) {
+			if ((int)\App\Session::get('ShowUserPasswordChange') === 1) {
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}

@@ -912,16 +912,17 @@ var App = {},
 		cacheNSKey: function (key) { // Namespace in client-storage
 			return 'yf.' + key;
 		},
-		cacheGet: function (key, defvalue) {
+		cacheGet: function (key) {
 			key = this.cacheNSKey(key);
-			return localStorage.getItem(key, defvalue);
+			return store.get(key);
 		},
 		cacheSet: function (key, value) {
-			localStorage.setItem(key, value);
+			key = this.cacheNSKey(key);
+			store.set(key, value);
 		},
 		cacheClear: function (key) {
 			key = this.cacheNSKey(key);
-			return localStorage.removeItem(key);
+			return store.remove(key);
 		},
 		moduleCacheSet: function (key, value) {
 			var orgKey = key;
