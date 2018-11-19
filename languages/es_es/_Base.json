@@ -1330,6 +1330,7 @@
   },
   "js": {
     "JS_APPROVE": "Approve",
+    "JS_ADD_RECORD": "The record has been added.",
     "JS_VIEWNAME_ALERT": "Nombre del filtro demasiado largo",
     "JS_SUMMARY": "Resumen",
     "JS_LOADING_PLEASE_WAIT": "Cargando, por favor espere.",
