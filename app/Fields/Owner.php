@@ -646,9 +646,15 @@ class Owner
 	 *
 	 * @return array
 	 */
-	public static function getFavortes(int $tabId, int $userId): array
+	public static function getFavorites(int $tabId, int $userId): array
 	{
-		return (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])->from('u_#__favorite_owners')->where(['tabid' => $tabId, 'userid' => $userId])->createCommand()->queryAllByGroup();
+		$cacheName = "{$tabId}:{$userId}";
+		if (!\App\Cache::has('getFavoriteOwners', $cacheName)) {
+			\App\Cache::set('getFavoriteOwners', $cacheName, (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])
+				->from('u_#__favorite_owners')
+				->where(['tabid' => $tabId, 'userid' => $userId])->createCommand()->queryAllByGroup());
+		}
+		return \App\Cache::get('getFavoriteOwners', $cacheName);
 	}
 
 	/**
