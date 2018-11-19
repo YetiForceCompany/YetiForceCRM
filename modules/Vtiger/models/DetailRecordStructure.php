@@ -25,8 +25,10 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 	{
 		$moduleModel = $this->getModule();
 		$fieldsInHeader = [];
-		foreach ($moduleModel->getFields() as $fieldModel) {
-			if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView()) {
+		$recordModel = $this->getRecord();
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView() && $recordModel) {
+				$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 				$fieldsInHeader[$fieldModel->getHeaderValue('type')][$fieldModel->getName()] = $fieldModel;
 			}
 		}
