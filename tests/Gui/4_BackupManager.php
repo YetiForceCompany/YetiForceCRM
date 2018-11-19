@@ -54,7 +54,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 				$zip->close();
 				$catalogDir = self::$testDir . self::$catalogName;
 				if (is_dir($catalogDir) === false) {
-					\mkdir($catalogDir, true);
+					\mkdir($catalogDir, 0777, true);
 				}
 			} else {
 				var_dump('@@## Can not create directory: 58');
