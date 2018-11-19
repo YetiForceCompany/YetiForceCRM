@@ -50,7 +50,7 @@
 					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
 					{if $VIEW eq 'MassEdit'}
 						<optgroup class="p-0">
-							<option value="">{\App\Language::translate('LBL_SELECT_OPTION', '_Base')}</option>
+							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>
 					{/if}
 					{if AppConfig::module('Users','FAVORITE_OWNERS')}
