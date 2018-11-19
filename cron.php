@@ -22,8 +22,7 @@ $authenticatedUserId = App\Session::get('authenticated_user_id');
 $appUniqueKey = App\Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === AppConfig::main('application_unique_key'));
 $response = '';
-$cronObj->log('SAPI: ' . PHP_SAPI, 'info', false);
-$cronObj->log('User: ' . Users::getActiveAdminId(), 'info', false);
+$cronObj->log('SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);
 if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') === \App\Request::_get('app_key')) {
 	$cronTasks = false;
 	$cronObj->log('Cron start', 'info', false);
