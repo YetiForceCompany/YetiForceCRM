@@ -1521,14 +1521,14 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		if (!$this->has($fieldName)) {
 			$focus = $this->getEntity();
-			if (isset($focus->column_fields[$fieldName])) {
+			if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] !== '') {
 				$value = $focus->column_fields[$fieldName];
 			} else {
 				$fieldModel = $this->getModule()->getFieldByName($fieldName);
 				$idName = $focus->tab_name_index[$fieldModel->getTableName()];
 				$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
 			}
-			parent::set($fieldModel->getName(), $value);
+			parent::set($fieldName, $value);
 		}
 		return $this->get($fieldName);
 	}
