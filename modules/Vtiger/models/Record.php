@@ -739,7 +739,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {
-			$this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false;
+			$this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false && empty($this->getUnlockFields());
 		}
 		return $this->privileges['isEditable'];
 	}
@@ -790,7 +790,7 @@ class Vtiger_Record_Model extends \App\Base
 			$moduleName = $this->getModuleName();
 			$recordId = $this->getId();
 			$focus = $this->getEntity();
-			$lockFields = array_merge_recursive($focus->getLockFields(), \App\Fields\Picklist::getCloseStates($this->getModule()->getId()));
+			$lockFields = $focus->getLockFields();
 			if ($lockFields) {
 				$loadData = false;
 				foreach ($lockFields as $fieldName => $values) {
@@ -804,8 +804,11 @@ class Vtiger_Record_Model extends \App\Base
 					$this->setEntity($focus);
 				}
 				foreach ($lockFields as $fieldName => $values) {
+					if (!$this->has($fieldName) && isset($focus->column_fields[$fieldName])) {
+						parent::set($fieldName, $focus->column_fields[$fieldName]);
+					}
 					foreach ($values as $value) {
-						if ($this->get($fieldName) === $value || (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] === $value)) {
+						if ($this->get($fieldName) === $value) {
 							$isLock = true;
 							break 2;
 						}
@@ -826,7 +829,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		if (!isset($this->privileges['Unlock'])) {
 			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord') &&
-				Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false && !empty($this->getUnlockFields());
+				Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false && !$this->isLockByFields() && !empty($this->getUnlockFields());
 		}
 		return $this->privileges['Unlock'];
 	}
@@ -842,9 +845,9 @@ class Vtiger_Record_Model extends \App\Base
 		if (\App\Cache::staticHas($cacheName, $this->getId())) {
 			return \App\Cache::staticGet($cacheName, $this->getId());
 		}
-		$lockFields = array_merge_recursive($this->getEntity()->getLockFields(), \App\Fields\Picklist::getCloseStates($this->getModule()->getId()));
+		$lockFields = \App\Fields\Picklist::getCloseStates($this->getModule()->getId());
 		foreach ($lockFields as $fieldName => $values) {
-			if (!in_array($this->get($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
+			if (!in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
 				unset($lockFields[$fieldName]);
 			}
 		}
@@ -1514,13 +1517,18 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getValueByField($fieldName)
+	public function getValueByField(string $fieldName)
 	{
 		if (!$this->has($fieldName)) {
-			$fieldModel = $this->getModule()->getFieldByName($fieldName);
-			$idName = $this->getEntity()->tab_name_index[$fieldModel->getTableName()];
-			$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
-			$this->set($fieldModel->getName(), $value);
+			$focus = $this->getEntity();
+			if (isset($focus->column_fields[$fieldName])) {
+				$value = $focus->column_fields[$fieldName];
+			} else {
+				$fieldModel = $this->getModule()->getFieldByName($fieldName);
+				$idName = $focus->tab_name_index[$fieldModel->getTableName()];
+				$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
+			}
+			parent::set($fieldModel->getName(), $value);
 		}
 		return $this->get($fieldName);
 	}
