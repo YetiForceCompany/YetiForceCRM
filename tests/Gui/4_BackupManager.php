@@ -54,7 +54,11 @@ class Gui_BackupManager extends \Tests\GuiBase
 				if (is_dir($catalogDir) === false) {
 					\mkdir($catalogDir, true);
 				}
+			} else {
+				var_dump('@@## Can not create directory: 58');
 			}
+		} else {
+			var_dump('@@## IS DIR!:61');
 		}
 	}
 
