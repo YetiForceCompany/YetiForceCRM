@@ -40,8 +40,7 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&language=' . \App\Language::getLanguageTag();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['opencage_data']['key'];
-		$countryCode  = \AppConfig::module('AddressFinder', 'OPENCAGE_COUNTRY_CODE');
-		if ($countryCode) {
+		if ($countryCode = \AppConfig::module('AddressFinder', 'OPENCAGE_COUNTRY_CODE')) {
 			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
 		}
 		try {
