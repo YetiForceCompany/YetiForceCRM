@@ -536,7 +536,7 @@ class File
 	/**
 	 * Function to sanitize the upload file name when the file name is detected to have bad extensions.
 	 *
-	 * @param string      $fileName          File name to be sanitized
+	 * @param string      $fileName File name to be sanitized
 	 * @param string|bool $badFileExtensions
 	 *
 	 * @return string
@@ -679,7 +679,7 @@ class File
 	/**
 	 * Create document from url.
 	 *
-	 * @param string $url    Url
+	 * @param string $url Url
 	 * @param array  $params
 	 *
 	 * @return bool|array
@@ -1023,13 +1023,18 @@ class File
 		foreach ($value as $key => $item) {
 			if (isset($previousValue[$item['key']])) {
 				$value[$item['key']] = $previousValue[$item['key']];
-			} elseif (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
+			} elseif (!isset($previousValue[$item['key']]) && !$item['baseContent'] && $item['key'] ? ($uploadFile = static::getUploadFile($item['key'])) : false) {
 				$new[] = $value[$item['key']] = [
 					'name' => $uploadFile['name'],
 					'size' => $item['size'],
 					'path' => $uploadFile['path'] . $item['key'],
 					'key' => $item['key'],
 				];
+				$save = true;
+			} elseif (!isset($previousValue[$item['key']]) && $item['baseContent']) {
+				$base = static::saveFromBase($item, $recordModel->getModuleName());
+				$new[] = $value[$base['key']] = $base;
+				unset($value[$key]);
 				$save = true;
 			}
 		}
@@ -1126,5 +1131,28 @@ class File
 			}
 		}
 		return $absolutes[0] === 'YetiTemp';
+	}
+
+	/**
+	 * Save file from base64 encoded string.
+	 * @param string $raw        base64 string
+	 * @param string $moduleName Destination record module name
+	 * @return array
+	 */
+	public static function saveFromBase($raw, $moduleName)
+	{
+		$file = static::loadFromContent(\base64_decode($raw['baseContent']), $raw['name']);
+		$savePath = static::initStorageFileDirectory($moduleName);
+		$key = $file->generateHash(true, $savePath);
+		$size = $file->getSize();
+		if ($file->moveFile($savePath . $key)) {
+			return [
+				'name' => $file->getName(),
+				'size' => \vtlib\Functions::showBytes($size),
+				'key' => $key,
+				'hash' => \md5_file($savePath . $key),
+				'path' => $savePath . $key
+			];
+		}
 	}
 }
