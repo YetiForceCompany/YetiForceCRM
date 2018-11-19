@@ -11,6 +11,11 @@
 
 namespace App;
 
+/**
+ * Class to handle Cron operations.
+ *
+ * @package App
+ */
 class Cron
 {
 	/**
@@ -18,15 +23,21 @@ class Cron
 	 *
 	 * @var null|int Cron run start time in microtime
 	 */
-	public static $timeStart = null;
+	public static $cronTimeStart = null;
+	/**
+	 * Script run start time in microtime.
+	 *
+	 * @var null|int Script run start time in microtime
+	 */
+	public static $scriptTimeStart = null;
 	/**
 	 * @var string Log files directory path
 	 */
-	public static $logPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
+	public $logPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
 	/**
 	 * @var bool|string Current log file name
 	 */
-	public static $logFile = false;
+	public $logFile = false;
 	/**
 	 * @var bool Logging enabled flag
 	 */
@@ -41,17 +52,21 @@ class Cron
 	 *
 	 * @throws \App\Exceptions\CacheException
 	 */
-	public function init()
+	public function __construct()
 	{
-		static::$timeStart = microtime(true);
+		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
 		if (!(static::$logActive = \AppConfig::debug('DEBUG_CRON'))) {
 			return;
 		}
-		if (!is_dir(static::$logPath) && !mkdir(static::$logPath, 0777, true) && !is_dir(static::$logPath)) {
-			throw new \App\Exceptions\CacheException('ERR_CRON_LOG_DIRECTORY_CREATION_ERROR');
+		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {
+			static::$logActive = false;
+			Log::error('The mechanism of cron logs has been disabled !!!. No access to the log directory "cache/logs"');
 		}
-		$this->initLogFile();
+		if (!$this->logFile) {
+			$this->logFile = date('Ymd_Hi') . '.log';
+		}
+		$this->log('File start', 'info', false);
 	}
 
 	/**
@@ -61,29 +76,18 @@ class Cron
 	 * @param string $level   information type [info, warning, error]
 	 * @param bool   $indent  add three spaces at message begin
 	 */
-	public function log($message, $level = 'info', $indent = true)
+	public function log(string $message, string $level = 'info', bool $indent = true)
 	{
 		if (!static::$logActive) {
 			return;
 		}
-		if (\in_array($level, ['warning', 'error'])) {
+		if ($level === 'warning' || $level === 'error') {
 			static::$keepLogFile = true;
 		}
 		if ($indent) {
 			$message = '   ' . $message;
 		}
-		file_put_contents(static::$logPath . static::$logFile, date('Y-m-d H:i:s') . ' [' . $level . '] - ' . $message . PHP_EOL, FILE_APPEND);
-	}
-
-	/**
-	 * Init variables and create/append a log file.
-	 */
-	protected function initLogFile()
-	{
-		if (!static::$logFile) {
-			static::$logFile = date('Ymd_Hi') . '.log';
-		}
-		$this->log('File start', 'info', false);
+		file_put_contents($this->logPath . $this->logFile, date('Y-m-d H:i:s') . " [{$level}] - {$message}" . PHP_EOL, FILE_APPEND);
 	}
 
 	/**
@@ -105,11 +109,11 @@ class Cron
 			if (!static::$logActive) {
 				return;
 			}
-			if (\file_exists(static::$logPath . static::$logFile)) {
-				unlink(static::$logPath . static::$logFile);
+			if (\file_exists($this->logPath . $this->logFile)) {
+				unlink($this->logPath . $this->logFile);
 			}
 		} else {
-			static::log('------------------------------------' . PHP_EOL . \App\Log::getlastLogs(), 'info', false);
+			$this->log('------------------------------------' . PHP_EOL . \App\Log::getlastLogs(), 'info', false);
 		}
 	}
 
@@ -118,8 +122,8 @@ class Cron
 	 *
 	 * @return float|null
 	 */
-	public function getRunTime()
+	public function getCronExecutionTime()
 	{
-		return static::$timeStart ? round(microtime(true) - static::$timeStart, 2) : null;
+		return static::$cronTimeStart ? round(microtime(true) - static::$cronTimeStart, 2) : null;
 	}
 }
