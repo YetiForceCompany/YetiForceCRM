@@ -1623,8 +1623,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		form.on('submit', function (e) {
 			let formData = form.serializeFormData();
 			let paramsName = thisInstance.getParamsInventory();
-			let params = {};
-			params.mandatory = (formData.mandatory);
+			let params = {
+				mandatory: formData.mandatory
+			};
 			if (paramsName) {
 				for (let i in formData) {
 					if ($.inArray(i, paramsName) != -1) {
