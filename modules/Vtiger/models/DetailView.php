@@ -251,7 +251,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
-					'linkicon' => 'fas fa-file-excel',
+					'linkicon' => 'fas fa-file-pdf',
 					'linkclass' => 'btn-outline-dark btn-sm showModal',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				]);

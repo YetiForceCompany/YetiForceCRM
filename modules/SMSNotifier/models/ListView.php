@@ -35,7 +35,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List',
 					'linkclass' => 'js-mass-action',
-					'linkicon' => 'fas fa-file-excel',
+					'linkicon' => 'fas fa-file-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
@@ -71,7 +71,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 					'linktype' => 'LISTVIEWBASIC',
 					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List',
 					'linkclass' => 'js-mass-action',
-					'linkicon' => 'fas fa-file-excel',
+					'linkicon' => 'fas fa-file-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
