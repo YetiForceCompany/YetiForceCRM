@@ -127,7 +127,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 		foreach ($doc->getElementsByTagName('img') as $img) {
 			$src = trim($img->getAttribute('src'), '\'');
 			if (substr($src, 0, 5) === 'data:') {
-				if ($ids = App\Fields\File::saveFromString($src, $params)) {
+				if (($fileInstance = \App\Fields\File::saveFromString($src)) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;

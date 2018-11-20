@@ -171,8 +171,7 @@ class File
 				list(, $extension) = explode('/', $param['mimeShortType']);
 			}
 			$name = uniqid() . '.' . $extension;
-		}
-		if ($extension === 'tmp' && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
+		} elseif ($extension === 'tmp' && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
 			$extension = $fileExt;
 		}
 		$path = tempnam(static::getTmpPath(), 'YFF');
@@ -645,11 +644,10 @@ class File
 	 * Create document from string.
 	 *
 	 * @param string $contents
-	 * @param array  $params
 	 *
-	 * @return bool|array
+	 * @return bool|self
 	 */
-	public static function saveFromString($contents, $params = [])
+	public static function saveFromString($contents)
 	{
 		$result = explode(',', $contents, 2);
 		$contentType = $isBase64 = false;
@@ -669,12 +667,11 @@ class File
 		$rawData = $isBase64 ? base64_decode($data) : $data;
 		if (strlen($rawData) < 12) {
 			Log::error('Incorrect content value: ' . $contents, __CLASS__);
-
 			return false;
 		}
 		$fileInstance = static::loadFromContent($rawData, false, ['mimeShortType' => $contentType]);
-		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
-			return $id;
+		if ($fileInstance->validate()) {
+			return $fileInstance;
 		}
 		return false;
 	}
