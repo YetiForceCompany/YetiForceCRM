@@ -37,10 +37,11 @@
 											   aria-selected="{if $VIEWID eq $CUSTOM_VIEW->getId() || (!empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()})}true{else}false{/if}">
 												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 												{if $CUSTOM_VIEW->get('description')}
-													<span class="js-popover-tooltip fas fa-info-circle"
-														  data-js="popover"
-														  data-placement="auto right"
-														  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+													<span class="js-popover-tooltip ml-1" data-toggle="popover"
+														  data-placement="top"
+														  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
+											<span class="fas fa-info-circle"></span>
+										</span>
 												{/if}
 											</a>
 										</li>
