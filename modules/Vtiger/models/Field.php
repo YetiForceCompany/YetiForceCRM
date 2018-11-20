@@ -486,7 +486,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				if ($fieldDataType === 'picklist') {
 					$fieldValue = $this->get('fieldvalue');
 					if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
-						$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($this->get('fieldvalue'));
+						$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($fieldValue);
 						$this->set('isEditableReadOnly', true);
 					}
 				}
@@ -655,10 +655,8 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isEditableReadOnly()
 	{
-		$isEditableReadOnly = $this->get('isEditableReadOnly');
-
-		if ($isEditableReadOnly !== null) {
-			return $isEditableReadOnly;
+		if ($this->get('isEditableReadOnly') !== null) {
+			return $this->get('isEditableReadOnly');
 		}
 		if ((int) $this->get('displaytype') === 10) {
 			return true;

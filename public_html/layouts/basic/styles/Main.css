@@ -15658,22 +15658,20 @@ label.btn.btn-outline-primary:not(.active) {
   width: 100%;
   border-radius: 0;
   vertical-align: text-top;
-  padding: 8px 30px 8px 55px;
+  padding: 0.5rem 1.875rem 0.5rem 3.4375rem;
   word-wrap: break-word;
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.2;
   background: #4a5364;
   position: relative; }
   .c-menu__item a:hover, .c-menu__item a:focus {
     background: #555f73; }
-  .c-menu__item a:focus .c-menu__item__text {
-    white-space: normal; }
   .c-menu__item a.active {
     background: #343b47; }
   .c-menu__item a.hasIcon {
-    padding: 8px 30px 8px 12px; }
+    padding: 0.5rem 1.875rem 0.5rem 0.75rem; }
   .c-menu__item a .c-menu__item__text {
-    padding: 2px 0;
+    padding: 0.125rem 0;
     position: relative;
     word-wrap: break-word;
     white-space: nowrap;
@@ -15681,35 +15679,36 @@ label.btn.btn-outline-primary:not(.active) {
     text-overflow: ellipsis;
     text-rendering: optimizeLegibility; }
   .c-menu__item a.hasIcon img {
-    height: 20px; }
-  .c-menu__item a .glyphicon, .c-menu__item a .fa, .c-menu__item a.hasIcon img {
-    margin-right: 12px;
-    font-size: 20px;
-    padding-right: 7px;
-    padding-left: 3px; }
+    height: 1.25rem; }
+  .c-menu__item a .fa, .c-menu__item a.hasIcon img {
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+    padding-right: 0.4375rem;
+    padding-left: 0.1875rem; }
   .c-menu__item a .fa {
     position: relative;
-    top: 2px; }
+    top: 0.125rem; }
   .c-menu__item a .toggler {
     position: absolute;
     right: 12px;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 24px; }
   .c-menu__item a.collapsed .fa-minus-circle {
     display: none; }
   .c-menu__item a:not(.collapsed) .fa-plus-circle {
     display: none; }
-  .c-menu__item a:not(.collapsed) .c-menu__item__text {
-    white-space: normal; }
+  .c-menu__item a:not(.is-submenu-toggler) {
+    padding-right: .8rem !important; }
 .c-menu__item .tpl-menu-SubMenu,
 .c-menu__item .tpl-menu-Profile_submenu {
   background: #202c40;
   color: #fff; }
   .c-menu__item .tpl-menu-SubMenu a,
   .c-menu__item .tpl-menu-Profile_submenu a {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #fff;
-    background: #202c40; }
+    background: #202c40;
+    padding: 0.375rem 1.875rem 0.375rem 0.8rem; }
     .c-menu__item .tpl-menu-SubMenu a:hover, .c-menu__item .tpl-menu-SubMenu a:focus,
     .c-menu__item .tpl-menu-Profile_submenu a:hover,
     .c-menu__item .tpl-menu-Profile_submenu a:focus {
@@ -15717,14 +15716,11 @@ label.btn.btn-outline-primary:not(.active) {
     .c-menu__item .tpl-menu-SubMenu a.active,
     .c-menu__item .tpl-menu-Profile_submenu a.active {
       background: #18202f; }
-    .c-menu__item .tpl-menu-SubMenu a.hasIcon,
-    .c-menu__item .tpl-menu-Profile_submenu a.hasIcon {
-      padding: 0.375rem; }
   .c-menu__item .tpl-menu-SubMenu .menuLabel > a,
   .c-menu__item .tpl-menu-Profile_submenu .menuLabel > a {
     font-weight: 600;
     text-transform: uppercase;
-    padding: 6px 12px; }
+    padding: 0.375rem 0.75rem; }
   .c-menu__item .tpl-menu-SubMenu button,
   .c-menu__item .tpl-menu-Profile_submenu button {
     background: #0f151e; }
@@ -15735,16 +15731,15 @@ label.btn.btn-outline-primary:not(.active) {
       background: #fff; }
     .c-menu__item .tpl-menu-SubMenu button.hasIcon,
     .c-menu__item .tpl-menu-Profile_submenu button.hasIcon {
-      padding: 6px 12px; }
+      padding: 0.375rem 0.75rem; }
 .c-menu__body {
   height: calc(100% - 50px);
   width: 100%;
   position: relative; }
 .c-menu__item__icon {
-  padding-right: 18px;
+  padding-right: 1.125rem;
   font-size: 1.6em;
-  height: 100%;
-  min-width: 42px; }
+  min-width: 2.625rem; }
   .c-menu__item__icon--sub {
     display: none; }
     .tpl-menu-SubMenu .c-menu__item__icon--sub {
@@ -15779,7 +15774,7 @@ label.btn.btn-outline-primary:not(.active) {
   border-bottom: 3px solid #404952; }
   .related .nav-pills > .nav-item {
     position: relative;
-    margin-right: 2px; }
+    margin-right: 0.125rem; }
     .related .nav-pills > .nav-item:last-child {
       margin-right: 0; }
   .related .nav-pills > .nav-item > .nav-link {
@@ -15790,7 +15785,7 @@ label.btn.btn-outline-primary:not(.active) {
     .related .nav-pills > .nav-item > .nav-link .iconModule {
       position: relative;
       top: -2px;
-      font-size: 17px; }
+      font-size: 1.0625rem; }
   .related .nav-pills .tabdrop {
     width: auto !important; }
     .related .nav-pills .tabdrop .dropdown-toggle {
@@ -15804,7 +15799,7 @@ label.btn.btn-outline-primary:not(.active) {
         text-decoration: none; }
     .related .nav-pills .tabdrop .c-badge--top-right {
       position: inherit;
-      margin-left: 5px; }
+      margin-left: 0.3125rem; }
     .related .nav-pills .tabdrop.show .dropdown-toggle, .related .nav-pills .tabdrop.active .dropdown-toggle {
       background: #404952;
       color: #fff; }
