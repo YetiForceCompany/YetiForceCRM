@@ -150,7 +150,7 @@ jQuery.Class("Vtiger_List_Js", {
 				type: "POST",
 				url: massActionUrl,
 				dataType: "application/x-msexcel",
-				data: this.getSearchParams()
+				data: listInstance.getSearchParams()
 			};
 			//can't use AppConnector to get files with a post request so we add a form to the body and submit it
 			var form = $('<form method="POST" action="' + massActionUrl + '">');
@@ -174,23 +174,18 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	transferOwnershipSave: function (form) {
 		var listInstance = Vtiger_List_Js.getInstance();
-		var selectedIds = listInstance.readSelectedIds(true);
-		var excludedIds = listInstance.readExcludedIds(true);
-		var cvId = listInstance.getCurrentCvId();
 		var transferOwner = jQuery('#transferOwnerId').val();
 		var relatedModules = jQuery('#related_modules').val();
-
 		var params = {
 			'module': app.getModuleName(),
 			'action': 'TransferOwnership',
-			"viewname": cvId,
-			"selected_ids": selectedIds,
-			"excluded_ids": excludedIds,
 			'transferOwnerId': transferOwner,
 			'related_modules': relatedModules
-		}
+		};
+		params = $.extend(params, listInstance.getSearchParams());
 		AppConnector.request(params).done(
 			function (data) {
+				data = JSON.parse(data);
 				if (data.success) {
 					app.hideModalWindow();
 					var params = {
@@ -313,12 +308,14 @@ jQuery.Class("Vtiger_List_Js", {
 	 * returns UI
 	 */
 	triggerExportAction: function (exportActionUrl) {
-		let params = this.getSearchParams();
+		let listInstance = Vtiger_List_Js.getInstance();
+		let params = listInstance.getSearchParams();
 		if ('undefined' === typeof params.viewname)
 			exportActionUrl += '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&page=' + params.page;
 		else
-			exportActionUrl += '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&viewname=' + params.viewname + '&page=' + params.page;
-		if (this.getListSearchInstance()) {
+			exportActionUrl += '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&viewname=' + params.viewname
+				+ '&page=' + params.page + '&entityState=' + params.entityState;
+		if (listInstance.getListSearchInstance()) {
 			exportActionUrl += "&search_params=" + params.search_params;
 			if ((typeof params.search_value !== "undefined") && (params.search_value.length > 0)) {
 				exportActionUrl += '&search_key=' + params.search_key;
@@ -341,10 +338,11 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
 	getSelectedRecordsParams: function (checkList) {
-		if (checkList == false || this.checkListRecordSelected() !== true) {
-			return this.getSearchParams();
+		let listInstance = Vtiger_List_Js.getInstance();
+		if (checkList == false || listInstance.checkListRecordSelected() !== true) {
+			return listInstance.getSearchParams();
 		} else {
-			this.noRecordSelectedAlert();
+			listInstance.noRecordSelectedAlert();
 		}
 		return false;
 	},
@@ -383,8 +381,9 @@ jQuery.Class("Vtiger_List_Js", {
 			var message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
 			var title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message, 'title': title}).done(function (e) {
-				let params = this.getSearchParams();
-				var url = reviewUrl + '&viewname=' + params.viewname + '&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids;
+				let params = listInstance.getSearchParams();
+				var url = reviewUrl + '&viewname=' + params.viewname + '&selected_ids=' + params.selected_ids
+					+ '&excluded_ids=' + params.excluded_ids + '&entityState=' + params.entityState;
 				if (listInstance.getListSearchInstance()) {
 					url += "&search_params=" + params.search_params;
 					if ((typeof searchValue !== "undefined") && (params.search_value.length > 0)) {
