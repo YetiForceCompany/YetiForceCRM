@@ -715,7 +715,7 @@ App.Fields = {
 					liSelectOptions = liElement.find('.js-select-option-actions');
 				if (!liElement.hasClass('group-result') && event.type === 'mouseenter' && liSelectOptions.length === 0) {
 					let select2Option = liElement.closest('.select2-results__option'),
-						id = select2Option.attr("id"),
+						id = select2Option.attr('id'),
 						idArr = id.split("-"),
 						currentOptionId = '';
 					if (idArr.length > 0) {
