@@ -133,10 +133,6 @@ header {
 	@extend .p-0;
 }
 
-.select2-search__field, .select2-search.select2-search--inline {
-	width: 100% !important;
-}
-
 .customFilterMainSpan {
 	width: 100%;
 	cursor: pointer;
@@ -237,6 +233,16 @@ ul.ui-autocomplete {
 	font-family: $font-family-base !important;
 }
 
+.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
+	li > a {
+		display: flex;
+		align-items: center;
+		height: calculate-rem(22px);
+		overflow: hidden;
+		padding-left: 1em;
+	}
+}
+
 //-------- perfectscrollbar --------//
 
 .leftPanel .ps-scrollbar-y-rail {
@@ -304,7 +310,7 @@ ul.ui-autocomplete {
 
 .listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
 .listViewPageDiv .select2noactive {
-	height: 0 !important;
+	height: calculate-rem(38px) !important;
 }
 
 .js-fixed-thead {
@@ -316,4 +322,8 @@ ul.ui-autocomplete {
 
 .floatThead-wrapper {
 	overflow: hidden; //prevent fixed thead from overflowing table
+}
+
+.floatThead-container {
+	overflow: hidden !important;
 }
