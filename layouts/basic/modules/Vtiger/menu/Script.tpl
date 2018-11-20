@@ -8,7 +8,7 @@
 			href="{$MENU['dataurl']}" 
 			{if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}"{/if}>
 			{$ICON}
-			<span class="c-menu__item__text js-menu__item__text" data-js="class: u-white-space-n">
+			<span class="c-menu__item__text js-menu__item__text" title="{\App\Language::translate($MENU['name'],'Menu')}" data-js="class: u-white-space-n">
 				{\App\Language::translate($MENU['name'],'Menu')}
 			</span>
 			{if $HASCHILDS == 'true'}<span class="toggler" aria-hidden="true"><span class="fas fa-plus-circle"></span><span class="fas fa-minus-circle"></span></span>{/if}

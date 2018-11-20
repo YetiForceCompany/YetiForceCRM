@@ -7,7 +7,7 @@
 			<a class="nav-link collapsed{if $ICON} hasIcon{/if} js-submenu-toggler"
 			data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" href="#" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}">
 				{$ICON}
-				<span class="c-menu__item__text js-menu__item__text" data-js="class: u-white-space-n">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
+				<span class="c-menu__item__text js-menu__item__text" title="{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}" data-js="class: u-white-space-n">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 				<span class="toggler" aria-hidden="true"><span class="fas fa-plus-circle"></span><span class="fas fa-minus-circle"></span></span>
 			</a>
 			<div class="tpl-menu-Profile_submenu js-submenu collapse" id="submenu-{$MENU['id']}" data-js="bootstrap:collapse" data-parent="#submenu-{$MENU['id']}">

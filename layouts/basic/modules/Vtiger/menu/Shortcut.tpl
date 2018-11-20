@@ -15,7 +15,7 @@
 				{if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="{$ACTIVE}" aria-controls="submenu-{$MENU['id']}"{/if}
 				{if $MENU.newwindow eq 1}target="_blank" {/if} rel="noreferrer">
 			{$ICON}
-			<span class="c-menu__item__text js-menu__item__text" data-js="class: u-white-space-n">
+			<span class="c-menu__item__text js-menu__item__text" title="{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}" data-js="class: u-white-space-n">
 				{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}
 			</span>
 			{if $HASCHILDS == 'true'}
