@@ -15,10 +15,15 @@ class Chat_Room_Action extends \App\Controller\Action
 	use \App\Controller\ExposeMethod;
 
 	/**
+	 * Record ID.
+	 *
 	 * @var int
 	 */
 	private $recordId;
+
 	/**
+	 * Room type.
+	 *
 	 * @var string
 	 */
 	private $roomType;
