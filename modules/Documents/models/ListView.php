@@ -59,7 +59,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
-					'linkurl' => "javascript:Vtiger_List_Js.triggerGenerateRecords('index.php?module=$moduleName&view=GenerateModal&fromview=List');",
+					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords();',
 				];
 			}
 		}

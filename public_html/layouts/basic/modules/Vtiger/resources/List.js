@@ -346,21 +346,20 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return false;
 	},
-	triggerGenerateRecords: function (url) {
+	triggerGenerateRecords: function () {
 		var selected = Vtiger_List_Js.getSelectedRecordsParams();
 		if (selected === false) {
 			return false;
 		}
-		var params = {};
-		jQuery.extend(params, selected);
-		url += '&' + jQuery.param(params);
+		selected.view = 'GenerateModal';
+		selected.fromview = 'List';
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-		app.showModalWindow(null, url, function () {
+		app.showModalWindow(null, 'index.php?' + jQuery.param(selected), function () {
 			progressIndicatorElement.progressIndicator({mode: 'hide'})
 		});
 	},
