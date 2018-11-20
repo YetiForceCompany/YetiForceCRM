@@ -73,11 +73,7 @@
 							FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
 						</td>
 					{/foreach}
-					<td class="reducePadding"></td>
-					{for $i=1 to $ADDITIONAL_TD}
-						<td>
-						</td>
-					{/for}
+					<td class="reducePadding" colspan="{$ADDITIONAL_TD + 1}"></td>
 				</tr>
 			{/if}
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
