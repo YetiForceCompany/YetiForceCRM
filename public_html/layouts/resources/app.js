@@ -1345,21 +1345,6 @@ var App = {},
 				}
 			});
 		},
-		registerMenuTextHoverEvent() {
-			$('.js-menu__item').on('mouseenter', function () {
-				setTimeout(() => {
-					let target = $(this);
-					if (target.is(':hover')) {
-						target.find('.js-menu__item__text').first().addClass('u-white-space-n');
-					}
-				}, 300);
-			}).on('mouseleave', function () {
-				let target = $(this);
-				if (!target.is(':hover')) {
-					target.find('.js-menu__item__text').first().removeClass('u-white-space-n');
-				}
-			})
-		},
 		registerMenu: function () {
 			const self = this;
 			self.keyboard = {DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
@@ -1391,7 +1376,6 @@ var App = {},
 					window.location = $(e.currentTarget).attr('href');
 				}
 			});
-			self.registerMenuTextHoverEvent();
 			self.registerPinEvent();
 		},
 		openSidebar: function () {
