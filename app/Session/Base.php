@@ -107,7 +107,7 @@ class Base extends \SessionHandler
 	/**
 	 * Function to clean session. Removed old session.
 	 *
-	 * @return string
+	 * @return string[]
 	 */
 	public static function clean()
 	{
