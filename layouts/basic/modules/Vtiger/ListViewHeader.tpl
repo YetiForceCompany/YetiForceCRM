@@ -108,7 +108,7 @@
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 									{if $CUSTOM_VIEW->get('description')}
 										<span class="js-popover-tooltip ml-1" data-toggle="popover"
-											  data-placement="right"
+											  data-placement="top"
 											  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
 											<span class="fas fa-info-circle"></span>
 										</span>
