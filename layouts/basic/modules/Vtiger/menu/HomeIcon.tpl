@@ -8,7 +8,7 @@
 		{/if}
 		<li class="tpl-menu-HomeIcon c-menu__item js-menu__item nav-item menuHomeIcon {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}"
 			data-js="mouseenter mouseleave">
-			<a class="nav-link {if $ACTIVE=='true'} active{else} collapsed{/if} hasIcon{if $HASCHILDS == 'true'} js-submenu-toggler{/if}"
+			<a class="nav-link {if $ACTIVE=='true'} active{else} collapsed{/if} hasIcon{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}"
 				{if $HASCHILDS == 'true'} data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button"{/if}
 				href="{$HOME_MODULE_MODEL->getDefaultUrl()}"
 				{if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="{$ACTIVE}" aria-controls="submenu-{$MENU['id']}"{/if}>
