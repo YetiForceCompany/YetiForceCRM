@@ -35,8 +35,9 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => "javascript:Vtiger_Header_Js.getInstance().showPdfModal('index.php?module=$moduleName&view=PDF&fromview=List');",
-					'linkicon' => 'fas fa-file-excel',
+					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List',
+					'linkclass' => 'js-mass-action',
+					'linkicon' => 'fas fa-file-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
@@ -46,8 +47,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List',
-				'linkclass' => 'js-mass-action',
+				'linkurl' => "javascript:Vtiger_List_Js.triggerQuickExportToExcel('$moduleName')",
 				'linkicon' => 'fas fa-file-excel',
 			];
 		}

@@ -2615,7 +2615,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				let btnGroup = btnToolbar;
 				btn = btnToolbar.find('.showModal');
 				if (btn.length === 0) {
-					btnGroup.append('<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm showModal js-popover-tooltip" data-js="click|popover" data-placement="bottom" data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-target="focus hover" data-url="index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></button></div>');
+					btnGroup.append('<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm showModal js-popover-tooltip" data-js="click|popover" data-placement="bottom" data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-target="focus hover" data-url="index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '" data-original-title="" title=""><span class="fas fa-file-pdf icon-in-button"></span></button></div>');
 				}
 			}
 		}).fail(function (data, err) {
