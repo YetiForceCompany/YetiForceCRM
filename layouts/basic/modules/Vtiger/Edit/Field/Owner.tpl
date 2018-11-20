@@ -30,7 +30,13 @@
 					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
 						<option value="{$OWNER_ID}"
 								data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
-								data-userId="{$CURRENT_USER_ID}">
+								data-userId="{$CURRENT_USER_ID}"
+								{if AppConfig::module('Users','FAVORITE_OWNERS')}
+									data-url=""
+									data-state=""
+									data-icon-active="fas fa-star"
+									data-icon-inactive="far fa-star"
+								{/if}>
 							{$OWNER_NAME}
 						</option>
 					{/foreach}
