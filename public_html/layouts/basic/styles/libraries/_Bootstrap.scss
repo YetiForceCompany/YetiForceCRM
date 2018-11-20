@@ -76,3 +76,7 @@ label.btn.btn-outline-primary {
 .border.btn {
 	border-color: #ced4da !important;
 }
+
+.input-group.input-group-sm {
+	min-width: calculate-rem(65px);
+}
