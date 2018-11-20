@@ -1185,39 +1185,6 @@ var App = {},
 			app.cacheParams[param] = value;
 			$('#' + param).val(value);
 		},
-		parseNumberToShow(val, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
-			if (val === undefined) {
-				val = 0;
-			}
-			let groupSeparator = CONFIG.currencyGroupingSeparator;
-			let groupingPattern = app.getMainParams('currencyGroupingPattern');
-			val = parseFloat(val).toFixed(numberOfDecimal);
-			let a = val.toString().split('.');
-			let integer = a[0];
-			let decimal = a[1];
-			if (groupingPattern === '123,456,789') {
-				integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-			} else if (groupingPattern === '123456,789') {
-				integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
-			} else if (groupingPattern === '12,34,56,789') {
-				integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
-			}
-			if (numberOfDecimal) {
-				return integer + CONFIG.currencyDecimalSeparator + decimal;
-			}
-			return integer;
-		},
-		parseNumberToFloat: function (val) {
-			var groupSeparator = CONFIG.currencyGroupingSeparator;
-			var decimalSeparator = CONFIG.currencyDecimalSeparator;
-			if (val == undefined || val == '') {
-				val = 0;
-			}
-			val = val.toString();
-			val = val.split(groupSeparator).join("");
-			val = val.replace(/\s/g, "").replace(decimalSeparator, ".");
-			return parseFloat(val);
-		},
 		errorLog: function (error, err, errorThrown) {
 			if (!CONFIG.debug) {
 				return;
@@ -1777,10 +1744,14 @@ $(document).ready(function () {
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
-		return app.parseNumberToFloat($(this).val());
+		return App.Fields.Currency.formatToDb($(this).val());
 	}
 	$.fn.getNumberFromText = function () {
-		return app.parseNumberToFloat($(this).text());
+		return App.Fields.Currency.formatToDb($(this).text());
+	}
+	$.fn.formatNumber = function () {
+		let element = $(this);
+		element.val(App.Fields.Currency.formatToDisplay(App.Fields.Currency.formatToDb(element.val())));
 	}
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');

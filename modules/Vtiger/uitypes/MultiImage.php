@@ -50,7 +50,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			if ((empty($item['name']) && empty($item['baseContent'])) && (empty($item['key']) || empty($item['name']) || empty($item['size']) || App\TextParser::getTextLength($item['key']) !== 50)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
-			if ($index > (int)$fieldInfo['limit']) {
+			if ($index > (int) $fieldInfo['limit']) {
 				throw new \App\Exceptions\Security('ERR_TO_MANY_FILES||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 			$path = \App\Fields\File::getLocalPath($item['path']);

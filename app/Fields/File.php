@@ -536,7 +536,7 @@ class File
 	/**
 	 * Function to sanitize the upload file name when the file name is detected to have bad extensions.
 	 *
-	 * @param string      $fileName File name to be sanitized
+	 * @param string      $fileName          File name to be sanitized
 	 * @param string|bool $badFileExtensions
 	 *
 	 * @return string
@@ -679,7 +679,7 @@ class File
 	/**
 	 * Create document from url.
 	 *
-	 * @param string $url Url
+	 * @param string $url    Url
 	 * @param array  $params
 	 *
 	 * @return bool|array
@@ -1135,8 +1135,10 @@ class File
 
 	/**
 	 * Save file from base64 encoded string.
+	 *
 	 * @param string $raw        base64 string
 	 * @param string $moduleName Destination record module name
+	 *
 	 * @return array
 	 */
 	public static function saveFromBase($raw, $moduleName)
