@@ -20,20 +20,28 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @var mixed
 	 */
-	public $logs;
+	public $logs = [];
 	public $driver;
 	protected static $isLogin = false;
+	public $currentUrl;
+	public $loadedPageSource;
+	public $sourceErrorString = 'YF_ERROR';
 
 	/**
 	 * @codeCoverageIgnore
 	 */
 	protected function onNotSuccessfulTest(\Throwable $t)
 	{
-		if (isset($this->logs)) {
+		if (!empty($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			//var_export(array_shift($t->getTrace()));
-			\print_r($this->logs, true);
+			foreach ($this->logs as $log) {
+				echo '--------- ' . \strtoupper($log['level']) . ' ---------' . \PHP_EOL;
+				echo "URL: {$log['url']}" . \PHP_EOL;
+				echo "TYPE: {$log['source']}" . \PHP_EOL;
+				echo "MSG: {$log['message']}" . \PHP_EOL;
+				echo "-----------------------------------" . \PHP_EOL;
+			}
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
@@ -51,7 +59,55 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function url($url)
 	{
-		$this->driver->get(\AppConfig::main('site_URL') . $url);
+		$this->currentUrl = \AppConfig::main('site_URL') . $url;
+		$this->driver->get($this->currentUrl);
+		$this->loadedPageSource = $this->driver->getPageSource();
+
+		$this->validateSource($this->loadedPageSource);
+		$this->validateConsole();
+	}
+
+	public function validateSource($source)
+	{
+		if (\strpos($source, $this->sourceErrorString) !== false) {
+			foreach ($this->getSourceErrors($source) as $error) {
+				$this->log($error['msg'], 'page', $error['level']);
+			}
+		}
+	}
+
+	public function validateConsole()
+	{
+		$logs = $this->driver->manage()->getLog('browser');
+		foreach ($logs as $log) {
+			if (!$this->ignoredBrowserError($log['message'])) {
+				$this->log($log['message'], 'browser', \strtolower($log['level']));
+			}
+		}
+	}
+
+	public function ignoredBrowserError($msg)
+	{
+		$result = false;
+		// Ignore chrome warning about password field in unsecure connection
+		if (\strpos($msg, 'https://goo.gl/zmWq3m')) {
+			$result = true;
+		}
+		return $result;
+	}
+
+	public function getSourceErrors($source)
+	{
+		return [];
+	}
+
+	public function log($msg, $source = 'page', $level = 'info')
+	{
+		$this->logs[] = ['url' => $this->currentUrl, 'source' => $source, 'level' => $level, 'message' => $msg, 'pageSource' => $this->loadedPageSource];
+		if ($level === 'warning' || $level === 'error') {
+			echo $this->loadedPageSource;
+			$this->halt();
+		}
 	}
 
 	/**
@@ -66,5 +122,10 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 			static::$isLogin = true;
 		}
+	}
+
+	public function halt()
+	{
+		$this->fail('Selenium test failed');
 	}
 }
