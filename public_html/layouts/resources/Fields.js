@@ -732,13 +732,15 @@ App.Fields = {
 		appendOptionClickEvent(optionElement, element) {
 			element.on('mouseup', '[data-fa-i2svg].js-select-option-event', function (event) {
 				let thisInstance = $(event.currentTarget),
-					params = optionElement.data('url');
+					params = optionElement.data('url'),
+					iconActive = optionElement.data('iconActive'),
+					iconInactive = optionElement.data('iconInactive');
 				//AppConnector.request(params).done(function (data) {
 				if (optionElement.data('state') === 'active') {
-					thisInstance.addClass('far').removeClass('fas');
+					thisInstance.toggleClass(iconActive).toggleClass(iconInactive);
 					optionElement.data('state', 'inactive');
 				} else {
-					thisInstance.addClass('fas').removeClass('far');
+					thisInstance.toggleClass(iconInactive).toggleClass(iconActive);
 					optionElement.data('state', 'active');
 				}
 				//});
@@ -746,9 +748,9 @@ App.Fields = {
 			});
 		},
 		appendOptionActionsTemplate(optionElement, liElement) {
-			let optionClass = optionElement.data('state') === 'active' ? 'fas' : 'far',
+			let optionClass = optionElement.data('state') === 'active' ? optionElement.data('icon-active') : optionElement.data('icon-inactive'),
 				template = $(`<span class="js-select-option-actions o-filter-actions noWrap float-right">
-					<span data-value="favorites" data-js="click | class: fas | far" class="mr-1 js-select-option-event ${optionClass} fa-star"></span>
+					<span data-js="click | class: fas | far" class="mr-1 js-select-option-event ${optionClass}"></span>
 				</span>`);
 			this.appendOptionClickEvent(optionElement, template);
 			template.appendTo(liElement.find('.js-user__title'));
