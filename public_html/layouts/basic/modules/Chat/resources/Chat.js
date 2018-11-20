@@ -583,7 +583,7 @@ window.Chat_JS = class Chat_Js {
 			currentParticipants.push(userId);
 			let lastMessage = messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
 			if (lastMessage.length) {
-				$(element).find('.js-message').html(lastMessage.find('.messages').html());
+				$(element).find('.js-message').html(lastMessage.find('.js-message').html());
 			}
 		});
 		this.createParticipants(
