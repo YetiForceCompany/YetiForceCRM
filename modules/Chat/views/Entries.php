@@ -251,9 +251,6 @@ class Chat_Entries_View extends \App\Controller\View
 					}
 					break;
 				case 'global':
-					if (!\App\Chat::isExistsGlobalRoom($request->getInteger('recordId'))) {
-						throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-					}
 					break;
 				default:
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
