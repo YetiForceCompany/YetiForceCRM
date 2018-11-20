@@ -54,7 +54,7 @@
 						{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
 						<tr>
 							<td class="textAlignRight" width='70px'>
-								{CurrencyField::convertToUserFormat($KEY)}%
+								Key{CurrencyField::convertToUserFormat($KEY,\App\User::getCurrentUserModel(),true,true)}%
 							</td>
 							<td class="textAlignRight">
 								{CurrencyField::convertToUserFormatSymbol($TAX,false,$CURRENCY_SYMBOLAND['currency_symbol'])}
