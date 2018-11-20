@@ -535,7 +535,7 @@ App.Fields = {
 					}
 					let actualElement = $(data.element);
 					if (typeof selectElement.data('showAdditionalIcons') !== "undefined" && actualElement.is('option')) {
-						return '<div class="js-user__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' + actualElement.text() + '</div></div>';
+						return '<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' + actualElement.text() + '</div></div>';
 					}
 					if (typeof data.name === "undefined") {
 						return data.text;
@@ -659,7 +659,7 @@ App.Fields = {
 						var element = $(e.currentTarget);
 						var instance = element.data('select2');
 						if (typeof data.showAdditionalIcons !== "undefined") {
-							self.registerCustomFilterOptionsHoverEvent(element);
+							self.registerElementOptions(element);
 						}
 						instance.$dropdown.css('z-index', 1000002);
 					}).on("select2:unselect", function (e) {
@@ -707,16 +707,13 @@ App.Fields = {
 				}
 			});
 		},
-		registerCustomFilterOptionsHoverEvent(selectElement) {
+		registerElementOptions(selectElement) {
 			const self = this;
 			let select2Instance = selectElement.data('select2');
 			select2Instance.$dropdown.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
 				let liElement = $(event.currentTarget),
 					liSelectOptions = liElement.find('.js-select-option-actions');
-				if (liElement.hasClass('group-result')) {
-					return;
-				}
-				if (event.type === 'mouseenter' && liSelectOptions.length === 0) {
+				if (!liElement.hasClass('group-result') && event.type === 'mouseenter' && liSelectOptions.length === 0) {
 					let select2Option = liElement.closest('.select2-results__option'),
 						id = select2Option.attr("id"),
 						idArr = id.split("-"),
@@ -730,17 +727,17 @@ App.Fields = {
 			});
 		},
 		appendOptionClickEvent(optionElement, element) {
-			element.on('mouseup', '[data-fa-i2svg].js-select-option-event', function (event) {
+			element.on('mouseup', '.js-select-option-event', function (event) {
 				let thisInstance = $(event.currentTarget),
 					params = optionElement.data('url'),
 					iconActive = optionElement.data('iconActive'),
 					iconInactive = optionElement.data('iconInactive');
 				//AppConnector.request(params).done(function (data) {
 				if (optionElement.data('state') === 'active') {
-					thisInstance.toggleClass(iconActive).toggleClass(iconInactive);
+					thisInstance.toggleClass(iconActive + ' ' + iconInactive);
 					optionElement.data('state', 'inactive');
 				} else {
-					thisInstance.toggleClass(iconInactive).toggleClass(iconActive);
+					thisInstance.toggleClass(iconInactive + ' ' + iconActive);
 					optionElement.data('state', 'active');
 				}
 				//});
@@ -750,10 +747,10 @@ App.Fields = {
 		appendOptionActionsTemplate(optionElement, liElement) {
 			let optionClass = optionElement.data('state') === 'active' ? optionElement.data('icon-active') : optionElement.data('icon-inactive'),
 				template = $(`<span class="js-select-option-actions o-filter-actions noWrap float-right">
-					<span data-js="click | class: fas | far" class="mr-1 js-select-option-event ${optionClass}"></span>
+					<span data-js="click|class:icons" class="mr-1 js-select-option-event ${optionClass}"></span>
 				</span>`);
 			this.appendOptionClickEvent(optionElement, template);
-			template.appendTo(liElement.find('.js-user__title'));
+			template.appendTo(liElement.find('.js-element__title'));
 		},
 	},
 	MultiImage: {
