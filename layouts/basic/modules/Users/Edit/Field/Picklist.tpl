@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Users-Edit-Field-Picklist -->
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -21,9 +22,9 @@
 		{assign var=PICKLIST_VALUES value=Vtiger_Module_Model::getInstance('Calendar')->getField('activitytype')->getPicklistValues()}
 	{/if}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() || $FIELD_MODEL->getName() eq 'defaulteventstatus' || $FIELD_MODEL->getName() eq 'defaultactivitytype')}
-	<select class="tpl-Edit-Field-Picklist select2 form-control" name="{$FIELD_NAME}"
+	<select class="select2 form-control" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO|escape}'
+			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-			data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 			data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $PLACE_HOLDER}data-select="allowClear"{/if}>
 		{if $PLACE_HOLDER}
@@ -44,4 +45,5 @@
 			{/if}
 		{/foreach}
 	</select>
+	<!-- /tpl-Users-Edit-Field-Picklist -->
 {/strip}
