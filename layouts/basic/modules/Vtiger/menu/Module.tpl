@@ -14,7 +14,7 @@
 			   href="{$MENU['dataurl']}"
 					{if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="{$ACTIVE}" aria-controls="submenu-{$MENU['id']}"{/if}
 					{if $MENU['newwindow'] eq 1}target="_blank" {/if}>
-				<span class="fas fa-greater-than c-menu__item__icon--sub"></span>{$ICON}
+				{$ICON}
 				<span class="c-menu__item__text js-menu__item__text" data-js="class: u-white-space-n">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU['mod'])}</span>
 				{if $HASCHILDS == 'true'}
 					<span class="toggler" aria-hidden="true"><span class="fas fa-plus-circle"></span><span class="fas fa-minus-circle"></span></span>
