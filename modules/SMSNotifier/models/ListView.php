@@ -14,26 +14,27 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
 		$advancedLinks = [];
-		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Privilege::isPermitted($moduleName, 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
 				'linkicon' => 'fas fa-upload',
 			];
 		}
 
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleModel->getName(), 'ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List',
+					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'js-mass-action',
 					'linkicon' => 'fas fa-file-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
@@ -41,12 +42,13 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			}
 		}
 
-		$quickExportToExcelPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
+		$quickExportToExcelPermission = \App\Privilege::isPermitted($moduleName, 'QuickExportToExcel');
+		var_dump($quickExportToExcelPermission);
 		if ($quickExportToExcelPermission) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleName . '")',
 				'linkicon' => 'fas fa-file-excel',
 			];
 		}
@@ -62,14 +64,15 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleModel->getName(), 'ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		$moduleName = $moduleModel->getName();
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
 			if (count($templates) > 0) {
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
-					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List',
+					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'js-mass-action',
 					'linkicon' => 'fas fa-file-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
