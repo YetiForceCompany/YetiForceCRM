@@ -659,7 +659,7 @@ App.Fields = {
 						var element = $(e.currentTarget);
 						var instance = element.data('select2');
 						if (typeof data.showAdditionalIcons !== "undefined") {
-							self.registerCustomFilterOptionsHoverEvent(instance.$dropdown);
+							self.registerCustomFilterOptionsHoverEvent(element);
 						}
 						instance.$dropdown.css('z-index', 1000002);
 					}).on("select2:unselect", function (e) {
@@ -707,48 +707,50 @@ App.Fields = {
 				}
 			});
 		},
-		registerCustomFilterOptionsHoverEvent(element) {
-			element.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
+		registerCustomFilterOptionsHoverEvent(selectElement) {
+			const self = this;
+			let select2Instance = selectElement.data('select2');
+			select2Instance.$dropdown.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
 				let liElement = $(event.currentTarget),
-					liUserOptions = liElement.find('.js-user-actions');
+					liSelectOptions = liElement.find('.js-select-option-actions');
 				if (liElement.hasClass('group-result')) {
 					return;
 				}
-				if (event.type === 'mouseenter' && liUserOptions.length === 0) {
-					this.appendOptionActionsTemplate(liElement);
+				if (event.type === 'mouseenter' && liSelectOptions.length === 0) {
+					let select2Option = liElement.closest('.select2-results__option'),
+						id = select2Option.attr("id"),
+						idArr = id.split("-"),
+						currentOptionId = '';
+					if (idArr.length > 0) {
+						currentOptionId = idArr[idArr.length - 1];
+					}
+					let optionElement = selectElement.find('option[value="' + currentOptionId + '"]');
+					self.appendOptionActionsTemplate(optionElement, liElement);
 				}
 			});
 		},
-		userOptionClickEvent(element) {
-			element.on('mouseup', '[data-fa-i2svg].js-user-favorites', function (event) {
-				let thisInstance = $(this),
-					liElement = thisInstance.closest('.select2-results__option'),
-					id = liElement.attr("id"),
-					idArr = id.split("-"),
-					currentOptionId = '';
-				if (idArr.length > 0) {
-					currentOptionId = idArr[idArr.length - 1];
-				}
-				let params = {
-					userId: currentOptionId
-				};
+		appendOptionClickEvent(optionElement, element) {
+			element.on('mouseup', '[data-fa-i2svg].js-select-option-event', function (event) {
+				let thisInstance = $(event.currentTarget),
+					params = optionElement.data('url');
 				//AppConnector.request(params).done(function (data) {
-				if (thisInstance.data('prefix') === 'far') {
-					thisInstance.addClass('fas').removeClass('far');
-					thisInstance.data('prefix', 'fas');
-				} else {
+				if (optionElement.data('state') === 'active') {
 					thisInstance.addClass('far').removeClass('fas');
-					thisInstance.data('prefix', 'far');
+					optionElement.data('state', 'inactive');
+				} else {
+					thisInstance.addClass('fas').removeClass('far');
+					optionElement.data('state', 'active');
 				}
 				//});
 				event.stopPropagation();
 			});
 		},
-		appendOptionActionsTemplate(liElement) {
-			let template = $(`<span class="js-user-actions o-filter-actions noWrap float-right">
-					<span data-value="favorites" data-js="click" class=" mr-1 js-user-favorites far fa-star"></span>
+		appendOptionActionsTemplate(optionElement, liElement) {
+			let optionClass = optionElement.data('state') === 'active' ? 'fas' : 'far',
+				template = $(`<span class="js-select-option-actions o-filter-actions noWrap float-right">
+					<span data-value="favorites" data-js="click | class: fas | far" class="mr-1 js-select-option-event ${optionClass} fa-star"></span>
 				</span>`);
-			this.userOptionClickEvent(template);
+			this.appendOptionClickEvent(optionElement, template);
 			template.appendTo(liElement.find('.js-user__title'));
 		},
 	},
