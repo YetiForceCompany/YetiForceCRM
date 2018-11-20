@@ -233,6 +233,16 @@ ul.ui-autocomplete {
 	font-family: $font-family-base !important;
 }
 
+.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
+	li > a {
+		display: flex;
+		align-items: center;
+		height: calculate-rem(22px);
+		overflow: hidden;
+		padding-left: 1em;
+	}
+}
+
 //-------- perfectscrollbar --------//
 
 .leftPanel .ps-scrollbar-y-rail {
