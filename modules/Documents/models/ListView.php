@@ -35,7 +35,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List',
+					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'js-mass-action',
 					'linkicon' => 'fas fa-file-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
