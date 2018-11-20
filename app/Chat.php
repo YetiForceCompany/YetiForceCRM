@@ -164,10 +164,15 @@ final class Chat
 	 */
 	public static function isExistsGlobalRoom(int $globalRoomId): bool
 	{
-		return (new Db\Query())
+		if (Cache::has('Chat_isExistsGlobalRoom', $globalRoomId)) {
+			return Cache::get('Chat_isExistsGlobalRoom', $globalRoomId);
+		}
+		$isExists = (new Db\Query())
 			->from('u_#__chat_global')
-			->where([['global_room_id' => $globalRoomId]])
+			->where(['global_room_id' => $globalRoomId])
 			->exists();
+		Cache::save('Chat_isExistsGlobalRoom', $globalRoomId, $isExists);
+		return $isExists;
 	}
 
 	/**
