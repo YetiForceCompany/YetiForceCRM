@@ -23,6 +23,7 @@
 		{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
+		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS')}
 		{assign var=FAVORITE_OWNERS value=[]}
 		{function OPTGRUOP BLOCK_NAME='' OWNERS=[]}
 			{if $OWNERS}
@@ -31,11 +32,8 @@
 						<option value="{$OWNER_ID}"
 								data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
 								data-userId="{$CURRENT_USER_ID}"
-								{if AppConfig::module('Users','FAVORITE_OWNERS')}
-									data-url=""
-									data-state=""
-									data-icon-active="fas fa-star"
-									data-icon-inactive="far fa-star"
+								{if $SHOW_FAVORITE_OWNERS}
+									data-url="" data-state="" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
 								{/if}>
 							{$OWNER_NAME}
 						</option>
@@ -51,8 +49,7 @@
 					{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-					{/if}
-					{if AppConfig::module('Users','FAVORITE_OWNERS')}
+					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
 						data-show-additional-icons="true"
 					{/if}>
 				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
@@ -62,7 +59,7 @@
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>
 					{/if}
-					{if AppConfig::module('Users','FAVORITE_OWNERS')}
+					{if $SHOW_FAVORITE_OWNERS}
 						{assign var=FAVORITE_OWNERS value=\App\Fields\Owner::getFavorites(\App\Module::getModuleId($MODULE_NAME), $CURRENT_USER_ID)}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
