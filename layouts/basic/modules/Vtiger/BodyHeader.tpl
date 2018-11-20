@@ -319,7 +319,7 @@
 							{/if}
 							<div class="o-action-menu__item">
 								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
-								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
+								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}" data-placement="bottom"
 								   href="{$HREF}"
 										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}

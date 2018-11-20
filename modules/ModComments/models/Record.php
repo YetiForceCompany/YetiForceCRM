@@ -371,7 +371,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				'linkicon' => 'fas fa-archive',
 				'linkclass' => 'btn-xs entityStateBtn',
 				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
-				'showLabel' => true,
+				'showLabel' => false,
 			]);
 		}
 		if ($this->privilegeToMoveToTrash()) {
@@ -386,7 +386,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn-xs entityStateBtn',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-				'showLabel' => true,
+				'showLabel' => false,
 			]);
 		}
 		return $links;
