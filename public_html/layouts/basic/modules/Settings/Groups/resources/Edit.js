@@ -95,11 +95,8 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 	 */
 	registerButtonsModule: function(){
 		const editViewForm = this.getForm();
-		editViewForm.find('.js-modules-select-all').on('click', function(){
-			$('#modulesList option').prop('selected', true).parent().trigger('change');
-		});
-		editViewForm.find('.js-modules-deselect-all').on('click', function () {
-			$('#modulesList option').prop('selected', false).parent().trigger('change');
+		editViewForm.find('.js-modules-select-all, .js-modules-deselect-all').on('click', function(e){
+			$('#modulesList option').prop('selected', $(this).hasClass('js-modules-select-all')).parent().trigger('change');
 		});
 	},
 	/**
