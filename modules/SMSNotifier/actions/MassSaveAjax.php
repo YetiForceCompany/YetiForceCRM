@@ -78,32 +78,25 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function getRecordsListQueryFromRequest(\App\Request $request)
 	{
-		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$sourceModule = $request->getByType('source_module', 2);
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
-
 		if (!empty($selectedIds) && !in_array($selectedIds[0], ['all', '"all"']) && count($selectedIds) > 0) {
 			$queryGenerator = new \App\QueryGenerator($sourceModule);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
-
 			return $queryGenerator;
 		}
+		$customViewModel = CustomView_Record_Model::getInstanceById($request->getByType('viewname', 2));
 
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->getByType('search_key', 2);
-			$searchValue = $request->get('search_value');
-			$operator = $request->getByType('operator', 1);
-			if (!empty($operator)) {
-				$customViewModel->set('operator', $operator);
-				$customViewModel->set('search_key', $searchKey);
-				$customViewModel->set('search_value', $searchValue);
+			if (!$request->isEmpty('operator')) {
+				$customViewModel->set('operator', $request->getByType('operator', 1));
+				$customViewModel->set('search_key', $request->getByType('search_key', 2));
+				$customViewModel->set('search_value', $request->get('search_value'));
 			}
-
 			$customViewModel->set('search_params', $request->getArray('search_params'));
-
+			$customViewModel->set('entityState', $request->getByType('entityState'));
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}
 	}
