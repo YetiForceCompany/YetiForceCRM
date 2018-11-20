@@ -1023,18 +1023,18 @@ class File
 		foreach ($value as $key => $item) {
 			if (isset($previousValue[$item['key']])) {
 				$value[$item['key']] = $previousValue[$item['key']];
-			} elseif (!isset($previousValue[$item['key']]) && !$item['baseContent'] && $item['key'] ? ($uploadFile = static::getUploadFile($item['key'])) : false) {
+			} elseif ($item['baseContent']) {
+				$base = static::saveFromBase($item, $recordModel->getModuleName());
+				$new[] = $value[$base['key']] = $base;
+				unset($value[$key]);
+				$save = true;
+			} elseif ($item['key'] ? ($uploadFile = static::getUploadFile($item['key'])) : false) {
 				$new[] = $value[$item['key']] = [
 					'name' => $uploadFile['name'],
 					'size' => $item['size'],
 					'path' => $uploadFile['path'] . $item['key'],
 					'key' => $item['key'],
 				];
-				$save = true;
-			} elseif (!isset($previousValue[$item['key']]) && $item['baseContent']) {
-				$base = static::saveFromBase($item, $recordModel->getModuleName());
-				$new[] = $value[$base['key']] = $base;
-				unset($value[$key]);
 				$save = true;
 			}
 		}
