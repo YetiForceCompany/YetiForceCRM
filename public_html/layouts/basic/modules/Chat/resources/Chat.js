@@ -23,6 +23,7 @@ window.Chat_JS = class Chat_Js {
 		this.amountOfNewMessages = null;
 		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
 		this.shiftPressed = false;
+		this.isModalWindow = false;
 	}
 
 	/**
@@ -196,6 +197,17 @@ window.Chat_JS = class Chat_Js {
 		}
 		AppConnector.request($.extend({module: 'Chat'}, data)).done((data) => {
 			aDeferred.resolve(data);
+		}).fail(() => {
+			if (this.isModalWindow) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+					type: 'error',
+					animation: 'show'
+				});
+				app.hideModalWindow();
+				this.unregisterEvents();
+				Chat_Js.registerTrackingEvents();
+			}
 		}).always(() => {
 			if (progress) {
 				progressIndicator.progressIndicator({mode: 'hide'});
@@ -1229,6 +1241,7 @@ window.Chat_JS = class Chat_Js {
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();
 		Chat_Js.unregisterTrackingEvents();
+		this.isModalWindow = true;
 	}
 
 	/**
