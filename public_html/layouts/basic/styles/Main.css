@@ -11295,11 +11295,6 @@ html, body, .o-base-container {
   .breadcrumbsLinks {
     font-size: 14px; } }
 @media only screen and (max-width: 480px) {
-  .detailViewToolbar {
-    text-align: center !important; }
-    .detailViewToolbar .btn-group, .detailViewToolbar > div {
-      float: none !important; }
-
   .tl-text .tl-headline-date, .tl-text h3.tl-headline-date {
     line-height: 31px; }
 

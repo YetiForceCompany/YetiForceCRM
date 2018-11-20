@@ -355,11 +355,6 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
 
-jstorage@^0.4.8:
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/jstorage/-/jstorage-0.4.8.tgz#29380072d6d3c1a0e2a5893ff1ee3b1cfc74f9a0"
-  integrity sha1-KTgActbTwaDipYk/8e47HPx0+aA=
-
 jstree-bootstrap-theme@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/jstree-bootstrap-theme/-/jstree-bootstrap-theme-1.0.1.tgz#7d5edc73a846e8da7f94f57a1cc5ddee9d9eab4b"
@@ -451,6 +446,11 @@ split.js@^1.5.9:
   version "1.5.9"
   resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.9.tgz#5c1a558f680546ea4b4d5f88e761487257af77c5"
   integrity sha512-uT3yu5neM8wWYKUhftAKTu2k2t5vX9m/1/sXBNjFDyR3u4vfoAN4Edj2vPhnAQ7D14xj8IySwOKyfiV2sf4odA==
+
+store@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/store/-/store-2.0.12.tgz#8c534e2a0b831f72b75fc5f1119857c44ef5d593"
+  integrity sha1-jFNOKguDH3K3X8XxEZhXxE711ZM=
 
 "svg@https://github.com/kbwood/svg":
   version "0.0.0"
