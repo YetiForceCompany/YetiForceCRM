@@ -94,7 +94,7 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 	 * Register events for section "modules"
 	 */
 	registerButtonsModule: function(){
-		var editViewForm = this.getForm();
+		const editViewForm = this.getForm();
 		editViewForm.find('.js-modules-select-all').on('click', function(){
 			$('#modulesList option').prop('selected', true).parent().trigger('change');
 		});
