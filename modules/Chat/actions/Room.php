@@ -15,20 +15,6 @@ class Chat_Room_Action extends \App\Controller\Action
 	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Record ID.
-	 *
-	 * @var int
-	 */
-	private $recordId;
-
-	/**
-	 * Room type.
-	 *
-	 * @var string
-	 */
-	private $roomType;
-
-	/**
 	 * Constructor with a list of allowed methods.
 	 */
 	public function __construct()
@@ -79,7 +65,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function create(\App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::createRoom($this->roomType, $this->recordId);
+		\App\Chat::createRoom($request->getByType('roomType'), $request->getInteger('recordId'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -96,7 +82,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function removeFromFavorites(\App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($this->roomType, $this->recordId)->removeFromFavorites();
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -113,7 +99,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function addToFavorites(\App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($this->roomType, $this->recordId)->addToFavorites();
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -153,17 +139,15 @@ class Chat_Room_Action extends \App\Controller\Action
 	 */
 	private function checkPermissionByRoom(\App\Request $request): void
 	{
-		$this->recordId = $request->getInteger('recordId');
-		$this->roomType = $request->getByType('roomType');
-		switch ($this->roomType) {
+		switch ($request->getByType('roomType')) {
 			case 'crm':
-				$recordModel = Vtiger_Record_Model::getInstanceById($this->recordId);
+				$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('recordId'));
 				if (!$recordModel->isViewable()) {
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
 				break;
 			case 'group':
-				if (!\App\User::getCurrentUserModel()->getGroupNames()[$this->recordId]) {
+				if (!in_array($request->getInteger('recordId'), \App\User::getCurrentUserModel()->getGroups())) {
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
 				break;

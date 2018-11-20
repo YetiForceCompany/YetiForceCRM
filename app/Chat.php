@@ -156,6 +156,21 @@ final class Chat
 	}
 
 	/**
+	 * Check if there is a global chat room.
+	 *
+	 * @param int $globalRoomId
+	 *
+	 * @return bool
+	 */
+	public static function isExistsGlobalRoom(int $globalRoomId): bool
+	{
+		return (new Db\Query())
+			->from('u_#__chat_global')
+			->where([['global_room_id' => $globalRoomId]])
+			->exists();
+	}
+
+	/**
 	 * Global list of chat rooms.
 	 *
 	 * @return array
