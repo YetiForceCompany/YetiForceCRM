@@ -8,7 +8,7 @@
 	{/if}
 	<li class="tpl-menu-Shortcut c-menu__item js-menu__item nav-item menuShortcut {if !$HASCHILDS}hasParentMenu{/if}"
 		data-id="{$MENU.id}" data-js="mouseenter mouseleave">
-		<a class="nav-link {if $ACTIVE =='true'}active{else}collapsed{/if}{if $ICON} hasIcon{/if}{if $HASCHILDS == 'true'} js-submenu-toggler{/if}{if isset($MENU['hotkey'])} hotKey{/if}{if $PARENT_MODULE} js-menu__link--draggable{/if}" {if isset($MENU['hotkey'])} data-hotkeys="{$MENU['hotkey']}"{/if}
+		<a class="nav-link {if $ACTIVE =='true'}active{else}collapsed{/if}{if $ICON} hasIcon{/if}{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}{if isset($MENU['hotkey'])} hotKey{/if}{if $PARENT_MODULE} js-menu__link--draggable{/if}" {if isset($MENU['hotkey'])} data-hotkeys="{$MENU['hotkey']}"{/if}
 				{if $HASCHILDS == 'true'} data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button"{/if}
 		   href="{$MENU['dataurl']}"
 		   data-js="draggable"

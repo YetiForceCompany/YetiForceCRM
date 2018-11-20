@@ -89,12 +89,6 @@
 				background: lighten($bg-menu, 5%);
 			}
 
-			&:focus {
-				.c-menu__item__text {
-					white-space: normal;
-				}
-			}
-
 			&.active {
 				background: darken($bg-menu, 10%);
 			}
@@ -148,10 +142,9 @@
 				.fa-plus-circle {
 					display: none;
 				}
-
-				.c-menu__item__text {
-					white-space: normal;
-				}
+			}
+			&:not(.is-submenu-toggler) {
+				padding-right: .8rem !important;
 			}
 		}
 
