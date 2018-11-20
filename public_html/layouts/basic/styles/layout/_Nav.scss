@@ -164,6 +164,7 @@
 				font-size: 14px;
 				color: $color-navbar;
 				background: $bg-sub-menu;
+				padding: calculate-rem(6px);
 
 				&:hover, &:focus {
 					background: lighten($bg-sub-menu, 5%);
@@ -171,10 +172,6 @@
 
 				&.active {
 					background: darken($bg-sub-menu, 5%);
-				}
-
-				&.hasIcon {
-					padding: calculate-rem(6px);
 				}
 			}
 
@@ -208,7 +205,6 @@
 	&__item__icon {
 		padding-right: 18px;
 		font-size: 1.6em;
-		height: 100%;
 		min-width: 42px;
 
 		&--sub {
