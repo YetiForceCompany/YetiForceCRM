@@ -28,7 +28,9 @@
 						{/if}
 					</th>
 				{/foreach}
+				{assign var=ADDITIONAL_TD value=0}
 				{if $SHOW_CREATOR_DETAIL}
+					{assign var=ADDITIONAL_TD value=$ADDITIONAL_TD + 2}
 					<th>
 						{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}
 					</th>
@@ -37,12 +39,10 @@
 					</th>
 				{/if}
 				{if $SHOW_COMMENT}
+					{assign var=ADDITIONAL_TD value=$ADDITIONAL_TD + 1}
 					<th>
 						{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}
 					</th>
-				{/if}
-				{if $IS_INVENTORY}
-					<th></th>
 				{/if}
 			</tr>
 			</thead>
@@ -74,6 +74,10 @@
 						</td>
 					{/foreach}
 					<td class="reducePadding"></td>
+					{for $i=1 to $ADDITIONAL_TD}
+						<td>
+						</td>
+					{/for}
 				</tr>
 			{/if}
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
@@ -134,7 +138,7 @@
 					{if $IS_INVENTORY}
 						{$COUNT = $COUNT+1}
 						<td class="medium" nowrap>
-							<button type="button" class="btn btn-sm btn-info js-popover-tooltip showInventoryRow"
+							<button type="button" class="btn btn-sm btn-info float-right js-popover-tooltip showInventoryRow"
 									data-js="popover" data-placement="left"
 									data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span
 										class="fas fa-arrows-alt-v"></span></button>
@@ -147,7 +151,7 @@
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
 							{$COUNT = $COUNT+1}
 						{/if}
-						<td colspan="{$COUNT+1}" class="backgroundWhiteSmoke">
+						<td colspan="{$COUNT + $ADDITIONAL_TD}" class="backgroundWhiteSmoke">
 							<table class="table table-sm no-margin">
 								<thead>
 								<tr>
