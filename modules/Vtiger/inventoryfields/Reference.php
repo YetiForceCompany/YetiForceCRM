@@ -83,7 +83,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$value = $request->getInteger($request->get($column . $i) ? $column . $i : 0);
+		$value = $request->isEmpty($column . $i) ? 0 : $request->getInteger($column . $i);
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}
