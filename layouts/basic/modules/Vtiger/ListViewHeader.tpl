@@ -107,10 +107,11 @@
 								   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 									{if $CUSTOM_VIEW->get('description')}
-										&nbsp;
-										<span class="js-popover-tooltip fas fa-info-circle" data-js="popover"
-											  data-placement="auto right"
-											  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+										<span class="js-popover-tooltip ml-1" data-toggle="popover"
+											  data-placement="right"
+											  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
+											<span class="fas fa-info-circle"></span>
+										</span>
 									{/if}
 								</a>
 							</li>
