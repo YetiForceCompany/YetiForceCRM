@@ -41,10 +41,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				];
 			}
 		}
-
-		$quickExportToExcelPermission = \App\Privilege::isPermitted($moduleName, 'QuickExportToExcel');
-		var_dump($quickExportToExcelPermission);
-		if ($quickExportToExcelPermission) {
+		if (\App\Privilege::isPermitted($moduleName, 'QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
