@@ -25,7 +25,7 @@
 		{/if}
 		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS')}
 		{assign var=FAVORITE_OWNERS value=[]}
-		{function OPTGRUOP BLOCK_NAME='' OWNERS=[]}
+		{function OPTGRUOP BLOCK_NAME='' OWNERS=[] ACTIVE='inactive'}
 			{if $OWNERS}
 				<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
@@ -33,7 +33,7 @@
 								data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
 								data-userId="{$CURRENT_USER_ID}"
 								{if $SHOW_FAVORITE_OWNERS}
-									data-url="" data-state="" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
+							data-url="" data-state="{$ACTIVE}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
 								{/if}>
 							{$OWNER_NAME}
 						</option>
@@ -49,7 +49,7 @@
 					{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
+					{elseif $SHOW_FAVORITE_OWNERS}
 						data-show-additional-icons="true"
 					{/if}>
 				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
@@ -65,7 +65,7 @@
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
 							{assign var=ALL_ACTIVEUSER_LIST value=array_diff_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS)}
 							{assign var=ALL_ACTIVEGROUP_LIST value=array_diff_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
-							{OPTGRUOP BLOCK_NAME='LBL_FAVORITE_OWNERS' OWNERS=$FAVORITE_OWNERS}
+							{OPTGRUOP BLOCK_NAME='LBL_FAVORITE_OWNERS' OWNERS=$FAVORITE_OWNERS ACTIVE='active'}
 						{/if}
 					{/if}
 					{OPTGRUOP BLOCK_NAME='LBL_USERS' OWNERS=$ALL_ACTIVEUSER_LIST}
