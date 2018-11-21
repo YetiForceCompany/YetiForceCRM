@@ -702,15 +702,29 @@ class File
 	 * @param \self $file
 	 * @param array $params
 	 *
-	 * @return bool
+	 * @throws \Exception
+	 *
+	 * @return array|bool
 	 */
 	public static function saveFromContent(self $file, $params = [])
 	{
-		$fileName = \App\TextParser::textTruncate($file->getName(), 50, false);
+		$fileName = $file->getName();
+		$fileNameLength = \App\TextParser::getTextLength($fileName);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
+		if ($fileNameLength > ($maxLength = $record->getField('filename')->get('maximumlength'))) {
+			$extLength = 0;
+			if ($ext = $file->getExtension()) {
+				$ext .= ".{$ext}";
+				$extLength = \App\TextParser::getTextLength($ext);
+				$fileName = substr($fileName, 0, $fileNameLength - $extLength);
+			}
+			$fileName = \App\TextParser::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
+		}
+		$fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($fileName));
+
 		$record->setData($params);
-		$record->set('notes_title', \App\Purifier::decodeHtml(\App\Purifier::purify($fileName)));
-		$record->set('filename', \App\Purifier::decodeHtml(\App\Purifier::purify($file->getName())));
+		$record->set('notes_title', $fileName);
+		$record->set('filename', $fileName);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
 		$record->set('folderid', 'T2');
@@ -719,7 +733,7 @@ class File
 			'size' => $file->getSize(),
 			'type' => $file->getMimeType(),
 			'tmp_name' => $file->getPath(),
-			'error' => 0,
+			'error' => 0
 		];
 		$record->save();
 		$file->delete();
