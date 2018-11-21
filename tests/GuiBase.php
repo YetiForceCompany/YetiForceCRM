@@ -26,7 +26,8 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	public $currentUrl;
 	public $loadedPageSource;
 	public $sourceErrorString = 'YF_ERROR';
-	public $artifactsDir = 'test' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'artifacts' . \DIRECTORY_SEPARATOR;
+	public $artifactsDir = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'artifacts' . \DIRECTORY_SEPARATOR;
+	protected $errorMsgTranslations = ['invalid session id' => 'Cant connect to browser window, check if is open'];
 
 	/**
 	 * @codeCoverageIgnore
@@ -128,11 +129,17 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function log($msg, $source = 'page', $level = 'info')
 	{
+		$msg = $this->translateErrorMessage($msg);
 		$this->logs[] = ['url' => $this->currentUrl, 'source' => $source, 'level' => $level, 'message' => $msg, 'pageSource' => $this->loadedPageSource];
 		if ($level === 'warning' || $level === 'error') {
 			echo $this->loadedPageSource;
 			$this->halt();
 		}
+	}
+
+	protected function translateErrorMessage($msg)
+	{
+		return $this->errorMsgTranslations[$msg] ?? $msg;
 	}
 
 	/**
