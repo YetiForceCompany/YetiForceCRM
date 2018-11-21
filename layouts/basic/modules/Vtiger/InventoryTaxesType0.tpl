@@ -5,14 +5,16 @@
 			<div class="card-header">
 				<strong>{\App\Language::translate('LBL_GLOBAL_TAXS', $MODULE)}</strong>
 				<div class="float-right">
-					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="global" class="activeCheckbox">
+					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="global"
+						   class="activeCheckbox">
 				</div>
 			</div>
 			<div class="card-body js-panel__body d-none" data-js="class: d-none">
 				<select class="select2 globalTax" name="globalTax">
 					{foreach item=ITEM key=NAME from=$GLOBAL_TAXES}
 						<option value="{CurrencyField::convertToUserFormat($ITEM.value, null, true)}">
-							{$ITEM.value}% - {\App\Language::translate($ITEM.name, $MODULE)}
+							{\App\Fields\Currency::formatToDisplay($ITEM.value,null, true, true)}
+							% - {\App\Language::translate($ITEM.name, $MODULE)}
 						</option>
 					{/foreach}
 				</select>
