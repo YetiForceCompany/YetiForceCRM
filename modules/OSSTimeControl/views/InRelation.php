@@ -73,9 +73,9 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
-				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? null;
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? null;
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? null;
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
