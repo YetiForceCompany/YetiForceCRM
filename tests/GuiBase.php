@@ -65,6 +65,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			$this->saveSource($this->loadedPageSource, "{$this->getName()}_fail");
 		}
 		$this->driver->close();
+		static::$isLogin = false;
 		parent::tearDown();
 	}
 
