@@ -20,7 +20,7 @@
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-		{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
+		{if $FIELD_VALUE eq '' && isset($VIEW) && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
 		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS')}
@@ -48,13 +48,13 @@
 					data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}'
 					{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif $SHOW_FAVORITE_OWNERS}
-						data-show-additional-icons="true"
+				data-show-additional-icons="true"
 					{/if}>
 				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
-					{if $VIEW eq 'MassEdit'}
+					{if isset($VIEW) && $VIEW eq 'MassEdit'}
 						<optgroup class="p-0">
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>
