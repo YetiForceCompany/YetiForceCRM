@@ -27,8 +27,8 @@
 				{/if}
 			</td>
 			{foreach item=FIELD from=$FIELDS[1]}
-				<td {if $FIELD->getName()!='Name' && $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}
-						class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
+				<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->getName()!='Name' && $FIELD->get('colspan') neq 0 }style="width: {$FIELD->get('colspan')}%" {/if}
+					class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
 					{if !isset($ITEM_DATA[$COLUMN_NAME])}
