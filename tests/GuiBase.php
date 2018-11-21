@@ -26,6 +26,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	public $currentUrl;
 	public $loadedPageSource;
 	public $sourceErrorString = 'YF_ERROR';
+	public $artifactsDir = 'test' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'artifacts' . \DIRECTORY_SEPARATOR;
 
 	/**
 	 * @codeCoverageIgnore
@@ -45,7 +46,8 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
-		throw $t;
+		$this->takeScreenshot('failed');
+		parent::onNotSuccessfulTest($t);
 	}
 
 	public function setUp()
@@ -55,6 +57,12 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
 
 		$this->login();
+	}
+
+	public function tearDown()
+	{
+		$this->driver->close();
+		parent::tearDown();
 	}
 
 	public function url($url)
@@ -101,6 +109,23 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		return [];
 	}
 
+	public function takeScreenshot($name = null)
+	{
+		if (empty($name)) {
+			$name = date("Ymd_His");
+		}
+		$dir = $this->artifactsDir . 'screenshots' . \DIRECTORY_SEPARATOR;
+		if (!is_dir($dir) && !mkdir($dir, 0777, true) && !\is_dir($dir)) {
+			$this->log('Artifacts dir creation error in class:' . __CLASS__, 'selenium', 'warning');
+			return;
+		}
+		try {
+			$this->driver->takeScreenshot("{$dir}{$name}.jpg");
+		} catch (\Exception $e) {
+			$this->fail('exception at selenium screenshot: ' . \var_export(\substr($e->getMessage(), 0, \strpos($e->getMessage(), "\n")), true));
+		}
+	}
+
 	public function log($msg, $source = 'page', $level = 'info')
 	{
 		$this->logs[] = ['url' => $this->currentUrl, 'source' => $source, 'level' => $level, 'message' => $msg, 'pageSource' => $this->loadedPageSource];
@@ -126,6 +151,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function halt()
 	{
+		$this->takeScreenshot('halt');
 		$this->fail('Selenium test failed');
 	}
 }
