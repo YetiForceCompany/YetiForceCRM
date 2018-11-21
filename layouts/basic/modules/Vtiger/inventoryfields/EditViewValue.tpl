@@ -7,6 +7,8 @@
 		<span class="{$FIELD->getColumnName()}Text valueText">
 			{if $COLUMN_NAME==='unit'}
 				{\App\Language::translate($VALUE, $REFERENCE_MODULE)}
+			{else}
+				{$FIELD->getDisplayValue($VALUE)}
 			{/if}
 		</span>
 	{/if}
