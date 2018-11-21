@@ -46,7 +46,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
-		$this->takeScreenshot('failed');
 		parent::onNotSuccessfulTest($t);
 	}
 
@@ -61,6 +60,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function tearDown()
 	{
+		$this->takeScreenshot();
 		$this->driver->close();
 		parent::tearDown();
 	}
