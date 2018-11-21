@@ -34,11 +34,7 @@
 					{if !isset($ITEM_DATA[$COLUMN_NAME])}
 						{assign var="FIELD_VALUE" value=null}
 					{else}
-						{if $COLUMN_NAME === 'unit'}
-							{assign var="FIELD_VALUE" value=\App\Language::translate($ITEM_DATA[$COLUMN_NAME],$REFERENCE_MODULE)}
-						{else}
-							{assign var="FIELD_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
-						{/if}
+						{assign var="FIELD_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
 					{/if}
 					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$FIELD_VALUE}
 				</td>

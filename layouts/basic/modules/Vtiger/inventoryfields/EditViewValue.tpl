@@ -5,8 +5,13 @@
 	{if $FIELD->get('displaytype') == 10}
 		{assign var="INPUT_TYPE" value='hidden'}
 		<span class="{$FIELD->getColumnName()}Text valueText">
-			{$FIELD->getDisplayValue($VALUE)}
+			{if $COLUMN_NAME==='unit'}
+				{\App\Language::translate($VALUE, $REFERENCE_MODULE)}
+			{/if}
 		</span>
 	{/if}
-	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()} valueVal" data-validation-engine="validate[maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}"
+		   class="form-control {$FIELD->getColumnName()} valueVal"
+		   data-validation-engine="validate[maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}"
+		   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 {/strip}
