@@ -3342,7 +3342,6 @@ CREATE TABLE `u_yf_squotes_inventory` (
   `net` decimal(28,8) NOT NULL DEFAULT 0.00000000,
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
-  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_squotes_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
