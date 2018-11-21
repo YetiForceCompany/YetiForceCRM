@@ -57,10 +57,33 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		return \App\Record::getLabel($value);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isMandatory()
+	{
+		$config = $this->getConfig();
+		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
+	}
+
+	/**
+	 * Function to get config params.
+	 *
+	 * @return array
+	 */
+	public function getConfig()
+	{
+		return \App\Json::decode($this->get('params'));
+	}
+
+	/**
+	 * Function to get reference modules.
+	 *
+	 * @return array
+	 */
 	public function getReferenceModules()
 	{
-		$paramsDecoded = \App\Json::decode($this->get('params'));
-
+		$paramsDecoded = $this->getConfig();
 		return $paramsDecoded['modules'];
 	}
 
@@ -83,7 +106,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$value = $request->isEmpty($column . $i) ? 0 : $request->getInteger($column . $i);
+		$value = $request->getInteger($column . $i);
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}
@@ -93,7 +116,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
-		if (!is_numeric($value)) {
+		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 		$rangeValues = explode(',', $this->maximumLength);
