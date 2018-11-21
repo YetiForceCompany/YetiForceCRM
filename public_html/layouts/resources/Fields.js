@@ -1023,28 +1023,54 @@ App.Fields = {
 		}
 	},
 	Currency: {
-		formatToDisplay(value, numberOfDecimal = CONFIG.noOfCurrencyDecimals, skipFormatting = false) {
+		/**
+		 * Function returns the currency in user specified format.
+		 * @param {number} value
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
 			if (value === undefined) {
 				value = 0;
 			}
 			let groupSeparator = CONFIG.currencyGroupingSeparator;
-			let groupingPattern = app.getMainParams('currencyGroupingPattern');
+			let groupingPattern = CONFIG.currencyGroupingPattern;
 			value = parseFloat(value).toFixed(numberOfDecimal);
 			let a = value.toString().split('.');
 			let integer = a[0];
 			let decimal = a[1];
-			if (groupingPattern === '123,456,789') {
-				integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-			} else if (groupingPattern === '123456,789') {
-				integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
-			} else if (groupingPattern === '12,34,56,789') {
-				integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
+			if (integer.length > 3) {
+				if (groupingPattern === '123,456,789') {
+					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+				} else if (groupingPattern === '123456,789') {
+					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+				} else if (groupingPattern === '12,34,56,789') {
+					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
+				}
 			}
 			if (numberOfDecimal) {
-				return integer + CONFIG.currencyDecimalSeparator + decimal;
+				if (CONFIG.truncateTrailingZeros) {
+					if (decimal) {
+						let d = '';
+						for (var i = 0; i < numberOfDecimal; i++) {
+							if (decimal[numberOfDecimal - i - 1] !== '0') {
+								d = decimal[numberOfDecimal - i - 1] + d;
+							}
+						}
+						decimal = d;
+					}
+				}
+				if (decimal) {
+					return integer + CONFIG.currencyDecimalSeparator + decimal;
+				}
 			}
 			return integer;
 		},
+		/**
+		 * Function to get value for db format.
+		 * @param {string} value
+		 * @returns {number}
+		 */
 		formatToDb(value) {
 			if (value == undefined || value == '') {
 				value = 0;
