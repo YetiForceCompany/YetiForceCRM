@@ -549,6 +549,8 @@ App.Fields = {
 				params.escapeMarkup = function (markup) {
 					return markup;
 				};
+			} else if (typeof this[params.templateResult] === 'function') {
+				params.templateResult = this[params.templateResult];
 			}
 			if (typeof params.templateSelection === "undefined") {
 				params.templateSelection = function (data, container) {
@@ -673,6 +675,18 @@ App.Fields = {
 			})
 
 			return selectElement;
+		},
+		/**
+		 * Prepend template with a flag
+		 * @param optionData
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		prependFlag(optionData) {
+			let template = $(`<span>${optionData.text}</span>`);
+			if (optionData.loading === undefined) {
+				template.prepend(`<span class="flag-icon flag-icon-${optionData.id.toLowerCase()} mr-2"></span>`)
+			}
+			return template;
 		},
 		/**
 		 * Sort elements (options) in select by data-sort-index
