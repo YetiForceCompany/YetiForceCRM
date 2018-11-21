@@ -52,9 +52,9 @@
 								</label>
 								<div class="col-md-6 controls">
 									<div class="input-group">
-										<input class="form-control" type="text" name="value"
+										<input class="form-control js-format-numer" type="text" name="value"
 											   placeholder="{\App\Language::translate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}"
-											   value="{$RECORD_MODEL->getValue()}"
+											   value="{$RECORD_MODEL->getValue()}" data-js="focusout"
 											   data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]'/>
 										<span class="input-group-append">
 											<span class="input-group-text">

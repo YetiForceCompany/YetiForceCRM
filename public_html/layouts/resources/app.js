@@ -1716,12 +1716,21 @@ var App = {},
 			}
 			Vtiger_Helper_Js.showPnotify(params);
 		},
+		/**
+		 * Register auto format number value
+		 */
+		registerFormatNumber() {
+			$(document).on('focusout', '.js-format-numer', (e) => {
+				$(e.currentTarget).formatNumber();
+			});
+		},
 	};
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.registerPopover();
 	app.registerPopoverEllipsis();
+	app.registerFormatNumber();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
