@@ -107,7 +107,7 @@ class WorkFlowScheduler
 							} else {
 								$delay = 0;
 							}
-							if ($task->executeImmediately === true) {
+							if ((bool) $task->executeImmediately === true) {
 								$task->doTask($recordModel);
 							} else {
 								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
