@@ -59,6 +59,9 @@
 		font-size: calculate-rem(16px) !important;
 		background: #e1f0fd;
 	}
+	.select2-results__option[aria-label=""] > .select2-results__group {
+		background: inherit;
+	}
 }
 
 .input-group > .select2-container--bootstrap {
