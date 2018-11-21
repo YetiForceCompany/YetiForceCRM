@@ -135,4 +135,7 @@ jobs:
     - cat ./cache/logs/webserviceErrors.log
     - php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
     - bash <(curl -s https://codecov.io/bash)
-    - sudo ls -all ../screenshots
+    - sudo ls -all tests/tmp
+    - sudo ls -all tests/tmp/artifacts
+    - sudo ls -all tests/tmp/artifacts/screenshots
+    - sudo ls -all tests/tmp/artifacts/pages

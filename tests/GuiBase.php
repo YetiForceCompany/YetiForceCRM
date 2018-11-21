@@ -46,6 +46,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
+		$this->takeScreenshot("{$this->getName()}_fail");
 		parent::onNotSuccessfulTest($t);
 	}
 
@@ -60,7 +61,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function tearDown()
 	{
-		$this->takeScreenshot();
 		$this->driver->close();
 		parent::tearDown();
 	}
@@ -112,7 +112,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	public function takeScreenshot($name = null)
 	{
 		if (empty($name)) {
-			$name = date("Ymd_His");
+			$name = $this->getName() . '_' . date("Ymd_His");
 		}
 		$dir = $this->artifactsDir . 'screenshots' . \DIRECTORY_SEPARATOR;
 		if (!is_dir($dir) && !mkdir($dir, 0777, true) && !\is_dir($dir)) {
@@ -151,7 +151,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function halt()
 	{
-		$this->takeScreenshot('halt');
+		$this->takeScreenshot("{$this->getName()}_halt");
 		$this->fail('Selenium test failed');
 	}
 }
