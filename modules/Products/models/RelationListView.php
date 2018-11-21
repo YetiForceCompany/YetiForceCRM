@@ -29,7 +29,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 			$parentId = $this->getParentRecordModel()->getId();
 			$parentModuleModel = $this->getParentRecordModel()->getModule();
 			$unitPricesList = $parentModuleModel->getPricesForProducts($recordModel->get('currency_id'), [$parentId => $parentId]);
-			$recordModel->set('unit_price', $unitPricesList[$parentId]);
+			$recordModel->set('unit_price', $unitPricesList[$parentId] ?? '');
 		}
 	}
 
