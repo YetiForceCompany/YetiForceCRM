@@ -47,7 +47,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
-		$this->takeScreenshot("{$this->getName()}_fail");
 		parent::onNotSuccessfulTest($t);
 	}
 
@@ -56,12 +55,15 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		parent::setUp();
 
 		$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
-
 		$this->login();
 	}
 
 	public function tearDown()
 	{
+		if ($this->hasFailed()) {
+			$this->takeScreenshot("{$this->getName()}_fail");
+			$this->saveSource($this->loadedPageSource, "{$this->getName()}_fail");
+		}
 		$this->driver->close();
 		parent::tearDown();
 	}
@@ -83,6 +85,11 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 				$this->log($error['msg'], 'page', $error['level']);
 			}
 		}
+	}
+
+	public function saveSource($source, $file = null)
+	{
+
 	}
 
 	public function validateConsole()
@@ -123,7 +130,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		try {
 			$this->driver->takeScreenshot("{$dir}{$name}.jpg");
 		} catch (\Exception $e) {
-			$this->fail('exception at selenium screenshot: ' . \var_export(\substr($e->getMessage(), 0, \strpos($e->getMessage(), "\n")), true));
+			$this->fail('exception at selenium screenshot: ' . $this->translateErrorMessage(\substr($e->getMessage(), 0, \strpos($e->getMessage(), "\n"))));
 		}
 	}
 
