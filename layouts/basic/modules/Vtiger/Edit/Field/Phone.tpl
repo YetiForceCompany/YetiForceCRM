@@ -26,7 +26,7 @@
 							<select name="{$FIELD_MODEL->getFieldName()}_country" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependFlag" required="required" data-dropdown-auto-width="true">
 								{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
 									{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
-									<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}">{$TRANSLATE}</option>
+									<option value="{$KEY}" data-code="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}">{$TRANSLATE}</option>
 								{/foreach}
 							</select>
 						</div>

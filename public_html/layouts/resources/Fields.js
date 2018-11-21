@@ -683,8 +683,8 @@ App.Fields = {
 		 */
 		prependFlag(optionData) {
 			let template = $(`<span>${optionData.text}</span>`);
-			if (optionData.loading === undefined) {
-				template.prepend(`<span class="flag-icon flag-icon-${optionData.id.toLowerCase()} mr-2"></span>`)
+			if (optionData.id !== undefined && optionData.id !== '') {
+				template.prepend(`<span class="flag-icon flag-icon-${optionData.element.dataset.code.toLowerCase()} mr-2"></span>`)
 			}
 			return template;
 		},

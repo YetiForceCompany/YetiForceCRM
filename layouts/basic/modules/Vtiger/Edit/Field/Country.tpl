@@ -7,7 +7,7 @@
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<div class="tpl-Edit-Field-Country">
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" data-template-result="prependFlag"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				{if $PLACE_HOLDER}data-select="allowClear"
 				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"{/if}
