@@ -144,6 +144,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function save()
 	{
 		$relatedRecord = $this->getRelatedRecord();
+		$relatedModule = false;
+		$relatedId = false;
 		if ($relatedRecord !== false) {
 			$relatedId = $relatedRecord['id'];
 			$relatedModule = $relatedRecord['module'];
