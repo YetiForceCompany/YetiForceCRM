@@ -1215,7 +1215,7 @@ insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`
 insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (13,'discountmode','LBL_DISCOUNT_MODE','DiscountMode',0,'0',11,0,0,NULL,1);
 insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (14,'taxmode','LBL_TAX_MODE','TaxMode',0,'0',12,0,0,NULL,1);
 insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (15,'currency','LBL_CURRENCY','Currency',0,'',13,0,0,NULL,1);
-insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (16,'unit','LBL_UNIT','Value',0,'',1,1,10,NULL,7);
+insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (16,'unit','LBL_UNIT','Unit',0,'',1,1,10,NULL,7);
 insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (17,'subunit','FL_SUBUNIT','Value',0,'',2,1,10,NULL,7);
 
 /*Data for the table `u_yf_ssingleorders_invmap` */
