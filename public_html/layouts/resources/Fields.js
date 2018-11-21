@@ -731,16 +731,28 @@ App.Fields = {
 				let thisInstance = $(event.currentTarget),
 					params = optionElement.data('url'),
 					iconActive = optionElement.data('iconActive'),
-					iconInactive = optionElement.data('iconInactive');
-				//AppConnector.request(params).done(function (data) {
-				if (optionElement.data('state') === 'active') {
-					thisInstance.toggleClass(iconActive + ' ' + iconInactive);
-					optionElement.data('state', 'inactive');
-				} else {
-					thisInstance.toggleClass(iconInactive + ' ' + iconActive);
-					optionElement.data('state', 'active');
-				}
-				//});
+					iconInactive = optionElement.data('iconInactive'),
+					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
+				AppConnector.request(params).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					let response = data.result;
+					if (response && response.result) {
+						if (optionElement.data('state') === 'active') {
+							thisInstance.toggleClass(iconActive + ' ' + iconInactive);
+							optionElement.data('state', 'inactive');
+						} else {
+							thisInstance.toggleClass(iconInactive + ' ' + iconActive);
+							optionElement.data('state', 'active');
+						}
+						if (response.message) {
+							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});
+						}
+					} else if (response && response.message) {
+						Vtiger_Helper_Js.showPnotify({text: response.message});
+					}
+				}).fail(function () {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
 				event.stopPropagation();
 			});
 		},

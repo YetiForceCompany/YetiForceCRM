@@ -641,20 +641,62 @@ class Owner
 	/**
 	 * Gets favorite owners.
 	 *
-	 * @param int $tabId
-	 * @param int $userId
+	 * @param string $ownerFieldType
 	 *
 	 * @return array
 	 */
-	public static function getFavorites(int $tabId, int $userId): array
+	public function getFavorites(string $ownerFieldType): array
 	{
-		$cacheName = "{$tabId}:{$userId}";
+		$userId = $this->currentUser->getId();
+		$tabId = \App\Module::getModuleId($this->moduleName);
+		$cacheName = "{$tabId}:{$userId}:{$ownerFieldType}";
 		if (!\App\Cache::has('getFavoriteOwners', $cacheName)) {
+			$tableName = $ownerFieldType === 'sharedOwner' ? 'u_#__favorite_shared_owners' : 'u_#__favorite_owners';
 			\App\Cache::save('getFavoriteOwners', $cacheName, (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])
-				->from('u_#__favorite_owners')
+				->from($tableName)
 				->where(['tabid' => $tabId, 'userid' => $userId])->createCommand()->queryAllByGroup());
 		}
 		return \App\Cache::get('getFavoriteOwners', $cacheName);
+	}
+
+	/**
+	 * Change favorite owner state.
+	 *
+	 * @param string $ownerFieldType
+	 * @param int    $ownerId
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
+	public function changeFavorites(string $ownerFieldType, int $ownerId): bool
+	{
+		$userId = $this->currentUser->getId();
+		$tabId = \App\Module::getModuleId($this->moduleName);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+
+		switch (\App\Fields\Owner::getType($ownerId)) {
+			case 'Users':
+				$ownerList = $this->getAccessibleUsers('', $ownerFieldType);
+				break;
+			case 'Groups':
+				$ownerList = $this->getAccessibleGroups('', $ownerFieldType);
+				break;
+			default:
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if (!isset($ownerList[$ownerId])) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		$tableName = $ownerFieldType === 'sharedOwner' ? 'u_#__favorite_shared_owners' : 'u_#__favorite_owners';
+		if (isset($this->getFavorites($ownerFieldType)[$ownerId])) {
+			$result = $dbCommand->delete($tableName, ['tabid' => $tabId, 'userid' => $userId, 'ownerid' => $ownerId])->execute();
+		} else {
+			$result = $dbCommand->insert($tableName, ['tabid' => $tabId, 'userid' => $userId, 'ownerid' => $ownerId])->execute();
+		}
+		\App\Cache::delete('getFavoriteOwners', "{$tabId}:{$userId}:{$ownerFieldType}");
+		return (bool) $result;
 	}
 
 	/**
