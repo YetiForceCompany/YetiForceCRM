@@ -56,6 +56,7 @@ class TableTaxSTwoLang extends Base
 				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 			}
 			if (in_array('tax', $columns) && in_array('taxmode', $columns)) {
+				$taxAmount = 0;
 				$html .= '
 
 						<table class="productTable colapseBorder">
@@ -68,7 +69,7 @@ class TableTaxSTwoLang extends Base
 							</thead>
 							<tbody>';
 				foreach ($taxes as $key => &$tax) {
-					$tax_AMOUNT += $tax;
+					$taxAmount += $tax;
 					$html .= '<tr>
 								<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
 								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
@@ -76,7 +77,7 @@ class TableTaxSTwoLang extends Base
 				}
 				$html .= '<tr>
 							<td class="textAlignRight tBorder" width="80px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '/ ' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName, 'en_us') . '</td>
-							<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+							<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 						 </tr>
 						</tbody>
 					</table>
