@@ -65,7 +65,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			$this->saveSource($this->loadedPageSource, "{$this->getName()}_fail");
 		}
 		$this->driver->close();
-		//static::$isLogin = false;
+		static::$isLogin = false;
 		parent::tearDown();
 	}
 
@@ -74,7 +74,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		$this->currentUrl = \AppConfig::main('site_URL') . $url;
 		$this->driver->get($this->currentUrl);
 		$this->loadedPageSource = $this->driver->getPageSource();
-
 		$this->validateSource($this->loadedPageSource);
 		$this->validateConsole();
 	}
@@ -90,7 +89,19 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	public function saveSource($source, $file = null)
 	{
-
+		if (!$file) {
+			$file = $this->getName() . '_' . date("Ymd_His");
+		}
+		$dir = $this->artifactsDir . 'pages' . \DIRECTORY_SEPARATOR;
+		if (!is_dir($dir) && !mkdir($dir, 0777, true) && !\is_dir($dir)) {
+			$this->log('Artifacts "pages" dir creation error in class:' . __CLASS__, 'selenium', 'warning');
+			return;
+		}
+		try {
+			\file_put_contents("{$dir}{$file}.html", $source);
+		} catch (\Exception $exception) {
+			$this->log("Page source save error > {$dir}{$file}.html", 'page', 'error');
+		}
 	}
 
 	public function validateConsole()
@@ -125,7 +136,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		}
 		$dir = $this->artifactsDir . 'screenshots' . \DIRECTORY_SEPARATOR;
 		if (!is_dir($dir) && !mkdir($dir, 0777, true) && !\is_dir($dir)) {
-			$this->log('Artifacts dir creation error in class:' . __CLASS__, 'selenium', 'warning');
+			$this->log('Artifacts "screenshots" dir creation error in class:' . __CLASS__, 'selenium', 'warning');
 			return;
 		}
 		try {
