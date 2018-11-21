@@ -1078,7 +1078,6 @@ jQuery.Class("Vtiger_List_Js", {
 			params.totalCount = -1;
 			params.view = 'Pagination';
 			params.mode = 'getPagination';
-			params.mode22 = 'getPagination22';
 			AppConnector.request(params).done(function (data) {
 				container.html(data);
 				self.registerPageNavigationEvents();
@@ -1634,6 +1633,7 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	/**
 	 * Update pagination row
+	 * @param {Array} urlParams
 	 */
 	massUpdatePagination(urlParams = []) {
 		const self = this,
