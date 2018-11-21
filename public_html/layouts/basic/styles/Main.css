@@ -13458,9 +13458,6 @@ header .c-header__btn__container .select2-selection {
   padding: 6px !important;
   border-radius: 0.25rem; }
 
-.select2-search__field, .select2-search.select2-search--inline {
-  width: 100% !important; }
-
 .customFilterMainSpan {
   width: 100%;
   cursor: pointer; }
@@ -13498,6 +13495,13 @@ header .c-header__btn__container .select2-selection {
 .jstree-proton {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important; }
 
+.vakata-context.jstree-contextmenu.jstree-default-contextmenu li > a {
+  display: flex;
+  align-items: center;
+  height: 1.375rem;
+  overflow: hidden;
+  padding-left: 1em; }
+
 .leftPanel .ps-scrollbar-y-rail {
   display: none !important; }
 
@@ -13533,7 +13537,7 @@ header .c-header__btn__container .select2-selection {
 
 .listViewPageDiv select.select2,
 .listViewPageDiv .select2noactive {
-  height: 0 !important; }
+  height: 2.375rem !important; }
 
 .js-fixed-thead {
   table-layout: unset !important; }
@@ -13542,6 +13546,9 @@ header .c-header__btn__container .select2-selection {
 
 .floatThead-wrapper {
   overflow: hidden; }
+
+.floatThead-container {
+  overflow: hidden !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
@@ -13590,6 +13597,9 @@ label.btn.btn-outline-primary:not(.active) {
     border-radius: 0 0 0.25rem 0.25rem !important; } }
 .border.btn, .btn.select2-selection {
   border-color: #ced4da !important; }
+
+.input-group.input-group-sm {
+  min-width: 4.0625rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
