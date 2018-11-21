@@ -51,11 +51,12 @@ class TableTaxSummary extends Base
 			'.productTable .summaryContainer{background:#ddd;}' .
 			'</style>';
 		if (count($fields[0]) != 0) {
-			$taxes = 0;
-			foreach ($inventoryRows as $key => &$inventoryRow) {
-				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
+			$taxes = [];
+			foreach ($inventoryRows as $key => $inventoryRow) {
+				$taxes = \Vtiger_InventoryField_Model::getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 			}
 			if (in_array('tax', $columns) && in_array('taxmode', $columns)) {
+				$taxAmount = 0;
 				$html .= '
 						<table class="productTable colapseBorder">
 							<thead>
@@ -67,7 +68,7 @@ class TableTaxSummary extends Base
 							</thead>
 							<tbody>';
 				foreach ($taxes as $key => &$tax) {
-					$tax_AMOUNT += $tax;
+					$taxAmount += $tax;
 					$html .= '<tr>
 										<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
 										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
@@ -75,7 +76,7 @@ class TableTaxSummary extends Base
 				}
 				$html .= '<tr>
 									<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>
