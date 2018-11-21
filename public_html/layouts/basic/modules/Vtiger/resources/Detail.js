@@ -2296,6 +2296,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEmailEvents(detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
 		thisInstance.registerSocialMediaEvents(detailContentsHolder);
+		thisInstance.registerSubProducts(detailContentsHolder);
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);
@@ -2668,7 +2669,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			// Not detail view page
 			return;
 		}
-		this.registerSubProducts(detailViewContainer);
+
 		this.registerSetReadRecord(detailViewContainer);
 		this.registerEventForPicklistDependencySetup(this.getForm());
 		this.getForm().validationEngine(app.validationEngineOptionsForRecord);

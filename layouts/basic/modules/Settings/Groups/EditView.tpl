@@ -41,6 +41,14 @@
 					<span class="redColor">*</span>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-lg-6 controls">
+					<div class="col-12 text-right mb-2 pr-0">
+						<button class="btn btn-success mr-1 btn-sm js-modules-select-all" data-js="click" type="button">
+							<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SELECT_ALL', $QUALIFIED_MODULE)}
+						</button>
+						<button class="btn btn-danger btn-sm js-modules-deselect-all" data-js="click" type="button">
+							<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_DESELECT_ALL', $QUALIFIED_MODULE)}
+						</button>
+					</div>
 					<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]"
 							data-validation-engine="validate[required]">
 						{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}

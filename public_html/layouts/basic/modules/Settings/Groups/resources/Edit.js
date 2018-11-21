@@ -90,12 +90,21 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 		});
 		return aDeferred.promise();
 	},
-
+	/**
+	 * Register events for section "modules"
+	 */
+	registerButtonsModule: function(){
+		const editViewForm = this.getForm();
+		editViewForm.find('.js-modules-select-all, .js-modules-deselect-all').on('click', function(e){
+			$('#modulesList option').prop('selected', $(this).hasClass('js-modules-select-all')).parent().trigger('change');
+		});
+	},
 	/**
 	 * Function which will handle the registrations for the elements
 	 */
 	registerEvents: function () {
 		this._super();
 		this.registerSubmitEvent();
+		this.registerButtonsModule()
 	}
 });

@@ -116,7 +116,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (empty($moduleName)) {
 				if ($this->hasLogin()) {
 					$defaultModule = AppConfig::main('default_module');
-					if (!empty($defaultModule) && $defaultModule !== 'Home') {
+					if (!empty($defaultModule) && $defaultModule !== 'Home' && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
