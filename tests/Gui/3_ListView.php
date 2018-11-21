@@ -19,7 +19,6 @@ class Gui_ListView extends \Tests\GuiBase
 	{
 		foreach (vtlib\Functions::getAllModules() as $module) {
 			$this->url("index.php?module={$module['name']}&view=List");
-			$this->logs = $module['name'];
 			$this->assertSame($module['name'], $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
 			$this->assertSame('List', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
 		}

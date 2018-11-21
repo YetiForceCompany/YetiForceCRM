@@ -65,7 +65,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			$this->saveSource($this->loadedPageSource, "{$this->getName()}_fail");
 		}
 		$this->driver->close();
-		static::$isLogin = false;
+		//static::$isLogin = false;
 		parent::tearDown();
 	}
 
@@ -140,8 +140,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		$msg = $this->translateErrorMessage($msg);
 		$this->logs[] = ['url' => $this->currentUrl, 'source' => $source, 'level' => $level, 'message' => $msg, 'pageSource' => $this->loadedPageSource];
 		if ($level === 'warning' || $level === 'error') {
-			echo $this->loadedPageSource;
-			$this->halt();
+			$this->fail($msg);
 		}
 	}
 
@@ -157,16 +156,27 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	{
 		if (!static::$isLogin) {
 			$this->url('index.php');
-			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
+			$this->findElBy('id', 'username')->sendKeys('demo');
 			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 			static::$isLogin = true;
 		}
 	}
 
-	public function halt()
+	public function findElBy($method, $condition)
 	{
-		$this->takeScreenshot("{$this->getName()}_halt");
-		$this->fail('Selenium test failed');
+		try {
+			return $this->driver->findElement(\call_user_func_array('\Facebook\WebDriver\WebDriverBy::' . $method, [$condition]));
+		} catch (\Exception $exception) {
+			$this->log($this->parseFindElByError($exception->getMessage(), $method, $condition), 'selenium', 'error');
+		}
+	}
+
+	protected function parseFindElByError($msg, $method, $condition)
+	{
+		if (\strpos($msg, 'no such element: Unable to locate element: {"method":"') !== false) {
+			$msg = "Element not found with params method: {$method}, condition: {$condition}";
+		}
+		return $msg;
 	}
 }
