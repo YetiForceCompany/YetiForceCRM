@@ -147,7 +147,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	getSplitSizes: function () {
 		const cachedParams = app.moduleCacheGet('userSplitSet');
-		if (cachedParams !== null) {
+		if (cachedParams !== undefined) {
 			return cachedParams;
 		} else {
 			return this.getDefaultSplitSizes();
