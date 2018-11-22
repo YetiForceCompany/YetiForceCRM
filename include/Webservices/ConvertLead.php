@@ -163,7 +163,7 @@ class WebservicesConvertLead
 			$count = 1;
 			foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 				$defaultvalue = $field->getDefaultFieldValue();
-				if ($defaultvalue && !$field->getUIType() === 56 && empty($entity[$fieldname])) {
+				if ($defaultvalue && $field->getUIType() !== 56 && empty($entity[$fieldname])) {
 					$entity[$fieldname] = $defaultvalue;
 				}
 			}
