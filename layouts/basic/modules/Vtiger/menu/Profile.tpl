@@ -5,7 +5,7 @@
 		<li class="tpl-menu-Profile c-menu__item js-menu__item nav-item menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}"
 			data-js="mouseenter mouseleave">
 			<a class="nav-link collapsed{if $ICON} hasIcon{/if} js-submenu-toggler is-submenu-toggler"
-			data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" href="#" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}">
+			   data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" href="#" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}">
 				{$ICON}
 				<span class="c-menu__item__text js-menu__item__text" title="{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}" data-js="class: u-white-space-n">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 				<span class="toggler" aria-hidden="true"><span class="fas fa-plus-circle"></span><span class="fas fa-minus-circle"></span></span>
@@ -14,7 +14,7 @@
 				<ul class="nav flex-column">
 					<li class="menuPanel nav-item">
 						<button name="changePass" data-url="index.php?module=Users&view=PasswordModal&mode=change&record={$USER_MODEL->getRealId()}"
-								class=" btn btn-block btn-light showModal" type="button">
+								class=" btn btn-block btn-light showModal" type="button" title="{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}">
 							{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}
 						</button>
 					</li>
