@@ -982,7 +982,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var saveHandler = function (e) {
 				thisInstance.registerNameAjaxEditEvent();
 				var element = jQuery(e.target);
-				if ((element.closest('.fieldValue').is(currentTdElement))) {
+				if (element.closest('.fieldValue').is(currentTdElement) || element.hasClass('select2-selection__choice__remove')) {
 					return;
 				}
 				currentTdElement.removeAttr('tabindex');
