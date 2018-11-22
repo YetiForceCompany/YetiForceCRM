@@ -876,6 +876,24 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 	},
+	paginationGoToPage(page) {
+		const self = this,
+			listViewPageDiv = self.getListViewContainer();
+		let aDeferred = $.Deferred(),
+			urlParams = {
+				orderby: listViewPageDiv.find('#orderBy').val(),
+				sortorder: listViewPageDiv.find('#sortOrder').val(),
+				viewname: self.getCurrentCvId()
+			},
+			pageNumber = listViewPageDiv.find('#pageNumber');
+		pageNumber.val(page);
+		listViewPageDiv.find('.js-page-jump').val(page);
+		self.getListViewRecords(urlParams).done(function (data) {
+			aDeferred.resolve();
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
+	},
 	/**
 	 * Function to register List view Page Navigation
 	 */
@@ -906,28 +924,14 @@ jQuery.Class("Vtiger_List_Js", {
 	jumpToNextPage(e) {
 		const self = this,
 			listViewPageDiv = this.getListViewContainer();
-		let aDeferred = $.Deferred(),
-			element = $(e.currentTarget),
+		let element = $(e.currentTarget),
 			pageNumber = listViewPageDiv.find('#pageNumber');
-		if (listViewPageDiv.find(element).hasClass('disabled')) {
+		if (element.hasClass('disabled')) {
 			return;
 		}
 		if (listViewPageDiv.find('#noOfEntries').val() === listViewPageDiv.find('#pageLimit').val()) {
-			let urlParams = {
-					orderby: listViewPageDiv.find('#orderBy').val(),
-					sortorder: listViewPageDiv.find("#sortOrder").val(),
-					viewname: self.getCurrentCvId()
-				},
-				nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
-			pageNumber.val(nextPageNumber);
-			listViewPageDiv.find('.js-page-jump').val(nextPageNumber);
-			self.getListViewRecords(urlParams).done(function (data) {
-				aDeferred.resolve();
-			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
+			self.paginationGoToPage(parseInt(pageNumber.val()) + 1);
 		}
-		return aDeferred.promise();
 	},
 	/**
 	 * Jump to previous page
@@ -935,22 +939,9 @@ jQuery.Class("Vtiger_List_Js", {
 	jumpToPreviousPage() {
 		const self = this,
 			listViewPageDiv = this.getListViewContainer();
-		let aDeferred = $.Deferred(),
-			pageNumber = listViewPageDiv.find('#pageNumber');
+		let pageNumber = listViewPageDiv.find('#pageNumber');
 		if (pageNumber.val() > 1) {
-			let urlParams = {
-					orderby: listViewPageDiv.find('#orderBy').val(),
-					sortorder: listViewPageDiv.find('#sortOrder').val(),
-					viewname: self.getCurrentCvId()
-				},
-				previousPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
-			pageNumber.val(previousPageNumber);
-			listViewPageDiv.find('.js-page-jump').val(previousPageNumber);
-			self.getListViewRecords(urlParams).done(function (data) {
-				aDeferred.resolve();
-			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
+			self.paginationGoToPage(parseInt(pageNumber.val()) - 1);
 		}
 	},
 	/**
@@ -961,19 +952,8 @@ jQuery.Class("Vtiger_List_Js", {
 		if (element.hasClass('disabled')) {
 			return false;
 		}
-		const self = this,
-			listViewPageDiv = this.getListViewContainer();
-		let pageNumberData = element.data("id"),
-			urlParams = {
-				orderby: listViewPageDiv.find('#orderBy').val(),
-				sortorder: listViewPageDiv.find("#sortOrder").val(),
-				viewname: self.getCurrentCvId(),
-				page: pageNumberData
-			},
-			previousPageNumber = parseInt(parseFloat(pageNumberData)) - 1;
-		listViewPageDiv.find('#pageNumber').val(previousPageNumber);
-		listViewPageDiv.find('.js-page-jump').val(previousPageNumber);
-		self.getListViewRecords(urlParams);
+		const self = this;
+		self.paginationGoToPage(element.data("id"));
 	},
 	/**
 	 * Jump to page function
