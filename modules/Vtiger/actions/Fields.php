@@ -52,6 +52,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('findAddress');
 		$this->exposeMethod('verifyIsHolidayDate');
+		$this->exposeMethod('changeFavoriteOwner');
 	}
 
 	/**
@@ -239,5 +240,29 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		} else {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
+	}
+
+	/**
+	 * Change favorite owner state.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \yii\db\Exception
+	 */
+	public function changeFavoriteOwner(\App\Request $request)
+	{
+		if (!AppConfig::module('Users', 'FAVORITE_OWNERS') || (\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$moduleName = $request->getModule();
+		$ownerField = \App\Fields\Owner::getInstance($moduleName);
+		$result = $ownerField->changeFavorites($this->fieldModel->getFieldDataType(), $request->getInteger('owner'));
+		$message = $result ? 'LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD' : 'LBL_MODIFICATION_FAILURE';
+		$message = \App\Language::translate($this->fieldModel->getFieldLabel(), $moduleName) . ': ' . \App\Language::translate($message, $moduleName);
+		$response = new Vtiger_Response();
+		$response->setResult(['result' => $result, 'message' => $message]);
+		$response->emit();
 	}
 }

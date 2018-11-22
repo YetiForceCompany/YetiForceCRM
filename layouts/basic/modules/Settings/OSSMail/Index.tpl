@@ -49,7 +49,7 @@
 								</div>
 							{else if $FIELD_DETAILS['fieldType'] === 'multipicklist'}
 								<div class="row col-md-12">
-									<select class="form-control" name="{$FIELD_NAME}" multiple
+									<select class="form-control" name="{$FIELD_NAME}" multiple="multiple"
 											{if $FIELD_DETAILS['required'] === 1}data-validation-engine="validate[required]"{/if}>
 										{foreach item=ITEM key=KEY from=$RECORD_MODEL->get($FIELD_NAME)}
 											<option value="{$KEY}" selected>{$KEY}</option>
