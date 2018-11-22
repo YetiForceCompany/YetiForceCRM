@@ -562,6 +562,8 @@ App.Fields = {
 					}
 					return data.text;
 				};
+			} else if (typeof this[params.templateSelection] === 'function') {
+				params.templateSelection = this[params.templateSelection];
 			}
 			if (selectElement.data('ajaxSearch') === 1) {
 				params.tags = false;
@@ -681,10 +683,10 @@ App.Fields = {
 		 * @param optionData
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
-		prependFlag(optionData) {
-			let template = $(`<span>${optionData.text}</span>`);
+		prependDataTemplate(optionData) {
+			let template = optionData.text;
 			if (optionData.id !== undefined && optionData.id !== '') {
-				template.prepend(`<span class="flag-icon flag-icon-${optionData.element.dataset.code.toLowerCase()} mr-2"></span>`)
+				template = $(optionData.element.dataset.template);
 			}
 			return template;
 		},
