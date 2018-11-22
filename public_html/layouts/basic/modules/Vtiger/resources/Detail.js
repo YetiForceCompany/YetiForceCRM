@@ -986,6 +986,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					return;
 				}
 				currentTdElement.removeAttr('tabindex');
+				currentTdElement.removeClass('is-edit-active');
 				var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
 				var formData = formElement.serializeFormData();
@@ -2318,10 +2319,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var nextPageUrl = url + '&page=' + requestedPage;
 			thisInstance.loadContents(nextPageUrl);
 		});
-		detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue', function (e) {
+		detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function (e) {
 			if (jQuery(e.target).closest('a').hasClass('btnNoFastEdit'))
 				return;
 			var currentTdElement = jQuery(e.currentTarget);
+			currentTdElement.addClass('is-edit-active');
 			thisInstance.ajaxEditHandling(currentTdElement);
 		});
 		detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
