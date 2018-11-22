@@ -299,10 +299,8 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 					->limit(1);
 			$num = (float) ($query->count());
 			// no exchange rate in archive, fetch new rates
-			if ($num == 0) {
-				if (\App\RequestUtil::isNetConnection()) {
-					self::fetchCurrencyRates($date);
-				}
+			if ($num == 0 && \App\RequestUtil::isNetConnection()) {
+				self::fetchCurrencyRates($date);
 			}
 			$query = new App\Db\Query();
 			$query->select('yetiforce_currencyupdate.exchange')
