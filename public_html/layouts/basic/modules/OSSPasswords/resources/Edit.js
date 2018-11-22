@@ -52,7 +52,11 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 					e.stopPropagation();
 				} else if (data.result.success === true && (thisInstance.sending === undefined || !thisInstance.sending)) {
 					thisInstance.sending = true;
+				} else if (thisInstance.sending) {
+					e.preventDefault();
+					e.stopPropagation();
 				}
+
 			});
 		});
 	},
