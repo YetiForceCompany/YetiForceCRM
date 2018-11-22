@@ -1116,6 +1116,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
 						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
+						editElement.off('clickoutside');
 					}).fail(function (error) {
 						editElement.addClass('d-none');
 						detailViewValue.removeClass('d-none');
