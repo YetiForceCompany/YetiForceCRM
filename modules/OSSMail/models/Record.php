@@ -26,8 +26,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		if ($onlyMy) {
 			$userModel = \App\User::getCurrentUserModel();
-			$crmUsers  = $userModel->getGroups();
-			$crmUsers []= $userModel->getId();
+			$crmUsers = $userModel->getGroups();
+			$crmUsers[] = $userModel->getId();
 			$query->andWhere(['crm_user_id' => $crmUsers]);
 		}
 		if ($password) {
@@ -148,7 +148,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
 		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
-		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
+		$mbox = \App\RequestUtil::isNetConnection() ? imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params) : false;
 		if (!$mbox) {
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(): ' . imap_last_error());
 			if ($dieOnError) {

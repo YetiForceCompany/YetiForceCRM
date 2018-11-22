@@ -14,6 +14,11 @@
 				<strong>{\App\Language::translate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {\App\Language::translate('MSG_ONE_CURRENCY', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
+		{if !\App\RequestUtil::isNetConnection()}
+			<div class="alert alert-danger" style="margin:10px 15px;">
+				<strong>{\App\Language::translate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {\App\Language::translate('MSG_NO_NET_CONN', $QUALIFIED_MODULE)}
+			</div>
+		{/if}
 		<form class="form-horizontal" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings">
 			<table class="table table-bordered currencyTable">
 				<tr>
@@ -34,8 +39,14 @@
 							</div>
 							<div class="col-md-7 btn-toolbar justify-content-end">
 								{*<button class="btn btn-success float-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
-								<button class="btn btn-info" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
-								<button class="btn btn-danger ml-1 {if count($UNSUPPORTED_CURRENCIES) eq 0}d-none{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
+								<button class="btn btn-info  {if count($SUPPORTED_CURRENCIES) eq 0}d-none{/if}"
+										id="supportedCurrencies"
+										title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}"
+										type="button"><span class="fas fa-info-circle"></span></button>
+								<button class="btn btn-danger ml-1 {if count($UNSUPPORTED_CURRENCIES) eq 0}d-none{/if}"
+										id="unsupportedCurrencies"
+										title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}"
+										type="button"><span class="fas fa-exclamation-triangle"></span></button>
 							</div>
 						</div>
 					</td>
