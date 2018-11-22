@@ -148,7 +148,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
 		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
-		$mbox = \App\RequestUtil::isNetConnection() ? imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params) : false;
+		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
 		if (!$mbox) {
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(): ' . imap_last_error());
 			if ($dieOnError) {
