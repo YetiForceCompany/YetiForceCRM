@@ -1621,10 +1621,20 @@ CREATE TABLE `u_yf_favorite_owners` (
   `ownerid` int(10) NOT NULL,
   KEY `u_yf_favorite_owners_tabid_idx` (`tabid`),
   KEY `u_yf_favorite_owners_userid_idx` (`userid`),
-  KEY `u_yf_favorite_owners_ownerid_fk` (`ownerid`),
-  CONSTRAINT `u_yf_favorite_owners_ownerid_fk` FOREIGN KEY (`ownerid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `u_yf_favorite_owners_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
   CONSTRAINT `u_yf_favorite_owners_userid_fk` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_favorite_shared_owners` */
+
+CREATE TABLE `u_yf_favorite_shared_owners` (
+  `tabid` smallint(5) NOT NULL,
+  `userid` int(10) NOT NULL,
+  `ownerid` int(10) NOT NULL,
+  KEY `u_yf_favorite_shared_owners_tabid_idx` (`tabid`),
+  KEY `u_yf_favorite_shared_owners_userid_idx` (`userid`),
+  CONSTRAINT `u_yf_favorite_shared_owners_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_favorite_shared_owners_userid_fk` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_favorites` */
