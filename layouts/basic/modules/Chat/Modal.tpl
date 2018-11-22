@@ -38,6 +38,12 @@
 		<div class="row p-0">
 			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
 				<div class="w-100 text-right p-2 o-chat__icon-container">
+					<a class="ml-auto mr-1 js-btn-enter" data-icon-on="fa-keyboard" data-icon-off="fa-ban"
+					   data-js="click" href="#">
+						<span class="js-icon fas {if $SEND_BY_ENTER}fa-keyboard{else}fa-ban{/if}"
+							  title="{\App\Language::translate('LBL_ENTER', $MODULE_NAME)}" data-js="replace">
+						</span>
+					</a>
 					<a class="ml-auto mr-1 js-btn-unread" data-js="click" href="#">
 						<span class="fas fa-comments"
 							  title="{\App\Language::translate('LBL_UNREAD', $MODULE_NAME)}">
@@ -51,7 +57,7 @@
 					<a class="js-btn-desktop-notification mr-1" data-icon-on="fa-bell"
 					   data-icon-off="fa-bell-slash" data-js="click" href="#">
 						<span class="js-icon fas {if $IS_DESKTOP_NOTIFICATION}fa-bell{else}fa-bell-slash{/if}"
-							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}">
+							  title="{\App\Language::translate('LBL_NOTIFICATION', $MODULE_NAME)}" data-js="replace">
 						</span>
 					</a>
 					<a class="js-btn-bell mr-1" data-icon-on="fa-volume-up"
