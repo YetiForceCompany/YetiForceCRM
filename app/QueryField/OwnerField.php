@@ -67,7 +67,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorOgr(): array
 	{
-		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false);
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
 		return [$this->getColumnName() => \array_keys($groups)];
 	}
 

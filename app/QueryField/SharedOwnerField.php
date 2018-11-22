@@ -81,7 +81,7 @@ class SharedOwnerField extends BaseField
 		$focus = $this->queryGenerator->getEntityModel();
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners',
 			"{$focus->table_name}.{$focus->table_index} = u_#__crmentity_showners.crmid"]);
-		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false);
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
 		return ['u_#__crmentity_showners.userid' => \array_keys($groups)];
 	}
 
