@@ -429,11 +429,16 @@ class File
 	 */
 	private function validateCodeInjection()
 	{
-		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
+		$shortMimeType = $this->getShortMimeType(0);
+		if ($this->validateAllCodeInjection || in_array($shortMimeType, self::$phpInjection)) {
 			// Check for php code injection
 			$contents = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/si', $contents) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 || stripos($contents, '<?=') !== false || stripos($contents, '<%=') !== false || stripos($contents, '<? ') !== false || stripos($contents, '<% ') !== false) {
+			if ($shortMimeType !== 'image' && $this->containForbidden()) {
 				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
+			} elseif ($shortMimeType === 'image') {
+				if (@imagecreatefromstring($contents) === false) {
+					throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
+				}
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
 				$imageSize = getimagesize($this->path, $imageInfo);
@@ -445,6 +450,23 @@ class File
 				throw new \App\Exceptions\AppException('ERR_FILE_XPACKET_CODE_INJECTION');
 			}
 		}
+	}
+
+	/**
+	 * Does it contain forbidden tags.
+	 *
+	 * @param string $contents
+	 *
+	 * @return bool
+	 */
+	private function containForbidden(string $contents): bool
+	{
+		return preg_match('/(<\?php?(.*?))/si', $contents) === 1 ||
+			preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 ||
+			stripos($contents, '<?=') !== false ||
+			stripos($contents, '<%=') !== false ||
+			stripos($contents, '<? ') !== false ||
+			stripos($contents, '<% ') !== false;
 	}
 
 	/**
