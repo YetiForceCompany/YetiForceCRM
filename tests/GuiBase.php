@@ -22,7 +22,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 */
 	public $logs = [];
 	public $driver;
-	protected static $isLogin = false;
 	public $currentUrl;
 	public $loadedPageSource;
 	public $sourceErrorString = 'YF_ERROR';
@@ -65,15 +64,18 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			$this->saveSource($this->loadedPageSource, "{$this->getName()}_fail");
 		}
 		$this->driver->close();
-		static::$isLogin = false;
 		parent::tearDown();
 	}
 
-	public function url($url)
+	public function url($url, $autoLogin = true)
 	{
 		$this->currentUrl = \AppConfig::main('site_URL') . $url;
 		$this->driver->get($this->currentUrl);
 		$this->loadedPageSource = $this->driver->getPageSource();
+		if ($this->detectLoginPage() && $autoLogin) {
+			$this->login();
+			return $this->url($url, false);
+		}
 		$this->validateSource($this->loadedPageSource);
 		$this->validateConsole();
 	}
@@ -108,9 +110,10 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	{
 		$logs = $this->driver->manage()->getLog('browser');
 		foreach ($logs as $log) {
-			if (!$this->ignoredBrowserError($log['message'])) {
-				$this->log($log['message'], 'browser', \strtolower($log['level']));
+			if ($this->ignoredBrowserError($log['message'])) {
+				$log['level'] = 'info';
 			}
+			$this->log($log['message'], 'browser', \strtolower($log['level']));
 		}
 	}
 
@@ -160,17 +163,32 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		return $this->errorMsgTranslations[$msg] ?? $msg;
 	}
 
+	protected function detectLoginPage(): bool
+	{
+		$return = false;
+		try {
+			if ($this->driver->findElement(WebDriverBy::id('login-area'))->getAttribute('id') ? true : false) {
+				$this->log('Login page detected');
+				$return = true;
+			}
+			return $return;
+		} catch (\Exception $exception) {
+			return false;
+		}
+	}
+
 	/**
 	 * Testing login page display.
 	 */
 	public function login()
 	{
-		if (!static::$isLogin) {
-			$this->url('index.php');
+		$this->url('index.php', false);
+		if ($this->detectLoginPage()) {
 			$this->findElBy('id', 'username')->sendKeys('demo');
 			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
-			static::$isLogin = true;
+		} else {
+			$this->log('Login page not detected');
 		}
 	}
 
