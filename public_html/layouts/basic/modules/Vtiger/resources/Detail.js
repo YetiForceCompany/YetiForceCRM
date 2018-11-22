@@ -1056,6 +1056,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).done(function (response) {
+						editElement.off('clickoutside');
 						readRecord.prop('disabled', false);
 						currentTdElement.progressIndicator({'mode': 'hide'});
 						detailViewValue.removeClass('d-none');
@@ -1093,6 +1094,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							}
 						}
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
+						ajaxEditNewValue = ajaxEditNewValue === undefined ? '' : ajaxEditNewValue; //data cannot be undefined
 						elementTarget.data('prevValue', ajaxEditNewValue);
 						fieldElement.data('selectedValue', ajaxEditNewValue);
 						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
@@ -1116,7 +1118,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 						}
 						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
-						editElement.off('clickoutside');
 					}).fail(function (error) {
 						editElement.addClass('d-none');
 						detailViewValue.removeClass('d-none');
