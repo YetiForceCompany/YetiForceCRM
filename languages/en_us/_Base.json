@@ -896,6 +896,7 @@
     "LBL_AVERAGE_WORKING_TIME": "Average working time",
     "Employees Time Control": "Employees Time Control",
     "LBL_CURRENTLY_LOGGED_USER": "Currently logged in user",
+    "LBL_CURRENTLY_LOGGED_USER": "Group of logged-in user",
     "LBL_IS_WATCHING_RECORD": "Tracked record",
     "LBL_IS_NOT_WATCHING_RECORD": "Not tracked record",
     "LBL_TO_REALIZE": "For processing",

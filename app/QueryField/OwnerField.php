@@ -61,6 +61,17 @@ class OwnerField extends BaseField
 	}
 
 	/**
+	 * Currently logged-in user groups.
+	 *
+	 * @return array
+	 */
+	public function operatorOgr(): array
+	{
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false);
+		return [$this->getColumnName() => \array_keys($groups)];
+	}
+
+	/**
 	 * Watched record.
 	 *
 	 * @return array

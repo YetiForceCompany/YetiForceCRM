@@ -26,7 +26,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to set the Id.
 	 *
-	 * @param <Number> Group Id
+	 * @param  <Number> Group Id
 	 *
 	 * @return <Settings_Groups_Reord_Model> instance
 	 */
@@ -133,7 +133,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db = App\Db::getInstance();
 		$groupId = $this->getId();
 		$mode = 'edit';
-		$oldUsersList = $this->getUsersList(true);
+		$oldUsersList = $this->getUsersList();
 
 		if (empty($groupId)) {
 			$mode = '';
@@ -145,7 +145,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->update('vtiger_groups', [
 				'groupname' => $this->getName(),
 				'description' => $this->getDescription(),
-				], ['groupid' => $groupId])->execute();
+			], ['groupid' => $groupId])->execute();
 		} else {
 			$db->createCommand()->insert('vtiger_groups', [
 				'groupid' => $groupId,
@@ -226,7 +226,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		$this->members = null;
-		foreach ($this->getUsersList(true) as $userId => $userRecordModel) {
+		foreach ($this->getUsersList() as $userId => $userRecordModel) {
 			$userIdsList[$userId] = $userId;
 		}
 
