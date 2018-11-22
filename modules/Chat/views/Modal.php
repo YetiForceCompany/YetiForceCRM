@@ -47,6 +47,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$viewer->assign('IS_MODAL_VIEW', true);
 		$viewer->assign('IS_SOUND_NOTIFICATION', $this->isSoundNotification());
 		$viewer->assign('IS_DESKTOP_NOTIFICATION', $this->isDesktopNotification());
+		$viewer->assign('SEND_BY_ENTER', $this->sendByEnter());
 		$viewer->view('Modal.tpl', $request->getModule());
 	}
 
@@ -98,5 +99,16 @@ class Chat_Modal_View extends \App\Controller\Modal
 	{
 		return isset($_COOKIE['chat-isDesktopNotification']) ?
 			filter_var($_COOKIE['chat-isDesktopNotification'], FILTER_VALIDATE_BOOLEAN) : false;
+	}
+
+	/**
+	 * Check if sending on ENTER is active.
+	 *
+	 * @return bool
+	 */
+	private function sendByEnter(): bool
+	{
+		return isset($_COOKIE['chat-notSendByEnter']) ?
+			!filter_var($_COOKIE['chat-notSendByEnter'], FILTER_VALIDATE_BOOLEAN) : true;
 	}
 }
