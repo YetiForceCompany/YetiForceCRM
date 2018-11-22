@@ -44,7 +44,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		if (!empty($relatedModules)) {
 			foreach ($relatedModules as $relatedData) {
 				$explodedData = explode('::', $relatedData);
-				$relatedModule = reset($explodedData);
+				$relatedModule = current($explodedData);
 				$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds, $relatedData);
 				if (!empty($relatedModuleRecordIds)) {
 					$transferModel->transferRecordsOwnership($relatedModule, $transferOwnerId, $relatedModuleRecordIds);
