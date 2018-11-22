@@ -66,9 +66,23 @@ class SharedOwnerField extends BaseField
 		$focus = $this->queryGenerator->getEntityModel();
 		$baseTable = $focus->table_name;
 		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
 
 		return ['u_#__crmentity_showners.userid' => \App\User::getCurrentUserId()];
+	}
+
+	/**
+	 * Currently logged-in user groups.
+	 *
+	 * @return array
+	 */
+	public function operatorOgr(): array
+	{
+		$focus = $this->queryGenerator->getEntityModel();
+		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners',
+			"{$focus->table_name}.{$focus->table_index} = u_#__crmentity_showners.crmid"]);
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false);
+		return ['u_#__crmentity_showners.userid' => \array_keys($groups)];
 	}
 
 	/**
