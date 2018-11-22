@@ -876,6 +876,9 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 	},
+	/**
+	 * Function to go to page
+	 */
 	paginationGoToPage(page) {
 		const self = this,
 			listViewPageDiv = self.getListViewContainer();
@@ -922,26 +925,21 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Jump to next page
 	 */
 	jumpToNextPage(e) {
-		const self = this,
-			listViewPageDiv = this.getListViewContainer();
-		let element = $(e.currentTarget),
-			pageNumber = listViewPageDiv.find('#pageNumber');
-		if (element.hasClass('disabled')) {
+		const listViewPageDiv = this.getListViewContainer();
+		if ($(e.currentTarget).hasClass('disabled')) {
 			return;
 		}
 		if (listViewPageDiv.find('#noOfEntries').val() === listViewPageDiv.find('#pageLimit').val()) {
-			self.paginationGoToPage(parseInt(pageNumber.val()) + 1);
+			this.paginationGoToPage(parseInt(listViewPageDiv.find('#pageNumber').val()) + 1);
 		}
 	},
 	/**
 	 * Jump to previous page
 	 */
 	jumpToPreviousPage() {
-		const self = this,
-			listViewPageDiv = this.getListViewContainer();
-		let pageNumber = listViewPageDiv.find('#pageNumber');
+		let pageNumber = this.getListViewContainer().find('#pageNumber');
 		if (pageNumber.val() > 1) {
-			self.paginationGoToPage(parseInt(pageNumber.val()) - 1);
+			this.paginationGoToPage(parseInt(pageNumber.val()) - 1);
 		}
 	},
 	/**
@@ -952,8 +950,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (element.hasClass('disabled')) {
 			return false;
 		}
-		const self = this;
-		self.paginationGoToPage(element.data("id"));
+		this.paginationGoToPage(element.data("id"));
 	},
 	/**
 	 * Jump to page function
