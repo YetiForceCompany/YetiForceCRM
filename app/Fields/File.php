@@ -354,9 +354,11 @@ class File
 		try {
 			$this->checkFile();
 			$this->validateFormat();
-			$this->validateCodeInjection();
 			if (($type && $type === 'image') || $this->getShortMimeType(0) === 'image') {
 				$this->validateImage();
+				$this->validateCodeInjectionInMetadata();
+			} else {
+				$this->validateCodeInjection();
 			}
 			if ($type && $this->getShortMimeType(0) !== $type) {
 				throw new \App\Exceptions\AppException('Wrong file type');
@@ -375,6 +377,30 @@ class File
 		}
 		Log::trace('File validate - End', __CLASS__);
 		return $return;
+	}
+
+	/**
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
+	public function validateImageContent(): bool
+	{
+		$returnVal = true;
+		if (extension_loaded('imagick')) {
+			try {
+				$img = new \imagick($this->path);
+				$img->valid();
+			} catch (\ImagickException $e) {
+				$this->validateError = $e->getMessage();
+				$returnVal = false;
+			}
+		} else {
+			if (@imagecreatefromstring($this->getContents()) === false) {
+				throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
+			}
+		}
+		return $returnVal;
 	}
 
 	/**
@@ -420,6 +446,9 @@ class File
 		if (preg_match('[\x01-\x08\x0c-\x1f]', $this->getContents())) {
 			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 		}
+		if (!$this->validateImageContent()) {
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE ||' . $this->validateError);
+		}
 	}
 
 	/**
@@ -427,27 +456,36 @@ class File
 	 *
 	 * @throws \Exception
 	 */
-	private function validateCodeInjection()
+	public function validateCodeInjection()
 	{
 		$shortMimeType = $this->getShortMimeType(0);
 		if ($this->validateAllCodeInjection || in_array($shortMimeType, self::$phpInjection)) {
-			// Check for php code injection
-			$contents = $this->getContents();
-			if ($shortMimeType !== 'image' && $this->containForbidden()) {
+			// Check for code injection
+			if ($this->containForbiddenTags()) {
 				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
-			} elseif ($shortMimeType === 'image') {
-				if (@imagecreatefromstring($contents) === false) {
-					throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
-				}
 			}
-			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
-				$imageSize = getimagesize($this->path, $imageInfo);
-				if ($imageSize && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
-					throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
-				}
-			}
-			if (stripos('<?xpacket', $contents) !== false) {
-				throw new \App\Exceptions\AppException('ERR_FILE_XPACKET_CODE_INJECTION');
+		}
+	}
+
+	/**
+	 * Validate code injection in metadata.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function validateCodeInjectionInMetadata()
+	{
+		if (
+			function_exists('exif_read_data') &&
+			\in_array($this->getMimeType(), ['image/jpeg', 'image/tiff']) &&
+			\in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])
+		) {
+			$imageSize = getimagesize($this->path, $imageInfo);
+			if (
+				$imageSize &&
+				(empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) &&
+				($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)
+			) {
+				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 			}
 		}
 	}
@@ -455,18 +493,18 @@ class File
 	/**
 	 * Does it contain forbidden tags.
 	 *
-	 * @param string $contents
-	 *
 	 * @return bool
 	 */
-	private function containForbidden(string $contents): bool
+	private function containForbiddenTags(): bool
 	{
+		$contents = $this->getContents();
 		return preg_match('/(<\?php?(.*?))/si', $contents) === 1 ||
 			preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 ||
 			stripos($contents, '<?=') !== false ||
 			stripos($contents, '<%=') !== false ||
 			stripos($contents, '<? ') !== false ||
-			stripos($contents, '<% ') !== false;
+			stripos($contents, '<% ') !== false ||
+			stripos($contents, '<?xpacket') !== false;
 	}
 
 	/**
@@ -1088,6 +1126,27 @@ class File
 		}
 		unset($dbCommand);
 		return [array_values($value), $new, $save];
+	}
+
+	/**
+	 * Remove the forbidden tags from image.
+	 */
+	public static function removeForbiddenTags(string $fileImgIn, string $fileImgOut)
+	{
+		if (extension_loaded('imagick')) {
+			$img = new \imagick($fileImgIn);
+			$img->stripImage();
+			$img->writeImage($fileImgOut);
+			$img->clear();
+			$img->destroy();
+		} else {
+			$img = @\imagecreatefromstring(\file_get_contents($fileImgIn));
+			if ($img === false) {
+				throw new \App\Exceptions\AppException('Wrong file type');
+			}
+			\imagejpeg($img, $fileImgOut);
+			\imagedestroy($img);
+		}
 	}
 
 	/**
