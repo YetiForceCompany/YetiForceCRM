@@ -176,9 +176,10 @@ Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
-		var fieldValue = this.getFieldValue();
-		var integerRegex = /(^[-+]?\d+)$/;
-		var decimalIntegerRegex = /(^[-+]?\d?).\d+$/;
+		let fieldValue = this.getFieldValue(),
+		groupSeperator = CONFIG.currencyGroupingSeparator,
+		integerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']+)$', 'g'),
+		decimalIntegerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']?).\\d+$', 'g');
 		if ((!fieldValue.match(integerRegex))) {
 			if (!fieldValue.match(decimalIntegerRegex)) {
 				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_INTEGER_VALUE");

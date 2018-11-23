@@ -16,10 +16,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($value === '') {
-			return 0;
-		}
-		return CurrencyField::convertToDBFormat($value);
+		return App\Fields\Double::formatToDb($value);
 	}
 
 	/**
@@ -31,8 +28,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if ($isUserFormat) {
-			$currentUser = \App\User::getCurrentUserModel();
-			$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+			$value = App\Fields\Double::formatToDb($value);
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
@@ -49,7 +45,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return CurrencyField::convertToUserFormat($value);
+		return App\Fields\Double::formatToDisplay($value);
 	}
 
 	/**
@@ -57,7 +53,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return CurrencyField::convertToUserFormat($value);
+		return App\Fields\Double::formatToDisplay($value);
 	}
 
 	/**
