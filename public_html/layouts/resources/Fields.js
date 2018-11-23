@@ -666,13 +666,8 @@ App.Fields = {
 					}).on("select2:unselect", function (e) {
 					select.data('unselecting', true);
 				});
-
-				if (params.showAdditionalIcons !== undefined) {
-					self.registerIconsEvents(select);
-				}
-				if (select.hasClass('js-select2-sortable')) {
-					self.sortSelect2Options(select);
-					self.registerSelect2Sortable(select, params.sortableCb);
+				if (typeof self[params.selectCb] === 'function') {
+					self[params.selectCb](select, params);
 				}
 			});
 
@@ -700,20 +695,29 @@ App.Fields = {
 			return template;
 		},
 		/**
+		 * Register select sortable
+		 * @param select
+		 * @param params
+		 */
+		registerSelectSortable(select, params) {
+			self.sortSelectOptions(select);
+			self.registerSortEvent(select, params.sortableCb);
+		},
+		/**
 		 * Sort elements (options) in select by data-sort-index
 		 * @param {jQuery} select2 element
 		 */
-		sortSelect2Options(select) {
+		sortSelectOptions(select) {
 			select.find('option[data-sort-index]').sort((a, b) => {
 				return ($(b).data('sort-index')) < ($(a).data('sort-index')) ? 1 : -1;
 			}).appendTo(select);
 		},
 		/**
-		 * Register select2 drag and drop sorting
+		 * Register select drag and drop sorting
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSelect2Sortable(select, cb = () => {
+		registerSortEvent(select, cb = () => {
 		}) {
 			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
 			ul.sortable({

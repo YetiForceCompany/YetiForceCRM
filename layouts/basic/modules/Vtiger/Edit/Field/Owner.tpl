@@ -34,7 +34,7 @@
 								data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected="selected" {/if}
 								data-userId="{$CURRENT_USER_ID}"
 								{if $SHOW_FAVORITE_OWNERS}
-							data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}" data-state="{$ACTIVE}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star" data-template="<span>{$OWNER_NAME}<span class='js-select-option-actions o-filter-actions noWrap float-right'><span data-js='click|class:icons' class='mr-1 js-select-option-event{if $ACTIVE == 'active'} fas fa-star{else} far fa-star{/if}'></span></span></span>"
+							data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}" data-state="{$ACTIVE}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star" data-template="<span>{$OWNER_NAME}<span class='js-select-option-actions o-filter-actions noWrap float-right'><span data-js='click|class:icons' class='mx-1 js-select-option-event{if $ACTIVE == 'active'} fas fa-star{else} far fa-star{/if}'></span></span></span>"
 								{/if}>
 							{$OWNER_NAME}
 						</option>
@@ -51,7 +51,7 @@
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif $SHOW_FAVORITE_OWNERS}
-				data-show-additional-icons="true" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
+				data-select-cb="registerIconsEvents" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" data-select-cb="mycb"
 					{/if}>
 				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}

@@ -1737,6 +1737,11 @@ $(document).ready(function () {
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registesterScrollbar($(document));
+
+
+
+
+
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
