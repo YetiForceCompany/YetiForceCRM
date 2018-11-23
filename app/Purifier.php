@@ -345,7 +345,7 @@ class Purifier
 					}
 					break;
 				case 'NumberInUserFormat': // number in user format
-					$input = Fields\Currency::formatToDb($input);
+					$input = Fields\Double::formatToDb($input);
 					if (is_numeric($input)) {
 						$value = $input;
 					}
