@@ -12,7 +12,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.init(container);
-		this.sendByEnter = true;
+		this.sendByEnter = app.getCookie("chat-notSendByEnter") !== "true";
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
 		this.isUnreadMode = false;
@@ -22,7 +22,6 @@ window.Chat_JS = class Chat_Js {
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
 		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
-		this.shiftPressed = false;
 		this.isModalWindow = false;
 	}
 
@@ -867,21 +866,15 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerSendEvent() {
 		const inputMessage = this.container.find('.js-chat-message');
-		if (this.sendByEnter) {
-			inputMessage.on('keydown', (e) => {
-				if (e.keyCode === 16) {
-					this.shiftPressed = true;
-				} else if (!this.shiftPressed && e.keyCode === 13) {
-					e.preventDefault();
-					this.sendMessage(inputMessage);
-				}
-			});
-			inputMessage.on('keyup', (e) => {
-				if (e.keyCode === 16) {
-					this.shiftPressed = false;
-				}
-			});
-		}
+		inputMessage.on('keydown', (e) => {
+			if (!this.sendByEnter) {
+				return;
+			}
+			if (!e.shiftKey && e.keyCode === 13) {
+				e.preventDefault();
+				this.sendMessage(inputMessage);
+			}
+		});
 		this.container.find('.js-btn-send').on('click', () => {
 			this.sendMessage(inputMessage);
 		});
@@ -1197,6 +1190,19 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Button that enables / disables the sending of messages by pressing the ENTER button.
+	 */
+	registerButtonToggleEnter() {
+		let btnEnter = this.container.find('.js-btn-enter');
+		btnEnter.on('click', (e) => {
+			this.sendByEnter = !this.sendByEnter;
+			app.setCookie("chat-notSendByEnter", !this.sendByEnter, 365);
+			let icon = btnEnter.find('.js-icon');
+			icon.toggleClass(btnEnter.data('iconOn'), this.sendByEnter).toggleClass(btnEnter.data('iconOff'), !this.sendByEnter);
+		});
+	}
+
+	/**
 	 * Register close modal.
 	 */
 	registerCloseModal() {
@@ -1237,6 +1243,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavoritesInModal();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
+		this.registerButtonToggleEnter();
 		this.registerCloseModal();
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();
