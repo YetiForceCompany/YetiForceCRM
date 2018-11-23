@@ -49,7 +49,7 @@
 										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
 									{/if}
 								{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-									{if isset($FIELD_DATA[$FIELD_NAME]) && \App\Language::translate($FIELD_DATA[$FIELD_NAME]) == 'true'}
+									{if isset($FIELD_DATA[$FIELD_NAME]) && $FIELD_DATA[$FIELD_NAME] === 'true'}
 										{\App\Language::translate(LBL_YES)}
 									{else}
 										{\App\Language::translate(LBL_NO)}
