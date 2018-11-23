@@ -460,7 +460,7 @@ App.Fields = {
 		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
-		showSelect2ElementView: function (selectElement, params) {
+		showSelect2ElementView(selectElement, params) {
 			let self = this;
 			selectElement = $(selectElement);
 			if (typeof params === "undefined") {
@@ -471,6 +471,45 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
+			params = this.registerParams(selectElement, params);
+			selectElement.each(function (e) {
+				var select = $(this);
+				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
+					var selectNew = select.clone().addClass('d-none');
+					select.parent().append(selectNew);
+					select.prop('disabled', true);
+				}
+				let htmlBoolParams = select.data('select');
+				if (htmlBoolParams === 'tags') {
+					params.tags = true;
+					params.tokenSeparators = [","]
+				} else {
+					params[htmlBoolParams] = true;
+				}
+				select.select2(params)
+					.on("select2:open", function (e) {
+						if (select.data('unselecting')) {
+							select.removeData('unselecting');
+							setTimeout(function (e) {
+								select.each(function () {
+									$(this).select2('close');
+								});
+							}, 1);
+						}
+						var element = $(e.currentTarget);
+						var instance = element.data('select2');
+						instance.$dropdown.css('z-index', 1000002);
+					}).on("select2:unselect", function (e) {
+					select.data('unselecting', true);
+				});
+				if (typeof self[params.selectCb] === 'function') {
+					self[params.selectCb](select, params);
+				}
+			});
+
+			return selectElement;
+		},
+		registerParams(selectElement, params) {
 			if (typeof params.dropdownParent === 'undefined') {
 				const modalParent = $(selectElement).closest('.modal-body');
 				if (modalParent.length) {
@@ -566,112 +605,81 @@ App.Fields = {
 				params.templateSelection = this[params.templateSelection];
 			}
 			if (selectElement.data('ajaxSearch') === 1) {
-				params.tags = false;
-				params.language.searching = function () {
-					return app.vtranslate('JS_SEARCHING');
-				}
-				params.language.inputTooShort = function (args) {
-					var remainingChars = args.minimum - args.input.length;
-					return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
-				}
-				params.language.errorLoading = function () {
-					return app.vtranslate('JS_NO_RESULTS_FOUND');
-				}
-				params.placeholder = '';
-				params.ajax = {
-					url: selectElement.data('ajaxUrl'),
-					dataType: 'json',
-					delay: 250,
-					method: 'POST',
-					data: function (params) {
-						return {
-							value: params.term, // search term
-							page: params.page
-						};
-					},
-					processResults: function (data, params) {
-						var items = new Array;
-						if (data.success == true) {
-							selectElement.find('option').each(function () {
-								var currentTarget = $(this);
-								items.push({
-									label: currentTarget.html(),
-									value: currentTarget.val(),
-								});
-							});
-							items = items.concat(data.result.items);
-						}
-						return {
-							results: items,
-							pagination: {
-								more: false
-							}
-						};
-					},
-					cache: false
-				};
-				params.escapeMarkup = function (markup) {
-					if (markup !== "undefined")
-						return markup;
-				};
-				var minimumInputLength = 3;
-				if (selectElement.data('minimumInput') !== "undefined") {
-					minimumInputLength = selectElement.data('minimumInput');
-				}
-				params.minimumInputLength = minimumInputLength;
-				params.templateResult = function (data) {
-					if (typeof data.name === "undefined") {
-						return data.text;
-					}
-					if (data.type == 'optgroup') {
-						return '<strong>' + data.name + '</strong>';
-					} else {
-						return '<span>' + data.name + '</span>';
-					}
-				};
-				params.templateSelection = function (data, container) {
-					if (data.text === '') {
-						return data.name;
-					}
-					return data.text;
-				};
+				params = this.registerAjaxParams(selectElement, params);
 			}
-			selectElement.each(function (e) {
-				var select = $(this);
-				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-					var selectNew = select.clone().addClass('d-none');
-					select.parent().append(selectNew);
-					select.prop('disabled', true);
-				}
-				let htmlBoolParams = select.data('select');
-				if (htmlBoolParams === 'tags') {
-					params.tags = true;
-					params.tokenSeparators = [","]
-				} else {
-					params[htmlBoolParams] = true;
-				}
-				select.select2(params)
-					.on("select2:open", function (e) {
-						if (select.data('unselecting')) {
-							select.removeData('unselecting');
-							setTimeout(function (e) {
-								select.each(function () {
-									$(this).select2('close');
-								});
-							}, 1);
+			return params;
+		},
+		registerAjaxParams(selectElement, params) {
+			params.tags = false;
+			params.language.searching = function () {
+				return app.vtranslate('JS_SEARCHING');
+			}
+			params.language.inputTooShort = function (args) {
+				var remainingChars = args.minimum - args.input.length;
+				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
+			}
+			params.language.errorLoading = function () {
+				return app.vtranslate('JS_NO_RESULTS_FOUND');
+			}
+			params.placeholder = '';
+			params.ajax = {
+				url: selectElement.data('ajaxUrl'),
+				dataType: 'json',
+				delay: 250,
+				method: 'POST',
+				data: function (params) {
+					return {
+						value: params.term, // search term
+						page: params.page
+					};
+				},
+				processResults: function (data, params) {
+					var items = new Array;
+					if (data.success == true) {
+						selectElement.find('option').each(function () {
+							var currentTarget = $(this);
+							items.push({
+								label: currentTarget.html(),
+								value: currentTarget.val(),
+							});
+						});
+						items = items.concat(data.result.items);
+					}
+					return {
+						results: items,
+						pagination: {
+							more: false
 						}
-						var element = $(e.currentTarget);
-						var instance = element.data('select2');
-						instance.$dropdown.css('z-index', 1000002);
-					}).on("select2:unselect", function (e) {
-					select.data('unselecting', true);
-				});
-				if (typeof self[params.selectCb] === 'function') {
-					self[params.selectCb](select, params);
+					};
+				},
+				cache: false
+			};
+			params.escapeMarkup = function (markup) {
+				if (markup !== "undefined")
+					return markup;
+			};
+			var minimumInputLength = 3;
+			if (selectElement.data('minimumInput') !== "undefined") {
+				minimumInputLength = selectElement.data('minimumInput');
+			}
+			params.minimumInputLength = minimumInputLength;
+			params.templateResult = function (data) {
+				if (typeof data.name === "undefined") {
+					return data.text;
 				}
-			});
-
-			return selectElement;
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+			params.templateSelection = function (data, container) {
+				if (data.text === '') {
+					return data.name;
+				}
+				return data.text;
+			};
+			return params;
 		},
 		/**
 		 * Prepend template with a flag, function is calling by select2
