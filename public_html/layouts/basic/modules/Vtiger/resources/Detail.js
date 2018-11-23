@@ -982,10 +982,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var saveHandler = function (e) {
 				thisInstance.registerNameAjaxEditEvent();
 				var element = jQuery(e.target);
-				if ((element.closest('.fieldValue').is(currentTdElement))) {
+				if (element.closest('.fieldValue').is(currentTdElement) || element.hasClass('select2-selection__choice__remove')) {
 					return;
 				}
 				currentTdElement.removeAttr('tabindex');
+				currentTdElement.removeClass('is-edit-active');
 				var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
 				var formData = formElement.serializeFormData();
@@ -1055,6 +1056,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).done(function (response) {
+						editElement.off('clickoutside');
 						readRecord.prop('disabled', false);
 						currentTdElement.progressIndicator({'mode': 'hide'});
 						detailViewValue.removeClass('d-none');
@@ -1092,6 +1094,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							}
 						}
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
+						ajaxEditNewValue = ajaxEditNewValue === undefined ? '' : ajaxEditNewValue; //data cannot be undefined
 						elementTarget.data('prevValue', ajaxEditNewValue);
 						fieldElement.data('selectedValue', ajaxEditNewValue);
 						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
@@ -2318,10 +2321,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var nextPageUrl = url + '&page=' + requestedPage;
 			thisInstance.loadContents(nextPageUrl);
 		});
-		detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue', function (e) {
+		detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function (e) {
 			if (jQuery(e.target).closest('a').hasClass('btnNoFastEdit'))
 				return;
 			var currentTdElement = jQuery(e.currentTarget);
+			currentTdElement.addClass('is-edit-active');
 			thisInstance.ajaxEditHandling(currentTdElement);
 		});
 		detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
