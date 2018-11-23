@@ -46,6 +46,12 @@
 		@extend .justify-content-sm-start;
 		@extend .justify-content-lg-end;
 		@extend .col-sm-12;
+		height: 100%;
+
+		label {
+			line-height: 1.7;
+			margin-bottom: 0;
+		}
 	}
 
 	&--edit {
