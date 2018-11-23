@@ -31,7 +31,7 @@ class Calendar_RecordPopover_View extends Vtiger_RecordPopover_View
 				$summaryFields[$fieldName] = $fieldModel;
 			}
 		}
-		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
+		if ($moduleName === 'Calendar' && AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
 			$detailUrl = "index.php?module={$moduleName}&view=ActivityState&record={$recordModel->getId()}";
 			$editUrl = $recordModel->isEditable() ? "index.php?module={$moduleName}&view=EventForm&record={$recordModel->getId()}" : '';
 		} else {
