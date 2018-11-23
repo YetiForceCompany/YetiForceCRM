@@ -36,7 +36,7 @@ class FieldFile extends \Tests\Base
 	 *
 	 * @dataProvider providerData
 	 */
-	public function testValidateImageFile(string $fileName, bool $isGood)
+	public function testValidateImageFile(string $fileName, bool $isGood, $message)
 	{
 		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' .
 			\DIRECTORY_SEPARATOR . $fileName;
@@ -45,7 +45,7 @@ class FieldFile extends \Tests\Base
 		$this->assertSame(
 			$isGood,
 			$file->validate('image'),
-			"Problem with image validation: {$fileName}. Message: " . ($isGood ? $file->validateError : 'A dangerous file was passed')
+			"Problem with image validation: {$fileName}. Message: {$message} - " . ($isGood ? $file->validateError : 'A dangerous file was passed')
 		);
 	}
 
@@ -96,12 +96,12 @@ class FieldFile extends \Tests\Base
 	public function providerData()
 	{
 		return [
-			['validate_image_0.jpg', false],
-			['validate_image_1.jpg', false],
-			['validate_image_2.jpg.php', false],
-			['validate_image_3.jpg.php', false],
-			['validate_image_4.jpg', true],
-			['validate_image_5_exif.jpg', false],
+			['validate_image_0.jpg', false, 'PHP file with changed extension'],
+			['validate_image_1.jpg', false, 'Empty file'],
+			['validate_image_2.jpg.php', false, 'PHP file with changed extension'],
+			['validate_image_3.jpg.php', false, 'A good image file with PHP extensions'],
+			['validate_image_4.jpg', true, 'A good image file with the tag "<?"'],
+			['validate_image_5_exif.jpg', false, 'A file with PHP code in the metadata'],
 		];
 	}
 
