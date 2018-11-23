@@ -78,7 +78,19 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			}
 		}
 		$dataReader->close();
-
 		return $listViewRecordModels;
+	}
+
+	/**
+	 * Load list view conditions.
+	 */
+	public function loadListViewCondition()
+	{
+		$listQuery = $this->getBasicListQuery();
+		$sourceModule = $this->get('sourceModule');
+		if (!empty($sourceModule)) {
+			$listQuery->where(['module' => \App\Module::getModuleId($sourceModule)]);
+		}
+		return $listQuery;
 	}
 }
