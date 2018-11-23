@@ -1062,6 +1062,9 @@ class File
 					'crmid' => $request->isEmpty('record') ? 0 : $request->getInteger('record'),
 				])->execute();
 				if (move_uploaded_file($file->getPath(), $uploadFilePath . $key)) {
+					if (\AppConfig::security('REMOVE_FORBIDDEN_TAGS_FROM_IMAGE')) {
+						static::removeForbiddenTags($uploadFilePath . $key, $uploadFilePath . $key);
+					}
 					$attach[] = [
 						'name' => $file->getName(),
 						'size' => \vtlib\Functions::showBytes($file->getSize()),

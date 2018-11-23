@@ -1,6 +1,6 @@
 <?php
 /**
- * FieldModel test class.
+ * Test of protection against code injection.
  *
  * @package   Tests
  *
@@ -28,7 +28,6 @@ class FieldFile extends \Tests\Base
 			\DIRECTORY_SEPARATOR . $fileImgIn;
 		$this->assertFileExists($filePathSrc);
 		$fileSrc = \App\Fields\File::loadFromPath($filePathSrc);
-		//$fileSrc->validateCodeInjection();
 		$fileSrc->validateCodeInjectionInMetadata();
 	}
 
