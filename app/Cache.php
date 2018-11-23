@@ -44,7 +44,7 @@ class Cache
 	 *
 	 * @param string $key Cache ID
 	 *
-	 * @return string|array
+	 * @return mixed
 	 */
 	public static function get($nameSpace, $key)
 	{
@@ -108,7 +108,7 @@ class Cache
 	 * @param string $nameSpace
 	 * @param string $key       Cache ID
 	 *
-	 * @return string|array
+	 * @return mixed
 	 */
 	public static function staticGet($nameSpace, $key)
 	{
@@ -133,7 +133,7 @@ class Cache
 	 *
 	 * @param string $nameSpace
 	 * @param string $key       Cache ID
-	 * @param string $value     Data to store
+	 * @param mixed  $value     Data to store
 	 * @param int    $duration  Cache TTL (in seconds)
 	 *
 	 * @return bool
