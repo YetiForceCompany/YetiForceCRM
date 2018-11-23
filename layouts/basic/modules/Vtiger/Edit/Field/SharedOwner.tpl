@@ -4,12 +4,13 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->getUIType() eq '120'}
-		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
-		{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
-		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
+		{assign var=OWNER_FIELD value=\App\Fields\Owner::getInstance($MODULE_NAME)}
+		{assign var=ALL_ACTIVEUSER_LIST value=$OWNER_FIELD->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
+		{assign var=ALL_ACTIVEGROUP_LIST value=$OWNER_FIELD->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
+		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS')}
+		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
 		{if $FIELD_VALUE neq '' }
 			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}
@@ -27,7 +28,8 @@
 								{/foreach}
 								data-userId="{$CURRENT_USER_ID}"
 								{if $SHOW_FAVORITE_OWNERS}
-							data-url="" data-state="{$ACTIVE}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
+							data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}"
+							data-state="{$ACTIVE}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
 								{/if}>
 							{$OWNER_NAME}
 						</option>
@@ -37,15 +39,15 @@
 		{/function}
 		<div>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
-			<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$ASSIGNED_USER_ID}"
+			<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$FIELD_NAME}"
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-					data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}'
+					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}[]" data-fieldinfo='{$FIELD_INFO}'
 					multiple {if !empty($SPECIAL_VALIDATOR)} data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
-						data-show-additional-icons="true"
+				data-show-additional-icons="true"
 					{/if}>
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					{foreach item=USER from=$FIELD_VALUE}
@@ -55,8 +57,8 @@
 						</option>
 					{/foreach}
 				{else}
-					{if $SHOW_FAVORITE_OWNERS}
-						{assign var=FAVORITE_OWNERS value=\App\Fields\Owner::getFavorites(\App\Module::getModuleId($MODULE_NAME), $CURRENT_USER_ID)}
+					{if AppConfig::module('Users','FAVORITE_OWNERS')}
+						{assign var=FAVORITE_OWNERS value=$OWNER_FIELD->getFavorites($FIELD_MODEL->getFieldDataType())}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
 							{assign var=ALL_ACTIVEUSER_LIST value=array_diff_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS)}

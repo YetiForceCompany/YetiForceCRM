@@ -731,16 +731,28 @@ App.Fields = {
 				let thisInstance = $(event.currentTarget),
 					params = optionElement.data('url'),
 					iconActive = optionElement.data('iconActive'),
-					iconInactive = optionElement.data('iconInactive');
-				//AppConnector.request(params).done(function (data) {
-				if (optionElement.data('state') === 'active') {
-					thisInstance.toggleClass(iconActive + ' ' + iconInactive);
-					optionElement.data('state', 'inactive');
-				} else {
-					thisInstance.toggleClass(iconInactive + ' ' + iconActive);
-					optionElement.data('state', 'active');
-				}
-				//});
+					iconInactive = optionElement.data('iconInactive'),
+					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
+				AppConnector.request(params).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					let response = data.result;
+					if (response && response.result) {
+						if (optionElement.data('state') === 'active') {
+							thisInstance.toggleClass(iconActive + ' ' + iconInactive);
+							optionElement.data('state', 'inactive');
+						} else {
+							thisInstance.toggleClass(iconInactive + ' ' + iconActive);
+							optionElement.data('state', 'active');
+						}
+						if (response.message) {
+							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});
+						}
+					} else if (response && response.message) {
+						Vtiger_Helper_Js.showPnotify({text: response.message});
+					}
+				}).fail(function () {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
 				event.stopPropagation();
 			});
 		},
@@ -1022,7 +1034,34 @@ App.Fields = {
 			return new GanttField(container, data);
 		}
 	},
-	Currency: {
+	Integer: {
+		/**
+		 * Function returns the integer in user specified format.
+		 * @param {number} value
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value) {
+			if (value === undefined) {
+				value = 0;
+			}
+			let groupSeparator = CONFIG.currencyGroupingSeparator;
+			let groupingPattern = CONFIG.currencyGroupingPattern;
+			value = parseFloat(value).toFixed(1);
+			let integer = value.toString().split('.')[0];
+			if (integer.length > 3) {
+				if (groupingPattern === '123,456,789') {
+					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+				} else if (groupingPattern === '123456,789') {
+					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+				} else if (groupingPattern === '12,34,56,789') {
+					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
+				}
+			}
+			return integer;
+		},
+	},
+	Double: {
 		/**
 		 * Function returns the currency in user specified format.
 		 * @param {number} value
@@ -1033,21 +1072,10 @@ App.Fields = {
 			if (value === undefined) {
 				value = 0;
 			}
-			let groupSeparator = CONFIG.currencyGroupingSeparator;
-			let groupingPattern = CONFIG.currencyGroupingPattern;
 			value = parseFloat(value).toFixed(numberOfDecimal);
 			let a = value.toString().split('.');
-			let integer = a[0];
+			let integer = App.Fields.Integer.formatToDisplay(value);
 			let decimal = a[1];
-			if (integer.length > 3) {
-				if (groupingPattern === '123,456,789') {
-					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-				} else if (groupingPattern === '123456,789') {
-					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
-				} else if (groupingPattern === '12,34,56,789') {
-					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
-				}
-			}
 			if (numberOfDecimal) {
 				if (CONFIG.truncateTrailingZeros) {
 					if (decimal) {

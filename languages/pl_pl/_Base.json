@@ -1299,7 +1299,9 @@
     "LBL_USE_VARIABLES": "W tym polu mo\u017Cesz skorzysta\u0107 ze zmiennych. Wystarczy \u017Ce skopiujesz do schowka dowoln\u0105 zmienn\u0105 z panelu i wkleisz w tym miejscu. Pole mo\u017Ce zawiera\u0107 kilka zmiennych.",
     "BTN_RECORD_OPEN": "Odblokuj rekord",
     "LBL_REMOVE_RELATION": "Usu\u0144 relacj\u0119",
-    "LBL_REMOVE_RELATION_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 powi\u0105zanie z tym rekordem? Usuni\u0119te zostanie tylko powi\u0105zanie."
+    "LBL_REMOVE_RELATION_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 powi\u0105zanie z tym rekordem? Usuni\u0119te zostanie tylko powi\u0105zanie.",
+    "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Pomy\u015Blnie dokonano modyfikacji. Zmiany widoczne b\u0119d\u0105 po ponownym za\u0142adowaniu widoku.",
+    "LBL_MODIFICATION_FAILURE": "Nie dokonano modyfikacji."
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
@@ -1627,6 +1629,7 @@
     "JS_DATES_SELECTED_HOLIDAYS": "W wybranym zakresie dat znajduj\u0105 si\u0119 dni \u015bwi\u0105teczne. Czy chcesz zapisa\u0107?",
     "JS_MESSAGE_TOO_LONG": "Wiadomo\u015b\u0107 jest za d\u0142uga",
     "JS_NO_DESKTOP_PERMISSION": "Nie uda\u0142o si\u0119 uzyska\u0107 zgody na powiadomienia, sprawd\u017a ustawienia przegl\u0105darki.",
-    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Wczytano dane adresowe"
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Wczytano dane adresowe",
+    "JS_UNEXPECTED_ERROR": "Wyst\u0105pi\u0142 nieoczekiwany b\u0142\u0105d"
   }
 }
