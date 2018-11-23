@@ -157,17 +157,21 @@ var App = {},
 
 			element.on("mouseenter", (e) => {
 				let offsetLeft;
-				element.on("mousemove", (ev) => {
-					offsetLeft = ev.pageX;
-				});
+				if (element.hasClass('js-popover-tooltip--record')) {
+					element.on("mousemove", (ev) => {
+						offsetLeft = ev.pageX;
+					});
+				}
 				setTimeout(function () {
 					let currentElement = $(e.currentTarget);
 					if (currentElement.is(':hover')) {
 						currentElement.popover("show");
 						let currentPopover = self.getBindedPopover(currentElement);
-						setTimeout(function () { //timeout needed to overwrite bootrap positioning
-							self.updatePopoverRecordPosition(currentPopover, offsetLeft);
-						}, 100);
+						if (element.hasClass('js-popover-tooltip--record')) {
+							setTimeout(function () { //timeout needed to overwrite bootrap positioning
+								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
+							}, 100);
+						}
 						currentPopover.on("mouseleave", (e) => {
 							setTimeout(function () {
 								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
