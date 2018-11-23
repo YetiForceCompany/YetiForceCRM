@@ -662,19 +662,19 @@ App.Fields = {
 						}
 						var element = $(e.currentTarget);
 						var instance = element.data('select2');
-						if (typeof data.showAdditionalIcons !== "undefined") {
-							self.registerElementOptions(element);
-						}
 						instance.$dropdown.css('z-index', 1000002);
 					}).on("select2:unselect", function (e) {
 					select.data('unselecting', true);
 				});
-
+				if (typeof data.templateResult !== "undefined") {
+					console.log(select);
+					self.registerElementOptions(select);
+				}
 				if (select.hasClass('js-select2-sortable')) {
 					self.sortSelect2Options(select);
 					self.registerSelect2Sortable(select, params.sortableCb);
 				}
-			})
+			});
 
 			return selectElement;
 		},
@@ -687,6 +687,13 @@ App.Fields = {
 			let template = optionData.text;
 			if (optionData.id !== undefined && optionData.id !== '') {
 				template = $(optionData.element.dataset.template);
+				if (optionData.element.dataset.state !== undefined) {
+					if (optionData.element.dataset.state === 'active') {
+						template.find('.js-select-option-event').toggleClass(`${optionData.element.dataset.iconInactive}' '${optionData.element.dataset.iconActive}`)
+					} else {
+						template.find('.js-select-option-event').toggleClass(`${optionData.element.dataset.iconActive}' '${optionData.element.dataset.iconInactive}`)
+					}
+				}
 			}
 			return template;
 		},
@@ -724,41 +731,31 @@ App.Fields = {
 			});
 		},
 		registerElementOptions(selectElement) {
-			const self = this;
-			let select2Instance = selectElement.data('select2');
-			select2Instance.$dropdown.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
-				let liElement = $(event.currentTarget),
-					liSelectOptions = liElement.find('.js-select-option-actions');
-				if (!liElement.hasClass('group-result') && event.type === 'mouseenter' && liSelectOptions.length === 0) {
-					let select2Option = liElement.closest('.select2-results__option'),
-						id = select2Option.attr('id'),
-						idArr = id.split("-"),
-						currentOptionId = '';
-					if (idArr.length > 0) {
-						currentOptionId = idArr[idArr.length - 1];
-					}
-					let optionElement = selectElement.find('option[value="' + currentOptionId + '"]');
-					self.appendOptionActionsTemplate(optionElement, liElement);
+			selectElement.on('select2:selecting', function (event, event2, ev3) {
+				let currentTarget = $(event.params.args.originalEvent.target);
+				if (!currentTarget.hasClass('js-select-option-event') && !currentTarget.is('path')) {
+					return;
 				}
-			});
-		},
-		appendOptionClickEvent(optionElement, element) {
-			element.on('mouseup', '.js-select-option-event', function (event) {
-				let thisInstance = $(event.currentTarget),
-					params = optionElement.data('url'),
-					iconActive = optionElement.data('iconActive'),
-					iconInactive = optionElement.data('iconInactive'),
+				if (currentTarget.is('path')) {
+					currentTarget = currentTarget.closest('.js-select-option-event');
+				}
+				event.preventDefault();
+				let currentElement = $(event.params.args.data.element),
+					optionElement = $(event.params.args.data.element),
+					params = currentElement.data('url'),
+					iconActive = currentElement.data('iconActive'),
+					iconInactive = currentElement.data('iconInactive'),
 					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
 				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					let response = data.result;
 					if (response && response.result) {
-						if (optionElement.data('state') === 'active') {
-							thisInstance.toggleClass(iconActive + ' ' + iconInactive);
-							optionElement.data('state', 'inactive');
+						if (optionElement.attr('data-state') === 'active') {
+							optionElement.attr('data-state', 'inactive');
+							currentTarget.toggleClass(iconActive + ' ' + iconInactive);
 						} else {
-							thisInstance.toggleClass(iconInactive + ' ' + iconActive);
-							optionElement.data('state', 'active');
+							optionElement.attr('data-state', 'active');
+							currentTarget.toggleClass(iconInactive + ' ' + iconActive);
 						}
 						if (response.message) {
 							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});
@@ -769,17 +766,8 @@ App.Fields = {
 				}).fail(function () {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});
-				event.stopPropagation();
 			});
-		},
-		appendOptionActionsTemplate(optionElement, liElement) {
-			let optionClass = optionElement.data('state') === 'active' ? optionElement.data('icon-active') : optionElement.data('icon-inactive'),
-				template = $(`<span class="js-select-option-actions o-filter-actions noWrap float-right">
-					<span data-js="click|class:icons" class="mr-1 js-select-option-event ${optionClass}"></span>
-				</span>`);
-			this.appendOptionClickEvent(optionElement, template);
-			template.appendTo(liElement.find('.js-element__title'));
-		},
+		}
 	},
 	MultiImage: {
 		currentFileUploads: 0,
