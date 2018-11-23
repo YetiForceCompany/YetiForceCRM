@@ -8,6 +8,10 @@
 
 	@extend .border;
 	@extend .text-left;
+
+	.o-filter-actions {
+		display: inline-block;
+	}
 }
 
 .select2-selection--single {
@@ -59,8 +63,13 @@
 		font-size: calculate-rem(16px) !important;
 		background: #e1f0fd;
 	}
+
 	.select2-results__option[aria-label=""] > .select2-results__group {
 		background: inherit;
+	}
+
+	.select2-results__option[aria-selected="true"] {
+		opacity: 0.5;
 	}
 }
 
@@ -325,6 +334,7 @@ ul.ui-autocomplete {
 	tfoot td {
 		border-top: unset !important; //floatThead added this to table, causing additional border
 	}
+
 	table-layout: unset !important;
 }
 

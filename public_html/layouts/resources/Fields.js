@@ -666,9 +666,9 @@ App.Fields = {
 					}).on("select2:unselect", function (e) {
 					select.data('unselecting', true);
 				});
-				if (typeof data.templateResult !== "undefined") {
-					console.log(select);
-					self.registerElementOptions(select);
+
+				if (params.showAdditionalIcons !== undefined) {
+					self.registerIconsEvents(select);
 				}
 				if (select.hasClass('js-select2-sortable')) {
 					self.sortSelect2Options(select);
@@ -679,7 +679,7 @@ App.Fields = {
 			return selectElement;
 		},
 		/**
-		 * Prepend template with a flag
+		 * Prepend template with a flag, function is calling by select2
 		 * @param optionData
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
@@ -687,11 +687,13 @@ App.Fields = {
 			let template = optionData.text;
 			if (optionData.id !== undefined && optionData.id !== '') {
 				template = $(optionData.element.dataset.template);
-				if (optionData.element.dataset.state !== undefined) {
+				if (optionData.element.dataset.state !== undefined) { //check if element has icons with different states
 					if (optionData.element.dataset.state === 'active') {
-						template.find('.js-select-option-event').toggleClass(`${optionData.element.dataset.iconInactive}' '${optionData.element.dataset.iconActive}`)
+						template.find('.js-select-option-event').removeClass(optionData.element.dataset.iconInactive)
+							.addClass(optionData.element.dataset.iconActive)
 					} else {
-						template.find('.js-select-option-event').toggleClass(`${optionData.element.dataset.iconActive}' '${optionData.element.dataset.iconInactive}`)
+						template.find('.js-select-option-event').removeClass(optionData.element.dataset.iconActive)
+							.addClass(optionData.element.dataset.iconInactive)
 					}
 				}
 			}
@@ -730,32 +732,33 @@ App.Fields = {
 				}
 			});
 		},
-		registerElementOptions(selectElement) {
-			selectElement.on('select2:selecting', function (event, event2, ev3) {
+		/**
+		 * Register icons events in select2 options
+		 * @param selectElement
+		 */
+		registerIconsEvents(selectElement) {
+			selectElement.on('select2:selecting', (event) => {
 				let currentTarget = $(event.params.args.originalEvent.target);
 				if (!currentTarget.hasClass('js-select-option-event') && !currentTarget.is('path')) {
 					return;
 				}
-				if (currentTarget.is('path')) {
+				event.preventDefault();
+				if (currentTarget.is('path')) { //svg target fix
 					currentTarget = currentTarget.closest('.js-select-option-event');
 				}
-				event.preventDefault();
-				let currentElement = $(event.params.args.data.element),
+				let currentElementData = $(event.params.args.data.element).data(),
 					optionElement = $(event.params.args.data.element),
-					params = currentElement.data('url'),
-					iconActive = currentElement.data('iconActive'),
-					iconInactive = currentElement.data('iconInactive'),
 					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
-				AppConnector.request(params).done(function (data) {
+				AppConnector.request(currentElementData.url).done((data) => {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					let response = data.result;
 					if (response && response.result) {
 						if (optionElement.attr('data-state') === 'active') {
 							optionElement.attr('data-state', 'inactive');
-							currentTarget.toggleClass(iconActive + ' ' + iconInactive);
+							currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
 						} else {
 							optionElement.attr('data-state', 'active');
-							currentTarget.toggleClass(iconInactive + ' ' + iconActive);
+							currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
 						}
 						if (response.message) {
 							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});

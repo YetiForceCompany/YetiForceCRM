@@ -46,7 +46,7 @@
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
-				data-show-additional-icons="true" data-template-result="prependDataTemplate"
+				data-show-additional-icons="true" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
 					{/if}>
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					{foreach item=USER from=$FIELD_VALUE}
