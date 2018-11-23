@@ -1098,7 +1098,12 @@ $.Class("Vtiger_Edit_Js", {
 						} else {
 							response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 						}
-					}).fail(function () {
+					}).fail(function (textStatus, errorThrown, jqXHR) {
+						Vtiger_Helper_Js.showPnotify({
+							text: jqXHR.responseJSON.error.message,
+							type: 'error',
+							animation: 'show'
+						});
 						response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 					});
 				},

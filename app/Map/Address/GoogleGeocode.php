@@ -43,23 +43,29 @@ class GoogleGeocode extends Base
 			return false;
 		}
 		$body = \App\Json::decode($response->body);
-		if (isset($body['results'])) {
-			$location = $body['results'][0]['geometry']['location'];
-			$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
-			$response = \Requests::get(static::$url . $urlParam);
-			if (!$response->success) {
-				\App\Log::warning($response->status_code . ' ' . $response->body, __NAMESPACE__);
-				return false;
-			}
-			$body = \App\Json::decode($response->body);
-			if (isset($body['results'])) {
-				foreach ($body['results'] as $row) {
-					$rows[] = [
-						'label' => $row['formatted_address'],
-						'address' => $this->parse($row['address_components'])
-					];
+		$rows = [];
+		if (empty($body['error_message']) && isset($body['status'])) {
+			if (isset($body['results'][0])) {
+				$location = $body['results'][0]['geometry']['location'];
+				$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
+				$response = \Requests::get(static::$url . $urlParam);
+				if (!$response->success) {
+					\App\Log::warning($response->status_code . ' ' . $response->body, __NAMESPACE__);
+					return false;
+				}
+				$body = \App\Json::decode($response->body);
+				if (isset($body['results'])) {
+					foreach ($body['results'] as $row) {
+						$rows[] = [
+							'label' => $row['formatted_address'],
+							'address' => $this->parse($row['address_components'])
+						];
+					}
 				}
 			}
+		} elseif (isset($body['error_message'])) {
+			\App\Log::warning("{$body['status']}: {$body['error_message']}", __NAMESPACE__);
+			throw new \App\Exceptions\AppException("ERR_COMMUNICATION_ERROR|{$body['status']}: {$body['error_message']}");
 		}
 		return $rows;
 	}

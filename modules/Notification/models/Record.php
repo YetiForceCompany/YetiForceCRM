@@ -139,13 +139,17 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		return '';
 	}
 
-	// Function to save record
-
-	public function save()
+	/**
+	 * Function to save record.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return bool
+	 */
+	public function save(): bool
 	{
 		$relatedRecord = $this->getRelatedRecord();
-		$relatedModule = false;
-		$relatedId = false;
+		$relatedId = $relatedModule = false;
 		if ($relatedRecord !== false) {
 			$relatedId = $relatedRecord['id'];
 			$relatedModule = $relatedRecord['module'];
@@ -154,14 +158,12 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if (!\App\Privilege::isPermitted('Notification', 'DetailView')) {
 			\App\Log::warning('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
-
 			return false;
 		}
 		if ($relatedModule && $notificationType !== 'PLL_USERS' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId)) {
 			\App\Log::error('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
-
 			return false;
 		}
 		if ($relatedModule && $notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
@@ -191,6 +193,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$this->set('assigned_user_id', $userId);
 			parent::save();
 		}
+		return true;
 	}
 
 	/**
