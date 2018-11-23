@@ -44,7 +44,7 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return \App\Fields\Currency::formatToDisplay($value, null, true) . '%';
+		return \App\Fields\Double::formatToDisplay($value) . '%';
 	}
 
 	/**

@@ -29,7 +29,7 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
-		return \App\Purifier::encodeHtml(\App\Fields\Currency::formatToDisplay($value, null, true));
+		return \App\Purifier::encodeHtml(\App\Fields\Double::formatToDisplay($value));
 	}
 
 	/**
