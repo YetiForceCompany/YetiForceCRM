@@ -700,8 +700,8 @@ App.Fields = {
 		 * @param params
 		 */
 		registerSelectSortable(select, params) {
-			self.sortSelectOptions(select);
-			self.registerSortEvent(select, params.sortableCb);
+			this.sortSelectOptions(select);
+			this.registerSortEvent(select, params.sortableCb);
 		},
 		/**
 		 * Sort elements (options) in select by data-sort-index
