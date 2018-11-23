@@ -54,11 +54,12 @@ class Cache
 	/**
 	 * Confirms if the cache contains specified cache item.
 	 *
-	 * @param string $key Cache ID
+	 * @param string $nameSpace
+	 * @param string $key       Cache ID
 	 *
 	 * @return bool
 	 */
-	public static function has($nameSpace, $key)
+	public static function has($nameSpace, $key): bool
 	{
 		return static::$pool->has("$nameSpace-$key");
 	}
