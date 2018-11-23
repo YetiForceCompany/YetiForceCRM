@@ -509,6 +509,12 @@ App.Fields = {
 
 			return selectElement;
 		},
+		/**
+		 * Register params
+		 * @param selectElement
+		 * @param params
+		 * @returns {*}
+		 */
 		registerParams(selectElement, params) {
 			if (typeof params.dropdownParent === 'undefined') {
 				const modalParent = $(selectElement).closest('.modal-body');
@@ -609,6 +615,12 @@ App.Fields = {
 			}
 			return params;
 		},
+		/**
+		 * Register ajax params
+		 * @param selectElement
+		 * @param params
+		 * @returns {*}
+		 */
 		registerAjaxParams(selectElement, params) {
 			params.tags = false;
 			params.language.searching = function () {
