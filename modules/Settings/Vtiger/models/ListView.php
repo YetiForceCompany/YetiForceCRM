@@ -154,8 +154,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 
 	public function getListViewCount()
 	{
-		$listQuery = $this->getBasicListQuery();
-
+		$listQuery = $this->loadListViewCondition();
 		return $listQuery->count();
 	}
 
