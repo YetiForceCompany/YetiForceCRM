@@ -293,6 +293,11 @@ var App = {},
 			};
 			app.showPopoverElementView(selectElement, params);
 		},
+		/**
+		 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
+		 * @param popover
+		 * @param offsetLeft
+		 */
 		updatePopoverRecordPosition(popover, offsetLeft = popover.offset().left) {
 			let windowHeight = $(window).height(),
 				windowWidth = $(window).width(),
@@ -310,6 +315,11 @@ var App = {},
 				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
 			});
 		},
+		/**
+		 * Get binded popover
+		 * @param element
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
 		getBindedPopover(element) {
 			return $(`#${element.attr('aria-describedby')}`);
 		},
