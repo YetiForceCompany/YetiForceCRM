@@ -1103,8 +1103,7 @@ App.Fields = {
 			if (value == undefined || value == '') {
 				value = 0;
 			}
-			value = this.Integer.formatToDb(value);
-			;
+			value = value.toString();
 			value = value.split(CONFIG.currencyGroupingSeparator).join('');
 			value = value.replace(/\s/g, '').replace(CONFIG.currencyDecimalSeparator, '.');
 			return parseFloat(value);
