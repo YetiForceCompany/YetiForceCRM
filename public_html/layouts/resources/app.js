@@ -1753,14 +1753,14 @@ $(document).ready(function () {
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
-		return App.Fields.Currency.formatToDb($(this).val());
+		return App.Fields.Double.formatToDb($(this).val());
 	}
 	$.fn.getNumberFromText = function () {
-		return App.Fields.Currency.formatToDb($(this).text());
+		return App.Fields.Double.formatToDb($(this).text());
 	}
 	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(App.Fields.Currency.formatToDisplay(App.Fields.Currency.formatToDb(element.val())));
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val())));
 	}
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
