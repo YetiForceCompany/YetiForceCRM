@@ -43,7 +43,7 @@ class GoogleGeocode extends Base
 			return false;
 		}
 		$body = \App\Json::decode($response->body);
-		if (isset($body['results'])) {
+		if (empty($body['error_message']) && isset($body['status'])) {
 			$location = $body['results'][0]['geometry']['location'];
 			$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
 			$response = \Requests::get(static::$url . $urlParam);
@@ -60,6 +60,9 @@ class GoogleGeocode extends Base
 					];
 				}
 			}
+		} elseif (isset($body['error_message'])) {
+			\App\Log::warning("{$body['status']}: {$body['error_message']}", __NAMESPACE__);
+			throw new \App\Exceptions\AppException("ERR_COMMUNICATION_ERROR|{$body['status']}: {$body['error_message']}");
 		}
 		return $rows;
 	}
