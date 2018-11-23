@@ -4,10 +4,10 @@
  * Returns special functions for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 {
@@ -51,7 +51,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk === 1) {
 			$db = App\Db::getInstance('admin');
-			$watermarkImage = (new \App\Db\Query())->select('watermark_image')
+			$watermarkImage = (new \App\Db\Query())->select(['watermark_image'])
 				->from('a_#__pdf')
 				->where(['pdfid' => $templateId])
 				->scalar($db);

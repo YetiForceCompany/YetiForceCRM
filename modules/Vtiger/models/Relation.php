@@ -257,7 +257,7 @@ class Vtiger_Relation_Model extends \App\Base
 
 			return $relationModel;
 		}
-		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
+		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
 			->from('vtiger_relatedlists')
 			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
 			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
@@ -873,7 +873,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationList = \App\Cache::get('getAllRelations', $cacheName);
 		} else {
 			$query = new \App\Db\Query();
-			$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename, vtiger_tab.tabid as moduleid')
+			$query->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name', 'moduleid' => 'vtiger_tab.tabid'])
 				->from('vtiger_relatedlists')
 				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
 				->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()]);

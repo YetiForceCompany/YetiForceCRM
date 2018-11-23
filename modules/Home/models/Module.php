@@ -99,7 +99,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
-		$query->select('vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*')
+		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
@@ -123,7 +123,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		if ($user !== 'all' && !empty($user)) {
 			settype($user, 'int');
-			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_yf_crmentity_showners')->innerJoin('vtiger_activity', 'u_yf_crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_yf_crmentity_showners')->innerJoin('vtiger_activity', 'u_yf_crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
 			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $user], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
 
@@ -263,7 +263,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		//updateActivityQuery api is used to update a query to fetch a only activity
 		if ($type == 'updates' || $type == 'all') {
 			$query = new \App\Db\Query();
-			$query->select('vtiger_modtracker_basic.*')
+			$query->select(['vtiger_modtracker_basic.*'])
 				->from('vtiger_modtracker_basic')
 				->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid')
 				->where(['vtiger_crmentity.deleted' => 0]);

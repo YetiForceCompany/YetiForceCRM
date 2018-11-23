@@ -417,7 +417,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$coordinates = [];
 		foreach ($modules as $moduleName) {
 			$records = (new App\Db\Query())
-				->select('crmids')
+				->select(['crmids'])
 				->from('u_#__openstreetmap_cache')
 				->where(['user_id' => $userId, 'module_name' => $moduleName])
 				->createCommand($db)->queryColumn();

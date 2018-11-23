@@ -111,7 +111,7 @@ class CronReviewed
 					break;
 				}
 				$query = (new \App\Db\Query())
-					->select('last_reviewed_users as u, id, changedon')
+					->select(['u' => 'last_reviewed_users', 'id', 'changedon'])
 					->from('vtiger_modtracker_basic')
 					->where(['crmid' => $crmId])
 					->andWhere(['<>', 'status', $this->displayed])
