@@ -924,10 +924,10 @@ jQuery.Class("Vtiger_List_Js", {
 	 * @param {jQuery} element
 	 */
 	jumpToNextPage(element) {
-		const listViewPageDiv = this.getListViewContainer();
 		if ($(element.currentTarget).hasClass('disabled')) {
 			return;
 		}
+		const listViewPageDiv = this.getListViewContainer();
 		if (listViewPageDiv.find('#noOfEntries').val() === listViewPageDiv.find('#pageLimit').val()) {
 			this.paginationGoToPage(parseInt(listViewPageDiv.find('#pageNumber').val()) + 1);
 		}
