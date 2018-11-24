@@ -883,15 +883,14 @@ jQuery.Class("Vtiger_List_Js", {
 		const self = this,
 			listViewPageDiv = self.getListViewContainer();
 		let aDeferred = $.Deferred(),
-			urlParams = {
-				orderby: listViewPageDiv.find('#orderBy').val(),
-				sortorder: listViewPageDiv.find('#sortOrder').val(),
-				viewname: self.getCurrentCvId()
-			},
 			pageNumber = listViewPageDiv.find('#pageNumber');
 		pageNumber.val(page);
 		listViewPageDiv.find('.js-page-jump').val(page);
-		self.getListViewRecords(urlParams).done(function (data) {
+		self.getListViewRecords({
+			orderby: listViewPageDiv.find('#orderBy').val(),
+			sortorder: listViewPageDiv.find('#sortOrder').val(),
+			viewname: self.getCurrentCvId()
+		}).done(function (data) {
 			aDeferred.resolve();
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
@@ -901,32 +900,32 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register List view Page Navigation
 	 */
 	registerPageNavigationEvents() {
-		const self = this,
-			listViewPageDiv = this.getListViewContainer();
+		const listViewPageDiv = this.getListViewContainer();
 		listViewPageDiv.find('.js-next-page').on('click', (e) => {
-			self.jumpToNextPage(e);
+			this.jumpToNextPage(e);
 		});
 		listViewPageDiv.find('.js-page--previous').on('click', () => {
-			self.jumpToPreviousPage();
+			this.jumpToPreviousPage();
 		});
 		listViewPageDiv.find('.pageNumber').on('click', (e) => {
-			self.jumpToClickedPage($(e.currentTarget));
+			this.jumpToClickedPage($(e.currentTarget));
 		});
 		listViewPageDiv.find('.js-count-number-records').on('click', () => {
-			self.updatePaginationAjax(true);
+			this.updatePaginationAjax(true);
 		});
 		listViewPageDiv.find('.js-page--jump-drop-down').on('click', 'li', (e) => {
 			e.stopImmediatePropagation();
 		}).on('keypress', '.js-page-jump', (e) => {
-			self.jumpToPage(e);
+			this.jumpToPage(e);
 		});
 	},
 	/**
 	 * Jump to next page
+	 * @param {jQuery} element
 	 */
-	jumpToNextPage(e) {
+	jumpToNextPage(element) {
 		const listViewPageDiv = this.getListViewContainer();
-		if ($(e.currentTarget).hasClass('disabled')) {
+		if ($(element.currentTarget).hasClass('disabled')) {
 			return;
 		}
 		if (listViewPageDiv.find('#noOfEntries').val() === listViewPageDiv.find('#pageLimit').val()) {
@@ -950,7 +949,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (element.hasClass('disabled')) {
 			return false;
 		}
-		this.paginationGoToPage(element.data("id"));
+		this.paginationGoToPage(element.data('id'));
 	},
 	/**
 	 * Jump to page function
@@ -964,8 +963,8 @@ jQuery.Class("Vtiger_List_Js", {
 			e.stopImmediatePropagation();
 			let element = $(e.currentTarget),
 				response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-			if (typeof response !== "undefined") {
-				element.validationEngine('showPrompt', response, '', "topLeft", true);
+			if (typeof response !== 'undefined') {
+				element.validationEngine('showPrompt', response, '', 'topLeft', true);
 			} else {
 				element.validationEngine('hideAll');
 				let currentPageElement = listViewPageDiv.find('#pageNumber'),
@@ -973,15 +972,14 @@ jQuery.Class("Vtiger_List_Js", {
 					newPageNumber = parseInt(element.val()),
 					totalPages = parseInt(listViewPageDiv.find('.js-page--total').text());
 				if (newPageNumber > totalPages) {
-					element.validationEngine('showPrompt', app.vtranslate('JS_PAGE_NOT_EXIST'), '', "topLeft", true);
+					element.validationEngine('showPrompt', app.vtranslate('JS_PAGE_NOT_EXIST'), '', 'topLeft', true);
 					return;
 				}
 				if (newPageNumber === currentPageNumber) {
-					let params = {
-						text: app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + " " + newPageNumber,
+					Vtiger_Helper_Js.showMessage({
+						text: app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + newPageNumber,
 						type: 'info'
-					};
-					Vtiger_Helper_Js.showMessage(params);
+					});
 					return;
 				}
 				currentPageElement.val(newPageNumber);
