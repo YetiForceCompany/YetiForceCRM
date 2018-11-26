@@ -44,7 +44,7 @@ class Cache
 	 *
 	 * @param string $key Cache ID
 	 *
-	 * @return string|array
+	 * @return mixed
 	 */
 	public static function get($nameSpace, $key)
 	{
@@ -54,11 +54,12 @@ class Cache
 	/**
 	 * Confirms if the cache contains specified cache item.
 	 *
-	 * @param string $key Cache ID
+	 * @param string $nameSpace
+	 * @param string $key       Cache ID
 	 *
 	 * @return bool
 	 */
-	public static function has($nameSpace, $key)
+	public static function has($nameSpace, $key): bool
 	{
 		return static::$pool->has("$nameSpace-$key");
 	}
@@ -108,7 +109,7 @@ class Cache
 	 * @param string $nameSpace
 	 * @param string $key       Cache ID
 	 *
-	 * @return string|array
+	 * @return mixed
 	 */
 	public static function staticGet($nameSpace, $key)
 	{
@@ -133,7 +134,7 @@ class Cache
 	 *
 	 * @param string $nameSpace
 	 * @param string $key       Cache ID
-	 * @param string $value     Data to store
+	 * @param mixed  $value     Data to store
 	 * @param int    $duration  Cache TTL (in seconds)
 	 *
 	 * @return bool

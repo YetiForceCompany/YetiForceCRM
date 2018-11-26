@@ -89,7 +89,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 					}
 					$priceList[$productId] = $actualPrice;
 				} else {
-					$priceList[$productId] = '';
+					$priceList[$productId] = 0;
 				}
 			}
 			$dataReader->close();

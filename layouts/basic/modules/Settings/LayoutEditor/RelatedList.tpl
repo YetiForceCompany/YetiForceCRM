@@ -111,8 +111,9 @@
 										</div>
 										<div class="form-horizontal">
 											<div class="form-group row">
-												<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}
-													:</label>
+												<label class="col-sm-2 col-form-label text-right">
+													{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:
+												</label>
 												<div class="col-sm-10">
 													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}"
 															multiple="multiple"
@@ -134,7 +135,7 @@
 															<optgroup
 																	label='{\App\Language::translate($BLOCK_LABEL, $RELATED_MODULE_NAME)}'>
 																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-																	{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
+																	{if !isset($SELECTED_FIELDS[$FIELD_MODEL->getId()])}
 																		<option value="{$FIELD_MODEL->getId()}"
 																				data-field-name="{$FIELD_NAME}">
 																			{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}

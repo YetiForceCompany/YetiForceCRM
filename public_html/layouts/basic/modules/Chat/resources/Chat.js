@@ -22,6 +22,8 @@ window.Chat_JS = class Chat_Js {
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
 		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
+		this.shiftPressed = false;
+		this.isModalWindow = false;
 	}
 
 	/**
@@ -195,6 +197,17 @@ window.Chat_JS = class Chat_Js {
 		}
 		AppConnector.request($.extend({module: 'Chat'}, data)).done((data) => {
 			aDeferred.resolve(data);
+		}).fail(() => {
+			if (this.isModalWindow) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+					type: 'error',
+					animation: 'show'
+				});
+				app.hideModalWindow();
+				this.unregisterEvents();
+				Chat_Js.registerTrackingEvents();
+			}
 		}).always(() => {
 			if (progress) {
 				progressIndicator.progressIndicator({mode: 'hide'});
@@ -270,7 +283,7 @@ window.Chat_JS = class Chat_Js {
 				}
 				this.getMessage(true);
 				this.buildParticipantsFromMessage($('<div></div>').html(html));
-				this.scrollToBottom();
+				this.scrollToBottom(false);
 			});
 			inputMessage.val('');
 		} else {
@@ -583,7 +596,7 @@ window.Chat_JS = class Chat_Js {
 			currentParticipants.push(userId);
 			let lastMessage = messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
 			if (lastMessage.length) {
-				$(element).find('.js-message').html(lastMessage.find('.messages').html());
+				$(element).find('.js-message').html(lastMessage.find('.js-message').html());
 			}
 		});
 		this.createParticipants(
@@ -679,9 +692,11 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Scroll the chat content down.
 	 */
-	scrollToBottom() {
+	scrollToBottom(scrollToTop = true) {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
-		chatContent.scrollTop(0);
+		if (scrollToTop) {
+			chatContent.scrollTop(0);
+		}
 		if (chatContent.length) {
 			chatContent.animate({
 				scrollTop: chatContent[0].scrollHeight
@@ -817,7 +832,7 @@ window.Chat_JS = class Chat_Js {
 					}
 					this.messageContainer.append(html);
 					this.buildParticipantsFromMessage($('<div></div>').html(html));
-					this.scrollToBottom();
+					this.scrollToBottom(false);
 				}
 				if (timer) {
 					this.getMessage(true);
@@ -851,13 +866,19 @@ window.Chat_JS = class Chat_Js {
 	 * Register send event
 	 */
 	registerSendEvent() {
-		const self = this;
 		const inputMessage = this.container.find('.js-chat-message');
 		if (this.sendByEnter) {
-			inputMessage.on('keydown', function (e) {
-				if (e.keyCode === 13) {
+			inputMessage.on('keydown', (e) => {
+				if (e.keyCode === 16) {
+					this.shiftPressed = true;
+				} else if (!this.shiftPressed && e.keyCode === 13) {
 					e.preventDefault();
-					self.sendMessage($(this));
+					this.sendMessage(inputMessage);
+				}
+			});
+			inputMessage.on('keyup', (e) => {
+				if (e.keyCode === 16) {
+					this.shiftPressed = false;
 				}
 			});
 		}
@@ -1220,6 +1241,7 @@ window.Chat_JS = class Chat_Js {
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();
 		Chat_Js.unregisterTrackingEvents();
+		this.isModalWindow = true;
 	}
 
 	/**

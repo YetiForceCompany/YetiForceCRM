@@ -28,7 +28,8 @@
 					{$ROW['created']}
 				</span>
 			</div>
-			<div class="o-chat__messages col-12 p-3  ownerCBg_{$ROW['userid']}  {if $USER_ID == $ROW['userid']} active float-right  {else} float-left {/if}">{\App\Purifier::decodeHtml($ROW['messages'])}</div>
+			<div class="o-chat__messages js-message col-12 p-3 ownerCBg_{$ROW['userid']} {if $USER_ID == $ROW['userid']} active float-right  {else} float-left {/if}"
+				 data-js="data">{nl2br(\App\Purifier::decodeHtml($ROW['messages']))}</div>
 		</div>
 	</div>
 {/strip}

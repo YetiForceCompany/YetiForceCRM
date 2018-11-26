@@ -1037,7 +1037,7 @@ class File
 		foreach ($value as $key => $item) {
 			if (isset($previousValue[$item['key']])) {
 				$value[$item['key']] = $previousValue[$item['key']];
-			} elseif ($item['baseContent']) {
+			} elseif (!empty($item['baseContent'])) {
 				$base = static::saveFromBase($item, $recordModel->getModuleName());
 				$new[] = $value[$base['key']] = $base;
 				unset($value[$key]);

@@ -26,7 +26,9 @@ $SECURITY_CONFIG = [
 	'PERMITTED_BY_PRIVATE_FIELD' => false,
 	/*
 	 * Configuration of the permission mechanism on records list.
-	 * true - Permissions based on the users column in vtiger_crmentity
+	 * true - Permissions based on the users column in vtiger_crmentity.
+	 *        Permissions are not verified in real time. They are updated via cron.
+	 *        We do not recommend using this option in production environments.
 	 * false - Permissions based on adding tables with permissions to query (old mechanism)
 	 */
 	'CACHING_PERMISSION_TO_RECORD' => false,
