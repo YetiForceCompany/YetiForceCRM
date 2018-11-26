@@ -123,7 +123,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		if ($user !== 'all' && !empty($user)) {
 			settype($user, 'int');
-			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_yf_crmentity_showners')->innerJoin('vtiger_activity', 'u_yf_crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_activity', 'u_#__crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
 			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $user], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
 
