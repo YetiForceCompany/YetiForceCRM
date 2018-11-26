@@ -51,7 +51,7 @@
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				<input name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text"
 					   value="{$DISPLAY_FIELD_VALUE}"
-					   class="col-md-12 unitPrice currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'}textAlignRight{/if}"
+					   class="col-md-12 unitPrice currencyField js-format-numer form-control {if $SYMBOL_PLACEMENT eq '1.0$'}textAlignRight{/if}"
 					   data-fieldinfo='{$FIELD_INFO}'
 					   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
