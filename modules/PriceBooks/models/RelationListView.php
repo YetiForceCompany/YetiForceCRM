@@ -26,7 +26,7 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 		$field->set('isEditable', true);
 		$field->set('fromOutsideList', true);
 		$field->set('maximumlength', '99999999999999999999');
-		$field->set('class', 'validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]');
+		$field->set('class', 'validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]] js-format-numer');
 		$headerFields['listprice'] = $field;
 		return $headerFields;
 	}
