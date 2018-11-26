@@ -30,9 +30,11 @@ class Calendar_Calendar_Model extends App\Base
 	/**
 	 * Get query.
 	 *
+	 * @param bool $formatDate
+	 *
 	 * @return \App\Db\Query
 	 */
-	public function getQuery()
+	public function getQuery(bool $formatDate = true)
 	{
 		$queryGenerator = new App\QueryGenerator($this->getModuleName());
 		if ($this->has('customFilter')) {
@@ -57,10 +59,10 @@ class Calendar_Calendar_Model extends App\Base
 			$queryGenerator->addNativeCondition(['vtiger_activity.status' => $this->get('activitystatus')]);
 		}
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, $formatDate);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, $formatDate);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$queryGenerator->addNativeCondition([
@@ -116,7 +118,7 @@ class Calendar_Calendar_Model extends App\Base
 	 */
 	public function getEntityRecordsCount()
 	{
-		return $this->getQuery()->count();
+		return $this->getQuery(false)->count();
 	}
 
 	/**
@@ -162,7 +164,7 @@ class Calendar_Calendar_Model extends App\Base
 		$return = [];
 		$currentUser = \App\User::getCurrentUserModel();
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
-		$extended = AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
+		$extended = \AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
 		$editForm = \AppConfig::module('Calendar', 'SHOW_EDIT_FORM');
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -189,7 +191,6 @@ class Calendar_Calendar_Model extends App\Base
 			$startTimeFormated = $dateTimeComponents[1];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->getDetail('date_format'));
-
 			$dateTimeFieldInstance = new DateTimeField($row['due_date'] . ' ' . $row['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue();
 			$endDateTimeDisplay = $dateTimeFieldInstance->getDisplayDateTimeValue();
