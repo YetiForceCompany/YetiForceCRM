@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d37dbc90014c57f69016787953c678ae",
+    "content-hash": "8e91b0633a7bc6f448b3233053434dd4",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -3413,6 +3413,47 @@
                 "xunit"
             ],
             "time": "2018-11-14T16:52:02+00:00"
+        },
+        {
+            "name": "rexxars/html-validator",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rexxars/html-validator.git",
+                "reference": "0efbde751442773c820e2525fb9fcd05a0618a23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rexxars/html-validator/zipball/0efbde751442773c820e2525fb9fcd05a0618a23",
+                "reference": "0efbde751442773c820e2525fb9fcd05a0618a23",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.2.1",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HtmlValidator": "library"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Espen Hovlandsdal",
+                    "email": "espen@hovlandsdal.com"
+                }
+            ],
+            "description": "Validates HTML using Validator.nu",
+            "time": "2017-02-21T23:30:36+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

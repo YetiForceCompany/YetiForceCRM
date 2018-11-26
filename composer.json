@@ -69,7 +69,8 @@
   "require-dev": {
     "facebook/webdriver": "^1.6.0",
     "phpunit/phpunit": "7.*",
-    "seld/jsonlint": "*"
+    "seld/jsonlint": "*",
+    "rexxars/html-validator": "^2.1.0"
   },
   "suggest": {
     "ext-apcu": "Cache meta data in apcu to improve system performance",

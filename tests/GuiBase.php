@@ -31,22 +31,18 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	/**
 	 * @codeCoverageIgnore
 	 */
-	protected function onNotSuccessfulTest(\Throwable $t)
+	protected function displayLogs()
 	{
 		if (!empty($this->logs)) {
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			foreach ($this->logs as $log) {
 				echo '--------- ' . \strtoupper($log['level']) . ' ---------' . \PHP_EOL;
 				echo "URL: {$log['url']}" . \PHP_EOL;
 				echo "TYPE: {$log['source']}" . \PHP_EOL;
 				echo "MSG: {$log['message']}" . \PHP_EOL;
-				echo "-----------------------------------" . \PHP_EOL;
+				echo '-----------------------------------' . \PHP_EOL;
 			}
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			$this->logs = [];
 		}
-		parent::onNotSuccessfulTest($t);
 	}
 
 	public function setUp()
@@ -64,6 +60,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			$this->saveSource($this->loadedPageSource, "{$this->getName()}_fail");
 		}
 		$this->driver->close();
+		$this->displayLogs();
 		parent::tearDown();
 	}
 
@@ -73,7 +70,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		$this->driver->get($this->currentUrl);
 		$this->loadedPageSource = $this->driver->getPageSource();
 		if ($this->detectLoginPage() && $autoLogin) {
-			$this->login();
+			$this->login(false);
 			return $this->url($url, false);
 		}
 		$this->validateSource($this->loadedPageSource);
@@ -86,6 +83,43 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 			foreach ($this->getSourceErrors($source) as $error) {
 				$this->log($error['msg'], 'page', $error['level']);
 			}
+		}
+		$this->validateHtml($source);
+	}
+
+	public function validateHtml($source, $parser = false)
+	{
+		if (!$parser) {
+			$parser = \HtmlValidator\Validator::PARSER_HTML5;
+		}
+		$validator = new \HtmlValidator\Validator('https://validator.nu/');
+		$validator->setParser($parser);
+//		$validator->setHttpClient(new \GuzzleHttp\Client([
+//			'base_uri' => 'https://validator.nu/', 'verify' => false,
+//			'headers' => ['User-Agent' => 'rexxars/html-validator']
+//		]));
+		try {
+			$result = $validator->validateDocument($source);
+			if ($result->hasErrors() || $result->hasWarnings()) {
+				$this->log((string)$result, 'page');
+				$toFile = $this->currentUrl . \PHP_EOL;
+				$toFile .= (string)$result;
+				print('HTML validation error: ' . $this->currentUrl) . \PHP_EOL;
+				$file = $this->getName() . '_' . date("Ymd_His");
+				$this->takeScreenshot($file . '_htmlValidation');
+				$dir = $this->artifactsDir . 'pages' . \DIRECTORY_SEPARATOR;
+				if (!is_dir($dir) && !mkdir($dir, 0777, true) && !\is_dir($dir)) {
+					$this->log('Artifacts "pages" dir creation error in class:' . __CLASS__, 'selenium', 'warning');
+					return;
+				}
+				try {
+					\file_put_contents("{$dir}{$file}_validation.txt", $toFile);
+				} catch (\Exception $exception) {
+					$this->log("Page source save error > {$dir}{$file}.html", 'page', 'error');
+				}
+			}
+		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			$this->log('HTML validation skipped: ' . $e->getMessage(), 'page');
 		}
 	}
 
@@ -180,13 +214,15 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Testing login page display.
 	 */
-	public function login()
+	public function login($navigate = true)
 	{
-		$this->url('index.php', false);
+		if ($navigate) {
+			$this->url('index.php', false);
+		}
 		if ($this->detectLoginPage()) {
 			$this->findElBy('id', 'username')->sendKeys('demo');
-			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
-			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
+			$this->findElBy('id', 'password')->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
+			$this->findElBy('tagName', 'form')->submit();
 		} else {
 			$this->log('Login page not detected');
 		}
