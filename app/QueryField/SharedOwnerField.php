@@ -90,7 +90,9 @@ class SharedOwnerField extends BaseField
 	public function operatorNy()
 	{
 		$focus = $this->queryGenerator->getEntityModel();
-		return ["{$focus->table_name}.{$focus->table_index}" => (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')];
+		$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')
+			->innerJoin($focus->table_name, "u_#__crmentity_showners.crmid={$focus->table_name}.{$focus->table_index}");
+		return ["{$focus->table_name}.{$focus->table_index}" => $query];
 	}
 
 	/**
@@ -101,6 +103,8 @@ class SharedOwnerField extends BaseField
 	public function operatorY()
 	{
 		$focus = $this->queryGenerator->getEntityModel();
-		return ['NOT IN', "{$focus->table_name}.{$focus->table_index}", (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')];
+		$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')
+			->innerJoin($focus->table_name, "u_#__crmentity_showners.crmid={$focus->table_name}.{$focus->table_index}");
+		return ['NOT IN', "{$focus->table_name}.{$focus->table_index}", $query];
 	}
 }
