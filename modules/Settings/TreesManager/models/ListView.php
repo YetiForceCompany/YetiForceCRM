@@ -82,7 +82,20 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 	}
 
 	/**
+	 * Function which will get the list view count.
+	 *
+	 * @return int
+	 */
+	public function getListViewCount()
+	{
+		$listQuery = $this->loadListViewCondition();
+		return $listQuery->count();
+	}
+
+	/**
 	 * Load list view conditions.
+	 *
+	 * @return object
 	 */
 	public function loadListViewCondition()
 	{
