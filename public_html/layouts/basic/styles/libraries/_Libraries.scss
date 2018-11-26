@@ -318,17 +318,20 @@ ul.ui-autocomplete {
 	height: calculate-rem(38px) !important;
 }
 
+.listViewPageDiv {
+	& > .floatThead-wrapper {
+		overflow: hidden; //prevent fixed thead from overflowing table
+
+		& > .floatThead-container {
+			overflow: hidden !important;
+		}
+	}
+}
+
 .js-fixed-thead {
 	tfoot td {
 		border-top: unset !important; //floatThead added this to table, causing additional border
 	}
+
 	table-layout: unset !important;
-}
-
-.floatThead-wrapper {
-	overflow: hidden; //prevent fixed thead from overflowing table
-}
-
-.floatThead-container {
-	overflow: hidden !important;
 }
