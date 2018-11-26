@@ -54,7 +54,8 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [\App\Pdf\Tcpdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', \App\Pdf\Tcpdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [];
+		//return [\App\Pdf\YetiForcePDF::WATERMARK_TYPE_TEXT => 'PLL_TEXT', \App\Pdf\YetiForcePDF::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
 	/**
@@ -472,7 +473,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		(new \App\Pdf\Tcpdf())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\YetiForcePDF())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**
