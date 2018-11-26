@@ -61,6 +61,11 @@
 	}
 }
 
+.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
+.listViewPageDiv .select2noactive {
+	height: calculate-rem(38px) !important;
+}
+
 .input-group > .select2-container--bootstrap {
 	width: 1% !important;
 }
@@ -311,11 +316,6 @@ ul.ui-autocomplete {
 
 .dropdown-menu.show {
 	z-index: 3000; //overflow floatThead and ps scrollbar in list
-}
-
-.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
-.listViewPageDiv .select2noactive {
-	height: calculate-rem(38px) !important;
 }
 
 .listViewPageDiv {
