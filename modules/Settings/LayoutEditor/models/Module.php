@@ -623,7 +623,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get relation fields by module ID.
 	 *
-	 * @param $moduleId
+	 * @param int $moduleId
 	 *
 	 * @return string[]
 	 */

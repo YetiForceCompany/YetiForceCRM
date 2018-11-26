@@ -514,11 +514,6 @@ class Vtiger_PDF_Model extends \App\Base
 			$zip->addFile($file, basename($file));
 		}
 		$zip->close();
-
-		// delete added pdf files
-		foreach ($fileNames as $file) {
-			unlink($file);
-		}
 		$mimeType = \App\Fields\File::getMimeContentType($fileName);
 		$size = filesize($fileName);
 		$name = basename($fileName);
@@ -532,5 +527,8 @@ class Vtiger_PDF_Model extends \App\Base
 		readfile($fileName);
 		// delete temporary zip file and saved pdf files
 		unlink($fileName);
+		foreach ($fileNames as $file) {
+			unlink($file);
+		}
 	}
 }
