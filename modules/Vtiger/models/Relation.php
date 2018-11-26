@@ -1001,18 +1001,31 @@ class Vtiger_Relation_Model extends \App\Base
 		\App\Cache::clear();
 	}
 
-	public static function updateModuleRelatedFields($relationId, $fields)
+	/**
+	 * Update module related fields.
+	 *
+	 * @param int   $relationId
+	 * @param array $fields
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function updateModuleRelatedFields(int $relationId, $fields)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
 		if ($fields) {
+			$addedFields = [];
 			foreach ($fields as $key => $field) {
+				if (in_array($field['id'], $addedFields)) {
+					continue;
+				}
 				$db->createCommand()->insert('vtiger_relatedlists_fields', [
 					'relation_id' => $relationId,
 					'fieldid' => $field['id'],
 					'fieldname' => $field['name'],
 					'sequence' => $key,
 				])->execute();
+				$addedFields[] = $field['id'];
 			}
 		}
 		\App\Cache::clear();

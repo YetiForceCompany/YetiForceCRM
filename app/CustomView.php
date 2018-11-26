@@ -44,8 +44,9 @@ class CustomView
 		'y' => 'LBL_IS_EMPTY',
 		'ny' => 'LBL_IS_NOT_EMPTY',
 		'om' => 'LBL_CURRENTLY_LOGGED_USER',
+		'ogr' => 'LBL_CURRENTLY_LOGGED_USER_GROUP',
 		'wr' => 'LBL_IS_WATCHING_RECORD',
-		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
+		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD'
 	];
 
 	/**
@@ -86,7 +87,7 @@ class CustomView
 	/**
 	 * Operators without values.
 	 */
-	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'wr', 'nwr'];
+	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'ogr', 'wr', 'nwr'];
 
 	/**
 	 * Do we have muliple ids?

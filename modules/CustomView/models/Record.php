@@ -329,6 +329,9 @@ class CustomView_Record_Model extends \App\Base
 		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
+		if ($this->has('entityState')) {
+			$queryGenerator->setStateCondition($this->get('entityState'));
+		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
 			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates(\App\Module::getModuleId($moduleName)));
@@ -644,10 +647,10 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-		->from('vtiger_cvcolumnlist')
-		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-		->createCommand()->queryAllByGroup(1);
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);

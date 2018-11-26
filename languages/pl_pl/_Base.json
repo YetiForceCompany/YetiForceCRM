@@ -891,6 +891,7 @@
     "LBL_MARK_AS_DONE": "Oznacz jako wykonane",
     "LBL_PAGES_HISTORY": "Ostanio przegl\u0105dane strony",
     "LBL_CURRENTLY_LOGGED_USER": "Aktualnie zalogowany u\u017cytkownik",
+    "LBL_CURRENTLY_LOGGED_USER_GROUP": "Grupa zalogowanego u\u017Cytkownika",
     "LBL_IS_WATCHING_RECORD": "Obserwowany rekord",
     "LBL_IS_NOT_WATCHING_RECORD": "Nieobserwowany rekord",
     "LBL_TO_REALIZE": "Do realizacji",

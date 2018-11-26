@@ -144,11 +144,11 @@ var App = {},
 			});
 		},
 		registerPopoverManualTrigger(element, manualTriggerDelay) {
-			const hideDelay = 500;
+			const hideDelay = 500,
+				self = this;
 			element.on("mouseleave", (e) => {
 				setTimeout(function () {
-					let popoverId = $(e.currentTarget).attr('aria-describedby');
-					let currentPopover = $(`#${popoverId}`);
+					let currentPopover = self.getBindedPopover($(e.currentTarget));
 					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 						currentPopover.popover('hide');
 					}
@@ -156,12 +156,22 @@ var App = {},
 			});
 
 			element.on("mouseenter", (e) => {
+				let offsetLeft;
+				if (element.hasClass('js-popover-tooltip--record')) {
+					element.on("mousemove", (ev) => {
+						offsetLeft = ev.pageX;
+					});
+				}
 				setTimeout(function () {
-					let element = $(e.currentTarget);
-					if (element.is(':hover')) {
-						element.popover("show");
-						let popoverId = element.attr('aria-describedby');
-						let currentPopover = $(`#${popoverId}`);
+					let currentElement = $(e.currentTarget);
+					if (currentElement.is(':hover')) {
+						currentElement.popover("show");
+						let currentPopover = self.getBindedPopover(currentElement);
+						if (element.hasClass('js-popover-tooltip--record')) {
+							setTimeout(function () { //timeout needed to overwrite bootrap positioning
+								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
+							}, 100);
+						}
 						currentPopover.on("mouseleave", (e) => {
 							setTimeout(function () {
 								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
@@ -244,13 +254,16 @@ var App = {},
 		/**
 		 * Register popover record
 		 * @param {jQuery} selectElement
+		 * @param {object} customParams
 		 */
 		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+			const self = this;
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 				placement: 'right',
+				fallbackPlacement: 'clockwise',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
 					if (!element.attr('href')) {
@@ -262,15 +275,15 @@ var App = {},
 					}
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
-					let popoverId = element.attr('aria-describedby');
-					let popoverBody = $(`#${popoverId} .popover-body`);
+					let currentPopover = self.getBindedPopover(element);
+					let popoverBody = currentPopover.find('.popover-body');
 					popoverBody.progressIndicator({});
 					let appendPopoverData = (data) => {
 						popoverBody.progressIndicator({mode: 'hide'}).html(data);
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
 						}
-						element.popover('update'); //updates popover with data position 
+						self.updatePopoverRecordPosition(currentPopover);
 					};
 					let cacheData = window.popoverCache[url];
 					if (typeof cacheData !== 'undefined') {
@@ -284,6 +297,36 @@ var App = {},
 				}
 			};
 			app.showPopoverElementView(selectElement, params);
+		},
+		/**
+		 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
+		 * @param {jQuery} popover
+		 * @param {number} offsetLeft
+		 */
+		updatePopoverRecordPosition(popover, offsetLeft = popover.offset().left) {
+			let windowHeight = $(window).height(),
+				windowWidth = $(window).width(),
+				popoverPadding = 10,
+				popoverHeight = popover.height(),
+				popoverWidth = popover.width(),
+				offsetTop = popover.offset().top + popoverPadding;
+			if (popoverHeight + offsetTop > windowHeight) {
+				offsetTop = windowHeight - popoverHeight - popoverPadding;
+			}
+			if (popoverWidth + offsetLeft > windowWidth) {
+				offsetLeft = offsetLeft - popoverWidth;
+			}
+			popover.css({
+				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
+			});
+		},
+		/**
+		 * Get binded popover
+		 * @param {jQuery} element
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		getBindedPopover(element) {
+			return $(`#${element.attr('aria-describedby')}`);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
