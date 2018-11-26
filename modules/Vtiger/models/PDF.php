@@ -54,7 +54,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [];
+		return ['text' => 'PLL_TEXT'];
 		//return [\App\Pdf\YetiForcePDF::WATERMARK_TYPE_TEXT => 'PLL_TEXT', \App\Pdf\YetiForcePDF::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
@@ -266,7 +266,6 @@ class Vtiger_PDF_Model extends \App\Base
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
 		Vtiger_Cache::set('PDFModel', $recordId, $pdf);
-
 		return $pdf;
 	}
 
