@@ -114,7 +114,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 					break;
 				}
 			}
-			let endDateString = moment(startDateTime, dateFormat).add(minutes, 'minutes').format(dateFormat),
+			let endDateString = moment(startDateTime).add(minutes, 'minutes').format(dateFormat),
 				defaultTimeFormat = 'HH:mm';
 			if (12 === timeFormat) {
 				defaultTimeFormat = 'hh:mm A';
