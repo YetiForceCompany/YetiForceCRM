@@ -183,10 +183,10 @@ jQuery.Class("Vtiger_List_Js", {
 			'related_modules': relatedModules
 		};
 		params = $.extend(params, listInstance.getSearchParams());
+		delete params.view;
 		AppConnector.request(params).done(
-			function (data) {
-				data = JSON.parse(data);
-				if (data.success) {
+			(response) => {
+				if (response.success) {
 					app.hideModalWindow();
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
