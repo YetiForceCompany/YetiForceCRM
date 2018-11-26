@@ -44,15 +44,15 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			$restrictedFieldNames = ['campaignrelstatus'];
 			$restrictedUitypes = $this->getRestrictedUitypes();
 			$selectedGeneratedTypes = [1, 2];
-			$dataReader = (new \App\Db\Query())->select('fieldid')
+			$dataReader = (new \App\Db\Query())->select(['fieldid'])
 				->from('vtiger_field')
 				->where([
-						'presence' => $presense,
-						'tabid' => $selectedTabidsList,
-						'generatedtype' => $selectedGeneratedTypes,
-					])
-					->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
-					->createCommand()->query();
+					'presence' => $presense,
+					'tabid' => $selectedTabidsList,
+					'generatedtype' => $selectedGeneratedTypes,
+				])
+				->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
+				->createCommand()->query();
 			$this->supportedFieldIdsList = [];
 			while ($field = $dataReader->readColumn(0)) {
 				$this->supportedFieldIdsList[] = $field;

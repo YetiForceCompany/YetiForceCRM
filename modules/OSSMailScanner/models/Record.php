@@ -425,7 +425,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			return $cache;
 		}
 		$return = [];
-		$value = (new \App\Db\Query())->select('value')->from('vtiger_ossmailscanner_config')
+		$value = (new \App\Db\Query())->select(['value'])->from('vtiger_ossmailscanner_config')
 			->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
 			->scalar();
 		if (!empty($value)) {

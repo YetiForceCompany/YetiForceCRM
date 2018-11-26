@@ -59,7 +59,7 @@ class Module extends ModuleBasic
 		$useactionsText = strtoupper($useactionsText);
 
 		$isExists = (new \App\Db\Query())
-			->select('relation_id')
+			->select(['relation_id'])
 			->from('vtiger_relatedlists')
 			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
 			->exists();

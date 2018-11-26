@@ -838,7 +838,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$query = new \App\Db\Query();
-		$query->select('vtiger_tab.*')->from('vtiger_field')
+		$query->select(['vtiger_tab.*'])->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['<>', 'vtiger_tab.presence', 1]);
 		if ($tree) {

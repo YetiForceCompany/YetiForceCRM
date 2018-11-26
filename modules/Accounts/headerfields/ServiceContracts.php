@@ -4,14 +4,14 @@
  * ServiceContracts Header Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Accounts_ServiceContracts_HeaderField
 {
 	public function process(Vtiger_DetailView_Model $viewModel)
 	{
-		$row = (new \App\Db\Query())->select('MAX(due_date) AS date,count(*) AS total')->from('vtiger_servicecontracts')
+		$row = (new \App\Db\Query())->select(['date' => new \yii\db\Expression('MAX(due_date)'), 'total' => new \yii\db\Expression('count(*)')])->from('vtiger_servicecontracts')
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
 			->where(['deleted' => 0, 'sc_related_to' => $viewModel->getRecord()->getId(), 'contract_status' => 'In Progress'])
 			->one();
