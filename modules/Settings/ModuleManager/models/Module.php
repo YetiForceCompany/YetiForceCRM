@@ -145,7 +145,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{
-		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$subQuery = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'name'])
 			->from('vtiger_tab')
 			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])

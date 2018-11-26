@@ -80,7 +80,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function setLastReviewed($recordId)
 	{
-		$row = (new App\Db\Query())->select('last_reviewed_users,id')
+		$row = (new App\Db\Query())->select(['last_reviewed_users', 'id'])
 			->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordId])
 			->andWhere(['<>', 'status', self::DISPLAYED])
@@ -106,7 +106,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$userId = $currentUser->getRealId();
 		}
 		$query = new \App\Db\Query();
-		$query->select('last_reviewed_users, id')->from('vtiger_modtracker_basic')->where(['crmid' => $recordId])
+		$query->select(['last_reviewed_users', 'id'])->from('vtiger_modtracker_basic')->where(['crmid' => $recordId])
 			->andWhere(['<>', 'status', self::DISPLAYED])->andWhere(['like', 'last_reviewed_users', "#$userId#"])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->limit(1);
 		if ($exception) {
 			$query->andWhere(['<>', 'id', $exception]);
@@ -130,7 +130,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$userId = $currentUser->getId();
 		}
 
-		$lastReviewedUsers = (new \App\Db\Query())->select('last_reviewed_users')->from('vtiger_modtracker_basic')
+		$lastReviewedUsers = (new \App\Db\Query())->select(['last_reviewed_users'])->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordId])
 			->andWhere(['<>', 'status', self::DISPLAYED])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->limit(1)->scalar();
 		if ($lastReviewedUsers !== false) {
@@ -153,11 +153,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($userId === false) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		$query = (new \App\Db\Query())->select('crmid, last_reviewed_users AS u')->from('vtiger_modtracker_basic')
+		$query = (new \App\Db\Query())->select(['crmid', 'u' => 'last_reviewed_users'])->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordsId])
 			->andWhere(['<>', 'status', self::DISPLAYED]);
 		if ($sort) {
-			$query->addSelect('vtiger_ossmailview.type')
+			$query->addSelect(['vtiger_ossmailview.type'])
 				->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id')
 				->leftJoin('vtiger_ossmailview', 'vtiger_modtracker_relations.targetid = vtiger_ossmailview.ossmailviewid')
 				->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');

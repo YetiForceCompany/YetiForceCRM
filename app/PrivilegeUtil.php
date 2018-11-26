@@ -146,7 +146,7 @@ class PrivilegeUtil
 		if (Cache::has('getRoleByUsers', $userId)) {
 			return Cache::get('getRoleByUsers', $userId);
 		}
-		$roleId = (new \App\Db\Query())->select('roleid')
+		$roleId = (new \App\Db\Query())->select(['roleid'])
 			->from('vtiger_user2role')->where(['userid' => $userId])
 			->scalar();
 		Cache::save('getRoleByUsers', $userId, $roleId);
@@ -165,7 +165,7 @@ class PrivilegeUtil
 		if (Cache::has('UserGroups', $userId)) {
 			return Cache::get('UserGroups', $userId);
 		}
-		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_users2group')->where(['userid' => $userId])->column();
+		$groupIds = (new \App\Db\Query())->select(['groupid'])->from('vtiger_users2group')->where(['userid' => $userId])->column();
 		$groupIds = array_map('intval', $groupIds);
 		Cache::save('UserGroups', $userId, $groupIds);
 		return $groupIds;
@@ -185,7 +185,7 @@ class PrivilegeUtil
 			return $profiles;
 		}
 		$profiles = (new \App\Db\Query())
-			->select('profileid')
+			->select(['profileid'])
 			->from('vtiger_role2profile')
 			->where(['roleid' => $roleId])
 			->column();
@@ -1165,7 +1165,7 @@ class PrivilegeUtil
 		}
 		$userGroups = static::getUserGroups($userId);
 		$userRole = static::getRoleByUsers($userId);
-		$roleGroups = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $userRole])->column();
+		$roleGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2role')->where(['roleid' => $userRole])->column();
 		$roles = static::getParentRole($userRole);
 		$roles[] = $userRole;
 		$rsGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
@@ -1296,7 +1296,7 @@ class PrivilegeUtil
 		Log::trace('Entering deleteRelatedSharingRules(' . $id . ') method ...');
 		foreach (static::$shareRulesTablesIndex[$type] as $tablename => $colname) {
 			$colNameArr = explode('::', $colname);
-			$query = (new Db\Query())->select('shareid')
+			$query = (new Db\Query())->select(['shareid'])
 				->from($tablename)
 				->where([$colNameArr[0] => $id]);
 			if (isset($colNameArr[1])) {

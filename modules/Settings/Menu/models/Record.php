@@ -31,7 +31,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function getAll($roleId)
 	{
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
-		$query = (new \App\Db\Query())->select('yetiforce_menu.*, vtiger_tab.name')->from('yetiforce_menu')
+		$query = (new \App\Db\Query())->select(['yetiforce_menu.*', 'vtiger_tab.name'])->from('yetiforce_menu')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 		$menu = [];
@@ -166,7 +166,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				continue;
 			}
 			$recordModel = self::getInstanceById($id);
-			$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
+			$query = (new \App\Db\Query())->select(['id'])->from('yetiforce_menu')->where(['parentid' => $id]);
 			$dataReader = $query->createCommand()->query();
 			while ($childId = $dataReader->readColumn(0)) {
 				$this->removeMenu($childId);

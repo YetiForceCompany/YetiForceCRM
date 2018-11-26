@@ -27,7 +27,7 @@ class Updater
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 		$dbCommand = $db->createCommand();
-		$roleIds = (new \App\Db\Query())->select('roleid')->from('vtiger_role')->column();
+		$roleIds = (new \App\Db\Query())->select(['roleid'])->from('vtiger_role')->column();
 		$query = (new \App\Db\Query())->from('vtiger_field')
 			->where(['uitype' => 16])
 			->andWhere(['fieldname' => $fiels]);

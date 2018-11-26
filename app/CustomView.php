@@ -578,7 +578,7 @@ class CustomView
 		if (Cache::has('GetDefaultCvId', $cacheName)) {
 			return Cache::get('GetDefaultCvId', $cacheName);
 		}
-		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
+		$query = (new Db\Query())->select(['userid', 'default_cvid'])->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
 		$userId = 'Users:' . $this->user->getId();
 		if (isset($data[$userId])) {

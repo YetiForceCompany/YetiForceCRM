@@ -1132,7 +1132,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (\App\Cache::has('Currency', 'List')) {
 			return \App\Cache::get('Currency', 'List');
 		}
-		$currencies = (new \App\Db\Query())->select('id, currency_name')
+		$currencies = (new \App\Db\Query())->select(['id', 'currency_name'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
 			->createCommand()->queryAllByGroup();
