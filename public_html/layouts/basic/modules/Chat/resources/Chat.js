@@ -12,7 +12,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.init(container);
-		this.sendByEnter = app.getCookie("chat-notSendByEnter") !== "true";
+		this.sendByEnter = app.getCookie("chat-notSendByEnter") !== 'true';
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
 		this.isUnreadMode = false;
@@ -21,7 +21,7 @@ window.Chat_JS = class Chat_Js {
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
-		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
+		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === 'true';
 		this.isModalWindow = false;
 	}
 
@@ -102,7 +102,7 @@ window.Chat_JS = class Chat_Js {
 					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages) {
-					if (app.getCookie("chat-isSoundNotification") === "true") {
+					if (app.getCookie("chat-isSoundNotification") === 'true') {
 						app.playSound('CHAT');
 					}
 					if (Chat_Js.desktopPermission()) {
@@ -155,7 +155,7 @@ window.Chat_JS = class Chat_Js {
 	 * @returns {boolean}
 	 */
 	static isDesktopNotification() {
-		return app.getCookie("chat-isDesktopNotification") === "true";
+		return app.getCookie("chat-isDesktopNotification") === 'true';
 	}
 
 	/**
