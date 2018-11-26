@@ -5,6 +5,7 @@
     "LBL_CURRENCY_UPDATE_DESCRIPTION": "Konfiguracja aktualizacji kurs\u00f3w wymiany walut aktywnych w systemie.",
     "LBL_SELECT_BANK": "Wybierz Bank",
     "MSG_ONE_CURRENCY": "Aktywna jest tylko jedna waluta w systemie. Aby pobra\u0107 kursy wymiany walut nale\u017cy doda\u0107 wi\u0119cej walut w systemie.",
+    "MSG_NO_NET_CONN": "Brak po\u0142\u0105czenia z internetem, informacje o walutach nie zosta\u0142y pobrane.",
     "LBL_HISTORY": "Historia wymiany kurs\u00f3w walut",
     "LBL_BANK": "Wybierz bank, z kt\u00f3rego b\u0119d\u0105 pobierane informacje o kursach walut.",
     "LBL_CAL_DATE": "Data kursu",
