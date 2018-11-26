@@ -876,6 +876,7 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	/**
 	 * Function to go to page
+	 * @param {int} page
 	 */
 	paginationGoToPage(page) {
 		const self = this,
