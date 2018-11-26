@@ -254,6 +254,7 @@ var App = {},
 		/**
 		 * Register popover record
 		 * @param {jQuery} selectElement
+		 * @param {object} customParams
 		 */
 		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
 			const self = this;
@@ -299,8 +300,8 @@ var App = {},
 		},
 		/**
 		 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
-		 * @param popover
-		 * @param offsetLeft
+		 * @param {jQuery} popover
+		 * @param {number} offsetLeft
 		 */
 		updatePopoverRecordPosition(popover, offsetLeft = popover.offset().left) {
 			let windowHeight = $(window).height(),
@@ -321,7 +322,7 @@ var App = {},
 		},
 		/**
 		 * Get binded popover
-		 * @param element
+		 * @param {jQuery} element
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
 		getBindedPopover(element) {
