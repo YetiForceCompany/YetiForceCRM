@@ -472,10 +472,10 @@ App.Fields = {
 				});
 			}
 			params = this.registerParams(selectElement, params);
-			selectElement.each(function (e) {
-				var select = $(this);
+			selectElement.each(function () {
+				let select = $(this);
 				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-					var selectNew = select.clone().addClass('d-none');
+					let selectNew = select.clone().addClass('d-none');
 					select.parent().append(selectNew);
 					select.prop('disabled', true);
 				}
@@ -487,19 +487,18 @@ App.Fields = {
 					params[htmlBoolParams] = true;
 				}
 				select.select2(params)
-					.on("select2:open", function (e) {
+					.on("select2:open", (e) => {
 						if (select.data('unselecting')) {
 							select.removeData('unselecting');
-							setTimeout(function (e) {
+							setTimeout(function () {
 								select.each(function () {
 									$(this).select2('close');
 								});
 							}, 1);
 						}
-						var element = $(e.currentTarget);
-						var instance = element.data('select2');
+						let instance = $(e.currentTarget).data('select2');
 						instance.$dropdown.css('z-index', 1000002);
-					}).on("select2:unselect", function (e) {
+					}).on("select2:unselect", () => {
 					select.data('unselecting', true);
 				});
 				if (typeof self[params.selectCb] === 'function') {
