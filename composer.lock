@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e91b0633a7bc6f448b3233053434dd4",
+    "content-hash": "587b8f4582e8d394840e17fb5872ac4f",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
