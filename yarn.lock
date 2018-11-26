@@ -443,9 +443,9 @@ select@^1.1.2:
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
 split.js@^1.5.9:
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.9.tgz#5c1a558f680546ea4b4d5f88e761487257af77c5"
-  integrity sha512-uT3yu5neM8wWYKUhftAKTu2k2t5vX9m/1/sXBNjFDyR3u4vfoAN4Edj2vPhnAQ7D14xj8IySwOKyfiV2sf4odA==
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.10.tgz#11f63a7ea21780a6022e6dffe8f8eaa18c9c819e"
+  integrity sha512-/J52X5c4ZypVwu4WAhD8E1T9uXQtNokvG6mIBHauzyA1aKH6bmETVSv3RPjBXEz6Gcc4mIThgmjGQL39LD16jQ==
 
 store@^2.0.12:
   version "2.0.12"

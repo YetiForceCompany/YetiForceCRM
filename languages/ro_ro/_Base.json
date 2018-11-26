@@ -899,6 +899,7 @@
     "BTN_WORKFLOW_TRIGGER": "Aceasta unelta va permite sa porniti manual un flux de lucru si sa executati automat toate sarcinile selectate.",
     "PaymentsOut": "Plati efectuate",
     "PaymentsIn": "Plati incasate",
+    "LBL_CONSENT_TO_SEND": "Consent to send",
     "LBL_VIEW_CREATE": "Creaza",
     "LBL_VIEW_EDIT": "Modifica",
     "LBL_VIEW_DETAIL": "Detalii",
@@ -1291,7 +1292,9 @@
     "LBL_USE_VARIABLES": "In this field you can use variables, you just need to copy any variable to the clipboard from the panel and paste in here. The field can contain several variables.",
     "BTN_RECORD_OPEN": "Unblock record",
     "LBL_REMOVE_RELATION": "Remove relation",
-    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed."
+    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
+    "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
   },
   "js": {
     "JS_APPROVE": "Approve",
@@ -1661,6 +1664,7 @@
     "JS_CHAT_NEW_MESSAGE": "New message",
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
-    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
   }
 }

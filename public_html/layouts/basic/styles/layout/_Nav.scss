@@ -175,6 +175,9 @@
 
 			button {
 				background: darken($bg-sub-menu, 10%);
+				color: $color-menu;
+				overflow: hidden;
+				text-overflow: ellipsis;
 
 				&:hover, &:focus {
 					color: $bg-sub-menu;

@@ -43,9 +43,9 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	/*
 	 * Function to register the list view container
 	 */
-	getListViewContainer: function () {
+	getListViewContainer() {
 		if (this.listViewContainer == false) {
-			this.listViewContainer = jQuery('div.listViewContentDiv');
+			this.listViewContainer = $('div.listViewPageDiv');
 		}
 		return this.listViewContainer;
 	},

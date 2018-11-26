@@ -217,6 +217,11 @@ ul.ui-autocomplete {
 	}
 }
 
+//fix placholder width when table's elements are hidden
+.ui-sortable-placeholder td[colspan="0"] {
+	display: none;
+}
+
 //-------- ckeditor --------//
 
 .cke_screen_reader_only {

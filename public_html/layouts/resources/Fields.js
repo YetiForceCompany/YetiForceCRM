@@ -715,7 +715,7 @@ App.Fields = {
 					liSelectOptions = liElement.find('.js-select-option-actions');
 				if (!liElement.hasClass('group-result') && event.type === 'mouseenter' && liSelectOptions.length === 0) {
 					let select2Option = liElement.closest('.select2-results__option'),
-						id = select2Option.attr("id"),
+						id = select2Option.attr('id'),
 						idArr = id.split("-"),
 						currentOptionId = '';
 					if (idArr.length > 0) {
@@ -731,16 +731,28 @@ App.Fields = {
 				let thisInstance = $(event.currentTarget),
 					params = optionElement.data('url'),
 					iconActive = optionElement.data('iconActive'),
-					iconInactive = optionElement.data('iconInactive');
-				//AppConnector.request(params).done(function (data) {
-				if (optionElement.data('state') === 'active') {
-					thisInstance.toggleClass(iconActive + ' ' + iconInactive);
-					optionElement.data('state', 'inactive');
-				} else {
-					thisInstance.toggleClass(iconInactive + ' ' + iconActive);
-					optionElement.data('state', 'active');
-				}
-				//});
+					iconInactive = optionElement.data('iconInactive'),
+					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
+				AppConnector.request(params).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					let response = data.result;
+					if (response && response.result) {
+						if (optionElement.data('state') === 'active') {
+							thisInstance.toggleClass(iconActive + ' ' + iconInactive);
+							optionElement.data('state', 'inactive');
+						} else {
+							thisInstance.toggleClass(iconInactive + ' ' + iconActive);
+							optionElement.data('state', 'active');
+						}
+						if (response.message) {
+							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});
+						}
+					} else if (response && response.message) {
+						Vtiger_Helper_Js.showPnotify({text: response.message});
+					}
+				}).fail(function () {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
 				event.stopPropagation();
 			});
 		},
@@ -1020,6 +1032,81 @@ App.Fields = {
 	Gantt: {
 		register(container, data) {
 			return new GanttField(container, data);
+		}
+	},
+	Integer: {
+		/**
+		 * Function returns the integer in user specified format.
+		 * @param {number} value
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value) {
+			if (value === undefined) {
+				value = 0;
+			}
+			let groupSeparator = CONFIG.currencyGroupingSeparator;
+			let groupingPattern = CONFIG.currencyGroupingPattern;
+			value = parseFloat(value).toFixed(1);
+			let integer = value.toString().split('.')[0];
+			if (integer.length > 3) {
+				if (groupingPattern === '123,456,789') {
+					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+				} else if (groupingPattern === '123456,789') {
+					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+				} else if (groupingPattern === '12,34,56,789') {
+					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
+				}
+			}
+			return integer;
+		},
+	},
+	Double: {
+		/**
+		 * Function returns the currency in user specified format.
+		 * @param {number} value
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+			if (value === undefined) {
+				value = 0;
+			}
+			value = parseFloat(value).toFixed(numberOfDecimal);
+			let a = value.toString().split('.');
+			let integer = App.Fields.Integer.formatToDisplay(value);
+			let decimal = a[1];
+			if (numberOfDecimal) {
+				if (CONFIG.truncateTrailingZeros) {
+					if (decimal) {
+						let d = '';
+						for (var i = 0; i < numberOfDecimal; i++) {
+							if (decimal[numberOfDecimal - i - 1] !== '0') {
+								d = decimal[numberOfDecimal - i - 1] + d;
+							}
+						}
+						decimal = d;
+					}
+				}
+				if (decimal) {
+					return integer + CONFIG.currencyDecimalSeparator + decimal;
+				}
+			}
+			return integer;
+		},
+		/**
+		 * Function to get value for db format.
+		 * @param {string} value
+		 * @returns {number}
+		 */
+		formatToDb(value) {
+			if (value == undefined || value == '') {
+				value = 0;
+			}
+			value = value.toString();
+			value = value.split(CONFIG.currencyGroupingSeparator).join('');
+			value = value.replace(/\s/g, '').replace(CONFIG.currencyDecimalSeparator, '.');
+			return parseFloat(value);
 		}
 	}
 }

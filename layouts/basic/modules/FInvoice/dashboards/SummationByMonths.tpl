@@ -12,7 +12,7 @@ YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js',{}, {
 					stacked:true,
 					ticks: {
 						callback: function yAxisTickCallback(label,index,labels) {
-							return app.parseNumberToShow(label);
+							return App.Fields.Currency.formatToDisplay(label);
 						},
 						{if $CONF_DATA['plotTickSize']}
 							stepValue: {$CONF_DATA['plotTickSize']},
@@ -31,7 +31,7 @@ YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js',{}, {
 			tooltips: {
 				callbacks: {
 					label: function tooltipLabelCallback(item) {
-						return app.parseNumberToShow(item.yLabel);
+						return App.Fields.Currency.formatToDisplay(item.yLabel);
 					},
 					title: function tooltipTitleCallback(item) {
 						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+chartData.years[item[0].datasetIndex];

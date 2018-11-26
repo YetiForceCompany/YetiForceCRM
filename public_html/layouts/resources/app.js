@@ -144,11 +144,11 @@ var App = {},
 			});
 		},
 		registerPopoverManualTrigger(element, manualTriggerDelay) {
-			const hideDelay = 500;
+			const hideDelay = 500,
+				self = this;
 			element.on("mouseleave", (e) => {
 				setTimeout(function () {
-					let popoverId = $(e.currentTarget).attr('aria-describedby');
-					let currentPopover = $(`#${popoverId}`);
+					let currentPopover = self.getBindedPopover($(e.currentTarget));
 					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 						currentPopover.popover('hide');
 					}
@@ -156,12 +156,22 @@ var App = {},
 			});
 
 			element.on("mouseenter", (e) => {
+				let offsetLeft;
+				if (element.hasClass('js-popover-tooltip--record')) {
+					element.on("mousemove", (ev) => {
+						offsetLeft = ev.pageX;
+					});
+				}
 				setTimeout(function () {
-					let element = $(e.currentTarget);
-					if (element.is(':hover')) {
-						element.popover("show");
-						let popoverId = element.attr('aria-describedby');
-						let currentPopover = $(`#${popoverId}`);
+					let currentElement = $(e.currentTarget);
+					if (currentElement.is(':hover')) {
+						currentElement.popover("show");
+						let currentPopover = self.getBindedPopover(currentElement);
+						if (element.hasClass('js-popover-tooltip--record')) {
+							setTimeout(function () { //timeout needed to overwrite bootrap positioning
+								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
+							}, 100);
+						}
 						currentPopover.on("mouseleave", (e) => {
 							setTimeout(function () {
 								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
@@ -244,13 +254,16 @@ var App = {},
 		/**
 		 * Register popover record
 		 * @param {jQuery} selectElement
+		 * @param {object} customParams
 		 */
 		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+			const self = this;
 			let params = {
 				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 				placement: 'right',
+				fallbackPlacement: 'clockwise',
 				callbackShown: function (e) {
 					let element = $(e.currentTarget);
 					if (!element.attr('href')) {
@@ -262,15 +275,15 @@ var App = {},
 					}
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
-					let popoverId = element.attr('aria-describedby');
-					let popoverBody = $(`#${popoverId} .popover-body`);
+					let currentPopover = self.getBindedPopover(element);
+					let popoverBody = currentPopover.find('.popover-body');
 					popoverBody.progressIndicator({});
 					let appendPopoverData = (data) => {
 						popoverBody.progressIndicator({mode: 'hide'}).html(data);
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
 						}
-						element.popover('update'); //updates popover with data position 
+						self.updatePopoverRecordPosition(currentPopover);
 					};
 					let cacheData = window.popoverCache[url];
 					if (typeof cacheData !== 'undefined') {
@@ -284,6 +297,36 @@ var App = {},
 				}
 			};
 			app.showPopoverElementView(selectElement, params);
+		},
+		/**
+		 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
+		 * @param {jQuery} popover
+		 * @param {number} offsetLeft
+		 */
+		updatePopoverRecordPosition(popover, offsetLeft = popover.offset().left) {
+			let windowHeight = $(window).height(),
+				windowWidth = $(window).width(),
+				popoverPadding = 10,
+				popoverHeight = popover.height(),
+				popoverWidth = popover.width(),
+				offsetTop = popover.offset().top + popoverPadding;
+			if (popoverHeight + offsetTop > windowHeight) {
+				offsetTop = windowHeight - popoverHeight - popoverPadding;
+			}
+			if (popoverWidth + offsetLeft > windowWidth) {
+				offsetLeft = offsetLeft - popoverWidth;
+			}
+			popover.css({
+				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
+			});
+		},
+		/**
+		 * Get binded popover
+		 * @param {jQuery} element
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		getBindedPopover(element) {
+			return $(`#${element.attr('aria-describedby')}`);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
@@ -1185,39 +1228,6 @@ var App = {},
 			app.cacheParams[param] = value;
 			$('#' + param).val(value);
 		},
-		parseNumberToShow(val, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
-			if (val === undefined) {
-				val = 0;
-			}
-			let groupSeparator = CONFIG.currencyGroupingSeparator;
-			let groupingPattern = app.getMainParams('currencyGroupingPattern');
-			val = parseFloat(val).toFixed(numberOfDecimal);
-			let a = val.toString().split('.');
-			let integer = a[0];
-			let decimal = a[1];
-			if (groupingPattern === '123,456,789') {
-				integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-			} else if (groupingPattern === '123456,789') {
-				integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
-			} else if (groupingPattern === '12,34,56,789') {
-				integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
-			}
-			if (numberOfDecimal) {
-				return integer + CONFIG.currencyDecimalSeparator + decimal;
-			}
-			return integer;
-		},
-		parseNumberToFloat: function (val) {
-			var groupSeparator = CONFIG.currencyGroupingSeparator;
-			var decimalSeparator = CONFIG.currencyDecimalSeparator;
-			if (val == undefined || val == '') {
-				val = 0;
-			}
-			val = val.toString();
-			val = val.split(groupSeparator).join("");
-			val = val.replace(/\s/g, "").replace(decimalSeparator, ".");
-			return parseFloat(val);
-		},
 		errorLog: function (error, err, errorThrown) {
 			if (!CONFIG.debug) {
 				return;
@@ -1749,12 +1759,21 @@ var App = {},
 			}
 			Vtiger_Helper_Js.showPnotify(params);
 		},
+		/**
+		 * Register auto format number value
+		 */
+		registerFormatNumber() {
+			$(document).on('focusout', '.js-format-numer', (e) => {
+				$(e.currentTarget).formatNumber();
+			});
+		},
 	};
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.registerPopover();
 	app.registerPopoverEllipsis();
+	app.registerFormatNumber();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
@@ -1777,10 +1796,14 @@ $(document).ready(function () {
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
-		return app.parseNumberToFloat($(this).val());
+		return App.Fields.Double.formatToDb($(this).val());
 	}
 	$.fn.getNumberFromText = function () {
-		return app.parseNumberToFloat($(this).text());
+		return App.Fields.Double.formatToDb($(this).text());
+	}
+	$.fn.formatNumber = function () {
+		let element = $(this);
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val())));
 	}
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');

@@ -569,6 +569,7 @@ $.Class("Vtiger_DashBoard_Js", {
 						module: selectedModule
 					};
 					data['fields'] = selectedFields;
+					data['filterFields'] = filterFieldsSelect2.val();
 					thisInstance.saveMiniListWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
 				});
 			});

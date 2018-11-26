@@ -25,7 +25,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$query->where(['user_id' => $user]);
 		}
 		if ($onlyMy) {
-			$query->andWhere(['crm_user_id' => \App\User::getCurrentUserId()]);
+			$userModel = \App\User::getCurrentUserModel();
+			$crmUsers  = $userModel->getGroups();
+			$crmUsers[]= $userModel->getId();
+			$query->andWhere(['crm_user_id' => $crmUsers]);
 		}
 		if ($password) {
 			$query->andWhere(['<>', 'password', '']);

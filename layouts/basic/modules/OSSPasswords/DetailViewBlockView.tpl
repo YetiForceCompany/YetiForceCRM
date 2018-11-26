@@ -61,11 +61,13 @@
 											   value='{$FIELD_MODEL->getName()}'
 											   data-prev-value='{$FIELD_MODEL->get('fieldvalue')}'/>
 
+
 {else}
 														{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 														{if $FIELD_VALUE|is_array}
 										{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 									{/if}
+
 
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
 											   data-type="{$FIELD_MODEL->getFieldDataType()}"
@@ -90,7 +92,9 @@
 							class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}
 				</button>&nbsp;&nbsp;
 				<button class="btn btn-warning" onclick="PasswordHelper.showDetailsPassword('{$smarty.get.record}');return false;"
-						id="show-btn"><span class="fas fa-eye u-mr-5px"></span>{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
+						id="show-btn">
+					<span class="fas fa-eye u-mr-5px"></span>{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}
+				</button>
 			</div>
 			<div class="clearfix"></div>
 		</div>

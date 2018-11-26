@@ -536,7 +536,7 @@ class File
 	/**
 	 * Function to sanitize the upload file name when the file name is detected to have bad extensions.
 	 *
-	 * @param string      $fileName File name to be sanitized
+	 * @param string      $fileName          File name to be sanitized
 	 * @param string|bool $badFileExtensions
 	 *
 	 * @return string
@@ -679,7 +679,7 @@ class File
 	/**
 	 * Create document from url.
 	 *
-	 * @param string $url Url
+	 * @param string $url    Url
 	 * @param array  $params
 	 *
 	 * @return bool|array
@@ -702,15 +702,29 @@ class File
 	 * @param \self $file
 	 * @param array $params
 	 *
-	 * @return bool
+	 * @throws \Exception
+	 *
+	 * @return array|bool
 	 */
 	public static function saveFromContent(self $file, $params = [])
 	{
-		$fileName = \App\TextParser::textTruncate($file->getName(), 50, false);
+		$fileName = $file->getName();
+		$fileNameLength = \App\TextParser::getTextLength($fileName);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
+		if ($fileNameLength > ($maxLength = $record->getField('filename')->get('maximumlength'))) {
+			$extLength = 0;
+			if ($ext = $file->getExtension()) {
+				$ext .= ".{$ext}";
+				$extLength = \App\TextParser::getTextLength($ext);
+				$fileName = substr($fileName, 0, $fileNameLength - $extLength);
+			}
+			$fileName = \App\TextParser::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
+		}
+		$fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($fileName));
+
 		$record->setData($params);
-		$record->set('notes_title', \App\Purifier::decodeHtml(\App\Purifier::purify($fileName)));
-		$record->set('filename', \App\Purifier::decodeHtml(\App\Purifier::purify($file->getName())));
+		$record->set('notes_title', $fileName);
+		$record->set('filename', $fileName);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
 		$record->set('folderid', 'T2');
@@ -719,7 +733,7 @@ class File
 			'size' => $file->getSize(),
 			'type' => $file->getMimeType(),
 			'tmp_name' => $file->getPath(),
-			'error' => 0,
+			'error' => 0
 		];
 		$record->save();
 		$file->delete();
@@ -1023,7 +1037,7 @@ class File
 		foreach ($value as $key => $item) {
 			if (isset($previousValue[$item['key']])) {
 				$value[$item['key']] = $previousValue[$item['key']];
-			} elseif ($item['baseContent']) {
+			} elseif (!empty($item['baseContent'])) {
 				$base = static::saveFromBase($item, $recordModel->getModuleName());
 				$new[] = $value[$base['key']] = $base;
 				unset($value[$key]);
@@ -1135,8 +1149,10 @@ class File
 
 	/**
 	 * Save file from base64 encoded string.
+	 *
 	 * @param string $raw        base64 string
 	 * @param string $moduleName Destination record module name
+	 *
 	 * @return array
 	 */
 	public static function saveFromBase($raw, $moduleName)

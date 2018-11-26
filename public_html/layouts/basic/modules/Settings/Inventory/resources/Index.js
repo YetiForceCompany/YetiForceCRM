@@ -78,6 +78,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 				if (typeof data == 'string') {
 					data = JSON.parse(data);
 				}
+				data['result']['value'] = App.Fields.Currency.formatToDisplay(data['result']['value']);
 				//Adding or update details in the list
 				if (form.find('.addView').val() == 'true') {
 					thisInstance.addDetails(data['result']);

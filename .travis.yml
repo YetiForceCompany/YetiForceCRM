@@ -59,7 +59,7 @@ before_script:
 
 script:
 - cd tests
-- ../vendor/bin/phpunit --debug --verbose --testsuite Init,Base,Integrations,Settings,Apps
+- ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
 - sudo ls -all
 - cd ..
 - sudo ls -all
