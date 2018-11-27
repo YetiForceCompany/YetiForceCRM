@@ -29,17 +29,14 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 	 */
 	public function process(\App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		$summaryFields = [];
-		foreach ($recordModel->getModule()->getFields() as $fieldName => &$fieldModel) {
-			if ($fieldModel->isSummaryField() && $fieldModel->isViewableInDetailView() && !$recordModel->isEmpty($fieldName)) {
-				$summaryFields[$fieldName] = $fieldModel;
-			}
-		}
+		$recordPopoverModel = Vtiger_RecordPopover_Model::getInstance($moduleName, $recordModel);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('HEADER_LINKS', $recordPopoverModel->getHeaderLinks());
+		$viewer->assign('FIELDS_ICON', $recordPopoverModel->getFieldsIcon());
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('FIELDS', $summaryFields);
+		$viewer->assign('FIELDS', $recordPopoverModel->getFields());
 		$viewer->view('RecordPopover.tpl', $moduleName);
 	}
 }
