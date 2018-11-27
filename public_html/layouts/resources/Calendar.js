@@ -250,8 +250,9 @@ window.Calendar_Js = class {
 				cvid: historyParams.cvid,
 				defaultView: historyParams.viewType
 			};
-			let s = moment(options.start).valueOf();
-			let e = moment(options.end).valueOf();
+			let dateFormat = CONFIG.dateFormat.toUpperCase();
+			let s = moment(options.start, dateFormat).valueOf();
+			let e = moment(options.end, dateFormat).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
 			app.moduleCacheSet('browserHistoryEvent', false)
