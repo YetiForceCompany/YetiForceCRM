@@ -5,6 +5,7 @@
     "LBL_CURRENCY_UPDATE_DESCRIPTION": "Optiuni pentru setarea sistemelor construite in rate de conversie valutara.",
     "LBL_SELECT_BANK": "Selecteaza banca",
     "MSG_ONE_CURRENCY": "Este doar o moneda principala selectata. Pentru a primi mai multe rate de schimb pentru monezi va rugam adaugati mai multe in setarile CRM-ului.",
+    "MSG_NO_NET_CONN": "No Internet connection, currency information was not downloaded.",
     "LBL_HISTORY": "Istoric rata de schimb",
     "LBL_BANK": "Selecteaza banca de la care se vor primii informatii despre ratele de schimb",
     "LBL_CAL_DATE": "Data cursului",
