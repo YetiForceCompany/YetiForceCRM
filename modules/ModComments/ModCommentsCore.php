@@ -78,12 +78,4 @@ class ModCommentsCore extends CRMEntity
 		$this->column_fields = vtlib\Deprecated::getColumnFields('ModComments');
 		$this->db = PearDatabase::getInstance();
 	}
-
-	/**
-	 * Transform the value while exporting (if required).
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
 }

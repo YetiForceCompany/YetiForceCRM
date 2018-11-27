@@ -86,14 +86,6 @@ class LettersOut extends CRMEntity
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'title', 'assigned_user_id'];
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string $moduleName Module name

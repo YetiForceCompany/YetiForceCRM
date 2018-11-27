@@ -105,8 +105,6 @@ class UserPrivilegesFile
 			if ($userFocus->is_admin == 'on') {
 				fwrite($handle, $newBuf);
 				fclose($handle);
-
-				return;
 			} else {
 				$sharingPrivileges = [];
 				//Constructig the Default Org Share Array
