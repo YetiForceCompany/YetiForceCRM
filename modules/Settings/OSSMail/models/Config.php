@@ -1,10 +1,11 @@
 <?php
+
 /**
  * OSSMail Config Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_OSSMail_Config_Model extends App\Base
 {
@@ -98,6 +99,7 @@ class Settings_OSSMail_Config_Model extends App\Base
 			$fileContent = preg_replace('/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^\n]+);/', $replacement, $fileContent);
 		}
 		file_put_contents(static::FILENAME, $fileContent);
+		\App\Cache::resetFileCache(static::FILENAME);
 		\App\Db::getInstance()->createCommand()->update('roundcube_users', ['language' => $param['language']])->execute();
 	}
 }
