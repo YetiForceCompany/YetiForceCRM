@@ -61,15 +61,15 @@ var Settings_Profiles_Js = {
 			var target = jQuery(e.currentTarget);
 			var parent = target.closest('tr');
 			var checked = target.prop('checked') ? true : false;
-
-			if (target.data('action-state') === 'EditView' || target.data('action-state') === 'Delete' || target.data('action-state') === 'CreateView') {
+			const action = target.data('action-state');
+			if (action === 'EditView' || action === 'Delete' || action === 'CreateView') {
 				if (checked) {
 					jQuery('[data-action-state="DetailView"]', parent).prop('checked', true);
 					jQuery('[data-module-state]', parent).prop('checked', true);
 					jQuery('[data-handlerfor]', parent).removeAttr('disabled');
 				}
 			}
-			if (target.data('action-state') === 'DetailView') {
+			if (action === 'DetailView') {
 				if (!checked) {
 					jQuery('[data-action-state]', parent).prop('checked', false);
 					jQuery('[data-module-state]', parent).prop('checked', false).trigger('change');
