@@ -15,7 +15,6 @@
 	{if $HEADER_COUNT}
 		{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
 	{/if}
-
 	<div class="row">
 		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name=headers}
 			{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
@@ -23,7 +22,8 @@
 			{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
 				{$SPANSIZE_ARRAY[$ITERATION] = 3}
 			{/if}
-			<h6 class="p-0 pr-2 col-sm-{$SPANSIZE_ARRAY[$ITERATION]} u-font-size-100per mb-0"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></h6>
+			<h6 class="p-0 pr-2 col-sm-{$SPANSIZE_ARRAY[$ITERATION]} u-font-size-100per mb-0">
+				<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></h6>
 		{/foreach}
 	</div>
 	{if $OWNER eq false}
@@ -33,20 +33,25 @@
 	{/if}
 	{foreach item=RECORD from=$MINILIST_WIDGET_RECORDS}
 		<div class="row">
-			{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
-				{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
-				{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
-				<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
-					{if $LAST_RECORD}
-						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
-					{/if}
-					{if $RECORD->get($FIELD->get('name'))}
-					<div class="pr-2 u-text-ellipsis u-text-ellipsis--bg-white">{$RECORD->getDisplayValue($FIELD->get('name'))}</div>
-					{else}
-						&nbsp;
-					{/if}
+		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
+			{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
+			{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
+			{assign var="RECORD_NAME" value=$RECORD->get($FIELD->get('name'))}
+			<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $RECORD_NAME} js-popover-tooltip--ellipsis" data-toggle="popover" data-trigger="manual" data-placement="left" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}"{/if}>
+			{if $LAST_RECORD}
+				<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
+			{/if}
+			{if $RECORD_NAME}
+				<div class="pr-2">
+					<div class="js-popover-text">
+						{$RECORD->getDisplayValue($FIELD->get('name'))}
+					</div>
 				</div>
-			{/foreach}
+			{else}
+				&nbsp;
+			{/if}
+			</div>
+		{/foreach}
 		</div>
 	{/foreach}
 {/strip}
