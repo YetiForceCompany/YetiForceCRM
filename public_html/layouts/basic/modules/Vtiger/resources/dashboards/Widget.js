@@ -2851,6 +2851,7 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 				self.registerRecordsCount(multiFilterContent.append(data).children("div:last-child"));
 				self.registerShowHideBlocks();
 				aDeferred.resolve();
+				app.registerPopoverEllipsis(multiFilterContent.find('.js-popover-tooltip--ellipsis'), {trigger: 'manual'});
 			}
 		}).fail(function (error) {
 			aDeferred.reject();
@@ -2913,7 +2914,6 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	},
 	postLoadWidget() {
 		this.registerMultifilter();
-		app.registerPopoverEllipsis(this.container.find('.js-popover-tooltip--ellipsis'), {trigger: 'manual'});
 	},
 	refreshWidget() {
 		this.loadMultifilterData(false);
