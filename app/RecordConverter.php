@@ -247,10 +247,11 @@ class RecordConverter extends Base
 	{
 		$this->sourceModule = \App\Module::getModuleName($this->get('source_module'));
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
-		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : '';
-		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : '';
+		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : [];
+		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : [];
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->sourceModule);
 		$this->sourceInvFields = $inventoryField->getFields();
+		$this->defaultValuesCreatedRecord = $this->get('default_values') ? \App\Json::decode($this->get('default_values')) : [];
 	}
 
 	/**
@@ -259,10 +260,13 @@ class RecordConverter extends Base
 	 * @param array $records
 	 *
 	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
 	 */
 	public function process($records)
 	{
 		$this->init();
+		$createdRecordIds = [];
 		if ($this->get('destiny_module')) {
 			$recordsAmount = count($records);
 			foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
@@ -272,22 +276,21 @@ class RecordConverter extends Base
 					continue;
 				}
 				$this->initDestinyModuleValues($destinyModuleName);
-
 				if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$this->isFieldMergeExists || $recordsAmount === 1)) {
 					$this->fieldMappingExecute = true;
 				}
 				if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
 					$this->inventoryMappingExecute = true;
 				}
-
 				if ($this->isFieldMergeExists && $recordsAmount > 1) {
 					$this->groupRecordConvert = true;
-					$this->getRecordsGroupBy($records);
+					$createdRecordIds = $this->getRecordsGroupBy($records);
 				} else {
-					$this->getRecordModelsWithoutMerge($records);
+					$createdRecordIds = $this->getRecordModelsWithoutMerge($records);
 				}
 			}
 		}
+		return $createdRecordIds;
 	}
 
 	/**
@@ -326,7 +329,7 @@ class RecordConverter extends Base
 			$this->inventoryMappingExecute = true;
 		}
 		$this->getRecordModelsWithoutMerge([$record]);
-		return reset($this->cleanRecordModels);
+		return \current($this->cleanRecordModels);
 	}
 
 	/**
@@ -349,9 +352,12 @@ class RecordConverter extends Base
 	 * Function prepare records model group by field merge.
 	 *
 	 * @param array $records
+	 *
+	 * @return array
 	 */
 	public function getRecordsGroupBy($records)
 	{
+		$createdRecordIds = [];
 		$groupRecords = $this->getGroupRecords($records);
 		foreach ($groupRecords as $groupBy => $recordsId) {
 			$this->cleanRecordModels[$groupBy] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
@@ -369,17 +375,21 @@ class RecordConverter extends Base
 			if ($this->get('check_duplicate')) {
 				$this->checkDuplicate();
 			}
-			$this->saveChanges();
+			$createdRecordIds[] = $this->saveChanges();
 		}
+		return $createdRecordIds;
 	}
 
 	/**
 	 * Function prepare records model.
 	 *
 	 * @param array $records
+	 *
+	 * @return array
 	 */
 	public function getRecordModelsWithoutMerge($records)
 	{
+		$createdRecordIds = [];
 		foreach ($records as $recordId) {
 			$this->cleanRecordModels[$recordId] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
 			if (!isset($this->recordModels[$recordId])) {
@@ -395,9 +405,10 @@ class RecordConverter extends Base
 				$this->checkDuplicate();
 			}
 			if (!$this->isEdit) {
-				$this->saveChanges();
+				$createdRecordIds[] = $this->saveChanges();
 			}
 		}
+		return $createdRecordIds;
 	}
 
 	/**
@@ -423,6 +434,8 @@ class RecordConverter extends Base
 
 	/**
 	 * Function save changes in new record models.
+	 *
+	 * @return int
 	 */
 	public function saveChanges()
 	{
@@ -436,6 +449,7 @@ class RecordConverter extends Base
 				$this->error = $ex->getMessage();
 			}
 		}
+		return $recordModel->getId();
 	}
 
 	/**
