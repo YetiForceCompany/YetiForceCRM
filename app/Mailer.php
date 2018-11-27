@@ -164,6 +164,7 @@ class Mailer
 		if (empty($params['to'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 3;
+			static::jsonColumns($params);
 			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
 			Log::warning('No target email address provided', 'Mailer');
 			return false;
