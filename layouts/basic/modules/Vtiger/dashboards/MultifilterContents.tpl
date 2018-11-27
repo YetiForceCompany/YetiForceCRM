@@ -29,44 +29,51 @@
 				{/if}
 				{assign var="MULTIFILTER_WIDGET_RECORDS" value=$MULTIFILTER_WIDGET_MODEL->getRecords()}
 				{if !empty(count($MULTIFILTER_WIDGET_RECORDS))}
-					<div class="row mb-1 border-bottom">
-						{foreach item=FIELD from=$MULTIFILTER_WIDGET_MODEL->getHeaders() name=headers}
-							{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
-							{$SPANSIZE_ARRAY[$ITERATION] = $SPANSIZE}
-							{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
-								{$SPANSIZE_ARRAY[$ITERATION] = 3}
-							{/if}
-							<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
-								<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong>
-							</div>
-						{/foreach}
-					</div>
-					{foreach item=RECORD from=$MULTIFILTER_WIDGET_RECORDS}
-						<div class="row mb-1">
-							{foreach item=FIELD from=$MULTIFILTER_WIDGET_MODEL->getHeaders() name="multifilterWidgetModelRowHeaders"}
-								{assign var="ITERATION" value=$smarty.foreach.multifilterWidgetModelRowHeaders.iteration}
-								{assign var="LAST_RECORD" value=$smarty.foreach.multifilterWidgetModelRowHeaders.last}
-								<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
-									{if $LAST_RECORD}
-										<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span
-													title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
-													class="fas fa-th-list alignMiddle"></span></a>
-									{/if}
-									{if $RECORD->get($FIELD->get('name'))}
-										<div class="pr-2 u-text-ellipsis u-text-ellipsis--bg-white">{$RECORD->getDisplayValue($FIELD->get('name'))}</div>
-									{/if}
-								</div>
-							{/foreach}
+				<div class="row mb-1 border-bottom">
+					{foreach item=FIELD from=$MULTIFILTER_WIDGET_MODEL->getHeaders() name=headers}
+						{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
+						{$SPANSIZE_ARRAY[$ITERATION] = $SPANSIZE}
+						{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
+							{$SPANSIZE_ARRAY[$ITERATION] = 3}
+						{/if}
+						<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
+							<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong>
 						</div>
 					{/foreach}
-				{else}
-					<div class="row mt-3 mb-3">
-						<div class="col-md-12 text-center">
-							{\App\Language::translate('LBL_NO_RECORDS')}
+				</div>
+				{foreach item=RECORD from=$MULTIFILTER_WIDGET_RECORDS}
+				<div class="row mb-1">
+					{foreach item=FIELD from=$MULTIFILTER_WIDGET_MODEL->getHeaders() name="multifilterWidgetModelRowHeaders"}
+					{assign var="ITERATION" value=$smarty.foreach.multifilterWidgetModelRowHeaders.iteration}
+					{assign var="LAST_RECORD" value=$smarty.foreach.multifilterWidgetModelRowHeaders.last}
+					{assign var="RECORD_NAME" value=$RECORD->get($FIELD->get('name'))}
+
+					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $RECORD_NAME} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}
+					"{/if}>
+					{if $LAST_RECORD}
+					<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span
+								title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
+								class="fas fa-th-list alignMiddle"></span></a>
+					{/if}
+					{if $RECORD_NAME}
+					<div class="pr-2">
+						<div class="js-popover-text">
+							{$RECORD->getDisplayValue($FIELD->get('name'))}
 						</div>
 					</div>
-				{/if}
+					{/if}
+				</div>
+				{/foreach}
 			</div>
+			{/foreach}
+			{else}
+			<div class="row mt-3 mb-3">
+				<div class="col-md-12 text-center">
+					{\App\Language::translate('LBL_NO_RECORDS')}
+				</div>
+			</div>
+			{/if}
 		</div>
+	</div>
 	</div>
 {/strip}
