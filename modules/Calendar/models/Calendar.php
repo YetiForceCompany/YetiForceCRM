@@ -30,11 +30,9 @@ class Calendar_Calendar_Model extends App\Base
 	/**
 	 * Get query.
 	 *
-	 * @param bool $formatDate
-	 *
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(bool $formatDate = true)
+	public function getQuery()
 	{
 		$queryGenerator = new App\QueryGenerator($this->getModuleName());
 		if ($this->has('customFilter')) {
@@ -59,10 +57,10 @@ class Calendar_Calendar_Model extends App\Base
 			$queryGenerator->addNativeCondition(['vtiger_activity.status' => $this->get('activitystatus')]);
 		}
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, $formatDate);
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, $formatDate);
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$queryGenerator->addNativeCondition([
@@ -114,11 +112,11 @@ class Calendar_Calendar_Model extends App\Base
 	/**
 	 * Get records count for extended calendar left column.
 	 *
-	 * @return int|string
+	 * @return int
 	 */
-	public function getEntityRecordsCount()
+	public function getEntityRecordsCount(): int
 	{
-		return $this->getQuery(false)->count();
+		return $this->getQuery()->count();
 	}
 
 	/**

@@ -28,6 +28,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
+	/**
+	 * Calendar_Calendar_Action constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +42,14 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('pinOrUnpinUser');
 	}
 
+	/**
+	 * Get events.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function getEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
@@ -46,8 +57,8 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$record->set('types', $request->getArray('types'));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('start') && $request->has('end')) {
-			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
-			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
+			$record->set('start', $request->getByType('start', 'Date'));
+			$record->set('end', $request->getByType('end', 'Date'));
 		}
 		if ($request->has('filters')) {
 			$record->set('filters', $request->get('filters'));
@@ -151,6 +162,13 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
+	/**
+	 * Update event.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
 	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
