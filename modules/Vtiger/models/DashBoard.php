@@ -210,7 +210,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
-		$query = (new \App\Db\Query())->select(['vtiger_module_dashboard_widgets.module', ' vtiger_module_dashboard_blocks.tabid'])
+		$query = (new \App\Db\Query())->select(['vtiger_module_dashboard_widgets.module', 'vtiger_module_dashboard_blocks.tabid'])
 			->from('vtiger_module_dashboard')
 			->leftJoin('vtiger_module_dashboard_blocks', 'vtiger_module_dashboard_blocks.id = vtiger_module_dashboard.blockid')
 			->leftJoin('vtiger_module_dashboard_widgets', 'vtiger_module_dashboard_widgets.templateid = vtiger_module_dashboard.id')
