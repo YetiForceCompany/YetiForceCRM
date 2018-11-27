@@ -356,6 +356,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	updateCountTaskCalendar() {
 		let datesView = this.container.find('.js-dates-row'),
 			subDatesElements = datesView.find('.js-sub-record'),
+			userDateFormat = CONFIG.dateFormat.toUpperCase(),
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
@@ -368,13 +369,13 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			let data = $(this).data('date'),
 				type = $(this).data('type');
 			if (type === 'years') {
-				dateArray[key] = [moment(data + '-01').format('YYYY-MM-DD') + ' 00:00:00', moment(data + '-01').endOf('year').format('YYYY-MM-DD') + ' 23:59:59'];
+				dateArray[key] = [moment(data + '-01').format(userDateFormat) + ' 00:00:00', moment(data + '-01').endOf('year').format(userDateFormat) + ' 23:59:59'];
 			} else if (type === 'months') {
-				dateArray[key] = [moment(data).format('YYYY-MM-DD') + ' 00:00:00', moment(data).endOf('month').format('YYYY-MM-DD') + ' 23:59:59'];
+				dateArray[key] = [moment(data).format(userDateFormat) + ' 00:00:00', moment(data).endOf('month').format(userDateFormat) + ' 23:59:59'];
 			} else if (type === 'weeks') {
-				dateArray[key] = [moment(data).format('YYYY-MM-DD') + ' 00:00:00', moment(data).add(6, 'day').format('YYYY-MM-DD') + ' 23:59:59'];
+				dateArray[key] = [moment(data).format(userDateFormat) + ' 00:00:00', moment(data).add(6, 'day').format(userDateFormat) + ' 23:59:59'];
 			} else if (type === 'days') {
-				dateArray[key] = [moment(data).format('YYYY-MM-DD') + ' 00:00:00', moment(data).format('YYYY-MM-DD') + ' 23:59:59'];
+				dateArray[key] = [moment(data).format(userDateFormat) + ' 00:00:00', moment(data).format(userDateFormat) + ' 23:59:59'];
 			}
 		});
 		AppConnector.request({
