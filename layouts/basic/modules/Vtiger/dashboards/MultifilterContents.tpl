@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="IS_HIDDEN" value=true}
+	<!-- tpl-Base-Dashboards-MultifilterContents -->
 	<div class="detailViewTable" data-js="data-id|data-url" data-id="{$CUSTOM_VIEW_ID}"
 		 data-url="{\App\Purifier::encodeHtml($MULTIFILTER_WIDGET_MODEL->getTotalCountURL())}">
 		<div class="js-toggle-panel c-panel" data-js="click|data-dynamic">
@@ -76,4 +77,5 @@
 		</div>
 	</div>
 	</div>
+	<!-- /tpl-Base-Dashboards-MultifilterContents -->
 {/strip}
