@@ -498,7 +498,7 @@ class Vtiger_PDF_Model extends \App\Base
 		$zip = new ZipArchive();
 
 		mt_srand(time());
-		$postfix = time() . '_' . mt_rand(0, 1000);
+		$postfix = time() . '_' . random_int(0, 1000);
 		$zipPath = 'storage/';
 		$zipName = "pdfZipFile_{$postfix}.zip";
 		$fileName = $zipPath . $zipName;
