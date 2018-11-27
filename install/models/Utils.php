@@ -22,7 +22,7 @@ class Install_Utils_Model
 			'db_username' => '',
 			'db_password' => '',
 			'db_name' => 'yetiforce',
-			'admin_name' => 'admin' . rand(100, 999),
+			'admin_name' => 'admin' . random_int(100, 999),
 			'admin_firstname' => 'Yeti',
 			'admin_lastname' => 'Administrator',
 			'admin_password' => '',

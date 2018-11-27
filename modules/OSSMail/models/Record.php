@@ -426,7 +426,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$data = $encodedData;
 			}
 		}
-		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? mt_rand() . mt_rand() : null);
+		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? random_int() . random_int() : null);
 		if ($attachmentId) {
 			if (empty($params['filename']) && empty($params['name'])) {
 				$fileName = $attachmentId . '.' . strtolower($partStructure->subtype);
