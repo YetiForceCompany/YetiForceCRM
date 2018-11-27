@@ -2691,7 +2691,7 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 		this.registerRecordsCount();
-		app.registerPopoverEllipsis();
+		app.registerPopoverEllipsis(this.container.find('.js-popover-tooltip--ellipsis'), {trigger: 'manual'});
 	},
 	postRefreshWidget: function () {
 		this.registerRecordsCount();

@@ -37,7 +37,7 @@
 			{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
 			{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
 			{assign var="RECORD_NAME" value=$RECORD->get($FIELD->get('name'))}
-			<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $RECORD_NAME} js-popover-tooltip--ellipsis" data-toggle="popover" data-trigger="manual" data-placement="left" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}"{/if}>
+			<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $RECORD_NAME} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}"{/if}>
 			{if $LAST_RECORD}
 				<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
 			{/if}
