@@ -148,6 +148,7 @@ class Mailer
 		if (empty($params['smtp_id'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 1;
+			static::jsonColumns($params);
 			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
 			Log::warning('No SMTP configuration', 'Mailer');
 			return false;
@@ -155,6 +156,7 @@ class Mailer
 		if (!\App\Mail::getSmtpById($params['smtp_id'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 2;
+			static::jsonColumns($params);
 			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
 			Log::warning('SMTP configuration with provided id not exists', 'Mailer');
 			return false;
@@ -167,16 +169,28 @@ class Mailer
 			return false;
 		}
 
+		static::jsonColumns($params);
+		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
+		return true;
+	}
+
+	/**
+	 * Json encode multidata columns.
+	 *
+	 * @param array $params
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public static function jsonColumns(&$params)
+	{
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($params[$key])) {
-				if (!is_array($params[$key])) {
+				if (!\is_array($params[$key])) {
 					$params[$key] = [$params[$key]];
 				}
 				$params[$key] = Json::encode($params[$key]);
 			}
 		}
-		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
-		return true;
 	}
 
 	/**
