@@ -15,6 +15,7 @@
 	{if $HEADER_COUNT}
 		{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
 	{/if}
+	<!-- tpl-Base-Dashboards-MiniListContents -->
 	<div class="row">
 		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name=headers}
 			{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
@@ -54,4 +55,5 @@
 		{/foreach}
 		</div>
 	{/foreach}
+	<!--/ tpl-Base-Dashboards-MiniListContents -->
 {/strip}
