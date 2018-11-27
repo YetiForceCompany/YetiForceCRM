@@ -344,11 +344,11 @@ window.Calendar_Js = class {
 			let element = $(this);
 			let name = element.data('cache');
 			let cachedValue = app.moduleCacheGet(name);
-			if (element.length > 0 && cachedValue !== null) {
+			if (element.length > 0 && cachedValue !== undefined) {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && cachedValue === null && !element.find(':selected').length) {
+			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
