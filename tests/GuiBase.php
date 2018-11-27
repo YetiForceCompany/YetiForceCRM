@@ -94,10 +94,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		}
 		$validator = new \HtmlValidator\Validator('https://validator.nu/');
 		$validator->setParser($parser);
-//		$validator->setHttpClient(new \GuzzleHttp\Client([
-//			'base_uri' => 'https://validator.nu/', 'verify' => false,
-//			'headers' => ['User-Agent' => 'rexxars/html-validator']
-//		]));
 		try {
 			$result = $validator->validateDocument($source);
 			if ($result->hasErrors() || $result->hasWarnings()) {
