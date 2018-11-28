@@ -1503,61 +1503,64 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Register the event to edit Description for related activities
 		 */
 		summaryViewContainer.on('click', '.editDescription', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var currentDiv = currentTarget.closest('.activityDescription');
-			var editElement = currentDiv.find('.edit');
-			var detailViewElement = currentDiv.find('.value');
-
+			let currentTarget = jQuery(e.currentTarget),
+				currentDiv = currentTarget.closest('.activityDescription'),
+				editElement = currentDiv.find('.edit'),
+				detailViewElement = currentDiv.find('.value'),
+				descriptionText = currentDiv.find('.js-description-text'),
+				descriptionEmpty = currentDiv.find('.js-no-description'),
+				saveButton = currentDiv.find('.js-save-description'),
+				fieldnameElement = jQuery('.fieldname', editElement),
+				fieldName = fieldnameElement.val(),
+				fieldElement = jQuery('[name="' + fieldName + '"]', editElement),
+				callbackFunction = function () {
+					let previousValue = fieldnameElement.data('prevValue'),
+						ajaxEditNewValue = fieldElement.val(),
+						ajaxEditNewLable = fieldElement.val(),
+						activityDiv = currentDiv.closest('.activityEntries'),
+						activityId = activityDiv.find('.activityId').val(),
+						moduleName = activityDiv.find('.activityModule').val(),
+						activityType = activityDiv.find('.activityType').val();
+					if (previousValue == ajaxEditNewValue) {
+						editElement.add(saveButton).addClass('d-none');
+						detailViewElement.removeClass('d-none');
+						currentTarget.show();
+					} else {
+						var errorExists = fieldElement.validationEngine('validate');
+						//If validation fails
+						if (errorExists) {
+							Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
+							return;
+						}
+						currentDiv.progressIndicator();
+						editElement.add(saveButton).addClass('d-none');
+						AppConnector.request({
+							action: 'SaveAjax',
+							record: activityId,
+							field: fieldName,
+							value: ajaxEditNewValue,
+							module: moduleName,
+							activitytype: activityType
+						}).done(function () {
+								currentDiv.progressIndicator({'mode': 'hide'});
+								detailViewElement.removeClass('d-none');
+								currentTarget.show();
+								descriptionText.html(ajaxEditNewLable);
+								fieldnameElement.data('prevValue', ajaxEditNewValue);
+								if (ajaxEditNewValue === '') {
+									descriptionEmpty.removeClass('d-none');
+								} else {
+									descriptionEmpty.addClass('d-none');
+								}
+							}
+						);
+					}
+				};
 			currentTarget.hide();
 			detailViewElement.addClass('d-none');
+			saveButton.removeClass('d-none');
 			editElement.removeClass('d-none').show();
-
-			var fieldnameElement = jQuery('.fieldname', editElement);
-			var fieldName = fieldnameElement.val();
-			var fieldElement = jQuery('[name="' + fieldName + '"]', editElement);
-
-			var callbackFunction = function () {
-				var previousValue = fieldnameElement.data('prevValue');
-				var ajaxEditNewValue = fieldElement.val();
-				var ajaxEditNewLable = fieldElement.val();
-				var activityDiv = currentDiv.closest('.activityEntries');
-				var activityId = activityDiv.find('.activityId').val();
-				var moduleName = activityDiv.find('.activityModule').val();
-				var activityType = activityDiv.find('.activityType').val();
-				if (previousValue == ajaxEditNewValue) {
-					editElement.addClass('d-none');
-					detailViewElement.removeClass('d-none');
-					currentTarget.show();
-				} else {
-					var errorExists = fieldElement.validationEngine('validate');
-					//If validation fails
-					if (errorExists) {
-						Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
-						return;
-					}
-					currentDiv.progressIndicator();
-					editElement.addClass('d-none');
-					AppConnector.request({
-						action: 'SaveAjax',
-						record: activityId,
-						field: fieldName,
-						value: ajaxEditNewValue,
-						module: moduleName,
-						activitytype: activityType
-					}).done(function (data) {
-							currentDiv.progressIndicator({'mode': 'hide'});
-							detailViewElement.removeClass('d-none');
-							currentTarget.show();
-							detailViewElement.html(ajaxEditNewLable);
-							fieldnameElement.data('prevValue', ajaxEditNewValue);
-						}
-					);
-				}
-			}
-
-			fieldElement.focus();
-			//adding focusout event on the currentDiv - to save the ajax edit of description values
-			currentDiv.one('focusout', callbackFunction);
+			saveButton.one('click', callbackFunction);
 		});
 
 		/*

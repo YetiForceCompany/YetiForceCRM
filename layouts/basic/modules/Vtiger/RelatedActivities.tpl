@@ -48,9 +48,33 @@
 							{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 							{if $ACTIVITY_TYPE eq 'Task'}
 								<span class="far fa-check-square fa-fw"></span>
-							{elseif $ACTIVITY_TYPE eq 'Call'}
+
+
+
+
+
+
+{elseif $ACTIVITY_TYPE eq 'Call'}
+
+
+
+
+
+
 								<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
-							{else}
+
+
+
+
+
+
+{else}
+
+
+
+
+
+
 								<span class="fas fa-user fa-fw"></span>
 							{/if}
 						</span>
@@ -104,14 +128,21 @@
 					</div>
 					<div class="activityDescription">
 						<div>
-							<span class="value"><span class="fas fa-align-justify fa-fw mr-1"></span>
-								{if $RECORD->get('description') neq ''}
-									{$RECORD->getDisplayValue('description')|truncate:120:'...'}
-								{else}
-									<span class="muted">{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
-								{/if}
-							</span>&nbsp;&nbsp;
+							<span class="value mr-1"><span class="fas fa-align-justify fa-fw mr-1"></span>
+								{assign var=IS_DESCRIPTION value=$RECORD->get('description') neq ''}
+								<span class="js-description-text">
+									{if $IS_DESCRIPTION}
+										{$RECORD->getDisplayValue('description')|truncate:120:'...'}
+									{/if}
+								</span>
+								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}">
+									{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}
+								</span>
+							</span>
 							{if !$IS_READ_ONLY}
+								<button class="btn btn-sm btn-success js-save-description my-1 d-none" type="button">
+									<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE',$MODULE_NAME)}
+								</button>
 								<span class="editDescription u-cursor-pointer">
 									<span class="fas fa-edit fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
@@ -163,7 +194,19 @@
 									{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-									{else}
+
+
+
+
+
+
+{else}
+
+
+
+
+
+
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
 									{/if}
