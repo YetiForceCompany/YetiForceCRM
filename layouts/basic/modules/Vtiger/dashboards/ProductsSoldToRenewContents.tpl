@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{* Comupte the nubmer of columns required *}
+	<!-- tpl-Base-Dashboards-ProductsSoldToRenewContents -->
 	{assign var="SPANSIZE" value=12}
 	{if $WIDGET_MODEL->getHeaderCount()}
 		{assign var="SPANSIZE" value=12/$WIDGET_MODEL->getHeaderCount()}
 	{/if}
-	<!-- tpl-Base-Dashboards-ProductsSoldToRenewContents -->
 	<div class="row">
 		{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 			<div class="col-sm-{$SPANSIZE}">

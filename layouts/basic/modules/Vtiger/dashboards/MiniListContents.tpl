@@ -9,13 +9,13 @@
 *************************************************************************************}
 {strip}
 	{* Comupte the nubmer of columns required *}
+	<!-- tpl-Base-Dashboards-MiniListContents -->
 	{assign var="SPANSIZE_ARRAY" value=[]}
 	{assign var="SPANSIZE" value=12}
 	{assign var="HEADER_COUNT" value=$MINILIST_WIDGET_MODEL->getHeaderCount()}
 	{if $HEADER_COUNT}
 		{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
 	{/if}
-	<!-- tpl-Base-Dashboards-MiniListContents -->
 	<div class="row">
 		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name=headers}
 			{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
@@ -37,12 +37,12 @@
 		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
 			{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
 			{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
-			{assign var="RECORD_NAME" value=$RECORD->get($FIELD->get('name'))}
-			<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $RECORD_NAME} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}"{/if}>
+			{assign var="FIELD_VALUE" value=$RECORD->get($FIELD->get('name'))}
+			<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $FIELD_VALUE} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}"{/if}>
 			{if $LAST_RECORD}
 				<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
 			{/if}
-			{if $RECORD_NAME}
+			{if $FIELD_VALUE}
 				<div class="pr-2">
 					<div class="js-popover-text">
 						{$RECORD->getDisplayValue($FIELD->get('name'))}

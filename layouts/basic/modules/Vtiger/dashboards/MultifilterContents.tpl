@@ -47,16 +47,15 @@
 					{foreach item=FIELD from=$MULTIFILTER_WIDGET_MODEL->getHeaders() name="multifilterWidgetModelRowHeaders"}
 					{assign var="ITERATION" value=$smarty.foreach.multifilterWidgetModelRowHeaders.iteration}
 					{assign var="LAST_RECORD" value=$smarty.foreach.multifilterWidgetModelRowHeaders.last}
-					{assign var="RECORD_NAME" value=$RECORD->get($FIELD->get('name'))}
-
-					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $RECORD_NAME} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}
+					{assign var="FIELD_VALUE" value=$RECORD->get($FIELD->get('name'))}
+					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $FIELD_VALUE} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}
 					"{/if}>
 					{if $LAST_RECORD}
 					<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span
 								title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
 								class="fas fa-th-list alignMiddle"></span></a>
 					{/if}
-					{if $RECORD_NAME}
+					{if $FIELD_VALUE}
 					<div class="pr-2">
 						<div class="js-popover-text">
 							{$RECORD->getDisplayValue($FIELD->get('name'))}
