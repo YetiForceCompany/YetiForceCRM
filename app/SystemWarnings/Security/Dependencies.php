@@ -23,18 +23,19 @@ class Dependencies extends \App\SystemWarnings\Template
 			$this->status = 1;
 			return;
 		}
-		$vulnerabilities = (new \SensioLabs\Security\SecurityChecker())->check(ROOT_DIRECTORY);
-		$countVulnerabilities = \count($vulnerabilities);
-		if ($countVulnerabilities) {
+		$vulnResults = (new \SensioLabs\Security\SecurityChecker())->check(ROOT_DIRECTORY);
+		if ($vulnResults->count()) {
 			$this->status = 0;
 		} else {
 			$this->status = 1;
 		}
 		if ($this->status === 0) {
+			$vulns = \App\Json::decode((string)$vulnResults);
+			$vulns = (\is_array($vulns) && !empty($vulns)) ? $vulns : [];
 			$this->link = 'index.php?module=Vtiger&parent=Settings&view=Index&mode=security';
 			$this->linkTitle = \App\Language::translate('Security', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translate('LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC', 'Settings:SystemWarnings') . '<br />';
-			foreach ($vulnerabilities as $name => $vulnerability) {
+			foreach ($vulns as $name => $vulnerability) {
 				$this->description .= "$name({$vulnerability['version']}):<br />";
 				foreach ($vulnerability['advisories'] as $data) {
 					$this->description .= "{$data['title']} {$data['cve']}<br />";
