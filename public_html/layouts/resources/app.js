@@ -192,8 +192,9 @@ var App = {},
 			let clone = element
 				.clone()
 				.addClass('u-text-ellipsis--not-active')
+				.css(element.css(['font-size', 'font-weight', 'font-family']))
 				.appendTo('body');
-			if (clone.width() > element.innerWidth()) {
+			if (clone.width() > element.width()) {
 				clone.remove();
 				return true;
 			}
