@@ -533,7 +533,8 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'statuses' => $this->statuses,
-			'activeStatuses' => $this->activeStatuses
+			'activeStatuses' => $this->activeStatuses,
+			'title' => 'Gantt'
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
@@ -553,6 +554,14 @@ class Project_Gantt_Model
 	{
 		$this->getStatuses();
 		$projects = $this->getProject($id);
+		$title = 'Gantt';
+		if (!empty((int) $id)) {
+			foreach ($projects as $project) {
+				if ($project['id'] === $id) {
+					$title = $project['label'];
+				}
+			}
+		}
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$ganttTasks = $this->getGanttTasks($projectIds);
@@ -565,7 +574,8 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'statuses' => $this->statuses,
-			'activeStatuses' => $this->activeStatuses
+			'activeStatuses' => $this->activeStatuses,
+			'title' => $title
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));

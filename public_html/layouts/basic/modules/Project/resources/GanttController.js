@@ -50,7 +50,7 @@ $.Class("Project_Gantt_Js", {}, {
 	loadGantt(container = '.js-gantt__container', ganttData = false) {
 		container = $(container);
 		this.gantt = new Gantt(container);
-		const projectId = container.find('input[name="projectId"]').val();
+		const projectId = container.parent().find('input[name="projectId"]').val();
 		if (!ganttData) {
 			this.gantt.loadProjectFromAjax({
 				module: 'Project',
