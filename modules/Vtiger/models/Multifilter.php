@@ -190,7 +190,7 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getRecordLimit()
 	{
-		return (int)$this->widgetModel->get('limit');
+		return (int) $this->widgetModel->get('limit');
 	}
 
 	/**
