@@ -45,7 +45,13 @@
 			{if $FIELD_VALUE}
 				<div class="pr-2">
 					<div class="js-popover-text">
-						{$RECORD->getDisplayValue($FIELD->get('name'))}
+						{if empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
+							<a class="modCT_{$MODULE}" href="{$RECORD->getDetailViewUrl()}">
+								{$RECORD->getDisplayValue($FIELD->get('name'))}
+							</a>
+						{else}
+							{$RECORD->getDisplayValue($FIELD->get('name'))}
+						{/if}
 					</div>
 				</div>
 			{else}
