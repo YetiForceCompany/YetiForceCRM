@@ -22,15 +22,14 @@
 			{if $OWNERS}
 				<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
-						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
+						<option id="{\App\Layout::getUniqueId('shared-owner')}" value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
 								{foreach item=ELEMENT from=$FIELD_VALUE}
 									{if $ELEMENT eq $OWNER_ID } selected {/if}
 								{/foreach}
 								data-userId="{$CURRENT_USER_ID}"
 								{if $SHOW_FAVORITE_OWNERS}
-							data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}"
-							data-state="{$ACTIVE}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
-								{/if}>
+							data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
+							data-state="{$ACTIVE}" data-template="<span>{$OWNER_NAME}<span class='js-select-option-actions o-filter-actions noWrap float-right'><span data-js='click|class:icons' class='mx-1 js-select-option-event{if $ACTIVE == 'active'} fas fa-star{else} far fa-star{/if}'></span></span></span>"{/if}>
 							{$OWNER_NAME}
 						</option>
 					{/foreach}
@@ -47,7 +46,7 @@
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
-				data-show-additional-icons="true"
+				data-select-cb="registerIconsEvents" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
 					{/if}>
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					{foreach item=USER from=$FIELD_VALUE}

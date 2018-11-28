@@ -460,7 +460,7 @@ App.Fields = {
 		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
-		showSelect2ElementView: function (selectElement, params) {
+		showSelect2ElementView(selectElement, params) {
 			let self = this;
 			selectElement = $(selectElement);
 			if (typeof params === "undefined") {
@@ -471,6 +471,50 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
+			params = this.registerParams(selectElement, params);
+			selectElement.each(function () {
+				let select = $(this);
+				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
+					let selectNew = select.clone().addClass('d-none');
+					select.parent().append(selectNew);
+					select.prop('disabled', true);
+				}
+				let htmlBoolParams = select.data('select');
+				if (htmlBoolParams === 'tags') {
+					params.tags = true;
+					params.tokenSeparators = [","]
+				} else {
+					params[htmlBoolParams] = true;
+				}
+				select.select2(params)
+					.on("select2:open", (e) => {
+						if (select.data('unselecting')) {
+							select.removeData('unselecting');
+							setTimeout(function () {
+								select.each(function () {
+									$(this).select2('close');
+								});
+							}, 1);
+						}
+						let instance = $(e.currentTarget).data('select2');
+						instance.$dropdown.css('z-index', 1000002);
+					}).on("select2:unselect", () => {
+					select.data('unselecting', true);
+				});
+				if (typeof self[params.selectCb] === 'function') {
+					self[params.selectCb](select, params);
+				}
+			});
+
+			return selectElement;
+		},
+		/**
+		 * Register params
+		 * @param selectElement
+		 * @param params
+		 * @returns {*}
+		 */
+		registerParams(selectElement, params) {
 			if (typeof params.dropdownParent === 'undefined') {
 				const modalParent = $(selectElement).closest('.modal-body');
 				if (modalParent.length) {
@@ -549,6 +593,8 @@ App.Fields = {
 				params.escapeMarkup = function (markup) {
 					return markup;
 				};
+			} else if (typeof this[params.templateResult] === 'function') {
+				params.templateResult = this[params.templateResult];
 			}
 			if (typeof params.templateSelection === "undefined") {
 				params.templateSelection = function (data, container) {
@@ -560,135 +606,137 @@ App.Fields = {
 					}
 					return data.text;
 				};
+			} else if (typeof this[params.templateSelection] === 'function') {
+				params.templateSelection = this[params.templateSelection];
 			}
 			if (selectElement.data('ajaxSearch') === 1) {
-				params.tags = false;
-				params.language.searching = function () {
-					return app.vtranslate('JS_SEARCHING');
-				}
-				params.language.inputTooShort = function (args) {
-					var remainingChars = args.minimum - args.input.length;
-					return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
-				}
-				params.language.errorLoading = function () {
-					return app.vtranslate('JS_NO_RESULTS_FOUND');
-				}
-				params.placeholder = '';
-				params.ajax = {
-					url: selectElement.data('ajaxUrl'),
-					dataType: 'json',
-					delay: 250,
-					method: 'POST',
-					data: function (params) {
-						return {
-							value: params.term, // search term
-							page: params.page
-						};
-					},
-					processResults: function (data, params) {
-						var items = new Array;
-						if (data.success == true) {
-							selectElement.find('option').each(function () {
-								var currentTarget = $(this);
-								items.push({
-									label: currentTarget.html(),
-									value: currentTarget.val(),
-								});
-							});
-							items = items.concat(data.result.items);
-						}
-						return {
-							results: items,
-							pagination: {
-								more: false
-							}
-						};
-					},
-					cache: false
-				};
-				params.escapeMarkup = function (markup) {
-					if (markup !== "undefined")
-						return markup;
-				};
-				var minimumInputLength = 3;
-				if (selectElement.data('minimumInput') !== "undefined") {
-					minimumInputLength = selectElement.data('minimumInput');
-				}
-				params.minimumInputLength = minimumInputLength;
-				params.templateResult = function (data) {
-					if (typeof data.name === "undefined") {
-						return data.text;
-					}
-					if (data.type == 'optgroup') {
-						return '<strong>' + data.name + '</strong>';
-					} else {
-						return '<span>' + data.name + '</span>';
-					}
-				};
-				params.templateSelection = function (data, container) {
-					if (data.text === '') {
-						return data.name;
-					}
-					return data.text;
-				};
+				params = this.registerAjaxParams(selectElement, params);
 			}
-			selectElement.each(function (e) {
-				var select = $(this);
-				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-					var selectNew = select.clone().addClass('d-none');
-					select.parent().append(selectNew);
-					select.prop('disabled', true);
+			return params;
+		},
+		/**
+		 * Register ajax params
+		 * @param selectElement
+		 * @param params
+		 * @returns {*}
+		 */
+		registerAjaxParams(selectElement, params) {
+			params.tags = false;
+			params.language.searching = function () {
+				return app.vtranslate('JS_SEARCHING');
+			}
+			params.language.inputTooShort = function (args) {
+				var remainingChars = args.minimum - args.input.length;
+				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
+			}
+			params.language.errorLoading = function () {
+				return app.vtranslate('JS_NO_RESULTS_FOUND');
+			}
+			params.placeholder = '';
+			params.ajax = {
+				url: selectElement.data('ajaxUrl'),
+				dataType: 'json',
+				delay: 250,
+				method: 'POST',
+				data: function (params) {
+					return {
+						value: params.term, // search term
+						page: params.page
+					};
+				},
+				processResults: function (data, params) {
+					var items = new Array;
+					if (data.success == true) {
+						selectElement.find('option').each(function () {
+							var currentTarget = $(this);
+							items.push({
+								label: currentTarget.html(),
+								value: currentTarget.val(),
+							});
+						});
+						items = items.concat(data.result.items);
+					}
+					return {
+						results: items,
+						pagination: {
+							more: false
+						}
+					};
+				},
+				cache: false
+			};
+			params.escapeMarkup = function (markup) {
+				if (markup !== "undefined")
+					return markup;
+			};
+			var minimumInputLength = 3;
+			if (selectElement.data('minimumInput') !== "undefined") {
+				minimumInputLength = selectElement.data('minimumInput');
+			}
+			params.minimumInputLength = minimumInputLength;
+			params.templateResult = function (data) {
+				if (typeof data.name === "undefined") {
+					return data.text;
 				}
-				let htmlBoolParams = select.data('select');
-				if (htmlBoolParams === 'tags') {
-					params.tags = true;
-					params.tokenSeparators = [","]
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
 				} else {
-					params[htmlBoolParams] = true;
+					return '<span>' + data.name + '</span>';
 				}
-				select.select2(params)
-					.on("select2:open", function (e) {
-						if (select.data('unselecting')) {
-							select.removeData('unselecting');
-							setTimeout(function (e) {
-								select.each(function () {
-									$(this).select2('close');
-								});
-							}, 1);
-						}
-						var element = $(e.currentTarget);
-						var instance = element.data('select2');
-						if (typeof data.showAdditionalIcons !== "undefined") {
-							self.registerElementOptions(element);
-						}
-						instance.$dropdown.css('z-index', 1000002);
-					}).on("select2:unselect", function (e) {
-					select.data('unselecting', true);
-				});
-
-				if (select.hasClass('js-select2-sortable')) {
-					self.sortSelect2Options(select);
-					self.registerSelect2Sortable(select, params.sortableCb);
+			};
+			params.templateSelection = function (data, container) {
+				if (data.text === '') {
+					return data.name;
 				}
-			})
-
-			return selectElement;
+				return data.text;
+			};
+			return params;
+		},
+		/**
+		 * Prepend template with a flag, function is calling by select2
+		 * @param optionData
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		prependDataTemplate(optionData) {
+			let template = optionData.text;
+			if (optionData.id !== undefined && optionData.id !== '') {
+				template = $(optionData.element.dataset.template);
+				if (optionData.element.dataset.state !== undefined) { //check if element has icons with different states
+					if (optionData.element.dataset.state === 'active') {
+						template.find('.js-select-option-event').removeClass(optionData.element.dataset.iconInactive)
+							.addClass(optionData.element.dataset.iconActive)
+					} else {
+						template.find('.js-select-option-event').removeClass(optionData.element.dataset.iconActive)
+							.addClass(optionData.element.dataset.iconInactive)
+					}
+				}
+			}
+			return template;
+		},
+		/**
+		 * Register select sortable
+		 * @param select
+		 * @param params
+		 */
+		registerSelectSortable(select, params) {
+			this.sortSelectOptions(select);
+			this.registerSortEvent(select, params.sortableCb);
 		},
 		/**
 		 * Sort elements (options) in select by data-sort-index
 		 * @param {jQuery} select2 element
 		 */
-		sortSelect2Options(select) {
+		sortSelectOptions(select) {
 			select.find('option[data-sort-index]').sort((a, b) => {
 				return ($(b).data('sort-index')) < ($(a).data('sort-index')) ? 1 : -1;
 			}).appendTo(select);
 		},
 		/**
-		 * Register select2 drag and drop sorting
+		 * Register select drag and drop sorting
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSelect2Sortable(select, cb = () => {
+		registerSortEvent(select, cb = () => {
 		}) {
 			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
 			ul.sortable({
@@ -707,42 +755,33 @@ App.Fields = {
 				}
 			});
 		},
-		registerElementOptions(selectElement) {
-			const self = this;
-			let select2Instance = selectElement.data('select2');
-			select2Instance.$dropdown.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
-				let liElement = $(event.currentTarget),
-					liSelectOptions = liElement.find('.js-select-option-actions');
-				if (!liElement.hasClass('group-result') && event.type === 'mouseenter' && liSelectOptions.length === 0) {
-					let select2Option = liElement.closest('.select2-results__option'),
-						id = select2Option.attr('id'),
-						idArr = id.split("-"),
-						currentOptionId = '';
-					if (idArr.length > 0) {
-						currentOptionId = idArr[idArr.length - 1];
-					}
-					let optionElement = selectElement.find('option[value="' + currentOptionId + '"]');
-					self.appendOptionActionsTemplate(optionElement, liElement);
+		/**
+		 * Register icons events in select2 options
+		 * @param selectElement
+		 */
+		registerIconsEvents(selectElement) {
+			selectElement.on('select2:selecting', (event) => {
+				let currentTarget = $(event.params.args.originalEvent.target);
+				if (!currentTarget.hasClass('js-select-option-event') && !currentTarget.is('path')) {
+					return;
 				}
-			});
-		},
-		appendOptionClickEvent(optionElement, element) {
-			element.on('mouseup', '.js-select-option-event', function (event) {
-				let thisInstance = $(event.currentTarget),
-					params = optionElement.data('url'),
-					iconActive = optionElement.data('iconActive'),
-					iconInactive = optionElement.data('iconInactive'),
+				event.preventDefault();
+				if (currentTarget.is('path')) { //svg target fix
+					currentTarget = currentTarget.closest('.js-select-option-event');
+				}
+				let currentElementData = $(event.params.args.data.element).data(),
+					optionElement = $(event.params.args.data.element),
 					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
-				AppConnector.request(params).done(function (data) {
+				AppConnector.request(currentElementData.url).done((data) => {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					let response = data.result;
 					if (response && response.result) {
-						if (optionElement.data('state') === 'active') {
-							thisInstance.toggleClass(iconActive + ' ' + iconInactive);
-							optionElement.data('state', 'inactive');
+						if (optionElement.attr('data-state') === 'active') {
+							optionElement.attr('data-state', 'inactive');
+							currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
 						} else {
-							thisInstance.toggleClass(iconInactive + ' ' + iconActive);
-							optionElement.data('state', 'active');
+							optionElement.attr('data-state', 'active');
+							currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
 						}
 						if (response.message) {
 							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});
@@ -753,17 +792,8 @@ App.Fields = {
 				}).fail(function () {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});
-				event.stopPropagation();
 			});
-		},
-		appendOptionActionsTemplate(optionElement, liElement) {
-			let optionClass = optionElement.data('state') === 'active' ? optionElement.data('icon-active') : optionElement.data('icon-inactive'),
-				template = $(`<span class="js-select-option-actions o-filter-actions noWrap float-right">
-					<span data-js="click|class:icons" class="mr-1 js-select-option-event ${optionClass}"></span>
-				</span>`);
-			this.appendOptionClickEvent(optionElement, template);
-			template.appendTo(liElement.find('.js-element__title'));
-		},
+		}
 	},
 	MultiImage: {
 		currentFileUploads: 0,
