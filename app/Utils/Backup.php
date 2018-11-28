@@ -62,7 +62,7 @@ class Backup
 					if (!\in_array($element->getExtension(), $allowedExtensions)) {
 						continue;
 					}
-					$record['url'] = "{$requestUrl}&action=downloadFile&file={$urlDirectory}{$record['name']}";
+					$record['url'] = "{$requestUrl}&action=DownloadFile&file={$urlDirectory}{$record['name']}";
 					$record['date'] = \App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $element->getMTime()));
 					$record['size'] = \vtlib\Functions::showBytes($element->getSize());
 					$returnStructure['files'][] = $record;
