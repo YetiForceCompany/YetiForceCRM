@@ -14,15 +14,18 @@ class Gantt {
 		this.registerLanguage();
 		this.options = {
 			style: {
-				"tree-row-bar-polygon": {
-					"stroke": "#E74C3C00",
-					"stroke-width": 0,
-					"fill": "#F75C4C",
+				'tree-row-bar-polygon': {
+					'stroke': '#E74C3C00',
+					'stroke-width': 0,
+					'fill': '#F75C4C',
 				},
-				"tree-row-progress-bar-outline": {
-					"stroke": "#E74C3C00",
-					"stroke-width": 0
+				'tree-row-progress-bar-outline': {
+					'stroke': '#E74C3C00',
+					'stroke-width': 0
 				},
+				'header-title': {
+					'max-width': '50%'
+				}
 			},
 			title: {
 				label: 'Gantt',
@@ -37,36 +40,36 @@ class Gantt {
 						value: 'number',
 						width: 65,
 						style: {
-							"task-list-header-label": {
+							'task-list-header-label': {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							"task-list-item-value": {
+							'task-list-item-value': {
 								'text-align': 'center',
 								'width': '100%'
 							}
 						}
 					},
-					{id: 2, label: app.vtranslate("JS_NAME"), value: 'label', width: 280, expander: true},
+					{id: 2, label: app.vtranslate('JS_NAME'), value: 'label', width: 280, expander: true},
 					{
-						id: 3, label: app.vtranslate("JS_PRIORITY"), value: 'priority_label', width: 70, style: {
-							"task-list-header-label": {
+						id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70, style: {
+							'task-list-header-label': {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							"task-list-item-value": {
+							'task-list-item-value': {
 								'text-align': 'center',
 								'width': '100%'
 							}
 						}
 					},
 					{
-						id: 3, label: app.vtranslate("JS_STATUS"), value: 'status_label', width: 100, style: {
-							"task-list-header-label": {
+						id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 100, style: {
+							'task-list-header-label': {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							"task-list-item-value": {
+							'task-list-item-value': {
 								'text-align': 'center',
 								'width': '100%'
 							}
@@ -74,30 +77,30 @@ class Gantt {
 					},
 					{
 						id: 4,
-						label: app.vtranslate("JS_DURATION_SHORT", "Project"),
+						label: app.vtranslate('JS_DURATION_SHORT', 'Project'),
 						value: (task) => {
 							return task.duration / 24 / 60 / 60;
 						},
 						width: 45,
 						style: {
-							"task-list-header-label": {
+							'task-list-header-label': {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							"task-list-item-value": {
+							'task-list-item-value': {
 								'text-align': 'center',
 								'width': '100%'
 							}
 						}
 					},
-					{id: 5, label: app.vtranslate("JS_ASSIGNED", "Project"), value: 'assigned_user_name', width: 150},
+					{id: 5, label: app.vtranslate('JS_ASSIGNED', 'Project'), value: 'assigned_user_name', width: 150},
 					{
 						id: 5, label: '%', value: 'progress', width: 35, style: {
-							"task-list-header-label": {
+							'task-list-header-label': {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							"task-list-item-value": {
+							'task-list-item-value': {
 								'text-align': 'center',
 								'width': '100%'
 							}
@@ -200,6 +203,7 @@ class Gantt {
 	loadProject(projectData) {
 		this.projectData = projectData;
 		this.allTasks = this.projectData.tasks;
+		this.options.title.label = projectData.title;
 		if (typeof this.allTasks === 'undefined') {
 			$('.js-hide-filter').addClass('d-none');
 			$('.js-show-add-record').removeClass('d-none');
