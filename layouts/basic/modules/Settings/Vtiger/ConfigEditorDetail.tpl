@@ -59,7 +59,7 @@
 									{if isset($FIELD_DATA[$FIELD_NAME]) && !empty($PICKLIST[$FIELD_DATA[$FIELD_NAME]])}
 										{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
 									{/if}
-								{elseif !empty($FIELD_DATA[$FIELD_NAME])}
+								{elseif isset($FIELD_DATA[$FIELD_NAME])}
 									{$FIELD_DATA[$FIELD_NAME]}
 								{/if}
 								{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}
