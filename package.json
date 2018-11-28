@@ -53,7 +53,6 @@
     "inputmask": "^4.0",
     "jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#master",
     "jquery": ">3.0.0",
-    "jquery-gantt-editor": "^1.0.2",
     "jquery-hoverintent": "^1.9.0",
     "jquery-lazy": "^1.7.7",
     "jquery-outside-events": "^1.0.0",
