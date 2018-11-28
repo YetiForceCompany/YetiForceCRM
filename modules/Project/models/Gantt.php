@@ -455,7 +455,6 @@ class Project_Gantt_Model
 		while ($row = $dataReader->read()) {
 			$project = [
 				'id' => $row['id'],
-				'parentId' => (int) $row['parentid'],
 				'name' => \App\Purifier::encodeHtml($row['projectname']),
 				'label' => \App\Purifier::encodeHtml($row['projectname']),
 				'url' => 'index.php?module=Project&view=Detail&record=' . $row['id'],
