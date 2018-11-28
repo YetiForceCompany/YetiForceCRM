@@ -245,7 +245,7 @@ var App = {},
 				if (iconElement.length) {
 					element.find('.js-popover-icon').removeClass('d-none');
 					params.selector = '[data-fa-i2svg].js-popover-icon';
-				} else if (params.trigger === 'manual') { //[popover on bigger elements needs manual triggering/positioning
+				} else if (params.trigger === 'manual') { //popover on bigger elements needs manual triggering/positioning
 					params.template = '<div class="popover u-opacity-0" role="tooltip"><div class="popover-body"></div></div>';
 					element.on('hide.bs.popover', () => {
 						$('.popover').addClass('u-opacity-0');
