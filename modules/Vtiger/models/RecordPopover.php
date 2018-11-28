@@ -27,18 +27,18 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	/**
 	 * Function to get model of view "RecordPopover".
 	 *
-	 * @param string               $moduleName
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string $moduleName
+	 * @param int    $recordId
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return \Vtiger_RecordPopover_Model
 	 */
-	public static function getInstance(string $moduleName, Vtiger_Record_Model $recordModel): self
+	public static function getInstance(string $moduleName, int $recordId): self
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'RecordPopover', $moduleName);
 		$instance = new $modelClassName();
-		$instance->setRecord($recordModel);
+		$instance->setRecord(Vtiger_Record_Model::getInstanceById($recordId, $moduleName));
 		$instance->moduleName = $moduleName;
 		return $instance;
 	}
@@ -56,9 +56,19 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	}
 
 	/**
+	 * Gets model of record.
+	 *
+	 * @return \Vtiger_Record_Model
+	 */
+	public function getRecord(): Vtiger_Record_Model
+	{
+		return $this->recordModel;
+	}
+
+	/**
 	 * Returns array with model of buttons.
 	 *
-	 * @return array
+	 * @return Vtiger_Link_Model[]
 	 */
 	public function getHeaderLinks(): array
 	{
@@ -68,7 +78,7 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	/**
 	 * Returns list of fields to display.
 	 *
-	 * @return array
+	 * @return \Vtiger_Field_Model[]
 	 */
 	public function getFields(): array
 	{
@@ -82,6 +92,8 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	}
 
 	/**
+	 * Returns icons for fields.
+	 *
 	 * @return array
 	 */
 	public function getFieldsIcon(): array

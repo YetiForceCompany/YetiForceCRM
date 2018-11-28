@@ -36,13 +36,13 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 	 */
 	public function getHeaderLinks(): array
 	{
-		$links = parent::getHeaderLinks();
+		$links = [];
 		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
 			$detailUrl = "index.php?module={$this->moduleName}&view=ActivityState&record={$this->recordModel->getId()}";
 			$editUrl = $this->recordModel->isEditable() ? "index.php?module={$this->moduleName}&view=EventForm&record={$this->recordModel->getId()}" : '';
 		} else {
 			$detailUrl = $this->recordModel->getFullDetailViewUrl();
-			$editUrl = $this->recordModel->isEditable() ? $this->ecordModel->getEditViewUrl() : '';
+			$editUrl = $this->recordModel->isEditable() ? $this->recordModel->getEditViewUrl() : '';
 		}
 		if ($this->recordModel->isEditable()) {
 			$links[] = [
@@ -64,7 +64,7 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 				'linkclass' => 'btn-sm btn-outline-secondary js-calendar-popover__button',
 			];
 		}
-		$linksModels = [];
+		$linksModels = parent::getHeaderLinks();
 		foreach ($links as $link) {
 			$linksModels[] = Vtiger_Link_Model::getInstanceFromValues($link);
 		}
