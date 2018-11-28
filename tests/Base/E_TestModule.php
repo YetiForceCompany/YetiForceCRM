@@ -38,6 +38,7 @@ class E_TestModule extends \Tests\Base
 
 	/**
 	 * Detect if is possible to install sample data.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	protected function setUp()
