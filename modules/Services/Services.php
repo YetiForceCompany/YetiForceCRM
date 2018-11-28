@@ -89,14 +89,6 @@ class Services extends CRMEntity
 	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 *
 	 * @param string This module name

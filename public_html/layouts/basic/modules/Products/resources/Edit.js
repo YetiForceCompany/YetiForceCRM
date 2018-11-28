@@ -82,7 +82,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		container.on('click', '.js-currency-reset', (e) => {
 			let parentElem = $(e.currentTarget).closest('tr');
 			let price = this.getUnitPrice().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
-			$('.js-converted-price', parentElem).val(App.Fields.Currency.formatToDisplay(price));
+			$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 		});
 	},
 	calculateConversionRate: function (container) {
@@ -97,7 +97,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 			let element = $(domElement);
 			console.log(element);
 			if (!element.is(baseCurrencyConvestationRate)) {
-				element.val(App.Fields.Currency.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue));
+				element.val(App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue));
 			}
 		});
 		baseCurrencyConvestationRate.val("1");
@@ -115,7 +115,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 				let price = this.getUnitPrice().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
 				$('input', parentRow).attr('disabled', true).removeAttr('disabled');
 				parentRow.find('.js-currency-reset').attr('disabled', true).removeAttr('disabled');
-				parentRow.find('.js-converted-price').val(App.Fields.Currency.formatToDisplay(price));
+				parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
 			} else {
 				if (parentRow.find('.js-base-currency').is(':checked')) {
 					Vtiger_Helper_Js.showPnotify({

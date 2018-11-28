@@ -1064,7 +1064,34 @@ App.Fields = {
 			return new GanttField(container, data);
 		}
 	},
-	Currency: {
+	Integer: {
+		/**
+		 * Function returns the integer in user specified format.
+		 * @param {number} value
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value) {
+			if (value === undefined) {
+				value = 0;
+			}
+			let groupSeparator = CONFIG.currencyGroupingSeparator;
+			let groupingPattern = CONFIG.currencyGroupingPattern;
+			value = parseFloat(value).toFixed(1);
+			let integer = value.toString().split('.')[0];
+			if (integer.length > 3) {
+				if (groupingPattern === '123,456,789') {
+					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+				} else if (groupingPattern === '123456,789') {
+					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+				} else if (groupingPattern === '12,34,56,789') {
+					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
+				}
+			}
+			return integer;
+		},
+	},
+	Double: {
 		/**
 		 * Function returns the currency in user specified format.
 		 * @param {number} value
@@ -1075,21 +1102,10 @@ App.Fields = {
 			if (value === undefined) {
 				value = 0;
 			}
-			let groupSeparator = CONFIG.currencyGroupingSeparator;
-			let groupingPattern = CONFIG.currencyGroupingPattern;
 			value = parseFloat(value).toFixed(numberOfDecimal);
 			let a = value.toString().split('.');
-			let integer = a[0];
+			let integer = App.Fields.Integer.formatToDisplay(value);
 			let decimal = a[1];
-			if (integer.length > 3) {
-				if (groupingPattern === '123,456,789') {
-					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-				} else if (groupingPattern === '123456,789') {
-					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
-				} else if (groupingPattern === '12,34,56,789') {
-					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
-				}
-			}
 			if (numberOfDecimal) {
 				if (CONFIG.truncateTrailingZeros) {
 					if (decimal) {

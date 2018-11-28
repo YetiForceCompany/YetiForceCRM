@@ -329,6 +329,9 @@ class CustomView_Record_Model extends \App\Base
 		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
+		if ($this->has('entityState')) {
+			$queryGenerator->setStateCondition($this->get('entityState'));
+		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
 			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates(\App\Module::getModuleId($moduleName)));
@@ -463,11 +466,11 @@ class CustomView_Record_Model extends \App\Base
 	{
 		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		$operator = $rule['operator'];
-		$value = $rule['value'];
+		$value = $rule['value'] ?? '';
 		if (!$this->get('advfilterlistDbFormat') && !in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
 			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
 				->getUITypeModel()
-				->getDbConditionBuilderValue($rule['value'], $operator);
+				->getDbConditionBuilderValue($value, $operator);
 		}
 		\App\Db::getInstance()->createCommand()->insert('u_#__cv_condition', [
 			'group_id' => $parentId,

@@ -21,7 +21,7 @@
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-		{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
+		{if $FIELD_VALUE eq '' && isset($VIEW) && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
 		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
@@ -55,7 +55,7 @@
 					{/if}>
 				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
-					{if $VIEW eq 'MassEdit'}
+					{if isset($VIEW) && $VIEW eq 'MassEdit'}
 						<optgroup class="p-0">
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>

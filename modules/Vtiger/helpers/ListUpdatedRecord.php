@@ -4,7 +4,7 @@
  * ListUpdatedRecord class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class ListUpdatedRecord
 {
@@ -13,7 +13,7 @@ class ListUpdatedRecord
 		$moduleList = [];
 		$recordList = [];
 		if (!$module) {
-			$moduleList = (new \App\Db\Query())->select('name')
+			$moduleList = (new \App\Db\Query())->select(['name'])
 				->from('vtiger_tab')
 				->where(['isentitytype' => 1])
 				->andWhere(['<>', 'presence', 1])

@@ -101,7 +101,7 @@ class Login extends \Api\Core\BaseAction
 	public function updateSession($row)
 	{
 		$db = \App\Db::getInstance('webservice');
-		$token = md5(microtime(true) . mt_rand());
+		$token = md5(microtime(true) . random_int(PHP_INT_MIN, PHP_INT_MAX));
 		$params = $this->controller->request->getArray('params');
 		if (!empty($params['language'])) {
 			$language = $params['language'];

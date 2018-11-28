@@ -38,7 +38,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if ($request->getMode() !== 'findAddress') {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
-				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
+				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 			}
 		}
 	}

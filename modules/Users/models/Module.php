@@ -116,7 +116,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$outtime = date('Y-m-d H:i:s');
 
 		$loginId = (new \App\Db\Query())
-			->select('login_id')
+			->select(['login_id'])
 			->from('vtiger_loginhistory')
 			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
 			->limit(1)->orderBy('login_id DESC')->scalar();
@@ -125,8 +125,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 				->update('vtiger_loginhistory', [
 					'logout_time' => $outtime,
 					'status' => 'Signed off',
-					], ['login_id' => $loginId])
-					->execute();
+				], ['login_id' => $loginId])
+				->execute();
 		}
 	}
 

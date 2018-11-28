@@ -2,6 +2,6 @@
 {strip}
 	<div class="tpl-Project-gantt-GanntContents c-gantt" data-js="container">
 		<input type="hidden" name="projectId" value="{$PROJECTID}">
-		<div class="js-gantt__container" data-js="container"></div>
+		<div id="gantt_{$PROJECTID}" class="js-gantt__container" data-js="container"></div>
 	</div>
 {/strip}

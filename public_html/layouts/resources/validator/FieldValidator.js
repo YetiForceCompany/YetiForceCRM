@@ -273,7 +273,7 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 		}
 		var fieldValue = this.getFieldValue();
 		var negativeRegex = /(^[-]+\d+)$/;
-		var parseFieldValue = App.Fields.Currency.formatToDb(this.getFieldValue())
+		var parseFieldValue = App.Fields.Double.formatToDb(this.getFieldValue())
 		if (isNaN(parseFieldValue) || fieldValue < 0 || fieldValue.match(negativeRegex)) {
 			var errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 			this.setError(errorInfo);

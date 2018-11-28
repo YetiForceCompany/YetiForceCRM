@@ -32,16 +32,11 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	public function showMassEditForm(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->getByType('viewname', 2);
-		$selectedIds = $request->getArray('selected_ids', 2);
-		$excludedIds = $request->getArray('excluded_ids', 2);
 		$viewer = $this->getViewer($request);
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('MassEdit')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
 		$fieldInfo = [];
 		$fieldList = $moduleModel->getFields();
@@ -54,9 +49,9 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODE', 'massedit');
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CVID', $cvId);
-		$viewer->assign('SELECTED_IDS', $selectedIds);
-		$viewer->assign('EXCLUDED_IDS', $excludedIds);
+		$viewer->assign('CVID', $request->getByType('viewname', 2));
+		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MASS_EDIT_FIELD_DETAILS', $fieldInfo);
@@ -68,7 +63,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
-		echo $viewer->view('MassEditForm.tpl', $moduleName, true);
+		$viewer->view('MassEditForm.tpl', $moduleName);
 	}
 
 	/**
@@ -82,10 +77,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
-		$cvId = $request->getByType('viewname', 2);
-		$selectedIds = $request->getArray('selected_ids', 2);
-		$excludedIds = $request->getArray('excluded_ids', 2);
-
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($sourceModule) || !($moduleModel->isCommentEnabled() && $currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') && $moduleModel->isPermitted('MassAddComment'))) {
@@ -94,15 +85,16 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CVID', $cvId);
-		$viewer->assign('SELECTED_IDS', $selectedIds);
-		$viewer->assign('EXCLUDED_IDS', $excludedIds);
+		$viewer->assign('CVID', $request->getByType('viewname', 2));
+		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
+		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
-		echo $viewer->view('AddCommentForm.tpl', $moduleName, true);
+		$viewer->view('AddCommentForm.tpl', $moduleName);
 	}
 
 	/**
@@ -117,9 +109,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$sourceModule = $request->getModule();
 		$moduleName = 'SMSNotifier';
 		$selectedIds = $request->getArray('selected_ids', 2);
-		$excludedIds = $request->getArray('excluded_ids', 2);
-		$cvId = $request->getByType('viewname', 2);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -134,17 +123,18 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
 			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
 		}
-		$viewer->assign('VIEWNAME', $cvId);
+		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
-		$viewer->assign('EXCLUDED_IDS', $excludedIds);
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
+		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
 		$viewer->assign('PHONE_FIELDS', $phoneFields);
 		$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
-		echo $viewer->view('SendSMSForm.tpl', $moduleName, true);
+		$viewer->view('SendSMSForm.tpl', $moduleName);
 	}
 
 	/**

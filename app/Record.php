@@ -336,9 +336,6 @@ class Record
 						->innerJoin('vtiger_crmentity', "{$fields['tablename']}.{$index} = vtiger_crmentity.crmid")
 						->where(["{$fields['tablename']}.{$index}" => $recordId, 'vtiger_crmentity.deleted' => 0])
 						->scalar();
-					if ($parentId) {
-						continue;
-					}
 				}
 			}
 		}

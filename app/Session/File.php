@@ -86,7 +86,7 @@ class File extends Base
 			$num = $pos - $offset;
 			$varName = substr($session, $offset, $num);
 			$offset += $num + 1;
-			$data = unserialize(substr($session, $offset));
+			$data = unserialize(substr($session, $offset), ['allowed_classes' => false]);
 			$return[$varName] = $data;
 			$offset += \strlen(serialize($data));
 		}
@@ -109,7 +109,7 @@ class File extends Base
 			++$offset;
 			$varName = substr($session, $offset, $num);
 			$offset += $num;
-			$data = unserialize(substr($session, $offset));
+			$data = unserialize(substr($session, $offset), ['allowed_classes' => false]);
 			$return[$varName] = $data;
 			$offset += \strlen(serialize($data));
 		}

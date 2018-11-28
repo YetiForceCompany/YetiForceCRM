@@ -368,7 +368,7 @@ class Accounts extends CRMEntity
 		if ($id === null) {
 			$id = $this->id;
 		}
-		$query = (new \App\Db\Query())->select('contactid')->from('vtiger_contactdetails')
+		$query = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
 			->where(['vtiger_contactdetails.parentid' => $id, 'vtiger_crmentity.deleted' => 0]);
 		$entityIds = $query->column();

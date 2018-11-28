@@ -5,6 +5,7 @@
     "LBL_CURRENCY_UPDATE_DESCRIPTION": "Opciones para configurar sistemas incorporados en tipos de conversi\u00f3n de monedas.",
     "LBL_SELECT_BANK": "Seleccione el banco",
     "MSG_ONE_CURRENCY": "S\u00f3lo hay un conjunto de monedas principales. Para obtener tipos de cambio para otras monedas, agregue m\u00e1s monedas en la configuraci\u00f3n de CRM.",
+    "MSG_NO_NET_CONN": "No Internet connection, currency information was not downloaded.",
     "LBL_HISTORY": "Historial de cambios",
     "LBL_BANK": "Seleccione el banco desde el que obtener informaci\u00f3n sobre tipos de cambio",
     "LBL_CAL_DATE": "Fecha del curso",

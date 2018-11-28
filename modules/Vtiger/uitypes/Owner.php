@@ -144,7 +144,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperators()
 	{
-		return ['e', 'n', 'y', 'ny', 'om', 'wr', 'nwr'];
+		return ['e', 'n', 'y', 'ny', 'om', 'ogr', 'wr', 'nwr'];
 	}
 
 	/**

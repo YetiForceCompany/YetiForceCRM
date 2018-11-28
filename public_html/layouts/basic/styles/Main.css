@@ -12818,6 +12818,9 @@ ul.tweets li {
 .u-opacity-muted {
   opacity: 0.2; }
 
+.u-opacity-0 {
+  opacity: 0; }
+
 .u-columns__item {
   display: inline-block;
   width: 100%; }
@@ -12877,6 +12880,11 @@ ul.tweets li {
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
 
+.c-panel__label {
+  height: 100%; }
+  .c-panel__label label {
+    line-height: 1.7;
+    margin-bottom: 0; }
 .c-panel--edit .row {
   margin: 0; }
 
@@ -13422,6 +13430,10 @@ input[type="radio"]:checked:before {
   font-size: 1rem !important;
   background: #e1f0fd; }
 
+.listViewPageDiv select.select2,
+.listViewPageDiv .select2noactive {
+  height: 2.375rem !important; }
+
 .input-group > .select2-container--bootstrap {
   width: 1% !important; }
 
@@ -13486,6 +13498,9 @@ header .c-header__btn__container .select2-selection {
   .ui-autocomplete a.ui-menu-item-wrapper, .ui-autocomplete a.ui-menu-item-wrapper:hover {
     font-weight: inherit !important; }
 
+.ui-sortable-placeholder td[colspan="0"] {
+  display: none; }
+
 .cke_screen_reader_only {
   height: 0 !important; }
 
@@ -13535,20 +13550,15 @@ header .c-header__btn__container .select2-selection {
 .dropdown-menu.show {
   z-index: 3000; }
 
-.listViewPageDiv select.select2,
-.listViewPageDiv .select2noactive {
-  height: 2.375rem !important; }
+.listViewPageDiv > .floatThead-wrapper {
+  overflow: hidden; }
+  .listViewPageDiv > .floatThead-wrapper > .floatThead-container {
+    overflow: hidden !important; }
 
 .js-fixed-thead {
   table-layout: unset !important; }
   .js-fixed-thead tfoot td {
     border-top: unset !important; }
-
-.floatThead-wrapper {
-  overflow: hidden; }
-
-.floatThead-container {
-  overflow: hidden !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
@@ -13576,7 +13586,9 @@ label.btn.btn-outline-primary:not(.active) {
   cursor: pointer;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
-  white-space: normal; }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
   .historyList .dropdown-item, .historyList .related .dropdown-menu .nav-link, .related .dropdown-menu .historyList .nav-link {
     min-width: 500px;
     max-width: calc(100vh - 100px); }
@@ -15733,7 +15745,10 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 0.375rem 0.75rem; }
   .c-menu__item .tpl-menu-SubMenu button,
   .c-menu__item .tpl-menu-Profile_submenu button {
-    background: #0f151e; }
+    background: #0f151e;
+    color: #f8f9fa;
+    overflow: hidden;
+    text-overflow: ellipsis; }
     .c-menu__item .tpl-menu-SubMenu button:hover, .c-menu__item .tpl-menu-SubMenu button:focus,
     .c-menu__item .tpl-menu-Profile_submenu button:hover,
     .c-menu__item .tpl-menu-Profile_submenu button:focus {

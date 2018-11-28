@@ -38,7 +38,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	public function addKey($type, $userID)
 	{
 		$query = new App\Db\Query();
-		$query->select('id')
+		$query->select(['id'])
 			->from('dav_users')
 			->where(['userid' => $userID]);
 		if ($query->exists()) {

@@ -13,7 +13,7 @@
 				<select class="select2 globalTax" name="globalTax">
 					{foreach item=ITEM key=NAME from=$GLOBAL_TAXES}
 						<option value="{CurrencyField::convertToUserFormat($ITEM.value, null, true)}">
-							{\App\Fields\Currency::formatToDisplay($ITEM.value,null, true, true)}
+							{App\Fields\Double::formatToDisplay($ITEM.value)}
 							% - {\App\Language::translate($ITEM.name, $MODULE)}
 						</option>
 					{/foreach}

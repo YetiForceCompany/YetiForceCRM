@@ -43,20 +43,23 @@
 							<label class="muted marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label>
 						</td>
 						<td style="border-left: none;" class="{$WIDTHTYPE}">
-							<span>{if $FIELD_NAME == 'default_module'}
+							<span>
+								{if $FIELD_NAME == 'default_module'}
 									{if !empty($FIELD_DATA[$FIELD_NAME])}
 										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
 									{/if}
 								{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-									{if \App\Language::translate($FIELD_DATA[$FIELD_NAME]) == 'true'}
+									{if isset($FIELD_DATA[$FIELD_NAME]) && $FIELD_DATA[$FIELD_NAME] === 'true'}
 										{\App\Language::translate(LBL_YES)}
 									{else}
 										{\App\Language::translate(LBL_NO)}
 									{/if}
 								{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
 									{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
-									{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
-								{else}
+									{if isset($FIELD_DATA[$FIELD_NAME]) && !empty($PICKLIST[$FIELD_DATA[$FIELD_NAME]])}
+										{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
+									{/if}
+								{elseif isset($FIELD_DATA[$FIELD_NAME])}
 									{$FIELD_DATA[$FIELD_NAME]}
 								{/if}
 								{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}

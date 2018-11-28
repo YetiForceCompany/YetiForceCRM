@@ -296,8 +296,6 @@ class Import_Data_Action extends \App\Controller\Action
 									} elseif ($fieldValue === '' && ($currentValue === '' || $currentValue === null) && isset($defaultMandatoryFieldValues[$fieldName]) && $defaultMandatoryFieldValues[$fieldName] !== '') {
 										$fieldValue = $defaultMandatoryFieldValues[$fieldName];
 									}
-								} else { // normal fields not mandatory - omit - let user decide what he wants
-									continue;
 								}
 							}
 							foreach ($forUnset as $unsetName) {

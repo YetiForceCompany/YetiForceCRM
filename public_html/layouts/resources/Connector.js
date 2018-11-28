@@ -127,8 +127,7 @@ AppConnector = {
 					app.errorLog(jqXHR, textStatus, errorThrown);
 				}
 			}
-
-			aDeferred.reject(textStatus, errorThrown);
+			aDeferred.reject(textStatus, errorThrown, jqXHR);
 		};
 		jQuery.ajax(params);
 		if (pjaxMode) {

@@ -250,8 +250,9 @@ window.Calendar_Js = class {
 				cvid: historyParams.cvid,
 				defaultView: historyParams.viewType
 			};
-			let s = moment(options.start).valueOf();
-			let e = moment(options.end).valueOf();
+			let dateFormat = CONFIG.dateFormat.toUpperCase();
+			let s = moment(options.start, dateFormat).valueOf();
+			let e = moment(options.end, dateFormat).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
 			app.moduleCacheSet('browserHistoryEvent', false)
@@ -344,11 +345,11 @@ window.Calendar_Js = class {
 			let element = $(this);
 			let name = element.data('cache');
 			let cachedValue = app.moduleCacheGet(name);
-			if (element.length > 0 && cachedValue !== null) {
+			if (element.length > 0 && cachedValue !== undefined) {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && cachedValue === null && !element.find(':selected').length) {
+			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());

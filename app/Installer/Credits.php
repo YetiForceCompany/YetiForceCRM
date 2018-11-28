@@ -25,8 +25,6 @@ class Credits
 	public static $licenses = [
 		'bootstrap-tabdrop' => 'Apache-2.0',
 		'color-convert' => 'MIT',
-		'jquery-timers' => 'WTFPL', //jquery-gantt-editor
-		'svg' => 'MIT', //jquery-gantt-editor
 		'@fortawesome/fontawesome-free' => 'MIT',
 		'fontawesome-web' => 'MIT',
 		'jquery-ui-touch-punch' => 'MIT',

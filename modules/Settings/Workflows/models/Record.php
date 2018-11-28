@@ -38,18 +38,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Get attribute by name.
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function get($key)
-	{
-		return parent::get($key);
-	}
-
-	/**
 	 * Get edit view url.
 	 *
 	 * @return string

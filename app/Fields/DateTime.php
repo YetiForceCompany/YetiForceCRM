@@ -46,9 +46,7 @@ class DateTime
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x === false) {
-					continue;
-				} else {
+				if ($x !== false) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
