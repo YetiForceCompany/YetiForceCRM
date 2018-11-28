@@ -49,31 +49,11 @@
 							{if $ACTIVITY_TYPE eq 'Task'}
 								<span class="far fa-check-square fa-fw"></span>
 
-
-
-
-
-
 {elseif $ACTIVITY_TYPE eq 'Call'}
-
-
-
-
-
 
 								<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
 
-
-
-
-
-
 {else}
-
-
-
-
-
 
 								<span class="fas fa-user fa-fw"></span>
 							{/if}
@@ -132,7 +112,7 @@
 								{assign var=IS_DESCRIPTION value=$RECORD->get('description') neq ''}
 								<span class="js-description-text">
 									{if $IS_DESCRIPTION}
-										{$RECORD->getDisplayValue('description')|truncate:120:'...'}
+										{\App\TextParser::textTruncate($RECORD->getDisplayValue('description'))}
 									{/if}
 								</span>
 								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}">
@@ -195,17 +175,7 @@
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
 
-
-
-
-
-
 {else}
-
-
-
-
-
 
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
