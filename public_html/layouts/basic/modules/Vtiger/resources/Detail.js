@@ -2574,6 +2574,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var text = switchBtn.data('basic-text') + stats;
 		switchBtnParent.removeTextNode();
 		switchBtnParent.append(text);
+		new App.Fields.Text.Editor(container.find('.js-editor'), {height: '5em', toolbar: 'Min'});
 	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
