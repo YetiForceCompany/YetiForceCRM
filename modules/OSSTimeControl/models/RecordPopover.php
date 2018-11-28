@@ -36,7 +36,7 @@ class OSSTimeControl_RecordPopover_Model extends Vtiger_RecordPopover_Model
 	 */
 	public function getHeaderLinks(): array
 	{
-		$links = parent::getHeaderLinks();
+		$links = [];
 		if ($this->recordModel->isEditable()) {
 			$links[] = [
 				'linktype' => 'RECORD_POPOVER_VIEW',
@@ -57,7 +57,7 @@ class OSSTimeControl_RecordPopover_Model extends Vtiger_RecordPopover_Model
 				'linkclass' => 'btn-sm btn-outline-secondary',
 			];
 		}
-		$linksModels = [];
+		$linksModels = parent::getHeaderLinks();
 		foreach ($links as $link) {
 			$linksModels[] = Vtiger_Link_Model::getInstanceFromValues($link);
 		}
