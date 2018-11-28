@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 {
@@ -24,11 +25,11 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	protected $extraData;
 
 	/**
-	 * QueryGenerator model.
+	 * ListView model.
 	 *
-	 * @var QueryGenerator
+	 * @var Vtiger_ListView_Model
 	 */
-	protected $queryGenerator;
+	protected $listViewModel;
 
 	/**
 	 * List of view headers.
@@ -136,32 +137,6 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * @throws \App\Exceptions\NoPermitted
-	 *
-	 * @return array
-	 */
-	public function getTargetFields()
-	{
-		$selectedModule = $this->getTargetModule();
-		if (!\App\Privilege::isPermitted($selectedModule)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$queryGeneratorInstance = new \App\QueryGenerator($selectedModule);
-		$queryGeneratorInstance->initForCustomViewById($this->getFilterId());
-		$fields = [];
-		foreach ($queryGeneratorInstance->getListViewFields() as $field) {
-			if (self::SHOW_COMULNS <= count($fields)) {
-				break;
-			}
-			$fields[] = $field->getColumnName();
-		}
-		if (!in_array('id', $fields)) {
-			$fields[] = 'id';
-		}
-		return $fields;
-	}
-
-	/**
 	 * Return target module model.
 	 *
 	 * @return Vtiger_Module_Model
@@ -179,34 +154,9 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function initListViewController()
 	{
-		if (!$this->queryGenerator) {
-			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
-			$this->queryGenerator->initForCustomViewById($this->getFilterId());
-			$this->queryGenerator->setFields($this->getTargetFields());
-			$this->listviewHeaders = $this->listviewRecords = null;
+		if (!$this->listViewModel) {
+			$this->listViewModel = Vtiger_ListView_Model::getInstance($this->getTargetModule(), $this->getFilterId());
 		}
-	}
-
-	/**
-	 * Get title of widget.
-	 *
-	 * @param string $prefix
-	 *
-	 * @return mixed|string
-	 */
-	public function getTitle($prefix = '')
-	{
-		$this->initListViewController();
-		$title = $this->widgetModel->get('title');
-		if (empty($title)) {
-			$suffix = '';
-			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
-			if ($viewName) {
-				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
-			}
-			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
-		}
-		return $title;
 	}
 
 	/**
@@ -216,33 +166,11 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getHeaders()
 	{
-		$this->initListViewController();
 		if (!$this->listviewHeaders) {
-			$headerFieldModels = [];
-			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
-				$headerFieldModels[$fieldName] = $fieldsModel;
-			}
-			$this->listviewHeaders = $headerFieldModels;
+			$this->initListViewController();
+			$this->listviewHeaders = array_slice($this->listViewModel->getListViewHeaders(), 0, static::SHOW_COMULNS);
 		}
 		return $this->listviewHeaders;
-	}
-
-	/**
-	 * Function to get the list view header.
-	 *
-	 * @return array - List of Vtiger_Field_Model instances
-	 */
-	public function getListViewHeaders()
-	{
-		$headerFieldModels = [];
-		$headerFields = $this->getQueryGenerator()->getListViewFields();
-		foreach ($headerFields as $fieldName => $fieldsModel) {
-			if ($fieldsModel && (!$fieldsModel->isViewable() || !$fieldsModel->getPermissions())) {
-				continue;
-			}
-			$headerFieldModels[$fieldName] = $fieldsModel;
-		}
-		return $headerFieldModels;
 	}
 
 	/**
@@ -262,7 +190,7 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getRecordLimit()
 	{
-		return (int) $this->widgetModel->get('limit');
+		return (int)$this->widgetModel->get('limit');
 	}
 
 	/**
@@ -272,28 +200,15 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getRecords()
 	{
-		$this->initListViewController();
-		if (!$this->listviewRecords) {
-			if (!empty($this->searchParams)) {
-				$searchConditions = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
-				$this->queryGenerator->parseAdvFilter($searchConditions);
+		if (!isset($this->listviewRecords)) {
+			$this->initListViewController();
+			$customViewModel = CustomView_Record_Model::getInstanceById($this->getFilterId());
+			if (!($orderBy = $customViewModel->getSortOrderBy('orderBy'))) {
+				$this->listViewModel->set('orderby', $orderBy);
+				$this->listViewModel->set('sortorder', $customViewModel->getSortOrderBy('sortOrder'));
 			}
-			$targetModuleName = $this->getTargetModule();
-			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-			$filterModel = CustomView_Record_Model::getInstanceById($this->getFilterId());
-			if (!empty($filterModel->get('sort'))) {
-				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
-				$this->queryGenerator->setOrder($orderby, $sort);
-			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
-				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
-			}
-			$query = $this->queryGenerator->createQuery();
-			$query->limit($this->getRecordLimit());
-			$this->listviewRecords = [];
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$this->listviewRecords[$row['id']] = $this->getTargetModuleModel()->getRecordFromArray($row);
-			}
+			$pagingModel = (new Vtiger_Paging_Model())->set('limit', $this->getRecordLimit());
+			$this->listviewRecords = $this->listViewModel->getListViewEntries($pagingModel);
 		}
 		return $this->listviewRecords;
 	}
