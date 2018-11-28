@@ -257,6 +257,21 @@ var App = {},
 			});
 			app.showPopoverElementView(selectElement, params);
 		},
+		registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = {trigger: 'hover focus'}) {
+			selectElement.each(function (index, domElement) {
+				let element = $(domElement);
+				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
+				if (!app.isEllipsisActive(popoverText)) {
+					return;
+				}
+				let iconElement = element.find('.js-popover-icon');
+				if (iconElement.length) {
+					element.find('.js-popover-icon').removeClass('d-none');
+					params.selector = '[data-fa-i2svg].js-popover-icon';
+				}
+				app.showPopoverElementView(element, params);
+			});
+		},
 		/**
 		 * Register popover record
 		 * @param {jQuery} selectElement
@@ -1781,6 +1796,7 @@ var App = {},
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
+	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
 	app.registerFormatNumber();
 	app.registerSticky();
