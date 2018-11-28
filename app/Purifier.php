@@ -286,7 +286,7 @@ class Purifier
 					if (!$input) {
 						return '';
 					}
-					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
+					[$y, $m, $d] = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
 					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 						$value = $input;
 					}
@@ -339,14 +339,30 @@ class Purifier
 						}
 					}
 					break;
+				case 'DateTimeInUserFormat':
+					$arrInput = \explode(' ', $input);
+					if (\is_array($arrInput) && count($arrInput) === 2) {
+						$userModel = User::getCurrentUserModel();
+						[$dateInput, $timeInput] = $arrInput;
+						[$y, $m, $d] = Fields\Date::explode($dateInput, $userModel->getDetail('date_format'));
+						if ($userModel->getDetail('hour_format') === '12') {
+							$timePattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])(:([0-5][0-9]))?([ ]PM|[ ]AM|PM|AM)?$/';
+						} else {
+							$timePattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])(:([0-5][0-9]))?$/';
+						}
+						if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) && preg_match($timePattern, $timeInput)) {
+							$value = $input;
+						}
+					}
+					break;
 				case 'Bool':
 					if (is_bool($input) || strcasecmp('true', (string) $input) === 0 || (string) $value === '1') {
 						$value = (bool) $input;
 					}
 					break;
 				case 'NumberInUserFormat': // number in user format
-					$input = Fields\Currency::formatToDb($input);
-					if (is_numeric($input)) {
+					$input = Fields\Double::formatToDb($rawInput = $input);
+					if (is_numeric($input) && Fields\Double::formatToDisplay($input) === $rawInput) {
 						$value = $input;
 					}
 					break;

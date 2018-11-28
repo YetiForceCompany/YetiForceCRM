@@ -256,7 +256,6 @@ class Users extends CRMEntity
 				foreach ($users as $id => $user) {
 					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
 						$adminId = $id;
-						continue;
 					}
 				}
 			} else {

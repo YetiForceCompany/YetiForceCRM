@@ -210,7 +210,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getModuleInstanceByBlockId($blockId)
 	{
-		$tabid = (new \App\Db\Query())->select('tabid')
+		$tabid = (new \App\Db\Query())->select(['tabid'])
 			->from('vtiger_blocks')
 			->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {

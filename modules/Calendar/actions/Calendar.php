@@ -141,7 +141,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		$result = [];
-		foreach ($request->getArray('dates', false, []) as $datePair) {
+		foreach ($request->getArray('dates', 'DateTimeInUserFormat', []) as $datePair) {
 			$record->set('start', $datePair[0]);
 			$record->set('end', $datePair[1]);
 			$result[] = $record->getEntityRecordsCount();

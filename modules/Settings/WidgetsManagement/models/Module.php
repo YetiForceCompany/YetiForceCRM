@@ -112,7 +112,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		$db = App\Db::getInstance();
 		$db->createCommand()->delete('u_#__dashboard_type', ['dashboard_id' => $dashboardId])->execute();
-		$blocks = (new App\Db\Query())->select('id')->from('vtiger_module_dashboard_blocks')
+		$blocks = (new App\Db\Query())->select(['id'])->from('vtiger_module_dashboard_blocks')
 			->where(['dashboard_id' => $dashboardId])->createCommand()->queryColumn();
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['dashboard_id' => $dashboardId])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $blocks])->execute();
@@ -428,7 +428,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public function getBlocksId($dashboard)
 	{
 		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...');
-		$dataReader = (new App\Db\Query())->select('vtiger_module_dashboard_blocks.*, vtiger_role.rolename')
+		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard_blocks.*', 'vtiger_role.rolename'])
 			->from('vtiger_module_dashboard_blocks')
 			->innerJoin('vtiger_role', 'vtiger_module_dashboard_blocks.authorized = vtiger_role.roleid')
 			->where(['vtiger_module_dashboard_blocks.dashboard_id' => $dashboard])

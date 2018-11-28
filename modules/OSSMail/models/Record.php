@@ -26,8 +26,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		if ($onlyMy) {
 			$userModel = \App\User::getCurrentUserModel();
-			$crmUsers  = $userModel->getGroups();
-			$crmUsers[]= $userModel->getId();
+			$crmUsers = $userModel->getGroups();
+			$crmUsers[] = $userModel->getId();
 			$query->andWhere(['crm_user_id' => $crmUsers]);
 		}
 		if ($password) {
@@ -426,7 +426,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$data = $encodedData;
 			}
 		}
-		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? mt_rand() . mt_rand() : null);
+		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? random_int(0, PHP_INT_MAX) . random_int(0, PHP_INT_MAX) : null);
 		if ($attachmentId) {
 			if (empty($params['filename']) && empty($params['name'])) {
 				$fileName = $attachmentId . '.' . strtolower($partStructure->subtype);

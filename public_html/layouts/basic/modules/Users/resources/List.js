@@ -289,13 +289,15 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 					progressInstance.progressIndicator({
 						'mode': 'hide'
 					});
-					jQuery('#listViewContents').html(data);
+					$('.js-fixed-thead').floatThead('destroy');
+					$('#listViewContents').html(data);
 					thisInstance.updatePaginationFilter();
 					var listSearchInstance = thisInstance.getListSearchInstance();
 					if (listSearchInstance !== false) {
 						listSearchInstance.registerEvents();
+					} else {
+						App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 					}
-					App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 				});
 		});
 	},

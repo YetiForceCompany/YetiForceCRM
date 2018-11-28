@@ -94,7 +94,7 @@ class Install_ConfigFileUtils_Model
 					$buffer = str_replace('_VT_CHARSET_', $this->vtCharset, $buffer);
 
 					// replace the application unique key variable
-					$buffer = str_replace('_VT_APP_UNIQKEY_', sha1(time() + rand(1, 9999999)), $buffer);
+					$buffer = str_replace('_VT_APP_UNIQKEY_', sha1(time() + random_int(1, 9999999)), $buffer);
 
 					// replace support email variable
 					$buffer = str_replace('_LANG_', $this->default_language, $buffer);

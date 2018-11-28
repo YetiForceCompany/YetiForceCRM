@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Dashboards-Multifilter -->
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
@@ -53,4 +54,5 @@
 		<div class="js-multifilterContent contents" data-js="container">
 		</div>
 	</div>
+	<!-- /tpl-Base-Dashboards-Multifilter -->
 {/strip}

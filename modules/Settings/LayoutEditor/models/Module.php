@@ -591,7 +591,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTreeTemplates($sourceModule)
 	{
 		$sourceModule = \App\Module::getModuleId($sourceModule);
-		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
+		$query = (new \App\Db\Query())->select(['templateid', 'name'])->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -623,7 +623,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get relation fields by module ID.
 	 *
-	 * @param $moduleId
+	 * @param int $moduleId
 	 *
 	 * @return string[]
 	 */

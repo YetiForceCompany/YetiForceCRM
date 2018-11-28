@@ -8,11 +8,6 @@
  */
 class Settings_Inventory_Record_Model extends \App\Base
 {
-	public function __construct($values = [])
-	{
-		parent::__construct($values);
-	}
-
 	private $type;
 
 	public function getId()

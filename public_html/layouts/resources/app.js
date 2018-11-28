@@ -157,7 +157,7 @@ var App = {},
 
 			element.on("mouseenter", (e) => {
 				let offsetLeft;
-				if (element.hasClass('js-popover-tooltip--record')) {
+				if (element.hasClass('js-popover-tooltip--record') || element.hasClass('js-popover-tooltip--ellipsis')) {
 					element.on("mousemove", (ev) => {
 						offsetLeft = ev.pageX;
 					});
@@ -167,9 +167,10 @@ var App = {},
 					if (currentElement.is(':hover')) {
 						currentElement.popover("show");
 						let currentPopover = self.getBindedPopover(currentElement);
-						if (element.hasClass('js-popover-tooltip--record')) {
+						if (element.hasClass('js-popover-tooltip--record') || element.hasClass('js-popover-tooltip--ellipsis')) {
 							setTimeout(function () { //timeout needed to overwrite bootrap positioning
 								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
+								currentPopover.removeClass('u-opacity-0');
 							}, 100);
 						}
 						currentPopover.on("mouseleave", (e) => {
@@ -233,10 +234,7 @@ var App = {},
 			});
 			return selectElement;
 		},
-		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis')) {
-			let defaultParams = {
-				trigger: 'hover focus'
-			};
+		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis'), params = {trigger: 'hover focus'}) {
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
 				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
@@ -246,9 +244,14 @@ var App = {},
 				let iconElement = element.find('.js-popover-icon');
 				if (iconElement.length) {
 					element.find('.js-popover-icon').removeClass('d-none');
-					defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
+					params.selector = '[data-fa-i2svg].js-popover-icon';
+				} else if (params.trigger === 'manual') { //popover on bigger elements needs manual triggering/positioning
+					params.template = '<div class="popover u-opacity-0" role="tooltip"><div class="popover-body"></div></div>';
+					element.on('hide.bs.popover', () => {
+						$('.popover').addClass('u-opacity-0');
+					});
 				}
-				app.showPopoverElementView(element, defaultParams);
+				app.showPopoverElementView(element, params);
 			});
 		},
 		/**

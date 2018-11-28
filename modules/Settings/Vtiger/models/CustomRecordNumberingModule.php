@@ -47,7 +47,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 */
 	public static function getSupportedModules()
 	{
-		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$subQuery = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$modulesModels[$row['tabid']] = self::getInstance($row['name'], $row['tabid']);

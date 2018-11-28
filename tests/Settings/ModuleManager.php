@@ -405,7 +405,7 @@ class ModuleManager extends \Tests\Base
 			//Turn off the module if it is on
 			if ((int) $module->get('presence') !== 1) {
 				$moduleManagerModel->disableModule($module->get('name'));
-				$this->assertSame(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
+				$this->assertSame(1, (new \App\Db\Query())->select(['presence'])->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
 	}
@@ -421,7 +421,7 @@ class ModuleManager extends \Tests\Base
 			//Turn on the module if it is off
 			if ((int) $module->get('presence') !== 0) {
 				$moduleManagerModel->enableModule($module->get('name'));
-				$this->assertSame(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
+				$this->assertSame(0, (new \App\Db\Query())->select(['presence'])->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
 	}
