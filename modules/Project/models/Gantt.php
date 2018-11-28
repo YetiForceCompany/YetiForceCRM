@@ -297,13 +297,13 @@ class Project_Gantt_Model
 		}
 		if (empty($node['start_date'])) {
 			$node['start_date'] = date('Y-m-d', $firstDate);
-			$node['start'] = date('Y-m-dTH:i:s', $firstDate);
+			$node['start'] = date('Y-m-d H:i:s', $firstDate);
 		}
 		// iterate one more time setting up empty dates
 		$this->iterateNodes($node, $firstDate, function (&$child, $firstDate) {
 			if (empty($child['start_date']) || $child['start_date'] === '1970-01-01') {
 				$child['start_date'] = date('Y-m-d', $firstDate);
-				$child['start'] = date('Y-m-dTH:i:s', $firstDate);
+				$child['start'] = date('Y-m-d H:i:s', $firstDate);
 			}
 			return $firstDate;
 		});
