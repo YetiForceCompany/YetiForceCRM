@@ -117,8 +117,8 @@
 												<div class="col-sm-10">
 													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}"
 															multiple="multiple"
-															class="form-control select2_container js-select2-sortable columnsSelect js-related-column-list"
-															data-js="sortable|change">
+															class="form-control select2_container columnsSelect js-related-column-list" data-select-cb="registerSelectSortable"
+															data-js="sortable | change | select2">
 														<optgroup label=''>
 															{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
 																{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
@@ -157,8 +157,8 @@
 													<div class="col-sm-10">
 														<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}"
 																multiple="multiple"
-																class="select2_container js-select2-sortable js-related-column-list"
-																data-js="sortable|change" data-type="inventory">
+																class="select2_container js-related-column-list" data-select-cb="registerSelectSortable"
+																data-js="sortable | change | select2" data-type="inventory">
 															{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
 																{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
 																{if $FIELD_INSTANCE}

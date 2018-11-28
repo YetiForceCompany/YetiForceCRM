@@ -65,9 +65,9 @@
 										<div class="">
 											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE_NAME)}"
 													multiple="multiple"
-													class="select2 form-control js-select2-sortable js-view-columns-select"
+													class="select2 form-control js-view-columns-select" data-select-cb="registerSelectSortable"
 													id="viewColumnsSelect"
-													data-js="appendTo">
+													data-js="appendTo | select2 | sortable">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 													<optgroup
 															label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">

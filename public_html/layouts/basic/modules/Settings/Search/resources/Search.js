@@ -32,7 +32,7 @@ var Settings_Index_Js = {
 	},
 	editLabels: function (e) {
 		let tabId = $(e.currentTarget).data('tabid'),
-			select = $('.elementEdit' + tabId).removeClass('d-none').find('.js-select2-sortable');
+			select = $('.elementEdit' + tabId).removeClass('d-none').find('[data-select-cb="registerSelectSortable"]');
 
 		$('.elementLabels' + tabId).addClass('d-none');
 		App.Fields.Picklist.showSelect2ElementView(select, {
