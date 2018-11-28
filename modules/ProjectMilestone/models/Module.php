@@ -26,7 +26,14 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function updateProgressMilestone($id)
+	/**
+	 * Update progress milestone.
+	 *
+	 * @param int $id
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function updateProgressMilestone(int $id)
 	{
 		if (!App\Record::isExists($id)) {
 			return;

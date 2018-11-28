@@ -220,4 +220,24 @@ class Project extends CRMEntity
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
 		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
+
+	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public function getChildren(int $id): array
+	{
+		$projectChildren = [];
+		$queryGenerator = new \App\QueryGenerator('Project');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$projectChildren[] = $row;
+		}
+		$dataReader->close();
+		return $projectChildren;
+	}
 }
