@@ -335,54 +335,11 @@ class Gantt {
 	 * Register events for gantt actions in current container
 	 */
 	registerEvents() {
-		/*const container = this.container;
-		const self = this;
-		container.find('.js-gantt__expand-all-btn', container).on('click', function (e) {
-			e.preventDefault();
-			container.trigger('expandAll.gantt');
-		});
-		container.find('.js-gantt__collapse-all-btn', container).on('click', function (e) {
-			e.preventDefault();
-			container.trigger('collapseAll.gantt');
-		});
-		container.find('.js-gantt__zoom-in-btn', container).on('click', function (e) {
-			e.preventDefault();
-			container.trigger('zoomPlus.gantt');
-		});
-		container.find('.js-gantt__zoom-out-btn').on('click', function (e) {
-			e.preventDefault();
-			container.trigger('zoomMinus.gantt');
-		});
-		container.find('.js-gantt__print-btn').on('click', function (e) {
-			e.preventDefault();
-			container.trigger('print.gantt');
-		});
-		container.find('.js-gantt__show-critical-path-btn').on('click', function (e) {
-			e.preventDefault();
-			this.gantt.gantt.showCriticalPath = !gantt.gantt.showCriticalPath;
-			this.gantt.redraw();
-		}.bind(this));
-		container.find('.js-gantt__resize-0-btn').on('click', function (e) {
-			e.preventDefault();
-			this.gantt.splitter.resize(.1);
-		}.bind(this));
-		container.find('.js-gantt__resize-50-btn').on('click', function (e) {
-			e.preventDefault();
-			this.gantt.splitter.resize(50);
-		}.bind(this));
-		container.find('.js-gantt__resize-100-btn').on('click', function (e) {
-			e.preventDefault();
-			this.gantt.splitter.resize(100);
-		}.bind(this));
-		container.find('.js-gantt__fullscreen-btn').on('click', function (e) {
-			e.preventDefault();
-			container.trigger('fullScreen.gantt');
-		}.bind(this));
+		const container = this.container;
 		container.find('.js-gantt__front-filter').on('click', function (e) {
 			e.preventDefault();
 			self.showFiltersModal();
 		});
-		*/
 		container.find('[data-toggle="tooltip"]').tooltip();
 	}
 }
