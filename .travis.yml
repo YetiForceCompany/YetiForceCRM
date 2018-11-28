@@ -53,6 +53,11 @@ mysql:
   encoding: utf8
 
 before_script:
+  - lscpu
+  - lshw
+  - cat /proc/cpuinfo
+  - free -m
+  - cat /proc/meminfo
   - sudo chmod -R 777 tests/setup/
   - ./tests/setup/before_script.sh
   - ./tests/setup/apache.sh
@@ -108,11 +113,6 @@ jobs:
           notification_email: m.krzaczkowski@yetiforce.com
           branch_pattern: coverity_scan
       before_script:
-        - lscpu
-        - lshw
-        - cat /proc/cpuinfo
-        - free -m
-        - cat /proc/meminfo
         - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then git fetch --unshallow; fi
         - sudo chmod -R 777 tests/setup/
         - ./tests/setup/before_script.sh
