@@ -51,6 +51,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 				$recordProgress = ($progressItem['estimatedWorkTime'] * (int) $progressItem['projectProgress']) / 100;
 				$progressInHours += $recordProgress;
 			}
+			\App\DebugerEx::log('CHILDREN: ', $estimatedWorkTime, $progressInHours);
 		}
 		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
@@ -58,10 +59,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 			'projecttaskprogress' => 'projecttaskprogress',
 		]);
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
+		\App\DebugerEx::log('LOOP START', $estimatedWorkTime, $progressInHours);
 		while ($row = $dataReader->read()) {
 			$estimatedWorkTime += $row['estimated_work_time'];
 			$recordProgress = ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 			$progressInHours += $recordProgress;
+			\App\DebugerEx::log('LOOP', $row);
 		}
 		$dataReader->close();
 		if ($estimatedWorkTime) {
@@ -114,7 +117,8 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$progressInHours += $recordProgress;
 		}
 		if ($estimatedWorkTime) {
-			$projectProgress = round((100 * $progressInHours) / $estimatedWorkTime);
+			//$projectProgress = round((100 * $progressInHours) / $estimatedWorkTime);
+			$projectProgress = ((100 * $progressInHours) / $estimatedWorkTime);
 		} else {
 			$projectProgress = 0;
 		}

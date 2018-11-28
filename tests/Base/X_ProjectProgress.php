@@ -107,6 +107,7 @@ class ProjectProgress extends \Tests\Base
 
 	public function testProgressAfterInsertNewProject()
 	{
+		//\App\DebugerEx::$isOn = true;
 		$projectRecordModel = static::createProjectRecord();
 		static::$listId['p1'] = $projectRecordModel->getId();
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
@@ -120,6 +121,7 @@ class ProjectProgress extends \Tests\Base
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10]]),
 			$projectRecordModelParent->get('progress')
 		);
+		//\App\DebugerEx::$isOn = false;
 		//Create new milestone and task
 		$milestoneRecordModel = static::createProjectMilestoneRecord($projectRecordModel->getId());
 		static::$listMilestoneId['p1-m0'] = $milestoneRecordModel->getId();
@@ -186,15 +188,15 @@ class ProjectProgress extends \Tests\Base
 		);
 		//Create new task
 		static::$listTaskId['p1-m0-t2'] = static::createProjectTaskRecord(
-			$projectRecordModel->getId(), static::$listMilestoneId['p1-m0'], 5
+			$projectRecordModel->getId(), static::$listMilestoneId['p1-m0'], 30
 		)->getId();
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]]),
 			$projectRecordModel->get('progress')
 		);
 		$this->assertSame(
 			static::calculateProgress([
-				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]
+				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]
 			]),
 			$projectRecordModelParent->get('progress')
 		);
@@ -215,7 +217,7 @@ class ProjectProgress extends \Tests\Base
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
-				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]
+				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]
 			]),
 			$projectRecordModelParent->get('progress')
 		);
@@ -229,13 +231,13 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel->set('projectmilestoneid', static::$listMilestoneId['p0-m0']);
 		$taskRecordModel->save();
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]]),
 			$projectRecordModel->get('progress')
 		);
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
-				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]
+				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]
 			]),
 			$projectRecordModelParent->get('progress')
 		);
@@ -265,13 +267,13 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->changeState('Active');
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]]),
 			$projectRecordModel->get('progress')
 		);
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
-				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 0]
+				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 0]
 			]),
 			$projectRecordModelParent->get('progress')
 		);
@@ -306,16 +308,17 @@ class ProjectProgress extends \Tests\Base
 
 	public function testProgressAfterActiveProject()
 	{
+		\App\DebugerEx::$isOn = true;
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$projectRecordModel->changeState('Active');
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModel->get('progress')
 		);
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
-				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]
+				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]
 			]),
 			$projectRecordModelParent->get('progress')
 		);
@@ -327,12 +330,12 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel->delete();
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
-			static::calculateProgress([['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]]),
+			static::calculateProgress([['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModel->get('progress')
 		);
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModelParent->get('progress')
 		);
 	}
@@ -343,7 +346,7 @@ class ProjectProgress extends \Tests\Base
 		static::$listId['p2'] = $projectRecordModel->getId();
 		$projectRecordModelChild = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModelChild->get('progress')
 		);
 		//Create new milestone and task
@@ -356,19 +359,35 @@ class ProjectProgress extends \Tests\Base
 			$projectRecordModel->get('progress')
 		);
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModelChild->get('progress')
 		);
-		\App\DebugerEx::$isOn = true;
+		//Update task
+		$taskRecordModel->set('projecttaskprogress', '100%');
+		$taskRecordModel->save();
+		$this->assertSame(
+			static::calculateProgress([['h' => 10, 'p' => 100]]),
+			$projectRecordModel->get('progress')
+		);
+		$this->assertSame(
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
+			$projectRecordModelChild->get('progress')
+		);
+
+		\App\DebugerEx::$isOn = false;
+		\App\DebugerEx::log('projectRecordModelChild: ', $projectRecordModel->getId(), $projectRecordModelChild->getId());
 		$projectRecordModelChild->set('parentid', $projectRecordModel->getId());
 		$projectRecordModelChild->save();
+
+		//\Vtiger_Module_Model::getInstance('Project')->updateProgress($projectRecordModel->getId());
+
 		$this->assertSame(
-			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]]),
+			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModelChild->get('progress')
 		);
 		$this->assertSame(
 			static::calculateProgress([
-				['h' => 10, 'p' => 0], ['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 5, 'p' => 60]
+				['h' => 10, 'p' => 100], ['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 55, 'p' => 50], ['h' => 30, 'p' => 60]
 			]),
 			$projectRecordModel->get('progress')
 		);
