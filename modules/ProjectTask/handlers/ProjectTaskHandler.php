@@ -11,10 +11,11 @@ class ProjectTask_ProjectTaskHandler_Handler
 	/**
 	 * EntityAfterSave handler function.
 	 *
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
+		\App\DebugerEx::log('entityAfterSave');
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
 			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
@@ -23,7 +24,7 @@ class ProjectTask_ProjectTaskHandler_Handler
 			$delta = $recordModel->getPreviousValue();
 			$calculateMilestone = [];
 			$calculateProject = [];
-			foreach ($delta as $name => &$value) {
+			foreach ($delta as $name => $value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
 					if ($name === 'projectmilestoneid') {
 						$calculateMilestone[$recordModel->get($name)] = true;
@@ -51,10 +52,11 @@ class ProjectTask_ProjectTaskHandler_Handler
 	/**
 	 * EntityAfterDelete handler function.
 	 *
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(App\EventHandler $eventHandler)
+	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
+		\App\DebugerEx::log('entityAfterDelete');
 		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 		Vtiger_Module_Model::getInstance('Project')->updateProgress($eventHandler->getRecordModel()->get('projectid'));
 	}
@@ -62,10 +64,11 @@ class ProjectTask_ProjectTaskHandler_Handler
 	/**
 	 * EntityChangeState handler function.
 	 *
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityChangeState(App\EventHandler $eventHandler)
+	public function entityChangeState(\App\EventHandler $eventHandler)
 	{
+		\App\DebugerEx::log('entityChangeState');
 		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 		Vtiger_Module_Model::getInstance('Project')->updateProgress($eventHandler->getRecordModel()->get('projectid'));
 	}

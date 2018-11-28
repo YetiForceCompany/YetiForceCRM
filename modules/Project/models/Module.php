@@ -41,14 +41,15 @@ class Project_Module_Model extends Vtiger_Module_Model
 			return [];
 		}
 		$recordModel = Project_Record_Model::getInstanceById($id);
+		$pid = $recordModel->get('parentid');
+		\App\DebugerEx::log("updateProgress: {$id} - PID: {$pid} - FROM: {$parentId}");
+
 		if (empty($parentId)) {
 			foreach ($recordModel->getChildren() as $childRecordModel) {
-				$progressItem = $this->calFromChProgress($childRecordModel->getId());
-				if (isset($progressItem['projectProgress'])) {
-					$estimatedWorkTime += $progressItem['estimatedWorkTime'];
-					$recordProgress = ($progressItem['estimatedWorkTime'] * (int) $progressItem['projectProgress']) / 100;
-					$progressInHours += $recordProgress;
-				}
+				$progressItem = $this->calculateProgressFromChildren($childRecordModel->getId());
+				$estimatedWorkTime += $progressItem['estimatedWorkTime'];
+				$recordProgress = ($progressItem['estimatedWorkTime'] * (int) $progressItem['projectProgress']) / 100;
+				$progressInHours += $recordProgress;
 			}
 		}
 		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
@@ -72,6 +73,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$recordModel->set('progress', $projectProgress . '%');
 		$recordModel->save();
 		if ($recordModel->hasParent() && $recordModel->get('parentid') !== $parentId) {
+			\App\DebugerEx::log($id, $recordModel->get('deleted'));
 			$this->updateProgress(
 				$recordModel->get('parentid'),
 				$estimatedWorkTime,
@@ -85,7 +87,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		];
 	}
 
-	public function calFromChProgress($id, float $estimatedWorkTime = 0, float $progressInHours = 0)
+	public function calculateProgressFromChildren($id, float $estimatedWorkTime = 0, float $progressInHours = 0)
 	{
 		if (!App\Record::isExists($id)) {
 			return [
@@ -94,6 +96,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 			];
 		}
 		$recordModel = Project_Record_Model::getInstanceById($id);
+		foreach ($recordModel->getChildren() as $childRecordModel) {
+			$progressItem = $this->calculateProgressFromChildren($childRecordModel->getId());
+			$estimatedWorkTime += $progressItem['estimatedWorkTime'];
+			$recordProgress = ($progressItem['estimatedWorkTime'] * (int) $progressItem['projectProgress']) / 100;
+			$progressInHours += $recordProgress;
+		}
 		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'estimated_work_time' => 'estimated_work_time',
