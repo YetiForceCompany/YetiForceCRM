@@ -26,7 +26,10 @@
 				<h3 class="align-items-center card-title d-flex justify-content-center">{\App\Purifier::encodeHtml($HEADER_MESSAGE)}</h3>
 			</div>
 			<div class="card-body bg-color-grey-50">
-				<p class="card-text u-font-size-19px">{if $MESSAGE_EXPANDED}{\App\Purifier::encodeHtml($MESSAGE['message'])}.{else}{\App\Purifier::encodeHtml($MESSAGE)}{/if}</p>
+				<p class="card-text u-font-size-19px">
+					<YF_ERROR>{if $MESSAGE_EXPANDED}{\App\Purifier::encodeHtml($MESSAGE['message'])}.{else}{\App\Purifier::encodeHtml($MESSAGE)}{/if}
+					</YF_ERROR>
+				</p>
 			</div>
 			<div class="card-footer d-flex flex-wrap flex-sm-nowrap">
 				<a class="btn btn-lg btn-default mr-sm-2 mb-1 mb-sm-0 w-100" role="button"
