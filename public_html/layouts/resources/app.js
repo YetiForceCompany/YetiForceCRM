@@ -244,37 +244,18 @@ var App = {},
 					currentPopover.removeClass('u-opacity-0');
 				},
 				trigger: 'manual',
-				placement: 'right'
+				placement: 'right',
+				template: '<div class="popover u-opacity-0" role="tooltip"><div class="popover-body"></div></div>'
 			};
 			let popoverText = selectElement.find('.js-popover-text').length ? selectElement.find('.js-popover-text') : selectElement;
 			if (!app.isEllipsisActive(popoverText)) {
 				selectElement.addClass('popover-triggered');
 				return;
 			}
-			if (params.trigger === 'manual') { //popover on bigger selectElements needs manual triggering/positioning
-				params.template = '<div class="popover u-opacity-0" role="tooltip"><div class="popover-body"></div></div>';
-				selectElement.on('hide.bs.popover', () => {
-					$('.popover').addClass('u-opacity-0');
-				});
-			}
+			selectElement.on('hide.bs.popover', () => {
+				$('.popover').addClass('u-opacity-0');
+			});
 			app.showPopoverElementView(selectElement, params);
-			//
-			// const self = this;
-			// let params = {
-			// 	template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
-			// 	content: '<div class="d-none"></div>',
-			// 	manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
-			// 	placement: 'right',
-			//
-			// };
-			// if (selectElement.hasClass('js-popover-tooltip--ellipsis')) {
-			// 	let popoverText = selectElement.find('.js-popover-text').length ? selectElement.find('.js-popover-text') : selectElement;
-			// 	if (!app.isEllipsisActive(popoverText)) {
-			// 		return;
-			// 	}
-			// }
-			// app.showPopoverElementView(selectElement, params);
-
 		},
 		/**
 		 * Register popover record
@@ -1801,7 +1782,6 @@ $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.registerPopover();
-	//app.registerPopoverEllipsis();
 	app.registerFormatNumber();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
