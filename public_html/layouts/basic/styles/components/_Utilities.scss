@@ -86,11 +86,13 @@
 }
 
 .u-text-ellipsis--no-hover,
+.js-popover-tooltip--ellipsis,
 .js-popover-tooltip--ellipsis .js-popover-text,
 .js-popover-tooltip--ellipsis .c-popover-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	//max-width: fit-content
 }
 
 .u-text-ellipsis--not-active {

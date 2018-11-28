@@ -2691,7 +2691,6 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 		this.registerRecordsCount();
-		app.registerPopoverEllipsis(this.container.find('.js-popover-tooltip--ellipsis'), {trigger: 'manual'});
 	},
 	postRefreshWidget: function () {
 		this.registerRecordsCount();
@@ -2851,7 +2850,6 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 				self.registerRecordsCount(multiFilterContent.append(data).children("div:last-child"));
 				self.registerShowHideBlocks();
 				aDeferred.resolve();
-				app.registerPopoverEllipsis(multiFilterContent.find('.js-popover-tooltip--ellipsis'), {trigger: 'manual'});
 			}
 		}).fail(function (error) {
 			aDeferred.reject();
