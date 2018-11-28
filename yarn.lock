@@ -17,7 +17,7 @@ almond@~0.3.1:
   resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
   integrity sha1-oOfJWsdiTWQXtElLHmi/9pMWiiA=
 
-animate.css@^3.7.0:
+animate.css@^3.7, animate.css@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.7.0.tgz#5de25d1ee5fba11ba6a1e2c4fa568f512eb7d4da"
   integrity sha512-u3iMXDJr0cxMdQocIciDiou9Au4L5f9uT+/jCtprw3s1j3HcfCuI+khF+90Ps2KdsEhM2soF7SXB4WUvI3HlXg==
@@ -210,6 +210,11 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
+dayjs@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.7.7.tgz#8df20f78ac2476e3f5348ef49f8f22ebc3016370"
+  integrity sha512-Qlkiu0NNDpYwhk0syK4ImvAl/5YnsEMkvC2O123INviGeOA3Q8s5VyVkZzmN5SC7Wv9bb1+rfwO+uSqtHB4UWw==
+
 delegate@^3.1.2:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
@@ -224,6 +229,11 @@ dompurify@^1.0.3:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.8.tgz#3fa0d91fde3827d6509d83b43444da56a2796795"
   integrity sha512-vetRFbN1SXSPfP3ClIiYnxTrXquSqakBEOoB5JESn0SVcSYzpu6ougjakpKnskGctYdlNpwf+riUHSkG7d4XUw==
+
+flag-icon-css@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.2.1.tgz#ff269388e25e29d54b39699e88d76c3141a7cc70"
+  integrity sha512-0t7zPm2crM2cBIm3epZQ+EmiHuzgFNTTSMUMkWlrztDDGL+y31D+eY8zaB9zYCzJGAsn4KEMAKY+jCU1mt9jwg==
 
 floatthead@^2.1.2:
   version "2.1.2"
@@ -249,6 +259,15 @@ fullcalendar@3.9.0:
   dependencies:
     jquery "2 - 3"
     moment "^2.20.1"
+
+gantt-elastic@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.2.4.tgz#07395c7e204edd5cb4463cab3d0611aaee5fda86"
+  integrity sha512-FJhWMs9sisYKixQLhqbqGhcdy8eZkiAGdQOgwZ2+HFKPivZuRhCflalw+/1w71H/wsaReA1sB81hndH/6dRjnQ==
+  dependencies:
+    dayjs "^1.7.7"
+    vue-slider-component "^2.7.11"
+    vue-switches "^2.0.1"
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -287,14 +306,6 @@ inputmask@^4.0:
   version "0.0.0"
   resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#c186c171d2eb1d344844f8c2bf92f25cd73a6fb5"
 
-jquery-gantt-editor@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/jquery-gantt-editor/-/jquery-gantt-editor-1.0.3.tgz#5c326c96e01dce9ff38572533abc5e67eaf57f8c"
-  integrity sha1-XDJsluAdzp/zhXJTOrxeZ+r1f4w=
-  dependencies:
-    jquery-timers "https://github.com/patryk/jquery.timers"
-    svg "https://github.com/kbwood/svg"
-
 jquery-hoverintent@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.9.0.tgz#4d92c1ae07b71b9f0d9721b9b412d672abd387c8"
@@ -325,10 +336,6 @@ jquery-slimscroll@^1.3.8:
   integrity sha1-hIHETnpHaHZTkIoo9/cK7WTITjY=
   dependencies:
     jquery ">= 1.7"
-
-"jquery-timers@https://github.com/patryk/jquery.timers":
-  version "0.0.0"
-  resolved "https://github.com/patryk/jquery.timers#3d21ef5c71579cff5d71914458ee6717b7c31a1c"
 
 jquery-ui-dist@^1.12.1:
   version "1.12.1"
@@ -389,6 +396,11 @@ lodash@^4.17.10:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
+material-design-icons@^3.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/material-design-icons/-/material-design-icons-3.0.1.tgz#9a71c48747218ebca51e51a66da682038cdcb7bf"
+  integrity sha1-mnHEh0chjrylHlGmbaaCA4zct78=
+
 moment@^2.10.2, moment@^2.20.1, moment@^2.21.0, moment@^2.9.0:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
@@ -399,15 +411,24 @@ mousetrap@^1.6.1:
   resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
   integrity sha512-jDjhi7wlHwdO6q6DS7YRmSHcuI+RVxadBkLt3KHrhd3C2b+w5pKefg3oj5beTcHZyVFA9Aksf+yEE1y5jxUjVA==
 
+nonblockjs@^1.0:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/nonblockjs/-/nonblockjs-1.0.8.tgz#54aa8d1b590c93e57c167d5f0433db7ae73aafa1"
+  integrity sha512-9TV8Ub+5/yts4TYPlVVL3KwOdU3VKW9agHRmkTJVTOGjNVx+P7b7NzqVBMSJMA0zY1vwfnNQXzZwYwDzb0R9OA==
+
 perfect-scrollbar@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.4.0.tgz#5d014ef9775e1f43058a1dbae9ed1daf0e7091f1"
   integrity sha512-/2Sk/khljhdrsamjJYS5NjrH+GKEHEwh7zFSiYyxROyYKagkE4kSn2zDQDRTOMo8mpT2jikxx6yI1dG7lNP/hw==
 
-pnotify@^4.0.0-alpha.2:
-  version "4.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.4.tgz#3d5ab2906fdb24ed58f060014c148378a4508608"
-  integrity sha512-onzGW2UjHHeYB8B+Bea7fbH0wmhqwIExR8QoEB+saGQ0qbxTyWCeBVd1c+yhtrGFpXPN00gzMFFWIyzZmNZZWw==
+pnotify@^4.0.0-beta.1:
+  version "4.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-beta.1.tgz#7ce0037badad01006282386cd59067defaa0c351"
+  integrity sha512-1CbanburkSrryBDE2bKpyVwsoIYqrC7HWrTOcB+ilFBZ5NsZxoYno6yesCxRbXpsjZUJ3L3FHv5D1867IKm57w==
+  optionalDependencies:
+    animate.css "^3.7"
+    material-design-icons "^3.0"
+    nonblockjs "^1.0"
 
 popper.js@^1.14.4:
   version "1.14.5"
@@ -442,7 +463,7 @@ select@^1.1.2:
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-split.js@^1.5.9:
+split.js@^1.5.10:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.10.tgz#11f63a7ea21780a6022e6dffe8f8eaa18c9c819e"
   integrity sha512-/J52X5c4ZypVwu4WAhD8E1T9uXQtNokvG6mIBHauzyA1aKH6bmETVSv3RPjBXEz6Gcc4mIThgmjGQL39LD16jQ==
@@ -452,11 +473,24 @@ store@^2.0.12:
   resolved "https://registry.yarnpkg.com/store/-/store-2.0.12.tgz#8c534e2a0b831f72b75fc5f1119857c44ef5d593"
   integrity sha1-jFNOKguDH3K3X8XxEZhXxE711ZM=
 
-"svg@https://github.com/kbwood/svg":
-  version "0.0.0"
-  resolved "https://github.com/kbwood/svg#82f6162b9ac69ea3b87c1b4533c15060f427cdd6"
-
 tiny-emitter@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
   integrity sha512-2NM0auVBGft5tee/OxP4PI3d8WItkDM+fPnaRAVo6xTDI2knbz9eC5ArWGqtGlYqiH3RU5yMpdyTTO7MguC4ow==
+
+vue-slider-component@^2.7.11:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-2.8.2.tgz#5bf9922f1d053ba1516026a3dbbf9b0e7fb3c151"
+  integrity sha512-asmA5KKGq1bdnJeAjzqBf4K5FRl1T4V9H57UizOFtPmTKOulKVGdQJCSDB8mS9mpmNUGXIs/i0wt+nUFvYVDLQ==
+
+vue-switches@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vue-switches/-/vue-switches-2.0.1.tgz#f23436259c7fe4ffca9c4a6df49ac78941e20a20"
+  integrity sha512-rDqBtK3TKy1pEvyZeWmnSHVeXqAcn+ozch7LiNThBzr1QMjg5rhvqBY7uWeli/baDDslf6CXmBJbHPwASJLqoA==
+  dependencies:
+    vue "^2.2.6"
+
+vue@^2.2.6:
+  version "2.5.17"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
+  integrity sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
