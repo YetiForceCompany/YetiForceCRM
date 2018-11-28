@@ -207,6 +207,9 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 				$this->listViewModel->set('orderby', $orderBy);
 				$this->listViewModel->set('sortorder', $customViewModel->getSortOrderBy('sortOrder'));
 			}
+			$fields = array_column($this->getHeaders(), 'name');
+			$fields[] = 'id';
+			$this->listViewModel->getQueryGenerator()->setFields($fields);
 			$pagingModel = (new Vtiger_Paging_Model())->set('limit', $this->getRecordLimit());
 			$this->listviewRecords = $this->listViewModel->getListViewEntries($pagingModel);
 		}
