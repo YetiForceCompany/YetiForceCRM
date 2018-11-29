@@ -47,7 +47,9 @@
     "LBL_LIB_REQUIRED": "Wymagane",
     "LBL_LIB_OPTIONAL": "Opcjonalne",
     "LBL_CRON_STATE": "Status mechanizmu cron",
-    "LBL_CRON_DISABLED_DESC": "Mechanizm harmonogramu zada\u0144 cron nie został aktywowany, nie wszystkie funkcjonalno\u015bci systemu s\u0105 dost\u0119pne.",
-    "LBL_HOW_TO_ENABLE_CRON": "Jak w\u0142\u0105czy\u0107 cron"
+    "LBL_CRON_DISABLED_DESC": "Mechanizm harmonogramu zada\u0144 cron nie zosta\u0142 aktywowany, nie wszystkie funkcjonalno\u015bci systemu s\u0105 dost\u0119pne.",
+    "LBL_CRON_TASK_FAILED_DESC": "Nie wszystkie zadania crona zosta\u0142y zako\u0144czone poprawnie.",
+    "LBL_HOW_TO_ENABLE_CRON": "Jak w\u0142\u0105czy\u0107 cron",
+    "LBL_CRON_TASKS_LIST": "Lista zada\u0144 cron"
   }
 }
