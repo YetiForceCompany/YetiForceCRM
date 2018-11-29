@@ -280,7 +280,7 @@ var App = {},
 		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
 			const self = this;
 			let params = {
-				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
+				template: '<div class="popover c-popover--link u-opacity-0" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 				placement: 'right',
@@ -305,6 +305,7 @@ var App = {},
 							customParams.callback(popoverBody);
 						}
 						self.updatePopoverRecordPosition(currentPopover);
+						currentPopover.removeClass('u-opacity-0');
 					};
 					let cacheData = window.popoverCache[url];
 					if (typeof cacheData !== 'undefined') {
@@ -317,6 +318,9 @@ var App = {},
 					}
 				}
 			};
+			selectElement.on('hide.bs.popover', () => {
+				app.getBindedPopover(selectElement).addClass('u-opacity-0');
+			});
 			app.showPopoverElementView(selectElement, params);
 		},
 		/**
@@ -335,7 +339,7 @@ var App = {},
 				offsetTop = windowHeight - popoverHeight - popoverPadding;
 			}
 			if (popoverWidth + offsetLeft > windowWidth) {
-				offsetLeft = offsetLeft - popoverWidth;
+				offsetLeft = windowWidth - popoverWidth;
 			}
 			popover.css({
 				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
@@ -1749,13 +1753,17 @@ var App = {},
 			window.popoverCache = {};
 			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
+				if (currentTarget.find('.js-popover-tooltip--record').length) {
+					currentTarget.removeClass('js-popover-tooltip--ellipsis');
+					return;
+				}
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget);
 						currentTarget.trigger('mouseenter');
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
 						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
-					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.find('.js-popover-tooltip--record').length && !currentTarget.data('field-type')) {
 						if (currentTarget.hasClass('js-popover-tooltip--ellipsis')) {
 							app.registerPopoverEllipsis(currentTarget);
 						} else {
