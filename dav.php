@@ -10,7 +10,7 @@ if (!in_array('dav', $enabledServices)) {
 	$apiLog->stop('Dav - Service is not active');
 }
 // Database
-$pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
+$pdo = new PDO($dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 set_error_handler(['App\Dav\Debug', 'exceptionErrorHandler']);
