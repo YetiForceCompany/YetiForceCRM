@@ -91,7 +91,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 				'projectProgress' => 0
 			];
 		}
-		$recordModel = Project_Record_Model::getInstanceById($id);
+		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		foreach ($recordModel->getChildren() as $childRecordModel) {
 			$progressItem = $this->calculateProgressOfChildren($childRecordModel->getId());
 			$estimatedWorkTime += $progressItem['estimatedWorkTime'];
