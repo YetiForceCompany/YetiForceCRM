@@ -20,16 +20,12 @@ class Project_ProjectHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isNew()) {
-			$delta = $recordModel->getPreviousValue();
-			foreach ($delta as $name => $value) {
-				if ($name === 'parentid') {
-					$projectModel = Vtiger_Module_Model::getInstance('Project');
-					if (!empty($recordModel->get($name))) {
-						$projectModel->updateProgress($recordModel->get($name));
-					}
-					if (!empty($value)) {
-						$projectModel->updateProgress($value);
-					}
+			if (($value = $recordModel->getPreviousValue('parentid')) !== false) {
+				if (!empty($recordModel->get('parentid'))) {
+					$recordModel->getModule()->updateProgress($recordModel->get('parentid'));
+				}
+				if (!empty($value)) {
+					$recordModel->getModule()->updateProgress($value);
 				}
 			}
 		}
@@ -44,7 +40,7 @@ class Project_ProjectHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isEmpty('parentid')) {
-			Vtiger_Module_Model::getInstance('Project')->updateProgress($recordModel->get('parentid'));
+			$recordModel->getModule()->updateProgress($recordModel->get('parentid'));
 		}
 	}
 }

@@ -41,7 +41,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		if (!App\Record::isExists($id)) {
 			return [];
 		}
-		$recordModel = Project_Record_Model::getInstanceById($id);
+		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		if (empty($parentId)) {
 			foreach ($recordModel->getChildren() as $childRecordModel) {
 				$progressItem = $this->calculateProgressOfChildren($childRecordModel->getId());
