@@ -163,10 +163,9 @@ var App = {},
 					});
 				}
 				setTimeout(function () {
-					let currentElement = $(e.currentTarget);
-					if (currentElement.is(':hover')) {
-						currentElement.popover("show");
-						let currentPopover = self.getBindedPopover(currentElement);
+					if (element.is(':hover')) {
+						element.popover("show");
+						let currentPopover = self.getBindedPopover(element);
 						if (element.hasClass('js-popover-tooltip--record') || element.hasClass('js-popover-tooltip--ellipsis')) {
 							setTimeout(function () { //timeout needed to overwrite bootrap positioning
 								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
@@ -1754,7 +1753,6 @@ var App = {},
 			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
 				if (currentTarget.find('.js-popover-tooltip--record').length) {
-					currentTarget.removeClass('js-popover-tooltip--ellipsis');
 					return;
 				}
 				if (!currentTarget.hasClass('popover-triggered')) {
