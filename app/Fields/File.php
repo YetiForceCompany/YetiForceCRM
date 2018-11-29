@@ -391,13 +391,11 @@ class File
 			try {
 				$img = new \imagick($this->path);
 				$img->valid();
+				$img->clear();
+				$img->destroy();
 			} catch (\ImagickException $e) {
 				$this->validateError = $e->getMessage();
 				$returnVal = false;
-			}
-		} else {
-			if (@imagecreatefromstring($this->getContents()) === false) {
-				throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 			}
 		}
 		return $returnVal;
