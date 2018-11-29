@@ -63,6 +63,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var commActHeight = $('.commonActionsContainer').height();
 		app.showNewScrollbarTopBottomRight(this.list, {wheelPropagation: false});
 		this.registerFixedThead();
+		mainBody.scrollTop(0); // reset scroll to set correct start position
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
