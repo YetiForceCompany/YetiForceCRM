@@ -115,7 +115,6 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
-		\App\DebugerEx::$isOn = false;
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$projectRecordModel = static::createProjectRecord('p0');
 		static::$listId['p0'] = $projectRecordModel->getId();
