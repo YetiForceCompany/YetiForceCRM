@@ -20,9 +20,8 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 	public function getFields(): array
 	{
 		$summaryFields = [];
-		$fields = $this->getFieldsIcon();
 		$fieldsModel = $this->recordModel->getModule()->getFields();
-		foreach ($fields as $fieldName => $icon) {
+		foreach ($this->getFieldsIcon() as $fieldName => $icon) {
 			$fieldModel = $fieldsModel[$fieldName] ?? '';
 			if ($fieldModel && $fieldModel->isViewableInDetailView() && !$this->recordModel->isEmpty($fieldName)) {
 				$summaryFields[$fieldName] = $fieldModel;

@@ -15,11 +15,15 @@
 class Vtiger_RecordPopover_Model extends \App\Base
 {
 	/**
+	 * Model of record which is display.
+	 *
 	 * @var Vtiger_Record_Model
 	 */
 	protected $recordModel;
 
 	/**
+	 * Name of module.
+	 *
 	 * @var string
 	 */
 	public $moduleName;
