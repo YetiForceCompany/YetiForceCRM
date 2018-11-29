@@ -41,11 +41,10 @@ class Field
 				])
 				->from('vtiger_field')
 				->innerJoin('vtiger_profile2field', 'vtiger_profile2field.fieldid = vtiger_field.fieldid')
-				->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
 				->where([
 					'vtiger_field.tabid' => (int) $tabId,
 					'vtiger_profile2field.visible' => 0,
-					'vtiger_def_org_field.visible' => 0,
+					'vtiger_field.visible' => 0,
 					'vtiger_field.presence' => [0, 2]
 				]);
 			$profileList = \App\User::getCurrentUserModel()->getProfiles();

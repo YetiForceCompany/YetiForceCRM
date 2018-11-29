@@ -12,32 +12,6 @@ namespace App\Db;
 class Fixer
 {
 	/**
-	 * Add missing entries in vtiger_def_org_field.
-	 */
-	public static function defOrgField()
-	{
-		\App\Log::trace('Entering ' . __METHOD__);
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$subQuery = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_def_org_field');
-		$query = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')->where(['not in', 'vtiger_field.fieldid', $subQuery]);
-		$data = $query->createCommand()->queryAllByGroup(2);
-		foreach ($data as $tabId => $fieldIds) {
-			foreach ($fieldIds as $fieldId) {
-				$isExists = (new \App\Db\Query())->from('vtiger_def_org_field')->where(['tabid' => $tabId, 'fieldid' => $fieldId])->exists();
-				if (!$isExists) {
-					$dbCommand->insert('vtiger_def_org_field', [
-						'tabid' => $tabId,
-						'fieldid' => $fieldId,
-						'visible' => 0,
-						'readonly' => 0,
-					])->execute();
-				}
-			}
-		}
-		\App\Log::trace('Exiting ' . __METHOD__);
-	}
-
-	/**
 	 * Add missing entries in vtiger_profile2field.
 	 */
 	public static function profileField()
