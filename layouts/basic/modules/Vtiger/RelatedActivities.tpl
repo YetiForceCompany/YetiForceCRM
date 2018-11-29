@@ -108,7 +108,7 @@
 								{assign var=IS_DESCRIPTION value=$RECORD->get('description') neq ''}
 								<span class="js-description-text">
 									{if $IS_DESCRIPTION}
-										{$RECORD->getDisplayValue('description', false, false, false, 120)}
+										{$RECORD->getDisplayValue('description', false, false, 120)}
 									{/if}
 								</span>
 								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}">
