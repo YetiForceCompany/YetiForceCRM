@@ -3,6 +3,8 @@
 /**
  * ProjectTask ProjectTaskHandler handler class.
  *
+ * @package   Handler
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -15,7 +17,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
-		\App\DebugerEx::log('entityAfterSave');
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
 			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
@@ -56,7 +57,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		\App\DebugerEx::log('entityAfterDelete');
 		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 		Vtiger_Module_Model::getInstance('Project')->updateProgress($eventHandler->getRecordModel()->get('projectid'));
 	}
@@ -68,7 +68,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityChangeState(\App\EventHandler $eventHandler)
 	{
-		\App\DebugerEx::log('entityChangeState');
 		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 		Vtiger_Module_Model::getInstance('Project')->updateProgress($eventHandler->getRecordModel()->get('projectid'));
 	}

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Project ProjectHandler handler class.
+ *
+ * @package   Handler
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ */
 class Project_ProjectHandler_Handler
 {
 	/**
@@ -10,16 +19,10 @@ class Project_ProjectHandler_Handler
 	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		//\App\DebugerEx::log("entityAfterSave({$recordModel->getId()}): isNew = ", $recordModel->isNew());
-		if ($recordModel->isNew()) {
-			//Vtiger_Module_Model::getInstance('Project')->updateProgress($recordModel->getId());
-		} else {
+		if (!$recordModel->isNew()) {
 			$delta = $recordModel->getPreviousValue();
-			//\App\DebugerEx::log($delta);
 			foreach ($delta as $name => $value) {
 				if ($name === 'parentid') {
-					//\App\DebugerEx::log('1) entityAfterSave:', $recordModel->get($name), $value);
-					\App\DebugerEx::log('1) entityAfterSave:', $recordModel->getId(), $recordModel->get($name), $value, $delta);
 					$projectModel = Vtiger_Module_Model::getInstance('Project');
 					if (!empty($recordModel->get($name))) {
 						$projectModel->updateProgress($recordModel->get($name));
@@ -27,7 +30,6 @@ class Project_ProjectHandler_Handler
 					if (!empty($value)) {
 						$projectModel->updateProgress($value);
 					}
-					//$projectModel->updateProgress($recordModel->getId());
 				}
 			}
 		}
@@ -41,7 +43,7 @@ class Project_ProjectHandler_Handler
 	public function entityChangeState(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->hasParent()) {
+		if (!$recordModel->isEmpty('parentid')) {
 			Vtiger_Module_Model::getInstance('Project')->updateProgress($recordModel->get('parentid'));
 		}
 	}
