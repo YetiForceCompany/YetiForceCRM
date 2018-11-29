@@ -25,7 +25,8 @@ class CronState extends \App\SystemWarnings\Template
 	public function process()
 	{
 		$lastStart = \Settings_CronTasks_Module_Model::getInstance('Settings:CronTasks')->getLastCronStart();
-		if ($lastStart === 0 || strtotime('-15 minutes') > $lastStart) {
+		$timeOut = round((\AppConfig::main('maxExecutionCronTime') + 300) / 60);
+		if ($lastStart === 0 || strtotime("-{$timeOut} minutes") > $lastStart) {
 			$this->status = 0;
 		} else {
 			$this->status = 1;
