@@ -63,8 +63,4 @@ $SECURITY_CONFIG = [
 	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
-	/**
-	 * Protection against code injection. Only for images.
-	 */
-	'REMOVE_FORBIDDEN_TAGS_FROM_IMAGE' => true,
 ];

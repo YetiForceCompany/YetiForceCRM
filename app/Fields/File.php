@@ -356,7 +356,7 @@ class File
 			$this->validateFormat();
 			if (($type && $type === 'image') || $this->getShortMimeType(0) === 'image') {
 				$this->validateImage();
-				$this->validateCodeInjectionInMetadata();
+				$this->validateCodeInjection();
 			} else {
 				$this->validateCodeInjection();
 			}
@@ -1047,8 +1047,15 @@ class File
 			foreach ($transformFiles as $fileDetails) {
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
-					$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
-					continue;
+					if (!static::removeForbiddenTags($file->getPath(), $file->getPath())) {
+						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
+						continue;
+					}
+					$file = static::loadFromRequest($fileDetails);
+					if (!$file->validate($type)) {
+						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
+						continue;
+					}
 				}
 				$uploadFilePath = static::initStorageFileDirectory($storageName);
 				$key = $file->generateHash(true, $uploadFilePath);
@@ -1062,9 +1069,6 @@ class File
 					'crmid' => $request->isEmpty('record') ? 0 : $request->getInteger('record'),
 				])->execute();
 				if (move_uploaded_file($file->getPath(), $uploadFilePath . $key)) {
-					if (\AppConfig::security('REMOVE_FORBIDDEN_TAGS_FROM_IMAGE')) {
-						static::removeForbiddenTags($uploadFilePath . $key, $uploadFilePath . $key);
-					}
 					$attach[] = [
 						'name' => $file->getName(),
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
@@ -1133,23 +1137,32 @@ class File
 
 	/**
 	 * Remove the forbidden tags from image.
+	 *
+	 * @param string $fileImgIn
+	 * @param string $fileImgOut
+	 *
+	 * @throws \ImagickException
+	 *
+	 * @return bool
 	 */
-	public static function removeForbiddenTags(string $fileImgIn, string $fileImgOut)
+	public static function removeForbiddenTags(string $fileImgIn, string $fileImgOut): bool
 	{
+		$result = false;
 		if (extension_loaded('imagick')) {
-			$img = new \imagick($fileImgIn);
-			$img->stripImage();
-			$img->writeImage($fileImgOut);
-			$img->clear();
-			$img->destroy();
-		} else {
-			$img = @\imagecreatefromstring(\file_get_contents($fileImgIn));
-			if ($img === false) {
-				throw new \App\Exceptions\AppException('Wrong file type');
+			try {
+				$img = new \imagick($fileImgIn);
+				$img->stripImage();
+				$img->setImageCompression(\Imagick::COMPRESSION_JPEG);
+				$img->setImageCompressionQuality(80);
+				$img->writeImage($fileImgOut);
+				$img->clear();
+				$img->destroy();
+				$result = true;
+			} catch (\ImagickException $e) {
+				$result = false;
 			}
-			\imagejpeg($img, $fileImgOut);
-			\imagedestroy($img);
 		}
+		return $result;
 	}
 
 	/**
