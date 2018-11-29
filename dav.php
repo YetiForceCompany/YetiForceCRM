@@ -8,6 +8,7 @@ if (!in_array('dav', $enabledServices)) {
 	require __DIR__ . '/include/main/WebUI.php';
 	$apiLog = new \App\Exceptions\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
+	return;
 }
 // Database
 $pdo = new PDO($dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
