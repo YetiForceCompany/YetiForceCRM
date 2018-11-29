@@ -79,4 +79,24 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}
+
+	/**
+	 * Generate valid sample value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function getSampleValue()
+	{
+		$min = 0;
+		$max = $this->getFieldModel()->get('maximumlength');
+		if (strpos($max, ',')) {
+			$max = explode(',', $max)[1];
+		}
+		if ($max > 99999999) {
+			$max = 99999999;
+		}
+		return \App\Fields\Double::formatToDisplay(random_int($min, (int) $max - 1) . '.' . random_int(0, 9) . random_int(0, 9));
+	}
 }

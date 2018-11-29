@@ -131,4 +131,22 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		return 'ConditionBuilder/Currency.tpl';
 	}
+
+	/**
+	 * Generate valid sample value
+	 * @return float|null
+	 * @throws \Exception
+	 */
+	public function getSampleValue()
+	{
+		$min = 0;
+		$max = $this->getFieldModel()->get('maximumlength');
+		if (strpos($max, ',')) {
+			$max = explode(',', $max)[1];
+		}
+		if ($max > 9999999) {
+			$max = 9999999;
+		}
+		return \App\Fields\Currency::formatToDb(random_int($min, (int)$max - 1) . \App\User::getCurrentUserModel()->getDetail('currency_decimal_separator') . random_int(0, 9) . random_int(0, 9));
+	}
 }

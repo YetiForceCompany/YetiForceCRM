@@ -87,4 +87,22 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}
+
+	/**
+	 * Generate valid sample value
+	 * @return int
+	 * @throws \Exception
+	 */
+	public function getSampleValue()
+	{
+		$min = 0;
+		$max = $this->getFieldModel()->get('maximumlength');
+		if (strpos($max, ',')) {
+			$max = (int)explode(',', $max)[1];
+		}
+		if ($max > 999999 || $max < 0) {
+			$max = 999999;
+		}
+		return \App\Fields\Integer::formatToDb(random_int($min, (int)$max));
+	}
 }

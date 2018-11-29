@@ -200,4 +200,16 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		return 'ConditionBuilder/Time.tpl';
 	}
+
+	/**
+	 * Generate valid sample value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return false|string
+	 */
+	public function getSampleValue()
+	{
+		return date('H:i:s', random_int(time(), strtotime('+1 month')));
+	}
 }
