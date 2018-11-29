@@ -58,7 +58,7 @@
 					<div class="pr-2">
 						<div class="js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover">
 							{if empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
-								<a class="modCT_{$MODULE}" href="{$RECORD->getDetailViewUrl()}">
+								<a class="modCT_{$RECORD->getModuleName()}" href="{$RECORD->getDetailViewUrl()}">
 									{$RECORD->getDisplayValue($FIELD->get('name'))}
 								</a>
 							{else}

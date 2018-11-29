@@ -148,35 +148,47 @@ class Mailer
 		if (empty($params['smtp_id'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 1;
-			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			static::insertMail($params, 'log');
 			Log::warning('No SMTP configuration', 'Mailer');
 			return false;
 		}
 		if (!\App\Mail::getSmtpById($params['smtp_id'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 2;
-			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			static::insertMail($params, 'log');
 			Log::warning('SMTP configuration with provided id not exists', 'Mailer');
 			return false;
 		}
 		if (empty($params['to'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 3;
-			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			static::insertMail($params, 'log');
 			Log::warning('No target email address provided', 'Mailer');
 			return false;
 		}
+		static::insertMail($params, 'admin');
+		return true;
+	}
 
+	/**
+	 * Save mail data in provided table.
+	 *
+	 * @param array  $params
+	 * @param string $type   'admin' | 'log'
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public static function insertMail($params, $type)
+	{
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($params[$key])) {
-				if (!is_array($params[$key])) {
+				if (!\is_array($params[$key])) {
 					$params[$key] = [$params[$key]];
 				}
 				$params[$key] = Json::encode($params[$key]);
 			}
 		}
-		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
-		return true;
+		\App\Db::getInstance($type)->createCommand()->insert($type === 'admin' ? 's_#__mail_queue' : 'l_#__mail', $params)->execute();
 	}
 
 	/**

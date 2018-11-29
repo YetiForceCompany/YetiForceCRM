@@ -23,25 +23,23 @@ class Double
 	 */
 	public static function formatToDisplay(?string $value): string
 	{
-		$valueParts = explode('.', $value, 2);
-		$valueToDisplay = Integer::formatToDisplay($valueParts[0]);
-		if (isset($valueParts[1])) {
-			$userModel = \App\User::getCurrentUserModel();
-			$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
-			if ($userModel->getDetail('truncate_trailing_zeros')) {
-				for ($i = strlen($valueParts[1]) -1; $i >= 0; $i--) {
-					if ($valueParts[1][$i] !== '0') {
-						break;
-					}
+		$userModel = \App\User::getCurrentUserModel();
+		[$integer, $decimal] = explode('.', number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', ''), 2);
+		$display = Integer::formatToDisplay($integer);
+		$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
+		if ($userModel->getDetail('truncate_trailing_zeros')) {
+			for ($i = strlen($decimal) - 1; $i >= 0; $i--) {
+				if ($decimal[$i] !== '0') {
+					break;
 				}
-				if ($i !== -1) {
-					$valueToDisplay .= $decimalSeperator . substr($valueParts[1], 0, $i + 1);
-				}
-			} else {
-				$valueToDisplay .= $decimalSeperator . $valueParts[1];
 			}
+			if ($i !== -1) {
+				$display .= $decimalSeperator . substr($decimal, 0, $i + 1);
+			}
+		} else {
+			$display .= $decimalSeperator . $decimal;
 		}
-		return $valueToDisplay;
+		return $display;
 	}
 
 	/**

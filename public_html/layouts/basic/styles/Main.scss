@@ -3,9 +3,16 @@
 //-------- global variables --------//
 @import '_Functions';
 @import '_Variables';
-//-------- bootstrap --------//
+//-------- external --------//
 @import '../../../libraries/bootstrap/scss/bootstrap';
 @import '../../../libraries/select2-theme-bootstrap4/src/select2-bootstrap.scss';
+@import '../../../libraries/sass-material-colors/sass/_sass-material-colors-classes.scss';
+@import '../../../libraries/flag-icon-css/sass/flag-icon.scss';
+
+//-------- libraries' modifications --------//
+@import 'libraries/_Libraries';
+@import 'libraries/_Bootstrap';
+@import 'libraries/_FullCalendar';
 //-------- base --------//
 @import '_Style';
 //-------- components --------//
@@ -15,11 +22,6 @@
 @import 'components/_Checkbox';
 @import 'components/_Chat';
 @import 'components/_ConditionBuilder';
-//-------- libraries --------//
-@import 'libraries/_Libraries';
-@import 'libraries/_Bootstrap';
-@import 'libraries/_FullCalendar';
-@import '../../../libraries/sass-material-colors/sass/_sass-material-colors-classes.scss';
 //-------- layout --------//
 @import 'layout/_Base';
 @import 'layout/_Header';

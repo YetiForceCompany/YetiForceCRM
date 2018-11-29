@@ -82,7 +82,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
 
-		$postfix = time() . '_' . mt_rand(0, 1000);
+		$postfix = time() . '_' . random_int(0, 1000);
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}

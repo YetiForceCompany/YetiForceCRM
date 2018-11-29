@@ -34,23 +34,25 @@
 	{/if}
 	{foreach item=RECORD from=$MINILIST_WIDGET_RECORDS}
 		<div class="row">
-			{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
-				{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
-				{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
-				{assign var="FIELD_VALUE" value=$RECORD->get($FIELD->get('name'))}
-				<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
-					{if $LAST_RECORD}
-						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
-					{/if}
-					{if $FIELD_VALUE}
-						<div class="pr-2">
-							<div class="js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover">
+		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
+			{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
+			{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
+			{assign var="FIELD_VALUE" value=$RECORD->get($FIELD->get('name'))}
+			<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
+			{if $LAST_RECORD}
+				<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
+			{/if}
+			{if $FIELD_VALUE}
+				<div class="pr-2">
+					<div class="js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover">
+						{if empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
+							<a class="modCT_{$RECORD->getModuleName()}" href="{$RECORD->getDetailViewUrl()}">
 								{$RECORD->getDisplayValue($FIELD->get('name'))}
-							</div>
-						</div>
-					{else}
-						&nbsp;
-					{/if}
+							</a>
+						{else}
+							{$RECORD->getDisplayValue($FIELD->get('name'))}
+						{/if}
+					</div>
 				</div>
 			{/foreach}
 		</div>
