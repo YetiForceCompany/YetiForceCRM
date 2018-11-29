@@ -313,12 +313,12 @@ class CustomView
 	 *
 	 * @throws Exceptions\AppException
 	 */
-	private function getCustomViewFromFile($cvId)
+	private static function getCustomViewFromFile($cvId, $moduleName)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
-		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
+		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
 		if (file_exists($filterDir)) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
+			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $moduleName);
 			$filter = new $handlerClass();
 			Cache::staticSave('getCustomView', $cvId, $filter);
 		} else {
@@ -342,11 +342,11 @@ class CustomView
 			return Cache::staticGet('getCustomView', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getCustomViewFromFile($cvIds);
+			return self::getCustomViewFromFile($cvIds, $this->moduleName);
 		}
 		$filters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$filters[] = $this->getCustomViewFromFile($cvId);
+			$filters[] = self::getCustomViewFromFile($cvId, $this->moduleName);
 		}
 		Cache::staticSave('getCustomView', $cvIds, $filters);
 		return $filters;
@@ -371,7 +371,7 @@ class CustomView
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
 		} else {
-			$view = $this->getCustomViewFromFile($cvId);
+			$view = self::getCustomViewFromFile($cvId, $this->moduleName);
 			$columnList = $view->getColumnList();
 			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 		}
@@ -419,64 +419,69 @@ class CustomView
 	 *               ]]
 	 *               ]
 	 */
-	public static function getConditions($id): array
+	public static function getConditions($id, $moduleName): array
 	{
 		if (Cache::has('CustomView_GetConditions', $id)) {
 			return Cache::get('CustomView_GetConditions', $id);
 		}
-		$dataReader = (new \App\Db\Query())->select([
-			'u_#__cv_condition.group_id',
-			'u_#__cv_condition.field_name',
-			'u_#__cv_condition.module_name',
-			'u_#__cv_condition.source_field_name',
-			'u_#__cv_condition.operator',
-			'u_#__cv_condition.value',
-			'condition_index' => 'u_#__cv_condition.index',
-			'u_#__cv_condition_group.condition',
-			'u_#__cv_condition_group.parent_id',
-			'group_index' => 'u_#__cv_condition_group.index'
-		])->from('u_#__cv_condition')
-			->innerJoin('u_#__cv_condition_group', 'u_#__cv_condition_group.id = u_#__cv_condition.group_id')
-			->where(['u_#__cv_condition_group.cvid' => $id])
-			->orderBy(['u_#__cv_condition_group.parent_id' => SORT_ASC])
-			->createCommand()->query();
-		$referenceGroup = $referenceParent = $conditions = [];
-		while ($condition = $dataReader->read()) {
-			$value = $condition['value'];
-			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
-			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
-				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
-					'fieldname' => $fieldName,
-					'operator' => $condition['operator'],
-					'value' => $value
-				];
-			} elseif (isset($referenceGroup[$condition['parent_id']])) {
-				$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
-					'condition' => $condition['condition'],
-					'rules' => [
-						$condition['condition_index'] => [
-							'fieldname' => $fieldName,
-							'operator' => $condition['operator'],
-							'value' => $value
+		if (is_numeric($id)) {
+			$dataReader = (new \App\Db\Query())->select([
+				'u_#__cv_condition.group_id',
+				'u_#__cv_condition.field_name',
+				'u_#__cv_condition.module_name',
+				'u_#__cv_condition.source_field_name',
+				'u_#__cv_condition.operator',
+				'u_#__cv_condition.value',
+				'condition_index' => 'u_#__cv_condition.index',
+				'u_#__cv_condition_group.condition',
+				'u_#__cv_condition_group.parent_id',
+				'group_index' => 'u_#__cv_condition_group.index'
+			])->from('u_#__cv_condition')
+				->innerJoin('u_#__cv_condition_group', 'u_#__cv_condition_group.id = u_#__cv_condition.group_id')
+				->where(['u_#__cv_condition_group.cvid' => $id])
+				->orderBy(['u_#__cv_condition_group.parent_id' => SORT_ASC])
+				->createCommand()->query();
+			$referenceGroup = $referenceParent = $conditions = [];
+			while ($condition = $dataReader->read()) {
+				$value = $condition['value'];
+				$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
+				if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
+					$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
+						'fieldname' => $fieldName,
+						'operator' => $condition['operator'],
+						'value' => $value
+					];
+				} elseif (isset($referenceGroup[$condition['parent_id']])) {
+					$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
+						'condition' => $condition['condition'],
+						'rules' => [
+							$condition['condition_index'] => [
+								'fieldname' => $fieldName,
+								'operator' => $condition['operator'],
+								'value' => $value
+							]
 						]
-					]
-				];
-				$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
-				$referenceGroup[$condition['group_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
-			} else {
-				$conditions = [
-					'condition' => $condition['condition'],
-					'rules' => [
-						$condition['condition_index'] => [
-							'fieldname' => $fieldName,
-							'operator' => $condition['operator'],
-							'value' => $value
+					];
+					$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
+					$referenceGroup[$condition['group_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
+				} else {
+					$conditions = [
+						'condition' => $condition['condition'],
+						'rules' => [
+							$condition['condition_index'] => [
+								'fieldname' => $fieldName,
+								'operator' => $condition['operator'],
+								'value' => $value
+							]
 						]
-					]
-				];
-				$referenceParent[$condition['parent_id']] = &$conditions['rules'];
-				$referenceGroup[$condition['group_id']] = &$conditions['rules'];
+					];
+					$referenceParent[$condition['parent_id']] = &$conditions['rules'];
+					$referenceGroup[$condition['group_id']] = &$conditions['rules'];
+				}
 			}
+		} else {
+			$view = self::getCustomViewFromFile($id, $moduleName);
+			$conditions = $view->getCondition();
 		}
 		$conditions = static::sortConditions($conditions);
 		Cache::save('CustomView_GetConditions', $id, $conditions, Cache::LONG);
@@ -506,12 +511,15 @@ class CustomView
 	/**
 	 * Get fields to detect duplicates.
 	 *
-	 * @param int $viewId
+	 * @param int|string $viewId
 	 *
 	 * @return array
 	 */
-	public static function getDuplicateFields(int $viewId): array
+	public static function getDuplicateFields($viewId): array
 	{
+		if (is_numeric($viewId)) {
+			return [];
+		}
 		if (Cache::has('CustomView_GetDuplicateFields', $viewId)) {
 			return Cache::get('CustomView_GetDuplicateFields', $viewId);
 		}

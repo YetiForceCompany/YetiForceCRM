@@ -67,12 +67,33 @@
 			{/foreach}
 		</div>
 		<div class="col-md-4 btn-toolbar ml-0">
-			<select class="select2 form-control" id="usersFilter" name="status">
-				<option value='[]'>{\App\Language::translate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
-				<option value='[[["status","e","Active"]]]'>{\App\Language::translate('LBL_ACTIVE_USERS', $QUALIFIED_MODULE)}</option>
-				<option value='[[["status","e","Inactive"]]]'>{\App\Language::translate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
-				<option value='[[[]],[["force_password_change","e","1"],["date_password_change","b","{Settings_Password_Record_Model::getPasswordChangeDate()}"]]]'>{\App\Language::translate('LBL_USERS_NEED_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</option>
-			</select>
+			<div class="customFilterMainSpan ml-auto mx-xl-auto">
+				{if $CUSTOM_VIEWS|@count gt 0}
+					<select id="customFilter" class="form-control"
+							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
+						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+							<optgroup
+									label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
+								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+									<option data-editable="false"
+											data-deletable="false"
+											{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'}
+												data-option="{$CUSTOM_VIEW->getOwnerName()}"
+											{/if}
+											id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {' '}
+											value="{$CUSTOM_VIEW->get('cvid')}" {' '}
+											data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}
+											class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
+										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+									</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+				{else}
+					<input type="hidden" value="0" id="customFilter"/>
+				{/if}
+			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="float-right">

@@ -22,6 +22,16 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 	}
 
+	public function preProcess(\App\Request $request, $display = true)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewId = $request->getByType('viewname', 2);
+		$viewer->assign('VIEWID', $viewId);
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
+		parent::preProcess($request, false);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -71,6 +81,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+			//TODO:
 		}
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $cvId];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);

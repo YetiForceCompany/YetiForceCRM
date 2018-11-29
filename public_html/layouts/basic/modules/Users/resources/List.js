@@ -270,33 +270,20 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 *Function to filter Active and Inactive users from Users List View
 	 */
 	usersFilter: function () {
-		var thisInstance = this;
-		jQuery('#usersFilter').on('change', function () {
-			var progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			var params = {
+		const thisInstance = this;
+		$('#customFilter').on('change', function () {
+			let selectedFilter = $('#customFilter').find('option:selected');
+			thisInstance.getListViewRecords({
 				module: app.getModuleName(),
 				view: 'List',
 				parent: app.getParentModuleName(),
-				search_params: jQuery('#usersFilter').val()
-			};
-			AppConnector.request(params)
-				.done(function (data) {
-					progressInstance.progressIndicator({
-						'mode': 'hide'
-					});
-					jQuery('#listViewContents').html(data);
-					thisInstance.updatePaginationFilter();
-					var listSearchInstance = thisInstance.getListSearchInstance();
-					if (listSearchInstance !== false) {
-						listSearchInstance.registerEvents();
-					}
-					App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
-				});
+				viewname: selectedFilter.val()
+			}).done(() => {
+				thisInstance.breadCrumbsFilter(selectedFilter.text());
+				thisInstance.ListViewPostOperation();
+				thisInstance.updatePagination(1);
+			});
+			event.stopPropagation();
 		});
 	},
 	updatePaginationFilter: function () {
@@ -307,7 +294,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			parent: app.getParentModuleName(),
 			view: 'Pagination',
 			mode: 'getPagination',
-			search_params: $('#usersFilter').val(),
+			search_params: $('#customFilter').val(),
 			noOfEntries: $('#noOfEntries').val(),
 		}).done(function (data) {
 			$('.paginationDiv').html(data);
