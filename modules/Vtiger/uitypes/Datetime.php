@@ -90,12 +90,14 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Generate valid sample value
-	 * @return false|string
+	 * Generate valid sample value.
+	 *
 	 * @throws \Exception
+	 *
+	 * @return false|string
 	 */
 	public function getSampleValue()
 	{
-		return date('Y-m-d H:i:s', random_int(time(), strtotime('+1 month')));
+		return date('Y-m-d H:i:s', random_int(strtotime('-1 month'), strtotime('+1 month')));
 	}
 }

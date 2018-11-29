@@ -94,8 +94,8 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if (strpos($max, ',')) {
 			$max = explode(',', $max)[1];
 		}
-		if ($max > 99999999) {
-			$max = 99999999;
+		if ($max > 9999) {
+			$max = 9999;
 		}
 		return \App\Fields\Double::formatToDisplay(random_int($min, (int) $max - 1) . '.' . random_int(0, 9) . random_int(0, 9));
 	}

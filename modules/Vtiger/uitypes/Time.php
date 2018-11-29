@@ -206,10 +206,10 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 *
 	 * @throws \Exception
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public function getSampleValue()
 	{
-		return date('H:i:s', random_int(time(), strtotime('+1 month')));
+		return random_int(0, 23) . ':' . random_int(0, 59) . ':' . random_int(0, 59);
 	}
 }
