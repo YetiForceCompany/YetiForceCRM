@@ -7656,7 +7656,7 @@ CREATE TABLE `vtiger_profile` (
   `profileid` int(10) NOT NULL AUTO_INCREMENT,
   `profilename` varchar(50) NOT NULL,
   `description` text DEFAULT NULL,
-  `directly_related_to_role` int(1) DEFAULT 0,
+  `directly_related_to_role` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`profileid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -7680,7 +7680,7 @@ CREATE TABLE `vtiger_profile2field` (
 
 CREATE TABLE `vtiger_profile2globalpermissions` (
   `profileid` int(10) NOT NULL,
-  `globalactionid` int(10) NOT NULL,
+  `globalactionid` smallint(5) NOT NULL,
   `globalactionpermission` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`globalactionid`),
   KEY `idx_profile2globalpermissions` (`profileid`,`globalactionid`),
@@ -7714,8 +7714,8 @@ CREATE TABLE `vtiger_profile2tab` (
 CREATE TABLE `vtiger_profile2utility` (
   `profileid` int(10) NOT NULL,
   `tabid` smallint(5) NOT NULL,
-  `activityid` int(10) NOT NULL,
-  `permission` int(1) DEFAULT NULL,
+  `activityid` smallint(5) NOT NULL,
+  `permission` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`profileid`,`tabid`,`activityid`),
   KEY `profile2utility_tabid_activityid_idx` (`tabid`,`activityid`),
   KEY `profile2utility_profileid` (`profileid`),
@@ -8184,7 +8184,7 @@ CREATE TABLE `vtiger_role2picklist` (
   `roleid` varchar(255) NOT NULL,
   `picklistvalueid` int(10) NOT NULL,
   `picklistid` int(10) NOT NULL,
-  `sortid` int(10) DEFAULT NULL,
+  `sortid` smallint(5) DEFAULT NULL,
   PRIMARY KEY (`roleid`,`picklistvalueid`,`picklistid`),
   KEY `role2picklist_roleid_picklistid_idx` (`roleid`,`picklistid`,`picklistvalueid`),
   KEY `fk_2_vtiger_role2picklist` (`picklistid`),
