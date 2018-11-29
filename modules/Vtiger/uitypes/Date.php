@@ -193,4 +193,14 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			return 'ConditionBuilder/Date.tpl';
 		}
 	}
+
+	/**
+	 * Generate valid sample value
+	 * @return false|string
+	 * @throws \Exception
+	 */
+	public function getSampleValue()
+	{
+		return date('Y-m-d', random_int(time(), strtotime('+1 month')));
+	}
 }

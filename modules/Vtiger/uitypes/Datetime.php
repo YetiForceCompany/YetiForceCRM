@@ -88,4 +88,14 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			return 'Edit/Field/DateTime.tpl';
 		}
 	}
+
+	/**
+	 * Generate valid sample value
+	 * @return false|string
+	 * @throws \Exception
+	 */
+	public function getSampleValue()
+	{
+		return date('Y-m-d H:i:s', random_int(time(), strtotime('+1 month')));
+	}
 }
