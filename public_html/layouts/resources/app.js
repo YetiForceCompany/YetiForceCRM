@@ -328,11 +328,15 @@ var App = {},
 		 * @param {number} offsetLeft
 		 */
 		updatePopoverRecordPosition(popover, offsetLeft = popover.offset().left) {
+			if (!popover.length) {
+				return;
+			}
 			let windowHeight = $(window).height(),
 				windowWidth = $(window).width(),
 				popoverPadding = 10,
-				popoverHeight = popover.height(),
-				popoverWidth = popover.width(),
+				popoverBody = popover.find('.popover-body'),
+				popoverHeight = popoverBody.height(),
+				popoverWidth = popoverBody.width(),
 				offsetTop = popover.offset().top + popoverPadding;
 			if (popoverHeight + offsetTop > windowHeight) {
 				offsetTop = windowHeight - popoverHeight - popoverPadding;
@@ -343,6 +347,17 @@ var App = {},
 			popover.css({
 				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
 			});
+			if (popoverHeight === 0) { //show full popover after positioning, to avoid showing page scroll
+				popover.css({
+					height: '0',
+					overflow: 'hidden'
+				});
+			} else {
+				popover.css({
+					height: 'auto',
+					overflow: 'visible'
+				});
+			}
 		},
 		/**
 		 * Get binded popover
