@@ -170,7 +170,6 @@ var App = {},
 						if (element.hasClass('js-popover-tooltip--record') || element.hasClass('js-popover-tooltip--ellipsis')) {
 							setTimeout(function () { //timeout needed to overwrite bootrap positioning
 								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
-								currentPopover.removeClass('u-opacity-0');
 							}, 100);
 						}
 						currentPopover.on("mouseleave", (e) => {
@@ -193,6 +192,7 @@ var App = {},
 			let clone = element
 				.clone()
 				.addClass('u-text-ellipsis--not-active')
+				.css(element.css(['font-size', 'font-weight', 'font-family']))
 				.appendTo('body');
 			if (clone.width() > element.width()) {
 				clone.remove();
@@ -235,6 +235,29 @@ var App = {},
 			return selectElement;
 		},
 		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis'), params = {trigger: 'hover focus'}) {
+			const self = this;
+			params = {
+				callbackShown: function (e) {
+					let element = $(e.currentTarget);
+					let currentPopover = self.getBindedPopover(element);
+					self.updatePopoverRecordPosition(currentPopover);
+					currentPopover.removeClass('u-opacity-0');
+				},
+				trigger: 'manual',
+				placement: 'right',
+				template: '<div class="popover u-opacity-0" role="tooltip"><div class="popover-body"></div></div>'
+			};
+			let popoverText = selectElement.find('.js-popover-text').length ? selectElement.find('.js-popover-text') : selectElement;
+			if (!app.isEllipsisActive(popoverText)) {
+				selectElement.addClass('popover-triggered');
+				return;
+			}
+			selectElement.on('hide.bs.popover', () => {
+				$('.popover').addClass('u-opacity-0');
+			});
+			app.showPopoverElementView(selectElement, params);
+		},
+		registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = {trigger: 'hover focus'}) {
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
 				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
@@ -245,11 +268,6 @@ var App = {},
 				if (iconElement.length) {
 					element.find('.js-popover-icon').removeClass('d-none');
 					params.selector = '[data-fa-i2svg].js-popover-icon';
-				} else if (params.trigger === 'manual') { //popover on bigger elements needs manual triggering/positioning
-					params.template = '<div class="popover u-opacity-0" role="tooltip"><div class="popover-body"></div></div>';
-					element.on('hide.bs.popover', () => {
-						$('.popover').addClass('u-opacity-0');
-					});
 				}
 				app.showPopoverElementView(element, params);
 			});
@@ -1729,7 +1747,7 @@ var App = {},
 		},
 		registerPopover() {
 			window.popoverCache = {};
-			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
@@ -1738,7 +1756,11 @@ var App = {},
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
 						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
-						app.showPopoverElementView(currentTarget);
+						if (currentTarget.hasClass('js-popover-tooltip--ellipsis')) {
+							app.registerPopoverEllipsis(currentTarget);
+						} else {
+							app.showPopoverElementView(currentTarget);
+						}
 						currentTarget.trigger('mouseenter');
 					}
 				}
@@ -1774,8 +1796,8 @@ var App = {},
 $(document).ready(function () {
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
+	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
-	app.registerPopoverEllipsis();
 	app.registerFormatNumber();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
