@@ -162,8 +162,8 @@
 								<tbody>
 								{foreach from=$INVENTORY_DATA item=ROWDATA}
 									<tr>
-										{if !empty($INVENTORY_ROW['name'])}
-											{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+										{if !empty($ROWDATA['name'])}
+											{assign var="ROW_MODULE" value=\App\Record::getType($ROWDATA['name'])}
 										{/if}
 										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 											{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
