@@ -5200,19 +5200,6 @@ CREATE TABLE `vtiger_dayoftheweek_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_def_org_field` */
-
-CREATE TABLE `vtiger_def_org_field` (
-  `tabid` smallint(5) DEFAULT NULL,
-  `fieldid` int(10) NOT NULL,
-  `visible` int(10) DEFAULT NULL,
-  `readonly` int(10) DEFAULT NULL,
-  PRIMARY KEY (`fieldid`),
-  KEY `def_org_field_tabid_fieldid_idx` (`tabid`,`fieldid`),
-  KEY `def_org_field_tabid_idx` (`tabid`),
-  KEY `def_org_field_visible_fieldid_idx` (`visible`,`fieldid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_def_org_share` */
 
 CREATE TABLE `vtiger_def_org_share` (
@@ -5576,7 +5563,7 @@ CREATE TABLE `vtiger_field` (
   `uitype` smallint(5) unsigned NOT NULL,
   `fieldname` varchar(50) NOT NULL,
   `fieldlabel` varchar(50) NOT NULL,
-  `readonly` tinyint(1) unsigned NOT NULL,
+  `readonly` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `defaultvalue` text DEFAULT NULL,
   `maximumlength` varchar(30) DEFAULT NULL,
@@ -5594,6 +5581,7 @@ CREATE TABLE `vtiger_field` (
   `header_field` varchar(255) DEFAULT NULL,
   `maxlengthtext` smallint(3) unsigned DEFAULT 0,
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
+  `visible` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
@@ -7678,8 +7666,8 @@ CREATE TABLE `vtiger_profile2field` (
   `profileid` int(10) NOT NULL,
   `tabid` smallint(5) DEFAULT NULL,
   `fieldid` int(10) NOT NULL,
-  `visible` int(10) DEFAULT NULL,
-  `readonly` int(10) DEFAULT NULL,
+  `visible` tinyint(1) DEFAULT NULL,
+  `readonly` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`fieldid`),
   KEY `profile2field_profileid_tabid_fieldname_idx` (`profileid`,`tabid`),
   KEY `profile2field_tabid_profileid_idx` (`tabid`,`profileid`),
@@ -7693,7 +7681,7 @@ CREATE TABLE `vtiger_profile2field` (
 CREATE TABLE `vtiger_profile2globalpermissions` (
   `profileid` int(10) NOT NULL,
   `globalactionid` int(10) NOT NULL,
-  `globalactionpermission` int(10) DEFAULT NULL,
+  `globalactionpermission` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`globalactionid`),
   KEY `idx_profile2globalpermissions` (`profileid`,`globalactionid`),
   CONSTRAINT `fk_1_vtiger_profile2globalpermissions` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
@@ -7716,7 +7704,7 @@ CREATE TABLE `vtiger_profile2standardpermissions` (
 CREATE TABLE `vtiger_profile2tab` (
   `profileid` int(10) DEFAULT NULL,
   `tabid` smallint(5) DEFAULT NULL,
-  `permissions` int(10) NOT NULL DEFAULT 0,
+  `permissions` tinyint(1) NOT NULL DEFAULT 0,
   KEY `profile2tab_profileid_tabid_idx` (`profileid`,`tabid`),
   CONSTRAINT `vtiger_profile2tab_ibfk_1` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

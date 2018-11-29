@@ -34,7 +34,8 @@ class FieldBasic
 	public $typeofdata = 'V~O';
 	public $displaytype = 1;
 	public $generatedtype = 1;
-	public $readonly = 1;
+	public $readonly = 0;
+	public $visible = 0;
 	public $presence = 2;
 	public $defaultvalue = '';
 	public $maximumlength;
@@ -78,6 +79,7 @@ class FieldBasic
 		$this->quicksequence = (int) $valuemap['quickcreatesequence'];
 		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
+		$this->visible = (int) $valuemap['visible'];
 		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
 	}
 
@@ -200,6 +202,7 @@ class FieldBasic
 			'summaryfield' => (int) ($this->summaryfield),
 			'fieldparams' => $this->fieldparams,
 			'masseditable' => $this->masseditable,
+			'visible' => $this->visible,
 		])->execute();
 		Profile::initForField($this);
 		$this->clearCache();

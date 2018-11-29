@@ -162,8 +162,6 @@ class ModuleManager extends \Tests\Base
 		$this->assertSame($row['typeofdata'], $details['typeofdata']);
 		$this->assertSame($row['uitype'], $details['uitype']);
 
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
-
 		$profilesId = \vtlib\Profile::getAllIds();
 		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$key]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
 
