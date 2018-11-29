@@ -28,6 +28,7 @@ var App = {},
 		},
 		cacheParams: [],
 		modalEvents: [],
+		mousePosition: {x: 0, y: 0},
 		childFrame: false,
 		touchDevice: false,
 		event: new function () {
@@ -156,19 +157,13 @@ var App = {},
 			});
 
 			element.on("mouseenter", (e) => {
-				let offsetLeft;
-				if (element.hasClass('js-popover-tooltip--record') || element.hasClass('js-popover-tooltip--ellipsis')) {
-					element.on("mousemove", (ev) => {
-						offsetLeft = ev.pageX;
-					});
-				}
 				setTimeout(function () {
 					if (element.is(':hover')) {
 						element.popover("show");
 						let currentPopover = self.getBindedPopover(element);
 						if (element.hasClass('js-popover-tooltip--record') || element.hasClass('js-popover-tooltip--ellipsis')) {
 							setTimeout(function () { //timeout needed to overwrite bootrap positioning
-								self.updatePopoverRecordPosition(currentPopover, offsetLeft);
+								self.updatePopoverRecordPosition(currentPopover);
 							}, 100);
 						}
 						currentPopover.on("mouseleave", (e) => {
@@ -327,7 +322,7 @@ var App = {},
 		 * @param {jQuery} popover
 		 * @param {number} offsetLeft
 		 */
-		updatePopoverRecordPosition(popover, offsetLeft = popover.offset().left) {
+		updatePopoverRecordPosition(popover) {
 			if (!popover.length) {
 				return;
 			}
@@ -337,12 +332,13 @@ var App = {},
 				popoverBody = popover.find('.popover-body'),
 				popoverHeight = popoverBody.height(),
 				popoverWidth = popoverBody.width(),
-				offsetTop = popover.offset().top + popoverPadding;
-			if (popoverHeight + offsetTop > windowHeight) {
-				offsetTop = windowHeight - popoverHeight - popoverPadding;
+				offsetTop = app.mousePosition.y,
+				offsetLeft = app.mousePosition.x;
+			if (popoverHeight + offsetTop + popoverPadding > windowHeight) {
+				offsetTop = offsetTop - popoverHeight - popoverPadding;
 			}
-			if (popoverWidth + offsetLeft > windowWidth) {
-				offsetLeft = windowWidth - popoverWidth;
+			if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
+				offsetLeft = offsetLeft - popoverWidth - popoverPadding;
 			}
 			popover.css({
 				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
@@ -1839,6 +1835,9 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
+	$(document).on("mousemove", (ev) => {
+		app.mousePosition = {x: ev.pageX, y: ev.pageY};
+	});
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
