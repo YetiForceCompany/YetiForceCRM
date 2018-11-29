@@ -29,4 +29,14 @@ class NoPermittedToApi extends Security
 				'request' => json_encode($_REQUEST),
 			])->execute();
 	}
+
+	/**
+	 * Display message.
+	 *
+	 * @param string $message
+	 */
+	public function stop(string $message)
+	{
+		echo json_encode($message);
+	}
 }
