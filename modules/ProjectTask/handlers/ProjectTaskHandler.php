@@ -20,7 +20,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
 			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
-			Vtiger_Module_Model::getInstance('Project')->updateProgress($recordModel->get('projectid'));
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			$calculateMilestone = [];
@@ -43,10 +42,10 @@ class ProjectTask_ProjectTaskHandler_Handler
 			foreach ($calculateMilestone as $milestoneId => $val) {
 				$milestoneModel->updateProgressMilestone($milestoneId);
 			}
-			$projectModel = Vtiger_Module_Model::getInstance('Project');
+			/*$projectModel = Vtiger_Module_Model::getInstance('Project');
 			foreach ($calculateProject as $projectId => $val) {
 				$projectModel->updateProgress($projectId);
-			}
+			}*/
 		}
 	}
 
@@ -58,7 +57,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
 		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
-		Vtiger_Module_Model::getInstance('Project')->updateProgress($eventHandler->getRecordModel()->get('projectid'));
 	}
 
 	/**
@@ -69,6 +67,5 @@ class ProjectTask_ProjectTaskHandler_Handler
 	public function entityChangeState(\App\EventHandler $eventHandler)
 	{
 		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
-		Vtiger_Module_Model::getInstance('Project')->updateProgress($eventHandler->getRecordModel()->get('projectid'));
 	}
 }

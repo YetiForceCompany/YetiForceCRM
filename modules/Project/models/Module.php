@@ -50,13 +50,8 @@ class Project_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
-		if ($estimatedWorkTime) {
-			$projectProgress = round((100 * $progressInHours) / $estimatedWorkTime);
-		} else {
-			$projectProgress = 0;
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
-		$recordModel->set('progress', $projectProgress . '%');
+		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
+		$recordModel->set('progress', $projectProgress);
 		$recordModel->save();
 		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $parentId) {
 			$this->updateProgress(
@@ -158,9 +153,9 @@ class Project_Module_Model extends Vtiger_Module_Model
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		$progressInHours = 0;
-		/*foreach ($recordModel->getChildren() as $childRecordModel) {
+		foreach ($recordModel->getChildren() as $childRecordModel) {
 			$estimatedWorkTime += $childRecordModel->getEstimatedWorkTime();
-		}*/
+		}
 		$this->calculateProgressOfMilestones($recordModel, $estimatedWorkTime, $progressInHours);
 		return $estimatedWorkTime;
 	}

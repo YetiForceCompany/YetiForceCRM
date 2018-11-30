@@ -24,11 +24,21 @@ class Project_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Get progress.
+	 *
+	 * @return float
+	 */
 	public function getProgress(): float
 	{
-		return $this->get('progress');
+		return (float) $this->get('progress');
 	}
 
+	/**
+	 * Get estimated work time.
+	 *
+	 * @return float
+	 */
 	public function getEstimatedWorkTime()
 	{
 		return $this->getModule()->calculateEstimatedWorkTime($this->getId());

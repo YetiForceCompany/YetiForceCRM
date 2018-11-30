@@ -50,7 +50,9 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('projectmilestone_progress', $projectProgress);
 		$recordModel->save();
-		if (!$recordModel->isEmpty('parentid')) {
+		if ($recordModel->isEmpty('parentid')) {
+			Vtiger_Module_Model::getInstance('Project')->updateProgress($recordModel->get('projectid'));
+		} else {
 			$this->updateProgressMilestone(
 				$recordModel->get('parentid'),
 				$estimatedWorkTime,
