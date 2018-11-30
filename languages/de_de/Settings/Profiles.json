@@ -87,7 +87,9 @@
     "ActivityComplete": "Datens\u00e4tze schlie\u00dfen",
     "ActivityPostponed": "Datens\u00e4tze verschieben",
     "Emails": "E-Mails senden [SMTP]",
-    "ModTracker": "Historie \u00e4ndern"
+    "ModTracker": "Historie \u00e4ndern",
+    "AssignToYourself": "Assign to me",
+    "AutoAssignRecord": "Automatic transfer of records"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil erfolgreich gel\u00f6scht"
