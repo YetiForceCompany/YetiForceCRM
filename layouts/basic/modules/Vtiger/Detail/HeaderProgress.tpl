@@ -9,23 +9,26 @@
 				{assign var=PICKLIST_VALUES value=\App\Fields\Picklist::getValues($NAME)}
 				{assign var=IS_EDITABLE value=$RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && !$FIELD_MODEL->isEditableReadOnly()}
 				<div class="c-arrows px-3 w-100">
-					<ul class="c-arrows__container js-header-progress-bar" data-picklist-name="{$NAME}"
+					<ul class="c-arrows__container js-header-progress-bar list-inline mb-0" data-picklist-name="{$NAME}"
 						data-js="container">
 						{assign var=ARROW_CLASS value="before"}
 						{foreach from=$PICKLIST_VALUES item=VALUE_DATA name=picklistValues}
 							{assign var=PICKLIST_LABEL value=$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
-							<li class="c-arrows__item {if $smarty.foreach.picklistValues.first}first{/if} {if $VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $IS_EDITABLE && $VALUE_DATA['picklistValue'] !== $RECORD->get($NAME) && isset($PICKLIST_OF_FIELD[$VALUE_DATA['picklistValue']])} u-cursor-pointer js-access{/if}"
+							<li class="c-arrows__item list-inline-item mx-0 {if $smarty.foreach.picklistValues.first}first{/if} {if $VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $IS_EDITABLE && $VALUE_DATA['picklistValue'] !== $RECORD->get($NAME) && isset($PICKLIST_OF_FIELD[$VALUE_DATA['picklistValue']])} u-cursor-pointer js-access{/if}"
 								data-picklist-value="{$VALUE_DATA['picklistValue']}"
 								data-picklist-label="{\App\Purifier::encodeHtml($PICKLIST_LABEL)}"
 								data-js="confirm|click|data">
-								<a class="c-arrows__link pr-1">
+								<div class="flex-shrink-0 fa-layers fa-fw fa-2x">
+									<span class="fas fa-circle text-success"></span>
+									<span class="fas fa-check text-light" data-fa-transform="shrink-8"></span>
+								</div>
+								<a class="c-arrows__link js-popover-tooltip--ellipsis" data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}" data-js="popover">
 									{if isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']]) }
-									<span class="c-arrows__icon fas fa-lock"></span>
+										<span class="c-arrows__icon fas fa-lock"></span>
 									{/if}
-									<span class="c-arrows__text{if !empty($VALUE_DATA['description'])} js-popover-tooltip"
-										  data-js="popover"
-										  data-trigger="hover focus"
-										  data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}"
+									<span class="c-arrows__text{if !empty($VALUE_DATA['description'])}"
+
+
 									{else}"{/if}>
 									{$PICKLIST_LABEL}
 									</span>
