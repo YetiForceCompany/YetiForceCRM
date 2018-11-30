@@ -1435,7 +1435,7 @@ jQuery.Class("Vtiger_List_Js", {
 		let currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
 		let template = $(`<span class="js-filter-actions o-filter-actions noWrap float-right">
 					<span ${currentOptionElement.data('featured') === 1 ? 'title="' + app.vtranslate('JS_REMOVE_TO_FAVORITES') + '"' : 'title="' + app.vtranslate('JS_ADD_TO_FAVORITES') + '"'} data-value="favorites" data-js="click"
-						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'} "></span>
+						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'}"></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
 						  class="fas fa-retweet mr-1 js-filter-duplicate ${$("#createFilter").length !== 0 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
