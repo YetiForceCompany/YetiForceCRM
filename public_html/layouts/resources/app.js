@@ -1787,6 +1787,7 @@ var App = {},
 		},
 	};
 $(document).ready(function () {
+	let document = $(this);
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.registerPopoverEllipsisIcon();
@@ -1797,7 +1798,7 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registesterScrollbar($(document));
+	app.registesterScrollbar(document);
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
@@ -1811,8 +1812,8 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
-	$(document).on("mousemove", (ev) => {
-		app.mousePosition = {x: ev.pageX, y: ev.pageY};
+	document.on('mousemove', (e) => {
+		app.mousePosition = {x: e.pageX, y: e.pageY};
 	});
 });
 (function ($) {
