@@ -16,6 +16,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
 			->where(['vtiger_tab.tabid' => $tabId])
+			->andWhere(['not', ['vtiger_customview.presence' => 2]])
 			->orderBy(['vtiger_customview.sequence' => SORT_ASC])
 			->createCommand()->query();
 		$moduleEntity = [];

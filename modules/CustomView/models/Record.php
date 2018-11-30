@@ -226,21 +226,9 @@ class CustomView_Record_Model extends \App\Base
 		return $query->exists();
 	}
 
-	/**
-	 * Return if is it not editable system customview.
-	 *
-	 * @return bool
-	 */
-	public function isSystemNotEditable()
-	{
-		if ($this->get('presence') === 2) {
-			return true;
-		}
-	}
-
 	public function isEditable()
 	{
-		if ($this->get('privileges') === 0 || $this->isSystemNotEditable()) {
+		if ($this->get('privileges') === 0 || $this->get('presence') === 2) {
 			return false;
 		}
 		if (\App\User::getCurrentUserModel()->isAdmin()) {
@@ -656,10 +644,10 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-		->from('vtiger_cvcolumnlist')
-		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-		->createCommand()->queryAllByGroup(1);
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);

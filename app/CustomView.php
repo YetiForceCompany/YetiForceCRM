@@ -704,7 +704,8 @@ class CustomView
 		$returnValue = '';
 		foreach ($info as &$values) {
 			if ($values['presence'] === 0) {
-				return $returnData ? $values : $values['cvid'];
+				$returnValue = $returnData ? $values : $values['cvid'];
+				break;
 			} elseif ($values['presence'] === 2) {
 				$returnValue = $returnData ? $values : $values['cvid'];
 			}
