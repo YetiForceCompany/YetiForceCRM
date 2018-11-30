@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "36e8f25342de7516644ef116364452e3",
+    "content-hash": "8eb5a4539bf7e119d26190fc1304adc8",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -965,6 +965,43 @@
                 "time"
             ],
             "time": "2018-11-22T18:23:02+00:00"
+        },
+        {
+            "name": "phenx/php-font-lib",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PhenX/php-font-lib.git",
+                "reference": "760148820110a1ae0936e5cc35851e25a938bc97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/760148820110a1ae0936e5cc35851e25a938bc97",
+                "reference": "760148820110a1ae0936e5cc35851e25a938bc97",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FontLib\\": "src/FontLib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                }
+            ],
+            "description": "A library to read, parse, export and make subsets of different types of font files.",
+            "homepage": "https://github.com/PhenX/php-font-lib",
+            "time": "2017-09-13T16:14:37+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -2503,6 +2540,51 @@
                 "ical"
             ],
             "time": "2018-04-17T06:12:21+00:00"
+        },
+        {
+            "name": "yetiforce/yetiforcepdf",
+            "version": "dev-developer",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
+                "reference": "811b37bff3693274505524592e4cc173df82fcda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/811b37bff3693274505524592e4cc173df82fcda",
+                "reference": "811b37bff3693274505524592e4cc173df82fcda",
+                "shasum": ""
+            },
+            "require": {
+                "ezyang/htmlpurifier": "^4.10",
+                "guzzlehttp/guzzle": "^6.3",
+                "phenx/php-font-lib": "^0.5.1",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "YetiForcePDF\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafal Pospiech",
+                    "email": "r.pospiech@yetiforce.com"
+                }
+            ],
+            "description": "Library that generate pdf files from html.",
+            "homepage": "http://yetiforce.com",
+            "keywords": [
+                "html",
+                "html to pdf",
+                "pdf"
+            ],
+            "time": "2018-11-29T19:07:17+00:00"
         },
         {
             "name": "yetiforce/yii2",
@@ -4173,7 +4255,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "yetiforce/yetiforcepdf": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
