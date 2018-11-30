@@ -87,7 +87,9 @@
     "ActivityCancel": "Anulati inregistrari",
     "ActivityComplete": "Inchideti inregistrari",
     "ActivityPostponed": "Amanati inregistrari",
-    "Emails": "Trimite email [SMTP]"
+    "Emails": "Trimite email [SMTP]",
+    "AssignToYourself": "Assign to me",
+    "AutoAssignRecord": "Automatic transfer of records"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil sters cu succes"
