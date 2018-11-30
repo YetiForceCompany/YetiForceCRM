@@ -986,8 +986,6 @@ CREATE TABLE `s_yf_batchmethod` (
 CREATE TABLE `s_yf_companies` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `short_name` varchar(100) DEFAULT NULL,
-  `default` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `industry` varchar(50) DEFAULT NULL,
   `street` varchar(150) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
@@ -995,18 +993,10 @@ CREATE TABLE `s_yf_companies` (
   `state` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
   `phone` varchar(30) DEFAULT NULL,
-  `fax` varchar(30) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `vatid` varchar(50) DEFAULT NULL,
-  `id1` varchar(50) DEFAULT NULL,
-  `id2` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `logo_login` varchar(50) DEFAULT NULL,
-  `logo_login_height` tinyint(3) unsigned DEFAULT NULL,
-  `logo_main` varchar(50) DEFAULT NULL,
-  `logo_main_height` tinyint(3) unsigned DEFAULT NULL,
-  `logo_mail` varchar(50) DEFAULT NULL,
-  `logo_mail_height` tinyint(3) unsigned DEFAULT NULL,
+  `logo` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
