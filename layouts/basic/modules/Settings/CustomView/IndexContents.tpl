@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-CustomView-IndexContents">
-		<input id="js-add-filter-url" type="hidden" data-js="value" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"/>
+		<input id="js-add-filter-url" type="hidden" data-js="value"
+			   value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"/>
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-sm listViewEntriesTable">
 				<thead>
@@ -18,9 +19,6 @@
 				</thead>
 				<tbody>
 				{foreach from=$MODULE_MODEL->getCustomViews($SOURCE_MODULE_ID) item=item key=key}
-					{if $item['presence'] === 2}
-						{continue}
-					{/if}
 					<tr class="js-filter-row" data-js="data" data-cvid="{$key}" data-mod="{$item['entitytype']}">
 						<td>
 							<img src="{\App\Layout::getImagePath('drag.png')}"
