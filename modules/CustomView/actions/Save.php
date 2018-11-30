@@ -16,7 +16,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$isEditable = false;
+		$isEditable = true;
 		$isSystemNotEditable = false;
 		if ($request->has('record')) {
 			$customRecord = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
