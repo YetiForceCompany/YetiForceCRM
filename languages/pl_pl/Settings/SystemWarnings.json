@@ -45,6 +45,11 @@
     "LBL_SECURITY_CONF": "Ustawienia bezpiecze\u0144stwa",
     "LBL_SECURITY_CONF_DESC": "Wykryto b\u0142\u0119dy w konfiguracji parametr\u00f3w zwi\u0105zanych z bezpiecze\u0144stwem systemu. Mog\u0105 wyst\u0105pi\u0107 problemy z dzia\u0142aniem systemu, lub wprowadzane dane mog\u0105 zosta\u0107 uszkodzone, lub usuni\u0119te. Wi\u0119cej informacji znajduje si\u0119 w artykule %s. Nast\u0119puj\u0105ce parametry powinny zosta\u0107 dostosowane:%s",
     "LBL_LIB_REQUIRED": "Wymagane",
-    "LBL_LIB_OPTIONAL": "Opcjonalne"
+    "LBL_LIB_OPTIONAL": "Opcjonalne",
+    "LBL_CRON_STATE": "Status mechanizmu cron",
+    "LBL_CRON_DISABLED_DESC": "Mechanizm harmonogramu zada\u0144 cron nie zosta\u0142 aktywowany, nie wszystkie funkcjonalno\u015bci systemu s\u0105 dost\u0119pne.",
+    "LBL_CRON_TASK_FAILED_DESC": "Nie wszystkie zadania crona zosta\u0142y zako\u0144czone poprawnie.",
+    "LBL_HOW_TO_ENABLE_CRON": "Jak w\u0142\u0105czy\u0107 cron",
+    "LBL_CRON_TASKS_LIST": "Lista zada\u0144 cron"
   }
 }
