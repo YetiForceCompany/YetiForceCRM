@@ -391,10 +391,7 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 .c-arrows {
 	&__container {
 		display: flex;
-	}
-
-	&__text {
-
+		position: relative;
 	}
 
 	&__icon {
@@ -411,7 +408,8 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 	}
 
 	&__item {
-		width: 131px;
+		width: 100%;
+		min-width: calculate-rem(90px);
 		font-size: calculate-rem(12px);
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -437,15 +435,6 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 			z-index: 0;
 		}
 
-		&.before {
-
-			.c-arrows__text {
-
-			}
-
-			.c-arrows__icon {
-			}
-		}
 
 		&.before:hover {
 			@include c-arrows-color(material-color('green', '900'));
@@ -456,10 +445,6 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 				background: $progress-bg--inactive;
 			}
 
-			.c-arrows__text {
-
-			}
-
 			.c-arrows__icon {
 				&-bg {
 					color: $progress-bg--inactive;
@@ -467,15 +452,15 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 			}
 		}
 
-		&.after:hover {
+		&:hover {
+			.c-arrows__text {
+				font-weight: bold;
+			}
 		}
 
 		&.active {
 			&:after {
 				background: $progress-bg--inactive;
-			}
-
-			.c-arrows__text {
 			}
 		}
 
@@ -489,13 +474,5 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 	&__link {
 		width: 100%;
 		text-align: center;
-
-		@at-root .c-arrows__item.active #{&}, .c-arrows__item.before #{&} {
-		}
-	}
-
-	&__item.active &__link:after,
-	&__item.active + &__item.after &__link:after {
-
 	}
 }

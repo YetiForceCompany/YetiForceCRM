@@ -9,7 +9,7 @@
 				{assign var=PICKLIST_VALUES value=\App\Fields\Picklist::getValues($NAME)}
 				{assign var=IS_EDITABLE value=$RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && !$FIELD_MODEL->isEditableReadOnly()}
 				<div class="c-arrows px-3 w-100">
-					<ul class="c-arrows__container js-header-progress-bar list-inline my-1" data-picklist-name="{$NAME}"
+					<ul class="c-arrows__container js-header-progress-bar list-inline my-1 js-scrollbar" data-picklist-name="{$NAME}"
 						data-js="container">
 						{assign var=ARROW_CLASS value="before"}
 						{assign var=ICON_CLASS value="fas fa-check"}
@@ -35,7 +35,7 @@
 								{/if}
 								  {' '}c-arrows__icon" data-fa-transform="shrink-{$ICON_SHRINK}"></span>
 								</div>
-								<a class="c-arrows__link js-popover-tooltip--ellipsis" data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}" data-js="popover">
+								<a class="c-arrows__link js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{$PICKLIST_LABEL}" data-js="popover">
 									<span class="c-arrows__text">
 									{$PICKLIST_LABEL}
 									</span>
