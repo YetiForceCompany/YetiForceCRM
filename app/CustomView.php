@@ -312,15 +312,16 @@ class CustomView
 	 * Get custom view from file.
 	 *
 	 * @param string $cvId
+	 * @param string $moduleName
 	 *
 	 * @throws Exceptions\AppException
 	 */
-	private function getCustomViewFromFile($cvId)
+	private static function getCustomViewFromFile($cvId, $moduleName)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
-		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
+		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
 		if (file_exists($filterDir)) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
+			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $moduleName);
 			$filter = new $handlerClass();
 			Cache::staticSave('getCustomView', $cvId, $filter);
 		} else {
@@ -344,11 +345,11 @@ class CustomView
 			return Cache::staticGet('getCustomView', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getCustomViewFromFile($cvIds);
+			return self::getCustomViewFromFile($cvIds, $this->moduleName);
 		}
 		$filters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$filters[] = $this->getCustomViewFromFile($cvId);
+			$filters[] = self::getCustomViewFromFile($cvId, $this->moduleName);
 		}
 		Cache::staticSave('getCustomView', $cvIds, $filters);
 		return $filters;
@@ -373,7 +374,7 @@ class CustomView
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
 		} else {
-			$view = $this->getCustomViewFromFile($cvId);
+			$view = self::getCustomViewFromFile($cvId, $this->moduleName);
 			$columnList = $view->getColumnList();
 			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 		}
@@ -421,7 +422,7 @@ class CustomView
 	 *               ]]
 	 *               ]
 	 */
-	public static function getConditions($id): array
+	public static function getConditions($id, $moduleName): array
 	{
 		if (Cache::has('CustomView_GetConditions', $id)) {
 			return Cache::get('CustomView_GetConditions', $id);
@@ -508,12 +509,15 @@ class CustomView
 	/**
 	 * Get fields to detect duplicates.
 	 *
-	 * @param int $viewId
+	 * @param int|string $viewId
 	 *
 	 * @return array
 	 */
-	public static function getDuplicateFields(int $viewId): array
+	public static function getDuplicateFields($viewId): array
 	{
+		if (!is_numeric($viewId)) {
+			return [];
+		}
 		if (Cache::has('CustomView_GetDuplicateFields', $viewId)) {
 			return Cache::get('CustomView_GetDuplicateFields', $viewId);
 		}
