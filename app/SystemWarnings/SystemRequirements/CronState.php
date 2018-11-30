@@ -16,7 +16,13 @@ namespace App\SystemWarnings\SystemRequirements;
  */
 class CronState extends \App\SystemWarnings\Template
 {
+	/**
+	 * @var string Modal header title
+	 */
 	protected $title = 'LBL_CRON_STATE';
+	/**
+	 * @var int Warning priority code
+	 */
 	protected $priority = 9;
 
 	/**
@@ -29,7 +35,7 @@ class CronState extends \App\SystemWarnings\Template
 			->select(['id'])
 			->from('vtiger_cron_task')
 			->where(['status' => 1, 'lastend' => null])
-			->limit(10)->count() ? false : true;
+			->limit(1)->exists();
 		$timeOut = round((\AppConfig::main('maxExecutionCronTime') + 300) / 60);
 		if ($lastStart === 0 || !$checkTasks || strtotime("-{$timeOut} minutes") > $lastStart) {
 			$this->status = 0;
