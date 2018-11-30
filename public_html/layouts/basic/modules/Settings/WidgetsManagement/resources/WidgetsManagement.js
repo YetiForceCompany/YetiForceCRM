@@ -461,6 +461,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			if (selectElements.length > 0) {
 				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="customMultiFilter"]'));
 			}
+			selectElements = basicDropDown.find('select[name="defaultFilter"]');
+			if (selectElements.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="defaultFilter"]'));
+			}
 			thisInstance.avoidDropDownClick(dropDownContainer);
 			dropDownMenu.on('change', ':checkbox', function (e) {
 				let currentTarget = jQuery(e.currentTarget);
