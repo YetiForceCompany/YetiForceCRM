@@ -8164,6 +8164,7 @@ CREATE TABLE `vtiger_role` (
   `rolename` varchar(200) DEFAULT NULL,
   `parentrole` varchar(255) DEFAULT NULL,
   `depth` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `company` int(10) unsigned DEFAULT 0,
   `allowassignedrecordsto` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `searchunpriv` text DEFAULT NULL,
