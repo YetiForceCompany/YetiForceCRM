@@ -6785,7 +6785,8 @@ CREATE TABLE `vtiger_modtracker_basic` (
   KEY `crmidx` (`crmid`),
   KEY `idx` (`id`),
   KEY `id` (`id`,`module`,`changedon`),
-  KEY `crmid` (`crmid`,`changedon`)
+  KEY `crmid` (`crmid`,`changedon`),
+  CONSTRAINT `vtiger_modtracker_basic_id_fk` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_detail` */
@@ -6795,7 +6796,8 @@ CREATE TABLE `vtiger_modtracker_detail` (
   `fieldname` varchar(100) DEFAULT NULL,
   `prevalue` text DEFAULT NULL,
   `postvalue` text DEFAULT NULL,
-  KEY `idx` (`id`)
+  KEY `idx` (`id`),
+  CONSTRAINT `vtiger_modtracker_detail_id_fk` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_relations` */
@@ -6805,7 +6807,8 @@ CREATE TABLE `vtiger_modtracker_relations` (
   `targetmodule` varchar(100) NOT NULL,
   `targetid` int(10) NOT NULL,
   `changedon` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `vtiger_modtracker_relations_id_fk` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_tabs` */
