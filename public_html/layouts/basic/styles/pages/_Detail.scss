@@ -377,141 +377,6 @@
 	}
 }
 
-//@mixin c-arrows-color($color) {
-//	border-top-color: $color;
-//	border-bottom-color: $color;
-//	&:after {
-//		border-left-color: $color;
-//	}
-//}
-//
-//.c-arrows {
-//	&__container {
-//		display: flex;
-//		flex-wrap: wrap;
-//		align-items: center;
-//		height: auto;
-//		overflow: hidden;
-//		padding: 0;
-//		margin-bottom: 0;
-//	}
-//
-//	&__text {
-//		display: inline-block;
-//		position: relative;
-//		top: 0;
-//		left: calculate-rem(5px);
-//		white-space: nowrap;
-//		overflow: hidden;
-//		font-size: calculate-rem(11px);
-//		vertical-align: bottom;
-//	}
-//
-//	&__icon {
-//		display: inline-block;
-//		position: relative;
-//		top: -0.20rem;
-//		left: 0.3125rem;
-//		margin-right: 0.25rem;
-//		white-space: nowrap;
-//		overflow: hidden;
-//		font-size: 0.6875rem;
-//		vertical-align: bottom;
-//	}
-//
-//	&__item {
-//		display: inline-block;
-//		height: 0;
-//		border-top: calculate-rem(10px) solid #ececec;
-//		border-bottom: calculate-rem(10px) solid #ececec;
-//		border-left: calculate-rem(10px) solid transparent;
-//		margin-right: calculate-rem(3px);
-//		margin-top: calculate-rem(2px);
-//		margin-bottom: calculate-rem(2px);
-//
-//		&:after {
-//			content: '\0000a0';
-//			display: inline-block;
-//			position: relative;
-//			top: calculate-rem(-10px);
-//			left: calculate-rem(10px);
-//			width: 0;
-//			height: 0;
-//			border-left: calculate-rem(10px) solid #ececec;
-//			border-top: calculate-rem(10px) solid transparent;
-//			border-bottom: calculate-rem(10px) solid transparent;
-//		}
-//
-//		&.first {
-//			border-left: 0;
-//		}
-//
-//		&.before {
-//			@include c-arrows-color(material-color('green', '800'));
-//			.c-arrows__text {
-//				font-weight: bold;
-//				color: $white;
-//			}
-//			.c-arrows__icon {
-//				color: $white;
-//			}
-//		}
-//		&.before:hover {
-//			@include c-arrows-color(material-color('green', '900'));
-//		}
-//
-//		&.after {
-//			@include c-arrows-color(material-color('blue', '300'));
-//			.c-arrows__text {
-//				font-weight: bold;
-//				color: $white;
-//			}
-//			.c-arrows__icon {
-//				color: $white;
-//			}
-//		}
-//		&.after:hover {
-//			@include c-arrows-color(material-color('blue', '400'));
-//		}
-//
-//		&.active {
-//			@include c-arrows-color(material-color('yellow', '500'));
-//			.c-arrows__text {
-//				color: $dark;
-//				font-weight: bold;
-//			}
-//			.c-arrows__icon {
-//				color: $dark;
-//			}
-//		}
-//	}
-//
-//	&__link {
-//		display: inline-block;
-//		font-size: calculate-rem(14px);
-//		float: left;
-//		text-decoration: none;
-//		margin-top: calculate-rem(-13px);
-//
-//		@at-root .c-arrows__item.active #{&}, .c-arrows__item.before #{&} {
-//			color: $white;
-//		}
-//	}
-//
-//	&__item.active &__link:after,
-//	&__item.active + &__item.after &__link:after {
-//		content: '\0000a0';
-//		display: inline-block;
-//		position: relative;
-//		top: calculate-rem(-18px);
-//		left: calculate-rem(-13px);
-//		width: calc(100%);
-//		height: calculate-rem(20px);
-//		z-index: -1;
-//		background: material-color('yellow', '500');
-//	}
-//}
-
 @mixin c-arrows-color($color) {
 	border-top-color: $color;
 	border-bottom-color: $color;
@@ -519,6 +384,9 @@
 		border-left-color: $color;
 	}
 }
+
+$progress-bg--active: material-color('deep-orange', '500');
+$progress-bg--inactive: material-color('blue-grey', '200');
 
 .c-arrows {
 	&__container {
@@ -530,12 +398,21 @@
 	}
 
 	&__icon {
+		color: var(--white);
 
+		&-bg {
+			color: $progress-bg--active;
+		}
+
+		&__container {
+			z-index: 1;
+			font-size: calculate-rem(20px);
+		}
 	}
 
 	&__item {
 		width: 131px;
-		font-size: 12px;
+		font-size: calculate-rem(12px);
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -547,20 +424,17 @@
 		&:after, &:before {
 			content: '';
 			position: absolute;
-			top: 10px;
+			top: calculate-rem(9px);
 			width: 50%;
-			background: black;
+			background: $progress-bg--active;
 			left: 0;
-			height: 3px;
+			height: calculate-rem(3px);
 		}
 
 		&:after {
 			right: 0;
 			left: unset;
-			z-index: -1;
-		}
-
-		&.first {
+			z-index: 0;
 		}
 
 		&.before {
@@ -578,11 +452,18 @@
 		}
 
 		&.after {
+			&:before, &:after {
+				background: $progress-bg--inactive;
+			}
+
 			.c-arrows__text {
 
 			}
 
 			.c-arrows__icon {
+				&-bg {
+					color: $progress-bg--inactive;
+				}
 			}
 		}
 
@@ -590,10 +471,17 @@
 		}
 
 		&.active {
-			.c-arrows__text {
+			&:after {
+				background: $progress-bg--inactive;
 			}
 
-			.c-arrows__icon {
+			.c-arrows__text {
+			}
+		}
+
+		&.first {
+			&:before {
+				background: $progress-bg--inactive;
 			}
 		}
 	}
