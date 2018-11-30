@@ -41,6 +41,7 @@
     "LBL_USER_EXISTS": "Pracownik ju\u017c istnieje",
     "FL_POSITION": "Stanowisko",
     "FL_SECONDARY_PHONE": "Tel. dodatkowy",
-    "FL_RBH": "RBG"
+    "FL_RBH": "RBG",
+    "FL_ORGANIZATION_STRUCTURE": "Struktura organizacji"
   }
 }
