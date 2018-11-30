@@ -226,9 +226,21 @@ class CustomView_Record_Model extends \App\Base
 		return $query->exists();
 	}
 
+	/**
+	 * Return if is it not editable system customview.
+	 *
+	 * @return bool
+	 */
+	public function isSystemNotEditable()
+	{
+		if ($this->get('presence') === 2) {
+			return true;
+		}
+	}
+
 	public function isEditable()
 	{
-		if ($this->get('privileges') == 0) {
+		if ($this->get('privileges') === 0 || $this->isSystemNotEditable()) {
 			return false;
 		}
 		if (\App\User::getCurrentUserModel()->isAdmin()) {

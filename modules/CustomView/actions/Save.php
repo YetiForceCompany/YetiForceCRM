@@ -16,10 +16,17 @@ class CustomView_Save_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (\App\User::getCurrentUserModel()->isAdmin()) {
+		$isEditable = false;
+		$isSystemNotEditable = false;
+		if ($request->has('record')) {
+			$customRecord = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
+			$isSystemNotEditable = $customRecord->isSystemNotEditable();
+			$isEditable = $customRecord->isEditable();
+		}
+		if (\App\User::getCurrentUserModel()->isAdmin() && $isSystemNotEditable) {
 			return;
 		}
-		if ($request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
+		if (!$isEditable) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!App\Privilege::isPermitted($request->getByType('source_module', 2), 'CreateCustomFilter')) {
