@@ -112,4 +112,31 @@ class ProjectMilestone extends CRMEntity
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
 		}
 	}
+
+	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public function getChildren(int $id): array
+	{
+		$children = [];
+		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$children[] = $row;
+		}
+		$dataReader->close();
+		return $children;
+	}
+
+	public function hasChildren(int $id): bool
+	{
+		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		return $queryGenerator->createQuery()->exists();
+	}
 }

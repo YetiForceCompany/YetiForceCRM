@@ -7905,7 +7905,7 @@ CREATE TABLE `vtiger_projecttask` (
   `projecttask_no` varchar(100) DEFAULT NULL,
   `projecttasktype` varchar(100) DEFAULT NULL,
   `projecttaskpriority` varchar(100) DEFAULT NULL,
-  `projecttaskprogress` varchar(100) DEFAULT NULL,
+  `projecttaskprogress` decimal(5,2) DEFAULT NULL,
   `startdate` date DEFAULT NULL,
   `enddate` date DEFAULT NULL,
   `projectid` int(10) DEFAULT NULL,

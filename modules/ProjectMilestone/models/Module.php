@@ -33,31 +33,68 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function updateProgressMilestone(int $id)
+	public function updateProgressMilestone(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null)
 	{
 		if (!App\Record::isExists($id)) {
-			return;
+			return [];
 		}
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$recordModel = Vtiger_Record_Model::getInstanceById($id);
+		foreach ($recordModel->getChildren() as $childRecordModel) {
+			if ($callerId !== $childRecordModel->getId()) {
+				$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
+				$estimatedWorkTime += $childEstimatedWorkTime;
+				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->getProgress() / 100);
+			}
+		}
+		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
+		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
+		$recordModel->set('projectmilestone_progress', $projectProgress);
+		$recordModel->save();
+		if (!$recordModel->isEmpty('parentid')) {
+			$this->updateProgressMilestone(
+				$recordModel->get('parentid'),
+				$estimatedWorkTime,
+				$progressInHours,
+				$id
+			);
+		}
+	}
+
+	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
+	{
+		if (!App\Record::isExists($id)) {
+			return 0;
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($id);
+		$progressInHours = 0;
+		foreach ($recordModel->getChildren() as $childRecordModel) {
+			$estimatedWorkTime += $childRecordModel->getEstimatedWorkTime();
+		}
+		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
+		return $estimatedWorkTime;
+	}
+
+	/**
+	 * Calculate the progress of tasks.
+	 *
+	 * @param \Project_Record_Model $recordModel
+	 * @param float                 $estimatedWorkTime
+	 * @param float                 $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function calculateProgressOfTasks(\Vtiger_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'estimated_work_time' => 'estimated_work_time',
 			'projecttaskprogress' => 'projecttaskprogress',
 		]);
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		$estimatedWorkTime = 0;
-		$progressInHours = 0;
 		while ($row = $dataReader->read()) {
 			$estimatedWorkTime += $row['estimated_work_time'];
-			$recordProgress = ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
-			$progressInHours += $recordProgress;
+			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 		}
 		$dataReader->close();
-		if (!$estimatedWorkTime) {
-			return;
-		}
-		$projectMilestoneProgress = round((100 * $progressInHours) / $estimatedWorkTime);
-		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
-		$recordModel->set('projectmilestone_progress', $projectMilestoneProgress . '%');
-		$recordModel->save();
 	}
 }
