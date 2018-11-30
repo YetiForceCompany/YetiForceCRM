@@ -1222,7 +1222,7 @@ CREATE TABLE `u_yf_browsinghistory` (
   `url` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `browsinghistory_user_idx` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cfixedassets` */
 
@@ -5595,7 +5595,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2772 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2773 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7061,6 +7061,7 @@ CREATE TABLE `vtiger_ossemployees` (
   `business_phone_extra` varchar(100) DEFAULT NULL,
   `private_phone_extra` varchar(100) DEFAULT NULL,
   `secondary_phone_extra` varchar(100) DEFAULT NULL,
+  `organization_structure` varchar(12) DEFAULT '',
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
