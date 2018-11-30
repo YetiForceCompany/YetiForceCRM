@@ -2959,6 +2959,8 @@ CREATE TABLE `u_yf_multicompany` (
   `addresslevel2a` varchar(255) DEFAULT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
+  `website` varchar(255) DEFAULT '',
+  `logo` text DEFAULT NULL,
   PRIMARY KEY (`multicompanyid`),
   KEY `multicompany_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_multicompanymulticompanyid` FOREIGN KEY (`multicompanyid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -5595,7 +5597,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2773 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2775 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7061,9 +7063,9 @@ CREATE TABLE `vtiger_ossemployees` (
   `business_phone_extra` varchar(100) DEFAULT NULL,
   `private_phone_extra` varchar(100) DEFAULT NULL,
   `secondary_phone_extra` varchar(100) DEFAULT NULL,
-  `organization_structure` int(10) DEFAULT NULL,
+  `multicompanyid` int(10) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
-  KEY `ossemployees_org_struct_idx` (`organization_structure`),
+  KEY `ossemployees_org_struct_idx` (`multicompanyid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
