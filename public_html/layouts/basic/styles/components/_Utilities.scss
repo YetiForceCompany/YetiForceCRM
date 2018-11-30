@@ -94,6 +94,12 @@
 	white-space: nowrap;
 }
 
+.js-popover--before-positioned {
+	opacity: 0;
+	height: 0;
+	overflow: hidden;
+}
+
 .u-text-ellipsis--not-active {
 	width: auto !important;
 	text-overflow: unset !important;
@@ -491,10 +497,6 @@
 
 .u-opacity-muted {
 	opacity: 0.2;
-}
-
-.u-opacity-0 {
-	opacity: 0;
 }
 
 //--- COLUMNS ---///
