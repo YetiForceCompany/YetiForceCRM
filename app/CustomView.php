@@ -20,7 +20,7 @@ class CustomView
 	/**
 	 * Standard filter conditions for date fields.
 	 */
-	const STD_FILTER_CONDITIONS = ['custom', 'prevfy', 'thisfy', 'nextfy', 'prevfq', 'thisfq', 'nextfq', 'yesterday', 'today', 'tomorrow',
+	const STD_FILTER_CONDITIONS = ['custom', 'prevfy', 'thisfy', 'nextfy', 'prevfq', 'thisfq', 'nextfq', 'yesterday', 'today', 'untiltoday', 'tomorrow',
 		'lastweek', 'thisweek', 'nextweek', 'lastmonth', 'thismonth', 'nextmonth',
 		'last7days', 'last15days', 'last30days', 'last60days', 'last90days', 'last120days', 'next15days', 'next30days', 'next60days', 'next90days', 'next120days', ];
 
@@ -63,6 +63,7 @@ class CustomView
 		'nextfq' => ['label' => 'LBL_NEXT_FQ'],
 		'yesterday' => ['label' => 'LBL_YESTERDAY'],
 		'today' => ['label' => 'LBL_TODAY'],
+		'untiltoday' => ['label' => 'LBL_UNTIL_TODAY'],
 		'tomorrow' => ['label' => 'LBL_TOMORROW'],
 		'lastweek' => ['label' => 'LBL_LAST_WEEK'],
 		'thisweek' => ['label' => 'LBL_CURRENT_WEEK'],
@@ -700,11 +701,15 @@ class CustomView
 	{
 		Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
+		$returnValue = '';
 		foreach ($info as &$values) {
 			if ($values['presence'] === 0) {
 				return $returnData ? $values : $values['cvid'];
+			} elseif ($values['presence'] === 2) {
+				$returnValue = $returnData ? $values : $values['cvid'];
 			}
 		}
+		return $returnValue;
 	}
 
 	/**

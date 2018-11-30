@@ -185,6 +185,10 @@ class DateTimeRange
 				$dateValue[0] = $last120days;
 				$dateValue[1] = $today;
 				break;
+			case 'untiltoday':
+				$dateValue[0] = date('Y-m-d', strtotime(0));
+				$dateValue[1] = $today;
+				break;
 			case 'thisfy':
 				$dateValue = self::getPresentYearRange($dateObject);
 				break;
