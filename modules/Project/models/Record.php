@@ -23,4 +23,14 @@ class Project_Record_Model extends Vtiger_Record_Model
 			yield self::getInstanceById($projectInfo[$instance->table_index]);
 		}
 	}
+
+	public function getProgress()
+	{
+		return $this->get('progress');
+	}
+
+	public function getEstimatedWorkTime()
+	{
+		return 0;
+	}
 }
