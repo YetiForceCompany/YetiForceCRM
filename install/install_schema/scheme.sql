@@ -7063,6 +7063,7 @@ CREATE TABLE `vtiger_ossemployees` (
   `secondary_phone_extra` varchar(100) DEFAULT NULL,
   `organization_structure` int(10) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
+  KEY `ossemployees_org_struct_idx` (`organization_structure`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
