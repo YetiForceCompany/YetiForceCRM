@@ -703,15 +703,15 @@ class CustomView
 		Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
 		$returnValue = '';
-		foreach ($info as &$values) {
+		foreach ($info as $index => &$values) {
 			if ($values['presence'] === 0) {
-				$returnValue = $returnData ? $values : $values['cvid'];
+				$returnValue = $index;
 				break;
 			} elseif ($values['presence'] === 2) {
-				$returnValue = $returnData ? $values : $values['cvid'];
+				$returnValue = $index;
 			}
 		}
-		return $returnValue;
+		return $returnData ? $info[$returnValue] : $returnValue;
 	}
 
 	/**
@@ -758,7 +758,7 @@ class CustomView
 			$info['sequence'] = (int) ($info['sequence'] ?? 0);
 			$info['userid'] = (int) ($info['userid'] ?? 0);
 		} else {
-			$info = $query->where(['entitytype' => $mixed])->all();
+			$info = $query->where(['entitytype' => $mixed])->indexBy('cvid')->all();
 			foreach ($info as &$item) {
 				$item['cvid'] = (int) $item['cvid'];
 				$item['setdefault'] = (int) $item['setdefault'];
