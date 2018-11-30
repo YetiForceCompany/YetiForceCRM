@@ -34,7 +34,7 @@ class ProjectProgress extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	private static function calculateProgress(array $items): string
+	private static function calculateProgress(array $items): float
 	{
 		$hours = 0;
 		$progressInHours = 0;
@@ -42,7 +42,7 @@ class ProjectProgress extends \Tests\Base
 			$hours += $item['h'];
 			$progressInHours += ($item['h'] * (int) $item['p']) / 100;
 		}
-		return round((100 * $progressInHours) / $hours) . '%';
+		return round((100 * $progressInHours) / $hours);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class ProjectProgress extends \Tests\Base
 	public function testProgress()
 	{
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p0']);
-		$this->assertSame('0%', $projectRecordModel->get('progress'));
+		$this->assertSame(0.0, $projectRecordModel->get('progress'));
 	}
 
 	/**
@@ -141,10 +141,10 @@ class ProjectProgress extends \Tests\Base
 	public function testProgressAfterUpdateTask()
 	{
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p0-m0-t0']);
-		$taskRecordModel->set('projecttaskprogress', '10%');
+		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p0']);
-		$this->assertSame('10%', $projectRecordModel->get('progress'));
+		$this->assertSame(10.0, $projectRecordModel->get('progress'));
 	}
 
 	/**
@@ -157,10 +157,10 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel = static::createProjectTaskRecord(static::$listId['p0'], static::$listMilestoneId['p0-m0'], 10, 'p0-m0-t1');
 		static::$listTaskId['p0-m0-t1'] = $taskRecordModel->getId();
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p0']);
-		$this->assertSame('5%', $projectRecordModel->get('progress'));
-		$taskRecordModel->set('projecttaskprogress', '10%');
+		$this->assertSame(5.0, $projectRecordModel->get('progress'));
+		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
-		$this->assertSame('10%', $projectRecordModel->get('progress'));
+		$this->assertSame(10.0, $projectRecordModel->get('progress'));
 		$taskRecordModel->set('estimated_work_time', 20);
 		$taskRecordModel->save();
 		$this->assertSame(static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10]]), $projectRecordModel->get('progress'));
@@ -338,7 +338,7 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel->changeState('Archived');
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50]]),
-			$projectRecordModel->get('progress')
+			$projectRecordModel->getProgress()
 		);
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
