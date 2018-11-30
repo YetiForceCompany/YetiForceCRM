@@ -17,6 +17,11 @@ namespace App;
 final class Chat
 {
 	/**
+	 * Information about allowed types of rooms.
+	 */
+	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global'];
+
+	/**
 	 * Information about the tables of the database.
 	 */
 	const TABLE_NAME = [

@@ -196,6 +196,9 @@ class Chat_Entries_View extends \App\Controller\View
 	{
 		$chat = \App\Chat::getInstance();
 		$groupHistory = $request->getByType('groupHistory', 2);
+		if (!in_array($groupHistory, \App\Chat::ALLOWED_ROOM_TYPES)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		if ($request->isEmpty('mid')) {
 			$chatEntries = $chat->getHistoryByType($groupHistory);
 		} else {
