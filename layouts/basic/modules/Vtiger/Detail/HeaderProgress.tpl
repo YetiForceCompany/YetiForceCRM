@@ -33,7 +33,7 @@
 								{else}
 									{$ICON_CLASS}
 								{/if}
-								  {' '}c-arrows__icon" data-fa-transform="shrink-{$ICON_SHRINK}"></span>
+								  {' '}c-arrows__icon" data-fa-transform="shrink-{if isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']])}7{else}{$ICON_SHRINK}{/if}"></span>
 								</div>
 								<a class="c-arrows__link js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{$PICKLIST_LABEL}" data-js="popover">
 									<span class="c-arrows__text">
