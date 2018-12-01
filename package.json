@@ -47,7 +47,7 @@
     "fontawesome-web": "^5.0.2",
     "footable": "^2.0.6",
     "fullcalendar": "3.9.0",
-    "gantt-elastic": "^0.2.10",
+    "gantt-elastic": "^0.3.0",
     "gridstack": "^0.4.0",
     "html2canvas": "^1.0.0-alpha.12",
     "html5shiv": "^3.7.3",
