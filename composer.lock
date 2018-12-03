@@ -2662,12 +2662,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "9c8ca82f7af602c3dd99e56729adc6f0aa09fd39"
+                "reference": "a2ed6257b3f97c8983a8b5484c08d454a2f33a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/9c8ca82f7af602c3dd99e56729adc6f0aa09fd39",
-                "reference": "9c8ca82f7af602c3dd99e56729adc6f0aa09fd39",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/a2ed6257b3f97c8983a8b5484c08d454a2f33a3e",
+                "reference": "a2ed6257b3f97c8983a8b5484c08d454a2f33a3e",
                 "shasum": ""
             },
             "require": {
@@ -2699,7 +2699,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2018-12-03T11:33:46+00:00"
+            "time": "2018-12-03T11:53:54+00:00"
         },
         {
             "name": "yetiforce/yii2",
