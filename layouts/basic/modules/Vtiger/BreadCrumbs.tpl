@@ -8,7 +8,8 @@
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
-			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0">
+			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon" data-content="{$BREADCRUMBS[$BREADCRUMBS|@count - 1]['name']}" data-toggle="popover" data-js="popover | mouseenter">
+
 				<li class="breadcrumb-item">
 					<a href="{AppConfig::main('site_URL')}">
 						<span class="{$HOMEICON}" aria-hidden="true"></span>
@@ -23,20 +24,24 @@
 							</a>
 						</li>
 					{elseif $item@last}
-						<li class="breadcrumb-item active js-text-content" data-js="text"
-							aria-current="page">{$item['name']}</li>
+						<li class="breadcrumb-item active js-popover-text js-text-content" data-js="text"
+							aria-current="page">{$item['name']}
+						</li>
+						<li class="js-popover-icon d-none mr-1" data-js="class: d-none">
+							<span class="fas fa-info-circle fa-sm"></span>
+						</li>
 					{else}
 						<li class="breadcrumb-item"><a href="#">{$item['name']}</a></li>
 					{/if}
 					{assign var="ITEM_PREV" value=$item['name']}
 				{/foreach}
-				{if isset($SELECTED_PAGE) && $SELECTED_PAGE->get('description') !== \App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE) }
-					<div class="js-popover-tooltip ml-2" data-js="popover"
-						 data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}">
-						<span class="fas fa-info-circle"></span>
-					</div>
-				{/if}
 			</ol>
+			{if isset($SELECTED_PAGE) && $SELECTED_PAGE->get('description') !== \App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE) }
+				<div class="js-popover-tooltip ml-2" data-js="popover"
+					 data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}">
+					<span class="fas fa-info-circle"></span>
+				</div>
+			{/if}
 		{/if}
 	{/if}
 {/strip}

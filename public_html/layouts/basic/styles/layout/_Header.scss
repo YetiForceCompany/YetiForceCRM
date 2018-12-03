@@ -307,6 +307,7 @@
 			top: 193px !important;
 			position: absolute !important;
 		}
+
 		.c-btn-link--responsive {
 			height: auto !important;
 		}
@@ -384,13 +385,22 @@
 }
 
 //breadcrumbs
+.o-breadcrumb__container {
+	width: 100%;
+}
+
 .widget_header {
 	.breadcrumb {
 		background: none;
+		flex-wrap: nowrap;
 	}
 
-	.breadcrumb-item.active {
-		color: darken($breadcrumb-active-color, 10%);
+	.breadcrumb-item {
+		white-space: nowrap;
+
+		&.active {
+			color: darken($breadcrumb-active-color, 10%);
+		}
 	}
 }
 

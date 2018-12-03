@@ -249,7 +249,7 @@ var App = {},
 				let iconElement = element.find('.js-popover-icon');
 				if (iconElement.length) {
 					element.find('.js-popover-icon').removeClass('d-none');
-					params.selector = '[data-fa-i2svg].js-popover-icon';
+					params.selector = '.js-popover-icon';
 				}
 				app.showPopoverElementView(element, params);
 			});
