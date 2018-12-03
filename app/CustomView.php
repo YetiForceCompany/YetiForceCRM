@@ -242,10 +242,10 @@ class CustomView
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
 	{
 		if (Request::_has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_get('orderby');
+			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_getForSql('orderby');
 		}
 		if (Request::_has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_get('sortorder');
+			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_getForSql('sortorder');
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
