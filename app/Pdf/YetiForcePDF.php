@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class using TCPDF as a PDF creator.
+ * Class using YetiForcePDF as a PDF creator.
  *
  * @package App\Pdf
  *
