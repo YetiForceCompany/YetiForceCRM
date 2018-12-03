@@ -12,7 +12,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.init(container);
-		this.sendByEnter = true;
+		this.sendByEnter = app.getCookie("chat-notSendByEnter") !== 'true';
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
 		this.isUnreadMode = false;
@@ -21,7 +21,8 @@ window.Chat_JS = class Chat_Js {
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
-		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
+		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === 'true';
+		this.isModalWindow = false;
 	}
 
 	/**
@@ -101,7 +102,7 @@ window.Chat_JS = class Chat_Js {
 					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages) {
-					if (app.getCookie("chat-isSoundNotification") === "true") {
+					if (app.getCookie("chat-isSoundNotification") === 'true') {
 						app.playSound('CHAT');
 					}
 					if (Chat_Js.desktopPermission()) {
@@ -154,7 +155,7 @@ window.Chat_JS = class Chat_Js {
 	 * @returns {boolean}
 	 */
 	static isDesktopNotification() {
-		return app.getCookie("chat-isDesktopNotification") === "true";
+		return app.getCookie("chat-isDesktopNotification") === 'true';
 	}
 
 	/**
@@ -195,6 +196,17 @@ window.Chat_JS = class Chat_Js {
 		}
 		AppConnector.request($.extend({module: 'Chat'}, data)).done((data) => {
 			aDeferred.resolve(data);
+		}).fail(() => {
+			if (this.isModalWindow) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+					type: 'error',
+					animation: 'show'
+				});
+				app.hideModalWindow();
+				this.unregisterEvents();
+				Chat_Js.registerTrackingEvents();
+			}
 		}).always(() => {
 			if (progress) {
 				progressIndicator.progressIndicator({mode: 'hide'});
@@ -270,7 +282,7 @@ window.Chat_JS = class Chat_Js {
 				}
 				this.getMessage(true);
 				this.buildParticipantsFromMessage($('<div></div>').html(html));
-				this.scrollToBottom();
+				this.scrollToBottom(false);
 			});
 			inputMessage.val('');
 		} else {
@@ -583,7 +595,7 @@ window.Chat_JS = class Chat_Js {
 			currentParticipants.push(userId);
 			let lastMessage = messageContainer.find('.js-chat-item[data-user-id=' + userId + ']:last');
 			if (lastMessage.length) {
-				$(element).find('.js-message').html(lastMessage.find('.messages').html());
+				$(element).find('.js-message').html(lastMessage.find('.js-message').html());
 			}
 		});
 		this.createParticipants(
@@ -679,9 +691,11 @@ window.Chat_JS = class Chat_Js {
 	/**
 	 * Scroll the chat content down.
 	 */
-	scrollToBottom() {
+	scrollToBottom(scrollToTop = true) {
 		const chatContent = this.messageContainer.closest('.js-chat-main-content');
-		chatContent.scrollTop(0);
+		if (scrollToTop) {
+			chatContent.scrollTop(0);
+		}
 		if (chatContent.length) {
 			chatContent.animate({
 				scrollTop: chatContent[0].scrollHeight
@@ -817,7 +831,7 @@ window.Chat_JS = class Chat_Js {
 					}
 					this.messageContainer.append(html);
 					this.buildParticipantsFromMessage($('<div></div>').html(html));
-					this.scrollToBottom();
+					this.scrollToBottom(false);
 				}
 				if (timer) {
 					this.getMessage(true);
@@ -851,16 +865,16 @@ window.Chat_JS = class Chat_Js {
 	 * Register send event
 	 */
 	registerSendEvent() {
-		const self = this;
 		const inputMessage = this.container.find('.js-chat-message');
-		if (this.sendByEnter) {
-			inputMessage.on('keydown', function (e) {
-				if (e.keyCode === 13) {
-					e.preventDefault();
-					self.sendMessage($(this));
-				}
-			});
-		}
+		inputMessage.on('keydown', (e) => {
+			if (!this.sendByEnter) {
+				return;
+			}
+			if (!e.shiftKey && e.keyCode === 13) {
+				e.preventDefault();
+				this.sendMessage(inputMessage);
+			}
+		});
 		this.container.find('.js-btn-send').on('click', () => {
 			this.sendMessage(inputMessage);
 		});
@@ -1176,6 +1190,19 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Button that enables / disables the sending of messages by pressing the ENTER button.
+	 */
+	registerButtonToggleEnter() {
+		let btnEnter = this.container.find('.js-btn-enter');
+		btnEnter.on('click', (e) => {
+			this.sendByEnter = !this.sendByEnter;
+			app.setCookie("chat-notSendByEnter", !this.sendByEnter, 365);
+			let icon = btnEnter.find('.js-icon');
+			icon.toggleClass(btnEnter.data('iconOn'), this.sendByEnter).toggleClass(btnEnter.data('iconOff'), !this.sendByEnter);
+		});
+	}
+
+	/**
 	 * Register close modal.
 	 */
 	registerCloseModal() {
@@ -1216,10 +1243,12 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavoritesInModal();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
+		this.registerButtonToggleEnter();
 		this.registerCloseModal();
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();
 		Chat_Js.unregisterTrackingEvents();
+		this.isModalWindow = true;
 	}
 
 	/**

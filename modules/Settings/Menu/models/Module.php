@@ -85,7 +85,7 @@ class Settings_Menu_Module_Model
 				$name = 'LBL_HOME';
 				break;
 			case 7:
-				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
+				$query = (new \App\Db\Query())->select(['viewname', 'entitytype'])->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data = $query->one();
 				if ($settings) {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']);
@@ -130,7 +130,7 @@ class Settings_Menu_Module_Model
 	 */
 	public function getModulesList()
 	{
-		return (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
+		return (new \App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
 			->andWhere(['or', ['isentitytype' => 1], ['name' => ['Home', 'OSSMail', 'Portal', 'Rss']]])
 			->orderBy('name')
@@ -153,7 +153,7 @@ class Settings_Menu_Module_Model
 	 */
 	public function getCustomViewList()
 	{
-		$filters = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
+		$filters = (new \App\Db\Query())->select(['cvid', 'viewname', 'entitytype', 'vtiger_tab.tabid'])
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
 		foreach (Vtiger_Module_Model::getAll() as $module) {

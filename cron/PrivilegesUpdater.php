@@ -3,11 +3,11 @@
  * Privileges updater cron.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
-$dataReader = (new \App\Db\Query())->select('crmid, setype')
+$dataReader = (new \App\Db\Query())->select(['crmid', 'setype'])
 	->from('vtiger_crmentity')
 	->where(['or', ['users' => ''], ['users' => null]])
 	->limit($limit)
@@ -58,10 +58,10 @@ while ($row = $dataReader->read()) {
 		while ($rowCrm = $dataReaderCrm->read()) {
 			\App\PrivilegeUpdater::update($rowCrm['crmid'], $row['module']);
 			$affected = $db->createCommand()->update('s_#__privileges_updater', ['crmid' => $rowCrm['crmid']], [
-					'module' => $row['module'],
-					'type' => 1,
-					'crmid' => $crmid,
-				])->execute();
+				'module' => $row['module'],
+				'type' => 1,
+				'crmid' => $crmid,
+			])->execute();
 			$crmid = $rowCrm['crmid'];
 			--$limit;
 			if (0 === $limit || (int) $affected === 0) {

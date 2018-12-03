@@ -874,7 +874,7 @@ class File
 	{
 		if (is_dir($dirPath)) {
 			do {
-				$tmpFile = 'tmpfile' . time() . '-' . rand(1, 1000) . '.tmp';
+				$tmpFile = 'tmpfile' . time() . '-' . random_int(1, 1000) . '.tmp';
 				// Continue the loop unless we find a name that does not exists already.
 				$useFilename = "$dirPath/$tmpFile";
 				if (!file_exists($useFilename)) {
@@ -1037,7 +1037,7 @@ class File
 		foreach ($value as $key => $item) {
 			if (isset($previousValue[$item['key']])) {
 				$value[$item['key']] = $previousValue[$item['key']];
-			} elseif ($item['baseContent']) {
+			} elseif (!empty($item['baseContent'])) {
 				$base = static::saveFromBase($item, $recordModel->getModuleName());
 				$new[] = $value[$base['key']] = $base;
 				unset($value[$key]);

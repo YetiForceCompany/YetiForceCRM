@@ -114,13 +114,13 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 					break;
 				}
 			}
-			let endDateString = moment(startDateTime, dateFormat).add(minutes, 'minutes').format(dateFormat),
-				defaultTimeFormat = 'HH:mm';
+			let defaultTimeFormat = 'HH:mm';
 			if (12 === timeFormat) {
 				defaultTimeFormat = 'hh:mm A';
 			}
-			endDateElement.val(endDateString);
-			endTimeElement.val(moment(startTime, defaultTimeFormat).add(minutes, 'minutes').format(defaultTimeFormat));
+			let endDate = moment(startDateTime, dateFormat + ' ' + defaultTimeFormat).add(minutes, 'minutes');
+			endDateElement.val(endDate.format(dateFormat));
+			endTimeElement.val(endDate.format(defaultTimeFormat));
 		}
 	},
 	/**

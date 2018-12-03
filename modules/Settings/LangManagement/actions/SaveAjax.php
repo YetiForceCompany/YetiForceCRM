@@ -4,7 +4,7 @@
  * Settings LangManagement SaveAjax action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
@@ -80,7 +80,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			$result = \App\Language::translationModify(
-					$request->getByType('lang'), $request->getByType('mod'), $request->getByType('type'), $request->getByType('variable', 'Text'), $request->getForHtml('val'));
+				$request->getByType('lang'), $request->getByType('mod'), $request->getByType('type'), $request->getByType('variable', 'Text'), $request->getForHtml('val'));
 			$result = ['success' => true, 'message' => \App\Language::translate('LBL_UpdateTranslationOK', $moduleName)];
 		} catch (\Exception $ex) {
 			$result = ['success' => false];
@@ -135,6 +135,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false)),
+			'params' => $params
 		]);
 		$response->emit();
 	}

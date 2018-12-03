@@ -64,11 +64,8 @@ class Chat_Room_Action extends \App\Controller\Action
 	 */
 	public function create(\App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('recordId'));
-		if (!$recordModel->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		\App\Chat::createRoom($request->getByType('roomType'), $recordModel->getId());
+		$this->checkPermissionByRoom($request);
+		\App\Chat::createRoom($request->getByType('roomType'), $request->getInteger('recordId'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -84,6 +81,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	 */
 	public function removeFromFavorites(\App\Request $request)
 	{
+		$this->checkPermissionByRoom($request);
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
@@ -100,6 +98,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	 */
 	public function addToFavorites(\App\Request $request)
 	{
+		$this->checkPermissionByRoom($request);
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
@@ -128,5 +127,32 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function isSessionExtend()
 	{
 		return false;
+	}
+
+	/**
+	 * Check permission by room.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	private function checkPermissionByRoom(\App\Request $request): void
+	{
+		switch ($request->getByType('roomType')) {
+			case 'crm':
+				$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('recordId'));
+				if (!$recordModel->isViewable()) {
+					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				}
+				break;
+			case 'group':
+				if (!in_array($request->getInteger('recordId'), \App\User::getCurrentUserModel()->getGroups())) {
+					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				}
+				break;
+			default:
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 	}
 }

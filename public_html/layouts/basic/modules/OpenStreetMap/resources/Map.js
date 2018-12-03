@@ -367,7 +367,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				radius: container.find('.radius').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
+			$.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -465,7 +465,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			if (radiusValue !== '' && parseInt(radiusValue)) {
 				params['radius'] = radiusValue;
 			}
-			$.extend(params, thisInstance.selectedParams);
+			$.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -594,7 +594,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				lon: coordinates.data('lon'),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
+			$.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -639,8 +639,8 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				map.addLayer(thisInstance.routeLayer);
 				container.find('.descriptionContainer').removeClass('d-none');
 				container.find('.descriptionContent .instruction').html(response.result.properties.description);
-				container.find('.descriptionContent .distance').html(App.Fields.Currency.formatToDisplay(response.result.properties.distance));
-				container.find('.descriptionContent .travelTime').html(App.Fields.Currency.formatToDisplay(response.result.properties.traveltime / 60));
+				container.find('.descriptionContent .distance').html(App.Fields.Double.formatToDisplay(response.result.properties.distance));
+				container.find('.descriptionContent .travelTime').html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
 			});
 		});
 		container.on('click', '.setView', function (e) {
@@ -675,7 +675,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			action: 'GetMarkers',
 			srcModule: app.getModuleName(),
 		};
-		$.extend(params, this.selectedParams);
+		$.extend(this.selectedParams, params);
 		thisInstance.registerBasicModal();
 		AppConnector.request(params).done(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});

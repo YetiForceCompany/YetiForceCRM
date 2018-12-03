@@ -1,7 +1,7 @@
 {
   "php": {
-    "MultiCompany": "Oddzia\u0142y",
-    "SINGLE_MultiCompany": "Oddzia\u0142",
+    "MultiCompany": "Struktura organizacji",
+    "SINGLE_MultiCompany": "Struktura organizacji",
     "LBL_BASIC_INFORMATION": "Informacje podstawowe o firmie",
     "LBL_CONTACT_INFORMATION": "Informacje kontaktowe",
     "LBL_REGISTRATION_INFORMATION": "Informacje rejestrowe",

@@ -285,6 +285,7 @@
     "LBL_EXPORT_DATA_IN_CURRENT_PAGE": "Export data in current page",
     "LBL_EXPORT_RECORDS": "Export records",
     "LBL_EXPORT_SELECTED_RECORDS": "Export selected records",
+    "LBL_FAVORITE_OWNERS": "Favorites",
     "LBL_Feb": "Feb",
     "LBL_FIELDS": "Fields",
     "LBL_FILTER": "Filter",
@@ -891,6 +892,7 @@
     "LBL_AVERAGE_WORKING_TIME": "Average working time",
     "Employees Time Control": "Employees Time Control",
     "LBL_CURRENTLY_LOGGED_USER": "Currently logged in user",
+    "LBL_CURRENTLY_LOGGED_USER_GROUP": "Group of logged in user",
     "LBL_IS_WATCHING_RECORD": "Tracked record",
     "LBL_IS_NOT_WATCHING_RECORD": "Not tracked record",
     "LBL_TO_REALIZE": "For processing",
@@ -900,6 +902,7 @@
     "BTN_WORKFLOW_TRIGGER": "This tool allows to start workflows manually and automatically execute all selected tasks.",
     "PaymentsOut": "Payments Out",
     "PaymentsIn": "Payments In",
+    "LBL_CONSENT_TO_SEND": "Consent to send",
     "LBL_VIEW_CREATE": "Create",
     "LBL_VIEW_EDIT": "Edit",
     "LBL_VIEW_DETAIL": "Detail",
@@ -1294,7 +1297,9 @@
     "LBL_USE_VARIABLES": "In this field you can use variables, you just need to copy any variable to the clipboard from the panel and paste in here. The field can contain several variables.",
     "BTN_RECORD_OPEN": "Unblock record",
     "LBL_REMOVE_RELATION": "Remove relation",
-    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed."
+    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
+    "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
   },
   "js": {
     "JS_APPROVE": "Approve",
@@ -1666,6 +1671,7 @@
     "JS_CHAT_NEW_MESSAGE": "New message",
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
-    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
   }
 }

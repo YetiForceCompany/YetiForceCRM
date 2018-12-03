@@ -28,6 +28,7 @@ var App = {},
 		},
 		cacheParams: [],
 		modalEvents: [],
+		mousePosition: {x: 0, y: 0},
 		childFrame: false,
 		touchDevice: false,
 		event: new function () {
@@ -146,24 +147,21 @@ var App = {},
 		registerPopoverManualTrigger(element, manualTriggerDelay) {
 			const hideDelay = 500;
 			element.on("mouseleave", (e) => {
-				setTimeout(function () {
-					let popoverId = $(e.currentTarget).attr('aria-describedby');
-					let currentPopover = $(`#${popoverId}`);
+				setTimeout(() => {
+					let currentPopover = this.getBindedPopover(element);
 					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 						currentPopover.popover('hide');
 					}
 				}, hideDelay);
 			});
 
-			element.on("mouseenter", (e) => {
-				setTimeout(function () {
-					let element = $(e.currentTarget);
+			element.on("mouseenter", () => {
+				setTimeout(() => {
 					if (element.is(':hover')) {
 						element.popover("show");
-						let popoverId = element.attr('aria-describedby');
-						let currentPopover = $(`#${popoverId}`);
-						currentPopover.on("mouseleave", (e) => {
-							setTimeout(function () {
+						let currentPopover = this.getBindedPopover(element);
+						currentPopover.on("mouseleave", () => {
+							setTimeout(() => {
 								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 									currentPopover.popover('hide'); //close current popover
 								}
@@ -182,6 +180,7 @@ var App = {},
 			let clone = element
 				.clone()
 				.addClass('u-text-ellipsis--not-active')
+				.css(element.css(['font-size', 'font-weight', 'font-family']))
 				.appendTo('body');
 			if (clone.width() > element.width()) {
 				clone.remove();
@@ -223,10 +222,24 @@ var App = {},
 			});
 			return selectElement;
 		},
-		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis')) {
-			let defaultParams = {
-				trigger: 'hover focus'
+		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis'), params = {trigger: 'hover focus'}) {
+			const self = this;
+			params = {
+				callbackShown: () => {
+					self.setPopoverPosition(selectElement);
+				},
+				trigger: 'manual',
+				placement: 'right',
+				template: '<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 			};
+			let popoverText = selectElement.find('.js-popover-text').length ? selectElement.find('.js-popover-text') : selectElement;
+			if (!app.isEllipsisActive(popoverText)) {
+				selectElement.addClass('popover-triggered');
+				return;
+			}
+			app.showPopoverElementView(selectElement, params);
+		},
+		registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = {trigger: 'hover focus'}) {
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
 				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
@@ -236,41 +249,42 @@ var App = {},
 				let iconElement = element.find('.js-popover-icon');
 				if (iconElement.length) {
 					element.find('.js-popover-icon').removeClass('d-none');
-					defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
+					params.selector = '[data-fa-i2svg].js-popover-icon';
 				}
-				app.showPopoverElementView(element, defaultParams);
+				app.showPopoverElementView(element, params);
 			});
 		},
 		/**
 		 * Register popover record
 		 * @param {jQuery} selectElement
+		 * @param {object} customParams
 		 */
 		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+			const self = this;
 			let params = {
-				template: '<div class="popover c-popover--link" role="tooltip"><div class="popover-body"></div></div>',
+				template: '<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
 				content: '<div class="d-none"></div>',
 				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 				placement: 'right',
-				callbackShown: function (e) {
-					let element = $(e.currentTarget);
-					if (!element.attr('href')) {
+				callbackShown: () => {
+					if (!selectElement.attr('href')) {
 						return false;
 					}
-					let link = new URL(element.get(0).href);
+					let link = new URL(selectElement.get(0).href);
 					if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
 						return false;
 					}
 					let url = link.href;
 					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
-					let popoverId = element.attr('aria-describedby');
-					let popoverBody = $(`#${popoverId} .popover-body`);
+					let currentPopover = self.getBindedPopover(selectElement);
+					let popoverBody = currentPopover.find('.popover-body');
 					popoverBody.progressIndicator({});
 					let appendPopoverData = (data) => {
 						popoverBody.progressIndicator({mode: 'hide'}).html(data);
 						if (typeof customParams.callback === 'function') {
 							customParams.callback(popoverBody);
 						}
-						element.popover('update'); //updates popover with data position 
+						self.setPopoverPosition(selectElement);
 					};
 					let cacheData = window.popoverCache[url];
 					if (typeof cacheData !== 'undefined') {
@@ -284,6 +298,46 @@ var App = {},
 				}
 			};
 			app.showPopoverElementView(selectElement, params);
+		},
+		/**
+		 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
+		 * @param {jQuery} popover
+		 * @param {number} offsetLeft
+		 */
+		setPopoverPosition(popoverElement) {
+			let popover = this.getBindedPopover(popoverElement);
+			if (!popover.length) {
+				return;
+			}
+			let windowHeight = $(window).height(),
+				windowWidth = $(window).width(),
+				popoverPadding = 10,
+				popoverBody = popover.find('.popover-body'),
+				popoverHeight = popoverBody.height(),
+				popoverWidth = popoverBody.width(),
+				offsetTop = app.mousePosition.y,
+				offsetLeft = app.mousePosition.x;
+			if (popoverHeight + offsetTop + popoverPadding > windowHeight) {
+				offsetTop = offsetTop - popoverHeight - popoverPadding;
+			}
+			if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
+				offsetLeft = offsetLeft - popoverWidth - popoverPadding;
+			}
+			popover.css({
+				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
+			});
+			popover.removeClass('js-popover--before-positioned');
+			popoverElement.one('hide.bs.popover', () => {
+				popover.addClass('js-popover--before-positioned');
+			});
+		},
+		/**
+		 * Get binded popover
+		 * @param {jQuery} element
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		getBindedPopover(element) {
+			return $(`#${element.attr('aria-describedby')}`);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
@@ -1683,16 +1737,23 @@ var App = {},
 		},
 		registerPopover() {
 			window.popoverCache = {};
-			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
 				let currentTarget = $(e.currentTarget);
+				if (currentTarget.find('.js-popover-tooltip--record').length) {
+					return;
+				}
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget);
 						currentTarget.trigger('mouseenter');
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
 						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
-					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.data('field-type')) {
-						app.showPopoverElementView(currentTarget);
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.find('.js-popover-tooltip--record').length && !currentTarget.data('field-type')) {
+						if (currentTarget.hasClass('js-popover-tooltip--ellipsis')) {
+							app.registerPopoverEllipsis(currentTarget);
+						} else {
+							app.showPopoverElementView(currentTarget);
+						}
 						currentTarget.trigger('mouseenter');
 					}
 				}
@@ -1726,17 +1787,18 @@ var App = {},
 		},
 	};
 $(document).ready(function () {
+	let document = $(this);
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
+	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
-	app.registerPopoverEllipsis();
 	app.registerFormatNumber();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	app.registesterScrollbar($(document));
+	app.registesterScrollbar(document);
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
@@ -1750,17 +1812,20 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
+	document.on('mousemove', (e) => {
+		app.mousePosition = {x: e.pageX, y: e.pageY};
+	});
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
-		return App.Fields.Currency.formatToDb($(this).val());
+		return App.Fields.Double.formatToDb($(this).val());
 	}
 	$.fn.getNumberFromText = function () {
-		return App.Fields.Currency.formatToDb($(this).text());
+		return App.Fields.Double.formatToDb($(this).text());
 	}
 	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(App.Fields.Currency.formatToDisplay(App.Fields.Currency.formatToDb(element.val())));
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val())));
 	}
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');

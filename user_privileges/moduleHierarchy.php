@@ -82,6 +82,7 @@ return [
 		]
 	],
 	'modulesMap1M' => [// Base => Parent
+		'OSSEmployees' => ['MultiCompany'],
 		'Contacts' => ['Accounts'],
 		'HelpDesk' => ['Accounts', 'Vendors'],
 		'SSalesProcesses' => ['Accounts'],

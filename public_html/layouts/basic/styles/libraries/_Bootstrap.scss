@@ -40,11 +40,15 @@ label.btn.btn-outline-primary {
 	cursor: pointer;
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
-	white-space: normal;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
 	@at-root .historyList #{&} {
 		min-width: 500px;
 		max-width: calc(100vh - 100px);
 	}
+
 	&:hover {
 		border-top: 1px solid $color-grey-light;
 		border-bottom: 1px solid $color-grey-light;

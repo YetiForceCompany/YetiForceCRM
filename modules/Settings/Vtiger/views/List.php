@@ -21,11 +21,6 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 */
 	public $listViewModel;
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);

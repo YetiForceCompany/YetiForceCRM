@@ -1,15 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row" data-js="container">
-		{if !$SELECTED_FIELD_MODEL && $CONDITIONS_ROW}
+	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row"
+		 data-js="container">
+		{if empty($SELECTED_FIELD_MODEL) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
 			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getOperators()}
 		{/if}
-		{if !$SELECTED_OPERATOR && $CONDITIONS_ROW}
+		{if empty($SELECTED_OPERATOR) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_OPERATOR value=$CONDITIONS_ROW['operator']}
 
 		{/if}
-		{if !$FIELD_INFO && $CONDITIONS_ROW}
+		{if empty($FIELD_INFO) && !empty($CONDITIONS_ROW)}
 			{assign var=FIELD_INFO value=$CONDITIONS_ROW['fieldname']}
 		{/if}
 		<div class="col-4">
@@ -53,8 +54,13 @@
 		<div class="col-4">
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
+				{if !empty($CONDITIONS_ROW['value'])}
+					{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
+				{else}
+					{assign var=CONDITION_ROW_VALUE value=''}
+				{/if}
 				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE)
-			FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
+			FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=$CONDITION_ROW_VALUE}
 			{/if}
 		</div>
 		<div class="col-1 d-flex justify-content-end">

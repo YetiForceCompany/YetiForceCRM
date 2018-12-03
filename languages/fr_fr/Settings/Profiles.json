@@ -88,7 +88,9 @@
     "ActivityCancel": "Annuler les enregistrements",
     "ActivityComplete": "Fermer les enregistrements",
     "ActivityPostponed": "Report des enregistrements",
-    "ModTracker": "Change history"
+    "ModTracker": "Change history",
+    "AssignToYourself": "Assign to me",
+    "AutoAssignRecord": "Automatic transfer of records"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil supprim\u00e9 avec succ\u00e8s"

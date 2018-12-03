@@ -64,10 +64,14 @@
 							<div class="form-group">
 								<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
-									<input type="text" name="conversion_rate" class="form-control" placeholder="{\App\Language::translate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}" 
-										   value="{$RECORD_MODEL->get('conversion_rate')}" data-validation-engine='validate[required, funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]' />
-									<br /><span class="muted">({\App\Language::translate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)} - {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
-								</div>	
+									<input type="text" name="conversion_rate" class="form-control js-format-numer"
+										   placeholder="{\App\Language::translate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}"
+										   value="{$RECORD_MODEL->get('conversion_rate')}"
+										   data-validation-engine='validate[required, funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]'/>
+									<br/><span
+											class="muted">({\App\Language::translate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)}
+										- {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="muted col-md-4 col-2 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>

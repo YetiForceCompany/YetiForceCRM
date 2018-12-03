@@ -5,6 +5,7 @@
     "LBL_CURRENCY_UPDATE_DESCRIPTION": "Systemeinstellungen um Wechselkurse zu definieren.",
     "LBL_SELECT_BANK": "Bank w\u00e4hlen",
     "MSG_ONE_CURRENCY": "Es ist nur eine Hauptw\u00e4hrung gesetzt. Um weitere W\u00e4hrungsraten zu verwenden, m\u00fcssen diese W\u00e4hrungen in den CRM Einstellungen hinzugef\u00fcgt werden.",
+    "MSG_NO_NET_CONN": "No Internet connection, currency information was not downloaded.",
     "LBL_HISTORY": "Historie zu den Wechselraten",
     "LBL_BANK": "Bank w\u00e4hlen, welche Informationen zu den Wechselraten liefert",
     "LBL_CAL_DATE": "Kursdatum",

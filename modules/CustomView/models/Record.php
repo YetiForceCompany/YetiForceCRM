@@ -228,18 +228,17 @@ class CustomView_Record_Model extends \App\Base
 
 	public function isEditable()
 	{
-		if ($this->get('privileges') == 0) {
-			return false;
-		}
-		if (\App\User::getCurrentUserModel()->isAdmin()) {
+		if ($this->get('presence') !== 2 && \App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
+		}
+		if ($this->get('privileges') === 0 || $this->get('presence') === 2) {
+			return false;
 		}
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
 		if (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
 			return false;
 		}
-
 		if ($this->isMine() || $this->isOthers()) {
 			return true;
 		}
@@ -328,6 +327,9 @@ class CustomView_Record_Model extends \App\Base
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
 		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
+		}
+		if ($this->has('entityState')) {
+			$queryGenerator->setStateCondition($this->get('entityState'));
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
@@ -463,11 +465,11 @@ class CustomView_Record_Model extends \App\Base
 	{
 		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		$operator = $rule['operator'];
-		$value = $rule['value'];
+		$value = $rule['value'] ?? '';
 		if (!$this->get('advfilterlistDbFormat') && !in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
 			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
 				->getUITypeModel()
-				->getDbConditionBuilderValue($rule['value'], $operator);
+				->getDbConditionBuilderValue($value, $operator);
 		}
 		\App\Db::getInstance()->createCommand()->insert('u_#__cv_condition', [
 			'group_id' => $parentId,
@@ -644,10 +646,10 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-		->from('vtiger_cvcolumnlist')
-		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-		->createCommand()->queryAllByGroup(1);
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);

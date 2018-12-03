@@ -127,7 +127,7 @@ class LanguageExport extends Package
 				'lastupdated' => $datetime,
 				'isdefault' => $useisdefault,
 				'active' => $useisactive,
-				], 'id=?', [$adb->getSingleValue($checkres)]
+			], 'id=?', [$adb->getSingleValue($checkres)]
 			);
 		} else {
 			$adb->insert(self::TABLENAME, [
@@ -168,7 +168,7 @@ class LanguageExport extends Package
 	 */
 	public static function getAll($includeInActive = false)
 	{
-		$query = (new \App\Db\Query())->from(self::TABLENAME)->select('prefix,label');
+		$query = (new \App\Db\Query())->from(self::TABLENAME)->select(['prefix', 'label']);
 		if (!$includeInActive) {
 			$query->where(['active' => 1]);
 		}

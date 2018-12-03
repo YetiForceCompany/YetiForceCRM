@@ -134,7 +134,8 @@
 					{if $IS_INVENTORY}
 						{$COUNT = $COUNT+1}
 						<td class="medium" nowrap>
-							<button type="button" class="btn btn-sm btn-info float-right js-popover-tooltip showInventoryRow"
+							<button type="button"
+									class="btn btn-sm btn-info float-right js-popover-tooltip showInventoryRow"
 									data-js="popover" data-placement="left"
 									data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span
 										class="fas fa-arrows-alt-v"></span></button>
@@ -161,8 +162,8 @@
 								<tbody>
 								{foreach from=$INVENTORY_DATA item=ROWDATA}
 									<tr>
-										{if $INVENTORY_ROW['name']}
-											{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+										{if !empty($ROWDATA['name'])}
+											{assign var="ROW_MODULE" value=\App\Record::getType($ROWDATA['name'])}
 										{/if}
 										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 											{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}

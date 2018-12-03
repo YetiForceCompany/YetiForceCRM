@@ -11,6 +11,30 @@
 class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return App\Fields\Integer::formatToDb($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		return App\Fields\Integer::formatToDisplay($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return App\Fields\Integer::formatToDisplay($value);
+	}
+
+	/**
 	 * Verification of data.
 	 *
 	 * @param string $value
@@ -22,6 +46,9 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	{
 		if (isset($this->validate[$value]) || empty($value)) {
 			return;
+		}
+		if ($isUserFormat) {
+			$value = App\Fields\Integer::formatToDb($value);
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
@@ -59,5 +86,25 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	public function getOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
+	}
+
+	/**
+	 * Generate valid sample value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return int
+	 */
+	public function getSampleValue()
+	{
+		$min = 0;
+		$max = $this->getFieldModel()->get('maximumlength');
+		if (strpos($max, ',')) {
+			$max = (int) explode(',', $max)[1];
+		}
+		if ($max > 9999 || $max < 0) {
+			$max = 9999;
+		}
+		return \App\Fields\Integer::formatToDb(random_int($min, (int) $max));
 	}
 }

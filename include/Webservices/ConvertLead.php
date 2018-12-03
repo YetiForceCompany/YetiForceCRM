@@ -64,7 +64,7 @@ class WebservicesConvertLead
 		}
 
 		foreach ($availableModules as $entityName) {
-			if ($entityvalues['entities'][$entityName]['create']) {
+			if (!empty($entityvalues['entities'][$entityName]['create'])) {
 				$entityvalue = $entityvalues['entities'][$entityName];
 
 				$entityObjectValues = [];
@@ -78,7 +78,7 @@ class WebservicesConvertLead
 
 				try {
 					$create = true;
-					if ($entityvalue['name'] == 'Accounts' && $entityvalue['convert_to_id'] && is_int($entityvalue['convert_to_id'])) {
+					if ($entityvalue['name'] == 'Accounts' && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
 						$entityIds[$entityName] = $entityvalue['convert_to_id'];
 						$create = false;
 					}
@@ -107,8 +107,7 @@ class WebservicesConvertLead
 
 		try {
 			$accountId = $entityIds['Accounts'];
-			$contactId = $entityIds['Contacts'];
-
+			$contactId = $entityIds['Contacts'] ?? null;
 			static::vtwsConvertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
 			$relatedId = $entityIds[$entityvalues['transferRelatedRecordsTo']];
@@ -164,7 +163,7 @@ class WebservicesConvertLead
 			$count = 1;
 			foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 				$defaultvalue = $field->getDefaultFieldValue();
-				if ($defaultvalue && $entity[$fieldname] == '') {
+				if ($defaultvalue && empty($entity[$fieldname])) {
 					$entity[$fieldname] = $defaultvalue;
 				}
 			}
@@ -188,7 +187,6 @@ class WebservicesConvertLead
 					$entity[$fieldname] = $fieldvalue;
 				}
 			}
-
 			$entity = static::vtwsValidateConvertLeadEntityMandatoryValues($entity, $targetModuleModel);
 		}
 		return $entity;
@@ -247,7 +245,6 @@ class WebservicesConvertLead
 	public static function vtwsUpdateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
 		$adb = PearDatabase::getInstance();
-
 		if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
 			$sql = 'UPDATE vtiger_leaddetails SET converted = 1 where leadid=?';
 			$result = $adb->pquery($sql, [$leadId]);
@@ -257,7 +254,7 @@ class WebservicesConvertLead
 			//update the modifiedtime and modified by information for the record
 			$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
 			$crmentityUpdateSql = 'UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?';
-			$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->id, $leadId]);
+			$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->getId(), $leadId]);
 		}
 		$moduleArray = ['Accounts', 'Contacts'];
 

@@ -26,7 +26,7 @@ if (!empty($company->get('name'))) {
 if (!empty($company->get('email'))) {
 	$html .= ' - ' . $company->get('email');
 }
-$mails = (new \App\Db\Query())->select('email1')->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->column();
+$mails = (new \App\Db\Query())->select(['email1'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->column();
 if ($mails) {
 	\App\Mailer::sendFromTemplate([
 		'to' => $mails,

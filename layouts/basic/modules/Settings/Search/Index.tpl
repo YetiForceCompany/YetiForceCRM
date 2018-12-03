@@ -51,7 +51,7 @@
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
-									<select multiple class="form-control fieldname js-select2-sortable" data-js="sortable" name="fieldname" data-tabid="{$KEY}">
+									<select multiple class="form-control fieldname" data-select-cb="registerSelectSortable" data-js="sortable | select2" name="fieldname" data-tabid="{$KEY}">
 										{foreach key=BLOCK_NAME item=FIELDS from=$BLOCKS}
 											<optgroup label="{\App\Language::translate($BLOCK_NAME, $KEY)}">
 											{foreach from=$FIELDS item=fieldTab}
@@ -77,8 +77,8 @@
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
-									<select multiple class="form-control searchcolumn js-select2-sortable"
-											data-js="sortable" name="searchcolumn" data-tabid="{$KEY}">
+									<select multiple class="form-control searchcolumn" data-select-cb="registerSelectSortable"
+											data-js="sortable | select2" name="searchcolumn" data-tabid="{$KEY}">
 										{foreach key=BLOCK_NAME item=FIELDS from=$BLOCKS}
 											<optgroup label="{\App\Language::translate($BLOCK_NAME, $KEY)}">
 												{foreach from=$FIELDS item=fieldTab}

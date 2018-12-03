@@ -13,6 +13,23 @@ namespace App\QueryField;
 class SharedOwnerField extends BaseField
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getColumnName()
+	{
+		if ($this->fullColumnName) {
+			return $this->fullColumnName;
+		}
+		if ($this->related) {
+			$fieldModel = $this->queryGenerator->getModuleField($this->related['sourceField']);
+			return $this->fullColumnName = "{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}";
+		} else {
+			$focus = $this->queryGenerator->getEntityModel();
+			return $this->fullColumnName = "{$focus->table_name}.{$focus->table_index}";
+		}
+	}
+
+	/**
 	 * Equals operator.
 	 *
 	 * @return array
@@ -22,16 +39,7 @@ class SharedOwnerField extends BaseField
 		if (empty($this->value)) {
 			return [];
 		}
-		$focus = $this->queryGenerator->getEntityModel();
-		$baseTable = $focus->table_name;
-		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-		$values = explode('##', $this->value);
-		$condition = ['or'];
-		foreach ($values as $value) {
-			$condition[] = ['u_#__crmentity_showners.userid' => $value];
-		}
-		return $condition;
+		return [$this->getColumnName() => (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => explode('##', $this->value)])];
 	}
 
 	/**
@@ -44,16 +52,7 @@ class SharedOwnerField extends BaseField
 		if (empty($this->value)) {
 			return [];
 		}
-		$focus = $this->queryGenerator->getEntityModel();
-		$baseTable = $focus->table_name;
-		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-		$values = explode('##', $this->value);
-		$condition = ['or'];
-		foreach ($values as $value) {
-			$condition[] = ['<>', 'u_#__crmentity_showners.userid', $value];
-		}
-		return $condition;
+		return ['NOT IN', $this->getColumnName(), (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => explode('##', $this->value)])];
 	}
 
 	/**
@@ -63,12 +62,19 @@ class SharedOwnerField extends BaseField
 	 */
 	public function operatorOm()
 	{
-		$focus = $this->queryGenerator->getEntityModel();
-		$baseTable = $focus->table_name;
-		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		$this->value = \App\User::getCurrentUserId();
+		return $this->operatorE();
+	}
 
-		return ['u_#__crmentity_showners.userid' => \App\User::getCurrentUserId()];
+	/**
+	 * Currently logged-in user groups.
+	 *
+	 * @return array
+	 */
+	public function operatorOgr(): array
+	{
+		$this->value = implode('##', array_keys(\App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private')));
+		return $this->operatorE();
 	}
 
 	/**
@@ -78,19 +84,7 @@ class SharedOwnerField extends BaseField
 	 */
 	public function operatorC()
 	{
-		if (empty($this->value)) {
-			return [];
-		}
-		$focus = $this->queryGenerator->getEntityModel();
-		$baseTable = $focus->table_name;
-		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-		$values = explode('##', $this->value);
-		$condition = ['or'];
-		foreach ($values as $value) {
-			$condition[] = ['u_#__crmentity_showners.userid' => $value];
-		}
-		return $condition;
+		return $this->operatorE();
 	}
 
 	/**
@@ -100,10 +94,16 @@ class SharedOwnerField extends BaseField
 	 */
 	public function operatorNy()
 	{
-		$focus = $this->queryGenerator->getEntityModel();
-		$baseTable = $focus->table_name;
-		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		if ($this->related) {
+			$fieldModel = $this->queryGenerator->getModuleField($this->related['sourceField']);
+			$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')
+				->innerJoin($fieldModel->getTableName(), "u_#__crmentity_showners.crmid={$fieldModel->getTableName()}.{$fieldModel->getColumnName()}");
+		} else {
+			$focus = $this->queryGenerator->getEntityModel();
+			$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')
+				->innerJoin($focus->table_name, "u_#__crmentity_showners.crmid={$focus->table_name}.{$focus->table_index}");
+		}
+		return [$this->getColumnName() => $query];
 	}
 
 	/**
@@ -113,11 +113,15 @@ class SharedOwnerField extends BaseField
 	 */
 	public function operatorY()
 	{
-		$focus = $this->queryGenerator->getEntityModel();
-		$baseTable = $focus->table_name;
-		$baseTableIndex = $focus->table_index;
-		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-
-		return ['u_#__crmentity_showners.userid' => null];
+		if ($this->related) {
+			$fieldModel = $this->queryGenerator->getModuleField($this->related['sourceField']);
+			$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')
+				->innerJoin($fieldModel->getTableName(), "u_#__crmentity_showners.crmid={$fieldModel->getTableName()}.{$fieldModel->getColumnName()}");
+		} else {
+			$focus = $this->queryGenerator->getEntityModel();
+			$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')
+				->innerJoin($focus->table_name, "u_#__crmentity_showners.crmid={$focus->table_name}.{$focus->table_index}");
+		}
+		return ['NOT IN', $this->getColumnName(), $query];
 	}
 }

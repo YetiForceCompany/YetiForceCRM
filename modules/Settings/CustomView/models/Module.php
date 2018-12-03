@@ -12,10 +12,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public function getCustomViews($tabId)
 	{
-		$dataReader = (new App\Db\Query())->select('vtiger_customview.*')
+		$dataReader = (new App\Db\Query())->select(['vtiger_customview.*'])
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
 			->where(['vtiger_tab.tabid' => $tabId])
+			->andWhere(['not', ['vtiger_customview.presence' => 2]])
 			->orderBy(['vtiger_customview.sequence' => SORT_ASC])
 			->createCommand()->query();
 		$moduleEntity = [];
@@ -31,12 +32,12 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$query = new App\Db\Query();
 		if ($action == 'default') {
-			$query->select('userid')
+			$query->select(['userid'])
 				->from('vtiger_user_module_preferences')
 				->where(['default_cvid' => $cvId])
 				->orderBy(['userid' => SORT_ASC]);
 		} elseif ($action == 'featured') {
-			$query->select('user')
+			$query->select(['user'])
 				->from('u_#__featured_filter')
 				->where(['cvid' => $cvId])
 				->orderBy(['user' => SORT_ASC]);
@@ -55,7 +56,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
 		if ($action == 'add') {
-			$dataReader = (new App\Db\Query())->select('vtiger_customview.viewname')
+			$dataReader = (new App\Db\Query())->select(['vtiger_customview.viewname'])
 				->from('vtiger_user_module_preferences')
 				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
 				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])

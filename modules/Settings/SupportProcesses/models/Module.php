@@ -39,7 +39,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		if (self::$ticketStatusNotModify) {
 			return self::$ticketStatusNotModify;
 		}
-		$ticketStatus = (new App\Db\Query())->select('ticket_status_indicate_closing')
+		$ticketStatus = (new App\Db\Query())->select(['ticket_status_indicate_closing'])
 			->from('vtiger_support_processes')
 			->scalar();
 		$return = [];

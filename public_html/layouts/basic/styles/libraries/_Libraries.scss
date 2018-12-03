@@ -8,6 +8,10 @@
 
 	@extend .border;
 	@extend .text-left;
+
+	.o-filter-actions {
+		display: inline-block;
+	}
 }
 
 .select2-selection--single {
@@ -59,6 +63,19 @@
 		font-size: calculate-rem(16px) !important;
 		background: #e1f0fd;
 	}
+
+	.select2-results__option[aria-label=""] > .select2-results__group {
+		background: inherit;
+	}
+
+	.select2-results__option[aria-selected="true"] {
+		opacity: 0.5;
+	}
+}
+
+.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
+.listViewPageDiv .select2noactive {
+	height: calculate-rem(38px) !important;
 }
 
 .input-group > .select2-container--bootstrap {
@@ -217,6 +234,11 @@ ul.ui-autocomplete {
 	}
 }
 
+//fix placholder width when table's elements are hidden
+.ui-sortable-placeholder td[colspan="0"] {
+	display: none;
+}
+
 //-------- ckeditor --------//
 
 .cke_screen_reader_only {
@@ -308,9 +330,14 @@ ul.ui-autocomplete {
 	z-index: 3000; //overflow floatThead and ps scrollbar in list
 }
 
-.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
-.listViewPageDiv .select2noactive {
-	height: calculate-rem(38px) !important;
+.listViewPageDiv {
+	& > .floatThead-wrapper {
+		overflow: hidden; //prevent fixed thead from overflowing table
+
+		& > .floatThead-container {
+			overflow: hidden !important;
+		}
+	}
 }
 
 .js-fixed-thead {
@@ -320,10 +347,8 @@ ul.ui-autocomplete {
 	table-layout: unset !important;
 }
 
-.floatThead-wrapper {
-	overflow: hidden; //prevent fixed thead from overflowing table
-}
+//-------- flag-icon --------//
 
-.floatThead-container {
-	overflow: hidden !important;
+.flag-icon {
+	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
 }

@@ -127,7 +127,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 *
 	 * @param <Array> $valueMap
 	 *
-	 * @return Users_Privilege_Model object
+	 * @return \Users_Privileges_Model object
 	 */
 	public static function getInstance($valueMap)
 	{
@@ -147,7 +147,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 *
 	 * @param <Number> $userId
 	 *
-	 * @return Users_Privilege_Model object
+	 * @return \Users_Privileges_Model object
 	 */
 	public static function getInstanceById($userId, $module = null)
 	{
@@ -171,7 +171,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Static function to get the User Privileges Model for the current user.
 	 *
-	 * @return Users_Privilege_Model object
+	 * @return \Users_Privileges_Model object
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
@@ -355,7 +355,6 @@ class Users_Privileges_Model extends Users_Record_Model
 					$value = $recordModel->get($fieldName);
 					if (!empty($value) && \App\Record::isExists($value)) {
 						$parentRecord = $value;
-						continue;
 					}
 				}
 			}

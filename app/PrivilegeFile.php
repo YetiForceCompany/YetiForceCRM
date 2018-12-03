@@ -77,7 +77,7 @@ class PrivilegeFile
 		$user['details'] = $userInstance->column_fields;
 		$user['displayName'] = trim($displayName);
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
-		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
+		$user['groups'] = PrivilegeUtil::getAllGroupsByUser($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
 		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);

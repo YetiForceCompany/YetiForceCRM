@@ -29,6 +29,8 @@ class Custom_NumberToWords extends \Tests\Base
 	public function int2wordProvider()
 	{
 		return [
+			[0.00, 'zero'],
+			['0.00', 'zero'],
 			['-150', 'minus sto pięćdziesiąt'],
 			['-1', 'minus jeden'],
 			['-0', 'zero'],
@@ -80,6 +82,10 @@ class Custom_NumberToWords extends \Tests\Base
 	public function processProvider()
 	{
 		return [
+			['0.00', 'zero zł zero gr', 'pl_pl'],
+			[0.00, 'zero zł zero gr', 'pl_pl'],
+			['0.00', 'zero zł zero gr', 'en_us'],
+			[0.00, 'zero zł zero gr', 'en_us'],
 			[0.01, 'zero zł jeden gr', 'pl_pl'],
 			[0.01, 'zero zł one gr', 'en_us'],
 			[15, 'piętnaście zł zero gr', 'pl_pl'],

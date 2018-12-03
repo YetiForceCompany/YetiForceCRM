@@ -2,15 +2,19 @@
 {strip}
 	<!-- tpl-Base-Detail-InventorySummary -->
 	{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-		{if isset($DISCOUNT)}
+		{if isset($DISCOUNT) && isset($INVENTORY_ROW['discount']) }
 			{assign var="DISCOUNT" value=$DISCOUNT + $INVENTORY_ROW['discount']}
-		{else}
+		{elseif isset($INVENTORY_ROW['discount']) }
 			{assign var="DISCOUNT" value=$INVENTORY_ROW['discount']}
-		{/if}
-		{if isset($TAXS)}
-			{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'],$INVENTORY_ROW['net'], $TAXS)}
 		{else}
-			{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'],$INVENTORY_ROW['net'], FALSE)}
+			{assign var="DISCOUNT" value=0}
+		{/if}
+		{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
+			{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}
+		{elseif isset($INVENTORY_ROW['taxparam']) }
+			{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], FALSE)}
+		{else}
+			{assign var="TAXS" value=[]}
 		{/if}
 	{/foreach}
 	<div class="row">
@@ -54,7 +58,7 @@
 						{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
 						<tr>
 							<td class="textAlignRight" width='70px'>
-								{\App\Fields\Currency::formatToDisplay($KEY,null,true,true)}%
+								{App\Fields\Double::formatToDisplay($KEY)}%
 							</td>
 							<td class="textAlignRight">
 								{CurrencyField::convertToUserFormatSymbol($TAX,false,$CURRENCY_SYMBOLAND['currency_symbol'])}

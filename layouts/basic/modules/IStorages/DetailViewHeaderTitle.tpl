@@ -9,7 +9,7 @@
 				</span>
 			</div>
 			<div class="pl-1">
-				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
 					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>
@@ -27,7 +27,7 @@
 						</span>
 					{/if}
 				</div>
-				<div class="js-popover-tooltip--ellipsis d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
+				<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
 					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 					</span>
@@ -36,7 +36,7 @@
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-					<div class="js-popover-tooltip--ellipsis d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter">
+					<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter">
 						<span class="mr-1 text-muted u-white-space-nowrap">
 							{\App\Language::translate('Share with users',$MODULE_NAME)}:
 						</span>

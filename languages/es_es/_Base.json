@@ -310,6 +310,7 @@
     "LBL_EXPORT_DATA_IN_CURRENT_PAGE": "Exportar datos en la p\u00e1gina actual",
     "LBL_EXPORT_RECORDS": "Exportar registros",
     "LBL_EXPORT_SELECTED_RECORDS": "Exportar registros seleccionados",
+    "LBL_FAVORITE_OWNERS": "Favorites",
     "LBL_Feb": "Feb",
     "LBL_FIELDS": "Campos",
     "LBL_FILTER": "Filtro",
@@ -924,6 +925,7 @@
     "LBL_AVERAGE_WORKING_TIME": "Duraci\u00f3n media del trabajo",
     "Employees Time Control": "Control de tiempo de los empleados",
     "LBL_CURRENTLY_LOGGED_USER": "Usuario actualmente conectado",
+    "LBL_CURRENTLY_LOGGED_USER_GROUP": "Group of logged in user",
     "LBL_IS_WATCHING_RECORD": "Seguimiento del registro",
     "LBL_IS_NOT_WATCHING_RECORD": "Registro sin seguimiento",
     "LBL_TO_REALIZE": "A procesar",
@@ -933,6 +935,7 @@
     "BTN_WORKFLOW_TRIGGER": "Esta herramienta permite iniciar los flujos de trabajo manualmente y ejecutar autom\u00e1ticamente todas las tareas seleccionadas.",
     "PaymentsOut": "Pagos efectuados",
     "PaymentsIn": "Pagos recibidos",
+    "LBL_CONSENT_TO_SEND": "Consent to send",
     "LBL_VIEW_CREATE": "Crear",
     "LBL_VIEW_EDIT": "Editar",
     "LBL_VIEW_DETAIL": "Detalles",
@@ -1326,7 +1329,9 @@
     "LBL_USE_VARIABLES": "In this field you can use variables, you just need to copy any variable to the clipboard from the panel and paste in here. The field can contain several variables.",
     "BTN_RECORD_OPEN": "Unblock record",
     "LBL_REMOVE_RELATION": "Remove relation",
-    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed."
+    "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
+    "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
   },
   "js": {
     "JS_APPROVE": "Approve",
@@ -1702,6 +1707,7 @@
     "JS_CHAT_NEW_MESSAGE": "New message",
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
-    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data"
+    "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
   }
 }

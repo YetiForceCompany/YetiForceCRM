@@ -100,7 +100,7 @@ class A_User extends \Tests\Base
 		$this->assertSame($row['email1'], 'testuser@yetiforce.com');
 		$this->assertSame($row['first_name'], 'Test');
 		$this->assertSame($row['last_name'], 'YetiForce');
-		$this->assertSame((new \App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
+		$this->assertSame((new \App\Db\Query())->select(['roleid'])->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
 	}
 
 	/**
@@ -122,7 +122,7 @@ class A_User extends \Tests\Base
 		$this->assertSame($row['email1'], 'testuser-edit@yetiforce.com');
 		$this->assertSame($row['first_name'], 'Test edit');
 		$this->assertSame($row['last_name'], 'YetiForce edit');
-		$this->assertSame((new \App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
+		$this->assertSame((new \App\Db\Query())->select(['roleid'])->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
 	}
 
 	/**

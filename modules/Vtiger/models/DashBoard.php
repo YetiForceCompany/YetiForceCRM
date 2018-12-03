@@ -57,8 +57,8 @@ class Vtiger_DashBoard_Model extends \App\Base
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-		$query = (new \App\Db\Query())->select('vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid,
-					mdw.id AS widgetid, mdw.position, vtiger_links.linkid AS id, mdw.limit, mdw.cache, mdw.owners, mdw.isdefault')
+		$query = (new \App\Db\Query())->select(['vtiger_links.*', 'mdw.userid', 'mdw.data', 'mdw.active', 'mdw.title', 'mdw.size', 'mdw.filterid',
+			'widgetid' => 'mdw.id', 'mdw.position', 'id' => 'vtiger_links.linkid', 'mdw.limit', 'mdw.cache', 'mdw.owners', 'mdw.isdefault'])
 			->from('vtiger_links')
 			->leftJoin('vtiger_module_dashboard_widgets mdw', 'vtiger_links.linkid = mdw.linkid')
 			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action, 'mdw.dashboardid' => $this->get('dashboardId')]);
@@ -147,7 +147,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 
 			return;
 		}
-		$dataReader = (new App\Db\Query())->select('vtiger_module_dashboard.*, vtiger_links.tabid')
+		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard.*', 'vtiger_links.tabid'])
 			->from('vtiger_module_dashboard')
 			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard.linkid')
 			->where(['vtiger_module_dashboard.blockid' => $blockId])
@@ -210,7 +210,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
-		$query = (new \App\Db\Query())->select('vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid')
+		$query = (new \App\Db\Query())->select(['vtiger_module_dashboard_widgets.module', 'vtiger_module_dashboard_blocks.tabid'])
 			->from('vtiger_module_dashboard')
 			->leftJoin('vtiger_module_dashboard_blocks', 'vtiger_module_dashboard_blocks.id = vtiger_module_dashboard.blockid')
 			->leftJoin('vtiger_module_dashboard_widgets', 'vtiger_module_dashboard_widgets.templateid = vtiger_module_dashboard.id')

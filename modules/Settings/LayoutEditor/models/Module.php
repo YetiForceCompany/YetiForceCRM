@@ -591,7 +591,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTreeTemplates($sourceModule)
 	{
 		$sourceModule = \App\Module::getModuleId($sourceModule);
-		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
+		$query = (new \App\Db\Query())->select(['templateid', 'name'])->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -620,19 +620,26 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		];
 	}
 
-	public static function getRelationFields($moduleId)
+	/**
+	 * Get relation fields by module ID.
+	 *
+	 * @param int $moduleId
+	 *
+	 * @return string[]
+	 */
+	public static function getRelationFields(int $moduleId)
 	{
-		$query = (new \App\Db\Query())->select('vtiger_field.fieldname')
+		$dataReader = (new \App\Db\Query())
+			->select(['vtiger_field.fieldid', 'vtiger_field.fieldname'])
 			->from('vtiger_relatedlists_fields')
 			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
-			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]]);
-		$dataReader = $query->createCommand()->query();
+			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]])
+			->createCommand()->query();
 		$fields = [];
 		while ($row = $dataReader->read()) {
-			$fields[] = $row['fieldname'];
+			$fields[$row['fieldid']] = $row['fieldname'];
 		}
 		$dataReader->close();
-
 		return $fields;
 	}
 

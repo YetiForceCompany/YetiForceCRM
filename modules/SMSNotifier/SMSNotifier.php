@@ -82,14 +82,6 @@ class SMSNotifier extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Transform the value while exporting (if required).
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string Module name

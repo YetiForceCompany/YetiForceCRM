@@ -160,7 +160,7 @@ class Colors
 			$hash = md5('color' . $fromValue);
 			return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
 		}
-		return '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+		return '#' . str_pad(dechex(random_int(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(random_int(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(random_int(0, 255)), 2, '0', STR_PAD_LEFT);
 	}
 
 	/**

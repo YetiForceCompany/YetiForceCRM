@@ -1486,7 +1486,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isCanAssignToHimself()
 	{
-		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
+		return $this->isPermitted('AssignToYourself') && \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
 			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
@@ -1497,7 +1497,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function autoAssignRecord()
 	{
-		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
+		if ($this->isPermitted('AutoAssignRecord') && \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
 			$userModel = \App\User::getCurrentUserModel();
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {

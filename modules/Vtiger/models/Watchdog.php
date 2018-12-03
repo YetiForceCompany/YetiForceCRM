@@ -141,7 +141,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			return (bool) \App\Cache::staticGet('isWatchingRecord', $cacheName);
 		}
 		$return = $this->isWatchingModule();
-		$state = (new \App\Db\Query())->select('state')->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
+		$state = (new \App\Db\Query())->select(['state'])->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
 		$this->set('isRecordExists', false);
 		if ($state !== false) {
 			$this->set('isRecordExists', true);

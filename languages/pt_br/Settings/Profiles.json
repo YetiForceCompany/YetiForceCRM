@@ -88,7 +88,9 @@
     "ActivityComplete": "Fechar registros",
     "ActivityPostponed": "Adiar registros",
     "Emails": "Enviar emails [SMTP]",
-    "ModTracker": "Change history"
+    "ModTracker": "Change history",
+    "AssignToYourself": "Assign to me",
+    "AutoAssignRecord": "Automatic transfer of records"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Perfil exclu\u00eddo com Sucesso"
