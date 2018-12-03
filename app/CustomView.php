@@ -339,11 +339,11 @@ class CustomView
 			return Cache::staticGet('getCustomView', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return self::getCustomViewFromFile($cvIds, $this->moduleName);
+			return static::getCustomViewFromFile($cvIds, $this->moduleName);
 		}
 		$filters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$filters[] = self::getCustomViewFromFile($cvId, $this->moduleName);
+			$filters[] = static::getCustomViewFromFile($cvId, $this->moduleName);
 		}
 		Cache::staticSave('getCustomView', $cvIds, $filters);
 		return $filters;
@@ -368,7 +368,7 @@ class CustomView
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
 		} else {
-			$view = self::getCustomViewFromFile($cvId, $this->moduleName);
+			$view = static::getCustomViewFromFile($cvId, $this->moduleName);
 			$columnList = $view->getColumnList();
 			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 		}
