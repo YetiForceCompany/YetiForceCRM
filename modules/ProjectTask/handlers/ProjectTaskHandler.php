@@ -42,10 +42,10 @@ class ProjectTask_ProjectTaskHandler_Handler
 			foreach ($calculateMilestone as $milestoneId => $val) {
 				$milestoneModel->updateProgressMilestone($milestoneId);
 			}
-			/*$projectModel = Vtiger_Module_Model::getInstance('Project');
+			$projectModel = Vtiger_Module_Model::getInstance('Project');
 			foreach ($calculateProject as $projectId => $val) {
 				$projectModel->updateProgress($projectId);
-			}*/
+			}
 		}
 	}
 
