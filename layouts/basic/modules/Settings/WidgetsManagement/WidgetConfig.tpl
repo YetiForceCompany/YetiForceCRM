@@ -166,7 +166,7 @@
 														<option title="{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name)}"
 																data-module="{$GROUP_CUSTOM_VIEWS->module->name}"
 																value="{$GROUP_CUSTOM_VIEWS->get('cvid')}"
-															{if !empty($WIDGET_INFO['defaultFilter']) && in_array($GROUP_CUSTOM_VIEWS->get('cvid'),$WIDGET_INFO['defaultFilter'])}
+															{if !empty($WIDGET_INFO['defaultFilter']) && $GROUP_CUSTOM_VIEWS->get('cvid') eq $WIDGET_INFO['defaultFilter']}
 																selected="selected"
 															{/if}
 													>
