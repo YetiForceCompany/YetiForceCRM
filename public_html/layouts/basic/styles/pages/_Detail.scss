@@ -437,7 +437,7 @@
 		}
 
 		&:hover {
-			.c-progress__text {
+			.c-progress__link {
 				font-weight: bold;
 			}
 		}
@@ -456,7 +456,15 @@
 	}
 
 	&__link {
+		display: flex;
 		width: 100%;
-		text-align: center;
+		justify-content: center;
+	}
+
+	&__icon-info {
+		cursor: pointer;
+		font-size: 80%;
+		align-self: center;
+		margin-right: calculate-rem(2px);
 	}
 }
