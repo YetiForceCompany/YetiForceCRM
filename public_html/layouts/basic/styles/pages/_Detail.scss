@@ -377,18 +377,7 @@
 	}
 }
 
-@mixin c-arrows-color($color) {
-	border-top-color: $color;
-	border-bottom-color: $color;
-	&:after {
-		border-left-color: $color;
-	}
-}
-
-$progress-bg--active: material-color('deep-orange', '500');
-$progress-bg--inactive: material-color('blue-grey', '200');
-
-.c-arrows {
+.c-progress {
 	&__container {
 		display: flex;
 		position: relative;
@@ -435,17 +424,12 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 			z-index: 0;
 		}
 
-
-		&.before:hover {
-			@include c-arrows-color(material-color('green', '900'));
-		}
-
 		&.after {
 			&:before, &:after {
 				background: $progress-bg--inactive;
 			}
 
-			.c-arrows__icon {
+			.c-progress__icon {
 				&-bg {
 					color: $progress-bg--inactive;
 				}
@@ -453,7 +437,7 @@ $progress-bg--inactive: material-color('blue-grey', '200');
 		}
 
 		&:hover {
-			.c-arrows__text {
+			.c-progress__text {
 				font-weight: bold;
 			}
 		}
