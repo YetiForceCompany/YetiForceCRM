@@ -310,16 +310,17 @@ class Request
 	 */
 	public function getMultiDimensionArray(string $key, array $template): array
 	{
+		$return = null;
 		if (isset($this->purifiedValuesByMultiDimension[$key])) {
-			return $this->purifiedValuesByMultiDimension[$key];
+			$return = $this->purifiedValuesByMultiDimension[$key];
 		}
 		$value = [];
-		if (isset($this->rawValues[$key])) {
+		if (empty($return) && isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 			if (!$value) {
-				return [];
+				$return = [];
 			}
-			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+			if (empty($return) && (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0))) {
 				$decodeValue = Json::decode($value);
 				if (isset($decodeValue)) {
 					$value = $decodeValue;
@@ -329,9 +330,14 @@ class Request
 			}
 			$value = $this->purifyMultiDimensionArray($value, $template);
 			settype($value, 'array');
-			return $this->purifiedValuesByMultiDimension[$key] = $value;
+			if (empty($return)) {
+				$return = $this->purifiedValuesByMultiDimension[$key] = $value;
+			}
 		}
-		return $value;
+		if (empty($return)) {
+			$return = $value;
+		}
+		return $return;
 	}
 
 	/**
