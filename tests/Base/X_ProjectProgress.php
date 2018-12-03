@@ -311,7 +311,7 @@ class ProjectProgress extends \Tests\Base
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->set('projectid', $projectRecordModel->getId());
-		$taskRecordModel->set('projectmilestoneid', static::$listMilestoneId['p0-m0']);
+		$taskRecordModel->set('projectmilestoneid', static::$listMilestoneId['p1-m0']);
 		$taskRecordModel->save();
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 0]]),
@@ -333,9 +333,9 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterArchivedTask()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->changeState('Archived');
+		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50]]),
 			$projectRecordModel->getProgress()
@@ -398,7 +398,7 @@ class ProjectProgress extends \Tests\Base
 	public function testProgressInsertTaskInArchivedProject()
 	{
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
-		$taskRecordModel->set('projecttaskprogress', '60%');
+		$taskRecordModel->set('projecttaskprogress', 60);
 		$taskRecordModel->save();
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
@@ -485,7 +485,7 @@ class ProjectProgress extends \Tests\Base
 			$projectRecordModelChild->get('progress')
 		);
 		//Update task
-		$taskRecordModel->set('projecttaskprogress', '100%');
+		$taskRecordModel->set('projecttaskprogress', 100);
 		$taskRecordModel->save();
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 100]]),
