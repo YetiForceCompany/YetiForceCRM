@@ -99,13 +99,13 @@ class Project_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Calculate the progress of tasks.
 	 *
-	 * @param \Project_Record_Model $recordModel
-	 * @param float                 $estimatedWorkTime
-	 * @param float                 $progressInHours
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param float                $estimatedWorkTime
+	 * @param float                $progressInHours
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function calculateProgressOfTasks(\Project_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
+	public function calculateProgressOfTasks(\Vtiger_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
@@ -123,13 +123,13 @@ class Project_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Calculate the progress of milestones.
 	 *
-	 * @param \Project_Record_Model $recordModel
-	 * @param float                 $estimatedWorkTime
-	 * @param float                 $progressInHours
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param float                $estimatedWorkTime
+	 * @param float                $progressInHours
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function calculateProgressOfMilestones(\Project_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
+	public function calculateProgressOfMilestones(\Vtiger_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectMilestone');
 		$relatedListView->getRelationModel()->set('QueryFields', [
