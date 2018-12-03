@@ -506,10 +506,10 @@ class ConfReport
 				$methodName = 'validate' . $item['type'];
 				if (\method_exists(__CLASS__, $methodName)) {
 					if (static::$sapi === 'www') {
-						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'www']);
+						$item = static::$methodName($key, $item, 'www');
 					}
 					if ($item['testCli'] && !empty($cron)) {
-						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'cron']);
+						$item = static::$methodName($key, $item, 'cron');
 					}
 				}
 				if (isset($item['skip'])) {
