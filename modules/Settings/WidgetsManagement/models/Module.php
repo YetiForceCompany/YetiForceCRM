@@ -307,10 +307,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
 			}
 			if ($data['type'] === 'Calendar') {
-				if (!is_array($data['defaultFilter'])) {
-					$data['defaultFilter'] = [$data['defaultFilter'] ?? ''];
-				}
-				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter']]);
+				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter'] ?? '']);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
 				->execute();
