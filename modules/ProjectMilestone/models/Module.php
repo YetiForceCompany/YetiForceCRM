@@ -62,6 +62,16 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Calculate estimated work time.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return float
+	 */
 	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
 		if (!App\Record::isExists($id)) {

@@ -128,6 +128,15 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 	}
 
+	/**
+	 * Calculate the progress of milestones.
+	 *
+	 * @param \Project_Record_Model $recordModel
+	 * @param float                 $estimatedWorkTime
+	 * @param float                 $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
 	public function calculateProgressOfMilestones(\Project_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectMilestone');
@@ -146,6 +155,16 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 	}
 
+	/**
+	 * Calculate estimated work time.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return float
+	 */
 	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
 		if (!App\Record::isExists($id)) {

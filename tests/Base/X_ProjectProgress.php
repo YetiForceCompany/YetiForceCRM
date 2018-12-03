@@ -205,7 +205,7 @@ class ProjectProgress extends \Tests\Base
 	public function testProgressAfterUpdateTaskInChild()
 	{
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t0']);
-		$taskRecordModel->set('projecttaskprogress', '10%');
+		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
@@ -238,7 +238,7 @@ class ProjectProgress extends \Tests\Base
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 50, 'p' => 0]]),
 			$projectRecordModelParent->get('progress')
 		);
-		$taskRecordModel->set('projecttaskprogress', '10%');
+		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 50, 'p' => 10]]),
@@ -248,7 +248,7 @@ class ProjectProgress extends \Tests\Base
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 50, 'p' => 10]]),
 			$projectRecordModelParent->get('progress')
 		);
-		$taskRecordModel->set('projecttaskprogress', '50%');
+		$taskRecordModel->set('projecttaskprogress', 50);
 		$taskRecordModel->set('estimated_work_time', 60);
 		$taskRecordModel->save();
 		$this->assertSame(
