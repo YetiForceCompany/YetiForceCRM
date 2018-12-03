@@ -319,15 +319,9 @@ class CustomView
 	private static function getCustomViewFromFile($cvId, $moduleName)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
-		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
-		if (file_exists($filterDir)) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $moduleName);
-			$filter = new $handlerClass();
-			Cache::staticSave('getCustomView', $cvId, $filter);
-		} else {
-			Log::error(Language::translate('LBL_NOT_FOUND_VIEW') . "cvId: $cvId");
-			throw new Exceptions\AppException('ERR_NOT_FOUND_VIEW');
-		}
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $moduleName);
+		$filter = new $handlerClass();
+		Cache::staticSave('getCustomView', $cvId, $filter);
 		return $filter;
 	}
 
@@ -422,7 +416,7 @@ class CustomView
 	 *               ]]
 	 *               ]
 	 */
-	public static function getConditions($id, $moduleName): array
+	public static function getConditions($id): array
 	{
 		if (Cache::has('CustomView_GetConditions', $id)) {
 			return Cache::get('CustomView_GetConditions', $id);

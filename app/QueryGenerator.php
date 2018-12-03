@@ -670,7 +670,7 @@ class QueryGenerator
 			}
 		}
 		if (!$onlyFields) {
-			$this->conditions = CustomView::getConditions($viewId, $this->moduleName);
+			$this->conditions = CustomView::getConditions($viewId);
 		}
 	}
 

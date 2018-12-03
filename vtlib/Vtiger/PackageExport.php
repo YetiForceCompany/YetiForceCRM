@@ -544,7 +544,7 @@ class PackageExport
 				$this->outputNode($cvRow['columnindex'], 'columnindex');
 				$this->closeNode('field');
 			}
-			$rules = \App\CustomView::getConditions($cvid, $moduleInstance->name);
+			$rules = \App\CustomView::getConditions($cvid);
 			$this->closeNode('fields');
 			if (!empty($rules)) {
 				$this->outputNode('<![CDATA[' . \App\Json::encode($rules) . ']]>', 'rules');
