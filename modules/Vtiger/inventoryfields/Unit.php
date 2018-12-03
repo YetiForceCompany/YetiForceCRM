@@ -12,10 +12,10 @@
 class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 {
 	protected $name = 'Unit';
-	protected $defaultLabel = 'LBL_STRING';
-	protected $columnName = 'value';
+	protected $defaultLabel = 'LBL_UNIT';
+	protected $columnName = 'unit';
 	protected $dbType = 'string';
-	protected $onlyOne = false;
+	protected $onlyOne = true;
 
 	/**
 	 * {@inheritdoc}
