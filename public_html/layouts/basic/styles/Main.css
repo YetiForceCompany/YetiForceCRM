@@ -12119,6 +12119,11 @@ header .c-header__btn__container .select2-selection {
 .flag-icon {
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35); }
 
+.c-scrollbar-x--small .ps__rail-x:hover > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x:focus > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x.ps--clicking .ps__thumb-x {
+  height: 6px; }
+.c-scrollbar-x--small .ps__rail-x {
+  height: 10px; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
 .table-bordered thead td {
@@ -15128,6 +15133,11 @@ ul.tweets li {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
+.js-popover--before-positioned {
+  opacity: 0;
+  height: 0;
+  overflow: hidden; }
+
 .u-text-ellipsis--not-active {
   width: auto !important;
   text-overflow: unset !important;
@@ -16032,9 +16042,6 @@ ul.tweets li {
 .u-opacity-muted {
   opacity: 0.2; }
 
-.u-opacity-0 {
-  opacity: 0; }
-
 .u-columns__item {
   display: inline-block;
   width: 100%; }
@@ -16091,6 +16098,9 @@ ul.tweets li {
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch; } }
 
+@media (max-width: 399.98px) {
+  .ps__rail-x, .ps__rail-y {
+    display: none !important; } }
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
 
@@ -18319,113 +18329,58 @@ input[type="radio"]:checked:before {
   .detailViewTitle .fieldValue:hover .js-detail-quick-edit {
     display: inherit; }
 
-.c-arrows__container {
+.c-progress__container {
   display: flex;
-  flex-wrap: wrap;
+  position: relative; }
+.c-progress__icon {
+  color: var(--white); }
+  .c-progress__icon-bg {
+    color: #ff5722; }
+  .c-progress__icon__container {
+    z-index: 1;
+    font-size: 1.25rem; }
+.c-progress__item {
+  width: 100%;
+  min-width: 5.625rem;
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  height: auto;
-  overflow: hidden;
-  padding: 0;
-  margin-bottom: 0; }
-.c-arrows__text {
-  display: inline-block;
-  position: relative;
-  top: 0;
-  left: 0.3125rem;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: 0.6875rem;
-  vertical-align: bottom; }
-.c-arrows__icon {
-  display: inline-block;
-  position: relative;
-  top: -0.20rem;
-  left: 0.3125rem;
-  margin-right: 0.25rem;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: 0.6875rem;
-  vertical-align: bottom; }
-.c-arrows__item {
-  display: inline-block;
-  height: 0;
-  border-top: 0.625rem solid #ececec;
-  border-bottom: 0.625rem solid #ececec;
-  border-left: 0.625rem solid transparent;
-  margin-right: 0.1875rem;
-  margin-top: 0.125rem;
-  margin-bottom: 0.125rem; }
-  .c-arrows__item:after {
-    content: '\0000a0';
-    display: inline-block;
-    position: relative;
-    top: -0.625rem;
-    left: 0.625rem;
-    width: 0;
-    height: 0;
-    border-left: 0.625rem solid #ececec;
-    border-top: 0.625rem solid transparent;
-    border-bottom: 0.625rem solid transparent; }
-  .c-arrows__item.first {
-    border-left: 0; }
-  .c-arrows__item.before {
-    border-top-color: #2e7d32;
-    border-bottom-color: #2e7d32; }
-    .c-arrows__item.before:after {
-      border-left-color: #2e7d32; }
-    .c-arrows__item.before .c-arrows__text {
-      font-weight: bold;
-      color: #fff; }
-    .c-arrows__item.before .c-arrows__icon {
-      color: #fff; }
-  .c-arrows__item.before:hover {
-    border-top-color: #1b5e20;
-    border-bottom-color: #1b5e20; }
-    .c-arrows__item.before:hover:after {
-      border-left-color: #1b5e20; }
-  .c-arrows__item.after {
-    border-top-color: #64b5f6;
-    border-bottom-color: #64b5f6; }
-    .c-arrows__item.after:after {
-      border-left-color: #64b5f6; }
-    .c-arrows__item.after .c-arrows__text {
-      font-weight: bold;
-      color: #fff; }
-    .c-arrows__item.after .c-arrows__icon {
-      color: #fff; }
-  .c-arrows__item.after:hover {
-    border-top-color: #42a5f5;
-    border-bottom-color: #42a5f5; }
-    .c-arrows__item.after:hover:after {
-      border-left-color: #42a5f5; }
-  .c-arrows__item.active {
-    border-top-color: #ffeb3b;
-    border-bottom-color: #ffeb3b; }
-    .c-arrows__item.active:after {
-      border-left-color: #ffeb3b; }
-    .c-arrows__item.active .c-arrows__text {
-      color: #343a40;
-      font-weight: bold; }
-    .c-arrows__item.active .c-arrows__icon {
-      color: #343a40; }
-.c-arrows__link {
-  display: inline-block;
-  font-size: 0.875rem;
-  float: left;
-  text-decoration: none;
-  margin-top: -0.8125rem; }
-  .c-arrows__item.active .c-arrows__link, .c-arrows__item.before .c-arrows__link {
-    color: #fff; }
-.c-arrows__item.active .c-arrows__link:after, .c-arrows__item.active + .c-arrows__item.after .c-arrows__link:after {
-  content: '\0000a0';
-  display: inline-block;
-  position: relative;
-  top: -1.125rem;
-  left: -0.8125rem;
-  width: calc(100%);
-  height: 1.25rem;
-  z-index: -1;
-  background: #ffeb3b; }
+  position: relative; }
+  .c-progress__item:after, .c-progress__item:before {
+    content: '';
+    position: absolute;
+    top: 0.5625rem;
+    width: 50%;
+    background: #ff5722;
+    left: 0;
+    height: 0.1875rem; }
+  .c-progress__item:after {
+    right: 0;
+    left: unset;
+    z-index: 0; }
+  .c-progress__item.after:before, .c-progress__item.after:after {
+    background: #b0bec5; }
+  .c-progress__item.after .c-progress__icon-bg {
+    color: #b0bec5; }
+  .c-progress__item:hover .c-progress__link {
+    font-weight: bold; }
+  .c-progress__item.active:after {
+    background: #b0bec5; }
+  .c-progress__item.first:before {
+    background: #b0bec5; }
+.c-progress__link {
+  display: flex;
+  width: 100%;
+  justify-content: center; }
+.c-progress__icon-info {
+  cursor: pointer;
+  font-size: 80%;
+  align-self: center;
+  margin-right: 0.125rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .paginationDiv .listViewBasicAction.dropdown-menu {
