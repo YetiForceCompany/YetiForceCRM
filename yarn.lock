@@ -255,10 +255,10 @@ fullcalendar@3.9.0:
     jquery "2 - 3"
     moment "^2.20.1"
 
-gantt-elastic@^0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.2.10.tgz#75ce505c954eb448dbe063830d49a6e9b1f6c26c"
-  integrity sha512-dzOBFAH1peI2JshMaKBBRdYBgsQXHjH6yVbCOzhSE8p/EyfW/1ubZl27Q84ypznRyDcev/ueYMmb9eSNe/Vbbg==
+gantt-elastic@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.3.6.tgz#b9300f9e238a8c55e5fc737fcc4879b4e4379642"
+  integrity sha512-SsmHRy1ckdPeetdvzDwolQ8+1Yt33tPYhJKxh0b5am+INIKnoTodAjzCEzYqBlwZIUDZKdKr0LoJOGQUTTKLwg==
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -289,9 +289,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^4.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.3.tgz#04f91cba299cb8c80f4ee8ba66087fae86c33ebf"
-  integrity sha512-4VXomRC/ITucrBFN4L094GSF7VQU+9+8PTld2CuP0Z2WCIlcXbCqq6Pi2JsN6RVOr1uzaEFnTlN58TaECTF8lQ==
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.4.tgz#a1941b8165e0b1835155d142f873a94b422fbf8d"
+  integrity sha512-m2LAFzQ2IHZbC0FYGP8MO+uVvMGJdTPq07uSzB+v5QF5MOm2h22cAXKxQ4HiOYh3wHwlny9ATuJSp9WPKzq0cg==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
