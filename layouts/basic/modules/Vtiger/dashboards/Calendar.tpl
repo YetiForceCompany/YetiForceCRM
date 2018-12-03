@@ -27,6 +27,8 @@
 								<span class="fas fa-filter iconMiddle margintop3"></span>
 							</span>
 						</span>
+							{assign var=WIDGET_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
+							{assign var=WIDGET_DEFAULT_FILTER value=current($WIDGET_DATA['defaultFilter'])}
 							<select class="widgetFilter form-control customFilter" name="customFilter"
 									title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
@@ -34,7 +36,7 @@
 									<optgroup
 											label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-											<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+											<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {elseif empty($DATA['customFilter']) && $WIDGET_DEFAULT_FILTER eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}
