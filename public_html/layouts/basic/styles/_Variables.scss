@@ -63,3 +63,7 @@ $bg-rtabs: #f1f1f1;
 $bg-rtabs-active: #404952;
 $border-color-rtabs: $bg-rtabs-active;
 $color-rtabs-active: #fff;
+
+//-------- progress bar --------//
+$progress-bg--active: material-color('deep-orange', '500');
+$progress-bg--inactive: material-color('blue-grey', '200');
