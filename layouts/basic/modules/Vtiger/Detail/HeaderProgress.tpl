@@ -9,7 +9,7 @@
 				{assign var=PICKLIST_VALUES value=\App\Fields\Picklist::getValues($NAME)}
 				{assign var=IS_EDITABLE value=$RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && !$FIELD_MODEL->isEditableReadOnly()}
 				<div class="c-progress px-3 w-100">
-					<ul class="c-progress__container js-header-progress-bar list-inline my-0 py-1 js-scrollbar c-scrollbar-x--small" data-picklist-name="{$NAME}" data-scrollbar-fn-name="showNewScrollbarTop"
+					<ul class="c-progress__container js-header-progress-bar list-inline my-0 py-1 js-scrollbar c-scrollbar-x--small" data-picklist-name="{$NAME}"
 						data-js="container">
 						{assign var=ARROW_CLASS value="before"}
 						{assign var=ICON_CLASS value="fas fa-check"}
