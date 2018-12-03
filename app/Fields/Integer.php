@@ -40,6 +40,9 @@ class Integer
 				case '12,34,56,789':
 					$value = preg_replace('/(\d)(?=(\d\d)+(?!\d))/', "$1{$groupSeperator}", substr($value, 0, $length - 3)) . $groupSeperator . substr($value, $length - 3);
 					break;
+				default:
+
+					break;
 			}
 		}
 		return $value;

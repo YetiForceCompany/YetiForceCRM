@@ -647,6 +647,9 @@ final class Chat
 					)
 					->leftJoin(['RN' => 'u_#__chat_global'], "RN.global_room_id = M.{$columnMessage}");
 				break;
+			default:
+
+				break;
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
 			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
