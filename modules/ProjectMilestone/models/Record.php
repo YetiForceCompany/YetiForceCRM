@@ -18,6 +18,6 @@ class ProjectMilestone_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getEstimatedWorkTime(): float
 	{
-		return $this->getModule()->calculateEstimatedWorkTime($this->getId());
+		return $this->getModule()->calculateEstimatedWorkTime($this);
 	}
 }

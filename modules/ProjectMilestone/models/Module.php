@@ -64,18 +64,17 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Calculate estimated work time.
 	 *
-	 * @param int   $id
-	 * @param float $estimatedWorkTime
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param float                $estimatedWorkTime
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return float
 	 */
-	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
+	public function calculateEstimatedWorkTime(\Vtiger_Record_Model $recordModel, float $estimatedWorkTime = 0): float
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		$progressInHours = 0;
-		foreach ($this->getChildren($id) as $childId) {
+		foreach ($this->getChildren($recordModel->getId()) as $childId) {
 			$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
 		}
 		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
@@ -85,9 +84,9 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Calculate the progress of tasks.
 	 *
-	 * @param \Project_Record_Model $recordModel
-	 * @param float                 $estimatedWorkTime
-	 * @param float                 $progressInHours
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param float                $estimatedWorkTime
+	 * @param float                $progressInHours
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */

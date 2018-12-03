@@ -18,6 +18,6 @@ class Project_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getEstimatedWorkTime()
 	{
-		return $this->getModule()->calculateEstimatedWorkTime($this->getId());
+		return $this->getModule()->calculateEstimatedWorkTime($this);
 	}
 }

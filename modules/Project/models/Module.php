@@ -139,8 +139,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			->andWhere(['or', ['parentid' => 0], ['parentid' => null]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$milestoneRecordModel = Vtiger_Record_Model::getInstanceById($row['id']);
-			$milestoneEstimatedWorkTime = $milestoneRecordModel->getEstimatedWorkTime();
+			$milestoneEstimatedWorkTime = Vtiger_Record_Model::getInstanceById($row['id'])->getEstimatedWorkTime();
 			$estimatedWorkTime += $milestoneEstimatedWorkTime;
 			$progressInHours += ($milestoneEstimatedWorkTime * (int) $row['projectmilestone_progress']) / 100;
 		}
@@ -150,18 +149,17 @@ class Project_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Calculate estimated work time.
 	 *
-	 * @param int   $id
-	 * @param float $estimatedWorkTime
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param float                $estimatedWorkTime
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return float
 	 */
-	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
+	public function calculateEstimatedWorkTime(\Vtiger_Record_Model $recordModel, float $estimatedWorkTime = 0): float
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		$progressInHours = 0;
-		foreach ($this->getChildren($id) as $childId) {
+		foreach ($this->getChildren($recordModel->getId()) as $childId) {
 			$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
 		}
 		$this->calculateProgressOfMilestones($recordModel, $estimatedWorkTime, $progressInHours);

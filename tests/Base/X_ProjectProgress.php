@@ -338,7 +338,7 @@ class ProjectProgress extends \Tests\Base
 		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50]]),
-			$projectRecordModel->getProgress()
+			$projectRecordModel->get('progress')
 		);
 		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
