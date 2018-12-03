@@ -48,13 +48,9 @@
 							{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 							{if $ACTIVITY_TYPE eq 'Task'}
 								<span class="far fa-check-square fa-fw"></span>
-
-{elseif $ACTIVITY_TYPE eq 'Call'}
-
+							{elseif $ACTIVITY_TYPE eq 'Call'}
 								<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
-
-{else}
-
+							{else}
 								<span class="fas fa-user fa-fw"></span>
 							{/if}
 						</span>
@@ -120,14 +116,14 @@
 								</span>
 							</span>
 							{if !$IS_READ_ONLY}
-								<div class="js-activity-buttons__container d-none">
+								<span class="js-activity-buttons__container d-none">
 									<button class="btn btn-sm btn-success js-save-description u-font-size-95per my-1 mr-1 py-0 px-1" type="button">
 										<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE',$MODULE_NAME)}
 									</button>
 									<button class="btn btn-sm btn-danger js-close-description u-font-size-95per my-1 py-0 px-1" type="button">
 										<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CLOSE',$MODULE_NAME)}
 									</button>
-								</div>
+								</span>
 								<span class="editDescription u-cursor-pointer">
 									<span class="fas fa-edit fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
@@ -179,9 +175,7 @@
 									{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-
-{else}
-
+									{else}
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
 									{/if}
