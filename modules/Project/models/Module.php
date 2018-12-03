@@ -38,9 +38,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	public function updateProgress(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $parentId = null): array
 	{
-		if (!App\Record::isExists($id)) {
-			return [];
-		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		if (empty($parentId)) {
 			foreach ($recordModel->getChildren() as $childRecordModel) {
@@ -80,12 +77,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	public function calculateProgressOfChildren(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0)
 	{
-		if (!App\Record::isExists($id)) {
-			return [
-				'estimatedWorkTime' => 0,
-				'projectProgress' => 0
-			];
-		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		foreach ($recordModel->getChildren() as $childRecordModel) {
 			$progressItem = $this->calculateProgressOfChildren($childRecordModel->getId());

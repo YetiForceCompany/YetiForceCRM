@@ -25,16 +25,6 @@ class ProjectMilestone_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Get progress.
-	 *
-	 * @return float
-	 */
-	public function getProgress(): float
-	{
-		return (float) $this->get('projectmilestone_progress');
-	}
-
-	/**
 	 * Get estimated work time.
 	 *
 	 * @return float

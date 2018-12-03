@@ -35,9 +35,6 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	public function updateProgressMilestone(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null)
 	{
-		if (!App\Record::isExists($id)) {
-			return [];
-		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		foreach ($recordModel->getChildren() as $childRecordModel) {
 			if ($callerId !== $childRecordModel->getId()) {
@@ -74,9 +71,6 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
-		if (!App\Record::isExists($id)) {
-			return 0;
-		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		$progressInHours = 0;
 		foreach ($recordModel->getChildren() as $childRecordModel) {
