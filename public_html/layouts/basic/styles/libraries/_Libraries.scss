@@ -68,7 +68,7 @@
 		background: inherit;
 	}
 
-	.select2-results__option[aria-selected="true"] {
+	.select2-results__option[aria-selected="true"] .favorite-user-template {
 		opacity: 0.5;
 	}
 }
@@ -344,6 +344,7 @@ ul.ui-autocomplete {
 	tfoot td {
 		border-top: unset !important; //floatThead added this to table, causing additional border
 	}
+
 	table-layout: unset !important;
 }
 
