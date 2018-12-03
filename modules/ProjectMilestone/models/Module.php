@@ -36,11 +36,13 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	public function updateProgressMilestone(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
-		foreach ($recordModel->getChildren() as $childRecordModel) {
-			if ($callerId !== $childRecordModel->getId()) {
+
+		foreach ($this->getChildren($id) as $childId) {
+			if ($callerId !== $childId) {
+				$childRecordModel = Vtiger_Record_Model::getInstanceById($childId);
 				$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
 				$estimatedWorkTime += $childEstimatedWorkTime;
-				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->getProgress() / 100);
+				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->get('projectmilestone_progress') / 100);
 			}
 		}
 		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
@@ -73,8 +75,8 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		$progressInHours = 0;
-		foreach ($recordModel->getChildren() as $childRecordModel) {
-			$estimatedWorkTime += $childRecordModel->getEstimatedWorkTime();
+		foreach ($this->getChildren($id) as $childId) {
+			$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
 		}
 		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
 		return $estimatedWorkTime;
@@ -102,5 +104,19 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 		}
 		$dataReader->close();
+	}
+
+	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return int[]
+	 */
+	public function getChildren(int $id): array
+	{
+		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		return $queryGenerator->createQuery()->select(['id' => 'projectmilestoneid'])->column();
 	}
 }

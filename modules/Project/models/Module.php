@@ -40,10 +40,11 @@ class Project_Module_Model extends Vtiger_Module_Model
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		if (empty($parentId)) {
-			foreach ($recordModel->getChildren() as $childRecordModel) {
-				$progressItem = $this->calculateProgressOfChildren($childRecordModel->getId());
-				$estimatedWorkTime += $progressItem['estimatedWorkTime'];
-				$progressInHours += ($progressItem['estimatedWorkTime'] * $progressItem['projectProgress']) / 100;
+			foreach ($this->getChildren($id) as $childId) {
+				$childRecordModel = Vtiger_Record_Model::getInstanceById($childId);
+				$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
+				$estimatedWorkTime += $childEstimatedWorkTime;
+				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->get('progress') / 100);
 			}
 		}
 		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
@@ -78,8 +79,8 @@ class Project_Module_Model extends Vtiger_Module_Model
 	public function calculateProgressOfChildren(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
-		foreach ($recordModel->getChildren() as $childRecordModel) {
-			$progressItem = $this->calculateProgressOfChildren($childRecordModel->getId());
+		foreach ($this->getChildren() as $childId) {
+			$progressItem = $this->calculateProgressOfChildren($childId);
 			$estimatedWorkTime += $progressItem['estimatedWorkTime'];
 			$progressInHours += ($progressItem['estimatedWorkTime'] * $progressItem['projectProgress']) / 100;
 		}
@@ -158,15 +159,26 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	public function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
-		if (!App\Record::isExists($id)) {
-			return 0;
-		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		$progressInHours = 0;
-		foreach ($recordModel->getChildren() as $childRecordModel) {
-			$estimatedWorkTime += $childRecordModel->getEstimatedWorkTime();
+		foreach ($this->getChildren($id) as $childId) {
+			$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
 		}
 		$this->calculateProgressOfMilestones($recordModel, $estimatedWorkTime, $progressInHours);
 		return $estimatedWorkTime;
+	}
+
+	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return int[]
+	 */
+	public function getChildren(int $id): array
+	{
+		$queryGenerator = new \App\QueryGenerator('Project');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		return $queryGenerator->createQuery()->select(['id' => 'projectid'])->column();
 	}
 }
