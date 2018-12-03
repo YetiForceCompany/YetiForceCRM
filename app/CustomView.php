@@ -316,10 +316,10 @@ class CustomView
 	 *
 	 * @throws Exceptions\AppException
 	 */
-	private static function getCustomViewFromFile($cvId, $moduleName)
+	private function getCustomViewFromFile($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
-		$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $moduleName);
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
 		$filter = new $handlerClass();
 		Cache::staticSave('getCustomView', $cvId, $filter);
 		return $filter;
@@ -339,11 +339,11 @@ class CustomView
 			return Cache::staticGet('getCustomView', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return static::getCustomViewFromFile($cvIds, $this->moduleName);
+			return $this->getCustomViewFromFile($cvIds);
 		}
 		$filters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$filters[] = static::getCustomViewFromFile($cvId, $this->moduleName);
+			$filters[] = $this->getCustomViewFromFile($cvId);
 		}
 		Cache::staticSave('getCustomView', $cvIds, $filters);
 		return $filters;
@@ -368,7 +368,7 @@ class CustomView
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
 		} else {
-			$view = static::getCustomViewFromFile($cvId, $this->moduleName);
+			$view = $this->getCustomViewFromFile($cvId);
 			$columnList = $view->getColumnList();
 			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 		}
