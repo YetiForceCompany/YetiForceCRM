@@ -312,7 +312,6 @@ class CustomView
 	 * Get custom view from file.
 	 *
 	 * @param string $cvId
-	 * @param string $moduleName
 	 *
 	 * @throws Exceptions\AppException
 	 */
