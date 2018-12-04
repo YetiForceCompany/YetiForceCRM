@@ -11,19 +11,61 @@
 class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 {
 	/**
-	 * Function to get list view query for popup window.
+	 * Get children by parent ID.
 	 *
-	 * @param Vtiger_ListView_Model $listviewModel
-	 * @param \App\QueryGenerator   $queryGenerator
+	 * @param int $id
+	 *
+	 * @return int[]
 	 */
-	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
+	protected static function getChildren(int $id): array
 	{
-		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
-			$filterFields = $listviewModel->get('filterFields');
-			if (!empty($filterFields['projectid'])) {
-				$queryGenerator->addNativeCondition(['projectid' => $filterFields['projectid']]);
-			}
+		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		return $queryGenerator->createQuery()->select(['id' => 'projectmilestoneid'])->column();
+	}
+
+	/**
+	 * Calculate the progress of tasks.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 * @param float $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'estimated_work_time' => 'estimated_work_time',
+			'projecttaskprogress' => 'projecttaskprogress',
+		]);
+		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$estimatedWorkTime += $row['estimated_work_time'];
+			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 		}
+		$dataReader->close();
+	}
+
+	/**
+	 * Calculate estimated work time.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return float
+	 */
+	public static function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
+	{
+		$progressInHours = 0;
+		foreach (static::getChildren($id) as $childId) {
+			$estimatedWorkTime += static::calculateEstimatedWorkTime($childId);
+		}
+		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
+		return $estimatedWorkTime;
 	}
 
 	/**
@@ -36,17 +78,15 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	public function updateProgressMilestone(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
-
-		foreach ($this->getChildren($id) as $childId) {
+		foreach (static::getChildren($id) as $childId) {
 			if ($callerId !== $childId) {
 				$childRecordModel = Vtiger_Record_Model::getInstanceById($childId);
-				//$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
-				$childEstimatedWorkTime = $this->calculateEstimatedWorkTime($childRecordModel);
+				$childEstimatedWorkTime = static::calculateEstimatedWorkTime($childRecordModel);
 				$estimatedWorkTime += $childEstimatedWorkTime;
 				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->get('projectmilestone_progress') / 100);
 			}
 		}
-		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
+		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('projectmilestone_progress', $projectProgress);
 		$recordModel->save();
@@ -63,61 +103,18 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Calculate estimated work time.
+	 * Function to get list view query for popup window.
 	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param float                $estimatedWorkTime
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return float
+	 * @param Vtiger_ListView_Model $listviewModel
+	 * @param \App\QueryGenerator   $queryGenerator
 	 */
-	public function calculateEstimatedWorkTime(\Vtiger_Record_Model $recordModel, float $estimatedWorkTime = 0): float
+	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
 	{
-		$progressInHours = 0;
-		foreach ($this->getChildren($recordModel->getId()) as $childId) {
-			//$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
-			$estimatedWorkTime += $this->calculateEstimatedWorkTime(Vtiger_Record_Model::getInstanceById($childId));
+		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
+			$filterFields = $listviewModel->get('filterFields');
+			if (!empty($filterFields['projectid'])) {
+				$queryGenerator->addNativeCondition(['projectid' => $filterFields['projectid']]);
+			}
 		}
-		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
-		return $estimatedWorkTime;
-	}
-
-	/**
-	 * Calculate the progress of tasks.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param float                $estimatedWorkTime
-	 * @param float                $progressInHours
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function calculateProgressOfTasks(\Vtiger_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
-	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'estimated_work_time' => 'estimated_work_time',
-			'projecttaskprogress' => 'projecttaskprogress',
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$estimatedWorkTime += $row['estimated_work_time'];
-			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
-		}
-		$dataReader->close();
-	}
-
-	/**
-	 * Get children by parent ID.
-	 *
-	 * @param int $id
-	 *
-	 * @return int[]
-	 */
-	public function getChildren(int $id): array
-	{
-		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
-		$queryGenerator->addNativeCondition(['parentid' => $id]);
-		return $queryGenerator->createQuery()->select(['id' => 'projectmilestoneid'])->column();
 	}
 }

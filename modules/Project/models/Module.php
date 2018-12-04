@@ -13,6 +13,66 @@
 class Project_Module_Model extends Vtiger_Module_Model
 {
 	/**
+	 * Calculate estimated work time.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return float
+	 */
+	public static function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
+	{
+		$progressInHours = 0;
+		foreach (static::getChildren($id) as $childId) {
+			$estimatedWorkTime += static::calculateEstimatedWorkTime($childId);
+		}
+		static::calculateProgressOfMilestones($id, $estimatedWorkTime, $progressInHours);
+		return $estimatedWorkTime;
+	}
+
+	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return int[]
+	 */
+	public static function getChildren(int $id): array
+	{
+		$queryGenerator = new \App\QueryGenerator('Project');
+		$queryGenerator->addNativeCondition(['parentid' => $id]);
+		return $queryGenerator->createQuery()->select(['id' => 'projectid'])->column();
+	}
+
+	/**
+	 * Calculate the progress of milestones.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 * @param float $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public static function calculateProgressOfMilestones(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectMilestone');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'projectmilestone_progress' => 'projectmilestone_progress',
+		]);
+		$dataReader = $relatedListView->getRelationQuery()
+			->andWhere(['or', ['parentid' => 0], ['parentid' => null]])
+			->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$milestoneEstimatedWorkTime = ProjectMilestone_Module_Model::calculateEstimatedWorkTime($row['id']);
+			$estimatedWorkTime += $milestoneEstimatedWorkTime;
+			$progressInHours += ($milestoneEstimatedWorkTime * (int) $row['projectmilestone_progress']) / 100;
+		}
+		$dataReader->close();
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getSideBarLinks($linkParams)
@@ -40,15 +100,13 @@ class Project_Module_Model extends Vtiger_Module_Model
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		if (empty($parentId)) {
-			foreach ($this->getChildren($id) as $childId) {
-				$childRecordModel = Vtiger_Record_Model::getInstanceById($childId);
-				//$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
-				$childEstimatedWorkTime = $this->calculateEstimatedWorkTime($childRecordModel);
+			foreach (static::getChildren($id) as $childId) {
+				$childEstimatedWorkTime = static::calculateEstimatedWorkTime($childId);
 				$estimatedWorkTime += $childEstimatedWorkTime;
-				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->get('progress') / 100);
+				$progressInHours += ($childEstimatedWorkTime * Vtiger_Record_Model::getInstanceById($childId)->get('progress') / 100);
 			}
 		}
-		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
+		static::calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('progress', $projectProgress);
 		$recordModel->save();
@@ -119,66 +177,5 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 		}
 		$dataReader->close();
-	}
-
-	/**
-	 * Calculate the progress of milestones.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param float                $estimatedWorkTime
-	 * @param float                $progressInHours
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function calculateProgressOfMilestones(\Vtiger_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
-	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectMilestone');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'projectmilestone_progress' => 'projectmilestone_progress',
-		]);
-		$dataReader = $relatedListView->getRelationQuery()
-			->andWhere(['or', ['parentid' => 0], ['parentid' => null]])
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			//$milestoneEstimatedWorkTime = Vtiger_Record_Model::getInstanceById($row['id'])->getEstimatedWorkTime();
-			$milestoneEstimatedWorkTime = Vtiger_Record_Model::getInstanceById($row['id'])->getEstimatedWorkTime();
-			$estimatedWorkTime += $milestoneEstimatedWorkTime;
-			$progressInHours += ($milestoneEstimatedWorkTime * (int) $row['projectmilestone_progress']) / 100;
-		}
-		$dataReader->close();
-	}
-
-	/**
-	 * Calculate estimated work time.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param float                $estimatedWorkTime
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return float
-	 */
-	public function calculateEstimatedWorkTime(\Vtiger_Record_Model $recordModel, float $estimatedWorkTime = 0): float
-	{
-		$progressInHours = 0;
-		foreach ($this->getChildren($recordModel->getId()) as $childId) {
-			$estimatedWorkTime += $this->calculateEstimatedWorkTime(Vtiger_Record_Model::getInstanceById($childId));
-		}
-		$this->calculateProgressOfMilestones($recordModel, $estimatedWorkTime, $progressInHours);
-		return $estimatedWorkTime;
-	}
-
-	/**
-	 * Get children by parent ID.
-	 *
-	 * @param int $id
-	 *
-	 * @return int[]
-	 */
-	public function getChildren(int $id): array
-	{
-		$queryGenerator = new \App\QueryGenerator('Project');
-		$queryGenerator->addNativeCondition(['parentid' => $id]);
-		return $queryGenerator->createQuery()->select(['id' => 'projectid'])->column();
 	}
 }
