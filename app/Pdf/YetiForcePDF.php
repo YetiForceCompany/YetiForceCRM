@@ -3,7 +3,7 @@
 /**
  * Class using YetiForcePDF as a PDF creator.
  *
- * @package App\Pdf
+ * @package   App\Pdf
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -130,19 +130,6 @@ class YetiForcePDF extends PDF
 		$this->pdf->setDefaultFormat($format);
 		$this->pdf->setDefaultOrientation($orientation);
 		$this->pdf->setDefaultMargins($leftMargin, $topMargin, $rightMargin, $bottomMargin);
-		/*$this->pdf->setFontSubsetting(true);
-		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
-		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin, true);
-		$this->pdf->SetHeaderMargin($headerMargin);
-		$this->pdf->SetFooterMargin($footerMargin);
-		$this->pdf->SetAutoPageBreak(true, $bottomMargin);
-		$this->pdf->setHeaderFontFamily($defaultFont);
-		$this->pdf->setHeaderFontVariation('');
-		$this->pdf->setHeaderFontSize($defaultFontSize);
-		$this->pdf->setFooterFontFamily($defaultFont);
-		$this->pdf->setFooterFontVariation('');
-		$this->pdf->setFooterFontSize($defaultFontSize);
-		$this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);*/
 	}
 
 	/**
@@ -216,7 +203,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setTopMargin($margin)
 	{
-		//$this->pdf->SetTopMargin($margin);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -224,7 +211,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setBottomMargin($margin)
 	{
-		//$this->pdf->SetAutoPageBreak(true, $margin);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -232,7 +219,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setLeftMargin($margin)
 	{
-		//$this->pdf->SetLeftMargin($margin);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -240,7 +227,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setRightMargin($margin)
 	{
-		//$this->pdf->SetRightMargin($margin);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -251,7 +238,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setPageSize($format, $orientation = null)
 	{
-		//$this->pdf->setPageSize($format, $orientation);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -262,7 +249,6 @@ class YetiForcePDF extends PDF
 	public function setLanguage($language)
 	{
 		parent::setLanguage($language);
-		//$this->pdf->setLanguage($language);
 	}
 
 	/**
@@ -326,12 +312,12 @@ class YetiForcePDF extends PDF
 					break;
 				case 'header_height':
 					if (is_numeric($value)) {
-						//$this->pdf->setHeaderMargin($value);
+						\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__ . __LINE__);
 					}
 					break;
 				case 'footer_height':
 					if (is_numeric($value)) {
-						//$this->pdf->setFooterMargin($value);
+						\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__ . __LINE__);
 					}
 					break;
 				case 'title':
@@ -362,7 +348,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setTitle($title)
 	{
-		//$this->pdf->SetTitle($this->parseVariables($title));
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -370,7 +356,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setAuthor($author)
 	{
-		//$this->pdf->SetAuthor($this->parseVariables($author));
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -378,7 +364,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setCreator($creator)
 	{
-		//$this->pdf->SetCreator($creator);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -386,7 +372,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setSubject($subject)
 	{
-		//$this->pdf->SetSubject($this->parseVariables($subject));
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -394,7 +380,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setKeywords($keywords)
 	{
-		//$this->pdf->SetKeywords($this->parseVariables($keywords));
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -402,7 +388,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setHeader($name, $header)
 	{
-		//$this->pdf->setHtmlHeader($header);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -410,7 +396,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setFooter($name, $footer)
 	{
-		//$this->pdf->setHtmlFooter($footer);
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -418,7 +404,6 @@ class YetiForcePDF extends PDF
 	 */
 	public function writeHTML()
 	{
-		//$this->pdf->writeHTML($this->parseVariables($this->html));
 		$this->pdf->loadHtml($this->parseVariables($this->html));
 	}
 
@@ -429,15 +414,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setWaterMark($templateModel)
 	{
-		/*if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE) {
-			if ($templateModel->get('watermark_image')) {
-				$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
-			} else {
-				$this->pdf->clearWatermarkImage();
-			}
-		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
-			$this->pdf->SetWatermarkText($this->parseVariables($templateModel->get('watermark_text')), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
-		}*/
+		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
 	}
 
 	/**
@@ -483,14 +460,7 @@ class YetiForcePDF extends PDF
 		$self->setWaterMark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
-		//$self->pdf->setHeaderFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
-		//$self->pdf->setFooterFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
-		/*$self->pdf()->setHtmlHeader($self->parseVariables($template->getHeader()));
-		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
-		$self->pdf()->setHtmlFooter($self->parseVariables($template->getFooter()));
-		$self->pdf()->writeHTML($self->parseVariables($template->getBody()));
-		$self->pdf()->lastPage();*/
 		$self->pdf->loadHtml($self->parseVariables($template->getBody()));
 		\App\Language::clearTemporaryLanguage();
 		return $self;
@@ -508,7 +478,6 @@ class YetiForcePDF extends PDF
 			$fileName = $this->getFileName() . '.pdf';
 			$dest = 'I';
 		}
-		//$this->pdf->Output($fileName, $dest);
 		$output = $this->pdf->render();
 		if ($dest !== 'I') {
 			return file_put_contents($fileName, $output);
