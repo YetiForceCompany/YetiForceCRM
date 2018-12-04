@@ -39,7 +39,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return int[]
 	 */
-	public static function getChildren(int $id): array
+	protected static function getChildren(int $id): array
 	{
 		$queryGenerator = new \App\QueryGenerator('Project');
 		$queryGenerator->addNativeCondition(['parentid' => $id]);
@@ -55,7 +55,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public static function calculateProgressOfMilestones(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	protected static function calculateProgressOfMilestones(int $id, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectMilestone');
 		$relatedListView->getRelationModel()->set('QueryFields', [
