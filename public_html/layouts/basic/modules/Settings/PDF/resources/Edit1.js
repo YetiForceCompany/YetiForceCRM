@@ -112,6 +112,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 				selectedModule: $(this).val()
 			}).done((response) => {
 				container.find('.js-variable-panel').html(response);
+				App.Fields.Text.registerCopyClipboard(container);
 				progressIndicator.progressIndicator({'mode': 'hide'});
 			}).fail((error, err) => {
 				progressIndicator.progressIndicator({'mode': 'hide'});
