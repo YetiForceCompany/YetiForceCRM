@@ -100,10 +100,8 @@ class PackageImport extends PackageExport
 	 */
 	public function isLanguageType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 		if ($packagetype) {
@@ -126,10 +124,8 @@ class PackageImport extends PackageExport
 	 */
 	public function isExtensionType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 		if ($packagetype) {
@@ -143,10 +139,8 @@ class PackageImport extends PackageExport
 
 	public function isUpdateType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 
@@ -164,10 +158,8 @@ class PackageImport extends PackageExport
 	 */
 	public function isLayoutType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 
@@ -190,10 +182,8 @@ class PackageImport extends PackageExport
 	public function isModuleBundle($zipfile = null)
 	{
 		// If data is not yet available
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		return (bool) $this->_modulexml->modulebundle;
 	}
@@ -342,17 +332,15 @@ class PackageImport extends PackageExport
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
 		}
-		if ($validzip) {
-			if (!empty($this->_modulexml->license)) {
-				if (!empty($this->_modulexml->license->inline)) {
-					$this->_licensetext = (string) $this->_modulexml->license->inline;
-				} elseif (!empty($this->_modulexml->license->file)) {
-					$licensefile = (string) $this->_modulexml->license->file;
-					if ($licenseContent = $zip->getFromName($licensefile)) {
-						$this->_licensetext = $licenseContent;
-					} else {
-						$this->_licensetext = "Missing $licensefile!";
-					}
+		if ($validzip && !empty($this->_modulexml->license)) {
+			if (!empty($this->_modulexml->license->inline)) {
+				$this->_licensetext = (string) $this->_modulexml->license->inline;
+			} elseif (!empty($this->_modulexml->license->file)) {
+				$licensefile = (string) $this->_modulexml->license->file;
+				if ($licenseContent = $zip->getFromName($licensefile)) {
+					$this->_licensetext = $licenseContent;
+				} else {
+					$this->_licensetext = "Missing $licensefile!";
 				}
 			}
 		}

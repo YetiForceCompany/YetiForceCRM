@@ -29,19 +29,15 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 		if (isset($result['FREQ']) && !in_array($result['FREQ'], $allowedFreqValues)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		if (isset($result['INTERVAL'])) {
-			if (!is_numeric($result['INTERVAL']) || $result['INTERVAL'] < 1 || $result['INTERVAL'] > 31) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-			}
+		if (isset($result['INTERVAL']) && (!is_numeric($result['INTERVAL']) || $result['INTERVAL'] < 1 || $result['INTERVAL'] > 31)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$allowedDayes = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 		if (isset($result['BYDAY']) && (strpos($result['BYDAY'], ',') === false ? !(in_array($result['BYDAY'], $allowedDayes) || in_array(substr($result['BYDAY'], 1), $allowedDayes)) : array_diff(explode(',', $result['BYDAY']), $allowedDayes))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		if (isset($result['BYMONTHDAY'])) {
-			if (!is_numeric($result['BYMONTHDAY']) || $result['BYMONTHDAY'] < 1 || $result['BYMONTHDAY'] > 31) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-			}
+		if (isset($result['BYMONTHDAY']) && (!is_numeric($result['BYMONTHDAY']) || $result['BYMONTHDAY'] < 1 || $result['BYMONTHDAY'] > 31)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (isset($result['COUNT']) && !is_numeric($result['COUNT'])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);

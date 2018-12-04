@@ -20,10 +20,8 @@ class Vtiger_Utility_Model extends Vtiger_Action_Model
 
 	public function isModuleEnabled($module)
 	{
-		if (!$module->isEntityModule()) {
-			if (!$module->isUtilityActionEnabled()) {
-				return false;
-			}
+		if (!$module->isEntityModule() && !$module->isUtilityActionEnabled()) {
+			return false;
 		}
 		$tabId = $module->getId();
 

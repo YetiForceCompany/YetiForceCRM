@@ -63,17 +63,15 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 
-		if (!empty($selectedIds) && $selectedIds[0] !== 'all') {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				foreach ($selectedIds as $key => &$recordId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-					if (!$recordModel->isEditable()) {
-						unset($selectedIds[$key]);
-					}
+		if (!empty($selectedIds) && $selectedIds[0] !== 'all' && !empty($selectedIds) && count($selectedIds) > 0) {
+			foreach ($selectedIds as $key => &$recordId) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+				if (!$recordModel->isEditable()) {
+					unset($selectedIds[$key]);
 				}
-
-				return $selectedIds;
 			}
+
+			return $selectedIds;
 		}
 
 		if ($selectedIds[0] == 'all') {

@@ -19,10 +19,8 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 
-		if (!empty($selectedIds) && $selectedIds[0] != 'all') {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				return $selectedIds;
-			}
+		if (!empty($selectedIds) && $selectedIds[0] !== 'all' && count($selectedIds) > 0) {
+			return $selectedIds;
 		}
 		if (!empty($cvId) && $cvId == 'undefined') {
 			$sourceModule = $request->getByType('sourceModule', 2);

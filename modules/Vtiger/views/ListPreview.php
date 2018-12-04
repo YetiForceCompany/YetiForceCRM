@@ -27,10 +27,8 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		if ($request->isAjax()) {
-			if (!isset($this->viewName)) {
-				$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
-			}
+		if ($request->isAjax() && !isset($this->viewName)) {
+			$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 		}
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
