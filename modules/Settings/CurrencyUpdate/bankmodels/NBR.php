@@ -85,7 +85,6 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 			return false;
 		}
 
-		$num = count($xml->Body->Cube);
 		$datePublicationOfFile = $dateParam;
 		$exchangeRate = 1.0;
 

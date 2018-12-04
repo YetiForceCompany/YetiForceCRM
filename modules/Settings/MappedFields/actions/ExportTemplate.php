@@ -4,8 +4,8 @@
  * Export to XML Class for MappedFields Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
@@ -26,16 +26,15 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 
 		$xmlTemplate = $xml->createElement('mf_template');
 		$xmlFields = $xml->createElement('fields');
-		$xmlField = $xml->createElement('field');
 
 		$cDataColumns = ['conditions', 'params'];
 		$changeNames = ['tabid', 'reltabid'];
 		foreach (Settings_MappedFields_Module_Model::$allFields as $field) {
-			if (in_array($field, $cDataColumns)) {
+			if (\in_array($field, $cDataColumns)) {
 				$name = $xmlTemplate->appendChild($xml->createElement($field));
 				$name->appendChild($xml->createCDATASection(html_entity_decode($moduleInstance->getRecord()->getRaw($field))));
 			} else {
-				if (in_array($field, $changeNames)) {
+				if (\in_array($field, $changeNames)) {
 					$value = \App\Module::getModuleName($moduleInstance->get($field));
 				} else {
 					$value = $moduleInstance->get($field);

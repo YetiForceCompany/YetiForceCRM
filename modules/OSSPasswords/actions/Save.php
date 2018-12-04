@@ -4,7 +4,7 @@
  * OSSPasswords save action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_Save_Action extends Vtiger_Save_Action
 {
@@ -62,13 +62,13 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 			// after save we check if encryption is active
 			if ($config) {
 				$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?,?) WHERE `osspasswordsid` = ?;';
-				$result = $adb->pquery($sql, [$properPassword, $config['key'], $recordModel->getId()], true);
+				$adb->pquery($sql, [$properPassword, $config['key'], $recordModel->getId()], true);
 			}
 		} else {
 			$recordModel->save();
 			if ($config) { // when encryption is on
 				$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(`password`, ?) WHERE `osspasswordsid` = ?;';
-				$result = $adb->pquery($sql, [$config['key'], $recordModel->getId()], true);
+				$adb->pquery($sql, [$config['key'], $recordModel->getId()], true);
 			}
 		}
 		if ($request->getBoolean('relationOperation')) {
