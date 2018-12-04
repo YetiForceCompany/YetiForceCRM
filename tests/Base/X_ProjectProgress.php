@@ -129,7 +129,7 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgress()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(0.0, $projectRecordModel->get('progress'));
 	}
 
@@ -143,7 +143,7 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p0-m0-t0']);
 		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(10.0, $projectRecordModel->get('progress'));
 	}
 
@@ -156,7 +156,7 @@ class ProjectProgress extends \Tests\Base
 	{
 		$taskRecordModel = static::createProjectTaskRecord(static::$listId['p0'], static::$listMilestoneId['p0-m0'], 10, 'p0-m0-t1');
 		static::$listTaskId['p0-m0-t1'] = $taskRecordModel->getId();
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(5.0, $projectRecordModel->get('progress'));
 		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
@@ -175,7 +175,7 @@ class ProjectProgress extends \Tests\Base
 	{
 		$projectRecordModel = static::createProjectRecord('p1');
 		static::$listId['p1'] = $projectRecordModel->getId();
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10]]),
 			$projectRecordModelParent->get('progress')
@@ -207,12 +207,12 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t0']);
 		$taskRecordModel->set('projecttaskprogress', 10);
 		$taskRecordModel->save();
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10]]),
 			$projectRecordModelParent->get('progress')
@@ -226,14 +226,14 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterInsertTaskInChild()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$taskRecordModel = static::createProjectTaskRecord($projectRecordModel->getId(), static::$listMilestoneId['p1-m0'], 50, 'p1-m0-t1');
 		static::$listTaskId['p1-m0-t1'] = $taskRecordModel->getId();
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 50, 'p' => 0]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 50, 'p' => 0]]),
 			$projectRecordModelParent->get('progress')
@@ -282,8 +282,8 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterChangeProject()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->set('projectid', $projectRecordModelParent->getId());
 		$taskRecordModel->set('projectmilestoneid', static::$listMilestoneId['p0-m0']);
@@ -292,7 +292,7 @@ class ProjectProgress extends \Tests\Base
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 0]
@@ -308,7 +308,7 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterChangeBackProject()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->set('projectid', $projectRecordModel->getId());
 		$taskRecordModel->set('projectmilestoneid', static::$listMilestoneId['p1-m0']);
@@ -317,7 +317,7 @@ class ProjectProgress extends \Tests\Base
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 0]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 0]
@@ -335,12 +335,12 @@ class ProjectProgress extends \Tests\Base
 	{
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->changeState('Archived');
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50]
@@ -356,14 +356,14 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterActiveTask()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->changeState('Active');
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 0]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 0]
@@ -379,9 +379,9 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterArchivedProject()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$projectRecordModel->changeState('Archived');
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10]
@@ -400,7 +400,7 @@ class ProjectProgress extends \Tests\Base
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t2']);
 		$taskRecordModel->set('projecttaskprogress', 60);
 		$taskRecordModel->save();
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10]
@@ -416,13 +416,13 @@ class ProjectProgress extends \Tests\Base
 	 */
 	public function testProgressAfterActiveProject()
 	{
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$projectRecordModel->changeState('Active');
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([
 				['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 10, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 60]
@@ -440,12 +440,12 @@ class ProjectProgress extends \Tests\Base
 	{
 		$taskRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listTaskId['p1-m0-t0']);
 		$taskRecordModel->delete();
-		$projectRecordModel = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModel = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 60, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModel->get('progress')
 		);
-		$projectRecordModelParent = \Project_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelParent = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 10, 'p' => 10], ['h' => 20, 'p' => 10], ['h' => 60, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModelParent->get('progress')
@@ -461,8 +461,8 @@ class ProjectProgress extends \Tests\Base
 	{
 		$projectRecordModel = static::createProjectRecord('p2');
 		static::$listId['p2'] = $projectRecordModel->getId();
-		$projectRecordModelChild = \Project_Record_Model::getInstanceById(static::$listId['p0']);
-		$projectRecordModelChildOfChild = \Project_Record_Model::getInstanceById(static::$listId['p1']);
+		$projectRecordModelChild = \Vtiger_Record_Model::getInstanceById(static::$listId['p0']);
+		$projectRecordModelChildOfChild = \Vtiger_Record_Model::getInstanceById(static::$listId['p1']);
 		$this->assertSame(
 			static::calculateProgress([['h' => 60, 'p' => 50], ['h' => 30, 'p' => 60]]),
 			$projectRecordModelChildOfChild->get('progress')

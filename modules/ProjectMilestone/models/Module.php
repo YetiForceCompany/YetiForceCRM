@@ -40,7 +40,8 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		foreach ($this->getChildren($id) as $childId) {
 			if ($callerId !== $childId) {
 				$childRecordModel = Vtiger_Record_Model::getInstanceById($childId);
-				$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
+				//$childEstimatedWorkTime = $childRecordModel->getEstimatedWorkTime();
+				$childEstimatedWorkTime = $this->calculateEstimatedWorkTime($childRecordModel);
 				$estimatedWorkTime += $childEstimatedWorkTime;
 				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->get('projectmilestone_progress') / 100);
 			}
@@ -75,7 +76,8 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	{
 		$progressInHours = 0;
 		foreach ($this->getChildren($recordModel->getId()) as $childId) {
-			$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
+			//$estimatedWorkTime += Vtiger_Record_Model::getInstanceById($childId)->getEstimatedWorkTime();
+			$estimatedWorkTime += $this->calculateEstimatedWorkTime(Vtiger_Record_Model::getInstanceById($childId));
 		}
 		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
 		return $estimatedWorkTime;
