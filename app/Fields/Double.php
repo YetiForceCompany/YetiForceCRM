@@ -23,6 +23,9 @@ class Double
 	 */
 	public static function formatToDisplay(?string $value): string
 	{
+		if (empty($value)) {
+			$value = 0;
+		}
 		$userModel = \App\User::getCurrentUserModel();
 		[$integer, $decimal] = explode('.', number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', ''), 2);
 		$display = Integer::formatToDisplay($integer);
