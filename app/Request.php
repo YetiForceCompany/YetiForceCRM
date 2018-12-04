@@ -310,17 +310,14 @@ class Request
 	 */
 	public function getMultiDimensionArray(string $key, array $template): array
 	{
-		$return = null;
+		$return = [];
 		if (isset($this->purifiedValuesByMultiDimension[$key])) {
 			$return = $this->purifiedValuesByMultiDimension[$key];
-		}
-		$value = [];
-		if (empty($return) && isset($this->rawValues[$key])) {
+		} elseif (isset($this->rawValues[$key]) && !$this->rawValues[$key]) {
+			$return = [];
+		} elseif (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
-			if (!$value) {
-				$return = [];
-			}
-			if (empty($return) && (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0))) {
+			if ((is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0))) {
 				$decodeValue = Json::decode($value);
 				if (isset($decodeValue)) {
 					$value = $decodeValue;
@@ -328,14 +325,8 @@ class Request
 					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
 				}
 			}
-			$value = $this->purifyMultiDimensionArray($value, $template);
-			settype($value, 'array');
-			if (empty($return)) {
-				$return = $this->purifiedValuesByMultiDimension[$key] = $value;
-			}
-		}
-		if (empty($return)) {
-			$return = $value;
+			$value = (array) $this->purifyMultiDimensionArray($value, $template);
+			$return = $this->purifiedValuesByMultiDimension[$key] = $value;
 		}
 		return $return;
 	}
