@@ -40,7 +40,7 @@
 							{assign var="ACCESS_LEVEL_3" value=\App\ModuleHierarchy::accessModulesByLevel(3)}
 							{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
 							{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
-							<select class="module action-bar__select w-100 mr-5px">
+							<select class="module action-bar__select mr-5px">
 								{if $ACCESS_LEVEL_0}
 									<optgroup label="{\App\Language::translate('LBL_RELATIONS',$MODULE_NAME)}">
 										{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
