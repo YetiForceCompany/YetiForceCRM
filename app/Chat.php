@@ -94,13 +94,12 @@ final class Chat
 	{
 		$recordId = $_SESSION['chat']['recordId'] ?? null;
 		$roomType = $_SESSION['chat']['roomType'] ?? null;
-		$defaultRoom = static::getDefaultRoom();
 		if (!isset($_SESSION['chat'])) {
-			$result = $defaultRoom;
+			$result = static::getDefaultRoom();
 		} elseif ($roomType === 'crm' && (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable())) {
-			$result = $defaultRoom;
+			$result = static::getDefaultRoom();
 		} elseif ($roomType === 'group' && !isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
-			$result = $defaultRoom;
+			$result = static::getDefaultRoom();
 		} else {
 			$result = $_SESSION['chat'];
 		}
