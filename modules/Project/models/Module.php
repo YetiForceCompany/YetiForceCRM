@@ -74,6 +74,30 @@ class Project_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
+	 * Calculate the progress of tasks.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 * @param float $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'estimated_work_time' => 'estimated_work_time',
+			'projecttaskprogress' => 'projecttaskprogress',
+		]);
+		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$estimatedWorkTime += $row['estimated_work_time'];
+			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
+		}
+		$dataReader->close();
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getSideBarLinks($linkParams)
@@ -107,7 +131,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 				$progressInHours += ($childEstimatedWorkTime * Vtiger_Record_Model::getInstanceById($childId)->get('progress') / 100);
 			}
 		}
-		static::calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
+		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('progress', $projectProgress);
 		$recordModel->save();
@@ -123,29 +147,5 @@ class Project_Module_Model extends Vtiger_Module_Model
 			'estimatedWorkTime' => $estimatedWorkTime,
 			'projectProgress' => $projectProgress
 		];
-	}
-
-	/**
-	 * Calculate the progress of tasks.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param float                $estimatedWorkTime
-	 * @param float                $progressInHours
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function calculateProgressOfTasks(\Vtiger_Record_Model $recordModel, float &$estimatedWorkTime, float &$progressInHours)
-	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'estimated_work_time' => 'estimated_work_time',
-			'projecttaskprogress' => 'projecttaskprogress',
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$estimatedWorkTime += $row['estimated_work_time'];
-			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
-		}
-		$dataReader->close();
 	}
 }
