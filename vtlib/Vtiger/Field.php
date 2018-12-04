@@ -61,13 +61,7 @@ class Field extends FieldBasic
 			'opportunity_type' => 'opptypeid',
 			'duration_minutes' => 'minutesid',
 		];
-		// Fix Table ID column names
-		$fieldName = (string) $this->name;
-		if ($db->getTableSchema($picklistTable, true)->getColumn($fieldName . '_id')) {
-			$picklistIdCol = $fieldName . '_id';
-		} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
-			$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
-		}
+
 		// END
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();

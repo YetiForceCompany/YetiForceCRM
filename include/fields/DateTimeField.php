@@ -278,10 +278,6 @@ class DateTimeField
 		if ($time == '24:00') {
 			$time = '00:00';
 		}
-		$format = \App\User::getCurrentUserModel()->getDetail('date_format');
-		if (empty($format)) {
-			$format = 'yyyy-mm-dd';
-		}
 		$time = str_replace('.', '-', $time);
 		$time = str_replace('/', '-', $time);
 		$myDateTime = new DateTime($time, $sourceTimeZone);

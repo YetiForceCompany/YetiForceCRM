@@ -112,8 +112,6 @@ class IStorages extends Vtiger_CRMEntity
 		$iStoragesList[$baseId] = $this->getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
 
 		// Create array of all the iStorages in the hierarchy
-		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
-
 		$iStorageHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
 		\App\Log::trace('Exiting getHierarchy method ...');
 

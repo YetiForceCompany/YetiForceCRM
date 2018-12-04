@@ -88,15 +88,8 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 		if ($XML === false) {
 			return false;
 		}
-
-		$xml_obj = $XML->children();
-
-		$num = count($xml_obj->pozycja);
-
 		$datePublicationOfFile = $dateParam;
-
 		$exchangeRate = 1.0;
-
 		// if currency is diffrent than EUR we need to calculate rate for converting other currencies to this one from EUR
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
 			$foundRate = false;

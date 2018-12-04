@@ -110,7 +110,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 					// now encrypt all osspasswords with given key
 					$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT( `password`, ? );';
-					$result = $adb->pquery($sql, [$newPassword], true);
+					$adb->pquery($sql, [$newPassword], true);
 
 					$success = 'Encryption password has been successfully saved!';
 
@@ -208,7 +208,6 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		$registerTxt = $register == 0 ? '' : 'checked="checked"';
 
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ERROR', $error);
 		$viewer->assign('INFO', $info);

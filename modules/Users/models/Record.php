@@ -947,7 +947,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	protected function getAuthDetail()
 	{
 		if (\App\Cache::has('getAuthMethods', 'config')) {
-			$auth = \App\Cache::get('getAuthMethods', 'config');
+			return \App\Cache::get('getAuthMethods', 'config');
 		}
 		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
 		$auth = [];

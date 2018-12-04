@@ -124,17 +124,14 @@ class DateTime
 	public static function formatToDay($dateTime, $allday = false)
 	{
 		$dateTimeInUserFormat = explode(' ', static::formatToDisplay($dateTime));
-		if (count($dateTimeInUserFormat) === 3) {
-			list($dateInUserFormat, $timeInUserFormat, $seconds) = $dateTimeInUserFormat;
-		} else {
+		if (\count($dateTimeInUserFormat) === 3) {
 			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
-			$seconds = '';
 		}
 		$formatedDate = $dateInUserFormat;
 		$dateDay = Date::getDayFromDate($dateTime, false, true);
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
-			if (count($timeInUserFormat) === 3) {
+			if (\count($timeInUserFormat) === 3) {
 				list($hours, $minutes, $seconds) = $timeInUserFormat;
 			} else {
 				list($hours, $minutes) = $timeInUserFormat;
