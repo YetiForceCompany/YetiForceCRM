@@ -313,16 +313,13 @@ class Request
 		$return = [];
 		if (isset($this->purifiedValuesByMultiDimension[$key])) {
 			$return = $this->purifiedValuesByMultiDimension[$key];
-		} elseif (isset($this->rawValues[$key]) && !$this->rawValues[$key]) {
-			$return = [];
-		} elseif (isset($this->rawValues[$key])) {
-			$value = $this->rawValues[$key];
-			if ((is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0))) {
+		} elseif (isset($this->rawValues[$key]) && ($value = $this->rawValues[$key])) {
+			if (\is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 				$decodeValue = Json::decode($value);
-				if (isset($decodeValue)) {
+				if ($decodeValue !== null) {
 					$value = $decodeValue;
 				} else {
-					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
+					Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
 				}
 			}
 			$value = (array) $this->purifyMultiDimensionArray($value, $template);
