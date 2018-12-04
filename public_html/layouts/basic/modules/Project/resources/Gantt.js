@@ -13,6 +13,7 @@ class Gantt {
 		this.container = $(container);
 		this.registerLanguage();
 		this.options = {
+			maxRows: 15,
 			style: {
 				'tree-row-bar-polygon': {
 					'stroke': '#E74C3C00',

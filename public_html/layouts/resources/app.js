@@ -182,7 +182,7 @@ var App = {},
 				.addClass('u-text-ellipsis--not-active')
 				.css(element.css(['font-size', 'font-weight', 'font-family']))
 				.appendTo('body');
-			if (clone.width() > element.width()) {
+			if (clone.width() - 1 > element.width()) {
 				clone.remove();
 				return true;
 			}
@@ -885,6 +885,23 @@ var App = {},
 				wheelPropagation: true,
 				suppressScrollY: true
 			});
+			new PerfectScrollbar(element[0], {
+				wheelPropagation: true,
+				suppressScrollY: true
+			});
+			var scrollbarTopElement = element.find('.ps__rail-x').first();
+			scrollbarTopElement.css({
+				top: 0,
+				bottom: 'auto'
+			});
+			scrollbarTopElement.find('.ps__thumb-x').css({
+				top: 2,
+				bottom: 'auto'
+			});
+		},
+		showNewScrollbarTop: function (element) {
+			if (typeof element === "undefined" || !element.length)
+				return;
 			new PerfectScrollbar(element[0], {
 				wheelPropagation: true,
 				suppressScrollY: true
@@ -1732,7 +1749,14 @@ var App = {},
 		},
 		registesterScrollbar(container) {
 			container.find('.js-scrollbar').each(function () {
-				app.showNewScrollbar($(this));
+				let element = $(this),
+					scrollbarFnName = element.data('scrollbarFnName');
+
+				if (typeof app[scrollbarFnName] === 'function') {
+					app[scrollbarFnName](element);
+				} else {
+					app.showNewScrollbar(element);
+				}
 			});
 		},
 		registerPopover() {

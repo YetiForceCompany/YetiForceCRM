@@ -16,6 +16,12 @@
 	}
 }
 
+@include media-breakpoint-down(xs) {
+	.ps__rail-x, .ps__rail-y {
+		display: none !important;
+	}
+}
+
 %input-groupSelect2 {
 	.input-group {
 		flex-wrap: nowrap;
@@ -284,6 +290,7 @@
 
 .c-popover--link {
 	max-width: 30%;
+
 	.popover-body {
 		padding: 0;
 		border-top-left-radius: calc(0.3rem - 1px);
@@ -306,6 +313,7 @@
 	&__header {
 		border-top-left-radius: 0.3rem;
 		border-top-right-radius: 0.3rem;
+
 		&__buttons {
 			float: right !important;
 			margin-top: -0.2rem;

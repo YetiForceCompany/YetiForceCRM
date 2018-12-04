@@ -106,19 +106,24 @@
 						<div>
 							<span class="value mr-1"><span class="fas fa-align-justify fa-fw mr-1"></span>
 								{assign var=IS_DESCRIPTION value=$RECORD->get('description') neq ''}
-								<span class="js-description-text">
+								<span class="js-description-text" data-js="html">
 									{if $IS_DESCRIPTION}
 										{$RECORD->getDisplayValue('description', false, false, 120)}
 									{/if}
 								</span>
-								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}">
+								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}" data-js="class: d-none">
 									{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}
 								</span>
 							</span>
 							{if !$IS_READ_ONLY}
-								<button class="btn btn-sm btn-success js-save-description my-1 d-none" type="button">
-									<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE',$MODULE_NAME)}
-								</button>
+								<span class="js-activity-buttons__container d-none" data-js="class: d-none">
+									<button class="btn btn-sm btn-success js-save-description u-font-size-95per my-1 mr-1 py-0 px-1" type="button" data-js="click">
+										<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE',$MODULE_NAME)}
+									</button>
+									<button class="btn btn-sm btn-danger js-close-description u-font-size-95per my-1 py-0 px-1" type="button" data-js="click">
+										<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CLOSE',$MODULE_NAME)}
+									</button>
+								</span>
 								<span class="editDescription u-cursor-pointer">
 									<span class="fas fa-edit fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
