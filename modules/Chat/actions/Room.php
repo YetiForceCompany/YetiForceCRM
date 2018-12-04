@@ -21,7 +21,6 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getAll');
-		$this->exposeMethod('create');
 		$this->exposeMethod('removeFromFavorites');
 		$this->exposeMethod('addToFavorites');
 		$this->exposeMethod('tracking');
@@ -54,20 +53,6 @@ class Chat_Room_Action extends \App\Controller\Action
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'roomList' => \App\Chat::getRoomsByUser()
 		]);
-		$response->emit();
-	}
-
-	/**
-	 * Create new room.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function create(\App\Request $request)
-	{
-		$this->checkPermissionByRoom($request);
-		\App\Chat::createRoom($request->getByType('roomType'), $request->getInteger('recordId'));
-		$response = new Vtiger_Response();
-		$response->setResult(true);
 		$response->emit();
 	}
 

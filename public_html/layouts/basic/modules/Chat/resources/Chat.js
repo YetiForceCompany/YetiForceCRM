@@ -911,26 +911,6 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
-
-	/**
-	 * Register create room.
-	 */
-	registerCreateRoom() {
-		let btnCreate = this.container.find('.js-create-chatroom');
-		if (btnCreate.length) {
-			btnCreate.off('click').on('click', (e) => {
-				this.request({
-					action: 'Room',
-					mode: 'create',
-					roomType: this.getCurrentRoomType(),
-					recordId: this.getCurrentRecordId()
-				}).done(() => {
-					this.activateRoom();
-				});
-			});
-		}
-	}
-
 	/**
 	 * Button favorites.
 	 */
@@ -1219,7 +1199,6 @@ window.Chat_JS = class Chat_Js {
 		this.registerSendEvent();
 		this.registerLoadMore();
 		this.getMessage(true);
-		this.registerCreateRoom();
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
 		this.registerSearchParticipants();

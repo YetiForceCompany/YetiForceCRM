@@ -1510,10 +1510,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				descriptionText = currentDiv.find('.js-description-text'),
 				descriptionEmpty = currentDiv.find('.js-no-description'),
 				saveButton = currentDiv.find('.js-save-description'),
+				closeButton = currentDiv.find('.js-close-description'),
+				activityButtonContainer = currentDiv.find('.js-activity-buttons__container'),
 				fieldnameElement = jQuery('.fieldname', editElement),
 				fieldName = fieldnameElement.val(),
 				fieldElement = jQuery('[name="' + fieldName + '"]', editElement),
-				callbackFunction = function () {
+				callbackFunction = () => {
 					let previousValue = fieldnameElement.data('prevValue'),
 						ajaxEditNewValue = fieldElement.val(),
 						ajaxEditNewLable = fieldElement.val(),
@@ -1522,18 +1524,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 						moduleName = activityDiv.find('.activityModule').val(),
 						activityType = activityDiv.find('.activityType').val();
 					if (previousValue == ajaxEditNewValue) {
-						editElement.add(saveButton).addClass('d-none');
-						detailViewElement.removeClass('d-none');
-						currentTarget.show();
+						closeDescription();
 					} else {
-						var errorExists = fieldElement.validationEngine('validate');
+						let errorExists = fieldElement.validationEngine('validate');
 						//If validation fails
 						if (errorExists) {
 							Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
 							return;
 						}
 						currentDiv.progressIndicator();
-						editElement.add(saveButton).addClass('d-none');
+						editElement.add(activityButtonContainer).addClass('d-none');
 						AppConnector.request({
 							action: 'SaveAjax',
 							record: activityId,
@@ -1541,7 +1541,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							value: ajaxEditNewValue,
 							module: moduleName,
 							activitytype: activityType
-						}).done(function () {
+						}).done(() => {
 								currentDiv.progressIndicator({'mode': 'hide'});
 								detailViewElement.removeClass('d-none');
 								currentTarget.show();
@@ -1555,12 +1555,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 							}
 						);
 					}
+				},
+				closeDescription = function () {
+					fieldElement.val(fieldnameElement.data('prevValue'));
+					editElement.add(activityButtonContainer).addClass('d-none');
+					detailViewElement.removeClass('d-none');
+					currentTarget.show();
 				};
 			currentTarget.hide();
 			detailViewElement.addClass('d-none');
-			saveButton.removeClass('d-none');
+			activityButtonContainer.removeClass('d-none');
 			editElement.removeClass('d-none').show();
 			saveButton.one('click', callbackFunction);
+			closeButton.one('click', closeDescription);
 		});
 
 		/*

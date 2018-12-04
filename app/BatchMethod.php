@@ -89,7 +89,7 @@ class BatchMethod extends Base
 		} catch (\Throwable $ex) {
 			Log::error($ex->getMessage());
 			if ($this->previousStatus === static::STATUS_HALTED) {
-				$this->log($ex->getMessage() . $ex->getTraceAsString());
+				$this->log($ex->__toString());
 				$this->delete();
 			} else {
 				$this->setStatus(static::STATUS_HALTED);

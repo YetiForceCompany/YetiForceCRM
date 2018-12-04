@@ -242,10 +242,10 @@ class CustomView
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
 	{
 		if (Request::_has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_get('orderby');
+			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_getForSql('orderby');
 		}
 		if (Request::_has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_get('sortorder');
+			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_getForSql('sortorder');
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
@@ -318,15 +318,9 @@ class CustomView
 	private function getCustomViewFromFile($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
-		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
-		if (file_exists($filterDir)) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
-			$filter = new $handlerClass();
-			Cache::staticSave('getCustomView', $cvId, $filter);
-		} else {
-			Log::error(Language::translate('LBL_NOT_FOUND_VIEW') . "cvId: $cvId");
-			throw new Exceptions\AppException('ERR_NOT_FOUND_VIEW');
-		}
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
+		$filter = new $handlerClass();
+		Cache::staticSave('getCustomView', $cvId, $filter);
 		return $filter;
 	}
 
@@ -508,12 +502,15 @@ class CustomView
 	/**
 	 * Get fields to detect duplicates.
 	 *
-	 * @param int $viewId
+	 * @param int|string $viewId
 	 *
 	 * @return array
 	 */
-	public static function getDuplicateFields(int $viewId): array
+	public static function getDuplicateFields($viewId): array
 	{
+		if (!is_numeric($viewId)) {
+			return [];
+		}
 		if (Cache::has('CustomView_GetDuplicateFields', $viewId)) {
 			return Cache::get('CustomView_GetDuplicateFields', $viewId);
 		}

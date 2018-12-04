@@ -591,6 +591,7 @@ insert  into `u_yf_cv_condition`(`id`,`group_id`,`field_name`,`module_name`,`sou
 
 insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (1,104,'AND',0,0);
 insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (2,117,'AND',0,0);
+insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (3,56,'AND',0,0);
 
 /*Data for the table `u_yf_cv_duplicates` */
 
@@ -1016,7 +1017,7 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_multicompany` */
 
-insert  into `u_yf_multicompany`(`multicompanyid`,`company_name`,`parent_id`,`number`,`mulcomp_status`,`email1`,`email2`,`phone`,`phone_extra`,`mobile`,`mobile_extra`,`fax`,`fax_extra`,`vat`,`companyid1`,`companyid2`,`buildingnumbera`,`localnumbera`,`addresslevel8a`,`addresslevel7a`,`addresslevel6a`,`addresslevel5a`,`addresslevel4a`,`addresslevel3a`,`addresslevel2a`,`addresslevel1a`,`poboxa`) values (114,'YetiForce Sp. z o.o. ',0,'MC1','PLL_ACTIVE','','','','','','','','','','','','','','','','','','','','','','');
+insert  into `u_yf_multicompany`(`multicompanyid`,`company_name`,`parent_id`,`number`,`mulcomp_status`,`email1`,`email2`,`phone`,`phone_extra`,`mobile`,`mobile_extra`,`fax`,`fax_extra`,`vat`,`companyid1`,`companyid2`,`buildingnumbera`,`localnumbera`,`addresslevel8a`,`addresslevel7a`,`addresslevel6a`,`addresslevel5a`,`addresslevel4a`,`addresslevel3a`,`addresslevel2a`,`addresslevel1a`,`poboxa`,`website`,`logo`) values (114,'YetiForce Sp. z o.o. ',0,'MC1','PLL_ACTIVE','','','','','','','','','','','','','','','','','','','','','','','',NULL);
 
 /*Data for the table `u_yf_multicompanycf` */
 
@@ -2213,7 +2214,7 @@ insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`en
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (53,'All',1,0,'OSSSoldServices',0,1,0,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (54,'All',1,0,'OutsourcedProducts',0,1,0,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (55,'All',1,0,'OSSPasswords',0,1,0,0,NULL,0,NULL,'','');
-insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (56,'All',1,0,'OSSEmployees',0,1,0,0,NULL,0,NULL,'','');
+insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (56,'All',1,0,'OSSEmployees',0,1,0,0,NULL,0,'','','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (68,'All',1,0,'CallHistory',0,1,1,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (69,'All',1,0,'Ideas',0,1,1,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (72,'All',1,0,'HolidaysEntitlement',0,1,1,0,NULL,0,NULL,'','');
@@ -2401,13 +2402,13 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_nam
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (55,3,'password','OSSPasswords',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (55,4,'link_adres','OSSPasswords',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (55,5,'description','OSSPasswords',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,1,'last_name','OSSEmployees',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,2,'name','OSSEmployees',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,3,'employee_status','OSSEmployees',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,4,'employee_education','OSSEmployees',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,5,'assigned_user_id','OSSEmployees',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,6,'createdtime','OSSEmployees',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,7,'modifiedtime','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,0,'last_name','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,1,'name','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,2,'employee_status','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,3,'multicompanyid','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,4,'assigned_user_id','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,5,'createdtime','OSSEmployees',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (56,6,'modifiedtime','OSSEmployees',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (68,0,'from_number','CallHistory',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (68,1,'to_number','CallHistory',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (68,2,'duration','CallHistory',NULL);
@@ -4847,11 +4848,13 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (93,2769,'parent_id','u_yf_competition',2,10,'parent_id','LBL_PARENT_ID',0,2,'','4294967295',8,303,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (40,2770,'parents','vtiger_modcomments',1,1,'parents','FL_PARENTS',0,2,'',NULL,9,98,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (95,2771,'issue_time','u_yf_finvoice',1,5,'issue_time','FL_ISSUE_TIME',0,2,'',NULL,4,310,1,'D~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (61,2772,'organization_structure','vtiger_ossemployees',1,10,'organization_structure','organization_structure',0,0,NULL,'-2147483648,2147483647',20,151,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (61,2772,'multicompanyid','vtiger_ossemployees',1,10,'multicompanyid','FL_ORGANIZATION_STRUCTURE',0,0,NULL,'-2147483648,2147483647',20,151,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (119,2773,'website','u_yf_multicompany',2,17,'website','FL_WEBSITE',0,2,'','255',9,407,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (119,2774,'logo','u_yf_multicompany',2,69,'logo','FL_LOGO',0,2,'',NULL,0,406,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2772);
+insert  into `vtiger_field_seq`(`id`) values (2774);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -8328,6 +8331,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,40,2770,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,95,2771,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,61,2772,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,119,2773,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,119,2774,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -19158,9 +19163,9 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (78,0,76,0,1,51,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (79,0,76,0,2,78,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (80,0,0,2,10,NULL,'MEN_ORGANIZATION',0,NULL,0,'userIcon-Secretary',NULL,NULL,NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (81,0,80,0,0,81,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (82,0,80,0,1,82,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (83,0,80,0,2,84,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (81,0,76,0,6,81,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (82,0,76,0,7,82,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (83,0,76,0,8,84,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (84,0,0,2,11,NULL,'MEN_DATABESES',0,NULL,0,'userIcon-Database',NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (85,0,84,2,0,NULL,'MEN_PRODUCTBASE',0,NULL,0,NULL,NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (86,0,84,0,1,14,NULL,0,NULL,0,'',NULL,'',NULL);
@@ -19175,16 +19180,16 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (95,0,84,2,10,NULL,'MEN_LISTS',0,NULL,0,NULL,NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (96,0,84,0,11,54,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (97,0,84,0,12,45,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (100,0,84,0,15,8,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (106,0,84,0,17,74,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (107,0,84,3,18,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (108,0,84,0,22,83,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (109,0,84,0,16,60,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (100,0,84,0,14,8,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (106,0,84,0,16,74,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (107,0,84,3,17,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (108,0,84,0,21,83,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (109,0,84,0,15,60,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (111,0,44,0,3,75,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (113,0,44,0,2,48,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (115,0,84,0,19,24,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (116,0,84,0,20,27,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (117,0,84,3,21,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (115,0,84,0,18,24,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (116,0,84,0,19,27,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (117,0,84,3,20,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (118,0,0,2,3,NULL,'MEN_SALES',0,NULL,0,'userIcon-Sales',NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (119,0,118,0,0,86,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (120,0,118,0,1,85,NULL,0,NULL,0,'',NULL,'',NULL);
@@ -19212,13 +19217,13 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (142,0,71,0,3,107,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (143,0,131,0,2,108,'IGRNC',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (144,0,131,0,3,109,'IGDNC',0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (146,0,84,0,14,112,'',0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (146,0,84,0,13,112,'',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (147,0,76,0,3,113,'',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (148,0,76,0,4,114,'',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (149,0,76,0,5,116,'',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (150,0,71,0,6,115,'',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (151,0,118,0,7,117,'',0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (152,0,80,0,3,119,'',0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (152,0,76,0,9,119,'',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (153,0,0,2,8,NULL,'MEN_GDPR',0,NULL,0,'fas fa-lock',NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (154,0,153,0,0,121,'DataSetRegister',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (155,0,153,0,1,122,'ActivityRegister',0,NULL,0,'',NULL,'',NULL);
