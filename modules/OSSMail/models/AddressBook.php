@@ -32,22 +32,31 @@ class OSSMail_AddressBook_Model
 	public static function createABFile()
 	{
 		$mails = [];
-		$query = (new \App\Db\Query())->from(self::TABLE);
+		$query = (new \App\Db\Query())->select([self::TABLE . '.name', self::TABLE . '.email', self::TABLE . '.users', 'vtiger_crmentity.setype'])->from(self::TABLE)->innerJoin('vtiger_crmentity', self::TABLE . '.id = vtiger_crmentity.crmid');
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$name = $row['name'];
 			$email = $row['email'];
 			$users = $row['users'];
+			$setype = $row['setype'];
 			if (!empty($users)) {
 				$users = explode(',', ltrim($users, ','));
 				foreach ($users as &$user) {
-					$mails[$user][] = "$name <$email>";
+					$mails[$user][$setype][] = "$name <$email>";
 				}
+			}
+		}
+		foreach ($mails as $userId => $mail) {
+			$mailsToFile[$userId] = [];
+			$mailsToFile[$userId] = array_merge($mailsToFile[$userId], $mail['Contacts']);
+			unset($mail['Contacts']);
+			foreach ($mail as $otherMail) {
+				$mailsToFile[$userId] = array_merge($mailsToFile[$userId], $otherMail);
 			}
 		}
 		$dataReader->close();
 		$fstart = '<?php $bookMails =';
-		foreach ($mails as $user => $file) {
+		foreach ($mailsToFile as $user => $file) {
 			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . App\Utils::varExport($file) . ';');
 		}
 	}
