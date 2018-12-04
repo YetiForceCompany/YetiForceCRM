@@ -3,7 +3,7 @@
  * Date time range class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
@@ -23,7 +23,7 @@ class DateTimeRange
 	/** Function that converts string to dates
 	 * @param $type :: type string
 	 * @returns  $dateValue array in the following format
-	 *           $dateValue = Array(0=>$startdate,1=>$enddate)
+	 *              $dateValue = Array(0=>$startdate,1=>$enddate)
 	 */
 	public static function getDateRangeByType($type, $dateObject = null)
 	{
@@ -31,7 +31,7 @@ class DateTimeRange
 		$weekStartDay = $currentUser->getDetail('dayoftheweek');
 
 		if (!$dateObject) {
-			$timeZone = $timezone = new DateTimeZone($currentUser->getDetail('time_zone'));
+			$timeZone = new DateTimeZone($currentUser->getDetail('time_zone'));
 			$dateObject = new DateTime();
 			$dateObject->setTimezone($timeZone);
 		} elseif (is_string($dateObject)) {
