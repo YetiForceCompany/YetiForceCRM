@@ -20,6 +20,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	protected static function getChildren(int $id): array
 	{
 		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
+		$queryGenerator->permissions = false;
 		$queryGenerator->addNativeCondition(['parentid' => $id]);
 		return $queryGenerator->createQuery()->select(['id' => 'projectmilestoneid'])->column();
 	}
