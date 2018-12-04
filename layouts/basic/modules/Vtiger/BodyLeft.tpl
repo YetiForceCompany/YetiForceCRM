@@ -19,8 +19,9 @@
 								<p class="name p-0 m-0 u-text-ellipsis">{$NAME}</p>
 							{/if}
 						{/foreach}
-						<p class="companyName p-0 m-0 u-text-ellipsis" title="{\App\Language::translate('LBL_ROLE')}">
-							{\App\Language::translate(\App\User::getCurrentUserModel()->getRoleInstance()->getName())}
+						<p class="companyName p-0 m-0 u-text-ellipsis"
+						   title="{\App\Language::translate('LBL_ROLE', $QUALIFIED_MODULE)}">
+							{Users_Record_Model::getCurrentUserModel()->getDisplayValue('roleid')}
 						</p>
 					</div>
 					<div class="col-2 p-0 text-center js-menu--pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}"
