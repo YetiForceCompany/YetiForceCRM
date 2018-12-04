@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<!-- tpl-BodyLeft -->
+	<!-- tpl-Base-BodyLeft -->
 	<div class="container-fluid c-menu__header">
 		<div class="row">
 			<div class="col-2 p-0">
@@ -19,7 +19,9 @@
 								<p class="name p-0 m-0 u-text-ellipsis">{$NAME}</p>
 							{/if}
 						{/foreach}
-						<p class="companyName p-0 m-0 u-text-ellipsis">{$COMPANY_DETAILS->get('name')}</p>
+						<p class="companyName p-0 m-0 u-text-ellipsis" title="{\App\Language::translate('LBL_ROLE')}">
+							{\App\Language::translate(\App\User::getCurrentUserModel()->getRoleInstance()->getName())}
+						</p>
 					</div>
 					<div class="col-2 p-0 text-center js-menu--pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}"
 						 data-show="{$USER_MODEL->get('leftpanelhide')}" data-js="click">
@@ -32,6 +34,6 @@
 	<div class="js-menu--scroll c-menu__body" data-js="perfectscrollbar">
 		{include file=\App\Layout::getTemplatePath('Menu.tpl', $MODULE)}
 	</div>
-	<!-- /tpl-BodyLeft -->
+	<!-- /tpl-Base-BodyLeft -->
 {/strip}
 
