@@ -125,37 +125,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Calculate the progress of children.
-	 *
-	 * @param int   $id
-	 * @param float $estimatedWorkTime
-	 * @param float $progressInHours
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array
-	 */
-	public function calculateProgressOfChildren(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0)
-	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($id);
-		foreach ($this->getChildren() as $childId) {
-			$progressItem = $this->calculateProgressOfChildren($childId);
-			$estimatedWorkTime += $progressItem['estimatedWorkTime'];
-			$progressInHours += ($progressItem['estimatedWorkTime'] * $progressItem['projectProgress']) / 100;
-		}
-		$this->calculateProgressOfTasks($recordModel, $estimatedWorkTime, $progressInHours);
-		if ($estimatedWorkTime) {
-			$projectProgress = ((100 * $progressInHours) / $estimatedWorkTime);
-		} else {
-			$projectProgress = 0;
-		}
-		return [
-			'estimatedWorkTime' => $estimatedWorkTime,
-			'projectProgress' => $projectProgress
-		];
-	}
-
-	/**
 	 * Calculate the progress of tasks.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
