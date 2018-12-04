@@ -143,10 +143,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if (empty($this->listViewCount)) {
-				$this->listViewCount = $this->listViewModel->getListViewCount();
-			}
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') && empty($this->listViewCount)) {
+			$this->listViewCount = $this->listViewModel->getListViewCount();
 		}
 		if (!isset($this->listViewCount)) {
 			$this->listViewCount = 0;

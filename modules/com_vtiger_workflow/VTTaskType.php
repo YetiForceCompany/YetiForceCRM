@@ -116,10 +116,8 @@ class VTTaskType
 			$includeModules = $modules['include'];
 			$excludeModules = $modules['exclude'];
 
-			if (!empty($sourceModule)) {
-				if (\App\Module::getModuleId($sourceModule) === null || !\App\Module::isModuleActive($sourceModule)) {
-					continue;
-				}
+			if (!empty($sourceModule) && (\App\Module::getModuleId($sourceModule) === null || !\App\Module::isModuleActive($sourceModule))) {
+				continue;
 			}
 
 			if (empty($includeModules) && empty($excludeModules)) {

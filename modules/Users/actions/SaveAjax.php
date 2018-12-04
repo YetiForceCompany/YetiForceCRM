@@ -30,10 +30,8 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		parent::checkPermission($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			if ((int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if (!$currentUserModel->isAdminUser() && (int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

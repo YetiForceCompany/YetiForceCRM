@@ -668,11 +668,8 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$moduleModel = $this->getModule();
 		$quickCreate = $this->get('quickcreate');
-		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory())) {
-			//isQuickCreateSupported will not be there for settings
-			if (method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
-				return true;
-			}
+		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory()) && method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
+			return true;
 		}
 		return false;
 	}

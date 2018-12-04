@@ -448,11 +448,8 @@ class Vtiger_Record_Model extends \App\Base
 			if ($moduleModel->isInventory()) {
 				$this->saveInventoryData($moduleName);
 			}
-			if (\App\Request::_get('createmode') === 'link') {
-				// vtlib customization: Hook provide to enable generic module relation.
-				if (\App\Request::_has('return_module') && \App\Request::_has('return_id')) {
-					vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
-				}
+			if (\App\Request::_get('createmode') === 'link' && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
+				vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
 			}
 			$transaction->commit();
 		} catch (\Exception $e) {
