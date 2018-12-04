@@ -631,7 +631,7 @@ class Project_Gantt_Model
 				unset($milestone['parentId']);
 			}
 			if ($row['projectmilestonedate']) {
-				$milestione['duration'] = 24 * 60 * 60;
+				$milestone['duration'] = 24 * 60 * 60;
 				$milestone['start'] = date('Y-m-d H:i:s', strtotime($row['projectmilestonedate']));
 				$milestone['start_date'] = date('Y-m-d', strtotime($row['projectmilestonedate']));
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
