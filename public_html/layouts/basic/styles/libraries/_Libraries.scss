@@ -32,6 +32,14 @@
 	line-height: 1.5;
 }
 
+.select2-search:only-child {
+	width: 100% !important;
+
+	.select2-search__field {
+		width: 100% !important;
+	}
+}
+
 .select2-selection__arrow {
 	@extend .mt-1;
 }
