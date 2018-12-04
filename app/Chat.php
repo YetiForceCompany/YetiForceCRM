@@ -92,21 +92,16 @@ final class Chat
 	 */
 	public static function getCurrentRoom()
 	{
-		$result = null;
+		$recordId = $_SESSION['chat']['recordId'] ?? null;
+		$roomType = $_SESSION['chat']['roomType'] ?? null;
+		$defaultRoom = static::getDefaultRoom();
 		if (!isset($_SESSION['chat'])) {
-			$result = static::getDefaultRoom();
-		}
-		$recordId = $_SESSION['chat']['recordId'];
-		if (empty($result) && $_SESSION['chat']['roomType'] === 'crm') {
-			if (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable()) {
-				$result = static::getDefaultRoom();
-			}
-		} elseif (empty($result) && $_SESSION['chat']['roomType'] === 'group') {
-			if (!isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
-				$result = static::getDefaultRoom();
-			}
-		}
-		if (empty($result)) {
+			$result = $defaultRoom;
+		} elseif ($roomType === 'crm' && (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable())) {
+			$result = $defaultRoom;
+		} elseif ($roomType === 'group' && !isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
+			$result = $defaultRoom;
+		} else {
 			$result = $_SESSION['chat'];
 		}
 		return $result;
