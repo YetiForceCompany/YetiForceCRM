@@ -55,7 +55,6 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getWatermarkType()
 	{
 		return ['text' => 'PLL_TEXT'];
-		//return [\App\Pdf\YetiForcePDF::WATERMARK_TYPE_TEXT => 'PLL_TEXT', \App\Pdf\YetiForcePDF::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
 	/**
