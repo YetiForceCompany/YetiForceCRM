@@ -520,12 +520,13 @@ $.Class("Vtiger_Header_Js", {
 		if (!container.find('.js-header-toggle').length) {
 			return;
 		}
-		let breadcrumb = container.find('.js-header-toggle'),
-			actionBtn = breadcrumb.find('.js-header-toggle__actions-btn'),
-			cssActionsTop = {top: breadcrumb.offset().top + breadcrumb.height()};
-		breadcrumb.find('.o-header-toggle__actions').css(cssActionsTop);
+		let actionsContainer = container.find('.o-header-toggle__actions'),
+			actionBtn = container.find('.js-header-toggle__actions-btn'),
+			actionBtnMargin = 5,
+			cssActionsTop = {top: actionBtn.offset().top + actionBtn.outerHeight() + actionBtnMargin};
+		actionsContainer.css(cssActionsTop);
 		actionBtn.on('click', () => {
-			breadcrumb.find('.o-header-toggle__actions').toggleClass('is-active');
+			actionsContainer.toggleClass('is-active');
 		});
 	},
 	registerMobileEvents: function () {

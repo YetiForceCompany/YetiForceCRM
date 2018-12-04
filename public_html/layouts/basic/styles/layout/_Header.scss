@@ -274,6 +274,12 @@
 	}
 }
 
+.o-header-toggle {
+	&__actions {
+		flex: none;
+	}
+}
+
 //mobile
 @include media-breakpoint-down(sm) {
 	.o-header-toggle {
@@ -281,6 +287,7 @@
 			font-size: $font-size-header-button;
 			padding-left: 0.4rem;
 			padding-right: 0.4rem;
+			width: 100%;
 		}
 
 		&__actions {
