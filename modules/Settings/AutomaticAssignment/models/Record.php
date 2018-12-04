@@ -299,7 +299,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					}
 					if (isset($this->rawData[$key])) {
 						$oldValue = array_filter(explode(',', $this->rawData[$key]));
-						foreach ($oldValue as $i => $val) {
+						foreach ($oldValue as $val) {
 							if (strpos($val, ':') !== false) {
 								$valArr = explode(':', $val);
 								$oldVal[$valArr[1]] = $val;

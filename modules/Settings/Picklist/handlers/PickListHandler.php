@@ -180,8 +180,6 @@ class Settings_Picklist_PickListHandler_Handler
 		$valueToDelete = $entityData['valuetodelete'];
 		$replaceValue = $entityData['replacevalue'];
 		$moduleName = $entityData['module'];
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		//update advancefilter values
 		$dataReader = (new \App\Db\Query())->select(['id', 'value'])->from('u_#__cv_condition')
 			->where(['field_name' => $pickListFieldName, 'module_name' => $moduleName])
