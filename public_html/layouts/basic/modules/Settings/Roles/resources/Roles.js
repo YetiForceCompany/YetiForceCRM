@@ -235,8 +235,69 @@ var Settings_Roles_Js = {
 		});
 		return aDeferred.promise();
 	},
-
+	/**
+	 * Register button to open modal logo upload form
+	 */
+	registerModalUploadButton: function () {
+		const thisInstance = this;
+		$('.js-upload-logo').on('click', function () {
+			AppConnector.request({
+				url: 'index.php',
+				module: 'Roles',
+				parent: 'Settings',
+				view: 'UploadLogo'
+			}).done(function (data) {
+				if (data) {
+					app.showModalWindow(data, function (container) {
+						thisInstance.registerUploadButton(container);
+					});
+				}
+			});
+		});
+	},
+	/**
+	 * Register button send form
+	 * @param container
+	 */
+	registerUploadButton: function (container) {
+		let form = container.find('.js-form-upload-logo');
+		form.validationEngine();
+		form.on('submit', function (e) {
+			e.preventDefault();
+			if (form.validationEngine('validate') === true) {
+				app.removeEmptyFilesInput(form[0]);
+				let formData = new FormData(form[0]),
+					progressIndicatorElement = jQuery.progressIndicator({
+						blockInfo: {'enabled': true}
+					});
+				AppConnector.request({
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				}).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					if (true === data.result.success) {
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+							type: 'success'
+						});
+					} else {
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: app.vtranslate(data.result.message),
+							type: 'error'
+						});
+					}
+					app.hideModalWindow();
+				});
+			}
+		});
+	},
 	registerEvents: function () {
+		Settings_Roles_Js.registerModalUploadButton();
 		Settings_Roles_Js.initEditView();
 		Settings_Roles_Js.registerSubmitEvent();
 	}

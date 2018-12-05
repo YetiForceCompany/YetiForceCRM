@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Roles-Index">
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -22,6 +22,9 @@
 					<div class="toolbar-handle">
 						<a href="javascript:;" class="btn btn-light draggable droppable">{\App\Language::translate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
 						<div class="toolbar" title="{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
+							<button class="btn btn-light showModal ml-1 js-upload-logo" id="uploadLogo" type="button" data-js="click">
+								<span class="fas fa-image" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+							</button>
 							&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="fas fa-plus-circle"></span></a>
 						</div>
 					</div>
