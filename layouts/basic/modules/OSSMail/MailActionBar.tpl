@@ -33,14 +33,13 @@
 				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_0) || !empty($MODULES_LEVEL_3) || !empty($MODULES_LEVEL_1) || !empty($MODULES_LEVEL_2)}
 						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
-							<div class="action-bar__header ml-5px mr-5px">
-								{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
-							</div>
 							{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
 							{assign var="ACCESS_LEVEL_3" value=\App\ModuleHierarchy::accessModulesByLevel(3)}
 							{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
 							{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
-							<select class="module action-bar__select mr-5px">
+							<label class="d-none" for="addRelationSelect">{\App\Language::translate('LBL_ADD_RELATION',$MODULE_NAME)}</label>
+							<select id="addRelationSelect" required class="module action-bar__select mr-5px">
+								<option value="" disabled selected style="color: grey;">{\App\Language::translate('LBL_ADD_RELATION',$MODULE_NAME)}</option>
 								{if $ACCESS_LEVEL_0}
 									<optgroup label="{\App\Language::translate('LBL_RELATIONS',$MODULE_NAME)}">
 										{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
