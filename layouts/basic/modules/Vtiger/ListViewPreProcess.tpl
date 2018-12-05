@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<-- tpl-Base-ListViewPreProcess -->
 {include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 <div class="bodyContents">
 	<div class="mainContainer">
@@ -33,4 +34,5 @@
 								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 			</a>
 			{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', $MODULE)}
+			<-- /tpl-Base-ListViewPreProcess -->
 			{/strip}
