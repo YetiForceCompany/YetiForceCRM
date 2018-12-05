@@ -45,6 +45,11 @@
     "LBL_SECURITY_CONF": "Sicherheits Konfiguration",
     "LBL_SECURITY_CONF_DESC": "Fehler bei der Konfiguration von Parametern im Zusammenhang mit der Systemsicherheit erkannt. Es kann Probleme mit dem System geben, oder die eingegebenen Daten k\u00f6nnen besch\u00e4digt oder gel\u00f6scht werden. Weitere Informationen finden Sie im Artikel %s. Passen Sie folgende Parameter an:",
     "LBL_LIB_REQUIRED": "Erforderlich",
-    "LBL_LIB_OPTIONAL": "Optional"
+    "LBL_LIB_OPTIONAL": "Optional",
+    "LBL_CRON_STATE": "Cron mechanism status",
+    "LBL_CRON_DISABLED_DESC": "The schedule mechanism of cron tasks has not been activated thus not all system functionalities are available",
+    "LBL_CRON_TASK_FAILED_DESC": "Not all cron tasks were completed successfully.",
+    "LBL_HOW_TO_ENABLE_CRON": "How to enable cron",
+    "LBL_CRON_TASKS_LIST": "Cron task list"
   }
 }
