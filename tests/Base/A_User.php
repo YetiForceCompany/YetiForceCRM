@@ -146,7 +146,7 @@ class A_User extends \Tests\Base
 		$this->assertNotNull($moduleModel, 'Object is null');
 		$moduleModel->saveLocks($param);
 		$this->assertFileExists('user_privileges/locks.php');
-		$this->assertEquals(['H6' => ['copy', 'paste']], $moduleModel->getLocks(), 'Unexpected value in lock array');
+		$this->assertSame(['H6' => ['copy', 'paste']], $moduleModel->getLocks(), 'Unexpected value in lock array');
 	}
 
 	/**
