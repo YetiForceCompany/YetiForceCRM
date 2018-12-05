@@ -39,12 +39,14 @@
 					{assign var="ITEM_PREV" value=$item['name']}
 				{/foreach}
 			</ol>
-			{assign var="TRANSLATED_DESCRIPTION" value=\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-			{if isset($SELECTED_PAGE) && $TRANSLATED_DESCRIPTION !== ' ' && $SELECTED_PAGE->get('description') !== $TRANSLATED_DESCRIPTION}
-				<div class="js-popover-tooltip ml-2 d-inline" data-js="popover"
-					 data-content="{$TRANSLATED_DESCRIPTION}">
-					<span class="fas fa-info-circle"></span>
-				</div>
+			{if isset($SELECTED_PAGE)}
+				{assign var="TRANSLATED_DESCRIPTION" value=\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{if !empty(trim($TRANSLATED_DESCRIPTION)) && $SELECTED_PAGE->get('description') !== $TRANSLATED_DESCRIPTION}
+					<div class="js-popover-tooltip ml-2 d-inline" data-js="popover"
+						 data-content="{$TRANSLATED_DESCRIPTION}">
+						<span class="fas fa-info-circle"></span>
+					</div>
+				{/if}
 			{/if}
 		{/if}
 	{/if}
