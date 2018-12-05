@@ -109,8 +109,11 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$adb->startTransaction();
 
 					// now encrypt all osspasswords with given key
-					$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT( `password`, ? );';
-					$adb->pquery($sql, [$newPassword], true);
+					\App\Db::getInstance()->createCommand()
+						->update('vtiger_osspasswords', [
+							'password' => new \yii\db\Expression('AES_ENCRYPT(`password`,:newPass)', [':newPass' => $newPassword])
+						], [])
+						->execute();
 
 					$success = 'Encryption password has been successfully saved!';
 
