@@ -145,13 +145,8 @@ class A_User extends \Tests\Base
 		$moduleModel = \Settings_Users_Module_Model::getInstance();
 		$this->assertNotNull($moduleModel, 'Object is null');
 		$moduleModel->saveLocks($param);
-
 		$this->assertFileExists('user_privileges/locks.php');
-		$locks = $moduleModel->getLocks();
-		$locksRaw = ['H6' => ['copy', 'paste']];
-
-		$this->assertCount(0, \array_diff_assoc($locksRaw, $locks), 'Unexpected value in lock array');
-		$this->assertCount(0, \array_diff_assoc($locksRaw['H6'], $locks['H6']), 'Unexpected value in lock array');
+		$this->assertEquals(['H6' => ['copy', 'paste']], $moduleModel->getLocks(), 'Unexpected value in lock array');
 	}
 
 	/**
