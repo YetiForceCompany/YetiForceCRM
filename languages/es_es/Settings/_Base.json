@@ -308,7 +308,7 @@
     "LBL_SELECT_ICON": "Seleccionar icono",
     "LBL_ICON_NAME": "Nombre del icono",
     "LBL_ICON_EXAMPLE": "Ejemplo de icono",
-    "ERR_NO_REQUIRED_LIBRARY": "No se pudo encontrar la biblioteca %s requerida.\n Algunas funciones estaban deshabilitadas. Ve a %s para descargar.",
+    "ERR_NO_REQUIRED_LIBRARY": "No se pudo encontrar la biblioteca %s requerida. Algunas funciones estaban deshabilitadas. Ve a %s para descargar.",
     "LBL_SYSTEM_WARNINGS": "Advertencias del sistema",
     "LBL_WARNINGS_FOLDERS": "Categor\u00eda de advertencia",
     "LBL_WARNINGS_TITLE": "T\u00edtulo",

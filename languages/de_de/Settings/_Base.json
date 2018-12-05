@@ -308,7 +308,7 @@
     "LBL_SELECT_ICON": "W\u00e4hle Icon",
     "LBL_ICON_NAME": "Iconname",
     "LBL_ICON_EXAMPLE": "Icon Beispiel",
-    "ERR_NO_REQUIRED_LIBRARY": "Ben\u00f6tigte %s Bibliothek nicht gefunden.\n Manche Funktionen wurden deaktiviert. Gehe zu %s download.",
+    "ERR_NO_REQUIRED_LIBRARY": "Ben\u00f6tigte %s Bibliothek nicht gefunden. Manche Funktionen wurden deaktiviert. Gehe zu %s download.",
     "LBL_SYSTEM_WARNINGS": "System Warnungen",
     "LBL_WARNINGS_FOLDERS": "Wartungskategorie",
     "LBL_WARNINGS_TITLE": "Titel",
