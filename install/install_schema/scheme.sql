@@ -1007,6 +1007,7 @@ CREATE TABLE `s_yf_companies` (
   `logo_main_height` tinyint(3) unsigned DEFAULT NULL,
   `logo_mail` varchar(50) DEFAULT NULL,
   `logo_mail_height` tinyint(3) unsigned DEFAULT NULL,
+  `type` tinyint(1) unsigned DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

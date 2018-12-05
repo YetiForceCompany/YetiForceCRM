@@ -100,6 +100,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		switch ($key) {
+			case 'type':
+				$value = $this->getDisplayTypeValue((int) $value);
+				break;
 			case 'default':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
@@ -122,6 +125,30 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 		}
 		return $value;
+	}
+
+	/**
+	 * Get the displayed value for the type column.
+	 *
+	 * @param int $value
+	 *
+	 * @return string
+	 */
+	public function getDisplayTypeValue(int $value): string
+	{
+		switch ($value) {
+			case 0:
+				$label = 'LBL_TYPE_TARGET_USER';
+				break;
+			case 1:
+				$label = 'LBL_TYPE_INTEGRATOR';
+				break;
+			case 2:
+			default:
+				$label = 'LBL_TYPE_PROVIDER';
+				break;
+		}
+		return \App\Language::translate($label, 'Settings::Companies');
 	}
 
 	/**
