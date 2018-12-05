@@ -11983,7 +11983,7 @@ a.text-dark:hover, a.text-dark:focus {
   background: #e1f0fd; }
 .select2-container--bootstrap .select2-results__option[aria-label=""] > .select2-results__group {
   background: inherit; }
-.select2-container--bootstrap .select2-results__option[aria-selected="true"] {
+.select2-container--bootstrap .select2-results__option[aria-selected="true"] .c-option-template--state-icons {
   opacity: 0.5; }
 
 .listViewPageDiv select.select2,
@@ -12076,6 +12076,11 @@ header .c-header__btn__container .select2-selection {
 .leftPanel .ps-scrollbar-y-rail {
   display: none !important; }
 
+.c-scrollbar-x--small .ps__rail-x:hover > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x:focus > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x.ps--clicking .ps__thumb-x {
+  height: 6px; }
+.c-scrollbar-x--small .ps__rail-x {
+  height: 10px; }
+
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
   left: 0.25rem !important;
   right: 0.25rem !important; }
@@ -12117,12 +12122,10 @@ header .c-header__btn__container .select2-selection {
     border-top: unset !important; }
 
 .flag-icon {
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35); }
-
-.c-scrollbar-x--small .ps__rail-x:hover > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x:focus > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x.ps--clicking .ps__thumb-x {
-  height: 6px; }
-.c-scrollbar-x--small .ps__rail-x {
-  height: 10px; }
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.35);
+  background-size: cover;
+  width: 1.3em;
+  margin-left: 2px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
@@ -16936,10 +16939,16 @@ input[type="radio"]:checked:before {
     display: block; }
   .actionMenu.actionMenuOn .o-action-menu__container {
     right: 0; } }
+.o-breadcrumb__container {
+  width: 100%; }
+
 .widget_header .breadcrumb {
-  background: none; }
-.widget_header .breadcrumb-item.active {
-  color: #545b62; }
+  background: none;
+  flex-wrap: nowrap; }
+.widget_header .breadcrumb-item {
+  white-space: nowrap; }
+  .widget_header .breadcrumb-item.active {
+    color: #545b62; }
 
 @media only screen and (max-width: 513px) {
   .c-menu__container.js-expand + .c-header,
