@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-BreadCrumbs -->
 	{if AppConfig::main('breadcrumbs') eq  'true'}
 		{if isset($BREADCRUMB_TITLE)}
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
@@ -8,7 +9,9 @@
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
-			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon" data-content="{$BREADCRUMBS[$BREADCRUMBS|@count - 1]['name']}" data-toggle="popover" data-js="popover | mouseenter">
+			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon"
+				data-content="{$BREADCRUMBS[$BREADCRUMBS|@count - 1]['name']}" data-toggle="popover"
+				data-js="popover | mouseenter">
 
 				<li class="breadcrumb-item">
 					<a href="{AppConfig::main('site_URL')}">
@@ -36,12 +39,14 @@
 					{assign var="ITEM_PREV" value=$item['name']}
 				{/foreach}
 			</ol>
-			{if isset($SELECTED_PAGE) && $SELECTED_PAGE->get('description') !== \App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE) }
-				<div class="js-popover-tooltip ml-2" data-js="popover"
-					 data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}">
+			{assign var="TRANSLATED_DESCRIPTION" value=\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+			{if isset($SELECTED_PAGE) && $TRANSLATED_DESCRIPTION !== ' ' && $SELECTED_PAGE->get('description') !== $TRANSLATED_DESCRIPTION}
+				<div class="js-popover-tooltip ml-2 d-inline" data-js="popover"
+					 data-content="{$TRANSLATED_DESCRIPTION}">
 					<span class="fas fa-info-circle"></span>
 				</div>
 			{/if}
 		{/if}
 	{/if}
+	<!-- /tpl-Base-BreadCrumbs -->
 {/strip}
