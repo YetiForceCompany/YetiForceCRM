@@ -22,8 +22,10 @@
 					<div class="toolbar-handle">
 						<a href="javascript:;" class="btn btn-light draggable droppable">{\App\Language::translate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
 						<div class="toolbar" title="{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
-							<button class="btn btn-light showModal ml-1 js-upload-logo" id="uploadLogo" type="button" data-js="click">
-								<span class="fas fa-image" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+							<button class="btn btn-success ml-1 js-upload-logo" type="button" data-js="click"
+									data-url="index.php?module=Roles&parent=Settings&view=UploadLogo">
+								<span class="fas fa-image"
+									  title="{\App\Language::translate('LBL_SELECT',$QUALIFIED_MODULE)}"></span>
 							</button>
 							&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="fas fa-plus-circle"></span></a>
 						</div>

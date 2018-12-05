@@ -241,27 +241,16 @@ var Settings_Roles_Js = {
 	registerModalUploadButton: function () {
 		const thisInstance = this;
 		$('.js-upload-logo').on('click', function () {
-			AppConnector.request({
-				url: 'index.php',
-				module: 'Roles',
-				parent: 'Settings',
-				view: 'UploadLogo'
-			}).done(function (data) {
-				if (data) {
-					app.showModalWindow(data, function (container) {
-						thisInstance.registerUploadButton(container);
-					});
-				}
+			app.showModalWindow(null, $(this).data('url'), function (data) {
+				thisInstance.registerUploadButton(data.find('form'));
 			});
 		});
 	},
 	/**
 	 * Register button send form
-	 * @param container
+	 * @param {jQuery} form
 	 */
-	registerUploadButton: function (container) {
-		let form = container.find('.js-form-upload-logo');
-		form.validationEngine();
+	registerUploadButton: function (form) {
 		form.on('submit', function (e) {
 			e.preventDefault();
 			if (form.validationEngine('validate') === true) {
@@ -269,7 +258,8 @@ var Settings_Roles_Js = {
 				let formData = new FormData(form[0]),
 					progressIndicatorElement = jQuery.progressIndicator({
 						blockInfo: {'enabled': true}
-					});
+					}),
+					notifyType = '';
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
@@ -279,18 +269,15 @@ var Settings_Roles_Js = {
 				}).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (true === data.result.success) {
-						Vtiger_Helper_Js.showPnotify({
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							type: 'success'
-						});
+						notifyType = 'success';
 					} else {
-						Vtiger_Helper_Js.showPnotify({
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate(data.result.message),
-							type: 'error'
-						});
+						notifyType = 'error';
 					}
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate(data.result.message),
+						type: notifyType
+					});
 					app.hideModalWindow();
 				});
 			}
