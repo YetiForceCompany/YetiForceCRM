@@ -11973,6 +11973,11 @@ a.text-dark:hover, a.text-dark:focus {
 .select2-selection__rendered {
   line-height: 1.5; }
 
+.select2-search:only-child {
+  width: 100% !important; }
+  .select2-search:only-child .select2-search__field {
+    width: 100% !important; }
+
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option {
   font-size: inherit; }
 
@@ -16868,11 +16873,15 @@ input[type="radio"]:checked:before {
 .actionMenu .c-header__label--sm-down {
   display: none; }
 
+.o-header-toggle__actions {
+  flex: none; }
+
 @media (max-width: 767.98px) {
   .o-header-toggle__actions-btn {
     font-size: 1.0625rem;
     padding-left: 0.4rem;
-    padding-right: 0.4rem; }
+    padding-right: 0.4rem;
+    width: 100%; }
   .o-header-toggle__actions {
     position: fixed;
     left: auto;
