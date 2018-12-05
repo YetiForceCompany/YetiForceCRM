@@ -361,7 +361,7 @@ class File
 				$this->validateCodeInjection();
 			}
 			if ($type && $this->getShortMimeType(0) !== $type) {
-				throw new \App\Exceptions\AppException('Wrong file type');
+				throw new \App\Exceptions\AppException('ERR_FILE_ILLEGAL_FORMAT');
 			}
 		} catch (\Exception $e) {
 			$return = false;
