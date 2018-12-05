@@ -37,6 +37,21 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'estimated_work_time' => 'estimated_work_time',
+			'projecttaskprogress' => 'projecttaskprogress',
+		]);
+		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$estimatedWorkTime += $row['estimated_work_time'];
+			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
+		}
+		$dataReader->close();
+	}
+
+	/*protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
 		$row = $relatedListView->getRelationQuery()->select(
 			[
 				'estimated_work_time' => new \yii\db\Expression('SUM(estimated_work_time)'),
@@ -50,7 +65,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			$estimatedWorkTime = (float) $row['estimated_work_time'];
 			$progressInHours = (float) $row['progress_in_hours'];
 		}
-	}
+	}*/
 
 	/**
 	 * Calculate estimated work time.

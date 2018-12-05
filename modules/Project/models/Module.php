@@ -66,6 +66,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			->andWhere(['or', ['parentid' => 0], ['parentid' => null]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			\App\DebugerEx::log($row);
 			$milestoneEstimatedWorkTime = ProjectMilestone_Module_Model::calculateEstimatedWorkTime($row['id']);
 			$estimatedWorkTime += $milestoneEstimatedWorkTime;
 			$progressInHours += ($milestoneEstimatedWorkTime * (int) $row['projectmilestone_progress']) / 100;
@@ -126,6 +127,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	public function updateProgress(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null): array
 	{
+		\App\DebugerEx::log('1) updateProgress', $estimatedWorkTime, $progressInHours);
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		foreach (static::getChildren($id) as $childId) {
 			if ($callerId !== $childId) {
@@ -134,11 +136,15 @@ class Project_Module_Model extends Vtiger_Module_Model
 				$progressInHours += ($childEstimatedWorkTime * Vtiger_Record_Model::getInstanceById($childId)->get('progress') / 100);
 			}
 		}
-		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
+		\App\DebugerEx::log('2) updateProgress', $estimatedWorkTime, $progressInHours);
+		static::calculateProgressOfMilestones($id, $estimatedWorkTime, $progressInHours);
+		\App\DebugerEx::log('3) updateProgress', $estimatedWorkTime, $progressInHours);
+		//static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('progress', $projectProgress);
 		$recordModel->save();
 		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $callerId) {
+			\App\DebugerEx::log('parentid', $recordModel->get('parentid'), $id);
 			$this->updateProgress(
 				$recordModel->get('parentid'),
 				$estimatedWorkTime,
