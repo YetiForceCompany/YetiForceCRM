@@ -517,11 +517,11 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	toggleBreadcrumActions(container) {
-		if (!container.find('.js-header-toggle').length) {
+		let actionsContainer = container.find('.o-header-toggle__actions')
+		if (!actionsContainer.length) {
 			return;
 		}
-		let actionsContainer = container.find('.o-header-toggle__actions'),
-			actionBtn = container.find('.js-header-toggle__actions-btn'),
+		let actionBtn = container.find('.js-header-toggle__actions-btn'),
 			actionBtnMargin = 5,
 			cssActionsTop = {top: actionBtn.offset().top + actionBtn.outerHeight() + actionBtnMargin};
 		actionsContainer.css(cssActionsTop);

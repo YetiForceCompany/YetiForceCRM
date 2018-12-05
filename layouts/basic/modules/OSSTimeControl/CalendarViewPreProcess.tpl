@@ -3,7 +3,7 @@
 {include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 <div class="bodyContents">
 	<div class="mainContainer">
-		<div class="o-breadcrumb js-header-toggle widget_header d-flex justify-content-between align-items-center px-2 flex-column flex-sm-row"
+		<div class="o-breadcrumb widget_header d-flex justify-content-between align-items-center px-2 flex-column flex-sm-row"
 			 data-js="height">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>

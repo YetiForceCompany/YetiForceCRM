@@ -14,7 +14,7 @@
 {include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 <div class="bodyContents">
 	<div class="mainContainer">
-		<div class="o-breadcrumb js-header-toggle widget_header mb-2 d-flex justify-content-between px-2"
+		<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2"
 			 data-js="container">
 			<div class="o-breadcrumb__container">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
