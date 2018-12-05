@@ -47,9 +47,8 @@ class OSSMail_AddressBook_Model
 			}
 		}
 		foreach ($mails as $userId => $mail) {
-			$mailsToFile[$userId] = [];
-			$mailsToFile[$userId] = array_merge($mailsToFile[$userId], $mail['Contacts']);
-			unset($mail['Contacts']);
+			$mailsToFile[$userId] = array_merge($mail['OSSEmployees'] ?? [], $mail['Contacts'] ?? []);
+			unset($mail['OSSEmployees'], $mail['Contacts']);
 			foreach ($mail as $otherMail) {
 				$mailsToFile[$userId] = array_merge($mailsToFile[$userId], $otherMail);
 			}
