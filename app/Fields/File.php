@@ -1036,6 +1036,7 @@ class File
 		$attach = [];
 		foreach (static::transform($files, true) as $key => $transformFiles) {
 			foreach ($transformFiles as $fileDetails) {
+				$infoFile = '';
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
 					if (!static::removeForbiddenTags($file->getPath(), $file->getPath())) {
@@ -1047,6 +1048,7 @@ class File
 						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
 						continue;
 					}
+					$infoFile = \App\Language::translate('LBL_FILE_HAS_BEEN_MODIFIED');
 				}
 				$uploadFilePath = static::initStorageFileDirectory($storageName);
 				$key = $file->generateHash(true, $uploadFilePath);
@@ -1064,7 +1066,8 @@ class File
 						'name' => $file->getName(),
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
-						'hash' => $request->getByType('hash', 'string')
+						'hash' => $request->getByType('hash', 'string'),
+						'info' => $infoFile
 					];
 				} else {
 					$db->createCommand()->delete('u_#__file_upload_temp', ['key' => $key])->execute();
