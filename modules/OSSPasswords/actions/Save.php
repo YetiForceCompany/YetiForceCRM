@@ -47,13 +47,9 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 		if (!$recordModel->isNew()) {
 			if ($properPassword == '**********') { // hidden password sent in edit mode, get the correct one
 				if ($config) { // when encryption is on
-					$sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
-					$result = $adb->pquery($sql, [$recordModel->getId()], true);
-					$properPassword = $adb->queryResult($result, 0, 'pass');
+					$properPassword = (new \App\Db\Query())->select(['pass' => new \yii\db\Expression('AES_DECRYPT(`password`, :configKey)', [':configKey' => $config['key']])])->from('vtiger_osspasswords')->where(['osspasswordsid' => $recordModel->getId()])->scalar();
 				} else {  // encryption mode is off
-					$sql = 'SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;';
-					$result = $adb->pquery($sql, [$recordModel->getId()], true);
-					$properPassword = $adb->queryResult($result, 0, 'pass');
+					$properPassword = (new \App\Db\Query())->select(['pass' => 'password'])->from('vtiger_osspasswords')->where(['osspasswordsid' => $recordModel->getId()]);
 				}
 			}
 			$recordModel->set('password', $properPassword);
@@ -61,14 +57,20 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 
 			// after save we check if encryption is active
 			if ($config) {
-				$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?,?) WHERE `osspasswordsid` = ?;';
-				$adb->pquery($sql, [$properPassword, $config['key'], $recordModel->getId()], true);
+				\App\Db::getInstance()->createCommand()
+					->update('vtiger_osspasswords', [
+						'password' => new \yii\db\Expression('AES_ENCRYPT(:properPass,:configKey)', [':properPass' => $properPassword, ':configKey' => $config['key']])
+					], ['osspasswordsid' => $recordModel->getId()])
+					->execute();
 			}
 		} else {
 			$recordModel->save();
 			if ($config) { // when encryption is on
-				$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(`password`, ?) WHERE `osspasswordsid` = ?;';
-				$adb->pquery($sql, [$config['key'], $recordModel->getId()], true);
+				\App\Db::getInstance()->createCommand()
+					->update('vtiger_osspasswords', [
+						'password' => new \yii\db\Expression('AES_ENCRYPT(`password`,:configKey)', [':configKey' => $config['key']])
+					], ['osspasswordsid' => $recordModel->getId()])
+					->execute();
 			}
 		}
 		if ($request->getBoolean('relationOperation')) {
