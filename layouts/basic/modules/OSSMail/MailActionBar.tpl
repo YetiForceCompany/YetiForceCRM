@@ -1,11 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if !$RECORD}
-		<input type="hidden" id="mailActionBarID" value=""/>
-		<div class="noRecords">
-			{\App\Language::translate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)} <a
-					class="importMail">{\App\Language::translate('LBL_IMPORT_MAIL_MANUALLY',$MODULE_NAME)}</a>
-		</div>
+		{if \App\Privilege::isPermitted('OSSMailView', 'CreateView')}
+			<input type="hidden" id="mailActionBarID" value=""/>
+			<div class="noRecords">
+				{\App\Language::translate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)} <a
+						class="importMail">{\App\Language::translate('LBL_IMPORT_MAIL_MANUALLY',$MODULE_NAME)}</a>
+			</div>
+		{/if}
 	{else}
 		<input type="hidden" id="mailActionBarID" value="{$RECORD}"/>
 		{assign var="MODULES_LEVEL_0" value=\App\ModuleHierarchy::getModulesByLevel()}
