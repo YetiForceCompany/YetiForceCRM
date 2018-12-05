@@ -115,17 +115,20 @@ class Project_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Update progress in project.
 	 *
-	 * @param int $id
+	 * @param int      $id
+	 * @param float    $estimatedWorkTime
+	 * @param float    $progressInHours
+	 * @param int|null $callerId
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function updateProgress(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $parentId = null): array
+	public function updateProgress(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null): array
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
-		if (empty($parentId)) {
-			foreach (static::getChildren($id) as $childId) {
+		foreach (static::getChildren($id) as $childId) {
+			if ($callerId !== $childId) {
 				$childEstimatedWorkTime = static::calculateEstimatedWorkTime($childId);
 				$estimatedWorkTime += $childEstimatedWorkTime;
 				$progressInHours += ($childEstimatedWorkTime * Vtiger_Record_Model::getInstanceById($childId)->get('progress') / 100);
@@ -135,7 +138,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('progress', $projectProgress);
 		$recordModel->save();
-		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $parentId) {
+		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $callerId) {
 			$this->updateProgress(
 				$recordModel->get('parentid'),
 				$estimatedWorkTime,

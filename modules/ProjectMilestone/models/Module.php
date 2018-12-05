@@ -37,16 +37,19 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'estimated_work_time' => 'estimated_work_time',
-			'projecttaskprogress' => 'projecttaskprogress',
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$estimatedWorkTime += $row['estimated_work_time'];
-			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
+		$row = $relatedListView->getRelationQuery()->select(
+			[
+				'estimated_work_time' => new \yii\db\Expression('SUM(estimated_work_time)'),
+				'progress_in_hours' => new \yii\db\Expression('SUM(estimated_work_time * projecttaskprogress / 100)')
+			]
+		)->one();
+		if ($row === false) {
+			$estimatedWorkTime = 0.0;
+			$progressInHours = 0.0;
+		} else {
+			$estimatedWorkTime = (float) $row['estimated_work_time'];
+			$progressInHours = (float) $row['progress_in_hours'];
 		}
-		$dataReader->close();
 	}
 
 	/**
@@ -72,7 +75,10 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Update progress milestone.
 	 *
-	 * @param int $id
+	 * @param int      $id
+	 * @param float    $estimatedWorkTime
+	 * @param float    $progressInHours
+	 * @param int|null $callerId
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
@@ -81,10 +87,9 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		foreach (static::getChildren($id) as $childId) {
 			if ($callerId !== $childId) {
-				$childRecordModel = Vtiger_Record_Model::getInstanceById($childId);
-				$childEstimatedWorkTime = static::calculateEstimatedWorkTime($childRecordModel);
+				$childEstimatedWorkTime = static::calculateEstimatedWorkTime($childId);
 				$estimatedWorkTime += $childEstimatedWorkTime;
-				$progressInHours += ($childEstimatedWorkTime * $childRecordModel->get('projectmilestone_progress') / 100);
+				$progressInHours += ($childEstimatedWorkTime * Vtiger_Record_Model::getInstanceById($childId)->get('projectmilestone_progress') / 100);
 			}
 		}
 		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
