@@ -41,6 +41,7 @@
     "LBL_USER_EXISTS": "\u00c7al\u0131\u015fanlar zaten var",
     "FL_POSITION": "Pozisyon",
     "FL_SECONDARY_PHONE": "\u0130kincil Telefon",
-    "FL_RBH": "RBH"
+    "FL_RBH": "RBH",
+    "FL_ORGANIZATION_STRUCTURE": "Organization structure"
   }
 }
