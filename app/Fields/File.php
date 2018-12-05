@@ -444,6 +444,7 @@ class File
 		if (preg_match('[\x01-\x08\x0c-\x1f]', $this->getContents())) {
 			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 		}
+		$this->validateCodeInjectionInMetadata();
 		if (!$this->validateImageContent()) {
 			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE ||' . $this->validateError);
 		}
@@ -459,7 +460,16 @@ class File
 		$shortMimeType = $this->getShortMimeType(0);
 		if ($this->validateAllCodeInjection || in_array($shortMimeType, self::$phpInjection)) {
 			// Check for code injection
-			if ($this->containForbiddenTags()) {
+			$contents = $this->getContents();
+			if (
+				preg_match('/(<\?php?(.*?))/si', $contents) === 1 ||
+				preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 ||
+				stripos($contents, '<?=') !== false ||
+				stripos($contents, '<%=') !== false ||
+				stripos($contents, '<? ') !== false ||
+				stripos($contents, '<% ') !== false ||
+				stripos($contents, '<?xpacket') !== false
+			) {
 				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 			}
 		}
@@ -486,23 +496,6 @@ class File
 				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 			}
 		}
-	}
-
-	/**
-	 * Does it contain forbidden tags.
-	 *
-	 * @return bool
-	 */
-	private function containForbiddenTags(): bool
-	{
-		$contents = $this->getContents();
-		return preg_match('/(<\?php?(.*?))/si', $contents) === 1 ||
-			preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 ||
-			stripos($contents, '<?=') !== false ||
-			stripos($contents, '<%=') !== false ||
-			stripos($contents, '<? ') !== false ||
-			stripos($contents, '<% ') !== false ||
-			stripos($contents, '<?xpacket') !== false;
 	}
 
 	/**

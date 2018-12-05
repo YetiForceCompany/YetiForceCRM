@@ -129,6 +129,7 @@ class ConfReport
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
 		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
+		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
 	/**
