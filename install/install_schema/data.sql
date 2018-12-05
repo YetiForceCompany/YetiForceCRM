@@ -260,7 +260,7 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`name`,`short_name`,`default`,`industry`,`street`,`city`,`code`,`state`,`country`,`phone`,`fax`,`website`,`vatid`,`id1`,`id2`,`email`,`logo_login`,`logo_login_height`,`logo_main`,`logo_main_height`,`logo_mail`,`logo_mail_height`) values (1,'YetiForce Sp. z o.o. ','YetiForce',1,NULL,'ul. Marszałkowska 111','Warszawa','00-102','Mazowieckie','Poland','+48 22 415 49 34',NULL,'yetiforce.com',NULL,NULL,NULL,NULL,'logo_yetiforce.png',200,'blue_yetiforce_logo.png',38,'logo_yetiforce.png',50);
+insert  into `s_yf_companies`(`id`,`name`,`short_name`,`default`,`industry`,`street`,`city`,`code`,`state`,`country`,`phone`,`fax`,`website`,`vatid`,`id1`,`id2`,`email`,`logo_login`,`logo_login_height`,`logo_main`,`logo_main_height`,`logo_mail`,`logo_mail_height`,`type`) values (1,'YetiForce Sp. z o.o. ','YetiForce',1,NULL,'ul. Marszałkowska 111','Warszawa','00-102','Mazowieckie','Poland','+48 22 415 49 34',NULL,'yetiforce.com',NULL,NULL,NULL,NULL,'logo_yetiforce.png',200,'blue_yetiforce_logo.png',38,'logo_yetiforce.png',50,2);
 
 /*Data for the table `s_yf_mail_queue` */
 
