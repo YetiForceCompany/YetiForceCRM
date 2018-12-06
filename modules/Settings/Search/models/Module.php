@@ -4,7 +4,7 @@
  * Settings search Module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -45,17 +45,22 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public static function getFieldFromModule()
+	public static function getFieldFromModule($blocks = true)
 	{
 		$fields = [];
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldlabel', 'vtiger_blocks.blocklabel'])
 			->from('vtiger_field')
 			->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_field.block')
 			->where(['not in', 'uitype', [15, 16, 52, 53, 56, 70, 99, 120]])
+			->andWhere(['presence' => [0, 2]])
 			->createCommand()
 			->query();
 		while ($row = $dataReader->read()) {
-			$fields[$row['tabid']][$row['blocklabel']][$row['columnname']] = $row;
+			if ($blocks) {
+				$fields[$row['tabid']][$row['blocklabel']][$row['columnname']] = $row;
+			} else {
+				$fields[$row['tabid']][$row['columnname']] = $row;
+			}
 		}
 		$dataReader->close();
 
@@ -73,20 +78,17 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = App\Db::getInstance();
 		$name = $params['name'];
-		$fields = self::getFieldFromModule();
 		$tabId = (int) $params['tabid'];
 		if ($name === 'searchcolumn' || $name === 'fieldname') {
-			foreach ($params['value'] as $field) {
-				if (!isset($fields[$tabId][$field])) {
-					return false;
-				}
+			if (array_diff($params['value'], array_keys(self::getFieldFromModule(false)[$tabId]))) {
+				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
 			$db->createCommand()
 				->update('vtiger_entityname', [$name => implode(',', $params['value'])], ['tabid' => $tabId])
 				->execute();
 		} elseif ($name === 'turn_off') {
 			$db->createCommand()
-				->update('vtiger_entityname', ['turn_off' => $params['value']], ['tabid' => $tabId])
+				->update('vtiger_entityname', ['turn_off' => (int) $params['value']], ['tabid' => $tabId])
 				->execute();
 		}
 		return true;
