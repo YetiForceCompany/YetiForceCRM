@@ -55,8 +55,11 @@ class OSSMail_AddressBook_Model
 		}
 		$dataReader->close();
 		$fstart = '<?php $bookMails =';
-		foreach ($mailsToFile as $user => $file) {
-			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . App\Utils::varExport($file) . ';');
+		if (!empty($mailsToFile)) {
+			foreach ($mailsToFile as $user => $file) {
+				$file = array_unique($file);
+				file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . App\Utils::varExport($file) . ';');
+			}
 		}
 	}
 
