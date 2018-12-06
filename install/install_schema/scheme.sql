@@ -1026,6 +1026,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `error` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
   KEY `status` (`status`),
@@ -1533,7 +1534,7 @@ CREATE TABLE `u_yf_cv_condition_group` (
   PRIMARY KEY (`id`),
   KEY `u_yf_cv_condition_group_cvid_idx` (`cvid`),
   CONSTRAINT `u_yf_cv_condition_group_fk` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cv_duplicates` */
 
