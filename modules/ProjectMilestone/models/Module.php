@@ -44,7 +44,8 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$estimatedWorkTime += $row['estimated_work_time'];
-			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
+			$progressInHours += ($row['estimated_work_time'] * (float) $row['projecttaskprogress']) / 100;
+			\App\DebugerEx::log("1) PM pt[$id]", $row);
 		}
 		$dataReader->close();
 	}
@@ -79,11 +80,14 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
+		\App\DebugerEx::log("1) PM ewt[$id]", $estimatedWorkTime);
 		$progressInHours = 0;
 		foreach (static::getChildren($id) as $childId) {
 			$estimatedWorkTime += static::calculateEstimatedWorkTime($childId);
 		}
+		\App\DebugerEx::log("2) PM ewt[$id]", $estimatedWorkTime, $progressInHours);
 		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
+		\App\DebugerEx::log("3) PM ewt[$id]", $estimatedWorkTime, $progressInHours);
 		return $estimatedWorkTime;
 	}
 
