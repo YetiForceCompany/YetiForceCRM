@@ -429,8 +429,9 @@ class TextParser
 	 *
 	 * @return string
 	 */
-	protected function organization($fieldName)
+	protected function organization(string $fieldName): string
 	{
+		$returnVal = '';
 		$id = false;
 		if (strpos($fieldName, '|') !== false) {
 			$paramsArray = explode('|', $fieldName);
@@ -439,21 +440,22 @@ class TextParser
 		}
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
-			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
+			$fieldName = 'logo_main';
 			$logo = $company->getLogo($fieldName);
 			if (!$logo || $logo->get('fileExists') === false) {
-				return '';
+				$returnVal = '';
+			} else {
+				$logoTitle = $company->get('name');
+				$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
+				$src = \App\Fields\File::getImageBaseData($logo->get('imagePath'));
+				$returnVal = "<img class=\"organizationLogo\" src=\"{$src}\" title=\"{$logoTitle}\" alt=\"{$logoAlt}\">";
 			}
-			$logoTitle = $company->get('name');
-			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
-			$logoHeight = $company->get($fieldName . '_height');
-			$src = \App\Fields\File::getImageBaseData($logo->get('imagePath'));
-
-			return "<img class=\"organizationLogo\" src=\"$src\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
-		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
-			return Company::$logoPath . $company->get($fieldName);
+		} elseif (\in_array($fieldName, ['logo_main', 'logo_login', 'logo_mail'])) {
+			$returnVal = Company::$logoPath . $company->get('logo_main');
+		} else {
+			$returnVal = $company->get($fieldName);
 		}
-		return $company->get($fieldName);
+		return $returnVal;
 	}
 
 	/**
@@ -1173,19 +1175,18 @@ class TextParser
 			}, array_flip(static::$variableGeneral)),
 		];
 		$companyDetails = Company::getInstanceById()->getData();
-		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
+		unset($companyDetails['id'], $companyDetails['logo_main'], $companyDetails['default']);
 		$companyVariables = [];
 		foreach (array_keys($companyDetails) as $name) {
 			$companyVariables["$(organization : $name)$"] = Language::translate('LBL_' . strtoupper($name), 'Settings:Companies');
 		}
-		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
-		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_login)$'] = Language::translate('LBL_LOGO_PATH_LOGIN', 'Settings:Companies');
+		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
+		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_login)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
 		$companyVariables['$(organization : logo_main)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_mail)$'] = Language::translate('LBL_LOGO_PATH_MAIL', 'Settings:Companies');
+		$companyVariables['$(organization : logo_mail)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
-
 		return $variables;
 	}
 

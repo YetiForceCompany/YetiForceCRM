@@ -40,7 +40,7 @@
 						</thead>
 						<tbody>
 						{foreach from=$COMPANY_COLUMNS item=COLUMN}
-							{if $COLUMN neq 'logo_login' && $COLUMN neq 'logo_main'  && $COLUMN neq 'logo_mail'}
+							{if $COLUMN neq 'logo_main'}
 								{if $COLUMN neq 'id'}
 									<tr>
 										<td class="{$WIDTHTYPE} w-25"><label

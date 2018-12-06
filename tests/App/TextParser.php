@@ -86,7 +86,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'organizationLogo'), 'Organization login logo should contain html class organizationLogo');
 
-		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_login') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_main') . ' +', static::$parserClean
 			->setContent('+ $(organization : logo_login)$ +')
 			->parse()
 			->getContent(), 'Organization logo_login should match to reference');
@@ -96,7 +96,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Organization logo_main should match to reference');
 
-		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_mail') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_main') . ' +', static::$parserClean
 			->setContent('+ $(organization : logo_mail)$ +')
 			->parse()
 			->getContent(), 'Organization logo_mail should match to reference');

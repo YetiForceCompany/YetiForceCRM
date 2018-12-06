@@ -95,7 +95,7 @@
 										</div>
 									</div>
 								</div>
-							{elseif $COLUMN neq 'logo_login' && $COLUMN neq 'logo_main' && $COLUMN neq 'logo_mail' && $COLUMN neq 'id'}
+							{elseif $COLUMN neq 'logo_main' && $COLUMN neq 'id'}
 								<div class="form-group row">
 									<label class="col-lg-2 col-form-label text-left text-lg-right">
 										{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}

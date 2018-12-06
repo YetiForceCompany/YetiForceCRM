@@ -39,12 +39,7 @@ class Companies extends \Tests\Base
 		$recordModel->set('id1', '001111112');
 		$recordModel->set('id2', '0000111113');
 		$recordModel->set('email', 'email@gmail.com');
-		$recordModel->set('logo_login', 'logo_one.png');
-		$recordModel->set('logo_login_height', '200');
 		$recordModel->set('logo_main', 'logo_two.png');
-		$recordModel->set('logo_main_height', '38');
-		$recordModel->set('logo_mail', 'logo_three.png');
-		$recordModel->set('logo_mail_height', '50');
 		$recordModel->save();
 		static::$id = $recordModel->getId();
 		$this->assertNotNull(static::$id, 'Id is null');
@@ -67,12 +62,7 @@ class Companies extends \Tests\Base
 		$this->assertSame($row['id1'], '001111112');
 		$this->assertSame($row['id2'], '0000111113');
 		$this->assertSame($row['email'], 'email@gmail.com');
-		$this->assertSame($row['logo_login'], 'logo_one.png');
-		$this->assertSame((string) $row['logo_login_height'], '200');
 		$this->assertSame($row['logo_main'], 'logo_two.png');
-		$this->assertSame((string) $row['logo_main_height'], '38');
-		$this->assertSame($row['logo_mail'], 'logo_three.png');
-		$this->assertSame((string) $row['logo_mail_height'], '50');
 	}
 
 	/**
@@ -97,12 +87,7 @@ class Companies extends \Tests\Base
 		$recordModel->set('id1', '000000001');
 		$recordModel->set('id2', '000000003');
 		$recordModel->set('email', 'emailtwo@gmail.com');
-		$recordModel->set('logo_login', 'logo_login.png');
-		$recordModel->set('logo_login_height', '150');
 		$recordModel->set('logo_main', 'logo_main.png');
-		$recordModel->set('logo_main_height', '35');
-		$recordModel->set('logo_mail', 'logo_mail.png');
-		$recordModel->set('logo_mail_height', '48');
 		$recordModel->save();
 		static::$id = $recordModel->getId();
 
@@ -124,12 +109,7 @@ class Companies extends \Tests\Base
 		$this->assertSame($row['id1'], '000000001');
 		$this->assertSame($row['id2'], '000000003');
 		$this->assertSame($row['email'], 'emailtwo@gmail.com');
-		$this->assertSame($row['logo_login'], 'logo_login.png');
-		$this->assertSame((string) $row['logo_login_height'], '150');
 		$this->assertSame($row['logo_main'], 'logo_main.png');
-		$this->assertSame((string) $row['logo_main_height'], '35');
-		$this->assertSame($row['logo_mail'], 'logo_mail.png');
-		$this->assertSame((string) $row['logo_mail_height'], '48');
 	}
 
 	/**
