@@ -15,7 +15,7 @@
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 			<div class="widget_header row mb-3">
 				<div class="col-12 d-flex">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 			<div class="form-group row">

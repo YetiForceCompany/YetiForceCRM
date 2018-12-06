@@ -5,7 +5,7 @@
 			<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
 			<div class="widget_header row align-items-lg-center">
 				<div class="col-md-7">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 				<div class="col-md-5">
 					<div class="btn-toolbar justify-content-end form-row">

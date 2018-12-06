@@ -44,7 +44,7 @@
 				<div class="col-12">
 					{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 					<span class="float-left">
-						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 					</span>
 				</div>
 			</div>
