@@ -30,7 +30,15 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
-		return CurrencyField::convertToUserFormat($value, null, true);
+		return \App\Fields\Double::formatToDisplay($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditValue($value)
+	{
+		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/**

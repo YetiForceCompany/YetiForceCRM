@@ -21,6 +21,22 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDisplayValue($value, $rawText = false)
+	{
+		return \App\Fields\Double::formatToDisplay($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditValue($value)
+	{
+		return \App\Fields\Double::formatToDisplay($value, false);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
 	{
 		$column = $this->getColumnName();
@@ -43,13 +59,5 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDisplayValue($value, $rawText = false)
-	{
-		return CurrencyField::convertToUserFormat($value, null, true);
 	}
 }

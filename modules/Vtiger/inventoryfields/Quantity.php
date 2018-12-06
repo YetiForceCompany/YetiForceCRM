@@ -29,7 +29,15 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
-		return \App\Purifier::encodeHtml(\App\Fields\Double::formatToDisplay($value));
+		return \App\Fields\Double::formatToDisplay($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditValue($value)
+	{
+		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/**

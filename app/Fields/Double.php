@@ -18,16 +18,21 @@ class Double
 	 * Function to display number in user format.
 	 *
 	 * @param string|null $value
+	 * @param bool        $fixed
 	 *
 	 * @return string
 	 */
-	public static function formatToDisplay(?string $value): string
+	public static function formatToDisplay(?string $value, $fixed = true): string
 	{
 		if (empty($value)) {
 			$value = 0;
 		}
 		$userModel = \App\User::getCurrentUserModel();
-		[$integer, $decimal] = explode('.', number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', ''), 2);
+		if ($fixed) {
+			$value = number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', '');
+		}
+		[$integer, $decimal] = explode('.', $value, 2);
+
 		$display = Integer::formatToDisplay($integer);
 		$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
 		if ($userModel->getDetail('truncate_trailing_zeros')) {

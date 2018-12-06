@@ -53,7 +53,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return App\Fields\Double::formatToDisplay($value);
+		return App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/**

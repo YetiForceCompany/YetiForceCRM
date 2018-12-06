@@ -1072,7 +1072,7 @@ App.Fields = {
 		 * @returns {string}
 		 */
 		formatToDisplay(value) {
-			if (value === undefined) {
+			if (!value) {
 				value = 0;
 			}
 			let groupSeparator = CONFIG.currencyGroupingSeparator;
@@ -1095,14 +1095,18 @@ App.Fields = {
 		/**
 		 * Function returns the currency in user specified format.
 		 * @param {number} value
+		 * @param {boolean} numberOfDecimal
 		 * @param {int} numberOfDecimal
 		 * @returns {string}
 		 */
-		formatToDisplay(value, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
-			if (value === undefined) {
+		formatToDisplay(value, fixed = true, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+			if (!value) {
 				value = 0;
 			}
-			value = parseFloat(value).toFixed(numberOfDecimal);
+			value = parseFloat(value);
+			if (fixed) {
+				value = value.toFixed(numberOfDecimal);
+			}
 			let a = value.toString().split('.');
 			let integer = App.Fields.Integer.formatToDisplay(value);
 			let decimal = a[1];
@@ -1110,9 +1114,9 @@ App.Fields = {
 				if (CONFIG.truncateTrailingZeros) {
 					if (decimal) {
 						let d = '';
-						for (var i = 0; i < numberOfDecimal; i++) {
-							if (decimal[numberOfDecimal - i - 1] !== '0') {
-								d = decimal[numberOfDecimal - i - 1] + d;
+						for (var i = 0; i < decimal.length; i++) {
+							if (decimal[decimal.length - i - 1] !== '0') {
+								d = decimal[decimal.length - i - 1] + d;
 							}
 						}
 						decimal = d;

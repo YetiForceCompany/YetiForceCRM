@@ -1824,7 +1824,7 @@ $(document).ready(function () {
 	app.registerTabdrop();
 	app.registesterScrollbar(document);
 	String.prototype.toCamelCase = function () {
-		var value = this.valueOf();
+		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
 // in IE resize option for textarea is not there, so we have to use .resizable() api
@@ -1832,7 +1832,7 @@ $(document).ready(function () {
 		$('textarea').resizable();
 	}
 // Instantiate Page Controller
-	var pageController = app.getPageController();
+	let pageController = app.getPageController();
 	if (pageController) {
 		pageController.registerEvents();
 	}
@@ -1849,7 +1849,7 @@ $(document).ready(function () {
 	}
 	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val())));
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
 	}
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
@@ -1858,19 +1858,19 @@ $(document).ready(function () {
 		this.removeAttr('disabled');
 	}
 	$.fn.serializeFormData = function () {
-		var form = $(this);
+		let form = $(this);
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
-		var values = form.serializeArray();
-		var data = {};
+		let values = form.serializeArray();
+		let data = {};
 		if (values) {
 			$(values).each(function (k, v) {
 				if (v.name in data && (typeof data[v.name] !== 'object')) {
-					var element = form.find('[name="' + v.name + '"]');
+					let element = form.find('[name="' + v.name + '"]');
 					//Only for muti select element we need to send array of values
 					if (element.is('select') && element.attr('multiple') != undefined) {
-						var prevValue = data[v.name];
+						let prevValue = data[v.name];
 						data[v.name] = [];
 						data[v.name].push(prevValue)
 					}
@@ -1883,9 +1883,9 @@ $(document).ready(function () {
 			});
 		}
 		// If data-type="autocomplete", pickup data-value="..." set
-		var autocompletes = $('[data-type="autocomplete"]', $(this));
+		let autocompletes = $('[data-type="autocomplete"]', $(this));
 		$(autocompletes).each(function (i) {
-			var ac = $(autocompletes[i]);
+			let ac = $(autocompletes[i]);
 			data[ac.attr('name')] = ac.data('value');
 		});
 		return data;
