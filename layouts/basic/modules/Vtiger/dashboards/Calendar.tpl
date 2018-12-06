@@ -35,7 +35,9 @@
 									<optgroup
 											label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-											<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {elseif empty($DATA['customFilter']) && !empty($WIDGET_DATA['defaultFilter']) && $WIDGET_DATA['defaultFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+											{if $CUSTOM_VIEW->get('setmetrics') eq 1}
+												<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {elseif empty($DATA['customFilter']) && !empty($WIDGET_DATA['defaultFilter']) && $WIDGET_DATA['defaultFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+											{/if}
 										{/foreach}
 									</optgroup>
 								{/foreach}
