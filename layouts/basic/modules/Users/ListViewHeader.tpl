@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class=" listViewPageDiv">
-	<div class='widget_header row '>
+<div class="tpl-Users-ListViewHeader listViewPageDiv">
+	<div class="widget_header row">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
@@ -44,7 +44,7 @@
 							{/foreach}
 							{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
 								<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
-									<a class="dropdown-item" {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'{else} href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}>
+									<a class="dropdown-item" {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick="{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};"{else} href="{$LISTVIEW_ADVANCEDACTIONS->getUrl()}" {/if}>
 										{if $LISTVIEW_ADVANCEDACTIONS->get('linkicon') neq ''}
 											<span class="{$LISTVIEW_ADVANCEDACTIONS->get('linkicon')}"></span>
 											&nbsp;&nbsp;
@@ -59,7 +59,7 @@
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 				<span class="btn-group">
 						<button class="btn btn-light addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-								{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
+								{else} onclick="window.location.href = '{$LISTVIEW_BASICACTION->getUrl()}'" {/if}>
 										<span class="fas fa-plus mr-1"></span>
 							{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}
 									</button>
