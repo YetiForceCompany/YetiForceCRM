@@ -120,6 +120,9 @@ class Gantt {
 				ordinal: n => `${n}`,
 			}
 		};
+		if (typeof window.FontAwesome !== 'undefined') {
+			window.FontAwesome.config.autoReplaceSvg = false;
+		}
 		if (typeof projectData !== 'undefined') {
 			this.options.title.label = projectData
 			this.loadProject(projectData);
