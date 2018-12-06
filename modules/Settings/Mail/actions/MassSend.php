@@ -4,8 +4,8 @@
  * Mail Mass send email action model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 {
@@ -37,12 +37,7 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 			->where(['id' => $recordIds])
 			->createCommand($db)->query();
 		while ($rowQueue = $dataReader->read()) {
-			$status = \App\Mailer::sendByRowQueue($rowQueue);
-			if ($status) {
-				$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
-			} else {
-				$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
-			}
+			\App\Mailer::sendByRowQueue($rowQueue);
 		}
 		$dataReader->close();
 		$response = new Vtiger_Response();
