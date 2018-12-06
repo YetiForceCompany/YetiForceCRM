@@ -517,7 +517,7 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	toggleBreadcrumActions(container) {
-		let actionsContainer = container.find('.o-header-toggle__actions')
+		let actionsContainer = container.find('.js-header-toggle__actions');
 		if (!actionsContainer.length) {
 			return;
 		}
