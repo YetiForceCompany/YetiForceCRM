@@ -121,7 +121,7 @@ class Gantt {
 			}
 		};
 		if (typeof window.FontAwesome !== 'undefined') {
-			window.FontAwesome.config.autoReplaceSvg = false;
+			window.FontAwesome.config.observeMutations = false;
 		}
 		if (typeof projectData !== 'undefined') {
 			this.options.title.label = projectData
