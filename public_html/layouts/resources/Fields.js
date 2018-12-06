@@ -474,11 +474,6 @@ App.Fields = {
 			params = this.registerParams(selectElement, params);
 			selectElement.each(function () {
 				let select = $(this);
-				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-					let selectNew = select.clone().addClass('d-none');
-					select.parent().append(selectNew);
-					select.prop('disabled', true);
-				}
 				let htmlBoolParams = select.data('select');
 				if (htmlBoolParams === 'tags') {
 					params.tags = true;
