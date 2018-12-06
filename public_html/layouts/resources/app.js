@@ -1675,15 +1675,13 @@ var App = {},
 						},
 						History: {
 							history: false
-						},
+						}
 					}
 				}
 			};
 			if (typeof userParams !== "undefined") {
 				params.data = $.extend(params.data, userParams);
 			}
-			PNotify.defaults.styling = 'bootstrap4';
-			PNotify.defaults.icons = 'fontawesome5';
 			return new PNotify(params);
 		},
 		showConfirmModal: function (customParams, confirmCallback = () => {
@@ -1742,8 +1740,6 @@ var App = {},
 			if (typeof userParams !== "undefined") {
 				params.data = $.extend(params.data, userParams);
 			}
-			PNotify.defaults.styling = 'bootstrap4';
-			PNotify.defaults.icons = 'fontawesome5';
 			new PNotify(params);
 			return aDeferred.promise();
 		},
@@ -1802,6 +1798,15 @@ var App = {},
 			Vtiger_Helper_Js.showPnotify(params);
 		},
 		/**
+		 * Set Pnotify defaults options
+		 */
+		setPnotifyDefaultOptions() {
+			PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
+			PNotify.defaults.titleTrusted = true;
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+		},
+		/**
 		 * Register auto format number value
 		 */
 		registerFormatNumber() {
@@ -1813,6 +1818,7 @@ var App = {},
 $(document).ready(function () {
 	let document = $(this);
 	app.touchDevice = app.isTouchDevice();
+	app.setPnotifyDefaultOptions();
 	App.Fields.Picklist.changeSelectElementView();
 	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
