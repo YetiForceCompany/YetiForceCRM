@@ -13,8 +13,7 @@
 					{\App\Language::translate('LBL_SELECT_FILE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-8 controls">
-					<input type="file" name="role_logo" class="fieldValue js-role-logo"
-						   data-validation-engine="validate[required]">
+					<input type="file" name="role_logo" class="fieldValue js-role-logo" data-validation-engine="validate[required]">
 				</div>
 			</div>
 		</div>
