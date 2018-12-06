@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-WidgetsManagement-WidgetConfig -->
 	{assign var=WIDGET_INFO value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
 	{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 	{assign var=LINK_LABEL_KEY value=$WIDGET_MODEL->get('linklabel')}
@@ -118,11 +119,12 @@
 							{if in_array($LINK_LABEL_KEY,$WIDGETS_WITH_FILTER_USERS)}
 								<div class="">
 									{assign var=WIDGET_OWNERS value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
+									{assign var=IS_RESTRICT_FILTER value=isset($RESTRICT_FILTER[$LINK_LABEL_KEY]) && is_array($RESTRICT_FILTER[$LINK_LABEL_KEY])}
 									<div class="row p-2">
 										<div class="col-md-5">
 											<select class="widgetFilter form-control" id="owner" name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-													{if !empty($RESTRICT_FILTER[$LINK_LABEL_KEY]) && !(is_array($RESTRICT_FILTER[$LINK_LABEL_KEY]) && in_array($OWNER_ID, $RESTRICT_FILTER[$LINK_LABEL_KEY]))}
+													{if !$IS_RESTRICT_FILTER || !in_array($OWNER_ID, $RESTRICT_FILTER[$LINK_LABEL_KEY]) }
 														<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 													{/if}
 												{/foreach}
@@ -139,9 +141,11 @@
 										<div class="col-md-8">
 											<select class="widgetFilter form-control" multiple="true" name="owners_all"
 													placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-													{if  !empty($RESTRICT_FILTER[$LINK_LABEL_KEY]) && !(is_array($RESTRICT_FILTER[$LINK_LABEL_KEY]) && in_array($OWNER_ID, $RESTRICT_FILTER[$LINK_LABEL_KEY]))}
-														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+													{if !$IS_RESTRICT_FILTER || !in_array($OWNER_ID, $RESTRICT_FILTER[$LINK_LABEL_KEY]) }
+														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >													{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}
+														</option>
 													{/if}
 												{/foreach}
 											</select>
@@ -168,11 +172,12 @@
 															<option title="{\App\Language::translate($CUSTOM_VIEW->module->name)}"
 																	data-module="{$CUSTOM_VIEW->module->name}"
 																	value="{$CUSTOM_VIEW->get('cvid')}"
-																{if !empty($WIDGET_INFO['defaultFilter']) && $CUSTOM_VIEW->get('cvid') eq $WIDGET_INFO['defaultFilter']}
-																	selected="selected"
-																{/if}
+																	{if !empty($WIDGET_INFO['defaultFilter']) && $CUSTOM_VIEW->get('cvid') eq $WIDGET_INFO['defaultFilter']}
+																		selected="selected"
+																	{/if}
 															>
-																{$CUSTOM_VIEW->getOwnerName()} - {\App\Language::translate($CUSTOM_VIEW->get('viewname'), $CUSTOM_VIEW->module->name)}
+																{$CUSTOM_VIEW->getOwnerName()}
+																- {\App\Language::translate($CUSTOM_VIEW->get('viewname'), $CUSTOM_VIEW->module->name)}
 															</option>
 														{/if}
 													{/foreach}
@@ -252,4 +257,5 @@
 			</div>
 		</div>
 	</li>
+	<!-- /tpl-Settings-WidgetsManagement-WidgetConfig -->
 {/strip}
