@@ -3,7 +3,7 @@
 	<div class="tpl-Settings-AdvancedPermission-ListViewHeader">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		{if !\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')}

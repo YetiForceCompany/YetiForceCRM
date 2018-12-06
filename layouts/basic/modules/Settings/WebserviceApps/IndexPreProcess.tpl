@@ -2,7 +2,7 @@
 {strip}
 	<div class="widget_header row align-items-center">
 		<div class="col-md-6">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="col-md-6 d-flex justify-content-lg-end pr-3">
 			<button class="btn btn-primary createKey"><span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_APPLICATION',$QUALIFIED_MODULE)}</button>

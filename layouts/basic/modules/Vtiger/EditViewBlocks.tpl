@@ -50,7 +50,7 @@
 			{/foreach}
 			<div class='widget_header row mb-3'>
 				<div class="col-md-8">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 			<div class="row mb-3">

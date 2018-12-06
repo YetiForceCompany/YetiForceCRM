@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="widget_header row">
 		<div class="col-md-8">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			{App\Language::translate('LBL_MAILSMTP_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-4 mt-3">

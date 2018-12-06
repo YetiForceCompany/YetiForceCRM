@@ -3,7 +3,7 @@
 	<div class="tpl-Settings-Colors-Index UserColors">
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				{\App\Language::translate('LBL_COLORS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>

@@ -5,7 +5,7 @@
 	<div class="tpl-Settings-Search-Index SearchFieldsEdit">
 		<div class="widget_header row pb-2">
 			<div class="col-md-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				{\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
 			</div>
 		</div>

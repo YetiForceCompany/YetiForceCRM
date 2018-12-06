@@ -5,7 +5,7 @@
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<span>{\App\Language::translate('LBL_LOCKS_DESCRIPTION', $QUALIFIED_MODULE)}</span>

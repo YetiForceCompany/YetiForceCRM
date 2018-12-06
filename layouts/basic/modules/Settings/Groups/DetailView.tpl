@@ -13,7 +13,7 @@
 	<!-- tpl-Settings-Groups-DetailView -->
 	<div class="widget_header row">
 		<div class="col-md-8">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			{if isset($SELECTED_PAGE)}
 				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 			{/if}

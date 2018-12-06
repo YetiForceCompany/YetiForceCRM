@@ -15,7 +15,7 @@
 			<div class="widget_header row mb-3">
 				<div class="col-6 col-md-9">
 					<div class="d-inline-flex">
-						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 					</div>
 					<div class="d-inline-flex">
 						<div class="js-popover-tooltip ml-2" data-js="popover"

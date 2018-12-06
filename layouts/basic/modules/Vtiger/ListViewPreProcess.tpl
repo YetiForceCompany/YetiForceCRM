@@ -11,13 +11,13 @@
 -->*}
 {strip}
 <!-- tpl-Base-ListViewPreProcess -->
-{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
+{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2"
 			 data-js="container">
 			<div class="o-breadcrumb__container">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="my-auto o-header-toggle__actions js-header-toggle__actions" id="o-view-actions__container">
 				<div class="float-right btn-toolbar btn-group">

@@ -3,7 +3,7 @@
 	<div class="verticalScroll">
 	<div class="widget_header row">
 		<div class="col-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<h5>{\App\Language::translate('Roundcube config', $MODULE)}</h5>

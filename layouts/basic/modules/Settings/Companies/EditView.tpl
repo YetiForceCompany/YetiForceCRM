@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="tpl-Settings-Companies-EditView row mb-2 widget_header">
 		<div class="col-12 d-flex">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			<a class="js-popover-tooltip my-auto ml-1 ml-lg-2" role="button" data-js="popover"
 			   data-content="{App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}"
 			   href="#" data-trigger="focus hover">
