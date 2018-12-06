@@ -30,14 +30,12 @@
 							{assign var=WIDGET_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 							<select class="widgetFilter form-control customFilter" name="customFilter"
 									title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
-								{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
+								{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllForWidgetByGroup('Calendar')}
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 									<optgroup
 											label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-											{if $CUSTOM_VIEW->get('setmetrics') eq 1}
-												<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {elseif empty($DATA['customFilter']) && !empty($WIDGET_DATA['defaultFilter']) && $WIDGET_DATA['defaultFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
-											{/if}
+											<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {elseif empty($DATA['customFilter']) && !empty($WIDGET_DATA['defaultFilter']) && $WIDGET_DATA['defaultFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}

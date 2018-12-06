@@ -16,6 +16,7 @@ class CustomView
 	const CV_STATUS_PENDING = 2;
 	const CV_STATUS_PUBLIC = 3;
 	const CV_STATUS_SYSTEM = 4;
+	const CV_WIDGET_SHOW = 1;
 
 	/**
 	 * Standard filter conditions for date fields.

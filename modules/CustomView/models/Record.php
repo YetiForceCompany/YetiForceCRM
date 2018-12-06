@@ -117,6 +117,16 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Function to check if the view is available to show in widgets.
+	 *
+	 * @return bool true/false
+	 */
+	public function isWidget()
+	{
+		return $this->get('setmetrics') === App\CustomView::CV_WIDGET_SHOW;
+	}
+
+	/**
 	 * Function to check if the view is created by the current user or is default view.
 	 *
 	 * @return bool true/false
@@ -843,6 +853,35 @@ class CustomView_Record_Model extends \App\Base
 			return $customView->setData($row)->setModule($row['entitytype']);
 		}
 		return null;
+	}
+
+	/**
+	 * Function to get all the widget available custom views, of a given module if specified, grouped by their status.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return CustomView_Record_Model[] - An array of CustomView_Record_Model
+	 */
+	public static function getAllForWidgetByGroup($moduleName = '')
+	{
+		$customViews = self::getAll($moduleName);
+		$filters = array_keys($customViews);
+		$groupedCustomViews = [];
+		foreach ($filters as $id) {
+			$customView = $customViews[$id];
+			if ($customView->isWidget()) {
+				if ($customView->isSystem()) {
+					$groupedCustomViews['System'][] = $customView;
+				} elseif ($customView->isMine()) {
+					$groupedCustomViews['Mine'][] = $customView;
+				} elseif ($customView->isPending()) {
+					$groupedCustomViews['Pending'][] = $customView;
+				} else {
+					$groupedCustomViews['Others'][] = $customView;
+				}
+			}
+		}
+		return $groupedCustomViews;
 	}
 
 	/**
