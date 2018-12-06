@@ -9,7 +9,7 @@
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
-	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
+	public static $logoNames = ['logo_main'];
 	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
 	public $logoPath = 'public_html/layouts/resources/Logo/';
 
@@ -115,9 +115,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'country':
 				$value = \App\Language::translateSingleMod($value, 'Other.Country');
 				break;
-			case 'logo_login':
 			case 'logo_main':
-			case 'logo_mail':
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
 				$value = "<img src='$src' class='img-thumbnail'/>";
 				break;
