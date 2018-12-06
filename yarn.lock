@@ -255,10 +255,10 @@ fullcalendar@3.9.0:
     jquery "2 - 3"
     moment "^2.20.1"
 
-gantt-elastic@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.3.6.tgz#b9300f9e238a8c55e5fc737fcc4879b4e4379642"
-  integrity sha512-SsmHRy1ckdPeetdvzDwolQ8+1Yt33tPYhJKxh0b5am+INIKnoTodAjzCEzYqBlwZIUDZKdKr0LoJOGQUTTKLwg==
+gantt-elastic@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.3.8.tgz#b046bc6c71552ee229f9f5669157d3b1437bcae4"
+  integrity sha512-rtbNrF/tehrxeoZv45wCgegVIJnVKkcZ4+MEagXOqVGbGPY1CUIDYYsm74tFQ2wA3rRe75sQNyr9lVwFdPbbXw==
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -367,10 +367,10 @@ jstree@^3.3.6:
   dependencies:
     jquery ">=1.9.1"
 
-leaflet.awesome-markers@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/leaflet.awesome-markers/-/leaflet.awesome-markers-2.0.4.tgz#66fea2090c9c8a0ab6d1f3b6bdd02fb37cf4ba1a"
-  integrity sha1-Zv6iCQycigq20fO2vdAvs3z0uho=
+leaflet.awesome-markers@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/leaflet.awesome-markers/-/leaflet.awesome-markers-2.0.5.tgz#b7b0210d87e2566359bf478c1ab3ab07c7246f30"
+  integrity sha512-Ne/xDjkGyaujwNVVkv2tyXQUV0ZW7gZ0Mo0FuQY4jp2qWrvXi0hwDBvmZyF/8YOvybyMabTMM/mFWCTd1jZIQA==
 
 leaflet.markercluster@^1.4.1:
   version "1.4.1"

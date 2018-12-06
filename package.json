@@ -64,7 +64,7 @@
     "jstree": "^3.3.6",
     "jstree-bootstrap-theme": "^1.0.1",
     "leaflet": "^1.3.3",
-    "leaflet.awesome-markers": "^2.0.4",
+    "leaflet.awesome-markers": "^2.0.5",
     "leaflet.markercluster": "^1.4.1",
     "moment": "^2.21.0",
     "mousetrap": "^1.6.1",
