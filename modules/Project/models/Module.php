@@ -70,32 +70,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$milestoneEstimatedWorkTime = ProjectMilestone_Module_Model::calculateEstimatedWorkTime($row['id']);
 			$estimatedWorkTime += $milestoneEstimatedWorkTime;
 			$progressInHours += ($milestoneEstimatedWorkTime * (float) $row['projectmilestone_progress']) / 100;
-			//var_dump($row['projectmilestone_progress']);
-			\App\DebugerEx::log("calculateProgressOfMilestones[{$id}]", $row, $milestoneEstimatedWorkTime, $progressInHours);
-		}
-		$dataReader->close();
-	}
-
-	/**
-	 * Calculate the progress of tasks.
-	 *
-	 * @param int   $id
-	 * @param float $estimatedWorkTime
-	 * @param float $progressInHours
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
-	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'estimated_work_time' => 'estimated_work_time',
-			'projecttaskprogress' => 'projecttaskprogress',
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$estimatedWorkTime += $row['estimated_work_time'];
-			$progressInHours += ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 		}
 		$dataReader->close();
 	}
@@ -129,7 +103,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	public function updateProgress(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null): array
 	{
-		\App\DebugerEx::log("1[{$id}]) updateProgress", $estimatedWorkTime, $progressInHours);
 		$recordModel = Vtiger_Record_Model::getInstanceById($id);
 		foreach (static::getChildren($id) as $childId) {
 			if ($callerId !== $childId) {
@@ -138,15 +111,11 @@ class Project_Module_Model extends Vtiger_Module_Model
 				$progressInHours += ($childEstimatedWorkTime * Vtiger_Record_Model::getInstanceById($childId)->get('progress') / 100);
 			}
 		}
-		\App\DebugerEx::log("2[{$id}]) updateProgress", $estimatedWorkTime, $progressInHours);
 		static::calculateProgressOfMilestones($id, $estimatedWorkTime, $progressInHours);
-		\App\DebugerEx::log("3[{$id}]) updateProgress", $estimatedWorkTime, $progressInHours);
-		//static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('progress', $projectProgress);
 		$recordModel->save();
 		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $callerId) {
-			\App\DebugerEx::log('parentid', $recordModel->get('parentid'), $id);
 			$this->updateProgress(
 				$recordModel->get('parentid'),
 				$estimatedWorkTime,

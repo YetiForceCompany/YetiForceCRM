@@ -37,36 +37,17 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
 	{
 		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'estimated_work_time' => 'estimated_work_time',
-			'projecttaskprogress' => 'projecttaskprogress',
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$estimatedWorkTime += $row['estimated_work_time'];
-			$progressInHours += ($row['estimated_work_time'] * (float) $row['projecttaskprogress']) / 100;
-			\App\DebugerEx::log("1) PM pt[$id]", $row);
-		}
-		$dataReader->close();
-	}
-
-	/*protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
-	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
 		$row = $relatedListView->getRelationQuery()->select(
 			[
 				'estimated_work_time' => new \yii\db\Expression('SUM(estimated_work_time)'),
 				'progress_in_hours' => new \yii\db\Expression('SUM(estimated_work_time * projecttaskprogress / 100)')
 			]
 		)->one();
-		if ($row === false) {
-			$estimatedWorkTime = 0.0;
-			$progressInHours = 0.0;
-		} else {
-			$estimatedWorkTime = (float) $row['estimated_work_time'];
-			$progressInHours = (float) $row['progress_in_hours'];
+		if ($row !== false && !is_null($row['estimated_work_time'])) {
+			$estimatedWorkTime += (float) $row['estimated_work_time'];
+			$progressInHours += (float) $row['progress_in_hours'];
 		}
-	}*/
+	}
 
 	/**
 	 * Calculate estimated work time.
@@ -80,14 +61,11 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
-		\App\DebugerEx::log("1) PM ewt[$id]", $estimatedWorkTime);
 		$progressInHours = 0;
 		foreach (static::getChildren($id) as $childId) {
 			$estimatedWorkTime += static::calculateEstimatedWorkTime($childId);
 		}
-		\App\DebugerEx::log("2) PM ewt[$id]", $estimatedWorkTime, $progressInHours);
 		static::calculateProgressOfTasks($id, $estimatedWorkTime, $progressInHours);
-		\App\DebugerEx::log("3) PM ewt[$id]", $estimatedWorkTime, $progressInHours);
 		return $estimatedWorkTime;
 	}
 
