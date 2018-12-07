@@ -65,4 +65,8 @@ $SECURITY_CONFIG = [
 	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
+	/**
+	 * Cache lifetime for SensioLabs security checker.
+	 */
+	'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => 3600
 ];
