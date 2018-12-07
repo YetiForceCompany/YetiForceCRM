@@ -45,9 +45,7 @@ class E_TestModule extends \Tests\Base
 	{
 		if (\file_exists(static::$testDataPath)) {
 			$this->fileUrl = static::$testDataPath;
-			print_r('Using TestData package from _private.');
 		} elseif (!empty($_SERVER['YETI_KEY'])) {
-			print_r('Try to use TestData from provided YETI_KEY');
 			if (\App\RequestUtil::isNetConnection()) {
 				$guzzle = new \GuzzleHttp\Client(['base_uri' => static::$testDataUrl]);
 				try {
@@ -57,7 +55,6 @@ class E_TestModule extends \Tests\Base
 				}
 				if ($response && $response->getStatusCode() === 200) {
 					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
-					print_r('Using TestData from provided YETI_KEY');
 				} else {
 					$this->markTestSkipped('TestData package not available - bad response from remote server, no sample data to install.');
 				}
@@ -77,7 +74,7 @@ class E_TestModule extends \Tests\Base
 		try {
 			\copy($this->fileUrl, static::$testModuleFile);
 			(new \vtlib\Package())->import(static::$testModuleFile);
-			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists(), 'TestData instalation from ' . ($this->fileUrl === static::$testDataPath ? '_private' : 'YETI_KEY') . ' failed.');
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->update('vtiger_cron_task', [
@@ -85,6 +82,7 @@ class E_TestModule extends \Tests\Base
 				], ['name' => 'TestData'])
 				->execute();
 		} catch (\Exception $exc) {
+			$this->fail('TestData instalation from ' . ($this->fileUrl === static::$testDataPath ? '_private' : 'YETI_KEY') . ' failed');
 		}
 	}
 }
