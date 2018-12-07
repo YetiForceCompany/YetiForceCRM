@@ -45,13 +45,19 @@ class E_TestModule extends \Tests\Base
 	{
 		if (\file_exists(static::$testDataPath)) {
 			$this->fileUrl = static::$testDataPath;
-			echo 'Using TestData package from: ' . static::$testDataPath;
+			print_r('Using TestData package from _private.');
 		} elseif (!empty($_SERVER['YETI_KEY'])) {
-			echo 'Try to use TestData from provided $_SERVER[\'YETI_KEY\']';
+			print_r('Try to use TestData from provided YETI_KEY');
 			if (\App\RequestUtil::isNetConnection()) {
-				if (\strpos(\get_headers(static::$testDataUrl . $_SERVER['YETI_KEY'])[0], '200') !== false) {
+				$guzzle = new \GuzzleHttp\Client(['base_uri' => static::$testDataUrl]);
+				try {
+					$response = $guzzle->head($_SERVER['YETI_KEY']);
+				} catch (\Exception $e) {
+					$response = false;
+				}
+				if ($response && $response->getStatusCode() === 200) {
 					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
-					echo 'Using TestData from provided $_SERVER[\'YETI_KEY\']';
+					print_r('Using TestData from provided YETI_KEY');
 				} else {
 					$this->markTestSkipped('TestData package not available - bad response from remote server, no sample data to install.');
 				}
