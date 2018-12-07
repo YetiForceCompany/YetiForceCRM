@@ -68,7 +68,15 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === ' ')) {
 				$displayValue = \App\Language::translate('LBL_SPACE', 'Users');
 			}
-			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
+			$prevDisplayValue = false;
+			if (($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName)) !== false) {
+				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
+			}
+			$result[$fieldName] = [
+				'value' => $fieldValue,
+				'display_value' => $displayValue,
+				'prev_display_value' => $prevDisplayValue
+			];
 		}
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
