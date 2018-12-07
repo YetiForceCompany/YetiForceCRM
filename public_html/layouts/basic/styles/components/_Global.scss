@@ -134,18 +134,18 @@
 
 	@include u-transition(all 275ms ease);
 
-	max-width: 40px;
+	max-width: calculate-rem(40px);
 
 	&.btn-xs {
-		max-width: 25px;
+		max-width: calculate-rem(25px);
 	}
 
 	&.btn-sm {
-		max-width: 32px;
+		max-width: calculate-rem(30px);
 	}
 
 	&.btn-lg {
-		max-width: 50px;
+		max-width: calculate-rem(50px);
 	}
 
 	span {
@@ -157,7 +157,7 @@
 	}
 
 	&:hover {
-		max-width: 300px;
+		max-width: calculate-rem(300px) !important;
 
 		@include u-transition(all 275ms ease);
 
@@ -170,11 +170,9 @@
 	}
 }
 
-.btn-group-toggle {
+.btn-group-toggle.btn-group-sm {
 	.c-btn-collapsible {
-		&:hover {
-			max-width: unset;
-		}
+		max-width: calculate-rem(35px);
 	}
 }
 

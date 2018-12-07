@@ -7,13 +7,13 @@
 }
 
 //Switch button
-label.btn.btn-outline-primary {
+label.btn[class*=btn-outline-] {
 	&:not(.active) {
 		background: $white;
 
 		&:hover {
-			color: $blue;
 			background: $gray-200;
+			color: $gray-600;
 		}
 	}
 }
@@ -43,7 +43,7 @@ label.btn.btn-outline-primary {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	
+
 	@at-root .historyList #{&} {
 		min-width: 500px;
 		max-width: calc(100vh - 100px);
