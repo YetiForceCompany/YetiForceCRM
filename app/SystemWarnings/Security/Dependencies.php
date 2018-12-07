@@ -30,14 +30,12 @@ class Dependencies extends \App\SystemWarnings\Template
 	public function process()
 	{
 		try {
-			$results = (new \App\Security())->securityChecker();
-			$this->status = $results->count() ? 0 : 1;
+			$vulnerabilities = (new \App\Security\Dependency())->securityChecker();
+			$this->status = \count($vulnerabilities) ? 0 : 1;
 		} catch (\App\Exceptions\AppException | \SensioLabs\Security\Exception\HttpException | \SensioLabs\Security\Exception\RuntimeException $e) {
 			$this->status = 1;
 		}
 		if ($this->status === 0) {
-			$vulnerabilities = \App\Json::decode((string) $results);
-			$vulnerabilities = (\is_array($vulnerabilities) && !empty($vulnerabilities)) ? $vulnerabilities : [];
 			$this->link = 'index.php?module=Vtiger&parent=Settings&view=Index&mode=security';
 			$this->linkTitle = \App\Language::translate('Security', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translate('LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC', 'Settings:SystemWarnings') . '<br />';
