@@ -15,7 +15,7 @@
 	<div class="listViewTopMenuDiv">
 		<div class="widget_header row">
 			<div class="col-md-6">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="col-md-6">
 				<b class="float-right pt-2">

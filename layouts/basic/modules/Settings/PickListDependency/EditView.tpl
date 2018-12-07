@@ -13,7 +13,7 @@
 	<div class="tpl-Settings-PickListDependency-EditView">
 		<div class="widget_header row mb-3">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="contents">

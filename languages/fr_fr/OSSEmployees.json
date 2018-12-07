@@ -41,7 +41,8 @@
     "Employee": "Employ\u00e9",
     "Inactive": "Inactif",
     "Average daily working time": "Temps de travail quotidien moyen",
-    "LBL_USER_EXISTS": "Employ\u00e9 existe d\u00e9j\u00e0"
+    "LBL_USER_EXISTS": "Employ\u00e9 existe d\u00e9j\u00e0",
+    "FL_ORGANIZATION_STRUCTURE": "Organization structure"
   },
   "js": {}
 }

@@ -5,7 +5,7 @@
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
 	<div class="tpl-Settings-Users-SwitchUsers widget_header row">
 		<div class="col-md-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<span style="font-size:12px;color: black;">{\App\Language::translate('LBL_SWITCH_USERS_DESCRIPTION', $QUALIFIED_MODULE)}</span>

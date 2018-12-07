@@ -73,7 +73,8 @@
     "LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES": "Ilo\u015b\u0107 znalezionych adres\u00f3w e-mail",
     "LBL_NUMBER_OF_SELECTED_RECORDS": "Ilo\u015b\u0107 zaznaczonych rekord\u00f3w",
     "LBL_MINIMIZE_BAR": "Zwijanie i rozwijanie paska",
-    "LBL_CREATEMAIL": "Wy\u015blij maila"
+    "LBL_CREATEMAIL": "Wy\u015blij maila",
+    "LBL_ADD_RELATION": "Dodaj powiz\u0105nie"
   },
   "js": {
     "NoFindEmailInRecord": "Rekord nie posiada adresu email",

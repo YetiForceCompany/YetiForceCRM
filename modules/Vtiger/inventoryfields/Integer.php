@@ -33,4 +33,12 @@ class Vtiger_Integer_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value < $this->maximumLength", 406);
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $rawText = false)
+	{
+		return \App\Fields\Integer::formatToDisplay($value);
+	}
 }

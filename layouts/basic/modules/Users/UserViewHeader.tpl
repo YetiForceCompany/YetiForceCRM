@@ -16,7 +16,7 @@
 	<div class="detailViewTitle" id="userPageHeader">
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="col-md-4 mt-2">
 				<div class="float-right detailViewButtoncontainer mb-2">

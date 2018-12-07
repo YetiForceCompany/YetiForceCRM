@@ -3,7 +3,7 @@
 	<div class="tpl-Settings-SocialMedia-Index js-social-media-container" data-js="container">
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="mt-2">

@@ -152,6 +152,39 @@
 									</div>
 								</div>
 							{/if}
+							{if $LINK_LABEL_KEY === 'Calendar'}
+								<div class="row p-2">
+									<div class="col-md-8 controls">
+										<select class="widgetFilter form-control" name="defaultFilter">
+											{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
+											{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+												<optgroup
+														label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
+													{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+														{if !(\App\Privilege::isPermitted({$CUSTOM_VIEW->module->name}))}
+															{continue}
+														{/if}
+														{if $CUSTOM_VIEW->get('setmetrics') eq 1}
+															<option title="{\App\Language::translate($CUSTOM_VIEW->module->name)}"
+																	data-module="{$CUSTOM_VIEW->module->name}"
+																	value="{$CUSTOM_VIEW->get('cvid')}"
+																{if !empty($WIDGET_INFO['defaultFilter']) && $CUSTOM_VIEW->get('cvid') eq $WIDGET_INFO['defaultFilter']}
+																	selected="selected"
+																{/if}
+															>
+																{$CUSTOM_VIEW->getOwnerName()} - {\App\Language::translate($CUSTOM_VIEW->get('viewname'), $CUSTOM_VIEW->module->name)}
+															</option>
+														{/if}
+													{/foreach}
+												</optgroup>
+											{/foreach}
+										</select>
+									</div>
+									<label class="col-md-4 form-control-plaintext">
+										{\App\Language::translate('LBL_DEFAULT_LIST_FILTER', $QUALIFIED_MODULE)}
+									</label>
+								</div>
+							{/if}
 							{if $LINK_LABEL_KEY === 'Multifilter'}
 								<div class="row p-2">
 									<div class="col-md-8 controls">

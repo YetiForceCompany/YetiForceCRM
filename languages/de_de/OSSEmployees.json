@@ -41,6 +41,7 @@
     "LBL_USER_EXISTS": "Benutzer f\u00fcr Mitarbeiter angelegt",
     "FL_POSITION": "Position",
     "FL_SECONDARY_PHONE": "Weiteres Telefon",
-    "FL_RBH": "RBH"
+    "FL_RBH": "RBH",
+    "FL_ORGANIZATION_STRUCTURE": "Organization structure"
   }
 }

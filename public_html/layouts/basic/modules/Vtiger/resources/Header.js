@@ -517,15 +517,16 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	toggleBreadcrumActions(container) {
-		if (!container.find('.js-header-toggle').length) {
+		let actionsContainer = container.find('.js-header-toggle__actions');
+		if (!actionsContainer.length) {
 			return;
 		}
-		let breadcrumb = container.find('.js-header-toggle'),
-			actionBtn = breadcrumb.find('.js-header-toggle__actions-btn'),
-			cssActionsTop = {top: breadcrumb.offset().top + breadcrumb.height()};
-		breadcrumb.find('.o-header-toggle__actions').css(cssActionsTop);
+		let actionBtn = container.find('.js-header-toggle__actions-btn'),
+			actionBtnMargin = 5,
+			cssActionsTop = {top: actionBtn.offset().top + actionBtn.outerHeight() + actionBtnMargin};
+		actionsContainer.css(cssActionsTop);
 		actionBtn.on('click', () => {
-			breadcrumb.find('.o-header-toggle__actions').toggleClass('is-active');
+			actionsContainer.toggleClass('is-active');
 		});
 	},
 	registerMobileEvents: function () {

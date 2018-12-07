@@ -328,6 +328,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'permissionsrelatedfield' => $permissionsRelatedField,
 			'globalsearchadv' => (int) $this->get('globalsearchadv'),
 			'auto_assign' => (int) $this->get('auto_assign'),
+			'company' => (int) $this->get('company'),
 		];
 		if ($mode === 'edit') {
 			$db->createCommand()->update('vtiger_role', $values, ['roleid' => $roleId])
@@ -558,5 +559,18 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');
 		}
 		return $usersList;
+	}
+
+	/**
+	 * Get multi company.
+	 *
+	 * @return array
+	 */
+	public function getMultiCompany()
+	{
+		return (new App\Db\Query())->select(['multicompanyid', 'company_name'])
+			->from('u_#__multicompany')
+			->where(['mulcomp_status' => 'PLL_ACTIVE'])
+			->all();
 	}
 }

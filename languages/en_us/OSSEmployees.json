@@ -41,6 +41,7 @@
     "LBL_USER_EXISTS": "Employee already exists",
     "FL_POSITION": "Position",
     "FL_SECONDARY_PHONE": "Secondary phone",
-    "FL_RBH": "RBH"
+    "FL_RBH": "RBH",
+    "FL_ORGANIZATION_STRUCTURE": "Organization structure"
   }
 }

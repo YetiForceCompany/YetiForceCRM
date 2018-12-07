@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- tpl-Home-dashboards-DashBoardPreProcess -->
-{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
+{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv mx-md-0 dashboardContainer">

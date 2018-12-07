@@ -19,6 +19,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		}).done(function (response) {
 			panel.html(response);
 			thisInstance.afterLoadVariablePanel(panel);
+			App.Fields.Text.registerCopyClipboard(container);
 		}).fail(function () {
 			panel.progressIndicator({mode: 'hide'});
 		});
