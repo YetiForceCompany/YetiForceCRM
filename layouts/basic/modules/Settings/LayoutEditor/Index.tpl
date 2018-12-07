@@ -100,58 +100,39 @@
 										{/if}
 										<strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
 									</div>
-									<div class="col-md-6 col-sm-6 ml-0">
-										<div class="float-right btn-toolbar blockActions m-1">
-											{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
-												<div class="btn-group">
-													<button class="btn btn-success addCustomField" type="button">
-														<span class="fa fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
-													</button>
-												</div>
-											{/if}
-											<div class="btn-group ml-1">
-												<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-													<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
-													<span class="caret"></span>
+									<div class="btn-toolbar w-100 px-1" role="toolbar" aria-label="Toolbar with button groups">
+										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
+											<div class="btn-group mr-auto">
+												<button class="btn btn-success addCustomField" type="button">
+													<span class="fa fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 												</button>
-												<ul class="dropdown-menu float-right">
-													<li class="blockVisibility"
-														data-visible="0"
-														data-block-id="{$BLOCK_MODEL->get('id')}">
-														<a class="dropdown-item" href="javascript:void(0)">
-															<span class="fas fa-check {if !$BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
-															{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}
-														</a>
-													</li>
-													<li class="blockVisibility"
-														data-visible="1"
-														data-block-id="{$BLOCK_MODEL->get('id')}">
-														<a class="dropdown-item" href="javascript:void(0)">
-															<span class="fas fa-check {if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
-															{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
-														</a>
-													</li>
-													<li class="blockVisibility"
-														data-visible="2"
-														data-block-id="{$BLOCK_MODEL->get('id')}">
-														<a class="dropdown-item" href="javascript:void(0)">
-															<span class="fas fa-check {if !$BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
-															{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}
-														</a>
-													</li>
-													<li class="inActiveFields">
-														<a class="dropdown-item"
-														   href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
-													</li>
-													{if $BLOCK_MODEL->isCustomized()}
-														<li class="deleteCustomBlock">
-															<a class="dropdown-item"
-															   href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
-														</li>
-													{/if}
-												</ul>
 											</div>
+										{/if}
+										<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
+											<label class="blockVisibility btn btn-secondary{if !$BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
+												   data-block-id="{$BLOCK_MODEL->get('id')}">
+												<input type="radio" name="options" id="option1" autocomplete="off" {if !$BLOCK_MODEL->isHidden()} checked{/if}>
+												{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}
+											</label>
+											<label class="blockVisibility btn btn-secondary{if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
+												   data-block-id="{$BLOCK_MODEL->get('id')}">
+												<input type="radio" name="options" id="option2" autocomplete="off" {if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} checked{/if}>
+												{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+											</label>
+											<label class="blockVisibility btn btn-secondary{if !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
+												   data-block-id="{$BLOCK_MODEL->get('id')}">
+												<input type="radio" name="options" id="option3" autocomplete="off"{if !$BLOCK_MODEL->isDynamic()} checked{/if}>
+												{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}
+											</label>
 										</div>
+										<div class="btn-group ml-1" role="group" aria-label="Third group">
+											<button class="inActiveFields btn btn-secondary">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</button>
+										</div>
+										{if $BLOCK_MODEL->isCustomized()}
+											<div class="btn-group ml-1" role="group" aria-label="Third group">
+												<button class="deleteCustomBlock btn btn-secondary">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</button>
+											</div>
+										{/if}
 									</div>
 								</div>
 								<div class="blockFieldsList blockFieldsSortable row m-0 p-1">
