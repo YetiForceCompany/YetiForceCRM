@@ -248,7 +248,7 @@ class File
 	 */
 	public function getSanitizeName()
 	{
-		return self::sanitizeUploadFileName($this->name);
+		return static::sanitizeUploadFileName($this->name);
 	}
 
 	/**
@@ -271,8 +271,8 @@ class File
 		if (empty($this->mimeType)) {
 			static::initMimeTypes();
 			$extension = $this->getExtension(true);
-			if (isset(self::$mimeTypes[$extension])) {
-				$this->mimeType = self::$mimeTypes[$extension];
+			if (isset(static::$mimeTypes[$extension])) {
+				$this->mimeType = static::$mimeTypes[$extension];
 			} elseif (function_exists('mime_content_type')) {
 				$this->mimeType = mime_content_type($this->path);
 			} elseif (function_exists('finfo_open')) {
@@ -464,7 +464,7 @@ class File
 	private function validateCodeInjection()
 	{
 		$shortMimeType = $this->getShortMimeType(0);
-		if ($this->validateAllCodeInjection || in_array($shortMimeType, self::$phpInjection)) {
+		if ($this->validateAllCodeInjection || in_array($shortMimeType, static::$phpInjection)) {
 			// Check for code injection
 			$contents = $this->getContents();
 			if (
