@@ -1045,7 +1045,7 @@ class File
 				$additionalNotes = '';
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
-					if (!static::removeForbiddenTags($file->getPath())) {
+					if (!static::removeForbiddenTags($file)) {
 						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
 						continue;
 					}
