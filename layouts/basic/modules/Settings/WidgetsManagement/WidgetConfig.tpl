@@ -16,7 +16,7 @@
 						<span class="fas fa-edit alignMiddle"
 							  title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 					</a>
-					<div class="basicFieldOperations d-none" style="width : 375px;">
+					<div class="basicFieldOperations d-none u-overflow-x-hidden" style="width: 375px;">
 						<form class="form-horizontal fieldDetailsForm" method="POST">
 							<input type="hidden" name="type" class="" value="{$LINK_LABEL_KEY}">
 							<div class="modal-header">
@@ -119,12 +119,17 @@
 							{if in_array($LINK_LABEL_KEY,$WIDGETS_WITH_FILTER_USERS)}
 								<div class="">
 									{assign var=WIDGET_OWNERS value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
-									{assign var=IS_RESTRICT_FILTER value=isset($RESTRICT_FILTER[$LINK_LABEL_KEY]) && is_array($RESTRICT_FILTER[$LINK_LABEL_KEY])}
+									{if isset($RESTRICT_FILTER[$LINK_LABEL_KEY]) && is_array($RESTRICT_FILTER[$LINK_LABEL_KEY])}
+										{assign var=RESTRICT_FILTER_FOR_LABEL value=$RESTRICT_FILTER[$LINK_LABEL_KEY]}
+									{else}
+										{assign var=RESTRICT_FILTER_FOR_LABEL value=[]}
+									{/if}
 									<div class="row p-2">
 										<div class="col-md-5">
-											<select class="widgetFilter form-control" id="owner" name="default_owner">
+											<select class="widgetFilter form-control" id="owner"
+													name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-													{if !$IS_RESTRICT_FILTER || !in_array($OWNER_ID, $RESTRICT_FILTER[$LINK_LABEL_KEY]) }
+													{if !in_array($OWNER_ID, $RESTRICT_FILTER_FOR_LABEL) }
 														<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 													{/if}
 												{/foreach}
@@ -139,11 +144,12 @@
 									{/if}
 									<div class="row p-2">
 										<div class="col-md-8">
-											<select class="widgetFilter form-control" multiple="true" name="owners_all"
+											<select class="widgetFilter form-control" multiple="true"
+													name="owners_all"
 													placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-													{if !$IS_RESTRICT_FILTER || !in_array($OWNER_ID, $RESTRICT_FILTER[$LINK_LABEL_KEY]) }
+													{if !in_array($OWNER_ID, $RESTRICT_FILTER_FOR_LABEL) }
 														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >													{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}
 														</option>
 													{/if}
@@ -226,7 +232,8 @@
 										{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 									</div>
 									<div class="col-sm-8 controls">
-										<select class="widgetFilterDate form-control" id="date" name="default_date">
+										<select class="widgetFilterDate form-control" id="date"
+												name="default_date">
 											{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
 												<option value="{$DATE_VALUE}" {if $DATE_VALUE eq $WIDGET_MODEL->get('date')} selected {/if}>{\App\Language::translate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
 											{/foreach}
