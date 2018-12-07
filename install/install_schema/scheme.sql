@@ -987,6 +987,7 @@ CREATE TABLE `s_yf_companies` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `short_name` varchar(100) DEFAULT NULL,
+  `type` tinyint(1) unsigned DEFAULT 0,
   `default` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `industry` varchar(50) DEFAULT NULL,
   `street` varchar(150) DEFAULT NULL,
@@ -1002,7 +1003,6 @@ CREATE TABLE `s_yf_companies` (
   `id2` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `logo_main` varchar(50) DEFAULT NULL,
-  `type` tinyint(1) unsigned DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
