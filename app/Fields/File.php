@@ -378,6 +378,8 @@ class File
 	}
 
 	/**
+	 * Validate image content.
+	 *
 	 * @throws \App\Exceptions\DangerousFile
 	 *
 	 * @return bool
@@ -396,9 +398,7 @@ class File
 				$returnVal = false;
 			}
 		} else {
-			$level = \error_reporting(0);
 			$img = \imagecreatefromstring($this->path);
-			\error_reporting($level);
 			if ($img !== false) {
 				$returnVal = true;
 				\imagedestroy($img);
@@ -1166,9 +1166,7 @@ class File
 				$result = false;
 			}
 		} else {
-			$level = error_reporting(0);
 			$img = \imagecreatefromstring(\file_get_contents($fileImgIn));
-			error_reporting($level);
 			if (false !== $img) {
 				switch (strtolower(pathinfo($fileImgIn, PATHINFO_EXTENSION))) {
 					case 'jpg':
