@@ -1072,7 +1072,7 @@ class File
 						'name' => $file->getName(),
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
-						'hash' => $request->getByType('hash', 'string'),
+						'hash' => $request->getByType('hash', 'Text'),
 						'info' => $additionalNotes
 					];
 				} else {
