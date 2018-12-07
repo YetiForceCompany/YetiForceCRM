@@ -45,8 +45,19 @@ class E_TestModule extends \Tests\Base
 	{
 		if (\file_exists(static::$testDataPath)) {
 			$this->fileUrl = static::$testDataPath;
-		} elseif (!empty($_SERVER['YETI_KEY']) && \App\RequestUtil::isNetConnection() && \strpos(\get_headers(static::$testDataUrl . $_SERVER['YETI_KEY'])[0], '200') !== false) {
-			$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
+			echo 'Using TestData package from: ' . static::$testDataPath;
+		} elseif (!empty($_SERVER['YETI_KEY'])) {
+			echo 'Try to use TestData from provided $_SERVER[\'YETI_KEY\']';
+			if (\App\RequestUtil::isNetConnection()) {
+				if (\strpos(\get_headers(static::$testDataUrl . $_SERVER['YETI_KEY'])[0], '200') !== false) {
+					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
+					echo 'Using TestData from provided $_SERVER[\'YETI_KEY\']';
+				} else {
+					$this->markTestSkipped('TestData package not available - bad response from remote server, no sample data to install.');
+				}
+			} else {
+				$this->markTestSkipped('TestData package not available - no internet connection, no sample data to install.');
+			}
 		} else {
 			$this->markTestSkipped('TestData package not available, no sample data to install.');
 		}
