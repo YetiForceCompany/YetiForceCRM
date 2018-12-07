@@ -34,7 +34,7 @@ class Roles extends \Tests\Base
 		$recordModel->set('clendarallorecords', 1);
 		$recordModel->set('auto_assign', 1);
 		$recordModel->set('rolename', 'Test');
-		$recordModel->set('profileIds', [1]);
+		$recordModel->set('profileIds', [Profiles::getAdminProfile()->getId()]);
 		$recordModel->set('allowassignedrecordsto', 1);
 		$recordModel->set('clendarallorecords', 1);
 		$recordModel->set('previewrelatedrecord', 0);
@@ -92,7 +92,7 @@ class Roles extends \Tests\Base
 		$recordModel->set('clendarallorecords', 2);
 		$recordModel->set('auto_assign', 0);
 		$recordModel->set('rolename', 'Test edit');
-		$recordModel->set('profileIds', ['1', '2']);
+		$recordModel->set('profileIds', [Profiles::getAdminProfile()->getId(), Profiles::createProfileRecord()->getId()]);
 		$recordModel->set('allowassignedrecordsto', 4);
 		$recordModel->set('clendarallorecords', 2);
 		$recordModel->set('previewrelatedrecord', 1);
