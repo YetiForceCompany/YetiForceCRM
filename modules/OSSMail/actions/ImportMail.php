@@ -4,7 +4,7 @@
  * OSSMail ImportMail action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMail_ImportMail_Action extends \App\Controller\Action
 {
@@ -17,7 +17,8 @@ class OSSMail_ImportMail_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule()) && !Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission('OSSMailView', 'CreateView')) {
+		$usersPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$usersPrivilegesModel->hasModulePermission($request->getModule()) || !$usersPrivilegesModel->hasModuleActionPermission('OSSMailView', 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
