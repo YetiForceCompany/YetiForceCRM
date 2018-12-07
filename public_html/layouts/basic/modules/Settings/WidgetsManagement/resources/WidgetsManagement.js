@@ -984,7 +984,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.on('click', '.deleteCustomBlock', function (e) {
+		contents.on('click', '.js-delete-custom-block-btn', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('block-id');
