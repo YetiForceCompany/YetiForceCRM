@@ -31,8 +31,8 @@ class Dependencies extends \App\SystemWarnings\Template
 	{
 		try {
 			$vulnerabilities = (new \App\Security\Dependency())->securityChecker();
-			$this->status = \count($vulnerabilities) ? 0 : 1;
-		} catch (\App\Exceptions\AppException | \SensioLabs\Security\Exception\HttpException | \SensioLabs\Security\Exception\RuntimeException $e) {
+			$this->status = $vulnerabilities ? 0 : 1;
+		} catch (\Throwable $e) {
 			$this->status = 1;
 		}
 		if ($this->status === 0) {
