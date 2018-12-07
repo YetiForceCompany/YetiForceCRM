@@ -830,7 +830,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				var form = data.find('.addCustomBlockForm');
 				thisInstance.setBlocksListArray(form);
 				var fieldLabel = form.find('[name="label"]');
-				var params = app.validationEngineOptions;
+				var params = Object.create(app.validationEngineOptions);
 				params.onValidationComplete = function (form, valid) {
 					if (valid) {
 						var formData = form.serializeFormData();
