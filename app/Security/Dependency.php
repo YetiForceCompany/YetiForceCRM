@@ -12,7 +12,7 @@
 namespace App\Security;
 
 /**
- * Class Dependency.
+ * Class Dependency - Security dependency check.
  */
 class Dependency
 {
