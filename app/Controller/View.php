@@ -300,6 +300,9 @@ abstract class View extends Base
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
+		if (\App\Privilege::isPermitted('OSSMail')) {
+			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
+		}
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
@@ -309,7 +312,6 @@ abstract class View extends Base
 			$fileName = '~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 		$jsFileNames[] = $fileName;
-
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
