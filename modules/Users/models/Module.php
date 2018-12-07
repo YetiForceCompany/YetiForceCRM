@@ -21,7 +21,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if ($sourceModule == 'Users' && $field == 'reports_to_id' && !empty($record)) {
+		if ($sourceModule === 'Users' && $field === 'reports_to_id' && !empty($record)) {
 			$queryGenerator->addNativeCondition(['<>', 'vtiger_users.id', $record]);
 		}
 	}
