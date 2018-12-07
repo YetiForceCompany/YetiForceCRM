@@ -258,6 +258,13 @@ ul.ui-autocomplete {
 	}
 }
 
+.sortTableUl {
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding: 0;
+}
+
 //fix placholder width when table's elements are hidden
 .ui-sortable-placeholder td[colspan="0"] {
 	display: none;

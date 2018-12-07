@@ -910,8 +910,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		var beforeBlock = contents.find('.block_' + beforeBlockId);
 
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
-		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append($('<strong>' + result['label'] + '</strong>'));
-		newBlockCloneCopy.find('.blockVisibility').data('blockId', result['id']);
+		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append($('<strong class="align-middle">' + result['label'] + '</strong>'));
+		newBlockCloneCopy.find('.js-block-visibility').data('blockId', result['id']);
 		if (result['isAddCustomFieldEnabled']) {
 			newBlockCloneCopy.find('.addCustomField').removeClass('d-none');
 		}
@@ -956,10 +956,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerBlockVisibilityEvent: function () {
 		var thisInstance = this;
 		var contents = $('#layoutEditorContainer').find('.contents');
-		contents.on('click', 'li.blockVisibility', function (e) {
+		contents.on('click', '.js-block-visibility', function (e) {
 			var currentTarget = $(e.currentTarget);
-			currentTarget.parent().find('li.blockVisibility .fa-check').addClass('d-none');
-			currentTarget.find('.fa-check').removeClass('d-none');
 			thisInstance.updateBlockStatus(currentTarget);
 		})
 	},
@@ -1005,7 +1003,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerInactiveFieldsEvent: function () {
 		var thisInstance = this;
 		var contents = $('#layoutEditorContainer').find('.contents');
-		contents.on('click', 'li.inActiveFields', function (e) {
+		contents.on('click', '.js-inactive-fields-btn', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var currentBlock = currentTarget.closest('.editFieldsTable');
 			var blockId = currentBlock.data('blockId');
@@ -1104,7 +1102,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = $('#layoutEditorContainer').find('.contents');
-		contents.on('click', 'li.deleteCustomBlock', function (e) {
+		contents.on('click', '.js-delete-custom-block-btn', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('blockId');
