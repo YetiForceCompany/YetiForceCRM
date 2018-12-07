@@ -102,34 +102,40 @@
 									</div>
 									<div class="btn-toolbar w-100 px-1" role="toolbar" aria-label="Toolbar with button groups">
 										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
-											<div class="btn-group mr-auto">
+											<div class="btn-group btn-group-sm mr-auto u-h-fit">
 												<button class="btn btn-success addCustomField" type="button">
 													<span class="fa fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
 										{/if}
-										<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
-											<label class="blockVisibility btn btn-secondary{if !$BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
+										<div class="btn-group btn-group-sm btn-group-toggle ml-auto" data-toggle="buttons">
+											<label class="blockVisibility btn btn-secondary c-btn-collapsible btn-xs{if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
 												   data-block-id="{$BLOCK_MODEL->get('id')}">
-												<input type="radio" name="options" id="option1" autocomplete="off" {if !$BLOCK_MODEL->isHidden()} checked{/if}>
-												{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}
+												<input type="radio" name="options" id="option1" autocomplete="off" {if $BLOCK_MODEL->isHidden()} checked{/if}>
+												<span class="fas mr-1 fa-eye-slash"></span>
+												<span>{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}</span>
 											</label>
-											<label class="blockVisibility btn btn-secondary{if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
+											<label class="blockVisibility btn btn-secondary c-btn-collapsible btn-xs{if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
 												   data-block-id="{$BLOCK_MODEL->get('id')}">
-												<input type="radio" name="options" id="option2" autocomplete="off" {if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} checked{/if}>
-												{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+												<input type="radio" name="options" id="option2" autocomplete="off" {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} checked{/if}>
+												<span class="fas mr-1 fa-eye"></span>
+												<span>{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}</span>
 											</label>
-											<label class="blockVisibility btn btn-secondary{if !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
+											<label class="blockVisibility btn btn-secondary c-btn-collapsible btn-xs{if $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
 												   data-block-id="{$BLOCK_MODEL->get('id')}">
-												<input type="radio" name="options" id="option3" autocomplete="off"{if !$BLOCK_MODEL->isDynamic()} checked{/if}>
-												{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}
+												<input type="radio" name="options" id="option3" autocomplete="off"{if $BLOCK_MODEL->isDynamic()} checked{/if}>
+												<span class="fas mr-1 fa-atom"></span>
+												<span>{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}</span>
 											</label>
 										</div>
-										<div class="btn-group ml-1" role="group" aria-label="Third group">
-											<button class="inActiveFields btn btn-secondary">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</button>
+										<div class="btn-group btn-group-sm ml-1 u-h-fit" role="group" aria-label="Third group">
+											<button class="inActiveFields btn btn-default">
+												<span class="fas mr-1 fa-ban"></span>
+												<span>{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</span>
+											</button>
 										</div>
 										{if $BLOCK_MODEL->isCustomized()}
-											<div class="btn-group ml-1" role="group" aria-label="Third group">
+											<div class="btn-group btn-group-sm ml-1 u-h-fit" role="group" aria-label="Third group">
 												<button class="deleteCustomBlock btn btn-secondary">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</button>
 											</div>
 										{/if}

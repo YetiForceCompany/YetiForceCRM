@@ -170,6 +170,14 @@
 	}
 }
 
+.btn-group-toggle {
+	.c-btn-collapsible {
+		&:hover {
+			max-width: unset;
+		}
+	}
+}
+
 .popover-footer {
 	padding: $popover-header-padding-y $popover-header-padding-x;
 	margin-bottom: 0; // Reset the default from Reboot
