@@ -169,6 +169,7 @@
     "LBL_HELP_LDAP": "Protok\u00f3\u0142 u\u017cywany do uzyskiwania dost\u0119pu do baz danych przechowuj\u0105cych informacje w strukturze drzewa.",
     "LBL_HELP_OPCACHE": "Poprawia wydajno\u015b\u0107 poprzez przechowywanie skompilowanego kodu bajtowego w pami\u0119ci wsp\u00f3\u0142dzielonej.",
     "LBL_HELP_APCU": "",
+    "LBL_HELP_IMAGICK": "Zaawansowana obr\u00f3bka zdje\u0107",
     "LBL_HELP_ALLEXT": "",
     "LBL_HELP_XDEBUG": "Rozszerzenie kt\u00f3re pomaga w wykrywaniu b\u0142\u0119d\u00f3w.",
     "LBL_HELP_OPCACHE_ENABLE": "W\u0142\u0105cza pami\u0119\u0107 podr\u0119czn\u0105.",
