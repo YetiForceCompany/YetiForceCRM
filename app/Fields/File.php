@@ -1138,27 +1138,25 @@ class File
 	/**
 	 * Remove the forbidden tags from image.
 	 *
-	 * @param string $fileImgIn
-	 *
-	 * @throws \ImagickException
+	 * @param \App\Fields\File $file
 	 *
 	 * @return bool
 	 */
-	public static function removeForbiddenTags(string $fileImgIn): bool
+	public static function removeForbiddenTags(self $file): bool
 	{
 		$result = false;
 		if (extension_loaded('imagick')) {
 			try {
-				$img = new \imagick($fileImgIn);
+				$img = new \imagick($file->getPath());
 				$img->stripImage();
-				switch (strtolower(pathinfo($fileImgIn, PATHINFO_EXTENSION))) {
+				switch ($file->getExtension()) {
 					case 'jpg':
 					case 'jpeg':
 						$img->setImageCompression(\Imagick::COMPRESSION_JPEG);
 						$img->setImageCompressionQuality(99);
 						break;
 				}
-				$img->writeImage($fileImgIn);
+				$img->writeImage($file->getPath());
 				$img->clear();
 				$img->destroy();
 				$result = true;
@@ -1166,21 +1164,21 @@ class File
 				$result = false;
 			}
 		} else {
-			$img = \imagecreatefromstring(\file_get_contents($fileImgIn));
+			$img = \imagecreatefromstring(\file_get_contents($file->getPath()));
 			if (false !== $img) {
-				switch (strtolower(pathinfo($fileImgIn, PATHINFO_EXTENSION))) {
+				switch ($file->getExtension()) {
 					case 'jpg':
 					case 'jpeg':
-						$result = \imagejpeg($img, $fileImgIn);
+						$result = \imagejpeg($img, $file->getPath());
 						break;
 					case 'png':
-						$result = \imagepng($img, $fileImgIn);
+						$result = \imagepng($img, $file->getPath());
 						break;
 					case 'gif':
-						$result = \imagegif($img, $fileImgIn);
+						$result = \imagegif($img, $file->getPath());
 						break;
 					case 'bmp':
-						$result = \imagebmp($img, $fileImgIn);
+						$result = \imagebmp($img, $file->getPath());
 						break;
 				}
 				\imagedestroy($img);
