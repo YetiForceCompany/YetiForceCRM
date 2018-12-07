@@ -34,6 +34,7 @@
     "ERR_CURRENCY_TABLE_DOWNLOAD": "B\u0142\u0105d podczas pobierania tabeli kurs\u00f3w walut.",
     "ERR_ITERATIONS_LIMIT_EXCEEDED": "Przekroczono dopuszczalny limit iteracji.",
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "B\u0142\u0105d podczas parsowania odpowiedzi serwera",
-    "ERR_CANNOT_CONNECT_TO_REMOTE": "B\u0142\u0105d podczas połączenia do serwera zdalnego"
+    "ERR_CANNOT_CONNECT_TO_REMOTE": "B\u0142\u0105d podczas połączenia do serwera zdalnego",
+    "ERR_NO_INTERNET_CONNECTION": "Brak po\u0142\u0105czenia z internetem"
   }
 }
