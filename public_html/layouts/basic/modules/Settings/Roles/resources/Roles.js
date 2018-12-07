@@ -235,8 +235,56 @@ var Settings_Roles_Js = {
 		});
 		return aDeferred.promise();
 	},
-
+	/**
+	 * Register button to open modal logo upload form
+	 */
+	registerModalUploadButton: function () {
+		const thisInstance = this;
+		$('.js-upload-logo').on('click', function () {
+			app.showModalWindow(null, $(this).data('url'), function (data) {
+				thisInstance.registerUploadButton(data.find('form'));
+			});
+		});
+	},
+	/**
+	 * Register button send form
+	 * @param {jQuery} form
+	 */
+	registerUploadButton: function (form) {
+		form.on('submit', function (e) {
+			e.preventDefault();
+			if (form.validationEngine('validate') === true) {
+				app.removeEmptyFilesInput(form[0]);
+				let formData = new FormData(form[0]),
+					progressIndicatorElement = jQuery.progressIndicator({
+						blockInfo: {'enabled': true}
+					}),
+					notifyType = '';
+				AppConnector.request({
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				}).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					if (true === data.result.success) {
+						notifyType = 'success';
+					} else {
+						notifyType = 'error';
+					}
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate(data.result.message),
+						type: notifyType
+					});
+					app.hideModalWindow();
+				});
+			}
+		});
+	},
 	registerEvents: function () {
+		Settings_Roles_Js.registerModalUploadButton();
 		Settings_Roles_Js.initEditView();
 		Settings_Roles_Js.registerSubmitEvent();
 	}
