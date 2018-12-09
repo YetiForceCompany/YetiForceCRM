@@ -282,7 +282,7 @@ class RecordConverter extends Base
 				if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
 					$this->inventoryMappingExecute = true;
 				}
-				if ($this->isFieldMergeExists && $recordsAmount > 1) {
+				if ($this->isFieldMergeExists) {
 					$this->groupRecordConvert = true;
 					$createdRecordIds = $this->getRecordsGroupBy($records);
 				} else {
@@ -361,6 +361,7 @@ class RecordConverter extends Base
 		$groupRecords = $this->getGroupRecords($records);
 		foreach ($groupRecords as $groupBy => $recordsId) {
 			$this->cleanRecordModels[$groupBy] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
+			$this->cleanRecordModels[$groupBy]->set($this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()], $groupBy);
 			foreach ($recordsId as $recordId) {
 				if (!isset($this->recordModels[$groupBy][$recordId])) {
 					$this->recordModels[$groupBy][$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
@@ -368,9 +369,6 @@ class RecordConverter extends Base
 			}
 			if ($this->inventoryMappingExecute) {
 				$this->processInventoryMapping();
-			}
-			if ($this->isFieldMergeExists) {
-				$this->cleanRecordModels[$groupBy]->set($this->get('field_merge'), $groupBy);
 			}
 			if ($this->get('check_duplicate')) {
 				$this->checkDuplicate();
@@ -553,10 +551,9 @@ class RecordConverter extends Base
 	{
 		if (isset($this->fieldMapping['field_merge'])) {
 			$destinyReferenceFields = $this->destinyModuleModel->getFieldsByReference();
-			$sourceReferenceFields = $this->sourceModuleModel->getFieldsByReference();
 			$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
 			if ($referenceDestinyField) {
-				if (!$this->destinyModuleModel->getField($referenceDestinyField) || !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField]) || !isset($sourceReferenceFields[$referenceDestinyField])) {
+				if (!$this->destinyModuleModel->getField($referenceDestinyField) || !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField])) {
 					return false;
 				} else {
 					return true;
