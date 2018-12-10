@@ -82,6 +82,17 @@ Testing Supported By<br/>
  
  ## Sponsors
  Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/YetiForceCRM#sponsor)]
+ 
+<a href="https://opencollective.com/YetiForceCRM/sponsor/0/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/1/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/2/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/3/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/4/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/5/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/6/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/7/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/8/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/9/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/9/avatar.svg"></a>
 
 ### Gallery: https://public.yetiforce.com/gallery
 
