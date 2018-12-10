@@ -19,11 +19,10 @@ class ProjectTask_ProjectTaskHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+			ProjectMilestone_Module_Model::updateProgress($recordModel->get('projectmilestoneid'));
 		} else {
 			$delta = $recordModel->getPreviousValue();
-			$calculateMilestone = [];
-			$calculateProject = [];
+			$calculateMilestone = $calculateProject = [];
 			foreach ($delta as $name => $value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
 					if ($name === 'projectmilestoneid') {
@@ -38,13 +37,11 @@ class ProjectTask_ProjectTaskHandler_Handler
 					$calculateProject[$value] = true;
 				}
 			}
-			$milestoneModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 			foreach ($calculateMilestone as $milestoneId => $val) {
-				$milestoneModel->updateProgressMilestone($milestoneId);
+				ProjectMilestone_Module_Model::updateProgress($milestoneId);
 			}
-			$projectModel = Vtiger_Module_Model::getInstance('Project');
 			foreach ($calculateProject as $projectId => $val) {
-				$projectModel->updateProgress($projectId);
+				Project_Module_Model::updateProgress($projectId);
 			}
 		}
 	}
@@ -56,7 +53,7 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		ProjectMilestone_Module_Model::updateProgress($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 
 	/**
@@ -66,6 +63,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityChangeState(\App\EventHandler $eventHandler)
 	{
-		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		ProjectMilestone_Module_Model::updateProgress($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 }
