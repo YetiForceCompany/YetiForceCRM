@@ -13,7 +13,6 @@
 						data-js="container">
 						{assign var=ARROW_CLASS value="before"}
 						{assign var=ICON_CLASS value="fas fa-check"}
-						{assign var=ICON_SHRINK value="8"}
 						{foreach from=$PICKLIST_VALUES item=VALUE_DATA name=picklistValues}
 							{assign var=IS_ACTIVE value=$VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}
 							{assign var=IS_LOCKED value=isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']])}
@@ -23,8 +22,7 @@
 								data-picklist-label="{\App\Purifier::encodeHtml($PICKLIST_LABEL)}"
 								data-js="confirm|click|data">
 
-								<div class="c-progress__icon__container flex-shrink-0 fa-layers fa-fw fa-2x">
-									<span class="fas fa-circle c-progress__icon-bg"></span>
+								<div class="c-progress__icon__container">
 									<span class="
 								{if $IS_LOCKED}
 									fas fa-lock
@@ -35,9 +33,8 @@
 								{/if}
 								{if $IS_ACTIVE}
 									{assign var=ICON_CLASS value="fas fa-circle"}
-									{assign var=ICON_SHRINK value="4"}
 								{/if}
-								  {' '}c-progress__icon" data-fa-transform="shrink-{if $IS_LOCKED}7{else}{$ICON_SHRINK}{/if}"></span>
+								  {' '}c-progress__icon"></span>
 								</div>
 								<div class="c-progress__link">
 									{if !empty($VALUE_DATA['description'])}
