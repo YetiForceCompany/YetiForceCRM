@@ -14,9 +14,9 @@ jQuery.Class("Settings_TimeControlProcesses_Index_Js", {}, {
 			app.saveAjax('', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				if (value) {
-					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
+					target.parent().removeClass('btn-light').addClass('btn-success').find('.fas').removeClass('fa-square').addClass('fa-check-square');
 				} else {
-					target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
+					target.parent().removeClass('btn-success').addClass('btn-light').find('.fas').removeClass('fa-check-square').addClass('fa-square');
 				}
 			});
 		});
