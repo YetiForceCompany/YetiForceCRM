@@ -7,13 +7,10 @@
 					<div class="card-header">
 						<div class="form-row">
 							<div class="col-12 col-lg-9 mb-1 p-0 u-text-ellipsis">
-								 <span class="fa-layers fa-fw mr-2 ">
-									 <i class="fas fa-circle" data-fa-transform="grow-6"></i>
-									 <i class="fa-inverse fas fa-long-arrow-alt-down text-white"
-										data-fa-transform="shrink-6 left-4"></i>
-									 <i class="fa-inverse fas fa-percent text-white"
-										data-fa-transform="shrink-8 right-3"></i>
-								 </span>
+								<span class="mr-1 small">
+									<span class="fas fa-long-arrow-alt-down"></span>
+									<span class="fas fa-percent"></span>
+								</span>
 								<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
 							</div>
 							<div class="col-12 col-lg-3 p-0 groupDiscount changeDiscount  {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['discountmode'] == '1'}d-none{/if}">
@@ -43,13 +40,10 @@
 					<div class="card-header">
 						<div class="form-row">
 							<div class="col-12 col-lg-9 mb-1 p-0 u-text-ellipsis">
-								 <span class="fa-layers fa-fw mr-2">
-									 <i class="fas fa-circle" data-fa-transform="grow-6"></i>
-									 <i class="fa-inverse fas fa-long-arrow-alt-up text-white"
-										data-fa-transform="shrink-6 left-4"></i>
-									 <i class="fa-inverse fas fa-percent text-white"
-										data-fa-transform="shrink-8 right-3"></i>
-								 </span>
+								<span class="mr-1 small">
+									<span class="fas fa-long-arrow-alt-up"></span>
+									<span class="fas fa-percent"></span>
+								</span>
 								<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}</strong>
 							</div>
 							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['taxmode'] == '1'}d-none{/if}">
@@ -95,9 +89,8 @@
 			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryCurrencies">
 					<div class="card-header u-text-ellipsis">
-						<span class="fa-layers fa-fw mr-2">
-							<i class="fas fa-circle" data-fa-transform="grow-6"></i>
-							<i class="fa-inverse fas fa-dollar-sign text-white" data-fa-transform="shrink-4"></i>
+						<span class="small mr-1">
+							<span class="fas fa-dollar-sign"></span>
 						</span>
 						<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE)}</strong>
 					</div>

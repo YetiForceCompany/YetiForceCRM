@@ -5,11 +5,9 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground align-items-center">
-					<span class="fa-layers fa-fw mr-2">
-						<i class="fas fa-circle" data-fa-transform="grow-6"></i>
-						<i class="fa-inverse fas fa-long-arrow-alt-up text-white"
-						   data-fa-transform="shrink-6  left-4"></i>
-						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
+					<span class="mr-2 small">
+						<span class="fas fa-long-arrow-alt-up"></span>
+						<span class="fas fa-percent"></span>
 					</span>
 					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal"
