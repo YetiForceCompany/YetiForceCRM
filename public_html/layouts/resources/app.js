@@ -1814,9 +1814,25 @@ var App = {},
 				$(e.currentTarget).formatNumber();
 			});
 		},
+		/**
+		 * Register toggle icon click event
+		 * @param container
+		 */
+		registerToggleIconClick(container) {
+			container.on('click', '.js-toggle-icon, .js-toggle-icon__container', (e) => {
+				let icon = $(e.target);
+				if (icon.hasClass('js-toggle-icon__container')) {
+					icon = icon.find('.js-toggle-icon');
+				}
+				let iconData = icon.data();
+				icon.toggleClass(`${iconData.active} ${iconData.inactive}`);
+				e.stopPropagation();
+			})
+		}
 	};
 $(document).ready(function () {
 	let document = $(this);
+	app.registerToggleIconClick(document);
 	app.touchDevice = app.isTouchDevice();
 	app.setPnotifyDefaultOptions();
 	App.Fields.Picklist.changeSelectElementView();
