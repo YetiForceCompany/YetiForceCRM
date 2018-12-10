@@ -963,7 +963,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
 			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist']) != -1 ? fieldName + '[]' : fieldName;
-			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
+			var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
 			}
