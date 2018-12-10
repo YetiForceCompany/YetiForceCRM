@@ -41,12 +41,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	protected static function getChildren(int $id): array
 	{
-		$queryGenerator = new \App\QueryGenerator('Project');
-		$queryGenerator->permissions = false;
-		$queryGenerator->setStateCondition('All');
-		$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted' => [0, 2]]);
-		$queryGenerator->addNativeCondition(['parentid' => $id]);
-		return $queryGenerator->createQuery()->select(['id' => 'projectid', 'progress'])->all();
+		return (new \App\Db\Query())
+			->select(['id' => 'P.projectid', 'P.progress'])
+			->from(['P' => 'vtiger_project'])
+			->innerJoin(['C' => 'vtiger_crmentity'], 'P.projectid = C.crmid')
+			->where(['C.deleted' => [0, 2]])
+			->andWhere(['P.parentid' => $id])->all();
 	}
 
 	/**
@@ -60,17 +60,18 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	protected static function calculateProgressOfMilestones(int $id, float &$estimatedWorkTime, float &$progressInHours)
 	{
-		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
-		$queryGenerator->permissions = false;
-		$queryGenerator->setStateCondition('All');
-		$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted' => [0, 2]]);
-		$queryGenerator->addNativeCondition(['projectid' => $id]);
-		$queryGenerator->addNativeCondition(['or', ['parentid' => 0], ['parentid' => null]]);
-		$dataReader = $queryGenerator->createQuery()->select([
-			'id' => 'projectmilestoneid',
-			'projectmilestonename' => 'projectmilestonename',
-			'projectmilestone_progress' => 'projectmilestone_progress',
-		])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())
+			->select([
+				'id' => 'projectmilestoneid',
+				'projectmilestonename' => 'projectmilestonename',
+				'projectmilestone_progress' => 'projectmilestone_progress',
+			])
+			->from(['PM' => 'vtiger_projectmilestone'])
+			->innerJoin(['C' => 'vtiger_crmentity'], 'PM.projectmilestoneid = C.crmid')
+			->where(['C.deleted' => [0, 2]])
+			->andWhere(['projectid' => $id])
+			->andWhere(['or', ['parentid' => 0], ['parentid' => null]])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$milestoneEstimatedWorkTime = ProjectMilestone_Module_Model::calculateEstimatedWorkTime($row['id']);
 			$estimatedWorkTime += $milestoneEstimatedWorkTime;

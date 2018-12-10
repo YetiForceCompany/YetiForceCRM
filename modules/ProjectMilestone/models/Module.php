@@ -26,12 +26,12 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	protected static function getChildren(int $id): array
 	{
-		$queryGenerator = new \App\QueryGenerator('ProjectMilestone');
-		$queryGenerator->permissions = false;
-		$queryGenerator->setStateCondition('All');
-		$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted' => [0, 2]]);
-		$queryGenerator->addNativeCondition(['parentid' => $id]);
-		return $queryGenerator->createQuery()->select(['id' => 'projectmilestoneid', 'projectmilestone_progress'])->all();
+		return (new \App\Db\Query())
+			->select(['id' => 'PM.projectmilestoneid', 'PM.projectmilestone_progress'])
+			->from(['PM' => 'vtiger_projectmilestone'])
+			->innerJoin(['C' => 'vtiger_crmentity'], 'PM.projectmilestoneid = C.crmid')
+			->where(['C.deleted' => [0, 2]])
+			->andWhere(['PM.parentid' => $id])->all();
 	}
 
 	/**
@@ -45,15 +45,16 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
 	{
-		$queryGenerator = new \App\QueryGenerator('ProjectTask');
-		$queryGenerator->permissions = false;
-		$queryGenerator->setStateCondition('All');
-		$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted' => [0, 2]]);
-		$queryGenerator->addNativeCondition(['projectmilestoneid' => $id]);
-		$row = $queryGenerator->createQuery()->select([
-			'estimated_work_time' => new \yii\db\Expression('SUM(estimated_work_time)'),
-			'progress_in_hours' => new \yii\db\Expression('SUM(estimated_work_time * projecttaskprogress / 100)')
-		])->one();
+		$row = (new \App\Db\Query())
+			->select([
+				'estimated_work_time' => new \yii\db\Expression('SUM(PT.estimated_work_time)'),
+				'progress_in_hours' => new \yii\db\Expression('SUM(PT.estimated_work_time * PT.projecttaskprogress / 100)')
+			])
+			->from(['PT' => 'vtiger_projecttask'])
+			->innerJoin(['C' => 'vtiger_crmentity'], 'PT.projecttaskid = C.crmid')
+			->where(['C.deleted' => [0, 2]])
+			->andWhere(['PT.projectmilestoneid' => $id])
+			->one();
 		if ($row !== false && !is_null($row['estimated_work_time'])) {
 			$estimatedWorkTime += (float) $row['estimated_work_time'];
 			$progressInHours += (float) $row['progress_in_hours'];
