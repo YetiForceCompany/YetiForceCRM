@@ -398,7 +398,7 @@ class File
 				$returnVal = false;
 			}
 		} else {
-			$img = \imagecreatefromstring($this->path);
+			$img = \imagecreatefromstring(\file_get_contents($this->path));
 			if ($img !== false) {
 				$returnVal = true;
 				\imagedestroy($img);
