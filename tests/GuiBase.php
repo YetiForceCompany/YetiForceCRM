@@ -45,7 +45,6 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		parent::setUp();
 
 		$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
-
 		$this->login();
 	}
 
@@ -59,12 +58,9 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 */
 	public function login()
 	{
-		if (!static::$isLogin) {
-			$this->url('index.php');
-			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
-			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
-			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
-			static::$isLogin = true;
-		}
+		$this->driver->get(\AppConfig::main('site_URL') . 'index.php?module=Users&view=Login');
+		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
+		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
+		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 	}
 }
