@@ -2161,38 +2161,30 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerMailPreviewWidget: function (container) {
-		var thisInstance = this;
-		container.on('click', '.showMailBody', function (e) {
-			var row = $(e.currentTarget).closest('.row');
-			var mailBody = row.find('.mailBody');
-			var mailTeaser = row.find('.mailTeaser');
-			var faCaretIcon = $(e.currentTarget).find('[data-fa-i2svg]');
-			if (mailBody.hasClass('d-none')) {
-				mailBody.removeClass('d-none');
-				mailTeaser.addClass('d-none');
-				faCaretIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
-			} else {
-				mailBody.addClass('d-none');
-				mailTeaser.removeClass('d-none');
-				faCaretIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
-			}
+		const self = this;
+		container.on('click', '.showMailBody', (e) => {
+			let row = $(e.currentTarget).closest('.row'),
+				mailBody = row.find('.mailBody'),
+				mailTeaser = row.find('.mailTeaser');
+			mailBody.toggleClass('d-none');
+			mailTeaser.toggleClass('d-none');
 		});
 		container.find('[name="mail-type"]').on('change', function (e) {
-			thisInstance.loadMailPreviewWidget(container);
+			self.loadMailPreviewWidget(container);
 		});
 		container.find('[name="mailFilter"]').on('change', function (e) {
-			thisInstance.loadMailPreviewWidget(container);
+			self.loadMailPreviewWidget(container);
 		});
-		container.on('click', '.showMailsModal', function (e) {
-			var url = $(e.currentTarget).data('url');
+		container.on('click', '.showMailsModal', (e) => {
+			let url = $(e.currentTarget).data('url');
 			url += '&type=' + container.find('[name="mail-type"]').val();
 			if (container.find('[name="mailFilter"]').length > 0) {
 				url += '&mailFilter=' + container.find('[name="mailFilter"]').val();
 			}
-			var progressIndicatorElement = jQuery.progressIndicator();
-			app.showModalWindow("", url, function (data) {
+			let progressIndicatorElement = jQuery.progressIndicator();
+			app.showModalWindow("", url, (data) => {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				thisInstance.registerMailPreviewWidget(data);
+				self.registerMailPreviewWidget(data);
 				Vtiger_Index_Js.registerMailButtons(data);
 				data.find('.expandAllMails').click();
 			});
@@ -2200,12 +2192,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		container.find('.expandAllMails').on('click', function (e) {
 			container.find('.mailBody').removeClass('d-none');
 			container.find('.mailTeaser').addClass('d-none');
-			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-down").addClass("fa-caret-up");
+			container.find('.showMailBody .js-toggle-icon').removeClass('fa-caret-down').addClass('fa-caret-up');
 		});
 		container.find('.collapseAllMails').on('click', function (e) {
 			container.find('.mailBody').addClass('d-none');
 			container.find('.mailTeaser').removeClass('d-none');
-			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-up").addClass("fa-caret-down");
+			container.find('.showMailBody .js-toggle-icon').removeClass('fa-caret-up').addClass('fa-caret-down');
 		});
 	},
 	loadMailPreviewWidget: function (widgetContent) {
