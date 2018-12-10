@@ -36,6 +36,7 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 		$viewer->assign('FIELDS_ICON', $recordPopoverModel->getFieldsIcon());
 		$viewer->assign('RECORD', $recordPopoverModel->getRecord());
 		$viewer->assign('FIELDS', $recordPopoverModel->getFields());
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('RecordPopover.tpl', $moduleName);
 	}
 }
