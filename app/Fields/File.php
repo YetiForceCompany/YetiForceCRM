@@ -1046,12 +1046,12 @@ class File
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
 					if (!static::removeForbiddenTags($file)) {
-						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
+						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
 						continue;
 					}
 					$file = static::loadFromRequest($fileDetails);
 					if (!$file->validate($type)) {
-						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
+						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
 						continue;
 					}
 					$additionalNotes = \App\Language::translate('LBL_FILE_HAS_BEEN_MODIFIED');
@@ -1072,13 +1072,13 @@ class File
 						'name' => $file->getName(),
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
-						'hash' => $request->getByType('hash', 'Text'),
+						'hash' => $request->getByType('hash', 'Alnum'),
 						'info' => $additionalNotes
 					];
 				} else {
 					$db->createCommand()->delete('u_#__file_upload_temp', ['key' => $key])->execute();
 					Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}");
-					$attach[] = ['hash' => $request->getByType('hash', 'Text'), 'name' => $file->getName(), 'error' => ''];
+					$attach[] = ['hash' => $request->getByType('hash', 'Alnum'), 'name' => $file->getName(), 'error' => ''];
 				}
 			}
 		}
