@@ -1126,7 +1126,7 @@ jQuery.Class("Vtiger_List_Js", {
 		// select change event must be replaced by click to avoid triggering while clicking on options' buttons
 		filterSelect.on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
 		// event triggered by tab filter click
-		this.getFilterBlock().on('mouseup', 'li .select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
+		this.getFilterBlock().on('mouseup', '.select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 		this.getListViewTopMenuContainer().find('.js-filter-tab').on('click', (e) => {
 			const cvId = $(e.currentTarget).data('cvid');
 			let selectOption = filterSelect.find(`[value=${cvId}]`);
@@ -1295,7 +1295,7 @@ jQuery.Class("Vtiger_List_Js", {
 		let thisInstance = this;
 		let listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-favorites', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-favorites', function (event) {
 				let liElement = $(this).closest('.select2-results__option');
 				let currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				let params = {
@@ -1323,7 +1323,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-duplicate', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-duplicate', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1341,7 +1341,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-edit', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-edit', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1360,7 +1360,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-delete', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-delete', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1388,7 +1388,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-approve', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-approve', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1412,7 +1412,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-deny', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-deny', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1894,7 +1894,7 @@ jQuery.Class("Vtiger_List_Js", {
 			$('#recordsCount').val('');
 			$('#totalPageCount').text("");
 			$('.pagination').data('totalCount', 0);
-			$('#dropdownEntityState').find('[data-fa-i2svg]').attr('class', element.find('[data-fa-i2svg]').attr('class'));
+			$('#dropdownEntityState').find('.js-icon').attr('class', element.find('.js-icon').attr('class'));
 			thisInstance.getListViewRecords().done(function (data) {
 				thisInstance.calculatePages().done(function () {
 					thisInstance.updatePagination();

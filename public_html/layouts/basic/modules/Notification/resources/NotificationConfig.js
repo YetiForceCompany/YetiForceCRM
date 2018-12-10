@@ -49,7 +49,7 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 		});
 		container.find('.sentNoticeAll').on('click', function (e) {
 			e.stopPropagation();
-			let element = $(e.currentTarget).find('[data-fa-i2svg]');
+			let element = $(e.currentTarget).find('.fas');
 			let val = !element.hasClass('sandNoticeOn');
 			thisInstance.changeSendNoticeState(element, val);
 			table.$('.sandNoticeOn,.sandNoticeOff').each(function () {
@@ -58,7 +58,7 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 		});
 		table.$('.sentNotice').on('click', function (e) {
 			e.stopPropagation();
-			let element = $(e.currentTarget).find('[data-fa-i2svg]');
+			let element = $(e.currentTarget).find('.fas');
 			thisInstance.changeSendNoticeState(element);
 		});
 	},
