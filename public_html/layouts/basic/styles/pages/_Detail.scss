@@ -385,14 +385,26 @@
 
 	&__icon {
 		color: var(--white);
+		font-size: calculate-rem(15px);
 
-		&-bg {
-			color: $progress-bg--active;
+		&.fa-circle {
+			margin-right: calculate-rem(1px);
+		}
+
+		&.fa-check,
+		&.fa-lock {
+			font-size: calculate-rem(11px);
 		}
 
 		&__container {
 			z-index: 1;
-			font-size: calculate-rem(20px);
+			height: calculate-rem(21px);
+			width: calculate-rem(21px);
+			display: flex;
+			background: $progress-bg--active;
+			border-radius: 50%;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
@@ -430,8 +442,8 @@
 			}
 
 			.c-progress__icon {
-				&-bg {
-					color: $progress-bg--inactive;
+				&__container {
+					background: $progress-bg--inactive;
 				}
 			}
 		}
