@@ -1,6 +1,5 @@
 {strip}
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-	<h1>asdfas</h1>
 	<div class="c-detail-widget u-mb-13px js-detail-widget" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
