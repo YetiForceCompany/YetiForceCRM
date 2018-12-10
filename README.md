@@ -24,6 +24,8 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
+[![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers) 
+[![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors) 
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
@@ -69,6 +71,17 @@ Testing Supported By<br/>
 <a href="http://browserstack.com">
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
+
+## Contributors
+ This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors"><img src="https://opencollective.com/YetiForceCRM/contributors.svg?width=890&button=false" /></a>
+
+## Backers
+ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/YetiForceCRM#backer)]
+ <a href="https://opencollective.com/YetiForceCRM#backers" target="_blank"><img src="https://opencollective.com/YetiForceCRM/backers.svg?width=890"></a>
+ 
+ ## Sponsors
+ Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/YetiForceCRM#sponsor)]
 
 ### Gallery: https://public.yetiforce.com/gallery
 
