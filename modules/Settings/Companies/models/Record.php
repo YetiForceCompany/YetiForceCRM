@@ -255,8 +255,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->from('s_#__companies')
-			->where(['name' => $request->get('name')])
-			->orWhere(['short_name' => $request->get('short_name')]);
+			->where(['name' => $request->get('name')]);
 		if ($request->get('record')) {
 			$query->andWhere(['<>', 'id', $request->get('record')]);
 		}

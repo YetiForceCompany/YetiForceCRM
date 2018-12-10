@@ -33,14 +33,13 @@ class Company extends Base
 		if (!empty($id)) {
 			$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one();
 		} else {
-			$row = (new \App\Db\Query())->from('s_#__companies')->where(['default' => 1])->one();
+			$row = (new \App\Db\Query())->from('s_#__companies')->one();
 		}
 		$self = new self();
 		if ($row) {
 			$self->setData($row);
 		}
 		Cache::save('CompanyDetail', $id, $self, Cache::LONG);
-
 		return $self;
 	}
 
@@ -57,7 +56,7 @@ class Company extends Base
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
 		}
-		$logoName = Purifier::decodeHtml($this->get(($type ? $type : 'logo_main')));
+		$logoName = 'blue_yetiforce_logo.png';
 		if (!$logoName) {
 			return false;
 		}
@@ -79,7 +78,6 @@ class Company extends Base
 			'fileExists' => file_exists($path),
 		]);
 		Cache::save('CompanyLogo', $type, $logoModel);
-
 		return $logoModel;
 	}
 }
