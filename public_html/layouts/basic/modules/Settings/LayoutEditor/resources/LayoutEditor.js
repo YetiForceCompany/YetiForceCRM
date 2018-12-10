@@ -252,7 +252,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 		AppConnector.request(params).done(function (data) {
 			currentTarget.data('state', status);
-			currentTarget.find('[data-fa-i2svg]').each(function () {
+			currentTarget.find('.fas').each(function () {
 				if ($(this).hasClass('d-none')) {
 					$(this).removeClass('d-none');
 				} else {

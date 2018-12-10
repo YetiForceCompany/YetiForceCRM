@@ -36,7 +36,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 	},
 	registerButtonEvents: function (container) {
 		var thisInstance = this;
-		container.find('.wrapperTrash, .wrapperLock').on('click', '[data-fa-i2svg]', function (e) {
+		container.find('.wrapperTrash, .wrapperLock').on('click', '.fas', function (e) {
 			var progress = thisInstance.progress();
 			var element = jQuery(e.currentTarget);
 			var mode = element.data('mode');

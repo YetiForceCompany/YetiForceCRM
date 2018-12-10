@@ -159,14 +159,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			.on('hide.bs.collapse', '.js-collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
-					.find('[data-fa-i2svg]')
+					.find('.fas')
 					.removeClass('fa-chevron-up')
 					.addClass('fa-chevron-down');
 			})
 			.on('show.bs.collapse', '.js-collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
-					.find('[data-fa-i2svg]')
+					.find('.fas')
 					.removeClass('fa-chevron-down')
 					.addClass('fa-chevron-up');
 			});
