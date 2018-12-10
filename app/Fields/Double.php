@@ -31,7 +31,7 @@ class Double
 		if ($fixed) {
 			$value = number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', '');
 		}
-		[$integer, $decimal] = explode('.', $value, 2);
+		[$integer, $decimal] = array_pad(explode('.', $value, 2), 2, false);
 
 		$display = Integer::formatToDisplay($integer);
 		$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
