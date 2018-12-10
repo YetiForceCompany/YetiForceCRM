@@ -249,7 +249,6 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/@fortawesome/fontawesome-free/js/all.js'
 		]);
 	}
 
