@@ -107,7 +107,7 @@
 									   class="form-control form-control-sm js-edit-{$RELATED_HEADERNAME} {$HEADER_FIELD->get('class')}"
 									   title="{App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE_NAME)}"
 									   data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($HEADER_FIELD->getFieldInfo()))}"
-									   value="{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}"
+									   value="{$HEADER_FIELD->getEditViewDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}"
 									   data-js="change"
 								/>
 							{else}
