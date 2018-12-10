@@ -1103,7 +1103,7 @@ App.Fields = {
 				value = value.toFixed(numberOfDecimal);
 			}
 			let a = value.toString().split('.');
-			let integer = App.Fields.Integer.formatToDisplay(value);
+			let integer = App.Fields.Integer.formatToDisplay(a[0]);
 			let decimal = a[1];
 			if (numberOfDecimal) {
 				if (CONFIG.truncateTrailingZeros) {
