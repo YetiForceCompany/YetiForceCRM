@@ -227,6 +227,7 @@
     "LBL_EXPORT_RECORDS": "Eksportuj rekordy",
     "LBL_EXPORT_SELECTED_RECORDS": "Eksportuj zaznaczone rekordy",
     "LBL_Feb": "Lut",
+    "LBL_FILE_HAS_BEEN_MODIFIED": "Plik zosta\u0142 zmodyfikowany poniewa\u017c zawiera\u0142 niebezpieczny kod.",
     "LBL_FIELDS": "Pola",
     "LBL_FILTER": "Filtr",
     "LBL_FILTER_FIELD": "Filter field",
