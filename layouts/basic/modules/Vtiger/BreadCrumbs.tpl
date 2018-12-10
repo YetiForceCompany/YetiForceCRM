@@ -10,7 +10,7 @@
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
 			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon"
-				data-content="{$BREADCRUMBS[$BREADCRUMBS|@count - 1]['name']}" data-toggle="popover"
+				data-content="{App\Purifier::encodeHtml($BREADCRUMBS[$BREADCRUMBS|@count - 1]['name'])}" data-toggle="popover"
 				data-js="popover | mouseenter">
 				<li class="breadcrumb-item">
 					<a href="{AppConfig::main('site_URL')}">
