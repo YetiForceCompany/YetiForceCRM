@@ -166,7 +166,7 @@ var Settings_Picklist_Js = {
 			var pickListVaue = jQuery(e.currentTarget)
 			if (pickListVaue.hasClass('selectedCell')) {
 				pickListVaue.removeClass('selectedCell').addClass('unselectedCell');
-				pickListVaue.find('[data-fa-i2svg]').remove();
+				pickListVaue.find('.fas').remove();
 			} else {
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
 				pickListVaue.prepend('<i class="fas fa-check float-left"></span>');

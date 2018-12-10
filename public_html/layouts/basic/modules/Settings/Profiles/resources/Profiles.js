@@ -17,10 +17,10 @@ var Settings_Profiles_Js = {
 			var container = jQuery('[data-togglecontent="' + target.data('togglehandler') + '"]');
 			var closestTrElement = container.closest('tr');
 
-			if (target.find('[data-fa-i2svg]').hasClass('fa-chevron-down')) {
+			if (target.find('.fas').hasClass('fa-chevron-down')) {
 				closestTrElement.removeClass('d-none');
 				container.slideDown('slow');
-				target.find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+				target.find('.fas').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 			} else {
 				container.slideUp('slow', function () {
 					closestTrElement.addClass('d-none');

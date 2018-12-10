@@ -649,7 +649,7 @@ $.Class("Vtiger_Header_Js", {
 	toggleSiteBar(toogleButton) {
 		$('.rowContent').toggleClass('js-sitebar--active');
 		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
-		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
+		toogleButton.find('.fas').toggleClass("fa-chevron-right fa-chevron-left");
 		toogleButton.toggleClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {

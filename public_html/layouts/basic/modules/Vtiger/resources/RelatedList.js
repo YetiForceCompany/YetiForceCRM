@@ -766,7 +766,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (response) {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
-					element.find('[data-fa-i2svg]').each(function () {
+					element.find('.fas').each(function () {
 						if (jQuery(this).hasClass('d-none')) {
 							jQuery(this).removeClass('d-none');
 						} else {
