@@ -328,3 +328,12 @@
 	}
 }
 
+.c-circle-icon {
+	height: calculate-rem(30px);
+	width: calculate-rem(30px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+}
+
