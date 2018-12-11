@@ -11,7 +11,7 @@
 			<div class="input-group">
 				<input type="text" class="searchValue form-control"
 					   placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}"/>
-				<input type="text" class="form-control u-max-w-150px" size="6" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
+				<input type="text" class="form-control u-max-w-150px js-radius" data-js="val" size="6" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
 				<div class="input-group-append">
 					<button class="btn btn-primary input-group-btn searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>
 				</div>
