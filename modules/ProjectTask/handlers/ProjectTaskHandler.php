@@ -3,33 +3,45 @@
 /**
  * ProjectTask ProjectTaskHandler handler class.
  *
+ * @package   Handler
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class ProjectTask_ProjectTaskHandler_Handler
 {
 	/**
 	 * EntityAfterSave handler function.
 	 *
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+			ProjectMilestone_Module_Model::updateProgress($recordModel->get('projectmilestoneid'));
 		} else {
 			$delta = $recordModel->getPreviousValue();
-			foreach ($delta as $name => &$value) {
+			$calculateMilestone = $calculateProject = [];
+			foreach ($delta as $name => $value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
-					$moduledModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 					if ($name === 'projectmilestoneid') {
-						$moduledModel->updateProgressMilestone($recordModel->get($name));
-						$moduledModel->updateProgressMilestone($value);
+						$calculateMilestone[$recordModel->get($name)] = true;
+						$calculateMilestone[$value] = true;
 					} else {
-						$moduledModel->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+						$calculateMilestone[$recordModel->get('projectmilestoneid')] = true;
 					}
+					$calculateProject[$recordModel->get('projectid')] = true;
+				} elseif ($name === 'projectid') {
+					$calculateProject[$recordModel->get($name)] = true;
+					$calculateProject[$value] = true;
 				}
+			}
+			foreach ($calculateMilestone as $milestoneId => $val) {
+				ProjectMilestone_Module_Model::updateProgress($milestoneId);
+			}
+			foreach ($calculateProject as $projectId => $val) {
+				Project_Module_Model::updateProgress($projectId);
 			}
 		}
 	}
@@ -37,20 +49,20 @@ class ProjectTask_ProjectTaskHandler_Handler
 	/**
 	 * EntityAfterDelete handler function.
 	 *
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(App\EventHandler $eventHandler)
+	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		ProjectMilestone_Module_Model::updateProgress($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 
 	/**
 	 * EntityChangeState handler function.
 	 *
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityChangeState(App\EventHandler $eventHandler)
+	public function entityChangeState(\App\EventHandler $eventHandler)
 	{
-		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		ProjectMilestone_Module_Model::updateProgress($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 }
