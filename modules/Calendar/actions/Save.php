@@ -23,6 +23,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	public function saveRecord(\App\Request $request)
 	{
 		$recordModel = parent::saveRecord($request);
+		$data = $recordModel->getData();
 		if ($request->getBoolean('reapeat')) {
 			$recurringEvents = Calendar_RecuringEvents_Model::getInstanceFromRequest($request);
 			if ($request->isEmpty('record')) {
