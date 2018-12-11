@@ -42,11 +42,11 @@ class Project_Module_Model extends Vtiger_Module_Model
 	protected static function getChildren(int $id): array
 	{
 		return (new \App\Db\Query())
-			->select(['id' => 'P.projectid', 'P.progress'])
-			->from(['P' => 'vtiger_project'])
-			->innerJoin(['C' => 'vtiger_crmentity'], 'P.projectid = C.crmid')
-			->where(['C.deleted' => [0, 2]])
-			->andWhere(['P.parentid' => $id])->all();
+			->select(['id' => 'vtiger_project.projectid', 'vtiger_project.progress'])
+			->from('vtiger_project')
+			->innerJoin('vtiger_crmentity', 'vtiger_project.projectid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_project.parentid' => $id])->all();
 	}
 
 	/**
@@ -62,15 +62,15 @@ class Project_Module_Model extends Vtiger_Module_Model
 	{
 		$dataReader = (new \App\Db\Query())
 			->select([
-				'id' => 'projectmilestoneid',
-				'projectmilestonename' => 'projectmilestonename',
-				'projectmilestone_progress' => 'projectmilestone_progress',
+				'id' => 'vtiger_projectmilestone.projectmilestoneid',
+				'projectmilestonename' => 'vtiger_projectmilestone.projectmilestonename',
+				'projectmilestone_progress' => 'vtiger_projectmilestone.projectmilestone_progress',
 			])
-			->from(['PM' => 'vtiger_projectmilestone'])
-			->innerJoin(['C' => 'vtiger_crmentity'], 'PM.projectmilestoneid = C.crmid')
-			->where(['C.deleted' => [0, 2]])
-			->andWhere(['projectid' => $id])
-			->andWhere(['or', ['parentid' => 0], ['parentid' => null]])
+			->from('vtiger_projectmilestone')
+			->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_projectmilestone.projectid' => $id])
+			->andWhere(['or', ['vtiger_projectmilestone.parentid' => 0], ['vtiger_projectmilestone.parentid' => null]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$milestoneEstimatedWorkTime = ProjectMilestone_Module_Model::calculateEstimatedWorkTime($row['id']);

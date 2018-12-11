@@ -27,11 +27,11 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	protected static function getChildren(int $id): array
 	{
 		return (new \App\Db\Query())
-			->select(['id' => 'PM.projectmilestoneid', 'PM.projectmilestone_progress'])
-			->from(['PM' => 'vtiger_projectmilestone'])
-			->innerJoin(['C' => 'vtiger_crmentity'], 'PM.projectmilestoneid = C.crmid')
-			->where(['C.deleted' => [0, 2]])
-			->andWhere(['PM.parentid' => $id])->all();
+			->select(['id' => 'vtiger_projectmilestone.projectmilestoneid', 'vtiger_projectmilestone.projectmilestone_progress'])
+			->from('vtiger_projectmilestone')
+			->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_projectmilestone.parentid' => $id])->all();
 	}
 
 	/**
@@ -47,13 +47,13 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	{
 		$row = (new \App\Db\Query())
 			->select([
-				'estimated_work_time' => new \yii\db\Expression('SUM(PT.estimated_work_time)'),
-				'progress_in_hours' => new \yii\db\Expression('SUM(PT.estimated_work_time * PT.projecttaskprogress / 100)')
+				'estimated_work_time' => new \yii\db\Expression('SUM(vtiger_projecttask.estimated_work_time)'),
+				'progress_in_hours' => new \yii\db\Expression('SUM(vtiger_projecttask.estimated_work_time * vtiger_projecttask.projecttaskprogress / 100)')
 			])
-			->from(['PT' => 'vtiger_projecttask'])
-			->innerJoin(['C' => 'vtiger_crmentity'], 'PT.projecttaskid = C.crmid')
-			->where(['C.deleted' => [0, 2]])
-			->andWhere(['PT.projectmilestoneid' => $id])
+			->from('vtiger_projecttask')
+			->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_projecttask.projectmilestoneid' => $id])
 			->one();
 		if ($row !== false && !is_null($row['estimated_work_time'])) {
 			$estimatedWorkTime += (float) $row['estimated_work_time'];
