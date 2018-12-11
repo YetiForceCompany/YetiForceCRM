@@ -498,9 +498,8 @@ var App = {},
 			container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
 			container.one('hidden.bs.modal', function () {
 				container.remove();
-				let backdrop = $('.modal-backdrop'),
-					modalContainers = $('.modalContainer');
-				if (modalContainers.length == 0 && backdrop.length) {
+				let backdrop = $('.modal-backdrop');
+				if (!$('.modal.show').length) {
 					backdrop.remove();
 				}
 				if (backdrop.length > 0) {
