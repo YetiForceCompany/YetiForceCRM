@@ -91,6 +91,5 @@ class Companies extends \Tests\Base
 		$this->assertNotFalse($columns, 'Columns should be not false');
 		$this->assertNotEmpty($columns, 'Columns should be not empty');
 		$this->assertNotEmpty(\Settings_Companies_Module_Model::getIndustryList(), 'Industry list should be not empty');
-		$this->assertNotEmpty(\Settings_Companies_Module_Model::getAllCompanies(), 'Companies list should be not empty');
 	}
 }
