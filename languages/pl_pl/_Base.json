@@ -1633,6 +1633,8 @@
     "JS_MESSAGE_TOO_LONG": "Wiadomo\u015b\u0107 jest za d\u0142uga",
     "JS_NO_DESKTOP_PERMISSION": "Nie uda\u0142o si\u0119 uzyska\u0107 zgody na powiadomienia, sprawd\u017a ustawienia przegl\u0105darki.",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Wczytano dane adresowe",
-    "JS_UNEXPECTED_ERROR": "Wyst\u0105pi\u0142 nieoczekiwany b\u0142\u0105d"
+    "JS_UNEXPECTED_ERROR": "Wyst\u0105pi\u0142 nieoczekiwany b\u0142\u0105d",
+    "JS_DELETE_ALL_RECYCLE_RECORD": "Usu\u0144 wszystkie rekordy z kosza",
+    "JS_DELETE_ALL_RECYCLE_RECORD_DESC": "Usuni\u0119cie rekord\u00F3w spowoduje trwa\u0142e i nieodwracalne usuni\u0119cie wszystkich informacji o rekordach. Czy na pewno chcesz kontynuowa\u0107?"
   }
 }
