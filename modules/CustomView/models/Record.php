@@ -228,18 +228,17 @@ class CustomView_Record_Model extends \App\Base
 
 	public function isEditable()
 	{
-		if ($this->get('privileges') == 0) {
-			return false;
-		}
-		if (\App\User::getCurrentUserModel()->isAdmin()) {
+		if ($this->get('presence') !== 2 && \App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
+		}
+		if ($this->get('privileges') === 0 || $this->get('presence') === 2) {
+			return false;
 		}
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
 		if (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
 			return false;
 		}
-
 		if ($this->isMine() || $this->isOthers()) {
 			return true;
 		}

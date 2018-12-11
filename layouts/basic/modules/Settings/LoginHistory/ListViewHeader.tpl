@@ -6,7 +6,7 @@
 <div class="">
 	<div class="row widget_header">
 		<div class="col-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<div class="form-row my-3 widget_header py-2 align-items-center">

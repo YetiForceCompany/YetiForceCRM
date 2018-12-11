@@ -46,9 +46,7 @@ class DateTime
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x === false) {
-					continue;
-				} else {
+				if ($x !== false) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
@@ -125,21 +123,14 @@ class DateTime
 	 */
 	public static function formatToDay($dateTime, $allday = false)
 	{
-		$dateTimeInUserFormat = explode(' ', static::formatToDisplay($dateTime));
-		if (count($dateTimeInUserFormat) === 3) {
-			list($dateInUserFormat, $timeInUserFormat, $seconds) = $dateTimeInUserFormat;
-		} else {
-			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
-			$seconds = '';
-		}
-		$formatedDate = $dateInUserFormat;
+		[$formatedDate, $timeInUserFormat] = explode(' ', static::formatToDisplay($dateTime));
 		$dateDay = Date::getDayFromDate($dateTime, false, true);
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
-			if (count($timeInUserFormat) === 3) {
-				list($hours, $minutes, $seconds) = $timeInUserFormat;
+			if (\count($timeInUserFormat) === 3) {
+				[$hours, $minutes, $seconds] = $timeInUserFormat;
 			} else {
-				list($hours, $minutes) = $timeInUserFormat;
+				[$hours, $minutes] = $timeInUserFormat;
 				$seconds = '';
 			}
 			$displayTime = $hours . ':' . $minutes . ' ' . $seconds;

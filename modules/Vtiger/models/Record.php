@@ -448,11 +448,8 @@ class Vtiger_Record_Model extends \App\Base
 			if ($moduleModel->isInventory()) {
 				$this->saveInventoryData($moduleName);
 			}
-			if (\App\Request::_get('createmode') === 'link') {
-				// vtlib customization: Hook provide to enable generic module relation.
-				if (\App\Request::_has('return_module') && \App\Request::_has('return_id')) {
-					vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
-				}
+			if (\App\Request::_get('createmode') === 'link' && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
+				vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_getInteger('return_id'), $moduleName, $recordId);
 			}
 			$transaction->commit();
 		} catch (\Exception $e) {
@@ -1486,7 +1483,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isCanAssignToHimself()
 	{
-		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
+		return $this->isPermitted('AssignToYourself') && \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
 			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
@@ -1497,7 +1494,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function autoAssignRecord()
 	{
-		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
+		if ($this->isPermitted('AutoAssignRecord') && \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
 			$userModel = \App\User::getCurrentUserModel();
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {

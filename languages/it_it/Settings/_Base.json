@@ -311,7 +311,7 @@
     "LBL_SELECT_ICON": "Select icon",
     "LBL_ICON_NAME": "Icon name",
     "LBL_ICON_EXAMPLE": "Icon example",
-    "ERR_NO_REQUIRED_LIBRARY": "Could not find required %s library.\n Some features were disabled. Go to %s to download.",
+    "ERR_NO_REQUIRED_LIBRARY": "Could not find required %s library. Some features were disabled. Go to %s to download.",
     "LBL_SYSTEM_WARNINGS": "System warnings",
     "LBL_WARNINGS_FOLDERS": "Warning category",
     "LBL_WARNINGS_TITLE": "Title",

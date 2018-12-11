@@ -3,7 +3,7 @@
 <div class="autologinContainer">
 	<div class="widget_header row">
 		<div class="col-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			&nbsp;{\App\Language::translate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>

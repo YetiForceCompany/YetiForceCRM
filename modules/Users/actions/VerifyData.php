@@ -4,8 +4,8 @@
  * Verify user data action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_VerifyData_Action extends \App\Controller\Action
 {
@@ -52,10 +52,8 @@ class Users_VerifyData_Action extends \App\Controller\Action
 				$checkUserName = true;
 			}
 		}
-		if ($checkUserName) {
-			if ($checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $userId)) {
-				$message = $checkUserName;
-			}
+		if ($checkUserName && $checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $userId)) {
+			$message = $checkUserName;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['message' => $message]);

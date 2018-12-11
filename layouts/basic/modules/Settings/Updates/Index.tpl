@@ -13,7 +13,7 @@
 <div class="tpl-Settings-Updates-Index">
 	<div class="widget_header row">
 		<div class="col-md-7">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="col-md-5 align-items-center d-flex justify-content-end">
 			<a class="btn btn-success btn-sm addMenu" role="button" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}">

@@ -14,7 +14,7 @@
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
 			<div class="widget_header row">
 				<div class="col-md-8">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 				<div class="col-md-4 text-right mt-1">
 					<button class="btn btn-success" type="submit"><span

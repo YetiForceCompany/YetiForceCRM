@@ -4,7 +4,7 @@
 	<div class="listViewTopMenuDiv">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="badge badge-info my-2">

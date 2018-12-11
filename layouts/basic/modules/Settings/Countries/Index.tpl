@@ -3,7 +3,7 @@
 	<div class="">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				&nbsp;{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_DESCRIPTION', $QUALIFIED_MODULE))}
 			</div>
 		</div>

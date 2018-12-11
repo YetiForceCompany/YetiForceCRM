@@ -41,6 +41,7 @@
     "LBL_USER_EXISTS": "El empleado ya existe",
     "FL_POSITION": "Puesto de trabajo",
     "FL_SECONDARY_PHONE": "Tel\u00e9fono secundario",
-    "FL_RBH": "RBH"
+    "FL_RBH": "RBH",
+    "FL_ORGANIZATION_STRUCTURE": "Organization structure"
   }
 }

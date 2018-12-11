@@ -284,7 +284,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				try {
 					$mail->addActionResult($action, $handler->process($mail));
 				} catch (Exception $e) {
-					App\Log::error($e->getMessage(), 'MailScanner');
+					App\Log::error($e->__toString(), 'MailScanner');
 				}
 				\App\Log::trace('End action', 'MailScanner');
 			}

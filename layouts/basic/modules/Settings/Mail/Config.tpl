@@ -3,7 +3,7 @@
 	<div class="configContainer tpl-Settings-Mail-Config">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				{\App\Language::translate('LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>

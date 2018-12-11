@@ -308,7 +308,7 @@
     "LBL_SELECT_ICON": "Seleciona \u00edcone",
     "LBL_ICON_NAME": "Nome \u00edcone",
     "LBL_ICON_EXAMPLE": "Exemplo de \u00edcone",
-    "ERR_NO_REQUIRED_LIBRARY": "N\u00e3o \u00e9 poss\u00edvel encontrar a biblioteca %s requerida.\n Alguns recursos foram desativados. V\u00e1 para %s para download.",
+    "ERR_NO_REQUIRED_LIBRARY": "N\u00e3o \u00e9 poss\u00edvel encontrar a biblioteca %s requerida. Alguns recursos foram desativados. V\u00e1 para %s para download.",
     "LBL_SYSTEM_WARNINGS": "Alertas do Sistema",
     "LBL_WARNINGS_FOLDERS": "Categoria de Alerta",
     "LBL_WARNINGS_TITLE": "T\u00edtulo",

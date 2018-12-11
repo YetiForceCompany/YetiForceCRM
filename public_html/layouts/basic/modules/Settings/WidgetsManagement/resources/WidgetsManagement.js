@@ -461,6 +461,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			if (selectElements.length > 0) {
 				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="customMultiFilter"]'));
 			}
+			selectElements = basicDropDown.find('select[name="defaultFilter"]');
+			if (selectElements.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="defaultFilter"]'));
+			}
 			thisInstance.avoidDropDownClick(dropDownContainer);
 			dropDownMenu.on('change', ':checkbox', function (e) {
 				let currentTarget = jQuery(e.currentTarget);
@@ -980,7 +984,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.on('click', '.deleteCustomBlock', function (e) {
+		contents.on('click', '.js-delete-custom-block-btn', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('block-id');

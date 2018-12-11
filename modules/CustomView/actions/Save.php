@@ -16,9 +16,6 @@ class CustomView_Save_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (\App\User::getCurrentUserModel()->isAdmin()) {
-			return;
-		}
 		if ($request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}

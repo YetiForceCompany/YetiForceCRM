@@ -208,7 +208,7 @@ class Owner
 					$fullName .= ' ' . $row[$field];
 				}
 				if ($showRolesName && isset($row['rolename'])) {
-					$roleName = \App\Language::translate($row['rolename']);
+					$roleName = \App\Language::translate($row['rolename'], '_Base', false, false);
 					$fullName .= " ({$roleName})";
 				}
 				$row['fullName'] = trim($fullName);

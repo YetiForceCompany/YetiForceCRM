@@ -104,7 +104,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function set($key, $value)
 	{
-		if ($this->value[$key] !== $value && null !== $this->getId()) {
+		if (null !== $this->getId() && $this->value[$key] !== $value) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;

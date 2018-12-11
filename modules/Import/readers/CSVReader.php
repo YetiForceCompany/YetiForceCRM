@@ -98,7 +98,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$standardData = $this->syncRowData($headers, $standardData);
 			$rowData['LBL_STANDARD_FIELDS'] = $this->arrayCombine($headers, $standardData);
 			if ($inventoryData) {
-				$standardData = $this->syncRowData($inventoryHeaders, $inventoryData);
 				$rowData['LBL_INVENTORY_FIELDS'] = $this->arrayCombine($inventoryHeaders, $inventoryData);
 			}
 		} else {

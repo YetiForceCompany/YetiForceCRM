@@ -1186,10 +1186,6 @@ hr {
 			border-bottom: 1px solid #ddd;
 		}
 	}
-
-	.moduleBlocks .editFieldsTable .layoutBlockHeader .blockLabel {
-		padding-top: 13px;
-	}
 }
 
 #salesProcessesContainer .layoutContent {
@@ -1901,6 +1897,7 @@ table.dataTable .form-control {
 		font-size: 1rem;
 		vertical-align: text-bottom;
 		position: relative;
+
 		&:after {
 			content: "";
 			width: 100%;
@@ -1913,6 +1910,7 @@ table.dataTable .form-control {
 			box-shadow: inset 0px 0px 1px 1px rgba($body-color, 0.5);
 		}
 	}
+
 	.active .stepNum::after {
 		content: "";
 		width: 100%;
@@ -2526,13 +2524,6 @@ html, body, .o-base-container {
 	.col-xs-4 {
 		padding-left: 0 !important;
 	}
-}
-
-.sortTableUl {
-	list-style-type: none;
-	float: left;
-	min-height: 1px;
-	padding: 2px;
 }
 
 .dashboardHeading {

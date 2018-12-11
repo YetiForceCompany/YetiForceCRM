@@ -22,11 +22,9 @@ class Webservice
 	 */
 	public static function initialize(ModuleBasic $moduleInstance)
 	{
-		if ($moduleInstance->isentitytype) {
-			if (function_exists('vtws_addDefaultModuleTypeEntity')) {
-				vtws_addDefaultModuleTypeEntity($moduleInstance->name);
-				\App\Log::trace('Initializing webservices support ...DONE', __METHOD__);
-			}
+		if ($moduleInstance->isentitytype && \function_exists('vtws_addDefaultModuleTypeEntity')) {
+			vtws_addDefaultModuleTypeEntity($moduleInstance->name);
+			\App\Log::trace('Initializing webservices support ...DONE', __METHOD__);
 		}
 	}
 }

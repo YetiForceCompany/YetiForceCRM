@@ -49,10 +49,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			foreach ($templates as $templateId) {
 				$templateRecord = Vtiger_PDF_Model::getInstanceById((int) $templateId);
 				foreach ($records as $recordId) {
-					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && !$templateRecord->checkFiltersForRecord((int) $recordId)) {
-						if (($key = array_search($recordId, $records)) !== false) {
-							unset($records[$key]);
-						}
+					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && !$templateRecord->checkFiltersForRecord((int) $recordId) && ($key = array_search($recordId, $records)) !== false) {
+						unset($records[$key]);
 					}
 				}
 			}
@@ -82,7 +80,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
 
-		$postfix = time() . '_' . mt_rand(0, 1000);
+		$postfix = time() . '_' . random_int(0, 1000);
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}

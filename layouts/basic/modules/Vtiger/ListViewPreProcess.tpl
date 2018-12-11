@@ -10,27 +10,29 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
-	<div class="bodyContents">
-		<div class="mainContainer">
-			<div class="o-breadcrumb js-header-toggle widget_header mb-2 d-flex justify-content-between px-2"
-				 data-js="container">
-				<div class="o-breadcrumb__container">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				</div>
-				<a class="btn btn-outline-dark d-md-none my-auto o-header-toggle__actions-btn js-header-toggle__actions-btn" href="#" data-js="click" role="button"
-				   aria-expanded="false" aria-controls="o-view-actions__container">
-							<span class="fas fa-ellipsis-h fa-fw"
-								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
-				</a>
-				<div class="my-auto o-header-toggle__actions js-header-toggle__actions" id="o-view-actions__container">
-					<div class="float-right btn-toolbar btn-group">
-						{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-						{/foreach}
-					</div>
+<!-- tpl-Base-ListViewPreProcess -->
+{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
+<div class="bodyContents">
+	<div class="mainContainer">
+		<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2"
+			 data-js="container">
+			<div class="o-breadcrumb__container">
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+			</div>
+			<div class="my-auto o-header-toggle__actions js-header-toggle__actions" id="o-view-actions__container">
+				<div class="float-right btn-toolbar btn-group">
+					{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
+					{/foreach}
 				</div>
 			</div>
-			<div class="contentsDiv">
-				{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', $MODULE)}
+		</div>
+		<div class="contentsDiv">
+			<a class="btn btn-outline-dark d-md-none o-header-toggle__actions-btn js-header-toggle__actions-btn mb-1" href="#" data-js="click" role="button"
+			   aria-expanded="false" aria-controls="o-view-actions__container">
+							<span class="fas fa-ellipsis-h fa-fw"
+								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
+			</a>
+			{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', $MODULE)}
+			<!-- /tpl-Base-ListViewPreProcess -->
 			{/strip}

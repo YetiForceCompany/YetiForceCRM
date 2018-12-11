@@ -18,30 +18,36 @@ class Double
 	 * Function to display number in user format.
 	 *
 	 * @param string|null $value
+	 * @param bool        $fixed
 	 *
 	 * @return string
 	 */
-	public static function formatToDisplay(?string $value): string
+	public static function formatToDisplay(?string $value, $fixed = true): string
 	{
-		$valueParts = explode('.', $value, 2);
-		$valueToDisplay = Integer::formatToDisplay($valueParts[0]);
-		if (isset($valueParts[1])) {
-			$userModel = \App\User::getCurrentUserModel();
-			$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
-			if ($userModel->getDetail('truncate_trailing_zeros')) {
-				for ($i = strlen($valueParts[1]) -1; $i >= 0; $i--) {
-					if ($valueParts[1][$i] !== '0') {
-						break;
-					}
-				}
-				if ($i !== -1) {
-					$valueToDisplay .= $decimalSeperator . substr($valueParts[1], 0, $i + 1);
-				}
-			} else {
-				$valueToDisplay .= $decimalSeperator . $valueParts[1];
-			}
+		if (empty($value)) {
+			$value = 0;
 		}
-		return $valueToDisplay;
+		$userModel = \App\User::getCurrentUserModel();
+		if ($fixed) {
+			$value = number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', '');
+		}
+		[$integer, $decimal] = array_pad(explode('.', $value, 2), 2, false);
+
+		$display = Integer::formatToDisplay($integer);
+		$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
+		if ($userModel->getDetail('truncate_trailing_zeros')) {
+			for ($i = strlen($decimal) - 1; $i >= 0; $i--) {
+				if ($decimal[$i] !== '0') {
+					break;
+				}
+			}
+			if ($i !== -1) {
+				$display .= $decimalSeperator . substr($decimal, 0, $i + 1);
+			}
+		} else {
+			$display .= $decimalSeperator . $decimal;
+		}
+		return $display;
 	}
 
 	/**

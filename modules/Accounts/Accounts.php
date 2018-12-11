@@ -139,17 +139,11 @@ class Accounts extends CRMEntity
 		$accountsList = $this->__getParentAccounts($id, $accountsList, $encounteredAccounts);
 		$baseId = current(array_keys($accountsList));
 		$accountsList = [$baseId => $accountsList[$baseId] ?? []];
-
 		// Get the accounts hierarchy (list of child accounts) based on the current account
 		$accountsList[$baseId] = $this->__getChildAccounts($baseId, $accountsList[$baseId], $accountsList[$baseId]['depth']);
-
-		// Create array of all the accounts in the hierarchy
-		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listViewEntries);
-
-		$accountHierarchy = ['header' => $listViewHeader, 'entries' => $listViewEntries];
+		$this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listViewEntries);
 		\App\Log::trace('Exiting getAccountHierarchy method ...');
-
-		return $accountHierarchy;
+		return ['header' => $listViewHeader, 'entries' => $listViewEntries];
 	}
 
 	/**

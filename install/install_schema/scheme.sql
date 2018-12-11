@@ -987,6 +987,7 @@ CREATE TABLE `s_yf_companies` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `short_name` varchar(100) DEFAULT NULL,
+  `type` tinyint(1) unsigned DEFAULT 0,
   `default` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `industry` varchar(50) DEFAULT NULL,
   `street` varchar(150) DEFAULT NULL,
@@ -1001,12 +1002,7 @@ CREATE TABLE `s_yf_companies` (
   `id1` varchar(50) DEFAULT NULL,
   `id2` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `logo_login` varchar(50) DEFAULT NULL,
-  `logo_login_height` tinyint(3) unsigned DEFAULT NULL,
   `logo_main` varchar(50) DEFAULT NULL,
-  `logo_main_height` tinyint(3) unsigned DEFAULT NULL,
-  `logo_mail` varchar(50) DEFAULT NULL,
-  `logo_mail_height` tinyint(3) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -1026,6 +1022,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `error` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
   KEY `status` (`status`),
@@ -1533,7 +1530,7 @@ CREATE TABLE `u_yf_cv_condition_group` (
   PRIMARY KEY (`id`),
   KEY `u_yf_cv_condition_group_cvid_idx` (`cvid`),
   CONSTRAINT `u_yf_cv_condition_group_fk` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cv_duplicates` */
 
@@ -2959,6 +2956,8 @@ CREATE TABLE `u_yf_multicompany` (
   `addresslevel2a` varchar(255) DEFAULT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
+  `website` varchar(255) DEFAULT '',
+  `logo` text DEFAULT NULL,
   PRIMARY KEY (`multicompanyid`),
   KEY `multicompany_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_multicompanymulticompanyid` FOREIGN KEY (`multicompanyid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4333,14 +4332,14 @@ CREATE TABLE `vtiger_blocks` (
   `blockid` int(10) NOT NULL AUTO_INCREMENT,
   `tabid` smallint(5) NOT NULL,
   `blocklabel` varchar(100) NOT NULL,
-  `sequence` int(10) DEFAULT NULL,
-  `show_title` int(2) DEFAULT NULL,
-  `visible` int(2) NOT NULL DEFAULT 0,
-  `create_view` int(2) NOT NULL DEFAULT 0,
-  `edit_view` int(2) NOT NULL DEFAULT 0,
-  `detail_view` int(2) NOT NULL DEFAULT 0,
-  `display_status` int(1) NOT NULL DEFAULT 1,
-  `iscustom` int(1) NOT NULL DEFAULT 0,
+  `sequence` tinyint(3) unsigned DEFAULT NULL,
+  `show_title` tinyint(1) unsigned DEFAULT NULL,
+  `visible` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `create_view` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `edit_view` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `detail_view` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `display_status` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `iscustom` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
@@ -4908,7 +4907,7 @@ CREATE TABLE `vtiger_customview` (
 
 CREATE TABLE `vtiger_cvcolumnlist` (
   `cvid` int(10) NOT NULL,
-  `columnindex` int(10) NOT NULL,
+  `columnindex` smallint(3) unsigned NOT NULL,
   `field_name` varchar(50) DEFAULT NULL,
   `module_name` varchar(25) DEFAULT NULL,
   `source_field_name` varchar(50) DEFAULT NULL,
@@ -5198,19 +5197,6 @@ CREATE TABLE `vtiger_dayoftheweek` (
 
 CREATE TABLE `vtiger_dayoftheweek_seq` (
   `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_def_org_field` */
-
-CREATE TABLE `vtiger_def_org_field` (
-  `tabid` smallint(5) DEFAULT NULL,
-  `fieldid` int(10) NOT NULL,
-  `visible` int(10) DEFAULT NULL,
-  `readonly` int(10) DEFAULT NULL,
-  PRIMARY KEY (`fieldid`),
-  KEY `def_org_field_tabid_fieldid_idx` (`tabid`,`fieldid`),
-  KEY `def_org_field_tabid_idx` (`tabid`),
-  KEY `def_org_field_visible_fieldid_idx` (`visible`,`fieldid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share` */
@@ -5576,7 +5562,7 @@ CREATE TABLE `vtiger_field` (
   `uitype` smallint(5) unsigned NOT NULL,
   `fieldname` varchar(50) NOT NULL,
   `fieldlabel` varchar(50) NOT NULL,
-  `readonly` tinyint(1) unsigned NOT NULL,
+  `readonly` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `defaultvalue` text DEFAULT NULL,
   `maximumlength` varchar(30) DEFAULT NULL,
@@ -5585,15 +5571,16 @@ CREATE TABLE `vtiger_field` (
   `displaytype` tinyint(1) unsigned NOT NULL,
   `typeofdata` varchar(100) DEFAULT NULL,
   `quickcreate` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `quickcreatesequence` int(10) DEFAULT NULL,
-  `info_type` varchar(20) DEFAULT NULL,
-  `masseditable` int(10) NOT NULL DEFAULT 1,
+  `quickcreatesequence` tinyint(3) unsigned DEFAULT NULL,
+  `info_type` char(3) DEFAULT NULL,
+  `masseditable` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `helpinfo` varchar(30) DEFAULT '',
-  `summaryfield` int(10) NOT NULL DEFAULT 0,
+  `summaryfield` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `fieldparams` varchar(255) DEFAULT '',
   `header_field` varchar(255) DEFAULT NULL,
   `maxlengthtext` smallint(3) unsigned DEFAULT 0,
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
+  `visible` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
@@ -5607,7 +5594,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2772 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2775 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6582,7 +6569,7 @@ CREATE TABLE `vtiger_links` (
   `linklabel` varchar(50) DEFAULT NULL,
   `linkurl` varchar(255) DEFAULT NULL,
   `linkicon` varchar(100) DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
+  `sequence` tinyint(3) unsigned DEFAULT NULL,
   `handler_path` varchar(128) DEFAULT NULL,
   `handler_class` varchar(50) DEFAULT NULL,
   `handler` varchar(50) DEFAULT NULL,
@@ -7073,7 +7060,9 @@ CREATE TABLE `vtiger_ossemployees` (
   `business_phone_extra` varchar(100) DEFAULT NULL,
   `private_phone_extra` varchar(100) DEFAULT NULL,
   `secondary_phone_extra` varchar(100) DEFAULT NULL,
+  `multicompanyid` int(10) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
+  KEY `ossemployees_org_struct_idx` (`multicompanyid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7668,7 +7657,7 @@ CREATE TABLE `vtiger_profile` (
   `profileid` int(10) NOT NULL AUTO_INCREMENT,
   `profilename` varchar(50) NOT NULL,
   `description` text DEFAULT NULL,
-  `directly_related_to_role` int(1) DEFAULT 0,
+  `directly_related_to_role` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`profileid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -7678,8 +7667,8 @@ CREATE TABLE `vtiger_profile2field` (
   `profileid` int(10) NOT NULL,
   `tabid` smallint(5) DEFAULT NULL,
   `fieldid` int(10) NOT NULL,
-  `visible` int(10) DEFAULT NULL,
-  `readonly` int(10) DEFAULT NULL,
+  `visible` tinyint(1) DEFAULT NULL,
+  `readonly` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`fieldid`),
   KEY `profile2field_profileid_tabid_fieldname_idx` (`profileid`,`tabid`),
   KEY `profile2field_tabid_profileid_idx` (`tabid`,`profileid`),
@@ -7692,8 +7681,8 @@ CREATE TABLE `vtiger_profile2field` (
 
 CREATE TABLE `vtiger_profile2globalpermissions` (
   `profileid` int(10) NOT NULL,
-  `globalactionid` int(10) NOT NULL,
-  `globalactionpermission` int(10) DEFAULT NULL,
+  `globalactionid` smallint(5) NOT NULL,
+  `globalactionpermission` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`globalactionid`),
   KEY `idx_profile2globalpermissions` (`profileid`,`globalactionid`),
   CONSTRAINT `fk_1_vtiger_profile2globalpermissions` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
@@ -7716,7 +7705,7 @@ CREATE TABLE `vtiger_profile2standardpermissions` (
 CREATE TABLE `vtiger_profile2tab` (
   `profileid` int(10) DEFAULT NULL,
   `tabid` smallint(5) DEFAULT NULL,
-  `permissions` int(10) NOT NULL DEFAULT 0,
+  `permissions` tinyint(1) NOT NULL DEFAULT 0,
   KEY `profile2tab_profileid_tabid_idx` (`profileid`,`tabid`),
   CONSTRAINT `vtiger_profile2tab_ibfk_1` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7726,8 +7715,8 @@ CREATE TABLE `vtiger_profile2tab` (
 CREATE TABLE `vtiger_profile2utility` (
   `profileid` int(10) NOT NULL,
   `tabid` smallint(5) NOT NULL,
-  `activityid` int(10) NOT NULL,
-  `permission` int(1) DEFAULT NULL,
+  `activityid` smallint(5) NOT NULL,
+  `permission` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`profileid`,`tabid`,`activityid`),
   KEY `profile2utility_tabid_activityid_idx` (`tabid`,`activityid`),
   KEY `profile2utility_profileid` (`profileid`),
@@ -8095,7 +8084,7 @@ CREATE TABLE `vtiger_relatedlists_fields` (
   `relation_id` int(10) DEFAULT NULL,
   `fieldid` int(10) DEFAULT NULL,
   `fieldname` varchar(30) DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
+  `sequence` smallint(3) DEFAULT NULL,
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8174,6 +8163,7 @@ CREATE TABLE `vtiger_role` (
   `rolename` varchar(200) DEFAULT NULL,
   `parentrole` varchar(255) DEFAULT NULL,
   `depth` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `company` int(10) unsigned DEFAULT 0,
   `allowassignedrecordsto` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `searchunpriv` text DEFAULT NULL,
@@ -8196,7 +8186,7 @@ CREATE TABLE `vtiger_role2picklist` (
   `roleid` varchar(255) NOT NULL,
   `picklistvalueid` int(10) NOT NULL,
   `picklistid` int(10) NOT NULL,
-  `sortid` int(10) DEFAULT NULL,
+  `sortid` smallint(5) DEFAULT NULL,
   PRIMARY KEY (`roleid`,`picklistvalueid`,`picklistid`),
   KEY `role2picklist_roleid_picklistid_idx` (`roleid`,`picklistid`,`picklistvalueid`),
   KEY `fk_2_vtiger_role2picklist` (`picklistid`),
@@ -8447,9 +8437,9 @@ CREATE TABLE `vtiger_settings_field` (
   `iconpath` varchar(300) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
   `linkto` text DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
-  `active` int(10) DEFAULT 0,
-  `pinned` int(1) DEFAULT 0,
+  `sequence` tinyint(3) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT 0,
+  `pinned` tinyint(1) unsigned DEFAULT 0,
   `admin_access` text DEFAULT NULL,
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),

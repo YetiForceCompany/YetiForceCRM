@@ -3,7 +3,8 @@
 @import "../../../libraries/bootstrap/scss/_functions";
 @import '../../../libraries/bootstrap/scss/_mixins';
 
-//-------- override bootstrap variables --------//
+//-------- override libraries' variables --------//
+//bootstrap
 $link-color: #006cdf;
 $secondary: #5e666c;
 $blue: #337ab7;
@@ -18,6 +19,10 @@ $grid-breakpoints: (
 		xxl:1300px,
 		xxxl:1800px
 );
+
+//flag-icons
+$flag-icon-css-path: '../../../libraries/flag-icon-css/flags/';
+
 //-------- sizes --------//
 $w-icon-button: calculate-rem(42px);
 
@@ -58,3 +63,7 @@ $bg-rtabs: #f1f1f1;
 $bg-rtabs-active: #404952;
 $border-color-rtabs: $bg-rtabs-active;
 $color-rtabs-active: #fff;
+
+//-------- progress bar --------//
+$progress-bg--active: material-color('deep-orange', '500');
+$progress-bg--inactive: material-color('blue-grey', '200');

@@ -1,12 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Users-Login2faTotp -->
 	{assign var="MODULE" value='Users'}
-	<div class="container tpl-Login2faTotp">
+	<div class="container">
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
 			<div class="logo">
-				<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px"
-					 class="logo" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}"
+				<img title="{$COMPANY_DETAILS->get('name')}" height="256px"
+					 class="logo" src="{$COMPANY_DETAILS->getLogo('logo_main')->get('imageUrl')}"
 					 alt="{$COMPANY_DETAILS->get('name')}">
 			</div>
 			<div id="loginDiv">
@@ -15,9 +16,9 @@
 						  autocomplete="off">
 						<div class='fieldContainer mx-0 form-row col-md-12'>
 							{if !empty($MESSAGE)}
-							<div class='mx-0 col-sm-10 alert alert-warning'>
-								{$MESSAGE}
-							</div>
+								<div class='mx-0 col-sm-10 alert alert-warning'>
+									{$MESSAGE}
+								</div>
 							{/if}
 							<div class='mx-0 alert alert-info'>
 								<h4 class="alert-heading">{\App\Language::translate('LBL_2FA_TITLE',$MODULE)}</h4>
@@ -50,4 +51,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Users-Login2faTotp -->
 {/strip}

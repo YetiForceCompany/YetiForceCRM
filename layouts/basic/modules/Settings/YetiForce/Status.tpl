@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-YetiForce-Status">
-		<div class="o-breadcrumb js-header-toggle widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
+		<div class="o-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
 			<div class="o-breadcrumb__container">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="js-Settings-YetiForce-Status-table container" data-js="container">

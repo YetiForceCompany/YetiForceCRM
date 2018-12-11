@@ -624,7 +624,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function gives list fields for save.
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
 	{
@@ -848,7 +848,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		}
 		if ($restrictList) {
-			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks']]);
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'CallHistory']]);
 		}
 		$quickCreateModules = [];
 		$dataReader = $query->createCommand()->query();
@@ -1133,10 +1133,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 		} elseif ($mode === 'overdue') {
 			$andWhere[] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
-		if ($user !== 'all' && !empty($user)) {
-			if ($user === $currentUser->id) {
-				$andWhere[] = ['vtiger_crmentity.smownerid' => $user];
-			}
+		if ($user !== 'all' && !empty($user) && $user === $currentUser->id) {
+			$andWhere[] = ['vtiger_crmentity.smownerid' => $user];
 		}
 		$query->andWhere($andWhere);
 		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);

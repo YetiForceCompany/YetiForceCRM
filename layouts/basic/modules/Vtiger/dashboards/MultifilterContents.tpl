@@ -48,8 +48,7 @@
 					{assign var="ITERATION" value=$smarty.foreach.multifilterWidgetModelRowHeaders.iteration}
 					{assign var="LAST_RECORD" value=$smarty.foreach.multifilterWidgetModelRowHeaders.last}
 					{assign var="FIELD_VALUE" value=$RECORD->get($FIELD->get('name'))}
-					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}{if $FIELD_VALUE} js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover"{else}
-					"{/if}>
+					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
 					{if $LAST_RECORD}
 					<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span
 								title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
@@ -57,8 +56,14 @@
 					{/if}
 					{if $FIELD_VALUE}
 					<div class="pr-2">
-						<div class="js-popover-text">
-							{$RECORD->getDisplayValue($FIELD->get('name'))}
+						<div class="js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}" data-js="popover">
+							{if empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
+								<a class="modCT_{$RECORD->getModuleName()}" href="{$RECORD->getDetailViewUrl()}">
+									{$RECORD->getDisplayValue($FIELD->get('name'))}
+								</a>
+							{else}
+								{$RECORD->getDisplayValue($FIELD->get('name'))}
+							{/if}
 						</div>
 					</div>
 					{/if}
@@ -74,7 +79,6 @@
 			</div>
 			{/if}
 		</div>
-	</div>
 	</div>
 	<!-- /tpl-Base-Dashboards-MultifilterContents -->
 {/strip}

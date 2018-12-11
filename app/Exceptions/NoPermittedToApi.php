@@ -14,7 +14,7 @@ class NoPermittedToApi extends Security
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct($message = '', $code = 0, \Throwable $previous = null)
+	public function __construct($message = '', $code = 406, \Throwable $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
 		\App\Session::init();
@@ -28,5 +28,15 @@ class NoPermittedToApi extends Security
 				'agent' => \App\Request::_getServer('HTTP_USER_AGENT', '-'),
 				'request' => json_encode($_REQUEST),
 			])->execute();
+	}
+
+	/**
+	 * Display message.
+	 *
+	 * @param string $message
+	 */
+	public function stop(string $message)
+	{
+		echo json_encode($message);
 	}
 }

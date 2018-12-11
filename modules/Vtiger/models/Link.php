@@ -246,11 +246,9 @@ class Vtiger_Link_Model extends vtlib\Link
 				$module = $value;
 			}
 
-			if (strcmp($key, 'action') === 0) {
-				if (strpos($value, 'View')) {
-					$value = str_replace('View', '', $value);
-					$key = 'view';
-				}
+			if (strcmp($key, 'action') === 0 && strpos($value, 'View')) {
+				$value = str_replace('View', '', $value);
+				$key = 'view';
 			}
 			if (strcmp($key, 'return_module') === 0) {
 				$key = 'sourceModule';

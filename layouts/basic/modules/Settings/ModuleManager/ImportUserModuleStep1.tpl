@@ -13,7 +13,7 @@
 	<div class="tpl-Settings-ModuleManager-ImportUserModuleStep1" id="importModules">
 		<div class="widget_header row mb-2">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}

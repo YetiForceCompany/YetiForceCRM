@@ -27,13 +27,14 @@ class Mailer
 	protected $smtp;
 
 	/** @var array Error logs */
-	protected $error;
+	public static $error;
 
 	/**
 	 * Construct.
 	 */
 	public function __construct()
 	{
+		static::$error = [];
 		$this->mailer = new \PHPMailer\PHPMailer\PHPMailer(false);
 		if (\AppConfig::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
@@ -45,8 +46,9 @@ class Mailer
 				}
 			};
 		}
-		$this->mailer->XMailer = 'YetiForceCRM mailer';
+		$this->mailer->XMailer = 'YetiForceCRM Mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
+		$this->mailer->FromName = 'YetiForce Mailer';
 		$this->mailer->CharSet = \AppConfig::main('default_charset');
 	}
 
@@ -88,7 +90,6 @@ class Mailer
 		Log::trace('Send mail from template', 'Mailer');
 		if (empty($params['template'])) {
 			Log::warning('No templete', 'Mailer');
-
 			return false;
 		}
 		$recordModel = false;
@@ -103,7 +104,6 @@ class Mailer
 		$template = Mail::getTemplete($params['template']);
 		if (!$template) {
 			Log::warning('No mail templete', 'Mailer');
-
 			return false;
 		}
 		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance($params['moduleName'] ?? '');
@@ -148,35 +148,47 @@ class Mailer
 		if (empty($params['smtp_id'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 1;
-			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			static::insertMail($params, 'log');
 			Log::warning('No SMTP configuration', 'Mailer');
 			return false;
 		}
 		if (!\App\Mail::getSmtpById($params['smtp_id'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 2;
-			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			static::insertMail($params, 'log');
 			Log::warning('SMTP configuration with provided id not exists', 'Mailer');
 			return false;
 		}
 		if (empty($params['to'])) {
 			unset($params['priority'], $params['status']);
 			$params['error_code'] = 3;
-			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			static::insertMail($params, 'log');
 			Log::warning('No target email address provided', 'Mailer');
 			return false;
 		}
+		static::insertMail($params, 'admin');
+		return true;
+	}
 
+	/**
+	 * Save mail data in provided table.
+	 *
+	 * @param array  $params
+	 * @param string $type   'admin' | 'log'
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public static function insertMail($params, $type)
+	{
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($params[$key])) {
-				if (!is_array($params[$key])) {
+				if (!\is_array($params[$key])) {
 					$params[$key] = [$params[$key]];
 				}
 				$params[$key] = Json::encode($params[$key]);
 			}
 		}
-		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
-		return true;
+		\App\Db::getInstance($type)->createCommand()->insert($type === 'admin' ? 's_#__mail_queue' : 'l_#__mail', $params)->execute();
 	}
 
 	/**
@@ -363,18 +375,22 @@ class Mailer
 	 */
 	public function send()
 	{
-		if ($this->mailer->FromName === 'Root User') {
-			$this->mailer->FromName = Company::getInstanceById()->get('name');
-		}
 		if ($this->mailer->send()) {
 			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
 				Log::trace('Mailer sent mail', 'Mailer');
 				return true;
 			}
 		} else {
-			Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
-			if (empty($this->error)) {
-				$this->error = \is_array($this->mailer->ErrorInfo) ? $this->mailer->ErrorInfo : [$this->mailer->ErrorInfo];
+			Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
+			if (!empty(static::$error)) {
+				static::$error[] = '########################################';
+			}
+			if (\is_array($this->mailer->ErrorInfo)) {
+				foreach ($this->mailer->ErrorInfo as $error) {
+					static::$error[] = $error;
+				}
+			} else {
+				static::$error[] = $this->mailer->ErrorInfo;
 			}
 		}
 		return false;
@@ -388,10 +404,10 @@ class Mailer
 	public function test()
 	{
 		$this->mailer->SMTPDebug = 2;
-		$this->error = [];
+		static::$error = [];
 		$this->mailer->Debugoutput = function ($str, $level) {
 			if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
-				$this->error[] = trim($str);
+				static::$error[] = trim($str);
 				Log::error(trim($str), 'Mailer');
 			} else {
 				Log::trace(trim($str), 'Mailer');
@@ -406,7 +422,7 @@ class Mailer
 		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
-		return ['result' => $this->send(), 'error' => implode(PHP_EOL, $this->error)];
+		return ['result' => $this->send(), 'error' => implode(PHP_EOL, static::$error)];
 	}
 
 	/**
@@ -437,6 +453,7 @@ class Mailer
 				}
 			}
 		}
+		$status = false;
 		$attachmentsToRemove = [];
 		if ($rowQueue['attachments']) {
 			$attachments = Json::decode($rowQueue['attachments']);
@@ -485,10 +502,17 @@ class Mailer
 			$status = $mailer->send();
 			unset($mailer);
 		}
+		$db = Db::getInstance('admin');
 		if ($status) {
+			$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
 			foreach ($attachmentsToRemove as $file) {
 				unlink($file);
 			}
+		} else {
+			$db->createCommand()->update('s_#__mail_queue', [
+				'status' => 2,
+				'error' => implode(PHP_EOL, static::$error)
+			], ['id' => $rowQueue['id']])->execute();
 		}
 		return $status;
 	}
@@ -516,7 +540,6 @@ class Mailer
 	{
 		if (empty($this->smtp['smtp_username']) && empty($this->smtp['smtp_password']) && empty($this->smtp['smtp_host'])) {
 			Log::error('Mailer Error: No smtp data entered', 'Mailer');
-
 			return false;
 		}
 		$params = [
@@ -529,9 +552,8 @@ class Mailer
 		$folder = \OSSMail_Record_Model::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF7-IMAP', 'UTF-8');
 		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], Encryption::getInstance()->decrypt($this->smtp['smtp_password']), $this->smtp['smtp_host'], $folder, false, $params);
 		if ($mbox === false && !imap_last_error()) {
-			$this->error[] = 'IMAP error - ' . imap_last_error();
+			static::$error[] = 'IMAP error - ' . imap_last_error();
 			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
-
 			return false;
 		}
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');

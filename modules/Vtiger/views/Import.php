@@ -255,13 +255,11 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$importId = $request->getInteger('import_id');
 		$user = App\User::getCurrentUserModel();
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
-		if ($importInfo !== null) {
-			if ($importInfo['user_id'] === $user->getId() || $user->isAdmin()) {
-				$importDataController = new Import_Data_Action($importInfo, \App\User::getUserModel($importInfo['user_id']));
-				$importStatusCount = $importDataController->getImportStatusCount();
-				$importDataController->finishImport();
-				Import_Main_View::showResult($importInfo, $importStatusCount);
-			}
+		if ($importInfo !== null && ($importInfo['user_id'] === $user->getId() || $user->isAdmin())) {
+			$importDataController = new Import_Data_Action($importInfo, \App\User::getUserModel($importInfo['user_id']));
+			$importStatusCount = $importDataController->getImportStatusCount();
+			$importDataController->finishImport();
+			Import_Main_View::showResult($importInfo, $importStatusCount);
 		}
 	}
 

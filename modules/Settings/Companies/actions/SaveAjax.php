@@ -43,14 +43,13 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				}
 				foreach ($columns as $fieldName) {
 					$fieldValue = $request->getByType($fieldName, 'Text');
-					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
+					if ('logo_main' === $fieldName) {
 						if (!empty($logoDetails[$fieldName]['name'])) {
 							$fieldValue = ltrim(basename(' ' . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
 						} else {
 							$fieldValue = $recordModel->get($fieldName);
 						}
-					}
-					if ('default' === $fieldName) {
+					} elseif ('default' === $fieldName) {
 						$fieldValue = $request->getBoolean('default');
 					}
 					$recordModel->set($fieldName, $fieldValue);

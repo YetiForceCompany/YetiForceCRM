@@ -15,31 +15,74 @@ namespace Tests\Base;
 class E_TestModule extends \Tests\Base
 {
 	/**
+	 * TestData package at yetiforce.com url prefix.
+	 *
+	 * @var string
+	 */
+	public static $testDataUrl = 'https://tests.yetiforce.com/';
+
+	/**
+	 * @var string TestData package path in _private directory
+	 */
+	public static $testDataPath = './public_html/_private/TestData.zip';
+
+	/**
+	 * @var string Test module package file name
+	 */
+	public static $testModuleFile = 'TestModule.zip';
+
+	/**
+	 * @var string File url
+	 */
+	public $fileUrl = '';
+
+	/**
+	 * Detect if is possible to install sample data.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function setUp()
+	{
+		if (\file_exists(static::$testDataPath)) {
+			$this->fileUrl = static::$testDataPath;
+		} elseif (!empty($_SERVER['YETI_KEY'])) {
+			if (\App\RequestUtil::isNetConnection()) {
+				$guzzle = new \GuzzleHttp\Client(['base_uri' => static::$testDataUrl]);
+				try {
+					$response = $guzzle->head($_SERVER['YETI_KEY']);
+				} catch (\Exception $e) {
+					$response = false;
+				}
+				if ($response && $response->getStatusCode() === 200) {
+					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
+				} else {
+					$this->markTestSkipped('TestData package not available - bad response from remote server, no sample data to install.');
+				}
+			} else {
+				$this->markTestSkipped('TestData package not available - no internet connection, no sample data to install.');
+			}
+		} else {
+			$this->markTestSkipped('TestData package not available, no sample data to install.');
+		}
+	}
+
+	/**
 	 * Testing the installation of the sample data module.
 	 */
 	public function testInstallSampleData()
 	{
-		$testModule = 'TestModule.zip';
 		try {
-			$urlWeb = 'https://tests.yetiforce.com/' . $_SERVER['YETI_KEY'];
-			if (\file_exists('./public_html/_private/TestData.zip')) {
-				$urlFile = './public_html/_private/TestData.zip';
-			} elseif (\App\RequestUtil::isNetConnection() && \strpos(\get_headers($urlWeb)[0], '200') !== false) {
-				$urlFile = $urlWeb;
-			} else {
-				$this->assertTrue(true);
-				return;
-			}
-			\copy($urlFile, $testModule);
-			(new \vtlib\Package())->import($testModule);
-			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
+			\copy($this->fileUrl, static::$testModuleFile);
+			(new \vtlib\Package())->import(static::$testModuleFile);
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists(), 'TestData instalation from ' . ($this->fileUrl === static::$testDataPath ? '_private' : 'YETI_KEY') . ' failed.');
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->update('vtiger_cron_task', [
-						'sequence' => 0,
-					], ['name' => 'TestData'])
-					->execute();
+					'sequence' => 0,
+				], ['name' => 'TestData'])
+				->execute();
 		} catch (\Exception $exc) {
+			$this->fail('TestData instalation from ' . ($this->fileUrl === static::$testDataPath ? '_private' : 'YETI_KEY') . ' failed');
 		}
 	}
 }

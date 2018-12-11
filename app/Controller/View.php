@@ -300,6 +300,9 @@ abstract class View extends Base
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
+		if (\App\Privilege::isPermitted('OSSMail')) {
+			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
+		}
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
@@ -309,7 +312,6 @@ abstract class View extends Base
 			$fileName = '~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 		$jsFileNames[] = $fileName;
-
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
@@ -353,7 +355,6 @@ abstract class View extends Base
 				}
 				\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-				continue;
 			} else {
 				$preLayoutPath = '';
 				if (strpos($jsFileName, '~') === 0) {
@@ -408,7 +409,6 @@ abstract class View extends Base
 					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
 					\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-					continue;
 				}
 			}
 		}
@@ -454,7 +454,6 @@ abstract class View extends Base
 				}
 				\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
 				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-				continue;
 			} else {
 				$preLayoutPath = '';
 				if (strpos($cssFileName, '~') === 0) {
@@ -507,7 +506,6 @@ abstract class View extends Base
 					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
 					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
 					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-					continue;
 				}
 			}
 		}

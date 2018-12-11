@@ -17,6 +17,11 @@ namespace App;
 final class Chat
 {
 	/**
+	 * Information about allowed types of rooms.
+	 */
+	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global'];
+
+	/**
 	 * Information about the tables of the database.
 	 */
 	const TABLE_NAME = [
@@ -87,23 +92,18 @@ final class Chat
 	 */
 	public static function getCurrentRoom()
 	{
+		$recordId = $_SESSION['chat']['recordId'] ?? null;
+		$roomType = $_SESSION['chat']['roomType'] ?? null;
 		if (!isset($_SESSION['chat'])) {
-			return static::getDefaultRoom();
+			$result = static::getDefaultRoom();
+		} elseif ($roomType === 'crm' && (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable())) {
+			$result = static::getDefaultRoom();
+		} elseif ($roomType === 'group' && !isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
+			$result = static::getDefaultRoom();
+		} else {
+			$result = $_SESSION['chat'];
 		}
-		$recordId = $_SESSION['chat']['recordId'];
-		switch ($_SESSION['chat']['roomType']) {
-			case 'crm':
-				if (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable()) {
-					return static::getDefaultRoom();
-				}
-				break;
-			case 'group':
-				if (!isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
-					return static::getDefaultRoom();
-				}
-				break;
-		}
-		return $_SESSION['chat'];
+		return $result;
 	}
 
 	/**
@@ -641,6 +641,8 @@ final class Chat
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 					)
 					->leftJoin(['RN' => 'u_#__chat_global'], "RN.global_room_id = M.{$columnMessage}");
+				break;
+			default:
 				break;
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])

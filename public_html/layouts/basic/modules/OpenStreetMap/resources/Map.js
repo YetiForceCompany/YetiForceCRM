@@ -367,7 +367,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				radius: container.find('.radius').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
+			$.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -465,7 +465,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			if (radiusValue !== '' && parseInt(radiusValue)) {
 				params['radius'] = radiusValue;
 			}
-			$.extend(params, thisInstance.selectedParams);
+			$.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -594,7 +594,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				lon: coordinates.data('lon'),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
+			$.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -675,7 +675,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			action: 'GetMarkers',
 			srcModule: app.getModuleName(),
 		};
-		$.extend(params, this.selectedParams);
+		$.extend(this.selectedParams, params);
 		thisInstance.registerBasicModal();
 		AppConnector.request(params).done(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});

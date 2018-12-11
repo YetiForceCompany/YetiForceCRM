@@ -106,7 +106,7 @@ class PackageUpdate extends PackageImport
 
 					return false;
 				}
-				$module = $this->initUpdate($moduleInstance, $zipfile, $overwrite);
+				$this->initUpdate($moduleInstance, $zipfile, $overwrite);
 				// Call module update function
 				$this->updateModule($moduleInstance);
 			}
@@ -372,7 +372,7 @@ class PackageUpdate extends PackageImport
 		foreach ($modulenode->customviews->customview as $customviewnode) {
 			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance->id);
 			if (!$filterInstance) {
-				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
+				$this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
 				$this->updateCustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance);
 			}

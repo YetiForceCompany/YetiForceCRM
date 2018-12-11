@@ -139,7 +139,6 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->getByType('module_name', 2);
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 

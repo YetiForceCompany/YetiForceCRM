@@ -24,7 +24,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
-		$orderBy = $this->get('orderby');
+		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->get('sortorder');
 
 		if (!empty($orderBy)) {

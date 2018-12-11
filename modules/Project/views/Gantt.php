@@ -67,9 +67,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
-			'~libraries/jquery-gantt-editor/platform.css',
-			'~libraries/jquery-gantt-editor/libs/dateField/jquery.dateField.css',
-			'~libraries/jquery-gantt-editor/gantt.css',
 		]));
 	}
 
@@ -85,25 +82,8 @@ class Project_Gantt_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.CustomView",
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
-			'~libraries/jquery-gantt-editor/libs/jquery/jquery.livequery.1.1.1.min.js',
-			'~libraries/jquery-timers/jquery.timers.js',
-			'~libraries/jquery-gantt-editor/libs/utilities.js',
-			'~libraries/jquery-gantt-editor/libs/forms.js',
-			'~libraries/jquery-gantt-editor/libs/date.js',
-			'~libraries/jquery-gantt-editor/libs/dialogs.js',
-			'~libraries/jquery-gantt-editor/libs/layout.js',
-			'~libraries/jquery-gantt-editor/libs/i18nJs.js',
-			'~libraries/jquery-gantt-editor/libs/jquery/dateField/jquery.dateField.js',
-			'~libraries/jquery-gantt-editor/libs/jquery/JST/jquery.JST.js',
-			'~libraries/svg/jquery.svg.js',
-			'~libraries/svg/jquery.svgdom.js',
-			'~libraries/jquery-gantt-editor/ganttUtilities.js',
-			'~libraries/jquery-gantt-editor/ganttTask.js',
-			'~libraries/jquery-gantt-editor/ganttDrawerSVG.js',
-			'~libraries/jquery-gantt-editor/ganttZoom.js',
-			'~libraries/jquery-gantt-editor/ganttGridEditor.js',
-			'~libraries/jquery-gantt-editor/ganttMaster.js',
 			'modules.Project.resources.Gantt',
+			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.GanttController',
 		]));
 	}

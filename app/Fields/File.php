@@ -248,7 +248,7 @@ class File
 	 */
 	public function getSanitizeName()
 	{
-		return self::sanitizeUploadFileName($this->name);
+		return static::sanitizeUploadFileName($this->name);
 	}
 
 	/**
@@ -271,8 +271,8 @@ class File
 		if (empty($this->mimeType)) {
 			static::initMimeTypes();
 			$extension = $this->getExtension(true);
-			if (isset(self::$mimeTypes[$extension])) {
-				$this->mimeType = self::$mimeTypes[$extension];
+			if (isset(static::$mimeTypes[$extension])) {
+				$this->mimeType = static::$mimeTypes[$extension];
 			} elseif (function_exists('mime_content_type')) {
 				$this->mimeType = mime_content_type($this->path);
 			} elseif (function_exists('finfo_open')) {
@@ -352,14 +352,14 @@ class File
 		$return = true;
 		Log::trace('File validate - Start', __CLASS__);
 		try {
+			if ($type && $this->getShortMimeType(0) !== $type) {
+				throw new \App\Exceptions\DangerousFile('ERR_FILE_ILLEGAL_FORMAT');
+			}
 			$this->checkFile();
 			$this->validateFormat();
 			$this->validateCodeInjection();
 			if (($type && $type === 'image') || $this->getShortMimeType(0) === 'image') {
 				$this->validateImage();
-			}
-			if ($type && $this->getShortMimeType(0) !== $type) {
-				throw new \App\Exceptions\AppException('Wrong file type');
 			}
 		} catch (\Exception $e) {
 			$return = false;
@@ -378,6 +378,36 @@ class File
 	}
 
 	/**
+	 * Validate image content.
+	 *
+	 * @throws \App\Exceptions\DangerousFile
+	 *
+	 * @return bool
+	 */
+	public function validateImageContent(): bool
+	{
+		$returnVal = false;
+		if (extension_loaded('imagick')) {
+			try {
+				$img = new \imagick($this->path);
+				$returnVal = $img->valid();
+				$img->clear();
+				$img->destroy();
+			} catch (\ImagickException $e) {
+				$this->validateError = $e->getMessage();
+				$returnVal = false;
+			}
+		} else {
+			$img = \imagecreatefromstring(\file_get_contents($this->path));
+			if ($img !== false) {
+				$returnVal = true;
+				\imagedestroy($img);
+			}
+		}
+		return $returnVal;
+	}
+
+	/**
 	 * Basic check file.
 	 *
 	 * @throws \Exception
@@ -385,13 +415,13 @@ class File
 	private function checkFile()
 	{
 		if ($this->error !== false && $this->error != UPLOAD_ERR_OK) {
-			throw new \App\Exceptions\AppException('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
 		}
 		if (empty($this->name)) {
-			throw new \App\Exceptions\AppException('ERR_FILE_EMPTY_NAME');
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_EMPTY_NAME');
 		}
 		if ($this->getSize() === 0) {
-			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_SIZE');
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_WRONG_SIZE');
 		}
 	}
 
@@ -403,7 +433,7 @@ class File
 	private function validateFormat()
 	{
 		if (isset(self::$allowedFormats[$this->getShortMimeType(0)]) && !\in_array($this->getShortMimeType(1), self::$allowedFormats[$this->getShortMimeType(0)])) {
-			throw new \App\Exceptions\AppException('ERR_FILE_ILLEGAL_FORMAT');
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_ILLEGAL_FORMAT');
 		}
 	}
 
@@ -415,10 +445,14 @@ class File
 	private function validateImage()
 	{
 		if (!getimagesize($this->path)) {
-			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_WRONG_IMAGE');
 		}
 		if (preg_match('[\x01-\x08\x0c-\x1f]', $this->getContents())) {
-			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_WRONG_IMAGE');
+		}
+		$this->validateCodeInjectionInMetadata();
+		if (!$this->validateImageContent()) {
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_WRONG_IMAGE ||' . $this->validateError);
 		}
 	}
 
@@ -429,20 +463,43 @@ class File
 	 */
 	private function validateCodeInjection()
 	{
-		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
-			// Check for php code injection
+		$shortMimeType = $this->getShortMimeType(0);
+		if ($this->validateAllCodeInjection || in_array($shortMimeType, static::$phpInjection)) {
+			// Check for code injection
 			$contents = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/si', $contents) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 || stripos($contents, '<?=') !== false || stripos($contents, '<%=') !== false || stripos($contents, '<? ') !== false || stripos($contents, '<% ') !== false) {
-				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
+			if (
+				preg_match('/(<\?php?(.*?))/si', $contents) === 1 ||
+				preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 ||
+				stripos($contents, '<?=') !== false ||
+				stripos($contents, '<%=') !== false ||
+				stripos($contents, '<? ') !== false ||
+				stripos($contents, '<% ') !== false ||
+				stripos($contents, '<?xpacket') !== false
+			) {
+				throw new \App\Exceptions\DangerousFile('ERR_FILE_PHP_CODE_INJECTION');
 			}
-			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
-				$imageSize = getimagesize($this->path, $imageInfo);
-				if ($imageSize && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
-					throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
-				}
-			}
-			if (stripos('<?xpacket', $contents) !== false) {
-				throw new \App\Exceptions\AppException('ERR_FILE_XPACKET_CODE_INJECTION');
+		}
+	}
+
+	/**
+	 * Validate code injection in metadata.
+	 *
+	 * @throws \App\Exceptions\DangerousFile
+	 */
+	private function validateCodeInjectionInMetadata()
+	{
+		if (
+			function_exists('exif_read_data') &&
+			\in_array($this->getMimeType(), ['image/jpeg', 'image/tiff']) &&
+			\in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])
+		) {
+			$imageSize = getimagesize($this->path, $imageInfo);
+			if (
+				$imageSize &&
+				(empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) &&
+				($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)
+			) {
+				throw new \App\Exceptions\DangerousFile('ERR_FILE_PHP_CODE_INJECTION');
 			}
 		}
 	}
@@ -874,7 +931,7 @@ class File
 	{
 		if (is_dir($dirPath)) {
 			do {
-				$tmpFile = 'tmpfile' . time() . '-' . rand(1, 1000) . '.tmp';
+				$tmpFile = 'tmpfile' . time() . '-' . random_int(1, 1000) . '.tmp';
 				// Continue the loop unless we find a name that does not exists already.
 				$useFilename = "$dirPath/$tmpFile";
 				if (!file_exists($useFilename)) {
@@ -985,10 +1042,19 @@ class File
 		$attach = [];
 		foreach (static::transform($files, true) as $key => $transformFiles) {
 			foreach ($transformFiles as $fileDetails) {
+				$additionalNotes = '';
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
-					$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
-					continue;
+					if (!static::removeForbiddenTags($file)) {
+						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
+						continue;
+					}
+					$file = static::loadFromRequest($fileDetails);
+					if (!$file->validate($type)) {
+						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
+						continue;
+					}
+					$additionalNotes = \App\Language::translate('LBL_FILE_HAS_BEEN_MODIFIED');
 				}
 				$uploadFilePath = static::initStorageFileDirectory($storageName);
 				$key = $file->generateHash(true, $uploadFilePath);
@@ -1006,12 +1072,13 @@ class File
 						'name' => $file->getName(),
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
-						'hash' => $request->getByType('hash', 'string')
+						'hash' => $request->getByType('hash', 'Alnum'),
+						'info' => $additionalNotes
 					];
 				} else {
 					$db->createCommand()->delete('u_#__file_upload_temp', ['key' => $key])->execute();
 					Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}");
-					$attach[] = ['hash' => $request->getByType('hash', 'Text'), 'name' => $file->getName(), 'error' => ''];
+					$attach[] = ['hash' => $request->getByType('hash', 'Alnum'), 'name' => $file->getName(), 'error' => ''];
 				}
 			}
 		}
@@ -1066,6 +1133,58 @@ class File
 		}
 		unset($dbCommand);
 		return [array_values($value), $new, $save];
+	}
+
+	/**
+	 * Remove the forbidden tags from image.
+	 *
+	 * @param \App\Fields\File $file
+	 *
+	 * @return bool
+	 */
+	public static function removeForbiddenTags(self $file): bool
+	{
+		$result = false;
+		if (extension_loaded('imagick')) {
+			try {
+				$img = new \imagick($file->getPath());
+				$img->stripImage();
+				switch ($file->getExtension()) {
+					case 'jpg':
+					case 'jpeg':
+						$img->setImageCompression(\Imagick::COMPRESSION_JPEG);
+						$img->setImageCompressionQuality(99);
+						break;
+				}
+				$img->writeImage($file->getPath());
+				$img->clear();
+				$img->destroy();
+				$result = true;
+			} catch (\ImagickException $e) {
+				$result = false;
+			}
+		} else {
+			$img = \imagecreatefromstring(\file_get_contents($file->getPath()));
+			if (false !== $img) {
+				switch ($file->getExtension()) {
+					case 'jpg':
+					case 'jpeg':
+						$result = \imagejpeg($img, $file->getPath());
+						break;
+					case 'png':
+						$result = \imagepng($img, $file->getPath());
+						break;
+					case 'gif':
+						$result = \imagegif($img, $file->getPath());
+						break;
+					case 'bmp':
+						$result = \imagebmp($img, $file->getPath());
+						break;
+				}
+				\imagedestroy($img);
+			}
+		}
+		return $result;
 	}
 
 	/**

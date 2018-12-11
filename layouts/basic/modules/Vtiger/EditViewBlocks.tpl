@@ -33,8 +33,11 @@
 				<input type="hidden" name="module" value="{$MODULE}"/>
 			{/if}
 			<input type="hidden" name="action" value="Save"/>
-			<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
-			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
+			{if !empty($RECORD_ID)}
+				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
+			{/if}
+			<input name="defaultOtherEventDuration"
+				   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 			{if $MODE === 'duplicate'}
 				<input type="hidden" name="_isDuplicateRecord" value="true"/>
 				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>
@@ -50,7 +53,7 @@
 			{/foreach}
 			<div class='widget_header row mb-3'>
 				<div class="col-md-8">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 			<div class="row mb-3">

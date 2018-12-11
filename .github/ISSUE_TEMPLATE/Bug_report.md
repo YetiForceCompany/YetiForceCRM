@@ -8,7 +8,6 @@ about: Create a report to help us improve
 #### Issue
 <!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug. Descriptions can be provided in English or Polish (remember to add [PL] for Polish in the title). -->
 
-
 #### Actual Behavior
 <!--- Describe the result -->
 
@@ -27,11 +26,19 @@ about: Create a report to help us improve
 #### PHP/Apache/Browser Logs
 <!---  Please include a part of logs which describes when the error occurred. The more info you provide, the quicker we will be able to solve your problem. Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome). -->
 
+<!--- Put here the FULL LOG -->
+```
+Logs
+```
+
 #### Your Environment
 <!---Describe the environment -->
-* YetiForce Version used:
-* Browser name and version:
-* Environment name and version:
-* Operating System and version:
+| Environment      | Version / name |
+| ---------------- | ---------- |
+| YetiForce        |
+| Browser          |
+| PHP              |
+| Environment      |
+| Operating System |
 
 <!--- Please check on your issue from time to time, in case we have questions or need some extra information. --->

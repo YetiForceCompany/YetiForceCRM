@@ -112,10 +112,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			return '[]';
 		}
 		$imagesCount = count($value);
-		if (!empty($length)) {
-			if ($imagesCount > $length) {
-				$len = $length;
-			}
+		if (!empty($length) && $imagesCount > $length) {
+			$len = $length;
 		}
 		if (empty($len)) {
 			$len = $imagesCount;

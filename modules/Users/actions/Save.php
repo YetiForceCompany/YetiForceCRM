@@ -68,17 +68,13 @@ class Users_Save_Action extends Vtiger_Save_Action
 		if (Users_Module_Model::checkMailExist($request->get('email1'), (int) $request->get('record'))) {
 			$message = \App\Language::translate('LBL_USER_MAIL_EXIST', $moduleName);
 		}
-		if ($request->isEmpty('record', true) || $this->record->get('user_name') !== $request->get('user_name')) {
-			if ($checkUserName = Users_Module_Model::checkUserName($request->get('user_name'), (int) $request->get('record'))) {
-				$message = $checkUserName;
-			}
+		if (($request->isEmpty('record', true) || $this->record->get('user_name') !== $request->get('user_name')) && $checkUserName = Users_Module_Model::checkUserName($request->get('user_name'), $request->getInteger('record'))) {
+			$message = $checkUserName;
 		}
-		if ($request->isEmpty('record', true)) {
-			if (!$request->isEmpty('user_password', true)) {
-				$checkPassword = Settings_Password_Record_Model::checkPassword($request->getRaw('user_password'));
-				if ($checkPassword) {
-					$message = $checkPassword;
-				}
+		if ($request->isEmpty('record', true) && !$request->isEmpty('user_password', true)) {
+			$checkPassword = Settings_Password_Record_Model::checkPassword($request->getRaw('user_password'));
+			if ($checkPassword) {
+				$message = $checkPassword;
 			}
 		}
 		if ($message) {

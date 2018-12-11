@@ -395,7 +395,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				}
 
 				$fieldInstance = new ModTracker_Field_Model();
-				$fieldInstance->setData($row)->setParent($this)->setFieldInstance($fieldModel);
+				$fieldInstance->setData($row)->setParent($this->getParent())->setFieldInstance($fieldModel);
 				$fieldInstances[] = $fieldInstance;
 			}
 			$dataReader->close();

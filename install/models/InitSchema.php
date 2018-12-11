@@ -176,6 +176,9 @@ class Install_InitSchema_Model
 				$details[str_replace('company_', '', $key)] = $value;
 			}
 		}
-		$this->db->createCommand()->update('s_yf_companies', $details)->execute();
+		$this->db->createCommand()->update('s_#__companies', $details)->execute();
+		$this->db->createCommand()->update('u_#__multicompany', [
+			'company_name' => $details['name']
+		])->execute();
 	}
 }

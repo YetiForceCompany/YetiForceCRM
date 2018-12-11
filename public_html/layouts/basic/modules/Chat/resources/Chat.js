@@ -12,7 +12,7 @@ window.Chat_JS = class Chat_Js {
 	 */
 	constructor(container) {
 		this.init(container);
-		this.sendByEnter = true;
+		this.sendByEnter = app.getCookie("chat-notSendByEnter") !== 'true';
 		this.isSearchMode = false;
 		this.isHistoryMode = false;
 		this.isUnreadMode = false;
@@ -21,8 +21,7 @@ window.Chat_JS = class Chat_Js {
 		this.timerMessage = null;
 		this.timerRoom = null;
 		this.amountOfNewMessages = null;
-		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === "true";
-		this.shiftPressed = false;
+		this.isSoundNotification = app.getCookie("chat-isSoundNotification") === 'true';
 		this.isModalWindow = false;
 	}
 
@@ -103,7 +102,7 @@ window.Chat_JS = class Chat_Js {
 					}
 				}
 				if (data.result > Chat_Js.amountOfNewMessages) {
-					if (app.getCookie("chat-isSoundNotification") === "true") {
+					if (app.getCookie("chat-isSoundNotification") === 'true') {
 						app.playSound('CHAT');
 					}
 					if (Chat_Js.desktopPermission()) {
@@ -156,7 +155,7 @@ window.Chat_JS = class Chat_Js {
 	 * @returns {boolean}
 	 */
 	static isDesktopNotification() {
-		return app.getCookie("chat-isDesktopNotification") === "true";
+		return app.getCookie("chat-isDesktopNotification") === 'true';
 	}
 
 	/**
@@ -867,21 +866,15 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerSendEvent() {
 		const inputMessage = this.container.find('.js-chat-message');
-		if (this.sendByEnter) {
-			inputMessage.on('keydown', (e) => {
-				if (e.keyCode === 16) {
-					this.shiftPressed = true;
-				} else if (!this.shiftPressed && e.keyCode === 13) {
-					e.preventDefault();
-					this.sendMessage(inputMessage);
-				}
-			});
-			inputMessage.on('keyup', (e) => {
-				if (e.keyCode === 16) {
-					this.shiftPressed = false;
-				}
-			});
-		}
+		inputMessage.on('keydown', (e) => {
+			if (!this.sendByEnter) {
+				return;
+			}
+			if (!e.shiftKey && e.keyCode === 13) {
+				e.preventDefault();
+				this.sendMessage(inputMessage);
+			}
+		});
 		this.container.find('.js-btn-send').on('click', () => {
 			this.sendMessage(inputMessage);
 		});
@@ -916,26 +909,6 @@ window.Chat_JS = class Chat_Js {
 				this.turnOffUnreadMode();
 			});
 		});
-	}
-
-
-	/**
-	 * Register create room.
-	 */
-	registerCreateRoom() {
-		let btnCreate = this.container.find('.js-create-chatroom');
-		if (btnCreate.length) {
-			btnCreate.off('click').on('click', (e) => {
-				this.request({
-					action: 'Room',
-					mode: 'create',
-					roomType: this.getCurrentRoomType(),
-					recordId: this.getCurrentRecordId()
-				}).done(() => {
-					this.activateRoom();
-				});
-			});
-		}
 	}
 
 	/**
@@ -1197,6 +1170,19 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Button that enables / disables the sending of messages by pressing the ENTER button.
+	 */
+	registerButtonToggleEnter() {
+		let btnEnter = this.container.find('.js-btn-enter');
+		btnEnter.on('click', (e) => {
+			this.sendByEnter = !this.sendByEnter;
+			app.setCookie("chat-notSendByEnter", !this.sendByEnter, 365);
+			let icon = btnEnter.find('.js-icon');
+			icon.toggleClass(btnEnter.data('iconOn'), this.sendByEnter).toggleClass(btnEnter.data('iconOff'), !this.sendByEnter);
+		});
+	}
+
+	/**
 	 * Register close modal.
 	 */
 	registerCloseModal() {
@@ -1213,7 +1199,6 @@ window.Chat_JS = class Chat_Js {
 		this.registerSendEvent();
 		this.registerLoadMore();
 		this.getMessage(true);
-		this.registerCreateRoom();
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
 		this.registerSearchParticipants();
@@ -1237,6 +1222,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavoritesInModal();
 		this.registerButtonMoreInRoom();
 		this.registerButtonDesktopNotification();
+		this.registerButtonToggleEnter();
 		this.registerCloseModal();
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();

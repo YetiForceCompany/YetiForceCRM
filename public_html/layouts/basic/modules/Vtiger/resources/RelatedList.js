@@ -889,6 +889,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var mainBody = container.closest('.mainBody');
 		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
 		app.showNewScrollbarLeft(this.list);
+		mainBody.scrollTop(0); // reset scroll to set correct start position
 		let listOffsetTop = this.list.offset().top - this.headerH;
 		let initialH = this.sideBlocks.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};

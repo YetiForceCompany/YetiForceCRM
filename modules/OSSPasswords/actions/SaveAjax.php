@@ -4,7 +4,7 @@
  * OSSPasswords SaveAjax action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
@@ -57,16 +57,21 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		// apply encryption if encryption mode is on
 		if ($isPassword && $config) {
 			\App\Log::trace('Encrypt new password: ' . $properPassword);
-			$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;';
-			$result = $db->pquery($sql, [$properPassword, $config['key'], $recordId], true);
-		}
-		// encrypt password added thrue related module
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_osspasswords', [
+					'password' => new \yii\db\Expression('AES_ENCRYPT(:properPass,:configKey)', [':properPass' => $properPassword, ':configKey' => $config['key']])
+				], ['osspasswordsid' => $recordId])
+				->execute();
+		} // encrypt password added thrue related module
 		elseif ($isRelatedPassword && $config) {
 			$record = $recordModel->getId();
 			$properPassword = $request->get('password');
 			\App\Log::trace('Encrypt new related module password: ' . $properPassword);
-			$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;';
-			$result = $db->pquery($sql, [$properPassword, $config['key'], $record], true);
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_osspasswords', [
+					'password' => new \yii\db\Expression('AES_ENCRYPT(:properPass,:configKey)', [':properPass' => $properPassword, ':configKey' => $config['key']])
+				], ['osspasswordsid' => $record])
+				->execute();
 		}
 
 		$fieldModelList = $recordModel->getModule()->getFields();

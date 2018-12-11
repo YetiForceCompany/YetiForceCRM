@@ -310,28 +310,22 @@ class Request
 	 */
 	public function getMultiDimensionArray(string $key, array $template): array
 	{
+		$return = [];
 		if (isset($this->purifiedValuesByMultiDimension[$key])) {
-			return $this->purifiedValuesByMultiDimension[$key];
-		}
-		$value = [];
-		if (isset($this->rawValues[$key])) {
-			$value = $this->rawValues[$key];
-			if (!$value) {
-				return [];
-			}
-			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+			$return = $this->purifiedValuesByMultiDimension[$key];
+		} elseif (isset($this->rawValues[$key]) && ($value = $this->rawValues[$key])) {
+			if (\is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 				$decodeValue = Json::decode($value);
-				if (isset($decodeValue)) {
+				if ($decodeValue !== null) {
 					$value = $decodeValue;
 				} else {
-					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
+					Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
 				}
 			}
-			$value = $this->purifyMultiDimensionArray($value, $template);
-			settype($value, 'array');
-			return $this->purifiedValuesByMultiDimension[$key] = $value;
+			$value = (array) $this->purifyMultiDimensionArray($value, $template);
+			$return = $this->purifiedValuesByMultiDimension[$key] = $value;
 		}
-		return $value;
+		return $return;
 	}
 
 	/**

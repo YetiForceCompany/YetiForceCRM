@@ -355,7 +355,6 @@ class Users_Privileges_Model extends Users_Record_Model
 					$value = $recordModel->get($fieldName);
 					if (!empty($value) && \App\Record::isExists($value)) {
 						$parentRecord = $value;
-						continue;
 					}
 				}
 			}

@@ -41,6 +41,7 @@
     "LBL_USER_EXISTS": "Angajatul exista deja",
     "FL_POSITION": "Pozitia",
     "FL_SECONDARY_PHONE": "Telefon secundar",
-    "FL_RBH": "RBH"
+    "FL_RBH": "RBH",
+    "FL_ORGANIZATION_STRUCTURE": "Organization structure"
   }
 }

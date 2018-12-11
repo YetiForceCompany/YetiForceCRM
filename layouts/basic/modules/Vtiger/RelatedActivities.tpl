@@ -104,14 +104,26 @@
 					</div>
 					<div class="activityDescription">
 						<div>
-							<span class="value"><span class="fas fa-align-justify fa-fw mr-1"></span>
-								{if $RECORD->get('description') neq ''}
-									{$RECORD->getDisplayValue('description')|truncate:120:'...'}
-								{else}
-									<span class="muted">{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
-								{/if}
-							</span>&nbsp;&nbsp;
+							<span class="value mr-1"><span class="fas fa-align-justify fa-fw mr-1"></span>
+								{assign var=IS_DESCRIPTION value=$RECORD->get('description') neq ''}
+								<span class="js-description-text" data-js="html">
+									{if $IS_DESCRIPTION}
+										{$RECORD->getDisplayValue('description', false, false, 120)}
+									{/if}
+								</span>
+								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}" data-js="class: d-none">
+									{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}
+								</span>
+							</span>
 							{if !$IS_READ_ONLY}
+								<span class="js-activity-buttons__container d-none" data-js="class: d-none">
+									<button class="btn btn-sm btn-success js-save-description u-font-size-95per my-1 mr-1 py-0 px-1" type="button" data-js="click">
+										<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE',$MODULE_NAME)}
+									</button>
+									<button class="btn btn-sm btn-danger js-close-description u-font-size-95per my-1 py-0 px-1" type="button" data-js="click">
+										<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CLOSE',$MODULE_NAME)}
+									</button>
+								</span>
 								<span class="editDescription u-cursor-pointer">
 									<span class="fas fa-edit fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>

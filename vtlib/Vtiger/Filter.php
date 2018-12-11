@@ -151,7 +151,7 @@ class Filter
 			'columnindex' => $index,
 			'field_name' => $fieldInstance->name,
 			'module_name' => $fieldInstance->getModuleName(),
-			'source_field_name' => $fieldInstance->sourcefieldname
+			'source_field_name' => $fieldInstance->sourcefieldname ?? null
 		])->execute();
 		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE", __METHOD__);
 

@@ -308,7 +308,7 @@
     "LBL_SELECT_ICON": "Selectati iconita",
     "LBL_ICON_NAME": "Denumire iconita",
     "LBL_ICON_EXAMPLE": "Exemplu iconita",
-    "ERR_NO_REQUIRED_LIBRARY": "Nu pot gasi libraria %s.\n Unele functii au fost dezactivate. Mergeti la %s pentru descarcare.",
+    "ERR_NO_REQUIRED_LIBRARY": "Nu pot gasi libraria %s. Unele functii au fost dezactivate. Mergeti la %s pentru descarcare.",
     "LBL_SYSTEM_WARNINGS": "Atentionari sistem",
     "LBL_WARNINGS_FOLDERS": "Atentionare categorie",
     "LBL_WARNINGS_TITLE": "Titlu",

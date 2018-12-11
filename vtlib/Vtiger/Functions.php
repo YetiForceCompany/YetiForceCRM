@@ -201,10 +201,8 @@ class Functions
 	{
 		$field = \App\Field::getFieldInfo($mixed, $moduleId);
 
-		if ($field) {
-			if ($onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
-				$field = null;
-			}
+		if ($field && $onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
+			$field = null;
 		}
 		return $field ? $field['fieldid'] : false;
 	}

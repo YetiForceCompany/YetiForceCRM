@@ -9,7 +9,7 @@
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
-	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
+	public static $logoNames = ['logo_main'];
 	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
 	public $logoPath = 'public_html/layouts/resources/Logo/';
 
@@ -100,6 +100,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		switch ($key) {
+			case 'type':
+				$value = $this->getDisplayTypeValue((int) $value);
+				break;
 			case 'default':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
@@ -112,9 +115,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'country':
 				$value = \App\Language::translateSingleMod($value, 'Other.Country');
 				break;
-			case 'logo_login':
 			case 'logo_main':
-			case 'logo_mail':
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
 				$value = "<img src='$src' class='img-thumbnail'/>";
 				break;
@@ -122,6 +123,30 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 		}
 		return $value;
+	}
+
+	/**
+	 * Get the displayed value for the type column.
+	 *
+	 * @param int $value
+	 *
+	 * @return string
+	 */
+	public function getDisplayTypeValue(int $value): string
+	{
+		switch ($value) {
+			case 0:
+				$label = 'LBL_TYPE_TARGET_USER';
+				break;
+			case 1:
+				$label = 'LBL_TYPE_INTEGRATOR';
+				break;
+			case 2:
+			default:
+				$label = 'LBL_TYPE_PROVIDER';
+				break;
+		}
+		return \App\Language::translate($label, 'Settings::Companies');
 	}
 
 	/**
@@ -230,8 +255,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->from('s_#__companies')
-			->where(['name' => $request->get('name')])
-			->orWhere(['short_name' => $request->get('short_name')]);
+			->where(['name' => $request->get('name')]);
 		if ($request->get('record')) {
 			$query->andWhere(['<>', 'id', $request->get('record')]);
 		}

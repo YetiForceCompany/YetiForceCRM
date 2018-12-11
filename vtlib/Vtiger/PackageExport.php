@@ -167,7 +167,7 @@ class PackageExport
 		}
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
-		foreach ($layoutDirectories as $key => $layoutName) {
+		foreach ($layoutDirectories as $layoutName) {
 			if ($layoutName != 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {

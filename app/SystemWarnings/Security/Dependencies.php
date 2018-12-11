@@ -11,7 +11,17 @@ namespace App\SystemWarnings\Security;
  */
 class Dependencies extends \App\SystemWarnings\Template
 {
+	/**
+	 * Title.
+	 *
+	 * @var string
+	 */
 	protected $title = 'LBL_VULNERABILITIES_IN_DEPENDENCIES';
+	/**
+	 * Priority.
+	 *
+	 * @var int
+	 */
 	protected $priority = 9;
 
 	/**
@@ -19,15 +29,10 @@ class Dependencies extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (!\App\RequestUtil::isNetConnection()) {
-			$this->status = 1;
-			return;
-		}
-		$vulnerabilities = (new \SensioLabs\Security\SecurityChecker())->check(ROOT_DIRECTORY);
-		$countVulnerabilities = \count($vulnerabilities);
-		if ($countVulnerabilities) {
-			$this->status = 0;
-		} else {
+		try {
+			$vulnerabilities = (new \App\Security\Dependency())->securityChecker();
+			$this->status = $vulnerabilities ? 0 : 1;
+		} catch (\Throwable $e) {
 			$this->status = 1;
 		}
 		if ($this->status === 0) {

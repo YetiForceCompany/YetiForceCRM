@@ -88,7 +88,9 @@
     "ActivityComplete": "Zamykanie rekord\u00f3w",
     "ActivityPostponed": "Przek\u0142adanie rekord\u00f3w",
     "Emails": "Wysy\u0142ka maili [SMTP]",
-    "ModTracker": "Historia zmian"
+    "ModTracker": "Historia zmian",
+    "AssignToYourself": "Przypisz do mnie",
+    "AutoAssignRecord": "Przekazywanie automatyczne rekord\u00F3w"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil zapisano poprawnie"

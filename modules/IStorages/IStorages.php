@@ -110,10 +110,8 @@ class IStorages extends Vtiger_CRMEntity
 
 		// Get the iStorages hierarchy (list of child iStorages) based on the current iStorage
 		$iStoragesList[$baseId] = $this->getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
-
+		$this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 		// Create array of all the iStorages in the hierarchy
-		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
-
 		$iStorageHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
 		\App\Log::trace('Exiting getHierarchy method ...');
 
@@ -129,7 +127,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $listviewEntries
 	 *                                returns All the parent storages of the given Storage in array format
 	 */
-	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, $listviewEntries, $getRawData = false, $getLinks = true)
+	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
 

@@ -8,7 +8,12 @@
  */
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
-	public function getRestrictFilter()
+	/**
+	 * Exclude defined values from filters.
+	 *
+	 * @return array
+	 */
+	public function getRestrictFilter(): array
 	{
 		return [
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => ['mine'],
@@ -305,6 +310,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
 				}
 				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
+			}
+			if ($data['type'] === 'Calendar') {
+				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter'] ?? '']);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
 				->execute();

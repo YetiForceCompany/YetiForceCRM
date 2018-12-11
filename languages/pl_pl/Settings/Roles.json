@@ -44,7 +44,11 @@
     "LBL_BLOCK_COPY": "Blokuj kopiowanie",
     "LBL_BLOCK_CUT": "Blokuj wycinanie",
     "LBL_BLOCK_PASTE": "Blokuj wklejanie",
-    "LBL_AUTO_ASSIGN_RECORDS": "Automatyczny przydzia\u0142 rekord\u00f3w"
+    "LBL_AUTO_ASSIGN_RECORDS": "Automatyczny przydzia\u0142 rekord\u00f3w",
+    "LBL_UPLOAD_LOGO": "Wy\u015blij logo",
+    "LBL_UPLOAD_ERROR": "Wystąpił b\u0142\u0105d podczas wysy\u0142ania",
+    "LBL_UPLOAD_SUCCESS": "Wys\u0142ano poprawnie",
+    "LBL_MULTI_COMPANY": "Struktura organizacji"
   },
   "js": {
     "JS_NO_PERMISSIONS_TO_MOVE": "Brak uprawnie\u0144 do przeniesienia",

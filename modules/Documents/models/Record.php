@@ -174,7 +174,6 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveToDb()
 	{
-		parent::saveToDb();
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
 		$fileName = $fileType = '';
@@ -221,7 +220,17 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				$fileName = "http://$fileName";
 			}
 		}
-		$db->createCommand()->update('vtiger_notes', ['filename' => App\Purifier::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
+		$this->set('filename', $fileName)
+			->set('filesize', $fileSize)
+			->set('filetype', $fileType)
+			->set('filedownloadcount', $fileDownloadCount);
+		parent::saveToDb();
+		$db->createCommand()->update('vtiger_notes', [
+			'filename' => App\Purifier::decodeHtml($fileName),
+			'filesize' => $fileSize,
+			'filetype' => $fileType,
+			'filelocationtype' => $fileLocationType,
+			'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
 		if ($fileLocationType === 'I') {
 			if (!isset($this->file)) {
@@ -240,8 +249,6 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		} else {
 			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
 		}
-		//set the column_fields so that its available in the event handlers
-		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
 	}
 
 	/**

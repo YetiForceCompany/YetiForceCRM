@@ -129,6 +129,7 @@ class ConfReport
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
 		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
+		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
 	/**
@@ -506,10 +507,10 @@ class ConfReport
 				$methodName = 'validate' . $item['type'];
 				if (\method_exists(__CLASS__, $methodName)) {
 					if (static::$sapi === 'www') {
-						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'www']);
+						$item = static::$methodName($key, $item, 'www');
 					}
 					if ($item['testCli'] && !empty($cron)) {
-						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'cron']);
+						$item = static::$methodName($key, $item, 'cron');
 					}
 				}
 				if (isset($item['skip'])) {

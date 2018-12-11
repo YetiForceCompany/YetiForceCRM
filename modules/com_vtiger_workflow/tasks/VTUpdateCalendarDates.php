@@ -4,8 +4,8 @@
  * Update the dates of created events automatically.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class VTUpdateCalendarDates extends VTTask
 {
@@ -53,15 +53,6 @@ class VTUpdateCalendarDates extends VTTask
 					$baseDateStart = date('Y-m-d');
 				}
 			}
-
-			$time = explode(' ', $baseDateStart);
-			if (count($time) < 2) {
-				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($task['time']);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
-				$time = $dbInsertDateTime->format('H:i:s');
-			} else {
-				$time = $time[1];
-			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
 			$baseDateStart = strtotime($match[0]);
 
@@ -72,28 +63,6 @@ class VTUpdateCalendarDates extends VTTask
 				if ($baseDateEnd === '') {
 					$baseDateEnd = date('Y-m-d');
 				}
-			}
-			$timeEnd = explode(' ', $baseDateEnd);
-			if (count($timeEnd) < 2) {
-				$userId = $rowRecordModel->get('assigned_user_id');
-				if ($userId === null) {
-					$userId = 1;
-				}
-				$result = (new \App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->scalar();
-				if ($result) {
-					$timeEnd = $result;
-					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
-					$timeEnd = $dbInsertDateTime->format('H:i:s');
-				} else {
-					$adminUser = Users::getActiveAdminUser();
-					$timeEnd = $adminUser->column_fields['end_hour'];
-					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
-					$timeEnd = $dbInsertDateTime->format('H:i:s');
-				}
-			} else {
-				$timeEnd = $timeEnd[1];
 			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
 			$baseDateEnd = strtotime($match[0]);

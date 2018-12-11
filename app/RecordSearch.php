@@ -43,7 +43,7 @@ class RecordSearch
 	 */
 	public function search()
 	{
-		$cacheKey = "$this->searchValue,$this->limit," . (is_array($this->moduleName) ? implode(',', $this->moduleName) : $this->moduleName);
+		$cacheKey = "$this->searchValue,$this->operator,$this->limit," . (is_array($this->moduleName) ? implode(',', $this->moduleName) : $this->moduleName);
 		if ($this->useCache && Cache::has('RecordSearch', $cacheKey)) {
 			return Cache::get('RecordSearch', $cacheKey);
 		}
