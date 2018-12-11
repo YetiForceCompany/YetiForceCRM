@@ -328,3 +328,38 @@
 	}
 }
 
+.c-circle-icon {
+	height: calculate-rem(30px);
+	width: calculate-rem(30px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+}
+
+.c-icon--tripple {
+	width: calculate-rem(20px);
+	display: inline-block;
+	font-size: .75em;
+
+	&__left, &__right, &__top {
+		position: relative;
+	}
+
+	&__left, &__right {
+		top: 5px;
+	}
+
+	&__left {
+		left: -15px;
+	}
+
+	&__right {
+		left: -12px;
+	}
+
+	&__top {
+		top: -7px;
+		left: 5px;
+	}
+}

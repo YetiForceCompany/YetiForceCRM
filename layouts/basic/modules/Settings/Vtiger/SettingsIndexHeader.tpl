@@ -14,7 +14,7 @@
 			</li>
 			<li class="nav-item" data-mode="github">
 				<a class="nav-link" href="#" data-toggle="tab">
-					<span class="fab fa-github fa-fw mr-1" data-fa-transform="grow-2"></span>
+					<span class="fab fa-github fa-fw mr-1"></span>
 					{\App\Language::translate('LBL_GITHUB', $QUALIFIED_MODULE)}
 				</a>
 			</li>

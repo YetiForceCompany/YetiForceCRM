@@ -4,14 +4,14 @@
  * Companies module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'phone' => 'LBL_PHONE', 'vatid' => 'LBL_VATID', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY'];
+	public $listFields = ['name' => 'LBL_NAME', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE'];
 	public $name = 'Companies';
 
 	/**
@@ -62,10 +62,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getAllCompanies()
 	{
-		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->select(['id', 'name', 'default'])->from('s_#__companies');
-
-		return $query->createCommand($db)->queryAllByGroup(1);
+		return $query->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
 	}
 }

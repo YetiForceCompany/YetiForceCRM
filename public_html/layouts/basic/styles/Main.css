@@ -12054,7 +12054,7 @@ header .c-header__btn__container .select2-selection {
 .leaflet-popup-content {
   width: 62px; }
 
-.awesome-marker [data-fa-i2svg] {
+.awesome-marker .fas {
   margin-top: 11px; }
 
 .daterangepicker .ranges li {
@@ -16296,6 +16296,30 @@ ul.tweets li {
       margin-top: -0.2rem;
       margin-left: 5px; }
 
+.c-circle-icon {
+  height: 1.875rem;
+  width: 1.875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; }
+
+.c-icon--tripple {
+  width: 1.25rem;
+  display: inline-block;
+  font-size: .75em; }
+  .c-icon--tripple__left, .c-icon--tripple__right, .c-icon--tripple__top {
+    position: relative; }
+  .c-icon--tripple__left, .c-icon--tripple__right {
+    top: 5px; }
+  .c-icon--tripple__left {
+    left: -15px; }
+  .c-icon--tripple__right {
+    left: -12px; }
+  .c-icon--tripple__top {
+    top: -7px;
+    left: 5px; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -16937,7 +16961,7 @@ input[type="radio"]:checked:before {
     .actionMenu .o-action-menu__container .c-header__btn {
       display: block;
       margin: 0 0 5px !important; }
-      .actionMenu .o-action-menu__container .c-header__btn [data-fa-i2svg] {
+      .actionMenu .o-action-menu__container .c-header__btn .fas {
         margin: 0 5px 0 0; }
       .actionMenu .o-action-menu__container .c-header__btn .sr-only {
         position: static;
@@ -17961,9 +17985,18 @@ input[type="radio"]:checked:before {
   bottom: 0.0625rem;
   height: 0;
   color: #bbdefb; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn__container,
+  .tpl-Calendar-Extended-QuickCreate .fc-year__show-day-btn__container {
+    text-align: center;
+    position: relative; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn__text,
   .tpl-Calendar-Extended-QuickCreate .fc-year__show-day-btn__text {
-    font-size: 1.0625rem; }
+    font-size: 0.75rem;
+    position: absolute;
+    top: 0.3125rem;
+    left: -0.0625rem;
+    width: 1.25rem;
+    text-align: center; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
 .tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   position: absolute;
@@ -18196,7 +18229,8 @@ input[type="radio"]:checked:before {
       background: #fbfbfb;
       color: #444;
       padding: 0;
-      position: relative; }
+      position: relative;
+      width: 100%; }
       .timeline > li .timeline-item > .imageContainer {
         width: 30px; }
         .timeline > li .timeline-item > .imageContainer > .userImage {
@@ -18362,12 +18396,21 @@ input[type="radio"]:checked:before {
   display: flex;
   position: relative; }
 .c-progress__icon {
-  color: var(--white); }
-  .c-progress__icon-bg {
-    color: #ff5722; }
+  color: var(--white);
+  font-size: 0.9375rem; }
+  .c-progress__icon.fa-circle {
+    margin-right: 0.0625rem; }
+  .c-progress__icon.fa-check, .c-progress__icon.fa-lock {
+    font-size: 0.6875rem; }
   .c-progress__icon__container {
     z-index: 1;
-    font-size: 1.25rem; }
+    height: 1.3125rem;
+    width: 1.3125rem;
+    display: flex;
+    background: #ff5722;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center; }
 .c-progress__item {
   width: 100%;
   min-width: 5.625rem;
@@ -18393,8 +18436,8 @@ input[type="radio"]:checked:before {
     z-index: 0; }
   .c-progress__item.after:before, .c-progress__item.after:after {
     background: #b0bec5; }
-  .c-progress__item.after .c-progress__icon-bg {
-    color: #b0bec5; }
+  .c-progress__item.after .c-progress__icon__container {
+    background: #b0bec5; }
   .c-progress__item:hover .c-progress__link {
     font-weight: bold; }
   .c-progress__item.active:after {

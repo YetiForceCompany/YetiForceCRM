@@ -49,7 +49,7 @@
 							{if $ACTIVITY_TYPE eq 'Task'}
 								<span class="far fa-check-square fa-fw"></span>
 							{elseif $ACTIVITY_TYPE eq 'Call'}
-								<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
+								<span class="fas fa-phone fa-flip-horizontal fa-fw"></span>
 							{else}
 								<span class="fas fa-user fa-fw"></span>
 							{/if}

@@ -40,9 +40,10 @@
 									{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 										<div class="col-12 mailActions d-flex justify-content-between mb-1">
 											<div>
-												<a class="showMailBody btn btn-sm btn-light mr-1" role="button">
-													<span class="body-icon fas fa-caret-down"
-														  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}"></span>
+												<a class="js-toggle-icon__container showMailBody btn btn-sm btn-light mr-1" role="button" data-js="click">
+													<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click"
+														  aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
+													</span>
 												</a>
 												<button type="button" class="btn btn-sm btn-light showMailModal"
 														data-url="{$ROW['url']}">

@@ -134,7 +134,7 @@ class API_CardDAV_Model
 		} elseif ($moduleName === 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
 			$vcard->N = [$record['last_name'], $record['name']];
-			$vcard->ORG = App\Company::getInstanceById()->get('name');
+			$vcard->ORG = $record['company_name'];
 		}
 		$vcard->add('FN', trim($name));
 		if (!empty($record['description'])) {
@@ -193,7 +193,7 @@ class API_CardDAV_Model
 		if ($moduleName === 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
 			$vcard->N = [$record['last_name'], $record['name']];
-			$vcard->ORG = App\Company::getInstanceById()->get('name');
+			$vcard->ORG = $record['company_name'];
 		}
 		$vcard->FN = $name;
 		if (!empty($record['description'])) {
@@ -353,9 +353,10 @@ class API_CardDAV_Model
 			return (new App\Db\Query())->select([
 				'vtiger_crmentity.crmid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
 				'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
-				'vtiger_ossemployees.private_mail', 'vtiger_crmentity.modifiedtime',
+				'vtiger_ossemployees.private_mail', 'vtiger_crmentity.modifiedtime', 'u_#__multicompany.company_name',
 			])->from('vtiger_ossemployees')
 				->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
+				->innerJoin('u_#__multicompany', 'vtiger_ossemployees.multicompanyid = u_#__multicompany.multicompanyid')
 				->where(['vtiger_ossemployees.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
 		}
 	}

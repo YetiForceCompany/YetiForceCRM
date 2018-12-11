@@ -204,8 +204,7 @@
 									   id="setdefault"
 									   autocomplete="off"/>
 								<span class="{if $CUSTOMVIEW_MODEL->isDefault()}fas{else}far{/if} fa-heart mr-1"
-									  data-check="fas fa-heart" data-unchecked="far fa-heart"
-									  data-fa-transform="grow-2"></span>
+									  data-check="fas fa-heart" data-unchecked="far fa-heart"></span>
 								{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}
 
 							</label>
@@ -216,8 +215,7 @@
 									   id="status"
 									   autocomplete="off"/>
 								<span class="far {if $CUSTOMVIEW_MODEL->isSetPublic()}fa-eye{else}fa-eye-slash{/if} mr-1"
-									  data-check="fa-eye" data-unchecked="fa-eye-slash"
-									  data-fa-transform="grow-2"></span>
+									  data-check="fa-eye" data-unchecked="fa-eye-slash"></span>
 								{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE_NAME)}
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isFeatured(true)} active{/if}"
@@ -228,8 +226,7 @@
 										{if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if}
 									   autocomplete="off"/>
 								<span class="{if $CUSTOMVIEW_MODEL->isFeatured(true)}fas{else}far{/if} fa-star mr-1"
-									  data-check="fas" data-unchecked="far"
-									  data-fa-transform="grow-2"></span>
+									  data-check="fas" data-unchecked="far"></span>
 								{\App\Language::translate('LBL_FEATURED',$MODULE_NAME)}
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->get('setmetrics')} active{/if}"
@@ -239,11 +236,11 @@
 									   data-js="change"
 									   {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if}
 									   id="setmetrics" autocomplete="off"/>
-								<span class="fa-layers fa-fw mr-2">
-								<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
-								<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
-								<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
-							</span>
+								<span class="c-icon--tripple mr-2">
+									<span class="c-icon--tripple__top fas fa-chart-pie"></span>
+									<span class="c-icon--tripple__left fas fa-chart-line"></span>
+									<span class="c-icon--tripple__right fas fa-chart-area"></span>
+								</span>
 								{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE_NAME)}
 							</label>
 						</div>

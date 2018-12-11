@@ -4,26 +4,16 @@
 	<div class="widget_header row">
 		<div class="col-md-10 d-flex">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			{if isset($SELECTED_PAGE)}
-				<a class="js-popover-tooltip my-auto ml-1 ml-lg-2" role="button" data-js="popover"
-				   data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}"
-				   href="#" data-trigger="focus hover">
-					<span class="fas fa-info-circle"></span>
-					<span class="sr-only">{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}</span>
-				</a>
-			{/if}
 		</div>
 		<div class="col-md-2 mt-2">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2">
 				<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
 			</a>
-			{if $RECORD_MODEL->get('default') eq 0}
-				<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
-						data-record-id="{$RECORD_MODEL->getId()}">
-					<span class="fas fa-trash-alt mr-1"></span>
-					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
-				</button>
-			{/if}
+			<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
+					data-record-id="{$RECORD_MODEL->getId()}">
+				<span class="fas fa-trash-alt mr-1"></span>
+				<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
+			</button>
 		</div>
 	</div>
 	<div class="detailViewInfo" id="groupsDetailContainer">
@@ -40,7 +30,7 @@
 						</thead>
 						<tbody>
 						{foreach from=$COMPANY_COLUMNS item=COLUMN}
-							{if $COLUMN neq 'logo_main'}
+							{if $COLUMN neq 'logo'}
 								{if $COLUMN neq 'id'}
 									<tr>
 										<td class="{$WIDTHTYPE} w-25"><label

@@ -90,7 +90,7 @@ Vtiger_List_Js("Documents_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-delete', function (event) {
+			listViewFilterBlock.on('mouseup', '.js-filter-delete', function (event) {
 				//to close the dropdown
 				event.stopPropagation();
 				thisInstance.getFilterSelectElement().data('select2').close();

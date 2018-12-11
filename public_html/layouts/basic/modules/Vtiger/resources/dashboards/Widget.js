@@ -1247,7 +1247,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var url = recordsCountBtn.data('url');
 			AppConnector.request(url).done(function (response) {
 				recordsCountBtn.find('.count').html(response.result.totalCount);
-				recordsCountBtn.find('[data-fa-i2svg]').addClass('d-none')
+				recordsCountBtn.find('.fas').addClass('d-none')
 					.attr('aria-hidden', true);
 				recordsCountBtn.find('a').removeClass('d-none')
 					.attr('aria-hidden', false);
@@ -1411,8 +1411,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			currentElement.attr('title', currentElement.data(sortorder));
 			currentElement.attr('alt', currentElement.data(sortorder));
 			url += sortorder;
-			var faIcon = currentElement.find('[data-fa-i2svg]');
-			faIcon.removeClass().addClass('[data-fa-i2svg]').addClass(icon);
+			var faIcon = currentElement.find('.fas');
+			faIcon.removeClass().addClass(icon);
 			drefresh.data('url', url);
 		}
 	},

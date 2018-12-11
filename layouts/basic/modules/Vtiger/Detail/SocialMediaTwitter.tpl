@@ -8,8 +8,8 @@
 						<div class="d-flex">
 							<div class="flex-grow-1 ml-1 p-1 timeline-item isUpdate">
 								<div class="float-sm-left imageContainer">
-									<span class="flex-shrink-0 fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
-										<span class="fas fa-user userImage"></span>
+									<span class="u-ml-minus-5px mt-2">
+										<span class="fas fa-user fa-fw fa-2x userImage"></span>
 									</span>
 								</div>
 								<div class="timeline-body small">

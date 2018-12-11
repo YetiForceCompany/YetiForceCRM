@@ -15,7 +15,7 @@ jQuery.Class("Settings_CustomView_Sorting_Js", {}, {
 		});
 		form.find('.js-sort-order-button').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.find('[data-fa-i2svg]').each(function (n, e) {
+			currentTarget.find('.fas').each(function (n, e) {
 				if (jQuery(this).hasClass('d-none')) {
 					jQuery(this).removeClass('d-none');
 					form.find('[name="sortOrder"]').val(jQuery(this).data('val'));

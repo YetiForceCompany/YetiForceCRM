@@ -9,7 +9,7 @@
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
-	public static $logoNames = ['logo_main'];
+	public static $logoNames = ['logo'];
 	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
 	public $logoPath = 'public_html/layouts/resources/Logo/';
 
@@ -103,9 +103,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'type':
 				$value = $this->getDisplayTypeValue((int) $value);
 				break;
-			case 'default':
-				$value = $this->getDisplayCheckboxValue($value);
-				break;
 			case 'tabid':
 				$value = \App\Module::getModuleName($value);
 				break;
@@ -115,7 +112,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'country':
 				$value = \App\Language::translateSingleMod($value, 'Other.Country');
 				break;
-			case 'logo_main':
+			case 'logo':
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
 				$value = "<img src='$src' class='img-thumbnail'/>";
 				break;
@@ -194,16 +191,14 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-xs btn-info',
 			],
-		];
-		if (0 === $this->get('default')) {
-			$recordLinks[] = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-xs btn-danger',
-			];
-		}
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}

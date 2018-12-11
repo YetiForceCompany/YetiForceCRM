@@ -20,9 +20,9 @@
 				{if $COUNT_FIELDS2 > 0}
 					<br/>
 					<br/>
-					<span class="btn btn-light btn-sm toggleVisibility" data-status="{if $IS_VISIBLE}1{else}0{/if}"
-						  href="#">
-						<span class="fas {if $IS_VISIBLE}fa-angle-up{else}fa-angle-down{/if}"></span>
+					<span class="btn btn-light btn-sm toggleVisibility js-toggle-icon__container" data-status="{if $IS_VISIBLE}1{else}0{/if}"
+						  href="#" data-js="click">
+						<span class="js-toggle-icon fas {if $IS_VISIBLE}fa-angle-up{else}fa-angle-down{/if}" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
 					</span>
 				{/if}
 			</td>

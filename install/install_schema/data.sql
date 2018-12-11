@@ -260,7 +260,7 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`name`,`short_name`,`default`,`industry`,`street`,`city`,`code`,`state`,`country`,`phone`,`fax`,`website`,`vatid`,`id1`,`id2`,`email`,`logo_main`,`type`) values(1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, NULL, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 2);
+insert  into `s_yf_companies`(`id`,`name`,`type`,`industry`,`city`,`country`,`website`,`email`,`logo`) values (1,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland','yetiforce.com',NULL,'logo_yetiforce.png');
 
 /*Data for the table `s_yf_mail_queue` */
 
@@ -19162,7 +19162,6 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (77,0,76,0,0,61,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (78,0,76,0,1,51,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (79,0,76,0,2,78,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (80,0,0,2,10,NULL,'MEN_ORGANIZATION',0,NULL,0,'userIcon-Secretary',NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (81,0,76,0,6,81,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (82,0,76,0,7,82,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (83,0,76,0,8,84,NULL,0,NULL,0,'',NULL,'',NULL);

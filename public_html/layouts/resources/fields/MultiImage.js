@@ -729,10 +729,10 @@ class MultiImage {
 		    </div>`;
 		});
 		template += `<a class="carousel-control-prev c-carousel__prevnext-btn c-carousel__prev-btn" href="#carousel-${hash}" role="button" data-slide="prev" data-js="click">
-		    <span class="fas fa-caret-left fa-2x c-carousel__prev-icon" data-fa-transform="left-1" aria-hidden="true"></span>
+		    <span class="fas fa-caret-left fa-2x c-carousel__prev-icon mr-1" aria-hidden="true"></span>
 		  </a>
 		  <a class="carousel-control-next c-carousel__prevnext-btn c-carousel__next-btn" href="#carousel-${hash}" role="button" data-slide="next" data-js="click">
-		    <span class="fas fa-caret-right fa-2x c-carousel__next-icon" data-fa-transform="right-1" aria-hidden="true"></span>
+		    <span class="fas fa-caret-right fa-2x c-carousel__next-icon ml-1" aria-hidden="true"></span>
 		  </a>
 		</div>`;
 		return template;

@@ -494,7 +494,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$this->singleColors[$datasetIndex] = [];
 		}
 		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || !isset($dividing['color_id'])) {
-			if ($group['color_id'] === null) {
+			if (!isset($group['color_id'])) {
 				$color = $this->getFieldValueColor($groupValue, $dividingValue);
 				$this->singleColors[$datasetIndex][] = $color;
 				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
