@@ -11839,6 +11839,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (575,123,122,'getRelatedList',10,'ActivityRegister',0,'ADD,SELECT',0,0,0,'RelatedTab');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (576,93,93,'getDependentsList',14,'Competition',0,'ADD',0,0,0,'RelatedTab');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (577,91,4,'getRelatedList',4,'Contacts',0,'ADD,SELECT',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (578,119,61,'getRelatedList',1,'OSSEmployees',0,'ADD,SELECT',0,0,0,'RelatedTab');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
