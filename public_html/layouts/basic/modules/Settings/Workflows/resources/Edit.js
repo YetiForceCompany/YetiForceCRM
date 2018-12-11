@@ -249,11 +249,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			data.remove();
 		});
 	},
-	registerSelectOptionEvent: function (data) {
-		jQuery('.useField,.useFunction', data).on('change', function (e) {
-			var currentElement = jQuery(e.currentTarget);
-			var newValue = currentElement.val();
-			var oldValue = data.find('.fieldValue').filter(':visible').val(), concatenatedValue;
+	registerSelectOptionEvent: (data) => {
+		$('.useField,.useFunction', data).on('change', (e) => {
+			let currentElement = $(e.currentTarget);
+			let newValue = currentElement.val();
+			let oldValue = data.find('.fieldValue').filter(':visible').val(), concatenatedValue;
 			if (currentElement.hasClass('useField')) {
 				if (oldValue != '') {
 					concatenatedValue = oldValue + ' ' + newValue;
@@ -264,7 +264,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				concatenatedValue = oldValue + newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('change');
+			currentElement.val('').trigger('change.select2');
 		});
 	},
 	registerChangeFieldEvent: function (data) {
