@@ -31,10 +31,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
-				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
-				'linkclass' => 'js-mass-record-event',
+				'linkurl' => 'javascript:RecycleBin_List_Js.massActivation()',
 				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
@@ -43,7 +40,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
+				'dataUrl' => 'index.php?module=RecycleBin&action=MassDelete&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-eraser'
