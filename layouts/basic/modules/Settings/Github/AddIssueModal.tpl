@@ -33,7 +33,7 @@
 									<div class="checkbox">
 										<label>
 											<input type="checkbox" name="confirmRegulations">
-											{\App\Language::translate('LBL_CONFIRM_REGULATIONS', $QUALIFIED_MODULE)}
+											{\App\Language::translateArgs('LBL_CONFIRM_REGULATIONS', $QUALIFIED_MODULE,\Settings_Github_Issues_Model::getIssueReportRulesUrl())}
 										</label>
 									</div>
 								</div>
@@ -54,6 +54,11 @@
 												:</strong>
 
 
+
+
+
+
+
 {foreach from=$ERROR_CONFIGURATION key=NAME item=CONFIG}
 											<br/>
 											{$NAME}: {$CONFIG['www']}
@@ -63,6 +68,11 @@
 											<br/>
 											<strong>{\App\Language::translate('LBL_LIBRARIES_ERROR', $QUALIFIED_MODULE)}
 												:</strong>
+
+
+
+
+
 
 
 {foreach from=$ERROR_LIBRARIES key=NAME item=LIBRARY}
