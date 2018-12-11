@@ -362,7 +362,7 @@ class Purifier
 					break;
 				case 'NumberInUserFormat': // number in user format
 					$input = Fields\Double::formatToDb($rawInput = $input);
-					if (is_numeric($input) && Fields\Double::formatToDisplay($input, false) === $rawInput) {
+					if (is_numeric($input) && Fields\Double::formatToDisplay($input, false) === Fields\Double::truncateZeros($rawInput)) {
 						$value = $input;
 					}
 					break;
