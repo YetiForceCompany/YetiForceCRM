@@ -242,7 +242,7 @@ var App = {},
 		registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = {trigger: 'hover focus'}) {
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
-				let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
+				let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 				if (!app.isEllipsisActive(popoverText)) {
 					return;
 				}
