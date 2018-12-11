@@ -30,6 +30,7 @@
     "LBL_MANDATORY_WIDGET": "Widget obligatoire",
     "LBL_NUMBER_OF_RECORDS_DISPLAYED": "Nombre d'enregistrements affich\u00e9s",
     "LBL_DEFAULT_FILTER": "Filtre par d\u00e9faut",
+    "LBL_DEFAULT_LIST_FILTER": "Default list filter",
     "LBL_FILTERS_AVAILABLE": "Filtres disponibles",
     "LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION": "Merci de choisir au moins une option",
     "LBL_VIEW_CONFIGURATION": "Configuration vue",

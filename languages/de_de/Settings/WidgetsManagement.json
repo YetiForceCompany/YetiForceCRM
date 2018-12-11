@@ -21,6 +21,7 @@
     "LBL_WIDGET": "Widgets",
     "LBL_NUMBER_OF_RECORDS_DISPLAYED": "Anzahl angezeigter Eintr\u00e4ge",
     "LBL_DEFAULT_FILTER": "Standardfilter",
+    "LBL_DEFAULT_LIST_FILTER": "Default list filter",
     "LBL_FILTERS_AVAILABLE": "Verf\u00fcgbare Filter",
     "LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION": "Bitte mindestens eine Option w\u00e4hlen",
     "LBL_VIEW_CONFIGURATION": "Konfigurationssicht",
