@@ -545,6 +545,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 			thisInstance.postLoadListViewRecordsEvents(listViewContentsContainer);
 			thisInstance.massUpdatePagination(urlParams);
+			Vtiger_List_Js.clearList();
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 		});
