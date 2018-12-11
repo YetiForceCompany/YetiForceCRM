@@ -435,6 +435,8 @@ jQuery.Class("Vtiger_List_Js", {
 	filterSelectElement: false,
 	listSearchInstance: false,
 	noEventsListSearch: true,
+	//Contains float table head
+	listFloatThead: false,
 	getListSearchInstance: function (events) {
 		if (events != undefined) {
 			this.noEventsListSearch = events;
@@ -553,6 +555,7 @@ jQuery.Class("Vtiger_List_Js", {
 	postLoadListViewRecordsEvents: function (container) {
 		const self = this;
 		self.registerListScroll(container);
+		self.registerFixedThead(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
 		self.registerListViewSpecialOption();
@@ -1844,7 +1847,7 @@ jQuery.Class("Vtiger_List_Js", {
 					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m).parent().removeClass('d-none');
 				}
 			});
-			this.listFloatThead.floatThead('reflow');
+			this.reflowThead();
 		});
 	},
 	registerLastRelationsEvent: function () {
@@ -1879,7 +1882,7 @@ jQuery.Class("Vtiger_List_Js", {
 						});
 				}
 			});
-			this.listFloatThead.floatThead('reflow');
+			this.reflowThead();
 		});
 	},
 	registerChangeEntityStateEvent: function () {
@@ -1938,23 +1941,18 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerListScroll: function (container) {
-		if (CONFIG.view !== 'ListPreview') {
-			const containerH = container.height(),
-				containerOffsetTop = container.offset().top,
-				footerH = $('.js-footer').height(),
-				windowH = $(window).height();
-			if ($(window).width() > app.breakpoints.sm) {
-				//if list is bigger than window fit its height to it
-				if ((containerH + containerOffsetTop + footerH) > windowH) {
-					container.height(windowH - (containerOffsetTop + footerH));
-				}
-				container.find('.js-fixed-thead').floatThead('destroy');
-				container.siblings('.floatThead-container').remove();
-				app.showNewScrollbarTopBottomRight(container);
-				this.registerFixedThead(container);
-				app.registerMiddleClickScroll(container);
-			}
+		const containerH = container.height(),
+			containerOffsetTop = container.offset().top,
+			footerH = $('.js-footer').height(),
+			windowH = $(window).height();
+		//	if list is bigger than window fit its height to it
+		if ((containerH + containerOffsetTop + footerH) > windowH) {
+			container.height(windowH - (containerOffsetTop + footerH));
 		}
+		container.find('.js-fixed-thead').floatThead('destroy');
+		container.siblings('.floatThead-container').remove();
+		app.showNewScrollbarTopBottomRight(container);
+		app.registerMiddleClickScroll(container);
 	},
 	registerFixedThead(container) {
 		this.listFloatThead = container.find('.js-fixed-thead');
@@ -1965,6 +1963,17 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 		this.listFloatThead.floatThead('reflow');
+	},
+	getFloatTheadContainer(container = this.getListViewContentContainer()) {
+		if (this.listFloatThead === false) {
+			this.listFloatThead = container.find('.js-fixed-thead')
+		}
+		return this.listFloatThead;
+	},
+	reflowThead() {
+		if ($(window).width() > app.breakpoints.sm) {
+			this.getFloatTheadContainer().floatThead('reflow');
+		}
 	},
 	registerMassActionsBtnMergeEvents() {
 		this.getListViewContainer().on('click', '.js-mass-action--merge', (e) => {
@@ -1977,6 +1986,16 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 			}
 		});
+	},
+	/**
+	 * Register desktop events
+	 * @param {jQuery} listViewContainer
+	 */
+	registerDesktopEvents(listViewContainer) {
+		if ($(window).width() > app.breakpoints.sm) {
+			this.registerListScroll(listViewContainer);
+			this.registerFixedThead(listViewContainer);
+		}
 	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
@@ -2013,7 +2032,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 		this.getListSearchInstance(false);
 		this.registerListViewSpecialOption();
-		this.registerListScroll(listViewContainer);
+		this.registerDesktopEvents(listViewContainer);
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
