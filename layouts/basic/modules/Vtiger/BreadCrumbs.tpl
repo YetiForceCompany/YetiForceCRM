@@ -10,7 +10,8 @@
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
 			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon"
-				data-content="{App\Purifier::encodeHtml($BREADCRUMBS[$BREADCRUMBS|@count - 1]['name'])}" data-toggle="popover"
+				data-content="{App\Purifier::encodeHtml($BREADCRUMBS[$BREADCRUMBS|@count - 1]['name'])}"
+				data-toggle="popover"
 				data-js="popover | mouseenter">
 				<li class="breadcrumb-item">
 					<a href="{AppConfig::main('site_URL')}">
@@ -41,7 +42,7 @@
 			{if isset($SELECTED_PAGE)}
 				{assign var="TRANSLATED_DESCRIPTION" value=\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{if !empty(trim($TRANSLATED_DESCRIPTION)) && $SELECTED_PAGE->get('description') !== $TRANSLATED_DESCRIPTION}
-					<div class="js-popover-tooltip ml-2 d-inline" data-js="popover"
+					<div class="js-popover-tooltip ml-2 d-inline mt-2" data-js="popover"
 						 data-content="{$TRANSLATED_DESCRIPTION}">
 						<span class="fas fa-info-circle"></span>
 					</div>
