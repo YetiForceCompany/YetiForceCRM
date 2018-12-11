@@ -53,8 +53,8 @@ mysql:
   encoding: utf8
 
 before_script:
-  - export COMMITTER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
-  - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+  - export COMMIT_AUTHOR_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
+  - export COMMIT_AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
   - sudo lscpu
   - sudo lshw
   - sudo cat /proc/cpuinfo
@@ -72,8 +72,6 @@ script:
   - sudo ls -all
 
 after_script:
-  - echo $COMMITTER_EMAIL
-  - echo $AUTHOR_NAME
   - sudo cat /var/log/apache2/error.log
   - sudo cat /var/log/apache2/access.log
   - sudo cat /var/log/apache2/other_vhosts_access.log
