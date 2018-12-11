@@ -41,44 +41,66 @@
 									{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 									<textarea id="bodyIssues" class="form-control js-editor" data-js="ckeditor"
 											  type="text" name="title">
-									<br/>
-									<hr>
+										<br/>
+										<hr>
 										{\App\Language::translate('LBL_DEFAULT_DESCRIPTION', $QUALIFIED_MODULE)}
 										{\App\Version::get()}
 										<br/>
 										{\App\Language::translate('LBL_PHP_VERSION', $QUALIFIED_MODULE)}: {$PHP_VERSION}
 										<br/>
-										{if $ERROR_CONFIGURATION}
+										{if $ERROR_SECURITY}
 											<br/>
-											<strong>{\App\Language::translate('LBL_CONFIGURATION_ERROR', $QUALIFIED_MODULE)}
-												:</strong>
-
-
-
-
-
-
-
-{foreach from=$ERROR_CONFIGURATION key=NAME item=CONFIG}
+											<strong>
+												{\App\Language::translate('LBL_CONFIGURATION_ERROR', $QUALIFIED_MODULE)}
+												:
+											</strong>
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_SECURITY)}
+										{/if}
+										{if $ERROR_STABILITY}
 											<br/>
-											{$NAME}: {$CONFIG['www']}
-										{/foreach}
+											<strong>
+												{\App\Language::translate('LBL_STABILITY_ERROR', $QUALIFIED_MODULE)}
+												:
+											</strong>
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_STABILITY)}
+										{/if}
+										{if $ERROR_ENVIRONMENT}
+											<br/>
+											<strong>
+												{\App\Language::translate('LBL_ENVIRONMENT_ERROR', $QUALIFIED_MODULE)}
+												:
+											</strong>
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_ENVIRONMENT)}
+										{/if}
+										{if $ERROR_DATABASE}
+											<br/>
+											<strong>
+												{\App\Language::translate('LBL_DATABASE_ERROR', $QUALIFIED_MODULE)}
+												:
+											</strong>
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_DATABASE)}
+										{/if}
+										{if $ERROR_WRITE}
+											<br/>
+											<strong>
+												{\App\Language::translate('LBL_WRITE_ERROR', $QUALIFIED_MODULE)}
+												:
+											</strong>
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_WRITE)}
+										{/if}
+										{if $ERROR_PERFORMANCE}
+											<br/>
+											<strong>
+												{\App\Language::translate('LBL_PERFORMANCE_ERROR', $QUALIFIED_MODULE)}
+												:
+											</strong>
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_PERFORMANCE)}
 										{/if}
 										{if $ERROR_LIBRARIES}
 											<br/>
 											<strong>{\App\Language::translate('LBL_LIBRARIES_ERROR', $QUALIFIED_MODULE)}
 												:</strong>
-
-
-
-
-
-
-
-{foreach from=$ERROR_LIBRARIES key=NAME item=LIBRARY}
-											<br/>
-											{$NAME}
-										{/foreach}
+											{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_LIBRARIES,true)}
 										{/if}
 									</textarea>
 								</div>
