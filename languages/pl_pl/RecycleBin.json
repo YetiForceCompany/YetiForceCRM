@@ -1,0 +1,9 @@
+{
+  "php": {
+    "LBL_RECYCLE_DELETE_ALL": "Usu\u0144 ca\u0142y kosz"
+  },
+  "js": {
+    "JS_DELETE_ALL_RECYCLE_RECORD": "Usu\u0144 wszystkie rekordy z kosza",
+    "JS_DELETE_ALL_RECYCLE_RECORD_DESC": "Usuni\u0119cie rekord\u00F3w spowoduje trwa\u0142e i nieodwracalne usuni\u0119cie wszystkich informacji o rekordach. Czy na pewno chcesz kontynuowa\u0107?"
+  }
+}
