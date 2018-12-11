@@ -18,14 +18,14 @@
 					{/foreach}
 				</div>
 				<div class="btn-group mr-md-1 c-btn-block-sm-down">
-					<button class="btn btn-light addButton addBookmark">
+					<button class="btn btn-light js-recycle-empty">
 						<span class="fas fa-trash-alt mr-1"></span>
-						{\App\Language::translate('LBL_REMOVE_ALL', $MODULE)}
+						{\App\Language::translate('LBL_RECYCLE_DELETE_ALL', $MODULE)}
 					</button>
 				</div>
 				<div class="customFilterMainSpan ml-auto mx-xl-auto">
 					{if $MODULE_LIST|@count gt 0}
-						<select class="select2 form-control js-source-module" data-js="value">
+						<select class="select2 form-control js-source-module" id="moduleFilter" data-js="value">
 							{foreach item=MODULEMODEL from=$MODULE_LIST}
 								<option value="{$MODULEMODEL->get('name')}"
 										{if $SOURCE_MODULE eq $MODULEMODEL->get('name')}selected=""{/if}>
@@ -37,8 +37,10 @@
 				</div>
 				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-xs-down">
 					{if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
-						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
-						<input type="hidden" id="recordsCount" value=""/>
+						<div class="paginationDiv">
+							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
+						</div>
+						<input type="hidden" id="recordsCount" value="{$LISTVIEW_ENTRIES_COUNT}"/>
 						<input type="hidden" id="selectedIds" name="selectedIds"/>
 						<input type="hidden" id="excludedIds" name="excludedIds"/>
 					{/if}
