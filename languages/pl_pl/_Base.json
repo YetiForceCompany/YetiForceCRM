@@ -1304,7 +1304,8 @@
     "LBL_REMOVE_RELATION": "Usu\u0144 relacj\u0119",
     "LBL_REMOVE_RELATION_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 powi\u0105zanie z tym rekordem? Usuni\u0119te zostanie tylko powi\u0105zanie.",
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Pomy\u015Blnie dokonano modyfikacji. Zmiany widoczne b\u0119d\u0105 po ponownym za\u0142adowaniu widoku.",
-    "LBL_MODIFICATION_FAILURE": "Nie dokonano modyfikacji."
+    "LBL_MODIFICATION_FAILURE": "Nie dokonano modyfikacji.",
+    "LBL_QUICK_CREATE_MODULE": "Szybkie tworzenie"
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
