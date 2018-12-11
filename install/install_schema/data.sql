@@ -574,15 +574,11 @@ insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,
 
 /*Data for the table `u_yf_crmentity_label` */
 
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (114,'Administrator');
-
 /*Data for the table `u_yf_crmentity_last_changes` */
 
 /*Data for the table `u_yf_crmentity_rel_tree` */
 
 /*Data for the table `u_yf_crmentity_search_label` */
-
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (114,'Administrator','OSSEmployees',NULL);
 
 /*Data for the table `u_yf_crmentity_showners` */
 
@@ -1953,7 +1949,7 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (110,1,1,NULL,1,'EmailTemplates',NULL,NULL,'2016-05-24 12:40:24','2017-01-11 13:35:37','2016-05-24 12:40:24',NULL,NULL,0,1,0,0,0,NULL);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (112,1,1,NULL,1,'EmailTemplates',NULL,NULL,'2017-06-07 00:42:02','2017-06-07 00:42:02',NULL,NULL,NULL,0,1,0,0,0,',1,');
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (113,1,1,NULL,1,'EmailTemplates',NULL,NULL,'2018-07-23 12:11:25','2018-07-23 12:11:25',NULL,NULL,NULL,0,1,0,0,0,',1,');
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (114,1,1,NULL,1,'OSSEmployees',NULL,NULL,'2018-12-11 11:54:23','2018-12-11 11:54:23',NULL,NULL,NULL,0,1,0,0,0,',1,');
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (2,1,1,NULL,1,'OSSEmployees',NULL,NULL,'2018-12-11 11:54:23','2018-12-11 11:54:23',NULL,NULL,NULL,0,1,0,0,0,',1,');
 
 /*Data for the table `vtiger_crmentityrel` */
 
@@ -2945,8 +2941,6 @@ insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`)
 insert  into `vtiger_end_hour_seq`(`id`) values (1);
 
 /*Data for the table `vtiger_entity_stats` */
-
-insert  into `vtiger_entity_stats`(`crmid`,`crmactivity`) values (114,0);
 
 /*Data for the table `vtiger_entityname` */
 
@@ -6326,11 +6320,11 @@ insert  into `vtiger_ossdc_status_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_ossemployees` */
 
-insert  into `vtiger_ossemployees`(`ossemployeesid`,`ossemployees_no`,`parentid`,`employee_status`,`name`,`last_name`,`pesel`,`id_card`,`employee_education`,`birth_date`,`business_phone`,`private_phone`,`business_mail`,`private_mail`,`street`,`code`,`city`,`state`,`country`,`ship_street`,`ship_code`,`ship_city`,`ship_state`,`ship_country`,`dav_status`,`sum_time`,`secondary_phone`,`position`,`rbh`,`business_phone_extra`,`private_phone_extra`,`secondary_phone_extra`,`multicompanyid`) values (114,'P1',0,'Employee','Administrator','Administrator','','','',NULL,'','','help@yetiforce.com','','','','','','','','','','','',1,0.00,'','',0.00000000,'','','',1);
+insert  into `vtiger_ossemployees`(`ossemployeesid`,`ossemployees_no`,`parentid`,`employee_status`,`name`,`last_name`,`pesel`,`id_card`,`employee_education`,`birth_date`,`business_phone`,`private_phone`,`business_mail`,`private_mail`,`street`,`code`,`city`,`state`,`country`,`ship_street`,`ship_code`,`ship_city`,`ship_state`,`ship_country`,`dav_status`,`sum_time`,`secondary_phone`,`position`,`rbh`,`business_phone_extra`,`private_phone_extra`,`secondary_phone_extra`,`multicompanyid`) values (2,'P1',0,'Employee','Administrator','Administrator','','','',NULL,'','','help@yetiforce.com','','','','','','','','','','','',1,0.00,'','',0.00000000,'','','',1);
 
 /*Data for the table `vtiger_ossemployeescf` */
 
-insert  into `vtiger_ossemployeescf`(`ossemployeesid`) values (114);
+insert  into `vtiger_ossemployeescf`(`ossemployeesid`) values (2);
 
 /*Data for the table `vtiger_osservicesstatus` */
 
