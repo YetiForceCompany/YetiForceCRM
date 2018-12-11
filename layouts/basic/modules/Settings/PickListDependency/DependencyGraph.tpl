@@ -48,10 +48,7 @@
 				</button>
 				<button class="btn unmarkAll btn-light" type="button">
 					<strong>
-						<div class="fa-layers fa-fw mr-2">
-							<span class="far fa-square" data-fa-transform="grow-6"></span>
-							<span class="fas fa-times" data-fa-transform="shrink-3"></span>
-						</div>
+						<span class="far fa-times-circle mr-2"></span>
 						{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}
 					</strong>
 				</button>

@@ -2,10 +2,10 @@
 {strip}
 	<button class="js-widget-predefined btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle u-remove-dropdown-icon{if !$WIDGETS|count gt 0} d-none{/if} tpl-Base-dashboards-DashBoardWidgetsList"
 			data-js="class: d-none" data-toggle="dropdown">
-				<span class="fa-layers fa-fw mr-md-2">
-					<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
-					<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
-					<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
+				<span class="c-icon--tripple mr-md-2">
+					<span class="c-icon--tripple__top fas fa-chart-pie"></span>
+					<span class="c-icon--tripple__left fas fa-chart-line"></span>
+					<span class="c-icon--tripple__right fas fa-chart-area"></span>
 				</span>
 		<span class="d-none d-md-inline">{\App\Language::translate('LBL_PREDEFINED_WIDGETS')}</span>
 	</button>

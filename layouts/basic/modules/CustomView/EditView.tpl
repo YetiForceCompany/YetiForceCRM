@@ -239,11 +239,11 @@
 									   data-js="change"
 									   {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if}
 									   id="setmetrics" autocomplete="off"/>
-								<span class="fa-layers fa-fw mr-2">
-								<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
-								<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
-								<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
-							</span>
+								<span class="c-icon--tripple mr-2">
+									<span class="c-icon--tripple__top fas fa-chart-pie"></span>
+									<span class="c-icon--tripple__left fas fa-chart-line"></span>
+									<span class="c-icon--tripple__right fas fa-chart-area"></span>
+								</span>
 								{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE_NAME)}
 							</label>
 						</div>

@@ -21,7 +21,6 @@
 								data-picklist-value="{$VALUE_DATA['picklistValue']}"
 								data-picklist-label="{\App\Purifier::encodeHtml($PICKLIST_LABEL)}"
 								data-js="confirm|click|data">
-
 								<div class="c-progress__icon__container">
 									<span class="
 								{if $IS_LOCKED}
