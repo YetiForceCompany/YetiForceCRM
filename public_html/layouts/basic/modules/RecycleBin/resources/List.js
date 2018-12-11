@@ -1,13 +1,41 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-Vtiger_List_Js("RecycleBin_List_Js", {}, {
+Vtiger_List_Js("RecycleBin_List_Js", {
+	/**
+	 * Mass activation trigerred on the list
+	 */
+	massActivation: function () {
+		let params = this.getSelectedRecordsParams(),
+			listInstance = Vtiger_List_Js.getInstance(),
+			container = listInstance.getListViewContainer(),
+			overrideParams = {
+				module: container.find('.js-source-module').val(),
+				state: 'Active',
+				entityState: 'Trash',
+				action: 'MassState',
+			};
+		AppConnector.request($.extend(overrideParams, params)).done(function (data) {
+			if (data && data.result && data.result.notify) {
+				Vtiger_Helper_Js.showMessage(data.result.notify);
+			}
+			listInstance.getListViewRecords({
+				module: app.getModuleName(),
+				view: 'List',
+				parent: app.getModuleName(),
+				sourceModule: container.find('.js-source-module').val()
+			});
+		});
+	},
+
+}, {
 	/**
 	 * Register module select
 	 */
 	registerModuleFilter: function () {
-		const self = this;
-		let filterSelectElement = $('.js-source-module');
+		const self = this,
+			container = this.getListViewContainer();
+		let filterSelectElement = container.find('.js-source-module');
 		filterSelectElement.on('select2:selecting', function (e) {
 			self.getListViewRecords({
 				module: app.getModuleName(),
@@ -16,7 +44,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {}, {
 				sourceModule: e.params.args.data.id
 			}).done(function () {
 				self.calculatePages().done(function () {
-					$('.js-pagination-list').data('totalCount', '');
+					container.find('.js-pagination-list').data('totalCount', '');
 					self.updatePagination();
 				});
 			});
@@ -30,19 +58,22 @@ Vtiger_List_Js("RecycleBin_List_Js", {}, {
 		const self = this,
 			listViewPageDiv = this.getListViewContainer();
 		let params = self.getDefaultParams(),
-			container = listViewPageDiv.find('.paginationDiv');
+			container = listViewPageDiv.find('.paginationDiv'),
+			overrideParams = {
+				totalCount: -1,
+				view: 'Pagination',
+				mode: 'getPagination',
+				entityState: 'Trash',
+				module: listViewPageDiv.find('.js-source-module').val(),
+			};
+		;
 		Vtiger_Helper_Js.showMessage({
 			title: app.vtranslate('JS_LBL_PERMISSION'),
 			text: app.vtranslate('JS_GET_PAGINATION_INFO'),
 			type: 'info',
 		});
 		if (container.find('.js-pagination-list').data('total-count') > 0 || force) {
-			params.totalCount = -1;
-			params.view = 'Pagination';
-			params.mode = 'getPagination';
-			params.entityState = 'Trash';
-			params.module = $('.js-source-module').val();
-			AppConnector.request(params).done(function (data) {
+			AppConnector.request($.extend(overrideParams, params)).done(function (data) {
 				container.html(data);
 				self.registerPageNavigationEvents();
 			});
@@ -52,8 +83,9 @@ Vtiger_List_Js("RecycleBin_List_Js", {}, {
 	 * Register empty recycle button
 	 */
 	registerEmptyRecycle: function () {
-		const self = this;
-		$('.js-recycle-empty').on('click', function () {
+		const self = this,
+			container = this.getListViewContainer();
+		container.find('.js-recycle-empty').on('click', function () {
 			Vtiger_Helper_Js.showConfirmationBox({
 				message: app.vtranslate('JS_DELETE_ALL_RECYCLE_RECORD_DESC'),
 				title: app.vtranslate('JS_DELETE_ALL_RECYCLE_RECORD')
@@ -61,7 +93,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {}, {
 				let progressIndicatorElement = $.progressIndicator();
 				AppConnector.request({
 					module: 'RecycleBin',
-					sourceModule: $('.js-source-module').val(),
+					sourceModule: container.find('.js-source-module').val(),
 					action: 'MassDeleteAll',
 					sourceView: 'List'
 				}).done(function (data) {

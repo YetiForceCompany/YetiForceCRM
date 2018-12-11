@@ -1,6 +1,7 @@
 {
   "php": {
-    "LBL_RECYCLE_DELETE_ALL": "Usu\u0144 ca\u0142y kosz"
+    "LBL_RECYCLE_DELETE_ALL": "Usu\u0144 ca\u0142y kosz",
+    "LBL_ADDED_TO_QUEUE": "Dodano do kolejki. Wszystkie elementy zostan\u0105 usuni\u0119te"
   },
   "js": {
     "JS_DELETE_ALL_RECYCLE_RECORD": "Usu\u0144 wszystkie rekordy z kosza",
