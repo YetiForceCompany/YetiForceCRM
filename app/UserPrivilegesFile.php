@@ -250,7 +250,7 @@ class UserPrivilegesFile
 									}
 									$grpReadPer[$shareEntId] = $shareGrpUsers;
 								}
-								if (!array_key_exists($shareEntId, $grpWritePer) && !array_key_exists($shareEntId, $grpWritePer)) {
+								if (!array_key_exists($shareEntId, $grpWritePer)) {
 									if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
 										$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
 									} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
