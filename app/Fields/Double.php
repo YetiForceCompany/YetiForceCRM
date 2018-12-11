@@ -15,6 +15,34 @@ namespace App\Fields;
 class Double
 {
 	/**
+	 * Function to truncate zeros.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function truncateZeros(string $value)
+	{
+		$seperator = \App\User::getCurrentUserModel()->getDetail('currency_decimal_separator');
+		if (strpos($value, $seperator) === false) {
+			return $value;
+		}
+		for ($i = strlen($value) - 1; $i >= 0; $i--) {
+			if ($value[$i] === $seperator) {
+				$i--;
+				break;
+			}
+			if ($value[$i] !== '0') {
+				break;
+			}
+		}
+		if ($i !== -1) {
+			$value = substr($value, 0, $i + 1);
+		}
+		return $value;
+	}
+
+	/**
 	 * Function to display number in user format.
 	 *
 	 * @param string|null $value
@@ -36,15 +64,8 @@ class Double
 		$display = Integer::formatToDisplay($integer);
 		$decimalSeperator = $userModel->getDetail('currency_decimal_separator');
 		if ($userModel->getDetail('truncate_trailing_zeros')) {
-			for ($i = strlen($decimal) - 1; $i >= 0; $i--) {
-				if ($decimal[$i] !== '0') {
-					break;
-				}
-			}
-			if ($i !== -1) {
-				$display .= $decimalSeperator . substr($decimal, 0, $i + 1);
-			}
-		} else {
+			$display = static::truncateZeros($display . $decimalSeperator . $decimal);
+		} elseif ($decimal) {
 			$display .= $decimalSeperator . $decimal;
 		}
 		return $display;
