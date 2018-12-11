@@ -94,8 +94,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
 			echo $response;
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
-			echo $e->getMessage() . PHP_EOL;
-			echo $e->getTraceAsString() . PHP_EOL;
+			echo $e->__toString() . PHP_EOL;
 			if (AppConfig::main('systemMode') === 'test') {
 				throw $e;
 			}
