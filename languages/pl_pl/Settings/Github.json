@@ -20,6 +20,11 @@
     "LBL_NO_ISSUES": "Brak zg\u0142oszonych problem\u00f3w",
     "LBL_PHP_VERSION": "PHP",
     "LBL_LIBRARIES_ERROR": "Library errors",
-    "LBL_CONFIGURATION_ERROR": "Server configuration errors"
+    "LBL_CONFIGURATION_ERROR": "Server configuration errors",
+    "LBL_STABILITY_ERROR": "Server stability errors",
+    "LBL_ENVIRONMENT_ERROR": "Server environment errors",
+    "LBL_DATABASE_ERROR": "Server database errors",
+    "LBL_PERFORMANCE_ERROR": "Server performance errors",
+    "LBL_WRITE_ERROR": "Server write permissions errors"
   }
 }

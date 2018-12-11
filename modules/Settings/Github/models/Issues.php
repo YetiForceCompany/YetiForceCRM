@@ -39,4 +39,24 @@ class Settings_Github_Issues_Model
 		}
 		return "<a href='{$url}' target='_blank'>link</a>";
 	}
+
+	/**
+	 * Format system errors for GitHub issue creation
+	 * @param array $errors
+	 * @param bool  $nameOnly
+	 * @return string
+	 */
+	public static function formatErrorsForIssue($errors, $nameOnly = false): string
+	{
+		$return = '';
+		foreach ($errors as $name => $config) {
+			$return .= '<br />';
+			if ($nameOnly) {
+				$return .= $name;
+			} else {
+				$return .= "{$name}: " . \App\Language::translate($config['www']);
+			}
+		}
+		return $return;
+	}
 }
