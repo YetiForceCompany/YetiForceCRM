@@ -187,6 +187,7 @@
     "LBL_HELP_LDAP": "Protocol used to access databases that store information in a tree structure.",
     "LBL_HELP_OPCACHE": "Improves performance by storing compiled byte code in shared memory.",
     "LBL_HELP_APCU": "",
+    "LBL_HELP_IMAGICK": "Library recommended for securing potentially dangerous graphic files",
     "LBL_HELP_ALLEXT": "",
     "LBL_HELP_XDEBUG": "Extension that helps detect bugs",
     "LBL_HELP_OPCACHE_ENABLE": "Enables cache",
