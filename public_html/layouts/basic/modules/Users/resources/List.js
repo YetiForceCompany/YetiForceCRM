@@ -302,17 +302,18 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		});
 	},
 	updatePaginationFilter: function () {
-		const self = this;
+		const self = this,
+			container = this.getListViewContainer();
 		AppConnector.request({
 			page: 1,
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			view: 'Pagination',
 			mode: 'getPagination',
-			search_params: $('#usersFilter').val(),
-			noOfEntries: $('#noOfEntries').val(),
+			search_params: container.find('#usersFilter').val(),
+			noOfEntries: container.find('#noOfEntries').val(),
 		}).done(function (data) {
-			$('.paginationDiv').html(data);
+			container.find('.paginationDiv').html(data);
 			self.registerPageNavigationEvents();
 		});
 	},
