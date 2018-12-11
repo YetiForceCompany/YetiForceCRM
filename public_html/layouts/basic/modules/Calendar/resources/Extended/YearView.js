@@ -130,9 +130,9 @@ FC.views.year = View.extend({
 							}
 							element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex" data-date="${event.date}" data-js="click">
 							<a class="fc-year__show-day-btn mx-auto" href="#" data-date="${event.date}" title="${event.count}">
-								  <span class="fa-layers fa-fw">
+								  <span class="fc-year__show-day-btn__container">
 									<span class="fas fa-calendar fa-lg"></span>
-									<span class="fc-year__show-day-btn__text fa-layers-text fa-inverse u-font-weight-700" data-fa-transform="shrink-6 down-4">${event.countShow}</span>
+									<span class="fc-year__show-day-btn__text fa-inverse u-font-weight-700">${event.countShow}</span>
 								  </span>	
 							</a>
 						</div>`;
