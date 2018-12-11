@@ -64,42 +64,10 @@ class TextParser extends \Tests\Base
 	public function testOrganization()
 	{
 		$defaultCompanyModel = \App\Company::getInstanceById(false);
-		//$organizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
-		//$this->assertNotEmpty($organizationId, 'Default organization should exists');
 		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
 			->setContent('+ $(organization : name)$ +')
 			->parse()
 			->getContent(), 'Organization name should match to reference');
-
-		//$this->assertSame('+ ' . \App\Company::getInstanceById($organizationId)->get('name') . ' +', static::$parserClean
-		//	->setContent('+ $(organization : name|' . $organizationId . ')$ +')
-		//	->parse()
-		//	->getContent(), 'Organization id: ' . $organizationId . ', field name should match to reference');
-
-		//$this->assertNotFalse(strpos(static::$parserClean
-		//	->setContent('+ $(organization : mailLogo)$ +')
-		//	->parse()
-		//	->getContent(), 'organizationLogo'), 'Organization mail logo should contain html class organizationLogo');
-
-		//$this->assertNotFalse(strpos(static::$parserClean
-		//	->setContent('+ $(organization : loginLogo)$ +')
-		//	->parse()
-		//	->getContent(), 'organizationLogo'), 'Organization login logo should contain html class organizationLogo');
-
-		//$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo') . ' +', static::$parserClean
-		//	->setContent('+ $(organization : logo_login)$ +')
-		//	->parse()
-		//	->getContent(), 'Organization logo_login should match to reference');
-
-		//$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo') . ' +', static::$parserClean
-		//	->setContent('+ $(organization : logo_main)$ +')
-		//	->parse()
-		//	->getContent(), 'Organization logo_main should match to reference');
-
-		//$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_main') . ' +', static::$parserClean
-		//	->setContent('+ $(organization : logo_mail)$ +')
-		//	->parse()
-		//	->getContent(), 'Organization logo_mail should match to reference');
 	}
 
 	/**

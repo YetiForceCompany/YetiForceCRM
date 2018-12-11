@@ -14,8 +14,6 @@
     "LBL_TYPE_PROVIDER": "Dostawca",
     "LBL_WEBSITE": "Strona WWW",
     "LBL_INDUSTRY": "Bran\u017ca",
-    "LBL_LOGO_MAIN": "Logo firmy (widoczne po zalogowaniu)",
-    "LBL_LOGO_PATH_MAIN": "\u015acie\u017cka do loga firmy (widoczne po zalogowaniu)",
     "LBL_COMPANY_NAMES_EXIST": "Firma o podanej nazwie ju\u017c istnieje"
   }
 }
