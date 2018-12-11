@@ -34,23 +34,17 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		$exists = $recordModel->isCompanyDuplicated($request);
 		if (!$exists) {
-			$recordModel->setCompaniesNotDefault($request->get('default'));
 			$logoDetails = $recordModel->saveCompanyLogos();
 			$columns = Settings_Companies_Module_Model::getColumnNames();
 			if ($columns) {
-				if ($request->isEmpty('default')) {
-					$columns = array_diff($columns, ['default']);
-				}
 				foreach ($columns as $fieldName) {
 					$fieldValue = $request->getByType($fieldName, 'Text');
-					if ('logo_main' === $fieldName) {
+					if ('logo' === $fieldName) {
 						if (!empty($logoDetails[$fieldName]['name'])) {
 							$fieldValue = ltrim(basename(' ' . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
 						} else {
 							$fieldValue = $recordModel->get($fieldName);
 						}
-					} elseif ('default' === $fieldName) {
-						$fieldValue = $request->getBoolean('default');
 					}
 					$recordModel->set($fieldName, $fieldValue);
 				}

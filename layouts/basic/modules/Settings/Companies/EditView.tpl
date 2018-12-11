@@ -27,19 +27,7 @@
 						<input type="hidden" name="mode" value="updateCompany">
 						<input type="hidden" name="record" value="{$RECORD_ID}"/>
 						{foreach from=$COMPANY_COLUMNS item=COLUMN}
-							{if $COLUMN eq 'default'}
-								{if $RECORD_MODEL->get($COLUMN) eq 0}
-									<div class="form-group row">
-										<label class="col-lg-2 col-form-label text-left text-lg-right">
-											{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
-										</label>
-										<div class="col-lg-10">
-											<input type="checkbox" name="{$COLUMN}"
-												   value="1" {if $RECORD_MODEL->get({$COLUMN}) eq 1} checked {/if}>
-										</div>
-									</div>
-								{/if}
-							{elseif $COLUMN eq 'industry'}
+							{if $COLUMN eq 'industry'}
 								<div class="form-group row">
 									<label class="col-lg-2 col-form-label text-left text-lg-right">
 										{App\Language::translate('LBL_INDUSTRY', $QUALIFIED_MODULE)}
@@ -95,7 +83,7 @@
 										</div>
 									</div>
 								</div>
-							{elseif $COLUMN neq 'logo_main' && $COLUMN neq 'id'}
+							{elseif $COLUMN neq 'logo' && $COLUMN neq 'id'}
 								<div class="form-group row">
 									<label class="col-lg-2 col-form-label text-left text-lg-right">
 										{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
@@ -115,9 +103,6 @@
 										<div class="d-block">
 											<input type="file" name="{$COLUMN}" id="{$COLUMN}"
 												   {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>&nbsp;&nbsp;
-										</div>
-										<div class="d-block alert alert-info">
-											{App\Language::translate('LBL_PANELLOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 										</div>
 									</div>
 								</div>

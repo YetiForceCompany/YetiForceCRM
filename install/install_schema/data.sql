@@ -260,7 +260,7 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`name`,`short_name`,`default`,`industry`,`street`,`city`,`code`,`state`,`country`,`phone`,`fax`,`website`,`vatid`,`id1`,`id2`,`email`,`logo_main`,`type`) values(1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, NULL, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 2);
+insert  into `s_yf_companies`(`id`,`name`,`type`,`industry`,`city`,`country`,`website`,`email`,`logo`) values (1,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland','yetiforce.com',NULL,'logo_yetiforce.png');
 
 /*Data for the table `s_yf_mail_queue` */
 

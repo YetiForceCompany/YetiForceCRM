@@ -62,8 +62,6 @@
     "LBL_LOGIN_HISTORY_DESCRIPTION": "Przegl\u0105daj udane autoryzacje do systemu CRM dla ka\u017cdego u\u017cytkownika oddzielnie wed\u0142ug adres IP.",
     "LBL_LOGIN_HISTORY_DETAILS": "U\u017cytkownicy - logowanie",
     "LBL_LOGIN_TIME": "Czas logowania",
-    "LBL_LOGO_RECOMMENDED_MESSAGE": "Rekomendowany rozmiar 48X48 px (.jpeg, .jpg, .png, .gif, .pjpeg, .x-png format).",
-    "LBL_PANELLOGO_RECOMMENDED_MESSAGE": "Rekomendowany rozmiar 256X256 px (.jpeg, .jpg, .png, .gif, .pjpeg, .x-png format).",
     "LBL_MAIL_MERGE_DESCRIPTION": "Zarz\u0105dzaj szablonami korespondencji seryjnej",
     "LBL_MAIL_MERGE": "Korespondencja seryjna",
     "LBL_MAIL_SCANNER_DESCRIPTION": "Konfiguruj regu\u0142y dla skanera pocztowego a nast\u0119pnie przydzielaj zadania, jakie maj\u0105 by\u0107 definiowane.",

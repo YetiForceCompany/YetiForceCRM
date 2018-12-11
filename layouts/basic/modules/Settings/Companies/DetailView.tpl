@@ -9,13 +9,11 @@
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2">
 				<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
 			</a>
-			{if $RECORD_MODEL->get('default') eq 0}
-				<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
-						data-record-id="{$RECORD_MODEL->getId()}">
-					<span class="fas fa-trash-alt mr-1"></span>
-					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
-				</button>
-			{/if}
+			<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
+					data-record-id="{$RECORD_MODEL->getId()}">
+				<span class="fas fa-trash-alt mr-1"></span>
+				<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
+			</button>
 		</div>
 	</div>
 	<div class="detailViewInfo" id="groupsDetailContainer">
@@ -32,7 +30,7 @@
 						</thead>
 						<tbody>
 						{foreach from=$COMPANY_COLUMNS item=COLUMN}
-							{if $COLUMN neq 'logo_main'}
+							{if $COLUMN neq 'logo'}
 								{if $COLUMN neq 'id'}
 									<tr>
 										<td class="{$WIDTHTYPE} w-25"><label
