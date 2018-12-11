@@ -20,7 +20,7 @@
 				<div class="btn-group mr-md-1 c-btn-block-sm-down">
 					<button class="btn btn-light js-recycle-empty">
 						<span class="fas fa-trash-alt mr-1"></span>
-						{\App\Language::translate('LBL_RECYCLE_DELETE_ALL', $MODULE)}
+						{\App\Language::translate('LBL_RECYCLE_DELETE_ALL', $MODULE_NAME)}
 					</button>
 				</div>
 				<div class="customFilterMainSpan ml-auto mx-xl-auto">

@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
-class RecycleBin
+class RecycleBin extends Vtiger_CRMEntity
 {
 	public $list_fields_name = [];
 	public $def_basicsearch_col = '';
