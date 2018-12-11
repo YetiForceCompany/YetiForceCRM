@@ -268,12 +268,12 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			viewType = 'day';
 		}
 		if (view.options.firstLoad) {
-			yearButtons.first().html(`<span class="fas small fa-minus mr-1"></span>${view.options.buttonText['year']}`);
-			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas small fa-plus ml-1"></span>`);
+			yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
+			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
 		if (view.type !== 'year') {
-			nextPrevButtons.first().html(`<span class="fas small fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
-			nextPrevButtons.last().html(`${view.options.buttonText[viewType]}<span class="fas small fa-plus ml-1"></span>`);
+			nextPrevButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
+			nextPrevButtons.last().html(`${view.options.buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
