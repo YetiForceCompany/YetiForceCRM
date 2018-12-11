@@ -12,7 +12,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="tpl-Settings-PDF-ListViewContents listViewEntriesDiv u-overflow-scroll-xs-down overflowXAuto mt-2">
+	<div class="tpl-Settings-PDF-ListViewContents listViewEntriesDiv u-overflow-scroll-xsm-down overflowXAuto mt-2">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="table-responsive">
 			<table class="table table-bordered table-sm listViewEntriesTable">
