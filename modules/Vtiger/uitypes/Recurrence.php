@@ -135,7 +135,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			$text = App\Language::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
 				. App\Language::translate($info['freqLabel'], $moduleName) . ', '
 				. App\Language::translate('LBL_UNTIL', $moduleName) . ' ';
-			if (!isset($info['COUNT'], $info['UNTIL'])) {
+			if (!isset($info['COUNT']) && !isset($info['UNTIL'])) {
 				$text .= App\Language::translate('LBL_NEVER', $moduleName);
 			} elseif (isset($info['COUNT'])) {
 				$text .= App\Language::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
