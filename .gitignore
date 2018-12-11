@@ -9,10 +9,10 @@
 # dependencies YETIFORCE
 /public_html/modules/OSSMail/roundcube/
 /dev_tools/
-
 /_private
 /public_html/_private
 /public_html/layouts/basic/styles/.sass-cache
+/public_html/logo.jpg
 
 /layouts/basic/modules/Settings/TestData
 
