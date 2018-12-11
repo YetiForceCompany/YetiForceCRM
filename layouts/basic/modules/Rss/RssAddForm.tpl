@@ -12,7 +12,7 @@
 {strip}
 	<div class="modal-header">
 		<h5 class="modal-title">
-			<span class="fas fa-fw fa-rss mr-2" data-fa-transform="shrink-6 right-4"></span>
+			<span class="fas fa-fw fa-rss mr-1"></span>
 			{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}
 		</h5>
 		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">

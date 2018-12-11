@@ -204,8 +204,7 @@
 									   id="setdefault"
 									   autocomplete="off"/>
 								<span class="{if $CUSTOMVIEW_MODEL->isDefault()}fas{else}far{/if} fa-heart mr-1"
-									  data-check="fas fa-heart" data-unchecked="far fa-heart"
-									  data-fa-transform="grow-2"></span>
+									  data-check="fas fa-heart" data-unchecked="far fa-heart"></span>
 								{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}
 
 							</label>
@@ -216,8 +215,7 @@
 									   id="status"
 									   autocomplete="off"/>
 								<span class="far {if $CUSTOMVIEW_MODEL->isSetPublic()}fa-eye{else}fa-eye-slash{/if} mr-1"
-									  data-check="fa-eye" data-unchecked="fa-eye-slash"
-									  data-fa-transform="grow-2"></span>
+									  data-check="fa-eye" data-unchecked="fa-eye-slash"></span>
 								{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE_NAME)}
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isFeatured(true)} active{/if}"
@@ -228,8 +226,7 @@
 										{if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if}
 									   autocomplete="off"/>
 								<span class="{if $CUSTOMVIEW_MODEL->isFeatured(true)}fas{else}far{/if} fa-star mr-1"
-									  data-check="fas" data-unchecked="far"
-									  data-fa-transform="grow-2"></span>
+									  data-check="fas" data-unchecked="far"></span>
 								{\App\Language::translate('LBL_FEATURED',$MODULE_NAME)}
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->get('setmetrics')} active{/if}"
