@@ -18,6 +18,7 @@ class Z_StringFormatting extends \Tests\Base
 	public static $patternGrouping;
 	public static $decimalNum;
 	public static $truncateTrailingZeros;
+	public static $combinations = [];
 
 	/**
 	 * Store current user preferences.
@@ -43,17 +44,168 @@ class Z_StringFormatting extends \Tests\Base
 	 */
 	public function providerNumbers()
 	{
-		//Module,Field,UserFormat,DbFormat,decimalSeparator,groupingSeparator,groupingFormat,afterDotPlaces,currencySymbolPlacement,truncateZeros,correct
-		return [
-			['Accounts', 'employees', '1000000', '1000000', '.', ' ', '123456789', 2, '1.0$', false, true],
-			['Accounts', 'employees', '1 000 000', '1000000', '.', ' ', '123,456,789', 2, '1.0$', false, true],
-			['Accounts', 'employees', '1,000,000', '1000000', '.', ',', '123,456,789', 2, '1.0$', false, true],
-			['Accounts', 'employees', '1,000,000', '1000000', '.', ',', '123,456,789', 2, '$1.0', false, true],
-			['Accounts', 'discount', '70,00%', '70.00', ',', ' ', '123,456,789', 2, '1.0$', false, true],
-			['Accounts', 'discount', '70,00%', '70.00', ',', ' ', '123,456,789', 2, '$1.0', false, true],
-			['Accounts', 'balance', '85 169,40 zł', '85169.40', ',', ' ', '123,456,789', 2, '1.0$', false, true],
-			['Accounts', 'balance', 'zł 85 169,40', '85169.40', ',', ' ', '123,456,789', 2, '$1.0', false, true]
-		];
+		$combinations = [];
+		foreach (
+			[
+				'integer',
+				'double',
+				//	'currency',
+				//	'percentage'
+			] as $type) {
+			$method = 'append' . \ucfirst($type);
+			if (\method_exists($this, $method)) {
+				$this->$method($combinations);
+			} else {
+				$this->fail('Unsupported field type: ' . \ucfirst($type));
+			}
+		}
+		return $combinations;
+	}
+
+	/**
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	public function getCombinations()
+	{
+		if (!static::$combinations) {
+			$query = (new \App\Db\Query())->select(
+				[
+					'decimal_separator' => 'vtiger_currency_decimal_separator.currency_decimal_separator',
+					'grouping_pattern' => 'vtiger_currency_grouping_pattern.currency_grouping_pattern',
+					'grouping_separator' => 'vtiger_currency_grouping_separator.currency_grouping_separator',
+					'symbol_placement' => 'vtiger_currency_symbol_placement.currency_symbol_placement',
+					'decimals' => 'vtiger_no_of_currency_decimals.no_of_currency_decimals'
+				]
+			)->from('vtiger_currency_decimal_separator')->join('cross join', 'vtiger_currency_grouping_pattern')->join('cross join', 'vtiger_currency_grouping_separator')->join('cross join', 'vtiger_currency_symbol_placement')->join('cross join', 'vtiger_no_of_currency_decimals')->createCommand()->query();
+			while ($combination = $query->read()) {
+				if ($combination['grouping_separator'] !== $combination['decimal_separator']) {
+					static::$combinations[] = $combination;
+				}
+			}
+		}
+		return static::$combinations;
+	}
+
+	/**
+	 * @param $combinations
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	public function appendInteger(&$combinations)
+	{
+		$dbFormat = '123456789';
+		$fieldData = (new \App\Db\Query())->from('vtiger_field')->where(['uitype' => 7])->one();
+		foreach ($this->getCombinations() as $combination) {
+			$usrFormatTruncated = $usrFormat = \str_replace(',', $combination['grouping_separator'], $combination['grouping_pattern']);
+			$combinations[] = [
+				\App\Module::getModuleName($fieldData['tabid']),
+				$fieldData['fieldname'],
+				$usrFormatTruncated,
+				$dbFormat,
+				$combination['decimal_separator'],
+				$combination['grouping_separator'],
+				$combination['grouping_pattern'],
+				$combination['decimals'],
+				$combination['symbol_placement'],
+				true,
+				true
+			];
+			$combinations[] = [
+				\App\Module::getModuleName($fieldData['tabid']),
+				$fieldData['fieldname'],
+				$usrFormat,
+				$dbFormat,
+				$combination['decimal_separator'],
+				$combination['grouping_separator'],
+				$combination['grouping_pattern'],
+				$combination['decimals'],
+				$combination['symbol_placement'],
+				false,
+				true
+			];
+		}
+		return $combinations;
+	}
+
+	/**
+	 * @param $combinations
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	public function appendDouble(&$combinations)
+	{
+		$int = '123456789';
+		$fieldData = (new \App\Db\Query())->from('vtiger_field')->where(['uitype' => 7, 'typeofdata' => 'NN~O'])->one();
+		foreach ($this->getCombinations() as $combination) {
+			$decimals = \substr(12312, 0, $combination['decimals']);
+			$dbFormat = $int . '.' . 12312;
+			$usrFormatTruncated = $usrFormat = \str_replace(',', $combination['grouping_separator'], $combination['grouping_pattern']);
+			if ($decimals) {
+				$usrFormat .= $combination['decimal_separator'] . $decimals;
+				$usrFormatTruncated .= $combination['decimal_separator'] . rtrim($decimals, '0');
+			}
+			$combinations[] = [
+				\App\Module::getModuleName($fieldData['tabid']),
+				$fieldData['fieldname'],
+				$usrFormat,
+				$dbFormat,
+				$combination['decimal_separator'],
+				$combination['grouping_separator'],
+				$combination['grouping_pattern'],
+				$combination['decimals'],
+				$combination['symbol_placement'],
+				true,
+				true
+			];
+			$combinations[] = [
+				\App\Module::getModuleName($fieldData['tabid']),
+				$fieldData['fieldname'],
+				$usrFormatTruncated,
+				$dbFormat,
+				$combination['decimal_separator'],
+				$combination['grouping_separator'],
+				$combination['grouping_pattern'],
+				$combination['decimals'],
+				$combination['symbol_placement'],
+				false,
+				true
+			];
+			$decimals = \substr(10000, 0, $combination['decimals']);
+			$dbFormat = $int . '.' . 10000;
+			$usrFormatTruncated = $usrFormat = \str_replace(',', $combination['grouping_separator'], $combination['grouping_pattern']);
+			if ($decimals) {
+				$usrFormat .= $combination['decimal_separator'] . $decimals;
+				$usrFormatTruncated .= $combination['decimal_separator'] . rtrim($decimals, '0');
+			}
+			$combinations[] = [
+				\App\Module::getModuleName($fieldData['tabid']),
+				$fieldData['fieldname'],
+				$usrFormatTruncated,
+				$dbFormat,
+				$combination['decimal_separator'],
+				$combination['grouping_separator'],
+				$combination['grouping_pattern'],
+				$combination['decimals'],
+				$combination['symbol_placement'],
+				true,
+				true
+			];
+			$combinations[] = [
+				\App\Module::getModuleName($fieldData['tabid']),
+				$fieldData['fieldname'],
+				$usrFormat,
+				$dbFormat,
+				$combination['decimal_separator'],
+				$combination['grouping_separator'],
+				$combination['grouping_pattern'],
+				$combination['decimals'],
+				$combination['symbol_placement'],
+				false,
+				true
+			];
+		}
+		return $combinations;
 	}
 
 	/**
