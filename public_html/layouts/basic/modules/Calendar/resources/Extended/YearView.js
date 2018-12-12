@@ -77,14 +77,14 @@ FC.views.year = View.extend({
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
-		this.refreshDatesRowView(calendar.view);
+		let dateFormat = CONFIG.dateFormat.toUpperCase();
 		this.clearFilterButton(user, cvid);
 		let options = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEventsYear',
-			start: date + '-01-01',
-			end: date + '-12-31',
+			start: moment(date + '-01-01').format(dateFormat),
+			end: moment(date + '-12-31').format(dateFormat),
 			user: user,
 			yearView: true,
 			time: app.getMainParams('showType'),
@@ -97,8 +97,8 @@ FC.views.year = View.extend({
 		}
 		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.firstLoad) {
 			options = Object.assign(options, {
-				start: this.browserHistoryConfig.start,
-				end: this.browserHistoryConfig.end,
+				start: moment(this.browserHistoryConfig.start).format(dateFormat),
+				end: moment(this.browserHistoryConfig.end).format(dateFormat),
 				user: this.browserHistoryConfig.user,
 				time: this.browserHistoryConfig.time,
 				cvid: this.browserHistoryConfig.cvid
