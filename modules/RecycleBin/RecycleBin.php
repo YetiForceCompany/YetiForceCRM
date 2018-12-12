@@ -11,6 +11,8 @@ class RecycleBin extends Vtiger_CRMEntity
 {
 	public $list_fields_name = [];
 	public $def_basicsearch_col = '';
+	public $default_order_by = '';
+	public $default_sort_order = '';
 
 	/**
 	 * Invoked when special actions are performed on the module.

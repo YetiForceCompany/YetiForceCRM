@@ -41,24 +41,34 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$moduleName = $request->getModule();
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
 		if (empty($sourceModule)) {
 			$sourceModule = current($moduleModel->getAllModuleList())['name'];
+		}
+		if (empty($orderBy) && empty($sortOrder)) {
+			$orderBy = App\CustomView::getSortby($sourceModule);
+			$sortOrder = App\CustomView::getSorder($sourceModule);
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 		$listViewModel->set('entityState', 'Trash');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
+		if (!empty($orderBy)) {
+			$listViewModel->set('orderby', $orderBy);
+			$listViewModel->set('sortorder', $sortOrder);
+		}
 		$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
-		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = CRMEntity::getInstance($sourceModule);
-			$orderBy = $relatedInstance->default_order_by;
-			$sortOrder = $relatedInstance->default_sort_order;
+		if ($sortOrder === 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
+		} else {
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
@@ -80,6 +90,8 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
+		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
+		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
