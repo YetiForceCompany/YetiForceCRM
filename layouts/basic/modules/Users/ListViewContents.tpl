@@ -72,7 +72,7 @@
 								<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
 							</a>
 							<a class="btn btn-light float-right listRemoveBtn" role="button"
-							   href="index.php?module={$MODULE}&parent=Settings&view=List{$VIEW}">
+							   href="index.php?module={$MODULE}&parent=Settings&view={$VIEW}">
 								<span class="fas fa-times"
 									  title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_CLEAR_SEARCH')}</span>
