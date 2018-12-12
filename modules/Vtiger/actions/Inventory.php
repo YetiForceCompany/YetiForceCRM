@@ -156,10 +156,10 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 			$info['qtyPerUnit'] = $recordModel->getDisplayValue('qty_per_unit');
 		}
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);
+
 		$autoFields = [];
-		if ($autoCompleteField) {
+		$inventory = Vtiger_Inventory_Model::getInstance($moduleName);
+		if ($autoCompleteField = ($inventory->getAutoCompleteFields()[$recordModuleName] ?? [])) {
 			foreach ($autoCompleteField as $field) {
 				$fieldModel = Vtiger_Module_Model::getInstance($field['module'])->getFieldByName($field['field']);
 				if (($fieldValue = $recordModel->get($field['field'])) && $fieldModel) {
@@ -181,7 +181,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 				'value' => $taxModel->get('value')
 			];
 		}
-		$autoCustomFields = $inventoryField->getCustomAutoComplete($moduleName, $fieldName, $recordModel);
+		$autoCustomFields = $inventory->getCustomAutoComplete($fieldName, $recordModel);
 		return [$recordId => array_merge($info, $autoCustomFields)];
 	}
 

@@ -70,28 +70,6 @@ class CRMEntity
 		return $focus;
 	}
 
-	/**
-	 * Save the inventory data.
-	 */
-	public function saveInventoryData($moduleName)
-	{
-		$dbInstance = App\Db::getInstance();
-
-		\App\Log::trace('Entering ' . __METHOD__);
-
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
-		$dbInstance->createCommand()->delete($table, ['id' => $this->id])->execute();
-		if (is_array($this->inventoryData)) {
-			foreach ($this->inventoryData as $insertData) {
-				$insertData['id'] = $this->id;
-				$dbInstance->createCommand()->insert($table, $insertData)->execute();
-			}
-		}
-		\App\Log::trace('Exiting ' . __METHOD__);
-	}
-
 	/** Function to delete a record in the specifed table
 	 * @param string $tableName -- table name:: Type varchar
 	 *                          The function will delete a record. The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]

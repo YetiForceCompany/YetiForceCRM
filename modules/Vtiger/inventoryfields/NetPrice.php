@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'NetPrice';
+	protected $type = 'NetPrice';
 	protected $defaultLabel = 'LBL_DISCOUNT_PRICE';
 	protected $defaultValue = 0;
 	protected $columnName = 'net';

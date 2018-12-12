@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Date';
+	protected $type = 'Date';
 	protected $defaultLabel = 'LBL_DATE';
 	protected $columnName = 'date';
 	protected $dbType = \yii\db\Schema::TYPE_DATE;

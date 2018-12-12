@@ -971,7 +971,7 @@ class Import_Data_Action extends \App\Controller\Action
 			unset($fieldData['inventoryData']);
 		}
 		if (!empty($inventoryData)) {
-			$recordModel->setInventoryRawData($this->convertInventoryDataToObject($inventoryData));
+			$recordModel->initInventoryData($inventoryData, false);
 		}
 		foreach ($fieldData as $fieldName => &$value) {
 			$recordModel->set($fieldName, $value);
@@ -999,36 +999,11 @@ class Import_Data_Action extends \App\Controller\Action
 			unset($fieldData['inventoryData']);
 		}
 		if ($inventoryData) {
-			$recordModel->setInventoryRawData($this->convertInventoryDataToObject($inventoryData));
+			$recordModel->initInventoryData($inventoryData, false);
 		}
 		foreach ($fieldData as $fieldName => &$value) {
 			$recordModel->set($fieldName, $value);
 		}
 		$recordModel->save();
-	}
-
-	/**
-	 * Function creates advanced block data object.
-	 *
-	 * @param array $inventoryData
-	 *
-	 * @return \App\Base
-	 */
-	public function convertInventoryDataToObject($inventoryData = [])
-	{
-		$inventoryModel = new \App\Request([], false);
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
-		$jsonFields = $inventoryFieldModel->getJsonFields();
-		foreach ($inventoryData as $index => $data) {
-			$i = $index + 1;
-			$inventoryModel->set('inventoryItemsNo', $i);
-			foreach ($data as $name => $value) {
-				if (in_array($name, $jsonFields)) {
-					$value = \App\Json::decode($value);
-				}
-				$inventoryModel->set($name . $i, $value);
-			}
-		}
-		return $inventoryModel;
 	}
 }

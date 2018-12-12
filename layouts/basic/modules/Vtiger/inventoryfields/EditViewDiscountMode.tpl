@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<select name="{$FIELD->getColumnName()}{$ROW_NO}"{' '}
+	<!-- tpl-Base-inventoryfields-EditViewDiscountMode -->
+	<select name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"{' '}
 			class="tpl-Base-inventoryfields-EditViewDiscountMode select2 discountMode"{' '}
 			{if $FIELD->get('displaytype') == 10}readonly="readonly" {/if}
 			title="{\App\Language::translate('LBL_DISCOUNT_MODE', $MODULE)}">
@@ -11,4 +12,5 @@
 			{\App\Language::translate('LBL_INDIVIDUAL', $MODULE)}
 		</option>
 	</select>
+	<!-- /tpl-Base-inventoryfields-EditViewDiscountMode -->
 {/strip}

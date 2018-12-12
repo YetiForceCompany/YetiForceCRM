@@ -1,24 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Detail-InventorySummary -->
-	{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-		{if isset($DISCOUNT) && isset($INVENTORY_ROW['discount']) }
-			{assign var="DISCOUNT" value=$DISCOUNT + $INVENTORY_ROW['discount']}
-		{elseif isset($INVENTORY_ROW['discount']) }
-			{assign var="DISCOUNT" value=$INVENTORY_ROW['discount']}
-		{else}
-			{assign var="DISCOUNT" value=0}
-		{/if}
-		{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
-			{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}
-		{elseif isset($INVENTORY_ROW['taxparam']) }
-			{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], FALSE)}
-		{else}
-			{assign var="TAXS" value=[]}
-		{/if}
-	{/foreach}
 	<div class="row">
-		{if in_array("discount",$COLUMNS) && in_array("discountmode",$COLUMNS)}
+		{if isset($FIELDS[1]['discount']) && isset($FIELDS[0]['discountmode'])}
+			{assign var="DISCOUNT" value=$INVENTORY_MODEL->getField('discount')->getSummaryValuesFromData($INVENTORY_ROWS)}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
@@ -40,7 +25,17 @@
 				</table>
 			</div>
 		{/if}
-		{if in_array("tax",$COLUMNS) && in_array("taxmode",$COLUMNS)}
+		{if isset($FIELDS[1]['tax']) && isset($FIELDS[0]['taxmode']) && $INVENTORY_MODEL->isField('net')}
+			{assign var=TAX_FIELD value=$FIELDS[1]['tax']}
+			{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
+				{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
+					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}
+				{elseif isset($INVENTORY_ROW['taxparam']) }
+					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], FALSE)}
+				{else}
+					{assign var="TAXS" value=[]}
+				{/if}
+			{/foreach}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
@@ -76,8 +71,8 @@
 					</tbody>
 				</table>
 			</div>
-			{if in_array("currency",$COLUMNS) && $BASE_CURRENCY['id'] != $CURRENCY}
-				{assign var="CURRENCY_PARAM" value=$INVENTORY_ROWS[0]['currencyparam']|json_decode:true}
+			{if isset($FIELDS[0]['currency']) && $BASE_CURRENCY['id'] != $CURRENCY}
+				{assign var="CURRENCY_PARAM" value=$INVENTORY_ROW['currencyparam']|json_decode:true}
 				{assign var="RATE" value=$CURRENCY_PARAM[$CURRENCY]['value']}
 				<div class="col-md-4">
 					<table class="table table-bordered inventorySummaryContainer">
@@ -89,6 +84,7 @@
 						</tr>
 						</thead>
 						<tbody>
+						{assign var="CURRENY_AMOUNT" value=0}
 						{foreach item=TAX key=KEY from=$TAXS}
 							{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
 							<tr>

@@ -63,6 +63,10 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);
+		$taxField = '';
+		if ($recordModule && ($recordModuleModel = \Vtiger_Module_Model::getInstance($recordModule))) {
+			$taxField = ($field = current($recordModuleModel->getFieldsByUiType(303))) ? $field->getName() : '';
+		}
 
 		$config = $inventoryModel->getTaxesConfig();
 		$viewer = $this->getViewer($request);
@@ -74,7 +78,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('TAX_TYPE', $taxType);
-		$viewer->assign('TAX_FIELD', Vtiger_InventoryField_Model::getTaxField($recordModule));
+		$viewer->assign('TAX_FIELD', $taxField);
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_TAXS', $accountTaxs['taxs']);

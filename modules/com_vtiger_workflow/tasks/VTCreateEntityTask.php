@@ -91,9 +91,6 @@ class VTCreateEntityTask extends VTTask
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			$newRecordModel->setRecordFieldValues($parentRecordModel);
-			if ($newRecordModel->getModule()->isInventory()) {
-				$newRecordModel = $this->setInventoryDataToRequest($newRecordModel);
-			}
 			$mandatoryFields = $newRecordModel->getModule()->getMandatoryFieldModels();
 			if (!empty($fieldValueMapping) && is_array($fieldValueMapping)) {
 				$newRecordModel = $this->setFieldMapping($fieldValueMapping, $newRecordModel, $parentRecordModel);
@@ -160,32 +157,6 @@ class VTCreateEntityTask extends VTTask
 			}
 			$recordModel->set($fieldName, $fieldValue);
 		}
-		return $recordModel;
-	}
-
-	public function setInventoryDataToRequest($recordModel, $inventoryData = [])
-	{
-		$invDat = [];
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
-		$jsonFields = $inventoryFieldModel->getJsonFields();
-		if (empty($inventoryData)) {
-			$inventoryData = $recordModel->getInventoryData();
-		}
-		foreach ($inventoryData as $index => $data) {
-			$i = $index + 1;
-			$invDat['inventoryItemsNo'] = $i;
-			if (!array_key_exists('seq', $data)) {
-				$data['seq'] = $i;
-			}
-			foreach ($data as $name => $value) {
-				if (in_array($name, $jsonFields)) {
-					$value = \App\Json::decode($value);
-				}
-				$invDat[$name . $i] = $value;
-			}
-		}
-		$recordModel->setInventoryRawData(new App\Request($invDat, false));
-
 		return $recordModel;
 	}
 }

@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Reference';
+	protected $type = 'Reference';
 	protected $defaultLabel = 'LBL_REFERENCE';
 	protected $columnName = 'ref';
 	protected $dbType = 'int';
@@ -62,18 +63,8 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function isMandatory()
 	{
-		$config = $this->getConfig();
+		$config = $this->getParamsConfig();
 		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
-	}
-
-	/**
-	 * Function to get config params.
-	 *
-	 * @return array
-	 */
-	public function getConfig()
-	{
-		return \App\Json::decode($this->get('params'));
 	}
 
 	/**
@@ -83,7 +74,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getReferenceModules()
 	{
-		$paramsDecoded = $this->getConfig();
+		$paramsDecoded = $this->getParamsConfig();
 		return $paramsDecoded['modules'];
 	}
 

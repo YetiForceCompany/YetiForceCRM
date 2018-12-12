@@ -119,6 +119,9 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
 		}
+		if ($request->has('inventory') && $this->record->getModule()->isInventory()) {
+			$this->record->initInventoryData($request->get('inventory'));
+		}
 		return $this->record;
 	}
 }
