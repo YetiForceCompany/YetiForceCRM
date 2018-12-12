@@ -31,7 +31,7 @@
 				{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
 					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}
 				{elseif isset($INVENTORY_ROW['taxparam']) }
-					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], FALSE)}
+					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], [])}
 				{else}
 					{assign var="TAXS" value=[]}
 				{/if}
