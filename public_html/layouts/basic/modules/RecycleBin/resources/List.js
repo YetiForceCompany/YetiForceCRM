@@ -25,6 +25,30 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 			});
 		});
 	},
+	/**
+	 * Mass delete trigerred on the list
+	 */
+	massDelete: function () {
+		let params = this.getSelectedRecordsParams(),
+			listInstance = Vtiger_List_Js.getInstance(),
+			container = listInstance.getListViewContainer();
+		params.module = container.find('.js-source-module').val();
+		params.sourceModule = container.find('.js-source-module').val();
+		params.action = 'MassDelete';
+		params.entityState = 'Trash';
+		params.viewname = 'undefined';
+		AppConnector.request(params).done(function (data) {
+			if (data && data.result && data.result.notify) {
+				Vtiger_Helper_Js.showMessage(data.result.notify);
+			}
+			listInstance.getListViewRecords({
+				module: app.getModuleName(),
+				view: 'List',
+				parent: app.getModuleName(),
+				sourceModule: container.find('.js-source-module').val()
+			});
+		});
+	},
 
 }, {
 	/**

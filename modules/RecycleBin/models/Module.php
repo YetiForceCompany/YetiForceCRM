@@ -28,37 +28,40 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 * Delete all records from recycle to given date and module.
 	 *
 	 * @param string      $untilModifiedTime
+	 * @param int         $userId
 	 * @param string|bool $moduleName
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public static function deleteAllRecords($untilModifiedTime, $moduleName = false)
+	public static function deleteAllRecords(string $untilModifiedTime, int $userId)
 	{
-		if (!empty($moduleName)) {
-			$modulesList = [['name' => $moduleName]];
-		} else {
+		$actualUserId = App\User::getCurrentUserId();
+		try {
+			App\User::setCurrentUserId($userId);
 			$modulesList = \vtlib\Functions::getAllModules(true, false, 0);
-		}
-		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach ($modulesList as $module) {
-			if (!$userPriviligesModel->hasModuleActionPermission($module['name'], 'MassDelete')) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-			}
-			$recordIds = (new \App\Db\Query())->select('crmid')->from('vtiger_crmentity')->where(
-				['and',
-					['deleted' => 1],
-					['setype' => $module['name']],
-					['<=', 'modifiedtime', $untilModifiedTime]])->column();
-			if ($recordIds) {
-				foreach ($recordIds as $recordId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-					if (!$recordModel->privilegeToDelete()) {
-						continue;
+			foreach ($modulesList as $module) {
+				$recordIds = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(
+					['and',
+						['deleted' => 1],
+						['setype' => $module['name']],
+						['<=', 'modifiedtime', $untilModifiedTime]])->column();
+				if ($recordIds) {
+					foreach ($recordIds as $recordId) {
+						if (App\Record::isCrmExist($recordId)) {
+							$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+							if (!$recordModel->privilegeToDelete()) {
+								continue;
+							}
+							$recordModel->delete();
+							unset($recordModel);
+						}
 					}
-					$recordModel->delete();
-					unset($recordModel);
 				}
 			}
+			App\User::setCurrentUserId($actualUserId);
+		} catch (\Throwable $ex) {
+			\App\Log::error($ex->getMessage());
+			App\User::setCurrentUserId($actualUserId);
 		}
 	}
 
@@ -69,6 +72,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @throws Exception
 	 */
+	//remove?
 	public static function deleteRecords($recordIds)
 	{
 		if ($recordIds) {
