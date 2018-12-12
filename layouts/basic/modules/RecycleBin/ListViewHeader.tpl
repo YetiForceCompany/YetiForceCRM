@@ -27,9 +27,9 @@
 					{if $MODULE_LIST|@count gt 0}
 						<select class="select2 form-control js-source-module" id="moduleFilter" data-js="value">
 							{foreach item=MODULEMODEL from=$MODULE_LIST}
-								<option value="{$MODULEMODEL->get('name')}"
-										{if $SOURCE_MODULE eq $MODULEMODEL->get('name')}selected=""{/if}>
-									{\App\Language::translate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}
+								<option value="{$MODULEMODEL['name']}"
+										{if $SOURCE_MODULE eq $MODULEMODEL['name']}selected=""{/if}>
+									{\App\Language::translate($MODULEMODEL['name'],$MODULEMODEL['name'])}
 								</option>
 							{/foreach}
 						</select>

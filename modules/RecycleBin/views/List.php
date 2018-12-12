@@ -39,14 +39,11 @@ class RecycleBin_List_View extends Vtiger_List_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
 		if (empty($sourceModule)) {
-			foreach ($moduleModel->getAllModuleList() as $model) {
-				$sourceModule = $model->get('name');
-				break;
-			}
+			$sourceModule = current($moduleModel->getAllModuleList())['name'];
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 		$listViewModel->set('entityState', 'Trash');
@@ -63,7 +60,7 @@ class RecycleBin_List_View extends Vtiger_List_View
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->get('view')];
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 		if (!$this->listViewLinks) {
 			$this->listViewLinks = $listViewModel->getListViewLinks($linkParams);
