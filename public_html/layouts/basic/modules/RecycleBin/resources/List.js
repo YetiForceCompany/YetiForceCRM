@@ -8,14 +8,12 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 	massActivation: function () {
 		let params = this.getSelectedRecordsParams(),
 			listInstance = Vtiger_List_Js.getInstance(),
-			container = listInstance.getListViewContainer(),
-			overrideParams = {
-				module: container.find('.js-source-module').val(),
-				state: 'Active',
-				entityState: 'Trash',
-				action: 'MassState',
-			};
-		AppConnector.request($.extend(overrideParams, params)).done(function (data) {
+			container = listInstance.getListViewContainer();
+		params.module = container.find('.js-source-module').val();
+		params.state = 'Active';
+		params.entityState = 'Trash';
+		params.action = 'MassState';
+		AppConnector.request(params).done(function (data) {
 			if (data && data.result && data.result.notify) {
 				Vtiger_Helper_Js.showMessage(data.result.notify);
 			}
@@ -58,22 +56,19 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 		const self = this,
 			listViewPageDiv = this.getListViewContainer();
 		let params = self.getDefaultParams(),
-			container = listViewPageDiv.find('.paginationDiv'),
-			overrideParams = {
-				totalCount: -1,
-				view: 'Pagination',
-				mode: 'getPagination',
-				entityState: 'Trash',
-				module: listViewPageDiv.find('.js-source-module').val(),
-			};
-		;
+			container = listViewPageDiv.find('.paginationDiv');
 		Vtiger_Helper_Js.showMessage({
 			title: app.vtranslate('JS_LBL_PERMISSION'),
 			text: app.vtranslate('JS_GET_PAGINATION_INFO'),
 			type: 'info',
 		});
 		if (container.find('.js-pagination-list').data('total-count') > 0 || force) {
-			AppConnector.request($.extend(overrideParams, params)).done(function (data) {
+			params.totalCount = '-1';
+			params.view = 'Pagination';
+			params.mode = 'getPagination';
+			params.entityState = 'Trash';
+			params.module = listViewPageDiv.find('.js-source-module').val();
+			AppConnector.request(params).done(function (data) {
 				container.html(data);
 				self.registerPageNavigationEvents();
 			});

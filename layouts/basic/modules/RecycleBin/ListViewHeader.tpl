@@ -6,16 +6,18 @@
 			<div class="col-12 d-inline-flex flex-wrap">
 				<div class="c-list__buttons d-flex flex-wrap flex-sm-nowrap u-w-sm-down-100">
 					{assign var=LINKS value=[]}
-					{if $LISTVIEW_MASSACTIONS}
+					{if !empty($LISTVIEW_MASSACTIONS)}
 						{assign var=LINKS value=$LISTVIEW_MASSACTIONS}
 					{/if}
 					{if isset($LISTVIEW_LINKS['LISTVIEW'])}
 						{assign var=LINKS value=array_merge($LINKS,$LISTVIEW_LINKS['LISTVIEW'])}
 					{/if}
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='listViewMassActions mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down'}
-					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
-					{/foreach}
+					{if !empty($LISTVIEW_LINKS)}
+						{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
+						{/foreach}
+					{/if}
 				</div>
 				<div class="btn-group mr-md-1 c-btn-block-sm-down">
 					<button class="btn btn-light js-recycle-empty">
