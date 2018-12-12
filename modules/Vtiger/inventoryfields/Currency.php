@@ -24,6 +24,10 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customMaximumLength = [
 		'currencyparam' => 1024
 	];
+	protected $purifyType = \App\Purifier::INTEGER;
+	protected $customPurifyType = [
+		'currencyparam' => App\Purifier::TEXT
+	];
 
 	/**
 	 * {@inheritdoc}

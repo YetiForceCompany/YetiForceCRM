@@ -18,6 +18,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'int';
 	protected $params = ['modules'];
 	protected $maximumLength = '-2147483648,2147483647';
+	protected $purifyType = \App\Purifier::INTEGER;
 
 	/**
 	 * {@inheritdoc}

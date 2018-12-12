@@ -16,6 +16,7 @@ class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'unit';
 	protected $dbType = 'string';
 	protected $onlyOne = true;
+	protected $purifyType = \App\Purifier::TEXT;
 
 	/**
 	 * {@inheritdoc}

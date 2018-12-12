@@ -8,9 +8,40 @@ namespace App;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce Sp. z o.o
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Purifier
 {
+	/**
+	 * Purify type date in user format.
+	 */
+	public const DATE_USER_FORMAT = 'DateInUserFormat';
+
+	/**
+	 * Purify type integer.
+	 */
+	public const INTEGER = 'Integer';
+
+	/**
+	 * Purify type text.
+	 */
+	public const TEXT = 'Text';
+
+	/**
+	 * Purify type number.
+	 */
+	public const NUMBER = 'Number';
+
+	/**
+	 * Purify type html.
+	 */
+	public const HTML = 'Html';
+
+	/**
+	 * Purify type boolean.
+	 */
+	public const BOOL = 'Bool';
+
 	/**
 	 * Default charset.
 	 *
@@ -365,6 +396,15 @@ class Purifier
 					if (is_numeric($input) && Fields\Double::formatToDisplay($input, false) === Fields\Double::truncateZeros($rawInput)) {
 						$value = $input;
 					}
+					break;
+				case 'Number':
+					$dbFormat = Fields\Double::formatToDb($input);
+					if (is_numeric($dbFormat) && Fields\Double::formatToDisplay($dbFormat, false) === Fields\Double::truncateZeros($input)) {
+						$value = $input;
+					}
+					break;
+				case 'Html':
+					$value = self::purifyHtml($input);
 					break;
 				case 'Integer': // Integer
 					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {

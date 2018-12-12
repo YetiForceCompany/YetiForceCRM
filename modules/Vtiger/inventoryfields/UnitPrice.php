@@ -19,6 +19,7 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $summationValue = false;
 	protected $maximumLength = '99999999999999999999';
+	protected $purifyType = \App\Purifier::NUMBER;
 
 	/**
 	 * {@inheritdoc}

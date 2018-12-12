@@ -51,6 +51,8 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	protected $fieldDataType = 'inventory';
 	protected $maximumLength = 255;
 	protected $defaultLabel = '';
+	protected $purifyType = '';
+	protected $customPurifyType = [];
 
 	/**
 	 * Gets inventory field instance.
@@ -457,7 +459,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 * @param array                $item
+	 * @param bool                 $userFormat
 	 *
+	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\Security
 	 */
 	public function setValueToRecord(\Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
@@ -479,5 +483,15 @@ class Vtiger_Basic_InventoryField extends \App\Base
 				$recordModel->setInventoryItemPart($item['id'], $column, $value);
 			}
 		}
+	}
+
+	/**
+	 * Gets purify type.
+	 *
+	 * @return array
+	 */
+	public function getPurifyType()
+	{
+		return [$this->getColumnName() => $this->purifyType] + $this->customPurifyType;
 	}
 }

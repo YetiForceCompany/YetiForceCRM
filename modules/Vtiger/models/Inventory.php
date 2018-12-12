@@ -517,6 +517,22 @@ class Vtiger_Inventory_Model
 	}
 
 	/**
+	 * Gets template to purify.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getPurifyTemplate(): array
+	{
+		$tempalete = [];
+		foreach ($this->getFields() as $fieldModel) {
+			$tempalete += $fieldModel->getPurifyType();
+		}
+		return $tempalete;
+	}
+
+	/**
 	 * Get discounts configuration.
 	 *
 	 * @return array config data

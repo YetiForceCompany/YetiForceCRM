@@ -18,6 +18,7 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = [\yii\db\Schema::TYPE_DECIMAL, '28,8'];
 	protected $onlyOne = false;
 	protected $maximumLength = '99999999999999999999';
+	protected $purifyType = \App\Purifier::NUMBER;
 
 	/**
 	 * {@inheritdoc}

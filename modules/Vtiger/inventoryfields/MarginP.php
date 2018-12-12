@@ -20,6 +20,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	protected $summationValue = true;
 	protected $colSpan = 15;
 	protected $maximumLength = '99999999999999999999';
+	protected $purifyType = \App\Purifier::NUMBER;
 
 	/**
 	 * {@inheritdoc}

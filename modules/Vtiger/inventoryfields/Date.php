@@ -17,6 +17,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'date';
 	protected $dbType = \yii\db\Schema::TYPE_DATE;
 	protected $onlyOne = false;
+	protected $purifyType = \App\Purifier::DATE_USER_FORMAT;
 
 	/**
 	 * {@inheritdoc}
