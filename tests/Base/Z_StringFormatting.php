@@ -21,6 +21,7 @@ class Z_StringFormatting extends \Tests\Base
 
 	/**
 	 * Store current user preferences.
+	 * @codeCoverageIgnore
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -90,6 +91,7 @@ class Z_StringFormatting extends \Tests\Base
 	/**
 	 * Restore current user preferences.
 	 *
+	 * @codeCoverageIgnore
 	 * @throws \Exception
 	 */
 	public static function tearDownAfterClass()
