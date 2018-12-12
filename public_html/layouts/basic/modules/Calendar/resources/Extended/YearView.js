@@ -89,13 +89,13 @@ FC.views.year = View.extend({
 			yearView: true,
 			time: app.getMainParams('showType'),
 			cvid: cvid,
-			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${date + '-01-01'}&end=${date + '-12-31'}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
+			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${moment(date + '-01-01').format(dateFormat)}&end=${moment(date + '-12-31').format(dateFormat)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
 		let connectorMethod = window["AppConnector"]["request"];
-		if (!this.readonly) {
+		if (!this.readonly && calendarLoaded) {
 			connectorMethod = window["AppConnector"]["requestPjax"];
 		}
-		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.firstLoad && this.firstLoad) {
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.calendarLoaded) {
 			options = Object.assign(options, {
 				start: moment(this.browserHistoryConfig.start).format(dateFormat),
 				end: moment(this.browserHistoryConfig.end).format(dateFormat),
@@ -104,6 +104,8 @@ FC.views.year = View.extend({
 				cvid: this.browserHistoryConfig.cvid
 			});
 			connectorMethod = window["AppConnector"]["request"];
+			app.setMainParams('showType', this.browserHistoryConfig.time);
+			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		connectorMethod(options).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
@@ -150,7 +152,7 @@ FC.views.year = View.extend({
 		});
 		this.registerTodayButtonYearChange(calendar);
 		this.registerViewRenderEvents(calendar.view);
-		calendar.view.options.firstLoad = false;
+		calendarLoaded = true;
 	},
 
 	/**
