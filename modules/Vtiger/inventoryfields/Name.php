@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Name';
+	protected $type = 'Name';
 	protected $defaultLabel = 'LBL_ITEM_NAME';
 	protected $columnName = 'name';
 	protected $dbType = 'int DEFAULT 0';
@@ -86,13 +87,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function isMandatory()
 	{
-		$config = $this->getConfig();
-		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
-	}
-
-	public function getConfig()
-	{
-		return \App\Json::decode($this->get('params'));
+		return true;
 	}
 
 	/**
@@ -128,6 +123,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function isRequired()
 	{
-		return true;
+		$config = $this->getParamsConfig();
+		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
 	}
 }

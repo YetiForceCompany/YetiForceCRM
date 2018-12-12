@@ -1,8 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-inventoryfields-EditViewComment -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
-	<textarea name="{$FIELD->getColumnName()}{$ROW_NO}" title="{\App\Language::translate("LBL_ROW_COMMENT",$MODULE)}" id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Json::encode(['mandatory' => false])|escape}" data-height="{$FIELD->height}"
-			  class="comment commentTextarea form-control {if $INVENTORY_FIELD->isWysiwygType($REFERENCE_MODULE)}js-editor js-editor--basic{/if}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} {if $INVENTORY_FIELD->isWysiwygType($REFERENCE_MODULE)}data-js="ckeditor"{/if}>
+	<textarea name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" title="{\App\Language::translate("LBL_ROW_COMMENT",$MODULE)}" id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Json::encode(['mandatory' => false])|escape}" data-height="{$FIELD->height}"
+			  class="comment commentTextarea form-control js-editor js-editor--basic" {if $FIELD->isReadOnly()}readonly="readonly"{/if} data-js="ckeditor">
 		{$VALUE}
 	</textarea>
+	<!-- tpl-Base-inventoryfields-EditViewComment -->
 {/strip}

@@ -102,8 +102,8 @@ class Record extends \Api\Core\BaseAction
 		if ($model->getModule()->isInventory()) {
 			$rawInventory = $model->getInventoryData();
 			$inventory = [];
-			$inventoryField = \Vtiger_InventoryField_Model::getInstance($moduleName);
-			$inventoryFields = $inventoryField->getFields();
+			$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleName);
+			$inventoryFields = $inventoryModel->getFields();
 			foreach ($rawInventory as $row) {
 				$inventoryRow = [];
 				foreach ($inventoryFields as $name => $field) {

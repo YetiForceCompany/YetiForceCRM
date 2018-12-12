@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'GrossPrice';
+	protected $type = 'GrossPrice';
 	protected $defaultLabel = 'LBL_GROSS_PRICE';
 	protected $defaultValue = 0;
 	protected $columnName = 'gross';

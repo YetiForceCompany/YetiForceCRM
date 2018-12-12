@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Tax';
+	protected $type = 'Tax';
 	protected $defaultLabel = 'LBL_TAX';
 	protected $defaultValue = 0;
 	protected $columnName = 'tax';
@@ -76,5 +77,38 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 			}
 		}
+	}
+
+	/**
+	 * Get configuration parameters for taxes.
+	 *
+	 * @param string     $taxParam String parameters json encode
+	 * @param int        $net
+	 * @param array|null $return
+	 *
+	 * @return array
+	 */
+	public function getTaxParam(string $taxParam, int $net, ?array $return = []): array
+	{
+		$taxParam = json_decode($taxParam, true);
+		if (empty($taxParam)) {
+			return [];
+		}
+		if (is_string($taxParam['aggregationType'])) {
+			$taxParam['aggregationType'] = [$taxParam['aggregationType']];
+		}
+		if (!$return || empty($taxParam['aggregationType'])) {
+			$return = [];
+		}
+		if (isset($taxParam['aggregationType'])) {
+			foreach ($taxParam['aggregationType'] as $aggregationType) {
+				$precent = $taxParam[$aggregationType . 'Tax'];
+				if (!isset($return[$precent])) {
+					$return[$precent] = 0;
+				}
+				$return[$precent] += $net * ($precent / 100);
+			}
+		}
+		return $return;
 	}
 }

@@ -11,7 +11,7 @@
  */
 class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Unit';
+	protected $type = 'Unit';
 	protected $defaultLabel = 'LBL_UNIT';
 	protected $columnName = 'unit';
 	protected $dbType = 'string';
@@ -20,11 +20,10 @@ class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, $rawText = false, $related = '')
 	{
-		$mapDetail = $this->getMapDetail(true);
-		if ($mapDetail) {
-			$value = $mapDetail->getDisplayValue($value, false, false, true);
+		if ($mapDetail = $this->getMapDetail($related)) {
+			$value = $mapDetail->getDisplayValue($value, false, false, $rawText);
 		}
 		return $value;
 	}

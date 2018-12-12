@@ -311,7 +311,7 @@ class Language
 					}
 				}
 				if (!file_exists($langFile) && !file_exists($langCustomFile)) {
-					\App\Log::warning("Language file does not exist, module: $moduleName ,language: $language");
+					\App\Log::info("Language file does not exist, module: $moduleName ,language: $language");
 				}
 				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer[$language][$moduleName], Cache::LONG);
 			}

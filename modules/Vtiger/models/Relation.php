@@ -530,25 +530,26 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getRelationInventoryFields()
 	{
-		if ($this->has('RelationInventoryFields')) {
-			return $this->get('RelationInventoryFields');
-		}
-		$columns = (new \App\Db\Query())
-			->select(['fieldname'])
-			->from('a_#__relatedlists_inv_fields')
-			->where(['relation_id' => $this->getId()])
-			->orderBy('sequence')
-			->column();
-		$inventoryFields = Vtiger_InventoryField_Model::getInstance($this->get('modulename'))->getFields();
-		$fields = [];
-		foreach ($columns as &$column) {
-			if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
-				$fields[$column] = $inventoryFields[$column];
+		if (!$this->has('RelationInventoryFields')) {
+			$this->set('RelationInventoryFields', []);
+			if ($this->getRelationModuleModel()->isInventory()) {
+				$columns = (new \App\Db\Query())
+					->select(['fieldname'])
+					->from('a_#__relatedlists_inv_fields')
+					->where(['relation_id' => $this->getId()])
+					->orderBy('sequence')
+					->column();
+				$inventoryFields = Vtiger_Inventory_Model::getInstance($this->get('modulename'))->getFields();
+				$fields = [];
+				foreach ($columns as &$column) {
+					if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
+						$fields[$column] = $inventoryFields[$column];
+					}
+				}
+				$this->set('RelationInventoryFields', $fields);
 			}
 		}
-		$this->set('RelationInventoryFields', $fields);
-
-		return $fields;
+		return $this->get('RelationInventoryFields');
 	}
 
 	/**

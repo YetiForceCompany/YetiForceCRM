@@ -1,60 +1,67 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Edit-InventoryItem -->
 	{if !empty($ITEM_DATA['name'])}
 		{assign var="REFERENCE_MODULE" value=\App\Record::getType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
-		{assign var="REFERENCE_MODULE" value=$INVENTORY_FIELD->getDefaultModule($MAIN_PARAMS)}
+		{assign var="REFERENCE_MODULE" value=$REFERENCE_MODULE_DEFAULT}
 	{/if}
-	{if $REFERENCE_MODULE}
-		{assign var="IS_VISIBLE" value=false}
-		{if isset($FIELDS[2]['comment1'])}
-			{assign var="IS_VISIBLE" value=$FIELDS[2]['comment1']->isVisible}
-		{/if}
-		<tr class="inventoryRow" numrow="{$ROW_NO}">
-			<td>
-				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && empty($KEY)}d-none{/if}"
-					  title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
-				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0"
-													   alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
-				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence"/>
-				{if $COUNT_FIELDS2 > 0}
-					<br/>
-					<br/>
-					<span class="btn btn-light btn-sm toggleVisibility js-toggle-icon__container" data-status="{if $IS_VISIBLE}1{else}0{/if}"
-						  href="#" data-js="click">
-						<span class="js-toggle-icon fas {if $IS_VISIBLE}fa-angle-up{else}fa-angle-down{/if}" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
-					</span>
-				{/if}
-			</td>
-			{foreach item=FIELD from=$FIELDS[1]}
-				<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->getName()!='Name' && $FIELD->get('colspan') neq 0 }style="width: {$FIELD->get('colspan')}%" {/if}
-					class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
-					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-					{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
-					{if !isset($ITEM_DATA[$COLUMN_NAME])}
-						{assign var="FIELD_VALUE" value=null}
-					{else}
-						{assign var="FIELD_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
-					{/if}
-					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$FIELD_VALUE}
-				</td>
-			{/foreach}
-		</tr>
-		{if $FIELDS[2] neq 0}
-			<tr class="inventoryRowExpanded numRow{$ROW_NO} {if !$IS_VISIBLE}d-none{/if}" numrowex="{$ROW_NO}">
-				<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
-					{foreach item=FIELD from=$FIELDS[2]}
-						{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-						{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
-						{if empty($ITEM_DATA[$COLUMN_NAME])}
-							{assign var="ITEM_VALUE" value=NULL}
-						{else}
-							{assign var="ITEM_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
-						{/if}
-						{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
+	<tr class="inventoryRow" numrow="{$ROW_NO}">
+		<td>
+				<span class="fas fa-trash-alt deleteRow u-cursor-pointer"
+					  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></span>
+			&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0"
+												   alt="{\App\Language::translate('LBL_DRAG',$MODULE_NAME)}"/></a>
+			{if isset($ITEM_DATA['id'])}
+				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}"/>
+			{/if}
+			<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence"/>
+			{if $COUNT_FIELDS2 > 0}
+				<br/>
+				<br/>
+				<span class="btn btn-light btn-sm toggleVisibility js-toggle-icon__container" data-status=""
+					  href="#" data-js="click">
+					<span class="js-toggle-icon fas fa-angle-down" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
+				</span>
+			{/if}
+			{if isset($FIELDS[0])}
+				{foreach item=FIELD from=$FIELDS[0]}
+					<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="" type="hidden" class="js-sync" data-sync-id="{$FIELD->getColumnName()}" data-js="container|data"/>
+					{foreach key=CUSTOM_FIELD_NAME item from=$FIELD->getCustomColumn()}
+						<input name="inventory[{$ROW_NO}][{$CUSTOM_FIELD_NAME}]" value="" type="hidden" class="js-sync" data-sync-id="{$CUSTOM_FIELD_NAME}" data-js="container|data"/>
 					{/foreach}
-				</td>
-			</tr>
-		{/if}
+				{/foreach}
+			{/if}
+		</td>
+		{foreach item=FIELD from=$FIELDS[1]}
+			<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->getType()!='Name' && $FIELD->get('colSpan') neq 0 }style="width: {$FIELD->get('colSpan')}%" {/if}
+				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
+				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+				{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
+				{if !isset($ITEM_DATA[$COLUMN_NAME])}
+					{assign var="FIELD_VALUE" value=null}
+				{else}
+					{assign var="FIELD_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+				{/if}
+				{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$FIELD_VALUE}
+			</td>
+		{/foreach}
+	</tr>
+	{if $IS_VISIBLE_DESCRIPTION}
+		<tr class="inventoryRowExpanded numRow{$ROW_NO} d-none" numrowex="{$ROW_NO}">
+			<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
+				{foreach item=FIELD from=$FIELDS[2]}
+					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+					{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
+					{if empty($ITEM_DATA[$COLUMN_NAME])}
+						{assign var="ITEM_VALUE" value=NULL}
+					{else}
+						{assign var="ITEM_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+					{/if}
+					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
+				{/foreach}
+			</td>
+		</tr>
 	{/if}
+	<!-- /tpl-Base-Edit-InventoryItem -->
 {/strip}

@@ -1034,38 +1034,47 @@ class PackageImport extends PackageExport
 			return false;
 		}
 		$module = (string) $this->moduleInstance->name;
-
-		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
-		$inventoryInstance->createInventoryTables();
-		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
+		$inventory = \Vtiger_Inventory_Model::getInstance($module);
+		$inventory->createInventoryTables();
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
-			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
-		}
-	}
-
-	public function importInventoryField($inventoryFieldInstance, $fieldNode)
-	{
-		$instance = \Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
-		$table = $inventoryFieldInstance->getTableName();
-
-		if ($instance->isColumnType()) {
-			Utils::addColumn($table, $fieldNode->columnname, $instance->getDBType());
-			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				Utils::addColumn($table, $column, $criteria);
+			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
+			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan'];
+			foreach ($fields as $name) {
+				switch ($name) {
+					case 'label':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->label, 'Text');
+						$fieldModel->set($name, (string) $fieldNode->label);
+						break;
+					case 'defaultValue':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->defaultvalue, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'block':
+						$blockId = (int) $fieldNode->block;
+						if (!in_array($blockId, $fieldModel->getBlocks())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $blockId, 406);
+						}
+						$fieldModel->set($name, $blockId);
+						break;
+					case 'displayType':
+						$displayType = (int) $fieldNode->displaytype;
+						if (!in_array($displayType, $fieldModel->displayTypeBase())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $displayType, 406);
+						}
+						$fieldModel->set($name, $displayType);
+						break;
+					case 'params':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->params, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'colSpan':
+						$fieldModel->set($name, (int) $fieldNode->colspan);
+						break;
+					default:
+						break;
+				}
 			}
+			$inventory->saveField($fieldModel);
 		}
-		$db = \PearDatabase::getInstance();
-
-		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
-			'columnname' => $fieldNode->columnname,
-			'label' => $fieldNode->label,
-			'invtype' => $fieldNode->invtype,
-			'defaultvalue' => $fieldNode->defaultvalue,
-			'sequence' => $fieldNode->sequence,
-			'block' => $fieldNode->block,
-			'displaytype' => $fieldNode->displaytype,
-			'params' => $fieldNode->params,
-			'colspan' => $fieldNode->colspan,
-		]);
 	}
 }

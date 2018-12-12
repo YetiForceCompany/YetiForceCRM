@@ -102,8 +102,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 		}
 		if ($moduleModel->isInventory() && !$request->isEmpty('inventoryData')) {
-			$this->record->setInventoryRawData(new \App\Request(\App\Json::decode($request->getRaw('inventoryData')), false));
-			$this->record->initInventoryData();
+			$this->record->initInventoryData($request->get('inventoryData'));
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->record, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();

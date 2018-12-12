@@ -12,7 +12,7 @@
  */
 class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Margin';
+	protected $type = 'Margin';
 	protected $defaultLabel = 'LBL_MARGIN';
 	protected $defaultValue = 0;
 	protected $columnName = 'margin';

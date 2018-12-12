@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'PicklistField';
+	protected $type = 'PicklistField';
 	protected $defaultLabel = 'LBL_PICKLIST_FIELD';
 	protected $columnName = 'picklistfield';
 	protected $dbType = 'string';
@@ -27,11 +28,12 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getParams()
 	{
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->get('module'));
-		$fields = $inventoryFieldModel->getFields(true);
-		$mainParams = $inventoryFieldModel->getMainParams($fields[1]);
-
-		return $mainParams['modules'];
+		$params = [];
+		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		if ($field = $inventory->getField('name')) {
+			$params = $field->getParamsConfig()['modules'] ?? [];
+		}
+		return $params;
 	}
 
 	public function getPicklist($moduleName)
@@ -44,11 +46,17 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 		return $values;
 	}
 
-	public function getPicklistValues($rowId)
+	/**
+	 * Gets picklist values.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function getPicklistValues(string $moduleName): array
 	{
 		$modules = $this->getParamsConfig();
-		if (!empty($rowId)) {
-			$moduleName = \App\Record::getType($rowId);
+		if ($moduleName) {
 			foreach ($modules as $module => $field) {
 				if ($module != $moduleName) {
 					unset($modules[$module]);
