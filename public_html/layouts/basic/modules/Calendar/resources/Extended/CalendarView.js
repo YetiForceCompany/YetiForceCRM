@@ -14,6 +14,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		this.calendarContainer = false;
 		this.addCommonMethodsToYearView();
 		this.calendar = this.getCalendarView();
+		this.firstLoad = true;
 	}
 
 	/**
@@ -45,7 +46,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			readonly: self.readonly,
 			container: self.container,
 			showChangeDateButtons: self.showChangeDateButtons,
-			showTodayButtonCheckbox: self.showTodayButtonCheckbox
+			showTodayButtonCheckbox: self.showTodayButtonCheckbox,
+			firstLoad: self.firstLoad
 		});
 	}
 
@@ -488,6 +490,18 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		if (!this.readonly) {
 			connectorMethod = window["AppConnector"]["requestPjax"];
 		}
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && view.options.firstLoad) {
+			options = Object.assign(options, {
+				start: this.browserHistoryConfig.start,
+				end: this.browserHistoryConfig.end,
+				user: this.browserHistoryConfig.user,
+				time: this.browserHistoryConfig.time,
+				cvid: this.browserHistoryConfig.cvid
+			});
+			connectorMethod = window["AppConnector"]["request"];
+			app.setMainParams('showType', this.browserHistoryConfig.time);
+			app.setMainParams('usersId', this.browserHistoryConfig.user);
+		}
 		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
@@ -495,6 +509,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		});
 		self.registerViewRenderEvents(view);
 		view.options.firstLoad = false;
+		this.firstLoad = false;
 	}
 
 	clearFilterButton(user, cvid) {
