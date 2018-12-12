@@ -354,7 +354,7 @@ App.Fields = {
 							});
 						}
 					},
-					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,emoji',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -392,7 +392,14 @@ App.Fields = {
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+					],
+					toolbar_Chat: [
+						{
+							name: 'links',
+							items: ['EmojiPanel']
+						}
 					]
+
 				};
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
