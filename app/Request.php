@@ -249,15 +249,15 @@ class Request
 		if (isset($this->purifiedValuesByExploded[$key])) {
 			return $this->purifiedValuesByExploded[$key];
 		}
+		$value = [];
 		if (isset($this->rawValues[$key])) {
 			if ($this->rawValues[$key] === '') {
-				return [];
+				return $value;
 			}
 			$value = explode($delimiter, $this->rawValues[$key]);
 			if ($value) {
 				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
-
 			return $this->purifiedValuesByExploded[$key] = $value;
 		}
 		return $value;

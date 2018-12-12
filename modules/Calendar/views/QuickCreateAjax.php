@@ -52,7 +52,6 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$jsFiles = parent::getFooterScripts($request);
 		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
 			$jsFiles = $this->checkAndConvertJsScripts([
 				'~libraries/moment/min/moment.min.js',
@@ -63,6 +62,12 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 				'~layouts/resources/Calendar.js',
 				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.YearView',
+				'modules.Calendar.resources.Extended.CalendarView',
+				'modules.Calendar.resources.QuickCreate'
+			]);
+		} else {
+			$jsFiles = $this->checkAndConvertJsScripts([
+				'modules.Calendar.resources.Edit',
 				'modules.Calendar.resources.Extended.CalendarView',
 				'modules.Calendar.resources.QuickCreate'
 			]);
