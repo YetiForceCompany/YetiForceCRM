@@ -21,6 +21,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $blocks = [2];
 	public $height = 50;
 	public $isVisible = false;
+	protected $purifyType = \App\Purifier::HTML;
 
 	/**
 	 * {@inheritdoc}
@@ -33,24 +34,18 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
-	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
-		}
-		$value = $request->getForHtml($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
 		if (!is_string($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, ?string $name = '')
+	{
+		return \App\Purifier::decodeHtml($value);
 	}
 }

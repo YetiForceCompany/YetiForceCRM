@@ -120,7 +120,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			}
 		}
 		if ($request->has('inventory') && $this->record->getModule()->isInventory()) {
-			$this->record->initInventoryData($request->get('inventory'));
+			$this->record->initInventoryDataFromRequest($request);
 		}
 		return $this->record;
 	}

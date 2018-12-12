@@ -1145,7 +1145,7 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Save the inventory data.
+	 * Initialization of inventory data.
 	 *
 	 * @param array     $items
 	 * @param bool|null $userFormat
@@ -1188,6 +1188,20 @@ class Vtiger_Record_Model extends \App\Base
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * Initialization of inventory data from request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\Security
+	 */
+	public function initInventoryDataFromRequest(\App\Request $request)
+	{
+		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		$this->initInventoryData($request->getMultiDimensionArray('inventory', ['id' => \App\Purifier::INTEGER] + $inventory->getPurifyTemplate()));
 	}
 
 	/**

@@ -25,6 +25,10 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customMaximumLength = [
 		'discountparam' => 255
 	];
+	protected $purifyType = \App\Purifier::NUMBER;
+	protected $customPurifyType = [
+		'discountparam' => App\Purifier::TEXT
+	];
 
 	/**
 	 * {@inheritdoc}

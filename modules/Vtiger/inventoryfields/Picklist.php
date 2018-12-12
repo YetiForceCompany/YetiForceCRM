@@ -16,6 +16,7 @@ class Vtiger_Picklist_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_PICKLIST';
 	protected $columnName = 'picklist';
 	protected $onlyOne = false;
+	protected $purifyType = \App\Purifier::TEXT;
 
 	/**
 	 * {@inheritdoc}

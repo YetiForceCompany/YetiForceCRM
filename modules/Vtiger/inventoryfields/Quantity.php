@@ -18,6 +18,7 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'qty';
 	protected $dbType = 'decimal(25,3) DEFAULT 0';
 	protected $maximumLength = '9999999999999999999999';
+	protected $purifyType = \App\Purifier::NUMBER;
 
 	/**
 	 * {@inheritdoc}

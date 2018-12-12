@@ -18,12 +18,16 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'tax';
 	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $customColumn = [
-		'taxparam' => 'string',
+		'taxparam' => 'string'
 	];
 	protected $summationValue = true;
 	protected $maximumLength = '99999999999999999999';
 	protected $customMaximumLength = [
 		'taxparam' => 255
+	];
+	protected $purifyType = \App\Purifier::NUMBER;
+	protected $customPurifyType = [
+		'taxparam' => \App\Purifier::TEXT
 	];
 
 	/**

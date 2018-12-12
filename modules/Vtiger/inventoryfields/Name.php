@@ -19,6 +19,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['modules', 'limit', 'mandatory'];
 	protected $colSpan = 30;
 	protected $maximumLength = '-2147483648,2147483647';
+	protected $purifyType = \App\Purifier::INTEGER;
 
 	/**
 	 * {@inheritdoc}

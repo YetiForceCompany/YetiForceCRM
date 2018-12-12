@@ -17,6 +17,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'picklistfield';
 	protected $dbType = 'string';
 	protected $onlyOne = false;
+	protected $purifyType = \App\Purifier::TEXT;
 
 	/**
 	 * {@inheritdoc}

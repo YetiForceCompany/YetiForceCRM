@@ -20,6 +20,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $values = [0 => 'group', 1 => 'individual'];
 	protected $blocks = [0];
 	protected $maximumLength = '-32768,32767';
+	protected $purifyType = \App\Purifier::INTEGER;
 
 	/**
 	 * {@inheritdoc}
