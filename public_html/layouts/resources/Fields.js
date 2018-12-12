@@ -338,6 +338,7 @@ App.Fields = {
 			 * @param {Object} customConfig custom configurations for ckeditor
 			 */
 			loadEditor(element, customConfig) {
+				let minSerchTextLength = app.getMainParams('gsMinLength');
 				this.setElement(element);
 				const instance = this.getEditorInstanceFromName();
 				let config = {
@@ -354,7 +355,7 @@ App.Fields = {
 							});
 						}
 					},
-					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,emoji',
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,emoji,mentions',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -398,9 +399,48 @@ App.Fields = {
 							name: 'links',
 							items: ['EmojiPanel']
 						}
+					],
+					mentions: [{
+						feed: dataFeed,
+						itemTemplate: '<li data-id="{id}">' +
+							'<span class="fas fa-user"></span>' +
+							'<strong class="username">{category}</strong>' +
+							'<span class="fullname">{labe;}</span>' +
+							'</li>',
+						outputTemplate: '<a href="mailto:{username}@example.com">@{label}</a><span>&nbsp;</span>',
+						minChars: minSerchTextLength
+					},
+						{
+							feed: dataFeed,
+							marker: '#',
+							itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>',
+							outputTemplate: '<a href="https://example.com/social?tag={name}">{name}</a><span>&nbsp;</span>',
+							minChars: minSerchTextLength
+						}
 					]
 
 				};
+
+				function dataFeed(opts, callback) {
+
+
+					var basicSearch = new Vtiger_BasicSearch_Js();
+					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
+					basicSearch.returnHtml = false;
+					basicSearch.search(opts.query.toLowerCase()).done(function (data) {
+						console.log(data);
+						data = JSON.parse(data);
+						var serverDataFormat = data.result;
+						var reponseDataList = [];
+						for (var id in serverDataFormat) {
+							var responseData = serverDataFormat[id];
+							reponseDataList.push(responseData);
+						}
+						console.log(reponseDataList);
+						callback(reponseDataList);
+					});
+				}
+
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
 				}
