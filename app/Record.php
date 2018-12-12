@@ -275,6 +275,18 @@ class Record
 	}
 
 	/**
+	 * Function checks if record exist anywhere in crm.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return bool
+	 */
+	public static function isCrmExist(int $recordId)
+	{
+		return !empty(Functions::getCRMRecordMetadata($recordId));
+	}
+
+	/**
 	 * Get record module name.
 	 *
 	 * @param int $recordId

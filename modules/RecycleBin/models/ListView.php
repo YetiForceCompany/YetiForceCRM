@@ -19,11 +19,11 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->get('name'));
-		$cvidObj = CustomView_Record_Model::getAllFilterByModule($sourceModuleModel->get('name'));
+		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->getName());
+		$cvidObj = CustomView_Record_Model::getAllFilterByModule($sourceModuleModel->getName());
 		$viewId = $cvidObj->getId('cvid');
 		$queryGenerator->initForCustomViewById($viewId);
-		return $instance->set('module', $sourceModuleModel)->set('query_generator', $queryGenerator);
+		return $instance->set('entityState', 'Trash')->set('module', $sourceModuleModel)->set('query_generator', $queryGenerator);
 	}
 
 	/**
@@ -45,10 +45,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=RecycleBin&action=MassDelete&sourceView=List',
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-				'linkclass' => 'js-mass-record-event',
+				'linkurl' => 'javascript:RecycleBin_List_Js.massDelete()',
 				'linkicon' => 'fas fa-eraser'
 			];
 		}
@@ -56,14 +53,5 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
 		return $links;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function loadListViewCondition()
-	{
-		$this->set('entityState', 'Trash');
-		parent::loadListViewCondition();
 	}
 }

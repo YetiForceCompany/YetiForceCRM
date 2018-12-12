@@ -52,7 +52,6 @@ class RecycleBin_List_View extends Vtiger_List_View
 			$sortOrder = App\CustomView::getSorder($sourceModule);
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
-		$listViewModel->set('entityState', 'Trash');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($orderBy)) {
@@ -121,10 +120,8 @@ class RecycleBin_List_View extends Vtiger_List_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$jsFileNames = [
-			"modules.$moduleName.resources.List"
-		];
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			"modules.{$request->getModule()}.resources.List"
+		]));
 	}
 }
