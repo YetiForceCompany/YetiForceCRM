@@ -79,5 +79,8 @@ class Notification_Notification_Action extends \App\Controller\Action
 			}
 		}
 		Vtiger_Watchdog_Model::reloadCache();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 }
