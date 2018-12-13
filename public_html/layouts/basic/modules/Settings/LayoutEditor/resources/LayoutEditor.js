@@ -1821,11 +1821,13 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}).done(function (data) {
 				app.showModalWindow(data, function (modalContainer) {
 					const customConfig = {
-						toolbar: '',
-						toolbarGroups: [
-							{name: 'document', groups: ['document', 'doctools']},
-							{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-							{name: 'clipboard', groups: ['clipboard', 'undo']}
+						toolbar: [
+							{name: 'document', items: ['Print']},
+							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+							{
+								name: 'clipboard',
+								items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+							}
 						]
 					};
 					new App.Fields.Text.Editor(modalContainer, customConfig);
