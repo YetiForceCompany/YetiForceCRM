@@ -338,7 +338,6 @@ App.Fields = {
 			 * @param {Object} customConfig custom configurations for ckeditor
 			 */
 			loadEditor(element, customConfig) {
-				let minSerchTextLength = app.getMainParams('gsMinLength');
 				this.setElement(element);
 				const instance = this.getEditorInstanceFromName();
 				let config = {
@@ -397,26 +396,6 @@ App.Fields = {
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
 					]
 				};
-
-				function dataFeed(opts, callback) {
-					var basicSearch = new Vtiger_BasicSearch_Js();
-					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
-					basicSearch.returnHtml = false;
-					basicSearch.searchModule = '-';
-					basicSearch.search(opts.query.toLowerCase()).done(function (data) {
-						console.log(data);
-						data = JSON.parse(data);
-						var serverDataFormat = data.result;
-						var reponseDataList = [];
-						for (var id in serverDataFormat) {
-							var responseData = serverDataFormat[id];
-							reponseDataList.push(responseData);
-						}
-						console.log(reponseDataList);
-						callback(reponseDataList);
-					});
-				}
-
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
 				}
@@ -431,29 +410,70 @@ App.Fields = {
 				}
 				if (config.mentionsEnabled) {
 					config.extraPlugins = config.extraPlugins + ',mentions'
-					config.mentions = [{
-						feed: dataFeed,
-						itemTemplate: '<li data-id="{id}">' +
-							'<span class="userIcon-{module}"></span>' +
-							'<strong class="username">{category}</strong>' +
-							'<div class="fullname">{label}</div>' +
-							'</li>',
-						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
-						minChars: minSerchTextLength
-					},
-						{
-							feed: dataFeed,
-							marker: '#',
-							itemTemplate: '<li data-id="{id}"><strong>{label}</strong></li>',
-							outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
-							minChars: minSerchTextLength
-						}
-					]
+					config.mentions = this.registerMentions();
 				}
 				if (instance) {
 					CKEDITOR.remove(instance);
 				}
 				element.ckeditor(config);
+			}
+
+			/**
+			 * Register mentions
+			 * @returns {Array}
+			 */
+			registerMentions() {
+				let minSerchTextLength = app.getMainParams('gsMinLength');
+				return [{
+					feed: this.getMentionUsersData.bind(this),
+					itemTemplate: '<li data-id="{id}">' +
+						'<span class="userIcon-{module}"></span>' +
+						'<strong class="username">{category}</strong>' +
+						'<div class="fullname">{label}</div>' +
+						'</li>',
+					outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
+					minChars: minSerchTextLength
+				},
+					{
+						feed: this.getMentionData,
+						marker: '#',
+						itemTemplate: '<li data-id="{id}"><strong>{label}</strong></li>',
+						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
+						minChars: minSerchTextLength
+					}
+				];
+			}
+
+			/**
+			 * Get mention data (invoked by ck editor mentions plugin)
+			 * @param {object} opts
+			 * @param {function} callback
+			 * @param {string} searchModule
+			 */
+			getMentionData(opts, callback, searchModule = '-') {
+				let basicSearch = new Vtiger_BasicSearch_Js();
+				basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
+				basicSearch.returnHtml = false;
+				basicSearch.searchModule = searchModule;
+				basicSearch.search(opts.query.toLowerCase()).done(function (data) {
+					data = JSON.parse(data);
+					let serverDataFormat = data.result,
+						reponseDataList = [];
+					for (let id in serverDataFormat) {
+						let responseData = serverDataFormat[id];
+						reponseDataList.push(responseData);
+					}
+					callback(reponseDataList);
+				});
+			}
+
+			/**
+			 * Get mention Users data (invoked by ck editor mentions plugin)
+			 * @param {object} opts
+			 * @param {function} callback
+			 */
+			getMentionUsersData(opts, callback) {
+				this.getMentionData(opts, callback, 'Users');
 			}
 		},
 		/**
