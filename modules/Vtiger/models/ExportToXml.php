@@ -71,9 +71,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
-		$field = $this->inventoryFields[$columnName];
-		if (!empty($field)) {
-			if (in_array($field->getName(), ['Name', 'Reference'])) {
+		if ($field = $this->inventoryFields[$columnName] ?? false) {
+			if (in_array($field->getType(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -86,7 +85,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				} else {
 					$value = '';
 				}
-			} elseif ($field->getName() === 'Currency') {
+			} elseif ($field->getType() === 'Currency') {
 				$value = $field->getDisplayValue($value);
 			} else {
 				$value;
@@ -174,8 +173,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				$xml->startElement('INVENTORY_ITEM');
 				foreach ($inventory as $columnName => $value) {
 					$xml->startElement($columnName);
-					$fieldModel = $this->inventoryFields[$columnName];
-					if ($fieldModel) {
+					if ($fieldModel = ($this->inventoryFields[$columnName] ?? false)) {
 						$xml->writeAttribute('label', \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
 						if (!in_array($columnName, $customColumns)) {
 							foreach ($fieldModel->getCustomColumn() as $key => $dataType) {
@@ -203,8 +201,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		if ($customColumns) {
 			return array_key_exists($name, $customColumns);
 		}
-		$fieldModel = $this->moduleFieldInstances[$name];
-		if ($fieldModel && $fieldModel->getFieldDataType() === 'text') {
+		if (($fieldModel = $this->moduleFieldInstances[$name] ?? false) && $fieldModel->getFieldDataType() === 'text') {
 			return true;
 		}
 		return false;
