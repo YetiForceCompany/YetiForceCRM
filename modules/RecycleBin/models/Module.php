@@ -38,7 +38,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param string $untilModifiedTime
 	 * @param int    $userId
-	 * @param int[]  $recordIds
+	 * @param int[]  $recordsToDelete
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
@@ -46,6 +46,9 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	{
 		$actualUserId = App\User::getCurrentUserId();
 		try {
+			if (!App\User::isExists($userId)) {
+				throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
+			}
 			App\User::setCurrentUserId($userId);
 			$modulesList = \vtlib\Functions::getAllModules(true, false, 0);
 			if (empty($recordsToDelete)) {
@@ -74,7 +77,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 					unset($recordsToDelete[$key]);
 					$deleteMaxCount--;
 				} else {
-					(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([date('Y-m-d H:i:s'), App\User::getCurrentUserId(), $recordsToDelete])]))->save();
+					(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([$untilModifiedTime, App\User::getCurrentUserId(), $recordsToDelete])]))->save();
 					break;
 				}
 			}
