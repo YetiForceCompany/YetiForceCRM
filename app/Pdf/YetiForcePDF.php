@@ -57,11 +57,11 @@ class YetiForcePDF extends PDF
 	/**
 	 * @var int
 	 */
-	protected $headerMargin = 0;
+	protected $headerMargin = 10;
 	/**
 	 * @var int
 	 */
-	protected $footerMargin = 0;
+	protected $footerMargin = 10;
 
 	/**
 	 * Page orientation.
@@ -76,10 +76,10 @@ class YetiForcePDF extends PDF
 	 * @var array
 	 */
 	public $defaultMargins = [
-		'left' => 15,
-		'right' => 15,
-		'top' => 16,
-		'bottom' => 16
+		'left' => 30,
+		'right' => 30,
+		'top' => 40,
+		'bottom' => 40
 	];
 
 	/**
