@@ -39,15 +39,12 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
+		if (!isset($this->dbValue[$value])) {
+			$this->dbValue[$value] = App\Fields\Double::formatToDb($value);
 		}
-		$value = $request->getByType($column . $i, 'NumberInUserFormat');
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
+		return $this->dbValue[$value];
 	}
 
 	/**
@@ -55,10 +52,12 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
-		if (empty($value)) {
-			return;
+		if ($isUserFormat) {
+			$value = $this->getDBValue($value, $columnName);
 		}
-		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		} elseif ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}

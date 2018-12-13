@@ -60,18 +60,12 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
+		if ($name === $this->getColumnName()) {
+			$value = (int) $value;
 		}
-		$value = $request->getInteger($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('currencyparam' . $i));
-		$this->validate($value, 'currencyparam', true);
-		$insertData['currencyparam'] = $value;
+		return $value;
 	}
 
 	/**
@@ -80,17 +74,11 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
 		if ($columnName === $this->getColumnName()) {
-			if (!is_numeric($value)) {
+			if (!is_numeric($value) || !isset(\App\Fields\Currency::getAll()[$value])) {
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 			}
-			$rangeValues = explode(',', $this->maximumLength);
-			if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
-				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
-			}
-		} else {
-			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
-				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
-			}
+		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 }

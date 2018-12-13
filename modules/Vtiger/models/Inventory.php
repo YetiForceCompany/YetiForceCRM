@@ -374,8 +374,10 @@ class Vtiger_Inventory_Model
 			$columnsArray = array_keys($fieldModel->getCustomColumn());
 			$columnsArray[] = $fieldName;
 			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
-			foreach ($columnsArray as $column) {
-				$dbCommand->dropColumn($this->getTableName(self::TABLE_POSTFIX_DATA), $column)->execute();
+			if ($fieldName !== 'seq') {
+				foreach ($columnsArray as $column) {
+					$dbCommand->dropColumn($this->getTableName(self::TABLE_POSTFIX_DATA), $column)->execute();
+				}
 			}
 			$transaction->commit();
 			$result = true;

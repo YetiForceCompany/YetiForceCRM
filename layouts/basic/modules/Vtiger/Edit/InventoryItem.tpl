@@ -8,14 +8,18 @@
 	{/if}
 	<tr class="inventoryRow" numrow="{$ROW_NO}">
 		<td>
-				<span class="fas fa-trash-alt deleteRow u-cursor-pointer"
-					  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></span>
-			&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0"
-												   alt="{\App\Language::translate('LBL_DRAG',$MODULE_NAME)}"/></a>
+			<span class="fas fa-trash-alt deleteRow u-cursor-pointer"
+				  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></span>
+			{if $INVENTORY_MODEL->isField('seq')}
+				<a class="dragHandle ml-2">
+					<img src="{\App\Layout::getImagePath('drag.png')}" border="0"
+						 alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}"/>
+				</a>
+				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence"/>
+			{/if}
 			{if isset($ITEM_DATA['id'])}
 				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}"/>
 			{/if}
-			<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence"/>
 			{if $COUNT_FIELDS2 > 0}
 				<br/>
 				<br/>

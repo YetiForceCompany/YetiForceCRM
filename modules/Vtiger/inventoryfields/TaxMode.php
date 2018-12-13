@@ -36,15 +36,9 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column)) {
-			return false;
-		}
-		$value = $request->getInteger($column);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
+		return (int) $value;
 	}
 
 	/**

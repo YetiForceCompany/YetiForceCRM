@@ -28,13 +28,9 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
-		}
-		$insertData[$column] = $request->getInteger($column);
+		return (int) $value;
 	}
 
 	/**
@@ -42,7 +38,7 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
-		if (!is_numeric($value)) {
+		if (filter_var($value, FILTER_VALIDATE_INT) === false) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 	}
