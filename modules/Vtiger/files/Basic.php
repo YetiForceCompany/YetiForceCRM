@@ -18,6 +18,12 @@ abstract class Vtiger_Basic_File
 	 * @var string
 	 */
 	public $storageName = '';
+	/**
+	 * File type.
+	 *
+	 * @var string
+	 */
+	public $fileType = '';
 
 	/**
 	 * Checking permission in get method.
@@ -75,7 +81,7 @@ abstract class Vtiger_Basic_File
 	 */
 	public function post(\App\Request $request)
 	{
-		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->getFileType(), $this->getStorageName());
+		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->fileType, $this->storageName);
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
@@ -85,25 +91,5 @@ abstract class Vtiger_Basic_File
 			]);
 			$response->emit();
 		}
-	}
-
-	/**
-	 * Get storage name.
-	 *
-	 * @return string
-	 */
-	public function getStorageName()
-	{
-		return $this->storageName;
-	}
-
-	/**
-	 * Get file type.
-	 *
-	 * @return string
-	 */
-	public function getFileType()
-	{
-		return $this->fileType;
 	}
 }

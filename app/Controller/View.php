@@ -155,6 +155,7 @@ abstract class View extends Base
 		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
 		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('MODULE_NAME', $moduleName);

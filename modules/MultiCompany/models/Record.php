@@ -3,9 +3,11 @@
 /**
  * Record Class for MultiCompany.
  *
+ * @package   Model
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class MultiCompany_Record_Model extends Vtiger_Record_Model
 {
@@ -30,5 +32,16 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $hierarchy;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function save()
+	{
+		parent::save();
+		if ($this->getPreviousValue('logo')) {
+			\App\UserPrivilegesFile::reloadByMultiCompany($this->getId());
+		}
 	}
 }

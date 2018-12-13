@@ -80,6 +80,11 @@ class PrivilegeFile
 		$user['groups'] = PrivilegeUtil::getAllGroupsByUser($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
+		$user['roleName'] = $userRoleInfo['rolename'];
+		$multiCompany = MultiCompany::getCompanyByUser($userId);
+		$user['multiCompanyId'] = $multiCompany['multicompanyid'];
+		$user['multiCompanyLogo'] = $multiCompany['logo'] ?? '';
+		$user['multiCompanyLogoUrl'] = $multiCompany['logo'] ? "file.php?module=MultiCompany&action=Logo&record={$userId}&key={$multiCompany['logo']['key']}" : '';
 		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);
 	}
 }
