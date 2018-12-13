@@ -2,13 +2,16 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
+	/**
+	 * Settings_Inventory_SaveAjax_Action constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -17,12 +20,14 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveConfig');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-
 			return;
 		}
 		$id = $request->get('id');
@@ -35,14 +40,14 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fields = $request->getAll();
 		foreach ($fields as $fieldName => $fieldValue) {
 			if ($request->has($fieldName) && !in_array($fieldName, ['module', 'parent', 'view', '__vtrftk', 'action'])) {
-				$recordModel->set($fieldName, $fieldValue);
+				if ($fieldName === 'value') {
+					$recordModel->set($fieldName, $request->getByType('value', 'NumberInUserFormat'));
+				} else {
+					$recordModel->set($fieldName, $fieldValue);
+				}
 			}
 		}
-		if ($type === 'Discounts') {
-			$recordModel->set('value', CurrencyField::convertToDBFormat($recordModel->get('value')));
-		}
 		$recordModel->setType($type);
-
 		$response = new Vtiger_Response();
 		try {
 			$id = $recordModel->save();

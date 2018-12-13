@@ -486,8 +486,8 @@ class CurrencyField
 			}
 			$decSeparator = $user->getDetail('currency_decimal_separator');
 			$fieldValue = explode(App\Purifier::decodeHtml($decSeparator), $value);
-			$valueField = (int) $fieldValue[0];
-			if (0 === $valueField || !isset($fieldValue[1]) || strlen($fieldValue[1]) <= 1) {
+			$valueField = $fieldValue[0];
+			if (0 === (int) $valueField || !isset($fieldValue[1]) || strlen($fieldValue[1]) <= 1) {
 				if (isset($fieldValue[1]) && strlen($fieldValue[1]) == 1) {
 					return $value = $valueField . $decSeparator . $fieldValue[1];
 				} elseif (!isset($fieldValue[1])) {

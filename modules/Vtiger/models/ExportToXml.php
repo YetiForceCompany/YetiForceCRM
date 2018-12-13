@@ -37,7 +37,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if ($this->tplName) {
 				$this->createXmlFromTemplate($data, $data);
 			} else {
-				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key]);
+				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key] ?? []);
 			}
 		}
 		if (1 < count($entries)) {
@@ -162,7 +162,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if ($this->isCData($fieldName)) {
 				$xml->writeCData($entries[$fieldName]);
 			} else {
-				$xml->text($entries[$fieldModel->get('column')]);
+				$xml->text($entries[$fieldName]);
 			}
 			$xml->endElement();
 		}

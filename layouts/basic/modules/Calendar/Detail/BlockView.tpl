@@ -5,7 +5,7 @@
 	{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 	{assign var="IS_HIDDEN" value=false}
 	<div class="detailViewTable">
-		<div class="js-toggle-panel c-panel" data-js="click" data-label="{$BLOCK_LABEL}">
+		<div class="js-toggle-panel c-panel" data-js="click" data-label="LBL_INVITE_RECORDS">
 			<div class="blockHeader c-panel__header">
 				<span class="js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
 				<span class="js-block-toggle fas fa-angle-down m-2 {if $IS_HIDDEN}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>

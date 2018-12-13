@@ -49,36 +49,35 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	 * Function to Save the Details
 	 */
 	saveDetails: function (form, currentTrElement) {
-		var thisInstance = this;
-		var params = form.serializeFormData();
-		var saveButton = form.find('[type="submit"]');
+		const thisInstance = this;
+		let params = form.serializeFormData();
+		const saveButton = form.find('[type="submit"]');
 		saveButton.prop('disabled', true);
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		thisInstance.validateName(params).done(function (data) {
+		thisInstance.validateName(params).done((data) => {
 			if (typeof data === "undefined") {
 				saveButton.prop('disabled', false);
 				return false;
 			}
-			var progressIndicatorElement = jQuery.progressIndicator({
+			const progressIndicatorElement = $.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
 				}
 			});
-
 			params.module = app.getModuleName();
 			params.parent = app.getParentModuleName();
 			params.action = 'SaveAjax';
 			params.view = app.getViewName();
-			AppConnector.request(params).done(function (data) {
+			AppConnector.request(params).done((data) => {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				app.hideModalWindow();
 				if (typeof data == 'string') {
 					data = JSON.parse(data);
 				}
-				data['result']['value'] = App.Fields.Currency.formatToDisplay(data['result']['value']);
+				data['result']['value'] = App.Fields.Double.formatToDisplay(data['result']['value']);
 				//Adding or update details in the list
 				if (form.find('.addView').val() == 'true') {
 					thisInstance.addDetails(data['result']);
@@ -86,12 +85,11 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 					thisInstance.updateDetails(data['result'], currentTrElement);
 				}
 				//show notification after details saved
-				var params = {
+				Settings_Vtiger_Index_Js.showMessage({
 					text: app.vtranslate('JS_SAVE_CHANGES')
-				};
-				Settings_Vtiger_Index_Js.showMessage(params);
+				});
 			});
-		}).fail(function (data, err) {
+		}).fail((data, err) => {
 			saveButton.prop('disabled', false);
 			return false;
 		});

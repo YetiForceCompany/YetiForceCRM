@@ -133,7 +133,7 @@ App.Fields = {
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
-			$('.js-date__btn').off().on('click', (e) => {
+			parentElement.find('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
 			elements.each((index, element) => {
