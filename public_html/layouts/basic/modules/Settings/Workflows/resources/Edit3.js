@@ -46,6 +46,19 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			this.setContainer($('#workflow_step3'));
 		}
 	},
+	refreshCompanyVariables: function (container) {
+		const companyId = container.find("#companyList").val();
+		container.find("#companyVariable > optgroup > option").each(function () {
+			let template = $(this).data('value-template');
+			this.value = template.replace(/__X__/i, companyId);
+		});
+	},
+	registerRefreshCompanyVariables: function (container) {
+		var thisInstance = this;
+		container.find('.companyList').on('change', function (e) {
+			thisInstance.refreshCompanyVariables(container);
+		});
+	},
 	registerEditTaskEvent: function () {
 		let thisInstance = this,
 			container = this.getContainer();
@@ -76,6 +89,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				$('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
+				thisInstance.registerRefreshCompanyVariables(data);
 			});
 
 		});
