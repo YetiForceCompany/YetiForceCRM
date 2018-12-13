@@ -381,20 +381,20 @@ App.Fields = {
 						},
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
 					],
+					// toolbar_Min: [
+					// 	{
+					// 		name: 'basicstyles',
+					// 		items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+					// 	},
+					// 	{name: 'colors', items: ['TextColor', 'BGColor']},
+					// 	{name: 'tools', items: ['Maximize']},
+					// 	{
+					// 		name: 'paragraph',
+					// 		items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+					// 	},
+					// 	{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+					// ],
 					toolbar_Min: [
-						{
-							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
-						},
-						{name: 'colors', items: ['TextColor', 'BGColor']},
-						{name: 'tools', items: ['Maximize']},
-						{
-							name: 'paragraph',
-							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-						},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-					],
-					toolbar_Chat: [
 						{
 							name: 'links',
 							items: ['EmojiPanel']
@@ -403,9 +403,9 @@ App.Fields = {
 					mentions: [{
 						feed: dataFeed,
 						itemTemplate: '<li data-id="{id}">' +
-							'<span class="fas fa-user"></span>' +
+							'<span class="userIcon-{module}"></span>' +
 							'<strong class="username">{category}</strong>' +
-							'<span class="fullname">{labe;}</span>' +
+							'<div class="fullname">{label}</div>' +
 							'</li>',
 						outputTemplate: '<a href="mailto:{username}@example.com">@{label}</a><span>&nbsp;</span>',
 						minChars: minSerchTextLength
@@ -427,6 +427,7 @@ App.Fields = {
 					var basicSearch = new Vtiger_BasicSearch_Js();
 					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
+					basicSearch.searchModule = '-';
 					basicSearch.search(opts.query.toLowerCase()).done(function (data) {
 						console.log(data);
 						data = JSON.parse(data);
