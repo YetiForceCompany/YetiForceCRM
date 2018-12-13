@@ -1703,7 +1703,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					fieldName: editFields.data('name')
 				}).done(function (response) {
 					let param = {};
-					console.log(response)
 					if (response.result) {
 						liElement.remove();
 						param = {type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')};
