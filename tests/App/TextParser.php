@@ -65,7 +65,7 @@ class TextParser extends \Tests\Base
 	{
 		$defaultCompanyModel = \App\Company::getInstanceById(false);
 		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
-			->setContent('+ $(organization : name)$ +')
+			->setContent('+ $(organization : 1|company_name)$ +')
 			->parse()
 			->getContent(), 'Organization name should match to reference');
 	}

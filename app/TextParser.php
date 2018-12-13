@@ -1168,18 +1168,6 @@ class TextParser
 				return Language::translate($value, 'Other.TextParser');
 			}, array_flip(static::$variableGeneral)),
 		];
-		$companyDetails = Company::getInstanceById()->getData();
-		unset($companyDetails['id'], $companyDetails['logo_main'], $companyDetails['default']);
-		$companyVariables = [];
-		foreach (array_keys($companyDetails) as $name) {
-			$companyVariables["$(organization : $name)$"] = Language::translate('LBL_' . strtoupper($name), 'Settings:Companies');
-		}
-		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
-		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_login)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_main)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_mail)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
 	}
