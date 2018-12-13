@@ -348,8 +348,8 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
-					emoji: false,
-					metnions: false,
+					emojiEnabled: false,
+					metnionsEnabled: false,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
@@ -357,7 +357,7 @@ App.Fields = {
 							});
 						}
 					},
-					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,emoji,mentions',
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -395,26 +395,7 @@ App.Fields = {
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
-					],
-					mentions: [{
-						feed: dataFeed,
-						itemTemplate: '<li data-id="{id}">' +
-							'<span class="userIcon-{module}"></span>' +
-							'<strong class="username">{category}</strong>' +
-							'<div class="fullname">{label}</div>' +
-							'</li>',
-						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
-						minChars: minSerchTextLength
-					},
-						{
-							feed: dataFeed,
-							marker: '#',
-							itemTemplate: '<li data-id="{id}"><strong>{label}</strong></li>',
-							outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
-							minChars: minSerchTextLength
-						}
 					]
-
 				};
 
 				function dataFeed(opts, callback) {
@@ -439,13 +420,35 @@ App.Fields = {
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
 				}
-				if (config.emoji) {
+				if (config.emojiEnabled) {
 					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
 					if (typeof config.toolbar === 'string') {
 						config[`toolbar_${config.toolbar}`].push(emojiToolbar);
 					} else if (Array.isArray(config.toolbar)) {
 						config.toolbar.push(emojiToolbar);
 					}
+					config.extraPlugins = config.extraPlugins + ',emoji'
+				}
+				if (config.mentionsEnabled) {
+					config.extraPlugins = config.extraPlugins + ',mentions'
+					config.mentions = [{
+						feed: dataFeed,
+						itemTemplate: '<li data-id="{id}">' +
+							'<span class="userIcon-{module}"></span>' +
+							'<strong class="username">{category}</strong>' +
+							'<div class="fullname">{label}</div>' +
+							'</li>',
+						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
+						minChars: minSerchTextLength
+					},
+						{
+							feed: dataFeed,
+							marker: '#',
+							itemTemplate: '<li data-id="{id}"><strong>{label}</strong></li>',
+							outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
+							minChars: minSerchTextLength
+						}
+					]
 				}
 				if (instance) {
 					CKEDITOR.remove(instance);
