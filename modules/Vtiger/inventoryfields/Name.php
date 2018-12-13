@@ -94,15 +94,9 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
-		}
-		$value = $request->isEmpty($column . $i) ? '' : $request->getInteger($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
+		return (int) $value;
 	}
 
 	/**

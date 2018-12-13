@@ -23,12 +23,20 @@ class Vtiger_Integer_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDBValue($value, ?string $name = '')
+	{
+		return (int) $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
 		if (empty($value)) {
 			return;
 		}
-		if (!is_numeric($value)) {
+		if (filter_var($value, FILTER_VALIDATE_INT) === false) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 		if ($value > $this->maximumLength || $value < -$this->maximumLength) {

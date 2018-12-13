@@ -49,22 +49,18 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
+		if ($name !== $this->getColumnName()) {
+			$valid = $value ? \App\Json::decode($value) : [];
+			if (isset($valid['individualTax'])) {
+				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
+				$value = \App\Json::encode($valid);
+			}
+		} else {
+			$value = App\Fields\Double::formatToDb($value);
 		}
-		$value = $request->getByType($column . $i, 'NumberInUserFormat');
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
-		$taxparam = $request->getArray('taxparam' . $i);
-		if (isset($taxparam['individualTax'])) {
-			$taxparam['individualTax'] = \App\Purifier::purifyByType($taxparam['individualTax'], 'NumberInUserFormat');
-		}
-		$value = \App\Json::encode($taxparam);
-		$this->validate($value, 'taxparam', true);
-		$insertData['taxparam'] = $value;
+		return $value;
 	}
 
 	/**

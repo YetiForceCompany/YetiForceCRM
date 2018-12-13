@@ -46,8 +46,9 @@
 				</tr>
 				</thead>
 				<tbody class="js-inventory-items-body" data-js="container">
+				{assign var="ROW_NO" value=0}
 				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-					{assign var="ROW_NO" value=$KEY+1}
+					{assign var="ROW_NO" value=$ROW_NO+1}
 					{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
 					<tr class="js-inventory-row" data-product-id="{$INVENTORY_ROW['name']}" data-js="data-product-id">
 						{foreach item=FIELD from=$FIELDS[1]}
