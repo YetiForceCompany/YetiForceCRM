@@ -84,7 +84,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = [['assigned_user_id', 'e', $value]];
 		array_push($conditions, ['ticketstatus', 'e', $openTicketsStatus]);
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . urlencode(App\Json::encode($listSearchParams));
+		return '&entityState=Active&viewname=All&search_params=' . urlencode(App\Json::encode($listSearchParams));
 	}
 
 	/**
