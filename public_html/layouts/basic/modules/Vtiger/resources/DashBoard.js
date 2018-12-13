@@ -476,7 +476,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		const thisInstance = this;
 		$('.dashboardHeading').off('click', '.addFilter').on('click', '.addFilter', function (e) {
 			const element = $(e.currentTarget);
-
 			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
 				const form = $('form', wizardContainer);
 				form.on("keypress", function (event) {
@@ -553,24 +552,22 @@ $.Class("Vtiger_DashBoard_Js", {
 						footer.show();
 					}
 				});
-
-				form.on('submit', function (e) {
+				form.validationEngine(app.validationEngineOptions);
+				form.on('submit', (e) => {
 					e.preventDefault();
-					var selectedModule = moduleNameSelect2.val();
-					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					var selectedFilterId = filteridSelect2.val();
-					var selectedFilterLabel = filteridSelect2.find(':selected').text();
-					var selectedFields = [];
-					fieldsSelect2.select2('data').map(function (obj) {
-						selectedFields.push(obj.id);
-					});
-
-					var data = {
-						module: selectedModule
-					};
-					data['fields'] = selectedFields;
-					data['filterFields'] = filterFieldsSelect2.val();
-					thisInstance.saveMiniListWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
+					if (form.validationEngine('validate') === true) {
+						let selectedFields = [];
+						fieldsSelect2.select2('data').map((obj) => {
+							selectedFields.push(obj.id);
+						});
+						thisInstance.saveMiniListWidget({
+								module: moduleNameSelect2.val(),
+								fields: selectedFields,
+								filterFields: filterFieldsSelect2.val()
+							}, element, moduleNameSelect2.find(':selected').text(),
+							filteridSelect2.val(), filteridSelect2.find(':selected').text(), form
+						);
+					}
 				});
 			});
 		});
