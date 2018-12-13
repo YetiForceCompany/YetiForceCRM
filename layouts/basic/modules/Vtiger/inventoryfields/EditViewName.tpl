@@ -6,7 +6,7 @@
 			{assign var="FIELD_NAME" value="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"}
 			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml($FIELD->get('params'))}
 			<div class="input-group input-group-sm">
-				<input name="popupReferenceModule" type="hidden" data-multi-reference="1"
+				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_MODULE}"/>
 				<div class="input-group-prepend">
 					{if !$FIELD->isReadOnly()}
 						<span class="input-group-text clearReferenceSelection u-cursor-pointer js-popover-tooltip"
