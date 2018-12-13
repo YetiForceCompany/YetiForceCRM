@@ -427,8 +427,8 @@ App.Fields = {
 		 */
 		generateRandomHash(prefix = '') {
 			prefix = prefix.toString();
-			const hash = Math.random().toString(36).substr(2, 9) + '-' + Math.random().toString(36).substr(2, 9) + '-' + new Date().valueOf();
-			return prefix ? prefix + '-' + hash : hash;
+			const hash = Math.random().toString(36).substr(2, 10) + Math.random().toString(36).substr(2, 10) + new Date().valueOf() + Math.random().toString(36).substr(2, 6);
+			return prefix ? prefix + hash : hash;
 		}
 	},
 	Picklist: {
