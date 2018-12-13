@@ -18,7 +18,7 @@
 					<tbody>
 					<tr>
 						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormatSymbol($DISCOUNT,false,$CURRENCY_SYMBOLAND['currency_symbol'],true)}
+							{CurrencyField::convertToUserFormatSymbol($DISCOUNT,false,$CURRENCY_SYMBOLAND['currency_symbol'])}
 						</td>
 					</tr>
 					</tbody>

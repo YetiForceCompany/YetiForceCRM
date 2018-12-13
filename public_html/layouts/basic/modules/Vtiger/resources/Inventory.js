@@ -1237,6 +1237,7 @@ $.Class("Vtiger_Inventory_Js", {
 			});
 		});
 		this.initItem(newRow);
+		this.showIndividualDiscount(newRow);
 		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
 		if (rowData) {
 			this.setRowData(newRow, rowData);
@@ -1329,13 +1330,11 @@ $.Class("Vtiger_Inventory_Js", {
 			this.quantityChangeActions(this.getClosestRow(element));
 		});
 		var headContainer = this.getInventoryHeadContainer();
-		this.showIndividualDiscount(container);
 		headContainer.on('change', '.taxMode', (e) => {
 			let element = $(e.currentTarget);
 			this.showIndividualTax(this.getClosestRow(element));
 			this.rowsCalculations();
 		});
-		this.showIndividualDiscount(container);
 		headContainer.on('change', '.discountMode', (e) => {
 			let element = $(e.currentTarget);
 			this.showIndividualDiscount(this.getClosestRow(element));
