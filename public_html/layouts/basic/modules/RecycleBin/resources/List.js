@@ -6,22 +6,28 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 	 * Mass activation trigerred on the list
 	 */
 	massActivation: function () {
-		let params = this.getSelectedRecordsParams(),
-			listInstance = Vtiger_List_Js.getInstance(),
-			container = listInstance.getListViewContainer();
-		params.module = container.find('.js-source-module').val();
-		params.state = 'Active';
-		params.entityState = 'Trash';
-		params.action = 'MassState';
-		AppConnector.request(params).done(function (data) {
-			if (data && data.result && data.result.notify) {
-				Vtiger_Helper_Js.showMessage(data.result.notify);
-			}
-			listInstance.getListViewRecords({
-				module: app.getModuleName(),
-				view: 'List',
-				parent: app.getModuleName(),
-				sourceModule: container.find('.js-source-module').val()
+		const self = this;
+		Vtiger_Helper_Js.showConfirmationBox({
+			message: app.vtranslate('JS_ACTIVATE_RECORD_DESC'),
+			title: app.vtranslate('JS_MASS_ACTIVATE')
+		}).done(function (e) {
+			let params = self.getSelectedRecordsParams(),
+				listInstance = Vtiger_List_Js.getInstance(),
+				container = listInstance.getListViewContainer();
+			params.module = container.find('.js-source-module').val();
+			params.state = 'Active';
+			params.entityState = 'Trash';
+			params.action = 'MassState';
+			AppConnector.request(params).done(function (data) {
+				if (data && data.result && data.result.notify) {
+					Vtiger_Helper_Js.showMessage(data.result.notify);
+				}
+				listInstance.getListViewRecords({
+					module: app.getModuleName(),
+					view: 'List',
+					parent: app.getModuleName(),
+					sourceModule: container.find('.js-source-module').val()
+				});
 			});
 		});
 	},
@@ -29,23 +35,29 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 	 * Mass delete trigerred on the list
 	 */
 	massDelete: function () {
-		let params = this.getSelectedRecordsParams(),
-			listInstance = Vtiger_List_Js.getInstance(),
-			container = listInstance.getListViewContainer();
-		params.module = container.find('.js-source-module').val();
-		params.sourceModule = container.find('.js-source-module').val();
-		params.action = 'MassDelete';
-		params.entityState = 'Trash';
-		params.viewname = 'undefined';
-		AppConnector.request(params).done(function (data) {
-			if (data && data.result && data.result.notify) {
-				Vtiger_Helper_Js.showMessage(data.result.notify);
-			}
-			listInstance.getListViewRecords({
-				module: app.getModuleName(),
-				view: 'List',
-				parent: app.getModuleName(),
-				sourceModule: container.find('.js-source-module').val()
+		const self = this;
+		Vtiger_Helper_Js.showConfirmationBox({
+			message: app.vtranslate('JS_DELETE_ALL_RECYCLE_RECORD_DESC'),
+			title: app.vtranslate('JS_MASS_DELETE')
+		}).done(function (e) {
+			let params = self.getSelectedRecordsParams(),
+				listInstance = Vtiger_List_Js.getInstance(),
+				container = listInstance.getListViewContainer();
+			params.module = container.find('.js-source-module').val();
+			params.sourceModule = container.find('.js-source-module').val();
+			params.action = 'MassDelete';
+			params.entityState = 'Trash';
+			params.viewname = 'undefined';
+			AppConnector.request(params).done(function (data) {
+				if (data && data.result && data.result.notify) {
+					Vtiger_Helper_Js.showMessage(data.result.notify);
+				}
+				listInstance.getListViewRecords({
+					module: app.getModuleName(),
+					view: 'List',
+					parent: app.getModuleName(),
+					sourceModule: container.find('.js-source-module').val()
+				});
 			});
 		});
 	},
