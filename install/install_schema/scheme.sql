@@ -1958,7 +1958,6 @@ CREATE TABLE `u_yf_finvoicecost_inventory` (
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `finvoicecost_inventory_idx` (`crmid`),
   KEY `u_yf_finvoicecost_inventory_crmid_idx` (`crmid`),
   CONSTRAINT `fk_1_u_yf_finvoicecost_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_finvoicecost` (`finvoicecostid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
