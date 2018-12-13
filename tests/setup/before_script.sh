@@ -1,3 +1,6 @@
+rm -rf .user.ini
+rm -rf public_html/.user.ini
+
 sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
 composer install
