@@ -76,8 +76,11 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		$(container).find('.js-editor').each(function () {
 			const editor = $(this);
 			new App.Fields.Text.Editor(editor, {
+				entities_latin: false,
 				toolbar: 'PDF',
-				font_names: 'dejavusans',
+				font_defaultLabel: 'Noto Sans',
+				fontSize_defaultLabel: '10px',
+				font_names: 'Source Sans Pro;Noto Sans;',
 				height: editor.attr('id') === 'body_content' ? '800px' : '80px',
 				stylesSet: [{
 					name: 'Komorka 14',
@@ -100,7 +103,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 					{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
 					{
 						name: 'basicstyles',
-						items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+						items: ['Bold', 'Italic', 'Underline', 'Strike']
 					},
 					{name: 'colors', items: ['TextColor', 'BGColor']},
 					{
@@ -112,11 +115,13 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 				allowedContent: {
 					'$1': {
 						elements: CKEDITOR.dtd,
-						attributes: true,
+						attributes: false,
 						classes: true,
 						styles: {
+							'display': true,
 							'color': true,
 							'background-color': true,
+							'background-image': true,
 							'font-size': true,
 							'font-weight': true,
 							'font-family': true,
@@ -124,7 +129,36 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 							'text-transform': true,
 							'width': true,
 							'height': true,
-							'border': true
+							'border': true,
+							'border-collapse': true,
+							'cell-spacing': true,
+							'vertical-align': true,
+							'margin-top': true,
+							'margin-bottom': true,
+							'margin-left': true,
+							'margin-right': true,
+							'padding-top': true,
+							'padding-bottom': true,
+							'padding-left': true,
+							'padding-right': true,
+							'margin': true,
+							'padding': true,
+							'border-color': true,
+							'border-width': true,
+							'border-style': true,
+							'border-top-color': true,
+							'border-top-width': true,
+							'border-top-style': true,
+							'border-right-color': true,
+							'border-right-width': true,
+							'border-right-style': true,
+							'border-bottom-color': true,
+							'border-bottom-width': true,
+							'border-bottom-style': true,
+							'border-left-color': true,
+							'border-left-width': true,
+							'border-left-style': true,
+							'line-height': true,
 						}
 					}
 				}

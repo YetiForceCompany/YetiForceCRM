@@ -24,6 +24,6 @@ class CurrentPage extends Base
 	 */
 	public function process()
 	{
-		return '{PAGENO}';
+		return '{p}';
 	}
 }

@@ -42,6 +42,26 @@ class YetiForcePDF extends PDF
 	 * @var string
 	 */
 	public $format = '';
+	/**
+	 * @var string
+	 */
+	protected $header = '';
+	/**
+	 * @var string
+	 */
+	protected $footer = '';
+	/**
+	 * @var string
+	 */
+	protected $watermark = '';
+	/**
+	 * @var int
+	 */
+	protected $headerMargin = 0;
+	/**
+	 * @var int
+	 */
+	protected $footerMargin = 0;
 
 	/**
 	 * Page orientation.
@@ -130,6 +150,8 @@ class YetiForcePDF extends PDF
 		$this->pdf->setDefaultFormat($format);
 		$this->pdf->setDefaultOrientation($orientation);
 		$this->pdf->setDefaultMargins($leftMargin, $topMargin, $rightMargin, $bottomMargin);
+		$this->headerMargin = $headerMargin;
+		$this->footerMargin = $footerMargin;
 	}
 
 	/**
@@ -388,7 +410,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setHeader($name, $header)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->header = trim($header);
 	}
 
 	/**
@@ -396,7 +418,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setFooter($name, $footer)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->footer = trim($footer);
 	}
 
 	/**
@@ -404,7 +426,19 @@ class YetiForcePDF extends PDF
 	 */
 	public function writeHTML()
 	{
-		$this->pdf->loadHtml($this->parseVariables($this->html));
+		$footer = '';
+		if ($this->footer !== '') {
+			$footer = '<div data-footer>' . $this->footer . '</div>';
+		}
+		$header = '';
+		if ($this->header !== '') {
+			$header = '<div data-header>' . $this->header . '</div>';
+		}
+		$watermark = '';
+		if ($this->watermark !== '') {
+			$watermark = '<div data-watermark style="text-align:center">' . $this->watermark . '</div>';
+		}
+		$this->pdf->loadHtml($this->parseVariables($watermark . $header . $footer . $this->html));
 	}
 
 	/**
@@ -414,7 +448,17 @@ class YetiForcePDF extends PDF
 	 */
 	public function setWaterMark($templateModel)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
+			if ($templateModel->get('watermark_image')) {
+				$this->watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.2;">';
+			}
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
+			$fontSize = '10';
+			if ($templateModel->get('watermark_size')) {
+				$fontSize = $templateModel->get('watermark_size');
+			}
+			$this->watermark = '<div style="opacity:0.2;display:inline-block;font-size:' . $fontSize . 'px">' . $templateModel->get('watermark_text') . '</div>';
+		}
 	}
 
 	/**
@@ -435,7 +479,7 @@ class YetiForcePDF extends PDF
 	 * @param int    $templateId
 	 * @param int    $templateMainRecordId - optional if null $recordId is used
 	 *
-	 * @return Tcpdf current or new instance if needed
+	 * @return YetiForcePDF current or new instance if needed
 	 */
 	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId = null)
 	{
@@ -461,7 +505,9 @@ class YetiForcePDF extends PDF
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
-		$self->pdf->loadHtml($self->parseVariables($template->getBody()));
+		$self->loadHtml($template->getBody());
+		$self->setHeader('', $template->getHeader());
+		$self->setFooter('', $template->getFooter());
 		\App\Language::clearTemporaryLanguage();
 		return $self;
 	}
@@ -475,14 +521,20 @@ class YetiForcePDF extends PDF
 	public function output($fileName = '', $dest = '')
 	{
 		if (empty($fileName)) {
-			$fileName = $this->getFileName() . '.pdf';
+			if ($this->getFileName()) {
+				$fileName = $this->getFileName() . '.pdf';
+			} else {
+				$fileName = 'file.pdf';
+			}
 			$dest = 'I';
 		}
+		$this->writeHTML();
 		$output = $this->pdf->render();
 		if ($dest !== 'I') {
 			return file_put_contents($fileName, $output);
 		}
-		header('Content-Type: application/pdf');
+		header('Accept-Charset: utf-8');
+		header('Content-Type: application/pdf; charset=utf-8');
 		header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
 		echo $output;
 	}
