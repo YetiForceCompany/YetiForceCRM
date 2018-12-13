@@ -527,10 +527,15 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			app.moduleCacheSet('defaultShowType', 'current');
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false);
-			let calendarSwitch = sidebar.find('.js-switch--showType [class*="js-switch--label"]');
+			let calendarSwitch = sidebar.find('.js-switch--showType [class*="js-switch--label"]'),
+				actualUserCheckbox = sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]");
 			calendarSwitch.last().removeClass('active');
 			calendarSwitch.first().addClass('active');
-			sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]").prop('checked', true);
+			if (actualUserCheckbox.length) {
+				actualUserCheckbox.prop('checked', true);
+			} else {
+				app.setMainParams('usersId', undefined);
+			}
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
 	}
