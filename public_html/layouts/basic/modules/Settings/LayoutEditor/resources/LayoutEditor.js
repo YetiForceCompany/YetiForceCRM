@@ -1821,7 +1821,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}).done(function (data) {
 				app.showModalWindow(data, function (modalContainer) {
 					const customConfig = {
-						toolbar: 'Min',
+						toolbar: '',
 						toolbarGroups: [
 							{name: 'document', groups: ['document', 'doctools']},
 							{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
