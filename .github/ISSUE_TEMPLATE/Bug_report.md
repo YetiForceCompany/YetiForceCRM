@@ -23,8 +23,9 @@ about: Create a report to help us improve
 #### Screenshot of configuration
 <!---  Before reporting an issue, check if your server has been properly configured. Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
 
-#### PHP/Apache/Browser Logs
-<!---  Please include a part of logs which describes when the error occurred. The more info you provide, the quicker we will be able to solve your problem. Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome). -->
+#### PHP/Apache/Nginx/Browser/CRM Logs
+<!---  Please include a part of logs which describes when the error occurred. The more info you provide, the quicker we will be able to solve your problem. Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome).
+ex. cache/logs/phpError.log, cache/logs/system.log, -->
 
 <!--- Put here the FULL LOG -->
 ```
@@ -33,12 +34,14 @@ Logs
 
 #### Your Environment
 <!---Describe the environment -->
-| Environment      | Version / name |
-| ---------------- | ---------- |
-| YetiForce        |
-| Browser          |
-| PHP              |
-| Environment      |
-| Operating System |
+| Environment      | Version / Name |
+| ---------------- | -------------- |
+| YetiForce        | 
+| Web server       | 
+| PHP              | 
+| Browser          | 
+| Operating System | 
+| Database         | 
+
 
 <!--- Please check on your issue from time to time, in case we have questions or need some extra information. --->

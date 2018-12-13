@@ -56,7 +56,7 @@ class Company extends Base
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
 		}
-		$logoName = 'blue_yetiforce_logo.png';
+		$logoName = 'logo';
 		if (!$logoName) {
 			return false;
 		}
@@ -72,7 +72,7 @@ class Company extends Base
 		$logoModel->setData([
 			'imageUrl' => $logoURL,
 			'imagePath' => $path,
-			'alt' => $logoName,
+			'alt' => Language::translate('LBL_COMPANY_LOGO_TITLE'),
 			'imageName' => $logoName,
 			'title' => Language::translate('LBL_COMPANY_LOGO_TITLE'),
 			'fileExists' => file_exists($path),

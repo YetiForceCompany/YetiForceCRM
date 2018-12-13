@@ -36,7 +36,7 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="listViewEntriesDiv u-overflow-scroll-xs-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
@@ -72,7 +72,7 @@
 								<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
 							</a>
 							<a class="btn btn-light float-right listRemoveBtn" role="button"
-							   href="index.php?module={$MODULE}&parent=Settings&view=List{$VIEW}">
+							   href="index.php?module={$MODULE}&parent=Settings&view={$VIEW}">
 								<span class="fas fa-times"
 									  title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_CLEAR_SEARCH')}</span>

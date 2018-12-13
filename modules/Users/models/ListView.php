@@ -102,14 +102,12 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$searchParams = $this->getArray('search_params');
 		foreach ($searchParams as &$params) {
 			foreach ($params as &$param) {
-				if (!empty($param['columnname']) && strpos($param['columnname'], 'is_admin') !== false) {
+				if ($param['field_name'] === 'is_admin') {
 					$param['value'] = $param['value'] == '0' ? 'off' : 'on';
 				}
 			}
 		}
-
 		$this->set('search_params', $searchParams);
-
 		return parent::getListViewEntries($pagingModel);
 	}
 
