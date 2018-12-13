@@ -348,6 +348,8 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
+					emoji: false,
+					metnions: false,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
@@ -379,26 +381,20 @@ App.Fields = {
 							name: 'paragraph',
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
 					],
-					// toolbar_Min: [
-					// 	{
-					// 		name: 'basicstyles',
-					// 		items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
-					// 	},
-					// 	{name: 'colors', items: ['TextColor', 'BGColor']},
-					// 	{name: 'tools', items: ['Maximize']},
-					// 	{
-					// 		name: 'paragraph',
-					// 		items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-					// 	},
-					// 	{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-					// ],
 					toolbar_Min: [
 						{
-							name: 'links',
-							items: ['EmojiPanel']
-						}
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
+						},
+						{name: 'colors', items: ['TextColor', 'BGColor']},
+						{name: 'tools', items: ['Maximize']},
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
 					],
 					mentions: [{
 						feed: dataFeed,
@@ -407,14 +403,14 @@ App.Fields = {
 							'<strong class="username">{category}</strong>' +
 							'<div class="fullname">{label}</div>' +
 							'</li>',
-						outputTemplate: '<a href="mailto:{username}@example.com">@{label}</a><span>&nbsp;</span>',
+						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
 						minChars: minSerchTextLength
 					},
 						{
 							feed: dataFeed,
 							marker: '#',
-							itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>',
-							outputTemplate: '<a href="https://example.com/social?tag={name}">{name}</a><span>&nbsp;</span>',
+							itemTemplate: '<li data-id="{id}"><strong>{label}</strong></li>',
+							outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
 							minChars: minSerchTextLength
 						}
 					]
@@ -422,8 +418,6 @@ App.Fields = {
 				};
 
 				function dataFeed(opts, callback) {
-
-
 					var basicSearch = new Vtiger_BasicSearch_Js();
 					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
@@ -444,6 +438,14 @@ App.Fields = {
 
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
+				}
+				if (config.emoji) {
+					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
+					if (typeof config.toolbar === 'string') {
+						config[`toolbar_${config.toolbar}`].push(emojiToolbar);
+					} else if (Array.isArray(config.toolbar)) {
+						config.toolbar.push(emojiToolbar);
+					}
 				}
 				if (instance) {
 					CKEDITOR.remove(instance);
