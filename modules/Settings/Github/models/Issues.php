@@ -54,7 +54,7 @@ class Settings_Github_Issues_Model
 			if ($nameOnly) {
 				$return .= $name;
 			} else {
-				$return .= "{$name}: " . \App\Language::translate($config['www']);
+				$return .= "{$name}: " . \App\Language::translate($config['www'] ?? '-') . ' | ' . \App\Language::translate($config['cron'] ?? '-');
 			}
 		}
 		return $return;

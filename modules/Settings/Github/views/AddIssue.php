@@ -30,6 +30,8 @@ class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
 		$viewer->assign('PHP_VERSION', PHP_VERSION);
+		$viewer->assign('CONF_REPORT', \App\Utils\ConfReport::getAll());
+		$viewer->assign('BROWSER_INFO', $request->getServer('HTTP_USER_AGENT'));
 		$viewer->assign('ERROR_STABILITY', \App\Utils\ConfReport::get('stability', true));
 		$viewer->assign('ERROR_ENVIRONMENT', \App\Utils\ConfReport::get('environment', true));
 		$viewer->assign('ERROR_WRITE', \App\Utils\ConfReport::get('writableFilesAndFolders', true));
