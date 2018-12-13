@@ -137,7 +137,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 				case 'Groups':
 					if (empty($name)) {
-						continue;
+						continue 2;
 					}
 					$display[$key] = $name;
 					$recordModel = new Settings_Groups_Record_Model();
