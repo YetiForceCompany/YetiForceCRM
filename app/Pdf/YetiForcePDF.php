@@ -131,15 +131,15 @@ class YetiForcePDF extends PDF
 	 *
 	 * @param string $mode
 	 * @param string $format
-	 * @param int    $defaultFontSize
+	 * @param int $defaultFontSize
 	 * @param string $defaultFont
 	 * @param string $orientation
-	 * @param int    $leftMargin
-	 * @param int    $rightMargin
-	 * @param int    $topMargin
-	 * @param int    $bottomMargin
-	 * @param int    $headerMargin
-	 * @param int    $footerMargin
+	 * @param int $leftMargin
+	 * @param int $rightMargin
+	 * @param int $topMargin
+	 * @param int $bottomMargin
+	 * @param int $headerMargin
+	 * @param int $footerMargin
 	 */
 	public function initializePdf($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
@@ -225,7 +225,9 @@ class YetiForcePDF extends PDF
 	 */
 	public function setTopMargin($margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultTopMargin((float)$margin);
+		$this->defaultMargins['top'] = $margin;
+		return $this;
 	}
 
 	/**
@@ -233,7 +235,9 @@ class YetiForcePDF extends PDF
 	 */
 	public function setBottomMargin($margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultBottomMargin((float)$margin);
+		$this->defaultMargins['bottom'] = $margin;
+		return $this;
 	}
 
 	/**
@@ -241,7 +245,9 @@ class YetiForcePDF extends PDF
 	 */
 	public function setLeftMargin($margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultLeftMargin((float)$margin);
+		$this->defaultMargins['left'] = $margin;
+		return $this;
 	}
 
 	/**
@@ -249,18 +255,23 @@ class YetiForcePDF extends PDF
 	 */
 	public function setRightMargin($margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultRightMargin((float)$margin);
+		$this->defaultMargins['right'] = $margin;
+		return $this;
 	}
 
 	/**
 	 * Set page size and orientation.
 	 *
-	 * @param string|null $format      - page format
-	 * @param string      $orientation - page orientation
+	 * @param string|null $format - page format
+	 * @param string $orientation - page orientation
 	 */
 	public function setPageSize($format, $orientation = null)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultPageFormat($format);
+		if ($orientation) {
+			$this->pdf->setDefaultPageORientation($orientation);
+		}
 	}
 
 	/**
@@ -294,8 +305,8 @@ class YetiForcePDF extends PDF
 	/**
 	 * Parse and set options.
 	 *
-	 * @param array $params         - array of parameters
-	 * @param bool  $defaultMargins - use default margins or custom user specified?
+	 * @param array $params - array of parameters
+	 * @param bool $defaultMargins - use default margins or custom user specified?
 	 */
 	public function parseParams(array $params, $defaultMargins = true)
 	{
@@ -428,11 +439,13 @@ class YetiForcePDF extends PDF
 	{
 		$footer = '';
 		if ($this->footer !== '') {
-			$footer = '<div data-footer>' . $this->footer . '</div>';
+			$style = "padding-bottom:{$this->footerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
+			$footer = '<div data-footer style="' . $style . '">' . $this->footer . '</div>';
 		}
 		$header = '';
 		if ($this->header !== '') {
-			$header = '<div data-header>' . $this->header . '</div>';
+			$style = "padding-top:{$this->headerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
+			$header = '<div data-header style="' . $style . '">' . $this->header . '</div>';
 		}
 		$watermark = '';
 		if ($this->watermark !== '') {
@@ -450,14 +463,14 @@ class YetiForcePDF extends PDF
 	{
 		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
 			if ($templateModel->get('watermark_image')) {
-				$this->watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.2;">';
+				$this->watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
 			}
 		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
 			$fontSize = '10';
 			if ($templateModel->get('watermark_size')) {
 				$fontSize = $templateModel->get('watermark_size');
 			}
-			$this->watermark = '<div style="opacity:0.2;display:inline-block;font-size:' . $fontSize . 'px">' . $templateModel->get('watermark_text') . '</div>';
+			$this->watermark = '<div style="opacity:0.1;display:inline-block;font-size:' . $fontSize . 'px">' . $templateModel->get('watermark_text') . '</div>';
 		}
 	}
 
@@ -474,10 +487,10 @@ class YetiForcePDF extends PDF
 	/**
 	 * Prepare pdf, generate all content.
 	 *
-	 * @param int    $recordId
+	 * @param int $recordId
 	 * @param string $moduleName
-	 * @param int    $templateId
-	 * @param int    $templateMainRecordId - optional if null $recordId is used
+	 * @param int $templateId
+	 * @param int $templateMainRecordId - optional if null $recordId is used
 	 *
 	 * @return YetiForcePDF current or new instance if needed
 	 */
@@ -542,11 +555,11 @@ class YetiForcePDF extends PDF
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int    $recordId   - id of a record
+	 * @param int $recordId - id of a record
 	 * @param string $moduleName - name of records module
-	 * @param int    $templateId - id of pdf template
-	 * @param string $filePath   - path name for saving pdf file
-	 * @param string $saveFlag   - save option flag
+	 * @param int $templateId - id of pdf template
+	 * @param string $filePath - path name for saving pdf file
+	 * @param string $saveFlag - save option flag
 	 */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
