@@ -438,8 +438,8 @@
 	overflow-x: hidden !important;
 }
 
-@include media-breakpoint-down(xs) {
-	.u-overflow-scroll-xs-down {
+@include media-breakpoint-down(xsm) {
+	.u-overflow-scroll-xsm-down {
 		overflow: scroll !important;
 	}
 }

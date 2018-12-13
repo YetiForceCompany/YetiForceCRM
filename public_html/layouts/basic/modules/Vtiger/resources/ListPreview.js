@@ -336,6 +336,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 	},
 	/**
+	 * @inheritDoc
+	 */
+	registerDesktopEvents() {
+	},
+	/**
 	 * Sets initial iframe's height and fills the preview with first record's content.
 	 */
 	registerPreviewEvent: function () {

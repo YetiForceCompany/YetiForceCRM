@@ -848,7 +848,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		}
 		if ($restrictList) {
-			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'CallHistory']]);
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'CallHistory', 'OSSMailView', 'SMSNotifier']]);
 		}
 		$quickCreateModules = [];
 		$dataReader = $query->createCommand()->query();
