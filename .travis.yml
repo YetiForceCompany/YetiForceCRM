@@ -122,7 +122,7 @@ jobs:
         - ./tests/setup/selenium.sh
       script:
         - cd tests
-        - ../vendor/bin/phpunit --debug --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
+        - ../vendor/bin/phpunit --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
         - sudo ls -all
         - cd ..
         - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
