@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-Dashboards-MiniListWizard -->
 	{if $WIZARD_STEP eq 'step1'}
 		<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
 			<div class="modal-dialog">
@@ -25,52 +26,58 @@
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
-							<input type="hidden" name="module" value="{$MODULE_NAME}" />
-							<input type="hidden" name="action" value="MassSave" />
-
+							<input type="hidden" name="module" value="{$MODULE_NAME}"/>
+							<input type="hidden" name="action" value="MassSave"/>
 							<table class="table table-bordered">
 								<tbody>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
-										<td class="fieldValue">
-											<input type="text" class="form-control" name="widgetTitle" value="">
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_SELECT_MODULE')}</td>
-										<td class="fieldValue">
-											<select class="form-control select2" name="module">
-												<option></option>
-												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
-													<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
-												{/foreach}
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FILTER')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="filterid">
-												<option></option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FIELDS')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="fields" size="2" multiple="true">
-												<option></option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FILTER_FIELD')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="filter_fields">
-												<option></option>
-											</select>
-										</td>
-									</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
+									<td class="fieldValue position-relative">
+										<input type="text" class="form-control" name="widgetTitle" value=""
+											   data-validation-engine="validate[required]">
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_SELECT_MODULE')}</td>
+									<td class="fieldValue">
+										<select class="form-control select2" name="module">
+											<option></option>
+											{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
+												<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+											{/foreach}
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_FILTER')}</td>
+									<td class="fieldValue">
+										<select class="form-control" name="filterid">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_FIELDS')}</td>
+									<td class="fieldValue">
+										<select class="form-control" name="fields" size="2" multiple="true"
+												data-validation-engine="validate[required]">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_FILTER_FIELD')}</td>
+									<td class="fieldValue">
+										<select class="form-control" name="filter_fields">
+											<option></option>
+										</select>
+									</td>
+								</tr>
 								</tbody>
 							</table>
 						</div>
@@ -112,4 +119,5 @@
 			</select>
 		</div>
 	{/if}
+	<!-- /tpl-Base-Dashboards-MiniListWizard -->
 {/strip}
