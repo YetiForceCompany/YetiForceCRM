@@ -19,6 +19,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		}).done(function (response) {
 			panel.html(response);
 			thisInstance.afterLoadVariablePanel(panel);
+			thisInstance.registerRefreshCompanyVariables(panel);
 		}).fail(function () {
 			panel.progressIndicator({mode: 'hide'});
 		});
@@ -37,9 +38,24 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			thisInstance.loadVariablePanel(form);
 		});
 	},
+	refreshCompanyVariables: function (container) {
+		const companyId = container.find("#companyList").val();
+		container.find("#companyVariable > optgroup > option").each(function () {
+			let template = $(this).data('value-template');
+			this.value = template.replace(/__X__/i, companyId);
+		});
+	},
+	registerRefreshCompanyVariables: function (container) {
+		var thisInstance = this;
+		container.find('.companyList').on('change', function (e) {
+			thisInstance.refreshCompanyVariables(container);
+		});
+	},
 	registerBasicEvents: function (container) {
 		this._super(container);
 		this.registerVariablePanelEvent(container);
+		this.registerRefreshCompanyVariables(container);
 		App.Fields.Text.registerCopyClipboard(container);
+		this.refreshCompanyVariables(container);
 	}
 });
