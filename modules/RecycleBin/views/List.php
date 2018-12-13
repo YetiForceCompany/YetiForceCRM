@@ -9,6 +9,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
+
+/**
+ * Class RecycleBin_List_View.
+ */
 class RecycleBin_List_View extends Vtiger_List_View
 {
 	/**
