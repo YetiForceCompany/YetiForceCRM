@@ -469,7 +469,7 @@ $.Class("Vtiger_Header_Js", {
 			};
 		}
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-		if ((app.getViewName() === 'Detail' || app.getViewName() === 'Edit') && app.getParentModuleName() != 'Settings') {
+		if ((app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) && app.getParentModuleName() != 'Settings') {
 			url += '&sourceModule=' + app.getModuleName();
 			url += '&sourceRecord=' + app.getRecordId();
 		}
