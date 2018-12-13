@@ -113,7 +113,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getPreviousValue($key = '')
 	{
-		$key ? ($this->changes[$key] ?? false) : $this->changes;
+		return $key ? ($this->changes[$key] ?? false) : $this->changes;
 	}
 
 	/**
@@ -444,9 +444,6 @@ class Vtiger_Record_Model extends \App\Base
 					$this->validate();
 				}
 				$this->saveToDb();
-				if (method_exists($this, 'afterSaveToDb')) {
-					$this->afterSaveToDb();
-				}
 			}
 			$recordId = $this->getId();
 			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
