@@ -1621,13 +1621,13 @@ $.Class("Vtiger_Inventory_Js", {
 					this.currencyConvertValues(select, option);
 					select.data('oldValue', select.val());
 				};
-				const first = response.result[0];
+				const first = response.result[Object.keys(response.result)[0]];
 				this.setCurrencyParam(first.currencyparam);
 				this.setCurrency(first.currency);
 				this.setDiscountMode(first.discountmode);
 				this.setTaxMode(first.taxmode);
 				this.currencyChangeActions = oldCurrencyChangeAction;
-				response.result.forEach((row) => {
+				$.each(response.result, (index, row) => {
 					if (activeModules.indexOf(row.moduleName) !== -1) {
 						this.addItem(row.moduleName, row.basetableid, row);
 					} else {

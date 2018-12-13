@@ -709,11 +709,12 @@ class Vtiger_Inventory_Model
 		$tables = [
 			$this->getTableName(self::TABLE_POSTFIX_DATA) => [
 				'columns' => [
-					'id' => $importer->integer(11),
+					'id' => $importer->primaryKey(),
+					'crmid' => $importer->integer(11),
 					'seq' => $importer->integer(10),
 				],
 				'index' => [
-					[$moduleLowerCase . '_inventory_idx', 'id'],
+					[$moduleLowerCase . '_inventory_idx', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
@@ -746,7 +747,7 @@ class Vtiger_Inventory_Model
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
-			], ];
+			]];
 		$base = new \App\Db\Importer();
 		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
 		foreach ($tables as $tableName => $data) {
