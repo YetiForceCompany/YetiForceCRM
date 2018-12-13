@@ -4,8 +4,8 @@
  * Module Class for IStorages.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class IStorages_Module_Model extends Vtiger_Module_Model
 {
@@ -79,7 +79,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 			if (array_key_exists($id, $relData)) {
 				$db->createCommand()->update($referenceInfo['table'], [
 					'qtyinstock' => new yii\db\Expression('qtyinstock ' . $operator . ' ' . $value),
-					], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $id])->execute();
+				], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $id])->execute();
 			} else {
 				$db->createCommand()->insert($referenceInfo['table'], [
 					$referenceInfo['base'] => $storageId,
@@ -101,9 +101,9 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 				if (\App\Module::isModuleActive($moduleName) === false) {
 					continue;
 				}
-				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
+				$inventoryTableName = Vtiger_Inventory_Model::getInstance($moduleName)->getDataTableName();
 				$focus = CRMEntity::getInstance($moduleName);
-				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 && cr.`deleted` = 0 && %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid', $inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
+				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.crmid LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 && cr.`deleted` = 0 && %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid', $inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
 			}
 			if (!empty($sql)) {
 				$result = $db->query(implode(' UNION ALL ', $sql));
