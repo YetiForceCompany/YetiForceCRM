@@ -41,7 +41,7 @@ class RecycleBin extends Vtiger_CRMEntity
 	/**
 	 * {@inheritdoc}
 	 */
-	public function moduleHandler(string $moduleName, string $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
 			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
