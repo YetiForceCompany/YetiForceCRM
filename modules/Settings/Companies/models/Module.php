@@ -54,16 +54,4 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(), (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
 		);
 	}
-
-	/**
-	 * Function to get the all companies.
-	 *
-	 * @return array
-	 */
-	public static function getAllCompanies()
-	{
-		$query = new \App\Db\Query();
-		$query->select(['id', 'name', 'default'])->from('s_#__companies');
-		return $query->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
-	}
 }

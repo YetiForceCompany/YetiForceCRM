@@ -258,18 +258,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to set companies not default.
-	 *
-	 * @param string $name
-	 */
-	public function setCompaniesNotDefault($default)
-	{
-		if ($default) {
-			App\Db::getInstance('admin')->createCommand()->update('s_#__companies', ['default' => 0])->execute();
-		}
-	}
-
-	/**
 	 * Function to save company logos.
 	 *
 	 * @return array

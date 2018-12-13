@@ -6,9 +6,8 @@
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
 			<div class="logo">
-				<img title="{$COMPANY_DETAILS->get('name')}" height="256px"
-					 class="logo" src="{$COMPANY_DETAILS->getLogo('logo_main')->get('imageUrl')}"
-					 alt="{$COMPANY_DETAILS->get('name')}">
+				<img title="Logo" height="256px" class="logo" alt="Logo"
+					 src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
 			</div>
 			<div id="loginDiv">
 				{if !$IS_BLOCKED_IP}

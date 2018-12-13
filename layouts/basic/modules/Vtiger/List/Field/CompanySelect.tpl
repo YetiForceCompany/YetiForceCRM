@@ -10,8 +10,8 @@
 				data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if} {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 		<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
-		{foreach item=PICKLIST_VALUE key=KEY from=$PICKLIST_VALUES}
-			<option value="{\App\Purifier::encodeHtml($KEY)}">{\App\Purifier::encodeHtml($PICKLIST_VALUE['name'])}</option>
+		{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
+			<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE['multicompanyid'])}">{\App\Purifier::encodeHtml($PICKLIST_VALUE['name'])}</option>
 		{/foreach}
 	</select>
 	</div>

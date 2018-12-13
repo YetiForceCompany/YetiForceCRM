@@ -14,8 +14,8 @@
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 			</optgroup>
-			{foreach item=PICKLIST_VALUE key=KEY from=$PICKLIST_VALUES}
-				<option value="{\App\Purifier::encodeHtml($KEY)}" {if $KEY eq $FIELD_VALUE} selected {/if}>
+			{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
+				<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE['multicompanyid'])}" {if $PICKLIST_VALUE['multicompanyid'] eq $FIELD_VALUE} selected {/if}>
 					{if $PICKLIST_VALUE['default']}
 						{\App\Purifier::encodeHtml(\App\Language::translate('PLL_DEFAULT', $MODULE))}
 					{else}

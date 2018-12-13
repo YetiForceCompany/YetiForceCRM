@@ -160,9 +160,6 @@ abstract class View extends Base
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('MODULE_NAME', $moduleName);
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
-		$companyDetails = \App\Company::getInstanceById();
-		$view->assign('COMPANY_DETAILS', $companyDetails);
-		$view->assign('COMPANY_LOGO', $companyDetails->getLogo());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

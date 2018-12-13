@@ -61,4 +61,21 @@ class MultiCompany
 		Cache::save('getUsersByCompany', $companyId, $rows);
 		return $rows;
 	}
+
+	/**
+	 * Get all multi company records.
+	 *
+	 * @return array
+	 */
+	public static function getAll(): array
+	{
+		if (Cache::has('getUsersByCompany', '')) {
+			return Cache::get('getUsersByCompany', '');
+		}
+		$rows = (new Db\Query())->select(['u_#__multicompany.*'])->from('u_#__multicompany')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
+			->where(['vtiger_crmentity.deleted' => 0])->all() ?: [];
+		Cache::save('getUsersByCompany', '', $rows);
+		return $rows;
+	}
 }
