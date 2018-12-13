@@ -37,4 +37,27 @@ class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true&date_start='
 			. $currDate . '&due_date=' . $currDate . '&time_start=' . $time . '&time_end=' . $time;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function changeState($state)
+	{
+		parent::changeState($state);
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Trash':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+			default:
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['deleted' => $stateId], ['osstimecontrolid' => $this->getId()])->execute();
+	}
 }
