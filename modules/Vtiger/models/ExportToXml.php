@@ -169,7 +169,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			$customColumns = [];
 			$xml->startElement('INVENTORY_ITEMS');
 			foreach ($entriesInventory as $inventory) {
-				unset($inventory['id']);
+				unset($inventory['id'], $inventory['crmid']);
+
 				$xml->startElement('INVENTORY_ITEM');
 				foreach ($inventory as $columnName => $value) {
 					$xml->startElement($columnName);

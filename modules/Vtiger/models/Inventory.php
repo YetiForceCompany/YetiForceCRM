@@ -442,6 +442,25 @@ class Vtiger_Inventory_Model
 	}
 
 	/**
+	 * Gets all columns.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return astring[]
+	 */
+	public function getAllColumns()
+	{
+		$columns = [];
+		foreach ($this->getFields() as $field) {
+			$columns[] = $field->getColumnName();
+			foreach ($field->getCustomColumn() as $name => $field) {
+				$columns[] = $name;
+			}
+		}
+		return $columns;
+	}
+
+	/**
 	 * Function return autocomplete fields.
 	 *
 	 * @return array
