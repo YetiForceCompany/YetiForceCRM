@@ -46,12 +46,8 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
-		if (!is_numeric($value)) {
+		if (!is_numeric($value) || !isset($this->values[$value])) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
-		}
-		$rangeValues = explode(',', $this->maximumLength);
-		if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 }

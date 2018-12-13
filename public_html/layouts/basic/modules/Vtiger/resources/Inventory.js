@@ -206,7 +206,7 @@ $.Class("Vtiger_Inventory_Js", {
 		var groupDiscount = thisInstance.getInventorySummaryDiscountContainer().find('.groupDiscount');
 		var items = thisInstance.getInventoryItemsContainer();
 		var newRow = $('#blackIthemTable').find('tbody');
-		if (thisInstance.isIndividualDiscountMode()) {
+		if (thisInstance.isIndividualDiscountMode(row)) {
 			groupDiscount.addClass('d-none');
 			items.find('.changeDiscount').removeClass('d-none');
 			newRow.find('.changeDiscount').removeClass('d-none');
