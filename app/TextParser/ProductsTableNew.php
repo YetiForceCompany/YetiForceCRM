@@ -31,6 +31,7 @@ class ProductsTableNew extends Base
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		if (count($fields[1]) != 0) {
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
@@ -56,12 +57,12 @@ class ProductsTableNew extends Base
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
+			$html .= '<table style="width:100%">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="width:' . $field->get('colSpan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -102,11 +103,7 @@ class ProductsTableNew extends Base
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<td class="textAlignRight ';
-					if ($field->isSummary()) {
-						$html .= 'summaryContainer';
-					}
-					$html .= '">';
+					$html .= '<td style="text-align:right">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {

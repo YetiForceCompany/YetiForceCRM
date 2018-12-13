@@ -45,7 +45,7 @@ class ProductsTableLongVersion extends Base
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="1" class="productTable">
+			$html .= '<table style="width:100%;font-size:8px;border-collapse:collapse;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
@@ -55,7 +55,7 @@ class ProductsTableLongVersion extends Base
 					} elseif ($field->getType() === 'Name') {
 						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 					} else {
-						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+						$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 					}
 				}
 			}
@@ -93,7 +93,7 @@ class ProductsTableLongVersion extends Base
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</tbody><tfoot><tr>';
+			$html .= '</tbody><tfoot><tr style="background-color:#ddd;">';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getColumnName(), $fieldsTextAlignRight) && ($field->getColumnName() !== 'subunit')) {
 					$html .= '<td class="textAlignRight ';
@@ -111,9 +111,7 @@ class ProductsTableLongVersion extends Base
 					$html .= '</td>';
 				}
 			}
-			$html .= '</tr>
-					</tfoot>
-				</table>';
+			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
 	}
