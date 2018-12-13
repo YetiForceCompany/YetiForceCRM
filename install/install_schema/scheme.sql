@@ -1704,7 +1704,8 @@ CREATE TABLE `u_yf_fcorectinginvoice_address` (
 /*Table structure for table `u_yf_fcorectinginvoice_inventory` */
 
 CREATE TABLE `u_yf_fcorectinginvoice_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -1724,8 +1725,9 @@ CREATE TABLE `u_yf_fcorectinginvoice_inventory` (
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_fcorectinginvoice_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_fcorectinginvoice_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_fcorectinginvoice_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_fcorectinginvoice_invfield` */
@@ -1834,7 +1836,8 @@ CREATE TABLE `u_yf_finvoice_address` (
 /*Table structure for table `u_yf_finvoice_inventory` */
 
 CREATE TABLE `u_yf_finvoice_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -1854,8 +1857,9 @@ CREATE TABLE `u_yf_finvoice_inventory` (
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_finvoice_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_finvoice_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_finvoice_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoice_invfield` */
@@ -1932,7 +1936,8 @@ CREATE TABLE `u_yf_finvoicecost_address` (
 /*Table structure for table `u_yf_finvoicecost_inventory` */
 
 CREATE TABLE `u_yf_finvoicecost_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) DEFAULT 0,
   `qty` decimal(25,3) DEFAULT 0.000,
@@ -1952,7 +1957,10 @@ CREATE TABLE `u_yf_finvoicecost_inventory` (
   `total` decimal(28,8) DEFAULT 0.00000000,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `finvoicecost_inventory_idx` (`id`)
+  PRIMARY KEY (`id`),
+  KEY `finvoicecost_inventory_idx` (`crmid`),
+  KEY `u_yf_finvoicecost_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_finvoicecost_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_finvoicecost` (`finvoicecostid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoicecost_invfield` */
@@ -2028,7 +2036,8 @@ CREATE TABLE `u_yf_finvoiceproforma_address` (
 /*Table structure for table `u_yf_finvoiceproforma_inventory` */
 
 CREATE TABLE `u_yf_finvoiceproforma_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `currency` int(10) DEFAULT NULL,
   `currencyparam` varchar(1024) DEFAULT NULL,
@@ -2048,8 +2057,9 @@ CREATE TABLE `u_yf_finvoiceproforma_inventory` (
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_finvoiceproforma_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_finvoiceproforma` (`finvoiceproformaid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_finvoiceproforma_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_finvoiceproforma_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_finvoiceproforma` (`finvoiceproformaid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoiceproforma_invfield` */
@@ -2116,7 +2126,8 @@ CREATE TABLE `u_yf_igdn` (
 /*Table structure for table `u_yf_igdn_inventory` */
 
 CREATE TABLE `u_yf_igdn_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2127,8 +2138,9 @@ CREATE TABLE `u_yf_igdn_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_igdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igdn` (`igdnid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_igdn_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_igdn_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_igdn` (`igdnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igdn_invfield` */
@@ -2178,7 +2190,8 @@ CREATE TABLE `u_yf_igdnc` (
 /*Table structure for table `u_yf_igdnc_inventory` */
 
 CREATE TABLE `u_yf_igdnc_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2189,8 +2202,9 @@ CREATE TABLE `u_yf_igdnc_inventory` (
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_igdnc_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igdnc` (`igdncid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_igdnc_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_igdnc_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_igdnc` (`igdncid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igdnc_invfield` */
@@ -2252,7 +2266,8 @@ CREATE TABLE `u_yf_igin` (
 /*Table structure for table `u_yf_igin_inventory` */
 
 CREATE TABLE `u_yf_igin_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2263,8 +2278,9 @@ CREATE TABLE `u_yf_igin_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_igin_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igin` (`iginid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_igin_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_igin_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_igin` (`iginid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igin_invfield` */
@@ -2321,7 +2337,8 @@ CREATE TABLE `u_yf_igrn` (
 /*Table structure for table `u_yf_igrn_inventory` */
 
 CREATE TABLE `u_yf_igrn_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2332,8 +2349,9 @@ CREATE TABLE `u_yf_igrn_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_igrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igrn` (`igrnid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_igrn_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_igrn_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_igrn` (`igrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igrn_invfield` */
@@ -2384,7 +2402,8 @@ CREATE TABLE `u_yf_igrnc` (
 /*Table structure for table `u_yf_igrnc_inventory` */
 
 CREATE TABLE `u_yf_igrnc_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2395,8 +2414,9 @@ CREATE TABLE `u_yf_igrnc_inventory` (
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_igrnc_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igrnc` (`igrncid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_igrnc_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_igrnc_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_igrnc` (`igrncid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igrnc_invfield` */
@@ -2458,7 +2478,8 @@ CREATE TABLE `u_yf_iidn` (
 /*Table structure for table `u_yf_iidn_inventory` */
 
 CREATE TABLE `u_yf_iidn_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2469,8 +2490,9 @@ CREATE TABLE `u_yf_iidn_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_iidn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_iidn` (`iidnid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_iidn_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_iidn_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_iidn` (`iidnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_iidn_invfield` */
@@ -2559,7 +2581,8 @@ CREATE TABLE `u_yf_ipreorder` (
 /*Table structure for table `u_yf_ipreorder_inventory` */
 
 CREATE TABLE `u_yf_ipreorder_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2570,8 +2593,9 @@ CREATE TABLE `u_yf_ipreorder_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_ipreorder_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ipreorder` (`ipreorderid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_ipreorder_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_ipreorder_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_ipreorder` (`ipreorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ipreorder_invfield` */
@@ -2632,7 +2656,8 @@ CREATE TABLE `u_yf_istdn` (
 /*Table structure for table `u_yf_istdn_inventory` */
 
 CREATE TABLE `u_yf_istdn_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2643,8 +2668,9 @@ CREATE TABLE `u_yf_istdn_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_istdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istdn` (`istdnid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_istdn_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_istdn_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_istdn` (`istdnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_istdn_invfield` */
@@ -2779,7 +2805,8 @@ CREATE TABLE `u_yf_istrn` (
 /*Table structure for table `u_yf_istrn_inventory` */
 
 CREATE TABLE `u_yf_istrn_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -2790,8 +2817,9 @@ CREATE TABLE `u_yf_istrn_inventory` (
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) DEFAULT 0,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_istrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istrn` (`istrnid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_istrn_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_istrn_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_istrn` (`istrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_istrn_invfield` */
@@ -3124,7 +3152,8 @@ CREATE TABLE `u_yf_scalculations` (
 /*Table structure for table `u_yf_scalculations_inventory` */
 
 CREATE TABLE `u_yf_scalculations_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -3137,8 +3166,9 @@ CREATE TABLE `u_yf_scalculations_inventory` (
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_scalculations_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_scalculations_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_scalculations_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_scalculations_invfield` */
@@ -3224,7 +3254,8 @@ CREATE TABLE `u_yf_squoteenquiries` (
 /*Table structure for table `u_yf_squoteenquiries_inventory` */
 
 CREATE TABLE `u_yf_squoteenquiries_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -3232,8 +3263,9 @@ CREATE TABLE `u_yf_squoteenquiries_inventory` (
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_squoteenquiries_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squoteenquiries` (`squoteenquiriesid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_squoteenquiries_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_squoteenquiries_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_squoteenquiries` (`squoteenquiriesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries_invfield` */
@@ -3319,7 +3351,8 @@ CREATE TABLE `u_yf_squotes_address` (
 /*Table structure for table `u_yf_squotes_inventory` */
 
 CREATE TABLE `u_yf_squotes_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -3341,8 +3374,9 @@ CREATE TABLE `u_yf_squotes_inventory` (
   `net` decimal(28,8) NOT NULL DEFAULT 0.00000000,
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_squotes_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_squotes_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_squotes_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squotes_invfield` */
@@ -3425,7 +3459,8 @@ CREATE TABLE `u_yf_srecurringorders_address` (
 /*Table structure for table `u_yf_srecurringorders_inventory` */
 
 CREATE TABLE `u_yf_srecurringorders_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) DEFAULT 0,
   `qty` decimal(25,3) DEFAULT 0.000,
@@ -3448,8 +3483,9 @@ CREATE TABLE `u_yf_srecurringorders_inventory` (
   `qtyparam` smallint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_srecurringorders_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_srecurringorders_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_srecurringorders_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srecurringorders_invfield` */
@@ -3509,7 +3545,8 @@ CREATE TABLE `u_yf_srequirementscards` (
 /*Table structure for table `u_yf_srequirementscards_inventory` */
 
 CREATE TABLE `u_yf_srequirementscards_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) NOT NULL DEFAULT 0,
   `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
@@ -3517,8 +3554,9 @@ CREATE TABLE `u_yf_srequirementscards_inventory` (
   `qtyparam` tinyint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_srequirementscards_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_srequirementscards` (`srequirementscardsid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_srequirementscards_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_srequirementscards_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_srequirementscards` (`srequirementscardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srequirementscards_invfield` */
@@ -3643,7 +3681,8 @@ CREATE TABLE `u_yf_ssingleorders_address` (
 /*Table structure for table `u_yf_ssingleorders_inventory` */
 
 CREATE TABLE `u_yf_ssingleorders_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) DEFAULT 0,
   `qty` decimal(25,3) DEFAULT 0.000,
@@ -3666,8 +3705,9 @@ CREATE TABLE `u_yf_ssingleorders_inventory` (
   `qtyparam` smallint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `fk_1_u_yf_ssingleorders_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `u_yf_ssingleorders_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_ssingleorders_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ssingleorders_invfield` */
@@ -3732,7 +3772,8 @@ CREATE TABLE `u_yf_svendorenquiries` (
 /*Table structure for table `u_yf_svendorenquiries_inventory` */
 
 CREATE TABLE `u_yf_svendorenquiries_inventory` (
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `name` int(10) DEFAULT 0,
   `qty` decimal(25,3) DEFAULT 0.000,
@@ -3745,7 +3786,9 @@ CREATE TABLE `u_yf_svendorenquiries_inventory` (
   `margin` decimal(28,8) DEFAULT 0.00000000,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
-  KEY `svendorenquiries_inventory_idx` (`id`)
+  PRIMARY KEY (`id`),
+  KEY `u_yf_svendorenquiries_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_svendorenquiries_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_svendorenquiries` (`svendorenquiriesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_svendorenquiries_invfield` */
@@ -5406,7 +5449,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 
@@ -8066,7 +8109,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=578 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=579 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
