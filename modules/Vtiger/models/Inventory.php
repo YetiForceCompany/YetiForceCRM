@@ -704,20 +704,25 @@ class Vtiger_Inventory_Model
 	public function createInventoryTables()
 	{
 		$db = \App\Db::getInstance();
-		$moduleLowerCase = strtolower($this->getModuleName());
 		$importer = new \App\Db\Importers\Base();
+		$focus = CRMEntity::getInstance($this->getModuleName());
+		$dataTableName = $this->getTableName(self::TABLE_POSTFIX_DATA);
+		$mapTableName = $this->getTableName(self::TABLE_POSTFIX_MAP);
 		$tables = [
-			$this->getTableName(self::TABLE_POSTFIX_DATA) => [
+			$dataTableName => [
 				'columns' => [
-					'id' => $importer->primaryKey(),
-					'crmid' => $importer->integer(11),
+					'id' => $importer->primaryKey(10),
+					'crmid' => $importer->integer(10),
 					'seq' => $importer->integer(10),
 				],
 				'index' => [
-					[$moduleLowerCase . '_inventory_idx', 'crmid'],
+					["{$dataTableName}_crmid_idx", 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
+				'foreignKey' => [
+					["{$dataTableName}_crmid_fk", $dataTableName, 'crmid', $focus->table_name, $focus->table_index, 'CASCADE', null]
+				]
 			],
 			$this->getTableName(self::TABLE_POSTFIX_BASE) => [
 				'columns' => [
@@ -736,14 +741,14 @@ class Vtiger_Inventory_Model
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
 			],
-			$this->getTableName(self::TABLE_POSTFIX_MAP) => [
+			$mapTableName => [
 				'columns' => [
 					'module' => $importer->stringType(50)->notNull(),
 					'field' => $importer->stringType(50)->notNull(),
 					'tofield' => $importer->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-					[$moduleLowerCase . '_invmap_pk', ['module', 'field', 'tofield']],
+					["{$mapTableName}_pk", ['module', 'field', 'tofield']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
@@ -754,6 +759,10 @@ class Vtiger_Inventory_Model
 			if (!$db->isTableExists($tableName)) {
 				$importer->tables = [$tableName => $data];
 				$base->addTables($importer);
+				if (isset($data['foreignKey'])) {
+					$importer->foreignKey = $data['foreignKey'];
+					$base->addForeignKey($importer);
+				}
 			}
 		}
 	}
