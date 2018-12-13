@@ -390,9 +390,9 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformInventoryForImport($inventoryData)
 	{
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
-		$inventoryFields = $inventoryFieldModel->getFields();
-		$maps = $inventoryFieldModel->getAutoCompleteFields();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->module);
+		$inventoryFields = $inventoryModel->getFields();
+		$maps = $inventoryModel->getAutoCompleteFields();
 
 		foreach ($inventoryData as &$data) {
 			$this->currentInventoryRawData = $data;
@@ -400,9 +400,9 @@ class Import_Data_Action extends \App\Controller\Action
 			foreach ($data as $fieldName => &$value) {
 				$fieldInstance = $inventoryFields[$fieldName];
 				if ($fieldInstance) {
-					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
+					if (in_array($fieldInstance->getType(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
-					} elseif ($fieldInstance->getName() == 'Currency') {
+					} elseif ($fieldInstance->getType() == 'Currency') {
 						$value = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);

@@ -57,10 +57,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	public function getEntriesInventory($recordData)
 	{
 		$entries = [];
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
-		$this->inventoryFields = $inventoryFieldModel->getFields();
-		$table = $inventoryFieldModel->getTableName('data');
-		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy(['seq' => SORT_ASC])->createCommand()->query();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
+		$this->inventoryFields = $inventoryModel->getFields();
+		$table = $inventoryModel->getDataTableName();
+		$dataReader = (new \App\Db\Query())->from($table)->where(['crmid' => $recordData['id']])->orderBy(['seq' => SORT_ASC])->createCommand()->query();
 		while ($inventoryRow = $dataReader->read()) {
 			$entries[] = $inventoryRow;
 		}

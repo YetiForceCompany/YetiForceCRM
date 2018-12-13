@@ -83,8 +83,8 @@ class Vtiger_Export_Model extends \App\Base
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($module);
-			$inventoryFields = $inventoryFieldModel->getFields();
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($module);
+			$inventoryFields = $inventoryModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
 				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $module);
@@ -92,7 +92,7 @@ class Vtiger_Export_Model extends \App\Base
 					$headers[] = 'Inventory::' . $columnName;
 				}
 			}
-			$table = $inventoryFieldModel->getTableName('data');
+			$table = $inventoryModel->getDataTableName();
 		}
 
 		$entries = [];
@@ -102,7 +102,7 @@ class Vtiger_Export_Model extends \App\Base
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
 				$sanitizedRow[] = $i++;
-				$rows = (new \App\Db\Query())->from($table)->where(['id' => $row['id']])->orderBy('seq')->all();
+				$rows = (new \App\Db\Query())->from($table)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 				if ($rows) {
 					foreach ($rows as &$row) {
 						$sanitizedInventoryRow = $this->sanitizeInventoryValues($row, $inventoryFields);

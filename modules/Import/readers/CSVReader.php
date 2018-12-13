@@ -136,8 +136,8 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		$fieldMapping = $this->request->get('field_mapping');
 		$inventoryFieldMapping = $this->request->get('inventory_field_mapping');
 		if ($this->moduleModel->isInventory()) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
-			$inventoryFields = $inventoryFieldModel->getFields();
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleModel->getName());
+			$inventoryFields = $inventoryModel->getFields();
 		}
 		$skip = $importId = $skipData = false;
 		foreach ($this->data as $i => $data) {
