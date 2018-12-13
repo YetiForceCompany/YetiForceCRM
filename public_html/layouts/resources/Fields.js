@@ -426,18 +426,30 @@ App.Fields = {
 				let minSerchTextLength = app.getMainParams('gsMinLength');
 				return [{
 					feed: this.getMentionUsersData.bind(this),
-					itemTemplate: '<li data-id="{id}">' +
-						'<span class="userIcon-{module}"></span>' +
-						'<strong class="username">{category}</strong>' +
-						'<div class="fullname">{label}</div>' +
-						'</li>',
+					itemTemplate: `<li data-id="{id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="fas fa-2x fa-user"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover username col-12">{category}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{label}</div>
+											</div>
+										</li>`,
 					outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
 					minChars: minSerchTextLength
 				},
 					{
 						feed: this.getMentionData,
 						marker: '#',
-						itemTemplate: '<li data-id="{id}"><strong>{label}</strong></li>',
+						itemTemplate: `<li data-id="{id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-{module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover username col-12">{label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+											</div>
+										</li>`,
 						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
 						minChars: minSerchTextLength
 					}
@@ -463,6 +475,7 @@ App.Fields = {
 						let responseData = serverDataFormat[id];
 						reponseDataList.push(responseData);
 					}
+					console.log(reponseDataList);
 					callback(reponseDataList);
 				});
 			}

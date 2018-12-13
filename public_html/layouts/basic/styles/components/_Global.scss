@@ -330,10 +330,15 @@
 .c-circle-icon {
 	height: calculate-rem(30px);
 	width: calculate-rem(30px);
+	max-width: calculate-rem(30px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 50%;
+
+	[class^="userIcon-"] {
+		font-size: calculate-rem(20px);;
+	}
 }
 
 .c-icon--tripple {
