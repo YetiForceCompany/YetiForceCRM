@@ -66,11 +66,11 @@ class Json
 	/**
 	 * Determine whether a variable is empty.
 	 *
-	 * @param string $value
+	 * @param string|null $value
 	 *
 	 * @return bool
 	 */
-	public static function isEmpty(string $value)
+	public static function isEmpty(?string $value)
 	{
 		return empty($value) || $value === '[]' || $value === '""';
 	}
