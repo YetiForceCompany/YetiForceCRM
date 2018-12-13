@@ -37,13 +37,13 @@
 					<div class="relatedListContainer">
 						<div class="relatedModulesList">
 							{foreach item=MODULE_MODEL from=$RELATED_MODULES}
-								{assign var=INVENTORY_FIELD_MODEL value=false}
+								{assign var=INVENTORY_MODEL value=false}
 								{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
 								{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
 								{assign var=RECORD_STRUCTURE_INSTANCE value=Vtiger_RecordStructure_Model::getInstanceForModule($RELATED_MODULE_MODEL)}
 								{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
 								{if $RELATED_MODULE_MODEL->isInventory()}
-									{assign var=INVENTORY_FIELD_MODEL value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)}
+									{assign var=INVENTORY_MODEL value=Vtiger_Inventory_Model::getInstance($RELATED_MODULE_NAME)}
 									{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
 								{/if}
 								{if $MODULE_MODEL->isActive()}
@@ -148,8 +148,8 @@
 												</div>
 											</div>
 										</div>
-										{if $INVENTORY_FIELD_MODEL}
-											{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
+										{if $INVENTORY_MODEL}
+											{assign var=INVENTORY_FIELDS value=$INVENTORY_MODEL->getFields()}
 											<div class="form-horizontal">
 												<div class="form-group row">
 													<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}

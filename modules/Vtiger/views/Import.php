@@ -148,8 +148,8 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				}
 			}
 			if ($moduleModel->isInventory()) {
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
-				$inventoryFields = $inventoryFieldModel->getFields(true);
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
+				$inventoryFields = $inventoryModel->getFieldsByBlocks();
 				$inventoryFieldsBlock = [];
 				$blocksName = ['LBL_HEADLINE', 'LBL_BASIC_VERSE', 'LBL_ADDITIONAL_VERSE'];
 				foreach ($inventoryFields as $key => $data) {
