@@ -326,7 +326,7 @@ class Vtiger_Export_Model extends \App\Base
 		$inventoryEntries = [];
 		foreach ($inventoryFields as $columnName => $field) {
 			$value = $inventoryRow[$columnName];
-			if (in_array($field->getName(), ['Name', 'Reference'])) {
+			if (in_array($field->getType(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -339,7 +339,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif ($field->getName() === 'Currency') {
+			} elseif ($field->getType() === 'Currency') {
 				$value = $field->getDisplayValue($value);
 			} else {
 				$value;

@@ -130,6 +130,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			if (!$autoMerge) {
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
+				$viewer->assign('MERGE_FIELDS', '');
 			} else {
 				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->get('merge_fields')));
 			}
