@@ -5,11 +5,8 @@
 		<div class="rowName">
 			{assign var="FIELD_NAME" value="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"}
 			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml($FIELD->get('params'))}
-			{*{assign var="CRMEntity" value=CRMEntity::getInstance($REFERENCE_MODULE)}*}
 			<div class="input-group input-group-sm">
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1"
-						{*data-field="{$CRMEntity->table_index}"*} value="{$REFERENCE_MODULE}"/>
-				{*{assign var="displayId" value=$ITEM_VALUE}*}
 				<div class="input-group-prepend">
 					{if !$FIELD->isReadOnly()}
 						<span class="input-group-text clearReferenceSelection u-cursor-pointer js-popover-tooltip"
