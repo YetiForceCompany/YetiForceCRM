@@ -47,7 +47,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'and',
 			['>=', 'vtiger_osstimecontrol.due_date', $time[0]],
 			['<=', 'vtiger_osstimecontrol.due_date', $time[1]],
-			['vtiger_crmentity.deleted' => 0],
+			['vtiger_osstimecontrol.deleted' => 0],
 		]);
 		$timeTypes = [];
 		$smOwners = [];
