@@ -4,6 +4,7 @@
  *  Class representing an extended calendar.
  * @extends Calendar_Calendar_Js
  */
+var calendarLoaded = false; //Global calendar flag needed for correct loading data from history browser in year view
 window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	constructor(container, readonly) {
@@ -45,7 +46,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			readonly: self.readonly,
 			container: self.container,
 			showChangeDateButtons: self.showChangeDateButtons,
-			showTodayButtonCheckbox: self.showTodayButtonCheckbox
+			showTodayButtonCheckbox: self.showTodayButtonCheckbox,
 		});
 	}
 
@@ -56,7 +57,6 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		let self = this,
 			basicOptions = this.setCalendarOptions(),
 			options = {
-				firstLoad: true,
 				header: {
 					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 					center: 'prevYear,prev,title,next,nextYear',
@@ -267,7 +267,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		} else if (viewType === 'agendaDay') {
 			viewType = 'day';
 		}
-		if (view.options.firstLoad) {
+		if (!calendarLoaded) {
 			yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
 			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
@@ -485,8 +485,20 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
 		let connectorMethod = window["AppConnector"]["request"];
-		if (!this.readonly) {
+		if (!this.readonly && calendarLoaded) {
 			connectorMethod = window["AppConnector"]["requestPjax"];
+		}
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && !calendarLoaded) {
+			options = Object.assign(options, {
+				start: this.browserHistoryConfig.start,
+				end: this.browserHistoryConfig.end,
+				user: this.browserHistoryConfig.user,
+				time: this.browserHistoryConfig.time,
+				cvid: this.browserHistoryConfig.cvid
+			});
+			connectorMethod = window["AppConnector"]["request"];
+			app.setMainParams('showType', this.browserHistoryConfig.time);
+			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
@@ -494,7 +506,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 		self.registerViewRenderEvents(view);
-		view.options.firstLoad = false;
+		calendarLoaded = true;
 	}
 
 	clearFilterButton(user, cvid) {
