@@ -347,7 +347,7 @@ class Vtiger_Inventory_Model
 			$transaction->commit();
 		} catch (\Throwable $ex) {
 			$transaction->rollBack();
-			\App\Log::error($ex->getMessage());
+			\App\Log::error($ex->__toString());
 			$result = false;
 		}
 
@@ -383,7 +383,7 @@ class Vtiger_Inventory_Model
 			$result = true;
 		} catch (\Throwable $ex) {
 			$transaction->rollBack();
-			\App\Log::error($ex->getMessage());
+			\App\Log::error($ex->__toString());
 		}
 		return $result;
 	}
