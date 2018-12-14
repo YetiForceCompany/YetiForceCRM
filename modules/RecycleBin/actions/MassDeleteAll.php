@@ -29,9 +29,9 @@ class RecycleBin_MassDeleteAll_Action extends Vtiger_Mass_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([date('Y-m-d H:i:s'), App\User::getCurrentUserId()])]))->save();
+		$result = (new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([date('Y-m-d H:i:s'), App\User::getCurrentUserId()])]))->save();
 		$response = new Vtiger_Response();
-		$response->setResult(['notify' => ['text' => App\Language::translate('LBL_ADDED_TO_QUEUE', $request->getModule())]]);
+		$response->setResult($result);
 		$response->emit();
 	}
 }

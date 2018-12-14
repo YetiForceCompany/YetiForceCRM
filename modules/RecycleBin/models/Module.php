@@ -22,7 +22,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getAllModuleList()
 	{
-		return \vtlib\Functions::getAllModules(1, true);
+		return \vtlib\Functions::getAllModules(true, false, 0);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 			App\User::setCurrentUserId($userId);
 			$modulesList = \vtlib\Functions::getAllModules(true, false, 0);
 			$deleteMaxCount = AppConfig::module('RecycleBin', 'DELETE_MAX_COUNT');
-			$dataReader = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')
+			$dataReader = (new \App\Db\Query())->select(['crmid', 'setype'])->from('vtiger_crmentity')
 				->where(
 					['and',
 						['vtiger_crmentity.deleted' => 1],
@@ -65,7 +65,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 					(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([$untilModifiedTime, $userId])]))->save();
 					break;
 				}
-				$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
+				$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid'], $row['setype']);
 				if (!$recordModel->privilegeToDelete()) {
 					continue;
 				}

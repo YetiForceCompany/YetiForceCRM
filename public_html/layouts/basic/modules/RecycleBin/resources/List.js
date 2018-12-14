@@ -129,8 +129,11 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 					sourceView: 'List'
 				}).done(function (data) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
-					if (data && data.result && data.result.notify) {
-						Vtiger_Helper_Js.showMessage(data.result.notify);
+					if (data && data.result) {
+						Vtiger_Helper_Js.showMessage({
+							text: app.vtranslate('JS_ADDED_TO_QUEUE'),
+							type: 'success',
+						});
 					}
 					self.getListViewRecords();
 				}).fail(function (error, err) {
