@@ -1158,6 +1158,7 @@ $.Class("Vtiger_Inventory_Js", {
 
 				option.data('conversionRate', conversionRate);
 				currencyParam[option.val()] = {
+					date: option.data('conversionDate'),
 					value: value.toString(),
 					conversion: conversionRate.toString()
 				};
