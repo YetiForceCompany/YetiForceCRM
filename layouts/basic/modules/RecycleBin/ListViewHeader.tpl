@@ -15,7 +15,7 @@
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='listViewMassActions mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down'}
 					{if !empty($LISTVIEW_LINKS)}
 						{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='listView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
 						{/foreach}
 					{/if}
 				</div>
@@ -40,7 +40,7 @@
 				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-xs-down">
 					{if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 						<div class="paginationDiv">
-							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
+							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME)}
 						</div>
 						<input type="hidden" id="recordsCount" value="{$LISTVIEW_ENTRIES_COUNT}"/>
 						<input type="hidden" id="selectedIds" name="selectedIds"/>
