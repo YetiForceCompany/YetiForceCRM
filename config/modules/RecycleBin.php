@@ -7,5 +7,5 @@
  */
 return [
 	//Maximal value of records to delete
-	'DELETE_MAX_COUNT' => 500,
+	'DELETE_MAX_COUNT' => 1000,
 ];
