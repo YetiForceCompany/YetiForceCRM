@@ -36,6 +36,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
+		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
 		$viewer->assign('VIEWID', $viewId);
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
