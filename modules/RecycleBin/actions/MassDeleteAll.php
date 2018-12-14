@@ -18,8 +18,7 @@ class RecycleBin_MassDeleteAll_Action extends Vtiger_Mass_Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
+		if (!\App\Privilege::isPermitted($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
