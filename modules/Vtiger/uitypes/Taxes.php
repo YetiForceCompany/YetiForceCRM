@@ -110,7 +110,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	{
 		$taxes = Vtiger_Inventory_Model::getGlobalTaxes();
 		foreach ($taxes as $key => $tax) {
-			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
+			$taxes[$key] = $tax['name'] . ' - ' . App\Fields\Double::formatToDisplay($tax['value']) . '%';
 		}
 		return $taxes;
 	}

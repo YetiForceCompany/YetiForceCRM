@@ -1078,7 +1078,11 @@ $.Class("Vtiger_Inventory_Js", {
 			} else if (field.prop("tagName") === 'SELECT') {
 				field.find('option[value="' + parameter + '"]').prop('selected', 'selected').change();
 			} else {
-				modal.find('[name="' + param + '"]').val(parameter);
+				let input = modal.find('[name="' + param + '"]')
+				input.val(parameter);
+				if (param === 'individualTax') {
+					input.formatNumber();
+				}
 			}
 		});
 		thisInstance.calculateTax(parentRow, modal);
