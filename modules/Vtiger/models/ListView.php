@@ -455,7 +455,6 @@ class Vtiger_ListView_Model extends \App\Base
 			} else {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
-			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 
