@@ -1155,6 +1155,8 @@ class File
 						$img->setImageCompression(\Imagick::COMPRESSION_JPEG);
 						$img->setImageCompressionQuality(99);
 						break;
+					default:
+						break;
 				}
 				$img->writeImage($file->getPath());
 				$img->clear();
@@ -1179,6 +1181,8 @@ class File
 						break;
 					case 'bmp':
 						$result = \imagebmp($img, $file->getPath());
+						break;
+					default:
 						break;
 				}
 				\imagedestroy($img);

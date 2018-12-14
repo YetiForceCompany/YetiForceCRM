@@ -1043,7 +1043,7 @@ class PackageImport extends PackageExport
 				switch ($name) {
 					case 'label':
 						$value = \App\Purifier::purifyByType((string) $fieldNode->label, 'Text');
-						$fieldModel->set($name, (string) $fieldNode->label);
+						$fieldModel->set($name, $value);
 						break;
 					case 'defaultValue':
 						$value = \App\Purifier::purifyByType((string) $fieldNode->defaultvalue, 'Text');
