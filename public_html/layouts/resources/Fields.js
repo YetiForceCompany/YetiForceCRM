@@ -348,7 +348,7 @@ App.Fields = {
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
 					emojiEnabled: false,
-					metnionsEnabled: false,
+					mentionsEnabled: false,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
