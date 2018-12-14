@@ -35,7 +35,7 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 			$queryGenerator = new App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
-
+			$queryGenerator->setStateCondition($request->getByType('entityState'));
 			return $queryGenerator;
 		}
 		if (!$request->isEmpty('operator')) {
