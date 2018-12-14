@@ -22,9 +22,9 @@ foreach ($config as $name => $state) {
 	}
 }
 try {
-	(new \GuzzleHttp\Client())->post($url, [
-		'timeout' => 5,
-		'form_params' => $info]);
+	(new \GuzzleHttp\Client())->post($url, \App\RequestHttp::getOptions() + [
+			'timeout' => 5,
+			'form_params' => $info]);
 } catch (\Throwable $e) {
 	\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
 }
