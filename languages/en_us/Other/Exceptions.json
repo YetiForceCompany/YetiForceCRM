@@ -34,6 +34,7 @@
     "ERR_CURRENCY_TABLE_DOWNLOAD": "Error while downloading the exchange rate table.",
     "ERR_ITERATIONS_LIMIT_EXCEEDED": "Exceeded iteration limit.",
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
-    "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server"
+    "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server",
+    "ERR_NO_INTERNET_CONNECTION": "No Internet connection"
   }
 }
