@@ -51,10 +51,37 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				}
 				$selectedFolders[$folder['type']][] = $folder['folder'];
 			}
+			$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
+			$tree = [];
+			$recordIds = 0;
+			foreach ($types as $type) {
+				$categoryModel = [
+					'id' => $type,
+					'type' => 'category',
+					'parent' => '#',
+					'text' => \App\Language::translate($type, $moduleName),
+					'record_id' => 'T' . $recordIds
+				];
+				$recordIds++;
+				array_push($tree, $categoryModel);
+				foreach ($folders as $folder) {
+					$categoryRecord = [
+						'id' => $recordIds,
+						'type' => 'record',
+						'parent' => $type,
+						'text' => \App\Language::translate($folder, $moduleName),
+						'state' => ['selected' => in_array($folder, $selectedFolders[$type])],
+						'record_id' => 'T' . $recordIds
+					];
+					array_push($tree, $categoryRecord);
+					$recordIds++;
+				}
+			}
 		}
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
+		$viewer->assign('TREE', \App\Json::encode($tree));
 		$viewer->assign('FOLDERS', $folders);
 		$viewer->assign('SELECTED', $selectedFolders);
 		$viewer->assign('MODULE_NAME', $moduleName);

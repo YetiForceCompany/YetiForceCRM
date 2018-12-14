@@ -10,6 +10,14 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 {
 	private $prefixesForModules = ['Project', 'HelpDesk', 'SSalesProcesses', 'Campaigns'];
 
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~layouts/resources/libraries/jstree.category.js',
+			'~layouts/resources/libraries/jstree.checkbox.js'
+		]));
+	}
+
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
