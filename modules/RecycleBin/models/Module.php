@@ -56,9 +56,8 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 				->where(
 					['and',
 						['vtiger_crmentity.deleted' => 1],
-						['in', 'vtiger_tab.tabid', array_keys($modulesList)],
-						['<=', 'vtiger_crmentity.modifiedtime', $untilModifiedTime]])
-				->innerJoin('vtiger_tab', 'vtiger_crmentity.setype = vtiger_tab.name')
+						['in', 'setype', array_column($modulesList, 'name')],
+						['<=', 'modifiedtime', $untilModifiedTime]])
 				->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				if (0 >= $deleteMaxCount) {
