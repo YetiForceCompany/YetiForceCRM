@@ -42,7 +42,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public static function deleteAllRecords(string $untilModifiedTime, int $userId, array $recordsToDelete = [])
+	public static function deleteAllRecords(string $untilModifiedTime, int $userId)
 	{
 		$actualUserId = App\User::getCurrentUserId();
 		try {
@@ -51,39 +51,31 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 			}
 			App\User::setCurrentUserId($userId);
 			$modulesList = \vtlib\Functions::getAllModules(true, false, 0);
-			if (empty($recordsToDelete)) {
-				foreach ($modulesList as $module) {
-					$recordIds = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(
-						['and',
-							['deleted' => 1],
-							['setype' => $module['name']],
-							['<=', 'modifiedtime', $untilModifiedTime]])->column();
-					if (!empty($recordIds)) {
-						$recordsToDelete = array_merge($recordsToDelete, $recordIds);
-					}
-				}
-			}
 			$deleteMaxCount = AppConfig::module('RecycleBin', 'DELETE_MAX_COUNT');
-			foreach ($recordsToDelete as $key => $recordId) {
-				if (0 < $deleteMaxCount) {
-					if (App\Record::isCrmExist($recordId)) {
-						$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-						if (!$recordModel->privilegeToDelete()) {
-							continue;
-						}
-						$recordModel->delete();
-						unset($recordModel);
-					}
-					unset($recordsToDelete[$key]);
-					$deleteMaxCount--;
-				} else {
-					(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([$untilModifiedTime, App\User::getCurrentUserId(), $recordsToDelete])]))->save();
+			$dataReader = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')
+				->where(
+					['and',
+						['vtiger_crmentity.deleted' => 1],
+						['in', 'vtiger_tab.tabid', array_keys($modulesList)],
+						['<=', 'vtiger_crmentity.modifiedtime', $untilModifiedTime]])
+				->innerJoin('vtiger_tab', 'vtiger_crmentity.setype = vtiger_tab.name')
+				->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (0 >= $deleteMaxCount) {
+					(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([$untilModifiedTime, $userId])]))->save();
 					break;
 				}
+				$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
+				if (!$recordModel->privilegeToDelete()) {
+					continue;
+				}
+				$recordModel->delete();
+				unset($recordModel);
+				$deleteMaxCount--;
 			}
 			App\User::setCurrentUserId($actualUserId);
 		} catch (\Throwable $ex) {
-			\App\Log::error($ex->getMessage());
+			\App\Log::error($ex->__toString());
 			App\User::setCurrentUserId($actualUserId);
 		}
 	}
