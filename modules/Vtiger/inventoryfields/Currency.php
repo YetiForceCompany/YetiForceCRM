@@ -45,16 +45,28 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		return \App\Fields\Currency::getById($value)['currency_name'];
 	}
 
-	public function getCurrencyParam($currencies, $param = false)
+	/**
+	 * Gets currency param.
+	 *
+	 * @param array  $currencies
+	 * @param string $param
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getCurrencyParam(array $currencies, $param = '')
 	{
-		if ($param !== false) {
-			return \App\Json::decode($param);
-		} else {
-			foreach ($currencies as $currency) {
-				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
+		$params = [];
+		if ($param) {
+			$params = \App\Json::decode($param);
+		}
+		foreach ($currencies as $currency) {
+			if (!isset($params[$currency['id']])) {
+				$params[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
 			}
 		}
-		return $return;
+		return $params;
 	}
 
 	/**

@@ -18,7 +18,7 @@
 		   class="currencyparam"/>
 	<select class="select2" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
 			name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"
-			title="{\App\Language::translate('LBL_CURRENCY', $MODULE)}"
+			title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
 			{if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}
 			{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
@@ -27,7 +27,7 @@
 					data-conversion-symbol="{$CURRENCY.currency_symbol}"
 					data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}"
 					{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
-				{\App\Language::translate($CURRENCY.currency_name, $MODULE)} ({$CURRENCY.currency_symbol})
+				{\App\Language::translate($CURRENCY.currency_name, $MODULE_NAME)} ({$CURRENCY.currency_symbol})
 			</option>
 		{/foreach}
 	</select>
@@ -37,7 +37,7 @@
 				<div class="modal-header contentsBackground">
 					<h5 class="modal-title">
 						<span class="fas fa-euro-sign mr-1"></span>
-						{\App\Language::translate('LBL_CHANGE_CURRENCY', $MODULE)}
+						{\App\Language::translate('LBL_CHANGE_CURRENCY', $MODULE_NAME)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -46,22 +46,22 @@
 				<div class="modal-body">
 					{if $CURRENCY_PARAMS == false}
 						<div class="alert alert-warning"
-							 role="alert">{\App\Language::translate('LBL_NO_EXCHANGE_RATES', $MODULE)}</div>
+							 role="alert">{\App\Language::translate('LBL_NO_EXCHANGE_RATES', $MODULE_NAME)}</div>
 					{else}
 						<div class="alert alert-warning"
-							 role="alert">{\App\Language::translate('LBL_CHANGE_CURRENCY_INFO', $MODULE)}</div>
-						<div>{\App\Language::translate('Currency Name', $MODULE)}:
+							 role="alert">{\App\Language::translate('LBL_CHANGE_CURRENCY_INFO', $MODULE_NAME)}</div>
+						<div>{\App\Language::translate('Currency Name', $MODULE_NAME)}:
 							<strong class="currencyName"></strong>
 						</div>
-						<div>{\App\Language::translate('LBL_EXCHANGE_DATE', $MODULE)}: <strong
+						<div>{\App\Language::translate('LBL_EXCHANGE_DATE', $MODULE_NAME)}: <strong
 									class="currencyDate"></strong></div>
 						<div>
 							<div class="input-group">
 							<span class="input-group-prepend"><span
-										class="input-group-text">{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE)}
+										class="input-group-text">{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE_NAME)}
 									:</span></span>
 								<input type="text" class="form-control currencyRate" value=""
-									   aria-label="{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE)}">
+									   aria-label="{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE_NAME)}">
 								<span class="input-group-append"><span
 											class="input-group-text">{$BASE_CURRENCY['currency_symbol']}</span></span>
 							</div>
@@ -72,14 +72,14 @@
 							<button class="btn btn-success" type="submit">
 								<strong>
 									<span class="fas fa-check mr-1"></span>
-									{\App\Language::translate('LBL_SAVE', $MODULE)}
+									{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 								</strong>
 							</button>
 						{/if}
 						<button class="btn btn-danger" type="reset" data-dismiss="modal">
 							<strong>
 								<span class="fas fa-times mr-1"></span>
-								{\App\Language::translate('LBL_CANCEL', $MODULE)}
+								{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}
 							</strong>
 						</button>
 					</div>
