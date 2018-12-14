@@ -8,7 +8,7 @@
 * Contributor(s): YetiForce.com
 ************************************************************************************}
 {strip}
-	<!-- tpl-dashboards-Minilist -->
+	<!-- tpl-Base-dashboards-Minilist -->
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
@@ -37,5 +37,5 @@
 	<div class="dashboardWidgetFooter">
 		{include file=\App\Layout::getTemplatePath('dashboards/MiniListFooter.tpl', $MODULE_NAME)}
 	</div>
-	<!-- /tpl-dashboards-Minilist -->
+	<!-- /tpl-Base-dashboards-Minilist -->
 {/strip}
