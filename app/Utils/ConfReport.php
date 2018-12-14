@@ -78,6 +78,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $security = [
+		'CaCertBundle' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
@@ -397,6 +398,7 @@ class ConfReport
 				'phpIniAll' => php_ini_scanned_files() ?: '-',
 				'locale' => $locale,
 				'https' => \App\RequestUtil::getBrowserInfo()->https,
+				'cacertbundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
