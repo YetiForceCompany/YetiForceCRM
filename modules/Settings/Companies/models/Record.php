@@ -130,13 +130,13 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayTypeValue(int $value): string
 	{
 		switch ($value) {
-			case 0:
+			case 1:
 				$label = 'LBL_TYPE_TARGET_USER';
 				break;
-			case 1:
+			case 2:
 				$label = 'LBL_TYPE_INTEGRATOR';
 				break;
-			case 2:
+			case 3:
 			default:
 				$label = 'LBL_TYPE_PROVIDER';
 				break;

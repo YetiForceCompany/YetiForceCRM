@@ -64,20 +64,20 @@
 										<div class="btn-group btn-group-toggle" data-toggle="buttons">
 											<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===0} active{/if}"
 												   for="option1">
-												<input value="0" type="radio" name="type" id="option1"
-													   autocomplete="off"{if $RECORD_MODEL->get('type')===0} checked{/if}>
+												<input value="1" type="radio" name="type" id="option1"
+													   autocomplete="off"{if $RECORD_MODEL->get('type')==1} checked{/if}>
 												{\App\Language::translate('LBL_TYPE_TARGET_USER',$QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===1} active{/if}"
 												   for="option2">
-												<input value="1" type="radio" name="type" id="option2"
-													   autocomplete="off"{if $RECORD_MODEL->get('type')===1} checked{/if}>
+												<input value="2" type="radio" name="type" id="option2"
+													   autocomplete="off"{if $RECORD_MODEL->get('type')==2} checked{/if}>
 												{\App\Language::translate('LBL_TYPE_INTEGRATOR',$QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===2} active{/if}"
 												   for="option3">
-												<input value="2" type="radio" name="type" id="option3"
-													   autocomplete="off"{if $RECORD_MODEL->get('type')===2} checked{/if}>
+												<input value="3" type="radio" name="type" id="option3"
+													   autocomplete="off"{if $RECORD_MODEL->get('type')==3} checked{/if}>
 												{\App\Language::translate('LBL_TYPE_PROVIDER',$QUALIFIED_MODULE)}
 											</label>
 										</div>
