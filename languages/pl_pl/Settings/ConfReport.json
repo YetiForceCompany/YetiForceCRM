@@ -88,7 +88,7 @@
     "LBL_INVALID_TIME_ZONE": "Nieprawid\u0142owa strefa czasowa: ",
     "LBL_DATABASE_INFORMATION": "Informacje o bazie danych",
     "LBL_LABEL_CACERTBUNDLE": "Repozytorium certyfikat\u00f3w CA",
-    "LBL_HELP_CACERTBUNDLE": "Parametr okre\u015bla czy dost\u0119pne jest repozytorium zaufanych centr\u00f3w autoryzacji(CA) na potrzeby weryfikacji certyfikat\u00f3w us\u0142ug zewn\u0119trznych.",
+    "LBL_HELP_CACERTBUNDLE": "Parametr okre\u015bla czy dost\u0119pne jest repozytorium zaufanych urz\u0119d\u00f3w certyfikacji(CA) na potrzeby weryfikacji certyfikat\u00f3w us\u0142ug zewn\u0119trznych.",
     "LBL_LABEL_DB_DRIVER": "Silnik",
     "LBL_LABEL_DB_CLIENT_VERSION": "Wersja klienta",
     "LBL_LABEL_DB_SERVER_VERSION": "Wersja silnika",
