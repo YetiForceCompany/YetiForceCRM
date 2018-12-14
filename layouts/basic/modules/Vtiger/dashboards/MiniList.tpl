@@ -8,15 +8,16 @@
 * Contributor(s): YetiForce.com
 ************************************************************************************}
 {strip}
+	<!-- tpl-dashboards-Minilist -->
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
-	<div class="tpl-dashboards-Minilist dashboardWidgetHeader">
+	<div class="dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
-		<hr class="widgetHr" />
+		<hr class="widgetHr"/>
 		<div class="row no-gutters">
 			<div class="col-ceq-xsm-6">
 				{if $FILTER_FIELD}
@@ -36,4 +37,5 @@
 	<div class="dashboardWidgetFooter">
 		{include file=\App\Layout::getTemplatePath('dashboards/MiniListFooter.tpl', $MODULE_NAME)}
 	</div>
+	<!-- /tpl-dashboards-Minilist -->
 {/strip}
