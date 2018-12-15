@@ -148,7 +148,16 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setTemplateId($templateId);
 						$pdf->setModuleName($moduleName);
-						$currentPage = '<div data-page-group></div>';
+						$currentPage = '<div data-page-group 
+							data-format="' . $template->getFormat() . '" 
+							data-orientation="' . $template->get('page_orientation') . '"
+							data-margin-left="' . $template->get('margin_left') . '"
+							data-margin-right="' . $template->get('margin_right') . '"
+							data-margin-top="' . $template->get('margin_top') . '"
+							data-margin-bottom="' . $template->get('margin_bottom') . '"
+							data-header-top="' . $template->get('header_height') . '"
+							data-footer-bottom="' . $template->get('footer_height') . '"
+							></div>';
 						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
 						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
 						$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
