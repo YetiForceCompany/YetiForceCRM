@@ -23,6 +23,12 @@ class YetiForcePDF extends PDF
 	const WATERMARK_TYPE_IMAGE = 1;
 
 	/**
+	 * Charset
+	 *
+	 * @var string
+	 */
+	protected $charset = 'UTF-8';
+	/**
 	 * Are we fully configured or default params were given in constructor (not fully configured) ?
 	 *
 	 * @var bool
@@ -42,6 +48,10 @@ class YetiForcePDF extends PDF
 	 * @var string
 	 */
 	public $format = '';
+	/**
+	 * @var string
+	 */
+	public $orientation = 'P';
 	/**
 	 * @var string
 	 */
@@ -112,17 +122,21 @@ class YetiForcePDF extends PDF
 	/**
 	 * Constructor.
 	 */
-	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 30, $rightMargin = 30, $topMargin = 40, $bottomMargin = 40, $headerMargin = 10, $footerMargin = 10)
 	{
 		$args = func_get_args();
 		// this two arguments are kind of signal that we are configured (from template or elsewhere) - not from default argument values (empty = default)
 		if (!empty($args['format']) || !empty($args['orientation'])) {
 			$this->isDefault = false;
 		}
+		if ($mode) {
+			$this->charset = $mode;
+		}
 		$this->setLibraryName('YetiForcePDF');
 		$this->defaultFontFamily = $defaultFont;
 		$this->defaultFontSize = $defaultFontSize;
 		$this->format = $format;
+		$this->orientation = $orientation;
 		$this->initializePdf($mode, $format, $defaultFontSize, $defaultFont, $orientation, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin);
 	}
 
@@ -141,7 +155,7 @@ class YetiForcePDF extends PDF
 	 * @param int $headerMargin
 	 * @param int $footerMargin
 	 */
-	public function initializePdf($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function initializePdf($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 30, $rightMargin = 30, $topMargin = 40, $bottomMargin = 40, $headerMargin = 10, $footerMargin = 10)
 	{
 		if (empty($mode)) {
 			$mode = \AppConfig::main('default_charset') ?? 'UTF-8';
@@ -381,7 +395,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setTitle($title)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setTitle($title);
 	}
 
 	/**
@@ -389,7 +403,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setAuthor($author)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setAuthor($author);
 	}
 
 	/**
@@ -397,7 +411,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setCreator($creator)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setCreator($creator);
 	}
 
 	/**
@@ -405,7 +419,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setSubject($subject)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setSubject($subject);
 	}
 
 	/**
@@ -413,7 +427,15 @@ class YetiForcePDF extends PDF
 	 */
 	public function setKeywords($keywords)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		if (is_array($keywords)) {
+			$this->pdf->getMeta()->setKeywords($keywords);
+		} elseif (is_string($keywords)) {
+			$xpld = explode(',', $keywords);
+			foreach ($xpld as &$word) {
+				$word = trim($word);
+			}
+			$this->pdf->getMeta()->setKeywords($xpld);
+		}
 	}
 
 	/**
@@ -433,25 +455,81 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
+	 * Wrap header content
+	 * @param string $headerContent
+	 * @return string
+	 */
+	public function wrapHeaderContent(string $headerContent)
+	{
+		$style = "padding-top:{$this->headerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
+		return '<div data-header style="' . $style . '">' . $headerContent . '</div>';
+	}
+
+	/**
+	 * Wrap footer content
+	 * @param string $footerContent
+	 * @return string
+	 */
+	public function wrapFooterContent(string $footerContent)
+	{
+		$style = "padding-bottom:{$this->footerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
+		return '<div data-footer style="' . $style . '">' . $footerContent . '</div>';
+	}
+
+	/**
+	 * Wrap watermark
+	 * @param string $watermarkContent
+	 * @return string
+	 */
+	public function wrapWatermark(string $watermarkContent)
+	{
+		return '<div data-watermark style="text-align:center">' . $watermarkContent . '</div>';
+	}
+
+	/**
 	 * Write html.
 	 */
 	public function writeHTML()
 	{
 		$footer = '';
 		if ($this->footer !== '') {
-			$style = "padding-bottom:{$this->footerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
-			$footer = '<div data-footer style="' . $style . '">' . $this->footer . '</div>';
+			$footer = $this->wrapFooterContent($this->footer);
 		}
 		$header = '';
 		if ($this->header !== '') {
-			$style = "padding-top:{$this->headerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
-			$header = '<div data-header style="' . $style . '">' . $this->header . '</div>';
+			$header = $this->wrapHeaderContent($this->header);
 		}
 		$watermark = '';
 		if ($this->watermark !== '') {
-			$watermark = '<div data-watermark style="text-align:center">' . $this->watermark . '</div>';
+			$watermark = $this->wrapWatermark($this->watermark);
 		}
-		$this->pdf->loadHtml($this->parseVariables($watermark . $header . $footer . $this->html));
+		$html = $this->parseVariables($watermark . $header . $footer . $this->html);
+		if (strtoupper($this->charset) !== 'UTF-8') {
+			$html = mb_convert_encoding($html, 'UTF-8', $this->charset);
+		}
+		$this->pdf->loadHtml($html);
+	}
+
+	/**
+	 * Get watermark
+	 * @param $templateModel
+	 * @return string
+	 */
+	public function getWatermark($templateModel)
+	{
+		$watermark = '';
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
+			if ($templateModel->get('watermark_image')) {
+				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
+			}
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
+			$fontSize = '10';
+			if ($templateModel->get('watermark_size')) {
+				$fontSize = $templateModel->get('watermark_size');
+			}
+			$watermark = '<div style="opacity:0.1;display:inline-block;font-size:' . $fontSize . 'px">' . $templateModel->get('watermark_text') . '</div>';
+		}
+		return $watermark;
 	}
 
 	/**
@@ -461,17 +539,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setWaterMark($templateModel)
 	{
-		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
-			if ($templateModel->get('watermark_image')) {
-				$this->watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
-			}
-		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
-			$fontSize = '10';
-			if ($templateModel->get('watermark_size')) {
-				$fontSize = $templateModel->get('watermark_size');
-			}
-			$this->watermark = '<div style="opacity:0.1;display:inline-block;font-size:' . $fontSize . 'px">' . $templateModel->get('watermark_text') . '</div>';
-		}
+		$this->watermark = $this->getWatermark($templateModel);
 	}
 
 	/**
@@ -513,7 +581,7 @@ class YetiForcePDF extends PDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
-		\App\Language::setTemporaryLanguage($template->get('language'));
+		//\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWaterMark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
@@ -546,9 +614,9 @@ class YetiForcePDF extends PDF
 		if ($dest !== 'I') {
 			return file_put_contents($fileName, $output);
 		}
-		header('Accept-Charset: utf-8');
-		header('Content-Type: application/pdf; charset=utf-8');
-		header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
+		header('accept-charset: utf-8');
+		header('content-type: application/pdf');
+		header('content-disposition: inline; filename="' . basename($fileName) . '"');
 		echo $output;
 	}
 

@@ -41,15 +41,6 @@ class TableCurrencySummary extends Base
 			}
 			$currencyData = \App\Fields\Currency::getById($currency);
 		}
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tbody tr td{border-bottom: 1px solid #ddd; padding:5px}' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;}' .
-			'</style>';
 		if (\count($fields[0])) {
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
