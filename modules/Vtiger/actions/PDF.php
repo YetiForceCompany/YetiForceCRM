@@ -150,7 +150,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setModuleName($moduleName);
 						$currentPage = '<div data-page-group 
 							data-format="' . $template->getFormat() . '" 
-							data-orientation="' . $template->get('page_orientation') . '"
+							data-orientation="' . $template->getOrientation() . '"
 							data-margin-left="' . $template->get('margin_left') . '"
 							data-margin-right="' . $template->get('margin_right') . '"
 							data-margin-top="' . $template->get('margin_top') . '"
@@ -162,9 +162,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
 						$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
 						$currentPage .= $template->getBody();
-						if (!($index === $last && $templateIndex === $lastTemplateIndex)) {
-							$currentPage .= '<div style="page-break-after: always;"></div>';
-						}
+						$currentPage .= '<div style="page-break-after: always;"></div>';
 						$pdf->setRecordId($record);
 						$html .= $pdf->parseVariables($currentPage);
 					}
