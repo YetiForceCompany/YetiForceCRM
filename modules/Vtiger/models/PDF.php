@@ -420,14 +420,21 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getFormat()
 	{
-		$format = $this->get('page_format');
+		return $this->get('page_format');
+	}
+
+	/**
+	 * Get page orientation
+	 * @return string
+	 */
+	public function getOrientation()
+	{
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
-			$format .= 'L';
+			return 'L';
 		} else {
-			$format .= 'P';
+			return 'P';
 		}
-		return $format;
 	}
 
 	/**
