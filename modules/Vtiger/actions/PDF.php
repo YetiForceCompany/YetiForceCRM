@@ -84,8 +84,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
-		foreach ($recordId as $id) {
-			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $id)) {
+		foreach ($recordId as $templateId) {
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $templateId)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
@@ -137,24 +137,27 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			if ($singlePdf) {
 				$pdf = new \App\Pdf\YetiForcePDF();
 				$html = '';
-				foreach ($recordId as $record) {
+				$last = count($recordId) - 1;
+				$lastTemplateIndex = count($templateIds) - 1;
+				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
-					$firstTemplate = array_shift($templateIdsTemp);
-					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
-					$template->setMainRecordId($record);
-					$pdf->setLanguage($template->get('language'));
-					App\Language::setTemporaryLanguage($template->get('language'));
-					$template->getParameters();
-					$html .= $pdf->wrapHeaderContent($template->getHeader());
-					$html .= $pdf->wrapFooterContent($template->getFooter());
-					$html .= $pdf->getWatermark($template);
-					$html .= $template->getBody();
-					foreach ($templateIdsTemp as $id) {
-						$template = Vtiger_PDF_Model::getInstanceById($id);
+					foreach ($templateIdsTemp as $templateIndex => $templateId) {
+						$template = Vtiger_PDF_Model::getInstanceById($templateId);
 						$template->setMainRecordId($record);
+						$template->getParameters();
 						$pdf->setLanguage($template->get('language'));
-						App\Language::setTemporaryLanguage($template->get('language'));
-						$html .= $template->getBody();
+						$pdf->setTemplateId($templateId);
+						$pdf->setModuleName($moduleName);
+						$currentPage = '<div data-page-group></div>';
+						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
+						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
+						$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
+						$currentPage .= $template->getBody();
+						if (!($index === $last && $templateIndex === $lastTemplateIndex)) {
+							$currentPage .= '<div style="page-break-after: always;"></div>';
+						}
+						$pdf->setRecordId($record);
+						$html .= $pdf->parseVariables($currentPage);
 					}
 				}
 				$pdf->loadHTML($html);
@@ -162,15 +165,15 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$pdf->output();
 			} else {
 				$pdfFiles = [];
-				foreach ($templateIds as $id) {
+				foreach ($templateIds as $templateId) {
 					foreach ($recordId as $record) {
 						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 						$pdf = new $handlerClass();
-						$pdf->setTemplateId($id);
+						$pdf->setTemplateId($templateId);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
 
-						$template = Vtiger_PDF_Model::getInstanceById($id);
+						$template = Vtiger_PDF_Model::getInstanceById($templateId);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						App\Language::setTemporaryLanguage($template->get('language'));
