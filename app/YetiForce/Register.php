@@ -19,7 +19,7 @@ class Register
 	/**
 	 * Last error.
 	 *
-	 * @var
+	 * @var string
 	 */
 	public $error;
 	/**
