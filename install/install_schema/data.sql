@@ -1015,6 +1015,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_mail_compose_data` */
 
+/*Data for the table `u_yf_modtracker_inv` */
+
 /*Data for the table `u_yf_multicompany` */
 
 insert  into `u_yf_multicompany`(`multicompanyid`,`company_name`,`parent_id`,`number`,`mulcomp_status`,`email1`,`email2`,`phone`,`phone_extra`,`mobile`,`mobile_extra`,`fax`,`fax_extra`,`vat`,`companyid1`,`companyid2`,`buildingnumbera`,`localnumbera`,`addresslevel8a`,`addresslevel7a`,`addresslevel6a`,`addresslevel5a`,`addresslevel4a`,`addresslevel3a`,`addresslevel2a`,`addresslevel1a`,`poboxa`,`website`,`logo`) values (1,'YetiForce Sp. z o.o. ',0,'MC1','PLL_ACTIVE','','','','','','','','','','','','','','','','','','','','','','','',NULL);

@@ -404,6 +404,43 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Gets inventory changes.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getInventoryChanges()
+	{
+		if (!isset($this->inventoryChanges)) {
+			$changes = [];
+			if ($this->isCreate() || $this->isUpdate() || $this->isTransferEdit()) {
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getParent()->getModuleName());
+				$data = (new \App\Db\Query())->select(['changes'])->from('u_yf_modtracker_inv')->where(['id' => $this->get('id')])->scalar();
+				$data = $data ? \App\Json::decode($data) : [];
+				foreach ($data as $key => $changed) {
+					$changes[$key]['item'] = $changed['item'];
+					$changes[$key]['historyState'] = empty($changed['prevalue']) ? 'LBL_INV_ADDED' : (empty($changed['postvalue']) ? 'LBL_INV_DELETED' : 'LBL_INV_UPDATED');
+					foreach ($changed['prevalue'] as $fieldName => $value) {
+						if ($inventoryModel->isField($fieldName)) {
+							$changes[$key]['data'][$fieldName]['field'] = $inventoryModel->getField($fieldName);
+							$changes[$key]['data'][$fieldName]['prevalue'] = $value;
+						}
+					}
+					foreach ($changed['postvalue'] as $fieldName => $value) {
+						if ($inventoryModel->isField($fieldName)) {
+							$changes[$key]['data'][$fieldName]['field'] = $inventoryModel->getField($fieldName);
+							$changes[$key]['data'][$fieldName]['postvalue'] = $value;
+						}
+					}
+				}
+			}
+			$this->inventoryChanges = $changes;
+		}
+		return $this->inventoryChanges;
+	}
+
+	/**
 	 * Function return modtracker relation model.
 	 *
 	 * @return \ModTracker_Relation_Model
