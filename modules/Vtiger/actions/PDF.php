@@ -173,23 +173,31 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			} else {
 				$pdfFiles = [];
 				foreach ($templateIds as $templateId) {
-					foreach ($recordId as $record) {
-						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
-						$pdf = new $handlerClass();
+					foreach ($recordId as $index => $record) {
+						$pdf = new \App\Pdf\YetiForcePDF();
 						$pdf->setTemplateId($templateId);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
-
 						$template = Vtiger_PDF_Model::getInstanceById($templateId);
 						$template->setMainRecordId($record);
-						$pdf->setLanguage($template->get('language'));
-						App\Language::setTemporaryLanguage($template->get('language'));
-						$pdf->setFileName($template->get('filename'));
-						$pdf->parseParams($template->getParameters());
-						$pdf->setHeader('Header', $template->getHeader());
-						$pdf->setFooter('Footer', $template->getFooter());
-						$pdf->loadHTML($template->getBody());
-						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
+						$template->getParameters();
+						$currentPage = '<div data-page-group 
+							data-format="' . $template->getFormat() . '" 
+							data-orientation="' . $template->getOrientation() . '"
+							data-margin-left="' . $template->get('margin_left') . '"
+							data-margin-right="' . $template->get('margin_right') . '"
+							data-margin-top="' . $template->get('margin_top') . '"
+							data-margin-bottom="' . $template->get('margin_bottom') . '"
+							data-header-top="' . $template->get('header_height') . '"
+							data-footer-bottom="' . $template->get('footer_height') . '"
+							></div>';
+						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
+						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
+						$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
+						$currentPage .= $template->getBody();
+						$pdf->setRecordId($record);
+						$pdf->loadHTML($pdf->parseVariables($currentPage));
+						$pdfFileName = 'cache/pdf/' . $record . '_' . $templateId . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName, 'F');
 						if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName)) {
 							$pdfFiles[] = $pdfFileName;
