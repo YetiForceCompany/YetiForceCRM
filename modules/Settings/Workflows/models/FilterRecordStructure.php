@@ -31,11 +31,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isViewable()) {
-						if (in_array($moduleModel->getName(), ['Calendar', 'Events']) && $fieldModel->getDisplayType() == 3) {
-							/* Restricting the following fields(Event module fields) for "Calendar" module
-							 * time_start, time_end, eventstatus, activitytype,	visibility, duration_hours,
-							 * duration_minutes, reminder_time, notime
-							 */
+						if ($moduleModel->getName() === 'Calendar' && $fieldModel->getDisplayType() == 3) {
 							continue;
 						}
 						if (!empty($recordId)) {
