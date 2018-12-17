@@ -993,6 +993,7 @@ CREATE TABLE `s_yf_companies` (
   `website` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `logo` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

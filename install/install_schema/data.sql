@@ -260,7 +260,7 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`name`,`type`,`industry`,`city`,`country`,`website`,`email`,`logo`) values (1,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland','yetiforce.com',NULL,'logo_yetiforce.png');
+insert  into `s_yf_companies`(`id`,`name`,`type`,`industry`,`city`,`country`,`website`,`email`,`logo`,`status`) values (1,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland','yetiforce.com',NULL,'logo_yetiforce.png',0);
 
 /*Data for the table `s_yf_mail_queue` */
 
