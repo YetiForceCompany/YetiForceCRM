@@ -416,7 +416,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$changes = [];
 			if ($this->isCreate() || $this->isUpdate() || $this->isTransferEdit()) {
 				$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getParent()->getModuleName());
-				$data = (new \App\Db\Query())->select(['changes'])->from('u_yf_modtracker_inv')->where(['id' => $this->get('id')])->scalar();
+				$data = (new \App\Db\Query())->select(['changes'])->from('u_#__modtracker_inv')->where(['id' => $this->get('id')])->scalar();
 				$data = $data ? \App\Json::decode($data) : [];
 				foreach ($data as $key => $changed) {
 					$changes[$key]['item'] = $changed['item'];
