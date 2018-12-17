@@ -2943,6 +2943,15 @@ CREATE TABLE `u_yf_mail_compose_data` (
   UNIQUE KEY `userid` (`userid`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_modtracker_inv` */
+
+CREATE TABLE `u_yf_modtracker_inv` (
+  `id` int(10) NOT NULL,
+  `changes` text DEFAULT NULL,
+  KEY `u_yf_modtracker_inv_id_idx` (`id`),
+  CONSTRAINT `u_yf_modtracker_inv_id_fk` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_multicompany` */
 
 CREATE TABLE `u_yf_multicompany` (

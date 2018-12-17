@@ -61,6 +61,7 @@
 																</div>
 															{/if}
 														{/foreach}
+														{include file=\App\Layout::getTemplatePath('RecentActivitiesInventory.tpl', $MODULE_NAME)}
 													</div>
 												</div>
 											</div>
@@ -119,11 +120,12 @@
 																</div>
 															{/if}
 														{/foreach}
+														{include file=\App\Layout::getTemplatePath('RecentActivitiesInventory.tpl', $MODULE_NAME)}
 													</div>
 												</div>
 											</div>
 										</div>
-									{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink() || $RECENT_ACTIVITY->isTransferLink() || $RECENT_ACTIVITY->isTransferUnLink())}
+									{elseif ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink() || $RECENT_ACTIVITY->isTransferLink() || $RECENT_ACTIVITY->isTransferUnLink())}
 										<div class="d-flex">
 											<span class="c-circle-icon mt-2" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
