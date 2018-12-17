@@ -112,7 +112,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 				selectedModule: $(this).val()
 			}).done((response) => {
 				container.find('.js-variable-panel').html(response);
-				this.registerRefreshCompanyVariables(container);
+				App.Tools.variablesPanel.registerRefreshCompanyVariables(container);
 				App.Fields.Text.registerCopyClipboard(container);
 				progressIndicator.progressIndicator({'mode': 'hide'});
 			}).fail((error, err) => {
@@ -195,19 +195,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			});
 		});
 	},
-	refreshCompanyVariables: function (container) {
-		const companyId = container.find("#companyList").val();
-		container.find("#companyVariable > optgroup > option").each(function () {
-			let template = $(this).data('value-template');
-			this.value = template.replace(/__X__/i, companyId);
-		});
-	},
-	registerRefreshCompanyVariables: function (container) {
-		var thisInstance = this;
-		container.find('.companyList').on('change', function (e) {
-			thisInstance.refreshCompanyVariables(container);
-		});
-	},
 
 	registerEvents: function () {
 		const container = this.getContainer();
@@ -227,8 +214,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		this.registerWatermarkTypeChange(container);
 		this.registerUploadButton(container);
 		this.registerDeleteUploadButton(container);
-		this.registerRefreshCompanyVariables(container);
+		App.Tools.variablesPanel.registerRefreshCompanyVariables(container);
 		App.Fields.Text.registerCopyClipboard(container);
-		this.refreshCompanyVariables(container);
+		App.Tools.variablesPanel.refreshCompanyVariables(container);
 	}
 });
