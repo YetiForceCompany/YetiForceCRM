@@ -615,8 +615,9 @@ class YetiForcePDF extends PDF
 			return file_put_contents($fileName, $output);
 		}
 		header('accept-charset: utf-8');
-		header('content-type: application/pdf');
-		header('content-disposition: inline; filename="' . basename($fileName) . '"');
+		header('content-type: application/pdf; charset=utf-8');
+		$basename = basename($fileName);
+		header("content-disposition: attachment; filename=\"{$basename}\"");
 		echo $output;
 	}
 
