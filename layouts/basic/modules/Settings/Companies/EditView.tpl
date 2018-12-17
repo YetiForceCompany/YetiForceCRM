@@ -36,7 +36,9 @@
 										<select class="select2 form-control" name="industry">
 											{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
 												<option value="{$ITEM}"
-														{if $RECORD_MODEL->get('industry') == $ITEM}selected="true"{/if}>{App\Language::translate($ITEM)}</option>
+														{if $RECORD_MODEL->get('industry') == $ITEM}selected="true"{/if}>
+													{App\Language::translate($ITEM)}
+												</option>
 											{/foreach}
 										</select>
 									</div>
@@ -65,18 +67,21 @@
 											<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===0} active{/if}"
 												   for="option1">
 												<input value="1" type="radio" name="type" id="option1"
+													   data-validation-engine="validate[required]"
 													   autocomplete="off"{if $RECORD_MODEL->get('type')==1} checked{/if}>
 												{\App\Language::translate('LBL_TYPE_TARGET_USER',$QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===1} active{/if}"
 												   for="option2">
 												<input value="2" type="radio" name="type" id="option2"
+													   data-validation-engine="validate[required]"
 													   autocomplete="off"{if $RECORD_MODEL->get('type')==2} checked{/if}>
 												{\App\Language::translate('LBL_TYPE_INTEGRATOR',$QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===2} active{/if}"
 												   for="option3">
 												<input value="3" type="radio" name="type" id="option3"
+													   data-validation-engine="validate[required]"
 													   autocomplete="off"{if $RECORD_MODEL->get('type')==3} checked{/if}>
 												{\App\Language::translate('LBL_TYPE_PROVIDER',$QUALIFIED_MODULE)}
 											</label>
@@ -94,15 +99,14 @@
 											   value="{\App\Purifier::encodeHtml($RECORD_MODEL->get($COLUMN))}">
 									</div>
 								</div>
-							{elseif $COLUMN neq 'id'}
+							{elseif $COLUMN eq 'logo'}
 								<div class="form-group row">
 									<div class="col-lg-2">
 										{$RECORD_MODEL->getDisplayValue($COLUMN)}
 									</div>
 									<div class="col-lg-offset-2 col-lg-10">
 										<div class="d-block">
-											<input type="file" name="{$COLUMN}" id="{$COLUMN}"
-												   {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>&nbsp;&nbsp;
+											<input type="file" name="{$COLUMN}" id="{$COLUMN}"/>&nbsp;&nbsp;
 										</div>
 									</div>
 								</div>
