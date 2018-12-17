@@ -31,7 +31,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	 *
 	 * @return array
 	 */
-	private function getTreeData($folders, $selectedFolders)
+	private function getTreeData($moduleName, $folders, $selectedFolders)
 	{
 		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$tree = [];
@@ -49,16 +49,18 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 			foreach ($folders as $folder) {
 				$folderSplited = explode('/', $folder);
 				foreach ($folderSplited as $i => $folderTree) {
-					if (!in_array($type . $folderTree, array_column($tempArray[$type], 'id'))) {
+					if (!in_array($type . '/' . $folderTree, array_column($tempArray[$type], 'id'))) {
 						$categoryRecord = [
-							'id' => $type . $folderTree,
+							'id' => $type . '/' . $folderTree,
 							'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
-							'parent' => $i === 0 ? $type : $type . $folderSplited[$i - 1],
+							'parent' => $i === 0 ? $type : $type . '/' . $folderSplited[$i - 1],
 							'text' => \App\Language::translate($folderTree, $moduleName),
-							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
-							'db_id' => end($folderSplited) === $folderTree ? $folder : false,
-							'db_type' => $type
+							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])]
 						];
+						if (end($folderSplited) === $folderTree) {
+							$categoryRecord['db_id'] = $folder;
+							$categoryRecord['db_type'] = $type;
+						}
 						$tempArray[$type][] = $categoryRecord;
 						$tree[] = $categoryRecord;
 					}
@@ -100,7 +102,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
-		$viewer->assign('TREE', \App\Json::encode($this->getTreeData($folders, $selectedFolders)));
+		$viewer->assign('TREE', \App\Json::encode($this->getTreeData($moduleName, $folders, $selectedFolders)));
 		$viewer->assign('FOLDERS', $folders);
 		$viewer->assign('SELECTED', $selectedFolders);
 		$viewer->assign('MODULE_NAME', $moduleName);
