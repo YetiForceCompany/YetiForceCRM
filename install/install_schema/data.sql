@@ -8871,6 +8871,7 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,123,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,124,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,125,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,126,0);
 
 /*Data for the table `vtiger_profile2utility` */
 
@@ -18245,6 +18246,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (123,'LocationRegister',0,24,'LocationRegister',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (124,'IncidentRegister',0,25,'IncidentRegister',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (125,'AuditRegister',0,26,'AuditRegister',NULL,NULL,0,0,1,'0','',NULL,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (126,'RecycleBin',0,27,'RecycleBin',NULL,NULL,0,0,0,'0','',NULL,0,0);
 
 /*Data for the table `vtiger_tab_info` */
 
@@ -18328,6 +18330,7 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (116,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (117,'vtiger_min_version','3.5');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (118,'vtiger_min_version','4.0.999');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (120,'vtiger_min_version','4.4.0');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (126,'vtiger_min_version','4.4.0');
 
 /*Data for the table `vtiger_taskpriority` */
 
