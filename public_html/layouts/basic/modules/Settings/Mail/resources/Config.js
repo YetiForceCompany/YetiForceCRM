@@ -29,7 +29,7 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
-		App.Tools.variablesPanel.registerRefreshCompanyVariables(container);
+		App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
 		container.find('.js-save-signature').on('click', function () {
 			const progressIndicator = $.progressIndicator();
 			const editor = CKEDITOR.instances.signatureEditor;
