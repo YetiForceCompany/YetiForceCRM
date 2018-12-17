@@ -17,6 +17,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		App.Fields.Picklist.showSelect2ElementView(field, params);
 	},
 	registerEditFolders: function (container) {
+		const self = this;
 		container.find('.editFolders').on('click', function () {
 			const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
 				progressIndicatorElement = jQuery.progressIndicator({
@@ -31,23 +32,16 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				app.showScrollBar(data.find('.modal-body'), {
 					height: app.getScreenHeight(70) + 'px'
 				});
-				var instance = new Vtiger_TreeCategory_Js();
-				instance.registerEvents();
+				let recurrenceTree = new YF_RecurrenceTree();
 				data.find('[name="saveButton"]').on('click', function (e) {
-					const folder = {};
-					$.each(instance.treeInstance.jstree("get_selected", true), function (index, value, ese) {
-						if (!Array.isArray(folder[value.original.db_type])) {
-							folder[value.original.db_type] = [];
-						}
-						folder[value.original.db_type].push(value.original.db_id);
-					});
+					const selectedFolders = self.getSelectedFolders(recurrenceTree.treeInstance);
 					AppConnector.request({
 						module: 'OSSMailScanner',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateFolders',
 						user: data.find('.modal-body').data('user'),
-						folders: folder
+						folders: selectedFolders
 					}).done(function (data) {
 						let response = data['result'];
 						if (response['success']) {
@@ -65,6 +59,18 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				});
 			});
 		});
+	},
+	getSelectedFolders(treeInstance) {
+		let folders = {};
+		for (let value of treeInstance.jstree("get_selected", true)) {
+			if (!Array.isArray(folders[value.original.db_type])) {
+				folders[value.original.db_type] = [];
+			}
+			if (value.original.db_id !== undefined) {
+				folders[value.original.db_type].push(value.original.db_id);
+			}
+		}
+		return folders;
 	},
 	registerEvents: function () {
 		const thisIstance = this,
@@ -309,166 +315,37 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		});
 	}
 });
-jQuery.Class("Vtiger_TreeCategory_Js", {}, {
-	modalContainer: false,
-	treeInstance: false,
-	treeData: false,
-	windowParent: app.getWindowParent(),
-	getRecords: function (container) {
-		if (this.treeData == false && container !== "undefined") {
-			var treeValues = container.find('#treePopupValues').val();
-			this.treeData = JSON.parse(treeValues);
-		}
-		return this.treeData;
-	},
-	generateTree: function (container) {
-		var thisInstance = this;
-		if (thisInstance.treeInstance == false) {
-			thisInstance.treeInstance = container;
-			thisInstance.treeInstance.jstree({
+
+class YF_RecurrenceTree {
+	constructor(container = $('.js-tree-container')) {
+		this.treeInstance = false;
+		this.treeData = false;
+		this.generateTree(container);
+	}
+
+	generateTree(container) {
+		const slef = this;
+		if (slef.treeInstance === false) {
+			slef.treeInstance = container;
+			slef.treeInstance.jstree({
 				core: {
-					data: thisInstance.getRecords(),
+					data: slef.getRecords(container),
 					themes: {
 						name: 'proton',
 						responsive: true
 					}
 				},
-				checkbox: {
-					three_state: false,
-				},
-				plugins: ["search", "category", "checkbox"]
+				checkbox: {cascade: 'down+undetermined'},
+				plugins: ["search", "checkbox"]
 			});
 		}
-	},
-	searching: function (text) {
-		this.treeInstance.jstree(true).search(text);
-	},
-	registerSearchEvent: function () {
-		var thisInstance = this;
-		var valueSearch = $('#valueSearchTree');
-		var btnSearch = $('#btnSearchTree');
-		valueSearch.on('keypress', function (e) {
-			if (e.which == 13) {
-				thisInstance.searching(valueSearch.val());
-			}
-		});
-		btnSearch.on('click', function () {
-			thisInstance.searching(valueSearch.val());
-		});
-	},
-	registerSaveRecords: function (container) {
-		var thisInstance = this;
-		var ord = [], ocd = [];
-		$.each(thisInstance.getRecords(), function (index, value) {
-			if (value.state && value.state.selected && value.type == "record") {
-				ord.push(value.record_id);
-			}
-			if (value.category && value.category.checked) {
-				ocd.push(value.record_id);
-			}
-		});
-		container.find('[name="saveButton"]').on('click', function (e) {
-			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [],
-				categoryToRemove = []
-			var saveButton = $(this);
-			saveButton.attr('disabled', 'disabled');
-			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
-				if (jQuery.inArray(value.original.record_id, ord) == -1 && value.original.type == "record") {
-					recordsToAdd.push(value.original.record_id);
-				}
-				rSelected.push(value.original.record_id);
-			});
-			$.each(ord, function (index, value) {
-				if (jQuery.inArray(value, rSelected) == -1) {
-					recordsToRemove.push(value);
-				}
-			});
-			if (thisInstance.isActiveCategory()) {
-				cSelected = thisInstance.treeInstance.jstree("getCategory");
-				$.each(cSelected, function (index, value) {
-					if (jQuery.inArray(value, ocd) == -1) {
-						categoryToAdd.push(value);
-					}
-				});
-				$.each(ocd, function (index, value) {
-					if (jQuery.inArray(value, cSelected) == -1) {
-						categoryToRemove.push(value);
-					}
-				});
-			}
-			var params = {
-				module: thisInstance.windowParent.app.getModuleName(),
-				action: 'RelationAjax',
-				mode: 'updateRelation',
-				recordsToAdd: recordsToAdd,
-				recordsToRemove: recordsToRemove,
-				categoryToAdd: categoryToAdd,
-				categoryToRemove: categoryToRemove,
-				src_record: thisInstance.windowParent.app.getRecordId(),
-				related_module: container.find('#relatedModule').val(),
-			};
-			if (recordsToAdd.length > 4) {
-				bootbox.dialog({
-					title: app.vtranslate('JS_INFORMATION'),
-					message: app.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT').replace('__LENGTH__', recordsToAdd.length),
-					buttons: {
-						success: {
-							label: app.vtranslate('JS_LBL_SAVE'),
-							className: "btn-success",
-							callback: function () {
-								thisInstance.saveRecordsEvent(params);
-							}
-						},
-						danger: {
-							label: app.vtranslate('JS_LBL_CANCEL'),
-							className: "btn-warning",
-							callback: function () {
-								saveButton.removeAttr('disabled');
-							}
-						}
-					}
-				});
-			} else {
-				thisInstance.saveRecordsEvent(params);
-			}
-		});
-	},
-	saveRecordsEvent: function (params) {
-		const self = this;
-		AppConnector.request(params).done(function (res) {
-			self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
-			app.hideModalWindow();
-		})
-	},
-	registerCounterSelected: function () {
-		var thisInstance = this;
-		this.treeInstance.on("changed.jstree", function (e, data) {
-			var counterSelected = 0;
-			var html = '';
-			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
-				var id = value.original.record_id.toString();
-				if (id.indexOf("T")) {
-					counterSelected++;
-				}
-			});
-			html = app.vtranslate('JS_SELECTED_ELEMENTS') + ': ' + counterSelected;
-			$('.counterSelected').text(html);
-		});
-	},
-	registerSelectBrancheEvent: function () {
-		var thisInstance = this;
-		thisInstance.treeInstance.on("changed.jstree", function (e, data) {
-			// thisInstance.getRecordsList();
-		});
-	},
-	registerEvents: function () {
-		var container = $('.js-tree-container');
-		this.getRecords(container);
-		this.generateTree(container);
-		//this.registerSaveRecords(container);
-		// this.registerSearchEvent();
-		// this.registerCounterSelected();
-		this.registerSelectBrancheEvent(container);
-
 	}
-});
+
+	getRecords(container) {
+		if (this.treeData === false && container !== "undefined") {
+			var treeValues = container.find('#treePopupValues').val();
+			this.treeData = JSON.parse(treeValues);
+		}
+		return this.treeData;
+	}
+}
