@@ -41,8 +41,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				'id' => $type,
 				'type' => 'category',
 				'parent' => '#',
-				'text' => \App\Language::translate($type, $moduleName),
-				'db_id' => $type
+				'text' => \App\Language::translate($type, $moduleName)
 			];
 			$tree[] = $categoryModel;
 			$tempArray[$type][] = $categoryModel;
