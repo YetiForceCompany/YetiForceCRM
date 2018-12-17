@@ -51,9 +51,11 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				}
 				$selectedFolders[$folder['type']][] = $folder['folder'];
 			}
+
 			$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 			$tree = [];
 			$recordIds = 0;
+			$tempArray = [];
 			foreach ($types as $type) {
 				$categoryModel = [
 					'id' => $type,
@@ -63,18 +65,38 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 					'record_id' => 'T' . $recordIds
 				];
 				$recordIds++;
-				array_push($tree, $categoryModel);
+				$tree[] = $categoryModel;
+				$tempArray[$type] = $categoryModel;
 				foreach ($folders as $folder) {
-					$categoryRecord = [
-						'id' => $recordIds,
-						'type' => 'record',
-						'parent' => $type,
-						'text' => \App\Language::translate($folder, $moduleName),
-						'state' => ['selected' => in_array($folder, $selectedFolders[$type])],
-						'record_id' => 'T' . $recordIds
-					];
-					array_push($tree, $categoryRecord);
-					$recordIds++;
+					$folderSplited = explode('/', $folder);
+
+					foreach ($folderSplited as $i => $folderTree) {
+						if (!in_array($folderTree, array_column($tempArray[$type], 'id'))) {
+							$selectedFolders[$type];
+							if ($i === 0) {
+								$categoryRecord = [
+									'id' => $type . $folderTree,
+									'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
+									'parent' => $type,
+									'text' => \App\Language::translate($folderTree, $moduleName),
+									'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
+									'record_id' => 'T' . $recordIds
+								];
+							} else {
+								$categoryRecord = [
+									'id' => $type . $folderTree,
+									'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
+									'parent' => $type . $folderSplited[$i - 1],
+									'text' => \App\Language::translate($folderTree, $moduleName),
+									'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
+									'record_id' => 'T' . $recordIds
+								];
+							}
+							$tempArray[] = $categoryRecord;
+							$tree[] = $categoryRecord;
+							$recordIds++;
+						}
+					}
 				}
 			}
 		}
