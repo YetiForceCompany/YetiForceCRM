@@ -116,6 +116,7 @@ class Register
 			}
 		} catch (\Throwable $e) {
 			$this->error = $e->getMessage();
+			\App\Log::warning($e->getMessage());
 		}
 		return $result;
 	}
