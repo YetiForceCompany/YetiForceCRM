@@ -29,7 +29,7 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
-		this.registerRefreshCompanyVariables(container);
+		App.Tools.variablesPanel.registerRefreshCompanyVariables(container);
 		container.find('.js-save-signature').on('click', function () {
 			const progressIndicator = $.progressIndicator();
 			const editor = CKEDITOR.instances.signatureEditor;
@@ -47,19 +47,6 @@ $.Class('Settings_Mail_Config_Js', {}, {
 			}).fail(function (error) {
 				progressIndicator.progressIndicator({'mode': 'hide'});
 			});
-		});
-	},
-	refreshCompanyVariables: function (container) {
-		const companyId = container.find("#companyList").val();
-		container.find("#companyVariable > optgroup > option").each(function () {
-			let template = $(this).data('value-template');
-			this.value = template.replace(/__X__/i, companyId);
-		});
-	},
-	registerRefreshCompanyVariables: function (container) {
-		var thisInstance = this;
-		container.find('.companyList').on('change', function (e) {
-			thisInstance.refreshCompanyVariables(container);
 		});
 	},
 	registerEvents() {
