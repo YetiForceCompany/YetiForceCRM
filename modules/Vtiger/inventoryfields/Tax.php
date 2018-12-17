@@ -33,7 +33,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}

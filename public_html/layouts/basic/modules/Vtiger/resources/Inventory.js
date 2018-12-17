@@ -1057,7 +1057,7 @@ $.Class("Vtiger_Inventory_Js", {
 		if (!parameters) {
 			return;
 		}
-		parameters = JSON.parse(parameters);
+		parameters = JSON.parse(parameters.toString());
 		$.each(thisInstance.taxModalFields, function (index, param) {
 			let parameter = parameters[param],
 				field = modal.find('[name="' + param + '"]');

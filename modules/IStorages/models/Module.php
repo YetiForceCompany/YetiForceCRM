@@ -43,23 +43,10 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$qtyInStock = $productRecords = [];
 		foreach ($data as $product) {
-			if ($product['qtyparam'] == '1') {
-				// If product was added with diffrent units (pcs not packs)
-				// it will calculate it to packs
-				if (isset($productRecords[$product['name']]) === false) {
-					$productRecords[$product['name']] = Vtiger_Record_Model::getCleanInstance('Products');
-					$productRecords[$product['name']] = Vtiger_Record_Model::getInstanceById($product['name']);
-				}
-				$qtyPerUnit = $productRecords[$product['name']]->get('qty_per_unit');
-				$productQty = $product['qty'] / $qtyPerUnit;
-				$productQty = round($productQty, 3, PHP_ROUND_HALF_UP);
-			} else {
-				$productQty = $product['qty'];
-			}
 			if (!isset($qtyInStock[$product['name']])) {
 				$qtyInStock[$product['name']] = 0;
 			}
-			$qtyInStock[$product['name']] += $productQty;
+			$qtyInStock[$product['name']] += $product['qty'];
 		}
 		$operator = self::getOperator($moduleName, $action);
 		// Update qtyinstock in Products
