@@ -28,13 +28,13 @@ class ProductsTableDescription extends Base
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventoryField->getFields(true);
+		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
+		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		foreach ($inventoryRows as $inventoryRow) {
 			foreach ($fields[1] as $field) {
-				if ($field->get('columnname') === 'name') {
-					$html .= $field->getDisplayValue($inventoryRow[$field->get('columnname')]);
+				if ($field->getColumnName() === 'name') {
+					$html .= $field->getDisplayValue($inventoryRow[$field->getColumnName()]);
 				}
 			}
 			$html .= $inventoryRow['comment1'];
