@@ -31,6 +31,27 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
+	 * Function to get Basic links.
+	 *
+	 * @return array of Basic links
+	 */
+	public function getBasicLinks()
+	{
+		$basicLinks = [];
+		$moduleModel = $this->getModule();
+
+		$basicLinks[] = [
+			'linktype' => 'LISTVIEWBASIC',
+			'linklabel' => 'LBL_RECYCLE_DELETE_ALL',
+			'linkclass' => 'btn-light js-recycle-empty',
+			'linkicon' => 'fas fa-trash-alt',
+			'showLabel' => 1,
+			'linkhref' => false
+		];
+		return $basicLinks;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getListViewMassActions($linkParams)
@@ -55,6 +76,19 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		}
+		return $links;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListViewLinks($linkParams)
+	{
+		$links = ['LISTVIEWBASIC' => []];
+		$basicLinks = $this->getBasicLinks();
+		foreach ($basicLinks as $basicLink) {
+			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}
 		return $links;
 	}

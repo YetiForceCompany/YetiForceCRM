@@ -77,9 +77,6 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 		if (!$this->listViewLinks) {
 			$this->listViewLinks = $listViewModel->getListViewLinks($linkParams);
-			$this->listViewLinks['LISTVIEWBASIC'] = [];
-			$this->listViewLinks['LISTVIEWMASSACTION'] = [];
-			$this->listViewLinks['LISTVIEW'] = [];
 		}
 		$noOfEntries = count($this->listViewEntries);
 		$viewer->assign('MODULE', $moduleName);

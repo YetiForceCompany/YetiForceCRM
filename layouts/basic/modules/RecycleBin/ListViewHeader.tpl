@@ -19,12 +19,6 @@
 						{/foreach}
 					{/if}
 				</div>
-				<div class="btn-group mr-md-1 c-btn-block-sm-down">
-					<button class="btn btn-light js-recycle-empty">
-						<span class="fas fa-trash-alt mr-1"></span>
-						{\App\Language::translate('LBL_RECYCLE_DELETE_ALL', $MODULE_NAME)}
-					</button>
-				</div>
 				<div class="customFilterMainSpan ml-auto mx-xl-auto">
 					{if $MODULE_LIST|@count gt 0}
 						<select class="select2 form-control js-source-module" id="moduleFilter" data-js="value">
