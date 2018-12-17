@@ -2,6 +2,6 @@
 {strip}
 	<!-- tpl-Base-DetailViewMap -->
 	<input type="hidden" id="coordinates" value="{\App\Purifier::encodeHtml(\App\Json::encode($COORRDINATES))}">
-	<div id="mapid" class="u-min-h-85"></div>
+	<div id="mapid" class="u-min-h-85vh"></div>
 	<!-- /tpl-Base-DetailViewMap -->
 {/strip}
