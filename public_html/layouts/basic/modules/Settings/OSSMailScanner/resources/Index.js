@@ -35,13 +35,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				instance.registerEvents();
 				data.find('[name="saveButton"]').on('click', function (e) {
 					const folder = {};
-					data.find('select').each(function () {
-						let select = $(this),
-							val = select.val();
-						if (val == null) {
-							val = [];
+					$.each(instance.treeInstance.jstree("get_selected", true), function (index, value, ese) {
+						if (!Array.isArray(folder[value.original.db_type])) {
+							folder[value.original.db_type] = [];
 						}
-						folder[select.attr('name')] = val;
+						folder[value.original.db_type].push(value.original.db_id);
 					});
 					AppConnector.request({
 						module: 'OSSMailScanner',
@@ -316,12 +314,6 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	treeInstance: false,
 	treeData: false,
 	windowParent: app.getWindowParent(),
-	// getModalContainer: function () {
-	// 	if (this.modalContainer == false) {
-	// 		this.modalContainer = jQuery('#modalTreeCategoryModal');
-	// 	}
-	// 	return this.modalContainer;
-	// },
 	getRecords: function (container) {
 		if (this.treeData == false && container !== "undefined") {
 			var treeValues = container.find('#treePopupValues').val();
@@ -463,12 +455,20 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			$('.counterSelected').text(html);
 		});
 	},
+	registerSelectBrancheEvent: function () {
+		var thisInstance = this;
+		thisInstance.treeInstance.on("changed.jstree", function (e, data) {
+			// thisInstance.getRecordsList();
+		});
+	},
 	registerEvents: function () {
 		var container = $('.js-tree-container');
 		this.getRecords(container);
 		this.generateTree(container);
-		//	this.registerSaveRecords(container);
-		//	this.registerSearchEvent();
-		//	this.registerCounterSelected();
+		//this.registerSaveRecords(container);
+		// this.registerSearchEvent();
+		// this.registerCounterSelected();
+		this.registerSelectBrancheEvent(container);
+
 	}
 });
