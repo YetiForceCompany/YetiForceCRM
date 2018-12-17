@@ -47,7 +47,11 @@ window.Chat_JS = class Chat_Js {
 	 */
 	static getHeaderChatButton() {
 		if (typeof Chat_Js.headerChatButton === 'undefined') {
-			Chat_Js.headerChatButton = $('.js-header-chat-button');
+			if (window.location !== window.top.location) {
+				Chat_Js.headerChatButton = window.top.$('.js-header-chat-button');
+			} else {
+				Chat_Js.headerChatButton = $('.js-header-chat-button');
+			}
 		}
 		return Chat_Js.headerChatButton;
 	}
