@@ -112,7 +112,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 				selectedModule: $(this).val()
 			}).done((response) => {
 				container.find('.js-variable-panel').html(response);
-				App.Tools.variablesPanel.registerRefreshCompanyVariables(container);
+				App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
 				App.Fields.Text.registerCopyClipboard(container);
 				progressIndicator.progressIndicator({'mode': 'hide'});
 			}).fail((error, err) => {
@@ -214,8 +214,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		this.registerWatermarkTypeChange(container);
 		this.registerUploadButton(container);
 		this.registerDeleteUploadButton(container);
-		App.Tools.variablesPanel.registerRefreshCompanyVariables(container);
+		App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
 		App.Fields.Text.registerCopyClipboard(container);
-		App.Tools.variablesPanel.refreshCompanyVariables(container);
+		App.Tools.VariablesPanel.refreshCompanyVariables(container);
 	}
 });

@@ -293,6 +293,7 @@ abstract class View extends Base
 			'~libraries/store/dist/store.legacy.min.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
+			'~layouts/resources/Tools.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',

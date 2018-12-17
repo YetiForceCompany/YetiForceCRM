@@ -76,7 +76,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				$('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
-				App.Tools.variablesPanel.registerRefreshCompanyVariables(data);
+				App.Tools.VariablesPanel.registerRefreshCompanyVariables(data);
 			});
 
 		});
