@@ -35,7 +35,6 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	{
 		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$tree = [];
-		$recordIds = 0;
 		$tempArray = [];
 		foreach ($types as $type) {
 			$categoryModel = [
@@ -43,9 +42,8 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				'type' => 'category',
 				'parent' => '#',
 				'text' => \App\Language::translate($type, $moduleName),
-				'record_id' => 'T' . $recordIds
+				'db_id' => $type
 			];
-			$recordIds++;
 			$tree[] = $categoryModel;
 			$tempArray[$type][] = $categoryModel;
 			foreach ($folders as $folder) {
@@ -58,11 +56,11 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 							'parent' => $i === 0 ? $type : $type . $folderSplited[$i - 1],
 							'text' => \App\Language::translate($folderTree, $moduleName),
 							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
-							'record_id' => 'T' . $recordIds
+							'db_id' => end($folderSplited) === $folderTree ? $folder : false,
+							'db_type' => $type
 						];
 						$tempArray[$type][] = $categoryRecord;
 						$tree[] = $categoryRecord;
-						$recordIds++;
 					}
 				}
 			}
