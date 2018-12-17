@@ -23,6 +23,53 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		}
 	}
 
+	/**
+	 * Get Tree Data.
+	 *
+	 * @param $folders
+	 * @param $selectedFolders
+	 *
+	 * @return array
+	 */
+	private function getTreeData($folders, $selectedFolders)
+	{
+		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
+		$tree = [];
+		$recordIds = 0;
+		$tempArray = [];
+		foreach ($types as $type) {
+			$categoryModel = [
+				'id' => $type,
+				'type' => 'category',
+				'parent' => '#',
+				'text' => \App\Language::translate($type, $moduleName),
+				'record_id' => 'T' . $recordIds
+			];
+			$recordIds++;
+			$tree[] = $categoryModel;
+			$tempArray[$type][] = $categoryModel;
+			foreach ($folders as $folder) {
+				$folderSplited = explode('/', $folder);
+				foreach ($folderSplited as $i => $folderTree) {
+					if (!in_array($type . $folderTree, array_column($tempArray[$type], 'id'))) {
+						$categoryRecord = [
+							'id' => $type . $folderTree,
+							'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
+							'parent' => $i === 0 ? $type : $type . $folderSplited[$i - 1],
+							'text' => \App\Language::translate($folderTree, $moduleName),
+							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
+							'record_id' => 'T' . $recordIds
+						];
+						$tempArray[$type][] = $categoryRecord;
+						$tree[] = $categoryRecord;
+						$recordIds++;
+					}
+				}
+			}
+		}
+		return $tree;
+	}
+
 	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
@@ -51,59 +98,11 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				}
 				$selectedFolders[$folder['type']][] = $folder['folder'];
 			}
-
-			$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
-			$tree = [];
-			$recordIds = 0;
-			$tempArray = [];
-			foreach ($types as $type) {
-				$categoryModel = [
-					'id' => $type,
-					'type' => 'category',
-					'parent' => '#',
-					'text' => \App\Language::translate($type, $moduleName),
-					'record_id' => 'T' . $recordIds
-				];
-				$recordIds++;
-				$tree[] = $categoryModel;
-				$tempArray[$type] = $categoryModel;
-				foreach ($folders as $folder) {
-					$folderSplited = explode('/', $folder);
-
-					foreach ($folderSplited as $i => $folderTree) {
-						if (!in_array($folderTree, array_column($tempArray[$type], 'id'))) {
-							$selectedFolders[$type];
-							if ($i === 0) {
-								$categoryRecord = [
-									'id' => $type . $folderTree,
-									'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
-									'parent' => $type,
-									'text' => \App\Language::translate($folderTree, $moduleName),
-									'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
-									'record_id' => 'T' . $recordIds
-								];
-							} else {
-								$categoryRecord = [
-									'id' => $type . $folderTree,
-									'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
-									'parent' => $type . $folderSplited[$i - 1],
-									'text' => \App\Language::translate($folderTree, $moduleName),
-									'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])],
-									'record_id' => 'T' . $recordIds
-								];
-							}
-							$tempArray[] = $categoryRecord;
-							$tree[] = $categoryRecord;
-							$recordIds++;
-						}
-					}
-				}
-			}
 		}
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
-		$viewer->assign('TREE', \App\Json::encode($tree));
+		$viewer->assign('TREE', \App\Json::encode($this->getTreeData($folders, $selectedFolders)));
 		$viewer->assign('FOLDERS', $folders);
 		$viewer->assign('SELECTED', $selectedFolders);
 		$viewer->assign('MODULE_NAME', $moduleName);
