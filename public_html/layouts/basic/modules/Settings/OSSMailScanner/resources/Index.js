@@ -29,9 +29,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				});
 			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				app.showScrollBar(data.find('.modal-body'), {
-					height: app.getScreenHeight(70) + 'px'
-				});
 				let recurrenceTree = new YF_RecurrenceTree();
 				data.find('[name="saveButton"]').on('click', function (e) {
 					const selectedFolders = self.getSelectedFolders(recurrenceTree.treeInstance);
@@ -343,8 +340,7 @@ class YF_RecurrenceTree {
 
 	getRecords(container) {
 		if (this.treeData === false && container !== "undefined") {
-			var treeValues = container.find('#treePopupValues').val();
-			this.treeData = JSON.parse(treeValues);
+			this.treeData = JSON.parse(container.find('.js-tree-data').val());
 		}
 		return this.treeData;
 	}
