@@ -47,15 +47,6 @@ class WorkFlowScheduler
 		$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
 		$queryGenerator->setFields(['id']);
 		$this->addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions);
-
-		if ($moduleName === 'Calendar' || $moduleName === 'Events') {
-			// We should only get the records related to proper activity type
-			if ($moduleName === 'Calendar') {
-				$queryGenerator->addCondition('activitytype', 'Task', 'e');
-			} elseif ($moduleName === 'Events') {
-				$queryGenerator->addCondition('activitytype', 'Task', 'n');
-			}
-		}
 		return $queryGenerator->createQuery();
 	}
 
@@ -107,7 +98,7 @@ class WorkFlowScheduler
 							} else {
 								$delay = 0;
 							}
-							if ((bool) $task->executeImmediately === true) {
+							if ((bool)$task->executeImmediately === true) {
 								$task->doTask($recordModel);
 							} else {
 								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
@@ -212,7 +203,7 @@ class WorkFlowScheduler
 	public function specialDateTimeOperator()
 	{
 		return ['less than days ago', 'more than days ago', 'in less than', 'in more than', 'days ago', 'days later',
-			'less than hours before', 'less than hours later', 'more than hours later', 'more than hours before', 'is today', ];
+			'less than hours before', 'less than hours later', 'more than hours later', 'more than hours before', 'is today',];
 	}
 
 	/**

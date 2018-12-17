@@ -6,18 +6,18 @@
 		<div class='font-x-small updateInfoContainer'>
 			{foreach item=CHANGES key=KEY from=$RECENT_ACTIVITY->getInventoryChanges()}
 				{\App\Language::translate($CHANGES['historyState'], 'ModTracker')} {$FIELD->getDisplayValue($CHANGES['item'])}
-				{foreach item=CHANGE key=KEY from=$CHANGES.data}
-					{if !$CHANGE.field->isVisible()}{continue}{/if}
+				{foreach item=CHANGE key=KEY from=$CHANGES['data']}
+					{if !$CHANGE['field']->isVisible()}{continue}{/if}
 					<div class="ml-2">
-						{\App\Language::translate($CHANGE.field->get('label'), $CHANGE.field->getModuleName())}:
+						{\App\Language::translate($CHANGE['field']->get('label'), $CHANGE['field']->getModuleName())}:
 						{if isset($CHANGE['prevalue'])}
-							<strong class="ml-1 mr-1">{$CHANGE.field->getDisplayValue($CHANGE['prevalue'])}</strong>
+							<strong class="ml-1 mr-1">{$CHANGE['field']->getDisplayValue($CHANGE['prevalue'])}</strong>
 						{/if}
 						{if $CHANGES['historyState'] eq 'LBL_INV_UPDATED'}
 							{\App\Language::translate('LBL_TO')}
 						{/if}
 						{if isset($CHANGE['postvalue'])}
-							<strong class="ml-1">{$CHANGE.field->getDisplayValue($CHANGE['postvalue'])}</strong>
+							<strong class="ml-1">{$CHANGE['field']->getDisplayValue($CHANGE['postvalue'])}</strong>
 						{/if}
 					</div>
 				{/foreach}
