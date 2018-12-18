@@ -195,22 +195,21 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer = new Vtiger_Viewer();
 		$moduleName = $request->getModule();
 		$ownerId = $request->getInteger('foruser');
-		$type = $request->get('type');
 		$user = App\User::getCurrentUserModel();
 		if (!$user->isAdmin() && $user->getId() !== $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('ExceptionError.tpl', 'Vtiger');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($type, $moduleName);
+		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($moduleName);
 		$viewer->assign('FOR_MODULE', $moduleName);
-		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
 		$viewer->assign('DELETED_RECORDS_COUNT', $noOfRecordsDeleted);
 		$viewer->view('ImportUndoResult.tpl', 'Import');
 	}
 
-	public function undoRecords($type, $moduleName)
+	public function undoRecords(string $moduleName)
 	{
 		$dbTableName = Import_Module_Model::getDbTableName(App\User::getCurrentUserModel());
 		$dataReader = (new \App\Db\Query())->select(['recordid'])
@@ -301,7 +300,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				return true;
 			}
 		}
-		Import_Module_Model::clearUserImportInfo($user);
+		if ($request->getMode() !== 'continueImport') {
+			Import_Module_Model::clearUserImportInfo($user);
+		}
 		return false;
 	}
 }
