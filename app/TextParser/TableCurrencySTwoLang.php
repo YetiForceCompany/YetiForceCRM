@@ -54,7 +54,7 @@ class TableCurrencySTwoLang extends Base
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
 				$taxField = $inventory->getField('tax');
-				foreach ($inventoryRows as $key => &$inventoryRow) {
+				foreach ($inventoryRows as $key => $inventoryRow) {
 					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 				}
 			}
