@@ -355,7 +355,6 @@ class Vtiger_Export_Model extends \App\Base
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => $data) {
 							$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
-							$data['value'] = $currencyName;
 							$valueNewData[$currencyName] = $data;
 						}
 						$valueParam = \App\Json::encode($valueNewData);

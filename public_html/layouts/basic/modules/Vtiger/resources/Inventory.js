@@ -276,28 +276,28 @@ $.Class("Vtiger_Inventory_Js", {
 	 * @param {int} val
 	 */
 	setCurrency(val) {
-		this.getInventoryHeadContainer().find('[name="currency"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('[name*="[currency]"]').val(val).trigger('change');
 	},
 	/**
 	 * Set currency param
 	 * @param {string} val json string
 	 */
 	setCurrencyParam(val) {
-		this.getInventoryHeadContainer().find('[name="currencyparam"]').val(val);
+		this.getInventoryHeadContainer().find('[name*="[currencyparam]"]').val(val);
 	},
 	/**
 	 * Set discount mode
 	 * @param {int} val
 	 */
 	setDiscountMode(val) {
-		this.getInventoryHeadContainer().find('[name="discountmode"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('[name*="[discountmode]"]').val(val).trigger('change');
 	},
 	/**
 	 * Set tax mode
 	 * @param {int} val
 	 */
 	setTaxMode(val) {
-		this.getInventoryHeadContainer().find('[name="taxmode"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('[name*="[taxmode]"]').val(val).trigger('change');
 	},
 	/**
 	 * Set inventory id
@@ -541,19 +541,18 @@ $.Class("Vtiger_Inventory_Js", {
 		return discount;
 	},
 	calculatCurrenciesSummary: function () {
-		var thisInstance = this;
-		var container = thisInstance.getInventorySummaryCurrenciesContainer();
-		var selected = $('[name="currency"] option:selected', thisInstance.getInventoryHeadContainer());
-		var base = $('[name="currency"] option[data-base-currency="1"]', thisInstance.getInventoryHeadContainer());
-		var conversionRate = selected.data('conversionRate');
-		var baseConversionRate = base.data('conversionRate');
+		let container = this.getInventorySummaryCurrenciesContainer(),
+			selected = $('[name*="[currency]"] option:selected', this.getInventoryHeadContainer()),
+			base = $('[name*="[currency]"] option[data-base-currency="1"]', this.getInventoryHeadContainer()),
+			conversionRate = selected.data('conversionRate'),
+			baseConversionRate = base.data('conversionRate');
 		if (conversionRate == baseConversionRate) {
 			container.addClass('d-none');
 			return;
 		}
 		conversionRate = parseFloat(baseConversionRate) / parseFloat(conversionRate);
 		container.removeClass('d-none');
-		var taxs = thisInstance.getAllTaxs();
+		var taxs = this.getAllTaxs();
 		var sum = 0;
 		container.find('.js-panel__body').html('');
 		$.each(taxs, function (index, value) {
@@ -1057,7 +1056,7 @@ $.Class("Vtiger_Inventory_Js", {
 		if (!parameters) {
 			return;
 		}
-		parameters = JSON.parse(parameters);
+		parameters = JSON.parse(parameters.toString());
 		$.each(thisInstance.taxModalFields, function (index, param) {
 			let parameter = parameters[param],
 				field = modal.find('[name="' + param + '"]');
@@ -1172,8 +1171,7 @@ $.Class("Vtiger_Inventory_Js", {
 				select.data('oldValue', select.val());
 				app.hideModalWindow();
 				thisInstance.lockCurrencyChange = false;
-			});
-			modal.on('click', 'button[type="reset"]', function (e) {
+			}).one('hidden.bs.modal', function () {
 				select.val(select.data('oldValue')).change();
 				thisInstance.lockCurrencyChange = false;
 			});

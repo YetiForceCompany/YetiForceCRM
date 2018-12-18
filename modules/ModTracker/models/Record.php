@@ -419,6 +419,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				$data = (new \App\Db\Query())->select(['changes'])->from('u_#__modtracker_inv')->where(['id' => $this->get('id')])->scalar();
 				$data = $data ? \App\Json::decode($data) : [];
 				foreach ($data as $key => $changed) {
+					if (!\vtlib\Functions::getCRMRecordMetadata($changed['item'])) {
+						continue;
+					}
 					$changes[$key]['item'] = $changed['item'];
 					$changes[$key]['historyState'] = empty($changed['prevalue']) ? 'LBL_INV_ADDED' : (empty($changed['postvalue']) ? 'LBL_INV_DELETED' : 'LBL_INV_UPDATED');
 					foreach ($changed['prevalue'] as $fieldName => $value) {
