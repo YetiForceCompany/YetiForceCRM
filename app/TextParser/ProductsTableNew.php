@@ -90,7 +90,7 @@ class ProductsTableNew extends Base
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="text-align:right;">';
+					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {

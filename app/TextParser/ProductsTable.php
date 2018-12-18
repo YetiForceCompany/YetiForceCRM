@@ -58,7 +58,7 @@ class ProductsTable extends Base
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -90,7 +90,7 @@ class ProductsTable extends Base
 						<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="text-align:right;">';
+					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $key => $inventoryRow) {
