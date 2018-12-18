@@ -41,10 +41,10 @@ class ProductsTable extends Base
 			}
 		}
 		if (isset($fields[0])) {
-			$html .= '<table class="pTable colapseBorder">
+			$html .= '<table style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>
-						<th style="width: 60%;"></th>';
+						<th></th>';
 			foreach ($fields[0] as $field) {
 				$html .= '<th style="' . $field->get('colSpan') . '%;" class="tBorder noBottomBorder tHeader">
 								<span>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;' . $field->getDisplayValue($firstRow[$field->getColumnName()]) . '</th>';
@@ -53,12 +53,12 @@ class ProductsTable extends Base
 				</thead>
 			</table>';
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table class="pTable colapseBorder">
+			$html .= '<table style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="' . $field->get('colspan') . '%; text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -90,8 +90,7 @@ class ProductsTable extends Base
 						<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<td style="text-align:right">';
-
+					$html .= '<th style="text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $key => $inventoryRow) {
@@ -99,7 +98,7 @@ class ProductsTable extends Base
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 					}
-					$html .= '</td>';
+					$html .= '</th>';
 				}
 			}
 			$html .= '</tr>

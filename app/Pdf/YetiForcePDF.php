@@ -395,7 +395,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setTitle($title)
 	{
-		$this->pdf->getMeta()->setTitle($title);
+		$this->pdf->getMeta()->setTitle($this->parseVariables($title));
 	}
 
 	/**
@@ -403,7 +403,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setAuthor($author)
 	{
-		$this->pdf->getMeta()->setAuthor($author);
+		$this->pdf->getMeta()->setAuthor($this->parseVariables($author));
 	}
 
 	/**
@@ -419,7 +419,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setSubject($subject)
 	{
-		$this->pdf->getMeta()->setSubject($subject);
+		$this->pdf->getMeta()->setSubject($this->parseVariables($subject));
 	}
 
 	/**
@@ -616,7 +616,7 @@ class YetiForcePDF extends PDF
 		}
 		header('accept-charset: utf-8');
 		header('content-type: application/pdf; charset=utf-8');
-		$basename = basename($fileName);
+		$basename = str_replace(['/', '\\'], '-', basename($fileName));
 		header("content-disposition: attachment; filename=\"{$basename}\"");
 		echo $output;
 	}
