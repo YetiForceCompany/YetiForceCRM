@@ -39,7 +39,7 @@ class ProductsTableRelatedModule extends Base
 		$relatedModuleName = $relatedModuleRecordModel->getModuleName();
 		$inventory = \Vtiger_Inventory_Model::getInstance($relatedModuleName);
 		$fields = $inventory->getFieldsByBlocks();
-		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		$inventoryRows = $relatedModuleRecordModel->getInventoryData();
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .
