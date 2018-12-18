@@ -34,7 +34,7 @@ class TableCurrencySTwoLang extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (\count($firstRow) > 0 && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) > 0 && $firstRow['currency'] !== null) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -50,7 +50,7 @@ class TableCurrencySTwoLang extends Base
 			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
 			'.productTable .summaryContainer{background:#ddd;}' .
 			'</style>';
-		if (\count($fields[0])) {
+		if (!empty($fields[0])) {
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
 				$taxField = $inventory->getField('tax');
