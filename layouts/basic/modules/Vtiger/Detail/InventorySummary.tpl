@@ -92,7 +92,7 @@
 									{CurrencyField::convertToUserFormat($KEY)}%
 								</td>
 								<td class="textAlignRight">
-									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE,false,$BASE_CURRENCY['currency_symbol'],true)}
+									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE,false,$BASE_CURRENCY['currency_symbol'])}
 								</td>
 							</tr>
 						{/foreach}
