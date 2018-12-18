@@ -92,11 +92,11 @@ class ProductsTableShortVersion extends Base
 						} else {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
 						}
+						$html .= '</td>';
 					}
-					$html .= '</td>';
 				}
+				$html .= '</tr>';
 			}
-			$html .= '</tr>';
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getColumnName(), $fieldsColumnQuotes)) {
