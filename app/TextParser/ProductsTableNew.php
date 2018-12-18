@@ -54,9 +54,7 @@ class ProductsTableNew extends Base
 					$html .= '<th>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
-			$html .= '</tr>
-				</thead>
-				<tbody>';
+			$html .= '</tr></thead><tbody>';
 			$counter = 1;
 			foreach ($inventoryRows as $inventoryRow) {
 				$html .= '<tr>';
@@ -92,7 +90,7 @@ class ProductsTableNew extends Base
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<td style="text-align:right">';
+					$html .= '<th style="text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {
@@ -100,12 +98,10 @@ class ProductsTableNew extends Base
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
 					}
-					$html .= '</td>';
+					$html .= '</th>';
 				}
 			}
-			$html .= '</tr>
-					</tfoot>
-				</table>';
+			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
 	}
