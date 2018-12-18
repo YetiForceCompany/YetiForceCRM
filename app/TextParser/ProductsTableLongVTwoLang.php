@@ -43,20 +43,9 @@ class ProductsTableLongVTwoLang extends Base
 			$currencyData = \App\Fields\Currency::getById($currency);
 			$currencySymbol = $currencyData['currency_symbol'];
 		}
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px; width:100%}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable .tHeader {background:#ddd, text-transform: capitalize !important;}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;padding:5px}' .
-			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
-			'</style>';
 		if (\count($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
+			$html .= '<table style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {

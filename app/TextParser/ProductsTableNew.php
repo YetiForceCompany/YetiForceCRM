@@ -33,7 +33,7 @@ class ProductsTableNew extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table style="width:100%">
+			$html .= '<table style="border-collapse:collapse;width:100%">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
