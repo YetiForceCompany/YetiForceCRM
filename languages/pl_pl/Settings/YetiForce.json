@@ -32,6 +32,15 @@
     "LBL_REGISTRATION_OFFLINE_MODAL": "Rejestracja OffLine",
     "LBL_REGISTER": "Zarejestruj",
     "LBL_REGISTERED": "Rejestracja zako\u0144czona pomy\u015blnie.",
-    "LBL_REGISTRATION_KEY": "Klucz rejestracyjny"
+    "LBL_REGISTRATION_KEY": "Klucz rejestracyjny",
+    "LBL_END_USERS": "U\u017cytkownicy ko\u0144cowi",
+    "LBL_INTEGRATORS": "Integratorzy",
+    "LBL_SUPPLIERS": "Dostawcy",
+    "LBL_COMPANY_NAME": "Nazwa firmy",
+    "LBL_INDUSTRY": "Bran\u017ca",
+    "LBL_CITY": "Miejscowo\u015b\u0107",
+    "LBL_COUNTRY": "Kraj",
+    "LBL_WEBSITE": "Strona internetowa",
+    "LBL_EMAIL": "Email"
   }
 }

@@ -4,7 +4,17 @@
 jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 	registerEvents() {
 		const container = $("[data-view='RegistrationOnlineModal']");
+		const form = container.find('form');
+		form.validationEngine(app.validationEngineOptions);
 		container.find('[name="saveButton"]').on('click', function (e) {
+			if (!form.validationEngine('validate')) {
+				e.preventDefault();
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_ENTER_ALL_REGISTRATION_DATA'),
+					type: 'error'
+				});
+				return false;
+			}
 			container.find('button[name=saveButton]').prop("disabled", true);
 			var progress = $.progressIndicator({
 				'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
@@ -12,12 +22,7 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 					'enabled': true
 				}
 			});
-			AppConnector.request({
-				'module': 'YetiForce',
-				'parent': 'Settings',
-				'action': 'Register',
-				'mode': 'online'
-			}).done(function (data) {
+			AppConnector.request(form.serializeFormData()).done(function (data) {
 				Vtiger_Helper_Js.showPnotify({
 					text: data['result']['message'],
 					type: data['result']['type']

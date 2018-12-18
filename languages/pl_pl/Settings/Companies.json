@@ -19,6 +19,7 @@
     "LBL_REGISTER_CRM_OFFLINE": "Rejestracja OffLine"
   },
   "js": {
-    "JS_ENTER_REGISTRATION_KEY": "Wprowadz klucz rejestracyjny"
+    "JS_ENTER_REGISTRATION_KEY": "Wprowad\u017a klucz rejestracyjny",
+    "JS_ENTER_ALL_REGISTRATION_DATA": "Wprowad\u017a wszystkie wymaganie dane"
   }
 }
