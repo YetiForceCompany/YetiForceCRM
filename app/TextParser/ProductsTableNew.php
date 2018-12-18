@@ -111,7 +111,7 @@ class ProductsTableNew extends Base
 						foreach ($inventoryRows as $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
-						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
+						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
 					}
 					$html .= '</td>';
 				}
