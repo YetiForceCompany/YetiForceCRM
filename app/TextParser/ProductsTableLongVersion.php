@@ -34,7 +34,7 @@ class ProductsTableLongVersion extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (\count($firstRow) > 0 && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && $firstRow['currency'] !== null) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -42,7 +42,7 @@ class ProductsTableLongVersion extends Base
 			$currencyData = \App\Fields\Currency::getById($currency);
 			$currencySymbol = $currencyData['currency_symbol'];
 		}
-		if (\count($fields[1])) {
+		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="1" class="productTable">
 				<thead>
@@ -75,23 +75,17 @@ class ProductsTableLongVersion extends Base
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
 						$html .= '<td style="font-size:8px" class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue, true) . '</strong>';
-								foreach ($fields[2] as $commentKey => $value) {
-									$COMMENT_FIELD = $fields[2][$commentKey];
-									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->getColumnName()]);
+						if ($field->getType() === 'Name') {
+							$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+									$html .= '<br />' . $commentField->getDisplayValue($value);
 								}
-								break;
-							case 'DetailViewBase.tpl':
-								if ($field->getColumnName() === 'Quantity' || $field->getColumnName() === 'Value') {
-									$html .= $field->getDisplayValue($itemValue);
-								} else {
-									$html .= $field->getDisplayValue($itemValue) . ' ' . $currencySymbol;
-								}
-								break;
-							default:
-								break;
+							}
+						} elseif ($field->getType() === 'Quantity' || $field->getType() === 'Value') {
+							$html .= $field->getDisplayValue($itemValue);
+						} else {
+							$html .= $field->getDisplayValue($itemValue) . ' ' . $currencySymbol;
 						}
 						$html .= '</td>';
 					}

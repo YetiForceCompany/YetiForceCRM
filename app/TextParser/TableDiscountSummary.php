@@ -34,7 +34,7 @@ class TableDiscountSummary extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (\count($firstRow) && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && $firstRow['currency'] !== null) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -50,7 +50,7 @@ class TableDiscountSummary extends Base
 			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
 			'.productTable .summaryContainer{background:#ddd;}' .
 			'</style>';
-		if (count($fields[0])) {
+		if (!empty($fields[0])) {
 			$discount = 0;
 			foreach ($inventoryRows as &$inventoryRow) {
 				$discount += $inventoryRow['discount'];
