@@ -13,7 +13,7 @@ test.js
 .DS_Store
 .less
 CODE_OF_CONDUCT.md
-
+node_modules
 
 
 # asset directories
@@ -30,6 +30,7 @@ chart.js/.htmllintrc
 #package
 split.js/logo.svg
 gantt-elastic/src
+gantt-elastic/*.jpg
 updated-jqplot/optionsTutorial.txt
 updated-jqplot/usage.txt
 updated-jqplot/jqPlotCssStyling.txt
@@ -182,6 +183,7 @@ index.html
 favicon.ico
 build.txt
 MAINTAINING.md
+*.gif
 
 #source - manuall
 source
