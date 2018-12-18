@@ -845,7 +845,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
 	getSecondColMinWidth: function (container) {
-		let maxWidth, thisWidth;
+		let maxWidth = 0,
+			thisWidth;
 		container.find('.js-list__row').each(function (i) {
 			thisWidth = $(this).find('.js-list__field').first().width();
 			if (i === 0) {
@@ -878,7 +879,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	getSplitSizes() {
 		const cachedParams = app.moduleCacheGet('userRelatedSplitSet');
-		if (cachedParams !== null) {
+		if (cachedParams !== undefined) {
 			return cachedParams;
 		} else {
 			return this.getDefaultSplitSizes();
