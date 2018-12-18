@@ -99,7 +99,6 @@ class Import_Main_View extends \App\Controller\View
 		} else {
 			$continueImport = false;
 		}
-
 		$importStatusCount = $importDataController->getImportStatusCount();
 		$totalRecords = $importStatusCount['TOTAL'];
 		if ($totalRecords > ($importStatusCount['IMPORTED'] + $importStatusCount['FAILED'])) {
@@ -114,15 +113,12 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$moduleName = $importInfo['module'];
 		$importId = $importInfo['id'];
-
 		$viewer = new Vtiger_Viewer();
-
 		$viewer->assign('FOR_MODULE', $moduleName);
-		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('IMPORT_ID', $importId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
 		$viewer->assign('CONTINUE_IMPORT', $continueImport);
-
 		$viewer->view('ImportStatus.tpl', 'Import');
 	}
 
@@ -130,7 +126,7 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('FOR_MODULE', $importInfo['module']);
-		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('OWNER_ID', $importInfo['user_id']);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
