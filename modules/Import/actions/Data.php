@@ -403,12 +403,12 @@ class Import_Data_Action extends \App\Controller\Action
 					if (in_array($fieldInstance->getType(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getType() == 'Currency') {
-						$value = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
+						$value = \App\Fields\Currency::getCurrencyIdByName($value);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
-						foreach ($currencyParam as $currencyData) {
-							$valueData = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
+						foreach ($currencyParam as $key => $currencyData) {
+							$valueData = \App\Fields\Currency::getCurrencyIdByName($key);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
