@@ -27,10 +27,12 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	public function __construct(\App\Request $request, \App\User $user)
 	{
 		parent::__construct($request, $user);
-		$this->data = \KzykHys\CsvParser\CsvParser::fromFile($this->getFilePath(), [
-			'encoding' => $this->request->get('file_encoding'),
-			'delimiter' => $this->request->get('delimiter'),
-		])->parse();
+		$csv = new \ParseCsv\Csv();
+		$csv->encoding($this->request->get('file_encoding'), \AppConfig::main('default_charset', 'UTF-8'));
+		$csv->delimiter = $this->request->get('delimiter');
+		$csv->heading = false;
+		$csv->parse($this->getFilePath());
+		$this->data = $csv->data;
 	}
 
 	/**
@@ -65,10 +67,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	 */
 	public function getFirstRowData($hasHeader = true)
 	{
-		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
-		if ($this->moduleModel->isInventory()) {
-			$isInventory = true;
-		}
+		$isInventory = $this->moduleModel->isInventory();
 		$rowData = $headers = $standardData = $inventoryData = [];
 		foreach ($this->data as $currentRow => $data) {
 			if ($currentRow === 0 || ($currentRow === 1 && $hasHeader)) {
@@ -76,24 +75,23 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 					foreach ($data as $key => $value) {
 						if (!empty($isInventory) && strpos($value, 'Inventory::') === 0) {
 							$value = substr($value, 11);
-							$inventoryHeaders[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$inventoryHeaders[$key] = $value;
 						} else {
-							$headers[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$headers[$key] = $value;
 						}
 					}
 				} else {
 					foreach ($data as $key => $value) {
 						if (!empty($isInventory) && isset($inventoryHeaders[$key])) {
-							$inventoryData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$inventoryData[$key] = $value;
 						} else {
-							$standardData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$standardData[$key] = $value;
 						}
 					}
 					break;
 				}
 			}
 		}
-
 		if ($hasHeader) {
 			$standardData = $this->syncRowData($headers, $standardData);
 			$rowData['LBL_STANDARD_FIELDS'] = $this->arrayCombine($headers, $standardData);
@@ -159,7 +157,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
 				if ($this->request->get('file_encoding') !== $defaultCharset) {
-					$fieldValue = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
+					$fieldValue = $fieldValue;
 				}
 				$fieldValueTemp = $fieldValue;
 				$fieldValueTemp = str_replace(',', '.', $fieldValueTemp);
