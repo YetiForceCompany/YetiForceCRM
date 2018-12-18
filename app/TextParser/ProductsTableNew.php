@@ -61,19 +61,19 @@ class ProductsTableNew extends Base
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td><strong>' . $counter++ . '</strong></td>';
-					} elseif ($field->get('columnname') === 'ean') {
+						$html .= '<td style="padding:0px 4px;text-align:center;"><strong>' . $counter++ . '</strong></td>';
+					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->get('columnname')];
-						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
+						$html .= '<td style="padding:0px 4px;text-align:center;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="border:1px solid #ddd;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 							case 'DetailViewName.tpl':
 								$html .= '<div style="display:inline;font-weight:bold;">' . $field->getDisplayValue($itemValue, [], true) . '</div>';
 								foreach ($fields[2] as $commentKey => $value) {
 									$COMMENT_FIELD = $fields[2][$commentKey];
-									$comment = $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
+									$comment = $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->getColumnName()]);
 									if ($comment) {
 										$html .= '<br /><div style="display:inline;font-size:8px;">' . $comment . '</div>';
 									}
@@ -93,7 +93,7 @@ class ProductsTableNew extends Base
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="text-align:right;">';
+					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as &$inventoryRow) {

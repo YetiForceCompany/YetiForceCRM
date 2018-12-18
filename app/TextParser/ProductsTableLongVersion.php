@@ -50,7 +50,7 @@ class ProductsTableLongVersion extends Base
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getType(), $visibleFields) && ($field->getColumnName() !== 'subunit')) {
-					$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -63,13 +63,13 @@ class ProductsTableLongVersion extends Base
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td style="border:1px solid #ddd;"><strong>' . $inventoryRow['seq'] . '</strong></tdtyle>';
+						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;"><strong>' . $inventoryRow['seq'] . '</strong></tdtyle>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="border:1px solid #ddd;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></tdtyle>';
+						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></tdtyle>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="font-size:8px;border:1px solid #ddd;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right ' : '') . '">';
+						$html .= '<td style="padding:0px 4px;font-size:8px;border:1px solid #ddd;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right ' : '') . '">';
 						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue, [], true) . '</strong>';
@@ -99,7 +99,7 @@ class ProductsTableLongVersion extends Base
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getType(), $visibleFields) && ($field->getColumnName() !== 'subunit')) {
-					$html .= '<th style="text-align:right;">';
+					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as &$inventoryRow) {
