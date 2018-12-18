@@ -27,4 +27,14 @@ class Company extends Base
 		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
 		return $rows;
 	}
+
+	public static function setOfflineSerial($key): bool
+	{
+		return random_int(0, 1) ? true : false;
+	}
+
+	public static function registerOnline(\App\Request $request): bool
+	{
+		return random_int(0, 1) ? true : false;
+	}
 }

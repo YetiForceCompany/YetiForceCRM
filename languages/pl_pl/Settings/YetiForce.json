@@ -41,6 +41,7 @@
     "LBL_CITY": "Miejscowo\u015b\u0107",
     "LBL_COUNTRY": "Kraj",
     "LBL_WEBSITE": "Strona internetowa",
-    "LBL_EMAIL": "Email"
+    "LBL_EMAIL": "Email",
+    "LBL_INVALID_OFFLINE_KEY": "Wprowadzony klucz jest b\u0142edny"
   }
 }

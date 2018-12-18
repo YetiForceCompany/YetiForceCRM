@@ -6,6 +6,10 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 		const container = $("[data-view='RegistrationOnlineModal']");
 		const form = container.find('form');
 		form.validationEngine(app.validationEngineOptions);
+		form.on('submit', function (e) {
+			e.preventDefault();
+			container.find('[name="saveButton"]').click();
+		});
 		container.find('[name="saveButton"]').on('click', function (e) {
 			if (!form.validationEngine('validate')) {
 				e.preventDefault();
@@ -31,6 +35,7 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 				if (data['result']['type'] === 'success') {
 					app.hideModalWindow();
 				}
+				container.find('button[name=saveButton]').prop("disabled", false);
 				return data['result'];
 			});
 		});
