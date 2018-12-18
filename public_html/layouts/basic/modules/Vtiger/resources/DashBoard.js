@@ -122,33 +122,43 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.updateLazyWidget(this.scrollContainer);
 	},
 	loadWidget: function (widgetContainer) {
-		var thisInstance = this;
-		var urlParams = widgetContainer.data('url');
-		var mode = widgetContainer.data('mode');
+		const self = this;
+		let urlParams = widgetContainer.data('url');
+		let mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
 		if (mode === 'open') {
-			var name = widgetContainer.data('name');
-			var cache = widgetContainer.data('cache');
-			var userId = CONFIG.userId;
+			let name = widgetContainer.data('name');
+			let cache = widgetContainer.data('cache');
+			let userId = CONFIG.userId;
 			if (cache === 1) {
-				var cecheUrl = app.cacheGet(name + userId, false);
+				let cecheUrl = app.cacheGet(name + userId, false);
 				urlParams = cecheUrl ? cecheUrl : urlParams;
 			}
-			AppConnector.request(urlParams).done(function (data) {
+			AppConnector.request(urlParams).done((data) => {
 				widgetContainer.html(data);
+				widgetContainer.closest('.grid-stack').on('gsresizestop', (event, elem) => {
+					self.adjustHeightWidget(widgetContainer);
+				});
 				App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
-				thisInstance.getWidgetInstance(widgetContainer);
+				self.getWidgetInstance(widgetContainer);
 				widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
-				const headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
-				let adjustedHeight = widgetContainer.height() - headerHeight;
-				if (widgetContainer.find('.dashboardWidgetFooter').length) {
-					adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
-				}
-				const widgetContent = widgetContainer.find('.dashboardWidgetContent');
-				widgetContent.css('max-height', adjustedHeight + 'px');
-				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
+				self.adjustHeightWidget(widgetContainer);
 			});
 		}
+	},
+	/**
+	 * Adjust the height of the widget.
+	 * @param {jQuery} widgetContainer
+	 */
+	adjustHeightWidget(widgetContainer) {
+		const headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
+		let adjustedHeight = widgetContainer.height() - headerHeight;
+		if (widgetContainer.find('.dashboardWidgetFooter').length) {
+			adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
+		}
+		const widgetContent = widgetContainer.find('.dashboardWidgetContent');
+		widgetContent.css('max-height', adjustedHeight + 'px');
+		app.showNewScrollbar(widgetContent, {wheelPropagation: true});
 	},
 	registerRefreshWidget: function () {
 		var thisInstance = this;

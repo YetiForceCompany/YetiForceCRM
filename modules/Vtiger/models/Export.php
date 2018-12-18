@@ -141,6 +141,7 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		}
 		$queryGenerator->setFields($fields);
+		$queryGenerator->setStateCondition($request->getByType('entityState'));
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($request->getMode()) {

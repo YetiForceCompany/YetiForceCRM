@@ -58,7 +58,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 						['vtiger_crmentity.deleted' => 1],
 						['in', 'setype', array_column($modulesList, 'name')],
 						['<=', 'modifiedtime', $untilModifiedTime]])
-				->createCommand()->query();
+						->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				if (0 >= $deleteMaxCount) {
 					(new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => App\Json::encode([$untilModifiedTime, $userId])]))->save();
