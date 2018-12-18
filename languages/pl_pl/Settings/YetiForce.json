@@ -42,6 +42,7 @@
     "LBL_COUNTRY": "Kraj",
     "LBL_WEBSITE": "Strona internetowa",
     "LBL_EMAIL": "Email",
-    "LBL_INVALID_OFFLINE_KEY": "Wprowadzony klucz jest b\u0142edny"
+    "LBL_INVALID_OFFLINE_KEY": "Wprowadzony klucz jest b\u0142edny",
+    "LBL_ONLINE_REGISTRATION_FAILED": "Podczas rejestracji produktu wystąpi\u0142 b\u0142\u0105d"
   }
 }

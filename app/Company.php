@@ -30,11 +30,33 @@ class Company extends Base
 
 	public static function setOfflineSerial($key): bool
 	{
+		// set serial
 		return random_int(0, 1) ? true : false;
 	}
 
 	public static function registerOnline(\App\Request $request): bool
 	{
+		$companiesNew = $request->get('companies');
+		if (!\is_array($companiesNew)) {
+			return false;
+		}
+		foreach (\App\Company::getAll() as $companyCurrent) {
+			if (!isset($companiesNew[$companyCurrent['id']])) {
+				continue;
+			}
+			\App\Db::getInstance()->createCommand()
+				->update('s_#__companies', [
+					'name' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['name'], 'Text'),
+					'industry' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['industry'], 'Text'),
+					'city' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['city'], 'Text'),
+					'country' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['country'], 'Text'),
+					'website' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['website'], 'Text'),
+					'email' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['email'], 'Text'),
+				], ['id' => $companyCurrent['id']])
+				->execute();
+		}
+		Cache::delete('CompanyGetAll', '');
+		// Do registration magic
 		return random_int(0, 1) ? true : false;
 	}
 }
