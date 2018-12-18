@@ -79,9 +79,9 @@ class ProductsTableLongVTwoLang extends Base
 					if (!$field->isVisible() || ($field->getColumnName() === 'subunit')) {
 						continue;
 					}
-					if ($field->getType() == 'ItemNumber') {
+					if ($field->getType() === 'ItemNumber') {
 						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
-					} elseif ($field->getColumnName() == 'ean') {
+					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} elseif ($field->isVisible()) {
