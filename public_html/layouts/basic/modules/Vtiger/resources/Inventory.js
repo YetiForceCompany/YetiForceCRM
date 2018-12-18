@@ -1171,8 +1171,7 @@ $.Class("Vtiger_Inventory_Js", {
 				select.data('oldValue', select.val());
 				app.hideModalWindow();
 				thisInstance.lockCurrencyChange = false;
-			});
-			modal.on('click', 'button[type="reset"]', function (e) {
+			}).one('hidden.bs.modal', function () {
 				select.val(select.data('oldValue')).change();
 				thisInstance.lockCurrencyChange = false;
 			});
