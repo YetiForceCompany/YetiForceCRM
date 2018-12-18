@@ -410,7 +410,6 @@ class Import_Data_Action extends \App\Controller\Action
 						foreach ($currencyParam as $key => $currencyData) {
 							$valueData = \App\Fields\Currency::getCurrencyIdByName($key);
 							if ($valueData) {
-								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
 							}
 						}
