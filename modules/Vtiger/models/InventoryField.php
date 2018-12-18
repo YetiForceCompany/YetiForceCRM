@@ -43,7 +43,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	/**
 	 * Loading the Inventory data.
 	 *
-	 * @param bool  $returnInBlock Should the result be divided into blocks
+	 * @param bool $returnInBlock Should the result be divided into blocks
 	 * @param array $ids
 	 *
 	 * @return Vtiger_Basic_InventoryField[] Inventory data
@@ -115,8 +115,8 @@ class Vtiger_InventoryField_Model extends App\Base
 	/**
 	 * Get inventory columns.
 	 *
-	 * @param string $module        Module name
-	 * @param bool   $returnInBlock Should the result be divided into blocks
+	 * @param string $module Module name
+	 * @param bool $returnInBlock Should the result be divided into blocks
 	 *
 	 * @return array Inventory columns
 	 */
@@ -153,7 +153,7 @@ class Vtiger_InventoryField_Model extends App\Base
 
 		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
-		$instance->initialize($valueArray);
+		//$instance->initialize($valueArray);
 		$instance->set('module', $this->get('module'));
 		\App\Log::trace('Exiting ' . __METHOD__);
 
@@ -286,8 +286,8 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * Get configuration parameters for taxes.
 	 *
 	 * @param string $taxParam String parameters json encode
-	 * @param int    $net      net price
-	 * @param array  $return
+	 * @param int $net net price
+	 * @param array $return
 	 *
 	 * @return array
 	 */
@@ -402,7 +402,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * Creating a new field.
 	 *
 	 * @param string $type
-	 * @param array  $params
+	 * @param array $params
 	 *
 	 * @return array/false
 	 */
@@ -527,8 +527,8 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function getUniqueID($instance)
 	{
-		return (int) (new \App\Db\Query())->from($this->getTableName('fields'))->where(['invtype' => $instance->getName()])
-			->max('id') + 1;
+		return (int)(new \App\Db\Query())->from($this->getTableName('fields'))->where(['invtype' => $instance->getName()])
+				->max('id') + 1;
 	}
 
 	/**
@@ -604,8 +604,8 @@ class Vtiger_InventoryField_Model extends App\Base
 	/**
 	 * Function to get custom values to complete in inventory.
 	 *
-	 * @param string              $sourceModuleName
-	 * @param string              $sourceFieldName
+	 * @param string $sourceModuleName
+	 * @param string $sourceFieldName
 	 * @param Vtiger_Record_Model $recordModel
 	 *
 	 * @return array

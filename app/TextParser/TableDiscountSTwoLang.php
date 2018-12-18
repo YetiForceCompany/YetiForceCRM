@@ -41,32 +41,19 @@ class TableDiscountSTwoLang extends Base
 			}
 			$currencyData = \App\Fields\Currency::getById($currency);
 		}
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tbody tr td{border-bottom: 1px solid #ddd; padding:5px}' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;}' .
-			'</style>';
 		if (!empty($fields[0])) {
 			$discount = 0;
 			foreach ($inventoryRows as $inventoryRow) {
 				$discount += $inventoryRow['discount'];
 			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
-				$html .= '<table class="productTable colapseBorder">
+				$html .= '<table style="border-collapse:collapse;width:100%;">
 							<thead>
-								<tr>
-									<th class="tBorder noBottomBorder tHeader">
-										<strong>' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '/ ' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName, 'en_us') . '</strong>
-									</th>
-								</tr>
+								<tr><th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName, 'en_us') . '</th></tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+									<td style="text-align:right;padding:0px 4px;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';
