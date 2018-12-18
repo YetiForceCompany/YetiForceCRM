@@ -213,7 +213,7 @@ $.Class("Vtiger_Inventory_Js", {
 		} else {
 			groupDiscount.removeClass('d-none');
 			items.find('.changeDiscount').addClass('d-none');
-			items.find('.changeDiscount').addClass('d-none');
+			newRow.find('.changeDiscount').addClass('d-none');
 		}
 		thisInstance.setDiscount(items, 0);
 		thisInstance.setDiscountParam(items, []);
@@ -1240,7 +1240,6 @@ $.Class("Vtiger_Inventory_Js", {
 			});
 		});
 		this.initItem(newRow);
-		this.showIndividualDiscount(newRow);
 		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
 		if (rowData) {
 			this.setRowData(newRow, rowData);
