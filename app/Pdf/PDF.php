@@ -192,17 +192,17 @@ abstract class PDF
 	 */
 	public function setFileName($fileName)
 	{
-		$this->fileName = $fileName;
+		$this->fileName = str_replace(['/', '\\'], '-', $fileName);
 	}
 
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int    $recordId   - id of a record
+	 * @param int $recordId - id of a record
 	 * @param string $moduleName - name of records module
-	 * @param int    $templateId - id of pdf template
-	 * @param string $filePath   - path name for saving pdf file
-	 * @param string $saveFlag   - save option flag
+	 * @param int $templateId - id of pdf template
+	 * @param string $filePath - path name for saving pdf file
+	 * @param string $saveFlag - save option flag
 	 */
 	abstract public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '');
 }

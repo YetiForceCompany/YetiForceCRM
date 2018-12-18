@@ -49,7 +49,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			foreach ($templates as $templateId) {
 				$templateRecord = Vtiger_PDF_Model::getInstanceById((int)$templateId);
 				foreach ($records as $recordId) {
-					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && !$templateRecord->checkFiltersForRecord((int) $recordId) && ($key = array_search($recordId, $records)) !== false) {
+					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && !$templateRecord->checkFiltersForRecord((int)$recordId) && ($key = array_search($recordId, $records)) !== false) {
 						unset($records[$key]);
 					}
 				}
