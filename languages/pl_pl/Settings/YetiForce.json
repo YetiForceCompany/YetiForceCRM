@@ -27,6 +27,11 @@
     "LBL_PERFORMANCE": "Weryfikacja wydajno\u015bci",
     "LBL_PUBLICDIRECTORYACCESS": "Katalog publiczny",
     "LBL_ENVIRONMENT": "Informacje o \u015brodowisku",
-    "LBL_WRITABLEFILESANDFOLDERS": "Uprawnienia zapisu do plik\u00f3w i folder\u00f3w"
+    "LBL_WRITABLEFILESANDFOLDERS": "Uprawnienia zapisu do plik\u00f3w i folder\u00f3w",
+    "LBL_REGISTRATION_ONLINE_MODAL": "Rejestracja OnLine",
+    "LBL_REGISTRATION_OFFLINE_MODAL": "Rejestracja OffLine",
+    "LBL_REGISTER": "Zarejestruj",
+    "LBL_REGISTERED": "Rejestracja zako\u0144czona pomy\u015blnie.",
+    "LBL_REGISTRATION_KEY": "Klucz rejestracyjny"
   }
 }
