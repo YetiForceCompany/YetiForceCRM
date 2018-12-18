@@ -129,7 +129,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	 */
 	public function read()
 	{
-		$defaultCharset = AppConfig::main('default_charset');
 		$this->createTable();
 		$fieldMapping = $this->request->get('field_mapping');
 		$inventoryFieldMapping = $this->request->get('inventory_field_mapping');
@@ -156,9 +155,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$allValuesEmpty = true;
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
-				if ($this->request->get('file_encoding') !== $defaultCharset) {
-					$fieldValue = $fieldValue;
-				}
 				$fieldValueTemp = $fieldValue;
 				$fieldValueTemp = str_replace(',', '.', $fieldValueTemp);
 				if (is_numeric($fieldValueTemp)) {
