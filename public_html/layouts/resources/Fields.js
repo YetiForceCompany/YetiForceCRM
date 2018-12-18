@@ -475,7 +475,6 @@ App.Fields = {
 						let responseData = serverDataFormat[id];
 						reponseDataList.push(responseData);
 					}
-					console.log(reponseDataList);
 					callback(reponseDataList);
 				});
 			}
