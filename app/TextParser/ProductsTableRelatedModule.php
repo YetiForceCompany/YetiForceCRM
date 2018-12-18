@@ -51,7 +51,7 @@ class ProductsTableRelatedModule extends Base
 			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
 			'</style>';
 
-		if (count($fields[1])) {
+		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
 			foreach ($fields[1] as $field) {
@@ -61,7 +61,7 @@ class ProductsTableRelatedModule extends Base
 			}
 			$html .= '</tr></thead><tbody>';
 			$counter = 1;
-			foreach ($inventoryRows as &$inventoryRow) {
+			foreach ($inventoryRows as $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if (!$field->isVisible()) {
@@ -72,22 +72,18 @@ class ProductsTableRelatedModule extends Base
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
-					} elseif ($field->isVisible()) {
+					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
 						$html .= '<td class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
-								if (isset($fields[2]['comment' . $inventoryRow['seq']])) {
-									$COMMENT_FIELD = $fields[2]['comment' . $inventoryRow['seq']];
-									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->getColumnName()]);
+						if ($field->getType() === 'Name') {
+							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
 								}
-								break;
-							case 'DetailViewBase.tpl':
-								$html .= $field->getDisplayValue($itemValue);
-								break;
-							default:
-								break;
+							}
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
 					}
@@ -104,7 +100,7 @@ class ProductsTableRelatedModule extends Base
 					$html .= '">';
 					if ($field->isSummary()) {
 						$sum = 0;
-						foreach ($inventoryRows as &$inventoryRow) {
+						foreach ($inventoryRows as $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true);

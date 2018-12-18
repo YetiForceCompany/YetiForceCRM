@@ -52,7 +52,7 @@ class TableDiscountSTwoLang extends Base
 			'</style>';
 		if (!empty($fields[0])) {
 			$discount = 0;
-			foreach ($inventoryRows as &$inventoryRow) {
+			foreach ($inventoryRows as $inventoryRow) {
 				$discount += $inventoryRow['discount'];
 			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
