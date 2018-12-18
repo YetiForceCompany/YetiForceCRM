@@ -30,9 +30,9 @@ class ProductsTableLongVersion extends Base
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
+		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		if ($inventory->isField('currency')) {
 			if (!empty($firstRow) && $firstRow['currency'] !== null) {
 				$currency = $firstRow['currency'];
@@ -50,13 +50,7 @@ class ProductsTableLongVersion extends Base
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getType(), $visibleFields) && ($field->getColumnName() !== 'subunit')) {
-					if ($field->getType() === 'Quantity' || $field->getType() === 'Value') {
-						$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-					} elseif ($field->getType() === 'Name') {
-						$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-					} else {
-						$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-					}
+					$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
