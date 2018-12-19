@@ -48,7 +48,7 @@
     "LBL_IMPORT": "Import",
     "LBL_TOO_SMALL_UPLOAD_LIMIT": "Upload limit is too small",
     "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration %s",
-    "LBL_CHECK_SERVER_CONFIG": "Sprawd\u017a konfiguracj\u0119 serwera",
+    "LBL_CHECK_SERVER_CONFIG": "check the server configuration",
     "LBL_CREATE_MODULE": "Create module",
     "LBL_CREATING_MODULE": "Creating new module",
     "LBL_ENTER_MODULE_NAME": "Module name",
@@ -74,6 +74,7 @@
     "LBL_LIBRARY_NO_DOWNLOAD": "Not downloaded",
     "LBL_LIBRARY_NEEDS_UPDATING": "Update required",
     "LBL_NO_PERMISSION_TO_DIR": "No permission to directories",
+    "LBL_ERROR_NO_VALID_PREFIX": "Invalid language prefix",
     "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings",
     "LBL_SAMPLE_FIELD_NAME": "sample_name",
     "LBL_SAMPLE_LABEL": "Sample name"
