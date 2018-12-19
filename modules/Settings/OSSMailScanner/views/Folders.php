@@ -102,10 +102,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('TREE', \App\Json::encode($this->getTreeData($moduleName, $folders, $selectedFolders)));
-		$viewer->assign('FOLDERS', $folders);
-		$viewer->assign('SELECTED', $selectedFolders);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ADDRESS_EMAIL', $mailDetail['username']);
 		$viewer->assign('MISSING_FOLDERS', $missingFolders);
 		$viewer->view('Folders.tpl', $qualifiedModuleName);

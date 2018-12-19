@@ -11,9 +11,34 @@
 		</button>
 	</div>
 	<div class="modal-body" data-user="{$RECORD}">
-		<div class="js-tree-container" data-js="jstree">
-			<input class="js-tree-data" value="{\App\Purifier::encodeHtml($TREE)}">
-		</div>
+		{if count($MISSING_FOLDERS) > 0}
+			<div class="alert alert-danger" role="alert">
+				{\App\Language::translate('LBL_INFO_ABOUT_FOLDERS_TO_REMOVE', $QUALIFIED_MODULE)}
+				<ul>
+					{foreach from=$MISSING_FOLDERS item=$FOLDER_NAME}
+						<li>{$FOLDER_NAME}</li>
+					{/foreach}
+				</ul>
+			</div>
+		{/if}
+		{if $TREE === false}
+			<div class="alert alert-danger" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				{\App\Language::translate('ERR_INCORRECT_ACCESS_DATA', $QUALIFIED_MODULE)}
+			</div>
+		{else}
+			<div class="alert alert-warning" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				{\App\Language::translate('LBL_ALERT_EDIT_FOLDER', $MODULE_NAME)}
+			</div>
+			<div class="js-tree-container" data-js="jstree">
+				<input class="js-tree-data" value="{\App\Purifier::encodeHtml($TREE)}">
+			</div>
+		{/if}
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-success mr-1" type="submit" name="saveButton">
