@@ -1,9 +1,7 @@
 {
   "php": {
-    "LBL_RECORDS_LIST": "Records List",
     "OutsourcedProducts": "Outsourced Products",
     "SINGLE_OutsourcedProducts": "Outsourced Product",
-    "LBL_ADD_RECORD": "Add record",
     "LBL_INFORMATION": "Outsourced Products",
     "Assigned To": "Assigned to",
     "LBL_RODZAJUMOWY": "Type of agreement",
