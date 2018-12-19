@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_ADD_FEED_SOURCE": "A\u00f1adir Fuente de origen",
-    "LBL_ENTER_FEED_SOURCE": "A\u00f1adir Fuente de origen",
-    "LBL_FEEDS_LIST_FROM": "Lista de canales de",
-    "LBL_FEED_SOURCE": "Fuente de origen",
-    "LBL_RSS_FEED_SOURCES": "Fuente de origen RSS",
-    "LBL_SENDER": "Remitente",
-    "LBL_SET_AS_DEFAULT": "Establecer como predeterminado",
-    "SINGLE_Rss": "RSS Feed",
-    "LBL_CHANGE_RSS_CHANNEL": "Cambiar canal RSS"
+    "LBL_ADD_FEED_SOURCE": "Add Feed Source",
+    "LBL_ENTER_FEED_SOURCE": "Enter Feed Source",
+    "LBL_FEEDS_LIST_FROM": "Feeds list from",
+    "LBL_FEED_SOURCE": "Feed Source",
+    "LBL_RSS_FEED_SOURCES": "Rss Feed Sources",
+    "LBL_SENDER": "Sender",
+    "LBL_SET_AS_DEFAULT": "Set as default",
+    "SINGLE_Rss": "Rss Feed",
+    "LBL_CHANGE_RSS_CHANNEL": "Change RSS channel"
   },
   "js": {
-    "JS_INVALID_RSS_URL": "URL inv\u00e1lida",
-    "JS_RSS_MADE_AS_DEFAULT": "RSS marcado por defecto",
-    "JS_RSS_SUCCESSFULLY_SAVED": "RSS guardado correctamente"
+    "JS_INVALID_RSS_URL": "Invalid Rss URL",
+    "JS_RSS_MADE_AS_DEFAULT": "Rss made as default",
+    "JS_RSS_SUCCESSFULLY_SAVED": "Rss successfully saved"
   }
 }
