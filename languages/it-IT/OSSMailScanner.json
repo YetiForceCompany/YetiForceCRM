@@ -112,7 +112,7 @@
     "stop_user": "Scanning stopped by",
     "Email_Subject": "Notification: CRON runs too long",
     "Email_Body": "Hello\r\n\r\nCRON is running too long, check if mail system works correctly.\r\n\r\nGreets Admin",
-    "Email_FromName": "YetiForce CRON",
+    "Email_FromName": "Mail Scanner",
     "JS_info_restart_ok": "Cron unlocked",
     "permissions_all": "Visible to all",
     "permissions_vtiger": "Based on vtiger permissions",
