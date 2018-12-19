@@ -23,7 +23,7 @@ class YetiForcePDF extends PDF
 	const WATERMARK_TYPE_IMAGE = 1;
 
 	/**
-	 * Charset
+	 * Charset.
 	 *
 	 * @var string
 	 */
@@ -232,7 +232,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setBottomMargin(float $margin)
 	{
-		$this->pdf->setDefaultBottomMargin((float)$margin);
+		$this->pdf->setDefaultBottomMargin((float) $margin);
 		$this->defaultMargins['bottom'] = $margin;
 		return $this;
 	}
@@ -242,7 +242,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setLeftMargin(float $margin)
 	{
-		$this->pdf->setDefaultLeftMargin((float)$margin);
+		$this->pdf->setDefaultLeftMargin((float) $margin);
 		$this->defaultMargins['left'] = $margin;
 		return $this;
 	}
@@ -252,7 +252,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setRightMargin(float $margin)
 	{
-		$this->pdf->setDefaultRightMargin((float)$margin);
+		$this->pdf->setDefaultRightMargin((float) $margin);
 		$this->defaultMargins['right'] = $margin;
 		return $this;
 	}
@@ -302,9 +302,11 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Set font
+	 * Set font.
+	 *
 	 * @param string $family
-	 * @param int $size
+	 * @param int    $size
+	 *
 	 * @return $this
 	 */
 	public function setFont(string $family, int $size)
@@ -314,11 +316,11 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-
 	/**
 	 * Parse variables.
 	 *
 	 * @param string $str
+	 *
 	 * @return string
 	 */
 	public function parseVariables(string $str)
@@ -468,8 +470,10 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Wrap header content
+	 * Wrap header content.
+	 *
 	 * @param string $headerContent
+	 *
 	 * @return string
 	 */
 	public function wrapHeaderContent(string $headerContent)
@@ -479,8 +483,10 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Wrap footer content
+	 * Wrap footer content.
+	 *
 	 * @param string $footerContent
+	 *
 	 * @return string
 	 */
 	public function wrapFooterContent(string $footerContent)
@@ -490,8 +496,10 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Wrap watermark
+	 * Wrap watermark.
+	 *
 	 * @param string $watermarkContent
+	 *
 	 * @return string
 	 */
 	public function wrapWatermark(string $watermarkContent)
@@ -501,6 +509,7 @@ class YetiForcePDF extends PDF
 
 	/**
 	 * Write html.
+	 *
 	 * @return $this
 	 */
 	public function writeHTML()
@@ -514,8 +523,10 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Get template watermark
+	 * Get template watermark.
+	 *
 	 * @param \Vtiger_PDF_Model $templateModel
+	 *
 	 * @return string
 	 */
 	public function getTemplateWatermark(\Vtiger_PDF_Model $templateModel)
@@ -553,10 +564,10 @@ class YetiForcePDF extends PDF
 	/**
 	 * Prepare pdf, generate all content.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
 	 * @param string $moduleName
-	 * @param int $templateId
-	 * @param int $templateMainRecordId - optional if null $recordId is used
+	 * @param int    $templateId
+	 * @param int    $templateMainRecordId - optional if null $recordId is used
 	 *
 	 * @return YetiForcePDF current or new instance if needed
 	 */
@@ -635,11 +646,11 @@ class YetiForcePDF extends PDF
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int $recordId - id of a record
+	 * @param int    $recordId   - id of a record
 	 * @param string $moduleName - name of records module
-	 * @param int $templateId - id of pdf template
-	 * @param string $filePath - path name for saving pdf file
-	 * @param string $saveFlag - save option flag
+	 * @param int    $templateId - id of pdf template
+	 * @param string $filePath   - path name for saving pdf file
+	 * @param string $saveFlag   - save option flag
 	 */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{

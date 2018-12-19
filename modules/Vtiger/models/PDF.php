@@ -153,9 +153,9 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Check if pdf templates are avauble for this record, user and view.
 	 *
-	 * @param int $recordId - id of a record
+	 * @param int    $recordId   - id of a record
 	 * @param string $moduleName - name of the module
-	 * @param string $view - modules view - Detail or List
+	 * @param string $view       - modules view - Detail or List
 	 *
 	 * @return bool true or false
 	 */
@@ -173,7 +173,7 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Return available templates for record.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
 	 * @param string $view
 	 * @param string $moduleName
 	 *
@@ -242,7 +242,7 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Get PDF instance by id.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
 	 * @param string $moduleName
 	 *
 	 * @return Vtiger_PDF_Model|bool
@@ -424,7 +424,8 @@ class Vtiger_PDF_Model extends \App\Base
 	}
 
 	/**
-	 * Get page orientation
+	 * Get page orientation.
+	 *
 	 * @return string
 	 */
 	public function getOrientation()
@@ -470,11 +471,11 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int $recordId - id of a record
+	 * @param int    $recordId   - id of a record
 	 * @param string $moduleName - name of records module
-	 * @param int $templateId - id of pdf template
-	 * @param string $filePath - path name for saving pdf file
-	 * @param string $saveFlag - save option flag
+	 * @param int    $templateId - id of pdf template
+	 * @param string $filePath   - path name for saving pdf file
+	 * @param string $saveFlag   - save option flag
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
