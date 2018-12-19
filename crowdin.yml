@@ -1,9 +1,9 @@
 files:
-  - source: /languages/**/*.json
-    translation: /languages/%locale_with_underscore%/%original_file_name%
+  - source: /languages/en_us/**/*.json
+    translation: /languages/%locale_with_underscore%/**/%original_file_name%
     languages_mapping:
       locale_with_underscore:
-        de: de_de
+        en: de_de
         fr: fr_fr
         it: it_it
         pl: pl_pl
