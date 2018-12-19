@@ -2,14 +2,14 @@
   "php": {
     "Ideas": "Ideas",
     "SINGLE_Ideas": "Idea",
-    "LBL_IDEAS_INFORMATION": "Informaci\u00f3n sobre la Idea",
-    "LBL_SUBJECT": "Asunto",
-    "LBL_STATUS": "Estado",
-    "Description": "Descripci\u00f3n b\u00e1sica",
-    "LBL_EXTENT_DESCRIPTION": "Descripci\u00f3n detallada",
-    "Attention": "Notas",
-    "LBL_NO": "ID",
-    "Draft": "Borrador",
-    "Proposition": "Propuesta"
+    "LBL_IDEAS_INFORMATION": "Basic Information",
+    "LBL_SUBJECT": "Subject",
+    "LBL_STATUS": "Status",
+    "Description": "Basic description",
+    "LBL_EXTENT_DESCRIPTION": "Detailed description",
+    "Attention": "Comments",
+    "LBL_NO": "Number",
+    "Draft": "Draft",
+    "Proposition": "Proposal"
   }
 }
