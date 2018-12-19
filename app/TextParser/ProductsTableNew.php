@@ -31,7 +31,6 @@ class ProductsTableNew extends Base
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		if (count($fields[1]) != 0) {
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
@@ -44,7 +43,7 @@ class ProductsTableNew extends Base
 			$currencySymbol = $currencyData['currency_symbol'];
 		}
 		if (!empty($fields[1])) {
-			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
+			$fieldsTextAlignRight = ['Unit', 'TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table style="border-collapse:collapse;width:100%">
 				<thead>
@@ -69,12 +68,15 @@ class ProductsTableNew extends Base
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ($field->getType() === 'Name') {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
+									$comment = $commentField->getDisplayValue($value, $inventoryRow);
+									if ($comment) {
+										$html .= '<br />' . $comment;
+									}
 								}
 							}
 						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {

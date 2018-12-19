@@ -44,12 +44,13 @@ class ProductsTableShortVersion extends Base
 		}
 		if (!empty($fields[1])) {
 			$fieldsColumnQuotes = ['Quantity', 'GrossPrice', 'Name', 'UnitPrice', 'TotalPrice'];
+			$fieldsTextRight = ['Quantity', 'GrossPrice', 'UnitPrice', 'TotalPrice'];
 			$fieldsWithCurrency = ['TotalPrice', 'GrossPrice', 'UnitPrice'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
+			$html .= '<table style="width:100%;border-collapse:collapse;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && in_array($field->getType(), $visibleColumns)) {
+				if ($field->isVisible() && in_array($field->getType(), $fieldsColumnQuotes)) {
 					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
@@ -57,7 +58,7 @@ class ProductsTableShortVersion extends Base
 			foreach ($inventoryRows as $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
-					if (!$field->isVisible() || !in_array($field->getType(), $visibleColumns)) {
+					if (!$field->isVisible() || !in_array($field->getType(), $fieldsColumnQuotes)) {
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
@@ -67,12 +68,15 @@ class ProductsTableShortVersion extends Base
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="' . (in_array($field->getType(), $fieldsColumnQuotes) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
 						if ($field->getType() === 'Name') {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
+									$comment = $commentField->getDisplayValue($value, $inventoryRow);
+									if ($comment) {
+										$html .= '<br />' . $comment;
+									}
 								}
 							}
 						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
@@ -87,7 +91,7 @@ class ProductsTableShortVersion extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && in_array($field->getType(), $visibleColumns)) {
+				if ($field->isVisible() && in_array($field->getType(), $fieldsColumnQuotes)) {
 					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
