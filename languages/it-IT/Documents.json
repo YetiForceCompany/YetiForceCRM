@@ -2,7 +2,7 @@
   "php": {
     "Active": "Active",
     "Document No": "Document no.",
-    "Documents": "Documenti",
+    "Documents": "Documents",
     "Download Count": "Download count",
     "Download Type": "Download type",
     "File Name": "File name\/www",
@@ -34,7 +34,6 @@
     "LBL_MAX_UPLOAD_SIZE": "Maximum upload size",
     "LBL_MOVE": "Move",
     "LBL_NOTE_INFORMATION": "Basic information",
-    "LBL_RECORDS_LIST": "Documents list",
     "MB": "MB",
     "Note": "Note",
     "SINGLE_Documents": "Document",
