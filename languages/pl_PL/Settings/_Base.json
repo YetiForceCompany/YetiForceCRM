@@ -365,6 +365,7 @@
     "LBL_VERSION": "Wersja",
     "LBL_LICENSE": "Licencja",
     "LBL_MISSING_LICENSE_FILE": "Brak pliku licencji",
+    "LBL_LICENSE_HEADER_ERROR": "Wyst\u0105pi\u0142 problem z licencj\u0105. Prosimy o zarejestrowanie systemu.",
     "LBL_VTIGER_DESCRIPTION": "Orginalnego kodu Vtigera zosta\u0142o oko\u0142o 30%. Pozosta\u0142y kod zosta\u0142 przepisany i rozszerzony",
     "LBL_SUGAR_DESCRIPTION": "Vtiger bazowa\u0142 na Sugar CRM. Obecnie w YetiForce pozosta\u0142o kilka plik\u00f3w po Sugar CRM",
     "LBL_YETIFORCE_SHOP": "Sklep",

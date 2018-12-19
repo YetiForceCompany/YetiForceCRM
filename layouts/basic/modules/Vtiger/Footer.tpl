@@ -53,7 +53,8 @@
 							</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
+							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM"
+							   rel="noreferrer">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
@@ -61,6 +62,21 @@
 				{/if}
 				<div class="float-right p-0">
 					<ul class="pagination">
+						{assign var=REGISTER_VERIFY value=\App\YetiForce\Register::verify(true)}
+						{if !$REGISTER_VERIFY[0]}
+							<li class="page-item u-cursor-pointer">
+								<a class="page-link text-danger"
+										{if $USER_MODEL->isAdminUser()}
+											href="index.php?parent=Settings&module=Companies&view=List"
+										{else}
+											href="#"
+										{/if}
+								   role="button">
+								<span class="fas fa-exclamation-triangle fa-2x"
+									  title="{\App\Language::translate('LBL_LICENSE_ERROR', 'Settings')}"></span>
+								</a>
+							</li>
+						{/if}
 						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
@@ -74,6 +90,7 @@
 								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 							</a>
 						</li>
+
 					</ul>
 				</div>
 				<div class="mx-auto w-75">
@@ -115,7 +132,8 @@
 							YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open
 							system in the world
 						</h5>
-						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<button type="button" class="close" data-dismiss="modal"
+								title="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
