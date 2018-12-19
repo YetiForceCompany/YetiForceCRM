@@ -1,15 +1,17 @@
 {
   "php": {
-    "LBL_PROJECT_CONFIGURATION": "Proiect",
-    "LBL_INFO": "Informatii",
+    "LBL_PROJECT_CONFIGURATION": "Project",
+    "LBL_INFO": "Information",
     "LBL_TYPE": "Status",
-    "LBL_PROJECT": "Proiect",
-    "LBL_PROJECT_STATUS_INFO": "Status care determina daca proiectul este inchis",
-    "LBL_PROJECTMILESTONE_STATUS_INFO": "Status care determina daca etapa este inchisa",
-    "LBL_PROJECTTASK_STATUS_INFO": "Status care determina daca sarcina este inchisa",
-    "LBL_SAVE_CONFIG_OK": "Modificare salvata cu succes.",
-    "LBL_SAVE_CONFIG_ERROR": "Salvare modificari esuata.",
-    "RealizationProcesses": "Procese Realizare"
+    "LBL_PROJECT": "Project",
+    "LBL_PROJECT_STATUS_INFO": "Statuses determining that the project is closed",
+    "LBL_PROJECTMILESTONE_STATUS_INFO": "Statuses determining that the milestone is closed",
+    "LBL_PROJECTTASK_STATUS_INFO": "Statuses determining that the task is closed",
+    "LBL_SAVE_CONFIG_OK": "Changes saved successfully.",
+    "LBL_SAVE_CONFIG_ERROR": "Failed to save changes.",
+    "RealizationProcesses": "Realization processes"
   },
-  "js": {}
+  "js": {
+
+  }
 }
