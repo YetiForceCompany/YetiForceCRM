@@ -1,18 +1,18 @@
 {
   "php": {
-    "Answer": "Resposta",
-    "Comments": "Coment\u00e1rios",
-    "Draft": "Rascunho",
+    "Answer": "Answer",
+    "Comments": "Comments",
+    "Draft": "Draft",
     "Faq": "FAQ",
-    "Faq No": "No. do FAQ",
-    "General": "Geral",
-    "LBL_COMMENT_INFORMATION": "Dados do Coment\u00e1rio",
-    "LBL_FAQ_INFORMATION": "Informa\u00e7\u00e3o FAQ",
-    "LBL_RECORDS_LIST": "Lista de FAQs",
-    "LBL_SOLUTION": "Solu\u00e7\u00e3o",
-    "Obsolete": "Obsoleta",
-    "Published": "Publicada",
-    "Question": "Quest\u00e3o",
+    "Faq No": "FAQ number",
+    "General": "General",
+    "LBL_COMMENT_INFORMATION": "Comments",
+    "LBL_FAQ_INFORMATION": "FAQ information",
+    "LBL_RECORDS_LIST": "FAQs list",
+    "LBL_SOLUTION": "Solution",
+    "Obsolete": "Obsolete",
+    "Published": "Published",
+    "Question": "Question",
     "SINGLE_Faq": "FAQ"
   }
 }
