@@ -3,8 +3,8 @@ files:
     translation: /languages/%locale_with_underscore%/**/%original_file_name%
     languages_mapping:
       locale_with_underscore:
-        en: de_de
         fr: fr_fr
+        de: de_de
         it: it_it
         pl: pl_pl
         pt-BR: pt_br
