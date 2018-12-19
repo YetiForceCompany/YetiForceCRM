@@ -1,12 +1,14 @@
 {
   "php": {
-    "LBL_EXCEPTIONS": "Exceptii",
-    "LBL_NOTIFICATIONS_CONFIGURATION": "Notificari - configurare",
-    "LBL_ADD_MEMBERS": "Adauga membrii la notificari",
-    "LBL_SELECT_MEMBERS": "Selecteaza membrii pentru notificari",
-    "LBL_MEMBERS": "Membrii",
-    "LBL_LOCK": "Blocare",
-    "LBL_NOTICE_CONFIG_WARNING": "Vizionarea modulelor este activa in configuratie. Dezactivati-o pentru a gestiona notificarile."
+    "LBL_EXCEPTIONS": "Exceptions",
+    "LBL_NOTIFICATIONS_CONFIGURATION": "Notifications - configuration",
+    "LBL_ADD_MEMBERS": "Add members to notifications",
+    "LBL_SELECT_MEMBERS": "Select members for notifications",
+    "LBL_MEMBERS": "Members",
+    "LBL_LOCK": "Lock",
+    "LBL_NOTICE_CONFIG_WARNING": "Watching modules is enabled in configuration. Disable it to manage notifications."
   },
-  "js": {}
+  "js": {
+
+  }
 }
