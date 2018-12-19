@@ -1,9 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-jQuery.Class('Settings_YetiForce_RegistrationOfflineModal_Js', {
+jQuery.Class('Settings_YetiForce_RegistrationSerialModal_Js', {
 	registerEvents() {
-		const container = $("[data-view='RegistrationOfflineModal']");
+		const container = $("[data-view='RegistrationSerialModal']");
 		const form = container.find('form');
 		form.validationEngine(app.validationEngineOptions);
 		form.on('submit', function (e) {
@@ -30,7 +30,7 @@ jQuery.Class('Settings_YetiForce_RegistrationOfflineModal_Js', {
 				'module': 'YetiForce',
 				'parent': 'Settings',
 				'action': 'Register',
-				'mode': 'offline',
+				'mode': 'serial',
 				'key': container.find('.registrationKey').val()
 			}).done(function (data) {
 				Vtiger_Helper_Js.showPnotify({
@@ -47,4 +47,4 @@ jQuery.Class('Settings_YetiForce_RegistrationOfflineModal_Js', {
 		});
 	}
 }, {});
-Settings_YetiForce_RegistrationOfflineModal_Js.registerEvents();
+Settings_YetiForce_RegistrationSerialModal_Js.registerEvents();

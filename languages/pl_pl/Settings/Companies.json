@@ -15,8 +15,8 @@
     "LBL_WEBSITE": "Strona WWW",
     "LBL_INDUSTRY": "Bran\u017ca",
     "LBL_COMPANY_NAMES_EXIST": "Firma o podanej nazwie ju\u017c istnieje",
-    "LBL_REGISTER_CRM_ONLINE": "Rejestracja OnLine",
-    "LBL_REGISTER_CRM_OFFLINE": "Rejestracja OffLine"
+    "LBL_REGISTER_CRM_ONLINE": "Rejestracja - OnLine",
+    "LBL_REGISTER_CRM_SERIAL": "Rejestracja - Klucz"
   },
   "js": {
     "JS_ENTER_REGISTRATION_KEY": "Wprowad\u017a klucz rejestracyjny",

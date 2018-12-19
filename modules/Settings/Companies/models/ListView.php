@@ -26,8 +26,8 @@ class Settings_Companies_ListView_Model extends Settings_Vtiger_ListView_Model
 		];
 		$basicLinks[] = [
 			'linktype' => 'LISTVIEWBASIC',
-			'linklabel' => 'LBL_REGISTER_CRM_OFFLINE',
-			'linkclass' => 'btn-light js-register-offline ml-1',
+			'linklabel' => 'LBL_REGISTER_CRM_SERIAL',
+			'linkclass' => 'btn-light js-register-serial ml-1',
 			'linkicon' => 'fas fa-receipt',
 			'showLabel' => 1,
 		];

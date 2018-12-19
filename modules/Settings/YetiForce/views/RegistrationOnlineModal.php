@@ -1,15 +1,24 @@
 <?php
 
 /**
- * YetiForce registration modal view class.
+ * YetiForce registration modal view class file.
  *
+ * @package   Modules
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
+
+/**
+ * Online registration modal view class
+ */
 class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\ModalSettings
 {
 
+	/**
+	 *
+	 * @param \App\Request $request
+	 */
 	public function preProcessAjax(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -29,6 +38,10 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 		$viewer->view('RegistrationOnlineModal.tpl', $request->getModule(false));
 	}
 
+	/**
+	 * Generate array with companies grouped by types
+	 * @return array
+	 */
 	public function prepareCompanies(): array
 	{
 		$data = ['users' => [], 'integrators' => [], 'suppliers' => []];

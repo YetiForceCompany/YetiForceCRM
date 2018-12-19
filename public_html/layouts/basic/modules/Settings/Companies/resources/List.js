@@ -2,14 +2,20 @@
 'use strict';
 
 Settings_Vtiger_List_Js('Settings_Companies_List_Js', {}, {
-	registerButtons: function () {
-		$('.contentsDiv').on('click', '.js-register-online', function (e) {
+	/**
+	 * Init registration buttons
+	 */
+	registerButtons() {
+		$('.js-register-online').on('click', (e) => {
 			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationOnlineModal');
 		});
-		$('.contentsDiv').on('click', '.js-register-offline', function (e) {
-			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationOfflineModal');
+		$('.js-register-serial').on('click', (e) => {
+			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationSerialModal');
 		});
 	},
+	/**
+	 * Register view events
+	 */
 	registerEvents: function () {
 		this._super();
 		this.registerButtons();

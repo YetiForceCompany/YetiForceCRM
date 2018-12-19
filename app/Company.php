@@ -28,30 +28,42 @@ class Company extends Base
 		return $rows;
 	}
 
-	public static function setOfflineSerial($key): bool
+	/**
+	 * Register serial provided by User
+	 * @param string $key
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public static function registerSerial($key): bool
 	{
 		// set serial
 		return random_int(0, 1) ? true : false;
 	}
 
-	public static function registerOnline(\App\Request $request): bool
+	/**
+	 * Send registration data to YetiForce API server
+	 * @param array $companiesNew
+	 * @return bool
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public static function registerOnline($companiesNew): bool
 	{
-		$companiesNew = $request->get('companies');
 		if (!\is_array($companiesNew)) {
 			return false;
 		}
-		foreach (\App\Company::getAll() as $companyCurrent) {
+		foreach (static::getAll() as $companyCurrent) {
 			if (!isset($companiesNew[$companyCurrent['id']])) {
 				continue;
 			}
 			\App\Db::getInstance()->createCommand()
 				->update('s_#__companies', [
-					'name' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['name'], 'Text'),
-					'industry' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['industry'], 'Text'),
-					'city' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['city'], 'Text'),
-					'country' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['country'], 'Text'),
-					'website' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['website'], 'Text'),
-					'email' => \App\Purifier::purifyByType($companiesNew[$companyCurrent['id']]['email'], 'Text'),
+					'name' => $companiesNew[$companyCurrent['id']]['name'],
+					'industry' => $companiesNew[$companyCurrent['id']]['industry'],
+					'city' => $companiesNew[$companyCurrent['id']]['city'],
+					'country' => $companiesNew[$companyCurrent['id']]['country'],
+					'website' => $companiesNew[$companyCurrent['id']]['website'],
+					'email' => $companiesNew[$companyCurrent['id']]['email'],
 				], ['id' => $companyCurrent['id']])
 				->execute();
 		}
