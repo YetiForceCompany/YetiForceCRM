@@ -338,6 +338,16 @@ class YF_RecurrenceTree {
 				},
 				plugins: ["search", "checkbox"]
 			});
+			let to = false;
+			$('.js-tree-data').keyup(function () {
+				if (to) {
+					clearTimeout(to);
+				}
+				to = setTimeout(function () {
+					var v = $('.js-tree-data').val();
+					slef.treeInstance.jstree(true).search(v);
+				}, 250);
+			});
 		}
 	}
 

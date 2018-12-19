@@ -35,6 +35,12 @@
 				</button>
 				{\App\Language::translate('LBL_ALERT_EDIT_FOLDER', $MODULE_NAME)}
 			</div>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<div class="input-group-text"><span class="fas fa-search"></span></div>
+				</div>
+				<input type="text" id="folder-search" class="js-tree-data form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $QUALIFIED_MODULE)}">
+			</div>
 			<div class="js-tree-container" data-js="jstree">
 				<input class="js-tree-data" value="{\App\Purifier::encodeHtml(\App\Json::encode($TREE))}">
 			</div>
