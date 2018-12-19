@@ -1,7 +1,7 @@
 {
   "php": {
-    "SQuotes": "Preventivi",
-    "SINGLE_SQuotes": "Preventivo",
+    "SQuotes": "Quotes",
+    "SINGLE_SQuotes": "Quote",
     "LBL_SQUOTES_INFORMATION": "Basic information",
     "LBL_CUSTOM_INFORMATION": "System information",
     "LBL_DESCRIPTION_INFORMATION": "Description details",
