@@ -712,6 +712,7 @@ class Vtiger_Inventory_Model
 			return false;
 		}
 		\App\Cache::delete('moduleTabByName', $moduleName);
+		\App\Cache::delete('moduleTabById', \App\Module::getModuleId($moduleName));
 		if ($type) {
 			$this->createInventoryTables();
 		}
