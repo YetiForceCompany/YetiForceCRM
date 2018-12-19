@@ -1,11 +1,11 @@
 {
   "php": {
-    "Calendar": "Calendario",
-    "LBL_ACTIVITY_TYPES": "Calendario \u2013 Tipi",
+    "Calendar": "Calendar",
+    "LBL_ACTIVITY_TYPES": "Calendar – Types",
     "LBL_ACTIVITY_TYPES_DESCRIPTION": "Management of activity types.",
     "LBL_ACTIVITY_NAME": "Activity types name",
     "LBL_MODULE": "Module",
-    "LBL_COLOR": "Colore",
+    "LBL_COLOR": "Color",
     "LBL_TOOLS": "Tools",
     "LBL_ACTIVE": "Active",
     "LBL_SAVE_ACTIVE_TYPE": "Saved change",
@@ -16,8 +16,6 @@
     "LBL_CALENDAR_CONFIG": "Calendar - Configuration",
     "LBL_CALENDAR_CONFIG_DESCRIPTION": " ",
     "LBL_USER_COLORS": "User colors",
-    "LBL_CALENDAR_COLORS": "Calendar colors",
-    "LBL_CALENDAR_TYPE": "Calendar type",
     "PLL_BREAK_TIME": "Break from work",
     "PLL_HOLIDAY_TIME": "Holiday",
     "LBL_SAVE_CHANGES": "Saved changes",
@@ -37,7 +35,9 @@
     "LBL_VIEW_ACTIVITYTYPES": "Activity Types",
     "Task": "Task",
     "Meeting": "Meeting",
-    "Call": "Chiamata"
+    "Call": "Call"
   },
-  "js": {}
+  "js": {
+
+  }
 }
