@@ -137,7 +137,7 @@ class RequestUtil
 		}
 		$status = false;
 		try {
-			$res = (new \GuzzleHttp\Client())->request('GET', 'google.com', ['timeout' => 1, 'verify' => false, 'connect_timeout' => 1]);
+			$res = (new \GuzzleHttp\Client())->request('GET', 'google.com', \App\RequestHttp::getOptions() + ['timeout' => 1, 'connect_timeout' => 1]);
 			$status = $res->getStatusCode() === 200;
 		} catch (\Throwable $e) {
 		}

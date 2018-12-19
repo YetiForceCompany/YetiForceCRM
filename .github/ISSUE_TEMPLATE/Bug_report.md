@@ -34,12 +34,12 @@ Logs
 
 #### Your Environment
 <!---Describe the environment -->
-| Environment      | Version / Name |
+| Environment    | Version / Name |
 | ---------------- | -------------- |
-| YetiForce        | 
-| Web server       | 
-| PHP              | 
-| Browser          | 
+| YetiForce         | 
+| Web server      | 
+| PHP                 | 
+| Browser           | 
 | Operating System | 
 | Database         | 
 

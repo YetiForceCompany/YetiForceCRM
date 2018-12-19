@@ -260,7 +260,7 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`name`,`type`,`industry`,`city`,`country`,`website`,`email`,`logo`) values (1,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland','yetiforce.com',NULL,'logo_yetiforce.png');
+insert  into `s_yf_companies`(`id`,`name`,`type`,`industry`,`city`,`country`,`website`,`email`,`logo`,`status`) values (1,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland','yetiforce.com',NULL,'logo_yetiforce.png',0);
 
 /*Data for the table `s_yf_mail_queue` */
 
@@ -1014,6 +1014,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 /*Data for the table `u_yf_mail_autologin` */
 
 /*Data for the table `u_yf_mail_compose_data` */
+
+/*Data for the table `u_yf_modtracker_inv` */
 
 /*Data for the table `u_yf_multicompany` */
 
@@ -8869,6 +8871,7 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,123,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,124,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,125,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,126,0);
 
 /*Data for the table `vtiger_profile2utility` */
 
@@ -18243,6 +18246,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (123,'LocationRegister',0,24,'LocationRegister',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (124,'IncidentRegister',0,25,'IncidentRegister',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (125,'AuditRegister',0,26,'AuditRegister',NULL,NULL,0,0,1,'0','',NULL,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (126,'RecycleBin',0,27,'RecycleBin',NULL,NULL,0,0,0,'0','',NULL,0,0);
 
 /*Data for the table `vtiger_tab_info` */
 
@@ -18326,6 +18330,7 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (116,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (117,'vtiger_min_version','3.5');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (118,'vtiger_min_version','4.0.999');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (120,'vtiger_min_version','4.4.0');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (126,'vtiger_min_version','4.4.0');
 
 /*Data for the table `vtiger_taskpriority` */
 

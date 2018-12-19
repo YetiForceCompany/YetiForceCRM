@@ -39,7 +39,10 @@
     "LBL_TRANSFER_EDIT": "record was changed in the transfer process",
     "LBL_TRANSFER_DELETE": "record was deleted in the transfer process",
     "LBL_TRANSFER_UNLINK": "relation was deleted in the transfer process",
-    "LBL_TRANSFER_LINK": "relation was added in the transfer process"
+    "LBL_TRANSFER_LINK": "relation was added in the transfer process",
+    "LBL_INV_ADDED": "Added",
+    "LBL_INV_UPDATED": "Updated",
+    "LBL_INV_DELETED": "Deleted"
   },
   "js": {}
 }

@@ -403,7 +403,10 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$headerFieldModels = [];
 		if ($this->isEmpty('viewId')) {
-			$headerFields = $this->getQueryGenerator()->getListViewFields();
+			$queryGenerator = $this->getQueryGenerator();
+			$queryGenerator->setFields(array_values($this->getModule()->getPopupFields()));
+			$queryGenerator->setField('id');
+			$headerFields = $queryGenerator->getListViewFields();
 		} else {
 			$headerFields = [];
 			if (!$this->isEmpty('header_fields')) {
@@ -455,7 +458,6 @@ class Vtiger_ListView_Model extends \App\Base
 			} else {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
-			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 

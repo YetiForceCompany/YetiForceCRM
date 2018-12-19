@@ -25,12 +25,9 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if ($value === '') {
-			return '';
-		}
-		return 'LBL_' . strtoupper($this->values[$value]);
+		return $value !== '' ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
 	}
 
 	/**

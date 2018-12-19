@@ -47,15 +47,6 @@ class WorkFlowScheduler
 		$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
 		$queryGenerator->setFields(['id']);
 		$this->addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions);
-
-		if ($moduleName === 'Calendar' || $moduleName === 'Events') {
-			// We should only get the records related to proper activity type
-			if ($moduleName === 'Calendar') {
-				$queryGenerator->addCondition('activitytype', 'Task', 'e');
-			} elseif ($moduleName === 'Events') {
-				$queryGenerator->addCondition('activitytype', 'Task', 'n');
-			}
-		}
 		return $queryGenerator->createQuery();
 	}
 

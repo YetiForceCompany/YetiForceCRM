@@ -261,11 +261,13 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Getting value to display.
 	 *
-	 * @param type $value
+	 * @param mixed $value
+	 * @param array $rowData
+	 * @param bool  $rawText
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Purifier::encodeHtml($value);
 	}

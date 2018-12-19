@@ -33,7 +33,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}
@@ -55,6 +55,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$valid = $value ? \App\Json::decode($value) : [];
 			if (isset($valid['individualTax'])) {
 				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
+				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax']);
 				$value = \App\Json::encode($valid);
 			}
 		} else {
@@ -102,7 +103,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		if (isset($taxParam['aggregationType'])) {
 			foreach ($taxParam['aggregationType'] as $aggregationType) {
-				$precent = $taxParam[$aggregationType . 'Tax'];
+				$precent = (string) $taxParam[$aggregationType . 'Tax'];
 				if (!isset($return[$precent])) {
 					$return[$precent] = 0;
 				}

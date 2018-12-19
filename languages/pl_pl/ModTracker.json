@@ -41,6 +41,9 @@
     "LBL_TRANSFER_EDIT": "zmieniono rekord w procesie transferu",
     "LBL_TRANSFER_DELETE": "usuni\u0119to rekord w procesie transferu",
     "LBL_TRANSFER_UNLINK": "usuni\u0119to powi\u0105zanie w procesie transferu",
-    "LBL_TRANSFER_LINK": "dodano powi\u0105zanie w procesie transferu"
+    "LBL_TRANSFER_LINK": "dodano powi\u0105zanie w procesie transferu",
+    "LBL_INV_ADDED": "Dodano",
+    "LBL_INV_UPDATED": "Zmieniono",
+    "LBL_INV_DELETED": "Usuni\u0119to"
   }
 }

@@ -82,7 +82,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? null;
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}

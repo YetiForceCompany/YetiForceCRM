@@ -121,11 +121,25 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param int|string|null $key
 	 *
-	 * @return array|bool|mixed
+	 * @return array|bool
 	 */
 	public function getPreviousInventoryItems($key = null)
 	{
 		return $key !== null ? ($this->changesInventory[$key] ?? false) : $this->changesInventory;
+	}
+
+	/**
+	 * Gets previous values.
+	 *
+	 * @return array
+	 */
+	public function getChanges()
+	{
+		$changes = $this->getPreviousValue();
+		if ($this->getModule()->isInventory() && ($prevInv = $this->getPreviousInventoryItems())) {
+			$changes['inventory'] = $prevInv;
+		}
+		return $changes;
 	}
 
 	/**
@@ -1139,6 +1153,20 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
+	}
+
+	/**
+	 * Gets inventory item.
+	 *
+	 * @param int|string $key
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
+	 */
+	public function getInventoryItem($key)
+	{
+		return $this->getInventoryData()[$key] ?? null;
 	}
 
 	/**

@@ -41,6 +41,9 @@
     "LBL_TRANSFER_EDIT": "Datensatz wurde beim \u00dcbertragungsprozess ge\u00e4ndert",
     "LBL_TRANSFER_DELETE": "Datensatz wurde beim \u00dcbertragungsprozess gel\u00f6scht",
     "LBL_TRANSFER_UNLINK": "Beziehung wurde beim \u00dcbertragungsprozess gel\u00f6scht",
-    "LBL_TRANSFER_LINK": "Beziehung wurde beim \u00dcbertragungsprozess hinzugef\u00fcgt"
+    "LBL_TRANSFER_LINK": "Beziehung wurde beim \u00dcbertragungsprozess hinzugef\u00fcgt",
+    "LBL_INV_ADDED": "Added",
+    "LBL_INV_UPDATED": "Updated",
+    "LBL_INV_DELETED": "Deleted"
   }
 }

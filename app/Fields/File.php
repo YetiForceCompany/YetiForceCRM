@@ -211,7 +211,7 @@ class File
 			return false;
 		}
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 5, 'connect_timeout' => 1]);
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 5, 'connect_timeout' => 1]);
 			if ($response->getStatusCode() !== 200) {
 				Log::warning('Error when downloading content: ' . $url . ' | Status code: ' . $response->getStatusCode(), __CLASS__);
 				return false;
@@ -959,7 +959,7 @@ class File
 	public static function isExistsUrl($url)
 	{
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 1, 'verify' => false, 'connect_timeout' => 1]);
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1, 'connect_timeout' => 1]);
 			if ($response->getStatusCode() === 200) {
 				return true;
 			} else {
@@ -1155,6 +1155,8 @@ class File
 						$img->setImageCompression(\Imagick::COMPRESSION_JPEG);
 						$img->setImageCompressionQuality(99);
 						break;
+					default:
+						break;
 				}
 				$img->writeImage($file->getPath());
 				$img->clear();
@@ -1179,6 +1181,8 @@ class File
 						break;
 					case 'bmp':
 						$result = \imagebmp($img, $file->getPath());
+						break;
+					default:
 						break;
 				}
 				\imagedestroy($img);

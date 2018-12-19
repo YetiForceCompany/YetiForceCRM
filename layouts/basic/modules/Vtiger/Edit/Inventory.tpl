@@ -10,7 +10,11 @@
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
-		{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
+		{if $INVENTORY_ROWS}
+			{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
+		{else}
+			{assign var="INVENTORY_ROW" value=[]}
+		{/if}
 		{assign var="MAIN_PARAMS" value=$INVENTORY_MODEL->getField('name')->getParamsConfig()}
 		{assign var="IS_REQUIRED_INVENTORY" value=$INVENTORY_MODEL->getField('name')->isRequired()}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
