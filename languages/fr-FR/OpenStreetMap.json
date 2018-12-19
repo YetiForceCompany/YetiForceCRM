@@ -1,23 +1,22 @@
 {
   "php": {
     "OpenStreetMap": "OpenStreetMap",
+    "LBL_GROUP_BY": "Group",
+    "LBL_GROUP_NEIGHBOURS": "Group neighboring elements",
+    "LBL_NOT_FOUND_PLACE": "Place not found",
+    "LBL_SEARCH_VALUE_DESCRIPTION": "City, street, building number...",
+    "LBL_IN_RADIUS": "Within radius [km]",
+    "LBL_CALCULATE_TRACK": "Set route",
+    "LBL_START": "Start",
+    "LBL_END": "End",
+    "LBL_CALCULATE_ROUTE_HEADER_BLOCK": "Set route",
     "LBL_DISTANCE": "Distance [km]",
-    "ERR_ADDRESS_NOT_FOUND": "Adresse introuvable",
-    "LBL_GROUP_BY": "Groupe",
-    "LBL_GROUP_NEIGHBOURS": "Connecter les prochains \u00e9l\u00e9ments",
-    "LBL_NOT_FOUND_PLACE": "Lieu non trouv\u00e9",
-    "LBL_SEARCH_VALUE_DESCRIPTION": "Ville, rue, b\u00e2timent, num\u00e9ro ...",
-    "LBL_IN_RADIUS": "Rayon [km]",
-    "LBL_CALCULATE_TRACK": "D\u00e9finir la route",
-    "LBL_START": "D\u00e9but",
-    "LBL_END": "Fin",
-    "LBL_CALCULATE_ROUTE_HEADER_BLOCK": "D\u00e9finir la route",
-    "LBL_TRAVEL_TIME": "Temps [min]",
-    "LBL_INSTRUCTION": "Manuel",
-    "LBL_SEARCH_IN_RADIUS": "Recherche en rayon",
-    "LBL_COPY_TO_CLIPBOARD": "Copier dans le presse-papier",
-    "LBL_CLIPBOARD": "Presse-papiers",
-    "LBL_INDIRECT_POINT": "Point indirect"
-  },
-  "js": {}
+    "LBL_TRAVEL_TIME": "Time [min]",
+    "LBL_INSTRUCTION": "Manual",
+    "LBL_SEARCH_IN_RADIUS": "Search in radius",
+    "LBL_COPY_TO_CLIPBOARD": "Copy to clipboard",
+    "LBL_CLIPBOARD": "Clipboard",
+    "LBL_INDIRECT_POINT": "Indirect point",
+    "ERR_ADDRESS_NOT_FOUND": "Address not found"
+  }
 }
