@@ -324,15 +324,18 @@ class YF_RecurrenceTree {
 		const slef = this;
 		if (slef.treeInstance === false) {
 			slef.treeInstance = container;
-			slef.treeInstance.jstree({
+			slef.treeInstance.on('select_node.jstree', function (e, data) {
+				data.instance.select_node(data.node.children_d);
+			}).on('deselect_node.jstree', function (e, data) {
+				data.instance.deselect_node(data.node.children_d);
+			}).jstree({
 				core: {
 					data: slef.getRecords(container),
 					themes: {
 						name: 'proton',
 						responsive: true
-					}
+					},
 				},
-				checkbox: {cascade: 'down+undetermined'},
 				plugins: ["search", "checkbox"]
 			});
 		}
