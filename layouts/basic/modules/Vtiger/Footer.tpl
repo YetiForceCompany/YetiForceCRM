@@ -61,6 +61,21 @@
 				{/if}
 				<div class="float-right p-0">
 					<ul class="pagination">
+						{assign var=REGISTER_VERIFY value=\App\YetiForce\Register::verify(true)}
+						{if !$REGISTER_VERIFY[0]}
+							<li class="page-item u-cursor-pointer">
+								<a class="page-link text-danger"
+										{if $USER_MODEL->isAdminUser()}
+											href="index.php?parent=Settings&module=Companies&view=List"
+										{else}
+											href="#"
+										{/if}
+								   role="button">
+								<span class="fas fa-exclamation-triangle fa-2x"
+									  title="{\App\Language::translate('LBL_LICENSE_ERROR', 'Settings')}"></span>
+								</a>
+							</li>
+						{/if}
 						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
