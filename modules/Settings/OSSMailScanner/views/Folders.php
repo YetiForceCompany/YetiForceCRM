@@ -46,13 +46,14 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 			$tempArray[$mainFolder][] = $treeCategory['id'];
 			foreach ($folders as $folder) {
 				$foldersSplited = explode('/', $folder);
+				$parentPath = $mainFolder;
 				foreach ($foldersSplited as $i => $folderName) {
-					$treeRecordId = "{$mainFolder}/{$folderName}";
+					$treeRecordId = $i === 0 ? "{$mainFolder}/{$folderName}" : "{$mainFolder}/{$foldersSplited[$i - 1]}/{$folderName}";
 					if (!in_array($treeRecordId, $tempArray[$mainFolder])) {
 						$treeRecord = [
 							'id' => $treeRecordId,
 							'type' => 'category',
-							'parent' => $i === 0 ? $mainFolder : "{$mainFolder}/{$foldersSplited[$i - 1]}",
+							'parent' => $parentPath,
 							'text' => \App\Language::translate($folderName, $moduleName),
 							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$mainFolder])]
 						];
@@ -64,6 +65,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 						$tempArray[$mainFolder][] = $treeRecord['id'];
 						$tree[] = $treeRecord;
 					}
+					$parentPath = $treeRecordId;
 				}
 			}
 		}
