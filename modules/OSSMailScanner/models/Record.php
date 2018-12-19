@@ -9,6 +9,13 @@
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
 	/**
+	 * Main folders array.
+	 *
+	 * @var array
+	 */
+	public static $mainFolders = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
+
+	/**
 	 * Returns array list of actions.
 	 *
 	 * @return array
@@ -103,9 +110,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function setFolderList($user, $foldersByType)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$oldFoldersByType = (new \App\Db\Query())->select(['type', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $user])->createCommand()->queryAllByGroup(2);
-		foreach ($types as $type) {
+		foreach (self::$mainFolders as $type) {
 			$toRemove = $toAdd = $oldFolders = $folders = [];
 			if (isset($oldFoldersByType[$type])) {
 				$oldFolders = $oldFoldersByType[$type];

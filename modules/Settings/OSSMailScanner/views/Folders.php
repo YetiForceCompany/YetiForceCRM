@@ -24,44 +24,45 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Get Tree Data.
+	 * Get tree data.
 	 *
-	 * @param $folders
-	 * @param $selectedFolders
+	 * @param string $moduleName
+	 * @param array  $folders
+	 * @param array  $selectedFolders
 	 *
 	 * @return array
 	 */
-	private function getTreeData($moduleName, $folders, $selectedFolders)
+	private function getTreeData(string $moduleName, array $folders, array $selectedFolders): array
 	{
-		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
-		$tree = [];
-		$tempArray = [];
-		foreach ($types as $type) {
-			$categoryModel = [
-				'id' => $type,
+		$tree = $tempArray = [];
+		foreach (OSSMailScanner_Record_Model::$mainFolders as $mainFolder) {
+			$treeCategory = [
+				'id' => $mainFolder,
 				'type' => 'category',
 				'parent' => '#',
-				'text' => \App\Language::translate($type, $moduleName)
+				'text' => \App\Language::translate($mainFolder, $moduleName)
 			];
-			$tree[] = $categoryModel;
-			$tempArray[$type][] = $categoryModel;
+			$tree[] = $treeCategory;
+			$tempArray[$mainFolder][] = $treeCategory['id'];
 			foreach ($folders as $folder) {
-				$folderSplited = explode('/', $folder);
-				foreach ($folderSplited as $i => $folderTree) {
-					if (!in_array($type . '/' . $folderTree, array_column($tempArray[$type], 'id'))) {
-						$categoryRecord = [
-							'id' => $type . '/' . $folderTree,
-							'type' => end($folderSplited) === $folderTree ? 'record' : 'category',
-							'parent' => $i === 0 ? $type : $type . '/' . $folderSplited[$i - 1],
-							'text' => \App\Language::translate($folderTree, $moduleName),
-							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$type])]
+				$foldersSplited = explode('/', $folder);
+				foreach ($foldersSplited as $i => $folderName) {
+					$treeRecordId = "{$mainFolder}/{$folderName}";
+					if (!in_array($treeRecordId, $tempArray[$mainFolder])) {
+						$treeRecord = [
+							'id' => $treeRecordId,
+							'type' => 'category',
+							'parent' => $i === 0 ? $mainFolder : "{$mainFolder}/{$foldersSplited[$i - 1]}",
+							'text' => \App\Language::translate($folderName, $moduleName),
+							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$mainFolder])]
 						];
-						if (end($folderSplited) === $folderTree) {
-							$categoryRecord['db_id'] = $folder;
-							$categoryRecord['db_type'] = $type;
+						if (end($foldersSplited) === $folderName) {
+							$treeRecord['db_id'] = $folder;
+							$treeRecord['db_type'] = $mainFolder;
+							$treeRecord['type'] = 'record';
 						}
-						$tempArray[$type][] = $categoryRecord;
-						$tree[] = $categoryRecord;
+						$tempArray[$mainFolder][] = $treeRecord['id'];
+						$tree[] = $treeRecord;
 					}
 				}
 			}
@@ -101,7 +102,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
-		$viewer->assign('TREE', \App\Json::encode($this->getTreeData($moduleName, $folders, $selectedFolders)));
+		$viewer->assign('TREE', $this->getTreeData($moduleName, $folders, $selectedFolders));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ADDRESS_EMAIL', $mailDetail['username']);
 		$viewer->assign('MISSING_FOLDERS', $missingFolders);
