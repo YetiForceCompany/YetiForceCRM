@@ -1,22 +1,22 @@
 {
   "php": {
-    "LBL_SMSNOTIFIER": "SMS Notifier",
-    "LBL_ADD_RECORD": "A\u00f1adir",
-    "FL_PROVIDER": "Proveedor",
-    "FL_STATUS": "Estado",
-    "FL_API_KEY": "API Key",
-    "FL_SMSAPI_FROM": "SMSAPI",
-    "PLL_ACTIVE": "Activo",
-    "PLL_INACTIVE": "Inactivo",
+    "FL_PROVIDER": "Provider",
+    "FL_STATUS": "Status",
+    "FL_SMSAPI_FROM": "Message type",
+    "FL_API_KEY": "Api key",
+    "PLL_INACTIVE": "Inactive",
+    "PLL_ACTIVE": "Active",
+    "LBL_ADD_RECORD": "New configuration",
+    "LBL_SMSNOTIFIER": "SMS provider configuration",
     "LBL_SMSNOTIFIER_DESCRIPTION": " ",
-    "LBL_ADD_CONFIGURATION": "Nueva configuraci\u00f3n",
-    "LBL_EDIT_CONFIGURATION": "Editar",
-    "BTN_SAVE": "Guardar",
-    "BTN_CLOSE": "Cancelar"
+    "LBL_ADD_CONFIGURATION": "New configuration",
+    "LBL_EDIT_CONFIGURATION": "Edit configuration",
+    "BTN_SAVE": "Save",
+    "BTN_CLOSE": "Cancel"
   },
   "js": {
-    "JS_SAVE_SUCCESS": "Configuraci\u00f3n del SMS Notifier creada satisfactoriamente",
-    "LBL_DELETE_CONFIRMATION": "\u00bfSeguro que quieres eliminar esta configuraci\u00f3n?",
-    "JS_RECORD_DELETED_SUCCESSFULLY": "La configuraci\u00f3n se elimin\u00f3 correctamente"
+    "LBL_DELETE_CONFIRMATION": "Are you sure you want to delete this configuration?",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Configuration removed successfully",
+    "JS_SAVE_SUCCESS": "Saved"
   }
 }
