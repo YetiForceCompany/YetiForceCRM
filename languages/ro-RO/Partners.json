@@ -1,14 +1,14 @@
 {
   "php": {
-    "Partners": "Parteneri",
-    "SINGLE_Partners": "Partener",
-    "LBL_PARTNERS_INFORMATION": "Informatii Generale",
-    "LBL_CUSTOM_INFORMATION": "Informatii Sistem",
-    "LBL_DESCRIPTION_INFORMATION": "Descriere detalii",
-    "LBL_SUBJECT": "Subiect",
-    "LBL_NUMBER": "Numar",
-    "LBL_CLOSED_TIME": "Timp inchidere",
-    "LBL_VAT_ID": "ID Taxa",
-    "FL_CATEGORY": "Categorie"
+    "Partners": "Partners",
+    "SINGLE_Partners": "Partner",
+    "LBL_PARTNERS_INFORMATION": "Basic information",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_DESCRIPTION_INFORMATION": "Description details",
+    "LBL_SUBJECT": "Subject",
+    "LBL_NUMBER": "Number",
+    "LBL_CLOSED_TIME": "Closed time",
+    "LBL_VAT_ID": "Tax ID",
+    "FL_CATEGORY": "Category"
   }
 }
