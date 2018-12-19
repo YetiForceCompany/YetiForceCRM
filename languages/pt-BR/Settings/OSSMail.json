@@ -1,7 +1,9 @@
 {
   "php": {
-    "OSSMail": "Caixa de Entrada",
-    "ERR_NO_MODULE_IS_INACTIVE": "O m\u00f3dulo \\\\\"Caixa de Entrada\\\\\" est\u00e1 inativo, ele deve estar ativo antes de configurar."
+    "OSSMail": "My mailbox",
+    "ERR_NO_MODULE_IS_INACTIVE": "\"My mailbox\" module is inactive, it should be enabled before configuration."
   },
-  "js": {}
+  "js": {
+
+  }
 }
