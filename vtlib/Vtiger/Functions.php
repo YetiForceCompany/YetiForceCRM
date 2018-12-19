@@ -93,20 +93,6 @@ class Functions
 		return $id ? \App\Cache::get('moduleTabById', $id) : null;
 	}
 
-	/**
-	 * Delete cache.
-	 *
-	 * @param int|string $mixed
-	 */
-	public static function deleteCache($mixed)
-	{
-		if (is_numeric($mixed)) {
-			\App\Cache::delete('moduleTabById', $mixed);
-		} else {
-			\App\Cache::delete('moduleTabByName', (string) $mixed);
-		}
-	}
-
 	// MODULE RECORD
 	protected static $crmRecordIdMetadataCache = [];
 
