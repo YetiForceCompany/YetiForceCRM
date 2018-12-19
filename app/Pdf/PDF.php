@@ -20,6 +20,7 @@ namespace App\Pdf;
 abstract class PDF
 {
 	protected $pdf;
+	protected $charset;
 	protected $library;
 	protected $templateId;
 	protected $recordId;
@@ -36,83 +37,131 @@ abstract class PDF
 	abstract public function pdf();
 
 	/**
+	 * Set input charset
+	 * @param string $charset
+	 * @return $this
+	 */
+	abstract public function setInputCharset(string $charset);
+
+	/**
+	 * Get input charset
+	 * @return string
+	 */
+	abstract public function getInputCharset();
+
+	/**
 	 * Returns library name.
+	 * @return string
 	 */
 	abstract public function getLibraryName();
 
 	/**
 	 * Sets library name.
+	 * @param string $name
+	 * @return $this
 	 */
-	abstract public function setLibraryName($name);
+	abstract public function setLibraryName(string $name);
 
 	/**
 	 * Returns template id.
+	 * @return int|string
 	 */
 	abstract public function getTemplateId();
 
 	/**
 	 * Sets the template id.
+	 * @param int|string $id
+	 * @return $this
 	 */
 	abstract public function setTemplateId($id);
 
 	/**
 	 * Returns record id.
+	 * @return int|string
 	 */
 	abstract public function getRecordId();
 
 	/**
 	 * Sets the record id.
+	 * @param int|string $id
+	 * @return $this
 	 */
 	abstract public function setRecordId($id);
 
 	/**
 	 * Returns module name.
+	 * @return string
 	 */
 	abstract public function getModuleName();
 
 	/**
 	 * Sets module name.
+	 * @param string $name
+	 * return $this
 	 */
-	abstract public function setModuleName($name);
+	abstract public function setModuleName(string $name);
 
 	/**
-	 * Sets document margins.
+	 * Set document margins.
+	 * @param array $margins ['top'=>40,'bottom'=>40,'left'=>30,'right'=>30,'header'=>10,'footer'=>10]
+	 * @return $this
 	 */
-	public function setMargins($top, $right, $bottom, $left)
-	{
-		$this->setTopMargin($top);
-		$this->setBottomMargin($bottom);
-		$this->setLeftMargin($left);
-		$this->setRightMargin($right);
-	}
+	abstract public function setMargins(array $margins);
 
 	/**
-	 * Set top margin.
+	 * Set top margin
+	 * @param float $margin
+	 * @return $this
 	 */
-	abstract public function setTopMargin($margin);
+	abstract public function setTopMargin(float $margin);
 
 	/**
-	 * Set bottom margin.
+	 * Set bottom margin
+	 * @param float $margin
+	 * @return $this
 	 */
-	abstract public function setBottomMargin($margin);
+	abstract public function setBottomMargin(float $margin);
 
 	/**
-	 * Set left margin.
+	 * Set left margin
+	 * @param float $margin
+	 * @return $this
 	 */
-	abstract public function setLeftMargin($margin);
+	abstract public function setLeftMargin(float $margin);
 
 	/**
-	 * Set right margin.
+	 * Set right margin
+	 * @param float $margin
+	 * @return $this
 	 */
-	abstract public function setRightMargin($margin);
+	abstract public function setRightMargin(float $margin);
+
+	/**
+	 * Set header margin
+	 * @param float $margin
+	 * @return $this
+	 */
+	abstract public function setHeaderMargin(float $margin);
+
+	/**
+	 * Set footer margin
+	 * @param float $margin
+	 * @return $this
+	 */
+	abstract public function setFooterMargin(float $margin);
 
 	/**
 	 * Set page size and orientation.
+	 * @param string $format
+	 * @param string $orientation
+	 * @return $this
 	 */
-	abstract public function setPageSize($format, $orientation);
+	abstract public function setPageSize(string $format, string $orientation = null);
 
 	/**
 	 * Parse and set options.
+	 * @param array $params
+	 * @return $this
 	 */
 	abstract public function parseParams(array $params);
 
@@ -120,43 +169,66 @@ abstract class PDF
 
 	/**
 	 * Set Title of the document.
+	 * @param string $title
+	 * @return $this
 	 */
-	abstract public function setTitle($title);
+	abstract public function setTitle(string $title);
 
 	/**
 	 * Set Title of the document.
+	 * @param string $author
+	 * @return $this
 	 */
-	abstract public function setAuthor($author);
+	abstract public function setAuthor(string $author);
 
 	/**
 	 * Set Title of the document.
+	 * @param string $creator
+	 * @return $this
 	 */
-	abstract public function setCreator($creator);
+	abstract public function setCreator(string $creator);
 
 	/**
 	 * Set Title of the document.
+	 * @param string $subject
+	 * @return $this
 	 */
-	abstract public function setSubject($subject);
+	abstract public function setSubject(string $subject);
 
 	/**
 	 * Set Title of the document.
+	 * @param string[] $keywords
+	 * @return $this
 	 */
-	abstract public function setKeywords($keywords);
+	abstract public function setKeywords(array $keywords);
 
 	/**
 	 * Set header content.
+	 * @param string $headerHtml
+	 * @return $this
 	 */
-	abstract public function setHeader($name, $header);
+	abstract public function setHeader(string $headerHtml);
 
 	/**
 	 * Set footer content.
+	 * @param string $footerHtml
+	 * @return $this
 	 */
-	abstract public function setFooter($name, $footer);
+	abstract public function setFooter(string $footerHtml);
+
+	/**
+	 * Set watermark.
+	 * @param \Vtiger_PDF_Model $templateModel
+	 * @return $this
+	 */
+	abstract public function setWatermark(\Vtiger_PDF_Model $templateModel);
 
 	/**
 	 * Load HTML content for exporting to PDF.
+	 * @param string $html
+	 * @return $this
 	 */
-	abstract public function loadHTML($html);
+	abstract public function loadHTML(string $html);
 
 	/**
 	 * Output content to PDF.
@@ -165,6 +237,7 @@ abstract class PDF
 
 	/**
 	 * Get template language.
+	 * @return string
 	 */
 	public function getLanguage()
 	{
@@ -173,14 +246,18 @@ abstract class PDF
 
 	/**
 	 * Set template language.
+	 * @param string $language
+	 * @return $this
 	 */
-	public function setLanguage($language)
+	public function setLanguage(string $language)
 	{
 		$this->language = $language;
+		return $this;
 	}
 
 	/**
 	 * Get pdf filename.
+	 * @return string
 	 */
 	public function getFileName()
 	{
@@ -189,10 +266,13 @@ abstract class PDF
 
 	/**
 	 * Set pdf filename.
+	 * @param string $fileName
+	 * @return $this
 	 */
-	public function setFileName($fileName)
+	public function setFileName(string $fileName)
 	{
-		$this->fileName = str_replace(['/', '\\'], '-', $fileName);
+		$this->fileName = $fileName;
+		return $this;
 	}
 
 	/**

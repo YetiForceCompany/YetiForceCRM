@@ -66,7 +66,7 @@ class ProductsTableLongVTwoLang extends Base
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td style="padding:0px 4px;text-align:center;"><strong>' . $inventoryRow['seq'] . '</strong></td>';
+						$html .= '<td style="padding:0px 4px;text-align:center;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
 						$html .= '<td style="padding:0px 4px;text-align:center;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
