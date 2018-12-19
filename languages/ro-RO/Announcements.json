@@ -1,20 +1,20 @@
 {
   "php": {
-    "Announcements": "Anunturi",
-    "SINGLE_Announcements": "Anunt",
-    "LBL_ANNOUNCEMENTS_INFORMATION": "Informatii de baza",
-    "LBL_SUBJECT": "Subiect",
-    "LBL_NUMBER": "Numar",
+    "Announcements": "Announcements",
+    "SINGLE_Announcements": "Announcement",
+    "LBL_ANNOUNCEMENTS_INFORMATION": "Basic information",
+    "LBL_SUBJECT": "Subject",
+    "LBL_NUMBER": "Number",
     "FL_STATUS": "Status",
-    "FL_INTERVAL": "Timp reminder",
-    "FL_IS_MANDATORY": "Obligatoriu de acceptat",
-    "PLL_DRAFT": "Ciorna",
-    "PLL_FOR_ACCEPTANCE": "Pentru aprobare",
-    "PLL_PUBLISHED": "Publicat",
-    "PLL_ARCHIVES": "Arhivat",
-    "LBL_REMIND_ME_LATER": "Reaminteste-mi mai tarziu",
-    "LBL_MARK_AS_READ": "Marcheaza ca citit",
-    "LBL_ACCEPT_ANNOUNCEMENT": "A fost acceptat?",
-    "LBL_DATE": "Citeste pe"
+    "FL_INTERVAL": "Reminder time",
+    "FL_IS_MANDATORY": "Obligatory to accept",
+    "PLL_DRAFT": "Draft",
+    "PLL_FOR_ACCEPTANCE": "For approval",
+    "PLL_PUBLISHED": "Published",
+    "PLL_ARCHIVES": "Archived",
+    "LBL_REMIND_ME_LATER": "Remind me later",
+    "LBL_MARK_AS_READ": "Mark as read",
+    "LBL_ACCEPT_ANNOUNCEMENT": "Was accepted?",
+    "LBL_DATE": "Read on"
   }
 }
