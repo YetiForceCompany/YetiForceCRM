@@ -21,7 +21,7 @@
 				</ul>
 			</div>
 		{/if}
-		{if $TREE === false}
+		{if !$TREE}
 			<div class="alert alert-danger" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -36,7 +36,7 @@
 				{\App\Language::translate('LBL_ALERT_EDIT_FOLDER', $MODULE_NAME)}
 			</div>
 			<div class="js-tree-container" data-js="jstree">
-				<input class="js-tree-data" value="{\App\Purifier::encodeHtml($TREE)}">
+				<input class="js-tree-data" value="{\App\Purifier::encodeHtml(\App\Json::encode($TREE))}">
 			</div>
 		{/if}
 	</div>
