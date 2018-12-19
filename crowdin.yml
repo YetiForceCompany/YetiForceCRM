@@ -1,3 +1,14 @@
 files:
   - source: /languages/**/*.json
     translation: /languages/%locale_with_underscore%/%original_file_name%
+    languages_mapping:
+      locale_with_underscore:
+        de: de_de
+        fr: fr_fr
+        it: it_it
+        pl: pl_pl
+        pt-BR: pt_br
+        ro: ro_ro
+        ru: ru_ru
+        es-ES: es_es
+        tr: tr_tr
