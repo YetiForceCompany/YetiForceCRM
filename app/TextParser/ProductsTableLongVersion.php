@@ -43,7 +43,8 @@ class ProductsTableLongVersion extends Base
 			$currencySymbol = $currencyData['currency_symbol'];
 		}
 		if (!empty($fields[1])) {
-			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
+			$visibleFields = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
+			$fieldsTextAlignRight = ['Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table style="width:100%;font-size:8px;border-collapse:collapse;">
 				<thead>
@@ -69,12 +70,15 @@ class ProductsTableLongVersion extends Base
 						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></tdtyle>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="font-size:8px" class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ($field->getType() === 'Name') {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
+									$comment = $commentField->getDisplayValue($value, $inventoryRow);
+									if ($comment) {
+										$html .= '<br />' . $comment;
+									}
 								}
 							}
 						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
