@@ -2,8 +2,6 @@
   "php": {
     "Services": "Services",
     "SINGLE_Services": "Service",
-    "LBL_ADD_RECORD": "Add record",
-    "LBL_RECORDS_LIST": "Services list",
     "LBL_SERVICE_INFORMATION": "Service details",
     "LBL_MORE_CURRENCIES": "more currencies",
     "LBL_PRICES": "Service prices",
