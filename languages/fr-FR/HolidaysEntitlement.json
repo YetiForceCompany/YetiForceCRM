@@ -1,13 +1,12 @@
 {
   "php": {
-    "HolidaysEntitlement": "Droit annuel",
-    "SINGLE_HolidaysEntitlement": "Droit annuel",
-    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "D\u00e9tails du droit annuel",
-    "LBL_CUSTOM_INFORMATION": "Information syst\u00e8me",
-    "LBL_YEAR": "Ann\u00e9e",
-    "LBL_DAYS": "Nombre de jours",
-    "LBL_EMPLOYEE": "Employ\u00e9",
-    "LBL_NUMBER": "Nombre"
-  },
-  "js": {}
+    "HolidaysEntitlement": "Annual holiday entitlement",
+    "SINGLE_HolidaysEntitlement": "Annual holiday entitlement",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Custom Information",
+    "LBL_CUSTOM_INFORMATION": "System Information",
+    "LBL_YEAR": "Year",
+    "LBL_DAYS": "Number of holidays",
+    "LBL_EMPLOYEE": "Employee",
+    "LBL_NUMBER": "Number"
+  }
 }
