@@ -199,7 +199,7 @@
     "LBL_SELECT_ACTION_TYPE": "Select notification type",
     "LBL_SELECT_RECIPIENTS": "Recipients",
     "LBL_MESSAGE": "Message",
-    "LBL_MESSAGE_INFO": "The text of the message supports variables, the name of the variable can be equal to a system field name or special functions.\r\n\r\nExamples of variables for fields:\r\n$accountname$ - Value from field\r\n%accountname% - Field label\r\n\r\nSpecial functions:",
+    "LBL_MESSAGE_INFO": "The text of the message supports variables, the name of the variable can be equal to a system field name or special functions.\r\n\r\nExamples of variables for fields:\r\n$accountname$- Value from field\r\n%accountname% - Field label\r\n\r\nSpecial functions:",
     "LBL_WATCHING_USERS": "Users watching",
     "LBL_VALUE_FROM_FIELD": "Value from field",
     "LBL_FIELDS_LABELS": "Field label",
