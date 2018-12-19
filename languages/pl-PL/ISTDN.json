@@ -1,21 +1,21 @@
 {
   "php": {
-    "ISTDN": "[MW] Wydania magazynowe",
-    "SINGLE_ISTDN": "[MW] Wydanie magazynowe",
-    "LBL_DESCRIPTION_BLOCK": "Opis",
-    "LBL_ATTENTION_BLOCK": "Uwagi",
-    "FL_ACCEPTANCE_DATE": "Data przyj\u0119cia",
-    "FL_ACCOUNT": "Kontrahent",
-    "FL_SUBJECT": "Nazwa",
-    "FL_NUMBER": "Numer",
-    "FL_STORAGE": "Magazyn",
+    "ISTDN": "Storage Transfer Dispatched Notes",
+    "SINGLE_ISTDN": "Storage Transfer Dispatched Note",
+    "LBL_DESCRIPTION_BLOCK": "Description",
+    "LBL_ATTENTION_BLOCK": "Comments",
+    "FL_ACCEPTANCE_DATE": "Date of acceptance",
+    "FL_ACCOUNT": "Account",
+    "FL_NUMBER": "Number",
+    "FL_SUBJECT": "Subject",
+    "FL_STORAGE": "Storage",
     "FL_STATUS": "Status",
-    "PLL_DRAFT": "Wersja robocza",
-    "PLL_IN_REALIZATION": "W realizacji",
-    "PLL_OBJECTIONS": "Zastrze\u017cenia",
-    "PLL_FOR_APPROVAL": "Do akceptacji",
-    "PLL_CANCELLED": "Anulowane",
-    "PLL_ACCEPTED": "Zaakceptowano",
-    "LBL_CHANGE_STATUS": "Zmie\u0144 status"
+    "PLL_DRAFT": "Draft",
+    "PLL_IN_REALIZATION": "In realization",
+    "PLL_OBJECTIONS": "Objections",
+    "PLL_FOR_APPROVAL": "For approval",
+    "PLL_CANCELLED": "Cancelled",
+    "PLL_ACCEPTED": "Accepted",
+    "LBL_CHANGE_STATUS": "Change Status"
   }
 }
