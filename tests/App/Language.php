@@ -19,7 +19,6 @@ class Language extends \Tests\Base
 		\App\Session::set('language', 'pl_pl');
 		$currLang = \App\Language::getLanguage();
 		$this->assertSame($currLang, \App\Language::getLanguage());
-		$this->assertSame(explode('_', $currLang), explode('-', strtolower(\App\Language::getLanguageTag())));
 		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl_pl'));
 		$this->assertSame('SINGLE_Leads', \App\Language::getSingularModuleName('Leads'));
 		$this->assertSame('Lead', \App\Language::translateSingularModuleName('Leads'));
