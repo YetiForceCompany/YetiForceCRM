@@ -3,7 +3,7 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_COMPANY_NAME',$QUALIFIED_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_NAME',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<input
 							class="form-control"
@@ -13,7 +13,7 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_INDUSTRY',$QUALIFIED_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_INDUSTRY',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<select class="select2 form-control" name="companies[{$company['id']}][industry]">
 						{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_CITY',$QUALIFIED_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_CITY',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<input
 							class="form-control"
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_COUNTRY',$QUALIFIED_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_COUNTRY',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<select class="select2 form-control" name="companies[{$company['id']}][country]">
 						{foreach from=\App\Fields\Country::getAll() item=ITEM}
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_WEBSITE',$QUALIFIED_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_WEBSITE',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<input
 							class="form-control"
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_EMAIL',$QUALIFIED_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_EMAIL',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<input
 							class="form-control"
