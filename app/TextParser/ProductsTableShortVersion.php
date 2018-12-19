@@ -55,6 +55,7 @@ class ProductsTableShortVersion extends Base
 			'</style>';
 		if (!empty($fields[1])) {
 			$fieldsColumnQuotes = ['Quantity', 'GrossPrice', 'Name', 'UnitPrice', 'TotalPrice'];
+			$fieldsWithCurrency = ['TotalPrice', 'GrossPrice', 'UnitPrice'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>
 					<tr>';
@@ -87,10 +88,10 @@ class ProductsTableShortVersion extends Base
 									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
 								}
 							}
-						} elseif ($field->getType() === 'Quantity') {
-							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
-						} else {
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
 					}
