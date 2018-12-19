@@ -29,7 +29,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				});
 			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				let recurrenceTree = new YF_RecurrenceTree();
+				let recurrenceTree = new App.Components.Tree.Basic();
 				data.find('[name="saveButton"]').on('click', function (e) {
 					const selectedFolders = self.getSelectedFolders(recurrenceTree.treeInstance);
 					AppConnector.request({
@@ -312,49 +312,3 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		});
 	}
 });
-
-class YF_RecurrenceTree {
-	constructor(container = $('.js-tree-container')) {
-		this.treeInstance = false;
-		this.treeData = false;
-		this.generateTree(container);
-	}
-
-	generateTree(container) {
-		const slef = this;
-		if (slef.treeInstance === false) {
-			slef.treeInstance = container;
-			slef.treeInstance.on('select_node.jstree', function (e, data) {
-				data.instance.select_node(data.node.children_d);
-			}).on('deselect_node.jstree', function (e, data) {
-				data.instance.deselect_node(data.node.children_d);
-			}).jstree({
-				core: {
-					data: slef.getRecords(container),
-					themes: {
-						name: 'proton',
-						responsive: true
-					},
-				},
-				plugins: ["search", "checkbox"]
-			});
-			let to = false;
-			$('.js-tree-data').keyup(function () {
-				if (to) {
-					clearTimeout(to);
-				}
-				to = setTimeout(function () {
-					var v = $('.js-tree-data').val();
-					slef.treeInstance.jstree(true).search(v);
-				}, 250);
-			});
-		}
-	}
-
-	getRecords(container) {
-		if (this.treeData === false && container !== "undefined") {
-			this.treeData = JSON.parse(container.find('.js-tree-data').val());
-		}
-		return this.treeData;
-	}
-}

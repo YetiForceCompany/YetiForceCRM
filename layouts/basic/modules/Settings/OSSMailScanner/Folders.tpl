@@ -39,10 +39,10 @@
 				<div class="input-group-prepend">
 					<div class="input-group-text"><span class="fas fa-search"></span></div>
 				</div>
-				<input type="text" id="folder-search" class="js-tree-data form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $QUALIFIED_MODULE)}">
+				<input type="text" id="folder-search" class="js-tree-search form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $QUALIFIED_MODULE)}" data-js="keyup">
 			</div>
 			<div class="js-tree-container" data-js="jstree">
-				<input class="js-tree-data" value="{\App\Purifier::encodeHtml(\App\Json::encode($TREE))}">
+				<input class="js-tree-data" value="{\App\Purifier::encodeHtml(\App\Json::encode($TREE))}" data-js="val">
 			</div>
 		{/if}
 	</div>
