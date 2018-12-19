@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_NAME": "Nombre",
-    "LBL_TYPE": "Tipo",
-    "LBL_DEFAULT": "Por defecto",
-    "LBL_ADD_RECORD": "A\u00f1adir registro",
-    "LBL_CREATE_RECORD": "Crear registro",
-    "LBL_EDIT_RECORD": "Editar registro",
-    "LBL_URL": "URL",
-    "LBL_USERNAME": "Usuario",
-    "LBL_PASSWORD": "Contrase\u00f1a",
+    "LBL_NAME": "Name",
+    "LBL_TYPE": "Type",
+    "LBL_DEFAULT": "Default",
+    "LBL_ADD_RECORD": "Add record",
+    "LBL_CREATE_RECORD": "Add telephone exchange",
+    "LBL_EDIT_RECORD": "Edit telephone exchange",
+    "LBL_URL": "Server address",
+    "LBL_USERNAME": "Login",
+    "LBL_PASSWORD": "Password",
     "LBL_SECRET_KEY": "Secret Key",
-    "LBL_OUTBOUND_CONTEXT": "Contexto de salida"
+    "LBL_OUTBOUND_CONTEXT": "Outbound context"
   },
   "js": {
-    "JS_SAVE_SUCCESS": "Cambios guardados"
+    "JS_SAVE_SUCCESS": "Changes saved"
   }
 }
