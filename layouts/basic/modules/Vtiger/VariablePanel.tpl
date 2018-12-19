@@ -183,9 +183,9 @@
 		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_ORGANIZATION','Other.TextParser')}</label>
 		<div class="medium w-100  col-lg-12 col-xl-9  fieldValue">
 			<div class="input-group">
-				<select class="select2 form-control companyList" id="companyList"
+				<select class="select2 form-control js-company-list" id="companyList"
 						data-container-class-css="form-control"
-						data-width="style">
+						data-width="style" data-js="val">
 					{foreach item=DATA key=KEY from=\App\MultiCompany::getAll()}
 						<option value="{$DATA['multicompanyid']}">{$DATA['company_name']}</option>
 					{/foreach}
@@ -197,9 +197,9 @@
 		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_COMPANY_VARIABLES','Other.TextParser')}</label>
 		<div class="medium w-100  col-lg-12 col-xl-9  fieldValue">
 			<div class="input-group">
-				<select class="select2 form-control companyVariable" id="companyVariable"
+				<select class="select2 form-control js-company-variable" id="companyVariable"
 						data-container-class-css="form-control"
-						data-width="style">
+						data-width="style" data-js="container">
 					{foreach item=BLOCK_OBJ key=BLOCK_NAME from=\Vtiger_Module_Model::getInstance('MultiCompany')->getBlocks()}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME, 'MultiCompany')}">
 							{foreach item=FIELD from=$BLOCK_OBJ->getFields()}
