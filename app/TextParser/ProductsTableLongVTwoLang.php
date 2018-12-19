@@ -35,7 +35,7 @@ class ProductsTableLongVTwoLang extends Base
 		$firstRow = current($inventoryRows);
 
 		if ($inventory->isField('currency')) {
-			if (\count($firstRow) > 0 && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) > 0 && $firstRow['currency'] !== null) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -54,8 +54,9 @@ class ProductsTableLongVTwoLang extends Base
 			'.productTable .summaryContainer{background:#ddd;padding:5px}' .
 			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
 			'</style>';
-		if (\count($fields[1])) {
+		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
+			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>
 					<tr>';
@@ -73,37 +74,31 @@ class ProductsTableLongVTwoLang extends Base
 			$html .= '</tr>
 				</thead>
 				<tbody>';
-			foreach ($inventoryRows as &$inventoryRow) {
+			foreach ($inventoryRows as $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if (!$field->isVisible() || ($field->getColumnName() === 'subunit')) {
 						continue;
 					}
-					if ($field->getType() == 'ItemNumber') {
+					if ($field->getType() === 'ItemNumber') {
 						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
-					} elseif ($field->getColumnName() == 'ean') {
+					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue, true) . '</strong>';
-								foreach ($fields[2] as $commentKey => $value) {
-									$COMMENT_FIELD = $fields[2][$commentKey];
-									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->getColumnName()]);
+						$html .= '<td style="font-size:8px" class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						if ($field->getType() === 'Name') {
+							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
 								}
-								break;
-							case 'DetailViewBase.tpl':
-								if ($field->getType() === 'Quantity' || $field->getType() === 'Value') {
-									$html .= $field->getDisplayValue($itemValue);
-								} else {
-									$html .= $field->getDisplayValue($itemValue) . ' ' . $currencySymbol;
-								}
-								break;
-							default:
-								break;
+							}
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
 					}
@@ -120,7 +115,7 @@ class ProductsTableLongVTwoLang extends Base
 					$html .= '">';
 					if ($field->isSummary()) {
 						$sum = 0;
-						foreach ($inventoryRows as &$inventoryRow) {
+						foreach ($inventoryRows as $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;

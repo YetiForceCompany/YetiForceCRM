@@ -14,9 +14,7 @@ class Company extends Base
 	/**
 	 * Function to get the instance of the Company model.
 	 *
-	 * @param int $id
-	 *
-	 * @return \self
+	 * @return array
 	 */
 	public static function getAll()
 	{
@@ -28,6 +26,31 @@ class Company extends Base
 		return $rows;
 	}
 
+
+
+
+	/**
+	 * Update company status.
+	 *
+	 * @param string      $status
+	 * @param string|null $name
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function statusUpdate(string $status, ?string $name)
+	{
+		if ($name) {
+			\App\Db::getInstance('admin')->createCommand()
+				->update('s_#__companies', [
+					'status' => $status
+				], ['name' => $name])->execute();
+		} else {
+			\App\Db::getInstance('admin')->createCommand()
+				->update('s_#__companies', [
+					'status' => $status
+				])->execute();
+		}
+	}
 	/**
 	 * Register serial provided by User
 	 * @param string $key
@@ -70,5 +93,4 @@ class Company extends Base
 		Cache::delete('CompanyGetAll', '');
 		// Do registration magic
 		return random_int(0, 1) ? true : false;
-	}
-}
+	}}

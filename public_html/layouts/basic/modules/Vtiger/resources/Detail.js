@@ -1191,15 +1191,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 					'data': urlParams
 				};
 				AppConnector.request(params).done(function (data) {
-						var activitiesWidget = widgetContainer.find('.js-detail-widget-content');
-						activitiesWidget.html(data);
-						App.Fields.Picklist.changeSelectElementView(activitiesWidget);
-					}
-				);
-				thisInstance.loadWidgets();
+					var activitiesWidget = widgetContainer.find('.js-detail-widget-content');
+					activitiesWidget.html(data);
+					App.Fields.Picklist.changeSelectElementView(activitiesWidget);
+					thisInstance.loadWidget($('.widgetContentBlock[data-type="Updates"]'));
+					thisInstance.loadWidget($('.widgetContentBlock[data-name="Calendar"]'));
+				});
 			}
-
-
 			let QuickCreateParams = {};
 			QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			QuickCreateParams['callbackFunction'] = callbackFunction;

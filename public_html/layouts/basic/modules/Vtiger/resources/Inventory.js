@@ -893,7 +893,7 @@ $.Class("Vtiger_Inventory_Js", {
 				unitPrice = recordData.price;
 			}
 			if (unitPrice) {
-				thisInstance.setUnitPrice(parentRow, App.Fields.Double.formatToDb(unitPrice));
+				thisInstance.setUnitPrice(parentRow, unitPrice);
 			}
 			if (unitPriceValuesJson !== undefined) {
 				$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);

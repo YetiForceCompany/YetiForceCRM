@@ -28,17 +28,14 @@ class TableDiscountSTwoLang extends Base
 			return '';
 		}
 		$html = '';
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventoryField->getFields(true);
-
-		if ($fields[0] != 0) {
-			$columns = $inventoryField->getColumns();
-			$inventoryRows = $this->textParser->recordModel->getInventoryData();
-			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-		}
-		if (in_array('currency', $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
-				$currency = $inventoryRows[0]['currency'];
+		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
+		$fields = $inventory->getFieldsByBlocks();
+		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		$firstRow = current($inventoryRows);
+		if ($inventory->isField('currency')) {
+			if (!empty($firstRow) && $firstRow['currency'] !== null) {
+				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
 			}
@@ -53,12 +50,12 @@ class TableDiscountSTwoLang extends Base
 			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
 			'.productTable .summaryContainer{background:#ddd;}' .
 			'</style>';
-		if (count($fields[0]) != 0) {
+		if (!empty($fields[0])) {
 			$discount = 0;
-			foreach ($inventoryRows as &$inventoryRow) {
+			foreach ($inventoryRows as $inventoryRow) {
 				$discount += $inventoryRow['discount'];
 			}
-			if (in_array('discount', $columns) && in_array('discountmode', $columns)) {
+			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
 				$html .= '<table class="productTable colapseBorder">
 							<thead>
 								<tr>

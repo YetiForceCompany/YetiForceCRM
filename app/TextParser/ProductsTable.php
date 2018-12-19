@@ -25,6 +25,7 @@ class ProductsTable extends Base
 	public function process()
 	{
 		$html = '';
+		$inventoryRows = [];
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
@@ -55,24 +56,11 @@ class ProductsTable extends Base
 						<th style="width: 60%;"></th>';
 			foreach ($fields[0] as $field) {
 				$html .= '<th style="' . $field->get('colSpan') . '%;" class="tBorder noBottomBorder tHeader">
-								<span>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;';
-				switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-					case 'DetailViewBase.tpl':
-						$html .= $field->getDisplayValue($firstRow[$field->getColumnName()]);
-						break;
-					case 'DetailViewTaxMode.tpl':
-					case 'DetailViewDiscountMode.tpl':
-						$html .= \App\Language::translate($field->getDisplayValue($firstRow[$field->getColumnName()]), $this->textParser->moduleName);
-						break;
-					default:
-						break;
-				}
-				$html .= '</th>';
+								<span>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;' . $field->getDisplayValue($firstRow[$field->getColumnName()]) . '</th>';
 			}
 			$html .= '</tr>
 				</thead>
 			</table>';
-
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$html .= '<table class="pTable colapseBorder">
 				<thead>
@@ -85,28 +73,21 @@ class ProductsTable extends Base
 			$html .= '</tr>
 				</thead>
 				<tbody>';
-
-			foreach ($inventoryRows as $key => &$inventoryRow) {
+			foreach ($inventoryRows as $key => $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-
 						$html .= '<td ' . ($field->getType() == 'Name' ? 'width="40%;" ' : '') . ' class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
-								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-										$html .= '<br />' . $commentField->getDisplayValue($value);
-									}
+						if ($field->getType() === 'Name') {
+							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
 								}
-								break;
-							case 'DetailViewBase.tpl':
-								$html .= $field->getDisplayValue($itemValue);
-								break;
-							default:
-								break;
+							}
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
 					}
@@ -126,7 +107,7 @@ class ProductsTable extends Base
 
 					if ($field->isSummary()) {
 						$sum = 0;
-						foreach ($inventoryRows as $key => &$inventoryRow) {
+						foreach ($inventoryRows as $key => $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
@@ -141,7 +122,7 @@ class ProductsTable extends Base
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
 				$taxField = $inventory->getField('tax');
-				foreach ($inventoryRows as $key => &$inventoryRow) {
+				foreach ($inventoryRows as $key => $inventoryRow) {
 					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 				}
 			}

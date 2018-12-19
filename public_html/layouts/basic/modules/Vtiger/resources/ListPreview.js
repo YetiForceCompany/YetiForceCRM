@@ -113,7 +113,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.listFloatThead.floatThead('reflow');
 	},
 	getSecondColMinWidth: function (container) {
-		let maxWidth, thisWidth;
+		let maxWidth = 0,
+			thisWidth;
 		container.find('.listViewEntries').each(function (i) {
 			thisWidth = $(this).find('.listViewEntryValue a').first().width();
 			if (i === 0) {

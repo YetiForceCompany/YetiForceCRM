@@ -101,6 +101,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'type':
 				$value = $this->getDisplayTypeValue((int) $value);
 				break;
+			case 'status':
+				$value = $this->getDisplayStatusValue((int) $value);
+				break;
 			case 'tabid':
 				$value = \App\Module::getModuleName($value);
 				break;
@@ -142,6 +145,18 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 		}
 		return \App\Language::translate($label, 'Settings::Companies');
+	}
+
+	/**
+	 * Get the displayed value for the type column.
+	 *
+	 * @param int $value
+	 *
+	 * @return string
+	 */
+	public function getDisplayStatusValue(int $value): string
+	{
+		return \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[$value], 'Settings::Companies');
 	}
 
 	/**

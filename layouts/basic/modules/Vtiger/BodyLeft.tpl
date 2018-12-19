@@ -11,7 +11,7 @@
 							 title="{$CURRENT_USER->get('roleName')}"
 							 alt="{$CURRENT_USER->get('roleName')}"/>
 					{else}
-						<img class="img-fluid logo" src="layouts/resources/Logo/logo" title="Logo"
+						<img class="img-fluid logo" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo')}" title="Logo"
 							 alt="Logo"/>
 					{/if}
 				</a>
