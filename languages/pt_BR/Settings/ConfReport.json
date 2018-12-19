@@ -37,7 +37,7 @@
     "LBL_SESSION_LIBRARY": "SESSION",
     "LBL_MYSQLND_LIBRARY": "MySQL Native Driver (mysqlnd)",
     "LBL_DOM_LIBRARY": "DOM",
-    "LBL_MBSTRING_LIBRARY": "php_mbstring (exigido para mPDF)",
+    "LBL_MBSTRING_LIBRARY": "Mbstring is required",
     "LBL_EXIF_LIBRARY": "Exif (improves security of uploaded files)",
     "LBL_ZIP_ARCHIVE": "ZIP",
     "LBL_FILEINFO_LIBRARY": "FileInfo",
