@@ -55,6 +55,7 @@ class ProductsTableNew extends Base
 			'</style>';
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
+			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>
 					<tr>';
@@ -88,10 +89,10 @@ class ProductsTableNew extends Base
 									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
 								}
 							}
-						} elseif ($field->getType() === 'Quantity') {
-							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
-						} else {
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
 					}
