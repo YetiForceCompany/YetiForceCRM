@@ -1,12 +1,12 @@
 {
   "php": {
-    "QuickCreateEditor": "Editor creare rapida",
-    "LBL_QUICK_CREATE_EDITOR": "Campuri \u2013 Creare rapida",
-    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Modul care permite modificarea layout-ului campurilor din fereastra Creare rapida",
-    "LBL_SEQUENCE": "Secventa camp",
-    "LBL_SAVE_FIELD_SEQUENCE": "Salveaza secventa camp"
+    "QuickCreateEditor": "Quick Create Editor",
+    "LBL_QUICK_CREATE_EDITOR": "Fields – Quick Create",
+    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Module allowing to change the layout of fields within Quick Create window",
+    "LBL_SEQUENCE": "Field sequence",
+    "LBL_SAVE_FIELD_SEQUENCE": "Save field sequence"
   },
   "js": {
-    "JS_FIELD_SEQUENCE_UPDATED": "Secventa camp actualizata"
+    "JS_FIELD_SEQUENCE_UPDATED": "Field sequence updated"
   }
 }
