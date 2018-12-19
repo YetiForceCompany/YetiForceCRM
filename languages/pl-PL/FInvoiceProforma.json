@@ -1,20 +1,20 @@
 {
   "php": {
-    "FInvoiceProforma": "Faktury Proforma",
-    "SINGLE_FInvoiceProforma": "Faktura Proforma",
-    "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
-    "LBL_ADDRESS_DELIVERY_INFORMATION": "Adres do dostawy",
-    "FL_SUBJECT": "Temat",
-    "FL_PAYMENT_DATE": "Data p\u0142atno\u015bci",
-    "FL_SALE_DATE": "Data sprzeda\u017cy",
-    "FL_ACCOUNT": "Kontrahent",
-    "FL_FORM_PAYMENT": "Forma p\u0142atno\u015bci",
+    "FInvoiceProforma": "Proforma invoices",
+    "SINGLE_FInvoiceProforma": "Proforma invoice",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Delivery address",
+    "FL_SUBJECT": "Subject",
+    "FL_PAYMENT_DATE": "Due date",
+    "FL_SALE_DATE": "Sale date",
+    "FL_FORM_PAYMENT": "Payment method",
     "FL_STATUS": "Status",
-    "FL_NUMBER": "Numer faktury",
-    "FL_TOTAL": "Netto",
-    "FL_GROSS": "Brutto",
-    "PLL_CASH": "Got\u00f3wka",
-    "PLL_TRANSFER": "Przelew bankowy",
-    "PLL_WIRE_TRANSFER": "Przelew elektroniczny"
+    "FL_NUMBER": "Invoice number",
+    "FL_ACCOUNT": "Account",
+    "FL_TOTAL": "Net",
+    "FL_GROSS": "Gross",
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer"
   }
 }
