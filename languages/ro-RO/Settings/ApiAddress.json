@@ -1,26 +1,26 @@
 {
   "php": {
-    "LBL_SAVE": "Salveaza",
-    "ApiAddress": "Cauta adresa",
-    "LBL_API_ADDRESS": "Harti [Google & OSM]",
-    "LBL_API_ADDRESS_DESCRIPTION": "Modulul permite cautarea\/ autocompletarea adresei pe parcursul crearii\/modificarii datelor in sistem.",
-    "LBL_USE_OPENCAGE_GEOCODER": "Utilizeaza OpenCage Geocoder",
-    "LBL_REMOVE_CONNECTION": "Elimina conexiune",
-    "LBL_ENTER_KEY_APPLICATION": "Introdu cheia aplicatiei",
-    "LBL_MIN_LOOKUP_LENGTH": "Numarul minim de caractere pe care utilizatorul trebuie sa le scrie inainte de efectuarea unei cautari",
-    "LBL_SAVE_NOTIFY_OK": "Modificari salvate.",
-    "LBL_CHOOSE_API": "Alege API",
-    "LBL_USE_GOOGLE_GEOCODER": "Utilizeaza Google Geocoding",
+    "LBL_SAVE": "Save",
+    "ApiAddress": "Address Search",
+    "LBL_API_ADDRESS": "Maps [Google & OSM]",
+    "LBL_API_ADDRESS_DESCRIPTION": "Module allowing to search\/ autocomplete address during creating\/editing data within the system.",
+    "LBL_USE_OPENCAGE_GEOCODER": "Use OpenCage Geocoder",
+    "LBL_REMOVE_CONNECTION": "Remove Connection",
+    "LBL_ENTER_KEY_APPLICATION": "Enter key application",
+    "LBL_MIN_LOOKUP_LENGTH": "The minimum number of characters a user must type before a search is performed",
+    "LBL_SAVE_NOTIFY_OK": "Saved changes.",
+    "LBL_CHOOSE_API": "Choose API",
+    "LBL_USE_GOOGLE_GEOCODER": "Use Google Geocoding",
     "google_map_api": "Google Geocoding",
     "opencage_data": "OpenCage Geocoder",
-    "LBL_GLOBAL_CONFIG": "Configurare globala",
-    "LBL_SAVE_GLOBAL_SETTINGS": "Salveaza setarile globale",
-    "LBL_NUMBER_SEARCH_RESULTS": "Numar rezultate cautare"
+    "LBL_GLOBAL_CONFIG": "Global configuration",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Save the global settings",
+    "LBL_NUMBER_SEARCH_RESULTS": "Number of search results"
   },
   "js": {
-    "Invalid API key": "Cheie API invalida",
-    "JS_ERROR": "Eroare",
-    "JS_LOADING_PLEASE_WAIT": "Se incarca, Va rugam asteptati.",
-    "JS_WRONG_NUMBER": "Caractere permise: cifre mai mari de 1."
+    "Invalid API key": "Invalid API key",
+    "JS_ERROR": "Error",
+    "JS_LOADING_PLEASE_WAIT": "Loading, Please wait.",
+    "JS_WRONG_NUMBER": "Characters allowed: digits greater than 1."
   }
 }
