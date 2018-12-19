@@ -60,7 +60,6 @@
     "ckeditor/ckeditor": "^4.9.2",
     "parsecsv/php-parsecsv": "^1.1.0",
     "guzzlehttp/guzzle": "^6.3.3",
-    "tecnickcom/tcpdf": "^6.2.17",
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "^2.0.15.2",
