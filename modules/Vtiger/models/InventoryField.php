@@ -153,7 +153,7 @@ class Vtiger_InventoryField_Model extends App\Base
 
 		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
-		//$instance->initialize($valueArray);
+		$instance->initialize($valueArray);
 		$instance->set('module', $this->get('module'));
 		\App\Log::trace('Exiting ' . __METHOD__);
 

@@ -136,9 +136,7 @@ class ProductsTable extends Base
 						<table style="width:100%;border-collapse:collapse;">
 							<thead>
 								<tr>
-									<th style="padding:0px 4px;" colspan="2">
-										<strong>' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
-									</th>
+									<th style="padding:0px 4px;font-weight:bold;" colspan="2">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
 							</thead>
 							<tbody>';
@@ -163,9 +161,7 @@ class ProductsTable extends Base
 					$html .= '<table>
 								<thead>
 									<tr>
-										<th style="padding:0px 4px;" colspan="2">
-											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
-										</th>
+										<th style="padding:0px 4px;" colspan="2">' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</th>
 									</tr>
 								</thead>
 								<tbody>';

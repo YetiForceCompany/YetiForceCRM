@@ -58,7 +58,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'watermark_image',
 		'one_pdf',
 	];
-	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle'];
+	public static $step1Fields = ['status', 'meta_creator', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle'];
 	public static $step2Fields = ['module_name', 'header_content', 'module_name', 'body_content', 'footer_content'];
 	public static $step3Fields = ['conditions'];
 	public static $module = 'PDF';

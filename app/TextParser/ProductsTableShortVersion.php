@@ -62,7 +62,7 @@ class ProductsTableShortVersion extends Base
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;"><strong>' . $inventoryRow['seq'] . '</strong></td>';
+						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';

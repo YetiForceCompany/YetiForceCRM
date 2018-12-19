@@ -423,7 +423,7 @@
 													{/if}
 												</div>
 												<div class="col-9">
-													<input type="file" name="watermark_image_file" accept="images/*" class="form-control" data-validation-engine='validate[required]' id="watermark_image"/>
+													<input type="file" name="watermark_image_file" accept="images/*" class="form-control" id="watermark_image"/>
 												</div>
 											</div>
 										</div>

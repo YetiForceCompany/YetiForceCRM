@@ -122,7 +122,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$currentPage = '<div data-page-group></div>';
 				$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
 				$currentPage .= $pdf->wrapFooterContent($template->getFooter());
-				$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
+				$currentPage .= $pdf->wrapWatermark($pdf->getTemplateWatermark($template));
 				$currentPage .= $template->getBody();
 				if ($index !== $last) {
 					$currentPage .= '<div style="page-break-after: always;"></div>';
@@ -160,7 +160,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 							></div>';
 						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
 						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
-						$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
+						$currentPage .= $pdf->wrapWatermark($pdf->getTemplateWatermark($template));
 						$currentPage .= $template->getBody();
 						$currentPage .= '<div style="page-break-after: always;"></div>';
 						$pdf->setRecordId($record);
@@ -193,7 +193,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 							></div>';
 						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
 						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
-						$currentPage .= $pdf->wrapWatermark($pdf->getWatermark($template));
+						$currentPage .= $pdf->wrapWatermark($pdf->getTemplateWatermark($template));
 						$currentPage .= $template->getBody();
 						$pdf->setRecordId($record);
 						$pdf->loadHTML($pdf->parseVariables($currentPage));
