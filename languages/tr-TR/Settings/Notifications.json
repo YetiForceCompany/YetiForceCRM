@@ -8,5 +8,7 @@
     "LBL_LOCK": "Lock",
     "LBL_NOTICE_CONFIG_WARNING": "Watching modules is enabled in configuration. Disable it to manage notifications."
   },
-  "js": {}
+  "js": {
+
+  }
 }
