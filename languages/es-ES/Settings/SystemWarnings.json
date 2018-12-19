@@ -1,7 +1,6 @@
 {
   "php": {
     "SystemRequirements": "Requisitos del sistema",
-    "LBL_LIBRARY_PDF": "Librer\u00eda mPDF",
     "LBL_LIBRARY_ROUNDCUBE": "Librer\u00eda Roundcube",
     "LBL_LIBRARY_PHPEXCEL": "Librer\u00eda PHPExcel",
     "LBL_CONFIG_REPORT": "Configuraci\u00f3n del servidor",

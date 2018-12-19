@@ -1,7 +1,6 @@
 {
   "php": {
     "SystemRequirements": "Cerinte sistem",
-    "LBL_LIBRARY_PDF": "Librarie mPDF",
     "LBL_LIBRARY_ROUNDCUBE": "Librarie Roundcube",
     "LBL_LIBRARY_PHPEXCEL": "Librarie PHPExcel",
     "LBL_CONFIG_REPORT": "Configuratie server",

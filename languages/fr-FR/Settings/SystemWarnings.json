@@ -9,7 +9,6 @@
     "LBL_DISK_USAGE": "Espace disque disponible",
     "LBL_DISK_FULL": "Il n'y a pas assez d'espace libre sur votre disque (%s de %s), donc le syst\u00e8me peut cesser de fonctionner. Chemin du r\u00e9pertoire: %s",
     "SystemRequirements": "Configuration requise",
-    "LBL_LIBRARY_PDF": "Biblioth\u00e8que mPDF",
     "LBL_LIBRARY_ROUNDCUBE": "Biblioth\u00e8que Roundcube",
     "LBL_LIBRARY_PHPEXCEL": "Biblioth\u00e8que PHPExcel",
     "LBL_CONFIG_REPORT": "Configuration du serveur",
