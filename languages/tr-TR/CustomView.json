@@ -1,7 +1,8 @@
 {
   "php": {
-    "CustomView": "Filtreler - Yap\u0131land\u0131rma",
-    "LBL_FEATURED": "Favorilere ekle",
-    "LBL_COLOR_VIEW": "Rengi g\u00f6ster"
+    "CustomView": "Filters - Configuration",
+    "LBL_FEATURED": "Add to favorites",
+    "LBL_COLOR_VIEW": "View color",
+    "LBL_ADD_FIELD": "Add field"
   }
 }
