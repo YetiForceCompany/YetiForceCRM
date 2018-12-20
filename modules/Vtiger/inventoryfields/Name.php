@@ -96,7 +96,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDBValue($value, ?string $name = '')
 	{
-		return (int)$value;
+		return (int) $value;
 	}
 
 	/**
