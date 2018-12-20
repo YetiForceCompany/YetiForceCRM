@@ -792,8 +792,12 @@ var App = {},
 				autoclose: true,
 				twelvehour: formatTime,
 				minutestep: 5,
-				ampmSubmit: false
+				ampmSubmit: true,
+				afterDone: function () {
+					console.log("after done");
+				}
 			};
+
 			$('.js-clock__btn').on('click', (e) => {
 				e.stopPropagation();
 				let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
