@@ -21,56 +21,37 @@ If possible, please make a video using [ScreenToGif] (https://screentogif.codepl
 <h4>Configuration problems</h4>
 {if $ERROR_SECURITY}
 	<br/>
-	<strong>
-		{\App\Language::translate('LBL_SECURITY_ERROR', $QUALIFIED_MODULE)}
-		:
-	</strong>
+	<strong>Security errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_SECURITY)}
 {/if}
 {if $ERROR_STABILITY}
 	<br/>
-	<strong>
-		{\App\Language::translate('LBL_STABILITY_ERROR', $QUALIFIED_MODULE)}
-		:
-	</strong>
+	<strong>Server stability errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_STABILITY)}
 {/if}
 {if $ERROR_ENVIRONMENT}
 	<br/>
-	<strong>
-		{\App\Language::translate('LBL_ENVIRONMENT_ERROR', $QUALIFIED_MODULE)}
-		:
-	</strong>
+	<strong>Server environment errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_ENVIRONMENT)}
 {/if}
 {if $ERROR_DATABASE}
 	<br/>
-	<strong>
-		{\App\Language::translate('LBL_DATABASE_ERROR', $QUALIFIED_MODULE)}
-		:
-	</strong>
+	<strong>Server database errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_DATABASE)}
 {/if}
 {if $ERROR_WRITE}
 	<br/>
-	<strong>
-		{\App\Language::translate('LBL_WRITE_ERROR', $QUALIFIED_MODULE)}
-		:
-	</strong>
+	<strong>Server write permissions errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_WRITE)}
 {/if}
 {if $ERROR_PERFORMANCE}
 	<br/>
-	<strong>
-		{\App\Language::translate('LBL_PERFORMANCE_ERROR', $QUALIFIED_MODULE)}
-		:
-	</strong>
+	<strong>Server performance errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_PERFORMANCE)}
 {/if}
 {if $ERROR_LIBRARIES}
 	<br/>
-	<strong>{\App\Language::translate('LBL_LIBRARIES_ERROR', $QUALIFIED_MODULE)}
-		:</strong>
+	<strong>Library errors:</strong>
 	{\Settings_Github_Issues_Model::formatErrorsForIssue($ERROR_LIBRARIES,true)}
 {/if}
 <br/>
