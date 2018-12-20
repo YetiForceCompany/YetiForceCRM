@@ -15,7 +15,8 @@
 			<div class="form-group row">
 				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_INDUSTRY',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
-					<select class="select2 form-control" name="companies[{$company['id']}][industry]">
+					<select class="select2 form-control" name="companies[{$company['id']}][industry]"
+							data-validation-engine="validate[required]">
 						{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
 							<option value="{$ITEM}"
 									{if $company['industry'] === $ITEM}selected="true"{/if}>
@@ -31,13 +32,15 @@
 					<input
 							class="form-control"
 							name="companies[{$company['id']}][city]"
+							data-validation-engine="validate[required]"
 							value="{$company['city']}">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_COUNTRY',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
-					<select class="select2 form-control" name="companies[{$company['id']}][country]">
+					<select class="select2 form-control" name="companies[{$company['id']}][country]"
+							data-validation-engine="validate[required]">
 						{foreach from=\App\Fields\Country::getAll() item=ITEM}
 							<option value="{$ITEM['name']}"
 									{if $company['country'] === $ITEM['name']}selected="true"{/if}>{\App\Language::translateSingleMod($ITEM['name'],'Other.Country')}</option>
@@ -51,7 +54,6 @@
 					<input
 							class="form-control"
 							name="companies[{$company['id']}][website]"
-							data-validation-engine="validate[custom[url]]"
 							value="{$company['website']}">
 				</div>
 			</div>
@@ -61,7 +63,6 @@
 					<input
 							class="form-control"
 							name="companies[{$company['id']}][email]"
-							data-validation-engine="validate[custom[email]]"
 							value="{$company['email']}">
 				</div>
 			</div>
