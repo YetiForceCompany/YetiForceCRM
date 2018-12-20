@@ -29,12 +29,12 @@ class Company extends Base
 	/**
 	 * Update company status.
 	 *
-	 * @param string      $status
+	 * @param int         $status
 	 * @param string|null $name
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function statusUpdate(string $status, ?string $name)
+	public static function statusUpdate(int $status, ?string $name = null)
 	{
 		if ($name) {
 			\App\Db::getInstance('admin')->createCommand()
