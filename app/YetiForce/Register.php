@@ -164,9 +164,10 @@ class Register
 			return false;
 		}
 		static::updateMetaData([
-			'status' => 1,
-			'text' => 'LBL_WAITING_FOR_ACCEPTANCE',
+			'status' => 9,
+			'text' => 'OK',
 			'crmKey' => static::getCrmKey(),
+			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial,
 		]);
 		return true;
