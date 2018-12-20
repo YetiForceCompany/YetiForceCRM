@@ -37,7 +37,7 @@
     "LBL_MYSQLND_LIBRARY": "MySQL Native Driver (mysqlnd)",
     "LBL_SESSION_LIBRARY": "SESSION",
     "LBL_DOM_LIBRARY": "DOM",
-    "LBL_MBSTRING_LIBRARY": "Mbstring jest wymagany",
+    "LBL_MBSTRING_LIBRARY": "MBstring jest przeznaczony do obs\u0142ugi kodowa\u0144 opartych na Unicode oraz wielu kodowa\u0144 jednobajtowych",
     "LBL_EXIF_LIBRARY": "Exif (poprawia bezpiecze\u0144stwo wgrywanych plik\u00f3w)",
     "LBL_ZIP_ARCHIVE": "ZIP",
     "LBL_FILEINFO_LIBRARY": "FileInfo",

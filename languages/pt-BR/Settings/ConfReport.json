@@ -37,7 +37,7 @@
     "LBL_SESSION_LIBRARY": "SESSION",
     "LBL_MYSQLND_LIBRARY": "MySQL Native Driver (mysqlnd)",
     "LBL_DOM_LIBRARY": "DOM",
-    "LBL_MBSTRING_LIBRARY": "Mbstring is required",
+    "LBL_MBSTRING_LIBRARY": "MBstring is designed to handle Unicode-based encodings and many single-byte encodings",
     "LBL_EXIF_LIBRARY": "Exif (improves security of uploaded files)",
     "LBL_ZIP_ARCHIVE": "ZIP",
     "LBL_FILEINFO_LIBRARY": "FileInfo",
