@@ -113,6 +113,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$fields[$field] = $params;
 				}
+
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
