@@ -26,16 +26,15 @@ class Company extends Base
 		return $rows;
 	}
 
-
 	/**
 	 * Update company status.
 	 *
-	 * @param string      $status
+	 * @param int         $status
 	 * @param string|null $name
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function statusUpdate(string $status, ?string $name = null)
+	public static function statusUpdate(int $status, ?string $name = null)
 	{
 		if ($name) {
 			\App\Db::getInstance('admin')->createCommand()
@@ -51,11 +50,14 @@ class Company extends Base
 	}
 
 	/**
-	 * Send registration data to YetiForce API server
+	 * Send registration data to YetiForce API server.
+	 *
 	 * @param array $companiesNew
-	 * @return bool
+	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
 	 */
 	public static function registerOnline($companiesNew): bool
 	{
