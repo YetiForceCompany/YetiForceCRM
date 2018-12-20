@@ -79,6 +79,6 @@ class Company extends Base
 				->execute();
 		}
 		Cache::delete('CompanyGetAll', '');
-		return (new \App\YetiForce\Register())->send();
+		return (new \App\YetiForce\Register())->register();
 	}
 }

@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "91caf842dc07bd0fe20ed9fc852a6869",
@@ -629,7 +629,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "5.7.17",
+            "version": "5.7.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -673,16 +673,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "5.7.17",
+            "version": "5.7.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "f8b9387034e11980d3953c814b6ad65e2cd244e3"
+                "reference": "1caddfa63a40d2f229bb0948d9871540da666d0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/f8b9387034e11980d3953c814b6ad65e2cd244e3",
-                "reference": "f8b9387034e11980d3953c814b6ad65e2cd244e3",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/1caddfa63a40d2f229bb0948d9871540da666d0b",
+                "reference": "1caddfa63a40d2f229bb0948d9871540da666d0b",
                 "shasum": ""
             },
             "require": {
@@ -728,7 +728,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2018-12-08T15:33:10+00:00"
+            "time": "2018-12-18T13:45:35+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -1873,16 +1873,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v5.0.2",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "728f9fb0fe815003b3bcfd331d33106c0d8a6b1e"
+                "reference": "46be3f58adac13084497961e10eed9a7fb4d44d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/728f9fb0fe815003b3bcfd331d33106c0d8a6b1e",
-                "reference": "728f9fb0fe815003b3bcfd331d33106c0d8a6b1e",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/46be3f58adac13084497961e10eed9a7fb4d44d1",
+                "reference": "46be3f58adac13084497961e10eed9a7fb4d44d1",
                 "shasum": ""
             },
             "require": {
@@ -1915,7 +1915,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2018-12-10T06:08:43+00:00"
+            "time": "2018-12-19T17:14:59+00:00"
         },
         {
             "name": "simshaun/recurr",
@@ -2619,12 +2619,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "e1b8a3e5007c154130f37d4a71ed28a0719665fa"
+                "reference": "da1b73783b65931f9a96ff2fbed05eae448b63f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/e1b8a3e5007c154130f37d4a71ed28a0719665fa",
-                "reference": "e1b8a3e5007c154130f37d4a71ed28a0719665fa",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/da1b73783b65931f9a96ff2fbed05eae448b63f5",
+                "reference": "da1b73783b65931f9a96ff2fbed05eae448b63f5",
                 "shasum": ""
             },
             "require": {
@@ -2656,7 +2656,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2018-12-15T21:36:07+00:00"
+            "time": "2018-12-20T14:52:29+00:00"
         },
         {
             "name": "yetiforce/yii2",

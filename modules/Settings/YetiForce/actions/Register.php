@@ -4,20 +4,21 @@
  * YetiForce register action class file.
  *
  * @package   Modules
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 /**
- * Class for YetiForce registration actions
+ * Class for YetiForce registration actions.
  */
 class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 {
 	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Class constructor, expose public action methods
+	 * Class constructor, expose public action methods.
 	 */
 	public function __construct()
 	{
@@ -27,8 +28,10 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	}
 
 	/**
-	 * Save serial provided by administrator
+	 * Save serial provided by administrator.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \Exception
 	 */
 	public function serial(\App\Request $request)
@@ -52,8 +55,10 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	}
 
 	/**
-	 * Save companies data and send it to YetiForce for instance registration
+	 * Save companies data and send it to YetiForce for instance registration.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */

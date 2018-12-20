@@ -93,7 +93,6 @@ class Register
 			'version' => \App\Version::get(),
 			'language' => \App\Language::getLanguage(),
 			'timezone' => date_default_timezone_get(),
-			'crmKey' => static::getCrmKey(),
 			'insKey' => static::getInstanceKey(),
 			'companies' => $companies,
 		];
@@ -104,7 +103,7 @@ class Register
 	 *
 	 * @return bool
 	 */
-	public function send(): bool
+	public function register(): bool
 	{
 		if (!\App\RequestUtil::isNetConnection() || gethostbyname('yetiforce.com') === 'yetiforce.com') {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
@@ -148,11 +147,10 @@ class Register
 	{
 		$conf = static::getConf();
 		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
-				'register_time' => $data['register_time'] ?? $conf['register_time'],
+				'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
 				'last_check_time' => date('Y-m-d H:i:s'),
 				'status' => $data['status'] ?? $conf['status'] ?? 0,
 				'text' => $data['text'] ?? $conf['text'] ?? '',
-				'crmKey' => static::getCrmKey(),
 				'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
 			], true) . ';');
 	}
@@ -172,7 +170,6 @@ class Register
 		static::updateMetaData([
 			'status' => 9,
 			'text' => 'OK',
-			'crmKey' => static::getCrmKey(),
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial,
 		]);
@@ -240,7 +237,7 @@ class Register
 			return false;
 		}
 		$conf = static::getConf();
-		if (strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) {
+		if (isset($conf['last_check_time']) && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) {
 			return false;
 		}
 		$params = [
