@@ -1,8 +1,9 @@
 <?php
 
 /**
- * String formatting test class.
+ * String formatting test class file.
  *
+ * @package   Tests
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -10,14 +11,38 @@
 
 namespace Tests\Base;
 
+/**
+ * String formatting test class.
+ */
 class Z_StringFormatting extends \Tests\Base
 {
+	/**
+	 * @var string Decimal numbers separator
+	 */
 	public static $separatorDecimal;
+	/**
+	 * @var string Numbers grouping separator
+	 */
 	public static $separatorGrouping;
+	/**
+	 * @var string Currency symbol placement
+	 */
 	public static $symbolPlacement;
+	/**
+	 * @var string Numbers grouping pattern
+	 */
 	public static $patternGrouping;
+	/**
+	 * @var int Decimal places count
+	 */
 	public static $decimalNum;
+	/**
+	 * @var bool Truncate zeros in decimal numbers
+	 */
 	public static $truncateTrailingZeros;
+	/**
+	 * @var array Possible combinations cache
+	 */
 	public static $combinations = [];
 
 	/**
@@ -27,7 +52,7 @@ class Z_StringFormatting extends \Tests\Base
 	public static function setUpBeforeClass()
 	{
 		parent::setUpBeforeClass();
-		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
+		$userModel = \App\User::getCurrentUserModel();
 		static::$separatorDecimal = $userModel->get('currency_decimal_separator');
 		static::$separatorGrouping = $userModel->get('currency_grouping_separator');
 		static::$symbolPlacement = $userModel->get('currency_symbol_placement');
@@ -49,8 +74,6 @@ class Z_StringFormatting extends \Tests\Base
 			[
 				'integer',
 				'double',
-				//	'currency',
-				//	'percentage'
 			] as $type) {
 			$method = 'append' . \ucfirst($type);
 			if (\method_exists($this, $method)) {
@@ -63,6 +86,7 @@ class Z_StringFormatting extends \Tests\Base
 	}
 
 	/**
+	 * Generate list of possible combinations
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -88,6 +112,7 @@ class Z_StringFormatting extends \Tests\Base
 	}
 
 	/**
+	 * Append integer validation data sets to test combinations
 	 * @param $combinations
 	 * @return array
 	 * @codeCoverageIgnore
@@ -129,6 +154,7 @@ class Z_StringFormatting extends \Tests\Base
 	}
 
 	/**
+	 * Append double validation data sets to test combinations
 	 * @param $combinations
 	 * @return array
 	 * @codeCoverageIgnore
