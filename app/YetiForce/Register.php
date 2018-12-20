@@ -94,6 +94,7 @@ class Register
 			'language' => \App\Language::getLanguage(),
 			'timezone' => date_default_timezone_get(),
 			'insKey' => static::getInstanceKey(),
+			'crmKey' => static::getCrmKey(),
 			'companies' => $companies,
 		];
 	}
@@ -122,10 +123,10 @@ class Register
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
 					static::updateMetaData([
-						'register_date' => date('Y-m-d H:i:s'),
+						'register_time' => date('Y-m-d H:i:s'),
 						'status' => $body['status'],
 						'text' => $body['text'],
-						'serialKey' => $body['serialKey'],
+						'serialKey' => $body['serialKey'] ?? '',
 					]);
 					$result = true;
 				}
@@ -136,93 +137,6 @@ class Register
 		}
 		\App\Company::statusUpdate(1);
 		return $result;
-	}
-
-	/**
-	 * Update registration data.
-	 *
-	 * @param string[] $data
-	 */
-	private static function updateMetaData(array $data): void
-	{
-		$conf = static::getConf();
-		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
-				'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
-				'last_check_time' => date('Y-m-d H:i:s'),
-				'status' => $data['status'] ?? $conf['status'] ?? 0,
-				'text' => $data['text'] ?? $conf['text'] ?? '',
-				'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
-			], true) . ';');
-	}
-
-	/**
-	 * Set offline serial.
-	 *
-	 * @param string $serial
-	 *
-	 * @return bool
-	 */
-	public static function setSerial($serial)
-	{
-		if (!static::verifySerial($serial)) {
-			return false;
-		}
-		static::updateMetaData([
-			'status' => 9,
-			'text' => 'OK',
-			'insKey' => static::getInstanceKey(),
-			'serialKey' => $serial,
-		]);
-		return true;
-	}
-
-	/**
-	 * Verification of the serial number.
-	 *
-	 * @param string $serial
-	 *
-	 * @return bool
-	 */
-	public static function verifySerial(string $serial): bool
-	{
-		$key = substr($serial, 0, 20) . substr(crc32(substr($serial, 0, 20)), 2, 5);
-		return strcmp($serial, $key . substr(sha1($key), 5, 15)) !== 0;
-	}
-
-	/**
-	 * Registration verification.
-	 *
-	 * @param bool $timer
-	 *
-	 * @return array
-	 */
-	public static function verify($timer = false): array
-	{
-		$conf = static::getConf();
-		if (!$conf) {
-			return [false, 0];
-		}
-		$status = $conf['status'] > 6;
-		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
-			return [true, 9];
-		}
-		if ($timer && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
-			$status = true;
-		}
-		return [$status, $conf['status']];
-	}
-
-	/**
-	 * Get registration config.
-	 *
-	 * @return array
-	 */
-	private static function getConf(): array
-	{
-		if (!\file_exists(static::REGISTRATION_FILE)) {
-			return [];
-		}
-		return require static::REGISTRATION_FILE;
 	}
 
 	/**
@@ -269,6 +183,93 @@ class Register
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
 		return $status ?? false;
+	}
+
+	/**
+	 * Registration verification.
+	 *
+	 * @param bool $timer
+	 *
+	 * @return array
+	 */
+	public static function verify($timer = false): array
+	{
+		$conf = static::getConf();
+		if (!$conf) {
+			return [false, 0];
+		}
+		$status = $conf['status'] > 6;
+		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
+			return [true, 9];
+		}
+		if ($timer && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
+			$status = true;
+		}
+		return [$status, $conf['status']];
+	}
+
+	/**
+	 * Update registration data.
+	 *
+	 * @param string[] $data
+	 */
+	private static function updateMetaData(array $data): void
+	{
+		$conf = static::getConf();
+		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
+				'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
+				'last_check_time' => date('Y-m-d H:i:s'),
+				'status' => $data['status'] ?? $conf['status'] ?? 0,
+				'text' => $data['text'] ?? $conf['text'] ?? '',
+				'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
+			], true) . ';');
+	}
+
+	/**
+	 * Set offline serial.
+	 *
+	 * @param string $serial
+	 *
+	 * @return bool
+	 */
+	public static function setSerial($serial)
+	{
+		if (!static::verifySerial($serial)) {
+			return false;
+		}
+		static::updateMetaData([
+			'status' => 7,
+			'text' => 'OK',
+			'insKey' => static::getInstanceKey(),
+			'serialKey' => $serial,
+		]);
+		return true;
+	}
+
+	/**
+	 * Verification of the serial number.
+	 *
+	 * @param string $serial
+	 *
+	 * @return bool
+	 */
+	public static function verifySerial(string $serial): bool
+	{
+		$key = substr($serial, 0, 20) . substr(crc32(substr($serial, 0, 20)), 2, 5);
+		return strcmp($serial, $key . substr(sha1($key), 5, 15)) === 0;
+	}
+
+	/**
+	 * Get registration config.
+	 *
+	 * @return array
+	 */
+	private static function getConf(): array
+	{
+		if (!\file_exists(static::REGISTRATION_FILE)) {
+			return [];
+		}
+		return require static::REGISTRATION_FILE;
 	}
 
 	/**
