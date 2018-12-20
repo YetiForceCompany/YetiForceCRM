@@ -40,7 +40,7 @@ class Pdf extends \Tests\Base
 		$pdfModel->set('status', 1);
 		$pdfModel->set('primary_name', 'test');
 		$pdfModel->set('page_format', 'A4');
-		$pdfModel->set('language', 'pl_pl');
+		$pdfModel->set('language', 'pl-PL');
 		$pdfModel->set('page_orientation', 'PLL_PORTRAIT');
 		$pdfModel->set('filename', self::FILE_NAME);
 		$pdfModel->set('metatags_status', 1);

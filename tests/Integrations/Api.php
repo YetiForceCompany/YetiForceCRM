@@ -94,7 +94,7 @@ class Api extends \Tests\Base
 			'user_name' => 'demo@yetiforce.com',
 			'password_t' => 'demo',
 			'type' => '1',
-			'language' => 'pl_pl',
+			'language' => 'pl-PL',
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
 			'crmid_display' => '',
@@ -106,7 +106,7 @@ class Api extends \Tests\Base
 		$this->assertSame((int) $row['server_id'], static::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
 		$this->assertSame($row['password_t'], 'demo');
-		$this->assertSame($row['language'], 'pl_pl');
+		$this->assertSame($row['language'], 'pl-PL');
 	}
 
 	/**
