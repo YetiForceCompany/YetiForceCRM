@@ -205,7 +205,7 @@ class Register
 	 *
 	 * @return bool
 	 */
-	public static function check(): bool
+	public static function check()
 	{
 		if (!\App\RequestUtil::isNetConnection() || gethostbyname('yetiforce.com') === 'yetiforce.com') {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
