@@ -123,7 +123,11 @@ class Register
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
-					static::updateMetaData($body + $data);
+					static::updateMetaData([
+						'status' => $body['status'],
+						'text' => $body['text'],
+						'serialKey' => $body['serialKey'],
+					]);
 					$result = true;
 				}
 			}
@@ -142,13 +146,14 @@ class Register
 	 */
 	private static function updateMetaData(array $data): void
 	{
+		$conf = static::getConf();
 		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
-				'register_time' => $data['register_time'] ?? date('Y-m-d H:i:s'),
+				'register_time' => $data['register_time'] ?? $conf['register_time'],
 				'last_check_time' => date('Y-m-d H:i:s'),
-				'status' => $data['status'],
-				'text' => $data['text'],
-				'crmKey' => $data['crmKey'],
-				'serialKey' => $data['serialKey'] ?? '',
+				'status' => $data['status'] ?? $conf['status'] ?? 0,
+				'text' => $data['text'] ?? $conf['text'] ?? '',
+				'crmKey' => static::getCrmKey(),
+				'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
 			], true) . ';');
 	}
 
@@ -202,15 +207,6 @@ class Register
 	}
 
 	/**
-	 * Update last run time.
-	 */
-	private static function updateLastRun()
-	{
-		$conf = static::getConf();
-		static::updateMetaData($conf);
-	}
-
-	/**
 	 * Checking registration status.
 	 *
 	 * @return bool
@@ -233,7 +229,7 @@ class Register
 			'status' => $conf['status'] ?? 0,
 		];
 		try {
-			static::updateLastRun();
+			$data = [];
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
@@ -241,12 +237,19 @@ class Register
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
 					static::updateCompanies($body['companies']);
-					static::updateMetaData($body + $params);
+					$data = [
+						'register_date' => date('Y-m-d H:i:s'),
+						'status' => $body['status'],
+						'text' => $body['text'],
+						'serialKey' => $body['serialKey'],
+					];
 				}
 			}
+			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
+		return true;
 	}
 
 	/**
