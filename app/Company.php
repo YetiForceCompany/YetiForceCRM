@@ -27,8 +27,6 @@ class Company extends Base
 	}
 
 
-
-
 	/**
 	 * Update company status.
 	 *
@@ -37,7 +35,7 @@ class Company extends Base
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function statusUpdate(string $status, ?string $name)
+	public static function statusUpdate(string $status, ?string $name = null)
 	{
 		if ($name) {
 			\App\Db::getInstance('admin')->createCommand()
@@ -50,17 +48,6 @@ class Company extends Base
 					'status' => $status
 				])->execute();
 		}
-	}
-	/**
-	 * Register serial provided by User
-	 * @param string $key
-	 * @return bool
-	 * @throws \Exception
-	 */
-	public static function registerSerial($key): bool
-	{
-		// set serial
-		return random_int(0, 1) ? true : false;
 	}
 
 	/**
@@ -91,6 +78,6 @@ class Company extends Base
 				->execute();
 		}
 		Cache::delete('CompanyGetAll', '');
-		// Do registration magic
-		return random_int(0, 1) ? true : false;
-	}}
+		return (new \App\YetiForce\Register())->send();
+	}
+}

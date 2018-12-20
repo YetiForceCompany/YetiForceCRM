@@ -38,7 +38,7 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 		$response = new Vtiger_Response();
 		$result = true;
 		$message = App\Language::translate('LBL_REGISTERED', $request->getModule(false));
-		if (!\App\YetiForce\Register::verifySerial($serial) || !\App\Company::registerSerial($serial)) {
+		if (!\App\YetiForce\Register::verifySerial($serial) || !\App\YetiForce\Register::setSerial($serial)) {
 			$result = false;
 			$message = App\Language::translate('LBL_INVALID_OFFLINE_KEY', $request->getModule(false));
 			$responseType = 'error';

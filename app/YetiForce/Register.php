@@ -151,6 +151,21 @@ class Register
 			], true) . ';');
 	}
 
+	public static function setSerial($serial)
+	{
+		if (!static::verifySerial($serial)) {
+			return false;
+		}
+		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
+				'time' => date('Y-m-d H:i:s'),
+				'status' => 1,
+				'text' => 'LBL_WAITING_FOR_ACCEPTANCE',
+				'crmKey' => static::getCrmKey(),
+				'serialKey' => $serial,
+			], true) . ';');
+		return true;
+	}
+
 	/**
 	 * Verification of the serial number.
 	 *
@@ -229,11 +244,13 @@ class Register
 				if ($body['text'] === 'OK') {
 					static::updateCompanies($body['companies']);
 					static::updateMetaData($body + $params);
+					$status = true;
 				}
 			}
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
+		return $status ?? false;
 	}
 
 	/**
