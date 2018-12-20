@@ -24,6 +24,6 @@ class AllPages extends Base
 	 */
 	public function process()
 	{
-		return '{nb}';
+		return '{a}';
 	}
 }

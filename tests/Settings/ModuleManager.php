@@ -66,7 +66,7 @@ class ModuleManager extends \Tests\Base
 	public function testLanguageExport()
 	{
 		$package = new \vtlib\LanguageExport();
-		$package->exportLanguage('pl_pl', ROOT_DIRECTORY . '/PL.zip', 'PL.zip');
+		$package->exportLanguage('pl-PL', ROOT_DIRECTORY . '/PL.zip', 'PL.zip');
 		$this->assertTrue(file_exists(ROOT_DIRECTORY . '/PL.zip') && filesize(ROOT_DIRECTORY . '/PL.zip') > 0);
 		unlink(ROOT_DIRECTORY . '/PL.zip');
 	}

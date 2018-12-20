@@ -508,7 +508,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	private function addGroup(?array $rule, int $parentId, int $index)
 	{
-		if (empty($rule)) {
+		if (empty($rule) || empty($rule['rules'])) {
 			return;
 		}
 		$db = \App\Db::getInstance();

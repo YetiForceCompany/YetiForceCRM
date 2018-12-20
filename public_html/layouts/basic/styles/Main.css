@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]}*/
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /**
  * Retrieves a color value from the $material-colors Sass map
@@ -15939,6 +15939,9 @@ ul.tweets li {
 
 .u-min-h-30per {
   min-height: 30%; }
+
+.u-min-h-85vh {
+  min-height: 85vh; }
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }

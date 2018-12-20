@@ -54,7 +54,7 @@ class Zip extends \Tests\Base
 		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
 		$instanceOpen->unzip('tests/tmp/TestLinux/');
 		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
-		$this->assertFileExists('tests/tmp/TestLinux/languages/pl_pl/TestLinux.json');
+		$this->assertFileExists('tests/tmp/TestLinux/languages/pl-PL/TestLinux.json');
 		\vtlib\Functions::recurseDelete('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux');
 	}
 
@@ -68,7 +68,7 @@ class Zip extends \Tests\Base
 		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
 		$instanceOpen->extract('tests/tmp/TestLinux/');
 		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
-		$this->assertFileExists('tests/tmp/TestLinux/languages/pl_pl/TestLinux.json');
+		$this->assertFileExists('tests/tmp/TestLinux/languages/pl-PL/TestLinux.json');
 		\vtlib\Functions::recurseDelete('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux');
 	}
 

@@ -26,7 +26,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
+		if (\App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
@@ -62,7 +62,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
+		if (\App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');

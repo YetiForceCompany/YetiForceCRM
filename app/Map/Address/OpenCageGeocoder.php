@@ -37,7 +37,7 @@ class OpenCageGeocoder extends Base
 	{
 		$config = \App\Map\Address::getConfig();
 		$urlAddress = static::$url . 'json?q=' . $value . '&pretty=1';
-		$urlAddress .= '&language=' . \App\Language::getLanguageTag();
+		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['opencage_data']['key'];
 		if ($countryCode = \AppConfig::module('AddressFinder', 'OPENCAGE_COUNTRY_CODE')) {

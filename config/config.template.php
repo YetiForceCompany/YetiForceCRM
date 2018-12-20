@@ -106,7 +106,7 @@ $default_user_name = '';
 $default_charset = '_VT_CHARSET_';
 
 // default language
-// default_language default value = en_us
+// default_language default value = en-US
 $default_language = '_LANG_';
 
 // add the language pack name to every translation string in the display.

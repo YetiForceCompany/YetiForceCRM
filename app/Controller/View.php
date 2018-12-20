@@ -1,13 +1,18 @@
 <?php
-
-namespace App\Controller;
-
 /**
  * Abstract view controller class.
+ *
+ * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Class View.
  */
 abstract class View extends Base
 {
@@ -293,6 +298,7 @@ abstract class View extends Base
 			'~libraries/store/dist/store.legacy.min.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
+			'~layouts/resources/Tools.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',

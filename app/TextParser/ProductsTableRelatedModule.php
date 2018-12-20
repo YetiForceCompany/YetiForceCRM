@@ -40,23 +40,12 @@ class ProductsTableRelatedModule extends Base
 		$inventory = \Vtiger_Inventory_Model::getInstance($relatedModuleName);
 		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $relatedModuleRecordModel->getInventoryData();
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px; width:100%}' .
-			'.productTable th {text-transform: uppercase;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ccc;padding:5px}' .
-			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
-			'</style>';
-
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
+			$html .= '<table style="width:100%;border-collapse:collapse;"><thead><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="width:' . $field->get('colSpan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr></thead><tbody>';
@@ -68,13 +57,13 @@ class ProductsTableRelatedModule extends Base
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td><strong>' . $counter++ . '</strong></td>';
+						$html .= '<td style="font-weight:bold;">' . $counter++ . '</td>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ($field->getType() === 'Name') {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -93,11 +82,7 @@ class ProductsTableRelatedModule extends Base
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<td class="textAlignRight ';
-					if ($field->isSummary()) {
-						$html .= 'summaryContainer';
-					}
-					$html .= '">';
+					$html .= '<th style="padding:0px 4px;text-align:right">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {
@@ -105,7 +90,7 @@ class ProductsTableRelatedModule extends Base
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 					}
-					$html .= '</td>';
+					$html .= '</th>';
 				}
 			}
 			$html .= '</tr></tfoot></table>';

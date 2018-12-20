@@ -84,8 +84,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
-		foreach ($recordId as $id) {
-			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $id)) {
+		foreach ($recordId as $templateId) {
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $templateId)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
@@ -109,26 +109,95 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
 			}
 		} elseif ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
-			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
+			$pdf = new \App\Pdf\YetiForcePDF();
+			$pdf->setTemplateId($templateIds[0]);
+			$pdf->setRecordId($recordId[0]);
+			$pdf->setModuleName($moduleName);
+			$html = '';
+			$last = count($recordId) - 1;
+			foreach ($recordId as $index => $record) {
+				$template = Vtiger_PDF_Model::getInstanceById($templateIds[0]);
+				$template->setMainRecordId($record);
+				$template->getParameters();
+				$currentPage = '<div data-page-group></div>';
+				$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
+				$currentPage .= $pdf->wrapFooterContent($template->getFooter());
+				$currentPage .= $pdf->wrapWatermark($pdf->getTemplateWatermark($template));
+				$currentPage .= $template->getBody();
+				if ($index !== $last) {
+					$currentPage .= '<div style="page-break-after: always;"></div>';
+				}
+				$pdf->setRecordId($record);
+				$html .= $pdf->parseVariables($currentPage);
+			}
+			$pdf->loadHTML($html);
+			$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
+			$pdf->output();
 		} else {
 			if ($singlePdf) {
-				$pdf = new \App\Pdf\Tcpdf();
-				foreach ($recordId as $record) {
+				$pdf = new \App\Pdf\YetiForcePDF();
+				$html = '';
+				$last = count($recordId) - 1;
+				$lastTemplateIndex = count($templateIds) - 1;
+				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
-					$firstTemplate = array_shift($templateIdsTemp);
-					$pdf = $pdf->generateContent($recordId[0], $moduleName, $firstTemplate, $record);
-					foreach ($templateIdsTemp as $id) {
-						$pdf = $pdf->generateContent($record, $moduleName, $id, $record);
+					foreach ($templateIdsTemp as $templateIndex => $templateId) {
+						$template = Vtiger_PDF_Model::getInstanceById($templateId);
+						$template->setMainRecordId($record);
+						$template->getParameters();
+						$pdf->setLanguage($template->get('language'));
+						$pdf->setTemplateId($templateId);
+						$pdf->setModuleName($moduleName);
+						$currentPage = '<div data-page-group 
+							data-format="' . $template->getFormat() . '" 
+							data-orientation="' . $template->getOrientation() . '"
+							data-margin-left="' . $template->get('margin_left') . '"
+							data-margin-right="' . $template->get('margin_right') . '"
+							data-margin-top="' . $template->get('margin_top') . '"
+							data-margin-bottom="' . $template->get('margin_bottom') . '"
+							data-header-top="' . $template->get('header_height') . '"
+							data-footer-bottom="' . $template->get('footer_height') . '"
+							></div>';
+						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
+						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
+						$currentPage .= $pdf->wrapWatermark($pdf->getTemplateWatermark($template));
+						$currentPage .= $template->getBody();
+						$currentPage .= '<div style="page-break-after: always;"></div>';
+						$pdf->setRecordId($record);
+						$html .= $pdf->parseVariables($currentPage);
 					}
 				}
+				$pdf->loadHTML($html);
 				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 				$pdf->output();
 			} else {
 				$pdfFiles = [];
-				foreach ($templateIds as $id) {
-					foreach ($recordId as $record) {
-						$pdf = (new \App\Pdf\Tcpdf())->generateContent($record, $moduleName, $id, $record);
-						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
+				foreach ($templateIds as $templateId) {
+					foreach ($recordId as $index => $record) {
+						$pdf = new \App\Pdf\YetiForcePDF();
+						$pdf->setTemplateId($templateId);
+						$pdf->setRecordId($record);
+						$pdf->setModuleName($moduleName);
+						$template = Vtiger_PDF_Model::getInstanceById($templateId);
+						$template->setMainRecordId($record);
+						$template->getParameters();
+						$currentPage = '<div data-page-group 
+							data-format="' . $template->getFormat() . '" 
+							data-orientation="' . $template->getOrientation() . '"
+							data-margin-left="' . $template->get('margin_left') . '"
+							data-margin-right="' . $template->get('margin_right') . '"
+							data-margin-top="' . $template->get('margin_top') . '"
+							data-margin-bottom="' . $template->get('margin_bottom') . '"
+							data-header-top="' . $template->get('header_height') . '"
+							data-footer-bottom="' . $template->get('footer_height') . '"
+							></div>';
+						$currentPage .= $pdf->wrapHeaderContent($template->getHeader());
+						$currentPage .= $pdf->wrapFooterContent($template->getFooter());
+						$currentPage .= $pdf->wrapWatermark($pdf->getTemplateWatermark($template));
+						$currentPage .= $template->getBody();
+						$pdf->setRecordId($record);
+						$pdf->loadHTML($pdf->parseVariables($currentPage));
+						$pdfFileName = 'cache/pdf/' . $record . '_' . $templateId . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName, 'F');
 						if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName)) {
 							$pdfFiles[] = $pdfFileName;

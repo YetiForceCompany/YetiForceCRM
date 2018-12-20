@@ -19,6 +19,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		}).done(function (response) {
 			panel.html(response);
 			thisInstance.afterLoadVariablePanel(panel);
+			App.Tools.VariablesPanel.registerRefreshCompanyVariables(panel);
 		}).fail(function () {
 			panel.progressIndicator({mode: 'hide'});
 		});
@@ -40,6 +41,8 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	registerBasicEvents: function (container) {
 		this._super(container);
 		this.registerVariablePanelEvent(container);
+		App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
 		App.Fields.Text.registerCopyClipboard(container);
+		App.Tools.VariablesPanel.refreshCompanyVariables(container);
 	}
 });

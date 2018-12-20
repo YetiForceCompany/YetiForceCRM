@@ -17,12 +17,6 @@
 					<div class="d-inline-flex">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 					</div>
-					<div class="d-inline-flex">
-						<div class="js-popover-tooltip ml-2" data-js="popover"
-							 data-content="{\App\Language::translate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION',$QUALIFIED_MODULE)}">
-							<span class="fas fa-info-circle"></span>
-						</div>
-					</div>
 				</div>
 				<div class="col-6 col-md-3">
 					<button type="button" class="btn btn-info float-right mt-1" name="updateRecordWithSequenceNumber">
@@ -213,7 +207,8 @@
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
 								<select class="select2" name="reset_sequence" mand
 										data-placeholder="{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}">
-									<option value="n" {if $DEFAULT_MODULE_DATA['reset_sequence']==='n' || empty($DEFAULT_MODULE_DATA['reset_sequence'])}selected{/if}>
+									<option value="n"
+											{if $DEFAULT_MODULE_DATA['reset_sequence']==='n' || empty($DEFAULT_MODULE_DATA['reset_sequence'])}selected{/if}>
 										{\App\Language::translate('LBL_RS_DO_NOT_RESET', $QUALIFIED_MODULE)}
 									</option>
 									<option value="Y" {if $DEFAULT_MODULE_DATA['reset_sequence']==='Y'}selected{/if}>

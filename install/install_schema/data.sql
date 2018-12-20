@@ -591,7 +591,6 @@ insert  into `u_yf_cv_condition`(`id`,`group_id`,`field_name`,`module_name`,`sou
 
 insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (1,104,'AND',0,0);
 insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (2,117,'AND',0,0);
-insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (3,56,'AND',0,0);
 
 /*Data for the table `u_yf_cv_duplicates` */
 
@@ -5387,16 +5386,16 @@ insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_v
 
 /*Data for the table `vtiger_language` */
 
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English','en_us','US English','2014-07-16 11:20:12',NULL,1,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (2,'Język Polski','pl_pl','Język Polski','2014-07-16 11:20:40',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (3,'Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (4,'Portuguese','pt_br','Brazilian Portuguese','2017-06-05 11:20:40',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (5,'Russian','ru_ru','Russian','2015-01-13 15:12:39',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (6,'Italian','it_it','Italian','2017-12-23 15:12:39',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (7,'Spanish','es_es','ES Spanish','2017-03-11 00:00:00',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (8,'Turkish','tr_tr','Turkish','2018-02-13 00:00:00',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (9,'French','fr_fr','French','2018-03-12 00:00:00',NULL,0,1);
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (10,'Rumunia','ro_ro','Rumunia','2018-05-28 10:40:16',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English','en-US','US English','2014-07-16 11:20:12',NULL,1,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (2,'Język Polski','pl-PL','Język Polski','2014-07-16 11:20:40',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (3,'Deutsch','de-DE','DE Deutsch','2014-11-21 11:20:40',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (4,'Portuguese','pt-BR','Brazilian Portuguese','2017-06-05 11:20:40',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (5,'Russian','ru-RU','Russian','2015-01-13 15:12:39',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (6,'Italian','it-IT','Italian','2017-12-23 15:12:39',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (7,'Spanish','es-ES','ES Spanish','2017-03-11 00:00:00',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (8,'Turkish','tr-TR','Turkish','2018-02-13 00:00:00',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (9,'French','fr-FR','French','2018-03-12 00:00:00',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (10,'Rumunia','ro-RO','Rumunia','2018-05-28 10:40:16',NULL,0,1);
 
 /*Data for the table `vtiger_language_seq` */
 
@@ -18648,7 +18647,7 @@ insert  into `vtiger_user2role`(`userid`,`roleid`) values (1,'H2');
 
 /*Data for the table `vtiger_users` */
 
-insert  into `vtiger_users`(`id`,`user_name`,`first_name`,`last_name`,`email1`,`is_admin`,`status`,`deleted`,`language`,`user_password`,`internal_mailer`,`reports_to_id`,`modified_user_id`,`currency_id`,`description`,`date_entered`,`date_modified`,`date_password_change`,`force_password_change`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`view_date_format`,`activity_view`,`lead_view`,`imagename`,`reminder_interval`,`reminder_next_time`,`theme`,`tz`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`othereventduration`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`,`records_limit`,`phone_crm_extension`,`phone_crm_extension_extra`,`accesskey`,`confirm_password`,`cal_color`,`user_preferences`,`authy_methods`,`authy_secret_totp`,`login_method`) values (1,'admin','','Administrator','help@yetiforce.com','on','Active',0,'pl_pl','$2y$10$mvy47VqQjd853TpAUr5aE.pd2fSTjBv.Z3G0g8AqyPwPNcV/YtB02',1,0,'1',1,'','2016-12-06 09:29:00','2017-10-31 21:32:46',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','PLL_ELAPSED','This Month','Today','','15 Minutes','2017-10-31 21:32','twilight',NULL,'Europe/Sarajevo','123456789','.',' ','1.0$','2',1,'Monday','[{\"activitytype\":\"Call\",\"duration\":\"60\"},{\"activitytype\":\"Meeting\",\"duration\":\"60\"},{\"activitytype\":\"Task\",\"duration\":\"60\"}]','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0,NULL,'',NULL,'aOFXop10GCJ1uw0P','','#E6FAD8',NULL,NULL,NULL,'PLL_PASSWORD');
+insert  into `vtiger_users`(`id`,`user_name`,`first_name`,`last_name`,`email1`,`is_admin`,`status`,`deleted`,`language`,`user_password`,`internal_mailer`,`reports_to_id`,`modified_user_id`,`currency_id`,`description`,`date_entered`,`date_modified`,`date_password_change`,`force_password_change`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`view_date_format`,`activity_view`,`lead_view`,`imagename`,`reminder_interval`,`reminder_next_time`,`theme`,`tz`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`othereventduration`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`,`records_limit`,`phone_crm_extension`,`phone_crm_extension_extra`,`accesskey`,`confirm_password`,`cal_color`,`user_preferences`,`authy_methods`,`authy_secret_totp`,`login_method`) values (1,'admin','','Administrator','help@yetiforce.com','on','Active',0,'pl-PL','$2y$10$mvy47VqQjd853TpAUr5aE.pd2fSTjBv.Z3G0g8AqyPwPNcV/YtB02',1,0,'1',1,'','2016-12-06 09:29:00','2017-10-31 21:32:46',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','PLL_ELAPSED','This Month','Today','','15 Minutes','2017-10-31 21:32','twilight',NULL,'Europe/Sarajevo','123456789','.',' ','1.0$','2',1,'Monday','[{\"activitytype\":\"Call\",\"duration\":\"60\"},{\"activitytype\":\"Meeting\",\"duration\":\"60\"},{\"activitytype\":\"Task\",\"duration\":\"60\"}]','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0,NULL,'',NULL,'aOFXop10GCJ1uw0P','','#E6FAD8',NULL,NULL,NULL,'PLL_PASSWORD');
 
 /*Data for the table `vtiger_users2group` */
 

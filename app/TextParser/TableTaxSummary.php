@@ -41,15 +41,6 @@ class TableTaxSummary extends Base
 			}
 			$currencyData = \App\Fields\Currency::getById($currency);
 		}
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tbody tr td{border-bottom: 1px solid #ddd; padding:5px}' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;}' .
-			'</style>';
 		if (!empty($fields[0])) {
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
@@ -61,29 +52,25 @@ class TableTaxSummary extends Base
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
 				$taxAmount = 0;
 				$html .= '
-						<table class="productTable colapseBorder">
-							<thead>
+						<table style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
+						<thead>
 								<tr>
-									<th colspan="2" class="tBorder noBottomBorder tHeader">
-										<strong>' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
-									</th>
+									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
-							</thead>
-							<tbody>';
+								</thead><tbody>';
 				foreach ($taxes as $key => &$tax) {
 					$taxAmount += $tax;
 					$html .= '<tr>
-										<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+										<td style="text-align:left;padding:0px 4px;">' . $key . '%</td>
+										<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
 				$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+									<td style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
-							</tbody>
-						</table>
-					</div>';
+								</tbody>
+						</table>';
 			}
 		}
 		return $html;
