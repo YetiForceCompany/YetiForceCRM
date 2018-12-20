@@ -33,7 +33,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
 	}
@@ -60,7 +60,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if ($isUserFormat) {

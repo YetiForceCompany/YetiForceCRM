@@ -41,14 +41,14 @@
 				<td class="font-x-large text-center">
 					<h3>
 						<strong>
-							{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)}
+							{\App\Language::translate('LBL_IMPORT', $MODULE_NAME)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)}
 						</strong>
 					</h3>
 				</td>
 			</tr>
 			<tr>
 				<td class="font-x-large text-center">
-					<span class="redColor">{\App\Language::translate('LBL_RUNNING', $MODULE)} ... </span>
+					<span class="redColor">{\App\Language::translate('LBL_RUNNING', $MODULE_NAME)} ... </span>
 				</td>
 			</tr>
 			{if !empty($ERROR_MESSAGE)}
@@ -62,27 +62,27 @@
 				<td>
 					<table class="w-100 dvtSelectedCell thickBorder importContents">
 						<tr>
-							<td class="pl-3">{\App\Language::translate('LBL_TOTAL_RECORDS_IMPORTED', $MODULE)}</td>
+							<td class="pl-3">{\App\Language::translate('LBL_TOTAL_RECORDS_IMPORTED', $MODULE_NAME)}</td>
 							<td class="u-w-10per">:</td>
 							<td class="u-w-30per pr-3">{$IMPORT_RESULT.IMPORTED} / {$IMPORT_RESULT.TOTAL}</td>
 						</tr>
 						<tr>
-							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_CREATED', $MODULE)}</td>
+							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_CREATED', $MODULE_NAME)}</td>
 							<td class="u-w-10per">:</td>
 							<td class="u-w-10per pr-3">{$IMPORT_RESULT.CREATED}</td>
 						</tr>
 						<tr>
-							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_UPDATED', $MODULE)}</td>
+							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_UPDATED', $MODULE_NAME)}</td>
 							<td class="u-w-10per">:</td>
 							<td class="u-w-10per pr-3">{$IMPORT_RESULT.UPDATED}</td>
 						</tr>
 						<tr>
-							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_SKIPPED', $MODULE)}</td>
+							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_SKIPPED', $MODULE_NAME)}</td>
 							<td class="u-w-10per">:</td>
 							<td class="u-w-10per pr-3">{$IMPORT_RESULT.SKIPPED}</td>
 						</tr>
 						<tr>
-							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_MERGED', $MODULE)}</td>
+							<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_MERGED', $MODULE_NAME)}</td>
 							<td class="u-w-10per">:</td>
 							<td class="u-w-10per pr-3">{$IMPORT_RESULT.MERGED}</td>
 						</tr>
@@ -94,7 +94,7 @@
 					<button class="delete btn btn-danger btn-sm" name="cancel"
 							onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">
 						<strong>
-							{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE)}
+							{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE_NAME)}
 						</strong>
 					</button>
 				</td>

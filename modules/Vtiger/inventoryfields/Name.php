@@ -32,7 +32,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {
 			return '';
@@ -46,7 +46,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if (\App\Record::getState($value) !== 'Active') {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$moduleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
+		return "<a class=\"modCT_$moduleName showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module=$moduleName&view=Detail&record=$value\" title=\"" . App\Language::translateSingularModuleName($moduleName) . "\">$label</a>";
 	}
 
 	/**
@@ -96,13 +96,13 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDBValue($value, ?string $name = '')
 	{
-		return (int) $value;
+		return (int)$value;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

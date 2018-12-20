@@ -26,7 +26,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Purifier::purifyHtml($value);
 	}
@@ -34,7 +34,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if (!is_string($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

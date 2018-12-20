@@ -10,7 +10,11 @@
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
-		{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
+		{if $INVENTORY_ROWS}
+			{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
+		{else}
+			{assign var="INVENTORY_ROW" value=[]}
+		{/if}
 		{assign var="MAIN_PARAMS" value=$INVENTORY_MODEL->getField('name')->getParamsConfig()}
 		{assign var="IS_REQUIRED_INVENTORY" value=$INVENTORY_MODEL->getField('name')->isRequired()}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
@@ -67,15 +71,15 @@
 					{if isset($FIELDS[0])}
 						{foreach item=FIELD from=$FIELDS[0]}
 							<th class="{if !$FIELD->isEditable()}d-none {/if}col-3 border-bottom-0">
-								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
-								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}</span>&nbsp;&nbsp;
+								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE_NAME)}
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 								{if isset($INVENTORY_ROW[$COLUMN_NAME])}
-									{assign var="ITEM_VALUE" value=NULL}
-								{else}
 									{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$COLUMN_NAME]}
+								{else}
+									{assign var="ITEM_VALUE" value=NULL}
 								{/if}
-								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_DATA=$INVENTORY_ROW}
 							</th>
 						{/foreach}
 					{/if}
@@ -91,7 +95,7 @@
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
 							<th class="col{$FIELD->getType()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getType()=='Name'}u-w-3per-250px{/if}">
-								{\App\Language::translate($FIELD->get('label'), $MODULE)}
+								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
 							</th>
 						{/foreach}
 					</tr>
@@ -124,7 +128,7 @@
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}
 							{if $FIELD->getType() == 'Name' && $INVENTORY_MODEL->isField('price')}
-								{\App\Language::translate('LBL_SUMMARY', $MODULE)}
+								{\App\Language::translate('LBL_SUMMARY', $MODULE_NAME)}
 							{/if}
 						</td>
 					{/foreach}
@@ -132,12 +136,12 @@
 				</tfoot>
 			</table>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE_NAME)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate d-none">
 			<tbody class="js-inventory-base-item">
 			{assign var="ROW_NO" value='_NUM_'}
-			{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 			</tbody>
 		</table>
 	{/if}

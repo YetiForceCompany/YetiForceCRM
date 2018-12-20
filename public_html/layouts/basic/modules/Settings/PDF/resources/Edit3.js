@@ -57,6 +57,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 				progressIndicatorElement.progressIndicator({
 					'mode': 'hide'
 				});
+				app.openUrl('index.php?module=PDF&parent=Settings&view=List');
 			}
 		}).fail(function (error, err) {
 			app.errorLog(error, err);

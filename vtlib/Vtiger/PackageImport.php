@@ -277,13 +277,11 @@ class PackageImport extends PackageExport
 					continue;
 				}
 			}
-			// Language file present in en_us folder
 			$pattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]([^\/]+)\.json/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
-			// or Language file may be present in en_us/Settings folder
 			$settingsPattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
@@ -302,7 +300,8 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-			if (\App\Version::check($moduleVersion) >= 0) {
+			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion);
+			if ($versionCheck !== false && $versionCheck >= 0) {
 				$moduleVersionFound = true;
 			} else {
 				$errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
@@ -1043,7 +1042,7 @@ class PackageImport extends PackageExport
 				switch ($name) {
 					case 'label':
 						$value = \App\Purifier::purifyByType((string) $fieldNode->label, 'Text');
-						$fieldModel->set($name, (string) $fieldNode->label);
+						$fieldModel->set($name, $value);
 						break;
 					case 'defaultValue':
 						$value = \App\Purifier::purifyByType((string) $fieldNode->defaultvalue, 'Text');

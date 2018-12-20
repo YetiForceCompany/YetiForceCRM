@@ -52,7 +52,7 @@
 									<div class="row justify-content-center">
 										<input name="{$ITEM['curname']}" type="text" value="{$ITEM['curvalue']}"
 											   size="10" id="{$ITEM['curname']}"
-											   class="col-md-9 js-format-numer js-converted-price form-control"
+											   class="col-md-9 js-format-numer js-converted-price form-control {if $ITEM['is_basecurrency'] eq 1}js-base-curencies-value{/if}"
 											   title="{$ITEM['curvalue']}" {if $DISABLE_VALUE}disabled="disabled"{/if}
 											   data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
 											   data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($ITEM.fieldInfo))}"

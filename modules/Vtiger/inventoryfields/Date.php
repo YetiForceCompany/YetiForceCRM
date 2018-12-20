@@ -33,7 +33,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($value) {
 			if ($isUserFormat) {
@@ -60,7 +60,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {
 			return '';

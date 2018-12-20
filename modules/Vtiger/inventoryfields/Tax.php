@@ -33,7 +33,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}
@@ -55,6 +55,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$valid = $value ? \App\Json::decode($value) : [];
 			if (isset($valid['individualTax'])) {
 				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
+				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax']);
 				$value = \App\Json::encode($valid);
 			}
 		} else {
@@ -66,7 +67,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
@@ -83,12 +84,12 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 * Get configuration parameters for taxes.
 	 *
 	 * @param string     $taxParam String parameters json encode
-	 * @param int        $net
+	 * @param float      $net
 	 * @param array|null $return
 	 *
 	 * @return array
 	 */
-	public function getTaxParam(string $taxParam, int $net, ?array $return = []): array
+	public function getTaxParam(string $taxParam, float $net, ?array $return = []): array
 	{
 		$taxParam = json_decode($taxParam, true);
 		if (empty($taxParam)) {
@@ -102,7 +103,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		if (isset($taxParam['aggregationType'])) {
 			foreach ($taxParam['aggregationType'] as $aggregationType) {
-				$precent = $taxParam[$aggregationType . 'Tax'];
+				$precent = (string) $taxParam[$aggregationType . 'Tax'];
 				if (!isset($return[$precent])) {
 					$return[$precent] = 0;
 				}

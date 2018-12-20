@@ -204,9 +204,9 @@ class Module extends ModuleBasic
 				}
 			}
 			$languages = \App\Language::getAll(false);
-			$langFile = 'languages/en_us/' . $this->name . '.json';
+			$langFile = 'languages/' . \App\Language::DEFAULT_LANG . '/' . $this->name . '.json';
 			foreach ($languages as $prefix => $language) {
-				if ($prefix !== 'en_us') {
+				if ($prefix !== \App\Language::DEFAULT_LANG) {
 					copy($langFile, 'languages/' . $prefix . '/' . $this->name . '.json');
 				}
 			}

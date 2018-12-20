@@ -28,42 +28,33 @@ class TableCurrencySTwoLang extends Base
 			return '';
 		}
 		$html = '';
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventoryField->getFields(true);
-		$columns = $inventoryField->getColumns();
-		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
+		$fields = $inventory->getFieldsByBlocks();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-		if (in_array('currency', $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
-				$currency = $inventoryRows[0]['currency'];
+		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		$firstRow = current($inventoryRows);
+		if ($inventory->isField('currency')) {
+			if (!empty($firstRow) > 0 && $firstRow['currency'] !== null) {
+				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
 			}
 			$currencyData = \App\Fields\Currency::getById($currency);
 		}
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tbody tr td{border-bottom: 1px solid #ddd; padding:5px}' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;}' .
-			'</style>';
-		if (count($fields[0]) != 0) {
-			$taxes = 0;
-			foreach ($inventoryRows as $key => &$inventoryRow) {
-				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
+		if (!empty($fields[0])) {
+			$taxes = [];
+			if ($inventory->isField('tax') && $inventory->isField('net')) {
+				$taxField = $inventory->getField('tax');
+				foreach ($inventoryRows as $key => $inventoryRow) {
+					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
+				}
 			}
-			if (in_array('tax', $columns) && in_array('taxmode', $columns) && in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
+			if (!empty($currency) && !empty($currencyData) && $baseCurrency['id'] !== $currency && $inventory->isField('tax') && $inventory->isField('taxmode') && $inventory->isField('currency')) {
 				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
-				$html .= '<table class="productTable colapseBorder">
+				$html .= '<table style="border-collapse:collapse;width:100%;">
 								<thead>
 									<tr>
-
-										<th colspan="2" class="tBorder noBottomBorder tHeader">
-											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '/ ' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName, 'en_us') . '</strong>
-										</th>
+										<th colspan="2" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>
 									</tr>
 								</thead>
 								<tbody>';
@@ -72,13 +63,13 @@ class TableCurrencySTwoLang extends Base
 					$currencyAmount += $tax;
 
 					$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+									<td style="padding:0px 4px;text-align:right;">' . $key . '%</td>
+									<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 				}
 				$html .= '<tr>
-								<td class="textAlignRight tBorder" width="80px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '/ ' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName, 'en_us') . '</td>
-								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+								<td style="text-align:right;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</td>
+								<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>
 					</table>';

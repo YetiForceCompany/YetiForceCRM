@@ -206,14 +206,14 @@ $.Class("Vtiger_Inventory_Js", {
 		var groupDiscount = thisInstance.getInventorySummaryDiscountContainer().find('.groupDiscount');
 		var items = thisInstance.getInventoryItemsContainer();
 		var newRow = $('#blackIthemTable').find('tbody');
-		if (thisInstance.isIndividualDiscountMode()) {
+		if (thisInstance.isIndividualDiscountMode(row)) {
 			groupDiscount.addClass('d-none');
 			items.find('.changeDiscount').removeClass('d-none');
 			newRow.find('.changeDiscount').removeClass('d-none');
 		} else {
 			groupDiscount.removeClass('d-none');
 			items.find('.changeDiscount').addClass('d-none');
-			items.find('.changeDiscount').addClass('d-none');
+			newRow.find('.changeDiscount').addClass('d-none');
 		}
 		thisInstance.setDiscount(items, 0);
 		thisInstance.setDiscountParam(items, []);
@@ -276,28 +276,28 @@ $.Class("Vtiger_Inventory_Js", {
 	 * @param {int} val
 	 */
 	setCurrency(val) {
-		this.getInventoryHeadContainer().find('[name="currency"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('[name*="[currency]"]').val(val).trigger('change');
 	},
 	/**
 	 * Set currency param
 	 * @param {string} val json string
 	 */
 	setCurrencyParam(val) {
-		this.getInventoryHeadContainer().find('[name="currencyparam"]').val(val);
+		this.getInventoryHeadContainer().find('[name*="[currencyparam]"]').val(val);
 	},
 	/**
 	 * Set discount mode
 	 * @param {int} val
 	 */
 	setDiscountMode(val) {
-		this.getInventoryHeadContainer().find('[name="discountmode"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('[name*="[discountmode]"]').val(val).trigger('change');
 	},
 	/**
 	 * Set tax mode
 	 * @param {int} val
 	 */
 	setTaxMode(val) {
-		this.getInventoryHeadContainer().find('[name="taxmode"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('[name*="[taxmode]"]').val(val).trigger('change');
 	},
 	/**
 	 * Set inventory id
@@ -541,19 +541,18 @@ $.Class("Vtiger_Inventory_Js", {
 		return discount;
 	},
 	calculatCurrenciesSummary: function () {
-		var thisInstance = this;
-		var container = thisInstance.getInventorySummaryCurrenciesContainer();
-		var selected = $('[name="currency"] option:selected', thisInstance.getInventoryHeadContainer());
-		var base = $('[name="currency"] option[data-base-currency="1"]', thisInstance.getInventoryHeadContainer());
-		var conversionRate = selected.data('conversionRate');
-		var baseConversionRate = base.data('conversionRate');
+		let container = this.getInventorySummaryCurrenciesContainer(),
+			selected = $('[name*="[currency]"] option:selected', this.getInventoryHeadContainer()),
+			base = $('[name*="[currency]"] option[data-base-currency="1"]', this.getInventoryHeadContainer()),
+			conversionRate = selected.data('conversionRate'),
+			baseConversionRate = base.data('conversionRate');
 		if (conversionRate == baseConversionRate) {
 			container.addClass('d-none');
 			return;
 		}
 		conversionRate = parseFloat(baseConversionRate) / parseFloat(conversionRate);
 		container.removeClass('d-none');
-		var taxs = thisInstance.getAllTaxs();
+		var taxs = this.getAllTaxs();
 		var sum = 0;
 		container.find('.js-panel__body').html('');
 		$.each(taxs, function (index, value) {
@@ -894,7 +893,7 @@ $.Class("Vtiger_Inventory_Js", {
 				unitPrice = recordData.price;
 			}
 			if (unitPrice) {
-				thisInstance.setUnitPrice(parentRow, App.Fields.Double.formatToDb(unitPrice));
+				thisInstance.setUnitPrice(parentRow, unitPrice);
 			}
 			if (unitPriceValuesJson !== undefined) {
 				$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
@@ -1057,7 +1056,7 @@ $.Class("Vtiger_Inventory_Js", {
 		if (!parameters) {
 			return;
 		}
-		parameters = JSON.parse(parameters);
+		parameters = JSON.parse(parameters.toString());
 		$.each(thisInstance.taxModalFields, function (index, param) {
 			let parameter = parameters[param],
 				field = modal.find('[name="' + param + '"]');
@@ -1078,7 +1077,11 @@ $.Class("Vtiger_Inventory_Js", {
 			} else if (field.prop("tagName") === 'SELECT') {
 				field.find('option[value="' + parameter + '"]').prop('selected', 'selected').change();
 			} else {
-				modal.find('[name="' + param + '"]').val(parameter);
+				let input = modal.find('[name="' + param + '"]')
+				input.val(parameter);
+				if (param === 'individualTax') {
+					input.formatNumber();
+				}
 			}
 		});
 		thisInstance.calculateTax(parentRow, modal);
@@ -1158,6 +1161,7 @@ $.Class("Vtiger_Inventory_Js", {
 
 				option.data('conversionRate', conversionRate);
 				currencyParam[option.val()] = {
+					date: option.data('conversionDate'),
 					value: value.toString(),
 					conversion: conversionRate.toString()
 				};
@@ -1167,8 +1171,7 @@ $.Class("Vtiger_Inventory_Js", {
 				select.data('oldValue', select.val());
 				app.hideModalWindow();
 				thisInstance.lockCurrencyChange = false;
-			});
-			modal.on('click', 'button[type="reset"]', function (e) {
+			}).one('hidden.bs.modal', function () {
 				select.val(select.data('oldValue')).change();
 				thisInstance.lockCurrencyChange = false;
 			});
@@ -1237,7 +1240,6 @@ $.Class("Vtiger_Inventory_Js", {
 			});
 		});
 		this.initItem(newRow);
-		this.showIndividualDiscount(newRow);
 		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
 		if (rowData) {
 			this.setRowData(newRow, rowData);

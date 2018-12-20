@@ -15,7 +15,6 @@ class RecordSearch
 	public $moduleName;
 	public $limit;
 	public $userId;
-	public $useCache = true;
 	public $entityName = true;
 	public $table = 'searchLabel'; //searchLabel, label
 	public $operator = 'Contain'; // Contain, Begin, End, FulltextBegin, FulltextWord
@@ -43,19 +42,11 @@ class RecordSearch
 	 */
 	public function search()
 	{
-		$cacheKey = "$this->searchValue,$this->operator,$this->limit," . (is_array($this->moduleName) ? implode(',', $this->moduleName) : $this->moduleName);
-		if ($this->useCache && Cache::has('RecordSearch', $cacheKey)) {
-			return Cache::get('RecordSearch', $cacheKey);
-		}
 		$query = $this->getQuery();
 		if ($this->limit) {
 			$query->limit($this->limit);
 		}
-		$crmIds = $this->limit === 1 ? $query->one() : $query->all();
-		if ($this->useCache) {
-			Cache::save('RecordSearch', $cacheKey, $crmIds, Cache::LONG);
-		}
-		return $crmIds;
+		return $this->limit === 1 ? $query->one() : $query->all();
 	}
 
 	/**

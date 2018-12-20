@@ -7,14 +7,6 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		{if Settings_ModuleManager_Library_Model::checkLibrary('mPDF')}
-			<div class="alert alert-danger" role="alert">
-				<div>
-					<h5>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','mPDF', '<a href="index.php?module=ModuleManager&parent=Settings&view=List">'|cat:\App\Language::translate("VTLIB_LBL_MODULE_MANAGER",'Settings:Base')|cat:'</a>')|unescape:"html"}</h5>
-				</div>
-			</div>
-			<hr>
-		{/if}
 		<div class="form-row">
 			<div class="col-md-4 btn-toolbar mb-2 mb-xl-0  d-flex justify-content-center justify-content-md-start">
 				<button class="btn btn-light addButton" id="addButton"

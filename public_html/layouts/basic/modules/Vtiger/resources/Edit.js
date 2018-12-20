@@ -182,11 +182,11 @@ $.Class("Vtiger_Edit_Js", {
 						} else {
 							mapFieldElement.val(response[value[0]]);
 						}
-						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
+						let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 						if (mapFieldDisplayElement.length > 0) {
 							mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
-							if (fieldinfo.type !== 'tree') {
-								var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
+							if (fieldinfo.type === 'reference') {
+								let referenceModulesList = mapFieldElement.closest('.fieldValue').find('.referenceModulesList');
 								if (referenceModulesList.length > 0 && value[1]) {
 									referenceModulesList.val(value[1]).trigger('change');
 								}

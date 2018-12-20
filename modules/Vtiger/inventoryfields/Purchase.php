@@ -24,7 +24,7 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
 	}
@@ -51,7 +51,7 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);

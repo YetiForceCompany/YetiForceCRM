@@ -226,23 +226,30 @@ class CustomView_Record_Model extends \App\Base
 		return $query->exists();
 	}
 
-	public function isEditable()
+	/**
+	 * Check permission to edit.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return bool
+	 */
+	public function isEditable(): bool
 	{
-		if ($this->get('presence') !== 2 && \App\User::getCurrentUserModel()->isAdmin()) {
-			return true;
-		}
-		if ($this->get('privileges') === 0 || $this->get('presence') === 2) {
-			return false;
-		}
+		$returnVal = false;
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
-		if (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
-			return false;
+		if (!\App\CustomView::getInstance($this->getModule()->getName())->isPermittedCustomView($this->getId())) {
+			$returnVal = false;
+		} elseif ($this->get('presence') !== 2 && \App\User::getCurrentUserModel()->isAdmin()) {
+			$returnVal = true;
+		} elseif ($this->get('privileges') === 0 || $this->get('presence') === 2) {
+			$returnVal = false;
+		} elseif (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
+			$returnVal = false;
+		} elseif ($this->isMine() || $this->isOthers()) {
+			$returnVal = true;
 		}
-		if ($this->isMine() || $this->isOthers()) {
-			return true;
-		}
-		return false;
+		return $returnVal;
 	}
 
 	/**
@@ -270,7 +277,12 @@ class CustomView_Record_Model extends \App\Base
 		return false;
 	}
 
-	public function privilegeToDelete()
+	/**
+	 * Check the permission to delete.
+	 *
+	 * @return bool
+	 */
+	public function privilegeToDelete(): bool
 	{
 		return $this->isEditable() && $this->get('presence') != 0;
 	}
@@ -496,7 +508,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	private function addGroup(?array $rule, int $parentId, int $index)
 	{
-		if (empty($rule)) {
+		if (empty($rule) || empty($rule['rules'])) {
 			return;
 		}
 		$db = \App\Db::getInstance();

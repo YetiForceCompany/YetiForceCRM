@@ -9,9 +9,9 @@
 		{assign var="MAIN_PARAMS" value=$INVENTORY_MODEL->getField('name')->getParamsConfig()}
 		{assign var="REFERENCE_MODULE_DEFAULT" value=''}
 		{if isset($FIELDS[0])}
-			{assign var=ROW_DATA value=current($INVENTORY_ROWS)}
-			{if isset($ROW_DATA['currency'])}
-				{assign var="CURRENCY" value=$ROW_DATA['currency']}
+			{assign var=INVENTORY_ROW value=current($INVENTORY_ROWS)}
+			{if isset($INVENTORY_ROW['currency'])}
+				{assign var="CURRENCY" value=$INVENTORY_ROW['currency']}
 			{else}
 				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
 			{/if}
@@ -25,7 +25,7 @@
                             <span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
 								:</span>&nbsp;
 							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$ROW_DATA[$FIELD->getColumnName()] MODULE=$MODULE_NAME}
+							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()] MODULE=$MODULE_NAME}
 						</th>
 					{/foreach}
 				</tr>

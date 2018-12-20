@@ -11,6 +11,7 @@
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" class="step" value="1"/>
 			<input type="hidden" name="record" value="{$RECORDID}"/>
+			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}"/>
 
 
 			<div class="row">
@@ -423,7 +424,7 @@
 													{/if}
 												</div>
 												<div class="col-9">
-													<input type="file" name="watermark_image_file" accept="images/*" class="form-control" data-validation-engine='validate[required]' id="watermark_image"/>
+													<input type="file" name="watermark_image_file" accept="images/*" class="form-control" id="watermark_image"/>
 												</div>
 											</div>
 										</div>

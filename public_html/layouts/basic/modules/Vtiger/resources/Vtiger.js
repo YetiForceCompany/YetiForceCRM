@@ -423,12 +423,12 @@ var Vtiger_Index_Js = {
 								instance.data('value', state);
 								if (state == 1) {
 									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
-									buttonIcon.addClass('fa-eye-slash');
 									buttonIcon.removeClass('fas fa-eye');
+									buttonIcon.addClass('fas fa-eye-slash');
 								} else {
 									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
+									buttonIcon.removeClass('fas fa-eye-slash');
 									buttonIcon.addClass('fas fa-eye');
-									buttonIcon.removeClass('fa-eye-slash');
 								}
 							}
 						});

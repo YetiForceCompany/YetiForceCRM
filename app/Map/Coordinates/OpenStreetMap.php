@@ -2,13 +2,13 @@
 /**
  * Class to get coordinates for OpenStreetMap.
  *
- * @package App
+ * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  *
- * @link https://wiki.openstreetmap.org/wiki/Nominatim
+ * @link      https://wiki.openstreetmap.org/wiki/Nominatim
  */
 
 namespace App\Map\Coordinates;
@@ -35,9 +35,9 @@ class OpenStreetMap extends Base
 		];
 		$url .= \http_build_query(array_merge($data, $addressInfo));
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 1, 'verify' => false]);
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1]);
 			if ($response->getStatusCode() === 200) {
-				$coordinates =  \App\Json::decode($response->getBody());
+				$coordinates = \App\Json::decode($response->getBody());
 			} else {
 				\App\Log::warning('Error with connection - ' . __CLASS__);
 			}

@@ -25,17 +25,20 @@ class ModTracker_ModTrackerHandler_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
 			$delta = $recordModel->getData();
+			if ($recordModel->getModule()->isInventory() && ($invData = $recordModel->getInventoryData())) {
+				$delta['inventory'] = array_fill_keys(array_keys($invData), []);
+			}
 			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
 		} elseif (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
-			$delta = $recordModel->getPreviousValue();
+			$delta = $recordModel->getChanges();
 			$status = $recordModel->ext['modificationType'];
 			$watchdogTitle = $status === ModTracker::$TRANSFER_EDIT ? ModTracker_Record_Model::$statusLabel[$status] : '';
 			$watchdogMessage = '';
 		} else {
-			$delta = $recordModel->getPreviousValue();
+			$delta = $recordModel->getChanges();
 			$status = ModTracker::$UPDATED;
 			$watchdogTitle = 'LBL_UPDATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
@@ -57,6 +60,18 @@ class ModTracker_ModTrackerHandler_Handler
 		if (!$recordModel->isNew()) {
 			ModTracker_Record_Model::unsetReviewed($recordId, App\User::getCurrentUserRealId(), $id);
 		}
+		if (isset($delta['inventory'])) {
+			$inventoryData = [];
+			foreach ($delta['inventory'] as $key => $invData) {
+				$item = $recordModel->getInventoryItem($key) ?? [];
+				$itemId = $invData['id'] ?? $item['id'];
+				$inventoryData[$itemId]['item'] = $invData['name'] ?? $item['name'];
+				$inventoryData[$itemId]['prevalue'] = $invData;
+				$inventoryData[$itemId]['postvalue'] = $invData ? array_intersect_key($item, $invData) : $item;
+			}
+			$db->createCommand()->insert('u_#__modtracker_inv', ['id' => $id, 'changes' => \App\Json::encode($inventoryData)])->execute();
+			unset($delta['inventory']);
+		}
 		$insertedData = [];
 		foreach ($delta as $fieldName => &$preValue) {
 			$newValue = $recordModel->get($fieldName);
@@ -71,14 +86,10 @@ class ModTracker_ModTrackerHandler_Handler
 			}
 			$insertedData[] = [$id, $fieldName, $preValue, $newValue];
 		}
-		$db->createCommand()
-			->batchInsert('vtiger_modtracker_detail', ['id', 'fieldname', 'prevalue', 'postvalue'], $insertedData)
-			->execute();
-		if (!$recordModel->isNew()) {
-			$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', App\User::getCurrentUserRealId()])->exists();
-			if ($isExists) {
-				$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
-			}
+		if ($insertedData) {
+			$db->createCommand()
+				->batchInsert('vtiger_modtracker_detail', ['id', 'fieldname', 'prevalue', 'postvalue'], $insertedData)
+				->execute();
 		}
 		$this->addNotification($eventHandler->getModuleName(), $recordId, $watchdogTitle, $watchdogMessage);
 	}

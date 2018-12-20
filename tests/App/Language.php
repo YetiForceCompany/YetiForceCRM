@@ -16,11 +16,10 @@ class Language extends \Tests\Base
 	 */
 	public function testGetLanguage()
 	{
-		\App\Session::set('language', 'pl_pl');
+		\App\Session::set('language', 'pl-PL');
 		$currLang = \App\Language::getLanguage();
 		$this->assertSame($currLang, \App\Language::getLanguage());
-		$this->assertSame(explode('_', $currLang), explode('-', strtolower(\App\Language::getLanguageTag())));
-		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl_pl'));
+		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl-PL'));
 		$this->assertSame('SINGLE_Leads', \App\Language::getSingularModuleName('Leads'));
 		$this->assertSame('Lead', \App\Language::translateSingularModuleName('Leads'));
 		$this->assertSame('TestKey', \App\Language::translateSingleMod('TestKey'));
@@ -40,7 +39,7 @@ class Language extends \Tests\Base
 	 */
 	public function testGetLangInfo()
 	{
-		$this->assertNotEmpty(\App\Language::getLangInfo('pl_pl'));
+		$this->assertNotEmpty(\App\Language::getLangInfo('pl-PL'));
 	}
 
 	/**
@@ -71,20 +70,20 @@ class Language extends \Tests\Base
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
 		$this->assertSame('Leady', \App\Language::translateEncodeHtml('Leads', 'Leads'));
-		\App\Language::setTemporaryLanguage('pt_br');
+		\App\Language::setTemporaryLanguage('pt-BR');
 		$this->assertSame('Leads_1', \App\Language::translatePluralized('Leads', 'Leads', 5));
-		\App\Language::setTemporaryLanguage('en_us');
+		\App\Language::setTemporaryLanguage('en-US');
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
-		\App\Language::setTemporaryLanguage('ru_ru');
+		\App\Language::setTemporaryLanguage('ru-RU');
 		$this->assertSame('Leads_0', \App\Language::translatePluralized('Leads', 'Leads', 1));
 		$this->assertSame('Leads_1', \App\Language::translatePluralized('Leads', 'Leads', 53));
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
-		\App\Language::setTemporaryLanguage('ro_ro');
+		\App\Language::setTemporaryLanguage('ro-RO');
 		$this->assertSame('Leads_0', \App\Language::translatePluralized('Leads', 'Leads', 1));
 		$this->assertSame('Leads_1', \App\Language::translatePluralized('Leads', 'Leads', 53));
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 0));
 
-		\App\Language::setTemporaryLanguage('pl_pl');
+		\App\Language::setTemporaryLanguage('pl-PL');
 	}
 
 	/**
@@ -92,8 +91,8 @@ class Language extends \Tests\Base
 	 */
 	public function testGetFromFile()
 	{
-		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl_pl'));
-		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl_pl'));
+		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl-PL'));
+		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl-PL'));
 	}
 
 	/**
@@ -101,8 +100,8 @@ class Language extends \Tests\Base
 	 */
 	public function testLoadLanguageFile()
 	{
-		$this->assertNull(\App\Language::loadLanguageFile('pl_pl', 'Leads'));
-		$this->assertNull(\App\Language::loadLanguageFile('pl_pl', 'Leads'));
+		$this->assertNull(\App\Language::loadLanguageFile('pl-PL', 'Leads'));
+		$this->assertNull(\App\Language::loadLanguageFile('pl-PL', 'Leads'));
 	}
 
 	/**
@@ -112,7 +111,7 @@ class Language extends \Tests\Base
 	 */
 	public function testTranslationModify()
 	{
-		$this->assertNull(\App\Language::translationModify('pl_pl', 'Leads', 'PHP', 'FileTestString', 'file_test_string_content', false));
-		$this->assertNull(\App\Language::translationModify('pl_pl', 'Leads', 'PHP', 'FileTestString', 'file_test_string_content', true));
+		$this->assertNull(\App\Language::translationModify('pl-PL', 'Leads', 'PHP', 'FileTestString', 'file_test_string_content', false));
+		$this->assertNull(\App\Language::translationModify('pl-PL', 'Leads', 'PHP', 'FileTestString', 'file_test_string_content', true));
 	}
 }

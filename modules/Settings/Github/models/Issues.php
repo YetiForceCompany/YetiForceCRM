@@ -41,9 +41,11 @@ class Settings_Github_Issues_Model
 	}
 
 	/**
-	 * Format system errors for GitHub issue creation
+	 * Format system errors for GitHub issue creation.
+	 *
 	 * @param array $errors
 	 * @param bool  $nameOnly
+	 *
 	 * @return string
 	 */
 	public static function formatErrorsForIssue($errors, $nameOnly = false): string

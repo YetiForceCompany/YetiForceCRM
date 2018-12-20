@@ -261,11 +261,13 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Getting value to display.
 	 *
-	 * @param type $value
+	 * @param mixed $value
+	 * @param array $rowData
+	 * @param bool  $rawText
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Purifier::encodeHtml($value);
 	}
@@ -420,7 +422,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function validate($value, ?string $columnName, ?bool $isUserFormat = true)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . "||$value", 406);

@@ -217,6 +217,9 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	registerEventForUnitPrice: function () {
 		this.getUnitPrice().on('change', () => {
 			this.triggerForBaseCurrencyCalc();
+			let baseValue = this.getForm().find('.js-base-curencies-value');
+			baseValue.val(this.getUnitPrice().val());
+			baseValue.formatNumber();
 		});
 	},
 	registerEventForUsageunit: function () {

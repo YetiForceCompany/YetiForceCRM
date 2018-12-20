@@ -243,7 +243,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 			]);
 		}
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {

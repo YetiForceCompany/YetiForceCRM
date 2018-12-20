@@ -25,12 +25,9 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if ($value === '') {
-			return '';
-		}
-		return 'LBL_' . strtoupper($this->values[$value]);
+		return $value !== '' ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
 	}
 
 	/**
@@ -44,7 +41,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if (!is_numeric($value) || !isset($this->values[$value])) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

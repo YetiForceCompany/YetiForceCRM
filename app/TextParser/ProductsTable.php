@@ -25,6 +25,7 @@ class ProductsTable extends Base
 	public function process()
 	{
 		$html = '';
+		$inventoryRows = [];
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
@@ -39,144 +40,103 @@ class ProductsTable extends Base
 				$currencyData = \App\Fields\Currency::getById($currency);
 			}
 		}
-		$html .= '<style>' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.tBorder {border: 1px solid grey;}' .
-			'.tHeader {background-color: lightgrey;}' .
-			'.summaryBorder {border-left: 1px solid grey; border-bottom: 1px solid grey; border-right: 1px solid grey;}' .
-			'.pTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.noBottomBorder {border-bottom: none;}' .
-			'.noBorder {border: none !important;}' .
-			'</style>';
 		if (isset($fields[0])) {
-			$html .= '<table class="pTable colapseBorder">
+			$html .= '<table style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>
-						<th style="width: 60%;"></th>';
+						<th></th>';
 			foreach ($fields[0] as $field) {
-				$html .= '<th style="' . $field->get('colSpan') . '%;" class="tBorder noBottomBorder tHeader">
-								<span>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;';
-				switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-					case 'DetailViewBase.tpl':
-						$html .= $field->getDisplayValue($firstRow[$field->getColumnName()]);
-						break;
-					case 'DetailViewTaxMode.tpl':
-					case 'DetailViewDiscountMode.tpl':
-						$html .= \App\Language::translate($field->getDisplayValue($firstRow[$field->getColumnName()]), $this->textParser->moduleName);
-						break;
-					default:
-						break;
-				}
-				$html .= '</th>';
+				$html .= '<th style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ': ' . $field->getDisplayValue($firstRow[$field->getColumnName()]) . '</th>';
 			}
 			$html .= '</tr>
 				</thead>
 			</table>';
-
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table class="pTable colapseBorder">
+			$html .= '<table style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th style="' . $field->get('colSpan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
 				</thead>
 				<tbody>';
-
-			foreach ($inventoryRows as $key => &$inventoryRow) {
+			foreach ($inventoryRows as $key => $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-
-						$html .= '<td ' . ($field->getType() == 'Name' ? 'width="40%;" ' : '') . ' class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
-								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-										$html .= '<br />' . $commentField->getDisplayValue($value);
+						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						if ($field->getType() === 'Name') {
+							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+									$comment = $commentField->getDisplayValue($value, $inventoryRow);
+									if ($comment) {
+										$html .= '<br />' . $comment;
 									}
 								}
-								break;
-							case 'DetailViewBase.tpl':
-								$html .= $field->getDisplayValue($itemValue);
-								break;
-							default:
-								break;
+							}
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
 					}
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</tbody>
-					<tfoot>
-						<tr>';
+			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<td class="textAlignRight ';
-					if ($field->isSummary()) {
-						$html .= 'summaryBorder';
-					}
-					$html .= '">';
-
+					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
-						foreach ($inventoryRows as $key => &$inventoryRow) {
+						foreach ($inventoryRows as $key => $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 					}
-					$html .= '</td>';
+					$html .= '</th>';
 				}
 			}
-			$html .= '</tr>
-					</tfoot>
-				</table>';
+			$html .= '</tr></tfoot></table>';
 
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
 				$taxField = $inventory->getField('tax');
-				foreach ($inventoryRows as $key => &$inventoryRow) {
+				foreach ($inventoryRows as $key => $inventoryRow) {
 					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 				}
 			}
-
-			$html .= '<br /><table width="100%" style="vertical-align: top; text-align: center;">
+			$html .= '<table style="padding:10px 0px;border-collapse:collapse; font-family:\'Noto Sans\'; font-size:8px; margin:0px 0px 20px 0px; width:100%">
 							<tr>
-								<td>';
+								<td style="vertical-align:top; width:50%">';
 
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
 				$discount = $inventory->getField('discount')->getSummaryValuesFromData($inventoryRows);
-				$html .= '<table class="pTable colapseBorder">
+				$html .= '<table style="width:100%;border-collapse:collapse;">
 							<thead>
 								<tr>
-									<th class="tBorder noBottomBorder tHeader">
-										<strong>' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</strong>
-									</th>
+									<th style="text-align:center;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+									<td style="border:1px solid #ddd;text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';
 			}
 
-			$html .= '</td><td>';
+			$html .= '</td><td style="vertical-align:top">';
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
 				$html .= '
-						<table class="pTable colapseBorder">
+						<table style="width:100%;border-collapse:collapse;">
 							<thead>
 								<tr>
-									<th colspan="2" class="tBorder noBottomBorder tHeader">
-										<strong>' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
-									</th>
+									<th style="padding:0px 4px;font-weight:bold;" colspan="2">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
 							</thead>
 							<tbody>';
@@ -184,13 +144,13 @@ class ProductsTable extends Base
 				foreach ($taxes as $key => &$tax) {
 					$tax_AMOUNT += $tax;
 					$html .= '<tr>
-										<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+										<td style="padding:0px 4px;">' . $key . '%</td>
+										<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
-				$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+				$html .= '<tr style="border:1px solid #ddd;">
+									<td style="padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>
@@ -198,12 +158,10 @@ class ProductsTable extends Base
 
 				if ($inventory->isField('currency') && $baseCurrency['id'] != $currency) {
 					$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
-					$html .= '<br /><table class="pTable colapseBorder">
+					$html .= '<table>
 								<thead>
 									<tr>
-										<th colspan="2" class="tBorder noBottomBorder tHeader">
-											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
-										</th>
+										<th style="padding:0px 4px;" colspan="2">' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</th>
 									</tr>
 								</thead>
 								<tbody>';
@@ -211,13 +169,13 @@ class ProductsTable extends Base
 					foreach ($taxes as $key => &$tax) {
 						$currencyAmount += $tax;
 						$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+									<td style="padding:0px 4px;">' . $key . '%</td>
+									<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 					}
-					$html .= '<tr>
-								<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+					$html .= '<tr style="border:1px solid #ddd;">
+								<td style="padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+								<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>
 					</table>';
