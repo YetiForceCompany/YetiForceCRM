@@ -50,11 +50,11 @@ class ProductsTableLongVTwoLang extends Base
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && $field->getColumnName() !== 'subunit') {
 					if ($field->getType() === 'Quantity' || $field->getType() === 'Value') {
-						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, 'en_us') . '</th>';
+						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
 					} elseif ($field->getType() === 'Name') {
-						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, 'en_us') . '</th>';
+						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
 					} else {
-						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, 'en_us') . '</th>';
+						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
 					}
 				}
 			}
