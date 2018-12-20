@@ -57,7 +57,7 @@
     "LBL_LABEL_PHP_SAPI": "API serveur",
     "LBL_LABEL_CRM_DIR": "R\u00e9pertoire local CRM",
     "LBL_LABEL_PHPINI": "Configuration PHP",
-    "LBL_MBSTRING_LIBRARY": "MBstring is designed to handle Unicode-based encodings and many single-byte encodings",
+    "LBL_MBSTRING_LIBRARY": "MBstring",
     "ConfReport": "Configuration serveur",
     "LBL_CONFIGURATION": "Configuration serveur",
     "LBL_CONFREPORT_DESCRIPTION": "Permets de v\u00e9rifier que les param\u00e8tres actuels sont align\u00e9s avec ceux recommand\u00e9s.",
