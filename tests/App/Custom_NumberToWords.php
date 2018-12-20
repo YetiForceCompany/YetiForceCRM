@@ -82,18 +82,18 @@ class Custom_NumberToWords extends \Tests\Base
 	public function processProvider()
 	{
 		return [
-			['0.00', 'zero zł zero gr', 'pl_pl'],
-			[0.00, 'zero zł zero gr', 'pl_pl'],
-			['0.00', 'zero zł zero gr', 'en_us'],
-			[0.00, 'zero zł zero gr', 'en_us'],
-			[0.01, 'zero zł jeden gr', 'pl_pl'],
-			[0.01, 'zero zł one gr', 'en_us'],
-			[15, 'piętnaście zł zero gr', 'pl_pl'],
-			[15, 'fifteen zł zero gr', 'en_us'],
-			[115.50, 'sto piętnaście zł pięćdziesiąt gr', 'pl_pl'],
-			[115.50, 'hundred fifteen zł fifty gr', 'en_us'],
-			[2115.50, 'dwa tysiące sto piętnaście zł pięćdziesiąt gr', 'pl_pl'],
-			[2115.50, 'two thousand hundred fifteen zł fifty gr', 'en_us'],
+			['0.00', 'zero zł zero gr', 'pl-PL'],
+			[0.00, 'zero zł zero gr', 'pl-PL'],
+			['0.00', 'zero zł zero gr', 'en-US'],
+			[0.00, 'zero zł zero gr', 'en-US'],
+			[0.01, 'zero zł jeden gr', 'pl-PL'],
+			[0.01, 'zero zł one gr', 'en-US'],
+			[15, 'piętnaście zł zero gr', 'pl-PL'],
+			[15, 'fifteen zł zero gr', 'en-US'],
+			[115.50, 'sto piętnaście zł pięćdziesiąt gr', 'pl-PL'],
+			[115.50, 'hundred fifteen zł fifty gr', 'en-US'],
+			[2115.50, 'dwa tysiące sto piętnaście zł pięćdziesiąt gr', 'pl-PL'],
+			[2115.50, 'two thousand hundred fifteen zł fifty gr', 'en-US'],
 		];
 	}
 
