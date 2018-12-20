@@ -33,7 +33,8 @@
 										{App\Language::translate('LBL_INDUSTRY', $QUALIFIED_MODULE)}
 									</label>
 									<div class="col-lg-10">
-										<select class="select2 form-control" name="industry">
+										<select class="select2 form-control" name="industry"
+												data-validation-engine="validate[required]">
 											{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
 												<option value="{$ITEM}"
 														{if $RECORD_MODEL->get('industry') == $ITEM}selected="true"{/if}>
@@ -49,7 +50,8 @@
 										{App\Language::translate('LBL_COUNTRY', $QUALIFIED_MODULE)}
 									</label>
 									<div class="col-lg-10">
-										<select class="select2 form-control" name="country">
+										<select class="select2 form-control" name="country"
+												data-validation-engine="validate[required]">
 											{foreach from=\App\Fields\Country::getAll() item=ITEM}
 												<option value="{$ITEM['name']}"
 														{if $RECORD_MODEL->get('country') == $ITEM['name']}selected="true"{/if}>{\App\Language::translateSingleMod($ITEM['name'],'Other.Country')}</option>
@@ -95,7 +97,7 @@
 									</label>
 									<div class="col-lg-10">
 										<input class="form-control" name="{$COLUMN}"
-											   {if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if}
+											   {if $COLUMN eq 'city' || $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if}
 											   value="{\App\Purifier::encodeHtml($RECORD_MODEL->get($COLUMN))}">
 									</div>
 								</div>
