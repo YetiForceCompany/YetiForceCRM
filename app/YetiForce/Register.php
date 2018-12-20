@@ -223,7 +223,6 @@ class Register
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
-			echo $body;
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
