@@ -4,18 +4,19 @@
  * YetiForce registration modal view class file.
  *
  * @package   Modules
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 /**
- * Online registration modal view class
+ * Online registration modal view class.
  */
 class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\ModalSettings
 {
-
 	/**
+	 * Set modal title.
 	 *
 	 * @param \App\Request $request
 	 */
@@ -40,7 +41,8 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	}
 
 	/**
-	 * Generate array with companies grouped by types
+	 * Generate array with companies grouped by types.
+	 *
 	 * @return array
 	 */
 	public function prepareCompanies(): array

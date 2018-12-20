@@ -3,6 +3,7 @@
  * Abstract modal controller class.
  *
  * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -11,15 +12,18 @@
 namespace App\Controller;
 
 /**
- * Class for modals in administration panel
+ * Class for modals in administration panel.
  */
 abstract class ModalSettings extends Modal
 {
 	/**
-	 * Only administrator user can access settings modal
+	 * Only administrator user can access settings modal.
+	 *
 	 * @param \App\Request $request
-	 * @return bool
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 *
+	 * @return bool
 	 */
 	public function checkPermission(\App\Request $request)
 	{

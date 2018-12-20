@@ -4,19 +4,19 @@
  * YetiForce registration modal view class file.
  *
  * @package   Modules
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 /**
- * Offline registration modal view class
+ * Offline registration modal view class.
  */
 class Settings_YetiForce_RegistrationSerialModal_View extends \App\Controller\ModalSettings
 {
-
 	/**
-	 * PreProcess: set modal title
+	 * Set modal title.
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
