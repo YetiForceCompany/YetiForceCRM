@@ -73,7 +73,7 @@
 										{/if}
 								   role="button">
 								<span class="fas fa-exclamation-triangle fa-2x"
-									  title="{\App\Language::translate('LBL_LICENSE_ERROR', $MODULE_NAME)}"></span>
+									  title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"></span>
 								</a>
 							</li>
 						{/if}
