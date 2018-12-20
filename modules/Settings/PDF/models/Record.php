@@ -103,13 +103,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($step) {
 			case 2:
 			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
-				$params = [];
 				$fields = [];
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
@@ -122,7 +116,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
-
 				return $pdfModel->get('pdfid');
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
@@ -131,8 +124,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					foreach ($stepFields as $field) {
 						$params[$field] = $pdfModel->get($field);
 					}
-					$db->createCommand()->insert('a_#__pdf', $params)
-						->execute();
+					$db->createCommand()->insert('a_#__pdf', $params)->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 				} else {
 					$fields = [];
