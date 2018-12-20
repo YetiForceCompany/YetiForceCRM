@@ -113,17 +113,17 @@ class Register
 		}
 		$result = false;
 		try {
-			$data = $this->getData();
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
 					\App\RequestHttp::getOptions() + [
-						'form_params' => $data
+						'form_params' => $this->getData()
 					]);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
 					static::updateMetaData([
+						'register_date' => date('Y-m-d H:i:s'),
 						'status' => $body['status'],
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'],
@@ -238,7 +238,6 @@ class Register
 				if ($body['text'] === 'OK') {
 					static::updateCompanies($body['companies']);
 					$data = [
-						'register_date' => date('Y-m-d H:i:s'),
 						'status' => $body['status'],
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'],
