@@ -152,7 +152,7 @@ class Register
 		}
 		$conf = static::getConf();
 		if (isset($conf['last_check_time']) && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) {
-			return false;
+			//return false;
 		}
 		$params = [
 			'version' => \App\Version::get(),
@@ -166,6 +166,7 @@ class Register
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
+			echo $body->getContents();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
@@ -281,8 +282,10 @@ class Register
 	 */
 	private static function updateCompanies(array $companies)
 	{
-		foreach ($companies as $name => $row) {
-			\App\Company::statusUpdate($row['status'], $name);
+		foreach ($companies as $row) {
+			if (!empty($row['name'])) {
+				\App\Company::statusUpdate($row['status'], $row['name']);
+			}
 		}
 	}
 }
