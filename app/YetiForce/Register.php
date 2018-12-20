@@ -143,7 +143,7 @@ class Register
 	private static function updateMetaData(array $data): void
 	{
 		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
-				'register_time' => $data['register_time'],
+				'register_time' => $data['register_time'] ?? date('Y-m-d H:i:s'),
 				'last_check_time' => date('Y-m-d H:i:s'),
 				'status' => $data['status'],
 				'text' => $data['text'],
