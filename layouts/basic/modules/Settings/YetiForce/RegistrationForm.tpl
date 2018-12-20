@@ -31,7 +31,6 @@
 					<input
 							class="form-control"
 							name="companies[{$company['id']}][city]"
-							data-validation-engine="validate[required]"
 							value="{$company['city']}">
 				</div>
 			</div>
@@ -52,7 +51,7 @@
 					<input
 							class="form-control"
 							name="companies[{$company['id']}][website]"
-							data-validation-engine="validate[required,custom[url]]"
+							data-validation-engine="validate[custom[url]]"
 							value="{$company['website']}">
 				</div>
 			</div>
@@ -62,7 +61,7 @@
 					<input
 							class="form-control"
 							name="companies[{$company['id']}][email]"
-							data-validation-engine="validate[required,custom[email]]"
+							data-validation-engine="validate[custom[email]]"
 							value="{$company['email']}">
 				</div>
 			</div>

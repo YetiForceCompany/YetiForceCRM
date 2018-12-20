@@ -16,6 +16,13 @@
 class Settings_YetiForce_RegistrationSerialModal_View extends \App\Controller\ModalSettings
 {
 	/**
+	 * The name of the activation button.
+	 *
+	 * @var string
+	 */
+	public $successBtn = 'LBL_ACTIVATE';
+
+	/**
 	 * Set modal title.
 	 *
 	 * @param \App\Request $request

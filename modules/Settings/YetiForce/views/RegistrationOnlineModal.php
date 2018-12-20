@@ -16,6 +16,13 @@
 class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\ModalSettings
 {
 	/**
+	 * The name of the send button.
+	 *
+	 * @var string
+	 */
+	public $successBtn = 'LBL_SEND';
+
+	/**
 	 * Set modal title.
 	 *
 	 * @param \App\Request $request
