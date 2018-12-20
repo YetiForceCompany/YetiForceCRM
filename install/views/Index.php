@@ -137,7 +137,7 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step2(\App\Request $request)
 	{
-		if ($_SESSION['default_language'] === 'pl_pl') {
+		if ($_SESSION['default_language'] === 'pl-PL') {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
