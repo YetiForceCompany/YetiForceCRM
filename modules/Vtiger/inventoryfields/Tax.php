@@ -84,12 +84,12 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 * Get configuration parameters for taxes.
 	 *
 	 * @param string     $taxParam String parameters json encode
-	 * @param int        $net
+	 * @param float      $net
 	 * @param array|null $return
 	 *
 	 * @return array
 	 */
-	public function getTaxParam(string $taxParam, int $net, ?array $return = []): array
+	public function getTaxParam(string $taxParam, float $net, ?array $return = []): array
 	{
 		$taxParam = json_decode($taxParam, true);
 		if (empty($taxParam)) {
