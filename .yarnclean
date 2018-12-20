@@ -31,6 +31,7 @@ chart.js/.htmllintrc
 split.js/logo.svg
 gantt-elastic/src
 gantt-elastic/*.jpg
+gantt-elastic/*.gif
 updated-jqplot/optionsTutorial.txt
 updated-jqplot/usage.txt
 updated-jqplot/jqPlotCssStyling.txt
@@ -183,7 +184,6 @@ index.html
 favicon.ico
 build.txt
 MAINTAINING.md
-*.gif
 
 #source - manuall
 source
