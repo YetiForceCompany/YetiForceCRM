@@ -158,6 +158,28 @@ class Register
 	}
 
 	/**
+	 * Set offline serial.
+	 *
+	 * @param string $serial
+	 *
+	 * @return bool
+	 */
+	public static function setSerial($serial)
+	{
+		if (!static::verifySerial($serial)) {
+			return false;
+		}
+		static::updateMetaData([
+			'status' => 9,
+			'text' => 'OK',
+			'crmKey' => static::getCrmKey(),
+			'insKey' => static::getInstanceKey(),
+			'serialKey' => $serial,
+		]);
+		return true;
+	}
+
+	/**
 	 * Verification of the serial number.
 	 *
 	 * @param string $serial
@@ -242,13 +264,14 @@ class Register
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'],
 					];
+					$status = true;
 				}
 			}
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
-		return true;
+		return $status ?? false;
 	}
 
 	/**

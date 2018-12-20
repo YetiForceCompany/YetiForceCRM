@@ -32,18 +32,22 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
-		if ($columns = Settings_Companies_Module_Model::getColumnNames()) {
-			foreach ($columns as $fieldName) {
-				$recordModel->set($fieldName, $request->getByType($fieldName, 'Text'));
-			}
-			$recordModel->save();
-			$recordModel->saveCompanyLogos();
-		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'url' => $recordModel->getDetailViewUrl()
-		]);
+		if (!$recordModel->isCompanyDuplicated($request)) {
+			if ($columns = Settings_Companies_Module_Model::getColumnNames()) {
+				foreach ($columns as $fieldName) {
+					$recordModel->set($fieldName, $request->getByType($fieldName, 'Text'));
+				}
+				$recordModel->save();
+				$recordModel->saveCompanyLogos();
+			}
+			$response->setResult([
+				'success' => true,
+				'url' => $recordModel->getDetailViewUrl()
+			]);
+		} else {
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))]);
+		}
 		$response->emit();
 	}
 }

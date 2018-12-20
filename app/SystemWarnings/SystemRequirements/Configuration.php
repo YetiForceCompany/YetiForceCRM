@@ -40,7 +40,7 @@ class Configuration extends \App\SystemWarnings\Template
 			if (!empty($errors['stability'])) {
 				$errorsText .= '<strong>' . \App\Language::translate('LBL_STABILITY', 'Settings:SystemWarnings') . ':</strong>';
 				foreach ($errors['stability'] as $key => $value) {
-					$errorsText .= PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference['stability'][$key]['recommended'] . '\')';
+					$errorsText .= PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . ($reference['stability'][$key]['recommended'] ?? '') . '\')';
 				}
 				$errorsText .= PHP_EOL . PHP_EOL;
 			}
@@ -54,7 +54,7 @@ class Configuration extends \App\SystemWarnings\Template
 			if (!empty($errors['libraries'])) {
 				$noMandatoryLib = false;
 				foreach ($errors['libraries'] as $key => $value) {
-					if ($reference['libraries'][$key]['mandatory']) {
+					if (!empty($reference['libraries'][$key]['mandatory'])) {
 						if (!$noMandatoryLib) {
 							$errorsText .= '<strong>' . \App\Language::translate('LBL_PHPEXT', 'Settings:SystemWarnings') . ':</strong>';
 							$noMandatoryLib = true;
