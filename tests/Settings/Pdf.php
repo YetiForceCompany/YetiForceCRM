@@ -21,7 +21,7 @@ class Pdf extends \Tests\Base
 	/**
 	 * File name.
 	 */
-	const FILE_NAME = 'test.pdf';
+	public $fileName = 'test.pdf';
 
 	/**
 	 * Temporary model.
@@ -35,14 +35,15 @@ class Pdf extends \Tests\Base
 	 */
 	public function testCreateTemplate()
 	{
+		$this->fileName = uniqid() . '.pdf';
 		$pdfModel = \Settings_PDF_Record_Model::getCleanInstance(self::MODULE_NAME);
 		$pdfModel->set('module_name', self::MODULE_NAME);
 		$pdfModel->set('status', 1);
 		$pdfModel->set('primary_name', 'test');
 		$pdfModel->set('page_format', 'A4');
-		$pdfModel->set('language', 'pl_pl');
+		$pdfModel->set('language', 'pl-PL');
 		$pdfModel->set('page_orientation', 'PLL_PORTRAIT');
-		$pdfModel->set('filename', self::FILE_NAME);
+		$pdfModel->set('filename', $this->fileName);
 		$pdfModel->set('metatags_status', 1);
 		$pdfModel->set('margin_top', 15);
 		$pdfModel->set('margin_bottom', 15);
@@ -63,8 +64,8 @@ class Pdf extends \Tests\Base
 		\Settings_PDF_Record_Model::save($pdfModel, 'import');
 		$this->assertSame((int) (new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
-			->where(['module_name' => self::MODULE_NAME, 'filename' => self::FILE_NAME, 'primary_name' => 'test'])
-			->scalar(\App\Db::getInstance('admin')), (int) $pdfModel->get('pdfid'), 'Not created template');
+			->where(['module_name' => self::MODULE_NAME, 'filename' => $this->fileName, 'primary_name' => 'test'])
+			->scalar(), (int) $pdfModel->get('pdfid'), 'Not created template');
 		self::$pdfModel = $pdfModel;
 	}
 
@@ -73,7 +74,7 @@ class Pdf extends \Tests\Base
 	 */
 	public function testGenerate()
 	{
-		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . self::FILE_NAME;
+		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
 		\Vtiger_PDF_Model::exportToPdf(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), self::MODULE_NAME, self::$pdfModel->get('pdfid'), $pathToFile, 'F');
 		$this->assertFileExists($pathToFile);
 	}
@@ -86,9 +87,9 @@ class Pdf extends \Tests\Base
 		\Settings_PDF_Record_Model::delete(self::$pdfModel);
 		$this->assertFalse((new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
-			->where(['module_name' => self::MODULE_NAME, 'filename' => self::FILE_NAME, 'primary_name' => 'test'])
+			->where(['module_name' => self::MODULE_NAME, 'filename' => $this->fileName, 'primary_name' => 'test'])
 			->exists(\App\Db::getInstance('admin')), 'Not removed template');
-		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . self::FILE_NAME;
+		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
 		if (\file_exists($pathToFile)) {
 			\unlink($pathToFile);
 		}

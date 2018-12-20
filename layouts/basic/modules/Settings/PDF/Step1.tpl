@@ -11,6 +11,7 @@
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" class="step" value="1"/>
 			<input type="hidden" name="record" value="{$RECORDID}"/>
+			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}"/>
 
 
 			<div class="row">

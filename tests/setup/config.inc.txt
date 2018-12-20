@@ -101,8 +101,8 @@ $currency_name = 'Poland, Zlotych';
 $default_charset = 'UTF-8';
 
 // default language
-// default_language default value = en_us
-$default_language = 'pl_pl';
+// default_language default value = en-US
+$default_language = 'pl-PL';
 
 // add the language pack name to every translation string in the display.
 // translation_string_prefix default value = false
