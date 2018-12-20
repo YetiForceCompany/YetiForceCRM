@@ -53,7 +53,8 @@
 							</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
+							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM"
+							   rel="noreferrer">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
@@ -72,7 +73,7 @@
 										{/if}
 								   role="button">
 								<span class="fas fa-exclamation-triangle fa-2x"
-									  title="{\App\Language::translate('LBL_LICENSE_ERROR', 'Settings')}"></span>
+									  title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"></span>
 								</a>
 							</li>
 						{/if}
@@ -130,7 +131,8 @@
 							YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open
 							system in the world
 						</h5>
-						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<button type="button" class="close" data-dismiss="modal"
+								title="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
