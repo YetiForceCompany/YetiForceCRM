@@ -30,9 +30,9 @@ class ProductsTableLongVersion extends Base
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
+		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		if ($inventory->isField('currency')) {
 			if (!empty($firstRow) && $firstRow['currency'] !== null) {
 				$currency = $firstRow['currency'];
@@ -43,20 +43,15 @@ class ProductsTableLongVersion extends Base
 			$currencySymbol = $currencyData['currency_symbol'];
 		}
 		if (!empty($fields[1])) {
-			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
+			$visibleFields = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
+			$fieldsTextAlignRight = ['Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="1" class="productTable">
+			$html .= '<table style="width:100%;font-size:8px;border-collapse:collapse;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && in_array($field->getType(), $fieldsTextAlignRight) && ($field->getColumnName() !== 'subunit')) {
-					if ($field->getType() === 'Quantity' || $field->getType() === 'Value') {
-						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-					} elseif ($field->getType() === 'Name') {
-						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-					} else {
-						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-					}
+				if ($field->isVisible() && in_array($field->getType(), $visibleFields) && ($field->getColumnName() !== 'subunit')) {
+					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -65,22 +60,25 @@ class ProductsTableLongVersion extends Base
 			foreach ($inventoryRows as $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
-					if (!$field->isVisible() || !in_array($field->getType(), $fieldsTextAlignRight) || ($field->getColumnName() === 'subunit')) {
+					if (!$field->isVisible() || !in_array($field->getType(), $visibleFields) || ($field->getColumnName() === 'subunit')) {
 						continue;
 					}
 					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
+						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
+						$html .= '<td style="padding:0px 4px;border:1px solid #ddd;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></tdtyle>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="font-size:8px" class="' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ($field->getType() === 'Name') {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-									$html .= '<br />' . $commentField->getDisplayValue($value, $inventoryRow);
+									$comment = $commentField->getDisplayValue($value, $inventoryRow);
+									if ($comment) {
+										$html .= '<br />' . $comment;
+									}
 								}
 							}
 						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
@@ -95,12 +93,8 @@ class ProductsTableLongVersion extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && in_array($field->getColumnName(), $fieldsTextAlignRight) && ($field->getColumnName() !== 'subunit')) {
-					$html .= '<td class="textAlignRight ';
-					if ($field->isSummary()) {
-						$html .= 'summaryContainer';
-					}
-					$html .= '">';
+				if ($field->isVisible() && in_array($field->getType(), $visibleFields) && ($field->getColumnName() !== 'subunit')) {
+					$html .= '<th style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {
@@ -108,12 +102,10 @@ class ProductsTableLongVersion extends Base
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
 					}
-					$html .= '</td>';
+					$html .= '</th>';
 				}
 			}
-			$html .= '</tr>
-					</tfoot>
-				</table>';
+			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
 	}

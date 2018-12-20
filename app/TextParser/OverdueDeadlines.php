@@ -43,18 +43,10 @@ class OverdueDeadlines extends Base
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<br /><style>' .
-			'.table {width: 100%; border-collapse: collapse;}' .
-			'.table thead th {border-bottom: 1px solid grey;}' .
-			'.table tbody tr {border-bottom: 1px solid grey}' .
-			'.table tbody tr:nth-child(even) {background-color: #F7F7F7;}' .
-			'.center {text-align: center;}' .
-			'.summary {border-top: 1px solid grey;}' .
-			'</style>';
-		$html .= '<table class="table"><thead><tr>';
+		$html = '<table style="border-collapse:collapse;"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span>&nbsp;</th>';
+			$html .= '<th><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		while ($row = $dataReader->read()) {
@@ -62,9 +54,9 @@ class OverdueDeadlines extends Base
 			foreach ($this->columnNames as $column) {
 				$recordId = $row['id'];
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
-				$class = '';
+				$style = '';
 				if (in_array($column, ['activitytype', 'date_start', 'link'])) {
-					$class = 'class="center"';
+					$style = 'style="padding:0px 4px;text-align:center;border:1px solid #ddd;"';
 				}
 				$fieldModel = $fields[$column];
 				if ($column == 'link') {
@@ -79,7 +71,7 @@ class OverdueDeadlines extends Base
 					$value = $recordModel->getDisplayValue($fieldModel->getName(), $recordId, true);
 				}
 
-				$html .= '<td ' . $class . '>' . $value . '</td>';
+				$html .= '<td ' . $style . '>' . $value . '</td>';
 			}
 			$html .= '</tr>';
 		}

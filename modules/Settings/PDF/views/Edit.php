@@ -59,7 +59,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			default:
 				$allModules = Settings_PDF_Module_Model::getSupportedModules();
 				$viewer->assign('ALL_MODULES', $allModules);
-				$viewer->assign('WATERMARK_TEXT', \App\Pdf\Tcpdf::WATERMARK_TYPE_TEXT);
+				$viewer->assign('WATERMARK_TEXT', \App\Pdf\YetiForcePDF::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;
 		}

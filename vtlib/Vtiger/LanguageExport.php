@@ -110,7 +110,7 @@ class LanguageExport extends Package
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core language unless forced
-		if (strtolower($prefix) == 'en_us' && $overrideCore === false) {
+		if (strtolower($prefix) === strtolower(\App\Language::DEFAULT_LANG) && $overrideCore === false) {
 			return;
 		}
 
@@ -152,7 +152,7 @@ class LanguageExport extends Package
 	{
 		$prefix = trim($prefix);
 		// We will not allow deregistering core language
-		if (strtolower($prefix) == 'en_us') {
+		if (strtolower($prefix) === strtolower(\App\Language::DEFAULT_LANG)) {
 			return;
 		}
 
