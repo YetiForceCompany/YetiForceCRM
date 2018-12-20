@@ -281,6 +281,12 @@ class ConfReport
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
 	/**
+	 * Enable cache for getAll.
+	 *
+	 * @var bool
+	 */
+	public static $enableCache = false;
+	/**
 	 * Php variables.
 	 *
 	 * @var mixed[]
@@ -322,12 +328,19 @@ class ConfReport
 	 *
 	 * @return mixed
 	 */
-	public static function getAll()
+	public static function getAll(): array
 	{
-		static::init('all');
-		$all = [];
-		foreach (static::$types as $type) {
-			$all[$type] = static::validate($type);
+		if (static::$enableCache && \App\Cache::has('ConfReport', 'getAll')) {
+			$all = \App\Cache::get('ConfReport', 'getAll');
+		} else {
+			static::init('all');
+			$all = [];
+			foreach (static::$types as $type) {
+				$all[$type] = static::validate($type);
+			}
+			if (static::$enableCache) {
+				\App\Cache::save('ConfReport', 'getAll', $all, \App\Cache::LONG);
+			}
 		}
 		return $all;
 	}
