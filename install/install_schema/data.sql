@@ -591,7 +591,6 @@ insert  into `u_yf_cv_condition`(`id`,`group_id`,`field_name`,`module_name`,`sou
 
 insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (1,104,'AND',0,0);
 insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (2,117,'AND',0,0);
-insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`index`) values (3,56,'AND',0,0);
 
 /*Data for the table `u_yf_cv_duplicates` */
 
