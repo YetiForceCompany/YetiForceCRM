@@ -19,9 +19,16 @@ class Settings_Companies_ListView_Model extends Settings_Vtiger_ListView_Model
 		$basicLinks = parent::getBasicLinks();
 		$basicLinks[] = [
 			'linktype' => 'LISTVIEWBASIC',
-			'linklabel' => 'LBL_REGISTER_CRM',
-			'linkclass' => 'btn-light js-send',
-			'linkicon' => 'far fa-registered',
+			'linklabel' => 'LBL_REGISTER_CRM_ONLINE',
+			'linkclass' => 'btn-light js-register-online ml-1',
+			'linkicon' => 'fas fa-globe',
+			'showLabel' => 1,
+		];
+		$basicLinks[] = [
+			'linktype' => 'LISTVIEWBASIC',
+			'linklabel' => 'LBL_REGISTER_CRM_SERIAL',
+			'linkclass' => 'btn-light js-register-serial ml-1',
+			'linkicon' => 'fas fa-receipt',
 			'showLabel' => 1,
 		];
 		return $basicLinks;

@@ -24,7 +24,7 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 					if (true == data.result.success) {
 						window.location.href = data.result.url
 					} else {
-						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
+						Settings_Vtiger_Index_Js.showMessage({text: data.result.message, type: 'error'});
 					}
 				});
 			} else {

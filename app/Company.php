@@ -48,4 +48,37 @@ class Company extends Base
 				])->execute();
 		}
 	}
+
+	/**
+	 * Send registration data to YetiForce API server.
+	 *
+	 * @param array $companiesNew
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
+	public static function registerOnline(array $companiesNew): bool
+	{
+		if (empty($companiesNew)) {
+			return false;
+		}
+		foreach (static::getAll() as $companyCurrent) {
+			if (!isset($companiesNew[$companyCurrent['id']])) {
+				continue;
+			}
+			\App\Db::getInstance()->createCommand()
+				->update('s_#__companies', [
+					'name' => $companiesNew[$companyCurrent['id']]['name'],
+					'industry' => $companiesNew[$companyCurrent['id']]['industry'],
+					'city' => $companiesNew[$companyCurrent['id']]['city'],
+					'country' => $companiesNew[$companyCurrent['id']]['country'],
+					'website' => $companiesNew[$companyCurrent['id']]['website'],
+					'email' => $companiesNew[$companyCurrent['id']]['email'],
+				], ['id' => $companyCurrent['id']])
+				->execute();
+		}
+		Cache::delete('CompanyGetAll', '');
+		return (new \App\YetiForce\Register())->send();
+	}
 }
