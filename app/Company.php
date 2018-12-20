@@ -54,14 +54,13 @@ class Company extends Base
 	 *
 	 * @param array $companiesNew
 	 *
-	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 *
 	 * @return bool
 	 */
-	public static function registerOnline($companiesNew): bool
+	public static function registerOnline(array $companiesNew): bool
 	{
-		if (!\is_array($companiesNew)) {
+		if (empty($companiesNew)) {
 			return false;
 		}
 		foreach (static::getAll() as $companyCurrent) {

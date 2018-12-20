@@ -17,6 +17,8 @@ class Settings_YetiForce_RegistrationSerialModal_View extends \App\Controller\Mo
 {
 	/**
 	 * Set modal title.
+	 *
+	 * @param \App\Request $request
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
