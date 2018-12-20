@@ -113,17 +113,21 @@ class Register
 		}
 		$result = false;
 		try {
-			$data = $this->getData();
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
 					\App\RequestHttp::getOptions() + [
-						'form_params' => $data
+						'form_params' => $this->getData()
 					]);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
-					static::updateMetaData($body + $data);
+					static::updateMetaData([
+						'register_date' => date('Y-m-d H:i:s'),
+						'status' => $body['status'],
+						'text' => $body['text'],
+						'serialKey' => $body['serialKey'],
+					]);
 					$result = true;
 				}
 			}
@@ -142,12 +146,14 @@ class Register
 	 */
 	private static function updateMetaData(array $data): void
 	{
+		$conf = static::getConf();
 		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
-				'time' => date('Y-m-d H:i:s'),
-				'status' => $data['status'],
-				'text' => $data['text'],
-				'crmKey' => $data['crmKey'],
-				'serialKey' => $data['serialKey'] ?? '',
+				'register_time' => $data['register_time'] ?? $conf['register_time'],
+				'last_check_time' => date('Y-m-d H:i:s'),
+				'status' => $data['status'] ?? $conf['status'] ?? 0,
+				'text' => $data['text'] ?? $conf['text'] ?? '',
+				'crmKey' => static::getCrmKey(),
+				'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
 			], true) . ';');
 	}
 
@@ -203,7 +209,7 @@ class Register
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
 			return [true, 9];
 		}
-		if ($timer && strtotime('+14 days', strtotime($conf['time'])) > \strtotime('now')) {
+		if ($timer && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
 		return [$status, $conf['status']];
@@ -234,6 +240,9 @@ class Register
 			return false;
 		}
 		$conf = static::getConf();
+		if (strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) {
+			return false;
+		}
 		$params = [
 			'version' => \App\Version::get(),
 			'crmKey' => static::getCrmKey(),
@@ -242,6 +251,7 @@ class Register
 			'status' => $conf['status'] ?? 0,
 		];
 		try {
+			$data = [];
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
@@ -249,10 +259,15 @@ class Register
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
 					static::updateCompanies($body['companies']);
-					static::updateMetaData($body + $params);
+					$data = [
+						'status' => $body['status'],
+						'text' => $body['text'],
+						'serialKey' => $body['serialKey'],
+					];
 					$status = true;
 				}
 			}
+			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
