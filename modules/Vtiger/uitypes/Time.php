@@ -134,8 +134,10 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 				$hours = '12';
 				$format = \App\Language::translate('AM');
 			}
-
-			return "$hours:$minutes$format";
+			if (strlen($hours) === 1) {
+				$hours = "0$hours";
+			}
+			return "$hours:$minutes $format";
 		} else {
 			return '';
 		}
