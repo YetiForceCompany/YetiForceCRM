@@ -143,7 +143,8 @@ class Register
 	private static function updateMetaData(array $data): void
 	{
 		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
-				'time' => date('Y-m-d H:i:s'),
+				'register_time' => $data['register_time'],
+				'last_check_time' => date('Y-m-d H:i:s'),
 				'status' => $data['status'],
 				'text' => $data['text'],
 				'crmKey' => $data['crmKey'],
@@ -181,7 +182,7 @@ class Register
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
 			return [true, 9];
 		}
-		if ($timer && strtotime('+14 days', strtotime($conf['time'])) > \strtotime('now')) {
+		if ($timer && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
 		return [$status, $conf['status']];
@@ -201,6 +202,15 @@ class Register
 	}
 
 	/**
+	 * Update last run time.
+	 */
+	private static function updateLastRun()
+	{
+		$conf = static::getConf();
+		static::updateMetaData($conf);
+	}
+
+	/**
 	 * Checking registration status.
 	 *
 	 * @return bool
@@ -212,6 +222,9 @@ class Register
 			return false;
 		}
 		$conf = static::getConf();
+		if (strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) {
+			return false;
+		}
 		$params = [
 			'version' => \App\Version::get(),
 			'crmKey' => static::getCrmKey(),
@@ -220,6 +233,7 @@ class Register
 			'status' => $conf['status'] ?? 0,
 		];
 		try {
+			static::updateLastRun();
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
