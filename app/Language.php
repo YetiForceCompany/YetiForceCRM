@@ -91,7 +91,7 @@ class Language
 	 */
 	public static function setTemporaryLanguage($language)
 	{
-		static::$temporaryLanguage = strtolower($language);
+		static::$temporaryLanguage = $language;
 	}
 
 	/**
