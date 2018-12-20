@@ -1376,7 +1376,6 @@ Vtiger_Base_Validator_Js("Vtiger_MultiImage_Validator_Js", {
 	invokeValidation(field, rules, i, options) {
 		const instance = new Vtiger_MultiImage_Validator_Js();
 		instance.setElement(field);
-		const response = instance.validate();
 		if (response != true) {
 			return instance.getError();
 		}
