@@ -16,8 +16,8 @@
 	{if $USER_MODEL->isAdminUser() && !$REGISTER_VERIFY[0]}
 		<div class="bg-danger text-white u-font-weight-700 w-100 pb-1 pt-1 text-center text-uppercase">
 			<span class="fas fa-exclamation-triangle mr-2"
-				  title="{\App\Language::translate('LBL_LICENSE_ERROR', 'Settings')}"></span>
-			{\App\Language::translate('LBL_LICENSE_HEADER_ERROR','Settings')}
+				  title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"></span>
+			{\App\Language::translate('LBL_LICENSE_HEADER_ERROR',$QUALIFIED_MODULE)}
 		</div>
 	{/if}
 	<div class="mainContainer">
