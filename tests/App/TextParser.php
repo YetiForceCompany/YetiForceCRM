@@ -59,18 +59,6 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
-	 * Testing organization placeholders replacement.
-	 */
-	public function testOrganization()
-	{
-		$defaultCompanyModel = \App\Company::getInstanceById(false);
-		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
-			->setContent('+ $(organization : 1|company_name)$ +')
-			->parse()
-			->getContent(), 'Organization name should match to reference');
-	}
-
-	/**
 	 * Tests base variables list.
 	 */
 	public function testGetBaseListVariable()
