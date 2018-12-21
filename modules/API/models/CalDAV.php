@@ -377,11 +377,11 @@ class API_CalDAV_Model
 				$recordModel->set('assigned_user_id', $this->user->get('id'));
 				$recordModel->set(
 					'subject',
-					substr(\App\Purifier::purify((string) $component->SUMMARY), 0, $recordModel->getField('subject')->get('maximumlength'))
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->SUMMARY), $recordModel->getField('subject')->get('maximumlength'), false)
 				);
 				$recordModel->set(
 					'location',
-					substr(\App\Purifier::purify((string) $component->LOCATION), 0, $recordModel->getField('location')->get('maximumlength'))
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->LOCATION), $recordModel->getField('location')->get('maximumlength'), false)
 				);
 				$recordModel->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$recordModel->set('allday', $dates['allday']);
@@ -454,11 +454,11 @@ class API_CalDAV_Model
 				$record->set('assigned_user_id', $this->user->get('id'));
 				$record->set(
 					'subject',
-					substr(\App\Purifier::purify((string) $component->SUMMARY), 0, $record->getField('subject')->get('maximumlength'))
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->SUMMARY), $record->getField('subject')->get('maximumlength'), false)
 				);
 				$record->set(
 					'location',
-					substr(\App\Purifier::purify((string) $component->LOCATION), 0, $record->getField('location')->get('maximumlength'))
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->LOCATION), $record->getField('location')->get('maximumlength'), false)
 				);
 				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
