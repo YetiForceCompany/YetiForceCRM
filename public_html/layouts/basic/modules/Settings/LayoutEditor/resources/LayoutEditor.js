@@ -1829,6 +1829,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						let textArea = modalContainer.find('#' + element + '.js-context-area');
 						textArea.prop('disabled', false);
 						textArea.closest('.js-context-block').removeClass('d-none');
+						App.Fields.Text.destroyEditor(textArea);
 						modalContainer.find('.js-help-info').attr('data-content', textArea.val());
 						new App.Fields.Text.Editor(textArea, customConfig);
 					});
