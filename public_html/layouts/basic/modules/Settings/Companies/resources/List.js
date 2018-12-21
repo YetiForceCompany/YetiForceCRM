@@ -12,6 +12,9 @@ Settings_Vtiger_List_Js('Settings_Companies_List_Js', {}, {
 		$('.js-register-serial').on('click', (e) => {
 			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationSerialModal');
 		});
+		if (app.getUrlVar('displayModal') === 'online') {
+			$('.js-register-online').click();
+		}
 	},
 	/**
 	 * Register view events
