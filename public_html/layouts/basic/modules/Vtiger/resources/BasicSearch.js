@@ -77,7 +77,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (app.getParentModuleName()) {
 			params.parent = app.getParentModuleName();
 		}
-		params.operator = 'FulltextBegin';
+		params.operator = CONFIG.globalSearchDefaultOperator;
 		if (this.mainContainer) {
 			if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
 				params.operator = this.mainConatiner.find('input[data-operator]').data('operator');

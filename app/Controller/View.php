@@ -566,6 +566,7 @@ abstract class View extends Base
 					 'globalSearchAutocompleteActive' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
 					 'globalSearchAutocompleteMinLength' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
 					 'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+					 'globalSearchDefaultOperator' => \AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
 					 'sounds' => \AppConfig::sounds(),
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'recordPopoverDelay' => \AppConfig::performance('RECORD_POPOVER_DELAY'),
