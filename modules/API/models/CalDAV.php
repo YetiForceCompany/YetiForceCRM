@@ -381,7 +381,7 @@ class API_CalDAV_Model
 				);
 				$recordModel->set(
 					'location',
-					substr(\App\Purifier::purify((string) $component->SUMMARY), 0, $recordModel->getField('location')->get('maximumlength'))
+					substr(\App\Purifier::purify((string) $component->LOCATION), 0, $recordModel->getField('location')->get('maximumlength'))
 				);
 				$recordModel->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$recordModel->set('allday', $dates['allday']);
@@ -458,7 +458,7 @@ class API_CalDAV_Model
 				);
 				$record->set(
 					'location',
-					substr(\App\Purifier::purify((string) $component->SUMMARY), 0, $record->getField('location')->get('maximumlength'))
+					substr(\App\Purifier::purify((string) $component->LOCATION), 0, $record->getField('location')->get('maximumlength'))
 				);
 				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
