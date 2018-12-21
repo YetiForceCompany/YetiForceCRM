@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "91caf842dc07bd0fe20ed9fc852a6869",
+    "content-hash": "51eff64b331c5f04f0e49992be151fb7",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -2615,16 +2615,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "dev-developer",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "da1b73783b65931f9a96ff2fbed05eae448b63f5"
+                "reference": "f5c1762b1bab290c5b74f6a9e2288f16fa792eec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/da1b73783b65931f9a96ff2fbed05eae448b63f5",
-                "reference": "da1b73783b65931f9a96ff2fbed05eae448b63f5",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/f5c1762b1bab290c5b74f6a9e2288f16fa792eec",
+                "reference": "f5c1762b1bab290c5b74f6a9e2288f16fa792eec",
                 "shasum": ""
             },
             "require": {
@@ -2641,7 +2641,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "YetiForce Public License v3"
             ],
             "authors": [
                 {
@@ -2656,7 +2656,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2018-12-20T14:52:29+00:00"
+            "time": "2018-12-21T13:49:18+00:00"
         },
         {
             "name": "yetiforce/yii2",
@@ -4327,9 +4327,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "yetiforce/yetiforcepdf": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

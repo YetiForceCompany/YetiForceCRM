@@ -16160,12 +16160,12 @@ ul.tweets li {
 
 .c-btn-collapsible {
   overflow: hidden;
+  max-width: 2.5rem;
   -webkit-transition: all 275ms ease;
   -moz-transition: all 275ms ease;
   -ms-transition: all 275ms ease;
   -o-transition: all 275ms ease;
-  transition: all 275ms ease;
-  max-width: 2.5rem; }
+  transition: all 275ms ease; }
   .c-btn-collapsible.btn-xs {
     max-width: 1.5625rem; }
   .c-btn-collapsible.btn-sm, .btn-group-sm > .c-btn-collapsible.btn, .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs,
@@ -16173,7 +16173,7 @@ ul.tweets li {
     max-width: 1.875rem; }
   .c-btn-collapsible.btn-lg, .btn-group-lg > .c-btn-collapsible.btn {
     max-width: 3.125rem; }
-  .c-btn-collapsible span {
+  .c-btn-collapsible__text {
     opacity: 0;
     text-indent: -6px;
     display: inline-block;
@@ -16189,7 +16189,7 @@ ul.tweets li {
     -ms-transition: all 275ms ease;
     -o-transition: all 275ms ease;
     transition: all 275ms ease; }
-    .c-btn-collapsible:hover span {
+    .c-btn-collapsible:hover .c-btn-collapsible__text {
       opacity: 1;
       text-indent: 0;
       -webkit-transition: all 275ms ease;
