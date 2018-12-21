@@ -203,7 +203,7 @@ abstract class View extends Base
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		$view->assign('SHOW_FOOTER', $this->showFooter());
+		$view->assign('SHOW_FOOTER', $this->showFooter() && \App\YetiForce\Register::getStatus() !== 8);
 		$view->view('Footer.tpl');
 	}
 

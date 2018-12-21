@@ -17,6 +17,12 @@ namespace App\YetiForce;
 class Register
 {
 	/**
+	 * Registration config cache.
+	 *
+	 * @var
+	 */
+	private static $config;
+	/**
 	 * Last error.
 	 *
 	 * @var string
@@ -196,7 +202,7 @@ class Register
 	{
 		$conf = static::getConf();
 		if (!$conf) {
-			return [false, 0];
+			return false;
 		}
 		$status = $conf['status'] > 6;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
@@ -216,7 +222,7 @@ class Register
 	private static function updateMetaData(array $data): void
 	{
 		$conf = static::getConf();
-		file_put_contents(static::REGISTRATION_FILE, '<?php return ' . \var_export([
+		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export([
 				'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
 				'last_check_time' => date('Y-m-d H:i:s'),
 				'status' => $data['status'] ?? $conf['status'] ?? 0,
@@ -266,10 +272,24 @@ class Register
 	 */
 	private static function getConf(): array
 	{
-		if (!\file_exists(static::REGISTRATION_FILE)) {
-			return [];
+		if (isset(static::$config)) {
+			return static::$config;
 		}
-		return require static::REGISTRATION_FILE;
+		if (!\file_exists(static::REGISTRATION_FILE)) {
+			return static::$config = [];
+		}
+		return static::$config = require static::REGISTRATION_FILE;
+	}
+
+	/**
+	 * Get registration status.
+	 *
+	 * @return int
+	 */
+	public static function getStatus(): int
+	{
+		$conf = static::getConf();
+		return (int) ($conf['status'] ?? 0);
 	}
 
 	/**
