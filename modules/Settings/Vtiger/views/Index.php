@@ -108,9 +108,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
-		\App\Utils\ConfReport::$enableCache = true;
 		$warnings = \App\SystemWarnings::getWarnings('all');
-		\App\Utils\ConfReport::$enableCache = false;
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
@@ -205,9 +203,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$active = $request->getBoolean('active');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		\App\Utils\ConfReport::$enableCache = true;
 		$list = \App\SystemWarnings::getWarnings($folder, $active);
-		\App\Utils\ConfReport::$enableCache = false;
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('WARNINGS_LIST', $list);
 		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);
