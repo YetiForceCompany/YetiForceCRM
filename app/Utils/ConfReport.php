@@ -281,12 +281,6 @@ class ConfReport
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
 	/**
-	 * Enable cache for getAll.
-	 *
-	 * @var bool
-	 */
-	public static $enableCache = false;
-	/**
 	 * Php variables.
 	 *
 	 * @var mixed[]
@@ -330,17 +324,10 @@ class ConfReport
 	 */
 	public static function getAll(): array
 	{
-		if (static::$enableCache && \App\Cache::has('ConfReport', 'getAll')) {
-			$all = \App\Cache::get('ConfReport', 'getAll');
-		} else {
-			static::init('all');
-			$all = [];
-			foreach (static::$types as $type) {
-				$all[$type] = static::validate($type);
-			}
-			if (static::$enableCache) {
-				\App\Cache::save('ConfReport', 'getAll', $all, \App\Cache::LONG);
-			}
+		static::init('all');
+		$all = [];
+		foreach (static::$types as $type) {
+			$all[$type] = static::validate($type);
 		}
 		return $all;
 	}
@@ -1135,6 +1122,39 @@ class ConfReport
 						$val = $data['www'] ?? $data['cron'];
 					}
 					$result[$category][$param] = $val;
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Get configuration error values.
+	 *
+	 * @param string $type
+	 * @param bool   $returnMore
+	 *
+	 * @return array
+	 */
+	public static function getErrors(string $type, bool $returnMore = false): array
+	{
+		$result = [];
+		foreach (static::get($type, true) as $param => $data) {
+			if (!$data['status']) {
+				if (!isset($data['www']) && !isset($data['cron'])) {
+					if (!empty($data['type']) && $data['type'] === 'ExistsUrl') {
+						$val = !$data['status'];
+					} else {
+						$val = $data['status'];
+					}
+				} else {
+					$val = $data['www'] ?? $data['cron'];
+				}
+				if ($returnMore) {
+					$data['val'] = $val;
+					$result[$param] = $data;
+				} else {
+					$result[$param] = $val;
 				}
 			}
 		}
