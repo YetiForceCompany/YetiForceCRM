@@ -54,7 +54,7 @@ class SecurityConf extends \App\SystemWarnings\Template
 		$errorsText .= \PHP_EOL . \PHP_EOL;
 		if (!$this->status) {
 			$errorsText .= '</pre>';
-			$this->link = 'https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html';
+			$this->link = 'https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements';
 			$this->linkTitle = \App\Language::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translateArgs(
 				'LBL_SECURITY_CONF_DESC',
