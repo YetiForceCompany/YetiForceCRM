@@ -31,6 +31,13 @@ class API_CalDAV_Model
 	const COMPONENTS = 'VEVENT,VTODO';
 
 	/**
+	 * Cache for maximum column size.
+	 *
+	 * @var int[]
+	 */
+	private static $maxColumnSize = [];
+
+	/**
 	 * User.
 	 *
 	 * @var mixed|bool
@@ -375,8 +382,8 @@ class API_CalDAV_Model
 				$dates = $this->getEventDates($component);
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 				$recordModel->set('assigned_user_id', $this->user->get('id'));
-				$recordModel->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$recordModel->set('location', \App\Purifier::purify((string) $component->LOCATION));
+				$recordModel->set('subject', $this->getSafeString('subject', (string) $component->SUMMARY));
+				$recordModel->set('location', $this->getSafeString('location', (string) $component->LOCATION));
 				$recordModel->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$recordModel->set('allday', $dates['allday']);
 				$recordModel->set('date_start', $dates['date_start']);
@@ -446,8 +453,8 @@ class API_CalDAV_Model
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$record->set('location', \App\Purifier::purify((string) $component->LOCATION));
+				$record->set('subject', $this->getSafeString('subject', (string) $component->SUMMARY));
+				$record->set('location', $this->getSafeString('location', (string) $component->LOCATION));
 				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
@@ -469,7 +476,6 @@ class API_CalDAV_Model
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
 							\App\Log::info(__METHOD__ . ' | End exclusion');
-
 							return false;
 						}
 					}
@@ -1113,5 +1119,24 @@ class API_CalDAV_Model
 			$status = $statuses[$value];
 		}
 		return $status;
+	}
+
+	/**
+	 * Get safe string from calDAV.
+	 *
+	 * @param string $columnName
+	 * @param string $val
+	 *
+	 * @return string
+	 */
+	private function getSafeString(string $columnName, string $val): string
+	{
+		if (empty(static::$maxColumnSize[$columnName])) {
+			static::$maxColumnSize[$columnName] = \App\Db::getInstance()
+				->getSchema()
+				->getTableSchema('vtiger_activity', true)
+				->getColumn($columnName)->size;
+		}
+		return substr(\App\Purifier::purify($val), 0, static::$maxColumnSize[$columnName]);
 	}
 }
