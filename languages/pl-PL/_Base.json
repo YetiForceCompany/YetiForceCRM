@@ -1306,8 +1306,12 @@
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Pomy\u015Blnie dokonano modyfikacji. Zmiany widoczne b\u0119d\u0105 po ponownym za\u0142adowaniu widoku.",
     "LBL_MODIFICATION_FAILURE": "Nie dokonano modyfikacji.",
     "LBL_QUICK_CREATE_MODULE": "Szybkie tworzenie",
-    "LBL_YETIFORCE_REGISTRATION_ERROR": "Tw\u00f3j system nie zosta\u0142 prawid\u0142owo zarejestrowany. Sprawd\u017a status rejestracji w \"Konfiguracja systemu > Definiowanie firmy > Dane firmy\", nieprawid\u0142owo zarejestrowany system jest niezgodny z warunkami licencji.",
-    "LBL_YETIFORCE_REGISTRATION": "Rejestracja systemu CRM"
+    "LBL_YETIFORCE_REGISTRATION_ERROR": "Tw\u00f3j system nie zosta\u0142 prawid\u0142owo zarejestrowany. %s, nieprawid\u0142owo zarejestrowany system jest niezgodny z warunkami licencji.",
+    "LBL_YETIFORCE_REGISTRATION_CHECK_STATUS": "Sprawd\u017a status rejestracji",
+    "LBL_YETIFORCE_REGISTRATION": "Rejestracja systemu CRM",
+    "LBL_YETIFORCE_NEWSLETTER": "Newsletter",
+    "LBL_YETIFORCE_NEWSLETTER_FILL_DATA": "uzupe\u0142nij dane",
+    "LBL_YETIFORCE_NEWSLETTER_ERROR": "Nie wprowadzono adresu e-mail do danych firmy. Je\u015bli chcesz otrzymywa\u0107 newsletter %s."
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
