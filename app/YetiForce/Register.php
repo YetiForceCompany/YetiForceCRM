@@ -151,8 +151,8 @@ class Register
 			return false;
 		}
 		$conf = static::getConf();
-		if (isset($conf['last_check_time']) && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) {
-			//return false;
+		if (isset($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time()))) {
+			return false;
 		}
 		$params = [
 			'version' => \App\Version::get(),
@@ -166,7 +166,6 @@ class Register
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
-			echo $body->getContents();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
 				if ($body['text'] === 'OK') {
@@ -191,9 +190,9 @@ class Register
 	 *
 	 * @param bool $timer
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public static function verify($timer = false): array
+	public static function verify($timer = false): bool
 	{
 		$conf = static::getConf();
 		if (!$conf) {
@@ -203,10 +202,10 @@ class Register
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
 			return [true, 9];
 		}
-		if ($timer && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
+		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
-		return [$status, $conf['status']];
+		return $status;
 	}
 
 	/**

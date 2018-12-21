@@ -62,18 +62,18 @@
 				{/if}
 				<div class="float-right p-0">
 					<ul class="pagination">
-						{assign var=REGISTER_VERIFY value=\App\YetiForce\Register::verify(true)}
-						{if !$REGISTER_VERIFY[0]}
+						{if !\App\YetiForce\Register::verify(true)}
 							<li class="page-item u-cursor-pointer">
-								<a class="page-link text-danger"
+								<a class="page-link text-danger js-popover-tooltip" role="button"
+								   data-content="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME)}"
+								   title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
 										{if $USER_MODEL->isAdminUser()}
 											href="index.php?parent=Settings&module=Companies&view=List"
 										{else}
 											href="#"
-										{/if}
-								   role="button">
-								<span class="fas fa-exclamation-triangle fa-2x"
-									  title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"></span>
+										{/if} >
+								<span class="fas fa-exclamation-triangle fa-2x">
+								</span>
 								</a>
 							</li>
 						{/if}
