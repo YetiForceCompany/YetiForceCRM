@@ -24,7 +24,9 @@
     "LBL_OFFLINE_SERIAL_NOT_FOUND": "Nie znaleziono klucza",
     "LBL_OFFLINE_SIGNED": "Klucz zatwierdzony",
     "LBL_SPECIAL_REGISTRATION": "Rejestracja specjalna",
-    "LBL_ACCEPTED": "Zaakceptowano"
+    "LBL_ACCEPTED": "Zaakceptowano",
+    "LBL_EMAIL_NEWSLETTER_INFO": "Wprowadzaj\u0105c adres e-mail wyra\u017casz zgod\u0119 na otrzymywanie newslettera, je\u015bli ten sam adres zosta\u0142 podany przy rejestracji innych instancji zostanie wys\u0142ana tylko jedna wiadomo\u015b\u0107. %s",
+    "LBL_PRIVACY_POLICY": "Polityka prywatno\u015bci"
   },
   "js": {
     "JS_ENTER_REGISTRATION_KEY": "Wprowad\u017a klucz rejestracyjny",
