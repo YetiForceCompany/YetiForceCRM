@@ -289,9 +289,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^4.0:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.4.tgz#a1941b8165e0b1835155d142f873a94b422fbf8d"
-  integrity sha512-m2LAFzQ2IHZbC0FYGP8MO+uVvMGJdTPq07uSzB+v5QF5MOm2h22cAXKxQ4HiOYh3wHwlny9ATuJSp9WPKzq0cg==
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.5.tgz#5b4effbe938926c8f78b7990d651cf3a0d316d15"
+  integrity sha512-kRB0Znzrgzscl8hn1YAuFFQQISaAGBfc7u2Xd1FEiH96s5ZKJMeJgc+nwEfdND6kMwFSlfoAIOz9i8dbPBJl2A==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
