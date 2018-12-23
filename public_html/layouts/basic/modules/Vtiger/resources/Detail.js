@@ -1526,34 +1526,38 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (previousValue == ajaxEditNewValue) {
 						closeDescription();
 					} else {
-						let errorExists = fieldElement.validationEngine('validate');
 						//If validation fails
-						if (errorExists) {
-							Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
-							return;
-						}
 						currentDiv.progressIndicator();
 						editElement.add(activityButtonContainer).addClass('d-none');
-						AppConnector.request({
-							action: 'SaveAjax',
-							record: activityId,
-							field: fieldName,
-							value: ajaxEditNewValue,
-							module: moduleName,
-							activitytype: activityType
-						}).done(() => {
-								currentDiv.progressIndicator({'mode': 'hide'});
-								detailViewElement.removeClass('d-none');
-								currentTarget.show();
-								descriptionText.html(ajaxEditNewLable);
-								fieldnameElement.data('prevValue', ajaxEditNewValue);
-								if (ajaxEditNewValue === '') {
-									descriptionEmpty.removeClass('d-none');
-								} else {
-									descriptionEmpty.addClass('d-none');
-								}
+						return new Promise(function (resolve, reject) {
+							resolve(fieldElement.validationEngine('validate'))
+						}).then((errorExists) => {
+							if (errorExists) {
+								Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
+								return;
+							} else {
+								ajaxEditNewValue = fieldElement.val(); //update editor value after conversion
+								AppConnector.request({
+									action: 'SaveAjax',
+									record: activityId,
+									field: fieldName,
+									value: ajaxEditNewValue,
+									module: moduleName,
+									activitytype: activityType
+								}).done(() => {
+									currentDiv.progressIndicator({'mode': 'hide'});
+									detailViewElement.removeClass('d-none');
+									currentTarget.show();
+									descriptionText.html(ajaxEditNewLable);
+									fieldnameElement.data('prevValue', ajaxEditNewValue);
+									if (ajaxEditNewValue === '') {
+										descriptionEmpty.removeClass('d-none');
+									} else {
+										descriptionEmpty.addClass('d-none');
+									}
+								});
 							}
-						);
+						})
 					}
 				},
 				closeDescription = function () {
