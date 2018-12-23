@@ -177,9 +177,9 @@ Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
 	 */
 	validate: function () {
 		let fieldValue = this.getFieldValue(),
-		groupSeperator = CONFIG.currencyGroupingSeparator,
-		integerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']+)$', 'g'),
-		decimalIntegerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']?).\\d+$', 'g');
+			groupSeperator = CONFIG.currencyGroupingSeparator,
+			integerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']+)$', 'g'),
+			decimalIntegerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']?).\\d+$', 'g');
 		if ((!fieldValue.match(integerRegex))) {
 			if (!fieldValue.match(decimalIntegerRegex)) {
 				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_INTEGER_VALUE");
@@ -1347,6 +1347,19 @@ Vtiger_Base_Validator_Js("Vtiger_Textparser_Validator_Js", {
 		return true;
 	}
 });
+Vtiger_Base_Validator_Js("Vtiger_Text_Validator_Js", {}, {
+	validate: function () {
+		const field = this.getElement();
+		if (field.hasClass('js-editor__emoji')) {
+			App.Fields.Text.Editor.convertEmojis(field).then(() => {
+				return true;
+			});
+		} else {
+			return true;
+		}
+	}
+});
+
 Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 	invokeValidation: function (field, rules, i, options) {
 		var instance = new Vtiger_YetiForceCompanyName_Validator_Js();

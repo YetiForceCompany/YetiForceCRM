@@ -407,6 +407,15 @@ App.Fields = {
 						config.toolbar.push(emojiToolbar);
 					}
 					config.extraPlugins = config.extraPlugins + ',emoji'
+					config.outputTemplate = '{id}';
+					element.addClass('js-editor__emoji');
+					if (App.emojis === undefined) {
+						fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+							.then(response => response.json())
+							.then(response => {
+								App.emojis = response;
+							}).catch(error => console.error('Error:', error));
+					}
 				}
 				if (config.mentionsEnabled) {
 					config.extraPlugins = config.extraPlugins + ',mentions'
@@ -431,11 +440,11 @@ App.Fields = {
 												<span class="fas fa-2x fa-user"></span>
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover username col-12">{category}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{label}</div>
+												<strong class="u-text-ellipsis--no-hover col-12">{name}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{role}</div>
 											</div>
 										</li>`,
-					outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
+					outputTemplate: '<a href="index.php?module={module}&view=PreferenceDetail&record={id}">{name}</a><span>&nbsp;</span>',
 					minChars: minSerchTextLength
 				},
 					{
@@ -446,11 +455,11 @@ App.Fields = {
 												<span class="userIcon-{module}"></span>
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover username col-12">{label}</strong>
+												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
-						outputTemplate: '<a href="{link}">{label}</a><span>&nbsp;</span>',
+						outputTemplate: '<a href="index.php?module={module}&view=Detail&record={id}">{label}</a><span>&nbsp;</span>',
 						minChars: minSerchTextLength
 					}
 				];
@@ -487,7 +496,24 @@ App.Fields = {
 			getMentionUsersData(opts, callback) {
 				this.getMentionData(opts, callback, 'Users');
 			}
+
+			static convertEmojis(editorElement) {
+				return new Promise(function (resolve, reject) {
+					let convertedValue = editorElement.val();
+					App.emojis.forEach((emoji, index, array) => {
+						let emojiSymbol = emoji.symbol;
+						var regex = new RegExp(emojiSymbol, 'g');
+						var replaced = editorElement.val().search(regex) >= 0;
+						if (replaced) {
+							convertedValue = convertedValue.replace(regex, emoji.id);
+						}
+					});
+					editorElement.val(convertedValue);
+					resolve(convertedValue);
+				});
+			}
 		},
+
 		/**
 		 * Destroy ckEditor
 		 * @param {jQuery} element
@@ -497,6 +523,7 @@ App.Fields = {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
 		},
+
 		/**
 		 * Generate random character
 		 * @returns {string}
@@ -506,6 +533,7 @@ App.Fields = {
 			const rand = Math.floor(Math.random() * chars.length);
 			return chars.substring(rand, rand + 1);
 		},
+
 		/**
 		 * generate random hash
 		 * @returns {string}
