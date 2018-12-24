@@ -477,7 +477,6 @@
     "LBL_QUICK_CREATE": "\u0411\u044b\u0441\u0442\u0440\u043e\u0435 \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0435",
     "LBL_READ_LICENSE": "\u041f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044e",
     "LBL_REASON_FOR_CHANGING_COMMENT": "\u041f\u0440\u0438\u0447\u0438\u043d\u0430 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u044f",
-    "LBL_RECENTLY_MODIFIED": "\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f",
     "LBL_RECORD": "\u0417\u0430\u043f\u0438\u0441\u044c",
     "LBL_RECORDS_LIST": "\u0421\u043f\u0438\u0441\u043e\u043a \u0437\u0430\u043f\u0438\u0441\u0435\u0439",
     "LBL_RECORDS_PREVIEW_LIST": "Records preview list",
@@ -654,7 +653,6 @@
     "Salutation": "\u041e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u0435",
     "Secondary Email": "\u0414\u043e\u043f. \u041f\u043e\u0447\u0442\u0430",
     "Self Generated": "\u0421\u0430\u043c\u043e\u043f\u0440\u043e\u0438\u0437\u0432\u043e\u043b\u044c\u043d\u044b\u0439",
-    "Service Contracts": "\u0421\u0435\u0440\u0432\u0438\u0441\u043d\u044b\u0435 \u043a\u043e\u043d\u0442\u0440\u0430\u043a\u0442\u044b",
     "ServiceContracts": "\u0421\u0435\u0440\u0432\u0438\u0441\u043d\u044b\u0435 \u043a\u043e\u043d\u0442\u0440\u0430\u043a\u0442\u044b",
     "Services": "\u0423\u0441\u043b\u0443\u0433\u0438",
     "Shipping Address": "\u0424\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0430\u0434\u0440\u0435\u0441",
@@ -666,7 +664,6 @@
     "Shutdown": "\u0417\u0430\u043a\u0440\u044b\u0442",
     "SINGLE_Accounts": "\u041a\u043e\u043d\u0442\u0440\u0430\u0433\u0435\u043d\u0442",
     "SINGLE_Contacts": "\u041a\u043e\u043d\u0442\u0430\u043a\u0442",
-    "SINGLE_Activities": "\u041a\u0430\u043b\u0435\u043d\u0434\u0430\u0440\u044c",
     "SINGLE_ServiceContracts": "\u0421\u0435\u0440\u0432\u0438\u0441\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u0430\u043a\u0442",
     "SINGLE_Emails": "\u041f\u043e\u0447\u0442\u0430",
     "Single_Users": "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438",
@@ -1309,7 +1306,10 @@
     "LBL_REMOVE_RELATION": "Remove relation",
     "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
-    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed",
+    "LBL_QUICK_CREATE_MODULE": "Quick create",
+    "LBL_YETIFORCE_REGISTRATION_ERROR": "Your system was not properly registered. Please check the registration status in \"Software configuration > Company information > Company details\", an incorrectly registered system is not compliant with the license.",
+    "LBL_YETIFORCE_REGISTRATION": "CRM system registration"
   },
   "js": {
     "JS_APPROVE": "Approve",
