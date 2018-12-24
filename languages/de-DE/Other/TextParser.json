@@ -11,6 +11,7 @@
     "LBL_SITE_URL": "Seite URL",
     "LBL_PORTAL_URL": "Portal URL",
     "LBL_CRM_DETAIL_VIEW_URL": "Datensatz URL Adresse in CRM",
+    "LBL_ORGANIZATION": "Organization",
     "LBL_PORTAL_DETAIL_VIEW_URL": "Datensatz URL Adresse in Portal",
     "LBL_RECORD_ID": "Datensatz ID",
     "LBL_RECORD_LABEL": "Datensatz Label",
