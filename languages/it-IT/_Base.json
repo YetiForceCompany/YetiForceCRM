@@ -466,7 +466,6 @@
     "LBL_QUICK_CREATE": "Quick create",
     "LBL_READ_LICENSE": "Read license",
     "LBL_REASON_FOR_CHANGING_COMMENT": "Reason for changing comment",
-    "LBL_RECENTLY_MODIFIED": "Recently modified",
     "LBL_RECORD": "Record",
     "LBL_RECORDS_LIST": "Records list",
     "LBL_RECORD_DELETE": "The record you are trying to view has been deleted.",
@@ -642,7 +641,6 @@
     "Salutation": "Salutation",
     "Secondary Email": "Secondary email",
     "Self Generated": "Self generated",
-    "Service Contracts": "Service Contracts",
     "ServiceContracts": "Service Contract",
     "Services": "Services",
     "Shipping Address": "Shipping address",
@@ -654,7 +652,6 @@
     "Shutdown": "Shutdown",
     "SINGLE_Accounts": "Azienda",
     "SINGLE_Contacts": "Contatto",
-    "SINGLE_Activities": "Calendario",
     "SINGLE_ServiceContracts": "Service Contract",
     "SINGLE_Emails": "Email",
     "Single_Users": "Utente",
@@ -1282,7 +1279,10 @@
     "LBL_REMOVE_RELATION": "Remove relation",
     "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
-    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed",
+    "LBL_QUICK_CREATE_MODULE": "Quick create",
+    "LBL_YETIFORCE_REGISTRATION_ERROR": "Your system was not properly registered. Please check the registration status in \"Software configuration > Company information > Company details\", an incorrectly registered system is not compliant with the license.",
+    "LBL_YETIFORCE_REGISTRATION": "CRM system registration"
   },
   "js": {
     "JS_APPROVE": "Approve",
