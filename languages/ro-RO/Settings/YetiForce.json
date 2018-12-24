@@ -3,7 +3,6 @@
     "YetiForce": "YetiForce",
     "LBL_YETIFORCE_STATUS_HEADER": "YetiForce Status",
     "LBL_YETIFORCE_STATUS_DESC": "Configuration page of YetiForce status service",
-    "LBL_YF_STATUS_URL": "Service URL",
     "LBL_PARAM_NAME": "Parameter",
     "LBL_PARAM_VAL": "Value",
     "LBL_PARAM_NOT_ALLOWED": "Parameter not allowed",
@@ -27,6 +26,17 @@
     "LBL_PERFORMANCE": "Performance verification",
     "LBL_PUBLICDIRECTORYACCESS": "Public directory",
     "LBL_ENVIRONMENT": "Environment information",
-    "LBL_WRITABLEFILESANDFOLDERS": "Writable files and folders"
+    "LBL_WRITABLEFILESANDFOLDERS": "Writable files and folders",
+    "LBL_REGISTRATION_ONLINE_MODAL": "OnLine registration",
+    "LBL_REGISTRATION_OFFLINE_MODAL": "OffLine registration",
+    "LBL_REGISTER": "Register",
+    "LBL_REGISTERED": "Registration successful",
+    "LBL_REGISTRATION_KEY": "Registration key",
+    "LBL_END_USERS": "End users",
+    "LBL_INTEGRATORS": "Integrators",
+    "LBL_SUPPLIERS": "Suppliers",
+    "LBL_INVALID_OFFLINE_KEY": "Entered incorrect key",
+    "LBL_ONLINE_REGISTRATION_FAILED": "Error during registration.",
+    "LBL_ACTIVATE": "Activate"
   }
 }
