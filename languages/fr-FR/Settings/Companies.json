@@ -1,35 +1,33 @@
 {
   "php": {
-    "LBL_FAX": "Fax",
     "LBL_COMPANIES": "Coordonn\u00e9es de l'entreprise",
     "Companies": "Coordonn\u00e9es de l'entreprise",
     "LBL_COMPANIES_DESCRIPTION": "G\u00e9rer les d\u00e9tails de l'entreprise",
     "LBL_ID": "N\u00b0",
     "LBL_NAME": "Nom complet de l'entreprise",
-    "LBL_SHORT_NAME": "Nom abr\u00e9g\u00e9 de la soci\u00e9t\u00e9",
-    "LBL_PHONE": "T\u00e9l\u00e9phone",
-    "LBL_VATID": "N\u00b0 de TVA",
-    "LBL_EMAIL": "Email",
+    "LBL_EMAIL": "E-mail",
     "LBL_CITY": "Ville",
-    "LBL_STREET": "Rue",
-    "LBL_CODE": "Code postal",
-    "LBL_STATE": "Etat",
     "LBL_COUNTRY": "Pays",
     "LBL_TYPE": "Type",
     "LBL_TYPE_TARGET_USER": "End user",
     "LBL_TYPE_INTEGRATOR": "Integrator",
     "LBL_TYPE_PROVIDER": "Provider",
     "LBL_WEBSITE": "Site Internet",
-    "LBL_ID1": "N\u00b0 de SRIEN",
-    "LBL_ID2": "N\u00b0 de SIRET",
     "LBL_INDUSTRY": "Industrie",
-    "LBL_LOGO_MAIN": "Logo de l'entreprise (visible apr\u00e8s s'\u00eatre connect\u00e9)",
-    "LBL_LOGO_IMG_MAIL": "Logo de l'entreprise (email)",
-    "LBL_LOGO_IMG_LOGIN": "Logo de l'entreprise (page de connexion)",
-    "LBL_LOGO_PATH_LOGIN": "Chemin vers le logo de l'entreprise (page de connexion)",
-    "LBL_LOGO_PATH_MAIN": "Chemin vers le logo de l'entreprise (visible apr\u00e8s l'ouverture de session)",
-    "LBL_LOGO_PATH_MAIL": "Chemin vers le logo de l'entreprise (email)",
-    "LBL_COMPANY_NAMES_EXIST": "Le nom de l'entreprise existe d\u00e9j\u00e0"
+    "LBL_COMPANY_NAMES_EXIST": "The company name already exists",
+    "LBL_REGISTER_CRM_ONLINE": "Registration - OnLine",
+    "LBL_REGISTER_CRM_SERIAL": "Registration - Key",
+    "LBL_NOT_REGISTERED": "Not registered",
+    "LBL_WAITING_FOR_ACCEPTANCE": "Pending approval",
+    "LBL_INCORRECT_DATA": "Incorrect data",
+    "LBL_INCOMPLETE_DATA": "Incomplete data",
+    "LBL_OFFLINE_SERIAL_NOT_FOUND": "Key not found",
+    "LBL_OFFLINE_SIGNED": "Key approved",
+    "LBL_SPECIAL_REGISTRATION": "Special registration",
+    "LBL_ACCEPTED": "Accepted"
   },
-  "js": {}
+  "js": {
+    "JS_ENTER_REGISTRATION_KEY": "Enter registration key",
+    "JS_ENTER_ALL_REGISTRATION_DATA": "Enter all required data"
+  }
 }
