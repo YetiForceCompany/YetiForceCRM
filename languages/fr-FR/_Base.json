@@ -633,7 +633,6 @@
     "LBL_QUICK_CREATE": "Cr\u00e9ation rapide",
     "LBL_READ_LICENSE": "Lire licence",
     "LBL_REASON_FOR_CHANGING_COMMENT": "Justification changement commentaire",
-    "LBL_RECENTLY_MODIFIED": "Modifi\u00e9 r\u00e9cemment",
     "LBL_RECORD": "Enregistrement",
     "LBL_RECORDS_LIST": "Liste des enregistrements",
     "LBL_RECORD_DELETE": "L'enregistrement que vous essay\u00e9 de visualiser a \u00e9t\u00e9 effac\u00e9.",
@@ -798,7 +797,6 @@
     "Sales Start Date": "Date de d\u00e9but de ventes",
     "Secondary Email": "Email secondaire",
     "Self Generated": "Auto-g\u00e9n\u00e9r\u00e9",
-    "Service Contracts": "Contrats de service",
     "ServiceContracts": "Contract de service",
     "Shipping Address": "Adresse de livraison",
     "Shipping City": "Ville de livraison",
@@ -1329,7 +1327,10 @@
     "LBL_REMOVE_RELATION": "Remove relation",
     "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
-    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed",
+    "LBL_QUICK_CREATE_MODULE": "Quick create",
+    "LBL_YETIFORCE_REGISTRATION_ERROR": "Your system was not properly registered. Please check the registration status in \"Software configuration > Company information > Company details\", an incorrectly registered system is not compliant with the license.",
+    "LBL_YETIFORCE_REGISTRATION": "CRM system registration"
   },
   "js": {
     "JS_APPROVE": "Approve",
