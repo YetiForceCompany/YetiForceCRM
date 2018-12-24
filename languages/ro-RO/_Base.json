@@ -457,7 +457,6 @@
     "LBL_QUICK_CREATE": "Creare rapida",
     "LBL_READ_LICENSE": "Citeste licenta",
     "LBL_REASON_FOR_CHANGING_COMMENT": "Motivul schimbarii comentariului",
-    "LBL_RECENTLY_MODIFIED": "Recent modificat",
     "LBL_RECORD": "Inregistrare",
     "LBL_RECORDS_LIST": "Lista inregistrari",
     "LBL_RECORDS_PREVIEW_LIST": "Lista previzualizare inregistrari",
@@ -634,7 +633,6 @@
     "Salutation": "Formula de adresare",
     "Secondary Email": "Email secundar",
     "Self Generated": "Auto-generat",
-    "Service Contracts": "Contracte de servicii",
     "ServiceContracts": "Contract de servicii",
     "Services": "Servicii",
     "Shipping Address": "Adresa de livrare",
@@ -646,7 +644,6 @@
     "Shutdown": "Inchide",
     "SINGLE_Accounts": "Cont",
     "SINGLE_Contacts": "Contact",
-    "SINGLE_Activities": "Calendar",
     "SINGLE_ServiceContracts": "Contract de servicii",
     "SINGLE_Emails": "Email",
     "Single_Users": "Utilizator",
@@ -1298,7 +1295,10 @@
     "LBL_REMOVE_RELATION": "Remove relation",
     "LBL_REMOVE_RELATION_CONFIRMATION": "Are you sure you want to remove this relation? Only the relation will be removed.",
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
-    "LBL_MODIFICATION_FAILURE": "No modification has been performed"
+    "LBL_MODIFICATION_FAILURE": "No modification has been performed",
+    "LBL_QUICK_CREATE_MODULE": "Quick create",
+    "LBL_YETIFORCE_REGISTRATION_ERROR": "Your system was not properly registered. Please check the registration status in \"Software configuration > Company information > Company details\", an incorrectly registered system is not compliant with the license.",
+    "LBL_YETIFORCE_REGISTRATION": "CRM system registration"
   },
   "js": {
     "JS_APPROVE": "Approve",
