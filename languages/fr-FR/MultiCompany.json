@@ -23,7 +23,9 @@
     "FL_COMPANY_ID2": "NAF",
     "FL_INTERNAL_NOTES": "Notes interne",
     "FL_PUBLIC_NOTES": "Notes Public",
-    "LBL_SHOW_HIERARCHY": "Hi\u00e9rarchie"
+    "LBL_SHOW_HIERARCHY": "Hi\u00e9rarchie",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
   },
   "js": {}
 }
