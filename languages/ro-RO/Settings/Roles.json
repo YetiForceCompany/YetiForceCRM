@@ -44,7 +44,11 @@
     "LBL_BLOCK_COPY": "Blocati copierea",
     "LBL_BLOCK_CUT": "Blocati taierea",
     "LBL_BLOCK_PASTE": "Blocati lipirea",
-    "LBL_AUTO_ASSIGN_RECORDS": "Auto acordare inregistrari"
+    "LBL_AUTO_ASSIGN_RECORDS": "Auto acordare inregistrari",
+    "LBL_UPLOAD_LOGO": "Upload logo",
+    "LBL_UPLOAD_ERROR": "Error during upload",
+    "LBL_UPLOAD_SUCCESS": "Uploaded successfully",
+    "LBL_MULTI_COMPANY": "Organizational structure"
   },
   "js": {
     "JS_NO_PERMISSIONS_TO_MOVE": "Nu exista permisiuni pentru a muta",
