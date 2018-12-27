@@ -43,7 +43,11 @@
     "LBL_BLOCK_COPY": "Block kopieren",
     "LBL_BLOCK_CUT": "Block ausschneiden",
     "LBL_BLOCK_PASTE": "Block einf\u00fcgen",
-    "LBL_AUTO_ASSIGN_RECORDS": "Automatische Zuordnung"
+    "LBL_AUTO_ASSIGN_RECORDS": "Automatische Zuordnung",
+    "LBL_UPLOAD_LOGO": "Upload logo",
+    "LBL_UPLOAD_ERROR": "Error during upload",
+    "LBL_UPLOAD_SUCCESS": "Uploaded successfully",
+    "LBL_MULTI_COMPANY": "Organizational structure"
   },
   "js": {
     "JS_NO_PERMISSIONS_TO_MOVE": "keine Berechtigungen zum verschieben",
