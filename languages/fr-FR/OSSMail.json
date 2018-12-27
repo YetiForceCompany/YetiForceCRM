@@ -73,7 +73,8 @@
     "LBL_ADD_MODCOMMENTS": "Ajouter un commentaire",
     "LBL_ADD_HELPDESK": "Ajouter un ticket",
     "LBL_ADD_PRODUCTS": "Ajouter un produit",
-    "LBL_ADD_SERVICES": "Ajouter un service"
+    "LBL_ADD_SERVICES": "Ajouter un service",
+    "LBL_ADD_RELATION": "Add relation"
   },
   "js": {
     "NoFindEmailInRecord": "L'enregistrement ne contient pas d'adresse email",
