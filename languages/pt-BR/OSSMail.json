@@ -72,7 +72,8 @@
     "LBL_SEND_MASS_EMAIL": "Enviar e-mail em massa",
     "LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES": "Numero de e-mails encontrados",
     "LBL_NUMBER_OF_SELECTED_RECORDS": "Numero de registros selecionados",
-    "LBL_MINIMIZE_BAR": "Minimizar barra"
+    "LBL_MINIMIZE_BAR": "Minimizar barra",
+    "LBL_ADD_RELATION": "Add relation"
   },
   "js": {
     "NoFindEmailInRecord": "O registro n\u00e3o possui endere\u00e7o de e-mail",
