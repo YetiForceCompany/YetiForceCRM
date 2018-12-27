@@ -23,6 +23,8 @@
     "FL_PUBLIC_NOTES": "\u00d6ffentliche Notizen",
     "PLL_ACTIVE": "Aktiv",
     "PLL_INACTIVE": "Inaktiv",
-    "LBL_SHOW_HIERARCHY": "Hierarchie"
+    "LBL_SHOW_HIERARCHY": "Hierarchie",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
   }
 }
