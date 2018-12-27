@@ -73,7 +73,8 @@
     "LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES": "N\u00famero de direcciones de correos encontrados",
     "LBL_NUMBER_OF_SELECTED_RECORDS": "N\u00famero de registros seleccionados",
     "LBL_MINIMIZE_BAR": "Minimizar barra",
-    "LBL_CREATEMAIL": "Enviar correo"
+    "LBL_CREATEMAIL": "Enviar correo",
+    "LBL_ADD_RELATION": "Add relation"
   },
   "js": {
     "NoFindEmailInRecord": "El registro no tiene direcci\u00f3n de correo",
