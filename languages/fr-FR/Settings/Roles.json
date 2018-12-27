@@ -44,7 +44,11 @@
     "LBL_SHOW_GLOBAL_SEARCH_ADVANCED": "Activer la recherche avanc\u00e9e",
     "LBL_BLOCK_COPY": "Copier les blocs",
     "LBL_BLOCK_CUT": "Couper les blocs",
-    "LBL_BLOCK_PASTE": "Coller les blocs"
+    "LBL_BLOCK_PASTE": "Coller les blocs",
+    "LBL_UPLOAD_LOGO": "Upload logo",
+    "LBL_UPLOAD_ERROR": "Error during upload",
+    "LBL_UPLOAD_SUCCESS": "Uploaded successfully",
+    "LBL_MULTI_COMPANY": "Organizational structure"
   },
   "js": {
     "JS_NO_PERMISSIONS_TO_MOVE": "Aucun droit de d\u00e9placer",
