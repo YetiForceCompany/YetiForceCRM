@@ -73,7 +73,8 @@
     "LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES": "Bulunan e-posta adreslerinin say\u0131s\u0131",
     "LBL_NUMBER_OF_SELECTED_RECORDS": "Se\u00e7ilen kay\u0131tlar\u0131n say\u0131s\u0131",
     "LBL_MINIMIZE_BAR": "\u00c7ubu\u011fu K\u00fc\u00e7\u00fclt",
-    "LBL_CREATEMAIL": "Eposta g\u00f6nder"
+    "LBL_CREATEMAIL": "Eposta g\u00f6nder",
+    "LBL_ADD_RELATION": "Add relation"
   },
   "js": {
     "NoFindEmailInRecord": "Kayd\u0131n e-posta adresi yok",
