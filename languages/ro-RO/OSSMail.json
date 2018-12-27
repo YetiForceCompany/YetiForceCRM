@@ -73,7 +73,8 @@
     "LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES": "Numarul adreselor de email gasite",
     "LBL_NUMBER_OF_SELECTED_RECORDS": "Numarul inregistrarilor selectate",
     "LBL_MINIMIZE_BAR": "Minimizati bara",
-    "LBL_CREATEMAIL": "Trimite Mail"
+    "LBL_CREATEMAIL": "Trimite Mail",
+    "LBL_ADD_RELATION": "Add relation"
   },
   "js": {
     "NoFindEmailInRecord": "Inregistrarea nu are o adresa de email",
