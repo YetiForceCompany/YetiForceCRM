@@ -23,6 +23,8 @@
     "FL_PUBLIC_NOTES": "Genel notlar",
     "PLL_ACTIVE": "Aktif",
     "PLL_INACTIVE": "Etkin",
-    "LBL_SHOW_HIERARCHY": "Hiyerar\u015fi"
+    "LBL_SHOW_HIERARCHY": "Hiyerar\u015fi",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
   }
 }
