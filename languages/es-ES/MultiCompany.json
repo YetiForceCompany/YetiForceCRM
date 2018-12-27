@@ -22,6 +22,8 @@
     "FL_PUBLIC_NOTES": "Notas p\u00fablicas",
     "PLL_ACTIVE": "Activo",
     "PLL_INACTIVE": "Inactivo",
-    "LBL_SHOW_HIERARCHY": "Jerarqu\u00eda"
+    "LBL_SHOW_HIERARCHY": "Jerarqu\u00eda",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
   }
 }
