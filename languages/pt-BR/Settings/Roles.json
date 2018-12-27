@@ -44,7 +44,11 @@
     "LBL_BLOCK_COPY": "Copiando bloco",
     "LBL_BLOCK_CUT": "Cortando bloco",
     "LBL_BLOCK_PASTE": "Copiando bloco",
-    "LBL_AUTO_ASSIGN_RECORDS": "Atribuir Registros automaticamente"
+    "LBL_AUTO_ASSIGN_RECORDS": "Atribuir Registros automaticamente",
+    "LBL_UPLOAD_LOGO": "Upload logo",
+    "LBL_UPLOAD_ERROR": "Error during upload",
+    "LBL_UPLOAD_SUCCESS": "Uploaded successfully",
+    "LBL_MULTI_COMPANY": "Organizational structure"
   },
   "js": {
     "JS_NO_PERMISSIONS_TO_MOVE": "N\u00e3o tem Permiss\u00e3o para Mover",
