@@ -275,7 +275,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		\App\Fields\RecordNumber::setNumber($module->id, 'N', 1);
+		\App\Fields\RecordNumber::getInstance($module->name)->set('prefix', 'N')->set('cur_id', 1)->save();
 	}
 
 	public static function toAlphaNumeric($value)
