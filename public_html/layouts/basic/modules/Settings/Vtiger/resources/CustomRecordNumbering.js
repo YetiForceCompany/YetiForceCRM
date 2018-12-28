@@ -37,8 +37,13 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 					editViewForm.find('[name="leading_zeros"]').val(data.result.leading_zeros).trigger('change');
 					editViewForm.find('[name="reset_sequence"]').val(data.result.reset_sequence).trigger('change');
 					editViewForm.find('[name="postfix"]').val(data.result.postfix);
-					editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
-					editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.sequenceNumber);
+					editViewForm.find('[name="sequenceNumber"]').val(data.result.cur_id);
+					editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.cur_id);
+					let options = '';
+					for (var index in data.result.picklists) {
+						options += '<option value="picklist:' + index + '">' + data.result.picklists[index] + '</option>';
+					}
+					editViewForm.find('#picklistVariables').html(options)
 				}
 			});
 		});
@@ -118,7 +123,7 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 	 * Function to register change event for prefix,postfix,reset_sequence and sequence number
 	 */
 	registerChangeEvent() {
-		this.getForm().find('[name="prefix"],[name="leading_zeros"],[name="sequenceNumber"],[name="postfix"],[name="reset_sequence"]').on('change', this.checkResetSequence.bind(this))
+		this.getForm().find('[name="prefix"],[name="leading_zeros"],[name="sequenceNumber"],[name="postfix"],[name="reset_sequence"]').on('change', this.checkPrefix.bind(this))
 	},
 
 	registerCopyClipboard: function (editViewForm) {
@@ -131,13 +136,22 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 				return '{{' + editViewForm.find('#customVariables').val() + '}}';
 			}
 		});
+		new ClipboardJS('#picklistVariableCopy', {
+			text: function (trigger) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				return '{{' + editViewForm.find('#picklistVariables').val() + '}}';
+			}
+		});
 	},
 
 	/**
 	 * Check if reset sequence appears in prefix or postfix to prevent duplicate number generation
 	 * @returns {boolean}
 	 */
-	checkResetSequence() {
+	checkPrefix() {
 		let sequenceExists = false;
 		const editViewForm = this.getForm();
 		const value = editViewForm.find('[name="reset_sequence"]').val();
@@ -186,6 +200,21 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 				saveBtn.removeAttr('disabled');
 				sequenceExists = true;
 				break;
+		}
+		if (sequenceExists) {
+			let regex = new RegExp("{{picklist:([a-z0-9_]+)}}", 'g');
+			let regexResult = (postfix + prefix).match(regex);
+			if (regexResult && regexResult.length > 1) {
+				Vtiger_Helper_Js.showMessage({
+					type: 'error',
+					text: app.vtranslate('JS_PICKLIST_TOO_MANY')
+				});
+				sequenceExists = false;
+				saveBtn.attr('disabled', 'disabled');
+			} else {
+				saveBtn.removeAttr('disabled');
+				sequenceExists = true;
+			}
 		}
 		return sequenceExists;
 	},

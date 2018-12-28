@@ -129,7 +129,7 @@ class Project extends CRMEntity
 				}
 			}
 
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PROJ')->set('cur_id', 1)->save();
 		} elseif ($eventType === 'module.postupdate') {
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -140,7 +140,7 @@ class Project extends CRMEntity
 				}
 			}
 
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PROJ')->set('cur_id', 1)->save();
 		}
 	}
 
