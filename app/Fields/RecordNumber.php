@@ -105,7 +105,7 @@ class RecordNumber extends \App\Base
 	 *
 	 * @return string
 	 */
-	private function parseNumber(int $seq): string
+	public function parseNumber(int $seq): string
 	{
 		return preg_replace_callback('/{{picklist:([a-z0-9_]+)}}/i', function ($matches) {
 			return $this->getRecord() ? $this->getPicklistValue($matches[1]) : $matches[1];
@@ -123,8 +123,10 @@ class RecordNumber extends \App\Base
 	private function setNumberSequence(int $reqNo, string $actualSequence)
 	{
 		$data = ['cur_sequence' => $actualSequence];
+		$this->set('cur_sequence', $actualSequence);
 		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
 			$data['cur_id'] = $reqNo;
+			$this->set('cur_id', $reqNo);
 		} else {
 			if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->exists()) {
 				\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->execute();
