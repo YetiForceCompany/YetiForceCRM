@@ -10,97 +10,243 @@ namespace App\Fields;
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RecordNumber
+class RecordNumber extends \App\Base
 {
 	/**
-	 * Function that checks if a module has serial number configuration.
+	 * Function to get instance.
 	 *
-	 * @param int $tabId
+	 * @param string $moduleName
 	 *
-	 * @return bool
+	 * @return \App\Fields\RecordNumber
 	 */
-	public static function isModuleSequenceConfigured($tabId)
+	public static function getInstance(string $moduleName): self
 	{
-		if (!is_numeric($tabId)) {
-			$tabId = \App\Module::getModuleId($tabId);
-		}
-		$exist = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->exists();
-		if ($exist) {
-			return true;
-		}
-		return false;
+		$instance = new static();
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => \App\Module::getModuleId($moduleName)])->one();
+		$row['moduleName'] = $moduleName;
+		$instance->setData($row);
+		return $instance;
 	}
 
 	/**
-	 * Function to set number sequence of recoords for module.
+	 * Sets model of record.
 	 *
-	 * @param mixed       $tabId
-	 * @param string      $prefix
-	 * @param int         $no
-	 * @param string      $postfix
-	 * @param int         $leadingZeros
-	 * @param null|string $resetSequence 'Y'-Year, 'M'-Month, 'D'-Day
-	 * @param string      $curSequence   '201804' for example for M reset sequence
-	 *
-	 * @return bool
+	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $leadingZeros = 0, $resetSequence = null, $curSequence = '')
+	public function setRecord(\Vtiger_Record_Model $recordModel)
 	{
-		if ($no != '') {
-			$db = \App\Db::getInstance();
-			if (!is_numeric($tabId)) {
-				$tabId = \App\Module::getModuleId($tabId);
-			}
-			$current = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
-			if (!$current['cur_id']) {
-				return $db->createCommand()->insert('vtiger_modentity_num', [
-					'tabid' => $tabId,
-					'prefix' => $prefix,
-					'leading_zeros' => $leadingZeros,
-					'postfix' => $postfix,
-					'start_id' => $no,
-					'cur_id' => $no,
-					'reset_sequence' => $resetSequence,
-					'cur_sequence' => $curSequence
-				])->execute();
-			} else {
-				return $db->createCommand()
-					->update('vtiger_modentity_num', [
-						'cur_id' => $no,
-						'prefix' => $prefix,
-						'leading_zeros' => $leadingZeros,
-						'postfix' => $postfix,
-						'reset_sequence' => $resetSequence,
-						'cur_sequence' => $curSequence],
-						['tabid' => $tabId])
-						->execute();
-			}
-		}
+		$this->set('recordModel', $recordModel);
 	}
 
 	/**
-	 * Function that gets the next sequence number of a record.
+	 * Returns model of record.
 	 *
-	 * @param int $moduleId Number id for module
+	 * @return mixed
+	 */
+	public function getRecord()
+	{
+		return $this->get('recordModel');
+	}
+
+	/**
+	 * Function to get the next nuber of record.
 	 *
 	 * @return string
 	 */
-	public static function incrementNumber($moduleId)
+	public function getIncrementNumber(): string
 	{
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
-		$actualSequence = static::getSequenceNumber($row['reset_sequence']);
-		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
-			$row['cur_id'] = 1;
+		$actualSequence = static::getSequenceNumber($this->get('reset_sequence'));
+		if ($this->get('reset_sequence') && $this->get('cur_sequence') !== $actualSequence) {
+			$currentSequenceNumber = 1;
+		} else {
+			$currentSequenceNumber = $this->getCurrentSequenceNumber();
 		}
-		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']);
-		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
+
+		$fullPrefix = $this->parseNumber($currentSequenceNumber);
+		$strip = strlen($currentSequenceNumber) - strlen($currentSequenceNumber + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
 		$temp = str_repeat('0', $strip);
-		$reqNo = $temp . ($row['cur_id'] + 1);
-		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo, 'cur_sequence' => $actualSequence], ['tabid' => $moduleId])->execute();
+		$reqNo = $temp . ($currentSequenceNumber + 1);
+
+		$this->setNumberSequence($reqNo, $actualSequence);
 		return \App\Purifier::decodeHtml($fullPrefix);
+	}
+
+	/**
+	 * Function to get current sequence number.
+	 *
+	 * @return int
+	 */
+	private function getCurrentSequenceNumber(): int
+	{
+		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
+			return $this->get('cur_id');
+		}
+		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName)])->scalar() ?: 0;
+	}
+
+	/**
+	 * Returns name of picklist. Postfix or prefix can contains name of picklist.
+	 *
+	 * @return string
+	 */
+	private function getPicklistName(): string
+	{
+		preg_match('/{{picklist:([a-z0-9_]+)}}/i', $this->get('prefix') . $this->get('postfix'), $matches);
+		return $matches[1];
+	}
+
+	/**
+	 * Parse nummber based on postfix and prefix.
+	 *
+	 * @param int $seq
+	 *
+	 * @return string
+	 */
+	private function parseNumber(int $seq): string
+	{
+		return preg_replace_callback('/{{picklist:([a-z0-9_]+)}}/i', function ($matches) {
+			return $this->getRecord() ? $this->getPicklistValue($matches[1]) : $matches[1];
+		}, str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $this->get('prefix') . str_pad((string) $seq, $this->get('leading_zeros'), '0', STR_PAD_LEFT) . $this->get('postfix')));
+	}
+
+	/**
+	 * Sets number of sequence.
+	 *
+	 * @param int    $reqNo
+	 * @param string $actualSequence
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private function setNumberSequence(int $reqNo, string $actualSequence)
+	{
+		$data = ['cur_sequence' => $actualSequence];
+		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
+			$data['cur_id'] = $reqNo;
+		} else {
+			if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->exists()) {
+				\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->execute();
+			} else {
+				\App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $reqNo, 'tabid' => $this->get('tabid'), 'value' => $this->getPicklistValue($piclistName)])->execute();
+			}
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', $data, ['tabid' => $this->get('tabid')])->execute();
+	}
+
+	/**
+	 * Function to check if record need a new number of sequence.
+	 *
+	 * @return bool
+	 */
+	public function isNewSequence(): bool
+	{
+		return $this->getRecord()->isNew() ||
+			($this->getRecord()->getPreviousValue($this->getPicklistName()) !== false && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
+	}
+
+	/**
+	 * Returns prefix of picklist.
+	 *
+	 * @param string      $piclistName
+	 * @param string|null $recordValue
+	 *
+	 * @return string
+	 */
+	private function getPicklistValue(string $piclistName, ?string $recordValue = null): string
+	{
+		$values = Picklist::getValues($piclistName);
+		if (!isset($recordValue)) {
+			$recordValue = $this->getRecord()->get($piclistName);
+		}
+		foreach ($values as $value) {
+			if ($recordValue == $value[$piclistName]) {
+				return $value['prefix'] ?: '';
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Updates missing numbers of records.
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return array
+	 */
+	public function updateRecords()
+	{
+		if ($this->isEmpty('id')) {
+			return [];
+		}
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->get('tabid'));
+		$fieldModel = current($moduleModel->getFieldsByUiType(4));
+		$returninfo = [];
+		if ($fieldModel) {
+			$fieldTable = $fieldModel->getTableName();
+			$fieldColumn = $fieldModel->getColumnName();
+			if ($fieldTable === $moduleModel->getEntityInstance()->table_name) {
+				$picklistName = $this->getPicklistName();
+				$queryGenerator = new \App\QueryGenerator($this->get('moduleName'));
+				$queryGenerator->setFields([$picklistName, $fieldModel->getFieldName(), 'id']);
+				$queryGenerator->permissions = false;
+				$queryGenerator->addNativeCondition(['or', [$fieldColumn => ''], [$fieldColumn => null]]);
+				$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+				$totalCount = $dataReader->count();
+				if ($totalCount) {
+					$returninfo['totalrecords'] = $totalCount;
+					$returninfo['updatedrecords'] = 0;
+					$sequenceNumber = $this->get('cur_id');
+					$oldNumber = $sequenceNumber;
+					$oldSequences = $sequences = (new \App\Db\Query())->select(['value', 'cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid')])->createCommand()->queryAllByGroup();
+					$dbCommand = \App\Db::getInstance()->createCommand();
+					while ($recordinfo = $dataReader->read()) {
+						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
+						$picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName]);
+						$seq = 0;
+						if ($picklistValue && isset($sequences[$picklistValue])) {
+							$seq = $sequences[$picklistValue]++;
+						} elseif ($picklistValue) {
+							$sequences[$picklistValue] = 1;
+							$seq = $sequences[$picklistValue]++;
+						} else {
+							$seq = $sequenceNumber++;
+						}
+						$dbCommand->update($fieldTable, [$fieldColumn => $this->parseNumber($seq)], [$moduleModel->getEntityInstance()->table_index => $recordinfo['id']])
+							->execute();
+						$returninfo['updatedrecords']++;
+					}
+					$dataReader->close();
+					if ($oldNumber != $sequenceNumber) {
+						$dbCommand->update('vtiger_modentity_num', ['cur_id' => $sequenceNumber], ['tabid' => $this->get('tabid')])->execute();
+					}
+					foreach (array_diff($sequences, $oldSequences) as $prefix => $num) {
+						$dbCommand->update('u_#__modentity_sequences', ['cur_id' => $num], ['value' => $prefix, 'tabid' => $this->get('tabid')])
+							->execute();
+					}
+				}
+			} else {
+				\App\Log::error('Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.');
+			}
+		}
+		return $returninfo;
+	}
+
+	/**
+	 * Date function that can be overrided in tests.
+	 *
+	 * @param string   $format
+	 * @param null|int $time
+	 *
+	 * @return false|string
+	 */
+	public static function date($format, $time = null)
+	{
+		if ($time === null) {
+			$time = time();
+		}
+		return date($format, $time);
 	}
 
 	/**
@@ -123,74 +269,36 @@ class RecordNumber
 	}
 
 	/**
-	 * Date function that can be overrided in tests.
+	 * Saves configuration.
 	 *
-	 * @param string   $format
-	 * @param null|int $time
+	 * @throws \yii\db\Exception
 	 *
-	 * @return false|string
+	 * @return int
 	 */
-	public static function date($format, $time = null)
+	public function save()
 	{
-		if ($time === null) {
-			$time = time();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($this->isEmpty('id')) {
+			return $dbCommand->insert('vtiger_modentity_num', [
+				'tabid' => $this->get('tabid'),
+				'prefix' => $this->get('prefix'),
+				'leading_zeros' => $this->get('leading_zeros'),
+				'postfix' => $this->get('postfix'),
+				'start_id' => $this->get('cur_id'),
+				'cur_id' => $this->get('cur_id'),
+				'reset_sequence' => $this->get('reset_sequence'),
+				'cur_sequence' => $this->get('cur_sequence')
+			])->execute();
+		} else {
+			return $dbCommand->update('vtiger_modentity_num', [
+				'cur_id' => $this->get('cur_id'),
+				'prefix' => $this->get('prefix'),
+				'leading_zeros' => $this->get('leading_zeros'),
+				'postfix' => $this->get('postfix'),
+				'reset_sequence' => $this->get('reset_sequence'),
+				'cur_sequence' => $this->get('cur_sequence')],
+				['tabid' => $this->get('tabid')])
+				->execute();
 		}
-		return date($format, $time);
-	}
-
-	/**
-	 * Converts record numbering variables to values.
-	 *
-	 * @see Important: When you add new parameter in this function you also must add it in Email::findRecordNumber()
-	 *
-	 * @param string $prefix
-	 * @param string $number
-	 * @param string $postfix
-	 * @param int    $leadingZeros
-	 *
-	 * @return string
-	 */
-	public static function parse($prefix, $number, $postfix, $leadingZeros)
-	{
-		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
-		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
-	}
-
-	/**
-	 * Function updates module number.
-	 *
-	 * @param int    $curId
-	 * @param string $curSequence
-	 * @param int    $tabId
-	 */
-	public static function updateNumber($curId, $curSequence, $tabId)
-	{
-		return \App\Db::getInstance()->createCommand()
-			->update('vtiger_modentity_num', ['cur_id' => $curId, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
-			->execute();
-	}
-
-	/**
-	 * Function returns information about module numbering.
-	 *
-	 * @param int $tabId
-	 *
-	 * @return array
-	 */
-	public static function getNumber($tabId)
-	{
-		if (is_string($tabId)) {
-			$tabId = \App\Module::getModuleId($tabId);
-		}
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
-		return [
-			'prefix' => $row['prefix'],
-			'leading_zeros' => $row['leading_zeros'],
-			'sequenceNumber' => $row['cur_id'],
-			'postfix' => $row['postfix'],
-			'reset_sequence' => $row['reset_sequence'],
-			'cur_sequence' => $row['cur_sequence'],
-			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']),
-		];
 	}
 }

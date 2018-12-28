@@ -31,7 +31,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 		foreach ($supportedModules as $supportedModule) {
 			if (in_array($supportedModule->name, $this->prefixesForModules)) {
-				$numbering[$supportedModule->name] = \App\Fields\RecordNumber::getNumber($supportedModule->name);
+				$numbering[$supportedModule->name] = \App\Fields\RecordNumber::getInstance($supportedModule->name);
 			}
 		}
 
