@@ -15,15 +15,18 @@ class RecordNumber extends \App\Base
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string $moduleName
+	 * @param string|int $tabid
 	 *
 	 * @return \App\Fields\RecordNumber
 	 */
-	public static function getInstance(string $moduleName): self
+	public static function getInstance($tabid): self
 	{
 		$instance = new static();
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => \App\Module::getModuleId($moduleName)])->one();
-		$row['moduleName'] = $moduleName;
+		if(!\is_numeric($tabid)) {
+			$tabid = \App\Module::getModuleId($tabid);
+		}
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabid])->one();
+		$row['tabid'] = $tabid;
 		$instance->setData($row);
 		return $instance;
 	}
@@ -190,7 +193,7 @@ class RecordNumber extends \App\Base
 			$fieldColumn = $fieldModel->getColumnName();
 			if ($fieldTable === $moduleModel->getEntityInstance()->table_name) {
 				$picklistName = $this->getPicklistName();
-				$queryGenerator = new \App\QueryGenerator($this->get('moduleName'));
+				$queryGenerator = new \App\QueryGenerator(\App\Module::getModuleName($this->get('tabid')));
 				$queryGenerator->setFields([$picklistName, $fieldModel->getFieldName(), 'id']);
 				$queryGenerator->permissions = false;
 				$queryGenerator->addNativeCondition(['or', [$fieldColumn => ''], [$fieldColumn => null]]);
@@ -284,8 +287,8 @@ class RecordNumber extends \App\Base
 			return $dbCommand->insert('vtiger_modentity_num', [
 				'tabid' => $this->get('tabid'),
 				'prefix' => $this->get('prefix'),
-				'leading_zeros' => $this->get('leading_zeros'),
-				'postfix' => $this->get('postfix'),
+				'leading_zeros' => $this->get('leading_zeros') ?: 0,
+				'postfix' => $this->get('postfix') ?: '',
 				'start_id' => $this->get('cur_id'),
 				'cur_id' => $this->get('cur_id'),
 				'reset_sequence' => $this->get('reset_sequence'),

@@ -188,12 +188,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Add description column to picklist.
 	 *
-	 * @param \App\Db $db
-	 * @param string  $tableName
+	 * @param string $tableName
 	 *
 	 * @return bool
 	 */
-	public function addDescriptionColumn($tableName)
+	public function addDescriptionColumn(string $tableName)
 	{
 		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'description', 'text')->execute();
 	}
@@ -201,12 +200,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Add description column to picklist.
 	 *
-	 * @param \App\Db $db
-	 * @param string  $tableName
+	 * @param string $tableName
 	 *
 	 * @return bool
 	 */
-	public function addPrefixColumn($tableName)
+	public function addPrefixColumn(string $tableName)
 	{
 		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'prefix', 'string(30)')->execute();
 	}
