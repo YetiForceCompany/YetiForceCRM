@@ -95,7 +95,7 @@ class RecordNumber extends \App\Base
 	private function getPicklistName(): string
 	{
 		preg_match('/{{picklist:([a-z0-9_]+)}}/i', $this->get('prefix') . $this->get('postfix'), $matches);
-		return $matches[1];
+		return $matches[1] ?? '';
 	}
 
 	/**
