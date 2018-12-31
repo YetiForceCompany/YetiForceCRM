@@ -252,13 +252,13 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 		AppConnector.request(params).done(function (data) {
 			currentTarget.data('state', status);
-			currentTarget.find('.fas').each(function () {
-				if ($(this).hasClass('d-none')) {
-					$(this).removeClass('d-none');
-				} else {
-					$(this).addClass('d-none');
-				}
-			})
+			if (status) {
+				currentTarget.find('.far').addClass('d-none');
+				currentTarget.find('.fas').removeClass('d-none');
+			} else {
+				currentTarget.find('.fas').addClass('d-none');
+				currentTarget.find('.far').removeClass('d-none');
+			}
 			Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_NOTIFY_OK')});
 		}).fail(function (error) {
 			var params = {};
