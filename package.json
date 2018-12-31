@@ -63,7 +63,7 @@
     "jquery.class.js": "^1.0.0",
     "jstree": "^3.3.6",
     "jstree-bootstrap-theme": "^1.0.1",
-    "leaflet": "^1.3.3",
+    "leaflet": "^1.4.0",
     "leaflet.awesome-markers": "^2.0.5",
     "leaflet.markercluster": "^1.4.1",
     "moment": "^2.23.0",
