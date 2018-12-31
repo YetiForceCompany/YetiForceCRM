@@ -51,13 +51,14 @@
 						Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')}).done(function (e) {
 							AppConnector.request({
 								module: module,
-								action: 'DeleteAjax',
-								record: obj.original.record_id
+								action: 'State',
+								record: obj.original.record_id,
+								state: 'Trash',
 							}).done(function (res) {
 								$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 								Vtiger_Detail_Js.getInstance().loadWidgets();
 							});
-						}, function () {
+						}).fail(function () {
 							$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 						});
 					}
