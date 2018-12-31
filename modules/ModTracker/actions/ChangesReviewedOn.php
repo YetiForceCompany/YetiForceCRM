@@ -22,7 +22,7 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($request->has('record')) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			if (!$recordModel->isViewable() || !$recordModel->getModule()->isTrackingEnabled()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
