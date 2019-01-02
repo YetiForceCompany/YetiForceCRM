@@ -15,12 +15,12 @@ class Gantt {
 		this.options = {
 			maxRows: 15,
 			style: {
-				'tree-row-bar-polygon': {
+				'chart-row-bar-polygon': {
 					'stroke': '#E74C3C00',
 					'stroke-width': 0,
 					'fill': '#F75C4C',
 				},
-				'tree-row-progress-bar-outline': {
+				'chart-row-progress-bar-outline': {
 					'stroke': '#E74C3C00',
 					'stroke-width': 0
 				},
@@ -130,35 +130,6 @@ class Gantt {
 	 * Register language translations globally (replace old ones)
 	 */
 	registerLanguage() {
-		/*GanttMaster.messages.GANTT_ERROR_LOADING_DATA_TASK_REMOVED = app.vtranslate("JS_GANTT_ERROR_LOADING_DATA_TASK_REMOVED", 'Project');
-		GanttMaster.messages.INVALID_DATE_FORMAT = app.vtranslate("JS_INVALID_DATE_FORMAT", 'Project');
-		GanttMaster.messages.GANTT_SEMESTER_SHORT = app.vtranslate("JS_GANTT_SEMESTER_SHORT", 'Project');
-		GanttMaster.messages.GANTT_SEMESTER = app.vtranslate("JS_GANTT_SEMESTER", 'Project');
-		GanttMaster.messages.GANTT_QUARTER_SHORT = app.vtranslate("JS_GANTT_QUARTER_SHORT", 'Project');
-		GanttMaster.messages.GANTT_QUARTER = app.vtranslate("JS_GANTT_QUARTER", 'Project');
-		GanttMaster.messages.GANTT_WEEK = app.vtranslate("JS_GANTT_WEEK", 'Project');
-		GanttMaster.messages.GANTT_WEEK_SHORT = app.vtranslate("JS_GANTT_WEEK_SHORT", 'Project');
-		Gantt_i18n.YES = app.vtranslate("JS_YES", 'Project');
-		Gantt_i18n.NO = app.vtranslate("JS_NO", 'Project');
-		Gantt_i18n.INVALID_DATA = app.vtranslate("JS_INVALID_DATA", 'Project');
-		Gantt_i18n.ERROR_ON_FIELD = app.vtranslate("JS_ERROR_ON_FIELD", 'Project');
-		Gantt_i18n.OUT_OF_BOUDARIES = app.vtranslate("JS_OUT_OF_BOUDARIES", 'Project');
-		Gantt_i18n.ERR_FIELD_MAX_SIZE_EXCEEDED = app.vtranslate("JS_ERR_FIELD_MAX_SIZE_EXCEEDED", 'Project');
-		Gantt_i18n.WEEK_SHORT = app.vtranslate("JS_WEEK_SHORT", 'Project');
-		Gantt_i18n.PROCEED = app.vtranslate("JS_PROCEED", 'Project');
-		Gantt_i18n.PREV = app.vtranslate("JS_PREV", 'Project');
-		Gantt_i18n.NEXT = app.vtranslate("JS_NEXT", 'Project');
-		Gantt_i18n.HINT_SKIP = app.vtranslate("JS_HINT_SKIP", 'Project');
-		Date.monthNames = App.Fields.Date.fullMonthsTranslated.map(month => month);
-		Date.monthAbbreviations = App.Fields.Date.monthsTranslated.map(month => month);
-		Date.dayAbbreviations = App.Fields.Date.daysTranslated.map(day => day);
-		Date.dayNames = App.Fields.Date.fullDaysTranslated.map(day => day);
-		Date.firstDayOfWeek = CONFIG.firstDayOfWeekNo;
-		Date.defaultFormat = CONFIG.dateFormat;
-		Date.today = app.vtranslate('JS_TODAY');
-		Number.decimalSeparator = CONFIG.currencyDecimalSeparator;
-		Number.groupingSeparator = CONFIG.currencyGroupingSeparator;
-		Number.currencyFormat = "###,##0.00";*/
 	}
 
 	/**
@@ -217,10 +188,15 @@ class Gantt {
 			ev.stopPropagation();
 			return false;
 		});
+		const self = this;
 		GanttElastic.mount({
 			el: '#' + this.container.attr('id'),
 			tasks: this.allTasks,
-			options: this.options
+			options: this.options,
+			ready(ganttElasticInstance) {
+				self.ganttElastic = ganttElasticInstance;
+				self.ganttState = ganttElasticInstance.state;
+			}
 		});
 	}
 
