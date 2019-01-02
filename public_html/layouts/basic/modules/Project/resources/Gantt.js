@@ -189,15 +189,20 @@ class Gantt {
 			return false;
 		});
 		const self = this;
-		GanttElastic.mount({
-			el: '#' + this.container.attr('id'),
-			tasks: this.allTasks,
-			options: this.options,
-			ready(ganttElasticInstance) {
-				self.ganttElastic = ganttElasticInstance;
-				self.ganttState = ganttElasticInstance.state;
-			}
-		});
+		if (typeof self.ganttElastic === 'undefined') {
+			GanttElastic.component.components['gantt-header'] = Header;
+			GanttElastic.mount({
+				el: '#' + this.container.attr('id'),
+				tasks: this.allTasks,
+				options: this.options,
+				ready(ganttElasticInstance) {
+					self.ganttElastic = ganttElasticInstance;
+					self.ganttState = ganttElasticInstance.state;
+				}
+			});
+		} else {
+			self.ganttState.tasks = this.allTasks;
+		}
 	}
 
 	/**
@@ -218,7 +223,7 @@ class Gantt {
 	 * @param {Object} data
 	 */
 	reloadData(data) {
-		this.gantt.loadProject(data);
+		this.loadProject(data);
 	}
 
 	/**
