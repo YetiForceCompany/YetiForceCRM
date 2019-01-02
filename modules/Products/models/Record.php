@@ -26,7 +26,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return array of listprice values
 	 */
-	public static function getListPriceValues($id)
+	public function getListPriceValues($id)
 	{
 		$dataReader = (new App\Db\Query())->from('vtiger_productcurrencyrel')->where(['productid' => $id])->createCommand()->query();
 		$listpriceValues = [];
