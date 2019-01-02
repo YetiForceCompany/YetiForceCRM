@@ -85,6 +85,18 @@ class Language
 	}
 
 	/**
+	 * Get IETF language tag.
+	 *
+	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
+	 *
+	 * @return string
+	 */
+	public static function getLanguageTag($separator = '_')
+	{
+		return str_replace('-', $separator, static::getLanguage());
+	}
+
+	/**
 	 * Set temporary language.
 	 *
 	 * @param string $language
