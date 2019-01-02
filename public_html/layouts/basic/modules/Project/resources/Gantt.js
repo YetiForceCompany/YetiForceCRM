@@ -33,6 +33,9 @@ class Gantt {
 				html: false,
 			},
 			taskList: {
+				expander: {
+					straight: false,
+				},
 				columns: [
 					{
 						id: 1,
