@@ -11,8 +11,9 @@
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
 			<div class="input-group-append">
-				<span class="input-group-text js-price-book-modal u-cursor-pointer js-popover-tooltip" data-js="popover|click" data-content="{\App\Language::translate('PriceBooks',$MODULE)}">
-					<span class="userIcon-PriceBooks" data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}"/></span>
+				<button class="btn btn-light js-price-book-modal js-popover-tooltip" data-js="popover|click" data-content="{\App\Language::translate('PriceBooks',$MODULE)}" type="button">
+					<span class="userIcon-PriceBooks" data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}"/>
+				</button>
 				</span>
 			</div>
 		{/if}
