@@ -9,7 +9,7 @@
 	<tr class="inventoryRow" numrow="{$ROW_NO}">
 		<td class="u-white-space-nowrap">
 			{if $INVENTORY_MODEL->isField('seq')}
-				<a class="dragHandle ml-2">
+				<a class="dragHandle mx-1">
 					<img src="{\App\Layout::getImagePath('drag.png')}" border="0"
 						 alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}"/>
 				</a>
