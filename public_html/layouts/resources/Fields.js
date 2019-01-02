@@ -394,6 +394,14 @@ App.Fields = {
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+					],
+					toolbar_Clipboard: [
+						{name: 'document', items: ['Print']},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						}
 					]
 				};
 				if (typeof customConfig !== "undefined") {

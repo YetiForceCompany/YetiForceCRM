@@ -1821,14 +1821,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}).done(function (data) {
 				app.showModalWindow(data, function (modalContainer) {
 					const customConfig = {
-						toolbar: [
-							{name: 'document', items: ['Print']},
-							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-							{
-								name: 'clipboard',
-								items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-							}
-						]
+						toolbar: 'Clipboard'
 					};
 					new App.Fields.Text.Editor(modalContainer, customConfig);
 					app.showPopoverElementView(modalContainer.find('.js-help-info'));
