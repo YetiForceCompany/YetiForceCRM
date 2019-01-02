@@ -7,7 +7,7 @@
 		{assign var="REFERENCE_MODULE" value=$REFERENCE_MODULE_DEFAULT}
 	{/if}
 	<tr class="inventoryRow" numrow="{$ROW_NO}">
-		<td>
+		<td class="u-white-space-nowrap">
 			<span class="fas fa-trash-alt deleteRow u-cursor-pointer"
 				  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></span>
 			{if $INVENTORY_MODEL->isField('seq')}
@@ -21,8 +21,6 @@
 				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}"/>
 			{/if}
 			{if $COUNT_FIELDS2 > 0}
-				<br/>
-				<br/>
 				<span class="btn btn-light btn-sm toggleVisibility js-toggle-icon__container" data-status=""
 					  href="#" data-js="click">
 					<span class="js-toggle-icon fas fa-angle-down" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
