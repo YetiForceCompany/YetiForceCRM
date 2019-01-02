@@ -129,6 +129,7 @@
 }
 
 .c-btn-collapsible {
+	white-space: nowrap;
 	overflow: hidden;
 	max-width: calculate-rem(40px);
 	@include u-transition(all 275ms ease);
