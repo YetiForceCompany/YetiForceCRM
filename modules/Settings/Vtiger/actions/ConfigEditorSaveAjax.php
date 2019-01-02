@@ -14,9 +14,9 @@ class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_
 	{
 		$response = new Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);
-		$updatedFields = $request->get('updatedFields');
 		$moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
-
+		$editableFields = $moduleModel->getEditableFields();
+		$updatedFields = $request->getMultiDimensionArray('updatedFields', array_combine(array_keys($editableFields), array_column($editableFields, 'validator')));
 		if ($updatedFields) {
 			$moduleModel->set('updatedFields', $updatedFields);
 			$status = $moduleModel->save();
