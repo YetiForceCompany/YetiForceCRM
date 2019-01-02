@@ -1422,6 +1422,7 @@
     "JS_REENTER_PASSWORDS": "Wpisz has\u0142o ponownie",
     "JS_REMINDER": "Powiadomienia kalendarza",
     "JS_REQUIRED_FIELD": "* To pole jest wymagane",
+    "JS_MAXIMUM_TEXT_SIZE_IN_BYTES": "Maksymalna rozmiar tekstu w bajtach zosta\u0142a przekroczona",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Wskazany Kontrahent nie posiada adresu do skopiowania",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Wskazany Kontakt nie posiada adresu do skopiowania",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "Brak adresu do skopiowania",
