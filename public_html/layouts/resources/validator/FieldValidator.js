@@ -1412,7 +1412,9 @@ Vtiger_Base_Validator_Js("Vtiger_MaxSizeInByte_Validator_Js", {
 		const field = this.getElement();
 		const fieldValue = field.val();
 		if (field.data('fieldinfo').maximumlength && new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength) {
-			this.setError(app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES'));
+			this.setError(
+				app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength
+			);
 			return false;
 		}
 		return true;
