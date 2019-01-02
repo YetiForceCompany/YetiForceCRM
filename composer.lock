@@ -2688,20 +2688,20 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "f5c1762b1bab290c5b74f6a9e2288f16fa792eec"
+                "reference": "d5769b82f5674e5b716662052074b5c6c18c1d22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/f5c1762b1bab290c5b74f6a9e2288f16fa792eec",
-                "reference": "f5c1762b1bab290c5b74f6a9e2288f16fa792eec",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/d5769b82f5674e5b716662052074b5c6c18c1d22",
+                "reference": "d5769b82f5674e5b716662052074b5c6c18c1d22",
                 "shasum": ""
             },
             "require": {
-                "ezyang/htmlpurifier": "^4.10",
+                "composer/ca-bundle": "^1.1",
                 "guzzlehttp/guzzle": "^6.3",
                 "phenx/php-font-lib": "^0.5.1",
                 "php": ">=7.1"
@@ -2713,9 +2713,6 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "YetiForce Public License v3"
-            ],
             "authors": [
                 {
                     "name": "Rafal Pospiech",
@@ -2729,7 +2726,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2018-12-21T13:49:18+00:00"
+            "time": "2019-01-02T10:37:57+00:00"
         },
         {
             "name": "yetiforce/yii2",
