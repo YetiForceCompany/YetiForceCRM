@@ -59,7 +59,7 @@
 									{if $smarty.foreach.moduleList.first}
 										{assign var=REFERENCE_MODULE_DEFAULT value=$MAIN_MODULE}
 									{/if}
-									<div class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-1">
+									<div class="btn-group-sm d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}">
 										<button type="button" data-module="{$MAIN_MODULE}"
 												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
 												class="btn btn-light js-add-item border mb-1 mb-lg-0"
