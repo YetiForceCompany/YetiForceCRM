@@ -1357,7 +1357,8 @@ Vtiger_Base_Validator_Js("Vtiger_Text_Validator_Js", {}, {
 		} else {
 			return true;
 		}
-	}
+	},
+	isPromise: true
 });
 
 Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {

@@ -36,13 +36,19 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 				} else {
 					result = validatorInstance.validate();
 				}
-				new Promise((resolve, reject) => {
-					resolve(result);
-				}).then((result) => {
+				if (validatorInstance.isPromise) {
+					new Promise((resolve, reject) => {
+						resolve(result);
+					}).then((result) => {
+						if (!result) {
+							return validatorInstance.getError();
+						}
+					});
+				} else {
 					if (!result) {
 						return validatorInstance.getError();
 					}
-				});
+				}
 			}
 		},
 		/**
@@ -145,19 +151,18 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	},
 	{
 		field: "",
-		error:
-			"",
+		error: "",
+		/**
+		 * Set to true, if validator return promise (as Vtiger_Text_Validator_Js)
+		 */
+		isPromise: false,
 		/**
 		 *Function which validates the field data
 		 * @return true
 		 */
-		validate:
-
-			function () {
-				console.log('inovked asafa');
-
-				return true;
-			},
+		validate: function () {
+			return true;
+		},
 		/**
 		 *Function which gets error message
 		 * @return error message
@@ -199,6 +204,4 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 			var field = this.getElement();
 			return jQuery.trim(field.val());
 		}
-	}
-)
-;
+	});
