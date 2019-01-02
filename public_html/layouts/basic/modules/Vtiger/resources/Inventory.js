@@ -888,7 +888,7 @@ $.Class("Vtiger_Inventory_Js", {
 			}
 			let currencyId = thisInstance.getCurrency();
 			if (currencyId && unitPriceValues && typeof unitPriceValues[currencyId] !== "undefined") {
-				unitPrice = unitPriceValues[currencyId];
+				unitPrice = App.Fields.Double.formatToDb(unitPriceValues[currencyId]);
 			} else if (recordData.price !== undefined) {
 				unitPrice = recordData.price;
 			}
