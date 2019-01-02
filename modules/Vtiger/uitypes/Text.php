@@ -52,6 +52,12 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
+		if ($this->getFieldModel()->getUIType() === 300) {
+			$maximumLength = $this->getFieldModel()->get('maximumlength');
+			if ($maximumLength && strlen($value) > $maximumLength) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			}
+		}
 		$this->validate[$value] = true;
 	}
 
