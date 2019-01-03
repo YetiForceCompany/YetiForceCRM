@@ -506,15 +506,10 @@ App.Fields = {
 			}
 
 			static convertEmojis(editorElement) {
-				return new Promise(function (resolve, reject) {
+				return new Promise(function (resolve) {
 					let convertedValue = editorElement.val();
-					App.emojis.forEach((emoji, index, array) => {
-						let emojiSymbol = emoji.symbol;
-						var regex = new RegExp(emojiSymbol, 'g');
-						var replaced = editorElement.val().search(regex) >= 0;
-						if (replaced) {
-							convertedValue = convertedValue.replace(regex, emoji.id);
-						}
+					App.emojis.forEach((emoji) => {
+						convertedValue = convertedValue.replace(emoji.symbol, emoji.id);
 					});
 					editorElement.val(convertedValue);
 					resolve(convertedValue);
