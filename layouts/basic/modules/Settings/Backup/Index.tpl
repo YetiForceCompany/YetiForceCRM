@@ -30,7 +30,7 @@
 							<tr class="listViewEntries">
 								<td>
 									<a href="{$catalog['url']}" class="font-weight-bold">
-										<span class="fas fa-folder"></span> {$catalog['name']}
+										<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
 									</a>
 								</td>
 							</tr>
@@ -53,7 +53,7 @@
 						</tr>
 						{foreach from=$STRUCTURE['files'] item=$file}
 							<tr class="listViewEntries">
-								<td>{$file['name']}</td>
+								<td>{\App\Purifier::encodeHtml($file['name'])}</td>
 								<td>{$file['date']}</td>
 								<td>{$file['size']}</td>
 								<td class="u-w-1em">

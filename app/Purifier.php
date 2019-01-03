@@ -428,7 +428,7 @@ class Purifier
 					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
 					break;
 				case 'Path':
-					$value = Fields\File::checkFilePath($input) ? $input : null;
+					$value = Fields\File::checkFilePath($input) ? static::encodeHtml($input) : null;
 					break;
 				case 'Text':
 				default:
