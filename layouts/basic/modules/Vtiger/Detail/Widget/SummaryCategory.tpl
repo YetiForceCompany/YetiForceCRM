@@ -1,9 +1,11 @@
 {strip}
 	<div class="tpl-Detail-Widget-SummaryCategory c-detail-widget c-detail-widget--summmary-category u-mb-13px js-detail-widget recordDetails" data-js="container">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
-			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-				<h5 class="mb-0 py-2">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
-				<hr class="widgetHr">
+			<div> {* additional div needed for border fix *}
+				<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
+					<h5 class="mb-0 py-2">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+					<hr class="widgetHr">
+				</div>
 			</div>
 		{/if}
 		<div class="mx-2">
