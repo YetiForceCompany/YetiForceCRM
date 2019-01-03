@@ -19,7 +19,8 @@ class Composer
 	public static $publicPackage = [
 		'yetiforce/csrf-magic',
 		'yetiforce/debugbar',
-		'ckeditor/ckeditor'
+		'yetiforce/yetiforcepdf/lib/Fonts',
+		'ckeditor/ckeditor',
 	];
 	/**
 	 * List of redundant files.

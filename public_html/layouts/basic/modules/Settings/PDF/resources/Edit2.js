@@ -108,14 +108,14 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 					{name: 'colors', items: ['TextColor', 'BGColor']},
 					{
 						name: 'paragraph',
-						items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+						items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']
 					},
 					{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
 				],
 				allowedContent: {
 					'$1': {
 						elements: CKEDITOR.dtd,
-						attributes: false,
+						attributes: true,
 						classes: true,
 						styles: {
 							'display': true,
