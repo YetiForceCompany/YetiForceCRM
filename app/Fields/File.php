@@ -371,7 +371,7 @@ class File
 				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 			$this->validateError = $message;
-			Log::error('Error: ' . $message, __CLASS__);
+			Log::error("Error: $message | {$this->getName()} | {$this->getSize()}", __CLASS__);
 		}
 		Log::trace('File validate - End', __CLASS__);
 		return $return;
