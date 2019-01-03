@@ -452,7 +452,7 @@ App.Fields = {
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{role}</div>
 											</div>
 										</li>`,
-					outputTemplate: '<a href="index.php?module={module}&view=PreferenceDetail&record={id}">{name}</a><span>&nbsp;</span>',
+					outputTemplate: '<a href="#" data-id="@{id}">{name}</a>',
 					minChars: minSerchTextLength
 				},
 					{
@@ -467,7 +467,7 @@ App.Fields = {
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
-						outputTemplate: '<a href="index.php?module={module}&view=Detail&record={id}">{label}</a><span>&nbsp;</span>',
+						outputTemplate: '<a href="#" data-id="#{id}">{label}</a>',
 						minChars: minSerchTextLength
 					}
 				];
