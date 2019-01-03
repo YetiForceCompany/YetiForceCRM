@@ -7,26 +7,24 @@
 		{assign var="REFERENCE_MODULE" value=$REFERENCE_MODULE_DEFAULT}
 	{/if}
 	<tr class="inventoryRow" numrow="{$ROW_NO}">
-		<td>
-			<span class="fas fa-trash-alt deleteRow u-cursor-pointer"
-				  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></span>
+		<td class="u-white-space-nowrap">
 			{if $INVENTORY_MODEL->isField('seq')}
-				<a class="dragHandle ml-2">
+				<a class="dragHandle mx-1">
 					<img src="{\App\Layout::getImagePath('drag.png')}" border="0"
 						 alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}"/>
 				</a>
 				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence"/>
 			{/if}
+			<button class="btn btn-sm btn-danger fas fa-trash-alt deleteRow"
+					title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
+			{if $COUNT_FIELDS2 > 0}
+				<button class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status=""
+						href="#" data-js="click">
+					<span class="js-toggle-icon fas fa-angle-down" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
+				</button>
+			{/if}
 			{if isset($ITEM_DATA['id'])}
 				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}"/>
-			{/if}
-			{if $COUNT_FIELDS2 > 0}
-				<br/>
-				<br/>
-				<span class="btn btn-light btn-sm toggleVisibility js-toggle-icon__container" data-status=""
-					  href="#" data-js="click">
-					<span class="js-toggle-icon fas fa-angle-down" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
-				</span>
 			{/if}
 			{if isset($FIELDS[0])}
 				{foreach item=FIELD from=$FIELDS[0]}

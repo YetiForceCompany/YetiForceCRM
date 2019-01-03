@@ -50,22 +50,26 @@
 			<table class="table table-bordered inventoryHeader blockContainer mb-0">
 				<thead>
 				<tr data-rownumber="0" class="d-flex u-min-w-650px">
-					<th class="btn-toolbar col-3 d-flex justify-content-center mb-0 border-bottom-0 p-0">
-						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules'] name=moduleList}
-							{if \App\Module::isModuleActive($MAIN_MODULE)}
-								{if $smarty.foreach.moduleList.first}
-									{assign var=REFERENCE_MODULE_DEFAULT value=$MAIN_MODULE}
+					<th class="col-3 border-bottom-0">
+						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
+						<div class="d-flex">
+
+							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules'] name=moduleList}
+								{if \App\Module::isModuleActive($MAIN_MODULE)}
+									{if $smarty.foreach.moduleList.first}
+										{assign var=REFERENCE_MODULE_DEFAULT value=$MAIN_MODULE}
+									{/if}
+									<div class="btn-group-sm d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}">
+										<button type="button" data-module="{$MAIN_MODULE}"
+												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
+												class="btn btn-light js-add-item border mb-1 mb-lg-0"
+												data-js="click">
+											<span class="moduleIcon userIcon-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+										</button>
+									</div>
 								{/if}
-								<div class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-1">
-									<button type="button" data-module="{$MAIN_MODULE}"
-											title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-											class="btn btn-light js-add-item border mb-1 mb-lg-0"
-											data-js="click">
-										<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
-									</button>
-								</div>
-							{/if}
-						{/foreach}
+							{/foreach}
+						</div>
 					</th>
 					{assign var="ROW_NO" value=1}
 					{if isset($FIELDS[0])}
@@ -79,7 +83,9 @@
 								{else}
 									{assign var="ITEM_VALUE" value=NULL}
 								{/if}
-								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_DATA=$INVENTORY_ROW}
+								<div class="input-group-sm">
+									{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_DATA=$INVENTORY_ROW}
+								</div>
 							</th>
 						{/foreach}
 					{/if}

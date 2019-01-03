@@ -1230,6 +1230,7 @@ $.Class("Vtiger_Inventory_Js", {
 		newRow.html(replaced);
 		newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
 		newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
+		newRow.find('.js-module-icon').removeClass().addClass(`userIcon-${module}`);
 		newRow.find('.colPicklistField select').each(function (index, select) {
 			select = $(select);
 			select.find('option').each(function (index, option) {

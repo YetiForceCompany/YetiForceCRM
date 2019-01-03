@@ -480,6 +480,8 @@ class Project_Gantt_Model
 			$project['number'] = '<a href="' . $project['url'] . '" target="_blank">' . $project['no'] . '</a>';
 			if (empty($project['parentId'])) {
 				unset($project['parentId']);
+			} else {
+				$project['dependentOn'] = [$project['parentId']];
 			}
 			if (!empty($row['startdate'])) {
 				$project['start_date'] = $row['startdate'];
@@ -629,6 +631,8 @@ class Project_Gantt_Model
 			$milestone['number'] = '<a href="' . $milestone['url'] . '" target="_blank">' . $milestone['no'] . '</a>';
 			if (empty($milestone['parentId'])) {
 				unset($milestone['parentId']);
+			} else {
+				$milestone['dependentOn'] = [$milestone['parentId']];
 			}
 			if ($row['projectmilestonedate']) {
 				$milestone['duration'] = 24 * 60 * 60;
@@ -700,6 +704,7 @@ class Project_Gantt_Model
 				$parentId = (int) ($row['projectmilestoneid'] ?? $row['projectid']);
 				if ($parentId) {
 					$task['parentId'] = $parentId;
+					$task['dependentOn'] = [$parentId];
 				}
 			}
 			$task['style'] = [
