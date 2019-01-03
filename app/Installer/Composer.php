@@ -17,10 +17,10 @@ class Composer
 	 * @var atring[]
 	 */
 	public static $publicPackage = [
-		'yetiforce/csrf-magic',
-		'yetiforce/debugbar',
-		'yetiforce/yetiforcepdf/lib/Fonts',
-		'ckeditor/ckeditor',
+		'yetiforce/csrf-magic' => 'move',
+		'yetiforce/debugbar' => 'move',
+		'yetiforce/yetiforcepdf/lib/Fonts' => 'copy',
+		'ckeditor/ckeditor' => 'move',
 	];
 	/**
 	 * List of redundant files.
@@ -154,7 +154,7 @@ class Composer
 		}
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg'];
-		foreach (static::$publicPackage as $package) {
+		foreach (static::$publicPackage as $package => $method) {
 			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isFile() && in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
@@ -164,7 +164,11 @@ class Composer
 					if (!is_writable($rootDir . $item->getPath())) {
 						continue;
 					}
-					rename($item->getRealPath(), $rootDir . $item->getPathname());
+					if ($method === 'move') {
+						\rename($item->getRealPath(), $rootDir . $item->getPathname());
+					} elseif ($method === 'copy') {
+						\copy($item->getRealPath(), $rootDir . $item->getPathname());
+					}
 				}
 			}
 		}

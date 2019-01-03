@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "51eff64b331c5f04f0e49992be151fb7",
+    "content-hash": "6a2e86f3603b82c32817d0e24bcfa85a",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -2688,16 +2688,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "d5769b82f5674e5b716662052074b5c6c18c1d22"
+                "reference": "2bbc011d1dbb4b1407637be8b1700835f572b5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/d5769b82f5674e5b716662052074b5c6c18c1d22",
-                "reference": "d5769b82f5674e5b716662052074b5c6c18c1d22",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/2bbc011d1dbb4b1407637be8b1700835f572b5c1",
+                "reference": "2bbc011d1dbb4b1407637be8b1700835f572b5c1",
                 "shasum": ""
             },
             "require": {
@@ -2726,7 +2726,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-01-02T10:37:57+00:00"
+            "time": "2019-01-02T12:23:21+00:00"
         },
         {
             "name": "yetiforce/yii2",
