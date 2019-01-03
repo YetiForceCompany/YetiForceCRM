@@ -734,12 +734,14 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 			//hide all the elements like length, decimal,picklist
 			form.find('.supportedType').addClass('d-none');
-
 			if (selectedOption.data('lengthsupported')) {
 				form.find('.lengthsupported').removeClass('d-none');
-				lengthInput.data('validator', maxLengthValidator);
+				if (!selectedOption.data('nolimitforlength')) {
+					lengthInput.data('validator', maxLengthValidator);
+				} else {
+					lengthInput.data('validator', [{'name': 'WholeNumberGreaterThanZero'}]);
+				}
 			}
-
 			if (selectedOption.data('decimalsupported')) {
 				var decimalFieldUi = form.find('.decimalsupported');
 				decimalFieldUi.removeClass('d-none');
