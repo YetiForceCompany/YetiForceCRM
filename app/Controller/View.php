@@ -289,6 +289,7 @@ abstract class View extends Base
 			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
 			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',
+			'~libraries/textcomplete/dist/textcomplete.js',
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
 			'~libraries/floatthead/dist/jquery.floatThead.js',
