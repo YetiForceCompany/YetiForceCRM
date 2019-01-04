@@ -24,7 +24,10 @@ class OSSMailView_DownloadFile_File extends Vtiger_Basic_File
 	public function getCheckPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!(new \App\Db\Query())->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $request->getInteger('record'), 'documentsid' => $request->getInteger('attachment')])->exists()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
