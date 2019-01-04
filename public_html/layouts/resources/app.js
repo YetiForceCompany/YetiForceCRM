@@ -78,6 +78,26 @@ var App = {},
 			return recordId;
 		},
 		/**
+		 * Function which will give you all details of the selected record
+		 * @params - an Array of values like {'record' : recordId, 'source_module' : searchModule, 'selectedName' : selectedRecordName}
+		 */
+		getRecordDetails: function (params) { // obiekt zamiast url id i moduł zamiast params, przenisć do app.js jeżeli przekażesz fieldtype i email to zwróci ci pola konkretne i pierwszt
+			let aDeferred = $.Deferred();
+			if (app.getParentModuleName() === 'Settings') {
+				params.parent = 'Settings';
+			}
+			AppConnector.request(Object.assign(params, {action: 'GetData'})).done(function (data) {
+				if (data.success) {
+					aDeferred.resolve(data);
+				} else {
+					aDeferred.reject(data.message);
+				}
+			}).fail(function (error) {
+				aDeferred.reject();
+			});
+			return aDeferred.promise();
+		},
+		/**
 		 * Function to get language
 		 */
 		getLanguage: function () {
