@@ -182,7 +182,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$this->triggerPreProcess($handler, $request);
 			$response = $handler->process($request);
 			$this->triggerPostProcess($handler, $request);
-		} catch (Exception $e) {
+		} catch (Throwable $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 			$messageHeader = 'LBL_ERROR';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
