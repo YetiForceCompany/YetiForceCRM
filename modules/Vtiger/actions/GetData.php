@@ -43,7 +43,7 @@ class Vtiger_GetData_Action extends App\Controller\Action
 		}
 		$labels = $data = $display = [];
 		if ($request->has('fieldType')) {
-			$fields = $recordModel->getModule()->getFieldsByType($request->getByType('fieldType'));
+			$fields = $recordModel->getModule()->getFieldsByType($request->getArray('fieldType', 'Standard'));
 		} else {
 			$fields = $recordModel->getModule()->getFields();
 		}
