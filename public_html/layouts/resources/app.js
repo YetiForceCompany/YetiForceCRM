@@ -139,6 +139,19 @@ var App = {},
 			return supportsTouch;
 		},
 		/**
+		 * Check if string is json
+		 * @param {string} str
+		 * @returns {boolean}
+		 */
+		isJsonString(str) {
+			try {
+				JSON.parse(str);
+			} catch (e) {
+				return false;
+			}
+			return true;
+		},
+		/**
 		 * Function to set page title
 		 */
 		setPageTitle: function (title) {
@@ -832,7 +845,7 @@ var App = {},
 					};
 				}
 			}
-			
+
 			elementClockBtn.each((i, e) => {
 				let timeInput = $(e);
 				formatTimeString(timeInput);
