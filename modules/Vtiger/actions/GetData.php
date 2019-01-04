@@ -42,7 +42,12 @@ class Vtiger_GetData_Action extends App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$labels = $data = $display = [];
-		foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
+		if ($request->has('fieldType')) {
+			$fields = $recordModel->getModule()->getFieldsByType($request->getArray('fieldType', 'Standard'));
+		} else {
+			$fields = $recordModel->getModule()->getFields();
+		}
+		foreach ($fields as $fieldName => $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				$data[$fieldName] = $recordModel->get($fieldName);
 				$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
