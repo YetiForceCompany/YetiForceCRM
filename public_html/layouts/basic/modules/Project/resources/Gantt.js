@@ -11,7 +11,7 @@ class Gantt {
 	 */
 	constructor(container, projectData) {
 		this.container = $(container);
-		this.registerLanguage();
+		this.containerParent = this.container.parent();
 		this.options = {
 			maxRows: 30,
 			style: {
@@ -112,27 +112,29 @@ class Gantt {
 					}
 				]
 			},
-			locale: {
-				code: CONFIG.langKey,
-				name: CONFIG.langKey,
-				weekdays: [LANG.JS_MONDAY, LANG.JS_TUESDAY, LANG.JS_WEDNESDAY, LANG.JS_THURSDAY, LANG.JS_FRIDAY, LANG.JS_SATURDAY, LANG.JS_SUNDAY],
-				weekdaysShort: [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
-				weekdaysMin: [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
-				months: [LANG.JS_JANUARY, LANG.JS_FEBRUARY, LANG.JS_MARCH, LANG.JS_APRIL, LANG.JS_MAY, LANG.JS_JUNE, LANG.JS_JULY, LANG.JS_AUGUST, LANG.JS_SEPTEMBER, LANG.JS_NOVEMBER, LANG.JS_OCTOBER, LANG.JS_DECEMBER],
-				monthsShort: [LANG.JS_JAN, LANG.JS_FEB, LANG.JS_MAR, LANG.JS_APR, LANG.JS_MAY, LANG.JS_JUN, LANG.JS_JUL, LANG.JS_AUG, LANG.JS_SEP, LANG.JS_NOV, LANG.JS_OCT, LANG.JS_DEC],
-				ordinal: n => `${n}`,
-			}
 		};
+		this.registerLanguage();
 		if (typeof projectData !== 'undefined') {
 			this.options.title.label = projectData
 			this.loadProject(projectData);
 		}
+		this.registerEvents();
 	}
 
 	/**
 	 * Register language translations globally (replace old ones)
 	 */
 	registerLanguage() {
+		this.options.locale = {
+			code: CONFIG.langKey,
+			name: CONFIG.langKey,
+			weekdays: [LANG.JS_MONDAY, LANG.JS_TUESDAY, LANG.JS_WEDNESDAY, LANG.JS_THURSDAY, LANG.JS_FRIDAY, LANG.JS_SATURDAY, LANG.JS_SUNDAY],
+			weekdaysShort: [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
+			weekdaysMin: [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
+			months: [LANG.JS_JANUARY, LANG.JS_FEBRUARY, LANG.JS_MARCH, LANG.JS_APRIL, LANG.JS_MAY, LANG.JS_JUNE, LANG.JS_JULY, LANG.JS_AUGUST, LANG.JS_SEPTEMBER, LANG.JS_NOVEMBER, LANG.JS_OCTOBER, LANG.JS_DECEMBER],
+			monthsShort: [LANG.JS_JAN, LANG.JS_FEB, LANG.JS_MAR, LANG.JS_APR, LANG.JS_MAY, LANG.JS_JUN, LANG.JS_JUL, LANG.JS_AUG, LANG.JS_SEP, LANG.JS_NOV, LANG.JS_OCT, LANG.JS_DEC],
+			ordinal: n => `${n}`,
+		};
 	}
 
 	/**
@@ -191,7 +193,7 @@ class Gantt {
 			ev.stopPropagation();
 			return false;
 		});
-		this.options.maxHeight = this.container.parent().height() - 80; // minus header height
+		this.options.maxHeight = this.containerParent.height() - 120; // minus header height
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
 			GanttElastic.component.components['gantt-header'] = Header;
@@ -331,5 +333,8 @@ class Gantt {
 			self.showFiltersModal();
 		});
 		container.find('[data-toggle="tooltip"]').tooltip();
+		window.addEventListener('resize', () => {
+			this.ganttState.maxHeight = this.containerParent.height() - 120; // minus header height
+		});
 	}
 }
