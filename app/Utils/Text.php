@@ -75,7 +75,7 @@ class Text
 	{
 		$arrayOfEmoji = static::getArrayOfEmoji();
 		return \preg_replace_callback(
-			'/\:[^\:]+\:/',
+			'/\:[a-z,_]+\:/',
 			function (array $matches) use ($arrayOfEmoji) {
 				return $arrayOfEmoji[$matches[0]] ?? $matches[0];
 			},
