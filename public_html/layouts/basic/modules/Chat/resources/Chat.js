@@ -1202,34 +1202,10 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
 		this.registerSearchParticipants();
+		App.Fields.Text.registerMentions($('.js-chat-message')[0]);
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);
-		fetch('../../../../libraries/emojilib/emojis.json')
-			.then(response => response.json())
-			.then(response => {
-				App.emojisLib = response;
-			}).catch(error => console.error('Error:', error));
-		window.emojiStrategy = {
-			id: 'emoji',
-			match: /(^|\s):([a-z0-9+\-\_]*)$/,
-			search: function (term, callback) {
-				callback(Object.keys(App.emojisLib).filter(function (name) {
-					return name.startsWith(term);
-				}));
-			},
-			template: function (name) {
-				return App.emojisLib[name].char + '' + name;
-			},
-			replace: function (name) {
-				return '$1:' + name + ': ';
-			}
-		};
-
-		var editor = new Textcomplete.editors.Textarea($('.js-chat-message')[0]);
-
-		var textcomplete = new Textcomplete(editor);
-		textcomplete.register([emojiStrategy]);
 	}
 
 	/**
@@ -1262,4 +1238,4 @@ window.Chat_JS = class Chat_Js {
 		clearTimeout(this.timerMessage);
 		clearTimeout(this.timerRoom);
 	}
-}
+};
