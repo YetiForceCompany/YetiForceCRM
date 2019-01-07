@@ -94,18 +94,8 @@ class Text
 	 */
 	public static function emojiSave(string $text): string
 	{
-		$textOut = '';
 		$arrayOfEmoji = array_flip(static::getArrayOfEmoji());
-		$len = mb_strlen($text);
-		for ($i = 0; $i < $len; $i++) {
-			$oneChar = mb_substr($text, $i, 1);
-			if (isset($arrayOfEmoji[$oneChar])) {
-				$textOut .= $arrayOfEmoji[$oneChar];
-			} else {
-				$textOut .= $oneChar;
-			}
-		}
-		return $textOut;
+		return str_replace(array_keys($arrayOfEmoji), $arrayOfEmoji, $text);
 	}
 
 	/**
