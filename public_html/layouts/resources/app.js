@@ -79,9 +79,9 @@ var App = {},
 		},
 		/**
 		 * Function which will give you all details of the selected record
-		 * @params - an Array of values like {'record' : recordId, 'source_module' : searchModule, 'selectedName' : selectedRecordName}
+		 * @params {object} params - an object of values like {'record' : recordId, 'module' : searchModule, 'fieldType' : 'email'}
 		 */
-		getRecordDetails: function (params) { // obiekt zamiast url id i moduł zamiast params, przenisć do app.js jeżeli przekażesz fieldtype i email to zwróci ci pola konkretne i pierwszt
+		getRecordDetails: function (params) {
 			let aDeferred = $.Deferred();
 			if (app.getParentModuleName() === 'Settings') {
 				params.parent = 'Settings';
