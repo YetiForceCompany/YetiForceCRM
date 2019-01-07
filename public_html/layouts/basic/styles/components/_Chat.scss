@@ -54,7 +54,7 @@
 		}
 	}
 
-	&__msg-block {
+	&__message-block {
 		height: calculate-rem(50px);
 		width: calc(100% - #{$chat-btn-width});
 		position: relative;
