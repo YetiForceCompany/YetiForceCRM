@@ -347,8 +347,8 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
-					emojiEnabled: false,
-					mentionsEnabled: false,
+					emojiEnabled: true,
+					mentionsEnabled: true,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
@@ -442,7 +442,7 @@ App.Fields = {
 			registerMentions() {
 				let minSerchTextLength = app.getMainParams('gsMinLength');
 				return [{
-					feed: this.getMentionUsersData.bind(this),
+					feed: App.Fields.Text.getMentionUsersData.bind(this),
 					itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
 												<span class="fas fa-2x fa-user"></span>
@@ -456,7 +456,7 @@ App.Fields = {
 					minChars: minSerchTextLength
 				},
 					{
-						feed: this.getMentionData,
+						feed: App.Fields.Text.getMentionData,
 						marker: '#',
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
@@ -473,38 +473,6 @@ App.Fields = {
 				];
 			}
 
-			/**
-			 * Get mention data (invoked by ck editor mentions plugin)
-			 * @param {object} opts
-			 * @param {function} callback
-			 * @param {string} searchModule
-			 */
-			getMentionData(opts, callback, searchModule = '-') {
-				let basicSearch = new Vtiger_BasicSearch_Js();
-				basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
-				basicSearch.returnHtml = false;
-				basicSearch.searchModule = searchModule;
-				basicSearch.search(opts.query.toLowerCase()).done(function (data) {
-					data = JSON.parse(data);
-					let serverDataFormat = data.result,
-						reponseDataList = [];
-					for (let id in serverDataFormat) {
-						let responseData = serverDataFormat[id];
-						reponseDataList.push(responseData);
-					}
-					callback(reponseDataList);
-				});
-			}
-
-			/**
-			 * Get mention Users data (invoked by ck editor mentions plugin)
-			 * @param {object} opts
-			 * @param {function} callback
-			 */
-			getMentionUsersData(opts, callback) {
-				this.getMentionData(opts, callback, 'Users');
-			}
-
 			static convertEmojis(editorElement) {
 				return new Promise(function (resolve) {
 					let convertedValue = editorElement.val();
@@ -515,6 +483,74 @@ App.Fields = {
 					resolve(convertedValue);
 				});
 			}
+		},
+
+		registerMentions(element) {
+			let recordMention = new Tribute({
+				collection: [
+					{
+						trigger: '#',
+						selectTemplate: function (item) {
+							if (this.range.isContentEditable(this.current.element)) {
+								console.log(item);
+								return `<a href="#" data-id="${item.original.id}">#${item.original.label.split('(')[0]}</a>`;
+							}
+							return '#' + item.original.label;
+						},
+						values: function (text, cb) {
+							App.Fields.Text.getMentionData(text, users => cb(users));
+						},
+						menuItemTemplate: function (item) {
+							return `<div data-id="${item.original.id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-${item.original.module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">${item.original.label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${item.original.category}</div>
+											</div>
+										</div>`;
+						},
+						lookup: 'label',
+						fillAttr: 'label'
+					}]
+			});
+			recordMention.attach(element);
+		},
+
+		/**
+		 * Get mention data (invoked by ck editor mentions plugin)
+		 * @param {object} opts
+		 * @param {function} callback
+		 * @param {string} searchModule
+		 */
+		getMentionData(text, callback, searchModule = '-') {
+			let basicSearch = new Vtiger_BasicSearch_Js();
+			basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
+			basicSearch.returnHtml = false;
+			basicSearch.searchModule = searchModule;
+			if (typeof text === 'object') {
+				text = text.query.toLowerCase();
+			}
+			basicSearch.search(text).done(function (data) {
+				data = JSON.parse(data);
+				let serverDataFormat = data.result,
+					reponseDataList = [];
+				for (let id in serverDataFormat) {
+					let responseData = serverDataFormat[id];
+					reponseDataList.push(responseData);
+				}
+				callback(reponseDataList);
+			});
+		},
+
+		/**
+		 * Get mention Users data (invoked by ck editor mentions plugin)
+		 * @param {object} opts
+		 * @param {function} callback
+		 */
+		getMentionUsersData(opts, callback) {
+			this.getMentionData(opts, callback, 'Users');
 		},
 
 		/**
