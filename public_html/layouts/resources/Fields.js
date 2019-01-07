@@ -505,12 +505,16 @@ App.Fields = {
 			for (let el of element) {
 				textCompleteCollection.attach(el);
 			}
-			fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
-				.then(response => response.json())
-				.then(response => {
-					textCompleteCollection.append(2, response);
-				}).catch(error => console.error('Error:', error));
-
+			if (App.emoji === undefined) {
+				fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+					.then(response => response.json())
+					.then(response => {
+						App.emoji = response;
+						textCompleteCollection.append(2, response);
+					}).catch(error => console.error('Error:', error));
+			} else {
+				textCompleteCollection.append(2, App.emoji);
+			}
 		},
 
 		registerMentionCollection(symbol, searchModule = '-') {
