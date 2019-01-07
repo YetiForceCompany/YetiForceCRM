@@ -4,8 +4,8 @@
  * ProductsSoldToRenew Dashboard Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -22,11 +22,12 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		} else {
 			$widgetId = $request->getInteger('widgetid');
 		}
-
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
-
 		$this->setWidgetModel($widget);
-		$data = $this->setData($data);
+		$this->setData([
+			'orderby' => $request->getForSql('orderby'),
+			'sortorder' => $request->getForSql('sortorder'),
+		]);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('OWNER', $currentUser->getId());
