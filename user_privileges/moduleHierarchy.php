@@ -17,7 +17,7 @@ return [
 		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
 		'ProjectTask' => ['level' => 2, 'parentModule' => 'Project'],
 		'ProjectMilestone' => ['level' => 2, 'parentModule' => 'Project'],
-		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
+		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'Campaigns'],
 		'SRequirementsCards' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SCalculations' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
