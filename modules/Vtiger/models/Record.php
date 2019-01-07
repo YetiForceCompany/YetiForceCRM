@@ -15,12 +15,11 @@
 class Vtiger_Record_Model extends \App\Base
 {
 	protected $module = false;
-	protected $inventoryData;
-	protected $inventoryDataExist = false;
-	protected $inventoryRawData;
+	private $inventoryData;
 	protected $privileges = [];
 	protected $fullForm = true;
 	protected $changes = [];
+	private $changesInventory = [];
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
@@ -112,12 +111,35 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getPreviousValue($key = false)
+	public function getPreviousValue($key = '')
 	{
-		if (!$key) {
-			return $this->changes;
+		return $key ? ($this->changes[$key] ?? false) : $this->changes;
+	}
+
+	/**
+	 * Gets previous values by inventory.
+	 *
+	 * @param int|string|null $key
+	 *
+	 * @return array|bool
+	 */
+	public function getPreviousInventoryItems($key = null)
+	{
+		return $key !== null ? ($this->changesInventory[$key] ?? false) : $this->changesInventory;
+	}
+
+	/**
+	 * Gets previous values.
+	 *
+	 * @return array
+	 */
+	public function getChanges()
+	{
+		$changes = $this->getPreviousValue();
+		if ($this->getModule()->isInventory() && ($prevInv = $this->getPreviousInventoryItems())) {
+			$changes['inventory'] = $prevInv;
 		}
-		return isset($this->changes[$key]) ? $this->changes[$key] : false;
+		return $changes;
 	}
 
 	/**
@@ -418,9 +440,6 @@ class Vtiger_Record_Model extends \App\Base
 	public function save()
 	{
 		$moduleModel = $this->getModule();
-		if ($moduleModel->isInventory()) {
-			$this->initInventoryData();
-		}
 		$moduleName = $moduleModel->get('name');
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);
@@ -439,15 +458,9 @@ class Vtiger_Record_Model extends \App\Base
 					$this->validate();
 				}
 				$this->saveToDb();
-				if (method_exists($this, 'afterSaveToDb')) {
-					$this->afterSaveToDb();
-				}
 			}
 			$recordId = $this->getId();
 			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
-			if ($moduleModel->isInventory()) {
-				$this->saveInventoryData($moduleName);
-			}
 			if (\App\Request::_get('createmode') === 'link' && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
 				vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_getInteger('return_id'), $moduleName, $recordId);
 			}
@@ -484,6 +497,9 @@ class Vtiger_Record_Model extends \App\Base
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
+		}
+		if ($this->getModule()->isInventory()) {
+			$this->saveInventoryData();
 		}
 	}
 
@@ -682,6 +698,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordSearch->operator = $operator;
 		}
 		$rows = $recordSearch->search();
+
 		$ids = $matchingRecords = $leadIdsList = [];
 		foreach ($rows as $row) {
 			$ids[] = $row['crmid'];
@@ -763,7 +780,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isMandatorySave()
 	{
-		if ($this->getModule()->isInventory()) {
+		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
 			return true;
 		}
 		return false;
@@ -1020,8 +1037,8 @@ class Vtiger_Record_Model extends \App\Base
 				}
 			}
 			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($parentRecordModel->getModuleName());
-				$inventoryFields = $inventoryFieldModel->getFields();
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($parentRecordModel->getModuleName());
+				$inventoryFields = $inventoryModel->getFields();
 				$sourceInv = $parentRecordModel->getInventoryData();
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
@@ -1030,7 +1047,7 @@ class Vtiger_Record_Model extends \App\Base
 					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {
 						$this->set($mapp['target']->getName(), $parentRecordModel->get($mapp['source']->getName()));
 					}
-				} elseif ($mapp['type'] == 'INVENTORY' && is_array($sourceInv)) {
+				} elseif ($mapp['type'] == 'INVENTORY' && $sourceInv) {
 					foreach ($sourceInv as $key => $base) {
 						$newInvData[$key][$mapp['target']->getName()] = $base[$mapp['source']->getName()];
 						$fieldInventoryModel = $inventoryFields ? $inventoryFields[$mapp['source']->getName()] : [];
@@ -1055,7 +1072,7 @@ class Vtiger_Record_Model extends \App\Base
 				}
 			}
 			if ($newInvData) {
-				$this->inventoryData = $newInvData;
+				$this->initInventoryData($newInvData, false);
 			}
 		}
 	}
@@ -1068,48 +1085,33 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Set inventory data.
-	 *
-	 * @param array $data
-	 */
-	public function setInventoryData($data)
-	{
-		$this->inventoryData = $data;
-	}
-
-	/**
-	 * Set inventory raw data.
-	 *
-	 * @param \App\Request $data
-	 */
-	public function setInventoryRawData(\App\Request $data)
-	{
-		$this->inventoryRawData = $data;
-	}
-
-	/**
 	 * Save the inventory data.
 	 *
-	 * @param string $moduleName
-	 *
-	 * @return bool
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
 	 */
-	public function saveInventoryData($moduleName)
+	public function saveInventoryData()
 	{
-		if (!$this->inventoryDataExist) {
-			return false;
-		}
 		\App\Log::trace('Start ' . __METHOD__);
-		$db = App\Db::getInstance();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
-		$inventoryDataValue = $this->getInventoryData();
-		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
-		if (is_array($inventoryDataValue)) {
-			foreach ($inventoryDataValue as $insertData) {
-				$insertData['id'] = $this->getId();
-				$db->createCommand()->insert($table, $insertData)->execute();
+		$inventoryData = $this->getInventoryData();
+		$prevValue = $this->getPreviousInventoryItems();
+		if (($this->isNew() && $inventoryData) || (!$this->isNew() && $prevValue)) {
+			$db = App\Db::getInstance();
+			$dbCommand = $db->createCommand();
+			$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+			$tableName = $inventory->getDataTableName();
+			if ($prevValue && ($ids = array_column($prevValue, 'id'))) {
+				$dbCommand->delete($tableName, ['id' => $ids])->execute();
+			}
+			foreach ($inventoryData as $key => $item) {
+				if (isset($item['id'])) {
+					$dbCommand->update($tableName, $item, ['id' => $item['id']])->execute();
+				} else {
+					$item['crmid'] = $this->getId();
+					$dbCommand->insert($tableName, $item)->execute();
+					$item['id'] = $db->getLastInsertID("{$tableName}_id_seq");
+					$this->inventoryData[$key] = $item;
+				}
 			}
 		}
 		\App\Log::trace('End ' . __METHOD__);
@@ -1137,92 +1139,115 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Loading the inventory data.
 	 *
-	 * @return array inventory data
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array Inventory data
 	 */
 	public function getInventoryData()
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		if (!isset($this->inventoryData)) {
-			$record = $this->getId();
-			if (empty($record)) {
-				$record = $this->get('record_id');
-			}
-			if (empty($record)) {
-				return [];
-			}
-			$this->inventoryData = self::getInventoryDataById($record, $this->getModuleName());
+		if (!isset($this->inventoryData) && $this->getId()) {
+			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->getId(), $this->getModuleName());
+		} else {
+			$this->inventoryData = $this->inventoryData ?? [];
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
 	}
 
 	/**
-	 * Function to get data of inventory for record.
+	 * Gets inventory item.
 	 *
-	 * @param int    $id
-	 * @param string $moduleName
+	 * @param int|string $key
 	 *
-	 * @return array
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
 	 */
-	public static function getInventoryDataById($id, $moduleName)
+	public function getInventoryItem($key)
 	{
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$fields = $inventory->getFields();
-		$query = (new \App\Db\Query())->from($inventory->getTableName())->where(['id' => $id]);
-		if (isset($fields['seq'])) {
-			$query->orderBy(['seq' => SORT_ASC]);
-		}
-		return $query->all();
+		return $this->getInventoryData()[$key] ?? null;
 	}
 
 	/**
-	 * Save the inventory data.
+	 * Initialization of inventory data.
+	 *
+	 * @param array     $items
+	 * @param bool|null $userFormat
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\Security
 	 */
-	public function initInventoryData()
+	public function initInventoryData(array $items, bool $userFormat = true)
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		$inventory = Vtiger_InventoryField_Model::getInstance($this->getModuleName());
-		$fields = $inventory->getFields();
-		$summaryFields = $inventory->getSummaryFields();
-		$inventoryDataArray = [];
-		if (isset($this->inventoryRawData)) {
-			$request = $this->inventoryRawData;
-		} else {
-			$request = App\Request::init();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		$fields = $inventoryModel->getFields();
+		$this->getInventoryData();
+		$requiredField = $inventoryModel->getField('name');
+		if (!$this->isNew()) {
+			$newKeys = array_column($items, 'id', 'id');
+			foreach ($this->inventoryData as $key => $item) {
+				if (!isset($newKeys[$key])) {
+					$this->changesInventory[$key] = $item;
+					unset($this->inventoryData[$key]);
+				}
+			}
 		}
-		if ($request->has('inventoryItemsNo')) {
-			$seq = [];
-			$numRow = $request->getInteger('inventoryItemsNo');
-			for ($i = 1; $i <= $numRow; ++$i) {
-				$seq[$request->getInteger('seq' . $i)] = $i;
+		$i = 0;
+		foreach ($items as $key => $item) {
+			if (empty($item['id']) && $requiredField && !$requiredField->isRequired() && !isset($item[$requiredField->getColumnName()])) {
+				continue;
 			}
-			ksort($seq);
-			foreach ($seq as $i) {
-				if (!$request->has('name' . $i)) {
-					continue;
-				}
-				$insertData = [];
-				foreach ($fields as $field) {
-					$field->getValueFromRequest($insertData, $request, $i);
-					if ($field->isRequired() && empty($insertData[$field->getColumnName()])) {
-						$insertData = [];
-						break;
-					}
-				}
-				if ($insertData) {
-					$inventoryDataArray[] = $insertData;
-				}
+			$item['id'] = empty($item['id']) ? '#' . $i++ : (int) $item['id'];
+			foreach ($fields as $field) {
+				$field->setValueToRecord($this, $item, $userFormat);
 			}
-			foreach ($summaryFields as $fieldName) {
+		}
+		if ($this->isNew() || $this->getPreviousInventoryItems()) {
+			foreach ($inventoryModel->getSummaryFields() as $fieldName) {
 				if ($this->has('sum_' . $fieldName)) {
-					$value = $fields[$fieldName]->getSummaryValuesFromData($inventoryDataArray);
+					$value = $fields[$fieldName]->getSummaryValuesFromData($this->getInventoryData());
 					$this->set('sum_' . $fieldName, $value);
 				}
 			}
-			$this->inventoryData = $inventoryDataArray;
-			$this->inventoryDataExist = true;
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * Initialization of inventory data from request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\Security
+	 */
+	public function initInventoryDataFromRequest(\App\Request $request)
+	{
+		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		$this->initInventoryData($request->getMultiDimensionArray('inventory', ['id' => \App\Purifier::INTEGER] + $inventory->getPurifyTemplate()));
+	}
+
+	/**
+	 * Sets inventory item part.
+	 *
+	 * @param mixed  $itemId
+	 * @param string $name
+	 * @param mixed  $value
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function setInventoryItemPart($itemId, string $name, $value)
+	{
+		if (!$this->isNew()) {
+			if (is_numeric($itemId) && ($prevValue = ($this->getInventoryData()[$itemId][$name] ?? false)) != $value) {
+				$this->changesInventory[$itemId][$name] = $prevValue;
+			} elseif (!is_numeric($itemId)) {
+				$this->changesInventory[$itemId] = [];
+			}
+		}
+		$this->inventoryData[$itemId][$name] = $value;
 	}
 
 	/**

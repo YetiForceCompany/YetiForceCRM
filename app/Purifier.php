@@ -8,9 +8,40 @@ namespace App;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce Sp. z o.o
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Purifier
 {
+	/**
+	 * Purify type date in user format.
+	 */
+	public const DATE_USER_FORMAT = 'DateInUserFormat';
+
+	/**
+	 * Purify type integer.
+	 */
+	public const INTEGER = 'Integer';
+
+	/**
+	 * Purify type text.
+	 */
+	public const TEXT = 'Text';
+
+	/**
+	 * Purify type number.
+	 */
+	public const NUMBER = 'Number';
+
+	/**
+	 * Purify type html.
+	 */
+	public const HTML = 'Html';
+
+	/**
+	 * Purify type boolean.
+	 */
+	public const BOOL = 'Bool';
+
 	/**
 	 * Default charset.
 	 *
@@ -142,7 +173,7 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes($value)
 	{
-		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value)) {
+		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
@@ -366,6 +397,15 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Number':
+					$dbFormat = Fields\Double::formatToDb($input);
+					if (is_numeric($dbFormat) && Fields\Double::formatToDisplay($dbFormat, false) === Fields\Double::truncateZeros($input)) {
+						$value = $input;
+					}
+					break;
+				case 'Html':
+					$value = self::purifyHtml($input);
+					break;
 				case 'Integer': // Integer
 					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {
 						$value = $input;
@@ -388,7 +428,7 @@ class Purifier
 					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
 					break;
 				case 'Path':
-					$value = Fields\File::checkFilePath($input) ? $input : null;
+					$value = Fields\File::checkFilePath($input) ? static::encodeHtml($input) : null;
 					break;
 				case 'Text':
 				default:

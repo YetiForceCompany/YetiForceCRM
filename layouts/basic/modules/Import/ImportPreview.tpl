@@ -24,12 +24,12 @@
 								</thead>
 								{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 									<tr>
-										{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADERNAME from=$LISTVIEW_HEADERS}
+										{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 											<td class="{$WIDTHTYPE}">
 												{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
-													{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+													{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADER->getFieldName()))}
 												{else}
-													{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME,true)}
+													{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER->getFieldName(),true)}
 												{/if}
 											</td>
 										{/foreach}

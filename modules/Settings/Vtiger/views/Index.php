@@ -109,7 +109,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
-
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
@@ -204,7 +203,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$active = $request->getBoolean('active');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-
 		$list = \App\SystemWarnings::getWarnings($folder, $active);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('WARNINGS_LIST', $list);

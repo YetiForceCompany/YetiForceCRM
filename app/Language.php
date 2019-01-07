@@ -14,6 +14,11 @@ namespace App;
 class Language
 {
 	/**
+	 * Default language code.
+	 */
+	public const DEFAULT_LANG = 'en-US';
+
+	/**
 	 * Allowed types of language variables.
 	 */
 	const LANG_TYPE = ['php', 'js'];
@@ -76,7 +81,19 @@ class Language
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
-		return static::$language = empty($language) ? \AppConfig::main('default_language') : strtolower($language);
+		return static::$language = empty($language) ? \AppConfig::main('default_language') : $language;
+	}
+
+	/**
+	 * Get IETF language tag.
+	 *
+	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
+	 *
+	 * @return string
+	 */
+	public static function getLanguageTag($separator = '_')
+	{
+		return str_replace('-', $separator, static::getLanguage());
 	}
 
 	/**
@@ -86,7 +103,7 @@ class Language
 	 */
 	public static function setTemporaryLanguage($language)
 	{
-		static::$temporaryLanguage = strtolower($language);
+		static::$temporaryLanguage = $language;
 	}
 
 	/**
@@ -110,23 +127,7 @@ class Language
 			return static::$shortLanguage;
 		}
 		preg_match('/^[a-z]+/i', static::getLanguage(), $match);
-		return static::$shortLanguage = (empty($match[0])) ? 'en' : $match[0];
-	}
-
-	/**
-	 * Get IETF language tag.
-	 *
-	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
-	 *
-	 * @return string
-	 */
-	public static function getLanguageTag($separator = '-')
-	{
-		$lang = \explode('_', static::getLanguage());
-		if (isset($lang[1])) {
-			$lang[1] = \strtoupper($lang[1]);
-		}
-		return \implode($separator, $lang);
+		return static::$shortLanguage = (empty($match[0])) ? \Locale::getPrimaryLanguage(self::DEFAULT_LANG) : $match[0];
 	}
 
 	/**
@@ -311,7 +312,7 @@ class Language
 					}
 				}
 				if (!file_exists($langFile) && !file_exists($langCustomFile)) {
-					\App\Log::warning("Language file does not exist, module: $moduleName ,language: $language");
+					\App\Log::info("Language file does not exist, module: $moduleName ,language: $language");
 				}
 				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer[$language][$moduleName], Cache::LONG);
 			}
@@ -705,7 +706,9 @@ class Language
 	{
 		$original = explode(';', setlocale(LC_ALL, 0));
 		$defaultCharset = strtolower(\AppConfig::main('default_charset'));
-		setlocale(LC_ALL, static::getLanguageTag('_') . '.' . $defaultCharset, \AppConfig::main('default_language') . '.' . $defaultCharset, 'en_US.' . $defaultCharset, 'en_US.utf8');
+		setlocale(LC_ALL, \Locale::acceptFromHttp(self::getLanguage()) . '.' . $defaultCharset,
+			\Locale::acceptFromHttp(\AppConfig::main('default_language')) . '.' . $defaultCharset, \Locale::acceptFromHttp(self::DEFAULT_LANG) . ".$defaultCharset",
+			\Locale::acceptFromHttp(self::DEFAULT_LANG) . '.utf8');
 		foreach ($original as $localeSetting) {
 			if (strpos($localeSetting, '=') !== false) {
 				list($category, $locale) = explode('=', $localeSetting);

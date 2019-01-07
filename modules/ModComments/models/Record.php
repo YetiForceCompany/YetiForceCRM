@@ -312,6 +312,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
 		$dataReader = $query->createCommand()->query();
+		$recordInstances = [];
 		if ($isWidget) {
 			while ($row = $dataReader->read()) {
 				$recordInstance = new self();
@@ -329,7 +330,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					$commentsId[] = $row['id'];
 				}
 			}
-			$recordInstances = [];
 			if (!empty($commentsId)) {
 				$queryGeneratorParents = new \App\QueryGenerator('ModComments');
 				$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',

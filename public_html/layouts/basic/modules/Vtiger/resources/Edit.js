@@ -151,7 +151,7 @@ $.Class("Vtiger_Edit_Js", {
 		fieldElement.val(id)
 		fieldDisplayElement.val(app.decodeHTML(selectedName)).attr('readonly', true);
 		fieldElement.trigger(Vtiger_Edit_Js.referenceSelectionEvent, {
-			source_module: popupReferenceModule,
+			module: popupReferenceModule,
 			record: id,
 			selectedName: selectedName
 		});
@@ -163,10 +163,10 @@ $.Class("Vtiger_Edit_Js", {
 		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
 		if (typeof mappingRelatedField !== 'undefined') {
 			let params = {
-				source_module: popupReferenceModule,
+				module: popupReferenceModule,
 				record: id
 			};
-			this.getRecordDetails(params).done(function (data) {
+			app.getRecordDetails(params).done(function (data) {
 				var response = params.data = data['result']['data'];
 				app.event.trigger("EditView.SelectReference", params, formElement);
 				$.each(mappingRelatedField, function (key, value) {
@@ -182,11 +182,11 @@ $.Class("Vtiger_Edit_Js", {
 						} else {
 							mapFieldElement.val(response[value[0]]);
 						}
-						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
+						let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 						if (mapFieldDisplayElement.length > 0) {
 							mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
-							if (fieldinfo.type !== 'tree') {
-								var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
+							if (fieldinfo.type === 'reference') {
+								let referenceModulesList = mapFieldElement.closest('.fieldValue').find('.referenceModulesList');
 								if (referenceModulesList.length > 0 && value[1]) {
 									referenceModulesList.val(value[1]).trigger('change');
 								}
@@ -483,27 +483,6 @@ $.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
-	/**
-	 * Function which will give you all details of the selected record
-	 * @params - an Array of values like {'record' : recordId, 'source_module' : searchModule, 'selectedName' : selectedRecordName}
-	 */
-	getRecordDetails: function (params) {
-		var aDeferred = $.Deferred();
-		var url = "index.php?module=" + params['source_module'] + "&action=GetData&record=" + params['record'];
-		if (app.getParentModuleName() == 'Settings') {
-			url += '&parent=Settings';
-		}
-		AppConnector.request(url).done(function (data) {
-			if (data['success']) {
-				aDeferred.resolve(data);
-			} else {
-				aDeferred.reject(data['message']);
-			}
-		}).fail(function (error) {
-			aDeferred.reject();
-		});
-		return aDeferred.promise();
-	},
 	registerTimeFields: function (container) {
 		app.registerEventForClockPicker();
 		App.Fields.Date.register(container);
@@ -624,7 +603,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Accounts"
+						'module': "Accounts"
 					}
 
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
@@ -740,8 +719,8 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	copyAddressDetails: function (from, to, data, container) {
 		var thisInstance = this;
-		var sourceModule = data['source_module'];
-		thisInstance.getRecordDetails(data).done(function (data) {
+		var sourceModule = data.module;
+		app.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.addressFieldsData = response;
 			thisInstance.copyAddress(from, to, true, sourceModule);
@@ -813,7 +792,7 @@ $.Class("Vtiger_Edit_Js", {
 	},
 	copyAddressDetailsRef: function (data, container) {
 		var thisInstance = this;
-		thisInstance.getRecordDetails(data).done(function (data) {
+		app.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.mapAddressDetails(response, container);
 		}).fail(function (error, err) {

@@ -5,9 +5,15 @@
 		<div class="row">
 			<div class="col-2 p-0">
 				<a class="companyLogoContainer" href="index.php">
-					<h1 class="sr-only">{$COMPANY_DETAILS->get('name')}</h1>
-					<img class="img-fluid logo" src="{$COMPANY_LOGO->get('imageUrl')}"
-						 title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+					<h1 class="sr-only">{$CURRENT_USER->get('roleName')}</h1>
+					{if $CURRENT_USER->get('multiCompanyLogoUrl')}
+						<img class="img-fluid logo" src="{$CURRENT_USER->get('multiCompanyLogoUrl')}"
+							 title="{$CURRENT_USER->get('roleName')}"
+							 alt="{$CURRENT_USER->get('roleName')}"/>
+					{else}
+						<img class="img-fluid logo" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo')}" title="Logo"
+							 alt="Logo"/>
+					{/if}
 				</a>
 			</div>
 			<div class="col-10 userDetails">
@@ -21,7 +27,7 @@
 						{/foreach}
 						<p class="companyName p-0 m-0 u-text-ellipsis"
 						   title="{\App\Language::translate('LBL_ROLE', $QUALIFIED_MODULE)}">
-							{$USER_MODEL->getDisplayValue('roleid')}
+							{\App\Language::translate($CURRENT_USER->get('roleName'))}
 						</p>
 					</div>
 					<div class="col-2 p-0 text-center js-menu--pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}"

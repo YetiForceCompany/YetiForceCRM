@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Comment';
+	protected $type = 'Comment';
 	protected $defaultLabel = 'LBL_COMMENT';
 	protected $colSpan = 0;
 	protected $columnName = 'comment';
@@ -20,11 +21,12 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $blocks = [2];
 	public $height = 50;
 	public $isVisible = false;
+	protected $purifyType = \App\Purifier::HTML;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Purifier::purifyHtml($value);
 	}
@@ -32,24 +34,18 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
+		if (!is_string($value)) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
-		$value = $request->getForHtml($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function getDBValue($value, ?string $name = '')
 	{
-		if (!is_string($value)) {
-			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
-		}
+		return \App\Purifier::decodeHtml($value);
 	}
 }

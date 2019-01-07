@@ -8,25 +8,35 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Integer_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Integer';
+	protected $type = 'Integer';
 	protected $defaultLabel = 'LBL_INTEGER';
 	protected $columnName = 'int';
 	protected $dbType = [\yii\db\Schema::TYPE_INTEGER, 11];
 	protected $onlyOne = false;
 	protected $maximumLength = '99999999999999999999';
+	protected $purifyType = \App\Purifier::INTEGER;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function getDBValue($value, ?string $name = '')
+	{
+		return (int) $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if (empty($value)) {
 			return;
 		}
-		if (!is_numeric($value)) {
+		if (filter_var($value, FILTER_VALIDATE_INT) === false) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 		if ($value > $this->maximumLength || $value < -$this->maximumLength) {
@@ -37,7 +47,7 @@ class Vtiger_Integer_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Integer::formatToDisplay($value);
 	}

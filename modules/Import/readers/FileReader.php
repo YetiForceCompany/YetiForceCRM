@@ -134,13 +134,13 @@ class Import_FileReader_Reader
 
 		if ($this->moduleModel->isInventory()) {
 			$inventoryTableName = Import_Module_Model::getInventoryDbTableName($this->user);
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleModel->getName());
 			$columns = [
 				'id' => $schema->createColumnSchemaBuilder('integer', 19),
 			];
-			foreach ($inventoryFieldModel->getFields() as $fieldObject) {
+			foreach ($inventoryModel->getFields() as $fieldObject) {
 				$dbType = $fieldObject->getDBType();
-				if (in_array($fieldObject->getName(), ['Name', 'Reference'])) {
+				if (in_array($fieldObject->getType(), ['Name', 'Reference'])) {
 					$dbType = $schema->createColumnSchemaBuilder('string', 200);
 				} elseif (is_array($dbType)) {
 					$dbType = $schema->createColumnSchemaBuilder($dbType[0], $dbType[1]);

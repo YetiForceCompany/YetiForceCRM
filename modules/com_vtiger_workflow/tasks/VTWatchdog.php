@@ -46,6 +46,7 @@ class VTWatchdog extends VTTask
 		if (!empty($this->skipCurrentUser) && ($key = array_search(\App\User::getCurrentUserId(), $users)) !== false) {
 			unset($users[$key]);
 		}
+
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
 		$notification->set('shownerid', implode(',', $users));

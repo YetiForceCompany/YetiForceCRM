@@ -11,7 +11,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE'];
+	public $listFields = ['name' => 'LBL_NAME', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'status' => 'LBL_STATUS'];
 	public $name = 'Companies';
 
 	/**
@@ -53,17 +53,5 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		return array_merge(
 			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(), (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
 		);
-	}
-
-	/**
-	 * Function to get the all companies.
-	 *
-	 * @return array
-	 */
-	public static function getAllCompanies()
-	{
-		$query = new \App\Db\Query();
-		$query->select(['id', 'name', 'default'])->from('s_#__companies');
-		return $query->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
 	}
 }

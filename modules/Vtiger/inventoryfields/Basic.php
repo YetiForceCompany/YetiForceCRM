@@ -12,20 +12,94 @@
  */
 class Vtiger_Basic_InventoryField extends \App\Base
 {
-	protected $name = '';
-	protected $defaultLabel = '';
-	protected $defaultValue = '';
-	protected $columnName = '-';
+	/**
+	 * Field visible everywhere.
+	 */
+	private const FIELD_VISIBLE_EVERYWHERE = 0;
+	/**
+	 * Field visible in detail view.
+	 */
+	private const FIELD_VISIBLE_IN_DETAIL = 2;
+	/**
+	 * Field hidden.
+	 */
+	private const FIELD_HIDDEN = 5;
+	/**
+	 * Field read-only.
+	 */
+	private const FIELD_READONLY = 10;
+
+	protected $columnName = '';
+	protected $moduleName = '';
+
+	protected $type;
 	protected $colSpan = 10;
+	protected $defaultValue = '';
+	protected $params = [];
 	protected $dbType = 'string';
 	protected $customColumn = [];
 	protected $summationValue = false;
 	protected $onlyOne = true;
-	protected $displayTypeBase = ['LBL_DISPLAYTYPE_ALL' => 0, 'LBL_DISPLAYTYPE_ONLY_DETAIL' => 2, 'LBL_DISPLAYTYPE_HIDDEN' => 5, 'LBL_DISPLAYTYPE_READONLY' => 10];
+	protected $displayType = self::FIELD_VISIBLE_EVERYWHERE;
+	protected $displayTypeBase = [
+		'LBL_DISPLAYTYPE_ALL' => self::FIELD_VISIBLE_EVERYWHERE,
+		'LBL_DISPLAYTYPE_ONLY_DETAIL' => self::FIELD_VISIBLE_IN_DETAIL,
+		'LBL_DISPLAYTYPE_HIDDEN' => self::FIELD_HIDDEN,
+		'LBL_DISPLAYTYPE_READONLY' => self::FIELD_READONLY
+	];
 	protected $blocks = [1];
 	protected $fieldDataType = 'inventory';
-	protected $params = [];
 	protected $maximumLength = 255;
+	protected $defaultLabel = '';
+	protected $purifyType = '';
+	protected $customPurifyType = [];
+
+	/**
+	 * Gets inventory field instance.
+	 *
+	 * @param string      $moduleName
+	 * @param string|null $type
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return self
+	 */
+	public static function getInstance(string $moduleName, ?string $type = 'Basic')
+	{
+		$cacheName = "$moduleName:$type";
+		if (\App\Cache::has(__METHOD__, $cacheName)) {
+			$instance = \App\Cache::get(__METHOD__, $cacheName);
+		} else {
+			$className = Vtiger_Loader::getComponentClassName('InventoryField', $type, $moduleName);
+			$instance = new $className();
+			$instance->setModuleName($moduleName);
+			\App\Cache::save(__METHOD__, $cacheName, $instance);
+		}
+		return clone $instance;
+	}
+
+	/**
+	 * Function returns module name.
+	 *
+	 * @return string
+	 */
+	public function getModuleName(): string
+	{
+		return $this->moduleName;
+	}
+
+	/**
+	 * Sets module name.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return \Vtiger_Basic_InventoryField
+	 */
+	public function setModuleName(string $moduleName): self
+	{
+		$this->moduleName = $moduleName;
+		return $this;
+	}
 
 	/**
 	 * Getting onlyOne field.
@@ -77,12 +151,19 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		return $this->displayTypeBase;
 	}
 
+	/**
+	 * Gets display type.
+	 *
+	 * @return int
+	 */
+	public function getDisplayType(): int
+	{
+		return $this->has('displayType') ? $this->get('displayType') : $this->displayType;
+	}
+
 	public function getColSpan()
 	{
-		if ($this->has('colspan')) {
-			return $this->get('colspan');
-		}
-		return $this->colSpan;
+		return $this->has('colSpan') ? $this->get('colSpan') : $this->colSpan;
 	}
 
 	public function getRangeValues()
@@ -107,7 +188,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getTemplateName($view, $moduleName)
 	{
-		$tpl = $view . $this->name . '.tpl';
+		$tpl = $view . $this->type . '.tpl';
 		$filename = 'layouts' . DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
 		if (is_file($filename)) {
 			return $tpl;
@@ -138,13 +219,13 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
-	 * Getting field name.
+	 * Getting field type.
 	 *
-	 * @return string name
+	 * @return string
 	 */
-	public function getName()
+	public function getType()
 	{
-		return $this->name;
+		return $this->type;
 	}
 
 	/**
@@ -154,10 +235,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getColumnName()
 	{
-		if ($this->has('columnname')) {
-			return $this->get('columnname');
-		}
-		return $this->columnName;
+		return $this->has('columnName') ? $this->get('columnName') : $this->columnName;
 	}
 
 	/**
@@ -177,30 +255,19 @@ class Vtiger_Basic_InventoryField extends \App\Base
 
 	public function getDefaultValue()
 	{
-		if ($this->has('defaultvalue')) {
-			return $this->get('defaultvalue');
-		}
-		return $this->defaultValue;
-	}
-
-	/**
-	 * Data field instance initialization.
-	 *
-	 * @param array $valueArray Array for initialization
-	 */
-	public function initialize($valueArray)
-	{
-		$this->setData($valueArray);
+		return $this->has('defaultValue') ? $this->get('defaultValue') : $this->defaultValue;
 	}
 
 	/**
 	 * Getting value to display.
 	 *
-	 * @param type $value
+	 * @param mixed $value
+	 * @param array $rowData
+	 * @param bool  $rawText
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Purifier::encodeHtml($value);
 	}
@@ -227,7 +294,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getValue($value)
 	{
 		if ($value == '') {
-			return $this->get('defaultvalue');
+			$value = $this->getDefaultValue();
 		}
 		return $value;
 	}
@@ -249,10 +316,17 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function isVisible()
 	{
-		if ((int) $this->get('displaytype') == 5) {
-			return false;
-		}
-		return true;
+		return self::FIELD_HIDDEN !== $this->get('displayType');
+	}
+
+	/**
+	 * Function to check if field is visible in detail view.
+	 *
+	 * @return bool - true/false
+	 */
+	public function isVisibleInDetail()
+	{
+		return in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY, self::FIELD_VISIBLE_IN_DETAIL]);
 	}
 
 	/**
@@ -262,23 +336,17 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function isEditable()
 	{
-		if (!in_array((int) $this->get('displaytype'), [0, 10])) {
-			return false;
-		}
-		return true;
+		return in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY]);
 	}
 
 	/**
-	 * Function to check whether the current field is editable.
+	 * Function checks if the field is read-only.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
-	public function isColumnType()
+	public function isReadOnly()
 	{
-		if (empty($this->columnName) || $this->columnName == '-') {
-			return false;
-		}
-		return true;
+		return self::FIELD_READONLY === $this->get('displayType');
 	}
 
 	/**
@@ -300,28 +368,31 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		$sum = 0;
 		if (is_array($data)) {
 			foreach ($data as $row) {
-				$sum += $row[$this->get('columnname')];
+				$sum += $row[$this->getColumnName()];
 			}
 		}
 		return $sum;
 	}
 
-	public function getMapDetail($returInstance = false)
+	/**
+	 * Gets relation field.
+	 *
+	 * @param string $related
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Field_Model|bool
+	 */
+	public function getMapDetail(string $related)
 	{
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
-		$fields = $inventoryField->getAutoCompleteFields();
-		$columnNameValue = $this->getColumnName();
-		if (isset($fields[$columnNameValue])) {
-			$mapDetail = $fields[$columnNameValue];
-			if ($returInstance) {
-				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
-
-				return Vtiger_Field_Model::getInstance($mapDetail['field'], $moduleModel);
-			} else {
-				return $mapDetail;
-			}
+		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		$fields = $inventory->getAutoCompleteFields();
+		$field = false;
+		if ($mapDetail = $fields[$related][$this->getColumnName()] ?? false) {
+			$moduleModel = Vtiger_Module_Model::getInstance($related);
+			$field = Vtiger_Field_Model::getInstance($mapDetail['field'], $moduleModel);
 		}
-		return false;
+		return $field;
 	}
 
 	public function getFieldDataType()
@@ -330,23 +401,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
-	 * Get value from request.
+	 * Gets database value.
 	 *
-	 * @param array        $insertData
-	 * @param \App\Request $request
-	 * @param int          $i
+	 * @param mixed       $value
+	 * @param string|null $name
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
-		}
-		$value = $request->get($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
+		return $value;
 	}
 
 	/**
@@ -358,14 +422,28 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
-			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . "||$value", 406);
 		}
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . ($columnName ?? $this->getColumnName()) . "||$value", 406);
 		}
+	}
+
+	/**
+	 * Sets default data config.
+	 */
+	public function setDefaultDataConfig()
+	{
+		$this->set('columnName', $this->columnName)
+			->set('label', $this->defaultLabel)
+			->set('presence', 0)
+			->set('defaultValue', $this->defaultValue)
+			->set('displayType', $this->displayType)
+			->set('invtype', $this->type)
+			->set('colSpan', $this->colSpan);
 	}
 
 	/**
@@ -376,5 +454,46 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function isRequired()
 	{
 		return false;
+	}
+
+	/**
+	 * Sets value data.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $item
+	 * @param bool                 $userFormat
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\Security
+	 */
+	public function setValueToRecord(\Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
+	{
+		$column = $this->getColumnName();
+		$value = $item[$column];
+		$this->validate($value, $column, $userFormat);
+		if ($userFormat) {
+			$value = $this->getDBValue($value, $column);
+		}
+		$recordModel->setInventoryItemPart($item['id'], $column, $value);
+		if ($customColumn = $this->getCustomColumn()) {
+			foreach (array_keys($customColumn) as $column) {
+				$value = $item[$column];
+				$this->validate($value, $column, $userFormat);
+				if ($userFormat) {
+					$value = $this->getDBValue($value, $column);
+				}
+				$recordModel->setInventoryItemPart($item['id'], $column, $value);
+			}
+		}
+	}
+
+	/**
+	 * Gets purify type.
+	 *
+	 * @return array
+	 */
+	public function getPurifyType()
+	{
+		return [$this->getColumnName() => $this->purifyType] + $this->customPurifyType;
 	}
 }

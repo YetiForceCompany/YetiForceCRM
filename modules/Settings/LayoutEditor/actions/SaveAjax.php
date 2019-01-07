@@ -4,8 +4,8 @@
  * Save Inventory Action Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -31,7 +31,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => $status, ]
+				'success' => $status, ]
 		);
 		$response->emit();
 	}
@@ -43,54 +43,71 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function saveInventoryField(\App\Request $request)
 	{
-		$param = $request->get('param');
-		$moduleName = $param['module'];
-		$name = $param['name'];
-		$id = (int) $param['id'];
-		$edit = false;
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		if (!empty($id)) {
-			$inventoryField->saveField($name, $param);
-			$edit = true;
+		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
+		if ($isNew = $request->isEmpty('id')) {
+			$fieldModel = $inventory->getFieldCleanInstance($request->getByType('type'));
+			$fieldModel->setDefaultDataConfig();
 		} else {
-			$id = $inventoryField->addField($name, $param);
+			$fieldModel = $inventory->getFieldById($request->getInteger('id'));
 		}
-		$arrayInstane = $inventoryField->getFields(false, [$id], 'Settings');
-		$data = [];
-		if (current($arrayInstane)) {
-			$data = current($arrayInstane)->getData();
-			$data['translate'] = \App\Language::translate($data['label'], $moduleName);
+		$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan'];
+		foreach ($fields as $name) {
+			if ($request->has($name)) {
+				switch ($name) {
+					case 'label':
+						$fieldModel->set($name, $request->getByType($name, 'Text'));
+						break;
+					case 'defaultValue':
+						$fieldModel->set($name, $request->getByType($name, 'Text'));
+						break;
+					case 'block':
+						$blockId = $request->getInteger($name);
+						if (!in_array($blockId, $fieldModel->getBlocks())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $blockId, 406);
+						}
+						$fieldModel->set($name, $blockId);
+						break;
+					case 'displayType':
+						$displayType = $request->getInteger($name);
+						if (!in_array($displayType, $fieldModel->displayTypeBase())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $displayType, 406);
+						}
+						$fieldModel->set($name, $displayType);
+						break;
+					case 'params':
+						$fieldModel->set($name, $request->getByType($name, 'Text'));
+						break;
+					case 'colSpan':
+						$fieldModel->set($name, $request->getInteger($name));
+						break;
+					default:
+						break;
+				}
+			}
 		}
+		$inventory->saveField($fieldModel);
+		$data = $fieldModel->getData();
+		$data['translate'] = \App\Language::translate($data['label'], $fieldModel->getModuleName());
 		$response = new Vtiger_Response();
-		$response->setResult(['data' => $data, 'edit' => $edit]);
+		$response->setResult(['data' => $data, 'edit' => !$isNew]);
 		$response->emit();
 	}
 
 	public function saveSequence(\App\Request $request)
 	{
-		$param = $request->get('param');
-		$moduleName = $param['module'];
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$status = $inventoryField->saveSequence($param['ids']);
-		if ($status) {
-			$status = true;
-		}
+		$inventoryField = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
+		$status = $inventoryField->saveSequence($request->getArray('ids', 'Integer'));
 		$response = new Vtiger_Response();
-		$response->setResult(['success' => $status]);
+		$response->setResult(['success' => (bool) $status]);
 		$response->emit();
 	}
 
 	public function delete(\App\Request $request)
 	{
-		$param = $request->get('param');
-		$moduleName = $param['module'];
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$status = $inventoryField->delete($param);
-		if ($status) {
-			$status = true;
-		}
+		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
+		$status = $inventory->deleteField($request->getByType('fieldName', 'Alnum'));
 		$response = new Vtiger_Response();
-		$response->setResult(['success' => $status]);
+		$response->setResult($status);
 		$response->emit();
 	}
 
@@ -119,7 +136,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel->set('helpinfo', implode(',', $views));
 		$fieldModel->save();
 		$label = $fieldModel->getModuleName() . '|' . $fieldModel->getFieldLabel();
-		\App\Language::translationModify($request->getByType('lang'), 'HelpInfo', 'php', $label, $request->getForHtml('context'));
+		\App\Language::translationModify($request->getByType('lang'), 'HelpInfo', 'php', $label, str_replace("\n", '', $request->getForHtml('context')));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();

@@ -18,8 +18,8 @@
 	</div>
 	</div>
 	</div>
+	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
 	{if $SHOW_FOOTER}
-		<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
 		<footer class="c-footer fixed-bottom js-footer{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if AppConfig::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
 				data-js="height">
 			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
@@ -53,7 +53,8 @@
 							</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
+							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM"
+							   rel="noreferrer">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
@@ -61,6 +62,21 @@
 				{/if}
 				<div class="float-right p-0">
 					<ul class="pagination">
+						{if !\App\YetiForce\Register::verify(true)}
+							<li class="page-item u-cursor-pointer">
+								<a class="page-link text-danger js-popover-tooltip" role="button"
+								   data-content="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME)}"
+								   title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+										{if $USER_MODEL->isAdminUser()}
+											href="index.php?parent=Settings&module=Companies&view=List"
+										{else}
+											href="#"
+										{/if} >
+								<span class="fas fa-exclamation-triangle fa-2x">
+								</span>
+								</a>
+							</li>
+						{/if}
 						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
@@ -115,7 +131,8 @@
 							YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open
 							system in the world
 						</h5>
-						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<button type="button" class="close" data-dismiss="modal"
+								title="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>

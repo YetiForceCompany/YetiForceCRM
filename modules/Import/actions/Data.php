@@ -390,9 +390,9 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformInventoryForImport($inventoryData)
 	{
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
-		$inventoryFields = $inventoryFieldModel->getFields();
-		$maps = $inventoryFieldModel->getAutoCompleteFields();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->module);
+		$inventoryFields = $inventoryModel->getFields();
+		$maps = $inventoryModel->getAutoCompleteFields();
 
 		foreach ($inventoryData as &$data) {
 			$this->currentInventoryRawData = $data;
@@ -400,17 +400,16 @@ class Import_Data_Action extends \App\Controller\Action
 			foreach ($data as $fieldName => &$value) {
 				$fieldInstance = $inventoryFields[$fieldName];
 				if ($fieldInstance) {
-					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
+					if (in_array($fieldInstance->getType(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
-					} elseif ($fieldInstance->getName() == 'Currency') {
-						$value = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
+					} elseif ($fieldInstance->getType() == 'Currency') {
+						$value = \App\Fields\Currency::getCurrencyIdByName($value);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
-						foreach ($currencyParam as $currencyData) {
-							$valueData = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
+						foreach ($currencyParam as $key => $currencyData) {
+							$valueData = \App\Fields\Currency::getCurrencyIdByName($key);
 							if ($valueData) {
-								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
 							}
 						}
@@ -971,7 +970,7 @@ class Import_Data_Action extends \App\Controller\Action
 			unset($fieldData['inventoryData']);
 		}
 		if (!empty($inventoryData)) {
-			$recordModel->setInventoryRawData($this->convertInventoryDataToObject($inventoryData));
+			$recordModel->initInventoryData($inventoryData, false);
 		}
 		foreach ($fieldData as $fieldName => &$value) {
 			$recordModel->set($fieldName, $value);
@@ -999,36 +998,11 @@ class Import_Data_Action extends \App\Controller\Action
 			unset($fieldData['inventoryData']);
 		}
 		if ($inventoryData) {
-			$recordModel->setInventoryRawData($this->convertInventoryDataToObject($inventoryData));
+			$recordModel->initInventoryData($inventoryData, false);
 		}
 		foreach ($fieldData as $fieldName => &$value) {
 			$recordModel->set($fieldName, $value);
 		}
 		$recordModel->save();
-	}
-
-	/**
-	 * Function creates advanced block data object.
-	 *
-	 * @param array $inventoryData
-	 *
-	 * @return \App\Base
-	 */
-	public function convertInventoryDataToObject($inventoryData = [])
-	{
-		$inventoryModel = new \App\Request([], false);
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
-		$jsonFields = $inventoryFieldModel->getJsonFields();
-		foreach ($inventoryData as $index => $data) {
-			$i = $index + 1;
-			$inventoryModel->set('inventoryItemsNo', $i);
-			foreach ($data as $name => $value) {
-				if (in_array($name, $jsonFields)) {
-					$value = \App\Json::decode($value);
-				}
-				$inventoryModel->set($name . $i, $value);
-			}
-		}
-		return $inventoryModel;
 	}
 }

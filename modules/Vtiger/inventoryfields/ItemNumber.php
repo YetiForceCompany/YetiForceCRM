@@ -8,12 +8,14 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'ItemNumber';
+	protected $type = 'ItemNumber';
 	protected $defaultLabel = 'LBL_ITEM_NUMBER';
 	protected $columnName = 'seq';
+	protected $purifyType = \App\Purifier::INTEGER;
 
 	/**
 	 * {@inheritdoc}
@@ -26,21 +28,17 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
-		}
-		$insertData[$column] = $request->getInteger($column);
+		return (int) $value;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
-		if (!is_numeric($value)) {
+		if (filter_var($value, FILTER_VALIDATE_INT) === false) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 	}

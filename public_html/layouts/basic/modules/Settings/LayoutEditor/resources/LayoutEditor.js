@@ -252,13 +252,13 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 		AppConnector.request(params).done(function (data) {
 			currentTarget.data('state', status);
-			currentTarget.find('.fas').each(function () {
-				if ($(this).hasClass('d-none')) {
-					$(this).removeClass('d-none');
-				} else {
-					$(this).addClass('d-none');
-				}
-			})
+			if (status) {
+				currentTarget.find('.far').addClass('d-none');
+				currentTarget.find('.fas').removeClass('d-none');
+			} else {
+				currentTarget.find('.fas').addClass('d-none');
+				currentTarget.find('.far').removeClass('d-none');
+			}
 			Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_NOTIFY_OK')});
 		}).fail(function (error) {
 			var params = {};
@@ -734,12 +734,14 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 			//hide all the elements like length, decimal,picklist
 			form.find('.supportedType').addClass('d-none');
-
 			if (selectedOption.data('lengthsupported')) {
 				form.find('.lengthsupported').removeClass('d-none');
-				lengthInput.data('validator', maxLengthValidator);
+				if (!selectedOption.data('nolimitforlength')) {
+					lengthInput.data('validator', maxLengthValidator);
+				} else {
+					lengthInput.data('validator', [{'name': 'WholeNumberGreaterThanZero'}]);
+				}
 			}
-
 			if (selectedOption.data('decimalsupported')) {
 				var decimalFieldUi = form.find('.decimalsupported');
 				decimalFieldUi.removeClass('d-none');
@@ -1549,7 +1551,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			let blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 			const progress = $.progressIndicator();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, (modalContainer) => {
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&sourceModule=" + selectedModule + "&block=" + blockId, (modalContainer) => {
 				app.showScrollBar(modalContainer.find('.well'), {
 					height: '300px'
 				});
@@ -1569,10 +1571,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 			var editField = currentTarget.closest('.editFields');
-			var mType = editField.data('name');
-			var id = editField.data('id');
 			var progress = $.progressIndicator();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + mType + "&id=" + id, function (container) {
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=" + selectedModule + '&type=' + editField.data('type') + "&fieldName=" + editField.data('name'), function (container) {
 				app.showPopoverElementView(container.find('.js-help-info'));
 				thisInstance.registerStep2(container, blockId);
 				progress.progressIndicator({'mode': 'hide'});
@@ -1602,7 +1602,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						'enabled': true
 					}
 				});
-				app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + type, (modalContainer) => {
+				app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=" + selectedModule + "&type=" + type, (modalContainer) => {
 					thisInstance.registerStep2(modalContainer, blockId);
 					progress.progressIndicator({'mode': 'hide'});
 				});
@@ -1620,11 +1620,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		form.validationEngine(app.validationEngineOptions);
 		form.on('submit', function (e) {
 			let formData = form.serializeFormData();
-			let paramsName = thisInstance.getParamsInventory();
-			let params = {
-				mandatory: formData.mandatory
-			};
-			if (paramsName) {
+			let paramsName = container.find('#params');
+			if (paramsName.length) {
+				paramsName = JSON.parse(paramsName.val());
+				let params = {};
 				for (let i in formData) {
 					if ($.inArray(i, paramsName) != -1) {
 						let value = formData[i];
@@ -1635,24 +1634,25 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						delete formData[i];
 					}
 				}
+				formData.params = JSON.stringify(params);
 			}
-			formData.params = JSON.stringify(params);
 			let errorExists = form.validationEngine('validate');
 			if (errorExists != false) {
 				formData.block = blockId;
-				formData.module = selectedModule;
-				app.saveAjax('saveInventoryField', formData).done(function (data) {
-					let result = data.result;
-					if (result && result.edit) {
-						app.hideModalWindow();
+				formData.sourceModule = selectedModule;
+				app.saveAjax('saveInventoryField', null, formData).done(function (data) {
+					let result = data.result,
+						success = data.success;
+					app.hideModalWindow();
+					if (success && result && result.edit) {
 						let liElement = containerInventory.find('[data-id="' + result.data.id + '"]');
 						liElement.find('.fieldLabel').text(result.data.translate);
-					} else if (result) {
-						app.hideModalWindow();
+					} else if (success && result) {
 						let newLiElement = containerInventory.find('.newLiElement').clone(true, true);
-						newLiElement.removeClass('d-none newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.invtype).attr('data-column', result.data.columnname).find('.fieldLabel').text(result.data.translate);
+						newLiElement.removeClass('d-none newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.columnName).attr('data-type', result.data.invtype).find('.fieldLabel').text(result.data.translate);
 						containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
-
+					} else {
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
 					}
 				});
 			}
@@ -1671,14 +1671,11 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		containerInventory.on('click', '.saveFieldSequence', function (e) {
 			var button = $(e.currentTarget);
 			var target = button.closest('.inventoryBlock');
-			var params = {};
 			var fieldId = [];
 			target.find('.editFields').each(function () {
 				fieldId.push($(this).data('id'));
 			})
-			params.module = selectedModule;
-			params.ids = fieldId;
-			app.saveAjax('saveSequence', params).done(function (data) {
+			app.saveAjax('saveSequence', null, {sourceModule: selectedModule, ids: fieldId}).done(function (data) {
 				button.addClass('invisible');
 			});
 		});
@@ -1696,39 +1693,33 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 				var progressIndicatorElement = $.progressIndicator({
-					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
 					}
 				});
 				var editFields = liElement.find('.editFields');
-				var params = {};
-				params.id = editFields.data('id');
-				params.module = selectedModule;
-				params.name = editFields.data('name');
-				params.column = editFields.data('column');
-				app.saveAjax('delete', params).done(function (data) {
-					liElement.remove();
-					Settings_Vtiger_Index_Js.showMessage({
-						type: 'success',
-						text: app.vtranslate('JS_SAVE_CHANGES')
-					});
+				app.saveAjax('delete', null, {
+					sourceModule: selectedModule,
+					fieldName: editFields.data('name')
+				}).done(function (response) {
+					let param = {};
+					if (response.result) {
+						liElement.remove();
+						param = {type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')};
+					} else {
+						param = {type: 'error', text: app.vtranslate('JS_ERROR')};
+					}
+					Settings_Vtiger_Index_Js.showMessage(param);
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-
 				});
 			}).fail(function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			});
 		});
 	},
-	/**
-	 * get inventory params
-	 */
-	getParamsInventory: function () {
-		if (typeof app.getMainParams('params') !== "undefined") {
-			return JSON.parse(app.getMainParams('params'));
-		}
-	},
+
 	/**
 	 * Loading list of fields for a related module
 	 */
@@ -1835,6 +1826,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						let textArea = modalContainer.find('#' + element + '.js-context-area');
 						textArea.prop('disabled', false);
 						textArea.closest('.js-context-block').removeClass('d-none');
+						App.Fields.Text.destroyEditor(textArea);
 						modalContainer.find('.js-help-info').attr('data-content', textArea.val());
 						new App.Fields.Text.Editor(textArea, customConfig);
 					});

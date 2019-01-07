@@ -8,15 +8,17 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Reference';
+	protected $type = 'Reference';
 	protected $defaultLabel = 'LBL_REFERENCE';
 	protected $columnName = 'ref';
 	protected $dbType = 'int';
 	protected $params = ['modules'];
 	protected $maximumLength = '-2147483648,2147483647';
+	protected $purifyType = \App\Purifier::INTEGER;
 
 	/**
 	 * {@inheritdoc}
@@ -29,7 +31,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {
 			return '';
@@ -62,18 +64,8 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function isMandatory()
 	{
-		$config = $this->getConfig();
+		$config = $this->getParamsConfig();
 		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
-	}
-
-	/**
-	 * Function to get config params.
-	 *
-	 * @return array
-	 */
-	public function getConfig()
-	{
-		return \App\Json::decode($this->get('params'));
 	}
 
 	/**
@@ -83,7 +75,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getReferenceModules()
 	{
-		$paramsDecoded = $this->getConfig();
+		$paramsDecoded = $this->getParamsConfig();
 		return $paramsDecoded['modules'];
 	}
 
@@ -100,21 +92,15 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
-		}
-		$value = $request->getInteger($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
+		return (int) $value;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

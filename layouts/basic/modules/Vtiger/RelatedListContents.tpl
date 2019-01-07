@@ -144,6 +144,7 @@
 				</tr>
 				{if $IS_INVENTORY}
 					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
+					{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($RELATED_RECORD->getModuleName())}
 					<tr class="listViewInventoryEntries d-none">
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
 							{$COUNT = $COUNT+1}
@@ -160,15 +161,15 @@
 								</tr>
 								</thead>
 								<tbody>
-								{foreach from=$INVENTORY_DATA item=ROWDATA}
+								{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
 									<tr>
-										{if !empty($ROWDATA['name'])}
-											{assign var="ROW_MODULE" value=\App\Record::getType($ROWDATA['name'])}
+										{if !empty($INVENTORY_ROW['name'])}
+											{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
 										{/if}
 										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 											{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
 											<td>
-												{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$ROWDATA[$FIELD->get('columnname')]}
+												{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
 											</td>
 										{/foreach}
 									</tr>

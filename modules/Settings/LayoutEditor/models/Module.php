@@ -96,11 +96,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency'];
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
+			}
+			if ($fieldType === 'Editor') {
+				$details['noLimitForLength'] = true;
 			}
 			if ($fieldType === 'Decimal' || $fieldType === 'Currency') {
 				$details['decimalSupported'] = true;
@@ -154,7 +157,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if ($this->checkFieldNameExists($name)) {
 				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 			}
-			if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
+			if ($this->checkFieldNameIsAnException($name)) {
 				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 			}
 			if (strlen($name) > 30) {
@@ -216,7 +219,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
-
+		if ($fieldType === 'Editor') {
+			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
+		}
 		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
@@ -238,7 +243,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		App\Cache::clear();
-
 		return $fieldModel;
 	}
 
@@ -357,8 +361,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
+				$fieldLength = $params['fieldLength'];
 				$uitype = 300;
-				$type = $importerType->text();
+				$type = $importerType->text($fieldLength);
 				$uichekdata = 'V~O';
 				break;
 			case 'Tree':
@@ -459,29 +464,17 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 * Check if the field name is reserved.
 	 *
 	 * @param string $fieldName
-	 * @param string $moduleName
 	 *
 	 * @return bool
 	 */
-	public function checkFieldNameIsAnException(string $fieldName, string $moduleName)
+	public function checkFieldNameIsAnException(string $fieldName)
 	{
-		$exceptions = [
-			'id', 'inventoryitemsno', 'seq', 'header_type', 'header_class',
+		return in_array($fieldName, [
+			'id', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
 			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
-			'source_module', 'viewname', 'sortorder', 'orderby'
-		];
-		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
-		foreach ($instance->getAllFields() as $field) {
-			$exceptions[] = $field->getColumnName();
-			if (preg_match('/^' . $field->getColumnName() . '[0-9]/', $fieldName) != 0) {
-				return true;
-			}
-			foreach ($field->getCustomColumn() as $columnName => $dbType) {
-				$exceptions[] = $columnName;
-			}
-		}
-		return in_array($fieldName, $exceptions);
+			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory'
+		]);
 	}
 
 	public static $supportedModules = false;

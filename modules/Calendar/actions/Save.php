@@ -26,7 +26,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		$data = $recordModel->getData();
 		if ($request->getBoolean('reapeat')) {
 			$recurringEvents = Calendar_RecuringEvents_Model::getInstanceFromRequest($request);
-			if ($request->isEmpty('record')) {
+			if ($request->isEmpty('record') || (!$recordModel->isNew() && $recordModel->isEmpty('followup'))) {
 				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
 				$data['followup'] = $recordModel->getId();
 			} elseif (empty($data['followup'])) {

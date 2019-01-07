@@ -238,13 +238,11 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 
-		$isInventory = $moduleModel->isInventory();
-		if ($isInventory) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->getName());
-			$inventoryFields = $inventoryFieldModel->getFields();
+		if ($moduleModel->isInventory()) {
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getName());
 			$blockName = 'LBL_ADVANCED_BLOCK';
-			foreach ($inventoryFields as $field) {
-				$fields[$blockName][$field->get('columnname')] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
+			foreach ($inventoryModel->getFields() as $field) {
+				$fields[$blockName][$field->getColumnName()] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');

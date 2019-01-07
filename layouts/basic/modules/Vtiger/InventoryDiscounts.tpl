@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-InventoryDiscounts -->
 	{assign var="AGGREGATION" value=$CONFIG['aggregation']}
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
@@ -9,7 +10,7 @@
 						<span class="fas fa-long-arrow-alt-down"></span>
 						<span class="fas fa-percent"></span>
 					</span>
-					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_DISCOUNT', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h5>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_DISCOUNT', $MODULE_NAME)} {\App\Language::translate("SINGLE_{$MODULE_NAME}", $MODULE_NAME)}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -30,18 +31,21 @@
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_BEFORE_DISCOUNT', $MODULE)}:</div>
 						<div class="col-md-6 text-right">
 							<strong><span class="valueTotalPrice">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}
-							</strong></div>
+							</strong>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_DISCOUNT_IN_TOTAL', $MODULE)}:</div>
 						<div class="col-md-6 text-right"><strong><span class="valueDiscount">0</span> {$CURRENCY_SYMBOL}
-							</strong></div>
+							</strong>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_AFTER_DISCOUNT', $MODULE)}:</div>
 						<div class="col-md-6 text-right">
 							<strong><span class="valuePrices">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</span>
-							</strong></div>
+							</strong>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -63,4 +67,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Base-InventoryDiscounts -->
 {/strip}

@@ -99,8 +99,8 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 			}
 		}
 		if ($inventoryFieldMapping && $recordsInventoryData) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
-			$inventoryFields = $inventoryFieldModel->getFields();
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
+			$inventoryFields = $inventoryModel->getFields();
 			foreach ($recordsInventoryData as $index => $data) {
 				foreach ($data as $key => $fieldValue) {
 					$fieldName = array_search($key, $inventoryFieldMapping);

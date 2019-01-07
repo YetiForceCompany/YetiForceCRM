@@ -83,8 +83,8 @@ class Vtiger_Export_Model extends \App\Base
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($module);
-			$inventoryFields = $inventoryFieldModel->getFields();
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($module);
+			$inventoryFields = $inventoryModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
 				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $module);
@@ -92,7 +92,7 @@ class Vtiger_Export_Model extends \App\Base
 					$headers[] = 'Inventory::' . $columnName;
 				}
 			}
-			$table = $inventoryFieldModel->getTableName('data');
+			$table = $inventoryModel->getDataTableName();
 		}
 
 		$entries = [];
@@ -102,7 +102,7 @@ class Vtiger_Export_Model extends \App\Base
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
 				$sanitizedRow[] = $i++;
-				$rows = (new \App\Db\Query())->from($table)->where(['id' => $row['id']])->orderBy('seq')->all();
+				$rows = (new \App\Db\Query())->from($table)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 				if ($rows) {
 					foreach ($rows as &$row) {
 						$sanitizedInventoryRow = $this->sanitizeInventoryValues($row, $inventoryFields);
@@ -141,6 +141,7 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		}
 		$queryGenerator->setFields($fields);
+		$queryGenerator->setStateCondition($request->getByType('entityState'));
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($request->getMode()) {
@@ -326,7 +327,7 @@ class Vtiger_Export_Model extends \App\Base
 		$inventoryEntries = [];
 		foreach ($inventoryFields as $columnName => $field) {
 			$value = $inventoryRow[$columnName];
-			if (in_array($field->getName(), ['Name', 'Reference'])) {
+			if (in_array($field->getType(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -339,7 +340,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif ($field->getName() === 'Currency') {
+			} elseif ($field->getType() === 'Currency') {
 				$value = $field->getDisplayValue($value);
 			} else {
 				$value;
@@ -354,7 +355,6 @@ class Vtiger_Export_Model extends \App\Base
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => $data) {
 							$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
-							$data['value'] = $currencyName;
 							$valueNewData[$currencyName] = $data;
 						}
 						$valueParam = \App\Json::encode($valueNewData);

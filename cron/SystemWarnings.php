@@ -18,13 +18,13 @@ foreach (\App\SystemWarnings::getWarnings('all') as $warning) {
 if (empty($html)) {
 	return;
 }
-$html .= '<br><br>' . AppConfig::main('site_URL');
-$company = App\Company::getInstanceById(false);
-if (!empty($company->get('name'))) {
-	$html .= ' - ' . $company->get('name');
+$html .= '<hr>' . AppConfig::main('site_URL') . '<br>';
+$company = \current(\App\MultiCompany::getAll() ?? [[]]);
+if (!empty($company['company_name'])) {
+	$html .= ' - ' . $company['company_name'];
 }
-if (!empty($company->get('email'))) {
-	$html .= ' - ' . $company->get('email');
+if (!empty($company['email1'])) {
+	$html .= ' - ' . $company['email1'];
 }
 $mails = (new \App\Db\Query())->select(['email1'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->column();
 if ($mails) {

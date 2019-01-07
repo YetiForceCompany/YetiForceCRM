@@ -4,7 +4,7 @@
  * Settings PublicHoliday holiday action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 {
@@ -65,7 +65,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 				}
 			}
 		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
+			$response->setError($e->getCode(), $e->getDisplayMessage());
 		}
 		$response->emit();
 	}

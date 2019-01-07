@@ -1,0 +1,31 @@
+{
+  "php": {
+    "FL_STATUS": "Status",
+    "FL_FAX": "Fax",
+    "PLL_ACTIVE": "Active",
+    "PLL_INACTIVE": "Inactive",
+    "MultiCompany": "D\u00e9partements",
+    "SINGLE_MultiCompany": "D\u00e9partement",
+    "LBL_BASIC_INFORMATION": "D\u00e9tails de la soci\u00e9t\u00e9",
+    "LBL_CONTACT_INFORMATION": "Info Contact",
+    "LBL_REGISTRATION_INFORMATION": "Informations d'inscription",
+    "LBL_ADDRESS_INFORMATION": "D\u00e9tails de l'adresse",
+    "LBL_SYSTEM_INFORMATION": "Info Syst\u00e8me",
+    "LBL_ADDITIONAL_INFORMATION": "Info compl\u00e9mentaire",
+    "FL_COMPANY_NAME": "Nom de la soci\u00e9t\u00e9",
+    "FL_PARENT": "D\u00e9partement parent",
+    "FL_EMAIL_1": "Email principal",
+    "FL_EMAIL_2": "Email secondaire",
+    "FL_PHONE": "T\u00e9l\u00e9phone principal",
+    "FL_MOBILE": "T\u00e9l\u00e9phone secondaire",
+    "FL_VATID": "N\u00b0 TVA",
+    "FL_COMPANY_ID1": "SIRET",
+    "FL_COMPANY_ID2": "NAF",
+    "FL_INTERNAL_NOTES": "Notes interne",
+    "FL_PUBLIC_NOTES": "Notes Public",
+    "LBL_SHOW_HIERARCHY": "Hi\u00e9rarchie",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
+  },
+  "js": {}
+}

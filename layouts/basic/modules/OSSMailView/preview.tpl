@@ -133,7 +133,7 @@
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
 												<a class="btn btn-sm btn-primary"
-												   href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
+												   href="file.php?module=OSSMailView&action=DownloadFile&record={$RECORD}&attachment={$ATTACHMENT['id']}">
 													<span class="fas fa-paperclip mr-1"></span>
 													{$ATTACHMENT['file']}
 												</a>

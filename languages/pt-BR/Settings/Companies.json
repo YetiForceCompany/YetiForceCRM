@@ -1,0 +1,33 @@
+{
+  "php": {
+    "LBL_COMPANIES": "Detalhes da Empresa",
+    "Companies": "Detalhes da Empresa",
+    "LBL_COMPANIES_DESCRIPTION": "Gerenciar Detalhes da Empresa",
+    "LBL_ID": "Id",
+    "LBL_NAME": "Full company name",
+    "LBL_EMAIL": "E-mail",
+    "LBL_CITY": "Cidade",
+    "LBL_COUNTRY": "Pa\u00eds",
+    "LBL_TYPE": "Type",
+    "LBL_TYPE_TARGET_USER": "End user",
+    "LBL_TYPE_INTEGRATOR": "Integrator",
+    "LBL_TYPE_PROVIDER": "Provider",
+    "LBL_WEBSITE": "Website",
+    "LBL_INDUSTRY": "Ind\u00fastria",
+    "LBL_COMPANY_NAMES_EXIST": "The company name already exists",
+    "LBL_REGISTER_CRM_ONLINE": "Registration - OnLine",
+    "LBL_REGISTER_CRM_SERIAL": "Registration - Key",
+    "LBL_NOT_REGISTERED": "Not registered",
+    "LBL_WAITING_FOR_ACCEPTANCE": "Pending approval",
+    "LBL_INCORRECT_DATA": "Incorrect data",
+    "LBL_INCOMPLETE_DATA": "Incomplete data",
+    "LBL_OFFLINE_SERIAL_NOT_FOUND": "Key not found",
+    "LBL_OFFLINE_SIGNED": "Key approved",
+    "LBL_SPECIAL_REGISTRATION": "Special registration",
+    "LBL_ACCEPTED": "Accepted"
+  },
+  "js": {
+    "JS_ENTER_REGISTRATION_KEY": "Enter registration key",
+    "JS_ENTER_ALL_REGISTRATION_DATA": "Enter all required data"
+  }
+}

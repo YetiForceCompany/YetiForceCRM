@@ -425,35 +425,29 @@ class TextParser
 	/**
 	 * Parsing organization detail.
 	 *
-	 * @param string $fieldName
+	 * @param string $params
 	 *
 	 * @return string
 	 */
-	protected function organization(string $fieldName): string
+	protected function organization(string $params): string
 	{
-		$returnVal = '';
-		$id = false;
-		if (strpos($fieldName, '|') !== false) {
-			$paramsArray = explode('|', $fieldName);
-			$fieldName = array_shift($paramsArray);
-			$id = array_shift($paramsArray);
+		if (strpos($params, '|') === false) {
+			return '';
 		}
-		$company = Company::getInstanceById($id);
-		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
-			$fieldName = 'logo_main';
-			$logo = $company->getLogo($fieldName);
-			if (!$logo || $logo->get('fileExists') === false) {
-				$returnVal = '';
-			} else {
-				$logoTitle = $company->get('name');
-				$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
-				$src = \App\Fields\File::getImageBaseData($logo->get('imagePath'));
-				$returnVal = "<img class=\"organizationLogo\" src=\"{$src}\" title=\"{$logoTitle}\" alt=\"{$logoAlt}\">";
+		$returnVal = '';
+		[$id, $fieldName, $params] = array_pad(explode('|', $params, 3), 3, false);
+		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
+		if ($recordModel->has($fieldName)) {
+			$value = $recordModel->get($fieldName);
+			$fieldModel = $recordModel->getModule()->getField($fieldName);
+			if ($value === '' || !$fieldModel || !$this->useValue($fieldModel, 'MultiCompany')) {
+				return '';
 			}
-		} elseif (\in_array($fieldName, ['logo_main', 'logo_login', 'logo_mail'])) {
-			$returnVal = Company::$logoPath . $company->get('logo_main');
-		} else {
-			$returnVal = $company->get($fieldName);
+			if ($this->withoutTranslations) {
+				$returnVal = $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
+			} else {
+				$returnVal = $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
+			}
 		}
 		return $returnVal;
 	}
@@ -1174,18 +1168,6 @@ class TextParser
 				return Language::translate($value, 'Other.TextParser');
 			}, array_flip(static::$variableGeneral)),
 		];
-		$companyDetails = Company::getInstanceById()->getData();
-		unset($companyDetails['id'], $companyDetails['logo_main'], $companyDetails['default']);
-		$companyVariables = [];
-		foreach (array_keys($companyDetails) as $name) {
-			$companyVariables["$(organization : $name)$"] = Language::translate('LBL_' . strtoupper($name), 'Settings:Companies');
-		}
-		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
-		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_login)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_main)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_mail)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
 	}

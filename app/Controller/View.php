@@ -1,13 +1,18 @@
 <?php
-
-namespace App\Controller;
-
 /**
  * Abstract view controller class.
+ *
+ * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Class View.
  */
 abstract class View extends Base
 {
@@ -155,13 +160,11 @@ abstract class View extends Base
 		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
 		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('MODULE_NAME', $moduleName);
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
-		$companyDetails = \App\Company::getInstanceById();
-		$view->assign('COMPANY_DETAILS', $companyDetails);
-		$view->assign('COMPANY_LOGO', $companyDetails->getLogo());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -200,7 +203,7 @@ abstract class View extends Base
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		$view->assign('SHOW_FOOTER', $this->showFooter());
+		$view->assign('SHOW_FOOTER', $this->showFooter() && \App\YetiForce\Register::getStatus() !== 8);
 		$view->view('Footer.tpl');
 	}
 
@@ -299,6 +302,7 @@ abstract class View extends Base
 			'~libraries/store/dist/store.legacy.min.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
+			'~layouts/resources/Tools.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',

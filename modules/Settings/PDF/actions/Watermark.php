@@ -33,7 +33,11 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$templateId = $request->get('template_id');
 		$newName = basename($_FILES['watermark']['name'][0]);
 		$newName = explode('.', $newName);
-		$newName = $templateId . '.' . end($newName);
+		if ($templateId) {
+			$newName = $templateId . '.' . end($newName);
+		} else {
+			$newName = uniqid('', false) . '.' . end($newName);
+		}
 		$targetDir = Settings_PDF_Module_Model::$uploadPath;
 		$targetFile = $targetDir . $newName;
 		$uploadOk = 1;

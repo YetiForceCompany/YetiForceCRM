@@ -1,0 +1,30 @@
+{
+  "php": {
+    "MultiCompany": "Abteilungen",
+    "SINGLE_MultiCompany": "Abteilung",
+    "LBL_BASIC_INFORMATION": "Firmendetails",
+    "LBL_CONTACT_INFORMATION": "Kontakt Info",
+    "LBL_REGISTRATION_INFORMATION": "Registrierung Informationen",
+    "LBL_ADDRESS_INFORMATION": "Adressdetails",
+    "LBL_SYSTEM_INFORMATION": "Systeminfo",
+    "LBL_ADDITIONAL_INFORMATION": "Zusatzinformationen",
+    "FL_COMPANY_NAME": "Firmenname",
+    "FL_PARENT": "Muttergesellschaft",
+    "FL_STATUS": "Status",
+    "FL_EMAIL_1": "Prim\u00e4re E-Mail",
+    "FL_EMAIL_2": "Sekund\u00e4re E-Mail",
+    "FL_PHONE": "Prim\u00e4res Telefon",
+    "FL_MOBILE": "Sekund\u00e4res Telefon",
+    "FL_FAX": "Fax",
+    "FL_VATID": "Steuernummer",
+    "FL_COMPANY_ID1": "Steuernummer",
+    "FL_COMPANY_ID2": "NCR",
+    "FL_INTERNAL_NOTES": "Interne Notizen",
+    "FL_PUBLIC_NOTES": "\u00d6ffentliche Notizen",
+    "PLL_ACTIVE": "Aktiv",
+    "PLL_INACTIVE": "Inaktiv",
+    "LBL_SHOW_HIERARCHY": "Hierarchie",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
+  }
+}

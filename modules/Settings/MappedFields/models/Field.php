@@ -174,10 +174,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 				}
 				break;
 			case 'INVENTORY':
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($module->getName());
-				$inventoryFields = $inventoryFieldModel->getFields();
-
-				return self::getInstanceFromInventoryFieldObject($inventoryFields[$value]);
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($module->getName());
+				return self::getInstanceFromInventoryFieldObject($inventoryModel->getField($value));
 			default:
 				$fieldModel = parent::getInstance($value, $module);
 				break;

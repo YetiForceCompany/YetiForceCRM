@@ -284,7 +284,6 @@ class Record
 	public static function getType($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-
 		return $metadata ? $metadata['setype'] : null;
 	}
 
@@ -340,7 +339,6 @@ class Record
 			}
 		}
 		Cache::save('getParentRecord', $recordId, $parentId);
-
 		return $parentId;
 	}
 }

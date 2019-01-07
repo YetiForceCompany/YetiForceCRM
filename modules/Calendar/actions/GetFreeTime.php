@@ -49,8 +49,8 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$durationEvent = $typeByDuration[$activityType] ?? 0;
 		$startWorkHour = $currentUser->getDetail('start_hour');
 		$endWorkHour = $currentUser->getDetail('end_hour');
-		$dbStartDateOject = DateTimeField::convertToDBTimeZone($day . ' ' . $startWorkHour);
-		$dbEndDateObject = DateTimeField::convertToDBTimeZone($day . ' ' . $endWorkHour);
+		$dbStartDateOject = DateTimeField::convertToDBTimeZone($day . ' ' . $startWorkHour, null, false);
+		$dbEndDateObject = DateTimeField::convertToDBTimeZone($day . ' ' . $endWorkHour, null, false);
 		$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 		$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 		$dbStartDate = $dbStartDateOject->format('Y-m-d');

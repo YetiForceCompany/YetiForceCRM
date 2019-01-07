@@ -145,7 +145,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
 		$destiny = 'languages/' . $prefix . '/';
 		mkdir($destiny);
-		vtlib\Functions::recurseCopy('languages/en_us/', $destiny);
+		vtlib\Functions::recurseCopy('languages/' . \App\Language::DEFAULT_LANG, $destiny);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),

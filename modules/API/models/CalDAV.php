@@ -375,8 +375,14 @@ class API_CalDAV_Model
 				$dates = $this->getEventDates($component);
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 				$recordModel->set('assigned_user_id', $this->user->get('id'));
-				$recordModel->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$recordModel->set('location', \App\Purifier::purify((string) $component->LOCATION));
+				$recordModel->set(
+					'subject',
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->SUMMARY), $recordModel->getField('subject')->get('maximumlength'), false)
+				);
+				$recordModel->set(
+					'location',
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->LOCATION), $recordModel->getField('location')->get('maximumlength'), false)
+				);
 				$recordModel->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$recordModel->set('allday', $dates['allday']);
 				$recordModel->set('date_start', $dates['date_start']);
@@ -446,8 +452,14 @@ class API_CalDAV_Model
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$record->set('location', \App\Purifier::purify((string) $component->LOCATION));
+				$record->set(
+					'subject',
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->SUMMARY), $record->getField('subject')->get('maximumlength'), false)
+				);
+				$record->set(
+					'location',
+					\App\TextParser::textTruncate(\App\Purifier::purify((string) $component->LOCATION), $record->getField('location')->get('maximumlength'), false)
+				);
 				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
@@ -469,7 +481,6 @@ class API_CalDAV_Model
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
 							\App\Log::info(__METHOD__ . ' | End exclusion');
-
 							return false;
 						}
 					}

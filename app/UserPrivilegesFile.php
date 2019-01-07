@@ -464,4 +464,16 @@ class UserPrivilegesFile
 			}
 		}
 	}
+
+	/**
+	 * Reload user privileges file by multi company id.
+	 *
+	 * @param int $companyId
+	 */
+	public static function reloadByMultiCompany(int $companyId)
+	{
+		foreach (MultiCompany::getUsersByCompany($companyId) as $userId) {
+			static::createUserPrivilegesfile($userId);
+		}
+	}
 }

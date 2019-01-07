@@ -4,39 +4,553 @@
  * Basic Inventory Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Inventory_Model
 {
-	public $name = false;
+	/**
+	 * Field configuration table postfix.
+	 */
+	private const TABLE_POSTFIX_BASE = '_invfield';
+	/**
+	 * Data table postfix.
+	 */
+	private const TABLE_POSTFIX_DATA = '_inventory';
+	/**
+	 * Field mapping table postfix.
+	 */
+	private const TABLE_POSTFIX_MAP = '_invmap';
 
 	/**
-	 * Get invnetory instance.
-	 *
-	 * @param string $moduleName Module name
-	 *
-	 * @return Vtiger_Inventory_Model instance
+	 * @var string
 	 */
-	public static function getInstance($moduleName)
+	protected $moduleName;
+	/**
+	 * @var \Vtiger_Basic_InventoryField[] Inventory fields
+	 */
+	protected $fields;
+	/**
+	 * @var string
+	 */
+	protected $tableName;
+
+	/**
+	 * Gets inventory instance.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return self
+	 */
+	public static function getInstance(string $moduleName): self
 	{
-		$instance = Vtiger_Cache::get('Inventory', $moduleName);
-		if (!$instance) {
+		if (\App\Cache::staticHas(__METHOD__, $moduleName)) {
+			$instance = \App\Cache::staticGet(__METHOD__, $moduleName);
+		} else {
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Inventory', $moduleName);
 			$instance = new $modelClassName();
-			$instance->initialize($moduleName);
-			Vtiger_Cache::set('Inventory', $moduleName, $instance);
+			$instance->setModuleName($moduleName);
+			\App\Cache::staticSave(__METHOD__, $moduleName, $instance);
 		}
 		return $instance;
 	}
 
 	/**
-	 * Initialize this instance.
+	 * Function returns module name.
+	 *
+	 * @return string
 	 */
-	public function initialize($name)
+	public function getModuleName(): string
 	{
-		$this->name = $name;
+		return $this->moduleName;
+	}
+
+	/**
+	 * Sets module name.
+	 *
+	 * @param string $name
+	 */
+	protected function setModuleName(string $name)
+	{
+		$this->moduleName = $name;
+	}
+
+	/**
+	 * Gets table name.
+	 *
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	public function getTableName(string $type = self::TABLE_POSTFIX_BASE): string
+	{
+		if (!isset($this->tableName)) {
+			$this->tableName = CRMEntity::getInstance($this->moduleName)->table_name;
+		}
+		return $this->tableName . $type;
+	}
+
+	/**
+	 * Gets data table name.
+	 *
+	 * @return string
+	 */
+	public function getDataTableName(): string
+	{
+		return $this->getTableName(self::TABLE_POSTFIX_DATA);
+	}
+
+	/**
+	 * Gets inventory fields.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Basic_InventoryField[]
+	 */
+	public function getFields(): array
+	{
+		if (!isset($this->fields)) {
+			$this->fields = [];
+			$dataReader = (new \App\Db\Query())->from($this->getTableName())->indexBy('columnname')
+				->orderBy(['block' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$fieldModel = Vtiger_Basic_InventoryField::getInstance($this->moduleName, $row['invtype']);
+				$this->setFieldData($fieldModel, $row);
+				$this->fields[$row['columnname']] = $fieldModel;
+			}
+		}
+		return $this->fields;
+	}
+
+	/**
+	 * Gets inventory field model.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Basic_InventoryField|null
+	 */
+	public function getField(string $fieldName): ?Vtiger_Basic_InventoryField
+	{
+		return $this->getFields()[$fieldName] ?? null;
+	}
+
+	/**
+	 * Gets inventory field model by ID.
+	 *
+	 * @param int $fieldId
+	 *
+	 * @return \Vtiger_Basic_InventoryField|null
+	 */
+	public function getFieldById(int $fieldId): ?Vtiger_Basic_InventoryField
+	{
+		$fieldModel = null;
+		if (\App\Cache::staticHas(__METHOD__, $fieldId)) {
+			$fieldModel = \App\Cache::staticGet(__METHOD__, $fieldId);
+		} else {
+			$row = (new \App\Db\Query())->from($this->getTableName())->where(['id' => $fieldId])->one();
+			if ($row) {
+				$fieldModel = $this->getFieldCleanInstance($row['invtype']);
+				$this->setFieldData($fieldModel, $row);
+			}
+			\App\Cache::staticSave(__METHOD__, $fieldId, $fieldModel);
+		}
+		return $fieldModel;
+	}
+
+	/**
+	 * Function that returns all the fields by blocks.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getFieldsByBlocks(): array
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			$fieldList[$fieldModel->get('block')][$fieldName] = $fieldModel;
+		}
+		return $fieldList;
+	}
+
+	/**
+	 * Gets inventory fields by type.
+	 *
+	 * @param string $type
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Basic_InventoryField[]
+	 */
+	public function getFieldsByType(string $type): array
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			if ($type === $fieldModel->getType()) {
+				$fieldList[$fieldName] = $fieldModel;
+			}
+		}
+		return $fieldList;
+	}
+
+	/**
+	 * Gets the field for the view.
+	 *
+	 * @param string $view
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Basic_InventoryField[]
+	 */
+	public function getFieldsForView(string $view): array
+	{
+		$fieldList = [];
+		switch ($view) {
+			case 'Detail':
+				foreach ($this->getFields() as $fieldName => $fieldModel) {
+					if ($fieldModel->isVisibleInDetail()) {
+						$fieldList[$fieldModel->get('block')][$fieldName] = $fieldModel;
+					}
+				}
+				break;
+			default:
+				break;
+		}
+		return $fieldList;
+	}
+
+	/**
+	 * Getting summary fields name.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return string[]
+	 */
+	public function getSummaryFields(): array
+	{
+		$summaryFields = [];
+		foreach ($this->getFields() as $name => $field) {
+			if ($field->isSummary()) {
+				$summaryFields[$name] = $name;
+			}
+		}
+		return $summaryFields;
+	}
+
+	/**
+	 * Sets inventory field data.
+	 *
+	 * @param \Vtiger_Basic_InventoryField $fieldModel
+	 * @param array                        $row
+	 */
+	public function setFieldData(\Vtiger_Basic_InventoryField $fieldModel, array $row)
+	{
+		$fieldModel->set('id', (int) $row['id'])
+			->set('columnName', $row['columnname'])
+			->set('label', $row['label'])
+			->set('presence', (int) $row['presence'])
+			->set('defaultValue', $row['defaultvalue'])
+			->set('sequence', (int) $row['sequence'])
+			->set('block', (int) $row['block'])
+			->set('displayType', (int) $row['displaytype'])
+			->set('params', $row['params'])
+			->set('colSpan', (int) $row['colspan']);
+	}
+
+	/**
+	 * Checks if inventory field exists.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
+	public function isField(string $fieldName): bool
+	{
+		return isset($this->getFields()[$fieldName]);
+	}
+
+	/**
+	 * Gets clean inventory field instance.
+	 *
+	 * @param string $type
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Basic_InventoryField
+	 */
+	public function getFieldCleanInstance(string $type): \Vtiger_Basic_InventoryField
+	{
+		return \Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), $type);
+	}
+
+	/**
+	 * Function to get data of inventory for record.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function getInventoryDataById(int $recordId, string $moduleName): array
+	{
+		$inventory = self::getInstance($moduleName);
+		$query = (new \App\Db\Query())->from($inventory->getTableName(self::TABLE_POSTFIX_DATA))->indexBy('id')->where(['crmid' => $recordId]);
+		if ($inventory->isField('seq')) {
+			$query->orderBy(['seq' => SORT_ASC]);
+		}
+		return $query->all();
+	}
+
+	/**
+	 * Save inventory field.
+	 *
+	 * @param \Vtiger_Basic_InventoryField $fieldModel
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
+	public function saveField(\Vtiger_Basic_InventoryField $fieldModel): bool
+	{
+		$db = \App\Db::getInstance();
+		$tableName = $this->getTableName();
+		if (!$fieldModel->has('sequence')) {
+			$fieldModel->set('sequence', $db->getUniqueID($tableName, 'sequence', false));
+		}
+		if ($fieldModel->isEmpty('id') && !$fieldModel->isOnlyOne()) {
+			$id = (new \App\Db\Query())->from($tableName)->where(['invtype' => $fieldModel->getType()])->max('id') + 1;
+			$fieldModel->set('columnName', $fieldModel->getColumnName() . $id);
+		}
+		$transaction = $db->beginTransaction();
+		try {
+			$data = array_change_key_case($fieldModel->getData(), CASE_LOWER);
+			if ($fieldModel->isEmpty('id')) {
+				$table = $this->getTableName(self::TABLE_POSTFIX_DATA);
+				vtlib\Utils::addColumn($table, $fieldModel->getColumnName(), $fieldModel->getDBType());
+				foreach ($fieldModel->getCustomColumn() as $column => $criteria) {
+					vtlib\Utils::addColumn($table, $column, $criteria);
+				}
+				$result = $db->createCommand()->insert($tableName, $data)->execute();
+				$fieldModel->set('id', $db->getLastInsertID("{$tableName}_id_seq"));
+			} else {
+				$result = $db->createCommand()->update($tableName, $data, ['id' => $fieldModel->get('id')])->execute();
+			}
+			$transaction->commit();
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
+			$result = false;
+		}
+
+		return (bool) $result;
+	}
+
+	/**
+	 * Delete inventory field.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
+	public function deleteField(string $fieldName): bool
+	{
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		$transaction = $db->beginTransaction();
+		$result = false;
+		try {
+			$fieldModel = $this->getField($fieldName);
+			$columnsArray = array_keys($fieldModel->getCustomColumn());
+			$columnsArray[] = $fieldName;
+			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
+			if ($fieldName !== 'seq') {
+				foreach ($columnsArray as $column) {
+					$dbCommand->dropColumn($this->getTableName(self::TABLE_POSTFIX_DATA), $column)->execute();
+				}
+			}
+			$transaction->commit();
+			$result = true;
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
+		}
+		return $result;
+	}
+
+	/**
+	 * Save sequence field.
+	 *
+	 * @param int[] $sequenceList
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return int
+	 */
+	public function saveSequence(array $sequenceList): int
+	{
+		$db = \App\Db::getInstance();
+		$case = 'CASE id';
+		foreach ($sequenceList as $sequence => $id) {
+			$case .= " WHEN {$db->quoteValue($id)} THEN {$db->quoteValue($sequence)}";
+		}
+		$case .= ' END ';
+		return $db->createCommand()->update($this->getTableName(), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
+	}
+
+	/**
+	 * Retrieve list of all fields.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Vtiger_Basic_InventoryField[] Fields instance
+	 */
+	public function getFieldsTypes(): array
+	{
+		$moduleName = $this->getModuleName();
+		if (\App\Cache::has(__METHOD__, $moduleName)) {
+			$inventoryTypes = \App\Cache::get(__METHOD__, $moduleName);
+		} else {
+			$fieldPaths = ["modules/$moduleName/inventoryfields/"];
+			if ($moduleName !== 'Vtiger') {
+				$fieldPaths[] = 'modules/Vtiger/inventoryfields/';
+			}
+			$inventoryTypes = [];
+			foreach ($fieldPaths as $fieldPath) {
+				if (!is_dir($fieldPath)) {
+					continue;
+				}
+				foreach (new DirectoryIterator($fieldPath) as $object) {
+					if ($object->getExtension() === 'php' && ($type = $object->getBasename('.php')) !== 'Basic' && !isset($inventoryTypes[$type])) {
+						$inventoryTypes[$type] = Vtiger_Basic_InventoryField::getInstance($moduleName, $type);
+					}
+				}
+			}
+			\App\Cache::save(__METHOD__, $moduleName, $inventoryTypes);
+		}
+		return $inventoryTypes;
+	}
+
+	/**
+	 * Gets all columns.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return astring[]
+	 */
+	public function getAllColumns()
+	{
+		$columns = [];
+		foreach ($this->getFields() as $field) {
+			$columns[] = $field->getColumnName();
+			foreach ($field->getCustomColumn() as $name => $field) {
+				$columns[] = $name;
+			}
+		}
+		return $columns;
+	}
+
+	/**
+	 * Function return autocomplete fields.
+	 *
+	 * @return array
+	 */
+	public function getAutoCompleteFields()
+	{
+		$moduleName = $this->getModuleName();
+		if (\App\Cache::has(__METHOD__, $moduleName)) {
+			$fields = \App\Cache::get(__METHOD__, $moduleName);
+		} else {
+			$fields = [];
+			$dataReader = (new \App\Db\Query())->from($this->getTableName(self::TABLE_POSTFIX_MAP))->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$fields[$row['module']][$row['tofield']] = $row;
+			}
+			App\Cache::save(__METHOD__, $moduleName, $fields);
+		}
+		return $fields;
+	}
+
+	/**
+	 * Function to get custom values to complete in inventory.
+	 *
+	 * @param string              $sourceFieldName
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return array
+	 */
+	public function getCustomAutoComplete(string $sourceFieldName, \Vtiger_Record_Model $recordModel) // TODO: CHECK
+	{
+		$values = [];
+		$inventoryMap = AppConfig::module($this->getModuleName(), 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		if ($inventoryMap) {
+			foreach ($inventoryMap as $fieldToComplete => $mapping) {
+				if (isset($mapping[$sourceFieldName]) && method_exists($this, $mapping[$sourceFieldName])) {
+					$methodName = $mapping[$sourceFieldName];
+					$values[$fieldToComplete] = $this->$methodName($recordModel);
+				}
+			}
+		}
+		return $values;
+	}
+
+	/**
+	 * Gets data from record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return float
+	 */
+	public function getInventoryPrice(Vtiger_Record_Model $recordModel)
+	{
+		return $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
+	}
+
+	/**
+	 * Function to get list elements in iventory as html code.
+	 *
+	 * @param \Vtiger_Record_Model $recodModel
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return string
+	 */
+	public function getInventoryListName(\Vtiger_Record_Model $recodModel)
+	{
+		$field = $this->getField('name');
+		$html = '<ul>';
+		foreach ($recodModel->getInventoryData() as $data) {
+			$html .= '<li>';
+			$html .= $field->getDisplayValue($data['name']);
+			$html .= '</li>';
+		}
+		return $html . '</ul>';
+	}
+
+	/**
+	 * Gets template to purify.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getPurifyTemplate(): array
+	{
+		$tempalete = [];
+		foreach ($this->getFields() as $fieldModel) {
+			$tempalete += $fieldModel->getPurifyType();
+		}
+		return $tempalete;
 	}
 
 	/**
@@ -157,24 +671,23 @@ class Vtiger_Inventory_Model
 	/**
 	 * Get tax from the account.
 	 *
-	 * @param string $moduleName Module name
-	 * @param int    $record     Record ID
+	 * @param int $record Record ID
 	 *
 	 * @return array
 	 */
-	public function getAccountTax($moduleName, $record)
+	public function getAccountTax($record)
 	{
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$accountField = $inventoryField->getReferenceField();
-		$accountTaxs = [];
 		$recordName = '';
-		$taxField = Vtiger_InventoryField_Model::getTaxField('Accounts');
-		if ($accountField !== '' && $taxField !== false) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$relationFieldValue = $recordModel->get($accountField);
-			if ($relationFieldValue != 0) {
-				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, 'Accounts');
-				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField));
+		$accountTaxs = [];
+		$sourceModule = 'Accounts';
+		$fieldRel = App\Field::getRelatedFieldForModule($this->getModuleName(), $sourceModule);
+		if ($fieldRel && ($taxFields = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303))) {
+			$taxField = current($taxFields);
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $this->getModuleName());
+			$relationFieldValue = $recordModel->get($fieldRel['fieldname']);
+			if ($relationFieldValue && \App\Record::getType($relationFieldValue) === $sourceModule) {
+				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, $sourceModule);
+				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField->getName()));
 				$recordName = $accountRecordModel->getName();
 			}
 		}
@@ -186,17 +699,20 @@ class Vtiger_Inventory_Model
 	 *
 	 * @param int/bool $type
 	 *
-	 * @return bool/self
+	 * @throws \yii\db\Exception
+	 *
+	 * @return $this|bool
 	 */
 	public function setMode($type)
 	{
 		$db = \App\Db::getInstance();
-		$moduleName = $this->name;
-
+		$moduleName = $this->moduleName;
 		$result = $db->createCommand()->update('vtiger_tab', ['type' => (int) $type], ['name' => $moduleName])->execute();
 		if (!$result) {
 			return false;
 		}
+		\App\Cache::delete('moduleTabByName', $moduleName);
+		\App\Cache::delete('moduleTabById', \App\Module::getModuleId($moduleName));
 		if ($type) {
 			$this->createInventoryTables();
 		}
@@ -209,23 +725,27 @@ class Vtiger_Inventory_Model
 	public function createInventoryTables()
 	{
 		$db = \App\Db::getInstance();
-		$focus = CRMEntity::getInstance($this->name);
-		$moduleLowerCase = strtolower($this->name);
-		$basetable = $focus->table_name;
 		$importer = new \App\Db\Importers\Base();
+		$focus = CRMEntity::getInstance($this->getModuleName());
+		$dataTableName = $this->getTableName(self::TABLE_POSTFIX_DATA);
+		$mapTableName = $this->getTableName(self::TABLE_POSTFIX_MAP);
 		$tables = [
-			'_inventory' => [
+			$dataTableName => [
 				'columns' => [
-					'id' => $importer->integer(11),
+					'id' => $importer->primaryKey(10),
+					'crmid' => $importer->integer(10),
 					'seq' => $importer->integer(10),
 				],
 				'index' => [
-					[$moduleLowerCase . '_inventory_idx', 'id'],
+					["{$dataTableName}_crmid_idx", 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
+				'foreignKey' => [
+					["{$dataTableName}_crmid_fk", $dataTableName, 'crmid', $focus->table_name, $focus->table_index, 'CASCADE', null]
+				]
 			],
-			'_invfield' => [
+			$this->getTableName(self::TABLE_POSTFIX_BASE) => [
 				'columns' => [
 					'id' => $importer->primaryKey(),
 					'columnname' => $importer->stringType(30)->notNull(),
@@ -242,25 +762,28 @@ class Vtiger_Inventory_Model
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
 			],
-			'_invmap' => [
+			$mapTableName => [
 				'columns' => [
 					'module' => $importer->stringType(50)->notNull(),
 					'field' => $importer->stringType(50)->notNull(),
 					'tofield' => $importer->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-					[$moduleLowerCase . '_invmap_pk', ['module', 'field', 'tofield']],
+					["{$mapTableName}_pk", ['module', 'field', 'tofield']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8',
-		], ];
+			]];
 		$base = new \App\Db\Importer();
 		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
-		foreach ($tables as $postFix => $data) {
-			$tableName = $basetable . $postFix;
+		foreach ($tables as $tableName => $data) {
 			if (!$db->isTableExists($tableName)) {
 				$importer->tables = [$tableName => $data];
 				$base->addTables($importer);
+				if (isset($data['foreignKey'])) {
+					$importer->foreignKey = $data['foreignKey'];
+					$base->addForeignKey($importer);
+				}
 			}
 		}
 	}

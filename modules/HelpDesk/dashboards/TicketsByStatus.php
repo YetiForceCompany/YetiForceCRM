@@ -21,7 +21,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditionsArray, ['assigned_user_id', 'e', $assignedto]);
 		}
 		$listSearchParams[] = $conditionsArray;
-		return '&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&entityState=Active&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**

@@ -766,13 +766,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (response) {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
-					element.find('.fas').each(function () {
-						if (jQuery(this).hasClass('d-none')) {
-							jQuery(this).removeClass('d-none');
-						} else {
-							jQuery(this).addClass('d-none');
-						}
-					})
+					if (state) {
+						element.find('.far').addClass('d-none');
+						element.find('.fas').removeClass('d-none');
+					} else {
+						element.find('.fas').addClass('d-none');
+						element.find('.far').removeClass('d-none');
+					}
 					progressInstance.progressIndicator({'mode': 'hide'});
 					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 					if (state) {
@@ -845,7 +845,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
 	getSecondColMinWidth: function (container) {
-		let maxWidth, thisWidth;
+		let maxWidth = 0,
+			thisWidth;
 		container.find('.js-list__row').each(function (i) {
 			thisWidth = $(this).find('.js-list__field').first().width();
 			if (i === 0) {
@@ -878,7 +879,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	getSplitSizes() {
 		const cachedParams = app.moduleCacheGet('userRelatedSplitSet');
-		if (cachedParams !== null) {
+		if (cachedParams !== undefined) {
 			return cachedParams;
 		} else {
 			return this.getDefaultSplitSizes();

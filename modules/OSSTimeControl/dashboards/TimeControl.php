@@ -41,7 +41,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_timecontrol_type', 'vtiger_osstimecontrol.timecontrol_type = vtiger_timecontrol_type.timecontrol_type')
 			->where(['vtiger_crmentity.setype' => 'OSSTimeControl', 'vtiger_crmentity.smownerid' => $user]);
-		\App\PrivilegeQuery::getConditions($query, 'HelpDesk');
+		\App\PrivilegeQuery::getConditions($query, 'OSSTimeControl');
 		$query->andWhere([
 			'and',
 			['>=', 'vtiger_osstimecontrol.due_date', $date[0]],
@@ -136,7 +136,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($data['datasets'])) {
 			foreach ($data['datasets'] as &$dataset) {
 				foreach ($dataset['data'] as $index => $dataItem) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($user, $data['days'][$index]);
+					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All&entityState=Active' . $this->getSearchParams($user, $data['days'][$index]);
 				}
 			}
 		}

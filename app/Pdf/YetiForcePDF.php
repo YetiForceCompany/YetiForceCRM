@@ -23,6 +23,12 @@ class YetiForcePDF extends PDF
 	const WATERMARK_TYPE_IMAGE = 1;
 
 	/**
+	 * Charset.
+	 *
+	 * @var string
+	 */
+	protected $charset = '';
+	/**
 	 * Are we fully configured or default params were given in constructor (not fully configured) ?
 	 *
 	 * @var bool
@@ -42,6 +48,30 @@ class YetiForcePDF extends PDF
 	 * @var string
 	 */
 	public $format = '';
+	/**
+	 * @var string
+	 */
+	public $orientation = 'P';
+	/**
+	 * @var string
+	 */
+	protected $header = '';
+	/**
+	 * @var string
+	 */
+	protected $footer = '';
+	/**
+	 * @var string
+	 */
+	protected $watermark = '';
+	/**
+	 * @var int
+	 */
+	protected $headerMargin = 10;
+	/**
+	 * @var int
+	 */
+	protected $footerMargin = 10;
 
 	/**
 	 * Page orientation.
@@ -56,10 +86,12 @@ class YetiForcePDF extends PDF
 	 * @var array
 	 */
 	public $defaultMargins = [
-		'left' => 15,
-		'right' => 15,
-		'top' => 16,
-		'bottom' => 16
+		'left' => 30,
+		'right' => 30,
+		'top' => 40,
+		'bottom' => 40,
+		'header' => 10,
+		'footer' => 10
 	];
 
 	/**
@@ -92,44 +124,28 @@ class YetiForcePDF extends PDF
 	/**
 	 * Constructor.
 	 */
-	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function __construct()
 	{
-		$args = func_get_args();
-		// this two arguments are kind of signal that we are configured (from template or elsewhere) - not from default argument values (empty = default)
-		if (!empty($args['format']) || !empty($args['orientation'])) {
-			$this->isDefault = false;
-		}
 		$this->setLibraryName('YetiForcePDF');
-		$this->defaultFontFamily = $defaultFont;
-		$this->defaultFontSize = $defaultFontSize;
-		$this->format = $format;
-		$this->initializePdf($mode, $format, $defaultFontSize, $defaultFont, $orientation, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin);
+		$this->setInputCharset(\AppConfig::main('default_charset') ?? 'UTF-8');
+		$this->pdf = (new Document())->init();
 	}
 
 	/**
-	 * Initialize pdf file params.
-	 *
-	 * @param string $mode
-	 * @param string $format
-	 * @param int    $defaultFontSize
-	 * @param string $defaultFont
-	 * @param string $orientation
-	 * @param int    $leftMargin
-	 * @param int    $rightMargin
-	 * @param int    $topMargin
-	 * @param int    $bottomMargin
-	 * @param int    $headerMargin
-	 * @param int    $footerMargin
+	 * {@inheritdoc}
 	 */
-	public function initializePdf($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'Noto Serif', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function getInputCharset()
 	{
-		if (empty($mode)) {
-			$mode = \AppConfig::main('default_charset') ?? 'UTF-8';
-		}
-		$this->pdf = (new Document())->init();
-		$this->pdf->setDefaultFormat($format);
-		$this->pdf->setDefaultOrientation($orientation);
-		$this->pdf->setDefaultMargins($leftMargin, $topMargin, $rightMargin, $bottomMargin);
+		return $this->charset;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setInputCharset(string $charset)
+	{
+		$this->charset = $charset;
+		return $this;
 	}
 
 	/**
@@ -141,15 +157,15 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Sets library name.
+	 * {@inheritdoc}
 	 */
-	public function setLibraryName($name)
+	public function setLibraryName(string $name)
 	{
 		$this->library = $name;
 	}
 
 	/**
-	 * Returns template id.
+	 * {@inheritdoc}
 	 */
 	public function getTemplateId()
 	{
@@ -157,15 +173,16 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Sets the template id.
+	 * {@inheritdoc}
 	 */
 	public function setTemplateId($id)
 	{
 		$this->templateId = $id;
+		return $this;
 	}
 
 	/**
-	 * Returns record id.
+	 * {@inheritdoc}
 	 */
 	public function getRecordId()
 	{
@@ -173,15 +190,16 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Sets the record id.
+	 * {@inheritdoc}
 	 */
 	public function setRecordId($id)
 	{
 		$this->recordId = $id;
+		return $this;
 	}
 
 	/**
-	 * Returns module name.
+	 * {@inheritdoc}
 	 */
 	public function getModuleName()
 	{
@@ -189,66 +207,113 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Sets module name.
+	 * {@inheritdoc}
 	 */
-	public function setModuleName($name)
+	public function setModuleName(string $name)
 	{
 		$this->moduleName = $name;
 		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $name);
 		$this->moduleModel = new $handlerClass();
+		return $this;
 	}
 
 	/**
-	 * Set top margin.
+	 * {@inheritdoc}
 	 */
-	public function setTopMargin($margin)
+	public function setTopMargin(float $margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultTopMargin($margin);
+		$this->defaultMargins['top'] = $margin;
+		return $this;
 	}
 
 	/**
-	 * Set bottom margin.
+	 * {@inheritdoc}
 	 */
-	public function setBottomMargin($margin)
+	public function setBottomMargin(float $margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultBottomMargin((float) $margin);
+		$this->defaultMargins['bottom'] = $margin;
+		return $this;
 	}
 
 	/**
 	 * Set left margin.
 	 */
-	public function setLeftMargin($margin)
+	public function setLeftMargin(float $margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultLeftMargin((float) $margin);
+		$this->defaultMargins['left'] = $margin;
+		return $this;
 	}
 
 	/**
-	 * Set right margin.
+	 * {@inheritdoc}
 	 */
-	public function setRightMargin($margin)
+	public function setRightMargin(float $margin)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->setDefaultRightMargin((float) $margin);
+		$this->defaultMargins['right'] = $margin;
+		return $this;
 	}
 
 	/**
-	 * Set page size and orientation.
+	 * {@inheritdoc}
+	 */
+	public function setHeaderMargin(float $margin)
+	{
+		$this->headerMargin = $margin;
+		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setFooterMargin(float $margin)
+	{
+		$this->footerMargin = $margin;
+		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setMargins(array $margins)
+	{
+		$this->setTopMargin($margins['top'] ?? $this->defaultMargins['top']);
+		$this->setBottomMargin($margins['bottom'] ?? $this->defaultMargins['bottom']);
+		$this->setLeftMargin($margins['left'] ?? $this->defaultMargins['left']);
+		$this->setRightMargin($margins['right'] ?? $this->defaultMargins['right']);
+		$this->setHeaderMargin($margins['header'] ?? $this->defaultMargins['header']);
+		$this->setFooterMargin($margins['footer'] ?? $this->defaultMargins['footer']);
+		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setPageSize(string $format, string $orientation = null)
+	{
+		$this->pdf->setDefaultFormat($format);
+		if ($orientation) {
+			$this->pdf->setDefaultOrientation($orientation);
+		}
+		return $this;
+	}
+
+	/**
+	 * Set font.
 	 *
-	 * @param string|null $format      - page format
-	 * @param string      $orientation - page orientation
-	 */
-	public function setPageSize($format, $orientation = null)
-	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
-	}
-
-	/**
-	 * Set language.
+	 * @param string $family
+	 * @param int    $size
 	 *
-	 * @param $language
+	 * @return $this
 	 */
-	public function setLanguage($language)
+	public function setFont(string $family, int $size)
 	{
-		parent::setLanguage($language);
+		$this->defaultFontFamily = $family;
+		$this->defaultFontSize = $size;
+		return $this;
 	}
 
 	/**
@@ -270,10 +335,7 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Parse and set options.
-	 *
-	 * @param array $params         - array of parameters
-	 * @param bool  $defaultMargins - use default margins or custom user specified?
+	 * {@inheritdoc}
 	 */
 	public function parseParams(array $params, $defaultMargins = true)
 	{
@@ -333,98 +395,170 @@ class YetiForcePDF extends PDF
 					$this->setSubject($value);
 					break;
 				case 'keywords':
-					$this->setKeywords($value);
+					$this->setKeywords(explode(',', $value));
 					break;
 				default:
 					break;
 			}
 		}
+		return $this;
 	}
 
 	// meta attributes
 
 	/**
-	 * Set Title of the document.
+	 * {@inheritdoc}
 	 */
-	public function setTitle($title)
+	public function setTitle(string $title)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setTitle($this->parseVariables($title));
+		return $this;
 	}
 
 	/**
-	 * Set Title of the document.
+	 * {@inheritdoc}
 	 */
-	public function setAuthor($author)
+	public function setAuthor(string $author)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setAuthor($this->parseVariables($author));
+		return $this;
 	}
 
 	/**
-	 * Set Title of the document.
+	 * {@inheritdoc}
 	 */
-	public function setCreator($creator)
+	public function setCreator(string $creator)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setCreator($creator);
+		return $this;
 	}
 
 	/**
-	 * Set Title of the document.
+	 * {@inheritdoc}
 	 */
-	public function setSubject($subject)
+	public function setSubject(string $subject)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setSubject($this->parseVariables($subject));
+		return $this;
 	}
 
 	/**
-	 * Set Title of the document.
+	 * {@inheritdoc}
 	 */
-	public function setKeywords($keywords)
+	public function setKeywords(array $keywords)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->pdf->getMeta()->setKeywords($keywords);
+		return $this;
 	}
 
 	/**
-	 * Set header content.
+	 * {@inheritdoc}
 	 */
-	public function setHeader($name, $header)
+	public function setHeader(string $headerHtml)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->header = trim($headerHtml);
+		return $this;
 	}
 
 	/**
-	 * Set footer content.
+	 * {@inheritdoc}
 	 */
-	public function setFooter($name, $footer)
+	public function setFooter(string $footerHtml)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$this->footer = trim($footerHtml);
+		return $this;
+	}
+
+	/**
+	 * Wrap header content.
+	 *
+	 * @param string $headerContent
+	 *
+	 * @return string
+	 */
+	public function wrapHeaderContent(string $headerContent)
+	{
+		$style = "padding-top:{$this->headerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
+		return '<div data-header style="' . $style . '">' . $headerContent . '</div>';
+	}
+
+	/**
+	 * Wrap footer content.
+	 *
+	 * @param string $footerContent
+	 *
+	 * @return string
+	 */
+	public function wrapFooterContent(string $footerContent)
+	{
+		$style = "padding-bottom:{$this->footerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
+		return '<div data-footer style="' . $style . '">' . $footerContent . '</div>';
+	}
+
+	/**
+	 * Wrap watermark.
+	 *
+	 * @param string $watermarkContent
+	 *
+	 * @return string
+	 */
+	public function wrapWatermark(string $watermarkContent)
+	{
+		return '<div data-watermark style="text-align:center">' . $watermarkContent . '</div>';
 	}
 
 	/**
 	 * Write html.
+	 *
+	 * @return $this
 	 */
 	public function writeHTML()
 	{
-		$this->pdf->loadHtml($this->parseVariables($this->html));
+		$footer = $this->footer ? $this->wrapFooterContent($this->footer) : '';
+		$header = $this->header ? $this->wrapHeaderContent($this->header) : '';
+		$watermark = $this->watermark ? $this->wrapWatermark($this->watermark) : '';
+		$html = $this->parseVariables($watermark . $header . $footer . $this->html);
+		$this->pdf->loadHtml($html, $this->charset);
+		return $this;
 	}
 
 	/**
-	 * Set watermark.
+	 * Get template watermark.
 	 *
-	 * @param $templateModel
+	 * @param \Vtiger_PDF_Model $templateModel
+	 *
+	 * @return string
 	 */
-	public function setWaterMark($templateModel)
+	public function getTemplateWatermark(\Vtiger_PDF_Model $templateModel)
 	{
-		\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__);
+		$watermark = '';
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
+			if ($templateModel->get('watermark_image')) {
+				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
+			}
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
+			$fontSize = $templateModel->get('watermark_size') ?? '10';
+			$watermark = '<div style="opacity:0.1;display:inline-block;font-size:' . $fontSize . 'px">' . $templateModel->get('watermark_text') . '</div>';
+		}
+		return $watermark;
 	}
 
 	/**
-	 * Load html.
-	 *
-	 * @param string $html
+	 * {@inheritdoc}
 	 */
-	public function loadHTML($html)
+	public function setWatermark(\Vtiger_PDF_Model $templateModel)
+	{
+		$this->watermark = $this->getTemplateWatermark($templateModel);
+		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function loadHtml(string $html)
 	{
 		$this->html = $html;
+		return $this;
 	}
 
 	/**
@@ -435,7 +569,7 @@ class YetiForcePDF extends PDF
 	 * @param int    $templateId
 	 * @param int    $templateMainRecordId - optional if null $recordId is used
 	 *
-	 * @return Tcpdf current or new instance if needed
+	 * @return YetiForcePDF current or new instance if needed
 	 */
 	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId = null)
 	{
@@ -445,9 +579,21 @@ class YetiForcePDF extends PDF
 		if ($this->isDefault) {
 			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
 			if ($template->get('margin_chkbox') === 1) {
-				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientationValue);
+				$self = new self($charset);
+				$self->setPageSize($template->get('page_format'), $pageOrientationValue);
+				$self->setFont($this->defaultFontFamily, $this->defaultFontSize);
 			} else {
-				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientationValue, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
+				$self = new self($charset);
+				$self->setPageSize($template->get('page_format'), $pageOrientationValue);
+				$self->setFont($this->defaultFontFamily, $this->defaultFontSize);
+				$self->setMargins([
+					'top' => $template->get('margin_top'),
+					'right' => $template->get('margin_right'),
+					'bottom' => $template->get('margin_bottom'),
+					'left' => $template->get('margin_left'),
+					'header' => $template->get('header_height'),
+					'footer' => $template->get('footer_height')
+				]);
 			}
 			$self->isDefault = false;
 		} else {
@@ -457,11 +603,13 @@ class YetiForcePDF extends PDF
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
 		\App\Language::setTemporaryLanguage($template->get('language'));
-		$self->setWaterMark($template);
+		$self->setWatermark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
-		$self->pdf->loadHtml($self->parseVariables($template->getBody()));
+		$self->loadHtml($template->getBody());
+		$self->setHeader($template->getHeader());
+		$self->setFooter($template->getFooter());
 		\App\Language::clearTemporaryLanguage();
 		return $self;
 	}
@@ -475,15 +623,23 @@ class YetiForcePDF extends PDF
 	public function output($fileName = '', $dest = '')
 	{
 		if (empty($fileName)) {
-			$fileName = $this->getFileName() . '.pdf';
+			if ($this->getFileName()) {
+				$fileName = $this->getFileName() . '.pdf';
+			} else {
+				$date = date('Y-m-d');
+				$fileName = "{$this->moduleName} {$this->recordId} $date.pdf";
+			}
 			$dest = 'I';
 		}
+		$this->writeHTML();
 		$output = $this->pdf->render();
 		if ($dest !== 'I') {
 			return file_put_contents($fileName, $output);
 		}
-		header('Content-Type: application/pdf');
-		header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
+		header('accept-charset: utf-8');
+		header('content-type: application/pdf; charset=utf-8');
+		$basename = \App\Fields\File::sanitizeUploadFileName(basename($fileName));
+		header("content-disposition: attachment; filename=\"{$basename}\"");
 		echo $output;
 	}
 

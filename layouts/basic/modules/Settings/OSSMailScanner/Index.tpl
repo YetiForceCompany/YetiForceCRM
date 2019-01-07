@@ -90,7 +90,7 @@
 									id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
 								<optgroup label="{\App\Language::translate('Function_list', 'OSSMailScanner')}">
 									{foreach item=ACTION from=$ACTIONS_LIST}
-										<option value="{$ACTION}" {if in_array($ACTION, $row['actions'])} selected="selected"{/if} >
+										<option value="{\App\Purifier::encodeHtml($ACTION)}" {if in_array($ACTION, $row['actions'])} selected="selected"{/if} >
 											{\App\Language::translate($ACTION, 'OSSMailScanner')}
 										</option>
 									{/foreach}

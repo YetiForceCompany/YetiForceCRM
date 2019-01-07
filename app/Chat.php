@@ -897,8 +897,10 @@ final class Chat
 					->from(['CG' => 'u_#__chat_global'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_global'], "CR.global_room_id = CG.global_room_id AND CR.userid = {$this->userId}")
 					->where(['CG.global_room_id' => $this->recordId]);
+			default:
+				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
+				break;
 		}
-		throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 	}
 
 	/**

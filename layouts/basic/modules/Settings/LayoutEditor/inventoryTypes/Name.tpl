@@ -12,7 +12,7 @@
 					<div class="col-md-4 col-form-label text-right">
 						{\App\Language::translate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:
 						{if $ITEM eq 'limit'}
-							{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
+							{assign var="GROSS_PRICE" value=$INVENTORY_MODEL->getFieldCleanInstance('GrossPrice')}
 							<span class="js-popover-tooltip ml-2" data-js="popover"{' '}
 								  data-content="{\App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {\App\Language::translate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>

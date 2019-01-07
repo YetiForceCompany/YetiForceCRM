@@ -449,19 +449,19 @@ class Vtiger_Watchdog_Model extends \App\Base
 			} else {
 				$members[$row['module']]['byUsers'] = $users;
 			}
-			$members[$row['module']][$type[0]] = array_fill_keys($users, $row['lock']);
+			$members[$row['module']][$type[0]] = array_fill_keys($users, $row['lock']) + ($members[$row['module']][$type[0]] ?? []);
 		}
 		$cache = [];
 		foreach ($members as $module => $usersByType) {
 			$users = array_unique($usersByType['byUsers']);
 			foreach ($users as $user) {
-				if (isset($usersByType['Users'], $usersByType['Users'][$user])) {
+				if (isset($usersByType['Users'][$user])) {
 					$cache[$module][$user] = $usersByType['Users'][$user];
-				} elseif (isset($usersByType['Groups'], $usersByType['Groups'][$user])) {
+				} elseif (isset($usersByType['Groups'][$user])) {
 					$cache[$module][$user] = $usersByType['Groups'][$user];
-				} elseif (isset($usersByType['Roles'], $usersByType['Roles'][$user])) {
+				} elseif (isset($usersByType['Roles'][$user])) {
 					$cache[$module][$user] = $usersByType['Roles'][$user];
-				} elseif (isset($usersByType['RoleAndSubordinates'], $usersByType['RoleAndSubordinates'][$user])) {
+				} elseif (isset($usersByType['RoleAndSubordinates'][$user])) {
 					$cache[$module][$user] = $usersByType['RoleAndSubordinates'][$user];
 				}
 			}

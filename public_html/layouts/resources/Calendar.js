@@ -234,7 +234,7 @@ window.Calendar_Js = class {
 	 */
 	setBrowserHistoryOptions() {
 		let historyParams = app.getMainParams('historyParams', true),
-			options;
+			options = null;
 		if (historyParams && (historyParams.length || Object.keys(historyParams).length)) {
 			options = {
 				start: historyParams.start,
@@ -255,12 +255,10 @@ window.Calendar_Js = class {
 			let e = moment(options.end, dateFormat).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
-			app.moduleCacheSet('browserHistoryEvent', false)
+			app.moduleCacheSet('browserHistoryEvent', false);
 			app.setMainParams('showType', options.time);
 			app.setMainParams('usersId', options.user);
 			app.setMainParams('defaultView', options.defaultView);
-		} else {
-			options = null;
 		}
 		window.addEventListener('popstate', function (event) {
 			app.moduleCacheSet('browserHistoryEvent', true)

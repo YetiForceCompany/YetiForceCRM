@@ -20,7 +20,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['due_date', 'bw', implode(',', $date)]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
+		return '&search_params=' . json_encode($listSearchParams);
 	}
 
 	public function getWidgetTimeControl($user, $time)
@@ -115,7 +115,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 			foreach ($smOwners as $ownerId) {
 				foreach ($chartData['datasets'] as &$dataset) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($ownerId, $time);
+					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All&entityState=Active' . $this->getSearchParams($ownerId, $time);
 				}
 			}
 		}

@@ -40,36 +40,23 @@ class Install_Index_View extends \App\Controller\View
 	public function setLanguage(\App\Request $request)
 	{
 		if (!$request->getByType('lang', 1)) {
-			switch (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) {
-				case 'pl':
-					$request->set('lang', 'pl_pl');
-					break;
-				case 'es':
-					$request->set('lang', 'es_es');
-					break;
-				case 'de':
-					$request->set('lang', 'de_de');
-					break;
-				case 'it':
-					$request->set('lang', 'it_it');
-					break;
-				case 'pt':
-					$request->set('lang', 'pt_br');
-					break;
-				case 'ru':
-					$request->set('lang', 'ru_ru');
-					break;
-				case 'tr':
-					$request->set('lang', 'tr_tr');
-					break;
-				case 'fr':
-					$request->set('lang', 'fr_fr');
-					break;
-				default:
-					$request->set('lang', 'en_us');
-					break;
+			$lang = '';
+			if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+				$languages = Install_Utils_Model::getLanguages();
+				array_walk($languages, function (&$shortCode, $code) {
+					$shortCode = Locale::getPrimaryLanguage($code);
+				});
+				foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $code) {
+					if (isset($languages[$code]) || ($code = array_search(Locale::acceptFromHttp($code), $languages)) !== false) {
+						$lang = $code;
+						break;
+					}
+				}
 			}
-			return $request;
+			if (!$lang) {
+				$lang = \App\Language::DEFAULT_LANG;
+			}
+			$request->set('lang', $lang);
 		}
 		return $request;
 	}
@@ -102,7 +89,7 @@ class Install_Index_View extends \App\Controller\View
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
+		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
 		App\Language::setTemporaryLanguage($defaultLanguage);
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
@@ -150,7 +137,7 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step2(\App\Request $request)
 	{
-		if ($_SESSION['default_language'] === 'pl_pl') {
+		if ($_SESSION['default_language'] === 'pl-PL') {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');

@@ -1,0 +1,30 @@
+{
+  "php": {
+    "MultiCompany": "B\u00f6l\u00fcmler",
+    "SINGLE_MultiCompany": "B\u00f6l\u00fcm",
+    "LBL_BASIC_INFORMATION": "\u015eirket Detaylar\u0131",
+    "LBL_CONTACT_INFORMATION": "\u0130leti\u015fim bilgileri",
+    "LBL_REGISTRATION_INFORMATION": "Kay\u0131t bilgisi",
+    "LBL_ADDRESS_INFORMATION": "Adres detaylar\u0131",
+    "LBL_SYSTEM_INFORMATION": "Sistem bilgisi",
+    "LBL_ADDITIONAL_INFORMATION": "\u0130lave bilgi",
+    "FL_COMPANY_NAME": "\u015eirket Ad\u0131",
+    "FL_PARENT": "Ana b\u00f6l\u00fcm",
+    "FL_STATUS": "Durum",
+    "FL_EMAIL_1": "\u00d6ncelikli E-posta",
+    "FL_EMAIL_2": "\u0130kincil e-posta",
+    "FL_PHONE": "Birincil telefon",
+    "FL_MOBILE": "\u0130kincil telefon",
+    "FL_FAX": "Faks",
+    "FL_VATID": "Vergi numaras\u0131",
+    "FL_COMPANY_ID1": "\u0130\u015f kay\u0131t numaras\u0131",
+    "FL_COMPANY_ID2": "NCR",
+    "FL_INTERNAL_NOTES": "\u0130\u00e7 notlar",
+    "FL_PUBLIC_NOTES": "Genel notlar",
+    "PLL_ACTIVE": "Aktif",
+    "PLL_INACTIVE": "Etkin",
+    "LBL_SHOW_HIERARCHY": "Hiyerar\u015fi",
+    "FL_WEBSITE": "Website",
+    "FL_LOGO": "Logo"
+  }
+}

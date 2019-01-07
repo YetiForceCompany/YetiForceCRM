@@ -177,7 +177,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkclass' => 'js-mass-action--merge',
 			];
 		}
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -334,7 +334,7 @@ class Vtiger_ListView_Model extends \App\Base
 			];
 		}
 
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -403,7 +403,10 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$headerFieldModels = [];
 		if ($this->isEmpty('viewId')) {
-			$headerFields = $this->getQueryGenerator()->getListViewFields();
+			$queryGenerator = $this->getQueryGenerator();
+			$queryGenerator->setFields(array_values($this->getModule()->getPopupFields()));
+			$queryGenerator->setField('id');
+			$headerFields = $queryGenerator->getListViewFields();
 		} else {
 			$headerFields = [];
 			if (!$this->isEmpty('header_fields')) {
@@ -455,7 +458,6 @@ class Vtiger_ListView_Model extends \App\Base
 			} else {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
-			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 

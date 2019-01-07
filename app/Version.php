@@ -49,8 +49,7 @@ class Version
 	public static function check($version, $type = 'appVersion', $condition = '>=')
 	{
 		static::init();
-
-		return version_compare($version, static::$versions[$type], $condition);
+		return static::compare($version, static::$versions[$type], $condition);
 	}
 
 	/**

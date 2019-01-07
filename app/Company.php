@@ -12,72 +12,73 @@ namespace App;
 class Company extends Base
 {
 	/**
-	 * Logo directory.
-	 *
-	 * @var string
-	 */
-	public static $logoPath = 'public_html/layouts/resources/Logo/';
-
-	/**
 	 * Function to get the instance of the Company model.
 	 *
-	 * @param int $id
-	 *
-	 * @return \self
+	 * @return array
 	 */
-	public static function getInstanceById($id = false)
+	public static function getAll()
 	{
-		if (Cache::has('CompanyDetail', $id)) {
-			return Cache::get('CompanyDetail', $id);
+		if (Cache::has('CompanyGetAll', '')) {
+			return Cache::get('CompanyGetAll', '');
 		}
-		if (!empty($id)) {
-			$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one();
-		} else {
-			$row = (new \App\Db\Query())->from('s_#__companies')->one();
-		}
-		$self = new self();
-		if ($row) {
-			$self->setData($row);
-		}
-		Cache::save('CompanyDetail', $id, $self, Cache::LONG);
-		return $self;
+		$rows = (new \App\Db\Query())->from('s_#__companies')->all();
+		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
+		return $rows;
 	}
 
 	/**
-	 * Function to get the Company Logo.
+	 * Update company status.
 	 *
-	 * @param string      $type
-	 * @param string|bool $fullUrl
+	 * @param int         $status
+	 * @param string|null $name
 	 *
-	 * @return \Vtiger_Image_Model instance
+	 * @throws \yii\db\Exception
 	 */
-	public function getLogo($type = '', $fullUrl = false)
+	public static function statusUpdate(int $status, ?string $name = null)
 	{
-		if (Cache::has('CompanyLogo', $type)) {
-			return Cache::get('CompanyLogo', $type);
+		if ($name) {
+			\App\Db::getInstance('admin')->createCommand()
+				->update('s_#__companies', [
+					'status' => $status
+				], ['name' => $name])->execute();
+		} else {
+			\App\Db::getInstance('admin')->createCommand()
+				->update('s_#__companies', [
+					'status' => $status
+				])->execute();
 		}
-		$logoName = 'blue_yetiforce_logo.png';
-		if (!$logoName) {
+	}
+
+	/**
+	 * Send registration data to YetiForce API server.
+	 *
+	 * @param array $companiesNew
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
+	public static function registerOnline(array $companiesNew): bool
+	{
+		if (empty($companiesNew)) {
 			return false;
 		}
-		$logoURL = static::$logoPath . $logoName;
-		if (IS_PUBLIC_DIR) {
-			$logoURL = str_replace('public_html/', '', $logoURL);
+		foreach (static::getAll() as $companyCurrent) {
+			if (!isset($companiesNew[$companyCurrent['id']])) {
+				continue;
+			}
+			\App\Db::getInstance()->createCommand()
+				->update('s_#__companies', [
+					'name' => $companiesNew[$companyCurrent['id']]['name'],
+					'industry' => $companiesNew[$companyCurrent['id']]['industry'],
+					'city' => $companiesNew[$companyCurrent['id']]['city'],
+					'country' => $companiesNew[$companyCurrent['id']]['country'],
+					'website' => $companiesNew[$companyCurrent['id']]['website'],
+					'email' => $companiesNew[$companyCurrent['id']]['email'],
+				], ['id' => $companyCurrent['id']])
+				->execute();
 		}
-		if ($fullUrl) {
-			$logoURL = \AppConfig::main('site_URL') . $logoURL;
-		}
-		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoPath) . $logoName;
-		$logoModel = new \Vtiger_Image_Model();
-		$logoModel->setData([
-			'imageUrl' => $logoURL,
-			'imagePath' => $path,
-			'alt' => $logoName,
-			'imageName' => $logoName,
-			'title' => Language::translate('LBL_COMPANY_LOGO_TITLE'),
-			'fileExists' => file_exists($path),
-		]);
-		Cache::save('CompanyLogo', $type, $logoModel);
-		return $logoModel;
+		Cache::delete('CompanyGetAll', '');
+		return (new \App\YetiForce\Register())->register();
 	}
 }

@@ -28,7 +28,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&entityState=Active&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**

@@ -119,26 +119,26 @@
 												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
 												<input type="radio" name="options" id="option1" autocomplete="off" {if $BLOCK_MODEL->isHidden()} checked{/if}>
 												<span class="fas fa-fw mr-1 fa-eye-slash"></span>
-												<span>{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}</span>
+												<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}</span>
 											</label>
 											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
 												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
 												<input type="radio" name="options" id="option2" autocomplete="off" {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} checked{/if}>
-												<span class="fas fa-fw mr-1 fa-eye"></span>
-												<span>{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}</span>
+												<span class="fas fa-fw mr-1  fa-eye"></span>
+												<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}</span>
 											</label>
 											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
 												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
 												<input type="radio" name="options" id="option3" autocomplete="off"{if $BLOCK_MODEL->isDynamic()} checked{/if}>
-												<span class="fas fa-fw mr-1 fa-atom"></span>
-												<span>{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}</span>
+												<span class="fas fa-fw mr-1  fa-atom"></span>
+												<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}</span>
 											</label>
 										</div>
 										{if $BLOCK_MODEL->isCustomized()}
 											<div class="btn-group btn-group-sm ml-1 mt-1 u-h-fit" role="group" aria-label="Third group">
 												<button class="js-delete-custom-block-btn c-btn-collapsible btn btn-danger js-popover-tooltip" data-js="click">
 													<span class="fas fa-trash-alt mr-1"></span>
-													<span>{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</span>
+													<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</span>
 												</button>
 											</div>
 										{/if}

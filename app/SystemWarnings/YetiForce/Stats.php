@@ -20,21 +20,11 @@ class Stats extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (file_exists('cache/' . $this->getKey()) || \AppConfig::main('systemMode') === 'demo') {
+		if (\App\YetiForce\Register::verify(true) || \AppConfig::main('systemMode') === 'demo') {
 			$this->status = 1;
 		} else {
 			$this->status = 0;
 		}
-	}
-
-	/**
-	 * Get unique key.
-	 *
-	 * @return type
-	 */
-	public function getKey()
-	{
-		return sha1('Stats' . \AppConfig::main('site_URL') . \App\Version::get());
 	}
 
 	/**
@@ -53,20 +43,12 @@ class Stats extends \App\SystemWarnings\Template
 		}
 		$result = false;
 		$message = \App\Language::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
-		try {
-			$request = \Requests::POST('https://api.yetiforce.com/stats', [], array_merge($params, [
-				'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
-				'version' => \App\Version::get(),
-				'language' => \App\Language::getLanguage(),
-				'timezone' => date_default_timezone_get(),
-			]), ['useragent' => 'YetiForceCRM']);
-			if ($request->body === 'OK') {
-				file_put_contents('cache/' . $this->getKey(), 'Stats');
-				$result = true;
-				$message = \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
-			}
-		} catch (\Exception $exc) {
-			\App\Log::warning($exc->getMessage());
+		$register = new \App\YetiForce\Register();
+		if ($register->send()) {
+			$result = true;
+			$message = \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
+		} elseif (isset($register->error)) {
+			$message .= \PHP_EOL . \App\Language::translate($register->error, 'Other::Exceptions');
 		}
 		return ['result' => $result, 'message' => $message];
 	}

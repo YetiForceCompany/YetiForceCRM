@@ -59,18 +59,6 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
-	 * Testing organization placeholders replacement.
-	 */
-	public function testOrganization()
-	{
-		$defaultCompanyModel = \App\Company::getInstanceById(false);
-		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
-			->setContent('+ $(organization : name)$ +')
-			->parse()
-			->getContent(), 'Organization name should match to reference');
-	}
-
-	/**
 	 * Tests base variables list.
 	 */
 	public function testGetBaseListVariable()
@@ -499,7 +487,7 @@ class TextParser extends \Tests\Base
 			'Clean instance: Only translations should be replaced');
 		$this->assertSame(
 			'+$(general : CurrentDate)$ | ' . \App\Language::translate('LBL_SECONDS') . '==' . \App\Language::translate('LBL_COPY_BILLING_ADDRESS', 'Accounts') . '+',
-			static::$parserClean->setLanguage('pl_pl')->setContent('+$(general : CurrentDate)$ | $(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parseTranslations()->getContent(),
+			static::$parserClean->setLanguage('pl-PL')->setContent('+$(general : CurrentDate)$ | $(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parseTranslations()->getContent(),
 			'Clean instance: Only translations should be replaced(setLanguage)');
 
 		$this->assertSame(

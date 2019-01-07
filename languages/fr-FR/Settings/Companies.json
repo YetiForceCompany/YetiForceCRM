@@ -1,0 +1,33 @@
+{
+  "php": {
+    "LBL_COMPANIES": "Coordonn\u00e9es de l'entreprise",
+    "Companies": "Coordonn\u00e9es de l'entreprise",
+    "LBL_COMPANIES_DESCRIPTION": "G\u00e9rer les d\u00e9tails de l'entreprise",
+    "LBL_ID": "N\u00b0",
+    "LBL_NAME": "Nom complet de l'entreprise",
+    "LBL_EMAIL": "E-mail",
+    "LBL_CITY": "Ville",
+    "LBL_COUNTRY": "Pays",
+    "LBL_TYPE": "Type",
+    "LBL_TYPE_TARGET_USER": "End user",
+    "LBL_TYPE_INTEGRATOR": "Integrator",
+    "LBL_TYPE_PROVIDER": "Provider",
+    "LBL_WEBSITE": "Site Internet",
+    "LBL_INDUSTRY": "Industrie",
+    "LBL_COMPANY_NAMES_EXIST": "The company name already exists",
+    "LBL_REGISTER_CRM_ONLINE": "Registration - OnLine",
+    "LBL_REGISTER_CRM_SERIAL": "Registration - Key",
+    "LBL_NOT_REGISTERED": "Not registered",
+    "LBL_WAITING_FOR_ACCEPTANCE": "Pending approval",
+    "LBL_INCORRECT_DATA": "Incorrect data",
+    "LBL_INCOMPLETE_DATA": "Incomplete data",
+    "LBL_OFFLINE_SERIAL_NOT_FOUND": "Key not found",
+    "LBL_OFFLINE_SIGNED": "Key approved",
+    "LBL_SPECIAL_REGISTRATION": "Special registration",
+    "LBL_ACCEPTED": "Accepted"
+  },
+  "js": {
+    "JS_ENTER_REGISTRATION_KEY": "Enter registration key",
+    "JS_ENTER_ALL_REGISTRATION_DATA": "Enter all required data"
+  }
+}

@@ -33,6 +33,6 @@ class Request extends \Tests\Base
 	 */
 	public function testGetHeaders()
 	{
-		$this->assertNotEmpty(\App\Request::init()->getHeaders());
+		$this->assertEmpty(\App\Request::init()->getHeaders(), 'In CLI mode should not return any headers');
 	}
 }

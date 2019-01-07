@@ -1386,3 +1386,51 @@ Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 		return true;
 	}
 });
+Vtiger_Base_Validator_Js("Vtiger_MultiImage_Validator_Js", {
+	invokeValidation(field, rules, i, options) {
+		const instance = new Vtiger_MultiImage_Validator_Js();
+		instance.setElement(field);
+		if (instance.validate() != true) {
+			return instance.getError();
+		}
+	}
+}, {
+	validate() {
+		let response = this._super();
+		if (response != true) {
+			return response;
+		}
+		const field = this.getElement();
+		const fieldValue = field.val();
+		if (field.data('fieldinfo').mandatory && JSON.parse(fieldValue).length === 0) {
+			this.setError(app.vtranslate('JS_REQUIRED_FIELD'));
+			return false;
+		}
+		return true;
+	}
+});
+Vtiger_Base_Validator_Js("Vtiger_MaxSizeInByte_Validator_Js", {
+	invokeValidation(field, rules, i, options) {
+		const instance = new Vtiger_MaxSizeInByte_Validator_Js();
+		instance.setElement(field);
+		if (instance.validate() != true) {
+			return instance.getError();
+		}
+	}
+}, {
+	validate() {
+		let response = this._super();
+		if (response != true) {
+			return response;
+		}
+		const field = this.getElement();
+		const fieldValue = field.val();
+		if (field.data('fieldinfo').maximumlength && new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength) {
+			this.setError(
+				app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength
+			);
+			return false;
+		}
+		return true;
+	}
+});

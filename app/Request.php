@@ -439,8 +439,8 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) === 'HTTP_') {
 					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
+					$data[$key] = Purifier::purify($value);
 				}
-				$data[$key] = Purifier::purify($value);
 			}
 		} else {
 			$data = array_change_key_case(apache_request_headers(), CASE_UPPER);

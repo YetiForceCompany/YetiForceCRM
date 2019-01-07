@@ -4,6 +4,18 @@ test
 tests
 powered-test
 
+# Git and GitHub meta files
+.github
+.babelrc
+.bin
+*.d.ts
+test.js
+.DS_Store
+.less
+CODE_OF_CONDUCT.md
+node_modules
+
+
 # asset directories
 docs
 doc
@@ -17,6 +29,9 @@ chart.js/.htmllintrc
 
 #package
 split.js/logo.svg
+gantt-elastic/src
+gantt-elastic/*.jpg
+gantt-elastic/*.gif
 updated-jqplot/optionsTutorial.txt
 updated-jqplot/usage.txt
 updated-jqplot/jqPlotCssStyling.txt
@@ -31,6 +46,7 @@ jquery-gantt-editor/gantt.html
 footable/icomoon
 footable/js
 footable/less
+floatthead/src
 blueimp-file-upload/node_modules
 bootstrap-chosen/dist
 bootstrap-datepicker/js

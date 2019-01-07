@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-LayoutEditor-CreateInventoryFieldsStep1 -->
 	<div class="tpl-Settings-LayoutEditor-CreateInventoryFieldsStep1 modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -21,8 +22,9 @@
 								<select name="type" class="select2 form-control type"
 										data-validation-engine="validate[required]">
 									{foreach from=$MODULE_MODELS item=ITEM key=KEY}
-										{if ((in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS) ) && in_array($BLOCK,$ITEM->getBlocks())}
-											<option value="{$ITEM->getName()}">{\App\Language::translate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</option>
+										{assign var=COLUMN value=$ITEM->getColumnName()}
+										{if (!isset($FIELDS_EXISTS[$COLUMN]) || !$ITEM->isOnlyOne()) && in_array($BLOCK, $ITEM->getBlocks())}
+											<option value="{$ITEM->getType()}">{\App\Language::translate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</option>
 										{/if}
 									{/foreach}
 								</select>
@@ -31,7 +33,8 @@
 					</div>
 					<div class="well well-small">
 						{foreach from=$MODULE_MODELS item=ITEM key=KEY}
-							{if ((in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS) ) && in_array($BLOCK,$ITEM->getBlocks())}
+							{assign var=COLUMN value=$ITEM->getColumnName()}
+							{if (!isset($FIELDS_EXISTS[$COLUMN]) || !$ITEM->isOnlyOne()) && in_array($BLOCK, $ITEM->getBlocks())}
 								<h5>{\App\Language::translate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</h5>
 								<p>{\App\Language::translate($ITEM->getDefaultLabel()|cat:'_DESC', $QUALIFIED_MODULE)}</p>
 								<hr/>
@@ -55,4 +58,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-LayoutEditor-CreateInventoryFieldsStep1 -->
 {/strip}

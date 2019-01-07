@@ -277,13 +277,11 @@ class PackageImport extends PackageExport
 					continue;
 				}
 			}
-			// Language file present in en_us folder
 			$pattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]([^\/]+)\.json/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
-			// or Language file may be present in en_us/Settings folder
 			$settingsPattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
@@ -302,7 +300,8 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-			if (\App\Version::check($moduleVersion) >= 0) {
+			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion);
+			if ($versionCheck !== false && $versionCheck >= 0) {
 				$moduleVersionFound = true;
 			} else {
 				$errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
@@ -1034,38 +1033,47 @@ class PackageImport extends PackageExport
 			return false;
 		}
 		$module = (string) $this->moduleInstance->name;
-
-		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
-		$inventoryInstance->createInventoryTables();
-		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
+		$inventory = \Vtiger_Inventory_Model::getInstance($module);
+		$inventory->createInventoryTables();
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
-			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
-		}
-	}
-
-	public function importInventoryField($inventoryFieldInstance, $fieldNode)
-	{
-		$instance = \Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
-		$table = $inventoryFieldInstance->getTableName();
-
-		if ($instance->isColumnType()) {
-			Utils::addColumn($table, $fieldNode->columnname, $instance->getDBType());
-			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				Utils::addColumn($table, $column, $criteria);
+			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
+			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan'];
+			foreach ($fields as $name) {
+				switch ($name) {
+					case 'label':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->label, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'defaultValue':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->defaultvalue, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'block':
+						$blockId = (int) $fieldNode->block;
+						if (!in_array($blockId, $fieldModel->getBlocks())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $blockId, 406);
+						}
+						$fieldModel->set($name, $blockId);
+						break;
+					case 'displayType':
+						$displayType = (int) $fieldNode->displaytype;
+						if (!in_array($displayType, $fieldModel->displayTypeBase())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $displayType, 406);
+						}
+						$fieldModel->set($name, $displayType);
+						break;
+					case 'params':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->params, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'colSpan':
+						$fieldModel->set($name, (int) $fieldNode->colspan);
+						break;
+					default:
+						break;
+				}
 			}
+			$inventory->saveField($fieldModel);
 		}
-		$db = \PearDatabase::getInstance();
-
-		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
-			'columnname' => $fieldNode->columnname,
-			'label' => $fieldNode->label,
-			'invtype' => $fieldNode->invtype,
-			'defaultvalue' => $fieldNode->defaultvalue,
-			'sequence' => $fieldNode->sequence,
-			'block' => $fieldNode->block,
-			'displaytype' => $fieldNode->displaytype,
-			'params' => $fieldNode->params,
-			'colspan' => $fieldNode->colspan,
-		]);
 	}
 }

@@ -33,7 +33,7 @@
 									<div class="checkbox">
 										<label>
 											<input type="checkbox" name="confirmRegulations">
-											{\App\Language::translate('LBL_CONFIRM_REGULATIONS', $QUALIFIED_MODULE)}
+											{\App\Language::translateArgs('LBL_CONFIRM_REGULATIONS', $QUALIFIED_MODULE,\Settings_Github_Issues_Model::getIssueReportRulesUrl())}
 										</label>
 									</div>
 								</div>
@@ -41,35 +41,7 @@
 									{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 									<textarea id="bodyIssues" class="form-control js-editor" data-js="ckeditor"
 											  type="text" name="title">
-									<br/>
-									<hr>
-										{\App\Language::translate('LBL_DEFAULT_DESCRIPTION', $QUALIFIED_MODULE)}
-										{\App\Version::get()}
-										<br/>
-										{\App\Language::translate('LBL_PHP_VERSION', $QUALIFIED_MODULE)}: {$PHP_VERSION}
-										<br/>
-										{if $ERROR_CONFIGURATION}
-											<br/>
-											<strong>{\App\Language::translate('LBL_CONFIGURATION_ERROR', $QUALIFIED_MODULE)}
-												:</strong>
-
-
-{foreach from=$ERROR_CONFIGURATION key=NAME item=CONFIG}
-											<br/>
-											{$NAME}: {$CONFIG['www']}
-										{/foreach}
-										{/if}
-										{if $ERROR_LIBRARIES}
-											<br/>
-											<strong>{\App\Language::translate('LBL_LIBRARIES_ERROR', $QUALIFIED_MODULE)}
-												:</strong>
-
-
-{foreach from=$ERROR_LIBRARIES key=NAME item=LIBRARY}
-											<br/>
-											{$NAME}
-										{/foreach}
-										{/if}
+										{include file=\App\Layout::getTemplatePath('IssueTemplate.tpl', $QUALIFIED_MODULE)}
 									</textarea>
 								</div>
 							</div>

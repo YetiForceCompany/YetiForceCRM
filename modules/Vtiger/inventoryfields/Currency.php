@@ -8,10 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'Currency';
+	protected $type = 'Currency';
 	protected $defaultLabel = 'LBL_CURRENCY';
 	protected $columnName = 'currency';
 	protected $dbType = [\yii\db\Schema::TYPE_INTEGER, 11];
@@ -22,6 +23,10 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $customMaximumLength = [
 		'currencyparam' => 1024
+	];
+	protected $purifyType = \App\Purifier::INTEGER;
+	protected $customPurifyType = [
+		'currencyparam' => App\Purifier::TEXT
 	];
 
 	/**
@@ -35,57 +40,57 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $rawText = false)
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Currency::getById($value)['currency_name'];
 	}
 
-	public function getCurrencyParam($currencies, $param = false)
+	/**
+	 * Gets currency param.
+	 *
+	 * @param array  $currencies
+	 * @param string $param
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getCurrencyParam(array $currencies, $param = '')
 	{
-		if ($param !== false) {
-			return \App\Json::decode($param);
-		} else {
-			foreach ($currencies as $currency) {
-				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
+		$params = [];
+		if ($param) {
+			$params = \App\Json::decode($param);
+		}
+		foreach ($currencies as $currency) {
+			if (!isset($params[$currency['id']])) {
+				$params[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
 			}
 		}
-		return $return;
+		return $params;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	public function getDBValue($value, ?string $name = '')
 	{
-		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
-			return false;
+		if ($name === $this->getColumnName()) {
+			$value = (int) $value;
 		}
-		$value = $request->getInteger($column . $i);
-		$this->validate($value, $column, true);
-		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('currencyparam' . $i));
-		$this->validate($value, 'currencyparam', true);
-		$insertData['currencyparam'] = $value;
+		return $value;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $columnName, $isUserFormat = false)
+	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($columnName === $this->getColumnName()) {
-			if (!is_numeric($value)) {
+			if (!is_numeric($value) || !isset(\App\Fields\Currency::getAll()[$value])) {
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 			}
-			$rangeValues = explode(',', $this->maximumLength);
-			if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
-				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
-			}
-		} else {
-			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
-				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
-			}
+		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 }

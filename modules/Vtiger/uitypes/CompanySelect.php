@@ -53,7 +53,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValues()
 	{
-		return Settings_Companies_Module_Model::getAllCompanies();
+		return App\MultiCompany::getAll();
 	}
 
 	/**

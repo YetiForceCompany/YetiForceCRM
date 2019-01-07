@@ -160,6 +160,8 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 						} else {
 							$temp[$fieldName] = $icalZeroPriority;
 						}
+					} elseif ($fieldName === 'status') {
+						$temp[$fieldName] = $eventFields['activitystatus'];
 					} else {
 						$temp[$fieldName] = $eventFields[$fieldName];
 					}
