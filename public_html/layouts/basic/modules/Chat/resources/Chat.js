@@ -255,7 +255,7 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} inputMessage
 	 */
 	sendMessage(inputMessage) {
-		let len = inputMessage.val().length;
+		let len = inputMessage.html().length;
 		if (0 === len) {
 			return;
 		}
@@ -270,7 +270,7 @@ window.Chat_JS = class Chat_Js {
 				mode: 'send',
 				roomType: this.getCurrentRoomType(),
 				recordId: this.getCurrentRecordId(),
-				message: inputMessage.val(),
+				message: inputMessage.html(),
 				mid: mid
 			}).done((html) => {
 				if (this.isSearchMode) {
@@ -284,7 +284,7 @@ window.Chat_JS = class Chat_Js {
 				this.buildParticipantsFromMessage($('<div></div>').html(html));
 				this.scrollToBottom(false);
 			});
-			inputMessage.val('');
+			inputMessage.html('');
 		} else {
 			Vtiger_Helper_Js.showPnotify({
 				text: app.vtranslate('JS_MESSAGE_TOO_LONG'),

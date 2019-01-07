@@ -78,13 +78,14 @@
 			</div>
 			<div class="row js-chat-message-block" data-js="hide">
 				<div class="input-group">
-					<textarea
+					<p
 							class="form-control noresize u-font-size-13px js-chat-message rounded-0 o-chat__form-control"
 							rows="2"
 							autocomplete="off"
+							contenteditable="true"
 							placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
 							data-js="keydown">
-					</textarea>
+					</p>
 				</div>
 				<button type="button" class="btn btn-primary js-btn-send o-chat__btn-send" data-js="click">
 					<span class="fas fa-paper-plane"></span>
