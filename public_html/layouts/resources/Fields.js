@@ -513,7 +513,34 @@ App.Fields = {
 						},
 						lookup: 'label',
 						fillAttr: 'label'
-					}]
+					},
+					{
+						trigger: '@',
+						selectTemplate: function (item) {
+							if (this.range.isContentEditable(this.current.element)) {
+								console.log(item);
+								return `<a href="#" data-id="${item.original.id}">@${item.original.label.split('(')[0]}</a>`;
+							}
+							return '@' + item.original.label;
+						},
+						values: function (text, cb) {
+							App.Fields.Text.getMentionUsersData(text, users => cb(users));
+						},
+						menuItemTemplate: function (item) {
+							return `<div data-id="${item.original.id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-${item.original.module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">${item.original.label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${item.original.category}</div>
+											</div>
+										</div>`;
+						},
+						lookup: 'label',
+						fillAttr: 'label'
+					}
+				]
 			});
 			recordMention.attach(element);
 		},
