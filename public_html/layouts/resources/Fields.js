@@ -442,17 +442,17 @@ App.Fields = {
 			registerMentions() {
 				let minSerchTextLength = app.getMainParams('gsMinLength');
 				return [{
-					feed: App.Fields.Text.getMentionUsersData.bind(this),
+					feed: this.getMentionUsersData.bind(this),
 					itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
 												<span class="fas fa-2x fa-user"></span>
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover col-12">{name}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{role}</div>
+												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
-					outputTemplate: '<a href="#" data-id="@{id}">{name}</a>',
+					outputTemplate: '<a href="#" data-id="@{id}">{label}</a>',
 					minChars: minSerchTextLength
 				},
 					{
@@ -471,6 +471,15 @@ App.Fields = {
 						minChars: minSerchTextLength
 					}
 				];
+			}
+
+			/**
+			 * Get mention Users data (invoked by ck editor mentions plugin)
+			 * @param {object} opts
+			 * @param {function} callback
+			 */
+			getMentionUsersData(opts, callback) {
+				App.Fields.Text.getMentionData(opts, callback, 'Users');
 			}
 
 			static convertEmojis(editorElement) {
@@ -579,15 +588,6 @@ App.Fields = {
 				}
 				callback(reponseDataList);
 			});
-		},
-
-		/**
-		 * Get mention Users data (invoked by ck editor mentions plugin)
-		 * @param {object} opts
-		 * @param {function} callback
-		 */
-		getMentionUsersData(opts, callback) {
-			this.getMentionData(opts, callback, 'Users');
 		},
 
 		/**
