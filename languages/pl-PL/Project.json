@@ -79,6 +79,7 @@
     "JS_GANTT_ZOOM_Y": "Powiększenie osi Y",
     "JS_GANTT_EXPAND": "Dodaj dni przed i po",
     "JS_GANTT_TASKLIST": "Szerokość listy",
-    "JS_GANTT_TASKLIST_VISIBLE": "Pokaż listę"
+    "JS_GANTT_TASKLIST_VISIBLE": "Pokaż listę",
+    "JS_GANTT_TITLE": "Wykres gantta"
   }
 }

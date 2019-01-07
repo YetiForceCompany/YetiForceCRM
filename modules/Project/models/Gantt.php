@@ -536,7 +536,6 @@ class Project_Gantt_Model
 			'canAdd' => false,
 			'statuses' => $this->statuses,
 			'activeStatuses' => $this->activeStatuses,
-			'title' => 'Gantt'
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
@@ -556,7 +555,7 @@ class Project_Gantt_Model
 	{
 		$this->getStatuses();
 		$projects = $this->getProject($id);
-		$title = 'Gantt';
+		$title = '';
 		if (!empty((int) $id)) {
 			foreach ($projects as $project) {
 				if ($project['id'] === $id) {

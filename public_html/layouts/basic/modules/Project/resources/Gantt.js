@@ -29,8 +29,8 @@ class Gantt {
 				}
 			},
 			title: {
-				label: 'Gantt',
-				html: false,
+				label: LANG.JS_GANTT_TITLE,
+				html: true,
 			},
 			taskList: {
 				expander: {
@@ -87,7 +87,7 @@ class Gantt {
 		};
 		this.registerLanguage();
 		if (typeof projectData !== 'undefined') {
-			this.options.title.label = projectData
+			this.options.title.label = projectData;
 			this.loadProject(projectData);
 		}
 		this.registerEvents();
@@ -177,7 +177,11 @@ class Gantt {
 	loadProject(projectData) {
 		this.projectData = projectData;
 		this.allTasks = this.addIcons(this.projectData.tasks);
-		this.options.title.label = projectData.title;
+		if (typeof projectData.title !== 'undefined' && projectData.title) {
+			this.options.title.label = projectData.title;
+		} else {
+			this.options.title.label = '<span class="fas fa-briefcase mr-1"></span> ' + LANG.JS_GANTT_TITLE;
+		}
 		if (typeof this.allTasks === 'undefined') {
 			$('.js-hide-filter').addClass('d-none');
 			$('.js-show-add-record').removeClass('d-none');
