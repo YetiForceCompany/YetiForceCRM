@@ -125,7 +125,9 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				self.getCalendarSidebarData($(this).attr('href'));
 			};
 		} else {
-			options.eventClick = '';
+			options.eventClick = function (calEvent, jsEvent) {
+				jsEvent.preventDefault();
+			};
 		}
 		this.calendar.fullCalendar(options);
 	}
