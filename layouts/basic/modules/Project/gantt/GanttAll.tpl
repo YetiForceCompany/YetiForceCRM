@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<div class="tpl-Project-gantt-GanttAll">
+<div class="tpl-Project-gantt-GanttAll h-100">
 	<div class="noprint mb-2">
 		<div class="row">
 			<div class="col-lg-5 col-12">
@@ -10,11 +10,11 @@
 				<div class="js-hide-filter customFilterMainSpan" data-js="class: d-none">
 					{if $CUSTOM_VIEWS|@count gt 0}
 					<select id="customFilter" class="form-control select2"
-							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
+					        title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{foreach item="CUSTOM_VIEW" from=$CUSTOM_VIEWS}
 						<option value="{$CUSTOM_VIEW->get('cvid')}"{/strip}
-								{strip}data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}
-								class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}</option>
+						        {strip}data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}
+						        class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}</option>
 						{/foreach}
 					</select>
 					<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
