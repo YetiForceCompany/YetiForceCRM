@@ -44,7 +44,11 @@ class Gantt {
 						value: 'number',
 						width: 65,
 					},
-					{id: 2, label: app.vtranslate('JS_NAME'), value: 'label', width: 280, expander: true},
+					{
+						id: 2, label: app.vtranslate('JS_NAME'),
+						html: true,
+						value: 'label', width: 280, expander: true
+					},
 					{id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70},
 					{id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 80},
 					{
@@ -143,11 +147,30 @@ class Gantt {
 	}
 
 	/**
+	 * Add icons to tasks
+	 * @param {array} tasks
+	 * @returns {array}
+	 */
+	addIcons(tasks) {
+		return tasks.map((task) => {
+			let icon = 'briefcase';
+			if (task.type === 'milestone') {
+				icon = 'folder';
+			} else if (task.type === 'task') {
+				icon = 'file';
+			}
+			const iconClass = 'fas fa-' + icon;
+			task.label = `<span class="${iconClass} fa-lg mr-1"></span> ${task.label}`;
+			return task;
+		});
+	}
+
+	/**
 	 * Load project
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
-		this.allTasks = this.projectData.tasks;
+		this.allTasks = this.addIcons(this.projectData.tasks);
 		this.options.title.label = projectData.title;
 		if (typeof this.allTasks === 'undefined') {
 			$('.js-hide-filter').addClass('d-none');
