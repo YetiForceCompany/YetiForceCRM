@@ -43,42 +43,10 @@ class Gantt {
 						html: true,
 						value: 'number',
 						width: 65,
-						style: {
-							'task-list-header-label': {
-								'text-align': 'center',
-								'width': '100%'
-							},
-							'task-list-item-value': {
-								'text-align': 'center',
-								'width': '100%'
-							}
-						}
 					},
 					{id: 2, label: app.vtranslate('JS_NAME'), value: 'label', width: 280, expander: true},
-					{
-						id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70, style: {
-							'task-list-header-label': {
-								'text-align': 'center',
-								'width': '100%'
-							},
-							'task-list-item-value': {
-								'text-align': 'center',
-								'width': '100%'
-							}
-						}
-					},
-					{
-						id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 100, style: {
-							'task-list-header-label': {
-								'text-align': 'center',
-								'width': '100%'
-							},
-							'task-list-item-value': {
-								'text-align': 'center',
-								'width': '100%'
-							}
-						}
-					},
+					{id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70},
+					{id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 80},
 					{
 						id: 4,
 						label: app.vtranslate('JS_DURATION_SHORT', 'Project'),
@@ -91,7 +59,7 @@ class Gantt {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							'task-list-item-value': {
+							'task-list-item-value-container': {
 								'text-align': 'center',
 								'width': '100%'
 							}
@@ -104,7 +72,7 @@ class Gantt {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							'task-list-item-value': {
+							'task-list-item-value-container': {
 								'text-align': 'center',
 								'width': '100%'
 							}
