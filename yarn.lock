@@ -260,10 +260,10 @@ fullcalendar@3.9.0:
     jquery "2 - 3"
     moment "^2.20.1"
 
-gantt-elastic@^0.6.3:
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.6.4.tgz#2b7b31fcf8d184cabceef0b44ef586c53281f3f1"
-  integrity sha512-8jXASkN42lsrNpOZnlTW8jdXCqlxzoyp9fbdE9CZ+ZobXCp1J6/XT5FAflyVfw0FLjf5DvG6XVcL4wHZWT8wqw==
+gantt-elastic@^0.6.16:
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.6.16.tgz#cfa1197e6991773b8e9046d10f3d266436f638fb"
+  integrity sha512-rdzEfd9S4ceBfFet/5zv+dCVlHIQCiDuw9ZaQd7WbzL42QfQ0u68T3sjrwoKp2Fhpg6CbMBEBh4u4jahUNtT4w==
 
 good-listener@^1.2.2:
   version "1.2.2"
