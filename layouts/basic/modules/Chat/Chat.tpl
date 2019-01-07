@@ -76,12 +76,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="d-flex flex-nowrap js-chat-message-block" data-js="hide">
+			<div class="d-flex flex-nowrap js-chat-message-block" data-js="hide" data-js="perfectscrollbar">
 				<div class="js-scrollbar o-chat__form-control o-chat__message-block">
-					<div class="u-font-size-13px js-chat-message o-chat__form-control"
+					<div class="u-font-size-13px js-chat-message js-completions o-chat__form-control"
 						 contenteditable="true"
 						 placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
-						 data-js="keydown">
+						 data-js="keydown | tribute.js">
 					</div>
 				</div>
 				<button type="button" class="btn btn-primary js-btn-send o-chat__btn-send" data-js="click">

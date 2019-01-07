@@ -1206,7 +1206,6 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
 		this.registerSearchParticipants();
-		App.Fields.Text.registerCompletions(this.container.find('.js-chat-message'));
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);

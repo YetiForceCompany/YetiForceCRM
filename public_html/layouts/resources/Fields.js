@@ -494,7 +494,7 @@ App.Fields = {
 			}
 		},
 
-		registerCompletions(element) {
+		registerCompletions(element = $('.js-completions')) {
 			let textCompleteCollection = new Tribute({
 				collection: [
 					App.Fields.Text.registerMentionCollection('#'),

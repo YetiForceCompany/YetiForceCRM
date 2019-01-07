@@ -614,7 +614,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentMode = currentTarget.data('mode'),
 			closestCommentBlock = currentTarget.closest('.js-add-comment-block'),
 			commentContent = closestCommentBlock.find('.js-comment-content'),
-			commentContentValue = commentContent.val(),
+			commentContentValue = commentContent.html(),
 			errorMsg, editCommentReason;
 		if ("" === commentContentValue) {
 			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
@@ -623,7 +623,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return aDeferred.promise();
 		}
 		if ("edit" === commentMode) {
-			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
+			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').html();
 		}
 		let element = jQuery(e.currentTarget),
 			commentInfoHeader = closestCommentBlock.closest('.js-comment-details').find('.js-comment-info-header'),
@@ -2292,9 +2292,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
 		if (typeof Chat_JS !== 'undefined') {
-			console.log('chatact');
-			Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
-
+			if (this.getSelectedTab().data('labelKey') === 'LBL_CHAT') {
+				Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
+			} else {
+				Chat_JS.getInstance(detailContentsHolder, 'detail').unregisterEvents();
+			}
 		}
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
@@ -2305,6 +2307,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);
+		App.Fields.Text.registerCompletions();
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
