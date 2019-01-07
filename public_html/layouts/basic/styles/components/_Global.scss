@@ -367,3 +367,9 @@
 		left: 5px;
 	}
 }
+
+[contenteditable=true]:empty:after {
+	content: attr(placeholder) !important;
+	color: #6c757d !important;
+	display: block !important; /* For Firefox */
+}

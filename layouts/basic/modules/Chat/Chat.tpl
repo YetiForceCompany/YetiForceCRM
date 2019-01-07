@@ -76,16 +76,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="row js-chat-message-block" data-js="hide">
-				<div class="input-group">
-					<p
-							class="form-control noresize u-font-size-13px js-chat-message rounded-0 o-chat__form-control"
-							rows="2"
-							autocomplete="off"
-							contenteditable="true"
-							placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
-							data-js="keydown">
-					</p>
+			<div class="d-flex flex-nowrap js-chat-message-block" data-js="hide">
+				<div class="js-scrollbar o-chat__form-control o-chat__msg-block">
+					<div class="u-font-size-13px js-chat-message o-chat__form-control"
+						 contenteditable="true"
+						 placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
+						 data-js="keydown">
+					</div>
 				</div>
 				<button type="button" class="btn btn-primary js-btn-send o-chat__btn-send" data-js="click">
 					<span class="fas fa-paper-plane"></span>
