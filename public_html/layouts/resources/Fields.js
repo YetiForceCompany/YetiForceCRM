@@ -502,7 +502,9 @@ App.Fields = {
 					App.Fields.Text.registerEmojiCollection(),
 				]
 			});
-			textCompleteCollection.attach(element);
+			for (let el of element) {
+				textCompleteCollection.attach(el);
+			}
 			fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
 				.then(response => response.json())
 				.then(response => {
@@ -516,7 +518,7 @@ App.Fields = {
 				trigger: symbol,
 				selectTemplate: function (item) {
 					if (this.range.isContentEditable(this.current.element)) {
-						return `<a href="#" data-id="${item.original.id}">#${item.original.label.split('(')[0]}</a>`;
+						return `<a href="#" data-id="${item.original.id}">${symbol + item.original.label.split('(')[0]}</a>`;
 					}
 					return symbol + item.original.label;
 				},
