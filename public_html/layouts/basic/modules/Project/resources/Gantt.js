@@ -13,7 +13,7 @@ class Gantt {
 		this.container = $(container);
 		this.registerLanguage();
 		this.options = {
-			maxRows: 15,
+			maxRows: 30,
 			style: {
 				'chart-row-bar-polygon': {
 					'stroke': '#E74C3C00',
@@ -191,6 +191,7 @@ class Gantt {
 			ev.stopPropagation();
 			return false;
 		});
+		this.options.maxHeight = this.container.parent().height() - 80; // minus header height
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
 			GanttElastic.component.components['gantt-header'] = Header;
