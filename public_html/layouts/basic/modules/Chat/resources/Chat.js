@@ -1202,7 +1202,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
 		this.registerSearchParticipants();
-		App.Fields.Text.registerMentions($('.js-chat-message')[0]);
+		App.Fields.Text.registerCompletions($('.js-chat-message')[0]);
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);

@@ -485,8 +485,8 @@ App.Fields = {
 			}
 		},
 
-		registerMentions(element) {
-			let recordMention = new Tribute({
+		registerCompletions(element) {
+			let textCompleteCollection = new Tribute({
 				collection: [
 					{
 						trigger: '#',
@@ -539,10 +539,31 @@ App.Fields = {
 						},
 						lookup: 'label',
 						fillAttr: 'label'
+					},
+					{
+						trigger: ':',
+						selectTemplate: function (item) {
+							if (this.range.isContentEditable(this.current.element)) {
+								return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
+							}
+							return item.original.symbol;
+						},
+						menuItemTemplate: function (item) {
+							return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
+						},
+						lookup: 'id',
+						fillAttr: 'keywords',
+						values: []
 					}
 				]
 			});
-			recordMention.attach(element);
+			textCompleteCollection.attach(element);
+			fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+				.then(response => response.json())
+				.then(response => {
+					textCompleteCollection.append(2, response);
+				}).catch(error => console.error('Error:', error));
+
 		},
 
 		/**
