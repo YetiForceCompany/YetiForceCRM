@@ -488,58 +488,8 @@ App.Fields = {
 		registerCompletions(element) {
 			let textCompleteCollection = new Tribute({
 				collection: [
-					{
-						trigger: '#',
-						selectTemplate: function (item) {
-							if (this.range.isContentEditable(this.current.element)) {
-								console.log(item);
-								return `<a href="#" data-id="${item.original.id}">#${item.original.label.split('(')[0]}</a>`;
-							}
-							return '#' + item.original.label;
-						},
-						values: function (text, cb) {
-							App.Fields.Text.getMentionData(text, users => cb(users));
-						},
-						menuItemTemplate: function (item) {
-							return `<div data-id="${item.original.id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-${item.original.module}"></span>
-											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover col-12">${item.original.label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${item.original.category}</div>
-											</div>
-										</div>`;
-						},
-						lookup: 'label',
-						fillAttr: 'label'
-					},
-					{
-						trigger: '@',
-						selectTemplate: function (item) {
-							if (this.range.isContentEditable(this.current.element)) {
-								console.log(item);
-								return `<a href="#" data-id="${item.original.id}">@${item.original.label.split('(')[0]}</a>`;
-							}
-							return '@' + item.original.label;
-						},
-						values: function (text, cb) {
-							App.Fields.Text.getMentionUsersData(text, users => cb(users));
-						},
-						menuItemTemplate: function (item) {
-							return `<div data-id="${item.original.id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-${item.original.module}"></span>
-											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover col-12">${item.original.label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${item.original.category}</div>
-											</div>
-										</div>`;
-						},
-						lookup: 'label',
-						fillAttr: 'label'
-					},
+					App.Fields.Text.registerMentionCollection('#'),
+					App.Fields.Text.registerMentionCollection('@', 'Users'),
 					{
 						trigger: ':',
 						selectTemplate: function (item) {
@@ -565,7 +515,43 @@ App.Fields = {
 				}).catch(error => console.error('Error:', error));
 
 		},
+		registerMentionCollection(symbol, searchModule = '-') {
+			return {
+				trigger: symbol,
+				selectTemplate: function (item) {
+					if (this.range.isContentEditable(this.current.element)) {
+						return `<a href="#" data-id="${item.original.id}">#${item.original.label.split('(')[0]}</a>`;
+					}
+					return symbol + item.original.label;
+				},
+				values: function (text, cb) {
+					App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+				},
+				menuItemTemplate: (item) => {
+					console.log(item);
+					return App.Fields.Text.mentionTemplate({
+						id: item.original.id,
+						module: item.original.module,
+						label: item.original.label,
+						category: item.original.category
+					});
+				},
+				lookup: 'label',
+				fillAttr: 'label'
+			}
+		},
 
+		mentionTemplate(params) {
+			return `<div data-id="${params.id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-${params.module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
+											</div>
+										</div>`
+		},
 		/**
 		 * Get mention data (invoked by ck editor mentions plugin)
 		 * @param {object} opts
