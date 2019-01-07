@@ -1,7 +1,7 @@
 {strip}
 	<div class="tpl-Vtiger-Detail-WYSIWYG c-detail-widget u-mb-13px js-detail-widget c-detail-widget--wysiwyg"
 		 data-js="container">
-		<div> {* additional div needed for border fix *}
+		<div>
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<h5 class="mb-0 py-2">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 				<hr class="widgetHr">
