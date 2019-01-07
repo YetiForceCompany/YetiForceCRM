@@ -195,6 +195,9 @@ class Gantt {
 			return false;
 		});
 		this.options.maxHeight = this.containerParent.height() - 120; // minus header height
+		if (this.options.maxHeight < 0) {
+			this.options.maxHeight = 0;
+		}
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
 			GanttElastic.component.components['gantt-header'] = Header;
@@ -336,6 +339,9 @@ class Gantt {
 		container.find('[data-toggle="tooltip"]').tooltip();
 		window.addEventListener('resize', () => {
 			this.ganttState.maxHeight = this.containerParent.height() - 120; // minus header height
+			if (this.options.maxHeight < 0) {
+				this.options.maxHeight = 0;
+			}
 		});
 	}
 }
