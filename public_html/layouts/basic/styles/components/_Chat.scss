@@ -58,6 +58,7 @@
 		height: calculate-rem(50px);
 		width: calc(100% - #{$chat-btn-width});
 		position: relative;
+		@extend .mt-1;
 	}
 
 	&__user-message {
@@ -108,6 +109,7 @@
 	&__messages {
 		font-size: 13px;
 		background: #e8e8e8;
+		word-break: break-word;
 	}
 
 	&__room {
