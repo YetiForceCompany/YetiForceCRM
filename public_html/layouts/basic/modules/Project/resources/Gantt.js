@@ -171,6 +171,9 @@ class Gantt {
 		});
 	}
 
+	/**
+	 * Resize gantt chart
+	 */
 	resize() {
 		let offsetTop = this.container.offset().top;
 		let contentHeight = $('body').eq(0).height() - $('.c-footer').eq(0).height();
