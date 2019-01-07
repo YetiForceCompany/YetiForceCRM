@@ -490,21 +490,7 @@ App.Fields = {
 				collection: [
 					App.Fields.Text.registerMentionCollection('#'),
 					App.Fields.Text.registerMentionCollection('@', 'Users'),
-					{
-						trigger: ':',
-						selectTemplate: function (item) {
-							if (this.range.isContentEditable(this.current.element)) {
-								return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
-							}
-							return item.original.symbol;
-						},
-						menuItemTemplate: function (item) {
-							return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
-						},
-						lookup: 'id',
-						fillAttr: 'keywords',
-						values: []
-					}
+					App.Fields.Text.registerEmojiCollection(),
 				]
 			});
 			textCompleteCollection.attach(element);
@@ -515,6 +501,7 @@ App.Fields = {
 				}).catch(error => console.error('Error:', error));
 
 		},
+
 		registerMentionCollection(symbol, searchModule = '-') {
 			return {
 				trigger: symbol,
@@ -524,11 +511,10 @@ App.Fields = {
 					}
 					return symbol + item.original.label;
 				},
-				values: function (text, cb) {
+				values: (text, cb) => {
 					App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
 				},
-				menuItemTemplate: (item) => {
-					console.log(item);
+				menuItemTemplate: function (item) {
 					return App.Fields.Text.mentionTemplate({
 						id: item.original.id,
 						module: item.original.module,
@@ -541,6 +527,23 @@ App.Fields = {
 			}
 		},
 
+		registerEmojiCollection() {
+			return {
+				trigger: ':',
+				selectTemplate: function (item) {
+					if (this.range.isContentEditable(this.current.element)) {
+						return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
+					}
+					return item.original.symbol;
+				},
+				menuItemTemplate: function (item) {
+					return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
+				},
+				lookup: 'id',
+				fillAttr: 'keywords',
+				values: []
+			}
+		},
 		mentionTemplate(params) {
 			return `<div data-id="${params.id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
