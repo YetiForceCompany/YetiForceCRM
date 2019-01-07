@@ -171,6 +171,19 @@ class Gantt {
 		});
 	}
 
+	resize() {
+		let offsetTop = this.container.offset().top;
+		let contentHeight = $('body').eq(0).height() - $('.c-footer').eq(0).height();
+		let height = contentHeight - offsetTop - 160;
+		if (height < 0) {
+			height = 0;
+		}
+		this.options.maxHeight = height;
+		if (typeof this.ganttState !== 'undefined' && this.ganttState) {
+			this.ganttState.maxHeight = height;
+		}
+	}
+
 	/**
 	 * Load project
 	 */
@@ -194,10 +207,7 @@ class Gantt {
 			ev.stopPropagation();
 			return false;
 		});
-		this.options.maxHeight = this.containerParent.height() - 120; // minus header height
-		if (this.options.maxHeight < 0) {
-			this.options.maxHeight = 0;
-		}
+		this.resize();
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
 			GanttElastic.component.components['gantt-header'] = Header;
@@ -210,6 +220,7 @@ class Gantt {
 					self.ganttState = ganttElasticInstance.state;
 				}
 			});
+			this.container = this.containerParent.find('.gantt-elastic').eq(0);
 		} else {
 			self.ganttState.tasks = this.allTasks;
 		}
@@ -338,10 +349,7 @@ class Gantt {
 		});
 		container.find('[data-toggle="tooltip"]').tooltip();
 		window.addEventListener('resize', () => {
-			this.ganttState.maxHeight = this.containerParent.height() - 120; // minus header height
-			if (this.options.maxHeight < 0) {
-				this.options.maxHeight = 0;
-			}
+			this.resize();
 		});
 	}
 }
