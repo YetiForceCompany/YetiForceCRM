@@ -61,7 +61,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar border-bottom"
+			<div class="d-flex flex-column js-chat-main-content o-chat__scrollbar js-scrollbar"
 				 data-js="container|perfectscrollbar">
 				<div class="d-flex flex-grow-1">
 					<div class="col-12 px-2 js-chat_content h-100 w-100 mb-4"
@@ -76,10 +76,16 @@
 					</div>
 				</div>
 			</div>
-			<div class="d-flex flex-nowrap js-chat-message-block" data-js="hide" data-js="perfectscrollbar">
+			<div class="c-completions js-completions__actions">
+				<span class="c-completions__item js-completions__emojis far fa-smile"></span>
+				<span class="c-completions__item js-completions__users fas fa-user-plus"></span>
+				<span class="c-completions__item js-completions__records fas fa-hashtag"></span>
+			</div>
+			<div class="d-flex flex-nowrap js-chat-message-block border-top" data-js="hide" data-js="perfectscrollbar">
 				<div class="js-scrollbar o-chat__form-control o-chat__message-block">
 					<div class="u-font-size-13px js-chat-message js-completions o-chat__form-control"
 						 contenteditable="true"
+						 data-completions-buttons="true"
 						 placeholder="{\App\Language::translate('LBL_MESSAGE', $MODULE_NAME)}"
 						 data-js="keydown | tribute.js">
 					</div>

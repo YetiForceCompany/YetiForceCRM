@@ -382,3 +382,17 @@
 	position: relative;
 	top: calculate-rem(15px)
 }
+
+.c-completions {
+	color: #808080;
+	font-size: 14px;
+
+	&__item {
+		@extend .mr-1;
+		cursor: pointer;
+	}
+}
+
+.EmojiPanel {
+	display: none;
+}

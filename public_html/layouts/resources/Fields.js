@@ -504,8 +504,11 @@ App.Fields = {
 			});
 			for (let el of element) {
 				textCompleteCollection.attach(el);
-				if ($(el).hasClass('js-completions--textarea')) {
+				if ($(el).data('completionsTextarea') !== undefined) {
 					this.registerCompletionsTextArea($(el));
+				}
+				if ($(el).data('completionsButtons') !== undefined) {
+					this.registerCompletionsButtons($(el));
 				}
 			}
 			if (App.emoji === undefined) {
@@ -528,6 +531,13 @@ App.Fields = {
 			}).on('blur keyup paste input', function () {
 				textarea.val(element.html());
 			});
+		},
+
+		registerCompletionsButtons(element) {
+			console.log('buttons');
+			element.parents().eq(3).find('.js-completions__emojis').on('click', (e) => {
+				console.log(e);
+			})
 		},
 
 		registerMentionCollection(symbol, searchModule = '-') {

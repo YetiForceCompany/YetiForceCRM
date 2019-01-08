@@ -1209,6 +1209,11 @@ window.Chat_JS = class Chat_Js {
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);
+
+		new EmojiPanel({
+			container: '.js-message-container',
+			json_url: '/libraries/emojipanel/dist/emojis.json',
+		});
 	}
 
 	/**
