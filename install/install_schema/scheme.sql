@@ -151,7 +151,6 @@ CREATE TABLE `a_yf_pdf` (
   `conditions` text DEFAULT NULL,
   `watermark_type` tinyint(1) NOT NULL DEFAULT 0,
   `watermark_text` varchar(255) NOT NULL,
-  `watermark_size` tinyint(2) unsigned NOT NULL,
   `watermark_angle` smallint(3) unsigned NOT NULL,
   `watermark_image` varchar(255) NOT NULL,
   `template_members` text NOT NULL,
