@@ -550,6 +550,12 @@ App.Fields = {
 					element.append(` ${$(e.currentTarget).data('char')} `);
 				}
 			});
+			emojisContainer.on('mouseenter', '.emoji', (e) => {
+				if ($(e.currentTarget).data('name') !== undefined) {
+					emojisContainer.find('.emoji-hovered').remove();
+					emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
+				}
+			});
 			element.on('focus', () => {
 				emojisContainer.removeClass('active');
 			})
