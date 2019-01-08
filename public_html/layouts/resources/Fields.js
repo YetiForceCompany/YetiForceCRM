@@ -504,6 +504,9 @@ App.Fields = {
 			});
 			for (let el of element) {
 				textCompleteCollection.attach(el);
+				if ($(el).hasClass('js-completions--textarea')) {
+					this.registerCompletionsTextArea($(el));
+				}
 			}
 			if (App.emoji === undefined) {
 				fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
@@ -515,6 +518,16 @@ App.Fields = {
 			} else {
 				textCompleteCollection.append(2, App.emoji);
 			}
+		},
+
+		registerCompletionsTextArea(element) {
+			console.log(element.siblings(`[name=${element.attr('id')}]`));
+			let textarea = element.siblings(`[name=${element.attr('id')}]`);
+			element.on('focus', function () {
+				textarea.val(element.html());
+			}).on('blur keyup paste input', function () {
+				textarea.val(element.html());
+			});
 		},
 
 		registerMentionCollection(symbol, searchModule = '-') {

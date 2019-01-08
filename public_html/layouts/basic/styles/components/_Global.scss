@@ -375,3 +375,10 @@
 		min-height: calc(2.25rem + 2px);
 	}
 }
+
+.c-textarea--completions {
+	height: 0;
+	visibility: hidden;
+	position: relative;
+	top: calculate-rem(15px)
+}
