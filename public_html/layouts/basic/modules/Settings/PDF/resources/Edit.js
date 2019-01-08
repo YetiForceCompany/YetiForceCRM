@@ -161,7 +161,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * @param {jQuery} container
 	 */
 	registerEditors(container) {
-		$(container).find('.js-editor').each(function () {
+		container.find('.js-editor').each(function () {
 			const editor = $(this);
 			new App.Fields.Text.Editor(editor, {
 				entities_latin: false,
