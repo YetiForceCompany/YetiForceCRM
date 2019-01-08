@@ -165,6 +165,10 @@ class PackageExport
 		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module")) {
 			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
 		}
+		//Copy module public resources files
+		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module)) {
+			$zip->addDirectory('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'public_resources');
+		}
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 		foreach ($layoutDirectories as $layoutName) {

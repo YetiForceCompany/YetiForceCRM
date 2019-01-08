@@ -400,8 +400,8 @@ class PackageImport extends PackageExport
 			}
 			$zip->unzip([
 				// Templates folder
-				'templates/resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
-				'templates' => "layouts/$defaultLayout/modules/$module",
+				'templates' => './',
+				'public_resources' => './',
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
