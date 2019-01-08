@@ -659,6 +659,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	getEditCommentBlock: function () {
 		let clonedCommentBlock = jQuery('.basicEditCommentBlock', this.getContentHolder()).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('js-add-comment-block');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
+		App.Fields.Text.registerCompletions(clonedCommentBlock.find('.js-completions'));
 		return clonedCommentBlock;
 	},
 	/*

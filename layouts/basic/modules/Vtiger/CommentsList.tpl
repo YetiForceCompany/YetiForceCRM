@@ -38,11 +38,11 @@
 							<span class="input-group-prepend">
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
-								  name="commentcontent"
-								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+						<div contenteditable="true"
+							 class="form-control commentcontenthidden fullWidthAlways js-comment-content js-completions"
+							 name="commentcontent"
+							 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+							 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
 					</div>
 					<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 							type="reset">
@@ -76,11 +76,12 @@
 							<span class="input-group-prepend">
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
-								  name="commentcontent"
-								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+						<div contenteditable="true"
+							 class="form-control commentcontenthidden fullWidthAlways js-comment-content js-completions"
+							 name="commentcontent"
+							 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+							 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+							 data-js="html | tribute.js"></div>
 					</div>
 					<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 							type="reset">
