@@ -25,7 +25,7 @@
 	<select class="select2 form-control" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO|escape}'
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-			{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
+			{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
 			data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $PLACE_HOLDER}data-select="allowClear"{/if}>
 		{if $PLACE_HOLDER}
 			<optgroup class="p-0">

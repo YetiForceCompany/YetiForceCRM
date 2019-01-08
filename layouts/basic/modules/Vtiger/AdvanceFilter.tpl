@@ -24,13 +24,13 @@
 	{/if}
 	<div class="filterContainer">
 		<input type="hidden" name="date_filters"
-		       data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}'/>
+		       data-value="{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}"/>
 		<input type="hidden" name="advanceFilterOpsByFieldType"
-		       data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}'/>
+		       data-value="{\App\Purifier::encodeHtml(\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE))}"/>
 		{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}
 			{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {\App\Language::translate($ADVANCE_FILTER_OPTION, $MODULE)}|escape}
 		{/foreach}
-		<input type="hidden" name="advanceFilterOptions" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS)}'/>
+		<input type="hidden" name="advanceFilterOptions" data-value="{\App\Purifier::encodeHtml(\App\Json::encode($ADVANCED_FILTER_OPTIONS))}"/>
 		<div class="allConditionContainer mb-3 conditionGroup contentsBackground well">
 			<div class="header">
 				<span><strong>{\App\Language::translate('LBL_ALL_CONDITIONS',$MODULE)}</strong></span>
