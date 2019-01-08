@@ -65,7 +65,7 @@ class ProductsTableNew extends Base
 						$html .= '<td style="font-weight:bold;">' . $counter++ . '</td>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
+						$html .= '<td><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
 						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';

@@ -64,7 +64,7 @@
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "^2.0.15.2",
     "yetiforce/icalendar": "^1.0.1",
-    "yetiforce/yetiforcepdf": "^0.1.2"
+    "yetiforce/yetiforcepdf": "^0.1.3"
   },
   "require-dev": {
     "facebook/webdriver": "^1.6.0",
