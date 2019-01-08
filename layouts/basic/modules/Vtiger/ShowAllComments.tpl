@@ -22,7 +22,7 @@
 						<span class="input-group-prepend">
 							<div class="input-group-text"><span class="fas fa-comments"></span></div>
 						</span>
-						<div name="commentcontent" contentEditable="true"
+						<div name="commentcontent" contenteditable="true"
 							 class="js-comment-content commentcontent form-control js-chat-message js-completions"
 							 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 							 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"

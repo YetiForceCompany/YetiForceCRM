@@ -1725,7 +1725,7 @@ jQuery.Class("Vtiger_List_Js", {
 		jQuery('body').on('submit', '#massSave', function (e) {
 			var form = jQuery(e.currentTarget);
 			var commentContent = form.find('#commentcontent')
-			var commentContentValue = commentContent.val();
+			var commentContentValue = commentContent.html();
 			if (commentContentValue == "") {
 				var errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
 				commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);

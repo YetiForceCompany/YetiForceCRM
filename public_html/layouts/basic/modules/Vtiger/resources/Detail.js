@@ -399,12 +399,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 	},
 
-	/**
-	 * Function to load only Comments Widget.
-	 */
-	loadCommentsWidget: function () {
-
-	},
 	loadContents: function (url, data) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
@@ -481,7 +475,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	getSelectedTab: function () {
 		var tabContainer = this.getTabContainer();
-		return tabContainer.find('.nav li.active:not(.d-none)');
+		return tabContainer.find('.js-detail-tab.active:not(.d-none)');
 	},
 	getTabContainer: function () {
 		return jQuery('div.related');
@@ -2146,6 +2140,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @param {jQuery} widgetContainer
 	 */
 	registerCommentEventsInDetail(widgetContainer) {
+		App.Fields.Text.registerCompletions();
 		widgetContainer.on('change', '.js-hierarchy-comments', function (e) {
 			let progressIndicatorElement = $.progressIndicator();
 			AppConnector.request({
