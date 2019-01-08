@@ -1037,7 +1037,8 @@ class PackageImport extends PackageExport
 		$inventory->createInventoryTables();
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
-			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan'];
+			$fieldModel->setDefaultDataConfig();
+			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan', 'columnName'];
 			foreach ($fields as $name) {
 				switch ($name) {
 					case 'label':
@@ -1068,6 +1069,9 @@ class PackageImport extends PackageExport
 						break;
 					case 'colSpan':
 						$fieldModel->set($name, (int) $fieldNode->colspan);
+						break;
+					case 'columnName':
+						$fieldModel->set($name, \App\Purifier::purifyByType((string) $fieldNode->columnname, 'Alnum'));
 						break;
 					default:
 						break;
