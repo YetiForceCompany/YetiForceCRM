@@ -50,6 +50,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 1;
 		saveData['async'] = false;
+		if (typeof saveData['metatags_status'] === 'undefined') {
+			saveData['metatags_status'] = 0;
+		}
 		AppConnector.request(saveData).done(function (data) {
 			data = JSON.parse(data);
 			if (data.success == true) {
