@@ -1038,7 +1038,7 @@ class PackageImport extends PackageExport
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
 			$fieldModel->setDefaultDataConfig();
-			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan', 'columnName'];
+			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan', 'columnName', 'sequence'];
 			foreach ($fields as $name) {
 				switch ($name) {
 					case 'label':
@@ -1072,6 +1072,9 @@ class PackageImport extends PackageExport
 						break;
 					case 'columnName':
 						$fieldModel->set($name, \App\Purifier::purifyByType((string) $fieldNode->columnname, 'Alnum'));
+						break;
+					case 'sequence':
+						$fieldModel->set($name, (int) $fieldNode->sequence);
 						break;
 					default:
 						break;
