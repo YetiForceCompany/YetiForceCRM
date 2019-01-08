@@ -393,6 +393,24 @@
 	}
 }
 
+.js-completions__emojis {
+	.EmojiPanel {
+		display: none;
+	}
+
+	&.active {
+		.EmojiPanel {
+			display: block;
+		}
+	}
+}
+
 .EmojiPanel {
-	display: none;
+	position: absolute;
+	z-index: 90000000;
+	transform: translateY(calc(-100% - #{calculate-rem(15px)}));
+
+	.EmojiPanel__brand {
+		display: none;
+	}
 }

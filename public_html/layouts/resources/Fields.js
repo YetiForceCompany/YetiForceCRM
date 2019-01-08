@@ -534,9 +534,24 @@ App.Fields = {
 		},
 
 		registerCompletionsButtons(element) {
-			console.log('buttons');
-			element.parents().eq(3).find('.js-completions__emojis').on('click', (e) => {
-				console.log(e);
+			new EmojiPanel({
+				container: '.js-completions__emojis',
+				json_url: '/libraries/emojipanel/dist/emojis.json',
+			});
+			let emojisContainer = element.parents().eq(3).find('.js-completions__emojis');
+			emojisContainer.on('click', (e) => {
+				let element = $(e.target);
+				element.toggleClass('active');
+			})
+			emojisContainer.on('click', '.emoji', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				if ($(e.currentTarget).data('char') !== undefined) {
+					element.append(` ${$(e.currentTarget).data('char')} `);
+				}
+			});
+			element.on('focus', () => {
+				emojisContainer.removeClass('active');
 			})
 		},
 
