@@ -176,7 +176,7 @@ class Gantt {
 	 */
 	resize() {
 		let offsetTop = this.container.offset().top;
-		let contentHeight = $('body').eq(0).height() - $('.c-footer').eq(0).height();
+		let contentHeight = $('body').eq(0).height() - $('.js-footer').eq(0).height();
 		let height = contentHeight - offsetTop - 160;
 		if (height < 0) {
 			height = 0;
