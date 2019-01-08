@@ -243,6 +243,7 @@ jQuery.Class("Vtiger_List_Js", {
 						return;
 					}
 					app.showModalWindow(data, function (data) {
+						app.event.trigger("MassEditModal.AfterLoad", data, massActionUrl);
 						if (typeof callBackFunction == 'function') {
 							callBackFunction(data);
 							//listInstance.triggerDisplayTypeEvent();
@@ -1721,12 +1722,11 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the submit event for mass Actions save
 	 */
 	registerMassActionSubmitEvent: function () {
-		var thisInstance = this;
-		jQuery('body').on('submit', '#massSave', function (e) {
-			var form = jQuery(e.currentTarget);
-			var commentContent = form.find('#commentcontent')
-			var commentContentValue = commentContent.html();
-			if (commentContentValue == "") {
+		$('body').on('submit', '#massSave', (e) => {
+			let form = jQuery(e.currentTarget),
+				commentContent = form.find('#commentcontent'),
+				commentContentValue = commentContent.html();
+			if (commentContentValue === "") {
 				var errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
 				commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
 				e.preventDefault();
@@ -1734,7 +1734,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			commentContent.validationEngine('hide');
 			jQuery(form).find('[name=saveButton]').attr('disabled', 'disabled');
-			thisInstance.massActionSave(form).done(function (data) {
+			this.massActionSave(form).done(function (data) {
 				Vtiger_List_Js.clearList();
 			});
 			e.preventDefault();
@@ -1988,6 +1988,13 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 	},
+	registerMassActionModalEvents() {
+		app.event.on('MassEditModal.AfterLoad', (data, container) => {
+			if (container.is('#add-comment__container')) {
+				App.Fields.Text.registerCompletions(container.find('.js-completions'));
+			}
+		});
+	},
 	/**
 	 * Register desktop events
 	 * @param {jQuery} listViewContainer
@@ -2023,6 +2030,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerCustomFilterOptionsHoverEvent();
 		this.registerEmailFieldClickEvent();
 		this.registerPhoneFieldClickEvent();
+		this.registerMassActionModalEvents();
 		//this.triggerDisplayTypeEvent();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.registerUrlFieldClickEvent();
