@@ -508,7 +508,7 @@ App.Fields = {
 					this.registerCompletionsTextArea($(el));
 				}
 				if ($(el).data('completionsButtons') !== undefined) {
-					this.registerCompletionsButtons($(el));
+					this.registerCompletionsButtons($(el), textCompleteCollection);
 				}
 			}
 			if (App.emoji === undefined) {
@@ -533,12 +533,14 @@ App.Fields = {
 			});
 		},
 
-		registerCompletionsButtons(element) {
+		registerCompletionsButtons(element, textCompleteCollection) {
 			new EmojiPanel({
 				container: '.js-completions__emojis',
 				json_url: '/libraries/emojipanel/dist/emojis.json',
 			});
-			let emojisContainer = element.parents().eq(3).find('.js-completions__emojis');
+
+			let completionsContainer = element.parents().eq(3);
+			let emojisContainer = completionsContainer.find('.js-completions__emojis');
 			emojisContainer.on('click', (e) => {
 				let element = $(e.target);
 				element.toggleClass('active');
@@ -558,7 +560,14 @@ App.Fields = {
 			});
 			element.on('focus', () => {
 				emojisContainer.removeClass('active');
-			})
+			});
+
+			completionsContainer.find('.js-completions__users').on('click', (e) => {
+				textCompleteCollection.showMenuForCollection(element[0], 1);
+			});
+			completionsContainer.find('.js-completions__records').on('click', (e) => {
+				textCompleteCollection.showMenuForCollection(element[0], 0);
+			});
 		},
 
 		registerMentionCollection(symbol, searchModule = '-') {
