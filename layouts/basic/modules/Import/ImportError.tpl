@@ -17,12 +17,17 @@
 		</div>
 	</div>
 	<div>
-		<input type="hidden" name="module" value="{$FOR_MODULE}"/>
+		{if isset($FOR_MODULE)}
+			<input type="hidden" name="module" value="{$FOR_MODULE}"/>
+		{/if}
 		<table class="u-w-90per m-auto searchUIBasic well">
 			<tr>
 				<td class="font-x-large text-center">
 					<h3>
-						<strong>{\App\Language::translate('LBL_IMPORT', $MODULE)} - {\App\Language::translate('LBL_ERROR', $MODULE)}</strong>
+						<strong>
+							{\App\Language::translate('LBL_IMPORT', $MODULE_NAME)}
+							- {\App\Language::translate('LBL_ERROR', $MODULE_NAME)}
+						</strong>
 					</h3>
 				</td>
 			</tr>
@@ -37,7 +42,7 @@
 						{if !empty($ERROR_DETAILS)}
 							<tr>
 								<td class="errorMessage d-flex justify-content-center">
-									{\App\Language::translate('ERR_DETAILS_BELOW', $MODULE)}
+									{\App\Language::translate('ERR_DETAILS_BELOW', $MODULE_NAME)}
 									<table class="d-flex justify-content-center">
 										{foreach key=_TITLE item=_VALUE from=$ERROR_DETAILS}
 											<tr>
@@ -58,12 +63,12 @@
 					{if $CUSTOM_ACTIONS neq ''}
 						{foreach key=_LABEL item=_ACTION from=$CUSTOM_ACTIONS}
 							<button class="create btn btn-danger u-mr-5px btn-sm" name="{$_LABEL}" onclick="{$_ACTION}">
-								<strong>{\App\Language::translate($_LABEL, $MODULE)}</strong>
+								<strong>{\App\Language::translate($_LABEL, $MODULE_NAME)}</strong>
 							</button>
 						{/foreach}
 					{/if}
 					<button class="edit btn btn-success btn-sm" name="goback" onclick="window.history.back()">
-						<strong>{\App\Language::translate('LBL_GO_BACK', $MODULE)}</strong>
+						<strong>{\App\Language::translate('LBL_GO_BACK', $MODULE_NAME)}</strong>
 					</button>
 				</td>
 			</tr>
