@@ -669,7 +669,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		jQuery('body').on('submit', '#massSave', function (e) {
 			var form = jQuery(e.currentTarget);
-			var smsTextLength = form.find('#message').val().length;
+			var smsTextLength = form.find('#message').html().length;
 			if (smsTextLength > 160) {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
