@@ -56,7 +56,7 @@
 						<form method="POST" action="index.php?module={$module}&view=List" name="form_{$module}"
 							  enctype="multipart/form-data">
 							<input type="hidden" id="recordList" name="searchResult"
-								   value="{\App\Json::encode(array_keys($searchRecords))}"/>
+								   value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($searchRecords)))}"/>
 							<div class="clearfix">
 								<span onclick="form_{$module}.submit()"><span
 											class="fas fa-list mr-1"></span> <strong>{\App\Language::translate($module)}

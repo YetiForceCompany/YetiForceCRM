@@ -42,7 +42,7 @@
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}[]" data-fieldinfo='{$FIELD_INFO}'
-					multiple {if !empty($SPECIAL_VALIDATOR)} data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}
+					multiple {if !empty($SPECIAL_VALIDATOR)} data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}

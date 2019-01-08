@@ -49,7 +49,7 @@
 	</div>
 	<div class="detailViewInfo px-2 userPreferences w-100">
 		<div class="details w-100">
-			<form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}'
+			<form id="detailView" data-name-fields="{\App\Purifier::encodeHtml(\App\Json::encode($MODULE_MODEL->getNameFields()))}"
 				  method="POST">
 				<div class="contents">
 					{/strip}
