@@ -51,7 +51,8 @@
     "LBL_SHOW": "Poka\u017c",
     "LBL_STATS_INFO": "Prezentowane warto\u015bci statystyczne okre\u015blaj\u0105 stosunek etykiet nieprzet\u0142umaczonych do wszystkich etykiet wyst\u0119puj\u0105cych w pliku(-ach) j\u0119zyka bazowego w procentach.",
     "LBL_UNTRANSLATED_LABELS": "Nieprzet\u0142umaczone etykiety",
-    "LBL_IMPORT_LANG": "Importuj j\u0119zyk"
+    "LBL_IMPORT_LANG": "Importuj j\u0119zyk",
+    "LBL_NOT_IETF_TAG": "Kod j\u0119zyka nie jest zgodny ze standardem IETF. Popraw go i spr\u00f3buj ponownie."
   },
   "js": {
     "Translations": "T\u0142umaczenia",
@@ -65,6 +66,7 @@
     "Search": "Szukaj:",
     "No data available in table": "Brak t\u0142umacze\u0144",
     "JS_NOTRANSLATION": "--Brak t\u0142umaczenia--",
-    "JS_EXPORT": "Eksportuj"
+    "JS_EXPORT": "Eksportuj",
+    "JS_NOT_IETF_TAG": "Kod j\u0119zyka nie jest zgodny ze standardem IETF. Popraw go i spr\u00f3buj ponownie."
   }
 }
