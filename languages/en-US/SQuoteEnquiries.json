@@ -8,8 +8,8 @@
     "LBL_STATISTICS": "Statistics",
     "LBL_SUBJECT": "Subject",
     "LBL_NUMBER": "Number",
-    "LBL_STATUS": "Status",
     "LBL_CLOSED_TIME": "Closed time",
+    "LBL_STATUS": "Status",
     "LBL_RESPONSE_TIME": "Respone time",
     "SINGLE_SSalesProcesses": "Opportunity",
     "PLL_DRAFT": "Draft",
@@ -17,6 +17,7 @@
     "PLL_FOR_VERIFICATION": "For verification",
     "PLL_CANCELLED": "Cancelled",
     "PLL_COMPLETED": "Completed",
-    "LBL_CHANGE_STATUS": "Change status"
+    "LBL_CHANGE_STATUS": "Change status",
+    "FL_CAMPAIGN_ID": "Kampania"
   }
 }
