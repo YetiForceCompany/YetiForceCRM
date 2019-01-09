@@ -251,18 +251,20 @@ class Zip extends \ZipArchive
 	 *
 	 * @param string $dir
 	 * @param string $localName
+	 * @param bool   $relativePath
 	 */
-	public function addDirectory(string $dir, string $localName = '', string $trimPath = '')
+	public function addDirectory(string $dir, string $localName = '', bool $relativePath = false)
 	{
 		if ($localName) {
 			$localName .= \DIRECTORY_SEPARATOR;
 		}
-		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($dir)), \RecursiveIteratorIterator::LEAVES_ONLY);
+		$path = realpath($dir);
+		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::LEAVES_ONLY);
 		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				if ($trimPath) {
-					$this->addFile($filePath, $localName . Fields\File::trimPath($filePath, $trimPath));
+				if ($relativePath) {
+					$this->addFile($filePath, $localName . Fields\File::trimPath($filePath, $path));
 				} else {
 					$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
 				}

@@ -130,17 +130,14 @@ class PackageExport
 		$this->moduleInstance = $moduleInstance;
 		$module = $this->moduleInstance->name;
 		$this->__initExport($module);
-
 		// Call module export function
 		$this->exportModule();
 		$this->__finishExport();
-
 		// Export as Zip
 		if (empty($this->zipFileName)) {
 			$this->zipFileName = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
 			$this->zipFileName = $this->_export_tmpdir . '/' . $this->zipFileName;
 		}
-
 		if (file_exists($this->zipFileName)) {
 			throw new \App\Exceptions\AppException('File already exists: ' . $this->zipFileName);
 		}
@@ -151,37 +148,46 @@ class PackageExport
 		$zip->addDirectory("modules/$module");
 		// Copy Settings/module directory
 		if (is_dir("modules/Settings/$module")) {
-			//$zip->addDirectory("modules/Settings/$module", 'settings');
 			$zip->addDirectory(
 				"modules/Settings/{$module}",
 				'settings/modules',
-				ROOT_DIRECTORY . "/modules/Settings/{$module}"
+				true
 			);
 		}
 		// Copy cron files of the module (if any)
-		if (is_dir("cron/modules/$module")) {
-			$zip->addDirectory("cron/modules/$module", 'cron');
+		if (is_dir("cron/modules/{$module}")) {
+			$zip->addDirectory("cron/modules/{$module}", 'cron', true);
 		}
 		//Copy module templates files
-		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module)) {
-			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}")) {
+			$zip->addDirectory(
+				'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}",
+				'templates',
+				true
+			);
 		}
 		//Copy Settings module templates files, if any
 		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}")) {
-			//$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
 			$zip->addDirectory(
 				'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}",
 				'settings/templates',
-				ROOT_DIRECTORY . '/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}"
+				true
 			);
 		}
 		//Copy module public resources files
-		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module)) {
-			//$zip->addDirectory('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'resources');
+		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}/resources")) {
 			$zip->addDirectory(
-				'public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module,
-				'resources',
-				ROOT_DIRECTORY . '/public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}/"
+				'public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}/resources",
+				'public_resources',
+				true
+			);
+		}
+		//Copy module public Settings resources files
+		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}/resources")) {
+			$zip->addDirectory(
+				'public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}/resources",
+				'settings/public_resources',
+				true
 			);
 		}
 		//Support to multiple layouts of module
