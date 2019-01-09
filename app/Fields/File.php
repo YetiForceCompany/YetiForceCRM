@@ -972,7 +972,15 @@ class File
 		}
 	}
 
-	public static function trimPath($path, $pathToTrim)
+	/**
+	 * Trim path.
+	 *
+	 * @param $path
+	 * @param $pathToTrim
+	 *
+	 * @return string
+	 */
+	public static function trimPath($path, $pathToTrim): string
 	{
 		$path = str_replace('\\', '/', $path);
 		$pathToTrim = str_replace('\\', '/', $pathToTrim);
