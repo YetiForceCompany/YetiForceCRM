@@ -34,41 +34,57 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			this.setContainer(jQuery('#pdf_step1'));
 		}
 	},
-	submit: function () {
+	/**
+	 * Submit step 1
+	 * @returns {Promise}
+	 */
+	submit() {
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
-		var formData = form.serializeFormData();
-		formData['async'] = false;
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-
+		const formData = new FormData();
 		const saveData = form.serializeFormData();
-		saveData['action'] = 'Save';
-		saveData['step'] = 1;
+		formData.append('action', 'Save');
+		formData.append('step', 1);
+		formData.append('template_id', form.find('[name="record"]').val());
 		saveData['async'] = false;
 		if (typeof saveData['metatags_status'] === 'undefined') {
 			saveData['metatags_status'] = 0;
 		}
-		AppConnector.request(saveData).done(function (data) {
-			data = JSON.parse(data);
-			if (data.success == true) {
+		for (let key in saveData) {
+			formData.append(key, saveData[key]);
+		}
+		const fileSelect = form.find('#watermark_image');
+		if (typeof fileSelect[0].files[0] !== 'undefined') {
+			const file = fileSelect[0].files[0];
+			if (file.type.match('image.*')) {
+				formData.append('watermark_image_file', file, file.name);
+			}
+		}
+		AppConnector.request({
+			method: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+		}).done(function (data) {
+			if (data.success === true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 				var pdfRecordElement = jQuery('[name="record"]', form);
 				if (pdfRecordElement.val() === '') {
 					pdfRecordElement.val(data.result.id);
-					formData['record'] = data.result.id;
+					saveData['record'] = data.result.id;
 				}
-
-				formData['record'] = data.result.id;
-				AppConnector.request(formData).done(function (data) {
+				saveData['record'] = data.result.id;
+				AppConnector.request(saveData).done(function (data) {
 					form.hide();
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
-					})
+					});
 					aDeferred.resolve(data);
 				}).fail(function (error, err) {
 					app.errorLog(error, err);
@@ -77,7 +93,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		}).fail(function (error, err) {
 			app.errorLog(error, err);
 		});
-
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
@@ -132,48 +147,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			container.find('.waterimage').toggleClass('d-none')
 		});
 	},
-	registerUploadButton: function (form) {
-		form.find('#uploadWM').on('click', function (e) {
-			e.preventDefault();
-			var fileSelect = form.find('#watermark_image');
-			// Get the selected files from the input.
-			var files = fileSelect[0].files;
-
-			// Create a new FormData object.
-			var formData = new FormData();
-			// Loop through each of the selected files.
-			for (var i = 0; i < files.length; i++) {
-				var file = files[i];
-
-				// Check the file type.
-				if (!file.type.match('image.*')) {
-					continue;
-				}
-
-				// Add the file to the request.
-				formData.append('watermark[]', file, file.name);
-			}
-			formData.append('template_id', form.find('[name="record"]').val());
-			// Set up the request.
-			var xhr = new XMLHttpRequest();
-
-			// Open the connection.
-			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=upload', true);
-
-			// Set up a handler for when the request finishes.
-			xhr.onload = function () {
-				if (xhr.status === 200) {
-					const response = JSON.parse(xhr.response);
-					form.find('#watermark').html('<img src="' + response.result.base64 + '" class="col-md-9" />');
-					form.find('[name="watermark_image"]').val(response.result.fileName);
-					form.find('#deleteWM').removeClass('d-none');
-				}
-			};
-
-			// Send the Data.
-			xhr.send(formData);
-		});
-	},
 	registerDeleteUploadButton: function (form) {
 		form.find('#deleteWM').on('click', function (e) {
 			e.preventDefault();
@@ -217,7 +190,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		this.registerMarginCheckboxClickEvent(container);
 		this.registerModuleChangeEvent(container);
 		this.registerWatermarkTypeChange(container);
-		this.registerUploadButton(container);
 		this.registerDeleteUploadButton(container);
 		App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
 		App.Fields.Text.registerCopyClipboard(container);
