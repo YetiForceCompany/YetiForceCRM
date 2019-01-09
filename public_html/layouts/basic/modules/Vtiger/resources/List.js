@@ -536,6 +536,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 		var defaultParams = this.getDefaultParams();
 		urlParams = $.extend(defaultParams, urlParams);
+		console.log('sdfsd');
 		AppConnector.requestPjax(urlParams).done(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			listViewContentsContainer.html(data);
@@ -549,6 +550,12 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.massUpdatePagination(urlParams);
 			Vtiger_List_Js.clearList();
 		}).fail(function (textStatus, errorThrown) {
+			console.log('sdfsderror');
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();

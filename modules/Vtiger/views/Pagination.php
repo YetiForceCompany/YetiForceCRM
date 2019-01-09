@@ -81,7 +81,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 			if ($request->has('entityState')) {
 				$listViewModel->set('entityState', $request->getByType('entityState'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 			if (!empty($searchParmams) && is_array($searchParmams)) {
 				$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 				$listViewModel->set('search_params', $transformedSearchParams);

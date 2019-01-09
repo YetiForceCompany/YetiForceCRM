@@ -23,7 +23,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$additionalFilterFields = $chartFilterWidgetModel->getAdditionalFiltersFields();
-		$searchParams = $request->getArray('search_params');
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParams)) {
 			foreach ($searchParams as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];

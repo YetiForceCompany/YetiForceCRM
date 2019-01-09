@@ -91,7 +91,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParmams) && is_array($searchParmams)) {
 			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);

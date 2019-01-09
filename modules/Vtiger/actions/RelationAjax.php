@@ -85,7 +85,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_key', $request->getByType('search_key'));
 			$relationListView->set('search_value', $request->get('search_value'));
 		}
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -198,7 +198,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$relationListView->set('search_key', $request->getByType('search_key', 1));
 				$relationListView->set('search_value', $request->get('search_value'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -245,7 +245,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$relationListView->set('search_key', $request->getByType('search_key', 1));
 				$relationListView->set('search_value', $request->get('search_value'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
