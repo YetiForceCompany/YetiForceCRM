@@ -16,7 +16,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	{
 		$values = [];
 		if (!is_array($value)) {
-			$value = explode('##', $value);
+			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
 			$values[] = parent::getDbConditionBuilderValue($val, $operator);
