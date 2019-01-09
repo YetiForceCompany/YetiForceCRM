@@ -659,7 +659,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	getEditCommentBlock: function () {
 		let clonedCommentBlock = jQuery('.basicEditCommentBlock', this.getContentHolder()).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('js-add-comment-block');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
-		App.Fields.Text.registerCompletions(clonedCommentBlock.find('.js-completions'));
+		new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'));
 		return clonedCommentBlock;
 	},
 	/*
@@ -2141,7 +2141,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @param {jQuery} widgetContainer
 	 */
 	registerCommentEventsInDetail(widgetContainer) {
-		App.Fields.Text.registerCompletions();
+		new App.Fields.Text.Completions();
 		widgetContainer.on('change', '.js-hierarchy-comments', function (e) {
 			let progressIndicatorElement = $.progressIndicator();
 			AppConnector.request({
@@ -2303,7 +2303,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);
-		App.Fields.Text.registerCompletions();
+		new App.Fields.Text.Completions();
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));

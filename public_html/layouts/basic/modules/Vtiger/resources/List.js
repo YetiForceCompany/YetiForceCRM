@@ -1991,7 +1991,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerMassActionModalEvents() {
 		app.event.on('MassEditModal.AfterLoad', (data, container) => {
 			if (container.is('#add-comment__container') || container.is('#sendSmsContainer')) {
-				App.Fields.Text.registerCompletions(container.find('.js-completions'));
+				new App.Fields.Text.Completions(container.find('.js-completions'));
 			}
 		});
 	},

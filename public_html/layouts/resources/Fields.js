@@ -475,127 +475,145 @@ App.Fields = {
 			}
 		},
 
-		registerCompletions(element = $('.js-completions')) {
-			let textCompleteCollection = new Tribute({
-				collection: [
-					App.Fields.Text.registerMentionCollection('#'),
-					App.Fields.Text.registerMentionCollection('@', 'Users'),
-					App.Fields.Text.registerEmojiCollection(),
-				]
-			});
-			for (let el of element) {
-				textCompleteCollection.attach(el);
-				let data = $(el).data();
-				if (data.completionsTextarea !== undefined) {
-					this.registerCompletionsTextArea($(el));
-				}
-				if (data.completionsButtons !== undefined) {
-					this.registerCompletionsButtons($(el), textCompleteCollection);
-				}
-			}
-			if (App.emoji === undefined) {
-				fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
-					.then(response => response.json())
-					.then(response => {
-						App.emoji = response;
-						textCompleteCollection.append(2, response);
-					}).catch(error => console.error('Error:', error));
-			} else {
-				textCompleteCollection.append(2, App.emoji);
-			}
-		},
-
-		registerCompletionsTextArea(element) {
-			let textarea = element.siblings(`[name=${element.attr('id')}]`);
-			element.on('focus', function () {
-				textarea.val(element.html());
-			}).on('blur keyup paste input', function () {
-				textarea.val(element.html());
-			});
-		},
-
-		registerCompletionsButtons(inputDiv, textCompleteCollection) {
-			let completionsContainer = inputDiv.parents().eq(3);
-			this.registerEmojiPanel(inputDiv, completionsContainer.find('.js-completions__emojis'));
-			completionsContainer.find('.js-completions__users').on('click', (e) => {
-				textCompleteCollection.showMenuForCollection(inputDiv[0], 1);
-			});
-			completionsContainer.find('.js-completions__records').on('click', (e) => {
-				textCompleteCollection.showMenuForCollection(inputDiv[0], 0);
-			});
-		},
-
-		registerEmojiPanel(inputDiv, emojisContainer) {
-			new EmojiPanel({
-				container: '.js-completions__emojis',
-				json_url: '/libraries/emojipanel/dist/emojis.json',
-			});
-			emojisContainer.on('click', (e) => {
-				let element = $(e.target);
-				element.toggleClass('active');
-			})
-			emojisContainer.on('click', '.emoji', (e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				if ($(e.currentTarget).data('char') !== undefined) {
-					inputDiv.append(` ${$(e.currentTarget).data('char')} `);
-				}
-			});
-			emojisContainer.on('mouseenter', '.emoji', (e) => {
-				if ($(e.currentTarget).data('name') !== undefined) {
-					emojisContainer.find('.emoji-hovered').remove();
-					emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
-				}
-			});
-			inputDiv.on('focus', () => {
-				emojisContainer.removeClass('active');
-			});
-		},
-
-		registerMentionCollection(symbol, searchModule = '-') {
-			return {
-				trigger: symbol,
-				selectTemplate: function (item) {
-					if (this.range.isContentEditable(this.current.element)) {
-						return `<a href="#" data-id="${item.original.id}">${symbol + item.original.label.split('(')[0]}</a>`;
+		Completions: class {
+			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
+				let basicParams = {
+					completionsCollection: {
+						records: true,
+						users: true,
+						emojis: true
 					}
-					return symbol + item.original.label;
-				},
-				values: (text, cb) => {
-					App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
-				},
-				menuItemTemplate: function (item) {
-					return App.Fields.Text.mentionTemplate({
-						id: item.original.id,
-						module: item.original.module,
-						label: item.original.label,
-						category: item.original.category
-					});
-				},
-				lookup: 'label',
-				fillAttr: 'label'
+				};
+				this.params = Object.assign(basicParams, inputDiv.data(), params);
+				this.inputDiv = inputDiv;
+				this.collection = [];
+				if (this.params.completionsCollection.records) {
+					this.collection.push(this.registerMentionCollection('#'))
+				}
+				if (this.params.completionsCollection.users) {
+					this.collection.push(this.registerMentionCollection('@', 'Users'))
+				}
+				if (this.params.completionsCollection.emojis) {
+					this.collection.push(this.registerEmojiCollection())
+				}
+				this.register(inputDiv);
 			}
-		},
 
-		registerEmojiCollection() {
-			return {
-				trigger: ':',
-				selectTemplate: function (item) {
-					if (this.range.isContentEditable(this.current.element)) {
-						return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
-					}
-					return item.original.symbol;
-				},
-				menuItemTemplate: function (item) {
-					return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
-				},
-				lookup: 'id',
-				fillAttr: 'keywords',
-				values: []
+			register(inputDiv) {
+				const self = this;
+				this.completionsCollection = new Tribute({collection: self.collection});
+				this.completionsCollection.attach(inputDiv[0]);
+				if (this.params.completionsTextarea !== undefined) {
+					this.registerCompletionsTextArea(inputDiv);
+				}
+				if (this.params.completionsButtons !== undefined) {
+					this.registerCompletionsButtons();
+				}
+				if (App.emoji === undefined) {
+					fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+						.then(response => response.json())
+						.then(response => {
+							App.emoji = response;
+							this.completionsCollection.append(2, response);
+						}).catch(error => console.error('Error:', error));
+				} else {
+					this.completionsCollection.append(2, App.emoji);
+				}
 			}
-		},
-		mentionTemplate(params) {
-			return `<div data-id="${params.id}" class="row no-gutters">
+
+			registerCompletionsTextArea(inputDiv) {
+				let textarea = element.siblings(`[name=${inputDiv.attr('id')}]`);
+				inputDiv.on('focus', function () {
+					textarea.val(inputDiv.html());
+				}).on('blur keyup paste input', function () {
+					textarea.val(inputDiv.html());
+				});
+			}
+
+			registerCompletionsButtons() {
+				let completionsContainer = this.inputDiv.parents().eq(3);
+				this.registerEmojiPanel(this.inputDiv, completionsContainer.find('.js-completions__emojis'));
+				completionsContainer.find('.js-completions__users').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
+				});
+				completionsContainer.find('.js-completions__records').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
+				});
+			}
+
+			registerEmojiPanel(inputDiv, emojisContainer) {
+				new EmojiPanel({
+					container: '.js-completions__emojis',
+					json_url: '/libraries/emojipanel/dist/emojis.json',
+				});
+				emojisContainer.on('click', (e) => {
+					let element = $(e.target);
+					element.toggleClass('active');
+				})
+				emojisContainer.on('click', '.emoji', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(e.currentTarget).data('char') !== undefined) {
+						inputDiv.append(` ${$(e.currentTarget).data('char')} `);
+					}
+				});
+				emojisContainer.on('mouseenter', '.emoji', (e) => {
+					if ($(e.currentTarget).data('name') !== undefined) {
+						emojisContainer.find('.emoji-hovered').remove();
+						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
+					}
+				});
+				inputDiv.on('focus', () => {
+					emojisContainer.removeClass('active');
+				});
+			}
+
+			registerMentionCollection(symbol, searchModule = '-') {
+				let self = this;
+				return {
+					trigger: symbol,
+					selectTemplate: function (item) {
+						if (this.range.isContentEditable(this.current.element)) {
+							return `<a href="#" data-id="${item.original.id}">${symbol + item.original.label.split('(')[0]}</a>`;
+						}
+						return symbol + item.original.label;
+					},
+					values: (text, cb) => {
+						App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+					},
+					menuItemTemplate: function (item) {
+						return self.mentionTemplate({
+							id: item.original.id,
+							module: item.original.module,
+							label: item.original.label,
+							category: item.original.category
+						});
+					},
+					lookup: 'label',
+					fillAttr: 'label'
+				}
+			}
+
+			registerEmojiCollection() {
+				return {
+					trigger: ':',
+					selectTemplate: function (item) {
+						if (this.range.isContentEditable(this.current.element)) {
+							return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
+						}
+						return item.original.symbol;
+					},
+					menuItemTemplate: function (item) {
+						return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
+					},
+					lookup: 'id',
+					fillAttr: 'keywords',
+					values: []
+				}
+			}
+
+			mentionTemplate(params) {
+				return `<div data-id="${params.id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
 												<span class="userIcon-${params.module}"></span>
 											</div>
@@ -604,7 +622,9 @@ App.Fields = {
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
 											</div>
 										</div>`
+			}
 		},
+
 		/**
 		 * Get mention data (invoked by ck editor mentions plugin)
 		 * @param {object} opts

@@ -37,7 +37,7 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 	},
 	registerEvents: function () {
 		var container = $('#modalRelatedCommentModal');
-		App.Fields.Text.registerCompletions(container.find('.js-completions'));
+		new App.Fields.Text.Completions(container.find('.js-completions'));
 		this.registerSubmitEvent(container);
 	}
 });
