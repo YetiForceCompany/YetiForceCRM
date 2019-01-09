@@ -1231,6 +1231,7 @@ window.Chat_JS = class Chat_Js {
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();
 		Chat_Js.unregisterTrackingEvents();
+		App.Fields.Text.registerCompletions(this.container.find('.js-completions'));
 		this.isModalWindow = true;
 	}
 

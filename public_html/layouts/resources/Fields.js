@@ -504,10 +504,11 @@ App.Fields = {
 			});
 			for (let el of element) {
 				textCompleteCollection.attach(el);
-				if ($(el).data('completionsTextarea') !== undefined) {
+				let data = $(el).data();
+				if (data.completionsTextarea !== undefined) {
 					this.registerCompletionsTextArea($(el));
 				}
-				if ($(el).data('completionsButtons') !== undefined) {
+				if (data.completionsButtons !== undefined) {
 					this.registerCompletionsButtons($(el), textCompleteCollection);
 				}
 			}
@@ -524,7 +525,6 @@ App.Fields = {
 		},
 
 		registerCompletionsTextArea(element) {
-			console.log(element.siblings(`[name=${element.attr('id')}]`));
 			let textarea = element.siblings(`[name=${element.attr('id')}]`);
 			element.on('focus', function () {
 				textarea.val(element.html());
@@ -533,14 +533,22 @@ App.Fields = {
 			});
 		},
 
-		registerCompletionsButtons(element, textCompleteCollection) {
+		registerCompletionsButtons(inputDiv, textCompleteCollection) {
+			let completionsContainer = inputDiv.parents().eq(3);
+			this.registerEmojiPanel(inputDiv, completionsContainer.find('.js-completions__emojis'));
+			completionsContainer.find('.js-completions__users').on('click', (e) => {
+				textCompleteCollection.showMenuForCollection(inputDiv[0], 1);
+			});
+			completionsContainer.find('.js-completions__records').on('click', (e) => {
+				textCompleteCollection.showMenuForCollection(inputDiv[0], 0);
+			});
+		},
+
+		registerEmojiPanel(inputDiv, emojisContainer) {
 			new EmojiPanel({
 				container: '.js-completions__emojis',
 				json_url: '/libraries/emojipanel/dist/emojis.json',
 			});
-
-			let completionsContainer = element.parents().eq(3);
-			let emojisContainer = completionsContainer.find('.js-completions__emojis');
 			emojisContainer.on('click', (e) => {
 				let element = $(e.target);
 				element.toggleClass('active');
@@ -549,7 +557,7 @@ App.Fields = {
 				e.preventDefault();
 				e.stopPropagation();
 				if ($(e.currentTarget).data('char') !== undefined) {
-					element.append(` ${$(e.currentTarget).data('char')} `);
+					inputDiv.append(` ${$(e.currentTarget).data('char')} `);
 				}
 			});
 			emojisContainer.on('mouseenter', '.emoji', (e) => {
@@ -558,15 +566,8 @@ App.Fields = {
 					emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
 				}
 			});
-			element.on('focus', () => {
+			inputDiv.on('focus', () => {
 				emojisContainer.removeClass('active');
-			});
-
-			completionsContainer.find('.js-completions__users').on('click', (e) => {
-				textCompleteCollection.showMenuForCollection(element[0], 1);
-			});
-			completionsContainer.find('.js-completions__records').on('click', (e) => {
-				textCompleteCollection.showMenuForCollection(element[0], 0);
 			});
 		},
 

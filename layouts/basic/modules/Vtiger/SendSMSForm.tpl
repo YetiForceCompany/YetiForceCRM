@@ -63,7 +63,7 @@
 								{\App\Language::translate('LBL_TYPE_THE_MESSAGE',$MODULE)}
 								&nbsp;(&nbsp;{\App\Language::translate('LBL_SMS_MAX_CHARACTERS_ALLOWED',$MODULE)}&nbsp;)
 								<textarea name="message" class="c-textarea--completions" data-validation-engine="validate[ required]"></textarea>
-								<div contenteditable="true" class="form-control js-completions js-completions--textarea" id="message" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_MESSAGE_HERE', $MODULE)}" data-js="html | tribute.js"></div>
+								<div contenteditable="true" class="form-control js-completions" id="message" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_MESSAGE_HERE', $MODULE)}" data-completions-textarea="true" data-js="html | tribute.js"></div>
 							</div>
 						</div>
 					</div>
