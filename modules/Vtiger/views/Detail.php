@@ -768,12 +768,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$searchParams = $request->getArray('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
+		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 		$totalCount = $request->getInteger('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;

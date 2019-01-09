@@ -23,6 +23,9 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
+		if (!is_array($value)) {
+			$value = explode('##', $value);
+		}
 		foreach ($value as $val) {
 			$values[] = parent::getDbConditionBuilderValue($val, $operator);
 		}

@@ -730,7 +730,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!empty($this->valueName)) {
 			$queryGenerator->setField($this->valueName);
 		}
-		if ($params = $request->getArray('search_params')) {
+		if ($params = App\Condition::validSearchParams($this->getTargetModule(), $request->getArray('search_params'))) {
 			$this->searchParams = $params;
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$params]);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);

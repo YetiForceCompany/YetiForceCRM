@@ -97,7 +97,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('search_key', $searchKey);
 			$this->listViewModel->set('search_value', $searchValue);
 		}
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -200,7 +200,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 

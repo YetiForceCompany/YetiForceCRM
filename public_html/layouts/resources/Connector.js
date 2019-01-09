@@ -122,7 +122,7 @@ AppConnector = {
 				if (jqXHR.status === 406) {
 					let sep = "-".repeat(150);
 					console.warn("%cYetiForce debug mode!!!", "color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;");
-					console.error('Error: ' + errorThrown, '\n' + sep + '\nTrace:\n' + sep + '\n' + jqXHR.responseJSON.error.trace, '\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t'));
+					console.error('Error: ' + errorThrown, '\n' + sep + '\nTrace:\n' + sep + '\n' + (jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''), '\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t'));
 				} else {
 					app.errorLog(jqXHR, textStatus, errorThrown);
 				}

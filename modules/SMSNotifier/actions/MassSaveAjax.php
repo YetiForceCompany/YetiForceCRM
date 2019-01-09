@@ -95,7 +95,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 				$customViewModel->set('search_key', $request->getByType('search_key', 2));
 				$customViewModel->set('search_value', $request->get('search_value'));
 			}
-			$customViewModel->set('search_params', $request->getArray('search_params'));
+			$customViewModel->set('search_params', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
 			$customViewModel->set('entityState', $request->getByType('entityState'));
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}

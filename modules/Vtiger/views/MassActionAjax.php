@@ -62,7 +62,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
 		$viewer->view('MassEditForm.tpl', $moduleName);
 	}
 
@@ -93,7 +93,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($request->getArray('search_params')));
 		$viewer->view('AddCommentForm.tpl', $moduleName);
 	}
 
@@ -133,7 +133,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
 		$viewer->view('SendSMSForm.tpl', $moduleName);
 	}
 

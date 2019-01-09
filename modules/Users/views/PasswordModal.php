@@ -140,7 +140,7 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
-		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
 		$viewer->view('PasswordModal.tpl', $moduleName);
 	}
 

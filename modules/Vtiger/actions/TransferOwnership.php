@@ -85,7 +85,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 					$customViewModel->set('search_key', $searchKey);
 					$customViewModel->set('search_value', $searchValue);
 				}
-				$customViewModel->set('search_params', $request->getArray('search_params'));
+				$customViewModel->set('search_params', App\Condition::validSearchParams($module, $request->getArray('search_params')));
 				return $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}

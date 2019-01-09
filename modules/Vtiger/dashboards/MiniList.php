@@ -32,7 +32,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$minilistWidgetModel = new Vtiger_MiniList_Model();
 		$minilistWidgetModel->setWidgetModel($widget);
-		$searchParams = $request->getArray('search_params');
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if ($searchParams) {
 			$minilistWidgetModel->setSearchParams($searchParams);
 		}
