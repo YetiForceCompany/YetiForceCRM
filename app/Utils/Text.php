@@ -34,6 +34,12 @@ class Text
 	 * @var string
 	 */
 	const PATH_EMOJI_JSON = 'vendor/ckeditor/ckeditor/plugins/emoji/emoji.json';
+	/**
+	 * Emoji regex patter.
+	 *
+	 * @var string
+	 */
+	const EMOJI_REGEX = '/\:(?:[^\_|\-]+(?:\_|\-)[^\:|\s]+)\:|\:(?:[a-z]+)\:/';
 
 	/**
 	 * Get processed text in display mode.
@@ -47,7 +53,7 @@ class Text
 	{
 		$arrayOfEmoji = static::getArrayOfEmoji();
 		$textOut = \preg_replace_callback(
-			'/\:[^\:|\s]+\:/',
+			static::EMOJI_REGEX,
 			function (array $matches) use ($arrayOfEmoji) {
 				return $arrayOfEmoji[$matches[0]] ?? $matches[0];
 			},
@@ -75,7 +81,7 @@ class Text
 	{
 		$arrayOfEmoji = static::getArrayOfEmoji();
 		return \preg_replace_callback(
-			'/\:[a-z,_]+\:/',
+			static::EMOJI_REGEX,
 			function (array $matches) use ($arrayOfEmoji) {
 				return $arrayOfEmoji[$matches[0]] ?? $matches[0];
 			},
@@ -125,16 +131,16 @@ class Text
 	 * Get processed text in display mode.
 	 *
 	 * @param string $baseText
-	 * @param string $mod
+	 * @param string $type
 	 * @param string $id
 	 * @param string $format
 	 *
 	 * @return string
 	 */
-	private static function display(string $baseText, string $mod, string $id, string $format = self::FORMAT_HTML): string
+	private static function display(string $baseText, string $type, string $id, string $format = self::FORMAT_HTML): string
 	{
 		$html = '';
-		if ('#' === $mod) {
+		if ('#' === $type) {
 			switch ($format) {
 				case static::FORMAT_HTML:
 					$html = static::displayRecord($id);
@@ -143,7 +149,7 @@ class Text
 					$html = static::displayRecordText($id);
 					break;
 			}
-		} elseif ('@' === $mod) {
+		} elseif ('@' === $type) {
 			switch ($format) {
 				case static::FORMAT_HTML:
 					$html = static::displayOwner($id);
@@ -168,7 +174,7 @@ class Text
 	private static function displayRecordText(int $recordId): string
 	{
 		if (\App\Record::isExists($recordId)) {
-			$html = \Vtiger_Record_Model::getInstanceById($recordId)->getName();
+			$html = \App\Record::getLabel($recordId);
 		} else {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		}
@@ -184,13 +190,13 @@ class Text
 	 */
 	private static function displayRecord(int $recordId): string
 	{
-		if (!\App\Record::isExists($recordId)) {
+		if (!($moduleName = \App\Record::getModuleName($recordId))) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
-		} elseif (($recordModel = \Vtiger_Record_Model::getInstanceById($recordId))->isViewable()) {
-			$html = "<a href=\"{$recordModel->getDetailViewUrl()}\" class=\"js-popover-tooltip--record\">" .
-				$recordModel->getDisplayName() . '</a>&nbsp;';
+		} elseif (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\">" .
+				\App\Record::getLabel($recordId) . '</a>&nbsp;';
 		} else {
-			$html = $recordModel->getDisplayName();
+			$html = \App\Record::getLabel($recordId);
 		}
 		return $html;
 	}
@@ -206,10 +212,12 @@ class Text
 	{
 		if (!\App\User::isExists($userId)) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
-		} elseif (($userModel = \Vtiger_Record_Model::getInstanceById($userId, 'Users'))->isViewable()) {
-			$html = "<a href=\"{$userModel->getDetailViewUrl()}\">{$userModel->getDisplayName()}</a>";
+		} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $userId)) {
+			$html = "<a href=\"index.php?module=Users&parent=Settings&view=Detail&record={$userId}\">" .
+				\App\User::getUserModel($userId)->getName() .
+				'</a>';
 		} else {
-			$html = $userModel->getDisplayName();
+			$html = \App\User::getUserModel($userId)->getName();
 		}
 		return $html;
 	}
@@ -224,7 +232,7 @@ class Text
 	private static function displayOwnerText(int $userId): string
 	{
 		if (\App\User::isExists($userId)) {
-			$html = \Vtiger_Record_Model::getInstanceById($userId, 'Users')->getDisplayName();
+			$html = \App\User::getUserModel($userId)->getName();
 		} else {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		}
