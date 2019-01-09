@@ -42,6 +42,7 @@
     "datatables.net-responsive-bs4": "^2.2.3",
     "device-uuid": "^1.0.4",
     "dompurify": "^1.0.3",
+    "emojipanel": "https://github.com/danbovey/EmojiPanel#master",
     "flag-icon-css": "^3.2.1",
     "floatthead": "^2.1.2",
     "fontawesome-web": "^5.0.2",
