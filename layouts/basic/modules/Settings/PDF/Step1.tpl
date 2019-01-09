@@ -11,8 +11,6 @@
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" class="step" value="1"/>
 			<input type="hidden" name="record" value="{$RECORDID}"/>
-			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}"/>
-
 
 			<div class="row">
 				<div class="col-12 mb-2">
@@ -421,7 +419,6 @@
 									</div>
 								</div>
 								<div class="form-group col-12 col-xxl-4 pt-2 pt-xxl-0 text-center waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
-									<button id="uploadWM" class="btn btn-success mr-2">{\App\Language::translate('LBL_UPLOAD_WM', $QUALIFIED_MODULE)}</button>
 									<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}d-none{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
 								</div>
 							</div>
