@@ -1347,19 +1347,6 @@ Vtiger_Base_Validator_Js("Vtiger_Textparser_Validator_Js", {
 		return true;
 	}
 });
-Vtiger_Base_Validator_Js("Vtiger_Text_Validator_Js", {}, {
-	validate: function () {
-		const field = this.getElement();
-		if (field.hasClass('js-editor__emoji')) {
-			App.Fields.Text.Editor.convertEmojis(field).then(() => {
-				return true;
-			});
-		} else {
-			return true;
-		}
-	},
-	isPromise: true
-});
 
 Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 	invokeValidation: function (field, rules, i, options) {

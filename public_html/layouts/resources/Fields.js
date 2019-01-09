@@ -347,8 +347,8 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
-					emojiEnabled: true,
-					mentionsEnabled: true,
+					emojiEnabled: false,
+					mentionsEnabled: false,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
@@ -416,14 +416,6 @@ App.Fields = {
 					}
 					config.extraPlugins = config.extraPlugins + ',emoji'
 					config.outputTemplate = '{id}';
-					element.addClass('js-editor__emoji');
-					if (App.emojis === undefined) {
-						fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
-							.then(response => response.json())
-							.then(response => {
-								App.emojis = response;
-							}).catch(error => console.error('Error:', error));
-					}
 				}
 				if (config.mentionsEnabled) {
 					config.extraPlugins = config.extraPlugins + ',mentions'
@@ -480,17 +472,6 @@ App.Fields = {
 			 */
 			getMentionUsersData(opts, callback) {
 				App.Fields.Text.getMentionData(opts, callback, 'Users');
-			}
-
-			static convertEmojis(editorElement) {
-				return new Promise(function (resolve) {
-					let convertedValue = editorElement.val();
-					App.emojis.forEach((emoji) => {
-						convertedValue = convertedValue.replace(emoji.symbol, emoji.id);
-					});
-					editorElement.val(convertedValue);
-					resolve(convertedValue);
-				});
 			}
 		},
 
