@@ -12,7 +12,6 @@
     "Asset Name": "Name",
     "Customer Name": "Customer name",
     "Notes": "Notes",
-    "LBL_GENERATE_EXTENSION": "Generate extension",
     "FL_RENEWAL": "Renewal",
     "LBL_SET_RENEWAL": "Set renewal",
     "FL_RENEWAL_INVOICE": "Renewal invoice",
@@ -33,6 +32,7 @@
     "description": "Description",
     "attentions": "Comments",
     "BLOCK_INFORMATION_TIME": "Time information",
+    "LBL_GENERATE_EXTENSION": "Generate extension",
     "LBL_ORDER_TIME": "Order time",
     "LBL_EXPIRING_SOLD_PRODUCTS": "Expiring sold products",
     "LBL_CHANGE_STATUS": "Change Status"
