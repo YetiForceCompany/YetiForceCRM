@@ -195,41 +195,30 @@ var Settings_Index_Js = {
 		const currentTarget = $(e.currentTarget),
 			container = currentTarget.closest('.modalContainer');
 		let prefix = container.find("input[name='prefix']").val();
-		AppConnector.request({
-			module: 'LangManagement',
-			parent: app.getParentModuleName(),
-			action: 'CheckLanguage',
-			prefix: prefix,
-		}).done(function (data) {
-			if (data.result) {
-				let SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
-					'type': 'Add',
-					'label': container.find("input[name='label']").val(),
-					'name': container.find("input[name='name']").val(),
-					'prefix': prefix
-				});
-				if (SaveEvent.resp) {
-					let params = SaveEvent.result.params;
-					$('#lang_list table tbody').append(
-						'<tr data-prefix="' + params.prefix + '"><td>' + params.label + '</td><td>' +
-						params.name + '</td><td>' + params.prefix +
-						'</td><td><a href="index.php?module=LangManagement&parent=Settings&action=Export&lang=' + params.prefix +
-						'" class="btn btn-primary btn-xs marginLeft10">' + app.vtranslate('JS_EXPORT') +
-						'</a> <button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">' +
-						app.vtranslate('JS_DEFAULT') +
-						'</button> <button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">' +
-						app.vtranslate('Delete') + '</button></td></tr>'
-					);
-					Settings_Index_Js.initEvant($('#lang_list tr[data-prefix=' + params.prefix + ']'));
-					container.find('.AddNewLangMondal').modal('hide');
-					$(".AddNewLangMondal input[name='label']").val('');
-					$(".AddNewLangMondal input[name='name']").val('');
-					$(".AddNewLangMondal input[name='prefix']").val('');
-				}
-			} else {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NOT_IETF_TAG'));
-			}
+		let SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
+			'type': 'Add',
+			'label': container.find("input[name='label']").val(),
+			'name': container.find("input[name='name']").val(),
+			'prefix': prefix
 		});
+		if (SaveEvent.resp) {
+			let params = SaveEvent.result.params;
+			$('#lang_list table tbody').append(
+				'<tr data-prefix="' + params.prefix + '"><td>' + params.label + '</td><td>' +
+				params.name + '</td><td>' + params.prefix +
+				'</td><td><a href="index.php?module=LangManagement&parent=Settings&action=Export&lang=' + params.prefix +
+				'" class="btn btn-primary btn-xs marginLeft10">' + app.vtranslate('JS_EXPORT') +
+				'</a> <button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">' +
+				app.vtranslate('JS_DEFAULT') +
+				'</button> <button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">' +
+				app.vtranslate('Delete') + '</button></td></tr>'
+			);
+			Settings_Index_Js.initEvant($('#lang_list tr[data-prefix=' + params.prefix + ']'));
+			container.find('.AddNewLangMondal').modal('hide');
+			$(".AddNewLangMondal input[name='label']").val('');
+			$(".AddNewLangMondal input[name='name']").val('');
+			$(".AddNewLangMondal input[name='prefix']").val('');
+		}
 	},
 	AddTranslationMondal: function (e) {
 		var currentTarget = $(e.currentTarget);

@@ -143,8 +143,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
-		if (!self::isCorrectIETF($prefix)) {
-			return ['success' => false, 'data' => 'LBL_NOT_IETF_TAG'];
+		if (!self::isCorrectLangTag($prefix)) {
+			return ['success' => false, 'data' => 'LBL_NOT_CORRECT_LANGUAGE_TAG'];
 		}
 		$destiny = 'languages/' . $prefix . '/';
 		mkdir($destiny);
@@ -316,7 +316,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public static function isCorrectIETF($languageTag)
+	public static function isCorrectLangTag($languageTag)
 	{
 		$data = false;
 		if (!empty($languageTag)) {
