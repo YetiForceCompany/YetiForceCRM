@@ -44,5 +44,8 @@
     "LBL_CHART_COLORS_FROM_FILTER": "Colors from filter",
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph"
+  },
+  "js": {
+
   }
 }
