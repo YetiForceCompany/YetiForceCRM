@@ -27,7 +27,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	{
 		$values = [];
 		if (!is_array($value)) {
-			$value = explode('##', $value);
+			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
 			$values[] = parent::getDbConditionBuilderValue($val, $operator);

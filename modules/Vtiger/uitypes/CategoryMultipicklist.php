@@ -33,7 +33,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	{
 		$values = [];
 		if (!is_array($value)) {
-			$value = explode('##', $value);
+			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
 			$this->validate($val, true);
