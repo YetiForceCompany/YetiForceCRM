@@ -312,11 +312,11 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Check if is correct given language tag.
 	 *
-	 * @param $languageTag
+	 * @param string $languageTag
 	 *
 	 * @return bool
 	 */
-	public static function isCorrectLangTag($languageTag)
+	public static function isCorrectLangTag(string $languageTag): bool
 	{
 		$data = false;
 		if (!empty($languageTag)) {
