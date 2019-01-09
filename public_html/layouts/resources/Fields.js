@@ -474,8 +474,22 @@ App.Fields = {
 				App.Fields.Text.getMentionData(opts, callback, 'Users');
 			}
 		},
-
+		/**
+		 * Completions class for contenteditable html element for records, users and emojis. Params can be passed in data-completions- of contenteditable element or as argument. Default params:
+		 * {
+		 		completionsCollection: {
+						records: true,
+						users: true,
+						emojis: true
+					}
+			}
+		 */
 		Completions: class {
+			/**
+			 * Constructor
+			 * @param {jQuery} inputDiv - contenteditable div
+			 * @param params
+			 */
 			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
 				let basicParams = {
 					completionsCollection: {
@@ -499,75 +513,12 @@ App.Fields = {
 				this.register(inputDiv);
 			}
 
-			register(inputDiv) {
-				const self = this;
-				this.completionsCollection = new Tribute({collection: self.collection});
-				this.completionsCollection.attach(inputDiv[0]);
-				if (this.params.completionsTextarea !== undefined) {
-					this.registerCompletionsTextArea(inputDiv);
-				}
-				if (this.params.completionsButtons !== undefined) {
-					this.registerCompletionsButtons();
-				}
-				if (App.emoji === undefined) {
-					fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
-						.then(response => response.json())
-						.then(response => {
-							App.emoji = response;
-							this.completionsCollection.append(2, response);
-						}).catch(error => console.error('Error:', error));
-				} else {
-					this.completionsCollection.append(2, App.emoji);
-				}
-			}
-
-			registerCompletionsTextArea(inputDiv) {
-				let textarea = element.siblings(`[name=${inputDiv.attr('id')}]`);
-				inputDiv.on('focus', function () {
-					textarea.val(inputDiv.html());
-				}).on('blur keyup paste input', function () {
-					textarea.val(inputDiv.html());
-				});
-			}
-
-			registerCompletionsButtons() {
-				let completionsContainer = this.inputDiv.parents().eq(3);
-				this.registerEmojiPanel(this.inputDiv, completionsContainer.find('.js-completions__emojis'));
-				completionsContainer.find('.js-completions__users').on('click', (e) => {
-					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
-				});
-				completionsContainer.find('.js-completions__records').on('click', (e) => {
-					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
-				});
-			}
-
-			registerEmojiPanel(inputDiv, emojisContainer) {
-				new EmojiPanel({
-					container: '.js-completions__emojis',
-					json_url: '/libraries/emojipanel/dist/emojis.json',
-				});
-				emojisContainer.on('click', (e) => {
-					let element = $(e.target);
-					element.toggleClass('active');
-				})
-				emojisContainer.on('click', '.emoji', (e) => {
-					e.preventDefault();
-					e.stopPropagation();
-					if ($(e.currentTarget).data('char') !== undefined) {
-						inputDiv.append(` ${$(e.currentTarget).data('char')} `);
-					}
-				});
-				emojisContainer.on('mouseenter', '.emoji', (e) => {
-					if ($(e.currentTarget).data('name') !== undefined) {
-						emojisContainer.find('.emoji-hovered').remove();
-						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
-					}
-				});
-				inputDiv.on('focus', () => {
-					emojisContainer.removeClass('active');
-				});
-			}
-
+			/**
+			 * Register mention collection for tribute.js
+			 * @param {string} symbol
+			 * @param {string} searchModule
+			 * @returns {{trigger: *, selectTemplate: selectTemplate, values: values, menuItemTemplate: (function(*): string), lookup: string, fillAttr: string}}
+			 */
 			registerMentionCollection(symbol, searchModule = '-') {
 				let self = this;
 				return {
@@ -594,6 +545,10 @@ App.Fields = {
 				}
 			}
 
+			/**
+			 * Register emoji collection for tribute.js
+			 * @returns {{trigger: string, selectTemplate: selectTemplate, menuItemTemplate: (function(*): string), lookup: string, fillAttr: string, values: Array}}
+			 */
 			registerEmojiCollection() {
 				return {
 					trigger: ':',
@@ -612,6 +567,9 @@ App.Fields = {
 				}
 			}
 
+			/*
+			 * Mention template
+			 */
 			mentionTemplate(params) {
 				return `<div data-id="${params.id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
@@ -623,10 +581,95 @@ App.Fields = {
 											</div>
 										</div>`
 			}
+
+			/**
+			 * Register
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			register(inputDiv) {
+				const self = this;
+				this.completionsCollection = new Tribute({collection: self.collection});
+				this.completionsCollection.attach(inputDiv[0]);
+				if (this.params.completionsTextarea !== undefined) {
+					this.registerCompletionsTextArea(inputDiv);
+				}
+				if (this.params.completionsButtons !== undefined) {
+					this.registerCompletionsButtons();
+				}
+				if (App.emoji === undefined) {
+					fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+						.then(response => response.json())
+						.then(response => {
+							App.emoji = response;
+							this.completionsCollection.append(2, response);
+						}).catch(error => console.error('Error:', error));
+				} else {
+					this.completionsCollection.append(2, App.emoji);
+				}
+			}
+
+			/**
+			 * Register completons hidden textarea - useful with forms
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			registerCompletionsTextArea(inputDiv) {
+				let textarea = element.siblings(`[name=${inputDiv.attr('id')}]`);
+				inputDiv.on('focus', function () {
+					textarea.val(inputDiv.html());
+				}).on('blur keyup paste input', function () {
+					textarea.val(inputDiv.html());
+				});
+			}
+
+			/**
+			 * Register completions buttons
+			 */
+			registerCompletionsButtons() {
+				let completionsContainer = this.inputDiv.parents().eq(3);
+				this.registerEmojiPanel(this.inputDiv, completionsContainer.find('.js-completions__emojis'));
+				completionsContainer.find('.js-completions__users').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
+				});
+				completionsContainer.find('.js-completions__records').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
+				});
+			}
+
+			/**
+			 * Register emojipanel library
+			 * @param {jQuery} inputDiv - contenteditable div
+			 * @param {jQuery} emojisContainer
+			 */
+			registerEmojiPanel(inputDiv, emojisContainer) {
+				new EmojiPanel({
+					container: '.js-completions__emojis',
+					json_url: '/libraries/emojipanel/dist/emojis.json',
+				});
+				emojisContainer.on('click', (e) => {
+					let element = $(e.target);
+					element.toggleClass('active');
+				})
+				emojisContainer.on('click', '.emoji', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(e.currentTarget).data('char') !== undefined) {
+						inputDiv.append(` ${$(e.currentTarget).data('char')} `);
+					}
+				});
+				emojisContainer.on('mouseenter', '.emoji', (e) => {
+					if ($(e.currentTarget).data('name') !== undefined) {
+						emojisContainer.find('.emoji-hovered').remove();
+						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
+					}
+				});
+				inputDiv.on('focus', () => {
+					emojisContainer.removeClass('active');
+				});
+			}
 		},
 
 		/**
-		 * Get mention data (invoked by ck editor mentions plugin)
+		 * Get mention data (invoked by ck editor mentions plugin and tribute.js)
 		 * @param {object} opts
 		 * @param {function} callback
 		 * @param {string} searchModule
