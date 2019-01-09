@@ -39,7 +39,7 @@ class Text
 	 *
 	 * @var string
 	 */
-	const EMOJI_REGEX = '/\:(?:[^\_|\-]+(?:\_|\-)[^\:|\s]+)\:|\:(?:[a-z]+)\:/';
+	const EMOJI_REGEX = '/\:(?:[0-9,a-z][^\_|\-|\:|\s|\&]*(?:\_|\-)[^\:|\s|\:|\,]+)\:|\:(?:[a-z]+)\:/';
 
 	/**
 	 * Get processed text in display mode.
