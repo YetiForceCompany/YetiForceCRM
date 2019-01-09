@@ -16,51 +16,27 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 	 * @param \App\Request $request
 	 *
 	 * @throws \yii\db\Exception
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return string
+	 * @return string image filename
 	 */
-	public function saveWatermarkImage($request)
+	public function saveWatermarkImage(\App\Request $request)
 	{
 		if (empty($_FILES['watermark_image_file'])) {
 			return '';
 		}
 		$templateId = $request->get('template_id');
-		$newName = basename($_FILES['watermark_image_file']['name']);
-		$newName = explode('.', $newName);
-		if ($templateId) {
-			$newName = $templateId . '.' . end($newName);
-		} else {
-			$newName = uniqid('', false) . '.' . end($newName);
-		}
 		$targetDir = Settings_PDF_Module_Model::$uploadPath;
-		$targetFile = $targetDir . $newName;
-		$uploadOk = 1;
-
-		$fileInstance = \App\Fields\File::loadFromPath($_FILES['watermark_image_file']['tmp_name']);
+		$targetFile = $targetDir . $templateId;
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['watermark_image_file']);
 		if (!$fileInstance->validate('image')) {
-			$uploadOk = 0;
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||watermark_image_file', 406);
 		}
-		if ($uploadOk && $_FILES['watermark_image_file']['size'] > \AppConfig::main('upload_maxsize')) {
-			$uploadOk = 0;
+		if (!$fileInstance->moveFile($targetFile)) {
+			throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
-		if ($uploadOk === 1) {
-			$db = App\Db::getInstance('admin');
-			$watermarkImage = (new \App\Db\Query())->select(['watermark_image'])
-				->from('a_#__pdf')
-				->where(['pdfid' => $templateId])
-				->scalar($db);
-			if (file_exists($watermarkImage)) {
-				unlink($watermarkImage);
-			}
-			// successful upload
-			if ($fileInstance->moveFile($targetFile)) {
-				$db->createCommand()
-					->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
-					->execute();
-				return $targetFile;
-			}
-		}
-		return '';
+		return $targetFile;
 	}
 
 	/**
@@ -109,7 +85,6 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		$pdfModel->set('conditions', $request->get('conditions'));
 		Settings_PDF_Record_Model::transformAdvanceFilterToWorkFlowFilter($pdfModel);
 		Settings_PDF_Record_Model::save($pdfModel, $step);
-
 		$response = new Vtiger_Response();
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);
 		$response->emit();
