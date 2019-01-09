@@ -73,7 +73,8 @@
     "LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES": "Number of found email addresses",
     "LBL_NUMBER_OF_SELECTED_RECORDS": "Number of selected records",
     "LBL_MINIMIZE_BAR": "Minimize bar",
-    "LBL_CREATEMAIL": "Send email"
+    "LBL_CREATEMAIL": "Send email",
+    "LBL_ADD_RELATION": "Add relation"
   },
   "js": {
     "NoFindEmailInRecord": "Record does not have email address",
