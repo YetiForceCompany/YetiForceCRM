@@ -1,5 +1,7 @@
 {
   "php": {
+    "LBL_PROJECTS_LIST": "List of projects",
+    "LBL_SUMMARY": "Work time summary",
     "SINGLE_Project": "Project",
     "LBL_RECORDS_LIST": "Projects list",
     "LBL_PROJECT_INFORMATION": "Project details",
@@ -36,8 +38,6 @@
     "PLL_EXTERNAL": "External",
     "PLL_COMMON": "Shared",
     "LBL_DOWNLOAD_FILE": "Download file",
-    "LBL_SUMMARY": "Work time summary",
-    "LBL_PROJECTS_LIST": "List of projects",
     "Add Project Task": "Add project task",
     "LBL_GANTT": "Gantt",
     "low": "low",
@@ -63,6 +63,12 @@
     "JS_ASSIGNED": "Assigned To",
     "JS_GANTT_ERROR_LOADING_DATA_TASK_REMOVED": "Error when loading data - the item has been removed",
     "JS_INVALID_DATE_FORMAT": "Invalid date format",
+    "JS_GANTT_SEMESTER_SHORT": "Sem.",
+    "JS_GANTT_SEMESTER": "Semester",
+    "JS_GANTT_QUARTER_SHORT": "Qtr",
+    "JS_GANTT_QUARTER": "Quarter",
+    "JS_GANTT_WEEK": "Week",
+    "JS_GANTT_WEEK_SHORT": "wk",
     "JS_YES": "Yes",
     "JS_NO": "No",
     "JS_INVALID_DATA": "Invalid data for field",
@@ -73,13 +79,13 @@
     "JS_PREV": "Previous",
     "JS_NEXT": "Next",
     "JS_HINT_SKIP": "I understand, close this notification",
-    "JS_GANTT_FILTER": "Filters",
-    "JS_GANTT_NOW": "Wyśrodkuj",
-    "JS_GANTT_ZOOM_X": "Powiększenie osi X",
-    "JS_GANTT_ZOOM_Y": "Powiększenie osi Y",
-    "JS_GANTT_EXPAND": "Dodaj dni przed i po",
-    "JS_GANTT_TASKLIST": "Szerokość listy",
-    "JS_GANTT_TASKLIST_VISIBLE": "Pokaż listę",
-    "JS_GANTT_TITLE": "Wykres gantta"
+    "JS_GANTT_EXPAND_ALL": "Expand all",
+    "JS_GANTT_COLLAPSE_ALL": "Colapse all",
+    "JS_GANTT_ZOOM_OUT": "Zoom out",
+    "JS_GANTT_ZOOM_IN": "Zoom in",
+    "JS_GANTT_RESIZE_0": "Show only chart",
+    "JS_GANTT_RESIZE_50": "50/50 view (legend/chart)",
+    "JS_GANTT_RESIZE_100": "Show only legend",
+    "JS_GANTT_FILTER": "Filters"
   }
 }
