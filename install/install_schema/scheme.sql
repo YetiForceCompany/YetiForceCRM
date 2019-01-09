@@ -151,7 +151,6 @@ CREATE TABLE `a_yf_pdf` (
   `conditions` text DEFAULT NULL,
   `watermark_type` tinyint(1) NOT NULL DEFAULT 0,
   `watermark_text` varchar(255) NOT NULL,
-  `watermark_size` tinyint(2) unsigned NOT NULL,
   `watermark_angle` smallint(3) unsigned NOT NULL,
   `watermark_image` varchar(255) NOT NULL,
   `template_members` text NOT NULL,
@@ -3240,9 +3239,11 @@ CREATE TABLE `u_yf_squoteenquiries` (
   `accountid` int(10) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT 0.00,
   `sum_time` decimal(10,2) DEFAULT 0.00,
+  `campaign_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`squoteenquiriesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
+  KEY `u_yf_squoteenquiries_campaign_id_idx` (`campaign_id`),
   CONSTRAINT `fk_1_u_yf_squoteenquiries` FOREIGN KEY (`squoteenquiriesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5616,7 +5617,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2775 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2776 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6601,7 +6602,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=361 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 

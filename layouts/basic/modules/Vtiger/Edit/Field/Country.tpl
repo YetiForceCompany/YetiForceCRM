@@ -12,7 +12,7 @@
 				{if $PLACE_HOLDER}data-select="allowClear"
 				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'
-				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
+				{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 			{if $PLACE_HOLDER}
 				<optgroup class="p-0">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
