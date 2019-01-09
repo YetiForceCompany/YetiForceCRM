@@ -1,6 +1,7 @@
 {
   "php": {
     "Verification data": "Verification data",
+    "Orders accepted": "Orders accepted",
     "Attempted to Contact": "Attempted to contact",
     "CANNOT_CONVERT": "Cannot convert",
     "Cold": "Cold",
@@ -52,10 +53,10 @@
     "PLL_PENDING": "Pending",
     "PLL_IN_REALIZATION": "In realization",
     "PLL_INCORRECT": "Incorrect",
-    "Approval for phone calls": "Permission to call",
-    "Approval for email": "Permission to send emails",
     "Contact Information": "Contact information",
     "LBL_REGISTRATION_INFO": "Registration details",
+    "Approval for phone calls": "Permission to call",
+    "Approval for email": "Permission to send emails",
     "PLL_B2C": "B2C",
     "PLL_B2B": "B2B",
     "PLL_NATURAL_PERSON": "Private individual",
@@ -83,7 +84,6 @@
     "Total tasks": "Number of tasks",
     "Total time worked": "Total working time",
     "Total contacts": "Number of contacts",
-    "Orders accepted": "Orders accepted",
     "Attention": "Notes",
     "Attorney General's Office": "Attorney General's Office",
     "LBL_RELATION": "Relation",
