@@ -252,7 +252,7 @@ class Zip extends \ZipArchive
 	 * @param string $dir
 	 * @param string $localName
 	 */
-	public function addDirectory($dir, $localName = '')
+	public function addDirectory(string $dir, string $localName = '', string $trimPath = '')
 	{
 		if ($localName) {
 			$localName .= \DIRECTORY_SEPARATOR;
@@ -261,7 +261,11 @@ class Zip extends \ZipArchive
 		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
+				if ($trimPath) {
+					$this->addFile($filePath, $localName . Fields\File::trimPath($filePath, $trimPath));
+				} else {
+					$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
+				}
 			}
 		}
 	}

@@ -972,6 +972,20 @@ class File
 		}
 	}
 
+	public static function trimPath($path, $pathToTrim)
+	{
+		$path = str_replace('\\', '/', $path);
+		$pathToTrim = str_replace('\\', '/', $pathToTrim);
+		if (strpos($path, $pathToTrim) === 0) {
+			$index = strlen($pathToTrim) + 1;
+			if (strrpos($pathToTrim, '/') === strlen($pathToTrim) - 1) {
+				$index -= 1;
+			}
+			$path = substr($path, $index);
+		}
+		return $path;
+	}
+
 	/**
 	 * Get crm pathname.
 	 *

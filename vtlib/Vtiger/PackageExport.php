@@ -151,7 +151,12 @@ class PackageExport
 		$zip->addDirectory("modules/$module");
 		// Copy Settings/module directory
 		if (is_dir("modules/Settings/$module")) {
-			$zip->addDirectory("modules/Settings/$module", 'settings');
+			//$zip->addDirectory("modules/Settings/$module", 'settings');
+			$zip->addDirectory(
+				"modules/Settings/{$module}",
+				'settings/modules',
+				ROOT_DIRECTORY . "/modules/Settings/{$module}"
+			);
 		}
 		// Copy cron files of the module (if any)
 		if (is_dir("cron/modules/$module")) {
@@ -162,12 +167,22 @@ class PackageExport
 			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 		}
 		//Copy Settings module templates files, if any
-		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module")) {
-			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
+		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}")) {
+			//$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
+			$zip->addDirectory(
+				'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}",
+				'settings/templates',
+				ROOT_DIRECTORY . '/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}"
+			);
 		}
 		//Copy module public resources files
 		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module)) {
-			$zip->addDirectory('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'public_resources');
+			//$zip->addDirectory('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'resources');
+			$zip->addDirectory(
+				'public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module,
+				'resources',
+				ROOT_DIRECTORY . '/public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}/"
+			);
 		}
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
