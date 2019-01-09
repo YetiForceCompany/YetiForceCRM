@@ -194,12 +194,11 @@ var Settings_Index_Js = {
 	AddLangMondal: function (e) {
 		const currentTarget = $(e.currentTarget),
 			container = currentTarget.closest('.modalContainer');
-		let prefix = container.find("input[name='prefix']").val();
 		let SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
 			'type': 'Add',
 			'label': container.find("input[name='label']").val(),
 			'name': container.find("input[name='name']").val(),
-			'prefix': prefix
+			'prefix': container.find("input[name='prefix']").val()
 		});
 		if (SaveEvent.resp) {
 			let params = SaveEvent.result.params;
