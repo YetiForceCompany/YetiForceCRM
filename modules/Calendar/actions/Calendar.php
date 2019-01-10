@@ -42,8 +42,8 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function getEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 'Alnum'));
+		$record->set('types', $request->getArray('types', 'Text'));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
@@ -78,7 +78,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function getEventsYear(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->getArray('user'));
+		$record->set('user', $request->getArray('user', 'Alnum'));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
@@ -104,8 +104,8 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function getCountEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 'Alnum'));
+		$record->set('types', $request->getArray('types', 'Text'));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
@@ -131,8 +131,8 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function getCountEventsGroup(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 'Alnum'));
+		$record->set('types', $request->getArray('types', 'Text'));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('filters')) {
 			$record->set('filters', $request->get('filters'));
@@ -141,7 +141,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		$result = [];
-		foreach ($request->getArray('dates', 'DateTimeInUserFormat', []) as $datePair) {
+		foreach ($request->getArray('dates', 'DateTimeInUserFormat') as $datePair) {
 			$record->set('start', $datePair[0]);
 			$record->set('end', $datePair[1]);
 			$result[] = $record->getEntityRecordsCount();

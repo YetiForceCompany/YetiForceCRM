@@ -61,7 +61,7 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 
 	public function getUnreviewed(\App\Request $request)
 	{
-		$records = $request->getArray('recordsId');
+		$records = $request->getArray('recordsId', 'Integer');
 		foreach ($records as $key => $record) {
 			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $record)) {
 				unset($records[$key]);

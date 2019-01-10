@@ -40,7 +40,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	public function validateRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$records = $request->getArray('records');
+		$records = $request->getArray('records', 'Integer');
 		$templates = $request->get('templates');
 		$allRecords = count($records);
 		$output = ['valid_records' => [], 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
