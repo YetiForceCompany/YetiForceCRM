@@ -40,6 +40,7 @@
     "LBL_PROJECTS_LIST": "Lista projekt\u00f3w",
     "Add Project Task": "Dodaj zadanie projektu",
     "LBL_GANTT": "Gantt",
+    "LBL_GANTT_FILTER": "Filtry statusów",
     "low": "Niski",
     "normal": "Normalny",
     "high": "Wysoki",
