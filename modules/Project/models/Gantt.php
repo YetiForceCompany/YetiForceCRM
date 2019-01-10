@@ -565,6 +565,7 @@ class Project_Gantt_Model
 		}
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
+		$projectIds = array_merge($projectIds, array_column($milestones, 'id'));
 		$ganttTasks = $this->getGanttTasks($projectIds);
 		$this->tasks = array_merge($projects, $milestones, $ganttTasks);
 		$this->prepareRecords();
@@ -667,7 +668,11 @@ class Project_Gantt_Model
 		$taskTime = 0;
 		$queryGenerator = new App\QueryGenerator('ProjectTask');
 		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus', 'estimated_work_time', 'assigned_user_id']);
-		$queryGenerator->addNativeCondition(['vtiger_projecttask.projectid' => $projectIds]);
+		$queryGenerator->addNativeCondition([
+			'or',
+			['vtiger_projecttask.projectid' => $projectIds],
+			['vtiger_projecttask.projectmilestoneid' => $projectIds]
+		]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$ganttTasks = [];
 		while ($row = $dataReader->read()) {
