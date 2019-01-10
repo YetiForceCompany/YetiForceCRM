@@ -51,7 +51,8 @@
     "LBL_SHOW": "Anzeigen",
     "LBL_STATS_INFO": "Die angezeigte Statistik stellt das prozentuale Verh\u00e4ltnis der nicht \u00fcbersetzten Labels zu allen Labels in den Standardsprachdateien.",
     "LBL_UNTRANSLATED_LABELS": "Nicht \u00fcbersetzte Labels",
-    "LBL_IMPORT_LANG": "Import Sprache"
+    "LBL_IMPORT_LANG": "Import Sprache",
+    "LBL_NOT_CORRECT_LANGUAGE_TAG": "Language tag not compliant with the IETF standard."
   },
   "js": {
     "Translations": "\u00dcbersetzungen",
