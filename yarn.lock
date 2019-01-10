@@ -215,6 +215,11 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
+dayjs@^1.7.8:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.7.8.tgz#05d288f8d4b2140110cc1519cfe317d6f1f11a3c"
+  integrity sha512-Gp4Y5KWeSri0QOWGzHQz7VrKDkfEpS92dCLK7P8hYowRFbaym1vj3d6CoHio3apSS4KSi/qb5Edemv26IN5Hfg==
+
 delegate@^3.1.2:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
@@ -260,10 +265,12 @@ fullcalendar@3.9.0:
     jquery "2 - 3"
     moment "^2.20.1"
 
-gantt-elastic@^0.6.16:
-  version "0.6.16"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.6.16.tgz#cfa1197e6991773b8e9046d10f3d266436f638fb"
-  integrity sha512-rdzEfd9S4ceBfFet/5zv+dCVlHIQCiDuw9ZaQd7WbzL42QfQ0u68T3sjrwoKp2Fhpg6CbMBEBh4u4jahUNtT4w==
+gantt-elastic@^0.6.20:
+  version "0.6.21"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.6.21.tgz#71153e370bc6f3ca6fa1be9fab53ba09f57af724"
+  integrity sha512-iWGrVMy6sPScHbca//AevrimcO2r301wj8cVNsseYl3APLbfJ5zAjwMcNO4b5bcJt0UDHHYndLH4xxV3rE+lLA==
+  dependencies:
+    dayjs "^1.7.8"
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -294,9 +301,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^4.0:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.5.tgz#5b4effbe938926c8f78b7990d651cf3a0d316d15"
-  integrity sha512-kRB0Znzrgzscl8hn1YAuFFQQISaAGBfc7u2Xd1FEiH96s5ZKJMeJgc+nwEfdND6kMwFSlfoAIOz9i8dbPBJl2A==
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.6.tgz#ee8f9478ed4c06b38116e8d0ed55a5798b73bcb6"
+  integrity sha512-zHw2jO1RSTU/aoKjsVsBQF56m3SYA3IEsIZmb6anvoUBlPRMgXtKWtj/Pux7o/O8JNikGLLRN6LGBISzHRlabw==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
