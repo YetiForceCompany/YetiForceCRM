@@ -17,7 +17,8 @@
     "PLL_FOR_VERIFICATION": "A v\u00e9rifier",
     "PLL_CANCELLED": "Annul\u00e9",
     "PLL_COMPLETED": "Termin\u00e9",
-    "LBL_CHANGE_STATUS": "Modifier le statut"
+    "LBL_CHANGE_STATUS": "Modifier le statut",
+    "FL_CAMPAIGN_ID": "Campaign"
   },
   "js": {}
 }
