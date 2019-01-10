@@ -95,7 +95,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 			$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 			$mailScannerFolders = $mailScannerRecordModel->getFolders($record);
 			foreach ($mailScannerFolders as &$folder) {
-				if (!isset($folders[$folder['folder']])) {
+				if (!isset($folders[\OSSMail_Record_Model::convertCharacterEncoding($folder, 'UTF7-IMAP', 'UTF-8')['folder']])) {
 					$missingFolders[] = $folder['folder'];
 				}
 				$selectedFolders[$folder['type']][] = $folder['folder'];
