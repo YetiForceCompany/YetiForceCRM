@@ -69,7 +69,7 @@ class ProductsTableLongVTwoLang extends Base
 						$html .= '<td style="padding:0px 4px;text-align:center;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
 					} elseif ($field->getColumnName() === 'ean') {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="padding:0px 4px;text-align:center;"><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
+						$html .= '<td style="padding:0px 4px;text-align:center;"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
 						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
