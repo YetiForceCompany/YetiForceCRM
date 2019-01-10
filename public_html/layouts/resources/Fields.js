@@ -444,7 +444,7 @@ App.Fields = {
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
-					outputTemplate: '<a href="#" data-id="@{id}">{label}</a>',
+					outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
 					minChars: minSerchTextLength
 				},
 					{
@@ -459,7 +459,7 @@ App.Fields = {
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
-						outputTemplate: '<a href="#" data-id="#{id}">{label}</a>',
+						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
 						minChars: minSerchTextLength
 					}
 				];
@@ -525,7 +525,7 @@ App.Fields = {
 					trigger: symbol,
 					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
-							return `<a href="#" data-id="${item.original.id}">${symbol + item.original.label.split('(')[0]}</a>`;
+							return `<a href="#" data-id="${item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0]}</a>`;
 						}
 						return symbol + item.original.label;
 					},
