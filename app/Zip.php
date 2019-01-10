@@ -278,13 +278,13 @@ class Zip extends \ZipArchive
 	{
 		$fileName = $this->filename;
 		$this->close();
-		header('Cache-Control: private, max-age=120, must-revalidate');
-		header('Pragma: no-cache');
-		header('Expires: 0');
-		header('Content-Type: application/zip');
-		header('Content-Disposition: attachment; filename="' . $name . '.zip";');
-		header('Accept-Ranges: bytes');
-		header('Content-Length: ' . filesize($fileName));
+		header('cache-control: private, max-age=120, must-revalidate');
+		header('pragma: no-cache');
+		header('expires: 0');
+		header('content-type: application/zip');
+		header('content-disposition: attachment; filename="' . $name . '.zip";');
+		header('accept-ranges: bytes');
+		header('content-length: ' . filesize($fileName));
 		readfile($fileName);
 		unlink($fileName);
 	}

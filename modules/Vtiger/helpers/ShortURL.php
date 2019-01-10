@@ -94,7 +94,7 @@ class Vtiger_ShortURL_Helper
 	 */
 	public static function sendTrackerImage()
 	{
-		header('Content-Type: image/png');
+		header('content-type: image/png');
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
 	}
 

@@ -38,7 +38,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		$recordModel->set('priority', $request->getInteger('priority'));
 		$recordModel->save();
 
-		header("Location: {$recordModel->getEditViewUrl(2)}");
+		header("location: {$recordModel->getEditViewUrl(2)}");
 	}
 
 	/**
@@ -53,6 +53,6 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		$recordModel->set('conditions', $conditions);
 		$recordModel->save();
 
-		header("Location: {$recordModel->getDetailViewUrl()}");
+		header("location: {$recordModel->getDetailViewUrl()}");
 	}
 }

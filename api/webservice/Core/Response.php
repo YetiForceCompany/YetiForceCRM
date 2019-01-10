@@ -61,28 +61,28 @@ class Response
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
-		header('Access-Control-Allow-Origin: *');
-		header('Access-Control-Allow-Methods: *');
-		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
-		header("Content-Type: $requestContentType");
-		header('HTTP/1.1 ' . $this->status . ' ' . $this->requestStatus());
-		header('Encrypted: ' . $encryptDataTransfer);
+		header('access-control-allow-origin: *');
+		header('access-control-allow-methods: *');
+		header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
+		header("content-type: $requestContentType");
+		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . $this->requestStatus());
+		header('encrypted: ' . $encryptDataTransfer);
 		foreach ($this->headers as $key => $header) {
-			header($key . ': ' . $header);
+			header(\strtolower($key) . ': ' . $header);
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
-				header('Content-Disposition: attachment; filename="api.json"');
+				header('content-disposition: attachment; filename="api.json"');
 				$response = $this->encryptData($this->body);
 			} else {
 				if (strpos($requestContentType, 'text/html') !== false) {
-					header('Content-Disposition: attachment; filename="api.html"');
+					header('content-disposition: attachment; filename="api.html"');
 					$response = $this->encodeHtml($this->body);
 				} elseif (strpos($requestContentType, 'application/xml') !== false) {
-					header('Content-Disposition: attachment; filename="api.xml"');
+					header('content-disposition: attachment; filename="api.xml"');
 					$response = $this->encodeXml($this->body);
 				} else {
-					header('Content-Disposition: attachment; filename="api.json"');
+					header('content-disposition: attachment; filename="api.json"');
 					$response = $this->encodeJson($this->body);
 				}
 			}
