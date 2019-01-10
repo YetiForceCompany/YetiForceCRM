@@ -1404,6 +1404,7 @@
     "JS_RECORD_GETTING_DELETED": "Os registros foram exclu\u00eddos",
     "JS_REENTER_PASSWORDS": "Redigite as Senhas",
     "JS_REQUIRED_FIELD": "* Este campo \u00e9 obrigat\u00f3rio",
+    "JS_MAXIMUM_TEXT_SIZE_IN_BYTES": "Exceeded the maximum text size in bytes",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "A Conta selecionada n\u00e3o possui um endere\u00e7o para copiar",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "O Contato selecionado n\u00e3o possui um endere\u00e7o para copiar",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "Nenhum endere\u00e7o para copiar",
@@ -1665,6 +1666,7 @@
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
-    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
+    "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
   }
 }
