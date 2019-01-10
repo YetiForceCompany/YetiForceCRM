@@ -19,8 +19,8 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 	public function process(\App\Request $request)
 	{
 		$branches = $request->getArray('branches', 'Text');
-		$filter = $request->getByType('filter', 2);
-		$category = $request->getArray('category', 2);
+		$filter = $request->getByType('filter', 'Alnum');
+		$category = $request->getArray('category', 'Alnum');
 		if (empty($branches) && empty($category)) {
 			return;
 		}

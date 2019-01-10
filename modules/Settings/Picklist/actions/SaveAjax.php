@@ -50,7 +50,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function add(\App\Request $request)
 	{
 		$newValue = $request->getByType('newValue', 'Text');
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 2));
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
@@ -84,7 +84,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function rename(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
+		$moduleName = $request->getByType('source_module', 'Alnum');
 		$newValue = $request->getByType('newValue', 'Text');
 		$pickListFieldName = $request->getForSql('picklistName');
 		$oldValue = $request->getByType('oldValue', 'Text');
@@ -126,7 +126,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function remove(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
+		$moduleName = $request->getByType('source_module', 'Alnum');
 		$valueToDelete = $request->getArray('delete_value', 'Integer');
 		$replaceValue = $request->getInteger('replace_value');
 		$pickListFieldName = $request->getForSql('picklistName');
@@ -156,7 +156,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function assignValueToRole(\App\Request $request)
 	{
-		$userSelectedRoles = $request->getArray('rolesSelected', 2);
+		$userSelectedRoles = $request->getArray('rolesSelected', 'Alnum');
 		$roleIdList = [];
 		//selected all roles option
 		if (in_array('all', $userSelectedRoles)) {
