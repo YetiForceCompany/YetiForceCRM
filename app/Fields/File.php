@@ -975,7 +975,7 @@ class File
 	/**
 	 * Trim path.
 	 *
-	 * @param $path
+	 * @param string $path
 	 * @param $pathToTrim
 	 *
 	 * @return string
