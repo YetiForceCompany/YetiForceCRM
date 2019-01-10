@@ -7,6 +7,9 @@
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
 			</div>
 			<div class="col-lg-7 col-12 d-flex flex-wrap flex-sm-nowrap flex-md-nowrap flex-lg-nowrap justify-content-center justify-content-md-end justify-content-lg-end">
+				<button class="btn btn-default mr-2 js-gantt__front-filter" data-js="click">
+					<span class="fas fa-filter"></span> {\App\Language::translate('LBL_GANTT_FILTER','Project')}
+				</button>
 				<div class="js-hide-filter customFilterMainSpan" data-js="class: d-none">
 					{if $CUSTOM_VIEWS|@count gt 0}
 					<select id="customFilter" class="form-control select2"

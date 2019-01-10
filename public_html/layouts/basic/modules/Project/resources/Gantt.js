@@ -116,40 +116,28 @@ class Gantt {
 	}
 
 	/**
-	 * Get branch that fulfill statuses
-	 *
-	 * @param {String} moduleName
-	 * @param {String[]} statuses
-	 * @param {Object} current
-	 * @returns {Object}
-	 */
-	getBranchesWithStatus(moduleName, statuses, current) {
-		current = {...current};
-		let children = [];
-		current.children = current.children.map(task => task);
-		for (let task of current.children) {
-			children.push(this.getBranchesWithStatus(moduleName, statuses, task));
-		}
-		current.children = children;
-		return current;
-	}
-
-	/**
 	 * Filter project data
 	 *
 	 * @param {Object} projectData
 	 * @returns {Object}
 	 */
 	filterProjectData(projectData) {
-		let newProjectData = Object.assign({}, projectData);
-		let tree = this.makeTree(newProjectData.tasks);
+		let tasks = this.allTasks.map(task => Object.assign({}, task));
 		for (let moduleName in this.filter.status) {
 			if (this.filter.status.hasOwnProperty(moduleName)) {
-				tree = this.getBranchesWithStatus(moduleName, this.filter.status[moduleName], tree);
+				const visibleLabels = this.filter.status[moduleName].map(status => status.label);
+				tasks = tasks.filter(task => {
+					if (task.module !== moduleName) {
+						return true;
+					}
+					if (visibleLabels.indexOf(task.status_label) >= 0) {
+						return true;
+					}
+					return false;
+				});
 			}
 		}
-		newProjectData.tasks = this.flattenTree(tree);
-		return newProjectData;
+		return tasks;
 	}
 
 	/**
@@ -257,7 +245,7 @@ class Gantt {
 	 */
 	saveFilter(filterOptions) {
 		this.filter = filterOptions;
-		this.reloadData(this.filterProjectData(this.projectData));
+		this.ganttState.tasks = this.filterProjectData(this.projectData);
 	}
 
 	/**
@@ -346,9 +334,9 @@ class Gantt {
 	 */
 	registerEvents() {
 		const container = this.container;
-		container.find('.js-gantt__front-filter').on('click', function (e) {
+		container.parent().parent().find('.js-gantt__front-filter').on('click', (e) => {
 			e.preventDefault();
-			self.showFiltersModal();
+			this.showFiltersModal();
 		});
 		container.find('[data-toggle="tooltip"]').tooltip();
 		window.addEventListener('resize', () => {
