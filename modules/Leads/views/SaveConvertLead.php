@@ -109,7 +109,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 
 		if (!empty($accountId)) {
 			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
-			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
+			header("location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {
 			$this->showError($request);
 			throw new \App\Exceptions\AppException('Error');

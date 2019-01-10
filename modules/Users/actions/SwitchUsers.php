@@ -79,6 +79,6 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 		])->execute();
 		\App\CustomView::resetCurrentView();
 		OSSMail_Logout_Model::logoutCurrentUser();
-		header('Location: index.php');
+		header('location: index.php');
 	}
 }

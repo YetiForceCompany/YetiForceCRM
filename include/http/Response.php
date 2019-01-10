@@ -173,27 +173,27 @@ class Vtiger_Response
 		// Set right charset (UTF-8) to avoid IE complaining about c00ce56e error
 		if ($this->emitType == self::$EMIT_JSON) {
 			if (!$contentTypeSent) {
-				header('Content-type: text/json; charset=UTF-8');
+				header('content-type: text/json; charset=UTF-8');
 			}
 			$this->emitJSON();
 		} elseif ($this->emitType == self::$EMIT_JSONTEXT) {
 			if (!$contentTypeSent) {
-				header('Content-type: text/json; charset=UTF-8');
+				header('content-type: text/json; charset=UTF-8');
 			}
 			$this->emitText();
 		} elseif ($this->emitType == self::$EMIT_HTML) {
 			if (!$contentTypeSent) {
-				header('Content-type: text/html; charset=UTF-8');
+				header('content-type: text/html; charset=UTF-8');
 			}
 			$this->emitRaw();
 		} elseif ($this->emitType == self::$EMIT_RAW) {
 			if (!$contentTypeSent) {
-				header('Content-type: text/plain; charset=UTF-8');
+				header('content-type: text/plain; charset=UTF-8');
 			}
 			$this->emitRaw();
 		} elseif ($this->emitType == self::$EMIT_JSONP) {
 			if (!$contentTypeSent) {
-				header('Content-type: application/javascript; charset=UTF-8');
+				header('content-type: application/javascript; charset=UTF-8');
 			}
 			echo $this->emitJSONPFn . '(';
 			$this->emitJSON();

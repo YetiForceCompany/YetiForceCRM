@@ -101,7 +101,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $recordId[0] . '_' . time() . '.pdf';
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F');
 				if (file_exists($filePath) && \App\Privilege::isPermitted('OSSMail')) {
-					header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
+					header('location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
 				} else {
 					throw new \App\Exceptions\AppException('LBL_EXPORT_ERROR');
 				}

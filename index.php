@@ -15,7 +15,7 @@ require __DIR__ . '/include/main/WebUI.php';
 
 $dbconfig = AppConfig::main('dbconfig');
 if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
-	header('Location:install/Install.php');
+	header('location: install/Install.php');
 }
 
 \App\Config::$startTime = microtime(true);

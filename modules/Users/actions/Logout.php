@@ -36,7 +36,7 @@ class Users_Logout_Action extends \App\Controller\Action
 		$moduleModel = Users_Module_Model::getInstance($moduleName);
 		$moduleModel->saveLogoutHistory();
 		//End
-		header('Location: index.php');
+		header('location: index.php');
 	}
 
 	/**

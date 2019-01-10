@@ -55,7 +55,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 			}
 			if (!$request->isAjax()) {
-				header('Location: index.php');
+				header('location: index.php');
 			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 		}
@@ -90,12 +90,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
-				header('Location: ' . AppConfig::main('site_URL'), true, 301);
+				header('location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
 		try {
@@ -152,7 +152,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			\App\Config::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
-				header('Location: ' . AppConfig::main('site_URL'), true);
+				header('location: ' . AppConfig::main('site_URL'), true);
 			}
 
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
@@ -171,7 +171,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Session::set('last_activity', \App\Config::$startTime);
 			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
-				header('Location:index.php?module=Home&view=DashBoard');
+				header('location: index.php?module=Home&view=DashBoard');
 			}
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
 			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {

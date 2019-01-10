@@ -3,11 +3,11 @@
 /**
  * Backup download file action class.
  *
- * @package Action
+ * @package   Action
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 class Settings_Backup_DownloadFile_Action extends Settings_Vtiger_Index_Action
 {
@@ -29,15 +29,15 @@ class Settings_Backup_DownloadFile_Action extends Settings_Vtiger_Index_Action
 		if (!App\Fields\File::isAllowedFileDirectory($filePath)) {
 			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE');
 		}
-		header('Content-Description: File Transfer');
-		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename=' . basename($filePath));
-		header('Content-Transfer-Encoding: binary');
-		header('Pragma: private');
-		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Accept-Ranges: bytes');
-		header('Content-Length: ' . filesize($filePath));
+		header('content-description: File Transfer');
+		header('content-type: application/octet-stream');
+		header('content-disposition: attachment; filename=' . basename($filePath));
+		header('content-transfer-encoding: binary');
+		header('pragma: private');
+		header('expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		header('cache-control: no-cache, must-revalidate');
+		header('accept-ranges: bytes');
+		header('content-length: ' . filesize($filePath));
 		readfile($filePath);
 	}
 

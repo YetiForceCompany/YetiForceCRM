@@ -40,7 +40,7 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 		}
 
 		$redirectUrl = $recordModel->getDetailViewUrl();
-		header("Location: $redirectUrl");
+		header("location: $redirectUrl");
 	}
 
 	public function validateRequest(\App\Request $request)

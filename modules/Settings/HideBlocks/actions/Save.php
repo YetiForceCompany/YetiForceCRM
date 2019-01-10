@@ -31,7 +31,7 @@ class Settings_HideBlocks_Save_Action extends Settings_Vtiger_Index_Action
 		$recordModel->set('conditions', $conditions);
 		$recordModel->set('views', $views);
 		$recordModel->save();
-		header('Location: ' . Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName)->getListViewUrl());
+		header('location: ' . Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName)->getListViewUrl());
 	}
 
 	public function validateRequest(\App\Request $request)

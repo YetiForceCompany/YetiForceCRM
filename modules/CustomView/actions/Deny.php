@@ -32,6 +32,6 @@ class CustomView_Deny_Action extends \App\Controller\Action
 			$customViewModel->deny();
 		}
 		$listViewUrl = $moduleModel->getListViewUrl();
-		header("Location: $listViewUrl");
+		header("location: $listViewUrl");
 	}
 }

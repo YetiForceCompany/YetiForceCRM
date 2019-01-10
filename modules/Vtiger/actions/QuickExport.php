@@ -51,7 +51,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		foreach ($headers as $fieldModel) {
 			$label = App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 			if (!empty($fieldModel->get('source_field_name'))) {
-				$label =  App\Language::translate($moduleModel->getField($fieldModel->get('source_field_name'))->getFieldLabel(), $moduleName) . ' - ' . $label;
+				$label = App\Language::translate($moduleModel->getField($fieldModel->get('source_field_name'))->getFieldLabel(), $moduleName) . ' - ' . $label;
 			}
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($label), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 			++$col;
@@ -122,13 +122,13 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$workbookWriter->save($tempFileName);
 
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-			header('Pragma: public');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('pragma: public');
+			header('cache-control: must-revalidate, post-check=0, pre-check=0');
 		}
-		header('Content-Type: application/x-msexcel');
-		header('Content-Length: ' . filesize($tempFileName));
+		header('content-type: application/x-msexcel');
+		header('content-length: ' . filesize($tempFileName));
 		$filename = \App\Language::translate($moduleName, $moduleName) . '-' . \App\Language::translate(App\Purifier::decodeHtml($customView->get('viewname')), $moduleName) . '.xls';
-		header("Content-Disposition: attachment; filename=\"$filename\"");
+		header("content-disposition: attachment; filename=\"$filename\"");
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
