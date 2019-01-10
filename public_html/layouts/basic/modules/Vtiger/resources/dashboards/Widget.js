@@ -1647,7 +1647,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				searchParams.push(searchInfo);
 			});
-			let url = originalUrl + '&search_params=' + JSON.stringify(searchParams);
+			let url = originalUrl + '&search_params=' + JSON.stringify([searchParams]);
 			refreshBtn.data('url', url);
 			refreshBtn.trigger('click');
 		});

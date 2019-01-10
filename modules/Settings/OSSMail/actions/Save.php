@@ -42,7 +42,7 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 			} elseif ($fieldInfo['fieldType'] === 'checkbox') {
 				$recordModel->set($fieldName, $request->getBoolean($fieldName));
 			} elseif ($fieldInfo['fieldType'] === 'multipicklist') {
-				$recordModel->set($fieldName, $request->getArray($fieldName));
+				$recordModel->set($fieldName, $request->getArray($fieldName, 'Text'));
 			} elseif ($fieldInfo['fieldType'] === 'int') {
 				$recordModel->set($fieldName, $request->getInteger($fieldName));
 			} elseif ($fieldInfo['fieldType'] === 'picklist') {

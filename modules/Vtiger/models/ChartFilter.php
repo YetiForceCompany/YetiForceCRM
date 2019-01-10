@@ -732,7 +732,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		if ($params = App\Condition::validSearchParams($this->getTargetModule(), $request->getArray('search_params'))) {
 			$this->searchParams = $params;
-			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$params]);
+			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($params);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
 		return $this->addPicklistsToQuery($queryGenerator->createQuery());

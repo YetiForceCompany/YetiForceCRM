@@ -31,7 +31,7 @@
 					<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
 					<input type="hidden" name="operator" value="{$OPERATOR}" />
 					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))})" />
+					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
 					<div class="modal-body">
 						<div class="alert alert-info" role="alert">
 							<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
