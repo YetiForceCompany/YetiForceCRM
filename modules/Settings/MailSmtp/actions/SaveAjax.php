@@ -25,10 +25,30 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateSmtp(\App\Request $request)
 	{
-		$data = $request->getArray('param');
 		$encryptInstance = \App\Encryption::getInstance();
-		$data['password'] = $encryptInstance->encrypt($data['password']);
-		$data['smtp_password'] = $encryptInstance->encrypt($data['smtp_password']);
+		$data = [
+			'mailer_type' => $request->getByType('mailer_type'),
+			'password' => $encryptInstance->encrypt($request->getRaw('password')),
+			'smtp_password' => $encryptInstance->encrypt($request->getRaw('smtp_password')),
+			'default' => $request->isEmpty('default') ? 0 : $request->getByType('default', 'Integer'),
+			'name' => $request->getByType('name', 'Text'),
+			'host' => $request->getByType('host', 'Text'),
+			'port' => $request->getByType('port', 'Integer'),
+			'username' => $request->getByType('username', 'Text'),
+			'authentication' => $request->isEmpty('authentication') ? 0 : $request->getByType('authentication', 'Integer'),
+			'secure' => $request->getByType('secure'),
+			'options' => $request->getByType('options', 'Text'),
+			'from_email' => $request->getByType('from_email', 'Text'),
+			'from_name' => $request->getByType('from_name', 'Text'),
+			'reply_to' => $request->getByType('reply_to', 'Text'),
+			'individual_delivery' => $request->isEmpty('individual_delivery') ? 0 : $request->getByType('individual_delivery', 'Integer'),
+			'smtp_username' => $request->getByType('smtp_username', 'Text'),
+			'smtp_host' => $request->getByType('smtp_host', 'Text'),
+			'smtp_port' => $request->isEmpty('smtp_port') ? '' : $request->getByType('smtp_port', 'Integer'),
+			'smtp_folder' => $request->getByType('smtp_folder', 'Text'),
+			'save_send_mail' => $request->isEmpty('save_send_mail') ? 0 : $request->getByType('save_send_mail', 'Integer'),
+			'smtp_validate_cert' => $request->isEmpty('smtp_validate_cert') ? 0 : $request->getByType('smtp_validate_cert', 'Integer'),
+		];
 		$mailer = new \App\Mailer();
 		$mailer->loadSmtp($data);
 		$testMailer = $mailer->test();
@@ -36,34 +56,15 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if (!empty($data['default'])) {
 				App\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
 			}
-			if (!empty($data['record'])) {
-				$recordModel = Settings_MailSmtp_Record_Model::getInstanceById((int) $data['record']);
+			if (!$request->isEmpty('record')) {
+				$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($request->getInteger('record'));
 			} else {
 				$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();
 			}
-			$recordModel->set('mailer_type', $data['mailer_type']);
-			$recordModel->set('default', (int) ($data['default'] ?? 0));
-			$recordModel->set('name', $data['name']);
-			$recordModel->set('host', $data['host']);
-			$recordModel->set('port', $data['port']);
-			$recordModel->set('username', $data['username']);
-			$recordModel->set('password', $data['password']);
-			$recordModel->set('authentication', empty($data['authentication']) ? 0 : 1);
-			$recordModel->set('secure', $data['secure']);
-			$recordModel->set('options', $data['options']);
-			$recordModel->set('from_email', $data['from_email']);
-			$recordModel->set('from_name', $data['from_name']);
-			$recordModel->set('reply_to', $data['reply_to']);
-			$recordModel->set('individual_delivery', empty($data['individual_delivery']) ? 0 : 1);
-			$recordModel->set('smtp_username', $data['smtp_username']);
-			$recordModel->set('smtp_password', $data['smtp_password']);
-			$recordModel->set('smtp_host', $data['smtp_host']);
-			$recordModel->set('smtp_port', $data['smtp_port']);
-			$recordModel->set('smtp_folder', $data['smtp_folder']);
-			$recordModel->set('save_send_mail', empty($data['save_send_mail']) ? 0 : 1);
-			$recordModel->set('smtp_validate_cert', empty($data['smtp_validate_cert']) ? 0 : 1);
+			foreach ($data as $key => $value) {
+				$recordModel->set($key, $value);
+			}
 			$recordModel->save();
-
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
 		} else {
 			$result = ['success' => false, 'message' => \App\Purifier::purify($testMailer['error'])];
