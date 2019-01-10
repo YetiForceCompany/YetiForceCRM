@@ -3,8 +3,8 @@
  * Basic file to handle files.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
@@ -21,7 +21,7 @@ try {
 	if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
 		$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 	}
-	$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' Internal Server Error');
+	$response->setHeader($_SERVER['SERVER_PROTOCOL'] . ' ' . $e->getCode() . ' Internal Server Error');
 	$response->setError($e->getCode(), $e->getMessage(), $trace);
 	$response->emit();
 }
