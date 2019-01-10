@@ -21,7 +21,7 @@ try {
 	if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
 		$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 	}
-	$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' Internal Server Error');
+	$response->setHeader($_SERVER['SERVER_PROTOCOL'] . ' ' . $e->getCode() . ' Internal Server Error');
 	$response->setError($e->getCode(), $e->getMessage(), $trace);
 	$response->emit();
 }
