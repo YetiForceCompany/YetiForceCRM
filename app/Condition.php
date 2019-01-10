@@ -3,6 +3,9 @@
  * Condition main class.
  *
  * @copyright YetiForce Sp. z o.o
+ *
+ * @package App
+ *
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
@@ -22,7 +25,7 @@ class Condition
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function validSearchParams(string $moduleName, array $searchParams)
+	public static function validSearchParams(string $moduleName, array $searchParams): array
 	{
 		if (count($searchParams) > 2) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
