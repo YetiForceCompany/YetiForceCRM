@@ -54,7 +54,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
-			$userSelectedRoles = $request->getArray('rolesSelected', 2);
+			$userSelectedRoles = $request->getArray('rolesSelected', 'Alnum');
 			//selected all roles option
 			if (in_array('all', $userSelectedRoles)) {
 				$roleRecordList = Settings_Roles_Record_Model::getAll();
