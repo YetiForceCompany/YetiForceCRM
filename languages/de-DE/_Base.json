@@ -1425,6 +1425,7 @@
     "JS_REENTER_PASSWORDS": "Passwort erneut eingeben",
     "JS_REQUIRED_FIELD": "* Pfichtfeld",
     "JS_REMINDER": "Kalender Benachrichtigung",
+    "JS_MAXIMUM_TEXT_SIZE_IN_BYTES": "Exceeded the maximum text size in bytes",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Gew\u00e4hlte Organisation enth\u00e4lt keine Adresse zum kopieren",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Gew\u00e4hlter Kontakt enth\u00e4lt keine Adresse zum kopieren",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "Keine Adresse zum kopieren",
@@ -1639,6 +1640,7 @@
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
-    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
+    "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
   }
 }
