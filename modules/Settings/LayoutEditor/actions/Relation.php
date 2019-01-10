@@ -70,8 +70,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 
 	public function addRelation(\App\Request $request)
 	{
-		$source = $request->getByType('source', 2);
-		$target = $request->getByType('target', 2);
+		$source = $request->getByType('source', 'Alnum');
+		$target = $request->getByType('target', 'Alnum');
 		$label = $request->getByType('label', 'Text');
 		$type = $request->getByType('type', 'Standard');
 		$response = new Vtiger_Response();
