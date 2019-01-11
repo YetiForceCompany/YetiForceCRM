@@ -16,7 +16,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Utils\Completions::encodeEmoji(\App\Purifier::decodeHtml($value));
+		return \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value));
 	}
 
 	/**
@@ -57,6 +57,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return \App\Utils\Completions::encode(parent::getEditViewDisplayValue($value, $recordModel));
+		//return \App\Utils\Completions::decode(parent::getEditViewDisplayValue($value, $recordModel));
 	}
 
 	/**

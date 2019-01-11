@@ -40,6 +40,12 @@ class Completions
 	 * @var string
 	 */
 	const EMOJI_REGEX = '/\:{2}[^\:]+\:{2}/';
+	/**
+	 * Record and Users regex patter.
+	 *
+	 * @var string
+	 */
+	const ROW_REGEX = '/(\@|\#){2}(\d+)(?:\@|\#){2}/';
 
 	/**
 	 * Get processed text in display mode.
@@ -60,7 +66,7 @@ class Completions
 			$text
 		);
 		return \preg_replace_callback(
-			"/<a\s+[^>]*data-id=(?:\"|')(.)(\d+)(?:\"|')[^>]*>.*<\/a>/i",
+			static::ROW_REGEX,
 			function (array $matches) use ($format) {
 				return static::decodeRow($matches[0], $matches[1], $matches[2], $format);
 			},
@@ -69,7 +75,7 @@ class Completions
 	}
 
 	/**
-	 * Get to edit.
+	 * Get text to edit mode.
 	 *
 	 * @param string $text
 	 *
@@ -80,17 +86,47 @@ class Completions
 	public static function encode(string $text): string
 	{
 		$emojis = static::getEmojis();
-		return \preg_replace_callback(
+		$textOut = \preg_replace_callback(
 			static::EMOJI_REGEX,
 			function (array $matches) use ($emojis) {
 				return $emojis[$matches[0]] ?? $matches[0];
 			},
 			$text
 		);
+		return \preg_replace_callback(
+			static::ROW_REGEX,
+			function (array $matches) {
+				$type = $matches[1];
+				$id = (int) $matches[2];
+				if ('@' === $type) {
+					$label = static::decodeOwnerText($id);
+				} elseif ('#' === $type) {
+					$label = static::decodeRecordText($id);
+				} else {
+					$label = '';
+				}
+				return "<a href=\"#\" data-id=\"{$type}{$id}\">{$label}</a>";
+			},
+			$textOut
+		);
 	}
 
 	/**
 	 * Process before writing to the database.
+	 *
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public static function encodeAll(string $text): string
+	{
+		return static::encodeRow(static::encodeEmoji($text));
+	}
+
+	/**
+	 * Process before writing to the database.
+	 *
+	 * @example FROM: 😀 TO: :grinning_face:
 	 *
 	 * @param string $text
 	 *
@@ -102,6 +138,27 @@ class Completions
 	{
 		$emojis = array_flip(static::getEmojis());
 		return str_replace(array_keys($emojis), $emojis, $text);
+	}
+
+	/**
+	 * Process before writing to the database.
+	 *
+	 * @example FROM: <a href='#' data-id='@115'>text</a> TO: @@115@@
+	 *
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public static function encodeRow(string $text): string
+	{
+		return \preg_replace_callback(
+			"/<a\s+[^>]*data-id=(?:\"|')(.)(\d+)(?:\"|')[^>]*>.*<\/a>/i",
+			function (array $matches) {
+				$type = $matches[1];
+				return "{$type}{$type}{$matches[2]}{$type}{$type}";
+			},
+			$text
+		);
 	}
 
 	/**
