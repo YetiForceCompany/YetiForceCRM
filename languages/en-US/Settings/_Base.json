@@ -324,7 +324,7 @@
     "LBL_USE_FUNCTION": "Use function",
     "LBL_EXAMPLE_EXPRESSION": "Expression",
     "LBL_EXPRESSION": "Expression",
-    "LBL_ANNUAL_REVENUE": "Dochód roczny",
+    "LBL_ANNUAL_REVENUE": "Annual revenue",
     "LBL_EXPRESSION_EXAMPLE2": "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
     "LBL_EXAMPLE_FIELD_NAME": "Field",
     "mailLogo": "Company logo visible in the system",
@@ -370,7 +370,7 @@
     "LBL_YETIFORCE_SHOP": "Store",
     "LBL_YETIFORCE_ISSUES": "Free support",
     "LBL_YETIFORCE_ASSISTANCE": "Paid support",
-    "LBL_PICKLIST_VARIABLES": "Zmienne słownikowe",
+    "LBL_PICKLIST_VARIABLES": "Picklist variables",
     "LBL_PICKLIST_VARIABLES_INFO": "Użycie tej zmiennej spowoduje numerowanie dla każdej wartości słownikowej oddzielnie, a w miejscu zmiennej wprowadzona zostanie wartość skrócona."
   },
   "js": {
