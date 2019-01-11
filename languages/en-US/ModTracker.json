@@ -1,6 +1,6 @@
 {
   "php": {
-    "ModTracker": "ModTracker",
+    "ModTracker": "Historia zmian",
     "SINGLE_ModTracker": "Tracking tool",
     "LBL_AT_UPDATE": "Modify",
     "LBL_AT_DELETE": "Delete",
