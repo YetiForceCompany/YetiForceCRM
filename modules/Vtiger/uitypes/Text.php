@@ -16,7 +16,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Utils\Text::emojiSave(\App\Purifier::decodeHtml($value));
+		return \App\Utils\Text::encodeEmoji(\App\Purifier::decodeHtml($value));
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return \App\Utils\Text::getToEdit(parent::getEditViewDisplayValue($value, $recordModel));
+		return \App\Utils\Text::encode(parent::getEditViewDisplayValue($value, $recordModel));
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			$value = \App\Purifier::purifyHtml($value);
 		} else {
-			$value = \App\Utils\Text::getToDisplay(\App\Purifier::purifyHtml($value));
+			$value = \App\Utils\Text::decode(\App\Purifier::purifyHtml($value));
 		}
 		return $value;
 	}

@@ -275,18 +275,6 @@ class Record
 	}
 
 	/**
-	 * Get module name by ID.
-	 *
-	 * @param int $recordId
-	 *
-	 * @return string|false
-	 */
-	public static function getModuleName(int $recordId)
-	{
-		return Functions::getCRMRecordMetadata($recordId)['setype'] ?? false;
-	}
-
-	/**
 	 * Get record module name.
 	 *
 	 * @param int $recordId
