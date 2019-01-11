@@ -11,28 +11,23 @@ namespace App\Utils;
 
 \Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 \Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
+\Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
 
 class iCalendar
 {
 	public static function import($filePath)
 	{
-		var_dump('icalender');
-
 		$userModel = \App\User::getCurrentUserModel();
 		$lastImport = new \IcalLastImport();
-		var_dump('icalender');
 		new \IcalendarComponent();
 		$lastImport->clearRecords($userModel->getId());
 		$eventModule = 'Events';
 		$todoModule = 'Calendar';
 		$totalCount = $skipCount = [$eventModule => 0, $todoModule => 0];
 		$ical = new \Ical();
-		var_dump('icalender');
-
 		$icalActivities = $ical->iCalReader($filePath);
-		var_dump($icalActivities);
 		$noOfActivities = count($icalActivities);
-		$moduleModel = Vtiger_Module_Model::getInstance($todoModule);
+		$moduleModel = \Vtiger_Module_Model::getInstance($todoModule);
 
 		for ($i = 0; $i < $noOfActivities; ++$i) {
 			if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
