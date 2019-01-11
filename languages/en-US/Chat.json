@@ -3,7 +3,7 @@
     "LBL_ROOM_CRM": "Favourites",
     "LBL_ROOM_GROUP": "Group room",
     "LBL_ROOM_GLOBAL": "Global room",
-    "LBL_MESSAGE": "Message",
+    "LBL_MESSAGE": "Enter your message here. Press SHIFT + ENTER to add a new line.",
     "LBL_PARTICIPANTS": "Participants",
     "LBL_SEARCH_PARTICIPANTS": "Search participants",
     "LBL_SEARCH_MESSAGE": "Search messages",
