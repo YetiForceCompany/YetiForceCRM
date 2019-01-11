@@ -4856,10 +4856,12 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (119,2773,'website','u_yf_multicompany',2,17,'website','FL_WEBSITE',0,2,'','255',9,407,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (119,2774,'logo','u_yf_multicompany',2,69,'logo','FL_LOGO',0,2,'',NULL,0,406,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (85,2775,'campaign_id','u_yf_squoteenquiries',1,10,'campaign_id','FL_CAMPAIGN_ID',0,2,'','-2147483648,2147483647',9,265,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (29,2776,'sync_carddav','vtiger_users',1,16,'sync_carddav','LBL_CARDDAV_SYNCHRONIZATION_CONTACT',0,2,'','255',17,83,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (29,2777,'sync_caldav','vtiger_users',1,16,'sync_caldav','LBL_CALDAV_SYNCHRONIZATION_CALENDAR',0,2,'','255',18,83,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2775);
+insert  into `vtiger_field_seq`(`id`) values (2777);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -8378,6 +8380,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,119,2773,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,119,2774,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,85,2775,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2776,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2777,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -18193,6 +18197,19 @@ insert  into `vtiger_svendorenquiries_status`(`svendorenquiries_statusid`,`svend
 insert  into `vtiger_svendorenquiries_status`(`svendorenquiries_statusid`,`svendorenquiries_status`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_CANCELLED',1,776,4);
 insert  into `vtiger_svendorenquiries_status`(`svendorenquiries_statusid`,`svendorenquiries_status`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_COMPLETED',1,777,5);
 
+/*Data for the table `vtiger_sync_caldav` */
+
+insert  into `vtiger_sync_caldav`(`sync_caldavid`,`sync_caldav`,`presence`,`sortorderid`) values (1,'PLL_OWNER',1,1);
+insert  into `vtiger_sync_caldav`(`sync_caldavid`,`sync_caldav`,`presence`,`sortorderid`) values (2,'PLL_OWNER_PERSON',1,2);
+insert  into `vtiger_sync_caldav`(`sync_caldavid`,`sync_caldav`,`presence`,`sortorderid`) values (3,'PLL_OWNER_PERSON_GROUP',1,3);
+
+/*Data for the table `vtiger_sync_carddav` */
+
+insert  into `vtiger_sync_carddav`(`sync_carddavid`,`sync_carddav`,`presence`,`sortorderid`) values (1,'PLL_OWNER',1,1);
+insert  into `vtiger_sync_carddav`(`sync_carddavid`,`sync_carddav`,`presence`,`sortorderid`) values (2,'PLL_OWNER_PERSON',1,2);
+insert  into `vtiger_sync_carddav`(`sync_carddavid`,`sync_carddav`,`presence`,`sortorderid`) values (3,'PLL_OWNER_PERSON_GROUP',1,3);
+insert  into `vtiger_sync_carddav`(`sync_carddavid`,`sync_carddav`,`presence`,`sortorderid`) values (4,'PLL_BASED_CREDENTIALS',1,4);
+
 /*Data for the table `vtiger_systems` */
 
 /*Data for the table `vtiger_tab` */
@@ -18686,7 +18703,7 @@ insert  into `vtiger_user2role`(`userid`,`roleid`) values (1,'H2');
 
 /*Data for the table `vtiger_users` */
 
-insert  into `vtiger_users`(`id`,`user_name`,`first_name`,`last_name`,`email1`,`is_admin`,`status`,`deleted`,`language`,`user_password`,`internal_mailer`,`reports_to_id`,`modified_user_id`,`currency_id`,`description`,`date_entered`,`date_modified`,`date_password_change`,`force_password_change`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`view_date_format`,`activity_view`,`lead_view`,`imagename`,`reminder_interval`,`reminder_next_time`,`theme`,`tz`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`othereventduration`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`,`records_limit`,`phone_crm_extension`,`phone_crm_extension_extra`,`accesskey`,`confirm_password`,`cal_color`,`user_preferences`,`authy_methods`,`authy_secret_totp`,`login_method`) values (1,'admin','','Administrator','help@yetiforce.com','on','Active',0,'pl-PL','$2y$10$mvy47VqQjd853TpAUr5aE.pd2fSTjBv.Z3G0g8AqyPwPNcV/YtB02',1,0,'1',1,'','2016-12-06 09:29:00','2017-10-31 21:32:46',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','PLL_ELAPSED','This Month','Today','','15 Minutes','2017-10-31 21:32','twilight',NULL,'Europe/Sarajevo','123456789','.',' ','1.0$','2',1,'Monday','[{\"activitytype\":\"Call\",\"duration\":\"60\"},{\"activitytype\":\"Meeting\",\"duration\":\"60\"},{\"activitytype\":\"Task\",\"duration\":\"60\"}]','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0,NULL,'',NULL,'aOFXop10GCJ1uw0P','','#E6FAD8',NULL,NULL,NULL,'PLL_PASSWORD');
+insert  into `vtiger_users`(`id`,`user_name`,`first_name`,`last_name`,`email1`,`is_admin`,`status`,`deleted`,`language`,`user_password`,`internal_mailer`,`reports_to_id`,`modified_user_id`,`currency_id`,`description`,`date_entered`,`date_modified`,`date_password_change`,`force_password_change`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`view_date_format`,`activity_view`,`lead_view`,`imagename`,`reminder_interval`,`reminder_next_time`,`theme`,`tz`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`othereventduration`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`,`records_limit`,`phone_crm_extension`,`phone_crm_extension_extra`,`accesskey`,`confirm_password`,`cal_color`,`user_preferences`,`authy_methods`,`authy_secret_totp`,`login_method`,`sync_carddav`,`sync_caldav`) values (1,'admin','','Administrator','help@yetiforce.com','on','Active',0,'pl-PL','$2y$10$mvy47VqQjd853TpAUr5aE.pd2fSTjBv.Z3G0g8AqyPwPNcV/YtB02',1,0,'1',1,'','2016-12-06 09:29:00','2017-10-31 21:32:46',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','PLL_ELAPSED','This Month','Today','','15 Minutes','2017-10-31 21:32','twilight',NULL,'Europe/Sarajevo','123456789','.',' ','1.0$','2',1,'Monday','[{\"activitytype\":\"Call\",\"duration\":\"60\"},{\"activitytype\":\"Meeting\",\"duration\":\"60\"},{\"activitytype\":\"Task\",\"duration\":\"60\"}]','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0,NULL,'',NULL,'aOFXop10GCJ1uw0P','','#E6FAD8',NULL,NULL,NULL,'PLL_PASSWORD',NULL,NULL);
 
 /*Data for the table `vtiger_users2group` */
 
