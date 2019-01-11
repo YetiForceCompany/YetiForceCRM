@@ -56,7 +56,7 @@
     "LBL_TASKS": "To Do",
     "LBL_TASK": "To Do",
     "LBL_TODOS": "To Do",
-    "LBL_TOTAL_EVENTS_IMPORTED": "No. of Events successfully imported ",
+    "LBL_TOTAL_EVENTS_IMPORTED": "No. of Events successfully imported",
     "LBL_TOTAL_EVENTS_SKIPPED": "No. of Events skipped as they were missing one or more required fields ",
     "LBL_TOTAL_TASKS_IMPORTED": "No. of Tasks successfully imported ",
     "LBL_TOTAL_TASKS_SKIPPED": "No. of Tasks skipped as they were missing one or more required fields ",
