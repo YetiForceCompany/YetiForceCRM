@@ -290,7 +290,7 @@
     "PLL_OWNER": "Owner",
     "PLL_OWNER_PERSON": "Owner + Share with",
     "PLL_OWNER_PERSON_GROUP": "Owner + Share with + Group",
-    "PLL_BASED_CREDENTIALS": "Na bazie uprawnień CRM",
+    "PLL_BASED_CREDENTIALS": "Based on CRM permissions",
     "PLL_PLANNED": "Planned",
     "PLL_IN_REALIZATION": "To be realized",
     "PLL_OVERDUE": "Overdue",
