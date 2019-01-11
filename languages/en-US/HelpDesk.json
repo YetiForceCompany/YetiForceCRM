@@ -74,7 +74,7 @@
     "Record Id": "Record ID",
     "ticketpriorities": "priority",
     "LBL_NO_ACCOUNTS_IN_HELPDESK": "The ticket is not related to any Account. Please create a relation.",
-    "LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK": "The ticket is not related to any SLA.",
+    "LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK": "The ticket is not related to any SLA",
     "LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS": "The Account has no active SLA",
     "LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC": "Pressing this button will relate this SLA to ticket.",
     "LBL_NOTICE_WELCOME": "Welcome to platform",
@@ -84,8 +84,8 @@
     "LBL_NOTICE_CREATE": "Added",
     "LBL_NOTICE_MODIFICATION": "Modification",
     "LBL_NOTICE_CLOSE": "Closed",
-    "Services": "services",
-    "Support": "support",
+    "Services": "Services",
+    "Support": "Support",
     "Administrative": "administrative"
   }
 }
