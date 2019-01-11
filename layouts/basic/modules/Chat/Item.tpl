@@ -29,7 +29,7 @@
 				</span>
 			</div>
 			<div class="o-chat__messages js-message col-12 p-3 ownerCBg_{$ROW['userid']} {if $USER_ID == $ROW['userid']} active float-right  {else} float-left {/if}"
-				 data-js="data">{nl2br(\App\Utils\Text::getToDisplay(\App\Purifier::decodeHtml($ROW['messages'])))}</div>
+				 data-js="data">{nl2br(\App\Utils\Text::decode(\App\Purifier::decodeHtml($ROW['messages'])))}</div>
 		</div>
 	</div>
 {/strip}

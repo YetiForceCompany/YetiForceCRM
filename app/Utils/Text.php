@@ -49,20 +49,20 @@ class Text
 	 *
 	 * @return string
 	 */
-	public static function getToDisplay(string $text, string $format = self::FORMAT_HTML): string
+	public static function decode(string $text, string $format = self::FORMAT_HTML): string
 	{
-		$arrayOfEmoji = static::getArrayOfEmoji();
+		$emojis = static::getEmojis();
 		$textOut = \preg_replace_callback(
 			static::EMOJI_REGEX,
-			function (array $matches) use ($arrayOfEmoji) {
-				return $arrayOfEmoji[$matches[0]] ?? $matches[0];
+			function (array $matches) use ($emojis) {
+				return $emojis[$matches[0]] ?? $matches[0];
 			},
 			$text
 		);
 		return \preg_replace_callback(
 			"/<a\s+[^>]*data-id=(?:\"|')(.)(\d+)(?:\"|')[^>]*>.*<\/a>/i",
 			function (array $matches) use ($format) {
-				return static::display($matches[0], $matches[1], $matches[2], $format);
+				return static::decodeRow($matches[0], $matches[1], $matches[2], $format);
 			},
 			$textOut
 		);
@@ -77,12 +77,12 @@ class Text
 	 *
 	 * @return string
 	 */
-	public static function getToEdit(string $text): string
+	public static function encode(string $text): string
 	{
-		$arrayOfEmoji = static::getArrayOfEmoji();
+		$emojis = static::getEmojis();
 		return \preg_replace_callback(
 			static::EMOJI_REGEX,
-			function (array $matches) use ($arrayOfEmoji) {
+			function (array $matches) use ($emojis) {
 				return $arrayOfEmoji[$matches[0]] ?? $matches[0];
 			},
 			$text
@@ -98,33 +98,33 @@ class Text
 	 *
 	 * @return string
 	 */
-	public static function emojiSave(string $text): string
+	public static function encodeEmoji(string $text): string
 	{
-		$arrayOfEmoji = array_flip(static::getArrayOfEmoji());
-		return str_replace(array_keys($arrayOfEmoji), $arrayOfEmoji, $text);
+		$emojis = array_flip(static::getEmojis());
+		return str_replace(array_keys($emojis), $emojis, $text);
 	}
 
 	/**
-	 * Get array of emoji.
+	 * Get array of emojis.
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	private static function getArrayOfEmoji(): array
+	private static function getEmojis(): array
 	{
-		if (\App\Cache::has('App\Utils\Text', 'arrayOfEmoji')) {
-			$arrayOfEmoji = \App\Cache::get('App\Utils\Text', 'arrayOfEmoji');
+		if (\App\Cache::has('App\Utils\Text', 'emojis')) {
+			$emojis = \App\Cache::get('App\Utils\Text', 'emojis');
 		} elseif (\file_exists(static::PATH_EMOJI_JSON)) {
-			$arrayOfEmoji = [];
+			$emojis = [];
 			foreach (\App\Json::decode(\file_get_contents(static::PATH_EMOJI_JSON)) as $val) {
-				$arrayOfEmoji[$val['id']] = $val['symbol'];
+				$emojis[$val['id']] = $val['symbol'];
 			}
-			\App\Cache::save('App\Utils\Text', 'arrayOfEmoji', $arrayOfEmoji);
+			\App\Cache::save('App\Utils\Text', 'emojis', $emojis);
 		} else {
-			$arrayOfEmoji = [];
+			$emojis = [];
 		}
-		return $arrayOfEmoji;
+		return $emojis;
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Text
 	 *
 	 * @return string
 	 */
-	private static function display(string $baseText, string $type, string $id, string $format = self::FORMAT_HTML): string
+	private static function decodeRow(string $baseText, string $type, string $id, string $format = self::FORMAT_HTML): string
 	{
 		$html = '';
 		if ('#' === $type) {
@@ -146,7 +146,7 @@ class Text
 					$html = static::displayRecord($id);
 					break;
 				case static::FORMAT_TEXT:
-					$html = static::displayRecordText($id);
+					$html = static::decodeRecordText($id);
 					break;
 			}
 		} elseif ('@' === $type) {
@@ -171,7 +171,7 @@ class Text
 	 *
 	 * @return string
 	 */
-	private static function displayRecordText(int $recordId): string
+	private static function decodeRecordText(int $recordId): string
 	{
 		if (\App\Record::isExists($recordId)) {
 			$html = \App\Record::getLabel($recordId);
@@ -190,7 +190,7 @@ class Text
 	 */
 	private static function displayRecord(int $recordId): string
 	{
-		if (!($moduleName = \App\Record::getModuleName($recordId))) {
+		if (!($moduleName = \App\Record::getType($recordId))) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		} elseif (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\">" .
