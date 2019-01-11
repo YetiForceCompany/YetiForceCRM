@@ -15,7 +15,7 @@ class Gantt {
 		this.options = {
 			slots: {
 				header: {
-					beforeOptions: `<button class="btn btn-primary mr-1 h-100 js-gantt__front-filter"><span class="fas fa-filter"></span> ${LANG.JS_GANTT_FILTER}</button>`
+					beforeOptions: `<button class="btn btn-primary pb-2 mr-2 h-100 js-gantt__front-filter"><span class="fas fa-filter"></span> ${LANG.JS_GANTT_FILTER}</button>`
 				}
 			},
 			maxRows: 30,
@@ -30,7 +30,20 @@ class Gantt {
 					'stroke-width': 0
 				},
 				'header-title': {
-					'max-width': '50%'
+					'float': 'none',
+					'display': 'inline-flex',
+					'overflow': 'hidden',
+				},
+				'header-options': {
+					'float': 'none',
+					'display': 'inline-flex'
+				},
+				'header-title--html': {
+					'white-space': 'nowrap',
+					'overflow': 'hidden',
+					'text-overflow': 'ellipsis',
+					'padding-left': '0',
+					'letter-spacing': '0'
 				},
 				'slot-header-beforeOptions': {
 					'height': '100%',
