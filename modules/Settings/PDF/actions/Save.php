@@ -13,7 +13,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 	/**
 	 * Save watermark image.
 	 *
-	 * @param \App\Request $request
+	 * @param string|int $templateId
 	 *
 	 * @throws \yii\db\Exception
 	 * @throws \App\Exceptions\IllegalValue
@@ -21,12 +21,11 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @return string image filename
 	 */
-	public function saveWatermarkImage(\App\Request $request)
+	public function saveWatermarkImage($templateId)
 	{
 		if (empty($_FILES['watermark_image_file'])) {
 			return '';
 		}
-		$templateId = $request->get('template_id');
 		$targetDir = Settings_PDF_Module_Model::$uploadPath;
 		$targetFile = $targetDir . $templateId;
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['watermark_image_file']);
@@ -55,7 +54,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		} else {
 			$pdfModel = Vtiger_PDF_Model::getInstanceById($request->getInteger('record'), $request->getByType('module_name', 2));
 		}
-		$watermarkImage = $this->saveWatermarkImage($request);
+		$watermarkImage = $this->saveWatermarkImage($pdfModel->getId());
 		if ($watermarkImage === '' && $pdfModel->get('watermark_image')) {
 			$watermarkImage = $pdfModel->get('watermark_image');
 		}
