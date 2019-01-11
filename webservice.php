@@ -1,10 +1,10 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require_once 'include/main/WebUI.php';
-\App\Config::$requestMode = 'API';
+\App\Process::$requestMode = 'API';
 try {
 	if (!in_array('webservice', $enabledServices)) {
 		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);

@@ -148,8 +148,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
 			}
-			\App\Config::$processName = $componentName;
-			\App\Config::$processType = $componentType;
+			\App\Process::$processName = $componentName;
+			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
@@ -168,7 +168,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$this->checkLogin($request);
 			}
 			if ($handler->isSessionExtend()) {
-				\App\Session::set('last_activity', \App\Config::$startTime);
+				\App\Session::set('last_activity', \App\Process::$startTime);
 			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
 				header('Location:index.php?module=Home&view=DashBoard');

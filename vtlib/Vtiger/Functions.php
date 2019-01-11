@@ -417,7 +417,7 @@ class Functions
 				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 		}
-		if (\App\Config::$requestMode === 'API') {
+		if (\App\Process::$requestMode === 'API') {
 			throw new \APIException($message, 401);
 		}
 		if (\App\Request::_isAjax()) {
