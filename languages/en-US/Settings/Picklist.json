@@ -36,7 +36,7 @@
     "NO_PICKLIST_FIELDS": "do not have any picklist fields",
     "LBL_NEW_VALUE": "New value",
     "LBL_CLOSES_RECORD": "Closes record",
-    "LBL_PREFIX": "Prefiks"
+    "LBL_PREFIX": "Prefix"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",
