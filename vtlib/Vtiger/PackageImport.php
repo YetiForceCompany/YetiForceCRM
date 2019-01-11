@@ -400,8 +400,8 @@ class PackageImport extends PackageExport
 			}
 			$zip->unzip([
 				// Templates folder
-				'templates/resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
 				'templates' => "layouts/$defaultLayout/modules/$module",
+				'public_resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
@@ -409,11 +409,10 @@ class PackageImport extends PackageExport
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
-				'settings/actions' => "modules/Settings/$module/actions",
-				'settings/views' => "modules/Settings/$module/views",
-				'settings/models' => "modules/Settings/$module/models",
+				'settings/modules' => "modules/Settings/$module",
 				// Settings templates folder
 				'settings/templates' => "layouts/$defaultLayout/modules/Settings/$module",
+				'settings/public_resources' => "public_html/layouts/$defaultLayout/modules/Settings/$module/resources",
 				//module images
 				'images' => "layouts/$defaultLayout/images/$module",
 				'updates' => 'cache/updates',
