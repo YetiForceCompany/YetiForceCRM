@@ -15,18 +15,18 @@ class RecordNumber extends \App\Base
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string|int $tabid
+	 * @param string|int $tabId
 	 *
 	 * @return \App\Fields\RecordNumber
 	 */
-	public static function getInstance($tabiId): self
+	public static function getInstance($tabId): self
 	{
 		$instance = new static();
-		if(!\is_numeric($tabiId)) {
-			$tabid = \App\Module::getModuleId($tabiId);
+		if (!\is_numeric($tabId)) {
+			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabiId])->one();
-		$row['tabid'] = $tabiId;
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
+		$row['tabid'] = $tabId;
 		$instance->setData($row);
 		return $instance;
 	}
