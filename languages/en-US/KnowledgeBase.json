@@ -2,7 +2,6 @@
   "php": {
     "KnowledgeBase": "KnowledgeBase",
     "SINGLE_KnowledgeBase": "KnowledgeBase",
-    "KnowledgeBase ID": "KnowledgeBase ID",
     "LBL_CUSTOM_INFORMATION": "Custom information",
     "FL_SUBJECT": "Subject",
     "LBL_KNOWLEDGEBASE_INFORMATION": "Basic information",
