@@ -54,10 +54,6 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		} else {
 			$pdfModel = Vtiger_PDF_Model::getInstanceById($request->getInteger('record'), $request->getByType('module_name', 2));
 		}
-		$watermarkImage = $this->saveWatermarkImage($pdfModel->getId());
-		if ($watermarkImage === '' && $pdfModel->get('watermark_image')) {
-			$watermarkImage = $pdfModel->get('watermark_image');
-		}
 		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			if ($field === 'body_content' || $field === 'header_content' || $field === 'footer_content' || $field === 'watermark_text') {
@@ -77,13 +73,23 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 				$pdfModel->deleteConditions();
 			}
 			if ($field === 'watermark_image') {
-				$value = $watermarkImage;
+				$value = '';
+				if ($pdfModel->get('watermark_image')) {
+					$value = $pdfModel->get('watermark_image');
+				}
 			}
 			$pdfModel->set($field, $value);
 		}
 		$pdfModel->set('conditions', $request->get('conditions'));
 		Settings_PDF_Record_Model::transformAdvanceFilterToWorkFlowFilter($pdfModel);
 		Settings_PDF_Record_Model::save($pdfModel, $step);
+		$watermarkImage = $this->saveWatermarkImage($pdfModel->getId());
+		if ($watermarkImage) {
+			\App\Db::getInstance('admin')
+				->createCommand()
+				->update('a_#__pdf', ['watermark_image' => $watermarkImage], ['pdfid' => $pdfModel->getId()])
+				->execute();
+		}
 		$response = new Vtiger_Response();
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);
 		$response->emit();
