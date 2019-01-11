@@ -61,7 +61,7 @@ class Chat_Entries_View extends \App\Controller\View
 		if (!$chat->isRoomExists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
-		$chat->addMessage(\App\Utils\Text::encodeEmoji($request->getForHtml('message')));
+		$chat->addMessage(\App\Utils\Completions::encodeEmoji($request->getForHtml('message')));
 		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);

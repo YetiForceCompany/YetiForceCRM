@@ -12,9 +12,9 @@
 namespace App\Utils;
 
 /**
- * Text class.
+ * Completions class.
  */
-class Text
+class Completions
 {
 	/**
 	 * Format HTML.
@@ -39,7 +39,7 @@ class Text
 	 *
 	 * @var string
 	 */
-	const EMOJI_REGEX = '/\:(?:[0-9,a-z][^\_|\-|\:|\s|\&]*(?:\_|\-)[^\:|\s|\:|\,]+)\:|\:(?:[a-z]+)\:/';
+	const EMOJI_REGEX = '/\:{2}[^\:]+\:{2}/';
 
 	/**
 	 * Get processed text in display mode.
@@ -83,7 +83,7 @@ class Text
 		return \preg_replace_callback(
 			static::EMOJI_REGEX,
 			function (array $matches) use ($emojis) {
-				return $arrayOfEmoji[$matches[0]] ?? $matches[0];
+				return $emojis[$matches[0]] ?? $matches[0];
 			},
 			$text
 		);
@@ -118,7 +118,7 @@ class Text
 		} elseif (\file_exists(static::PATH_EMOJI_JSON)) {
 			$emojis = [];
 			foreach (\App\Json::decode(\file_get_contents(static::PATH_EMOJI_JSON)) as $val) {
-				$emojis[$val['id']] = $val['symbol'];
+				$emojis[':' . $val['id'] . ':'] = $val['symbol'];
 			}
 			\App\Cache::save('App\Utils\Text', 'emojis', $emojis);
 		} else {
