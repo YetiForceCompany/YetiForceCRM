@@ -9,27 +9,37 @@
 
 namespace App\Utils;
 
+\Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
+\Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
+
 class iCalendar
 {
-	public static function import(string $filePath)
+	public static function import($filePath)
 	{
+		var_dump('icalender');
+
 		$userModel = \App\User::getCurrentUserModel();
-		$lastImport = new IcalLastImport();
+		$lastImport = new \IcalLastImport();
+		var_dump('icalender');
+		new \IcalendarComponent();
 		$lastImport->clearRecords($userModel->getId());
 		$eventModule = 'Events';
 		$todoModule = 'Calendar';
 		$totalCount = $skipCount = [$eventModule => 0, $todoModule => 0];
-		$ical = new Ical();
+		$ical = new \Ical();
+		var_dump('icalender');
+
 		$icalActivities = $ical->iCalReader($filePath);
+		var_dump($icalActivities);
 		$noOfActivities = count($icalActivities);
 		$moduleModel = Vtiger_Module_Model::getInstance($todoModule);
 
 		for ($i = 0; $i < $noOfActivities; ++$i) {
 			if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-				$activity = new IcalendarEvent();
+				$activity = new \IcalendarEvent();
 				$module = $eventModule;
 			} else {
-				$activity = new IcalendarTodo();
+				$activity = new \IcalendarTodo();
 				$module = $todoModule;
 			}
 			$skipRecord = false;
@@ -37,7 +47,7 @@ class iCalendar
 			$activityFieldsList = $activity->generateArray($icalActivities[$i]);
 			$activityFieldsList['assigned_user_id'] = $userModel->getId();
 			$activityFieldsList['time_end'] = $activityFieldsList['time_end'] ?? $userModel->getDetail('end_hour') . ':00';
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleModel->getName());
+			$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleModel->getName());
 			foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
 				if (empty($activityFieldsList[$fieldName]) && $fieldModel->isActiveField() && $fieldModel->isMandatory()) {
 					++$skipCount[$module];
@@ -53,7 +63,7 @@ class iCalendar
 				continue;
 			}
 			$recordModel->save();
-			$lastImport = new IcalLastImport();
+			$lastImport = new \IcalLastImport();
 			$lastImport->setFields(['userid' => $userModel->getId(), 'entitytype' => $moduleModel->getName(), 'crmid' => $recordModel->getId()]);
 			$lastImport->save();
 		}
