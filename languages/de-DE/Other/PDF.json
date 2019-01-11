@@ -1,6 +1,7 @@
 {
   "php": {
     "LBL_INVOICE_NUMBER": "MwSt-Rechnungsnummer",
+    "LBL_TO_FINVOICE_NUMBER": "To invoice number",
     "LBL_TO_PAY": "Total",
     "LBL_TO_PAY_WORD": "Total (in Worten)",
     "LBL_DEALER": "Verk\u00e4ufer",

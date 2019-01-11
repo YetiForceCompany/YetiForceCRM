@@ -1,6 +1,7 @@
 {
   "php": {
     "LBL_INVOICE_NUMBER": "Vat invoice number",
+    "LBL_TO_FINVOICE_NUMBER": "To invoice number",
     "LBL_TO_PAY": "Total",
     "LBL_TO_PAY_WORD": "Total (in words)",
     "LBL_DEALER": "Seller",
