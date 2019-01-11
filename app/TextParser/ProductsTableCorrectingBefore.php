@@ -3,7 +3,7 @@
 namespace App\TextParser;
 
 /**
- * Products table new correcting before class.
+ * Products table correcting before class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -12,7 +12,7 @@ namespace App\TextParser;
 class ProductsTableCorrectingBefore extends Base
 {
 	/** @var string Class name */
-	public $name = 'LBL_PRODUCTS_TABLE_NEW_CORRECTING_BEFORE';
+	public $name = 'LBL_PRODUCTS_TABLE_CORRECTING_BEFORE';
 
 	/** @var mixed Parser type */
 	public $type = 'pdf';
@@ -30,8 +30,8 @@ class ProductsTableCorrectingBefore extends Base
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
-		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$beforeRecordModel = \Vtiger_Record_Model::getInstanceById($this->textParser->recordModel->get('finvoiceid'));
+		$inventoryRows = $beforeRecordModel->getInventoryData();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
