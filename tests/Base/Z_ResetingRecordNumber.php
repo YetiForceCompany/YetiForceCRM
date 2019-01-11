@@ -113,22 +113,23 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testIncrementNumberStandard()
 	{
-		RecordNumber::setNumber(95, 'F-I', 1);
-		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
+		$instance = RecordNumber::getInstance('FInvoice')->set('prefix', 'F-I')->set('cur_id', 1);
+		$instance->save();
+		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => \App\Module::getModuleId('FInvoice')])->one();
 		$this->assertSame('F-I', $originalRow['prefix']);
 		$this->assertSame('', $originalRow['postfix']);
 		$this->assertSame(null, $originalRow['reset_sequence']);
 		$this->assertSame('', $originalRow['cur_sequence']);
 		$actualNumber = $originalRow['cur_id'];
 		foreach (RecordNumber::$dates as $index => $date) {
-			$this->assertSame("F-I$actualNumber", RecordNumber::incrementNumber(95));
+			$this->assertSame("F-I$actualNumber", $instance->getIncrementNumber());
+			$number = RecordNumber::getInstance('FInvoice');
 			$actualNumber++;
-			$number = RecordNumber::getNumber(95, false);
-			$this->assertSame($actualNumber, $number['sequenceNumber']);
-			$this->assertSame(null, $number['reset_sequence']);
-			$this->assertSame('', $number['cur_sequence']);
-			$this->assertSame('F-I', $number['prefix']);
-			$this->assertSame('', $number['postfix']);
+			$this->assertSame($actualNumber, $number->get('cur_id'));
+			$this->assertSame(null, $number->get('reset_sequence'));
+			$this->assertSame('', $number->get('cur_sequence'));
+			$this->assertSame('F-I', $number->get('prefix'));
+			$this->assertSame('', $number->get('postfix'));
 		}
 	}
 
@@ -138,12 +139,16 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testParse()
 	{
+		$instance = RecordNumber::getInstance('FInvoice');
 		foreach (RecordNumber::$dates as $index => $date) {
 			RecordNumber::$currentDateIndex = $index;
 			$parts = explode('-', $date);
-			$this->assertSame($parts[2] . '/1', RecordNumber::parse('{{DD}}/', 1, '', 0));
-			$this->assertSame($parts[1] . '/1', RecordNumber::parse('{{MM}}/', 1, '', 0));
-			$this->assertSame($parts[0] . '/1', RecordNumber::parse('{{YYYY}}/', 1, '', 0));
+			$instance->set('prefix', '{{DD}}/');
+			$this->assertSame($parts[2] . '/1', $instance->parseNumber(1));
+			$instance->set('prefix', '{{MM}}/');
+			$this->assertSame($parts[1] . '/1', $instance->parseNumber(1));
+			$instance->set('prefix', '{{YYYY}}/');
+			$this->assertSame($parts[0] . '/1', $instance->parseNumber(1));
 		}
 	}
 
@@ -159,7 +164,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$postfix = '';
 		$resetSequence = 'D';
 		$curSequence = ($parts[0] . $parts[1] . $parts[2]);
-		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, 0, $resetSequence, $curSequence);
+		$instance = RecordNumber::getInstance('FInvoice');
+		$instance->set('prefix', $prefix);
+		$instance->set('cur_id', $actualNumber);
+		$instance->set('postfix', $postfix);
+		$instance->set('leading_zeros', 0);
+		$instance->set('reset_sequence', $resetSequence);
+		$instance->set('cur_sequence', $curSequence);
+		$result = $instance->save();
 		$this->assertSame(1, $result);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
@@ -179,14 +191,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 				$currentNumber = 1;
 				$currentDate = $sequence;
 			}
-			$this->assertSame("$date/$currentNumber", RecordNumber::incrementNumber(95));
-			$number = RecordNumber::getNumber(95);
-			$this->assertSame($currentNumber + 1, $number['sequenceNumber']);
-			$this->assertSame(0, $number['leading_zeros']);
-			$this->assertSame($resetSequence, $number['reset_sequence']);
-			$this->assertSame($sequence, $number['cur_sequence']);
-			$this->assertSame($prefix, $number['prefix']);
-			$this->assertSame($postfix, $number['postfix']);
+			$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
+			$number = RecordNumber::getInstance('FInvoice');
+			$this->assertSame($currentNumber + 1, $number->get('cur_id'));
+			$this->assertSame(0, $number->get('leading_zeros'));
+			$this->assertSame($resetSequence, $number->get('reset_sequence'));
+			$this->assertSame($sequence, $number->get('cur_sequence'));
+			$this->assertSame($prefix, $number->get('prefix'));
+			$this->assertSame($postfix, $number->get('postfix'));
 		}
 	}
 
@@ -201,7 +213,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$postfix = '';
 		$resetSequence = 'M';
 		$curSequence = '';
-		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, 0, $resetSequence, $curSequence);
+		$instance = RecordNumber::getInstance('FInvoice');
+		$instance->set('prefix', $prefix);
+		$instance->set('cur_id', $actualNumber);
+		$instance->set('postfix', $postfix);
+		$instance->set('leading_zeros', 0);
+		$instance->set('reset_sequence', $resetSequence);
+		$instance->set('cur_sequence', $curSequence);
+		$result = $instance->save();
 		$this->assertSame(1, $result);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
@@ -222,14 +241,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 				$currentNumber = 1;
 				$currentDate = $sequence;
 			}
-			$this->assertSame("$date/$currentNumber", RecordNumber::incrementNumber(95));
-			$number = RecordNumber::getNumber(95);
-			$this->assertSame($currentNumber + 1, $number['sequenceNumber']);
-			$this->assertSame($resetSequence, $number['reset_sequence']);
-			$this->assertSame($sequence, $number['cur_sequence']);
-			$this->assertSame($prefix, $number['prefix']);
-			$this->assertSame(0, $number['leading_zeros']);
-			$this->assertSame($postfix, $number['postfix']);
+			$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
+			$number = RecordNumber::getInstance('FInvoice');
+			$this->assertSame($currentNumber + 1, $number->get('cur_id'));
+			$this->assertSame(0, $number->get('leading_zeros'));
+			$this->assertSame($resetSequence, $number->get('reset_sequence'));
+			$this->assertSame($sequence, $number->get('cur_sequence'));
+			$this->assertSame($prefix, $number->get('prefix'));
+			$this->assertSame($postfix, $number->get('postfix'));
 		}
 	}
 
@@ -244,7 +263,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$postfix = '';
 		$resetSequence = 'Y';
 		$curSequence = '';
-		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, 0, $resetSequence, $curSequence);
+		$instance = RecordNumber::getInstance('FInvoice');
+		$instance->set('prefix', $prefix);
+		$instance->set('cur_id', $actualNumber);
+		$instance->set('postfix', $postfix);
+		$instance->set('leading_zeros', 0);
+		$instance->set('reset_sequence', $resetSequence);
+		$instance->set('cur_sequence', $curSequence);
+		$result = $instance->save();
 		$this->assertSame(1, $result);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
@@ -265,14 +291,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 				$currentNumber = 1;
 				$currentDate = $sequence;
 			}
-			$this->assertSame("$date/$currentNumber", RecordNumber::incrementNumber(95));
-			$number = RecordNumber::getNumber(95);
-			$this->assertSame($currentNumber + 1, $number['sequenceNumber']);
-			$this->assertSame($resetSequence, $number['reset_sequence']);
-			$this->assertSame($sequence, $number['cur_sequence']);
-			$this->assertSame($prefix, $number['prefix']);
-			$this->assertSame(0, $number['leading_zeros']);
-			$this->assertSame($postfix, $number['postfix']);
+			$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
+			$number = RecordNumber::getInstance('FInvoice');
+			$this->assertSame($currentNumber + 1, $number->get('cur_id'));
+			$this->assertSame(0, $number->get('leading_zeros'));
+			$this->assertSame($resetSequence, $number->get('reset_sequence'));
+			$this->assertSame($sequence, $number->get('cur_sequence'));
+			$this->assertSame($prefix, $number->get('prefix'));
+			$this->assertSame($postfix, $number->get('postfix'));
 		}
 	}
 
@@ -288,7 +314,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			$postfix = '';
 			$resetSequence = 'Y';
 			$curSequence = '';
-			$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, $leadingZeros, $resetSequence, $curSequence);
+			$instance = RecordNumber::getInstance('FInvoice');
+			$instance->set('prefix', $prefix);
+			$instance->set('cur_id', $actualNumber);
+			$instance->set('postfix', $postfix);
+			$instance->set('leading_zeros', $leadingZeros);
+			$instance->set('reset_sequence', $resetSequence);
+			$instance->set('cur_sequence', $curSequence);
+			$result = $instance->save();
 			$this->assertSame(1, $result);
 			$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 			$this->assertSame($prefix, $originalRow['prefix']);
@@ -310,14 +343,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 					$currentDate = $sequence;
 				}
 				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', \STR_PAD_LEFT);
-				$this->assertSame("$date/$currentNumber", RecordNumber::incrementNumber(95));
-				$number = RecordNumber::getNumber(95);
-				$this->assertSame($currentNumber + 1, $number['sequenceNumber']);
-				$this->assertSame($resetSequence, $number['reset_sequence']);
-				$this->assertSame($sequence, $number['cur_sequence']);
-				$this->assertSame($prefix, $number['prefix']);
-				$this->assertSame($leadingZeros, $number['leading_zeros']);
-				$this->assertSame($postfix, $number['postfix']);
+				$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
+				$number = RecordNumber::getInstance('FInvoice');
+				$this->assertSame($currentNumber + 1, $number->get('cur_id'));
+				$this->assertSame($leadingZeros, $number->get('leading_zeros'));
+				$this->assertSame($resetSequence, $number->get('reset_sequence'));
+				$this->assertSame($sequence, $number->get('cur_sequence'));
+				$this->assertSame($prefix, $number->get('prefix'));
+				$this->assertSame($postfix, $number->get('postfix'));
 			}
 		}
 	}

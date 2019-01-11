@@ -66,6 +66,16 @@
 										  data-js="ckeditor"></textarea>
 							</div>
 						</div>
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_PREFIX',$QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+								<input name="prefix" type="text"
+									   class="form-control"
+									   value="">
+							</div>
+						</div>
 					</div>
 					{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
 						<div class="form-group row align-items-center">

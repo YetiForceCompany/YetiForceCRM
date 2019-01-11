@@ -1014,6 +1014,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_mail_compose_data` */
 
+/*Data for the table `u_yf_modentity_sequences` */
+
 /*Data for the table `u_yf_modtracker_inv` */
 
 /*Data for the table `u_yf_multicompany` */

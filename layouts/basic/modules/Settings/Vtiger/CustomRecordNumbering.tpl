@@ -28,7 +28,7 @@
 				<div class="col-md-12">
 					<table class="table table-bordered">
 						{assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
-						{assign var=DEFAULT_MODULE_DATA value=\App\Fields\RecordNumber::getNumber($DEFAULT_MODULE_NAME)}
+						{assign var=DEFAULT_MODULE_DATA value=\App\Fields\RecordNumber::getInstance($DEFAULT_MODULE_NAME)}
 						{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 						<thead>
 						<tr>
@@ -67,9 +67,9 @@
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}"
+								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('prefix')}"
 									   placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}"
-									   data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix"
+									   data-old-prefix="{$DEFAULT_MODULE_DATA->get('prefix')}" name="prefix"
 									   data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
 							</td>
 						</tr>
@@ -88,48 +88,48 @@
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
 								<select class="select2" name="leading_zeros">
 									<option value="0"
-											{if empty($DEFAULT_MODULE_DATA['leading_zeros'])}selected="selected"{/if}>
+											{if empty($DEFAULT_MODULE_DATA->get('leading_zeros'))}selected="selected"{/if}>
 										{\App\Language::translate('LBL_NO_LEADING_ZEROS', $QUALIFIED_MODULE)}&nbsp;
 										({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										2, 6, 88, 954, 1549)
 									</option>
 									<option value="2"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===2}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===2}selected="selected"{/if}>
 										2 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										02, 06, 88, 954, 1549)
 									</option>
 									<option value="3"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===3}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===3}selected="selected"{/if}>
 										3 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										002, 006, 088, 954, 1549)
 									</option>
 									<option value="4"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===4}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===4}selected="selected"{/if}>
 										4 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										0002, 0006, 0088, 0954, 1549)
 									</option>
 									<option value="5"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===5}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===5}selected="selected"{/if}>
 										5 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										00002, 00006, 00088, 00954, 01549)
 									</option>
 									<option value="6"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===6}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===6}selected="selected"{/if}>
 										6 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										000002, 000006, 000088, 000954, 001549)
 									</option>
 									<option value="7"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===7}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===7}selected="selected"{/if}>
 										7 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										0000002, 0000006, 0000088, 0000954, 0001549)
 									</option>
 									<option value="8"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===8}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===8}selected="selected"{/if}>
 										8 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										00000002, 00000006, 00000088, 00000954, 00001549)
 									</option>
 									<option value="9"
-											{if $DEFAULT_MODULE_DATA['leading_zeros']===9}selected="selected"{/if}>
+											{if $DEFAULT_MODULE_DATA->get('leading_zeros')===9}selected="selected"{/if}>
 										9 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
 										000000002, 000000006, 000000088, 000000954, 000001549)
 									</option>
@@ -149,9 +149,9 @@
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}"
+								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('postfix')}"
 									   placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}"
-									   data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix"
+									   data-old-postfix="{$DEFAULT_MODULE_DATA->get('postfix')}" name="postfix"
 									   data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
 							</td>
 						</tr>
@@ -186,8 +186,8 @@
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['sequenceNumber']}"
-									   data-old-sequence-number="{$DEFAULT_MODULE_DATA['sequenceNumber']}"
+								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('cur_id')}"
+									   data-old-sequence-number="{$DEFAULT_MODULE_DATA->get('cur_id')}"
 									   name="sequenceNumber"
 									   data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
 							</td>
@@ -208,16 +208,16 @@
 								<select class="select2" name="reset_sequence" mand
 										data-placeholder="{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}">
 									<option value="n"
-											{if $DEFAULT_MODULE_DATA['reset_sequence']==='n' || empty($DEFAULT_MODULE_DATA['reset_sequence'])}selected{/if}>
+											{if $DEFAULT_MODULE_DATA->get('reset_sequence')==='n' || empty($DEFAULT_MODULE_DATA->get('reset_sequence'))}selected{/if}>
 										{\App\Language::translate('LBL_RS_DO_NOT_RESET', $QUALIFIED_MODULE)}
 									</option>
-									<option value="Y" {if $DEFAULT_MODULE_DATA['reset_sequence']==='Y'}selected{/if}>
+									<option value="Y" {if $DEFAULT_MODULE_DATA->get('reset_sequence')==='Y'}selected{/if}>
 										{\App\Language::translate('LBL_RS_YEAR',$QUALIFIED_MODULE)}
 									</option>
-									<option value="M" {if $DEFAULT_MODULE_DATA['reset_sequence']==='M'}selected{/if}>
+									<option value="M" {if $DEFAULT_MODULE_DATA->get('reset_sequence')==='M'}selected{/if}>
 										{\App\Language::translate('LBL_RS_MONTH',$QUALIFIED_MODULE)}
 									</option>
-									<option value="D" {if $DEFAULT_MODULE_DATA['reset_sequence']==='D'}selected{/if}>
+									<option value="D" {if $DEFAULT_MODULE_DATA->get('reset_sequence')==='D'}selected{/if}>
 										{\App\Language::translate('LBL_RS_DAY',$QUALIFIED_MODULE)}
 									</option>
 								</select>
@@ -266,6 +266,38 @@
 										<div class="input-group-append">
 											<input type="hidden" value="" id="customVariable"/>
 											<button class="btn btn-sm btn-info float-right" id="customVariableCopy"
+													title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
+												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
+											</button>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="{$WIDTHTYPE}">
+								<label class="float-right">
+									<b>{\App\Language::translate('LBL_PICKLIST_VARIABLES', $QUALIFIED_MODULE)}</b>
+									<a href="#" class="js-popover-tooltip ml-2"
+									   data-js="popover"
+									   data-trigger="focus hover"
+									   data-content="{\App\Language::translate('LBL_PICKLIST_VARIABLES_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</a>
+								</label>
+							</td>
+							<td class="fieldValue {$WIDTHTYPE} border-left-0">
+								<div class="form-inline">
+									<div class="input-group w-100">
+										<select class="select2 form-control" id="picklistVariables"
+												name="custom_variables">
+											{foreach from=$PICKLISTS item=PICKLIST}
+												<option value="picklist:{$PICKLIST->getFieldName()}">{\App\Language::translate($PICKLIST->getFieldLabel(), $DEFAULT_MODULE_NAME)}</option>
+											{/foreach}
+										</select>
+										<div class="input-group-append">
+											<input type="hidden" value="" id="picklistVariable"/>
+											<button class="btn btn-sm btn-info float-right" id="picklistVariableCopy"
 													title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
 												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
 											</button>

@@ -94,7 +94,7 @@ class LettersIn extends CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'LI', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'LI')->set('cur_id', 1)->save();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

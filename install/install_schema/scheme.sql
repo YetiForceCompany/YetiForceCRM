@@ -2930,6 +2930,16 @@ CREATE TABLE `u_yf_mail_compose_data` (
   UNIQUE KEY `userid` (`userid`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_modentity_sequences` */
+
+CREATE TABLE `u_yf_modentity_sequences` (
+  `tabid` smallint(5) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `cur_id` int(10) unsigned DEFAULT 0,
+  KEY `u_yf_modentity_sequences_tabid_fk` (`tabid`),
+  CONSTRAINT `u_yf_modentity_sequences_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_modtracker_inv` */
 
 CREATE TABLE `u_yf_modtracker_inv` (
