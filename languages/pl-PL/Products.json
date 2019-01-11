@@ -79,7 +79,6 @@
     "LBL_TAXES": "Podatki",
     "LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO": "Lista rekord\u00f3w jest ograniczona do produkt\u00f3w i us\u0142ug powi\u0105zanych z szans\u0105 sprzeda\u017cy",
     "FL_EAN_13": "Kod EAN-13",
-    "FL_QTY_IN_STOCK": "Ilo\u015b\u0107 produktu na magazynie",
-    "FL_POS": "POS"
+    "FL_QTY_IN_STOCK": "Ilo\u015b\u0107 produktu na magazynie"
   }
 }
