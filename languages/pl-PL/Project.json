@@ -50,7 +50,15 @@
     "on hold": "Wstrzymany",
     "completed": "Zako\u0144czony",
     "delivered": "Dostarczony",
-    "archived": "Zarchiwizowany"
+    "archived": "Zarchiwizowany",
+    "LBL_GANTT_FILTER": "Filtruj",
+    "LBL_GANTT_NOW": "Wyśrodkuj",
+    "LBL_GANTT_ZOOM_X": "Powiększenie osi X",
+    "LBL_GANTT_ZOOM_Y": "Powiększenie osi Y",
+    "LBL_GANTT_EXPAND": "Dodaj dni przed i po",
+    "LBL_GANTT_TASKLIST": "Szerokość listy",
+    "LBL_GANTT_TASKLIST_VISIBLE": "Pokaż listę",
+    "LBL_GANTT_TITLE": "Wykres gantta"
   },
   "js": {
     "JS_NO.": "Nr",
@@ -72,14 +80,6 @@
     "JS_PROCEED": "Kontynuowa\u0107?",
     "JS_PREV": "Poprzedni",
     "JS_NEXT": "Nast\u0119pny",
-    "JS_HINT_SKIP": "Rozumiem, zamknij to powiadomienie",
-    "JS_GANTT_FILTER": "Filtruj",
-    "JS_GANTT_NOW": "Wyśrodkuj",
-    "JS_GANTT_ZOOM_X": "Powiększenie osi X",
-    "JS_GANTT_ZOOM_Y": "Powiększenie osi Y",
-    "JS_GANTT_EXPAND": "Dodaj dni przed i po",
-    "JS_GANTT_TASKLIST": "Szerokość listy",
-    "JS_GANTT_TASKLIST_VISIBLE": "Pokaż listę",
-    "JS_GANTT_TITLE": "Wykres gantta"
+    "JS_HINT_SKIP": "Rozumiem, zamknij to powiadomienie"
   }
 }

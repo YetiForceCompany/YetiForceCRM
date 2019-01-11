@@ -12,6 +12,7 @@ class Gantt {
 	constructor(container, projectData) {
 		this.container = $(container);
 		this.containerParent = this.container.parent();
+		this.headerContainer = this.containerParent.parent().find('.js-gantt-header').eq(0);
 		this.options = {
 			slots: {
 				header: {
@@ -223,7 +224,6 @@ class Gantt {
 		this.resize();
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
-			GanttElastic.component.components['gantt-header'] = Header;
 			GanttElastic.mount({
 				el: '#' + this.container.attr('id'),
 				tasks: this.allTasks,
@@ -231,7 +231,7 @@ class Gantt {
 				ready(ganttElasticInstance) {
 					self.ganttElastic = ganttElasticInstance;
 					self.ganttState = ganttElasticInstance.state;
-					self.containerParent.find('.js-gantt__front-filter').on('click', (e) => {
+					self.headerContainer.find('.js-gantt-header__btn-filter').on('click', (e) => {
 						e.preventDefault();
 						self.showFiltersModal();
 					});
