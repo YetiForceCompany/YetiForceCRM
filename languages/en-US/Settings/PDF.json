@@ -69,7 +69,7 @@
     "LBL_USE_FUNCTION": "Use function",
     "LBL_EXAMPLE_EXPRESSION": "Expression",
     "LBL_EXPRESSION": "Expression",
-    "LBL_ANNUAL_REVENUE": "annual_revenue",
+    "LBL_ANNUAL_REVENUE": "Dochód roczny",
     "LBL_EXPRESSION_EXAMPLE2": "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
     "LBL_EXAMPLE_FIELD_NAME": "Field",
     "LBL_NOTIFY_OWNER": "notify_owner",
