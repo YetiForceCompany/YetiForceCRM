@@ -35,12 +35,10 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		if (!$fileInstance->moveFile($targetFile)) {
 			throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
-		if ($targetFile) {
-			\App\Db::getInstance('admin')
-				->createCommand()
-				->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
-				->execute();
-		}
+		\App\Db::getInstance('admin')
+			->createCommand()
+			->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
+			->execute();
 		return $targetFile;
 	}
 
