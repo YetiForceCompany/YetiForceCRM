@@ -19,14 +19,14 @@ class RecordNumber extends \App\Base
 	 *
 	 * @return \App\Fields\RecordNumber
 	 */
-	public static function getInstance($tabid): self
+	public static function getInstance($tabiId): self
 	{
 		$instance = new static();
-		if(!\is_numeric($tabid)) {
+		if(!\is_numeric($tabiId)) {
 			$tabid = \App\Module::getModuleId($tabid);
 		}
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabid])->one();
-		$row['tabid'] = $tabid;
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabiId])->one();
+		$row['tabid'] = $tabiId;
 		$instance->setData($row);
 		return $instance;
 	}
