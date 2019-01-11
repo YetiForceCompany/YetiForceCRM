@@ -20,7 +20,7 @@
   "js": {
     "Invalid API key": "Invalid API key",
     "JS_ERROR": "Error",
-    "JS_LOADING_PLEASE_WAIT": "Loading, Please wait.",
+    "JS_LOADING_PLEASE_WAIT": "Loading, please wait.",
     "JS_WRONG_NUMBER": "Characters allowed: digits greater than 1."
   }
 }
