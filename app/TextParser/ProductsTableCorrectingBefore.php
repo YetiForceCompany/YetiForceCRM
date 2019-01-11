@@ -28,9 +28,9 @@ class ProductsTableCorrectingBefore extends Base
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventory->getFieldsByBlocks();
 		$beforeRecordModel = \Vtiger_Record_Model::getInstanceById($this->textParser->recordModel->get('finvoiceid'));
+		$inventory = \Vtiger_Inventory_Model::getInstance($beforeRecordModel->getModuleName());
+		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $beforeRecordModel->getInventoryData();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$firstRow = current($inventoryRows);
