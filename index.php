@@ -18,8 +18,8 @@ if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '
 	header('Location:install/Install.php');
 }
 
-\App\Config::$startTime = microtime(true);
-\App\Config::$requestMode = 'WebUI';
+\App\Process::$startTime = microtime(true);
+\App\Process::$requestMode = 'WebUI';
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(\App\Request::init());

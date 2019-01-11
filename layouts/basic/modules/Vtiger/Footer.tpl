@@ -93,7 +93,7 @@
 					</ul>
 				</div>
 				<div class="mx-auto w-75">
-					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
+					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Process::$startTime, 3)}
 					{if $USER_MODEL->isAdminUser()}
 						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}

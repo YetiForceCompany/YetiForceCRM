@@ -20,7 +20,7 @@ class ServerHttps extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (\App\Config::$requestMode !== 'WebUI') {
+		if (\App\Process::$requestMode !== 'WebUI') {
 			$this->status = 1;
 
 			return;
