@@ -218,7 +218,6 @@ class Gantt {
 				ready(ganttElasticInstance) {
 					self.ganttElastic = ganttElasticInstance;
 					self.ganttState = ganttElasticInstance.state;
-					console.log(self.containerParent.find('.js-gantt__front-filter'));
 					self.containerParent.find('.js-gantt__front-filter').on('click', (e) => {
 						e.preventDefault();
 						self.showFiltersModal();
