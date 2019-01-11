@@ -20,7 +20,7 @@
     "FL_PAYMENT_STATUS": "Payment status",
     "FL_INVOICE_TYPE": "Invoice type",
     "FL_CATEGORY": "Category",
-    "PLL_CASH": "cash",
+    "PLL_CASH": "Cash",
     "PLL_TRANSFER": "Bank transfer",
     "PLL_WIRE_TRANSFER": "Wire transfer",
     "PLL_AWAITING_PAYMENT": "Awaiting payment",
