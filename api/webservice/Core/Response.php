@@ -65,7 +65,7 @@ class Response
 		header('access-control-allow-methods: *');
 		header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
 		header("content-type: $requestContentType");
-		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . $this->requestStatus());
+		header(\App\Request::_getServer('SERVER_PROTOCOL'). ' ' . $this->status . ' ' . $this->requestStatus());
 		header('encrypted: ' . $encryptDataTransfer);
 		foreach ($this->headers as $key => $header) {
 			header(\strtolower($key) . ': ' . $header);
