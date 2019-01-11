@@ -973,39 +973,18 @@ class File
 	}
 
 	/**
-	 * Trim path.
+	 * Get crm pathname or relative path.
 	 *
-	 * @param $path
-	 * @param $pathToTrim
-	 *
-	 * @return string
-	 */
-	public static function trimPath($path, $pathToTrim): string
-	{
-		$path = str_replace('\\', '/', $path);
-		$pathToTrim = str_replace('\\', '/', $pathToTrim);
-		if (strpos($path, $pathToTrim) === 0) {
-			$index = strlen($pathToTrim) + 1;
-			if (strrpos($pathToTrim, '/') === strlen($pathToTrim) - 1) {
-				$index -= 1;
-			}
-			$path = substr($path, $index);
-		}
-		return $path;
-	}
-
-	/**
-	 * Get crm pathname.
-	 *
-	 * @param string $path Absolute pathname
+	 * @param string $path       Absolute pathname
+	 * @param string $pathToTrim Path to trim
 	 *
 	 * @return string Local pathname
 	 */
-	public static function getLocalPath($path)
+	public static function getLocalPath(string $path, string $pathToTrim = ROOT_DIRECTORY)
 	{
-		if (strpos($path, ROOT_DIRECTORY) === 0) {
-			$index = strlen(ROOT_DIRECTORY) + 1;
-			if (strrpos(ROOT_DIRECTORY, '/') === strlen(ROOT_DIRECTORY) - 1) {
+		if (strpos($path, $pathToTrim) === 0) {
+			$index = strlen($pathToTrim) + 1;
+			if (strrpos($pathToTrim, '/') === strlen($pathToTrim) - 1) {
 				$index -= 1;
 			}
 			$path = substr($path, $index);

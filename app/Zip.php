@@ -260,14 +260,11 @@ class Zip extends \ZipArchive
 		}
 		$path = realpath($dir);
 		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::LEAVES_ONLY);
+		$pathToTrim = $relativePath ? $path : ROOT_DIRECTORY;
 		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				if ($relativePath) {
-					$this->addFile($filePath, $localName . Fields\File::trimPath($filePath, $path));
-				} else {
-					$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
-				}
+				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath, $pathToTrim));
 			}
 		}
 	}
