@@ -65,7 +65,7 @@
     "LBL_FIELD_TYPE0": "Basic (eg. vtiger_account)",
     "LBL_FIELD_TYPE1": "Additional (eg. vtiger_accountcf)",
     "Editor": "WYSIWYG Editor",
-    "Related1M": "Related fielde 1:M",
+    "Related1M": "Related field 1:M",
     "LBL_DISPLAY_TYPE": "Field type",
     "LBL_DISPLAY_TYPE_1": "Field visible everywhere",
     "LBL_DISPLAY_TYPE_2": "Field visible only in preview, not editable",
