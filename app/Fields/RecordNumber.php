@@ -23,7 +23,7 @@ class RecordNumber extends \App\Base
 	{
 		$instance = new static();
 		if(!\is_numeric($tabiId)) {
-			$tabid = \App\Module::getModuleId($tabid);
+			$tabid = \App\Module::getModuleId($tabiId);
 		}
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabiId])->one();
 		$row['tabid'] = $tabiId;
