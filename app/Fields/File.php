@@ -980,7 +980,7 @@ class File
 	 *
 	 * @return string Local pathname
 	 */
-	public static function getLocalPath(string $path, string $pathToTrim = ROOT_DIRECTORY)
+	public static function getLocalPath(string $path, string $pathToTrim = ROOT_DIRECTORY): string
 	{
 		if (strpos($path, $pathToTrim) === 0) {
 			$index = strlen($pathToTrim) + 1;
