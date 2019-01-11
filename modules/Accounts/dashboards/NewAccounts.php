@@ -55,7 +55,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$time['start'] = App\Fields\Date::formatToDisplay('now');
 			$time['end'] = App\Fields\Date::formatToDisplay('now');
 		} else {
-			foreach($time as &$timeValue) {
+			foreach ($time as &$timeValue) {
 				$timeValue = App\Fields\Date::formatToDisplay($timeValue);
 			}
 		}
