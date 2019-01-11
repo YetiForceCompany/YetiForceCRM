@@ -29,8 +29,8 @@ class File
 		if (!$moduleName || !$action) {
 			throw new \App\Exceptions\NoPermitted('Method Not Allowed', 405);
 		}
-		\App\Config::$processName = $action;
-		\App\Config::$processType = 'File';
+		\App\Process::$processName = $action;
+		\App\Process::$processType = 'File';
 		$handlerClass = \Vtiger_Loader::getComponentClassName('File', $action, $moduleName);
 		$handler = new $handlerClass();
 		if ($handler) {

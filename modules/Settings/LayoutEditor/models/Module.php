@@ -96,11 +96,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency'];
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
+			}
+			if ($fieldType === 'Editor') {
+				$details['noLimitForLength'] = true;
 			}
 			if ($fieldType === 'Decimal' || $fieldType === 'Currency') {
 				$details['decimalSupported'] = true;
@@ -216,7 +219,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
-
+		if ($fieldType === 'Editor') {
+			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
+		}
 		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
@@ -238,7 +243,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		App\Cache::clear();
-
 		return $fieldModel;
 	}
 
@@ -357,8 +361,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
+				$fieldLength = $params['fieldLength'];
 				$uitype = 300;
-				$type = $importerType->text();
+				$type = $importerType->text($fieldLength);
 				$uichekdata = 'V~O';
 				break;
 			case 'Tree':

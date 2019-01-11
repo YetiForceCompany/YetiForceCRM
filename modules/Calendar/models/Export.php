@@ -34,7 +34,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$listInstance->set('search_key', $searchKey);
 			$listInstance->set('search_value', $searchValue);
 		}
-		$searchParams = $request->getArray('search_params');
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listInstance->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listInstance->set('search_params', $transformedSearchParams);

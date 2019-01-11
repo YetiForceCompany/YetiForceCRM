@@ -26,7 +26,12 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		$query->offset($request->getInteger('start', 0));
 		$query->limit($request->getInteger('limit', 10));
 		$query->where(['between', 'date', $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
-		$order = $request->getArray('order', false);
+		$order = $request->getMultiDimensionArray('order', [
+			[
+				'column' => 'Integer',
+				'dir' => 'Standard'
+			]
+		]);
 		if (isset($order['0']['column'])) {
 			$column = \App\Log::$tableColumnMapping[$type][$order['0']['column']];
 			$dir = ($order['0']['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;

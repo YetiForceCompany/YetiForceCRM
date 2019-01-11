@@ -400,8 +400,8 @@ class PackageImport extends PackageExport
 			}
 			$zip->unzip([
 				// Templates folder
-				'templates/resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
 				'templates' => "layouts/$defaultLayout/modules/$module",
+				'public_resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
@@ -409,11 +409,10 @@ class PackageImport extends PackageExport
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
-				'settings/actions' => "modules/Settings/$module/actions",
-				'settings/views' => "modules/Settings/$module/views",
-				'settings/models' => "modules/Settings/$module/models",
+				'settings/modules' => "modules/Settings/$module",
 				// Settings templates folder
 				'settings/templates' => "layouts/$defaultLayout/modules/Settings/$module",
+				'settings/public_resources' => "public_html/layouts/$defaultLayout/modules/Settings/$module/resources",
 				//module images
 				'images' => "layouts/$defaultLayout/images/$module",
 				'updates' => 'cache/updates',
@@ -1037,7 +1036,8 @@ class PackageImport extends PackageExport
 		$inventory->createInventoryTables();
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
-			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan'];
+			$fieldModel->setDefaultDataConfig();
+			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan', 'columnName', 'sequence'];
 			foreach ($fields as $name) {
 				switch ($name) {
 					case 'label':
@@ -1068,6 +1068,12 @@ class PackageImport extends PackageExport
 						break;
 					case 'colSpan':
 						$fieldModel->set($name, (int) $fieldNode->colspan);
+						break;
+					case 'columnName':
+						$fieldModel->set($name, \App\Purifier::purifyByType((string) $fieldNode->columnname, 'Alnum'));
+						break;
+					case 'sequence':
+						$fieldModel->set($name, (int) $fieldNode->sequence);
 						break;
 					default:
 						break;

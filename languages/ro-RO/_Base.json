@@ -1408,6 +1408,7 @@
     "JS_REENTER_PASSWORDS": "Reintroduceti parolele",
     "JS_REMINDER": "Notificarile din calendar",
     "JS_REQUIRED_FIELD": "* Acest camp este obligatoriu",
+    "JS_MAXIMUM_TEXT_SIZE_IN_BYTES": "Exceeded the maximum text size in bytes",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Contul selectat nu contine o adresa pentru a fi copiata",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Contactul selectat nu contine o adresa pentru a fi copiata",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "Nicio adresa pentru copiere",
@@ -1669,6 +1670,7 @@
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
-    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
+    "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
   }
 }

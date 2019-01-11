@@ -64,6 +64,7 @@
 	</div>
 	<div class="detailViewInfo userPreferences row">
 		<div class="details col-md-12">
-			<form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}'>
+			<form id="detailView"
+				  data-name-fields="{\App\Purifier::encodeHtml(\App\Json::encode($MODULE_MODEL->getNameFields()))}">
 				<div class="contents">
 					{/strip}

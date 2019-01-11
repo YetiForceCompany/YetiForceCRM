@@ -371,7 +371,7 @@ class File
 				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 			$this->validateError = $message;
-			Log::error('Error: ' . $message, __CLASS__);
+			Log::error("Error: $message | {$this->getName()} | {$this->getSize()}", __CLASS__);
 		}
 		Log::trace('File validate - End', __CLASS__);
 		return $return;
@@ -973,17 +973,18 @@ class File
 	}
 
 	/**
-	 * Get crm pathname.
+	 * Get crm pathname or relative path.
 	 *
-	 * @param string $path Absolute pathname
+	 * @param string $path       Absolute pathname
+	 * @param string $pathToTrim Path to trim
 	 *
 	 * @return string Local pathname
 	 */
-	public static function getLocalPath($path)
+	public static function getLocalPath(string $path, string $pathToTrim = ROOT_DIRECTORY): string
 	{
-		if (strpos($path, ROOT_DIRECTORY) === 0) {
-			$index = strlen(ROOT_DIRECTORY) + 1;
-			if (strrpos(ROOT_DIRECTORY, '/') === strlen(ROOT_DIRECTORY) - 1) {
+		if (strpos($path, $pathToTrim) === 0) {
+			$index = strlen($pathToTrim) + 1;
+			if (strrpos($pathToTrim, '/') === strlen($pathToTrim) - 1) {
 				$index -= 1;
 			}
 			$path = substr($path, $index);

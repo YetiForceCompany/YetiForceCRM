@@ -78,6 +78,26 @@ var App = {},
 			return recordId;
 		},
 		/**
+		 * Function which will give you all details of the selected record
+		 * @params {object} params - an object of values like {'record' : recordId, 'module' : searchModule, 'fieldType' : 'email'}
+		 */
+		getRecordDetails: function (params) {
+			let aDeferred = $.Deferred();
+			if (app.getParentModuleName() === 'Settings') {
+				params.parent = 'Settings';
+			}
+			AppConnector.request(Object.assign(params, {action: 'GetData'})).done(function (data) {
+				if (data.success) {
+					aDeferred.resolve(data);
+				} else {
+					aDeferred.reject(data.message);
+				}
+			}).fail(function (error) {
+				aDeferred.reject();
+			});
+			return aDeferred.promise();
+		},
+		/**
 		 * Function to get language
 		 */
 		getLanguage: function () {
@@ -117,6 +137,19 @@ var App = {},
 				$("<style type='text/css'> ::-webkit-scrollbar { display: none;} </style>").appendTo('head');
 			}
 			return supportsTouch;
+		},
+		/**
+		 * Check if string is json
+		 * @param {string} str
+		 * @returns {boolean}
+		 */
+		isJsonString(str) {
+			try {
+				JSON.parse(str);
+			} catch (e) {
+				return false;
+			}
+			return true;
 		},
 		/**
 		 * Function to set page title
@@ -812,7 +845,7 @@ var App = {},
 					};
 				}
 			}
-			
+
 			elementClockBtn.each((i, e) => {
 				let timeInput = $(e);
 				formatTimeString(timeInput);

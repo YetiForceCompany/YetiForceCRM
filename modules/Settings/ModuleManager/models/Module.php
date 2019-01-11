@@ -276,6 +276,10 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		// Create files
 		$module->createFiles($field1);
 		\App\Fields\RecordNumber::getInstance($module->id)->set('prefix', 'N')->set('cur_id', 1)->save();
+
+		if ($module->type === 1) {
+			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
+		}
 	}
 
 	public static function toAlphaNumeric($value)

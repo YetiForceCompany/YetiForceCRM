@@ -37,7 +37,7 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		$moduleName = $request->getModule();
 		$viewName = $request->getByType('viewname', 2);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $viewName);
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}

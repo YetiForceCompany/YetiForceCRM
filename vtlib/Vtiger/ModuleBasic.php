@@ -263,34 +263,6 @@ class ModuleBasic
 		$db->createCommand()->addForeignKey(
 			"fk_1_{$this->customtable}{$this->basetableid}", $this->customtable, $this->basetableid, $this->basetable, $this->basetableid, 'CASCADE', 'RESTRICT'
 		)->execute();
-		if ($this->type === 1) {
-			$db->createTable($this->basetable . '_invfield', [
-				'id' => 'pk',
-				'columnname' => 'string(30)',
-				'label' => $importer->stringType(50)->notNull(),
-				'invtype' => $importer->stringType(30)->notNull(),
-				'presence' => $importer->boolean()->defaultValue(false),
-				'defaultvalue' => 'string',
-				'sequence' => $importer->smallInteger()->unsigned()->notNull(),
-				'block' => $importer->smallInteger()->unsigned()->notNull(),
-				'displaytype' => $importer->smallInteger()->unsigned()->notNull()->defaultValue(1),
-				'params' => 'text',
-				'colspan' => $importer->smallInteger()->unsigned()->notNull()->defaultValue(1),
-			]);
-			$db->createTable($this->basetable . '_inventory', [
-				'id' => $importer->integer(10),
-			]);
-			$db->createCommand()->createIndex("{$this->basetable}_inventory_id_idx", $this->basetable . '_inventory', 'id')->execute();
-			$db->createCommand()->addForeignKey(
-				"fk_1_{$this->basetable}_inventory{$this->basetableid}", $this->basetable . '_inventory', 'id', $this->basetable, $this->basetableid, 'CASCADE', 'RESTRICT'
-			)->execute();
-			$db->createTable($this->basetable . '_invmap', [
-				'module' => $importer->stringType(50)->notNull(),
-				'field' => $importer->stringType(50)->notNull(),
-				'tofield' => $importer->stringType(50)->notNull(),
-			]);
-			$db->createCommand()->addPrimaryKey("{$this->basetable}_invmap_pk", $this->basetable . '_invmap', ['module', 'field', 'tofield'])->execute();
-		}
 	}
 
 	/**

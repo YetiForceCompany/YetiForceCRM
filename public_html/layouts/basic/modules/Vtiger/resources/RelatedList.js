@@ -204,6 +204,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			aDeferred.resolve(responseData);
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
 			progressInstance.progressIndicator({'mode': 'hide'});
 		});
 		return aDeferred.promise();
@@ -766,13 +770,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (response) {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
-					element.find('.fas').each(function () {
-						if (jQuery(this).hasClass('d-none')) {
-							jQuery(this).removeClass('d-none');
-						} else {
-							jQuery(this).addClass('d-none');
-						}
-					})
+					if (state) {
+						element.find('.far').addClass('d-none');
+						element.find('.fas').removeClass('d-none');
+					} else {
+						element.find('.fas').addClass('d-none');
+						element.find('.far').removeClass('d-none');
+					}
 					progressInstance.progressIndicator({'mode': 'hide'});
 					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 					if (state) {

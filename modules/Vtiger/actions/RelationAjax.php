@@ -85,7 +85,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_key', $request->getByType('search_key'));
 			$relationListView->set('search_value', $request->get('search_value'));
 		}
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -198,7 +198,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$relationListView->set('search_key', $request->getByType('search_key', 1));
 				$relationListView->set('search_value', $request->get('search_value'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -206,7 +206,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -245,7 +245,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$relationListView->set('search_key', $request->getByType('search_key', 1));
 				$relationListView->set('search_value', $request->get('search_value'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -253,7 +253,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);

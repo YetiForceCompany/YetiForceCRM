@@ -63,12 +63,10 @@ class Import_Utils_Helper
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
 	{
 		$viewer = new Vtiger_Viewer();
-
 		$viewer->assign('ERROR_MESSAGE', $errorMessage);
 		$viewer->assign('ERROR_DETAILS', $errorDetails);
 		$viewer->assign('CUSTOM_ACTIONS', $customActions);
-		$viewer->assign('MODULE', 'Import');
-
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->view('ImportError.tpl', 'Import');
 	}
 

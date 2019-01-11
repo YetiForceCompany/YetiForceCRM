@@ -13,7 +13,7 @@
  */
 chdir(__DIR__);
 include_once __DIR__ . '/include/main/WebUI.php';
-\App\Config::$requestMode = 'Cron';
+\App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronObj = new \App\Cron();
 App\Session::init();

@@ -69,7 +69,7 @@
     "LBL_USE_FUNCTION": "U\u017cyj funkcji",
     "LBL_EXAMPLE_EXPRESSION": "Wyra\u017cenie",
     "LBL_EXPRESSION": "Wyra\u017cenie",
-    "LBL_ANNUAL_REVENUE": "annual_revenue",
+    "LBL_ANNUAL_REVENUE": "Doch\u00f3d roczny",
     "LBL_EXPRESSION_EXAMPLE2": "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
     "LBL_EXAMPLE_FIELD_NAME": "Pole",
     "LBL_NOTIFY_OWNER": "notify_owner",
@@ -158,7 +158,7 @@
     "B": "B",
     "A": "A",
     "DEMY": "Demy",
-    "ROYAL": "Rotyal"
+    "ROYAL": "Royal"
   },
   "js": {
     "JS_PDF_SAVED_SUCCESSFULLY": "Szablon pdf zosta\u0142 zapisany.",

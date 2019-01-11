@@ -12,6 +12,6 @@ namespace App\Exceptions;
 /**
  * FieldException exception class.
  */
-class FieldException extends \Exception
+class FieldException extends AppException
 {
 }

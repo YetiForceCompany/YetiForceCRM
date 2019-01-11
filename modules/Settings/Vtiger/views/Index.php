@@ -233,7 +233,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$type = \App\Config::$processName;
+		$type = \App\Process::$processName;
 		return array_merge(
 			parent::getFooterScripts($request),
 			$this->checkAndConvertJsScripts([

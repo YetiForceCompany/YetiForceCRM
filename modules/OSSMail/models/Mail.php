@@ -343,7 +343,7 @@ class OSSMail_Mail_Model extends \App\Base
 				if ($fileInstance && $fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
-					\App\Log::trace('Error downloading the file: ' . $attachment['filename']);
+					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);
 				}
 			}
 		}

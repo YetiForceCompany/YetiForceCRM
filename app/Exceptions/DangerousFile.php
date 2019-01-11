@@ -12,6 +12,6 @@ namespace App\Exceptions;
 /**
  * Class DangerousFile.
  */
-class DangerousFile extends \Exception
+class DangerousFile extends AppException
 {
 }

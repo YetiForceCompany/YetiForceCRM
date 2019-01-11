@@ -128,19 +128,19 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function getEditableFields()
 	{
 		return [
-			'upload_maxsize' => ['label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input'],
-			'default_module' => ['label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'],
-			'listview_max_textlength' => ['label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'],
-			'list_max_entries_per_page' => ['label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'],
-			'defaultLayout' => ['label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'],
-			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox'],
-			'title_max_length' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input'],
-			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input'],
-			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input'],
-			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox'],
-			'href_max_length' => ['label' => 'LBL_HREF_MAX_LEGTH', 'fieldType' => 'input'],
-			'langInLoginView' => ['label' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
-			'layoutInLoginView' => ['label' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
+			'upload_maxsize' => ['label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'default_module' => ['label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist', 'validator' => 'Alnum'],
+			'listview_max_textlength' => ['label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'list_max_entries_per_page' => ['label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'defaultLayout' => ['label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist', 'validator' => 'Standard'],
+			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
+			'title_max_length' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
+			'href_max_length' => ['label' => 'LBL_HREF_MAX_LEGTH', 'fieldType' => 'input', 'validator' => 'Integer'],
+			'langInLoginView' => ['label' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
+			'layoutInLoginView' => ['label' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
 		];
 	}
 

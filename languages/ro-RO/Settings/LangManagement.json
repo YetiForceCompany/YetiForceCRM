@@ -51,7 +51,8 @@
     "LBL_SHOW": "Afiseaza",
     "LBL_STATS_INFO": "Valorile statistice prezentate determina raportul dintre etichetele netraduse si toate etichetele care exista in fisierul(fisierele) de baza in procent.",
     "LBL_UNTRANSLATED_LABELS": "Etichete netraduse",
-    "LBL_IMPORT_LANG": "Import language"
+    "LBL_IMPORT_LANG": "Import language",
+    "LBL_NOT_CORRECT_LANGUAGE_TAG": "Language tag not compliant with the IETF standard."
   },
   "js": {
     "Translations": "Traduceri",

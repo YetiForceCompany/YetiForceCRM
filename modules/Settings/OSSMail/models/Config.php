@@ -19,7 +19,7 @@ class Settings_OSSMail_Config_Model extends App\Base
 	 *
 	 * @return \static
 	 */
-	public static function getCleanIntance()
+	public static function getCleanInstance()
 	{
 		return new static();
 	}
@@ -31,7 +31,7 @@ class Settings_OSSMail_Config_Model extends App\Base
 	 */
 	public static function getInstance()
 	{
-		$instance = static::getCleanIntance();
+		$instance = static::getCleanInstance();
 		include 'config/modules/OSSMail.php';
 		foreach ($config as $key => $value) {
 			if ($key === 'skin_logo') {
@@ -82,17 +82,30 @@ class Settings_OSSMail_Config_Model extends App\Base
 			if (!isset($fields[$fieldName])) {
 				continue;
 			}
-			$type = $fields[$fieldName]['fieldType'];
-			if ($type == 'multipicklist') {
-				if (!is_array($fieldValue)) {
-					$fieldValue = [$fieldValue];
-				}
-				$saveValue = [];
-				foreach ($fieldValue as $value) {
-					$saveValue[$value] = $value;
-				}
-				$fieldValue = $saveValue;
-			} elseif ($fieldName === 'skin_logo') {
+			switch ($fields[$fieldName]['fieldType']) {
+				case 'multipicklist':
+					$fieldValue = is_array($fieldValue) ? array_map('\App\Purifier::encodeHtml', $fieldValue) : \App\Purifier::encodeHtml($fieldValue);
+					if (!is_array($fieldValue)) {
+						$fieldValue = [$fieldValue];
+					}
+					$saveValue = [];
+					foreach ($fieldValue as $value) {
+						$saveValue[$value] = $value;
+					}
+					$fieldValue = $saveValue;
+					break;
+				case 'checkbox':
+					$fieldValue = (bool) $fieldValue;
+					break;
+				case 'int':
+					$fieldValue = (int) $fieldValue;
+					break;
+				case 'text':
+				default:
+					$fieldValue = is_array($fieldValue) ? array_map('\App\Purifier::encodeHtml', $fieldValue) : \App\Purifier::encodeHtml($fieldValue);
+					break;
+			}
+			if ($fieldName === 'skin_logo') {
 				$fieldValue = ['*' => $fieldValue];
 			}
 			$replacement = sprintf("\$config['%s'] = %s;", $fieldName, App\Utils::varExport($fieldValue));

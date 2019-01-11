@@ -173,7 +173,7 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes($value)
 	{
-		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value)) {
+		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
@@ -428,7 +428,7 @@ class Purifier
 					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
 					break;
 				case 'Path':
-					$value = Fields\File::checkFilePath($input) ? $input : null;
+					$value = Fields\File::checkFilePath($input) ? static::encodeHtml($input) : null;
 					break;
 				case 'Text':
 				default:

@@ -17,6 +17,7 @@
     "PLL_FOR_VERIFICATION": "Do weryfikacji",
     "PLL_CANCELLED": "Anulowane",
     "PLL_COMPLETED": "Wykonane",
-    "LBL_CHANGE_STATUS": "Zmie\u0144 status"
+    "LBL_CHANGE_STATUS": "Zmie\u0144 status",
+    "FL_CAMPAIGN_ID": "Kampania"
   }
 }

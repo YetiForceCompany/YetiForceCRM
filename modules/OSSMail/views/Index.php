@@ -3,7 +3,7 @@
  * OSSMail index view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
@@ -50,10 +50,9 @@ class OSSMail_Index_View extends Vtiger_Index_View
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
-				$params = ['language' => \App\Language::getLanguage()];
 				$dbCommand = \App\Db::getInstance()->createCommand();
 				$dbCommand->delete('u_#__mail_autologin', ['cuid' => $userId])->execute();
-				$dbCommand->insert('u_#__mail_autologin', ['key' => $key, 'ruid' => $rcUser['rcuser_id'], 'cuid' => $userId, 'params' => \App\Json::encode($params)])->execute();
+				$dbCommand->insert('u_#__mail_autologin', ['key' => $key, 'ruid' => $rcUser['rcuser_id'], 'cuid' => $userId, 'params' => \App\Json::encode(['language' => \App\Language::getLanguageTag()])])->execute();
 			}
 		}
 	}

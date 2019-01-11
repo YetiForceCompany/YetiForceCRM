@@ -11,16 +11,16 @@ class Gantt {
 	 */
 	constructor(container, projectData) {
 		this.container = $(container);
-		this.registerLanguage();
+		this.containerParent = this.container.parent();
 		this.options = {
-			maxRows: 15,
+			maxRows: 30,
 			style: {
-				'tree-row-bar-polygon': {
+				'chart-row-bar-polygon': {
 					'stroke': '#E74C3C00',
 					'stroke-width': 0,
 					'fill': '#F75C4C',
 				},
-				'tree-row-progress-bar-outline': {
+				'chart-row-progress-bar-outline': {
 					'stroke': '#E74C3C00',
 					'stroke-width': 0
 				},
@@ -29,10 +29,13 @@ class Gantt {
 				}
 			},
 			title: {
-				label: 'Gantt',
-				html: false,
+				label: LANG.JS_GANTT_TITLE,
+				html: true,
 			},
 			taskList: {
+				expander: {
+					straight: false,
+				},
 				columns: [
 					{
 						id: 1,
@@ -40,42 +43,14 @@ class Gantt {
 						html: true,
 						value: 'number',
 						width: 65,
-						style: {
-							'task-list-header-label': {
-								'text-align': 'center',
-								'width': '100%'
-							},
-							'task-list-item-value': {
-								'text-align': 'center',
-								'width': '100%'
-							}
-						}
-					},
-					{id: 2, label: app.vtranslate('JS_NAME'), value: 'label', width: 280, expander: true},
-					{
-						id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70, style: {
-							'task-list-header-label': {
-								'text-align': 'center',
-								'width': '100%'
-							},
-							'task-list-item-value': {
-								'text-align': 'center',
-								'width': '100%'
-							}
-						}
 					},
 					{
-						id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 100, style: {
-							'task-list-header-label': {
-								'text-align': 'center',
-								'width': '100%'
-							},
-							'task-list-item-value': {
-								'text-align': 'center',
-								'width': '100%'
-							}
-						}
+						id: 2, label: app.vtranslate('JS_NAME'),
+						html: true,
+						value: 'label', width: 280, expander: true
 					},
+					{id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70},
+					{id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 80},
 					{
 						id: 4,
 						label: app.vtranslate('JS_DURATION_SHORT', 'Project'),
@@ -88,7 +63,7 @@ class Gantt {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							'task-list-item-value': {
+							'task-list-item-value-container': {
 								'text-align': 'center',
 								'width': '100%'
 							}
@@ -101,7 +76,7 @@ class Gantt {
 								'text-align': 'center',
 								'width': '100%'
 							},
-							'task-list-item-value': {
+							'task-list-item-value-container': {
 								'text-align': 'center',
 								'width': '100%'
 							}
@@ -109,56 +84,35 @@ class Gantt {
 					}
 				]
 			},
-			locale: {
-				code: CONFIG.langKey,
-				name: CONFIG.langKey,
-				weekdays: [LANG.JS_MONDAY, LANG.JS_TUESDAY, LANG.JS_WEDNESDAY, LANG.JS_THURSDAY, LANG.JS_FRIDAY, LANG.JS_SATURDAY, LANG.JS_SUNDAY],
-				weekdaysShort: [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
-				weekdaysMin: [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
-				months: [LANG.JS_JANUARY, LANG.JS_FEBRUARY, LANG.JS_MARCH, LANG.JS_APRIL, LANG.JS_MAY, LANG.JS_JUNE, LANG.JS_JULY, LANG.JS_AUGUST, LANG.JS_SEPTEMBER, LANG.JS_NOVEMBER, LANG.JS_OCTOBER, LANG.JS_DECEMBER],
-				monthsShort: [LANG.JS_JAN, LANG.JS_FEB, LANG.JS_MAR, LANG.JS_APR, LANG.JS_MAY, LANG.JS_JUN, LANG.JS_JUL, LANG.JS_AUG, LANG.JS_SEP, LANG.JS_NOV, LANG.JS_OCT, LANG.JS_DEC],
-				ordinal: n => `${n}`,
-			}
 		};
+		this.registerLanguage();
 		if (typeof projectData !== 'undefined') {
-			this.options.title.label = projectData
+			this.options.title.label = projectData;
 			this.loadProject(projectData);
 		}
+		this.registerEvents();
 	}
 
 	/**
 	 * Register language translations globally (replace old ones)
 	 */
 	registerLanguage() {
-		/*GanttMaster.messages.GANTT_ERROR_LOADING_DATA_TASK_REMOVED = app.vtranslate("JS_GANTT_ERROR_LOADING_DATA_TASK_REMOVED", 'Project');
-		GanttMaster.messages.INVALID_DATE_FORMAT = app.vtranslate("JS_INVALID_DATE_FORMAT", 'Project');
-		GanttMaster.messages.GANTT_SEMESTER_SHORT = app.vtranslate("JS_GANTT_SEMESTER_SHORT", 'Project');
-		GanttMaster.messages.GANTT_SEMESTER = app.vtranslate("JS_GANTT_SEMESTER", 'Project');
-		GanttMaster.messages.GANTT_QUARTER_SHORT = app.vtranslate("JS_GANTT_QUARTER_SHORT", 'Project');
-		GanttMaster.messages.GANTT_QUARTER = app.vtranslate("JS_GANTT_QUARTER", 'Project');
-		GanttMaster.messages.GANTT_WEEK = app.vtranslate("JS_GANTT_WEEK", 'Project');
-		GanttMaster.messages.GANTT_WEEK_SHORT = app.vtranslate("JS_GANTT_WEEK_SHORT", 'Project');
-		Gantt_i18n.YES = app.vtranslate("JS_YES", 'Project');
-		Gantt_i18n.NO = app.vtranslate("JS_NO", 'Project');
-		Gantt_i18n.INVALID_DATA = app.vtranslate("JS_INVALID_DATA", 'Project');
-		Gantt_i18n.ERROR_ON_FIELD = app.vtranslate("JS_ERROR_ON_FIELD", 'Project');
-		Gantt_i18n.OUT_OF_BOUDARIES = app.vtranslate("JS_OUT_OF_BOUDARIES", 'Project');
-		Gantt_i18n.ERR_FIELD_MAX_SIZE_EXCEEDED = app.vtranslate("JS_ERR_FIELD_MAX_SIZE_EXCEEDED", 'Project');
-		Gantt_i18n.WEEK_SHORT = app.vtranslate("JS_WEEK_SHORT", 'Project');
-		Gantt_i18n.PROCEED = app.vtranslate("JS_PROCEED", 'Project');
-		Gantt_i18n.PREV = app.vtranslate("JS_PREV", 'Project');
-		Gantt_i18n.NEXT = app.vtranslate("JS_NEXT", 'Project');
-		Gantt_i18n.HINT_SKIP = app.vtranslate("JS_HINT_SKIP", 'Project');
-		Date.monthNames = App.Fields.Date.fullMonthsTranslated.map(month => month);
-		Date.monthAbbreviations = App.Fields.Date.monthsTranslated.map(month => month);
-		Date.dayAbbreviations = App.Fields.Date.daysTranslated.map(day => day);
-		Date.dayNames = App.Fields.Date.fullDaysTranslated.map(day => day);
-		Date.firstDayOfWeek = CONFIG.firstDayOfWeekNo;
-		Date.defaultFormat = CONFIG.dateFormat;
-		Date.today = app.vtranslate('JS_TODAY');
-		Number.decimalSeparator = CONFIG.currencyDecimalSeparator;
-		Number.groupingSeparator = CONFIG.currencyGroupingSeparator;
-		Number.currencyFormat = "###,##0.00";*/
+		this.options.locale = {
+			'code': CONFIG.langKey,
+			'name': CONFIG.langKey,
+			'weekdays': [LANG.JS_MONDAY, LANG.JS_TUESDAY, LANG.JS_WEDNESDAY, LANG.JS_THURSDAY, LANG.JS_FRIDAY, LANG.JS_SATURDAY, LANG.JS_SUNDAY],
+			'weekdaysShort': [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
+			'weekdaysMin': [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
+			'months': [LANG.JS_JANUARY, LANG.JS_FEBRUARY, LANG.JS_MARCH, LANG.JS_APRIL, LANG.JS_MAY, LANG.JS_JUNE, LANG.JS_JULY, LANG.JS_AUGUST, LANG.JS_SEPTEMBER, LANG.JS_NOVEMBER, LANG.JS_OCTOBER, LANG.JS_DECEMBER],
+			'monthsShort': [LANG.JS_JAN, LANG.JS_FEB, LANG.JS_MAR, LANG.JS_APR, LANG.JS_MAY, LANG.JS_JUN, LANG.JS_JUL, LANG.JS_AUG, LANG.JS_SEP, LANG.JS_NOV, LANG.JS_OCT, LANG.JS_DEC],
+			'ordinal': n => `${n}`,
+			'Now': LANG.JS_GANTT_NOW,
+			'X-Scale': LANG.JS_GANTT_ZOOM_X,
+			'Y-Scale': LANG.JS_GANTT_ZOOM_Y,
+			'Task list width': LANG.JS_GANTT_TASKLIST,
+			'Before/After': LANG.JS_GANTT_EXPAND,
+			'Display task list': LANG.JS_GANTT_TASKLIST_VISIBLE
+		};
 	}
 
 	/**
@@ -199,12 +153,51 @@ class Gantt {
 	}
 
 	/**
+	 * Add icons to tasks
+	 * @param {array} tasks
+	 * @returns {array}
+	 */
+	addIcons(tasks) {
+		return tasks.map((task) => {
+			let icon = 'briefcase';
+			if (task.type === 'milestone') {
+				icon = 'folder';
+			} else if (task.type === 'task') {
+				icon = 'file';
+			}
+			const iconClass = 'fas fa-' + icon;
+			task.label = `<span class="${iconClass} fa-lg mr-1"></span> ${task.label}`;
+			return task;
+		});
+	}
+
+	/**
+	 * Resize gantt chart
+	 */
+	resize() {
+		let offsetTop = this.container.offset().top;
+		let contentHeight = $('body').eq(0).height() - $('.js-footer').eq(0).height();
+		let height = contentHeight - offsetTop - 160;
+		if (height < 0) {
+			height = 0;
+		}
+		this.options.maxHeight = height;
+		if (typeof this.ganttState !== 'undefined' && this.ganttState) {
+			this.ganttState.maxHeight = height;
+		}
+	}
+
+	/**
 	 * Load project
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
-		this.allTasks = this.projectData.tasks;
-		this.options.title.label = projectData.title;
+		this.allTasks = this.addIcons(this.projectData.tasks);
+		if (typeof projectData.title !== 'undefined' && projectData.title) {
+			this.options.title.label = projectData.title;
+		} else {
+			this.options.title.label = '<span class="fas fa-briefcase mr-1"></span> ' + LANG.JS_GANTT_TITLE;
+		}
 		if (typeof this.allTasks === 'undefined') {
 			$('.js-hide-filter').addClass('d-none');
 			$('.js-show-add-record').removeClass('d-none');
@@ -217,11 +210,23 @@ class Gantt {
 			ev.stopPropagation();
 			return false;
 		});
-		GanttElastic.mount({
-			el: '#' + this.container.attr('id'),
-			tasks: this.allTasks,
-			options: this.options
-		});
+		this.resize();
+		const self = this;
+		if (typeof self.ganttElastic === 'undefined') {
+			GanttElastic.component.components['gantt-header'] = Header;
+			GanttElastic.mount({
+				el: '#' + this.container.attr('id'),
+				tasks: this.allTasks,
+				options: this.options,
+				ready(ganttElasticInstance) {
+					self.ganttElastic = ganttElasticInstance;
+					self.ganttState = ganttElasticInstance.state;
+				}
+			});
+			this.container = this.containerParent.find('.gantt-elastic').eq(0);
+		} else {
+			self.ganttState.tasks = this.allTasks;
+		}
 	}
 
 	/**
@@ -242,7 +247,7 @@ class Gantt {
 	 * @param {Object} data
 	 */
 	reloadData(data) {
-		this.gantt.loadProject(data);
+		this.loadProject(data);
 	}
 
 	/**
@@ -346,5 +351,8 @@ class Gantt {
 			self.showFiltersModal();
 		});
 		container.find('[data-toggle="tooltip"]').tooltip();
+		window.addEventListener('resize', () => {
+			this.resize();
+		});
 	}
 }

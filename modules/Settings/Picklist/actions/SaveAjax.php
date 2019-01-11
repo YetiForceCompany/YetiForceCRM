@@ -50,11 +50,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function add(\App\Request $request)
 	{
 		$newValue = $request->getByType('newValue', 'Text');
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 2));
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
-			$userSelectedRoles = $request->getArray('rolesSelected');
+			$userSelectedRoles = $request->getArray('rolesSelected', 'Alnum');
 			//selected all roles option
 			if (in_array('all', $userSelectedRoles)) {
 				$roleRecordList = Settings_Roles_Record_Model::getAll();
@@ -84,7 +84,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function rename(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
+		$moduleName = $request->getByType('source_module', 'Alnum');
 		$newValue = $request->getByType('newValue', 'Text');
 		$pickListFieldName = $request->getForSql('picklistName');
 		$oldValue = $request->getByType('oldValue', 'Text');
@@ -126,9 +126,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function remove(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
-		$valueToDelete = $request->getArray('delete_value');
-		$replaceValue = $request->get('replace_value');
+		$moduleName = $request->getByType('source_module', 'Alnum');
+		$valueToDelete = $request->getArray('delete_value', 'Integer');
+		$replaceValue = $request->getInteger('replace_value');
 		$pickListFieldName = $request->getForSql('picklistName');
 		if ($moduleName === 'Calendar' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 			$picklistData = \App\Fields\Picklist::getValues($pickListFieldName);
@@ -156,7 +156,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function assignValueToRole(\App\Request $request)
 	{
-		$userSelectedRoles = $request->getArray('rolesSelected');
+		$userSelectedRoles = $request->getArray('rolesSelected', 'Alnum');
 		$roleIdList = [];
 		//selected all roles option
 		if (in_array('all', $userSelectedRoles)) {
@@ -172,7 +172,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assign_values'), [], $roleIdList);
+			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assign_values', 'Integer'), [], $roleIdList);
 			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -185,7 +185,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->updateSequence($request->getForSql('picklistName'), $request->getArray('picklistValues'));
+			$moduleModel->updateSequence($request->getForSql('picklistName'), $request->getArray('picklistValues', 'Integer'));
 			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -198,7 +198,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('enabled_values', []), $request->getArray('disabled_values', []), $request->getArray('rolesSelected'));
+			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('enabled_values', 'Integer'), $request->getArray('disabled_values', 'Integer'), $request->getArray('rolesSelected', 'Alnum'));
 			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
