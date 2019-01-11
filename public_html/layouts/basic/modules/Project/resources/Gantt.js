@@ -13,6 +13,11 @@ class Gantt {
 		this.container = $(container);
 		this.containerParent = this.container.parent();
 		this.options = {
+			slots: {
+				header: {
+					beforeOptions: `<button class="btn btn-primary mr-1 h-100 js-gantt__front-filter"><span class="fas fa-filter"></span> ${LANG.JS_GANTT_FILTER}</button>`
+				}
+			},
 			maxRows: 30,
 			style: {
 				'chart-row-bar-polygon': {
@@ -26,6 +31,10 @@ class Gantt {
 				},
 				'header-title': {
 					'max-width': '50%'
+				},
+				'slot-header-beforeOptions': {
+					'height': '100%',
+					'vertical-align': 'top'
 				}
 			},
 			title: {
@@ -209,6 +218,11 @@ class Gantt {
 				ready(ganttElasticInstance) {
 					self.ganttElastic = ganttElasticInstance;
 					self.ganttState = ganttElasticInstance.state;
+					console.log(self.containerParent.find('.js-gantt__front-filter'));
+					self.containerParent.find('.js-gantt__front-filter').on('click', (e) => {
+						e.preventDefault();
+						self.showFiltersModal();
+					});
 				}
 			});
 			this.container = this.containerParent.find('.gantt-elastic').eq(0);
@@ -334,10 +348,6 @@ class Gantt {
 	 */
 	registerEvents() {
 		const container = this.container;
-		container.parent().parent().find('.js-gantt__front-filter').on('click', (e) => {
-			e.preventDefault();
-			this.showFiltersModal();
-		});
 		container.find('[data-toggle="tooltip"]').tooltip();
 		window.addEventListener('resize', () => {
 			this.resize();
