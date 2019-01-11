@@ -124,13 +124,13 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} elseif ('Users' === $searchModule = $request->getRaw('searchModule')) {
-			$searchKey = $request->get('value');
+			$searchKey = $request->getByType('value', 'Text');
 			$queryGenerator = new \App\QueryGenerator($searchModule);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addNativeCondition(['or',
-				['like', 'user_name', '%' . $searchKey . '%', false],
-				['like', 'last_name', '%' . $searchKey . '%', false],
-				['like', 'first_name', '%' . $searchKey . '%', false],
+				['like', 'user_name', "%$searchKey%", false],
+				['like', 'last_name', "%$searchKey%", false],
+				['like', 'first_name', "%$searchKey%", false],
 			]);
 			$query = $queryGenerator->createQuery();
 			$rows = $query->limit(100)->all();

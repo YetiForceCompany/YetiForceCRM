@@ -243,12 +243,12 @@ jQuery.Class("Vtiger_List_Js", {
 						return;
 					}
 					app.showModalWindow(data, function (data) {
-						app.event.trigger("MassEditModal.AfterLoad", data, massActionUrl);
+						app.event.trigger('MassEditModal.AfterLoad', data, massActionUrl);
 						if (typeof callBackFunction == 'function') {
 							callBackFunction(data);
 							//listInstance.triggerDisplayTypeEvent();
 						}
-					}, css)
+					}, css);
 					//register inactive fields for massedit modal
 					if ($('#massEditContainer').length) {
 						listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
