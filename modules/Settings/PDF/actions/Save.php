@@ -13,7 +13,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 	/**
 	 * Save watermark image.
 	 *
-	 * @param string|int $templateId
+	 * @param Vtiger_PDF_Model $pdfModel
 	 *
 	 * @throws \yii\db\Exception
 	 * @throws \App\Exceptions\IllegalValue
@@ -21,13 +21,14 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @return string image filename
 	 */
-	public function saveWatermarkImage($templateId)
+	public function saveWatermarkImage(Vtiger_PDF_Model $pdfModel)
 	{
 		if (empty($_FILES['watermark_image_file'])) {
 			return '';
 		}
 		$targetDir = Settings_PDF_Module_Model::$uploadPath;
-		$targetFile = $targetDir . $templateId;
+		$templateId = $pdfModel->getId();
+		$targetFile = $targetDir . (string) $templateId;
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['watermark_image_file']);
 		if (!$fileInstance->validate('image')) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||watermark_image_file', 406);
@@ -35,10 +36,12 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		if (!$fileInstance->moveFile($targetFile)) {
 			throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
-		\App\Db::getInstance('admin')
-			->createCommand()
-			->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
-			->execute();
+		if ($pdfModel->get('watermark_image') !== $targetFile) {
+			\App\Db::getInstance('admin')
+				->createCommand()
+				->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
+				->execute();
+		}
 		return $targetFile;
 	}
 
@@ -87,7 +90,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		$pdfModel->set('conditions', $request->get('conditions'));
 		Settings_PDF_Record_Model::transformAdvanceFilterToWorkFlowFilter($pdfModel);
 		Settings_PDF_Record_Model::save($pdfModel, $step);
-		$this->saveWatermarkImage($pdfModel->getId());
+		$this->saveWatermarkImage($pdfModel);
 		$response = new Vtiger_Response();
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);
 		$response->emit();
