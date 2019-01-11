@@ -1,9 +1,9 @@
 {
   "php": {
-    "LBL_RECYCLE_DELETE_ALL": "Usuń cały kosz"
+    "LBL_RECYCLE_DELETE_ALL": "Remove all trash"
   },
   "js": {
-    "JS_MASS_DELETE": "Masowe usuwanie",
+    "JS_MASS_DELETE": "Mass delete",
     "JS_MASS_ACTIVATE": "Masowa aktywacja",
     "JS_DELETE_ALL_RECYCLE_RECORD": "Usuń wszystkie rekordy z kosza",
     "JS_ACTIVATE_RECORD_DESC": "Aktywacja rekordu zmienia tylko stan rekordu nie zmieniając pozostałych informacji. Czy na pewno chcesz aktywować ten rekord?",
