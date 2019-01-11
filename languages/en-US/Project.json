@@ -1,7 +1,5 @@
 {
   "php": {
-    "LBL_PROJECTS_LIST": "List of projects",
-    "LBL_SUMMARY": "Work time summary",
     "SINGLE_Project": "Project",
     "LBL_RECORDS_LIST": "Projects list",
     "LBL_PROJECT_INFORMATION": "Project details",
@@ -38,6 +36,8 @@
     "PLL_EXTERNAL": "External",
     "PLL_COMMON": "Shared",
     "LBL_DOWNLOAD_FILE": "Download file",
+    "LBL_SUMMARY": "Work time summary",
+    "LBL_PROJECTS_LIST": "List of projects",
     "Add Project Task": "Add project task",
     "LBL_GANTT": "Gantt",
     "low": "low",
