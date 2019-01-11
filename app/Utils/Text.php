@@ -143,7 +143,7 @@ class Text
 		if ('#' === $type) {
 			switch ($format) {
 				case static::FORMAT_HTML:
-					$html = static::displayRecord($id);
+					$html = static::decodeRecord($id);
 					break;
 				case static::FORMAT_TEXT:
 					$html = static::decodeRecordText($id);
@@ -152,10 +152,10 @@ class Text
 		} elseif ('@' === $type) {
 			switch ($format) {
 				case static::FORMAT_HTML:
-					$html = static::displayOwner($id);
+					$html = static::decodeOwner($id);
 					break;
 				case static::FORMAT_TEXT:
-					$html = static::displayOwnerText($id);
+					$html = static::decodeOwnerText($id);
 					break;
 			}
 		} else {
@@ -188,7 +188,7 @@ class Text
 	 *
 	 * @return string
 	 */
-	private static function displayRecord(int $recordId): string
+	private static function decodeRecord(int $recordId): string
 	{
 		if (!($moduleName = \App\Record::getType($recordId))) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
@@ -208,7 +208,7 @@ class Text
 	 *
 	 * @return string
 	 */
-	private static function displayOwner(int $userId): string
+	private static function decodeOwner(int $userId): string
 	{
 		if (!\App\User::isExists($userId)) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
@@ -229,7 +229,7 @@ class Text
 	 *
 	 * @return string
 	 */
-	private static function displayOwnerText(int $userId): string
+	private static function decodeOwnerText(int $userId): string
 	{
 		if (\App\User::isExists($userId)) {
 			$html = \App\User::getUserModel($userId)->getName();
