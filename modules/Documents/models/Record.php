@@ -103,7 +103,6 @@ class Documents_Record_Model extends Vtiger_Record_Model
 						} else {
 							header("content-disposition: attachment; filename=\"$fileName\"");
 						}
-						header('content-description: PHP Generated Data');
 					}
 				}
 			}
