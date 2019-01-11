@@ -369,7 +369,9 @@
     "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce.",
     "LBL_YETIFORCE_SHOP": "Store",
     "LBL_YETIFORCE_ISSUES": "Free support",
-    "LBL_YETIFORCE_ASSISTANCE": "Paid support"
+    "LBL_YETIFORCE_ASSISTANCE": "Paid support",
+    "LBL_PICKLIST_VARIABLES": "Zmienne słownikowe",
+    "LBL_PICKLIST_VARIABLES_INFO": "Użycie tej zmiennej spowoduje numerowanie dla każdej wartości słownikowej oddzielnie, a w miejscu zmiennej wprowadzona zostanie wartość skrócona."
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Authorization successful",
@@ -398,6 +400,7 @@
     "JS_NOTIFY_COPY_TEXT": "Copied variable to clipboard",
     "JS_RS_ADD_YEAR_VARIABLE": "Copy year variable to prefix or postfix",
     "JS_RS_ADD_MONTH_VARIABLE": "Copy monyh variable to prefix or postfix",
-    "JS_RS_ADD_DAY_VARIABLE": "Copy day variable to prefix or postfix"
+    "JS_RS_ADD_DAY_VARIABLE": "Copy day variable to prefix or postfix",
+    "JS_PICKLIST_TOO_MANY": "W numeracji może znajdować się tylko jedna zmienna słownikowa"
   }
 }
