@@ -1334,7 +1334,7 @@
     "JS_ACCEPT_ONLY_NUMBER": "Accepts only numbers",
     "JS_ACCEPT_POSITIVE_NUMBER": "Accepts only positive numbers",
     "JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS": "You are allowed to select a maximum of three records",
-    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET": "Are you sure to delete widget",
+    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET": "Are you sure to delete widget?",
     "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "It will be available under the \"Predefined widgets\" button.",
     "JS_CAN_NOT_REMOVE_DEFAULT_WIDGET": "Cannot remove default widget",
     "JS_CHECK_FILE_INTEGRITY": "Check file integrity",
