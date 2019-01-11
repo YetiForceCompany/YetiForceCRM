@@ -1,7 +1,8 @@
 {
   "php": {
     "LBL_INVOICE": "Invoice",
-    "LBL_INVOICE_NUMBER": "Vat invoice number",
+    "LBL_INVOICE_NUMBER": "Faktura VAT nr",
+    "LBL_TO_FINVOICE_NUMBER": "Do faktury nr",
     "LBL_INVOICE_PROFORMA": "Pro-forma invoice",
     "LBL_RECIPIENT": "Recipient",
     "LBL_ORDER": "Order",
