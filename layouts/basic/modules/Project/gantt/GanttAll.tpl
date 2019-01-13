@@ -25,23 +25,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="d-flex w-100 justify-content-between mb-1 js-gantt-header" data-js="container">
-		<div class="d-inline-flex js-gantt-header__title">{\App\Language::translate('LBL_GANTT_TITLE','Project')}</div>
-		<div class="d-inline-flex text-right js-gantt-header__options">
-			<div class="d-flex js-gantt-header__options-container" data-js="container">
-				<div class="d-inline-flex mr-1 js-gantt-header__option" data-js="container">
-					<button class="btn btn-default js-gantt-header__btn-filter" data-js="click">
-						<span class="fas fa-filter"></span> {\App\Language::translate('LBL_GANTT_FILTER','Project')}
-					</button>
-				</div>
-				<div class="d-inline-flex mr-1 js-gantt-header__option" data-js="container">
-					<button class="btn btn-default js-gantt-header__btn-center" data-js="click">
-						<span class="fas fa-compress-arrows-alt"></span> {\App\Language::translate('LBL_GANTT_NOW','Project')}
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	{include file=\App\Layout::getTemplatePath('gantt/GanttContents.tpl', $MODULE)}
 	<table class="js-show-add-record d-none emptyRecordsDiv" data-js="class: d-none">
 		<tbody>
