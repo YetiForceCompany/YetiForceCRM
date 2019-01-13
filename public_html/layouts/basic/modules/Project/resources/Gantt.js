@@ -188,7 +188,7 @@ class Gantt {
 	resize() {
 		let offsetTop = this.container.offset().top;
 		let contentHeight = $('body').eq(0).height() - $('.js-footer').eq(0).height();
-		let height = contentHeight - offsetTop - 160;
+		let height = contentHeight - offsetTop - 100;
 		if (height < 0) {
 			height = 0;
 		}
@@ -196,6 +196,38 @@ class Gantt {
 		if (typeof this.ganttState !== 'undefined' && this.ganttState) {
 			this.ganttState.maxHeight = height;
 		}
+	}
+
+	/**
+	 * Register gantt header actions
+	 */
+	registerHeaderActions() {
+		this.headerContainer.find('.js-gantt-header__btn-filter').on('click', (e) => {
+			e.preventDefault();
+			this.showFiltersModal();
+		});
+		this.headerContainer.find('.js-gantt-header__btn-center').on('click', (e) => {
+			this.ganttElastic.$emit('recenterPosition');
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--x').on('input', (e) => {
+			this.ganttElastic.$emit("times-timeZoom-change", Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--y').on('input', (e) => {
+			this.ganttElastic.$emit("row-height-change", Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-width').on('input', (e) => {
+			this.ganttElastic.$emit('taskList-width-change', Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--scope').on('input', (e) => {
+			this.ganttElastic.$emit('scope-change', Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').on('change', (e) => {
+			this.ganttState.taskList.display = $(e.target).is(':checked');
+		});
+		this.ganttElastic.$watch('state.taskList.display', (value) => {
+			this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').prop('checked', value);
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').prop('checked', this.ganttState.taskList.display ? 'checked' : false);
 	}
 
 	/**
@@ -231,10 +263,7 @@ class Gantt {
 				ready(ganttElasticInstance) {
 					self.ganttElastic = ganttElasticInstance;
 					self.ganttState = ganttElasticInstance.state;
-					self.headerContainer.find('.js-gantt-header__btn-filter').on('click', (e) => {
-						e.preventDefault();
-						self.showFiltersModal();
-					});
+					self.registerHeaderActions();
 				}
 			});
 			this.container = this.containerParent.find('.gantt-elastic').eq(0);
