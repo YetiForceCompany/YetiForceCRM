@@ -45,9 +45,15 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 */
 	public function getModuleCustomNumberingData(\App\Request $request)
 	{
-		$moduleData = \App\Fields\RecordNumber::getNumber($request->getByType('sourceModule', 2));
+		$sourceModule = $request->getByType('sourceModule', 2);
+		$instance = \App\Fields\RecordNumber::getInstance($sourceModule);
+		$moduleData = $instance->getData();
 		if (empty($moduleData['reset_sequence'])) {
 			$moduleData['reset_sequence'] = 'n';
+		}
+		$picklistsModels = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByType(['picklist']);
+		foreach ($picklistsModels as $fieldModel) {
+			$moduleData['picklists'][$fieldModel->getName()] = App\Language::translate($fieldModel->getFieldLabel(), $sourceModule);
 		}
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
@@ -70,6 +76,8 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$moduleModel->set('postfix', $request->getByType('postfix', 'Text'));
 		if (!$request->isEmpty('reset_sequence') && in_array($request->getByType('reset_sequence'), ['Y', 'M', 'D'])) {
 			$moduleModel->set('reset_sequence', $request->getByType('reset_sequence'));
+		} else {
+			$moduleModel->set('reset_sequence', '');
 		}
 		$result = $moduleModel->setModuleSequence();
 		$response = new Vtiger_Response();
@@ -89,11 +97,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 */
 	public function updateRecordsWithSequenceNumber(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 2);
-
-		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($sourceModule);
-		$result = $moduleModel->updateRecordsWithSequence();
-
+		$result = App\Fields\RecordNumber::getInstance($request->getByType('sourceModule', 2))->updateRecords();
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

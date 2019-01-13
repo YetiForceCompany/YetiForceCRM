@@ -38,7 +38,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
 			$bruteForceInstance->incAttempts();
 			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
-			header('Location: index.php?module=Users&view=Login');
+			header('location: index.php?module=Users&view=Login');
 
 			return false;
 		}
@@ -72,6 +72,6 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 			}
 			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
 		}
-		header('Location: index.php?module=Users&view=Login');
+		header('location: index.php?module=Users&view=Login');
 	}
 }

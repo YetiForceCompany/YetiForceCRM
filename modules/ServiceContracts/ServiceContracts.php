@@ -129,7 +129,7 @@ class ServiceContracts extends CRMEntity
 			$helpDeskInstance->setRelatedList($moduleInstance, 'Service Contracts', ['ADD', 'SELECT']);
 
 			// Initialize module sequence for the module
-			\App\Fields\RecordNumber::setNumber($moduleName, 'SERCON', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'SERCON')->set('cur_id', 1)->save();
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Make the picklist value 'Complete' for status as non-editable
 			$dbCommand->update('vtiger_contract_status', ['presence' => 0], ['contract_status' => 'Complete'])->execute();

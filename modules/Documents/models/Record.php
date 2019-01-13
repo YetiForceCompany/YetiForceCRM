@@ -95,15 +95,14 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					if (fopen($filePath . $savedFile, 'r')) {
 						$fileContent = fread(fopen($filePath . $savedFile, 'r'), $fileSize);
 						$fileName = $this->get('filename');
-						header('Content-type: ' . $fileDetails['type']);
-						header('Pragma: public');
-						header('Cache-Control: private');
+						header('content-type: ' . $fileDetails['type']);
+						header('pragma: public');
+						header('cache-control: private');
 						if ($this->get('show')) {
-							header('Content-Disposition: inline');
+							header('content-disposition: inline');
 						} else {
-							header("Content-Disposition: attachment; filename=\"$fileName\"");
+							header("content-disposition: attachment; filename=\"$fileName\"");
 						}
-						header('Content-Description: PHP Generated Data');
 					}
 				}
 			}

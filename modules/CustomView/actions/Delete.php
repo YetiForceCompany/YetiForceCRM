@@ -31,6 +31,6 @@ class CustomView_Delete_Action extends \App\Controller\Action
 			\App\CustomView::resetCurrentView();
 		}
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
-		header("Location: $listViewUrl");
+		header("location: $listViewUrl");
 	}
 }

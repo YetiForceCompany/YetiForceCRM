@@ -208,11 +208,11 @@ class Vtiger_Export_Model extends \App\Base
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($module, $module))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
-		header("Content-Disposition: attachment; filename=\"$fileName\"");
-		header("Content-Type: $exportType; charset=UTF-8");
-		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: post-check=0, pre-check=0', false);
+		header("content-disposition: attachment; filename=\"$fileName\"");
+		header("content-type: $exportType; charset=UTF-8");
+		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('cache-control: post-check=0, pre-check=0', false);
 
 		// Start the ouput
 		$output = fopen('php://output', 'w');

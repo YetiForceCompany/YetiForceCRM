@@ -61,6 +61,6 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 				}
 			}
 		}
-		header("Location: {$moduleModel->getDefaultUrl()}");
+		header("location: {$moduleModel->getDefaultUrl()}");
 	}
 }

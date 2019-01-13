@@ -21,10 +21,17 @@ class Email
 	 */
 	public static function findRecordNumber($value, $moduleName)
 	{
-		$moduleData = RecordNumber::getNumber($moduleName);
-		$prefix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData['prefix'], '/'));
-		$postfix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData['postfix'], '/'));
+		$moduleData = RecordNumber::getInstance($moduleName);
+		$prefix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData->get('prefix'), '/'));
+		$postfix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData->get('postfix'), '/'));
 		$redex = '/\[' . $prefix . '([0-9]*)' . $postfix . '\]/';
+		$redex = preg_replace_callback('/\\\\{\\\\{picklist\\\\:([a-z0-9_]+)\\\\}\\\\}/i', function ($matches) {
+			$picklistPrefix = array_column(Picklist::getValues($matches[1]), 'prefix');
+			if (!$picklistPrefix) {
+				return '';
+			}
+			return '((' . implode($picklistPrefix, '|') . ')*)';
+		}, $redex);
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {
 			return trim($match[0], '[,]');

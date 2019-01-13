@@ -19,7 +19,7 @@ class Settings_OSSMail_Config_Model extends App\Base
 	 *
 	 * @return \static
 	 */
-	public static function getCleanIntance()
+	public static function getCleanInstance()
 	{
 		return new static();
 	}
@@ -31,7 +31,7 @@ class Settings_OSSMail_Config_Model extends App\Base
 	 */
 	public static function getInstance()
 	{
-		$instance = static::getCleanIntance();
+		$instance = static::getCleanInstance();
 		include 'config/modules/OSSMail.php';
 		foreach ($config as $key => $value) {
 			if ($key === 'skin_logo') {

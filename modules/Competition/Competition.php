@@ -164,7 +164,7 @@ class Competition extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'CMP')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => 'Competition'])->execute();
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

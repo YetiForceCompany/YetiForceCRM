@@ -72,7 +72,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				$loadUrl = $recordModel->getModule()->getDefaultUrl();
 			}
 		}
-		header("Location: $loadUrl");
+		header("location: $loadUrl");
 	}
 
 	/**

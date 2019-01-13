@@ -156,12 +156,21 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Delete watermark.
+	 *
+	 * @param Vtiger_PDF_Model $pdfModel
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
 	public static function deleteWatermark(Vtiger_PDF_Model $pdfModel)
 	{
 		$db = \App\Db::getInstance('admin');
 		$watermarkImage = $pdfModel->get('watermark_image');
 		$db->createCommand()
-			->update('a_#__pdf', ['watermark_image' => null], ['pdfid' => $pdfModel->getId()])
+			->update('a_#__pdf', ['watermark_image' => ''], ['pdfid' => $pdfModel->getId()])
 			->execute();
 		if (file_exists($watermarkImage)) {
 			return unlink($watermarkImage);

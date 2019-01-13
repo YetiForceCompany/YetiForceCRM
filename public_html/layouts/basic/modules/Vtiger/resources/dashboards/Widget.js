@@ -1394,25 +1394,26 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	setSortingButton: function setSortingButton(currentElement) {
 		if (currentElement.length) {
-			var container = this.getContainer();
-			var drefresh = container.find('a[name="drefresh"]');
-			var url = drefresh.data('url');
+			let container = this.getContainer(),
+				drefresh = container.find('a[name="drefresh"]'),
+				url = drefresh.data('url');
 			url = url.replace('&sortorder=desc', '');
 			url = url.replace('&sortorder=asc', '');
 			url += '&sortorder=';
-			var sort = currentElement.data('sort');
-			var sortorder = 'desc';
-			var icon = 'fa-sort-amount-down';
+			let sort = currentElement.data('sort'),
+				sortorder = 'desc',
+				icon = 'fa-sort-amount-down',
+				iconBase = 'fa-sort-amount-up';
 			if (sort == 'desc') {
 				sortorder = 'asc';
 				icon = 'fa-sort-amount-up';
+				iconBase = 'fa-sort-amount-down';
 			}
 			currentElement.data('sort', sortorder);
 			currentElement.attr('title', currentElement.data(sortorder));
 			currentElement.attr('alt', currentElement.data(sortorder));
 			url += sortorder;
-			var faIcon = currentElement.find('.fas');
-			faIcon.removeClass().addClass(icon);
+			currentElement.find('.fas').removeClass(iconBase).addClass(icon);
 			drefresh.data('url', url);
 		}
 	},

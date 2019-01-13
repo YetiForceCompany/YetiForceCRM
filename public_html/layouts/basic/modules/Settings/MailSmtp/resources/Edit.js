@@ -10,13 +10,13 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					blockInfo: {'enabled': true}
 				});
-				app.saveAjax('updateSmtp', paramsForm).done(function (respons) {
+				AppConnector.request(paramsForm).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (true == respons.result.success) {
-						window.location.href = respons.result.url;
+					if (true == data.result.success) {
+						window.location.href = data.result.url;
 					} else {
 						form.find('.alert').removeClass('d-none');
-						form.find('.alert p').text(respons.result.message);
+						form.find('.alert p').text(data.result.message);
 					}
 				});
 				return false;

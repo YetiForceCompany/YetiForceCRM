@@ -27,6 +27,6 @@ class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 		}
 
 		$redirectUrl = $recordModel->getDetailViewUrl();
-		header("Location: $redirectUrl");
+		header("location: $redirectUrl");
 	}
 }

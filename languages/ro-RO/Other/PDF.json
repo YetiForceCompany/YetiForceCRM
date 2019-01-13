@@ -2,6 +2,7 @@
   "php": {
     "LBL_INVOICE": "Factura",
     "LBL_INVOICE_NUMBER": "Numar TVA factura",
+    "LBL_TO_FINVOICE_NUMBER": "To invoice number",
     "LBL_INVOICE_PROFORMA": "Factura proforma",
     "LBL_RECIPIENT": "Destinatar",
     "LBL_ORDER": "Comanda",

@@ -23,8 +23,8 @@
 					{foreach from=$TEMPLATES item=TEMPLATE}
 						<div class="form-group row">
 							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-								{$TEMPLATE->get('primary_name')} &nbsp;
-								[<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>]
+								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
+								[<span class="secondaryName">{\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)}</span>]
 							</label>
 							<div class="col-sm-1">
 								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
