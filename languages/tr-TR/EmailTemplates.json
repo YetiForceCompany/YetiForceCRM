@@ -1,19 +1,19 @@
 {
   "php": {
-    "EmailTemplates": "E-posta \u015fablonlar\u0131",
-    "SINGLE_EmailTemplates": "E-posta \u015fablonu",
-    "LBL_CONTENT_MAIL": "E-posta i\u00e7eri\u011fi",
+    "EmailTemplates": "E-posta şablonları",
+    "SINGLE_EmailTemplates": "E-posta şablonu",
+    "LBL_CONTENT_MAIL": "E-posta içeriği",
     "LBL_BASIC_DETAILS": "Temel bilgiler",
-    "FL_NAME": "\u0130sim",
+    "FL_NAME": "İsim",
     "FL_TYPE": "Tip",
-    "FL_MODULE": "Mod\u00fcl",
+    "FL_MODULE": "Modül",
     "FL_SUBJECT": "Konu",
-    "FL_CONTENT": "\u0130\u00e7erik",
-    "FL_SMTP_PRIORITY": "SMTP \u00f6nceli\u011fi",
-    "PLL_MODULE": "Mod\u00fcl",
-    "PLL_RECORD": "Kay\u0131t",
+    "FL_CONTENT": "İçerik",
+    "FL_SMTP_PRIORITY": "SMTP önceliği",
+    "PLL_MODULE": "Modül",
+    "PLL_RECORD": "Kayıt",
     "PLL_MAIL": "Mesaj",
     "PLL_LIST": "Liste",
-    "PLL_DEFAULT": "Varsay\u0131lan \u015firket"
+    "PLL_DEFAULT": "Varsayılan şirket"
   }
 }
