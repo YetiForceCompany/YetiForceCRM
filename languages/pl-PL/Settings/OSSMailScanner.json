@@ -4,29 +4,29 @@
     "OSSMailScanner": "Skaner mailowy",
     "Mail Scanner": "Poczta - skaner",
     "LBL_VIEW_LOGS": "Poczta logi",
-    "LBL_PAGE_NUMBER": "Przejd\u017a do strony numer",
+    "LBL_PAGE_NUMBER": "Przejdź do strony numer",
     "CRM Archive": "CRM Archiwum",
-    "CRM Archive Sent": "CRM Archiwum wys\u0142ane",
+    "CRM Archive Sent": "CRM Archiwum wysłane",
     "Drafts": "Szkice",
     "INBOX": "Skrzynka odbiorcza",
     "Junk": "Kosz",
-    "Sent": "Wys\u0142ane",
-    "ERR_INCORRECT_ACCESS_DATA": "B\u0142edne dane dost\u0119powe",
-    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Po zapisaniu poni\u017cej wymienione foldery zostan\u0105 usuni\u0119te"
+    "Sent": "Wysłane",
+    "ERR_INCORRECT_ACCESS_DATA": "Błedne dane dostępowe",
+    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Po zapisaniu poniżej wymienione foldery zostaną usunięte"
   },
   "js": {
     "start_cron": "Uruchomiono crona",
-    "end_cron_ok": "Zako\u0144czono zadania crona prawid\u0142owo",
-    "end_cron_error": "Podczas wykonywania crona pojawi\u0142 si\u0119 b\u0142\u0105d",
+    "end_cron_ok": "Zakończono zadania crona prawidłowo",
+    "end_cron_error": "Podczas wykonywania crona pojawił się błąd",
     "JS_mail_error": "Podano niepoprawny adres e-mail",
     "JS_time_error": "Podano niepoprawny format czasu",
-    "JS_StopCron": "R\u0119czne zatrzymanie skanowania",
-    "stop_user": "U\u017cytkownik, kt\u00f3ry zatrzyma\u0142 skanowanie",
-    "Manually stopped": "Przerwano r\u0119cznie",
+    "JS_StopCron": "Ręczne zatrzymanie skanowania",
+    "stop_user": "Użytkownik, który zatrzymał skanowanie",
+    "Manually stopped": "Przerwano ręcznie",
     "OK": "ok",
     "In progress": "W realizacji",
-    "whether_remove_an_identity": "Czy usun\u0105\u0107 to\u017csamo\u015b\u0107",
-    "removed_identity": "Usuni\u0119to to\u017csamo\u015b\u0107",
-    "LBL_LOADING_LIST_OF_FOLDERS": "Trwa pobieranie listy folder\u00f3w,\r\n mo\u017ce to portwa\u0107 nawet kilka minut..."
+    "whether_remove_an_identity": "Czy usunąć tożsamość",
+    "removed_identity": "Usunięto tożsamość",
+    "LBL_LOADING_LIST_OF_FOLDERS": "Trwa pobieranie listy folderów,\r\n może to portwać nawet kilka minut..."
   }
 }
