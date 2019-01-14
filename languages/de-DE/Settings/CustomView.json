@@ -1,35 +1,35 @@
 {
   "php": {
     "CustomView": "Filter - Konfigurationen",
-    "LBL_CUSTOMVIEW_DESCRIPTION": "Dieses Tool erm\u00f6glicht die Erstellung benutzerdefinierter Ansichten f\u00fcr Module. Diese Module m\u00fcssen Datens\u00e4tze enthalten und verwenden Standard-Filter im CRM.",
+    "LBL_CUSTOMVIEW_DESCRIPTION": "Dieses Tool ermöglicht die Erstellung benutzerdefinierter Ansichten für Module. Diese Module müssen Datensätze enthalten und verwenden Standard-Filter im CRM.",
     "ViewName": "Ansichtsname",
     "SetDefault": "Standard",
     "Privileges": "Berechtigungen",
-    "Delete": "L\u00f6schen",
-    "Delete CustomView": "Benutzerdefinierte Ansicht wurde gel\u00f6scht",
+    "Delete": "Löschen",
+    "Delete CustomView": "Benutzerdefinierte Ansicht wurde gelöscht",
     "Saving CustomView": "Benutzerdefinierte Ansicht wurde gespeichert",
     "Actions": "Aktionen",
     "Edit": "Bearbeiten",
-    "LBL_ATTENTION": "Warnung!",
     "LBL_FEATURED_LABELS": "Zu Favoriten",
     "LBL_CREATED_BY": "Erzeugt von",
-    "LBL_ADD_FILTER": "Filter hinzuf\u00fcgen",
+    "LBL_ADD_FILTER": "Filter hinzufügen",
     "LBL_MANAGE_PERMISSIONS": "Berechtigungen verwalten",
-    "LBL_ALL_GROUP_LIST": "Verf\u00fcgbare Optionen",
-    "LBL_GROUP_MEMBERS": "In der Aktion ber\u00fccksichtigt",
-    "LBL_ADD_PERMISSIONS": "Berechtigung hinzuf\u00fcgen",
+    "LBL_ALL_GROUP_LIST": "Verfügbare Optionen",
+    "LBL_GROUP_MEMBERS": "In der Aktion berücksichtigt",
+    "LBL_ADD_PERMISSIONS": "Berechtigung hinzufügen",
     "LBL_RECEIVE_PERMISSION": "Berechtigungen erhalten",
     "LBL_SAVE_SEQUENCES": "Sequenz erfolgreich gesichert",
-    "LBL_EXISTS_PERMISSION_IN_CONFIG": "Konflikt mit %s \r\n Gew\u00e4hlte Berechtigung kann nicht in mehr als einem Filter verwendet werden.",
+    "LBL_EXISTS_PERMISSION_IN_CONFIG": "Konflikt mit %s \r\n Gewählte Berechtigung kann nicht in mehr als einem Filter verwendet werden.",
     "LBL_SORTING": "Sortieren",
     "LBL_SORTING_SETTINGS": "Sortiereinstellungen",
-    "LBL_SORTING_SETTINGS_WORNING": "Datensatzsortierung kann die Ladezeit erheblich erh\u00f6hen.",
-    "LBL_SELECT_FIELD_TO_SORT_RECORDS": "W\u00e4hle ein Feld um die Datens\u00e4tze zu sortieren",
+    "LBL_SORTING_SETTINGS_WORNING": "Datensatzsortierung kann die Ladezeit erheblich erhöhen.",
+    "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Wähle ein Feld um die Datensätze zu sortieren",
     "LBL_SORT_ASCENDING_ORDER": "Aufsteigend sortieren",
-    "LBL_SORT_DESCENDING_ORDER": "Absteigend sortieren"
+    "LBL_SORT_DESCENDING_ORDER": "Absteigend sortieren",
+    "LBL_ATTENTION": "Warnung!"
   },
   "js": {
-    "Saving changes": "Speichern von \u00c4nderungen...",
+    "Saving changes": "Speichern von Änderungen...",
     "Update labels": "Aktualisierung"
   }
 }
