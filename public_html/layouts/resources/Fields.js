@@ -608,8 +608,6 @@ App.Fields = {
 						.then(response => {
 							App.emoji = response;
 						}).catch(error => console.error('Error:', error));
-				} else {
-					this.completionsCollection.append(2, App.emoji);
 				}
 			}
 
