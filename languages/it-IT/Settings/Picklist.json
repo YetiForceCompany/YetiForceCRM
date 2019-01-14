@@ -35,7 +35,8 @@
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Values assigned to a Role",
     "NO_PICKLIST_FIELDS": "do not have any picklist fields",
     "LBL_NEW_VALUE": "New value",
-    "LBL_CLOSES_RECORD": "Closes record"
+    "LBL_CLOSES_RECORD": "Closes record",
+    "LBL_PREFIX": "Prefix"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",
