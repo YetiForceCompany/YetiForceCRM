@@ -24,7 +24,6 @@
     "LBL_TABLE_HIERARCHY": "Tabel ierarhie",
     "LBL_SECONDARY_STORAGES": "Depozite secundare",
     "LBL_ROW_NUM": "Nr.",
-    "LBL_STORAGE_OWNER": "Proprietar",
-    "FL_POS": "POS"
+    "LBL_STORAGE_OWNER": "Proprietar"
   }
 }
