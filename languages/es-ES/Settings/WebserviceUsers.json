@@ -6,10 +6,10 @@
     "FL_SERVER": "Servidor API",
     "FL_STATUS": "Estado",
     "FL_LOGIN": "Usuario",
-    "FL_PASSWORD": "Contrase\u00f1a",
+    "FL_PASSWORD": "Contraseña",
     "FL_TYPE": "Tipo",
-    "FL_LOGIN_TIME": "Fecha inicio de sesi\u00f3n",
-    "FL_LOGOUT_TIME": "Fecha cierre de sesi\u00f3n",
+    "FL_LOGIN_TIME": "Fecha inicio de sesión",
+    "FL_LOGOUT_TIME": "Fecha cierre de sesión",
     "FL_LANGUAGE": "Idioma",
     "FL_RECORD_NAME": "Registro",
     "FL_USER": "Usuario",
@@ -17,15 +17,14 @@
     "BTN_CLOSE": "Cancelar",
     "PLL_USER_PERMISSIONS": "Permisos basados en el usuario",
     "PLL_ACCOUNTS_RELATED_RECORDS": "Todos los registros de las Empresas asignados directamente al Contacto",
-    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Todos los registros de las Empresas asignados directamente al Contacto y Empresas a nivel inferior en jerarqu\u00eda",
-    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Todos los registros de las Empresas asignados directamente al Contacto y Empresa en jerarqu\u00eda",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Todos los registros de las Empresas asignados directamente al Contacto y Empresas a nivel inferior en jerarquía",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Todos los registros de las Empresas asignados directamente al Contacto y Empresa en jerarquía",
     "PLL_ACTIVE": "Activo",
     "PLL_INACTIVE": "Inactivo",
-    "LBL_CREATE_RECORD": "Crear un nuevo usuario",
-    "LBL_ADD_RECORD": "Crear un nuevo usuario"
+    "LBL_CREATE_RECORD": "Crear un nuevo usuario"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "\u00bfSeguro que desea eliminar el Usuario de la API?",
+    "JS_DELETE_CONFIRMATION": "¿Seguro que desea eliminar el Usuario de la API?",
     "JS_SAVE_SUCCESS": "Cambios guardados"
   }
 }
