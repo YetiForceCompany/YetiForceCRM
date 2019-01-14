@@ -4,12 +4,14 @@
     "LBL_INFO": "Informacja",
     "LBL_TYPE": "Status",
     "LBL_PROJECT": "Projekt",
-    "LBL_PROJECT_STATUS_INFO": "Statusy oznaczaj\u0105ce zamkni\u0119cie projektu",
-    "LBL_PROJECTMILESTONE_STATUS_INFO": "Statusy oznaczaj\u0105ce zamkni\u0119cie etapu",
-    "LBL_PROJECTTASK_STATUS_INFO": "Statusy oznaczaj\u0105ce zamkni\u0119cie zadania",
-    "LBL_SAVE_CONFIG_OK": "Pomy\u015blnie zapisano zmiany.",
-    "LBL_SAVE_CONFIG_ERROR": "Nie uda\u0142o si\u0119 zapisa\u0107 zmian.",
+    "LBL_PROJECT_STATUS_INFO": "Statusy oznaczające zamknięcie projektu",
+    "LBL_PROJECTMILESTONE_STATUS_INFO": "Statusy oznaczające zamknięcie etapu",
+    "LBL_PROJECTTASK_STATUS_INFO": "Statusy oznaczające zamknięcie zadania",
+    "LBL_SAVE_CONFIG_OK": "Pomyślnie zapisano zmiany.",
+    "LBL_SAVE_CONFIG_ERROR": "Nie udało się zapisać zmian.",
     "RealizationProcesses": "Procesy realizacji"
   },
-  "js": {}
+  "js": {
+
+  }
 }
