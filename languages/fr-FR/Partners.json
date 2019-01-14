@@ -1,15 +1,14 @@
 {
   "php": {
-    "FL_CATEGORY": "Cat\u00e9gorie",
     "Partners": "Partenaires",
     "SINGLE_Partners": "Partenaire",
-    "LBL_PARTNERS_INFORMATION": "D\u00e9tails du partenaire",
-    "LBL_CUSTOM_INFORMATION": "Information syst\u00e8me",
-    "LBL_DESCRIPTION_INFORMATION": "Description d\u00e9taill\u00e9e",
+    "LBL_PARTNERS_INFORMATION": "Détails du partenaire",
+    "LBL_CUSTOM_INFORMATION": "Information système",
+    "LBL_DESCRIPTION_INFORMATION": "Description détaillée",
     "LBL_SUBJECT": "Nom du partenaire",
     "LBL_NUMBER": "No enregistrement",
     "LBL_CLOSED_TIME": "Heure de fermeture",
-    "LBL_VAT_ID": "N\u00b0 de TVA"
-  },
-  "js": {}
+    "LBL_VAT_ID": "N° de TVA",
+    "FL_CATEGORY": "Catégorie"
+  }
 }
