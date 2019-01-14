@@ -1,9 +1,8 @@
 {
   "php": {
-    "FBookkeeping": "Comptabilit\u00e9",
-    "SINGLE_FBookkeeping": "Comptabilit\u00e9",
-    "FBookkeeping ID": "N\u00b0 ID de comptabilit\u00e9",
+    "FBookkeeping": "Comptabilité",
+    "SINGLE_FBookkeeping": "Comptabilité",
+    "FBookkeeping ID": "N° ID de comptabilité",
     "FL_SUBJECT": "Sujet"
-  },
-  "js": {}
+  }
 }
