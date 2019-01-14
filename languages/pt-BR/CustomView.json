@@ -1,7 +1,8 @@
 {
   "php": {
-    "CustomView": "Filtros - Configura\u00e7\u00e3o",
+    "CustomView": "Filtros - Configuração",
     "LBL_FEATURED": "Adicionar a Favoritos",
-    "LBL_COLOR_VIEW": "Visualiza\u00e7\u00e3o cor"
+    "LBL_COLOR_VIEW": "Visualização cor",
+    "LBL_ADD_FIELD": "Add field"
   }
 }
