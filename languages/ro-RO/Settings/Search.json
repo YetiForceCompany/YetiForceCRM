@@ -3,7 +3,7 @@
     "Search Configuration": "Configurare cautare",
     "Search Setup": "Cautare - Configurare",
     "Search": "Configurare cautare",
-    "LBL_Module_desc": "Acest panou permite setarea etichetelor pentru campurile uitype 10 si pentru mecanismele de cautare. Aceste mecanisme functioneaza independent \u2013 puteti cauta mai multe coloane intr-un camp in timp ce cautati, dar cand selectati o inregistrare, va fi incarcat un nume dintr-o eticheta.",
+    "LBL_Module_desc": "Acest panou permite setarea etichetelor pentru campurile uitype 10 si pentru mecanismele de cautare. Aceste mecanisme functioneaza independent – puteti cauta mai multe coloane intr-un camp in timp ce cautati, dar cand selectati o inregistrare, va fi incarcat un nume dintr-o eticheta.",
     "Module": "Modul",
     "Table": "Tabel",
     "LabelFields": "Coloanele principale pentru modul (inclusiv o eticheta de tipul uitype 10)",
@@ -18,7 +18,7 @@
     "LBL_TURN_OFF": "Opriti"
   },
   "js": {
-    "Saving changes": "Actualizare in curs\u2026",
+    "Saving changes": "Actualizare in curs…",
     "Update labels": "Actualizare",
     "JS_MODULES_SEQUENCE_UPDATED": "Secvente modul actualizate",
     "JS_TURN_ON": "Porniti",
