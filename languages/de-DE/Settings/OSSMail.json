@@ -3,5 +3,7 @@
     "OSSMail": "Meine E-Mailbox",
     "ERR_NO_MODULE_IS_INACTIVE": "\"Mein E-Mailbox\" Modul ist inaktiv, bitte vor der Konfiguration aktivieren."
   },
-  "js": {}
+  "js": {
+
+  }
 }
