@@ -6,12 +6,12 @@
     "LBL_API_KEY": "Clave de la API",
     "LBL_ADD_APPLICATION": "Crear nueva API",
     "LBL_WEBSERVICE_APPS": "Servicio Web - Aplicaciones",
-    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Tenga en cuenta que el m\u00f3dulo ser\u00e1 completamente funcional en v.3.1",
-    "LBL_PASS": "Contrase\u00f1a (API)",
-    "LBL_TITLE_ADDED": "A\u00f1adir",
+    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Tenga en cuenta que el módulo será completamente funcional en v.3.1",
+    "LBL_PASS": "Contraseña (API)",
+    "LBL_TITLE_ADDED": "Añadir",
     "LBL_TITLE_EDIT": "Editar"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "\u00bfSeguro que desea eliminar la clave?"
+    "JS_DELETE_CONFIRMATION": "¿Seguro que desea eliminar la clave?"
   }
 }
