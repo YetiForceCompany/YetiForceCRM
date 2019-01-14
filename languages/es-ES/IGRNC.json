@@ -1,13 +1,13 @@
 {
   "php": {
-    "IGRNC": "Albaranes de Compra - Correcci\u00f3n",
-    "SINGLE_IGRNC": "Albar\u00e1n de Compra - Correcci\u00f3n",
-    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "IGRNC": "Albaranes de Compra - Corrección",
+    "SINGLE_IGRNC": "Albarán de Compra - Corrección",
+    "LBL_DESCRIPTION_BLOCK": "Descripción",
     "LBL_ATTENTION_BLOCK": "Notas",
-    "FL_ACCEPTANCE_DATE": "Fecha de aceptaci\u00f3n",
+    "FL_ACCEPTANCE_DATE": "Fecha de aceptación",
     "FL_VENDOR": "Proveedor",
-    "FL_NUMBER": "ID",
     "FL_SUBJECT": "Asunto",
+    "FL_NUMBER": "ID",
     "FL_STORAGE": "Almacenamiento",
     "FL_STATUS": "Estado",
     "FL_IGRN": "Albaranes de Compra",
