@@ -1,7 +1,8 @@
 {
   "php": {
-    "CustomView": "Filtreler - Yap\u0131land\u0131rma",
+    "CustomView": "Filtreler - Yapılandırma",
     "LBL_FEATURED": "Favorilere ekle",
-    "LBL_COLOR_VIEW": "Rengi g\u00f6ster"
+    "LBL_COLOR_VIEW": "Rengi göster",
+    "LBL_ADD_FIELD": "Add field"
   }
 }
