@@ -9,8 +9,6 @@
     "LBL_ALL_VALUES": "All values",
     "LBL_ASSIGN_TO_ROLE": "Assign to Role",
     "LBL_ASSIGN_VALUE": "Assign Roles",
-    "LBL_SAVE_COLOR": "Color changed successfully",
-    "LBL_REMOVED_COLOR": "Color removed successfully",
     "LBL_ASSIGN_VALUES_TO_ROLES": "Assign values to Roles",
     "LBL_CHOOSE_ROLES": "Choose Roles",
     "LBL_DELETE_PICKLIST_ITEMS": "Delete pickList items",
@@ -37,7 +35,8 @@
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Values assigned to a Role",
     "NO_PICKLIST_FIELDS": "do not have any picklist fields",
     "LBL_NEW_VALUE": "New value",
-    "LBL_CLOSES_RECORD": "Closes record"
+    "LBL_CLOSES_RECORD": "Closes record",
+    "LBL_PREFIX": "Prefix"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",

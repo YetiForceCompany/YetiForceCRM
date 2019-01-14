@@ -27,7 +27,6 @@
     "Outgoing received": "Outgoing received",
     "Incoming": "Incoming received",
     "Missed": "Incoming missed",
-    "Voicemail": "Incoming voicemail",
-    "Call history": "Call History"
+    "Voicemail": "Incoming voicemail"
   }
 }

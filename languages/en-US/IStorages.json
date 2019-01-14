@@ -24,7 +24,6 @@
     "LBL_TABLE_HIERARCHY": "Hierarchy table",
     "LBL_SECONDARY_STORAGES": "Secondary storages",
     "LBL_ROW_NUM": "No.",
-    "LBL_STORAGE_OWNER": "Owner",
-    "FL_POS": "POS"
+    "LBL_STORAGE_OWNER": "Owner"
   }
 }

@@ -5,7 +5,6 @@
     "Contact Id": "Contact ID",
     "Contact Image": "Contact image",
     "Contacts": "Contacts",
-    "Do Not Call": "Do not call",
     "Email": "Primary email",
     "LBL_CONTACT_INFORMATION": "Basic information",
     "LBL_COPY_MAILING_ADDRESS": "Copy mailing address",
@@ -36,14 +35,17 @@
     "LBL_CONTACT_INFO": "Contact information",
     "Approval for phone calls": "Permission to call",
     "Approval for email": "Permission to send emails",
+    "Do Not Call": "Do not call",
     "LBL_LANGUAGE_NOTIFICATIONS": "Language notifications",
+    "SINGLE_Leads": "Lead",
+    "SINGLE_Vendors": "Vendor",
     "Decision maker": "Decision maker",
     "End of support for contact": "End of support for contact",
     "Birthdays of contacts": "Birthdays of contacts",
-    "SINGLE_Leads": "Lead",
-    "SINGLE_Vendors": "Vendor",
     "LBL_SWITCH_ON_DECISION_MAKER": "Decision maker",
     "LBL_SWITCH_OFF_DECISION_MAKER": "All"
   },
-  "js": {}
+  "js": {
+
+  }
 }

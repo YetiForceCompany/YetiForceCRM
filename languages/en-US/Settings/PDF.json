@@ -14,11 +14,7 @@
     "LBL_PDF_TEMPLATE": "PDF template",
     "LBL_DOCUMENT_BASIC_OPTIONS": "Document basic options",
     "LBL_DOCUMENT_CONTENT": "Document content",
-    "LBL_DOCUMENT_DESCRIPTION": "Document description",
-    "LBL_DOCUMENT_SETTINGS": "Document settings",
     "LBL_DOCUMENT_HEADER": "Header contents",
-    "LBL_DOCUMENT_BODY": "Body contents",
-    "LBL_DOCUMENT_FOOTER": "Footer contents",
     "LBL_DOCUMENT_EXCEPTIONS": "Exceptions",
     "LBL_DOCUMENT_PERMISSIONS": "Permissions",
     "LBL_DOCUMENT_WATERMARK": "Watermark",
@@ -73,10 +69,10 @@
     "LBL_USE_FUNCTION": "Use function",
     "LBL_EXAMPLE_EXPRESSION": "Expression",
     "LBL_EXPRESSION": "Expression",
-    "LBL_ANNUAL_REVENUE": "annual_revenue",
+    "LBL_ANNUAL_REVENUE": "Annual revenue",
     "LBL_EXPRESSION_EXAMPLE2": "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
     "LBL_EXAMPLE_FIELD_NAME": "Field",
-    "LBL_NOTIFY_OWNER": "notify_owner",
+    "LBL_NOTIFY_OWNER": "Notify owner",
     "LBL_WATERMARK_DETAILS": "Edit watermark",
     "LBL_WATERMARK_TYPE": "Watermark type",
     "LBL_WATERMARK_TEXT": "Watermark contents",
@@ -162,7 +158,7 @@
     "B": "B",
     "A": "A",
     "DEMY": "Demy",
-    "ROYAL": "Rotyal"
+    "ROYAL": "Royal"
   },
   "js": {
     "JS_PDF_SAVED_SUCCESSFULLY": "PDF template saved.",
