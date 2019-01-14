@@ -1,30 +1,30 @@
 {
   "php": {
-    "WebserviceUsers": "\u0412\u0435\u0431-\u0441\u043b\u0443\u0436\u0431\u044b - \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438",
-    "LBL_WEBSERVICE_USERS": "\u0412\u0435\u0431-\u0441\u043b\u0443\u0436\u0431\u044b - \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438",
+    "WebserviceUsers": "Веб-службы - пользователи",
+    "LBL_WEBSERVICE_USERS": "Веб-службы - пользователи",
     "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
-    "FL_SERVER": "\u0421\u0435\u0440\u0432\u0435\u0440",
-    "FL_STATUS": "\u0421\u0442\u0430\u0442\u0443\u0441",
-    "FL_LOGIN": "\u0418\u043c\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
-    "FL_PASSWORD": "\u041f\u0430\u0440\u043e\u043b\u044c",
-    "FL_TYPE": "\u0422\u0438\u043f",
-    "FL_LOGIN_TIME": "\u0412\u0440\u0435\u043c\u044f \u0432\u0445\u043e\u0434\u0430",
-    "FL_LOGOUT_TIME": "\u0412\u0440\u0435\u043c\u044f \u0432\u044b\u0445\u043e\u0434\u0430",
-    "FL_LANGUAGE": "\u042f\u0437\u044b\u043a",
-    "FL_RECORD_NAME": "\u0417\u0430\u043f\u0438\u0441\u044c",
-    "FL_USER": "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c",
-    "BTN_SAVE": "\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",
-    "BTN_CLOSE": "\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c",
-    "PLL_USER_PERMISSIONS": "\u041f\u0440\u0430\u0432\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
-    "PLL_ACCOUNTS_RELATED_RECORDS": "\u0412\u0441\u0435 \u0437\u0430\u043f\u0438\u0441\u0438 \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430, \u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u043d\u044b\u0435 \u043d\u0430\u043f\u0440\u044f\u043c\u0443\u044e \u043a \u043a\u043e\u043d\u0442\u0430\u043a\u0442\u0443",
-    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "\u0412\u0441\u0435 \u0437\u0430\u043f\u0438\u0441\u0438 \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430, \u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u043d\u044b\u0435 \u043d\u0430\u043f\u0440\u044f\u043c\u0443\u044e \u043a \u043a\u043e\u043d\u0442\u0430\u043a\u0442\u0443 \u0438 \u0432\u043d\u0438\u0437 \u043f\u043e \u0438\u0435\u0440\u0430\u0440\u0445\u0438\u0438",
-    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "\u0412\u0441\u0435 \u0441\u0432\u044f\u0437\u0430\u043d\u043d\u044b\u0435 \u0437\u0430\u043f\u0438\u0441\u0438 \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430, \u043f\u0440\u0438\u0432\u044f\u0437\u0430\u043d\u043d\u044b\u0435 \u043d\u0430\u043f\u0440\u044f\u043c\u0443\u044e \u043a \u043a\u043e\u043d\u0442\u0430\u043a\u0442\u0443 \u0438 \u0430\u043a\u043a\u0430\u043d\u0442\u0443 \u043f\u043e \u0438\u0435\u0440\u0430\u0440\u0445\u0438\u0438",
-    "PLL_ACTIVE": "\u0410\u043a\u0442\u0438\u0432\u043d\u043e",
-    "PLL_INACTIVE": "\u041d\u0435\u0430\u043a\u0442\u0438\u0432\u043d\u043e",
-    "LBL_CREATE_RECORD": "\u0421\u043e\u0437\u0434\u0430\u0442\u044c"
+    "FL_SERVER": "Сервер",
+    "FL_STATUS": "Статус",
+    "FL_LOGIN": "Имя пользователя",
+    "FL_PASSWORD": "Пароль",
+    "FL_TYPE": "Тип",
+    "FL_LOGIN_TIME": "Время входа",
+    "FL_LOGOUT_TIME": "Время выхода",
+    "FL_LANGUAGE": "Язык",
+    "FL_RECORD_NAME": "Запись",
+    "FL_USER": "Пользователь",
+    "BTN_SAVE": "Сохранить",
+    "BTN_CLOSE": "Отменить",
+    "PLL_USER_PERMISSIONS": "Права пользователя",
+    "PLL_ACCOUNTS_RELATED_RECORDS": "Все записи аккаунта, привязанные напрямую к контакту",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Все записи аккаунта, привязанные напрямую к контакту и вниз по иерархии",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Все связанные записи аккаунта, привязанные напрямую к контакту и акканту по иерархии",
+    "PLL_ACTIVE": "Активно",
+    "PLL_INACTIVE": "Неактивно",
+    "LBL_CREATE_RECORD": "Создать"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u043a\u043b\u044e\u0447?",
-    "JS_SAVE_SUCCESS": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u044b"
+    "JS_DELETE_CONFIRMATION": "Вы уверены, что хотите удалить ключ?",
+    "JS_SAVE_SUCCESS": "Изменения сохранены"
   }
 }
