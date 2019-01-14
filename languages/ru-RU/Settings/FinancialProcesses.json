@@ -1,7 +1,9 @@
 {
   "php": {
-    "FinancialProcesses": "\u0424\u0438\u043d\u0430\u043d\u0441\u043e\u0432\u044b\u0439 \u043f\u0440\u043e\u0446\u0435\u0441\u0441",
-    "LBL_GENERAL": "\u041e\u0441\u043d\u043e\u0432\u043d\u043e\u0435"
+    "LBL_GENERAL": "Основное",
+    "FinancialProcesses": "Финансовый процесс"
   },
-  "js": {}
+  "js": {
+
+  }
 }
