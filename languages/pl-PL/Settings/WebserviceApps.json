@@ -6,12 +6,12 @@
     "LBL_API_KEY": "Klucz",
     "LBL_ADD_APPLICATION": "Dodaj klucz",
     "LBL_WEBSERVICE_APPS": "Web service - Aplikacje",
-    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Tworzenie i zarz\u0105dzanie kluczami aplikacji integruj\u0105cymi si\u0119 poprzez interfejs API.",
-    "LBL_PASS": "Has\u0142o",
+    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Tworzenie i zarządzanie kluczami aplikacji integrującymi się poprzez interfejs API.",
+    "LBL_PASS": "Hasło",
     "LBL_TITLE_ADDED": "Dodaj",
     "LBL_TITLE_EDIT": "Edytuj"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 klucz?"
+    "JS_DELETE_CONFIRMATION": "Czy na pewno chcesz usunąć klucz?"
   }
 }
