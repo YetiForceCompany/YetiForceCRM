@@ -16,14 +16,14 @@
     "LBL_SAVE_COLOR": "Color guardado",
     "Call": "Llamada",
     "Task": "Tarea",
-    "Meeting": "Reuni\u00f3n",
+    "Meeting": "Reunión",
     "LBL_GROUPS_COLORS": "Colores de los Grupos",
     "LBL_USERS_COLORS": "Colores de los Usuarios",
-    "LBL_PICKLIST_COLOR_COL_NOT_FOUND": "La funcionalidad de color no se ha activado para esta lista de selecci\u00f3n.",
+    "LBL_PICKLIST_COLOR_COL_NOT_FOUND": "La funcionalidad de color no se ha activado para esta lista de selección.",
     "LBL_UPDATE_COLOR_COLUMN": "Activar",
     "LBL_WARNING": "Advertencia",
     "LBL_ITEM": "Valor",
-    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_MODULE": "Módulo",
     "LBL_GROUP_NAME": "Grupo"
   }
 }
