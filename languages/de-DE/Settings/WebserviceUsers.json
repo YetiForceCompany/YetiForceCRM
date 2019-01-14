@@ -16,15 +16,15 @@
     "BTN_SAVE": "Speichern",
     "BTN_CLOSE": "Abbrechen",
     "PLL_USER_PERMISSIONS": "Berechtigung basiert auf Benutzer",
-    "PLL_ACCOUNTS_RELATED_RECORDS": "Alle Datens\u00e4tze der Organisation direkt dem Kontakt zuweisen",
-    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Alle Datens\u00e4tze der Organisation direkt dem Kontakt und untergeordnete Organisationen zuweisen",
-    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Alle relevanten Datens\u00e4tze der Organisation direkt dem Kontakt zuweisen und Organisationen in Hierchie",
+    "PLL_ACCOUNTS_RELATED_RECORDS": "Alle Datensätze der Organisation direkt dem Kontakt zuweisen",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Alle Datensätze der Organisation direkt dem Kontakt und untergeordnete Organisationen zuweisen",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Alle relevanten Datensätze der Organisation direkt dem Kontakt zuweisen und Organisationen in Hierchie",
     "PLL_ACTIVE": "Aktiv",
     "PLL_INACTIVE": "Inaktiv",
     "LBL_CREATE_RECORD": "Erzeugen"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "Sind Sie sicher diesen Schl\u00fcssel zu l\u00f6schen?",
-    "JS_SAVE_SUCCESS": "\u00c4nderungen wurden gesichert"
+    "JS_DELETE_CONFIRMATION": "Sind Sie sicher diesen Schlüssel zu löschen?",
+    "JS_SAVE_SUCCESS": "Änderungen wurden gesichert"
   }
 }
