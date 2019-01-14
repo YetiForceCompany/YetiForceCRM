@@ -2,8 +2,6 @@
   "php": {
     "OSSSoldServices": "Sold Services",
     "SINGLE_OSSSoldServices": "Sold Service",
-    "LBL_RECORDS_LIST": "Records List",
-    "LBL_ADD_RECORD": "Add record",
     "LBL_INFORMATION": "Information block",
     "Number": "Number",
     "Assigned To": "Assigned to",
@@ -22,6 +20,7 @@
     "LBL_GENERATE_EXTENSION": "Generate extension",
     "LBL_ORDER_TIME": "Order time",
     "FL_RENEWAL_INVOICE": "Renewal invoice",
+    "FL_CONTACT": "Contact",
     "FL_RENEWAL": "Renewal",
     "PLL_DRAFT": "Draft",
     "PLL_WAITING_FOR_VERIFICATION": "Waiting for verification",
