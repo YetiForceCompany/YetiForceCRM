@@ -5,16 +5,16 @@
     "Symbol": "Symbol",
     "Currency Code": "Kod waluty",
     "Currency Name": "Nazwa waluty",
-    "LBL_ADD_NEW_CURRENCY": "Dodaj now\u0105 walut\u0119",
-    "LBL_ADD_RECORD": "Dodaj walut\u0119",
+    "LBL_ADD_NEW_CURRENCY": "Dodaj nową walutę",
+    "LBL_ADD_RECORD": "Dodaj walutę",
     "LBL_CURRENCY_CODE": "Kod waluty",
     "LBL_CURRENCY_NAME": "Nazwa waluty",
-    "LBL_CURRENCY_STATUS_DESC": "W\u0142\u0105cz walut\u0119 aby system przeliczy\u0142 warto\u015b\u0107",
+    "LBL_CURRENCY_STATUS_DESC": "Włącz walutę aby system przeliczył wartość",
     "LBL_CURRENCY_SYMBOL": "Symbol",
     "LBL_CURRENT_CURRENCY": "Aktualna waluta",
-    "LBL_EDIT_CURRENCY": "Edytuj walut\u0119",
-    "LBL_ENTER_CONVERSION_RATE": "Wprowad\u017a przelicznik",
-    "LBL_TRANSFER_CURRENCY": "Transferuj walut\u0119",
+    "LBL_EDIT_CURRENCY": "Edytuj walutę",
+    "LBL_ENTER_CONVERSION_RATE": "Wprowadź przelicznik",
+    "LBL_TRANSFER_CURRENCY": "Transferuj walutę",
     "Afghanistan, Afghanis": "Afghanistan, Afghanis",
     "Albania, Leke": "Albania, Leke",
     "Argentina, Pesos": "Argentina, Pesos",
@@ -39,7 +39,7 @@
     "China, Yuan Renminbi": "China, Yuan Renminbi",
     "Colombia, Pesos": "Colombia, Pesos",
     "Convertible Marka": "Convertible Marka",
-    "Costa Rica, Col\u00f3n": "Costa Rica, Col\u00f3n",
+    "Costa Rica, Colón": "Costa Rica, Colón",
     "Croatia, Kuna": "Croatia, Kuna",
     "Cuba, Pesos": "Cuba, Pesos",
     "Cyprus, Pounds": "Cyprus, Pounds",
@@ -48,7 +48,7 @@
     "Dominican Republic, Pesos": "Dominican Republic, Pesos",
     "East Caribbean, Dollars": "East Caribbean, Dollars",
     "Egypt, Pounds": "Egypt, Pounds",
-    "El Salvador, Col\u00f3n": "El Salvador, Col\u00f3n",
+    "El Salvador, Colón": "El Salvador, Colón",
     "England, Pounds": "England, Pounds",
     "Estonia, Krooni": "Estonia, Krooni",
     "Euro": "Euro",
@@ -147,11 +147,11 @@
     "Zimbabwe Dollars": "Zimbabwe Dollars",
     "Active": "Aktywny",
     "Inactive": "Nieaktywny",
-    "LBL_SET_AS_DEFAULT": "Ustaw jako domy\u015blny"
+    "LBL_SET_AS_DEFAULT": "Ustaw jako domyślny"
   },
   "js": {
-    "JS_CURRENCY_DELETED_SUCCESSFULLY": "Usuni\u0119to walut\u0119 poprawnie",
-    "JS_CURRENCY_DETAILS_SAVED": "Szczeg\u00f3\u0142y waluty zapisano",
-    "JS_CURRENCY_DEFAULT_CONFIRMED": "Uwaga! Ta operacja zmieni domy\u015bln\u0105 walut\u0119 w wielu miejscach w systemie. Uprzednio wystawione dokumenty finansowe mog\u0105 wymaga\u0107 przewalutowania. Dokonaj r\u0119cznego przewalutowania je\u015bli dokumenty te zosta\u0142y wystawione produkcyjnie. Wymagane b\u0119dzie przeliczenie kursu dla pozosta\u0142ych walut."
+    "JS_CURRENCY_DELETED_SUCCESSFULLY": "Usunięto walutę poprawnie",
+    "JS_CURRENCY_DETAILS_SAVED": "Szczegóły waluty zapisano",
+    "JS_CURRENCY_DEFAULT_CONFIRMED": "Uwaga! Ta operacja zmieni domyślną walutę w wielu miejscach w systemie. Uprzednio wystawione dokumenty finansowe mogą wymagać przewalutowania. Dokonaj ręcznego przewalutowania jeśli dokumenty te zostały wystawione produkcyjnie. Wymagane będzie przeliczenie kursu dla pozostałych walut."
   }
 }
