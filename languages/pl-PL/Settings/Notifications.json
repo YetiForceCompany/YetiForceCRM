@@ -1,12 +1,14 @@
 {
   "php": {
-    "LBL_EXCEPTIONS": "Wyj\u0105tki",
+    "LBL_EXCEPTIONS": "Wyjątki",
     "LBL_NOTIFICATIONS_CONFIGURATION": "Powiadomienia - konfiguracja",
-    "LBL_ADD_MEMBERS": "Dodaj cz\u0142onk\u00f3w do powiadomie\u0144",
-    "LBL_SELECT_MEMBERS": "Wybierz cz\u0142onk\u00f3w do powiadomie\u0144",
-    "LBL_MEMBERS": "Cz\u0142onkowie",
+    "LBL_ADD_MEMBERS": "Dodaj członków do powiadomień",
+    "LBL_SELECT_MEMBERS": "Wybierz członków do powiadomień",
+    "LBL_MEMBERS": "Członkowie",
     "LBL_LOCK": "Blokada",
-    "LBL_NOTICE_CONFIG_WARNING": "Wy\u0142\u0105czono opcj\u0119 obserwacji modu\u0142\u00f3w w konfiguracji. W\u0142\u0105cz j\u0105, aby m\u00f3c zarz\u0105dza\u0107 powiadomieniami."
+    "LBL_NOTICE_CONFIG_WARNING": "Wyłączono opcję obserwacji modułów w konfiguracji. Włącz ją, aby móc zarządzać powiadomieniami."
   },
-  "js": {}
+  "js": {
+
+  }
 }
