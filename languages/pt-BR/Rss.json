@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_ADD_FEED_SOURCE": "Adicionar Fonte de Not\u00edcias",
-    "LBL_ENTER_FEED_SOURCE": "Digitar Fonte de Not\u00edcias",
-    "LBL_FEEDS_LIST_FROM": "Lista de Not\u00edcias de",
-    "LBL_FEED_SOURCE": "Fonte de Not\u00edcia",
-    "LBL_RSS_FEED_SOURCES": "Fontes de N\u00f3ticias RSS",
+    "LBL_RSS_FEED_SOURCES": "Fontes de Nóticias RSS",
+    "LBL_ADD_FEED_SOURCE": "Adicionar Fonte de Notícias",
+    "LBL_FEEDS_LIST_FROM": "Lista de Notícias de",
+    "LBL_SET_AS_DEFAULT": "Configurar como Padrão",
     "LBL_SENDER": "Remetente",
-    "LBL_SET_AS_DEFAULT": "Configurar como Padr\u00e3o",
+    "LBL_FEED_SOURCE": "Fonte de Notícia",
+    "LBL_ENTER_FEED_SOURCE": "Digitar Fonte de Notícias",
     "SINGLE_Rss": "Feed RSS",
     "LBL_CHANGE_RSS_CHANNEL": "Alterar canal RSS"
   },
   "js": {
-    "JS_INVALID_RSS_URL": "URL do RSS Inv\u00e1lida",
-    "JS_RSS_MADE_AS_DEFAULT": "Definir RSS como Padr\u00e3o",
-    "JS_RSS_SUCCESSFULLY_SAVED": "RSS salvo com sucesso"
+    "JS_RSS_SUCCESSFULLY_SAVED": "RSS salvo com sucesso",
+    "JS_INVALID_RSS_URL": "URL do RSS Inválida",
+    "JS_RSS_MADE_AS_DEFAULT": "Definir RSS como Padrão"
   }
 }
