@@ -530,7 +530,9 @@ App.Fields = {
 						return symbol + item.original.label;
 					},
 					values: (text, cb) => {
-						App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
+							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+						}
 					},
 					menuItemTemplate: function (item) {
 						return self.mentionTemplate({
@@ -563,7 +565,11 @@ App.Fields = {
 					},
 					lookup: 'id',
 					fillAttr: 'keywords',
-					values: []
+					values: (text, cb) => {
+						if (text.length >= 2) {
+							cb(App.emoji);
+						}
+					},
 				}
 			}
 
@@ -601,7 +607,6 @@ App.Fields = {
 						.then(response => response.json())
 						.then(response => {
 							App.emoji = response;
-							this.completionsCollection.append(2, response);
 						}).catch(error => console.error('Error:', error));
 				} else {
 					this.completionsCollection.append(2, App.emoji);
