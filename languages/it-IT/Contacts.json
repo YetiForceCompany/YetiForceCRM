@@ -5,15 +5,12 @@
     "Contact Id": "ID Contatto",
     "Contact Image": "Immagine contatto",
     "Contacts": "Contatti",
-    "Do Not Call": "Non chiamare",
     "Email": "Email principale",
-    "LBL_ADD_RECORD": "Aggiungi",
     "LBL_CONTACT_INFORMATION": "Informazioni",
     "LBL_COPY_MAILING_ADDRESS": "Copia indirizzo postale",
     "LBL_COPY_OTHER_ADDRESS": "Copia latro indirizzo",
     "LBL_CUSTOMER_PORTAL_INFORMATION": "Dettagli portale",
     "LBL_IMAGE_INFORMATION": "Foto",
-    "LBL_RECORDS_LIST": "Lista contatti",
     "Office Phone": "Telefono ufficio",
     "Portal User": "Utente portale",
     "Reference": "Referenza",
@@ -38,13 +35,17 @@
     "LBL_CONTACT_INFO": "Informazioni",
     "Approval for phone calls": "Permesso di chiamare",
     "Approval for email": "Permesso invio email",
+    "Do Not Call": "Non chiamare",
     "LBL_LANGUAGE_NOTIFICATIONS": "Lingua di notifica",
+    "SINGLE_Leads": "Lead",
+    "SINGLE_Vendors": "Fornitore",
     "Decision maker": "Persona decisionale",
     "End of support for contact": "Data fine supporto",
     "Birthdays of contacts": "Compleanno contatto",
-    "SINGLE_Leads": "Lead",
-    "SINGLE_Vendors": "Fornitore",
+    "LBL_SWITCH_ON_DECISION_MAKER": "Decision maker",
     "LBL_SWITCH_OFF_DECISION_MAKER": "Tutti"
   },
-  "js": {}
+  "js": {
+
+  }
 }
