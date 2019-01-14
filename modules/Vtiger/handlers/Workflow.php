@@ -59,6 +59,16 @@ class Vtiger_Workflow_Handler
 	}
 
 	/**
+	 * UserAfterSave function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function userAfterSave(App\EventHandler $eventHandler)
+	{
+		$this->entityAfterSave($eventHandler);
+	}
+
+	/**
 	 * Perform workflow tasks.
 	 *
 	 * @param \App\EventHandler $eventHandler
