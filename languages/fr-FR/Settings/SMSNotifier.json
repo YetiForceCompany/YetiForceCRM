@@ -1,21 +1,22 @@
 {
   "php": {
-    "FL_SMSAPI_FROM": "Message type",
-    "FL_STATUS": "Status",
     "FL_PROVIDER": "Oprateur",
-    "FL_API_KEY": "Cl\u00e9 API",
+    "FL_STATUS": "Status",
+    "FL_SMSAPI_FROM": "Message type",
+    "FL_API_KEY": "Clé API",
     "PLL_INACTIVE": "Inactif",
     "PLL_ACTIVE": "Actif",
-    "LBL_SMSNOTIFIER": "Configuration de l'op\u00e9rateur",
-    "BTN_SAVE": "Enregistrer",
-    "BTN_CLOSE": "Annuler",
     "LBL_ADD_RECORD": "Ajouter un enregistrement",
+    "LBL_SMSNOTIFIER": "Configuration de l'opérateur",
+    "LBL_SMSNOTIFIER_DESCRIPTION": " ",
     "LBL_ADD_CONFIGURATION": "Nouvelle configuration",
-    "LBL_EDIT_CONFIGURATION": "Editer la configuration"
+    "LBL_EDIT_CONFIGURATION": "Editer la configuration",
+    "BTN_SAVE": "Enregistrer",
+    "BTN_CLOSE": "Annuler"
   },
   "js": {
-    "JS_SAVE_SUCCESS": "Enregistr\u00e9",
     "LBL_DELETE_CONFIRMATION": "Etes-vous sur de vouloir supprimer cette configuration de fournisseur SMS?",
-    "JS_RECORD_DELETED_SUCCESSFULLY": "Fournisseur SMS supprim\u00e9 avec succ\u00e8s"
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Fournisseur SMS supprimé avec succès",
+    "JS_SAVE_SUCCESS": "Enregistré"
   }
 }
