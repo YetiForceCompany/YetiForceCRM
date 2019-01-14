@@ -1,9 +1,9 @@
 {
   "php": {
     "Webservices": "Servicios web",
-    "LBL_CHANGE_PASSWORD_FAILURE": "Error al cambiar la contrase\u00f1a",
-    "LBL_DATABASE_QUERY_ERROR": "Error de base de datos al realizar la operaci\u00f3n solicitada",
-    "LBL_INVALID_OLD_PASSWORD": "Valor no v\u00e1lido dado para la contrase\u00f1a antigua.",
-    "LBL_NEW_PASSWORD_MISMATCH": "\\\"Contrase\u00f1a nueva\\\" y \\\"confirmar la contrase\u00f1a\\\" no coinciden"
+    "LBL_CHANGE_PASSWORD_FAILURE": "Error al cambiar la contraseña",
+    "LBL_DATABASE_QUERY_ERROR": "Error de base de datos al realizar la operación solicitada",
+    "LBL_INVALID_OLD_PASSWORD": "Valor no válido dado para la contraseña antigua.",
+    "LBL_NEW_PASSWORD_MISMATCH": "\\\"Contraseña nueva\\\" y \\\"confirmar la contraseña\\\" no coinciden"
   }
 }
