@@ -28,8 +28,8 @@ class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 	public function getEvents(\App\Request $request)
 	{
 		$record = OSSTimeControl_Calendar_Model::getInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 'Integer'));
+		$record->set('types', $request->getArray('types', 'Text'));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
 			$record->set('end', $request->getByType('end', 'DateInUserFormat'));

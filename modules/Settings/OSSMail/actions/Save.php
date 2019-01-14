@@ -32,7 +32,7 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordModel = Settings_OSSMail_Config_Model::getCleanIntance();
+		$recordModel = Settings_OSSMail_Config_Model::getCleanInstance();
 		foreach ($recordModel->getForm() as $fieldName => $fieldInfo) {
 			if ($fieldInfo['required'] === 1 && $request->isEmpty($fieldName)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -42,7 +42,7 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 			} elseif ($fieldInfo['fieldType'] === 'checkbox') {
 				$recordModel->set($fieldName, $request->getBoolean($fieldName));
 			} elseif ($fieldInfo['fieldType'] === 'multipicklist') {
-				$recordModel->set($fieldName, $request->getArray($fieldName));
+				$recordModel->set($fieldName, $request->getArray($fieldName, 'Text'));
 			} elseif ($fieldInfo['fieldType'] === 'int') {
 				$recordModel->set($fieldName, $request->getInteger($fieldName));
 			} elseif ($fieldInfo['fieldType'] === 'picklist') {

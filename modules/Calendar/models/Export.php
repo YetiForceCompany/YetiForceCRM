@@ -34,7 +34,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$listInstance->set('search_key', $searchKey);
 			$listInstance->set('search_value', $searchValue);
 		}
-		$searchParams = $request->getArray('search_params');
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listInstance->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listInstance->set('search_params', $transformedSearchParams);
@@ -177,8 +177,8 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		} else {
 			$exportType = $this->getExportContentType($request);
 			// Send the right content type and filename
-			header("Content-type: $exportType");
-			header("Content-Disposition: attachment; filename=\"{$fileName}.ics\"");
+			header("content-type: $exportType");
+			header("content-disposition: attachment; filename=\"{$fileName}.ics\"");
 			echo $myiCal->serialize();
 		}
 	}

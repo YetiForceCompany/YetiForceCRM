@@ -85,7 +85,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_key', $request->getByType('search_key'));
 			$relationListView->set('search_value', $request->get('search_value'));
 		}
-		$searchParmams = $request->getArray('search_params');
+		$searchParmams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -198,7 +198,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$relationListView->set('search_key', $request->getByType('search_key', 1));
 				$relationListView->set('search_value', $request->get('search_value'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -206,7 +206,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -245,7 +245,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$relationListView->set('search_key', $request->getByType('search_key', 1));
 				$relationListView->set('search_value', $request->get('search_value'));
 			}
-			$searchParmams = $request->getArray('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -253,7 +253,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
@@ -322,13 +322,13 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($tempFileName);
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-			header('Pragma: public');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('pragma: public');
+			header('cache-control: must-revalidate, post-check=0, pre-check=0');
 		}
-		header('Content-Type: application/x-msexcel');
-		header('Content-Length: ' . filesize($tempFileName));
+		header('content-type: application/x-msexcel');
+		header('content-length: ' . filesize($tempFileName));
 		$filename = \App\Language::translate($relatedModuleName, $relatedModuleName) . '.xls';
-		header("Content-Disposition: attachment; filename=\"$filename\"");
+		header("content-disposition: attachment; filename=\"$filename\"");
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
 		fclose($fp);

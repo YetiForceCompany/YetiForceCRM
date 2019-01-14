@@ -27,7 +27,7 @@
             <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
             <input type="hidden" name="operator" value="{$OPERATOR}" />
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-            <input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS)}" />
+            <input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
 			<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
 
             <div class="col-md-8">

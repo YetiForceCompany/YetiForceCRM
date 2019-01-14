@@ -15,10 +15,10 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
-		header('Pragma: public');
-		header('Cache-Control: private');
-		header('Content-Disposition: attachment; filename="' . $recordId . '_mftemplate.xml"');
-		header('Content-Description: PHP Generated Data');
+		header('pragma: public');
+		header('cache-control: private');
+		header('content-disposition: attachment; filename="' . $recordId . '_mftemplate.xml"');
+		header('content-description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;

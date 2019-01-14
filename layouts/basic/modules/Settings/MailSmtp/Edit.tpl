@@ -16,8 +16,8 @@
 			</div>
 			<input type="hidden" name="module" value="MailSmtp" />
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="mode" value="save" />
+			<input type="hidden" name="action" value="SaveAjax" />
+			<input type="hidden" name="mode" value="updateSmtp" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<div class="form-group row mt-3">
 				<label class="col-form-label col-md-3 text-right">
@@ -86,7 +86,7 @@
 				</label>
 				<div class="controls col-md-8">
 					<div class="input-group">
-						<input class="form-control" type="password" value="{App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('password'))}" name="password" >
+						<input class="form-control" type="password" value="{App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('password')))}" name="password" >
 						<span class="input-group-append">
 							<button class="btn btn-outline-secondary previewPassword" type="button" data-target-name="password">
 								<span class="fas fa-eye"></span>
@@ -206,7 +206,7 @@
 					</label>
 					<div class="controls col-md-8">
 						<div class="input-group">
-							<input class="form-control" type="password" value="{App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('smtp_password'))}" name="smtp_password" >
+							<input class="form-control" type="password" value="{App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('smtp_password')))}" name="smtp_password" >
 							<span class="input-group-append">
 								<button class="btn btn-outline-secondary previewPassword" type="button" data-target-name="smtp_password">
 									<span class="fas fa-eye"></span>

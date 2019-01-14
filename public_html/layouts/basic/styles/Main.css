@@ -12081,7 +12081,7 @@ header .c-header__btn__container .select2-selection {
 .cke_screen_reader_only {
   height: 0 !important; }
 
-.pdfTemplateContents .cke {
+#pdf_step2 .cke {
   border: 0px; }
 
 .jstree-proton {

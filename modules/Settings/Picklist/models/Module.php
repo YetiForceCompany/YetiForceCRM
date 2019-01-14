@@ -49,7 +49,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '')
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -71,9 +71,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if ($fieldModel->isRoleBased()) {
 			$row['picklist_valueid'] = $picklistValueId;
 		}
+		if (!empty($prefix)) {
+			if (!$this->checkColumn($tableName, 'prefix')) {
+				$this->addPrefixColumn($tableName);
+			}
+			$row['prefix'] = $prefix;
+		}
 		if (!empty($description)) {
-			if (!$this->checkDescriptionColumn($db, $tableName)) {
-				$this->addDescriptionColumn($db, $tableName);
+			if (!$this->checkColumn($tableName, 'description')) {
+				$this->addDescriptionColumn($tableName);
 			}
 			$row['description'] = $description;
 		}
@@ -113,22 +119,30 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param string                        $newValue
 	 * @param int                           $id
 	 * @param string                        $description
+	 * @param string                        $prefix
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '')
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$tableName = $this->getPickListTableName($pickListFieldName);
 		$newData = [$pickListFieldName => $newValue];
-		$descriptionColumnExist = $this->checkDescriptionColumn($db, $tableName);
+		$descriptionColumnExist = $this->checkColumn($tableName, 'description');
 		if (!empty($description) || $descriptionColumnExist) {
 			if (!$descriptionColumnExist) {
-				$this->addDescriptionColumn($db, $tableName);
+				$this->addDescriptionColumn($tableName);
 			}
 			$newData['description'] = $description;
+		}
+		$prefixColumnExist = $this->checkColumn($tableName, 'prefix');
+		if (!empty($prefix) || $prefixColumnExist) {
+			if (!$prefixColumnExist) {
+				$this->addPrefixColumn($tableName);
+			}
+			$newData['prefix'] = $prefix;
 		}
 		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
 		if ($result) {
@@ -161,27 +175,38 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Check description column in picklist.
 	 *
-	 * @param App\Db $db
 	 * @param string $tableName
+	 * @param string $columnName
 	 *
 	 * @return bool
 	 */
-	public function checkDescriptionColumn(App\Db $db, string $tableName)
+	public function checkColumn(string $tableName, string $columnName)
 	{
-		return (bool) $db->getTableSchema($tableName, true)->getColumn('description');
+		return (bool) \App\Db::getInstance()->getTableSchema($tableName, true)->getColumn($columnName);
 	}
 
 	/**
 	 * Add description column to picklist.
 	 *
-	 * @param \App\Db $db
-	 * @param string  $tableName
+	 * @param string $tableName
 	 *
 	 * @return bool
 	 */
-	public function addDescriptionColumn($db, $tableName)
+	public function addDescriptionColumn(string $tableName)
 	{
-		return $db->createCommand()->addColumn($tableName, 'description', 'text')->execute();
+		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'description', 'text')->execute();
+	}
+
+	/**
+	 * Add description column to picklist.
+	 *
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function addPrefixColumn(string $tableName)
+	{
+		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'prefix', 'string(30)')->execute();
 	}
 
 	/**
@@ -336,8 +361,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
+			->distinct()
+			->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];

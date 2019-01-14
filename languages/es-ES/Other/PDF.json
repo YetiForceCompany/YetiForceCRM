@@ -1,6 +1,7 @@
 {
   "php": {
     "LBL_INVOICE_NUMBER": "N\u00famero de factura",
+    "LBL_TO_FINVOICE_NUMBER": "To invoice number",
     "LBL_TO_PAY": "Total",
     "LBL_TO_PAY_WORD": "Total (en palabras)",
     "LBL_DEALER": "Vendedor",

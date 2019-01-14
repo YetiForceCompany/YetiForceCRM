@@ -17,6 +17,7 @@
     "PLL_FOR_VERIFICATION": "Pentru verificare",
     "PLL_CANCELLED": "Anulat",
     "PLL_COMPLETED": "Complet",
-    "LBL_CHANGE_STATUS": "Schimba status"
+    "LBL_CHANGE_STATUS": "Schimba status",
+    "FL_CAMPAIGN_ID": "Campaign"
   }
 }

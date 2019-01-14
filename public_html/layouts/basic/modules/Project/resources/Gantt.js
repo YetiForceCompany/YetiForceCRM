@@ -12,7 +12,13 @@ class Gantt {
 	constructor(container, projectData) {
 		this.container = $(container);
 		this.containerParent = this.container.parent();
+		this.headerContainer = this.containerParent.parent().find('.js-gantt-header').eq(0);
 		this.options = {
+			slots: {
+				header: {
+					beforeOptions: `<button class="btn btn-primary pb-2 mr-2 h-100 js-gantt__front-filter"><span class="fas fa-filter"></span> ${LANG.JS_GANTT_FILTER}</button>`
+				}
+			},
 			maxRows: 30,
 			style: {
 				'chart-row-bar-polygon': {
@@ -25,7 +31,24 @@ class Gantt {
 					'stroke-width': 0
 				},
 				'header-title': {
-					'max-width': '50%'
+					'float': 'none',
+					'display': 'inline-flex',
+					'overflow': 'hidden',
+				},
+				'header-options': {
+					'float': 'none',
+					'display': 'inline-flex'
+				},
+				'header-title--html': {
+					'white-space': 'nowrap',
+					'overflow': 'hidden',
+					'text-overflow': 'ellipsis',
+					'padding-left': '0',
+					'letter-spacing': '0'
+				},
+				'slot-header-beforeOptions': {
+					'height': '100%',
+					'vertical-align': 'top'
 				}
 			},
 			title: {
@@ -116,40 +139,28 @@ class Gantt {
 	}
 
 	/**
-	 * Get branch that fulfill statuses
-	 *
-	 * @param {String} moduleName
-	 * @param {String[]} statuses
-	 * @param {Object} current
-	 * @returns {Object}
-	 */
-	getBranchesWithStatus(moduleName, statuses, current) {
-		current = {...current};
-		let children = [];
-		current.children = current.children.map(task => task);
-		for (let task of current.children) {
-			children.push(this.getBranchesWithStatus(moduleName, statuses, task));
-		}
-		current.children = children;
-		return current;
-	}
-
-	/**
 	 * Filter project data
 	 *
 	 * @param {Object} projectData
 	 * @returns {Object}
 	 */
 	filterProjectData(projectData) {
-		let newProjectData = Object.assign({}, projectData);
-		let tree = this.makeTree(newProjectData.tasks);
+		let tasks = this.allTasks.map(task => Object.assign({}, task));
 		for (let moduleName in this.filter.status) {
 			if (this.filter.status.hasOwnProperty(moduleName)) {
-				tree = this.getBranchesWithStatus(moduleName, this.filter.status[moduleName], tree);
+				const visibleLabels = this.filter.status[moduleName].map(status => status.label);
+				tasks = tasks.filter(task => {
+					if (task.module !== moduleName) {
+						return true;
+					}
+					if (visibleLabels.indexOf(task.status_label) >= 0) {
+						return true;
+					}
+					return false;
+				});
 			}
 		}
-		newProjectData.tasks = this.flattenTree(tree);
-		return newProjectData;
+		return tasks;
 	}
 
 	/**
@@ -177,7 +188,7 @@ class Gantt {
 	resize() {
 		let offsetTop = this.container.offset().top;
 		let contentHeight = $('body').eq(0).height() - $('.js-footer').eq(0).height();
-		let height = contentHeight - offsetTop - 160;
+		let height = contentHeight - offsetTop - 100;
 		if (height < 0) {
 			height = 0;
 		}
@@ -188,20 +199,48 @@ class Gantt {
 	}
 
 	/**
+	 * Register gantt header actions
+	 */
+	registerHeaderActions() {
+		this.headerContainer.find('.js-gantt-header__btn-filter').on('click', (e) => {
+			e.preventDefault();
+			this.showFiltersModal();
+		});
+		this.headerContainer.find('.js-gantt-header__btn-center').on('click', (e) => {
+			this.ganttElastic.$emit('recenterPosition');
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--x').on('input', (e) => {
+			this.ganttElastic.$emit("times-timeZoom-change", Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--y').on('input', (e) => {
+			this.ganttElastic.$emit("row-height-change", Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-width').on('input', (e) => {
+			this.ganttElastic.$emit('taskList-width-change', Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--scope').on('input', (e) => {
+			this.ganttElastic.$emit('scope-change', Number(e.target.value));
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').on('change', (e) => {
+			this.ganttState.taskList.display = $(e.target).is(':checked');
+		});
+		this.ganttElastic.$watch('state.taskList.display', (value) => {
+			this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').prop('checked', value);
+		});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').prop('checked', this.ganttState.taskList.display ? 'checked' : false);
+	}
+
+	/**
 	 * Load project
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
-		this.allTasks = this.addIcons(this.projectData.tasks);
-		if (typeof projectData.title !== 'undefined' && projectData.title) {
-			this.options.title.label = projectData.title;
-		} else {
-			this.options.title.label = '<span class="fas fa-briefcase mr-1"></span> ' + LANG.JS_GANTT_TITLE;
-		}
-		if (typeof this.allTasks === 'undefined') {
+		if (typeof this.projectData.tasks === 'undefined' || this.projectData.tasks.length === 0) {
 			$('.js-hide-filter').addClass('d-none');
 			$('.js-show-add-record').removeClass('d-none');
 			return;
+		} else {
+			this.allTasks = this.addIcons(this.projectData.tasks);
 		}
 		this.statuses = this.projectData.statuses;
 		this.filter = {status: this.projectData.activeStatuses};
@@ -213,7 +252,6 @@ class Gantt {
 		this.resize();
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
-			GanttElastic.component.components['gantt-header'] = Header;
 			GanttElastic.mount({
 				el: '#' + this.container.attr('id'),
 				tasks: this.allTasks,
@@ -221,6 +259,7 @@ class Gantt {
 				ready(ganttElasticInstance) {
 					self.ganttElastic = ganttElasticInstance;
 					self.ganttState = ganttElasticInstance.state;
+					self.registerHeaderActions();
 				}
 			});
 			this.container = this.containerParent.find('.gantt-elastic').eq(0);
@@ -257,7 +296,7 @@ class Gantt {
 	 */
 	saveFilter(filterOptions) {
 		this.filter = filterOptions;
-		this.reloadData(this.filterProjectData(this.projectData));
+		this.ganttState.tasks = this.filterProjectData(this.projectData);
 	}
 
 	/**
@@ -346,10 +385,6 @@ class Gantt {
 	 */
 	registerEvents() {
 		const container = this.container;
-		container.find('.js-gantt__front-filter').on('click', function (e) {
-			e.preventDefault();
-			self.showFiltersModal();
-		});
 		container.find('[data-toggle="tooltip"]').tooltip();
 		window.addEventListener('resize', () => {
 			this.resize();

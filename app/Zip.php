@@ -251,17 +251,20 @@ class Zip extends \ZipArchive
 	 *
 	 * @param string $dir
 	 * @param string $localName
+	 * @param bool   $relativePath
 	 */
-	public function addDirectory($dir, $localName = '')
+	public function addDirectory(string $dir, string $localName = '', bool $relativePath = false)
 	{
 		if ($localName) {
 			$localName .= \DIRECTORY_SEPARATOR;
 		}
-		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($dir)), \RecursiveIteratorIterator::LEAVES_ONLY);
+		$path = realpath($dir);
+		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::LEAVES_ONLY);
+		$pathToTrim = $relativePath ? $path : ROOT_DIRECTORY;
 		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
+				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath, $pathToTrim));
 			}
 		}
 	}
@@ -275,13 +278,13 @@ class Zip extends \ZipArchive
 	{
 		$fileName = $this->filename;
 		$this->close();
-		header('Cache-Control: private, max-age=120, must-revalidate');
-		header('Pragma: no-cache');
-		header('Expires: 0');
-		header('Content-Type: application/zip');
-		header('Content-Disposition: attachment; filename="' . $name . '.zip";');
-		header('Accept-Ranges: bytes');
-		header('Content-Length: ' . filesize($fileName));
+		header('cache-control: private, max-age=120, must-revalidate');
+		header('pragma: no-cache');
+		header('expires: 0');
+		header('content-type: application/zip');
+		header('content-disposition: attachment; filename="' . $name . '.zip";');
+		header('accept-ranges: bytes');
+		header('content-length: ' . filesize($fileName));
 		readfile($fileName);
 		unlink($fileName);
 	}

@@ -189,9 +189,7 @@ class Import_Data_Action extends \App\Controller\Action
 
 	public function updateModuleSequenceNumber()
 	{
-		$moduleName = $this->module;
-		$focus = CRMEntity::getInstance($moduleName);
-		$focus->updateMissingSeqNumber($moduleName);
+		\App\Fields\RecordNumber::getInstance($this->module)->updateRecords();
 	}
 
 	/**
@@ -398,8 +396,8 @@ class Import_Data_Action extends \App\Controller\Action
 			$this->currentInventoryRawData = $data;
 			unset($data['id']);
 			foreach ($data as $fieldName => &$value) {
-				$fieldInstance = $inventoryFields[$fieldName];
-				if ($fieldInstance) {
+				if (isset($inventoryFields[$fieldName])) {
+					$fieldInstance = $inventoryFields[$fieldName];
 					if (in_array($fieldInstance->getType(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getType() == 'Currency') {

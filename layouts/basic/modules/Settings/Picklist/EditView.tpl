@@ -65,6 +65,18 @@
 								</textarea>
 							</div>
 						</div>
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_PREFIX',$QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+								<input name="prefix" type="text"
+									   class="form-control"
+									   value="{if isset($PICKLIST_VALUE['prefix'])}
+										{\App\Purifier::encodeHtml($PICKLIST_VALUE['prefix'])}
+									{/if}">
+							</div>
+						</div>
 						{if $FIELD_MODEL->get('uitype') === 15}
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">

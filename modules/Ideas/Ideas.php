@@ -121,7 +121,7 @@ class Ideas extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'ID', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'ID')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Ideas'])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

@@ -171,7 +171,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function set($key, $value)
 	{
-		if ($key !== $this->getModule()->getBaseIndex() && $this->value[$key] !== $value) {
+		if ($key !== $this->getModule()->getBaseIndex() && ($this->value[$key] ?? null) !== $value) {
 			$this->changes[$key] = $value;
 		}
 		$this->value[$key] = $value;

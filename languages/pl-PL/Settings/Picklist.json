@@ -35,7 +35,8 @@
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Warto\u015bci przypisane do roli",
     "NO_PICKLIST_FIELDS": "nie maj\u0105 \u017cadnych p\u00f3l s\u0142ownikowych",
     "LBL_NEW_VALUE": "Nowa warto\u015b\u0107",
-    "LBL_CLOSES_RECORD": "Zamyka rekord"
+    "LBL_CLOSES_RECORD": "Zamyka rekord",
+    "LBL_PREFIX": "Prefiks"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Wszystkie role zaznaczone",

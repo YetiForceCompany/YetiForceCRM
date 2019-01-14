@@ -87,7 +87,7 @@ class Install_Index_View extends \App\Controller\View
 			$defaultModule = \AppConfig::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
-			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
+			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
 		App\Language::setTemporaryLanguage($defaultLanguage);

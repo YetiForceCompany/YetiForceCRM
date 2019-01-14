@@ -550,6 +550,11 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.massUpdatePagination(urlParams);
 			Vtiger_List_Js.clearList();
 		}).fail(function (textStatus, errorThrown) {
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();

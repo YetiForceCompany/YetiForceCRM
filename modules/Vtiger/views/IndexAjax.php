@@ -35,7 +35,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 				$customViewModel->set('search_value', $request->get('search_value'));
 			}
 			if ($request->has('search_params')) {
-				$customViewModel->set('search_params', $request->getArray('search_params'));
+				$customViewModel->set('search_params', App\Condition::validSearchParams($request->getModule(), $request->getArray('search_params')));
 			}
 
 			return $customViewModel->getRecordIds($excludedIds);

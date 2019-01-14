@@ -37,11 +37,11 @@ Logs
 | Environment    | Version / Name |
 | ---------------- | -------------- |
 | YetiForce       | 
-| Web server (name nad version) |
+| Web server (name and version) |
 | PHP  |
 | Browser (name and version)  | 
-| Operating System (name nad version)  | 
-| Database (name nad version) | 
+| Operating System (name and version)  | 
+| Database (name and version) | 
 
 
 <!--- Please check on your issue from time to time, in case we have questions or need some extra information. --->

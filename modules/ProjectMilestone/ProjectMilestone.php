@@ -99,9 +99,9 @@ class ProjectMilestone extends CRMEntity
 		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PM')->set('cur_id', 1)->save();
 		} elseif ($eventType === 'module.postupdate') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PM')->set('cur_id', 1)->save();
 		}
 	}
 }

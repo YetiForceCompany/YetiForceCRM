@@ -204,6 +204,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			aDeferred.resolve(responseData);
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
 			progressInstance.progressIndicator({'mode': 'hide'});
 		});
 		return aDeferred.promise();

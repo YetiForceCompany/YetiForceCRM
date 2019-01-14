@@ -17,6 +17,7 @@
     "PLL_FOR_VERIFICATION": "Por Aprobar",
     "PLL_CANCELLED": "Cancelado",
     "PLL_COMPLETED": "Completado",
-    "LBL_CHANGE_STATUS": "Cambiar Estado"
+    "LBL_CHANGE_STATUS": "Cambiar Estado",
+    "FL_CAMPAIGN_ID": "Campaign"
   }
 }

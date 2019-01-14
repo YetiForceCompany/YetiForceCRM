@@ -1445,6 +1445,7 @@
     "JS_REENTER_PASSWORDS": "Volver a introducir contrase\u00f1as",
     "JS_REQUIRED_FIELD": "* Este campo es obligatorio",
     "JS_REMINDER": "Notificaciones del Calendario",
+    "JS_MAXIMUM_TEXT_SIZE_IN_BYTES": "Exceeded the maximum text size in bytes",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "La Empresa seleccionado no contiene direcci\u00f3n para copiar",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "El Contacto seleccionado no contiene direcci\u00f3n para copiar",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "No hay direcci\u00f3n para copiar",
@@ -1710,6 +1711,7 @@
     "JS_CHAT": "Czat",
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
-    "JS_UNEXPECTED_ERROR": "Unexpected error occurred"
+    "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
+    "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
   }
 }

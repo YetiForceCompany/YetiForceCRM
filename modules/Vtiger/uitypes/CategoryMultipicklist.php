@@ -32,6 +32,9 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
+		if (!is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
 		foreach ($value as $val) {
 			$this->validate($val, true);
 			$values[] = \App\Purifier::decodeHtml($val);

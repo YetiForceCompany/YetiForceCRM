@@ -192,8 +192,8 @@ var Settings_Index_Js = {
 		$(cloneModal).css("z-index", "9999999");
 	},
 	AddLangMondal: function (e) {
-		const currentTarget = $(e.currentTarget);
-		const container = currentTarget.closest('.modalContainer');
+		const currentTarget = $(e.currentTarget),
+			container = currentTarget.closest('.modalContainer');
 		let SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
 			'type': 'Add',
 			'label': container.find("input[name='label']").val(),
