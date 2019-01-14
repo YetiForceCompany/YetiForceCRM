@@ -1,7 +1,9 @@
 {
   "php": {
-    "OSSMail": "Mi buz\u00f3n",
-    "ERR_NO_MODULE_IS_INACTIVE": "El m\u00f3dulo \"Mi buz\u00f3n\" est\u00e1 inactivo, debe estar habilitado antes de la configuraci\u00f3n."
+    "OSSMail": "Mi buzón",
+    "ERR_NO_MODULE_IS_INACTIVE": "El módulo \"Mi buzón\" está inactivo, debe estar habilitado antes de la configuración."
   },
-  "js": {}
+  "js": {
+
+  }
 }
