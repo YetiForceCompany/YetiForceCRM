@@ -23,6 +23,7 @@ class Credits
 	 * @var array
 	 */
 	public static $licenses = [
+		'yetiforce/yetiforcepdf' => 'YetiForce Public License v3',
 		'bootstrap-tabdrop' => 'Apache-2.0',
 		'color-convert' => 'MIT',
 		'@fortawesome/fontawesome-free' => 'MIT',
@@ -63,12 +64,14 @@ class Credits
 					if (!empty($package['version'])) {
 						$libraries[$package['name']]['version'] = $package['version'];
 					}
-					if ($package['license'] && count($package['license']) > 1) {
-						$libraries[$package['name']]['license'] = implode(', ', $package['license']);
-						$libraries[$package['name']]['licenseError'] = true;
-					} else {
-						$libraries[$package['name']]['license'] = $package['license'][0];
-						$libraries[$package['name']]['showLicenseModal'] = self::checkIfLicenseFileExists($package['license'][0]);
+					if (!empty($package['license'])) {
+						if (count($package['license']) > 1) {
+							$libraries[$package['name']]['license'] = implode(', ', $package['license']);
+							$libraries[$package['name']]['licenseError'] = true;
+						} else {
+							$libraries[$package['name']]['license'] = $package['license'][0];
+							$libraries[$package['name']]['showLicenseModal'] = self::checkIfLicenseFileExists($package['license'][0]);
+						}
 					}
 					if (isset(static::$licenses[$package['name']])) {
 						$libraries[$package['name']]['license'] = static::$licenses[$package['name']] . ' [' . $libraries[$package['name']]['license'] . ']';
