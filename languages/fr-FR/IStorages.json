@@ -1,26 +1,29 @@
 {
   "php": {
-    "FL_POS": "POS",
-    "LBL_DESCRIPTION_BLOCK": "Description",
-    "FL_TYPE": "Type",
-    "PLL_ACTIVE": "Active",
-    "PLL_INACTIVE": "Inactive",
     "IStorages": "Stockages",
     "SINGLE_IStorages": "Stockage",
-    "FL_PARENT_STORAGE": "Stockage parent",
+    "LBL_DESCRIPTION_BLOCK": "Description",
     "LBL_ATTENTION_BLOCK": "Commentaires",
+    "FL_PARENT_STORAGE": "Stockage parent",
     "FL_SUBJECT": "Sujet",
     "FL_STATUS": "Statut",
+    "FL_TYPE": "Type",
     "FL_NUMBER": "Nombre",
-    "FL_QTY_IN_STOCK": "Quantit\u00e9 de produit en stock",
+    "FL_QTY_IN_STOCK": "Quantité de produit en stock",
+    "PLL_ACTIVE": "Active",
+    "PLL_INACTIVE": "Inactive",
     "PLL_INTERNAL": "Interne",
     "PLL_EXTERNAL": "Externe",
     "LBL_NOT_PARENT_STORAGE": "Vous devez remplir le nom du stockage parent",
     "LBL_SHOW_HIERARCHY": "Hierarchie",
-    "LBL_PARENT_IS_CHILD": "Le stockage parent s\u00e9l\u00e9ctionn\u00e9 ne peut \u00eatre secondaire du stockage actuel ",
+    "LBL_PARENT_IS_CHILD": "Le stockage parent séléctionné ne peut être secondaire du stockage actuel ",
+    "LBL_PRODUCTS_CONTROL_TABLE": "Products control table",
+    "LBL_PRODUCTS_TABLE": "Table with products",
+    "LBL_PRODUCTS_TABLE_HIERARCHY": "Table with products hierarchy",
+    "LBL_PRODUCTS_VALUE_TABLE": "Table with products value",
+    "LBL_TABLE_HIERARCHY": "Hierarchy table",
     "LBL_SECONDARY_STORAGES": "Stockages secondaires",
-    "LBL_ROW_NUM": "N\u00b0",
-    "LBL_STORAGE_OWNER": "Propri\u00e9taire"
-  },
-  "js": {}
+    "LBL_ROW_NUM": "N°",
+    "LBL_STORAGE_OWNER": "Propriétaire"
+  }
 }
