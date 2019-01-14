@@ -3,9 +3,9 @@
     "CallHistory": "Anrufhistorie",
     "SINGLE_CallHistory": "Anrufhistorie",
     "LBL_CALLHISTORY_INFORMATION": "Information zur Anrufhistorie",
-    "LBL_CUSTOM_INFORMATION": "Zus\u00e4tzliche Informationen",
+    "LBL_CUSTOM_INFORMATION": "Zusätzliche Informationen",
     "LBL_PHONE_INFORMATION": "Telefon Informationen",
-    "LBL_RELATED_INFORMATION": "Verkn\u00fcpfte Informationen",
+    "LBL_RELATED_INFORMATION": "Verknüpfte Informationen",
     "LBL_TYPE": "Typ",
     "LBL_FROM_NUMBER": "VON Nummer",
     "LBL_TO_NUMBER": "ZU Nummer",
@@ -15,7 +15,7 @@
     "LBL_STATUS": "Status",
     "LBL_START_TIME": "Anruf begonnen",
     "LBL_END_TIME": "Anruf beendet",
-    "LBL_COUNTRY_CODE": "L\u00e4nderschl\u00fcssel",
+    "LBL_COUNTRY_CODE": "Länderschlüssel",
     "LBL_IMEI": "IMEI",
     "LBL_IPADDRESS": "ID Adresse",
     "LBL_SIMSERIAL": "SIM Nummer",
@@ -27,7 +27,6 @@
     "Outgoing received": "Ausgehend erreicht",
     "Incoming": "Eingehend erreicht",
     "Missed": "Eingehend nicht erreicht",
-    "Voicemail": "Eingehende Voicemail",
-    "Call history": "Anruferhistorie"
+    "Voicemail": "Eingehende Voicemail"
   }
 }
