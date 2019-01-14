@@ -1,20 +1,20 @@
 {
   "php": {
-    "Description": "Description",
     "LBL_ADD_RECORD": "Ajouter un enregistrement",
-    "LBL_ADD_USERS_ROLES": "Ajouter les Utilisateurs, R\u00f4les...",
-    "LBL_DUPLICATES_EXIST": "Le nom du groupe existe d\u00e9j\u00e0",
+    "LBL_ADD_USERS_ROLES": "Ajouter les Utilisateurs, Rôles...",
+    "LBL_DUPLICATES_EXIST": "Le nom du groupe existe déjà",
     "LBL_GROUP_MEMBERS": "Membres du groupe",
     "LBL_GROUP_NAME": "Nom du groupe",
-    "LBL_ROLEANDSUBORDINATE": "R\u00f4le et subordonn\u00e9",
+    "LBL_ROLEANDSUBORDINATE": "Rôle et subordonné",
     "LBL_TO_OTHER_GROUP": "A un autre groupe ",
-    "LBL_TRANSFORM_OWNERSHIP": "Transf\u00e9rer la propri\u00e9t\u00e9",
+    "LBL_TRANSFORM_OWNERSHIP": "Transférer la propriété",
     "SINGLE_Groups": "Groupe",
     "Users": "Utilisateurs",
-    "Name": "Nom du groupe"
+    "Name": "Nom du groupe",
+    "Description": "Description"
   },
   "js": {
-    "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "S\u00e9lectionner au moins un membre pour le groupe",
-    "JS_RECORD_DELETED_SUCCESSFULLY": "Groupe supprim\u00e9"
+    "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "Sélectionner au moins un membre pour le groupe",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Groupe supprimé"
   }
 }
