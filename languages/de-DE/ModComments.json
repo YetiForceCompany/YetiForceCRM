@@ -4,22 +4,22 @@
     "LBL_RECORDS_LIST": "Liste Kommentare",
     "LBL_MODCOMMENTS_INFORMATION": "Kommentar",
     "LBL_OTHER_INFORMATION": "Weitere Information",
-    "LBL_ADDING_COMMENT": "Komentar hinzuf\u00fcgen",
+    "LBL_ADDING_COMMENT": "Komentar hinzufügen",
     "LBL_WRITE_YOUR_COMMENT_HERE": "Kommentare hier eingeben",
     "Comment": "Kommentar",
     "Creator": "Ersteller",
-    "Customer": "Kunde",
     "Related To Comments": "Bezogen auf",
+    "ReasonToEdit": "Grund der Änderung",
     "UserId": "BenutzerId",
-    "ReasonToEdit": "Grund der \u00c4nderung",
-    "LBL_ADDED_COMMENT_TO_TICKET": "Ein Kommentar dem Ticket hinzuf\u00fcgen",
-    "LBL_NEW_COMMENT_FOR_TICKET": "Es wurde eine Kommentar zum Ticket hinzugef\u00fcgt",
+    "Customer": "Kunde",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Ein Kommentar dem Ticket hinzufügen",
+    "LBL_NEW_COMMENT_FOR_TICKET": "Es wurde eine Kommentar zum Ticket hinzugefügt",
     "LBL_NOTICE_WELCOME": "Willkommen",
     "LBL_NOTICE_CREATED": "Erzeugt von",
     "LBL_COMMENTS_0": "Aktueller Datensatz",
     "LBL_COMMENTS_1": "Prozesse",
     "LBL_COMMENTS_2": "Unterprozesse",
     "LBL_COMMENTS_SEARCH": "Suche",
-    "LBL_ALL_RECORDS": "Verkn\u00fcpfte Datens\u00e4tze"
+    "LBL_ALL_RECORDS": "Verknüpfte Datensätze"
   }
 }
