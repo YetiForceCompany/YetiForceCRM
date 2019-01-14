@@ -24,6 +24,7 @@
     "ERR_FILE_XPACKET_CODE_INJECTION": "Fisierul contine cod XPACKET periculos si a fost respins",
     "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Nu aveti permisiuni pentru a crea directoare de fisiere",
     "ERR_AUTO_LOGOUT": "Deconectat automat din cauza  inactivitatii",
+    "ERR_FIELD_NOT_FOUND": "Field not found",
     "ERR_NO_VALUE": "No value",
     "ERR_API": "Error in API",
     "ERR_MODULE_DOES_NOT_EXIST": "Module %s does not exist",
