@@ -1,7 +1,7 @@
 {
   "php": {
-    "LBL_ADD_RECORD": "A\u00f1adir",
-    "LBL_ADD_USERS_ROLES": "A\u00f1adir usuarios, roles...",
+    "LBL_ADD_RECORD": "Añadir",
+    "LBL_ADD_USERS_ROLES": "Añadir usuarios, roles...",
     "LBL_DUPLICATES_EXIST": "El nombre del grupo ya existe",
     "LBL_GROUP_MEMBERS": "Miembros del grupo",
     "LBL_GROUP_NAME": "Nombre del grupo",
@@ -11,7 +11,7 @@
     "SINGLE_Groups": "Grupo",
     "Users": "Usuarios",
     "Name": "Nombre del grupo",
-    "Description": "Descripci\u00f3n"
+    "Description": "Descripción"
   },
   "js": {
     "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "Seleccione al menos un miembro para un grupo",
