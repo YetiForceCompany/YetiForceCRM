@@ -44,4 +44,54 @@ class Config
 	{
 		self::$jsEnv[$key] = $value;
 	}
+
+	public static function main(?string $arg = null, $default = null)
+	{
+		if (isset($GLOBALS[$arg])) {
+			return $GLOBALS[$arg];
+		}
+		$class = "\Config\Main";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function module(string $moduleName, ?string $arg = null, $default = null)
+	{
+		$class = "\Config\Modules\\$moduleName";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function performance(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Performance";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function api(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Api";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function debug(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Debug";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function developer(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Developer";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function get(string $class, ?string $arg = null, $default = null)
+	{
+		$value = $default;
+		if ($arg === null) {
+			$value = \class_exists($class) ? (new \ReflectionClass($class))->getStaticProperties() : [];
+		} elseif (\class_exists($class) && isset($class::$$arg)) {
+			$value = $class::$$arg;
+		}
+		return $value;
+	}
 }
