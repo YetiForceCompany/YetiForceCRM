@@ -1,16 +1,16 @@
 {
   "php": {
-    "Updates": "Actualizari",
-    "LBL_YES": "Da",
-    "LBL_NO": "Nu",
-    "LBL_TIME": "Data",
-    "LBL_USER": "Utilizator",
-    "LBL_FROM_VERSION": "De la versiunea",
-    "LBL_TO_VERSION": "La versiunea",
+    "Updates": "Updates",
+    "LBL_YES": "Yes",
+    "LBL_NO": "No",
+    "LBL_TIME": "Date",
+    "LBL_USER": "Username",
+    "LBL_FROM_VERSION": "From version",
+    "LBL_TO_VERSION": "To version",
     "LBL_RESULT": "Status",
-    "LBL_UPDATES": "Actualizari",
-    "LBL_UPDATES_DESCRIPTION": "Istoric actualizari",
-    "LBL_IMPORT_UPDATE": "Incarcati actualizare",
-    "LBL_NAME_PACKAGES": "Denumire"
+    "LBL_UPDATES": "Updates",
+    "LBL_UPDATES_DESCRIPTION": "Updates history",
+    "LBL_IMPORT_UPDATE": "Upload update",
+    "LBL_NAME_PACKAGES": "Name"
   }
 }
