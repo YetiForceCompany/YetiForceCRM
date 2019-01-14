@@ -2,14 +2,14 @@
   "php": {
     "LBL_TWITTER": "Twitter",
     "LBL_TWITTER_DESC": "Integracja Twitterem",
-    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekord\u00f3w liczba dni",
-    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Cron social nie jest w\u0142\u0105czony, do prawid\u0142owego dzia\u0142ania archiwizacji jest to konieczne.",
+    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekordów liczba dni",
+    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Cron social nie jest włączony, do prawidłowego działania archiwizacji jest to konieczne.",
     "LBL_SOCIAL_MEDIA_CRON2_WARNING": "Do pobierania wiadomości z mediów społecznościowych musisz mieć włączonego crona",
     "LBL_TWITTER_API_KEY": "Twitter API klucz",
     "LBL_TWITTER_API_SECRET": "Twitter API sekret",
-    "LBL_TWITTER_INSTRUCTION": "Aby skonfigurowa\u0107 Twitter API musisz mie\u0107 konto developerskie na Twitter. Nast\u0119pnie nale\u017cy doda\u0107 now\u0105 aplikacj\u0119. Po wej\u015bciu w szczeg\u00f3\u0142y aplikacji w zak\u0142adce \"Keys and tokens\" b\u0119d\u0105 klucze API, kt\u00f3re nale\u017cy poda\u0107 poni\u017cej.",
+    "LBL_TWITTER_INSTRUCTION": "Aby skonfigurować Twitter API musisz mieć konto developerskie na Twitter. Następnie należy dodać nową aplikację. Po wejściu w szczegóły aplikacji w zakładce \"Keys and tokens\" będą klucze API, które należy podać poniżej.",
     "LBL_TYPE_OF_LOG": "Typ logu",
     "LBL_SOCIAL_MEDIA_TYPE": "Typ",
-    "LBL_MESSAGE": "Tre\u015b\u0107"
+    "LBL_MESSAGE": "Treść"
   }
 }
