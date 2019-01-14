@@ -7,14 +7,14 @@
     "LBL_NUMBER": "Numer",
     "FL_STATUS": "Status",
     "FL_INTERVAL": "Czas przypomnienia",
-    "FL_IS_MANDATORY": "Obowi\u0105zkowa akceptacja",
+    "FL_IS_MANDATORY": "Obowiązkowa akceptacja",
     "PLL_DRAFT": "Wersja robocza",
     "PLL_FOR_ACCEPTANCE": "Do akceptacji",
     "PLL_PUBLISHED": "Opublikowano",
     "PLL_ARCHIVES": "Zarchiwizowano",
-    "LBL_REMIND_ME_LATER": "Przypomnij p\u00f3\u017aniej",
+    "LBL_REMIND_ME_LATER": "Przypomnij później",
     "LBL_MARK_AS_READ": "Oznacz jako przeczytane",
-    "LBL_ACCEPT_ANNOUNCEMENT": "Czy akceptowa\u0142",
+    "LBL_ACCEPT_ANNOUNCEMENT": "Czy akceptował",
     "LBL_DATE": "Data przeczytania"
   }
 }
