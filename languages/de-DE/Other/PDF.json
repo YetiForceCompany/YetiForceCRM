@@ -1,23 +1,32 @@
 {
   "php": {
+    "LBL_INVOICE": "Invoice",
     "LBL_INVOICE_NUMBER": "MwSt-Rechnungsnummer",
     "LBL_TO_FINVOICE_NUMBER": "To invoice number",
+    "LBL_INVOICE_PROFORMA": "Pro-forma invoice",
+    "LBL_RECIPIENT": "Recipient",
+    "LBL_ORDER": "Order",
+    "LBL_SUBMIT_ORDER": "Person authorized to submit order",
     "LBL_TO_PAY": "Total",
     "LBL_TO_PAY_WORD": "Total (in Worten)",
-    "LBL_DEALER": "Verk\u00e4ufer",
-    "LBL_BUYER": "K\u00e4ufer",
+    "LBL_DEALER": "Verkäufer",
+    "LBL_BUYER": "Käufer",
     "LBL_AUTHORIZED_TO_RECEIVE": "Person, die zum Empfang berechtigt ist",
     "LBL_AUTHORIZED_TO_BE_ISSUED": "Person, die zur Ausstellung berechtigt ist",
-    "LBL_SALES_QUOTE_FOR": "Angebot f\u00fcr",
+    "LBL_SALES_QUOTE_FOR": "Angebot für",
     "LBL_DATE_EXECUTION": "Datum der Fertigstellung",
-    "LBL_STAGE": "Ausgestellt f\u00fcr",
-    "LBL_VALID_UNTIL": "G\u00fcltig bis",
+    "LBL_STAGE": "Ausgestellt für",
+    "LBL_VALID_UNTIL": "Gültig bis",
     "LBL_QUOTE_NUMBER": "Angebotsnummer",
     "LBL_DETAILS": "Details",
     "LBL_COMMENTS": "Kommentare",
     "LBL_FIRST_NAME": "Vorname",
     "LBL_LAST_NAME": "Nachname",
     "LBL_PHONE": "Telefon",
-    "LBL_EMAIL": "E-Mail"
+    "LBL_EMAIL": "E-Mail",
+    "LBL_VATID": "Vat ID",
+    "LBL_SALE_DATE": "Sale date",
+    "LBL_PAYMENT_METHOD": "Payment method",
+    "LBL_PLACE_DATE": "Place, date"
   }
 }
