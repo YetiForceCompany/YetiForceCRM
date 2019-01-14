@@ -1,17 +1,16 @@
 {
   "php": {
-    "LBL_MODULE": "Module",
     "HideBlocks": "Cacher blocs",
-    "LBL_HIDEBLOCKS": "Champs \u2013 Cacher Blocs",
-    "LBL_HIDEBLOCKS_DESCRIPTION": "G\u00e9rer les blocs avec des champs \u00e0 cacher",
+    "LBL_HIDEBLOCKS": "Champs – Cacher Blocs",
+    "LBL_HIDEBLOCKS_DESCRIPTION": "Gérer les blocs avec des champs à cacher",
     "LBL_BLOCK_LABEL": "Bloc",
+    "LBL_MODULE": "Module",
     "LBL_ENABLED": "Actif",
     "LBL_EDIT_BLOCK": "Editer",
-    "LBL_NEW_BLOCK": "Cr\u00e9er",
+    "LBL_NEW_BLOCK": "Créer",
     "LBL_BLOCK": "Bloc",
     "LBL_NEXT": "Suivant",
     "LBL_VIEW": "Vue",
-    "LBL_MANDATORY_FIELDS_EXIST": "Ce bloc ne peut \u00eatre cach\u00e9 car il contient des champs obligatoires."
-  },
-  "js": {}
+    "LBL_MANDATORY_FIELDS_EXIST": "Ce bloc ne peut être caché car il contient des champs obligatoires."
+  }
 }
