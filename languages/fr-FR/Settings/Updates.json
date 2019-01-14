@@ -1,17 +1,16 @@
 {
   "php": {
-    "LBL_TIME": "Date",
-    "LBL_NAME_PACKAGES": "Nom",
-    "Updates": "Mises \u00e0 jour",
+    "Updates": "Mises à jour",
     "LBL_YES": "Oui",
     "LBL_NO": "Non",
+    "LBL_TIME": "Date",
     "LBL_USER": "Utilisateur",
     "LBL_FROM_VERSION": "De la version",
-    "LBL_TO_VERSION": "\u00e0 la version",
+    "LBL_TO_VERSION": "à la version",
     "LBL_RESULT": "Statut",
-    "LBL_UPDATES": "Mises \u00e0 jour",
-    "LBL_UPDATES_DESCRIPTION": "Historique des mises \u00e0 jour",
-    "LBL_IMPORT_UPDATE": "Importer les mises \u00e0 jour "
-  },
-  "js": {}
+    "LBL_UPDATES": "Mises à jour",
+    "LBL_UPDATES_DESCRIPTION": "Historique des mises à jour",
+    "LBL_IMPORT_UPDATE": "Importer les mises à jour ",
+    "LBL_NAME_PACKAGES": "Nom"
+  }
 }
