@@ -1,10 +1,10 @@
 {
   "php": {
     "Calendar": "Calendario",
-    "LBL_ACTIVITY_TYPES": "Calendario \u2013 Tipos",
-    "LBL_ACTIVITY_TYPES_DESCRIPTION": "Gesti\u00f3n de tipos de actividades.",
+    "LBL_ACTIVITY_TYPES": "Calendario – Tipos",
+    "LBL_ACTIVITY_TYPES_DESCRIPTION": "Gestión de tipos de actividades.",
     "LBL_ACTIVITY_NAME": "Nombre de los tipos de actividad",
-    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_MODULE": "Módulo",
     "LBL_COLOR": "Color",
     "LBL_TOOLS": "Herramientas",
     "LBL_ACTIVE": "Activo",
@@ -13,7 +13,7 @@
     "LBL_EDIT_COLOR": "Editar color",
     "LBL_SELECT_COLOR": "Seleccionar color:",
     "LBL_SAVE_COLOR": "Color guardado",
-    "LBL_CALENDAR_CONFIG": "Calendario \u2013 Configuraci\u00f3n",
+    "LBL_CALENDAR_CONFIG": "Calendario – Configuración",
     "LBL_CALENDAR_CONFIG_DESCRIPTION": " ",
     "LBL_USER_COLORS": "Colores del usuario",
     "PLL_BREAK_TIME": "Descanso del trabajo",
@@ -22,20 +22,22 @@
     "LBL_UPDATE_EVENT": "Actualizar evento en el calendario cuando se reprograma.",
     "LBL_GENERATE_COLOR": "Generar color aleatorio",
     "LBL_GENERATED_COLOR": "Color generado",
-    "LBL_NOTWORKING_DAYS": "D\u00edas no laborables",
-    "LBL_NOTWORKEDDAYS_INFO": "D\u00edas no laborables",
+    "LBL_NOTWORKING_DAYS": "Días no laborables",
+    "LBL_NOTWORKEDDAYS_INFO": "Días no laborables",
     "PLL_MONDAY": "Lunes",
     "PLL_TUESDAY": "Martes",
-    "PLL_WEDNESDAY": "Mi\u00e9rcoles",
+    "PLL_WEDNESDAY": "Miércoles",
     "PLL_THURSDAY": "Jueves",
     "PLL_FRIDAY": "Viernes",
-    "PLL_SATURDAY": "S\u00e1bado",
+    "PLL_SATURDAY": "Sábado",
     "PLL_SUNDAY": "Domingo",
-    "LBL_VIEW_USERCOLORS": "Configuraci\u00f3n del calendario",
+    "LBL_VIEW_USERCOLORS": "Configuración del calendario",
     "LBL_VIEW_ACTIVITYTYPES": "Tipos de actividad",
     "Task": "Tarea",
-    "Meeting": "Reuni\u00f3n",
+    "Meeting": "Reunión",
     "Call": "Llamada"
   },
-  "js": {}
+  "js": {
+
+  }
 }
