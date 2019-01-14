@@ -2,7 +2,6 @@
   "php": {
     "KnowledgeBase": "Baze de cunostinte",
     "SINGLE_KnowledgeBase": "Baza de cunostinte",
-    "KnowledgeBase ID": "KnowledgeBase ID",
     "LBL_CUSTOM_INFORMATION": "Custom information",
     "FL_SUBJECT": "Subiect",
     "LBL_KNOWLEDGEBASE_INFORMATION": "Informatii de baza",
@@ -15,8 +14,8 @@
     "LBL_PREVIOUS": "Anteriorul",
     "LBL_NEXT": "Urmatorul",
     "LBL_LIST_RECORDS": "Lista inregistari",
-    "LBL_RECORD_PREVIEW": "Previzualizare",
     "FL_STATUS": "Status",
+    "LBL_RECORD_PREVIEW": "Previzualizare",
     "PLL_DRAFT": "Ciorna",
     "PLL_IN_REALIZATION": "In realizare",
     "PLL_OBJECTIONS": "Obiectii",
