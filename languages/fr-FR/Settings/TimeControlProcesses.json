@@ -1,16 +1,18 @@
 {
   "php": {
     "LBL_TIMECONTROL_PROCESSES": "Workflow",
+    "TimeControlProcesses": "Processus des contrôles de temps",
     "LBL_TIMECONTROL_PROCESSES_DESCRIPTION": " ",
-    "LBL_ONEDAY_VALID": "Temps de travail limit\u00e9 \u00e0 24 heures",
+    "LBL_ONEDAY_VALID": "Temps de travail limité à 24 heures",
     "LBL_TIMEOVERLAP_VALID": "Autoriser le chevauchement des temps",
-    "LBL_GENERAL_SETTINGS": "Param\u00e8tres g\u00e9n\u00e9raux",
-    "TimeControlProcesses": "Processus des contr\u00f4les de temps",
-    "LBL_TIME_CONTROL_WIDGET": "Widget de contr\u00f4le des temps",
-    "LBL_TCW_INFO": "L'option pour afficher\/cacher les ic\u00f4nes dans le contr\u00f4le des temps se trouve ici.",
-    "LBL_HOLIDAYS": "Ic\u00f4nes cong\u00e9s",
-    "LBL_WORKING_DAYS": "Ic\u00f4nes jours ouvr\u00e9s",
-    "LBL_WORKING_TIME": "Ic\u00f4nes heures ouvr\u00e9es"
+    "LBL_GENERAL_SETTINGS": "Paramètres généraux",
+    "LBL_TIME_CONTROL_WIDGET": "Widget de contrôle des temps",
+    "LBL_TCW_INFO": "L'option pour afficher\/cacher les icônes dans le contrôle des temps se trouve ici.",
+    "LBL_HOLIDAYS": "Icônes congés",
+    "LBL_WORKING_DAYS": "Icônes jours ouvrés",
+    "LBL_WORKING_TIME": "Icônes heures ouvrées"
   },
-  "js": {}
+  "js": {
+
+  }
 }
