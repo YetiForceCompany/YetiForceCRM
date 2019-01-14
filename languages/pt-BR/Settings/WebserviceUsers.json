@@ -1,7 +1,7 @@
 {
   "php": {
-    "WebserviceUsers": "Web service - Usu\u00e1rios",
-    "LBL_WEBSERVICE_USERS": "Web service - Usu\u00e1rios",
+    "WebserviceUsers": "Web service - Usuários",
+    "LBL_WEBSERVICE_USERS": "Web service - Usuários",
     "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
     "FL_SERVER": "Servidor",
     "FL_STATUS": "Status",
@@ -12,19 +12,19 @@
     "FL_LOGOUT_TIME": "Tempo de Logout",
     "FL_LANGUAGE": "Idioma",
     "FL_RECORD_NAME": "Registro",
-    "FL_USER": "Usu\u00e1rio",
+    "FL_USER": "Usuário",
     "BTN_SAVE": "Salvar",
     "BTN_CLOSE": "Cancelar",
-    "PLL_USER_PERMISSIONS": "Permiss\u00f5es baseadas em usu\u00e1rio",
-    "PLL_ACCOUNTS_RELATED_RECORDS": "Todos os registros de conta atribu\u00eddos diretamente ao contato",
-    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Todos os registros de conta relacionados atribu\u00eddos diretamente ao contato e contas abaixo na hierarquia",
-    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Todos os registros de conta relacionados atribu\u00eddos diretamente ao contato e contas da hierarquia",
+    "PLL_USER_PERMISSIONS": "Permissões baseadas em usuário",
+    "PLL_ACCOUNTS_RELATED_RECORDS": "Todos os registros de conta atribuídos diretamente ao contato",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Todos os registros de conta relacionados atribuídos diretamente ao contato e contas abaixo na hierarquia",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Todos os registros de conta relacionados atribuídos diretamente ao contato e contas da hierarquia",
     "PLL_ACTIVE": "Ativo",
     "PLL_INACTIVE": "Inativo",
     "LBL_CREATE_RECORD": "Criar"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "Voc\u00ea tem certeza que deseja remover esta chave?",
-    "JS_SAVE_SUCCESS": "Altera\u00e7\u00f5es salvas"
+    "JS_DELETE_CONFIRMATION": "Você tem certeza que deseja remover esta chave?",
+    "JS_SAVE_SUCCESS": "Alterações salvas"
   }
 }
