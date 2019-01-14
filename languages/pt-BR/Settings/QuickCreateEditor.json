@@ -1,12 +1,12 @@
 {
   "php": {
-    "QuickCreateEditor": "Editor de Cria\u00e7\u00e3o R\u00e1pida",
-    "LBL_QUICK_CREATE_EDITOR": "Campos \u2013 Cria\u00e7\u00e3o R\u00e1pida",
-    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Este m\u00f3dulo permite alterar o layout dos campos na janela de cria\u00e7\u00e3o r\u00e1pida",
-    "LBL_SEQUENCE": "Sequ\u00eancia de Campos",
-    "LBL_SAVE_FIELD_SEQUENCE": "Salvar Sequ\u00eancia de Campos"
+    "QuickCreateEditor": "Editor de Criação Rápida",
+    "LBL_QUICK_CREATE_EDITOR": "Campos – Criação Rápida",
+    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Este módulo permite alterar o layout dos campos na janela de criação rápida",
+    "LBL_SEQUENCE": "Sequência de Campos",
+    "LBL_SAVE_FIELD_SEQUENCE": "Salvar Sequência de Campos"
   },
   "js": {
-    "JS_FIELD_SEQUENCE_UPDATED": "Sequ\u00eancia de Campos Atualizada"
+    "JS_FIELD_SEQUENCE_UPDATED": "Sequência de Campos Atualizada"
   }
 }
