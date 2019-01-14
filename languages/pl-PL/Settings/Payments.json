@@ -1,10 +1,10 @@
 {
   "php": {
-    "Payments": "P\u0142atno\u015bci",
-    "LBL_RIGHT_CLICK_COPY": "Prawy przycisk i kopiuj"
+    "Payments": "Payments",
+    "LBL_RIGHT_CLICK_COPY": "Right click and copy"
   },
   "js": {
-    "JS_DELETED_SUCCESSFULLY": "Usuni\u0119to poprawnie",
-    "JS_SAVED_SUCCESSFULLY": "Zapisano poprawnie"
+    "JS_DELETED_SUCCESSFULLY": "Deleted successfully",
+    "JS_SAVED_SUCCESSFULLY": "Saved successfully"
   }
 }
