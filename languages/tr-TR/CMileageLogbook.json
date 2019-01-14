@@ -1,17 +1,17 @@
 {
   "php": {
-    "CMileageLogbook": "Kilometre logosu kitab\u0131",
-    "SINGLE_CMileageLogbook": "Kilometre logosu kitab\u0131",
+    "CMileageLogbook": "Kilometre logosu kitabı",
+    "SINGLE_CMileageLogbook": "Kilometre logosu kitabı",
     "LBL_ADDITIONAL_INFORMATION": "Ek bilgi",
     "LBL_BASIC_INFORMATION": "Temel bilgiler",
-    "LBL_DESCRIPTION_BLOCK": "A\u00e7\u0131klama",
+    "LBL_DESCRIPTION_BLOCK": "Açıklama",
     "LBL_ATTENTION_BLOCK": "Notlar",
     "FL_SUBJECT": "Konu",
     "FL_STATUS": "Durum",
-    "FL_NUMBER_KILOMETERS": "Kilometre say\u0131s\u0131",
+    "FL_NUMBER_KILOMETERS": "Kilometre sayısı",
     "PLL_DRAFT": "Taslak",
-    "PLL_FOR_APPROVAL": "Onay i\u00e7in",
+    "PLL_FOR_APPROVAL": "Onay için",
     "PLL_ACCEPTED": "Kabul Edildi",
-    "PLL_CANCELLED": "\u0130ptal edildi"
+    "PLL_CANCELLED": "İptal edildi"
   }
 }
