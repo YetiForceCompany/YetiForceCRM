@@ -1,16 +1,18 @@
 {
   "php": {
     "LBL_TIMECONTROL_PROCESSES": "Fluxo de Trabalho",
+    "TimeControlProcesses": "Processos Controle Tempo",
     "LBL_TIMECONTROL_PROCESSES_DESCRIPTION": " ",
     "LBL_ONEDAY_VALID": "Tempo de trabalho limitado a 24 horas",
     "LBL_TIMEOVERLAP_VALID": "Permitir horas sobrepostas",
-    "LBL_GENERAL_SETTINGS": "Configura\u00e7\u00f5es gerais",
-    "TimeControlProcesses": "Processos Controle Tempo",
+    "LBL_GENERAL_SETTINGS": "Configurações gerais",
     "LBL_TIME_CONTROL_WIDGET": "Widget Controle Tempo",
-    "LBL_TCW_INFO": "As op\u00e7\u00f5es para ocultar\/exibir \u00edcones no widget Controle do Tempo pode ser encontrado aqui.",
-    "LBL_HOLIDAYS": "\u00cdcones do Feriado",
-    "LBL_WORKING_DAYS": "\u00cdcones para dias \u00fateis",
-    "LBL_WORKING_TIME": "\u00cdcones para tempo de trabalho"
+    "LBL_TCW_INFO": "As opções para ocultar\/exibir ícones no widget Controle do Tempo pode ser encontrado aqui.",
+    "LBL_HOLIDAYS": "Ícones do Feriado",
+    "LBL_WORKING_DAYS": "Ícones para dias úteis",
+    "LBL_WORKING_TIME": "Ícones para tempo de trabalho"
   },
-  "js": {}
+  "js": {
+
+  }
 }
