@@ -1,23 +1,22 @@
 {
   "php": {
     "OpenStreetMap": "OpenStreetMap",
-    "LBL_DISTANCE": "Distance [km]",
-    "ERR_ADDRESS_NOT_FOUND": "Adresse introuvable",
     "LBL_GROUP_BY": "Groupe",
-    "LBL_GROUP_NEIGHBOURS": "Connecter les prochains \u00e9l\u00e9ments",
-    "LBL_NOT_FOUND_PLACE": "Lieu non trouv\u00e9",
-    "LBL_SEARCH_VALUE_DESCRIPTION": "Ville, rue, b\u00e2timent, num\u00e9ro ...",
+    "LBL_GROUP_NEIGHBOURS": "Connecter les prochains éléments",
+    "LBL_NOT_FOUND_PLACE": "Lieu non trouvé",
+    "LBL_SEARCH_VALUE_DESCRIPTION": "Ville, rue, bâtiment, numéro ...",
     "LBL_IN_RADIUS": "Rayon [km]",
-    "LBL_CALCULATE_TRACK": "D\u00e9finir la route",
-    "LBL_START": "D\u00e9but",
+    "LBL_CALCULATE_TRACK": "Définir la route",
+    "LBL_START": "Début",
     "LBL_END": "Fin",
-    "LBL_CALCULATE_ROUTE_HEADER_BLOCK": "D\u00e9finir la route",
+    "LBL_CALCULATE_ROUTE_HEADER_BLOCK": "Définir la route",
+    "LBL_DISTANCE": "Distance [km]",
     "LBL_TRAVEL_TIME": "Temps [min]",
     "LBL_INSTRUCTION": "Manuel",
     "LBL_SEARCH_IN_RADIUS": "Recherche en rayon",
     "LBL_COPY_TO_CLIPBOARD": "Copier dans le presse-papier",
     "LBL_CLIPBOARD": "Presse-papiers",
-    "LBL_INDIRECT_POINT": "Point indirect"
-  },
-  "js": {}
+    "LBL_INDIRECT_POINT": "Point indirect",
+    "ERR_ADDRESS_NOT_FOUND": "Adresse introuvable"
+  }
 }
