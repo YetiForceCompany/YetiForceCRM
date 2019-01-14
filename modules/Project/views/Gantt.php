@@ -54,8 +54,10 @@ class Project_Gantt_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTID', 0);
 		if ($request->has('view') && $request->getByType('view', 2) === 'Gantt') {
+			$viewer->assign('GANTT_TITLE', \App\Language::translate('LBL_GANTT_TITLE_ALL_PROJECTS', 'Project'));
 			$viewer->view('gantt/GanttAll.tpl', $moduleName);
 		} else {
+			$viewer->assign('GANTT_TITLE', \App\Language::translate('LBL_GANTT_TITLE', 'Project'));
 			$viewer->view('gantt/GanttContents.tpl', $moduleName);
 		}
 	}
