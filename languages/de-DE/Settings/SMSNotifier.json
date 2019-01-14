@@ -3,7 +3,7 @@
     "FL_PROVIDER": "Provider",
     "FL_STATUS": "Status",
     "FL_SMSAPI_FROM": "Nachrichtentyp",
-    "FL_API_KEY": "Api Schl\u00fcssel",
+    "FL_API_KEY": "Api Schlüssel",
     "PLL_INACTIVE": "Inaktiv",
     "PLL_ACTIVE": "Aktiv",
     "LBL_ADD_RECORD": "Neue Konfiguration",
@@ -15,8 +15,8 @@
     "BTN_CLOSE": "Abrechen"
   },
   "js": {
-    "LBL_DELETE_CONFIRMATION": "Sind Sie sicher diese Konfiguration zu l\u00f6schen?",
-    "JS_RECORD_DELETED_SUCCESSFULLY": "Konfiguration erfolgreich gel\u00f6scht",
+    "LBL_DELETE_CONFIRMATION": "Sind Sie sicher diese Konfiguration zu löschen?",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Konfiguration erfolgreich gelöscht",
     "JS_SAVE_SUCCESS": "Gesichert"
   }
 }
