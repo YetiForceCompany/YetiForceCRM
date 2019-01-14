@@ -1,27 +1,27 @@
 {
   "php": {
-    "Module": "Module",
-    "Table": "Table",
-    "Tools": "Actions",
     "Search Configuration": "Configuration recherche",
     "Search Setup": "Recherche - Configuration",
     "Search": "Configuration recherche",
-    "LBL_Module_desc": "Ce panel permet de param\u00e9trer les labels pour les champs de type uitype 10 et les m\u00e9canismes de recherche. Ces m\u00e9canismes sont ind\u00e9pendants, vous pouvez voir plusieurs colonnes lors de la recherche mais lors de la s\u00e9lection d'un enregistrement un nom pour le label sera affich\u00e9.",
+    "LBL_Module_desc": "Ce panel permet de paramétrer les labels pour les champs de type uitype 10 et les mécanismes de recherche. Ces mécanismes sont indépendants, vous pouvez voir plusieurs colonnes lors de la recherche mais lors de la sélection d'un enregistrement un nom pour le label sera affiché.",
+    "Module": "Module",
+    "Table": "Table",
     "LabelFields": "Colonnes principales pour un module (y compris le label pour uitype 10)",
-    "SearchFields": "Colonnes pour les m\u00e9canismes de recherches",
-    "Update labels": "Mettre \u00e0 jour les labels",
-    "LBL_SAVE_CHANGES_SEARCHING": "Modifications sauvegard\u00e9es.",
-    "LBL_SAVE_CHANGES_LABLE": "Les modifications dans la configuration ont \u00e9t\u00e9 sauvegard\u00e9es, vous devez mettre \u00e0 jour ce module pour visualiser les changements dans le syst\u00e8me.",
-    "Update has been completed": "Mise \u00e0 jour du module effectu\u00e9e avec succ\u00e8s. Les modifications sont visisbles dans le syst\u00e8me.",
-    "LBL_SAVE_MODULE_SEQUENCE": "Sauvegarder la s\u00e9quence des modules",
+    "SearchFields": "Colonnes pour les mécanismes de recherches",
+    "Tools": "Actions",
+    "Update labels": "Mettre à jour les labels",
+    "LBL_SAVE_CHANGES_SEARCHING": "Modifications sauvegardées.",
+    "LBL_SAVE_CHANGES_LABLE": "Les modifications dans la configuration ont été sauvegardées, vous devez mettre à jour ce module pour visualiser les changements dans le système.",
+    "Update has been completed": "Mise à jour du module effectuée avec succès. Les modifications sont visisbles dans le système.",
+    "LBL_SAVE_MODULE_SEQUENCE": "Sauvegarder la séquence des modules",
     "LBL_TURN_ON": "Activer",
-    "LBL_TURN_OFF": "D\u00e9sactiver"
+    "LBL_TURN_OFF": "Désactiver"
   },
   "js": {
-    "Saving changes": "Mise \u00e0 jour en cours\u2026",
-    "Update labels": "Mettre \u00e0 jour",
-    "JS_MODULES_SEQUENCE_UPDATED": "S\u00e9quence des modules mise \u00e0 jour",
+    "Saving changes": "Mise à jour en cours…",
+    "Update labels": "Mettre à jour",
+    "JS_MODULES_SEQUENCE_UPDATED": "Séquence des modules mise à jour",
     "JS_TURN_ON": "Activer",
-    "JS_TURN_OFF": "D\u00e9sactiver"
+    "JS_TURN_OFF": "Désactiver"
   }
 }
