@@ -1,16 +1,18 @@
 {
   "php": {
-    "LBL_TIMECONTROL_PROCESSES": "Przep\u0142yw pracy",
+    "LBL_TIMECONTROL_PROCESSES": "Przepływ pracy",
     "TimeControlProcesses": "Procesy czasu pracy",
     "LBL_TIMECONTROL_PROCESSES_DESCRIPTION": " ",
     "LBL_ONEDAY_VALID": "Czas pracy ograniczony do 24 godzin",
-    "LBL_TIMEOVERLAP_VALID": "Zezwalaj na nak\u0142adanie si\u0119 termin\u00f3w",
-    "LBL_GENERAL_SETTINGS": "Og\u00f3lne",
+    "LBL_TIMEOVERLAP_VALID": "Zezwalaj na nakładanie się terminów",
+    "LBL_GENERAL_SETTINGS": "Ogólne",
     "LBL_TIME_CONTROL_WIDGET": "Widget czasu pracy",
-    "LBL_TCW_INFO": "Znajduj\u0105 si\u0119 tutaj opcje do chowania\/pokazywania ikon w widgecie czasu pracy",
-    "LBL_HOLIDAYS": "Ikony \u015bwi\u0105t",
+    "LBL_TCW_INFO": "Znajdują się tutaj opcje do chowania\/pokazywania ikon w widgecie czasu pracy",
+    "LBL_HOLIDAYS": "Ikony świąt",
     "LBL_WORKING_DAYS": "Ikony dni pracy",
     "LBL_WORKING_TIME": "Ikony czasu pracy"
   },
-  "js": {}
+  "js": {
+
+  }
 }
