@@ -1,20 +1,20 @@
 {
   "php": {
-    "FInvoiceProforma": "Proforma Rechnungen",
-    "SINGLE_FInvoiceProforma": "Proforma Rechnung",
-    "LBL_CUSTOM_INFORMATION": "Systeminformationen",
-    "LBL_ADDRESS_DELIVERY_INFORMATION": "Lieferadresse",
-    "FL_SUBJECT": "Betreff",
-    "FL_PAYMENT_DATE": "Ausf\u00fchrungsdatum",
-    "FL_SALE_DATE": "Verkausdatum",
-    "FL_FORM_PAYMENT": "Zahlungsmethode",
+    "FInvoiceProforma": "Proforma invoices",
+    "SINGLE_FInvoiceProforma": "Proforma invoice",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Delivery address",
+    "FL_SUBJECT": "Subject",
+    "FL_PAYMENT_DATE": "Due date",
+    "FL_SALE_DATE": "Sale date",
+    "FL_ACCOUNT": "Account",
+    "FL_FORM_PAYMENT": "Payment method",
     "FL_STATUS": "Status",
-    "FL_NUMBER": "Rechnungsnummer",
-    "FL_ACCOUNT": "Organisation",
-    "FL_TOTAL": "Gesamt",
-    "FL_GROSS": "Brutto",
-    "PLL_CASH": "Bar",
-    "PLL_TRANSFER": "Banktransfer",
-    "PLL_WIRE_TRANSFER": "Elektronischer Transfer"
+    "FL_NUMBER": "Invoice number",
+    "FL_TOTAL": "Net",
+    "FL_GROSS": "Gross",
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer"
   }
 }
