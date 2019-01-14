@@ -1,15 +1,15 @@
 {
   "php": {
-    "Ideas": "Pomys\u0142y",
-    "SINGLE_Ideas": "Pomys\u0142",
-    "LBL_IDEAS_INFORMATION": "Informacje podstawowe",
-    "LBL_SUBJECT": "Temat",
+    "Ideas": "Ideas",
+    "SINGLE_Ideas": "Idea",
+    "LBL_IDEAS_INFORMATION": "Basic Information",
+    "LBL_SUBJECT": "Subject",
     "LBL_STATUS": "Status",
-    "Description": "Opis podstawowy",
-    "LBL_EXTENT_DESCRIPTION": "Opis rozszerzony",
-    "Attention": "Uwagi",
-    "LBL_NO": "Numer",
-    "Draft": "szkic",
-    "Proposition": "propozycja"
+    "Description": "Basic description",
+    "LBL_EXTENT_DESCRIPTION": "Detailed description",
+    "Attention": "Comments",
+    "LBL_NO": "Number",
+    "Draft": "Draft",
+    "Proposition": "Proposal"
   }
 }
