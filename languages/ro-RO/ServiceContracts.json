@@ -1,6 +1,5 @@
 {
   "php": {
-    "LBL_SUMMARY": "Sumar timp de lucru",
     "ServiceContracts": "Contracte Service",
     "Service Contracts": "Contracte Service",
     "SINGLE_ServiceContracts": "Contract Service",
@@ -14,6 +13,13 @@
     "Progress": "Progres",
     "Planned Duration": "Durata planificata (in zile",
     "Actual Duration": "Durata actuala (in zile)",
+    "Low": "Scazut",
+    "Normal": "Normal",
+    "High": "Ridicat",
+    "Hours": "Ore",
+    "Days": "Zile",
+    "Incidents": "Incidente",
+    "Services": "Servicii",
     "Support": "Suport",
     "Administrative": "Administrativ",
     "Undefined": "Nedefinit",
@@ -22,15 +28,9 @@
     "On Hold": "In asteptare",
     "Complete": "Complet",
     "Archived": "Arhivat",
+    "LBL_SUMMARY": "Sumar timp de lucru",
     "Due date": "Data scadentei",
     "Related to": "Relatat la",
-    "LBL_ACTIVE_SERVICE_CONTRACTS": "SLA activ",
-    "Low": "Scazut",
-    "Normal": "Normal",
-    "High": "Ridicat",
-    "Hours": "Ore",
-    "Days": "Zile",
-    "Incidents": "Incidente",
-    "Services": "Servicii"
+    "LBL_ACTIVE_SERVICE_CONTRACTS": "SLA activ"
   }
 }
