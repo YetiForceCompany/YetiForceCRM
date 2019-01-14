@@ -1,34 +1,34 @@
 {
   "php": {
-    "Users": "U\u017cytkownicy",
-    "USER_MAIL_EXIST": "U\u017cytkownik o podanym adresie email ju\u017c istnieje",
+    "Users": "Użytkownicy",
+    "USER_MAIL_EXIST": "Użytkownik o podanym adresie email już istnieje",
     "LBL_PRIORITY": "Priorytet",
-    "LBL_LDAP_RECOMMENDED_INFO": "Nie zaleca sie aby wybiera\u0107 do autoryzacji u\u017cytkownik\u00f3w o uprawnieniach administratora. W razie problem\u00f3w z autoryzacj\u0105 LDAP musi by\u0107 dost\u0119pny u\u017cytkownik, kt\u00f3ry ma mo\u017cliwo\u015bci logowania si\u0119 bez integracji LDAP.",
+    "LBL_LDAP_RECOMMENDED_INFO": "Nie zaleca sie aby wybierać do autoryzacji użytkowników o uprawnieniach administratora. W razie problemów z autoryzacją LDAP musi być dostępny użytkownik, który ma możliwości logowania się bez integracji LDAP.",
     "LBL_AUTHORIZATION": "LDAP",
     "LBL_AUTHORIZATION_DESCRIPTION": " ",
     "LBL_LDAP_AUTH": "LDAP",
-    "LBL_ACTIVE_LDAP_AUTH": "Autoryzacja za pomoc\u0105 LDAP",
+    "LBL_ACTIVE_LDAP_AUTH": "Autoryzacja za pomocą LDAP",
     "LBL_LDAP_SERVER": "Adres serwera",
     "LBL_LDAP_PORT": "Port",
-    "LBL_SAVE_CONFIG": "Zapisano konfiguracj\u0119",
+    "LBL_SAVE_CONFIG": "Zapisano konfigurację",
     "LBL_LDAP_DOMAIN": "Domena (automatycznie dodawana do loginu)",
     "LBL_VIEW_AUTH": "Autoryzacja",
-    "LBL_SWITCH_USERS": "Prze\u0142\u0105czanie u\u017cytkownik\u00f3w",
-    "LBL_SWITCH_USERS_DESCRIPTION": "Narz\u0119dzie umo\u017cliwiaj\u0105ce prze\u0142\u0105czanie si\u0119 pomi\u0119dzy u\u017cytkownikami w systemie.",
-    "LBL_SU_BASE_ACCESS": "U\u017cytkownik",
-    "LBL_SU_AVAILABLE_ACCESS": "Mo\u017ce logowa\u0107 si\u0119 na",
+    "LBL_SWITCH_USERS": "Przełączanie użytkowników",
+    "LBL_SWITCH_USERS_DESCRIPTION": "Narzędzie umożliwiające przełączanie się pomiędzy użytkownikami w systemie.",
+    "LBL_SU_BASE_ACCESS": "Użytkownik",
+    "LBL_SU_AVAILABLE_ACCESS": "Może logować się na",
     "LBL_LOCKS": "Blokady",
-    "LBL_LOCKS_DESCRIPTION": "Narz\u0119dzie do blokowania czynno\u015bci dost\u0119pnych w przegl\u0105darce np. kopiowanie, wycinanie...",
+    "LBL_LOCKS_DESCRIPTION": "Narzędzie do blokowania czynności dostępnych w przeglądarce np. kopiowanie, wycinanie...",
     "LBL_LOCK_COPY": "Blokada kopiowania",
     "LBL_LOCK_CUT": "Blokada wycinania",
     "LBL_LOCK_PASTE": "Blokada wklejania",
     "LBL_LOCK_RIGHT_MENU": "Blokada prawego klawisza myszki",
     "LBL_LOCK_SELECT_TEXT": "Blokada zaznaczania",
-    "LBL_LOCK_DRAG": "Blokada przeci\u0105gania element\u00f3w strony"
+    "LBL_LOCK_DRAG": "Blokada przeciągania elementów strony"
   },
   "js": {
-    "JS_PLEASE_SELECT_MODULE": "Prosz\u0119 wybra\u0107 modu\u0142",
-    "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",
-    "Changed password successfully": "Has\u0142o zmienione poprawnie"
+    "JS_PLEASE_SELECT_MODULE": "Proszę wybrać moduł",
+    "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesiętny i grupowania nie mogą być takie same",
+    "Changed password successfully": "Hasło zmienione poprawnie"
   }
 }
