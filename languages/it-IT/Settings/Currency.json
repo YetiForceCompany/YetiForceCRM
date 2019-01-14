@@ -39,7 +39,7 @@
     "China, Yuan Renminbi": "China, Yuan Renminbi",
     "Colombia, Pesos": "Colombia, Pesos",
     "Convertible Marka": "Convertible Marka",
-    "Costa Rica, Col\u00f3n": "Costa Rica, Col\u00f3n",
+    "Costa Rica, Colón": "Costa Rica, Colón",
     "Croatia, Kuna": "Croatia, Kuna",
     "Cuba, Pesos": "Cuba, Pesos",
     "Cyprus, Pounds": "Cyprus, Pounds",
@@ -48,7 +48,7 @@
     "Dominican Republic, Pesos": "Dominican Republic, Pesos",
     "East Caribbean, Dollars": "East Caribbean, Dollars",
     "Egypt, Pounds": "Egypt, Pounds",
-    "El Salvador, Col\u00f3n": "El Salvador, Col\u00f3n",
+    "El Salvador, Colón": "El Salvador, Colón",
     "England, Pounds": "England, Pounds",
     "Estonia, Krooni": "Estonia, Krooni",
     "Euro": "Euro",
@@ -146,10 +146,12 @@
     "Zambia, Kwacha": "Zambia, Kwacha",
     "Zimbabwe Dollars": "Zimbabwe Dollars",
     "Active": "Active",
-    "Inactive": "Inactive"
+    "Inactive": "Inactive",
+    "LBL_SET_AS_DEFAULT": "Set as default"
   },
   "js": {
     "JS_CURRENCY_DELETED_SUCCESSFULLY": "Currency deleted successfully.",
-    "JS_CURRENCY_DETAILS_SAVED": "Currency details saved."
+    "JS_CURRENCY_DETAILS_SAVED": "Currency details saved.",
+    "JS_CURRENCY_DEFAULT_CONFIRMED": "Warning! This operation will change the currency in many places in the system. Financial documents issued prior to this change might require currency conversion. Please perform manual currency conversion if these documents have been issued in their production versions. Calculating exchange rates for the remaining currencies will be required."
   }
 }
