@@ -1304,8 +1304,12 @@
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
     "LBL_MODIFICATION_FAILURE": "No modification has been performed",
     "LBL_QUICK_CREATE_MODULE": "Quick create",
-    "LBL_YETIFORCE_REGISTRATION_ERROR": "Your system was not properly registered. Please check the registration status in \"Software configuration > Company information > Company details\", an incorrectly registered system is not compliant with the license.",
-    "LBL_YETIFORCE_REGISTRATION": "CRM system registration"
+    "LBL_YETIFORCE_REGISTRATION_ERROR": "Twój system nie został prawidłowo zarejestrowany. %s, nieprawidłowo zarejestrowany system jest niezgodny z warunkami licencji.",
+    "LBL_YETIFORCE_REGISTRATION_CHECK_STATUS": "Sprawdź status rejestracji",
+    "LBL_YETIFORCE_REGISTRATION": "CRM system registration",
+    "LBL_YETIFORCE_NEWSLETTER": "Newsletter",
+    "LBL_YETIFORCE_NEWSLETTER_FILL_DATA": "uzupełnij dane",
+    "LBL_YETIFORCE_NEWSLETTER_ERROR": "Nie wprowadzono adresu e-mail do danych firmy. Jeśli chcesz otrzymywać newsletter %s."
   },
   "js": {
     "JS_APPROVE": "Approve",
