@@ -1,19 +1,19 @@
 {
   "php": {
-    "LBL_CURRENCY_SYMBOL": "S\u00edmbolo",
-    "Conversion Rate": "Taxa de C\u00e2mbio",
+    "Conversion Rate": "Taxa de Câmbio",
     "Currency": "Moeda",
-    "Symbol": "S\u00edmbolo",
-    "Currency Code": "C\u00f3digo da Moeda",
+    "Symbol": "Símbolo",
+    "Currency Code": "Código da Moeda",
     "Currency Name": "Nome da Moeda",
     "LBL_ADD_NEW_CURRENCY": "Adicionar nova Moeda",
     "LBL_ADD_RECORD": "Adicionar Registro",
-    "LBL_CURRENCY_CODE": "C\u00f3digo da Moeda",
+    "LBL_CURRENCY_CODE": "Código da Moeda",
     "LBL_CURRENCY_NAME": "Nome da Moeda",
-    "LBL_CURRENCY_STATUS_DESC": "Marque a caixa de sele\u00e7\u00e3o para ativar a moeda",
+    "LBL_CURRENCY_STATUS_DESC": "Marque a caixa de seleção para ativar a moeda",
+    "LBL_CURRENCY_SYMBOL": "Símbolo",
     "LBL_CURRENT_CURRENCY": "Moeda Atual",
     "LBL_EDIT_CURRENCY": "Editar Moeda",
-    "LBL_ENTER_CONVERSION_RATE": "Inserir taxa de c\u00e2mbio",
+    "LBL_ENTER_CONVERSION_RATE": "Inserir taxa de câmbio",
     "LBL_TRANSFER_CURRENCY": "Transferir moeda",
     "Afghanistan, Afghanis": "Afghanistan, Afghanis",
     "Albania, Leke": "Albania, Leke",
@@ -39,7 +39,7 @@
     "China, Yuan Renminbi": "China, Yuan Renminbi",
     "Colombia, Pesos": "Colombia, Pesos",
     "Convertible Marka": "Convertible Marka",
-    "Costa Rica, Col\u00f3n": "Costa Rica, Col\u00f3n",
+    "Costa Rica, Colón": "Costa Rica, Colón",
     "Croatia, Kuna": "Croatia, Kuna",
     "Cuba, Pesos": "Cuba, Pesos",
     "Cyprus, Pounds": "Cyprus, Pounds",
@@ -48,7 +48,7 @@
     "Dominican Republic, Pesos": "Dominican Republic, Pesos",
     "East Caribbean, Dollars": "East Caribbean, Dollars",
     "Egypt, Pounds": "Egypt, Pounds",
-    "El Salvador, Col\u00f3n": "El Salvador, Col\u00f3n",
+    "El Salvador, Colón": "El Salvador, Colón",
     "England, Pounds": "England, Pounds",
     "Estonia, Krooni": "Estonia, Krooni",
     "Euro": "Euro",
@@ -146,10 +146,12 @@
     "Zambia, Kwacha": "Zambia, Kwacha",
     "Zimbabwe Dollars": "Zimbabwe Dollars",
     "Active": "Ativo",
-    "Inactive": "Inativo"
+    "Inactive": "Inativo",
+    "LBL_SET_AS_DEFAULT": "Set as default"
   },
   "js": {
     "JS_CURRENCY_DELETED_SUCCESSFULLY": "Moeda Apagada com Sucesso",
-    "JS_CURRENCY_DETAILS_SAVED": "Detalhes da Moeda Salvo"
+    "JS_CURRENCY_DETAILS_SAVED": "Detalhes da Moeda Salvo",
+    "JS_CURRENCY_DEFAULT_CONFIRMED": "Warning! This operation will change the currency in many places in the system. Financial documents issued prior to this change might require currency conversion. Please perform manual currency conversion if these documents have been issued in their production versions. Calculating exchange rates for the remaining currencies will be required."
   }
 }
