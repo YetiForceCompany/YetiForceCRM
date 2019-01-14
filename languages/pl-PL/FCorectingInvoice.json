@@ -6,32 +6,32 @@
     "LBL_INVOICE_ADDRESS": "Adres do faktury",
     "LBL_ADDRESS_DELIVERY_INFORMATION": "Adres do dostawy",
     "FL_SUBJECT": "Temat",
-    "FL_PAYMENT_DATE": "Data p\u0142atno\u015bci",
-    "FL_SALE_DATE": "Data sprzeda\u017cy",
-    "FL_FORM_PAYMENT": "Forma p\u0142atno\u015bci",
+    "FL_PAYMENT_DATE": "Data płatności",
+    "FL_SALE_DATE": "Data sprzedaży",
+    "FL_FORM_PAYMENT": "Forma płatności",
     "FL_BANK_ACCOUNT": "Numer konta bankowego",
     "FL_NUMBER": "Numer faktury",
     "FL_ACCOUNT": "Kontrahent",
     "FL_TOTAL": "Netto",
     "FL_GROSS": "Brutto",
     "FL_STATUS": "Status",
-    "PLL_CASH": "Got\u00f3wka",
+    "PLL_CASH": "Gotówka",
     "PLL_TRANSFER": "Przelew bankowy",
     "PLL_WIRE_TRANSFER": "Przelew elektroniczny",
     "LBL_YEAR": "Rok",
     "FL_INVOICE": "Faktura",
     "LBL_COMMENTS": "Komentarze",
-    "FL_EXTERNAL_COMMENT": "Komentarz zewn\u0119trzny",
-    "FL_INTERNAL_COMMENT": "Komentarz wewn\u0119trzny",
-    "LBL_BEFORE_CORRECTION": "Dane przed korekt\u0105",
+    "FL_EXTERNAL_COMMENT": "Komentarz zewnętrzny",
+    "FL_INTERNAL_COMMENT": "Komentarz wewnętrzny",
+    "LBL_BEFORE_CORRECTION": "Dane przed korektą",
     "LBL_AFTER_CORRECTION": "Dane po korekcie",
-    "LBL_CHOOSE_INVOICE": "Wybierz faktur\u0119 korygowan\u0105",
+    "LBL_CHOOSE_INVOICE": "Wybierz fakturę korygowaną",
     "LBL_COPY_FROM_INVOICE": "Kopiuj z faktury korygowanej",
     "LBL_INVOICE_INFO": "Pozycje faktury korygowanej - przed zmianami.",
-    "LBL_AFTER_INVOICE_INFO": "Jak powinna wygl\u0105da\u0107 finalna faktura po korekcie.",
-    "LBL_AFTER_INVOICE_INFO_EDIT": "Pozycje faktury korygowanej, kt\u00F3re chcemy zmieni\u0107. Skopiuj wszystkie pozycj\u0119 z faktury i zmie\u0144 warto\u015Bci wedle potrzeb."
+    "LBL_AFTER_INVOICE_INFO": "Jak powinna wyglądać finalna faktura po korekcie.",
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Pozycje faktury korygowanej, które chcemy zmienić. Skopiuj wszystkie pozycję z faktury i zmień wartości wedle potrzeb."
   },
   "js": {
-    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Wybierz faktur\u0119 korygowan\u0105"
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Wybierz fakturę korygowaną"
   }
 }
