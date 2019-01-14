@@ -2,18 +2,18 @@
   "php": {
     "EmailTemplates": "Modelos de E-mail",
     "SINGLE_EmailTemplates": "Modelo de E-mail",
-    "LBL_CONTENT_MAIL": "Conte\u00fado do E-mail",
-    "LBL_BASIC_DETAILS": "Informa\u00e7\u00f5es B\u00e1sicas",
+    "LBL_CONTENT_MAIL": "Conteúdo do E-mail",
+    "LBL_BASIC_DETAILS": "Informações Básicas",
     "FL_NAME": "Nome",
     "FL_TYPE": "Tipo",
-    "FL_MODULE": "M\u00f3dulo",
+    "FL_MODULE": "Módulo",
     "FL_SUBJECT": "Assunto",
-    "FL_CONTENT": "Conte\u00fado",
+    "FL_CONTENT": "Conteúdo",
     "FL_SMTP_PRIORITY": "Prioridade SMTP",
-    "PLL_MODULE": "M\u00f3dulo",
+    "PLL_MODULE": "Módulo",
     "PLL_RECORD": "Registro",
     "PLL_MAIL": "Mensagem",
     "PLL_LIST": "Lista",
-    "PLL_DEFAULT": "Padr\u00e3o da Empresa"
+    "PLL_DEFAULT": "Padrão da Empresa"
   }
 }
