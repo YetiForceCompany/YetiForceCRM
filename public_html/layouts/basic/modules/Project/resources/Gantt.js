@@ -235,16 +235,17 @@ class Gantt {
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
-		this.allTasks = this.addIcons(this.projectData.tasks);
 		if (typeof projectData.title !== 'undefined' && projectData.title) {
 			this.options.title.label = projectData.title;
 		} else {
 			this.options.title.label = '<span class="fas fa-briefcase mr-1"></span> ' + LANG.JS_GANTT_TITLE;
 		}
-		if (typeof this.allTasks === 'undefined') {
+		if (typeof this.projectData.tasks === 'undefined' || this.projectData.tasks.length === 0) {
 			$('.js-hide-filter').addClass('d-none');
 			$('.js-show-add-record').removeClass('d-none');
 			return;
+		} else {
+			this.allTasks = this.addIcons(this.projectData.tasks);
 		}
 		this.statuses = this.projectData.statuses;
 		this.filter = {status: this.projectData.activeStatuses};
