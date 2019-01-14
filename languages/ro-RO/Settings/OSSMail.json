@@ -3,5 +3,7 @@
     "OSSMail": "Mail-ul meu",
     "ERR_NO_MODULE_IS_INACTIVE": "Modulul \"Mail-ul meu\" este inactiv, trebuie activat inainte de a fi configurat."
   },
-  "js": {}
+  "js": {
+
+  }
 }
