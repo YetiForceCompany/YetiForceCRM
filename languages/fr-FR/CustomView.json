@@ -2,7 +2,7 @@
   "php": {
     "CustomView": "Configuration - Filtres",
     "LBL_FEATURED": "Ajouter aux favoris",
-    "LBL_COLOR_VIEW": "Couleur de la vue"
-  },
-  "js": {}
+    "LBL_COLOR_VIEW": "Couleur de la vue",
+    "LBL_ADD_FIELD": "Add field"
+  }
 }
