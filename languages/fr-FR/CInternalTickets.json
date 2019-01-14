@@ -1,23 +1,22 @@
 {
   "php": {
+    "CInternalTickets": "Tickets interne",
+    "SINGLE_CInternalTickets": "Ticket Interne",
+    "LBL_ADDITIONAL_INFORMATION": "Information supplémentaire",
+    "LBL_BASIC_INFORMATION": "Détails du ticket interne",
     "LBL_TICKET_RESOLUTION": "Solution",
     "LBL_ATTENTION_BLOCK": "Notes",
     "LBL_DESCRIPTION_BLOCK": "Description",
-    "FL_RESOLUTION": "Solution",
-    "CInternalTickets": "Tickets interne",
-    "SINGLE_CInternalTickets": "Ticket Interne",
-    "LBL_ADDITIONAL_INFORMATION": "Information suppl\u00e9mentaire",
-    "LBL_BASIC_INFORMATION": "D\u00e9tails du ticket interne",
     "FL_SUBJECT": "Sujet",
     "FL_STATUS": "Statut",
-    "PLL_UNASSIGNED": "Non attribu\u00e9",
-    "PLL_AWAITING_REALIZATION": "En attente de r\u00e9alisation",
-    "PLL_FOR_PROCESSING": "Pour la r\u00e9alisation",
+    "FL_RESOLUTION": "Solution",
+    "PLL_UNASSIGNED": "Non attribué",
+    "PLL_AWAITING_REALIZATION": "En attente de réalisation",
+    "PLL_FOR_PROCESSING": "Pour la réalisation",
     "PLL_IN_PROGRESSING": "En cours",
     "PLL_SUBMITTED_COMMENTS": "Commentaires soumis",
     "PLL_FOR_APPROVAL": "Pour approbation",
-    "PLL_CANCELLED": "Annul\u00e9",
-    "PLL_ACCEPTED": "Accept\u00e9"
-  },
-  "js": {}
+    "PLL_CANCELLED": "Annulé",
+    "PLL_ACCEPTED": "Accepté"
+  }
 }
