@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<!-- tpl-Base-SendSMSForm -->
-	<div id="sendSmsContainer" class='modelContainer modal fade' tabindex="-1">
+	<div id="sendSmsContainer" class="js-send-sms__container modelContainer modal fade" tabindex="-1" data-js="hasClass">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">

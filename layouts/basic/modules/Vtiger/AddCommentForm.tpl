@@ -13,7 +13,7 @@
 	<!-- tpl-Base-AddCommentForm -->
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
-	<div id="add-comment__container" class="modal fade" tabindex="-1" role="dialog">
+	<div id="add-comment__container" class="js-add-comment__container modal fade" tabindex="-1" role="dialog" data-js="hasClass">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
@@ -34,7 +34,7 @@
 					<input type="hidden" name="search_key" value="{$SEARCH_KEY}"/>
 					<input type="hidden" name="operator" value="{$OPERATOR}"/>
 					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
-					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS)}"/>
+					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
 					<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
 					<div class="modal-body">
 						<div contenteditable="true" class="form-control-lg form-control js-comment-content js-completions" name="commentcontent"
