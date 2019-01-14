@@ -2,7 +2,7 @@
   "php": {
     "LBL_ADD_RECORD": "Adauga",
     "TreesManager": "Manager arbore",
-    "LBL_TREES_MANAGER": "Campuri \u2013 Dosare",
+    "LBL_TREES_MANAGER": "Campuri – Dosare",
     "LBL_TREES_MANAGER_DESCRIPTION": "Manager sablon arbore",
     "LBL_NO_RECORDS_FOUND": "Nu exista sabloane arbore",
     "LBL_EDIT_TEMPLATE_TREES": "Modifica sablon arbore",
