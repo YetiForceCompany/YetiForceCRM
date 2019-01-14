@@ -1,14 +1,16 @@
 {
   "php": {
     "LBL_SUPPORT_PROCESSES": "Wsparcie",
-    "LBL_GENERAL_CONFIGURATION": "Og\u00f3lna konfiguracja",
-    "LBL_OTHER": "Pozosta\u0142e",
+    "LBL_GENERAL_CONFIGURATION": "Ogólna konfiguracja",
+    "LBL_OTHER": "Pozostałe",
     "LBL_INFO": "Informacja",
     "LBL_TYPE": "Typ",
-    "LBL_TICKET_STATUS_INFO": "Statusy oznaczaj\u0105ce zamkni\u0119cie zg\u0142oszenia",
-    "LBL_SAVE_CONFIG_OK": "Pomy\u015blnie zapisano ustawienia.",
-    "LBL_SAVE_CONFIG_ERROR": "Nie uda\u0142o si\u0119 zapisa\u0107 ustawie\u0144.",
+    "LBL_TICKET_STATUS_INFO": "Statusy oznaczające zamknięcie zgłoszenia",
+    "LBL_SAVE_CONFIG_OK": "Pomyślnie zapisano ustawienia.",
+    "LBL_SAVE_CONFIG_ERROR": "Nie udało się zapisać ustawień.",
     "SupportProcesses": "Procesy wsparcia"
   },
-  "js": {}
+  "js": {
+
+  }
 }
