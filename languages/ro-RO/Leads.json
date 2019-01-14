@@ -1,7 +1,6 @@
 {
   "php": {
     "Verification data": "Verificare date",
-    "Orders accepted": "Comenzi acceptate",
     "Attempted to Contact": "Incercare contactare",
     "CANNOT_CONVERT": "Nu pot converti",
     "Cold": "Rece",
@@ -53,10 +52,10 @@
     "PLL_PENDING": "In asteptare",
     "PLL_IN_REALIZATION": "In realizare",
     "PLL_INCORRECT": "Incorect",
-    "Contact Information": "Informatii Contact",
-    "LBL_REGISTRATION_INFO": "Detalii Inregistrare",
     "Approval for phone calls": "Permisiune pentru apelare",
     "Approval for email": "Permisiune pentru trimitere email",
+    "Contact Information": "Informatii Contact",
+    "LBL_REGISTRATION_INFO": "Detalii Inregistrare",
     "PLL_B2C": "B2C",
     "PLL_B2B": "B2B",
     "PLL_NATURAL_PERSON": "Individual privat",
@@ -84,6 +83,7 @@
     "Total tasks": "Numar de sarcini",
     "Total time worked": "Total timp de lucru",
     "Total contacts": "Numar de contacte",
+    "Orders accepted": "Comenzi acceptate",
     "Attention": "Note",
     "Attorney General's Office": "Attorney General's Office",
     "LBL_RELATION": "Relatie",
