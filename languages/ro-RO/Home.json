@@ -44,6 +44,5 @@
     "LBL_CHART_COLORS_FROM_FILTER": "Culorile din filtru",
     "LBL_WIDGET_DOWNLOAD": "Descarca grafic",
     "LBL_WIDGET_PRINT": "Printeaza grafic"
-  },
-  "js": {}
+  }
 }
