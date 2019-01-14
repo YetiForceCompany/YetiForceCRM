@@ -12,6 +12,7 @@
     "Asset Name": "Nume",
     "Customer Name": "Nume client",
     "Notes": "Note",
+    "LBL_GENERATE_EXTENSION": "Genereaza extensie",
     "FL_RENEWAL": "Reinnoire",
     "LBL_SET_RENEWAL": "Seteaza reinnoire",
     "FL_RENEWAL_INVOICE": "Factura reinnoire",
@@ -32,7 +33,6 @@
     "description": "Descriere",
     "attentions": "Comentarii",
     "BLOCK_INFORMATION_TIME": "Informatii timp",
-    "LBL_GENERATE_EXTENSION": "Genereaza extensie",
     "LBL_ORDER_TIME": "Timp comanda",
     "LBL_EXPIRING_SOLD_PRODUCTS": "Produse vandute care expira",
     "LBL_CHANGE_STATUS": "Schimba Status"
