@@ -1,14 +1,16 @@
 {
   "php": {
     "LBL_SUPPORT_PROCESSES": "Suporte",
-    "LBL_GENERAL_CONFIGURATION": "Configura\u00e7\u00e3o Geral",
+    "LBL_GENERAL_CONFIGURATION": "Configuração Geral",
     "LBL_OTHER": "Outro",
-    "LBL_INFO": "Informa\u00e7\u00e3o",
+    "LBL_INFO": "Informação",
     "LBL_TYPE": "Tipo",
     "LBL_TICKET_STATUS_INFO": "O status do Chamado indica fechamento",
-    "LBL_SAVE_CONFIG_OK": "As mudan\u00e7as foram salvas",
-    "LBL_SAVE_CONFIG_ERROR": "As mudan\u00e7as foram salvas.",
+    "LBL_SAVE_CONFIG_OK": "As mudanças foram salvas",
+    "LBL_SAVE_CONFIG_ERROR": "As mudanças foram salvas.",
     "SupportProcesses": "Processos de Suporte"
   },
-  "js": {}
+  "js": {
+
+  }
 }
