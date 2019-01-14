@@ -1,17 +1,17 @@
 {
   "php": {
-    "LBL_COUNTRY_NAME": "Nazwa kraju",
-    "LBL_COUNTRY_SHORTNAME": "Kod kraju",
-    "LBL_COUNTRY_TOGGLE_STATUS": "Czy kraj jest dost\u0119pny globalnie w systemie",
-    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "W\u0142\u0105cz lub wy\u0142\u0105cz wszystkie kraje og\u00f3lnie",
-    "LBL_VISIBLE_IN_PHONE": "Czy kraj jest widoczny w polu typu telefon",
-    "LBL_VISIBLE_IN_COUNTRY": "Czy kraj jest widoczny w polu adresowym kraj",
-    "LBL_ROW_TO_TOP": "Przesu\u0144 wiersz na sam\u0105 g\u00f3r\u0119",
-    "LBL_ROW_TO_BOTTOM": "Przesu\u0144 wiersz na sam d\u00f3\u0142",
-    "LBL_COUNTRY_SETTINGS": "Ustawienia kraj\u00f3w",
-    "LBL_COUNTRY_DESCRIPTION": "Konfiguracja dost\u0119pno\u015bci kraj\u00f3w w systemie"
+    "LBL_COUNTRY_NAME": "Country name",
+    "LBL_COUNTRY_SHORTNAME": "Country code",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Is the country avalabile globally in the system?",
+    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "Enable or disable all countries",
+    "LBL_VISIBLE_IN_PHONE": "Is the country visible in phone type field?",
+    "LBL_VISIBLE_IN_COUNTRY": "Is the country visible in \"Country\" address field?",
+    "LBL_ROW_TO_TOP": "Move row to the top",
+    "LBL_ROW_TO_BOTTOM": "Move row to the bottom",
+    "LBL_COUNTRY_SETTINGS": "Country settings",
+    "LBL_COUNTRY_DESCRIPTION": "Configure the availability of countries in the system"
   },
   "js": {
-    "JS_COUNTRY_SETTING": "Ustawienia kraj\u00f3w"
+    "JS_COUNTRY_SETTING": "Country settings"
   }
 }
