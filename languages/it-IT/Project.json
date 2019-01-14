@@ -1,9 +1,6 @@
 {
   "php": {
-    "LBL_PROJECTS_LIST": "List of projects",
-    "LBL_SUMMARY": "Work time summary",
     "SINGLE_Project": "Project",
-    "LBL_ADD_RECORD": "Add record",
     "LBL_RECORDS_LIST": "Projects list",
     "LBL_PROJECT_INFORMATION": "Project details",
     "Project Name": "Project name",
@@ -39,6 +36,8 @@
     "PLL_EXTERNAL": "External",
     "PLL_COMMON": "Shared",
     "LBL_DOWNLOAD_FILE": "Download file",
+    "LBL_SUMMARY": "Work time summary",
+    "LBL_PROJECTS_LIST": "List of projects",
     "Add Project Task": "Add project task",
     "LBL_GANTT": "Gantt",
     "low": "low",
@@ -51,7 +50,16 @@
     "on hold": "On hold",
     "completed": "Completed",
     "delivered": "Delivered",
-    "archived": "Archived"
+    "archived": "Archived",
+    "LBL_GANTT_FILTER": "Filter",
+    "LBL_GANTT_NOW": "Center",
+    "LBL_GANTT_ZOOM_X": "X axis zoom",
+    "LBL_GANTT_ZOOM_Y": "Y axis zoom",
+    "LBL_GANTT_EXPAND": "Add days before and after",
+    "LBL_GANTT_TASKLIST": "List width",
+    "LBL_GANTT_TASKLIST_VISIBLE": "Show list",
+    "LBL_GANTT_TITLE": "Gantt chart",
+    "LBL_GANTT_TITLE_ALL_PROJECTS": "Gantt chart - all projects"
   },
   "js": {
     "JS_NO.": "No.",
@@ -73,14 +81,6 @@
     "JS_PROCEED": "Do you want to proceed?",
     "JS_PREV": "Previous",
     "JS_NEXT": "Next",
-    "JS_HINT_SKIP": "I understand, close this notification",
-    "JS_GANTT_FILTER": "Filters",
-    "JS_GANTT_NOW": "Center",
-    "JS_GANTT_ZOOM_X": "Zoom in X-axis",
-    "JS_GANTT_ZOOM_Y": "Zoom in Y-axis",
-    "JS_GANTT_EXPAND": "Add days before and after",
-    "JS_GANTT_TASKLIST": "List width",
-    "JS_GANTT_TASKLIST_VISIBLE": "Show list",
-    "JS_GANTT_TITLE": "Gantt chart"
+    "JS_HINT_SKIP": "I understand, close this notification"
   }
 }
