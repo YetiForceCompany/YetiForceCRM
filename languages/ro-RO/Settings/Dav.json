@@ -20,8 +20,8 @@
     "LBL_SELECT_TYPE": "Tip",
     "LBL_COUNT_CARD": "Numarul de contacte",
     "LBL_COUNT_CAL": "Numarul de evenimente",
-    "LBL_VIEW_KEYS": "Chei DAV",
     "Dav": "Chei DAV",
+    "LBL_VIEW_KEYS": "Chei DAV",
     "LBL_DUPLICATE_USER_SERVICES": "Cheia pentru aceasta aplicatie exista deja.",
     "LBL_ALERT_DAV_CONFIG_TITLE": "Informatii despre configurare",
     "LBL_ALERT_DAV_CONFIG_DESC": "Exemple de configurare a conexiunii serverului DAV, pentru diferite aplicatii si sisteme:\r\n<b>DAVdroid<\/b>\r\nAddress: %sdav.php\r\nPreventive authorization NO\r\n<b>Thunderbird CalDAV<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/dav.php\/calendars\/demo\/YFCalendar\/\r\n<b>iOS<\/b>\r\nAddress: http:\/\/gitdeveloper.yetiforce.com\/dav.php\/principals\/demo\/ \r\nPentru conexiuni SSL: \r\n http:\/\/gitdeveloper.yetiforce.com:443\/dav.php\/principals\/demo\/"
