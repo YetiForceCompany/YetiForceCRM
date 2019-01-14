@@ -55,7 +55,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 							'type' => 'category',
 							'parent' => $parentPath,
 							'text' => \App\Language::translate($folderName, $moduleName),
-							'state' => ['selected' => in_array($folder, (array) $selectedFolders[$mainFolder])]
+							'state' => ['selected' => in_array($folder, (array) ($selectedFolders[$mainFolder] ?? []))]
 						];
 						if (end($foldersSplited) === $folderName) {
 							$treeRecord['db_id'] = $folder;
