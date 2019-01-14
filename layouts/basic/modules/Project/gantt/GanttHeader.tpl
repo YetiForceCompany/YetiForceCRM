@@ -1,7 +1,8 @@
 {strip}
 	<div class="d-flex flex-wrap w-100 justify-content-between mb-1 js-gantt-header" data-js="container">
 		<div class="d-inline-flex js-gantt-header__title">
-			<h4>{\App\Language::translate('LBL_GANTT_TITLE','Project')}</h4></div>
+			<h4 class="h-100 align-middle mb-0 mt-1 js-gantt-title" data-js="container">{$GANTT_TITLE}</h4>
+		</div>
 		<div class="d-inline-flex text-right js-gantt-header__options">
 			<div class="d-flex flex-wrap justify-content-between js-gantt-header__options-container" data-js="container">
 				<div class="d-inline-flex mr-1 c-gantt-header__option">

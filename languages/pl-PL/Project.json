@@ -58,7 +58,8 @@
     "LBL_GANTT_EXPAND": "Dodaj dni przed i po",
     "LBL_GANTT_TASKLIST": "Szerokość listy",
     "LBL_GANTT_TASKLIST_VISIBLE": "Pokaż listę",
-    "LBL_GANTT_TITLE": "Wykres gantta"
+    "LBL_GANTT_TITLE": "Wykres gantta",
+    "LBL_GANTT_TITLE_ALL_PROJECTS": "Wykres gantta - wszystkie projekty"
   },
   "js": {
     "JS_NO.": "Nr",

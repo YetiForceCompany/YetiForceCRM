@@ -235,11 +235,6 @@ class Gantt {
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
-		if (typeof projectData.title !== 'undefined' && projectData.title) {
-			this.options.title.label = projectData.title;
-		} else {
-			this.options.title.label = '<span class="fas fa-briefcase mr-1"></span> ' + LANG.JS_GANTT_TITLE;
-		}
 		if (typeof this.projectData.tasks === 'undefined' || this.projectData.tasks.length === 0) {
 			$('.js-hide-filter').addClass('d-none');
 			$('.js-show-add-record').removeClass('d-none');
