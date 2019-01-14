@@ -1,7 +1,7 @@
 {
   "php": {
-    "SSalesProcesses": "Opportunit\u00e0",
-    "SINGLE_SSalesProcesses": "Opportunit\u00e0",
+    "SSalesProcesses": "Opportunità",
+    "SINGLE_SSalesProcesses": "Opportunità",
     "LBL_SSALESPROCESSES_INFORMATION": "Informazioni base",
     "LBL_CUSTOM_INFORMATION": "Info di sistema",
     "LBL_DESCRIPTION_INFORMATION": "Descrizione",
@@ -14,7 +14,7 @@
     "FL_ACTUAL_SALE": "Vendita attuale",
     "FL_ESTIMATED_DATE": "Data stimata",
     "FL_ACTUAL_DATE": "Data attuale",
-    "FL_PROBABILITY": "Probabilit\u00e0",
+    "FL_PROBABILITY": "Probabilità",
     "FL_SOURCE": "Sorgente",
     "FL_TYPE": "Tipo",
     "FL_STATUS": "Status",
