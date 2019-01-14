@@ -27,6 +27,14 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isWorkflowSupported()
+	{
+		return true;
+	}
+
+	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
 	 *
