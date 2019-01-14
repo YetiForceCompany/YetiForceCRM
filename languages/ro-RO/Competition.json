@@ -1,14 +1,14 @@
 {
   "php": {
-    "Competition": "Competitie",
+    "Competition": "Competition",
     "SINGLE_Competition": "Competitor",
-    "LBL_COMPETITION_INFORMATION": "Informatii de baza",
-    "LBL_CUSTOM_INFORMATION": "Informatii sistem",
-    "LBL_DESCRIPTION_INFORMATION": "Detalii descriere",
-    "LBL_SUBJECT": "Nume",
-    "LBL_NUMBER": "Numar",
-    "LBL_CLOSED_TIME": "Timp inchis",
-    "LBL_VAT_ID": "Cod TVA",
+    "LBL_COMPETITION_INFORMATION": "Basic information",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_DESCRIPTION_INFORMATION": "Description details",
+    "LBL_SUBJECT": "Name",
+    "LBL_NUMBER": "Number",
+    "LBL_CLOSED_TIME": "Closed time",
+    "LBL_VAT_ID": "Tax ID",
     "LBL_SHOW_HIERARCHY": "Hierarchy",
     "LBL_PARENT_ID": "Competitor parent"
   }
