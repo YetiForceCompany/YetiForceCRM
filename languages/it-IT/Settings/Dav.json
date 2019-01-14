@@ -20,8 +20,8 @@
     "LBL_SELECT_TYPE": "Type",
     "LBL_COUNT_CARD": "Number of contacts",
     "LBL_COUNT_CAL": "Number of events",
-    "LBL_VIEW_KEYS": "DAV keys",
     "Dav": "DAV keys",
+    "LBL_VIEW_KEYS": "DAV keys",
     "LBL_DUPLICATE_USER_SERVICES": "Key for this application already exists.",
     "LBL_ALERT_DAV_CONFIG_TITLE": "Configuration info",
     "LBL_ALERT_DAV_CONFIG_DESC": "Examples of DAV server connection configuration for different apps and systems:\r\n<b>DAVdroid<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/dav.php\r\nPreventive authorization NO\r\n<b>Thunderbird CalDAV<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/dav.php\/calendars\/demo\/YFCalendar\/\r\n<b>iOS<\/b>\r\nAddress: http:\/\/gitdeveloper.yetiforce.com\/dav.php\/principals\/demo\/ \r\nFor SSL connections: \r\n http:\/\/gitdeveloper.yetiforce.com:443\/dav.php\/principals\/demo\/"
