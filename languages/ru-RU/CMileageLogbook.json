@@ -1,17 +1,17 @@
 {
   "php": {
-    "CMileageLogbook": "\u0416\u0443\u0440\u043d\u0430\u043b \u0443\u0447\u0435\u0442\u0430 \u043f\u0440\u043e\u0431\u0435\u0433\u0430",
-    "SINGLE_CMileageLogbook": "\u0416\u0443\u0440\u043d\u0430\u043b \u0443\u0447\u0435\u0442\u0430 \u043f\u0440\u043e\u0431\u0435\u0433\u0430",
-    "LBL_ADDITIONAL_INFORMATION": "\u0414\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f",
-    "LBL_BASIC_INFORMATION": "\u041e\u0441\u043d\u043e\u0432\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f",
-    "LBL_DESCRIPTION_BLOCK": "\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435",
-    "LBL_ATTENTION_BLOCK": "\u041f\u0440\u0438\u043c\u0435\u0447\u0430\u043d\u0438\u044f",
-    "FL_SUBJECT": "\u0422\u0435\u043c\u0430",
-    "FL_STATUS": "\u0421\u0442\u0430\u0442\u0443\u0441",
-    "FL_NUMBER_KILOMETERS": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043a\u043c",
-    "PLL_DRAFT": "\u0414\u0440\u0430\u0444\u0442",
-    "PLL_FOR_APPROVAL": "\u041d\u0430 \u0443\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0438",
-    "PLL_ACCEPTED": "\u0423\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u043e",
-    "PLL_CANCELLED": "\u041e\u0442\u043a\u043b\u043e\u043d\u0435\u043d\u043e"
+    "CMileageLogbook": "Журнал учета пробега",
+    "SINGLE_CMileageLogbook": "Журнал учета пробега",
+    "LBL_ADDITIONAL_INFORMATION": "Дополнительная информация",
+    "LBL_BASIC_INFORMATION": "Основная информация",
+    "LBL_DESCRIPTION_BLOCK": "Описание",
+    "LBL_ATTENTION_BLOCK": "Примечания",
+    "FL_SUBJECT": "Тема",
+    "FL_STATUS": "Статус",
+    "FL_NUMBER_KILOMETERS": "Количество км",
+    "PLL_DRAFT": "Драфт",
+    "PLL_FOR_APPROVAL": "На утверждении",
+    "PLL_ACCEPTED": "Утверждено",
+    "PLL_CANCELLED": "Отклонено"
   }
 }
