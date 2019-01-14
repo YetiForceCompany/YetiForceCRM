@@ -1,14 +1,16 @@
 {
   "php": {
     "LBL_SUPPORT_PROCESSES": "Support",
+    "LBL_GENERAL_CONFIGURATION": "Configuration générale",
+    "LBL_OTHER": "Autre",
     "LBL_INFO": "Info",
     "LBL_TYPE": "Type",
-    "LBL_GENERAL_CONFIGURATION": "Configuration g\u00e9n\u00e9rale",
-    "LBL_OTHER": "Autre",
-    "LBL_TICKET_STATUS_INFO": "Statuts qui d\u00e9terminent la cl\u00f4ture d'un ticket",
-    "LBL_SAVE_CONFIG_OK": "Modifications sauvegard\u00e9es",
-    "LBL_SAVE_CONFIG_ERROR": "Modifications non sauvegard\u00e9es.",
+    "LBL_TICKET_STATUS_INFO": "Statuts qui déterminent la clôture d'un ticket",
+    "LBL_SAVE_CONFIG_OK": "Modifications sauvegardées",
+    "LBL_SAVE_CONFIG_ERROR": "Modifications non sauvegardées.",
     "SupportProcesses": "Processus support"
   },
-  "js": {}
+  "js": {
+
+  }
 }
