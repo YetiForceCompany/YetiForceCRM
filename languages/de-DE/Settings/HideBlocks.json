@@ -1,16 +1,16 @@
 {
   "php": {
     "HideBlocks": "Block ausblenden",
-    "LBL_HIDEBLOCKS": "Felder \u2013 Blocks ausblenden",
+    "LBL_HIDEBLOCKS": "Felder – Blocks ausblenden",
     "LBL_HIDEBLOCKS_DESCRIPTION": "Verwalte Blocks mit auszublendenden Felder",
     "LBL_BLOCK_LABEL": "Block",
     "LBL_MODULE": "Modul",
     "LBL_ENABLED": "Aktiv",
     "LBL_EDIT_BLOCK": "Bearbeiten",
-    "LBL_NEW_BLOCK": "Hinzuf\u00fcgen",
+    "LBL_NEW_BLOCK": "Hinzufügen",
     "LBL_BLOCK": "Block",
-    "LBL_NEXT": "N\u00e4chster",
+    "LBL_NEXT": "Nächster",
     "LBL_VIEW": "Sicht",
-    "LBL_MANDATORY_FIELDS_EXIST": "Dieser Block kann nicht ausgeblendet werden, da er Mussfelder enth\u00e4lt."
+    "LBL_MANDATORY_FIELDS_EXIST": "Dieser Block kann nicht ausgeblendet werden, da er Mussfelder enthält."
   }
 }
