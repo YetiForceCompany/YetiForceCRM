@@ -1,12 +1,14 @@
 {
   "php": {
-    "LBL_EXCEPTIONS": "Exce\u00e7\u00f5es",
-    "LBL_NOTIFICATIONS_CONFIGURATION": "Configura\u00e7\u00f5es - Notifica\u00e7\u00f5es",
-    "LBL_ADD_MEMBERS": "Adicionar membros a notifica\u00e7\u00f5es",
-    "LBL_SELECT_MEMBERS": "Selecionar membros para Notifica\u00e7\u00f5es",
+    "LBL_EXCEPTIONS": "Exceções",
+    "LBL_NOTIFICATIONS_CONFIGURATION": "Configurações - Notificações",
+    "LBL_ADD_MEMBERS": "Adicionar membros a notificações",
+    "LBL_SELECT_MEMBERS": "Selecionar membros para Notificações",
     "LBL_MEMBERS": "Membros",
     "LBL_LOCK": "Bloquear",
-    "LBL_NOTICE_CONFIG_WARNING": "Os m\u00f3dulos de observa\u00e7\u00e3o est\u00e3o habilitados na configura\u00e7\u00e3o. Desabilite-o para gerenciar as notifica\u00e7\u00f5es."
+    "LBL_NOTICE_CONFIG_WARNING": "Os módulos de observação estão habilitados na configuração. Desabilite-o para gerenciar as notificações."
   },
-  "js": {}
+  "js": {
+
+  }
 }
