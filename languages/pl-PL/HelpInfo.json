@@ -1,6 +1,6 @@
 {
   "php": {
-    "Announcements|FL_INTERVAL": "Co ile dni wy\u015bwietla\u0107 u\u017cytkownikowi powiadomienie, je\u015bli nie zapozna\u0142 si\u0119 ze zmianami. Je\u015bli pole pozostanie puste to przypomnienie nie b\u0119dzie ponownie wy\u015bwietlone.",
-    "Accounts|Account Name": "Pole przeznaczone na nazw\u0119 firmy"
+    "Announcements|FL_INTERVAL": "Co ile dni wyświetlać użytkownikowi powiadomienie, jeśli nie zapoznał się ze zmianami. Jeśli pole pozostanie puste to przypomnienie nie będzie ponownie wyświetlone.",
+    "Accounts|Account Name": "Pole przeznaczone na nazwę firmy"
   }
 }
