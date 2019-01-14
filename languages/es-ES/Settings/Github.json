@@ -1,26 +1,23 @@
 {
   "php": {
     "LBL_TOKEN": "Token",
-    "LBL_NOT_AUTHORIZED": "Se requiere autorizaci\u00f3n para acceder a todas las funciones del m\u00f3dulo.",
-    "LBL_TITLE": "T\u00edtulo",
+    "LBL_NOT_AUTHORIZED": "Se requiere autorización para acceder a todas las funciones del módulo.",
+    "LBL_TITLE": "Título",
     "LBL_AUTHOR": "Autor",
-    "LBL_ADD_ISSUES": "A\u00f1adir",
-    "LBL_TITLE_ADD_ISSUE": "A\u00f1adir",
-    "LBL_ADD_ISSUE": "A\u00f1adir tarea",
+    "LBL_ADD_ISSUES": "Añadir",
+    "LBL_TITLE_ADD_ISSUE": "Añadir",
     "LBL_CLOSED": "Cerrado",
     "LBL_OPEN": "Abierto",
     "closed": "Cerrado",
     "open": "Abierto",
     "LBL_ME": "Solo yo",
-    "LBL_ERROR_CONNECTED": "Se ha producido un error al conectarse a www.api.github.com, compruebe la configuraci\u00f3n de conexi\u00f3n a Internet y firewall",
-    "LBL_CONFIRM_REGULATIONS": "He le\u00eddo las reglas de adici\u00f3n de nuevos temas: <a href=\"https:\/\/yetiforce.com\/en\/developer-documentation\/bugs\/126-issues.html\">enlace<\/a>",
+    "LBL_ERROR_CONNECTED": "Se ha producido un error al conectarse a www.api.github.com, compruebe la configuración de conexión a Internet y firewall",
+    "LBL_CONFIRM_REGULATIONS": "He leído las reglas de adición de nuevos temas: <a href=\"https:\/\/yetiforce.com\/en\/developer-documentation\/bugs\/126-issues.html\">enlace<\/a>",
     "LBL_DEFAULT_DESCRIPTION": "Generado por YetiforceCRM ver. ",
-    "LBL_CHANGE_AUTHORIZATION": "Cambiar autorizaci\u00f3n",
+    "LBL_CHANGE_AUTHORIZATION": "Cambiar autorización",
     "LBL_USERNAME_DESCRIPTION": "Su nombre de usuario de www.github.com",
-    "LBL_TOKEN_DESCRIPTION": "C\u00f3digo de acceso de cuenta \u00fanica de 40 caracteres. Puede encontrar el manual de creaci\u00f3n de token %s",
+    "LBL_TOKEN_DESCRIPTION": "Código de acceso de cuenta única de 40 caracteres. Puede encontrar el manual de creación de token %s",
     "LBL_NO_ISSUES": "Sin problemas reportados",
-    "LBL_PHP_VERSION": "PHP",
-    "LBL_LIBRARIES_ERROR": "Errores de librer\u00edas",
-    "LBL_CONFIGURATION_ERROR": "Errores de configuraci\u00f3n del servidor"
+    "LBL_PHP_VERSION": "PHP"
   }
 }
