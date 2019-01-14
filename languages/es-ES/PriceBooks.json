@@ -1,8 +1,8 @@
 {
   "php": {
-    "LBL_ADD_TO": "A\u00f1adir a",
+    "LBL_ADD_TO": "Añadir a",
     "LBL_EDIT_LIST_PRICE": "Editar Tarifas",
-    "LBL_PRICEBOOK_INFORMATION": "Informaci\u00f3n sobre Tarifas",
+    "LBL_PRICEBOOK_INFORMATION": "Información sobre Tarifas",
     "LBL_UNIT_PRICE": "Precio unitario",
     "Price Book Name": "Nombre de la Tarifa",
     "PriceBook No": "ID",
