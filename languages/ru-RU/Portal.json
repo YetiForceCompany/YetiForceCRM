@@ -1,25 +1,25 @@
 {
   "php": {
-    "SINGLE_Portal": "\u041d\u0430\u0448 \u0441\u0430\u0439\u0442",
-    "Portal": "\u041d\u0430\u0448\u0438 \u0441\u0430\u0439\u0442\u044b",
-    "LBL_RECORD_DELETED_SUCCESSFULLY": "\u0417\u0430\u043f\u0438\u0441\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0443\u0434\u0430\u043b\u0435\u043d\u0430",
-    "LBL_OUR_SITES_LIST": "\u0421\u043f\u0438\u0441\u043e\u043a \u0421\u0430\u0439\u0442\u043e\u0432",
-    "LBL_ENTER_URL": "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0441\u0441\u044b\u043b\u043a\u0443",
-    "LBL_ENTER_BOOKMARK_NAME": "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043c\u044f \u0421\u0430\u0439\u0442\u0430",
-    "LBL_EDIT_BOOKMARK": "\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u0421\u0430\u0439\u0442",
-    "LBL_CREATED_ON": "\u0414\u0430\u0442\u0430 \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f",
-    "LBL_BOOKMARK_URL": "\u0410\u0434\u0440\u0435\u0441 \u0421\u0430\u0439\u0442\u0430",
-    "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "\u0421\u0430\u0439\u0442 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d",
-    "LBL_BOOKMARK_NAME": "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0441\u0430\u0439\u0442\u0430",
-    "LBL_BOOKMARKS_LIST": "\u0421\u043f\u0438\u0441\u043e\u043a \u0421\u0430\u0439\u0442\u043e\u0432",
-    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "\u0421\u0430\u0439\u0442\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0443\u0434\u0430\u043b\u0435\u043d\u044b",
-    "LBL_BOOKMARKS": "\u0421\u0430\u0439\u0442\u044b",
-    "LBL_BOOKMARK": "\u0421\u0430\u0439\u0442",
-    "LBL_ADD_NEW_BOOKMARK": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043d\u043e\u0432\u043e\u0433\u043e \u0441\u0430\u0439\u0442\u0430",
-    "LBL_ADD_BOOKMARK": "\u0421\u0430\u0439\u0442",
-    "HTTP_ERROR": "\u0421\u0430\u0439\u0442, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0432\u044b \u043f\u044b\u0442\u0430\u0435\u0442\u0435\u0441\u044c \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043d\u0435 \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u043c. \u0415\u0441\u043b\u0438 \u0432\u044b \u0445\u043e\u0442\u0438\u0442\u0435 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0441\u0430\u0439\u0442, \u0442\u043e \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u043d\u0430\u0436\u0430\u0442\u044c \u043d\u0430 \u0431\u043b\u043e\u043a\u0430\u0442\u043e\u0440 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u043c\u043e\u0433\u043e \u0432 \u0430\u0434\u0440\u0435\u0441\u043d\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0438 \u0432\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0435\u0433\u043e."
+    "HTTP_ERROR": "Сайт, который вы пытаетесь открыть не является безопасным. Если вы хотите просмотреть сайт, то необходимо нажать на блокатор содержимого в адресной строке и включить его.",
+    "LBL_ADD_BOOKMARK": "Сайт",
+    "LBL_ADD_NEW_BOOKMARK": "Добавление нового сайта",
+    "LBL_BOOKMARK": "Сайт",
+    "LBL_BOOKMARK_NAME": "Название сайта",
+    "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Сайт успешно сохранен",
+    "LBL_BOOKMARKS": "Сайты",
+    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Сайты успешно удалены",
+    "LBL_BOOKMARKS_LIST": "Список Сайтов",
+    "LBL_BOOKMARK_URL": "Адрес Сайта",
+    "LBL_CREATED_ON": "Дата создания",
+    "LBL_EDIT_BOOKMARK": "Изменить Сайт",
+    "LBL_ENTER_BOOKMARK_NAME": "Введите имя Сайта",
+    "LBL_ENTER_URL": "Введите ссылку",
+    "LBL_OUR_SITES_LIST": "Список Сайтов",
+    "LBL_RECORD_DELETED_SUCCESSFULLY": "Запись успешно удалена",
+    "Portal": "Наши сайты",
+    "SINGLE_Portal": "Наш сайт"
   },
   "js": {
-    "JS_ENTER_MANDATORY_FIELD": "\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043f\u043e\u043b\u044f"
+    "JS_ENTER_MANDATORY_FIELD": "Необходимо заполнить обязательные поля"
   }
 }
