@@ -1,16 +1,16 @@
 {
   "php": {
-    "LBL_OWNER_ALLOCATION": "Assigner au propri\u00e9taire",
-    "LBL_OWNER_ALLOCATION_DESCRIPTION": "Affecter au propri\u00e9taire",
+    "LBL_OWNER_ALLOCATION": "Assigner au propriétaire",
+    "LBL_OWNER_ALLOCATION_DESCRIPTION": " ",
     "LBL_MULTIOWNER_ALLOCATION": "Assigner des utilisateurs en partage",
-    "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " Affecter des utilisateurs \u00e0 l'acc\u00e8s partag\u00e9",
-    "LBL_SORTING_SETTINGS_WORNING": "Attention!\r\n La configuration sera fonctionnelle seulement si vous l'activez via les r\u00f4les",
+    "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_SORTING_SETTINGS_WORNING": "Attention!\r\n La configuration sera fonctionnelle seulement si vous l'activez via les rôles",
     "LBL_ADD_PANEL_TO_MODULE": "Ajouter une allocation au module",
-    "LBL_SELECT_MODULE": "S\u00e9lectionner le module",
+    "LBL_SELECT_MODULE": "Sélectionner le module",
     "LBL_GO_TO_PANEL": "Aller au panel",
     "LBL_USERS_AND_GROUPS": "Utilisateurs et groupes"
   },
   "js": {
-    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Etes-vous s\u00fbr de vouloir supprimer toutes les allocations de ce module?"
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Etes-vous sûr de vouloir supprimer toutes les allocations de ce module?"
   }
 }
