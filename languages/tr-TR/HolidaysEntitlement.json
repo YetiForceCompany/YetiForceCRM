@@ -1,12 +1,12 @@
 {
   "php": {
-    "HolidaysEntitlement": "Y\u0131ll\u0131k tatil hakk\u0131",
-    "SINGLE_HolidaysEntitlement": "Y\u0131ll\u0131k tatil hakk\u0131",
-    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "\u00d6zel Bilgiler",
+    "HolidaysEntitlement": "Yıllık tatil hakkı",
+    "SINGLE_HolidaysEntitlement": "Yıllık tatil hakkı",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Özel Bilgiler",
     "LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
-    "LBL_YEAR": "Y\u0131l",
-    "LBL_DAYS": "Tatil say\u0131s\u0131",
-    "LBL_EMPLOYEE": "\u0130\u015f\u00e7i",
+    "LBL_YEAR": "Yıl",
+    "LBL_DAYS": "Tatil sayısı",
+    "LBL_EMPLOYEE": "İşçi",
     "LBL_NUMBER": "Numara"
   }
 }
