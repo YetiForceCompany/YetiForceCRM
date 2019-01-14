@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_CONVERSION": "\u00dcbertragen",
-    "LBL_CONVERSION_TO_ACCOUNT": "Zust\u00e4ndigkeit \u00fcbertragen",
-    "LBL_CONVERSION_TO_ACCOUNT_INFO": "Ist diese Option gew\u00e4hlt, so wird dem Benutzer die Zust\u00e4ndigkeit f\u00fcr die Organisation \u00fcbertragen, der diese aus einem Lead erzeugt",
+    "LBL_CONVERSION": "Übertragen",
+    "LBL_CONVERSION_TO_ACCOUNT": "Zuständigkeit übertragen",
+    "LBL_CONVERSION_TO_ACCOUNT_INFO": "Ist diese Option gewählt, so wird dem Benutzer die Zuständigkeit für die Organisation übertragen, der diese aus einem Lead erzeugt",
     "LBL_LEADS": "Leads",
     "LBL_INFO": "Information",
     "LBL_VALUES": "Werte",
-    "LBL_GROUPS_INFO": "Gruppen ohne Zust\u00e4ndigkeit",
+    "LBL_GROUPS_INFO": "Gruppen ohne Zuständigkeit",
     "LBL_LEAD_STATUS": "Status welche die Leadbearbeitung beenden",
     "LBL_LEAD_CONVERT_STATUS": "Status welche die Konvertierung vom Lead zur Organisation erlaubt",
-    "LBL_CURRENTUSER_STATUS": "\u00c4ndere die Zust\u00e4ndigkeit zu dem bearbeitenden Benutzer",
-    "LBL_CONVERT_LEAD_MERGE": "Verkn\u00fcpfe die Lead Daten beim konvertieren mit der Organisation",
-    "LBL_CONVERT_LEAD_MERGE_ALERT": "Diese Option erlaubt dem System automatisch konvertierte Datens\u00e4tze mit bestehenden zu verkn\u00fcpfen - eine neue Organisation wird nicht erzeugt, aber bestehende Datens\u00e4tze des Leads werden \u00fcbertragen",
-    "LBL_CONDITION": "Bedingung hinzuf\u00fcgen",
+    "LBL_CURRENTUSER_STATUS": "Ändere die Zuständigkeit zu dem bearbeitenden Benutzer",
+    "LBL_CONVERT_LEAD_MERGE": "Verknüpfe die Lead Daten beim konvertieren mit der Organisation",
+    "LBL_CONVERT_LEAD_MERGE_ALERT": "Diese Option erlaubt dem System automatisch konvertierte Datensätze mit bestehenden zu verknüpfen - eine neue Organisation wird nicht erzeugt, aber bestehende Datensätze des Leads werden übertragen",
+    "LBL_CONDITION": "Bedingung hinzufügen",
     "MarketingProcesses": "Marketingprozesse"
   },
   "js": {
