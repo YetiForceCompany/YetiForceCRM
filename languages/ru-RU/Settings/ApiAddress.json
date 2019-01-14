@@ -1,26 +1,26 @@
 {
   "php": {
-    "LBL_SAVE": "\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",
-    "ApiAddress": "\u041f\u043e\u0438\u0441\u043a \u0430\u0434\u0440\u0435\u0441\u043e\u0432",
-    "LBL_API_ADDRESS": "\u041a\u0430\u0440\u0442\u044b [Google & OSM]",
-    "LBL_API_ADDRESS_DESCRIPTION": "\u041c\u043e\u0434\u0443\u043b\u044c \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u0438\u0441\u043a\u0430\u0442\u044c \u0438 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0437\u0430\u043f\u043e\u043b\u043d\u044f\u0442\u044c \u0444\u043e\u0440\u043c\u044b \u0441 \u0430\u0434\u0440\u0435\u0441\u0430\u043c\u0438 \u0432\u043e \u0432\u0440\u0435\u043c\u044f \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f \u0438\u043b\u0438 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f \u0437\u0430\u043f\u0438\u0441\u0435\u0439",
-    "LBL_USE_OPENCAGE_GEOCODER": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c OpenCage",
-    "LBL_REMOVE_CONNECTION": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043a\u043b\u044e\u0447 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044f",
-    "LBL_ENTER_KEY_APPLICATION": "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043b\u044e\u0447 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044f",
-    "LBL_MIN_LOOKUP_LENGTH": "\u041c\u0438\u043d\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0441\u0438\u043c\u0432\u043e\u043b\u043e\u0432 \u0434\u043b\u044f \u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e\u0438\u0441\u043a\u0430",
-    "LBL_SAVE_NOTIFY_OK": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u044b",
-    "LBL_CHOOSE_API": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 API",
-    "LBL_USE_GOOGLE_GEOCODER": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c Google",
+    "LBL_SAVE": "Сохранить",
+    "ApiAddress": "Поиск адресов",
+    "LBL_API_ADDRESS": "Карты [Google & OSM]",
+    "LBL_API_ADDRESS_DESCRIPTION": "Модуль позволяет искать и автоматически заполнять формы с адресами во время создания или изменения записей",
+    "LBL_USE_OPENCAGE_GEOCODER": "Использовать OpenCage",
+    "LBL_REMOVE_CONNECTION": "Удалить ключ приложения",
+    "LBL_ENTER_KEY_APPLICATION": "Введите ключ приложения",
+    "LBL_MIN_LOOKUP_LENGTH": "Минимальное количество символов для начала поиска",
+    "LBL_SAVE_NOTIFY_OK": "Изменения сохранены",
+    "LBL_CHOOSE_API": "Выберите API",
+    "LBL_USE_GOOGLE_GEOCODER": "Использовать Google",
     "google_map_api": "Google Geocoding",
     "opencage_data": "OpenCage Geocoder",
-    "LBL_GLOBAL_CONFIG": "\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438",
-    "LBL_SAVE_GLOBAL_SETTINGS": "\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",
-    "LBL_NUMBER_SEARCH_RESULTS": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u043e\u0432 \u0432 \u043f\u043e\u0438\u0441\u043a\u0435"
+    "LBL_GLOBAL_CONFIG": "Основные настройки",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Сохранить",
+    "LBL_NUMBER_SEARCH_RESULTS": "Количество результатов в поиске"
   },
   "js": {
-    "Invalid API key": "\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u043a\u043b\u044e\u0447 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044f",
-    "JS_ERROR": "\u041e\u0448\u0438\u0431\u043a\u0430",
-    "JS_LOADING_PLEASE_WAIT": "\u041f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435, \u0438\u0434\u0435\u0442 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430...",
-    "JS_WRONG_NUMBER": "\u0414\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u044b\u0435 \u0441\u0438\u043c\u0432\u043e\u043b\u044b: \u0446\u0438\u0444\u0440\u044b \u0431\u043e\u043b\u044c\u0448\u0435 1."
+    "Invalid API key": "Неверный ключ приложения",
+    "JS_ERROR": "Ошибка",
+    "JS_LOADING_PLEASE_WAIT": "Подождите, идет загрузка...",
+    "JS_WRONG_NUMBER": "Допустимые символы: цифры больше 1."
   }
 }
