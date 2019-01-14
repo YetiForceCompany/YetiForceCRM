@@ -2,12 +2,12 @@
   "php": {
     "ActivityRegister": "Registro de actividad",
     "SINGLE_ActivityRegister": "Registro de actividad",
-    "LBL_BASIC_INFORMATION": "Informaci\u00f3n sobre el Registro de actividad",
+    "LBL_BASIC_INFORMATION": "Información sobre el Registro de actividad",
     "FL_SUBJECT": "Asunto",
     "FL_PARENT_ACTIVITY": "Actividad del padre",
     "FL_STATUS": "Estado",
     "PLL_DRAFT": "Borrador",
-    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptaci\u00f3n",
+    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptación",
     "PLL_IN_REALIZATION": "En proceso",
     "PLL_COMPLETED": "Completado",
     "PLL_CANCELLED": "Cancelado",
@@ -15,16 +15,15 @@
     "PLL_ENTRUSTMENT": "Encomendado",
     "PLL_SHARING": "Compartir",
     "PLL_TRANSFER": "Transferir",
-    "PLL_ENTRUSTMENT_ACCEPTANCE": "Encomendaci\u00f3n aceptada",
+    "PLL_ENTRUSTMENT_ACCEPTANCE": "Encomendación aceptada",
     "PLL_INTERNAL": "Interno",
     "FL_START_DATE": "Fecha inicio",
     "FL_END_DATE": "Fecha fin",
     "LBL_DATES": "Fechas de actividad",
-    "LBL_DESCRIPTION": "Descripti\u00f3n",
-    "FL_DESCRIPTION": "Descripti\u00f3n",
+    "LBL_DESCRIPTION": "Descriptión",
+    "FL_DESCRIPTION": "Descriptión",
     "FL_COMMENTS": "Comentarios",
     "LBL_COMMENTS": "Comentarios",
     "FL_ACTIVITY_TYPE": "Tipo de actividad"
-  },
-  "js": {}
+  }
 }
