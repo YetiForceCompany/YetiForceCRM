@@ -2,8 +2,6 @@
   "php": {
     "Assets": "Beni",
     "SINGLE_Assets": "Bene",
-    "LBL_ADD_RECORD": "Aggiungi",
-    "LBL_RECORDS_LIST": "Lista beni",
     "LBL_ASSET_INFORMATION": "Dettagli",
     "Asset No": "Bene nr.",
     "Serial Number": "Serial number",
@@ -14,9 +12,11 @@
     "Asset Name": "Nome",
     "Customer Name": "Nome Cliente",
     "Notes": "Nota",
+    "LBL_GENERATE_EXTENSION": "Generate extension",
     "FL_RENEWAL": "Renewal",
     "LBL_SET_RENEWAL": "Set renewal",
     "FL_RENEWAL_INVOICE": "Renewal invoice",
+    "FL_CONTACT": "Contact",
     "PLL_DRAFT": "Bozza",
     "PLL_ACCEPTED": "Accepted",
     "PLL_CANCELLED": "Cancellato",
@@ -33,7 +33,6 @@
     "description": "Description",
     "attentions": "Comments",
     "BLOCK_INFORMATION_TIME": "Time information",
-    "LBL_GENERATE_EXTENSION": "Generate extension",
     "LBL_ORDER_TIME": "Order time",
     "LBL_EXPIRING_SOLD_PRODUCTS": "Expiring sold products",
     "LBL_CHANGE_STATUS": "Change Status"
