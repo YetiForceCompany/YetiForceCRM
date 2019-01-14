@@ -1,8 +1,8 @@
 {
   "php": {
-    "QuickCreateEditor": "Editor de creaci\u00f3n r\u00e1pida",
-    "LBL_QUICK_CREATE_EDITOR": "Campos \u2013 Creaci\u00f3n r\u00e1pida",
-    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "M\u00f3dulo que permite cambiar el dise\u00f1o de los campos dentro de la ventana de Creaci\u00f3n R\u00e1pida",
+    "QuickCreateEditor": "Editor de creación rápida",
+    "LBL_QUICK_CREATE_EDITOR": "Campos – Creación rápida",
+    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Módulo que permite cambiar el diseño de los campos dentro de la ventana de Creación Rápida",
     "LBL_SEQUENCE": "Secuencia de campo",
     "LBL_SAVE_FIELD_SEQUENCE": "Guardar secuencia de campo"
   },
