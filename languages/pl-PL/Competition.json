@@ -1,15 +1,15 @@
 {
   "php": {
-    "Competition": "Konkurenci",
-    "SINGLE_Competition": "Konkurent",
-    "LBL_COMPETITION_INFORMATION": "Informacje podstawowe",
-    "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
-    "LBL_DESCRIPTION_INFORMATION": "Informacje opisowe",
-    "LBL_SUBJECT": "Nazwa",
-    "LBL_NUMBER": "Numer",
-    "LBL_CLOSED_TIME": "Czas zamkni\u0119cia",
-    "LBL_VAT_ID": "NIP",
-    "LBL_SHOW_HIERARCHY": "Hierarchia",
-    "LBL_PARENT_ID": "Konkurent nadrzędny"
+    "Competition": "Competition",
+    "SINGLE_Competition": "Competitor",
+    "LBL_COMPETITION_INFORMATION": "Basic information",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_DESCRIPTION_INFORMATION": "Description details",
+    "LBL_SUBJECT": "Name",
+    "LBL_NUMBER": "Number",
+    "LBL_CLOSED_TIME": "Closed time",
+    "LBL_VAT_ID": "Tax ID",
+    "LBL_SHOW_HIERARCHY": "Hierarchy",
+    "LBL_PARENT_ID": "Competitor parent"
   }
 }
