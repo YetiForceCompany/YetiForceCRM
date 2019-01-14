@@ -1,16 +1,17 @@
 {
   "php": {
-    "LBL_PAGE_NUMBER": "Go to page number",
     "OSSMailScanner_manual": "Mail Scanner",
     "OSSMailScanner": "Mail Scanner",
-    "Mail Scanner": "Mail \u2013 Scanner",
+    "Mail Scanner": "Mail – Scanner",
     "LBL_VIEW_LOGS": "Mail protocol",
+    "LBL_PAGE_NUMBER": "Go to page number",
     "CRM Archive": "CRM archive",
     "CRM Archive Sent": "CRM archive sent",
     "Drafts": "Drafts",
     "INBOX": "INBOX",
     "Junk": "JUNK",
     "Sent": "SENT",
+    "ERR_INCORRECT_ACCESS_DATA": "Incorrect access data",
     "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "The folders below will be removed after saving"
   },
   "js": {
