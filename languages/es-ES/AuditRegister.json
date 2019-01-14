@@ -1,13 +1,13 @@
 {
   "php": {
-    "AuditRegister": "Registro de auditor\u00eda",
-    "SINGLE_AuditRegister": "Registro de auditor\u00eda",
-    "LBL_BASIC_INFORMATION": "Informaci\u00f3n sobre el Registro de auditor\u00eda",
+    "AuditRegister": "Registro de auditoría",
+    "SINGLE_AuditRegister": "Registro de auditoría",
+    "LBL_BASIC_INFORMATION": "Información sobre el Registro de auditoría",
     "FL_NAME": "Nombre",
-    "FL_LOCATION_REGISTER": "Registro de ubicaci\u00f3n",
+    "FL_LOCATION_REGISTER": "Registro de ubicación",
     "FL_DATASETREGISTER": "Registro de conjunto de datos",
     "PLL_DRAFT": "Borrador",
-    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptaci\u00f3n",
+    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptación",
     "PLL_IN_REALIZATION": "En proceso",
     "PLL_COMPLETED": "Completado",
     "PLL_CANCELLED": "Cancelado",
@@ -15,10 +15,9 @@
     "FL_TYPE": "Tipo",
     "PLL_INTERNAL": "Interno",
     "PLL_EXTERNAL": "Externo",
-    "LBL_DESCRIPTION": "Descripti\u00f3n",
-    "FL_DESCRIPTION": "Descripti\u00f3n",
+    "LBL_DESCRIPTION": "Descriptión",
+    "FL_DESCRIPTION": "Descriptión",
     "FL_COMMENTS": "Comentarios",
     "LBL_COMMENTS": "Comentarios"
-  },
-  "js": {}
+  }
 }
