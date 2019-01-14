@@ -1,7 +1,5 @@
 {
   "php": {
-    "LBL_PROJECTS_LIST": "Lista proiecte",
-    "LBL_SUMMARY": "Sumar timp de lucru",
     "SINGLE_Project": "Proiect",
     "LBL_RECORDS_LIST": "Lista proiecte",
     "LBL_PROJECT_INFORMATION": "Detalii proiect",
@@ -38,6 +36,8 @@
     "PLL_EXTERNAL": "Extern",
     "PLL_COMMON": "Distribuit",
     "LBL_DOWNLOAD_FILE": "Descarca fisier",
+    "LBL_SUMMARY": "Sumar timp de lucru",
+    "LBL_PROJECTS_LIST": "Lista proiecte",
     "Add Project Task": "Adauga sarcina proiect",
     "LBL_GANTT": "Gantt",
     "low": "scazut",
@@ -50,7 +50,16 @@
     "on hold": "In asteptare",
     "completed": "Completat",
     "delivered": "Livrat",
-    "archived": "Arhivat"
+    "archived": "Arhivat",
+    "LBL_GANTT_FILTER": "Filter",
+    "LBL_GANTT_NOW": "Center",
+    "LBL_GANTT_ZOOM_X": "X axis zoom",
+    "LBL_GANTT_ZOOM_Y": "Y axis zoom",
+    "LBL_GANTT_EXPAND": "Add days before and after",
+    "LBL_GANTT_TASKLIST": "List width",
+    "LBL_GANTT_TASKLIST_VISIBLE": "Show list",
+    "LBL_GANTT_TITLE": "Gantt chart",
+    "LBL_GANTT_TITLE_ALL_PROJECTS": "Gantt chart - all projects"
   },
   "js": {
     "JS_NO.": "Nr.",
@@ -72,14 +81,6 @@
     "JS_PROCEED": "Doriti sa continuati?",
     "JS_PREV": "Anteriorul",
     "JS_NEXT": "Urmatorul",
-    "JS_HINT_SKIP": "Am inteles, inchide notificarea",
-    "JS_GANTT_FILTER": "Filters",
-    "JS_GANTT_NOW": "Center",
-    "JS_GANTT_ZOOM_X": "Zoom in X-axis",
-    "JS_GANTT_ZOOM_Y": "Zoom in Y-axis",
-    "JS_GANTT_EXPAND": "Add days before and after",
-    "JS_GANTT_TASKLIST": "List width",
-    "JS_GANTT_TASKLIST_VISIBLE": "Show list",
-    "JS_GANTT_TITLE": "Gantt chart"
+    "JS_HINT_SKIP": "Am inteles, inchide notificarea"
   }
 }
