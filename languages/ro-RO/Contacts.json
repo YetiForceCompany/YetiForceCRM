@@ -5,7 +5,6 @@
     "Contact Id": "ID Contact",
     "Contact Image": "Imagine contact",
     "Contacts": "Contacte",
-    "Do Not Call": "Nu suna",
     "Email": "Email principal",
     "LBL_CONTACT_INFORMATION": "Informatii de baza",
     "LBL_COPY_MAILING_ADDRESS": "Copiaza adresa de corespondenta",
@@ -36,14 +35,17 @@
     "LBL_CONTACT_INFO": "Informatii contact",
     "Approval for phone calls": "Permisiunea de a apela",
     "Approval for email": "Permisiunea de a trimite email",
+    "Do Not Call": "Nu suna",
     "LBL_LANGUAGE_NOTIFICATIONS": "Notificari limba",
+    "SINGLE_Leads": "Lead",
+    "SINGLE_Vendors": "Furnizor",
     "Decision maker": "Factor de decizie",
     "End of support for contact": "Sfarsit suport pentru contact",
     "Birthdays of contacts": "Zile de nastere a contactelor",
-    "SINGLE_Leads": "Lead",
-    "SINGLE_Vendors": "Furnizor",
     "LBL_SWITCH_ON_DECISION_MAKER": "Factor de decizie",
     "LBL_SWITCH_OFF_DECISION_MAKER": "Toate"
   },
-  "js": {}
+  "js": {
+
+  }
 }
