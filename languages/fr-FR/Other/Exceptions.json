@@ -1,14 +1,15 @@
 {
   "php": {
-    "ERR_USER_EXISTS": "L'utilisateur avec le m\u00eame nom d'utilisateur et le m\u00eame r\u00f4le existe d\u00e9j\u00e0 (%s)",
-    "ERR_NOT_ACCESSIBLE": "Acc\u00e9s refus\u00e9",
     "ERR_ILLEGAL_VALUE": "Valeur non valide",
     "ERR_ILLEGAL_FIELD_VALUE": "Valeur non valide dans le champs %s (%s)",
     "ERR_VALUE_IS_TOO_LONG": "La valeur du champ %s est trop longue (%s)",
     "ERR_TO_MANY_FILES": "Too many files - limit was exceeded",
-    "ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "La valeur de %s doit \u00eatre sup\u00e9rieur \u00e0 0 (%s)",
-    "ERR_NOT_ALLOWED_VALUE": "Valeur incorrecte d\u00e9tect\u00e9, veuillez contacter l'administrateur.",
-    "ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Ce mot de passe a d\u00e9j\u00e0 \u00e9t\u00e9 utilis\u00e9. Le syst\u00e8me ne permet pas d'utiliser le m\u00eame mot de passe pour des raisons de s\u00e9curit\u00e9.",
+    "ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "La valeur de %s doit être supérieur à 0 (%s)",
+    "ERR_NOT_ALLOWED_VALUE": "Valeur incorrecte détecté, veuillez contacter l'administrateur.",
+    "ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Ce mot de passe a déjà été utilisé. Le système ne permet pas d'utiliser le même mot de passe pour des raisons de sécurité.",
+    "ERR_USER_EXISTS": "L'utilisateur avec le même nom d'utilisateur et le même rôle existe déjà (%s)",
+    "ERR_NOT_ACCESSIBLE": "Accés refusé",
+    "ERR_NO_PERMISSIONS_FOR_THE_RECORD": "You don't have the permissions required to view\/edit this record. Contact the administrator if you should have the permission to view it.",
     "ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION": "Variable (%s) content cannot be triggered as function",
     "ERR_DUPLICATES_VALUES_FOUND": "Duplicated %s values found",
     "ERR_EXCEEDED_NUMBER_CHARACTERS": "Exceeded number of characters",
@@ -35,6 +36,5 @@
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
     "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server",
     "ERR_NO_INTERNET_CONNECTION": "No Internet connection"
-  },
-  "js": {}
+  }
 }
