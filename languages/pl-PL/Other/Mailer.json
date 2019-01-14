@@ -1,6 +1,6 @@
 {
   "php": {
-    "LBL_CRON_EMAIL_SUBJECT": "Zaplanowany import zosta\u0142 zako\u0144czony",
-    "LBL_CRON_COMPLETED_IMPORT": "Podsumowanie importu rekord\u00f3w dla modu\u0142u:"
+    "LBL_CRON_EMAIL_SUBJECT": "Zaplanowany import został zakończony",
+    "LBL_CRON_COMPLETED_IMPORT": "Podsumowanie importu rekordów dla modułu:"
   }
 }
