@@ -1,27 +1,26 @@
 {
   "php": {
+    "LBL_ADVANCED_PERMISSION": "Autorisations avancées",
+    "AdvancedPermission": "Autorisations avancées",
+    "LBL_ADVANCED_PERMISSION_DESCRIPTION": "Configuration d'autorisation personnalisée, octroi ou retrait d'autorisations aux enregistrements.",
+    "LBL_NAME": "Nom de la règle",
     "LBL_MODULE": "Module",
     "LBL_ACTION": "Action",
-    "ERR_INACTIVE_CACHING_PERM_ALERT_DESC": "Les autorisations sp\u00e9ciales ont \u00e9t\u00e9 d\u00e9sactiv\u00e9es car elles n\u00e9cessitent l'activation de la mise en cache des autorisations d'enregistrement. Pour que les autorisations commencent \u00e0 fonctionner, vous devez activer cron et d\u00e9finir la variable CACHING_PERMISSION_TO_RECORD [config\/security.php] sur true.",
-    "LBL_MODULES_LIST": "Liste des modules",
-    "LBL_RECALCULATE_CRON_INFO": "Le calcul des autorisations requiert l'activation de CRON, v\u00e9rifiez si la t\u00e2che est active.",
-    "LBL_RECALCULATE_PERMISSION_BTN": "Recalculer les autorisations",
-    "LBL_RECALCULATE_PERMISSION_TITLE": "Nouveau calcul des autorisations",
-    "LBL_ADVANCED_PERMISSION": "Autorisations avanc\u00e9es",
-    "AdvancedPermission": "Autorisations avanc\u00e9es",
-    "LBL_ADVANCED_PERMISSION_DESCRIPTION": "Configuration d'autorisation personnalis\u00e9e, octroi ou retrait d'autorisations aux enregistrements.",
-    "LBL_NAME": "Nom de la r\u00e8gle",
     "LBL_STATUS": "Statut",
-    "LBL_ROLE": "R\u00f4le",
+    "LBL_ROLE": "Rôle",
     "LBL_MEMBERS": "Membres",
-    "LBL_PRIORITY": "Priorit\u00e9",
+    "LBL_PRIORITY": "Priorité",
     "FL_ACTIVE": "Actif",
     "FL_INACTIVE": "Inactif",
-    "FL_UNLOCK_RECORD": "Donner des acc\u00e8s",
-    "FL_LOCK_RECORD": "Retirer les acc\u00e8s",
+    "FL_UNLOCK_RECORD": "Donner des accès",
+    "FL_LOCK_RECORD": "Retirer les accès",
     "LBL_SAVE_AND_CONDITIONS": "Suivant",
-    "ERR_INACTIVE_ALERT_TITLE": "Les autorisations avanc\u00e9es sont d\u00e9sactiv\u00e9es",
-    "ERR_INACTIVE_ALERT_DESC": "Modifiez le param\u00e8tre PERMITTED_BY_ADVANCED_PERMISSION dans le fichier config\/security.php pour l'activer."
-  },
-  "js": {}
+    "ERR_INACTIVE_ALERT_TITLE": "Les autorisations avancées sont désactivées",
+    "ERR_INACTIVE_ALERT_DESC": "Modifiez le paramètre PERMITTED_BY_ADVANCED_PERMISSION dans le fichier config\/security.php pour l'activer.",
+    "LBL_RECALCULATE_PERMISSION_TITLE": "Nouveau calcul des autorisations",
+    "LBL_RECALCULATE_PERMISSION_BTN": "Recalculer les autorisations",
+    "LBL_RECALCULATE_CRON_INFO": "Le calcul des autorisations requiert l'activation de CRON, vérifiez si la tâche est active.",
+    "LBL_MODULES_LIST": "Liste des modules",
+    "ERR_INACTIVE_CACHING_PERM_ALERT_DESC": "Les autorisations spéciales ont été désactivées car elles nécessitent l'activation de la mise en cache des autorisations d'enregistrement. Pour que les autorisations commencent à fonctionner, vous devez activer cron et définir la variable CACHING_PERMISSION_TO_RECORD [config\/security.php] sur true."
+  }
 }
