@@ -7,20 +7,19 @@
     "LBL_ADDING_COMMENT": "Ajoutez un commentaire",
     "LBL_WRITE_YOUR_COMMENT_HERE": "Saisir les commentaires ici",
     "Comment": "Commentaire",
-    "Creator": "Cr\u00e9ateur",
-    "Related To Comments": "Reli\u00e9 \u00e0",
-    "UserId": "N\u00b0 d'utilisateur",
+    "Creator": "Créateur",
+    "Related To Comments": "Relié à",
+    "ReasonToEdit": "Justification édition",
+    "UserId": "N° d'utilisateur",
     "Customer": "Client",
-    "ReasonToEdit": "Justification \u00e9dition",
-    "LBL_ADDED_COMMENT_TO_TICKET": "Un commentaire a \u00e9t\u00e9 ajout\u00e9 au ticket",
-    "LBL_NEW_COMMENT_FOR_TICKET": "Un commentaire a \u00e9t\u00e9 ajout\u00e9 au ticket, le contenu du commentaire est ci-dessous",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Un commentaire a été ajouté au ticket",
+    "LBL_NEW_COMMENT_FOR_TICKET": "Un commentaire a été ajouté au ticket, le contenu du commentaire est ci-dessous",
     "LBL_NOTICE_WELCOME": "Bienvenue",
-    "LBL_NOTICE_CREATED": "Cr\u00e9e par",
+    "LBL_NOTICE_CREATED": "Crée par",
     "LBL_COMMENTS_0": "Enregistrement actuel",
     "LBL_COMMENTS_1": "Processus",
     "LBL_COMMENTS_2": "Sous-processus",
     "LBL_COMMENTS_SEARCH": "Chercher",
     "LBL_ALL_RECORDS": "Related records"
-  },
-  "js": {}
+  }
 }
