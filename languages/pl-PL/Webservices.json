@@ -1,9 +1,9 @@
 {
   "php": {
     "Webservices": "Web serwis",
-    "LBL_CHANGE_PASSWORD_FAILURE": "Has\u0142o nie zosta\u0142o zmienione",
-    "LBL_DATABASE_QUERY_ERROR": "B\u0142\u0105d bazy danych podczas wykonywania \u017c\u0105danej operacji",
-    "LBL_INVALID_OLD_PASSWORD": "Niepoprawna warto\u015b\u0107 starego has\u0142a.",
-    "LBL_NEW_PASSWORD_MISMATCH": "Nowe has\u0142o i jego powt\u00f3rzenie nie s\u0105 takie same"
+    "LBL_CHANGE_PASSWORD_FAILURE": "Hasło nie zostało zmienione",
+    "LBL_DATABASE_QUERY_ERROR": "Błąd bazy danych podczas wykonywania żądanej operacji",
+    "LBL_INVALID_OLD_PASSWORD": "Niepoprawna wartość starego hasła.",
+    "LBL_NEW_PASSWORD_MISMATCH": "Nowe hasło i jego powtórzenie nie są takie same"
   }
 }
