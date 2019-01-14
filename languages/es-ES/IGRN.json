@@ -1,13 +1,13 @@
 {
   "php": {
     "IGRN": "Albaranes de Compra",
-    "SINGLE_IGRN": "Albar\u00e1n de Compra",
-    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "SINGLE_IGRN": "Albarán de Compra",
+    "LBL_DESCRIPTION_BLOCK": "Descripción",
     "LBL_ATTENTION_BLOCK": "Notas",
-    "FL_ACCEPTANCE_DATE": "Fecha de aceptaci\u00f3n",
+    "FL_ACCEPTANCE_DATE": "Fecha de aceptación",
     "FL_VENDOR": "Proveedor",
-    "FL_NUMBER": "ID",
     "FL_SUBJECT": "Asunto",
+    "FL_NUMBER": "ID",
     "FL_STORAGE": "Almacenamiento",
     "FL_STATUS": "Estado",
     "PLL_DRAFT": "Borrador",
