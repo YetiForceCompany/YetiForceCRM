@@ -1,10 +1,10 @@
 {
   "php": {
     "HideBlocks": "Ocultar bloques",
-    "LBL_HIDEBLOCKS": "Campos \u2013 Ocultar bloques",
-    "LBL_HIDEBLOCKS_DESCRIPTION": "Administrar qu\u00e9 bloques con campos ocultar",
+    "LBL_HIDEBLOCKS": "Campos – Ocultar bloques",
+    "LBL_HIDEBLOCKS_DESCRIPTION": "Administrar qué bloques con campos ocultar",
     "LBL_BLOCK_LABEL": "Bloquear",
-    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_MODULE": "Módulo",
     "LBL_ENABLED": "Activo",
     "LBL_EDIT_BLOCK": "Editar",
     "LBL_NEW_BLOCK": "Crear",
