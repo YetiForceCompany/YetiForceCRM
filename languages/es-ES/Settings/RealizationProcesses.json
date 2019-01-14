@@ -1,15 +1,17 @@
 {
   "php": {
     "LBL_PROJECT_CONFIGURATION": "Proyecto",
-    "LBL_INFO": "Informaci\u00f3n",
+    "LBL_INFO": "Información",
     "LBL_TYPE": "Estado",
     "LBL_PROJECT": "Proyecto",
-    "LBL_PROJECT_STATUS_INFO": "Estados que determinan que el proyecto est\u00e1 cerrado",
+    "LBL_PROJECT_STATUS_INFO": "Estados que determinan que el proyecto está cerrado",
     "LBL_PROJECTMILESTONE_STATUS_INFO": "Statuses determining that the milestone is closed",
     "LBL_PROJECTTASK_STATUS_INFO": "Statuses determining that the task is closed",
     "LBL_SAVE_CONFIG_OK": "Cambios guardados correctamente.",
     "LBL_SAVE_CONFIG_ERROR": "Error al guardar los cambios.",
-    "RealizationProcesses": "Procesos de realizaci\u00f3n"
+    "RealizationProcesses": "Procesos de realización"
   },
-  "js": {}
+  "js": {
+
+  }
 }
