@@ -1,26 +1,26 @@
 {
   "php": {
-    "Search Configuration": "Configuraci\u00f3n de b\u00fasqueda",
-    "Search Setup": "B\u00fasqueda - Configuraci\u00f3n",
-    "Search": "Configuraci\u00f3n de b\u00fasqueda",
-    "LBL_Module_desc": "Este panel permite establecer etiquetas para los campos uitype 10 y para los mecanismos de b\u00fasqueda. Estos mecanismos funcionan de forma independiente \u2013 se pueden ver muchas columnas en un campo mientras se busca, pero cuando se selecciona un registro, se cargar\u00e1 un nombre de una etiqueta.",
-    "Module": "M\u00f3dulo",
+    "Search Configuration": "Configuración de búsqueda",
+    "Search Setup": "Búsqueda - Configuración",
+    "Search": "Configuración de búsqueda",
+    "LBL_Module_desc": "Este panel permite establecer etiquetas para los campos uitype 10 y para los mecanismos de búsqueda. Estos mecanismos funcionan de forma independiente – se pueden ver muchas columnas en un campo mientras se busca, pero cuando se selecciona un registro, se cargará un nombre de una etiqueta.",
+    "Module": "Módulo",
     "Table": "Tabla",
-    "LabelFields": "Columna principal de un m\u00f3dulo (incluyendo una etiqueta para uitype 10)",
-    "SearchFields": "Columnas para mecanismos de b\u00fasqueda",
+    "LabelFields": "Columna principal de un módulo (incluyendo una etiqueta para uitype 10)",
+    "SearchFields": "Columnas para mecanismos de búsqueda",
     "Tools": "Acciones",
     "Update labels": "Actualizar etiquetas",
     "LBL_SAVE_CHANGES_SEARCHING": "Cambios guardados.",
-    "LBL_SAVE_CHANGES_LABLE": "Se han guardado los cambios en la configuraci\u00f3n, tiene que actualizar este m\u00f3dulo para ver los cambios dentro del sistema.",
-    "Update has been completed": "M\u00f3dulo seleccionado actualizado correctamente. Los cambios se realizar\u00e1n a trav\u00e9s de CRON. El tiempo de actualizaci\u00f3n de la etiqueta depende de la cantidad de datos.",
-    "LBL_SAVE_MODULE_SEQUENCE": "Guardar secuencia de m\u00f3dulos",
+    "LBL_SAVE_CHANGES_LABLE": "Se han guardado los cambios en la configuración, tiene que actualizar este módulo para ver los cambios dentro del sistema.",
+    "Update has been completed": "Módulo seleccionado actualizado correctamente. Los cambios se realizarán a través de CRON. El tiempo de actualización de la etiqueta depende de la cantidad de datos.",
+    "LBL_SAVE_MODULE_SEQUENCE": "Guardar secuencia de módulos",
     "LBL_TURN_ON": "Encender",
     "LBL_TURN_OFF": "Apagar"
   },
   "js": {
-    "Saving changes": "Actualizaci\u00f3n en curso\u2026",
+    "Saving changes": "Actualización en curso…",
     "Update labels": "Actualizar",
-    "JS_MODULES_SEQUENCE_UPDATED": "Secuencia de m\u00f3dulos actualizada",
+    "JS_MODULES_SEQUENCE_UPDATED": "Secuencia de módulos actualizada",
     "JS_TURN_ON": "Encender",
     "JS_TURN_OFF": "Apagar"
   }
