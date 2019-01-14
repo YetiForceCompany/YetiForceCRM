@@ -4,7 +4,7 @@
     "LBL_GROUP_BY": "Agrupar",
     "LBL_GROUP_NEIGHBOURS": "Agrupar elementos vecinos",
     "LBL_NOT_FOUND_PLACE": "Lugar no encontrado",
-    "LBL_SEARCH_VALUE_DESCRIPTION": "Ciudad, calle, n\u00famero de edificio...",
+    "LBL_SEARCH_VALUE_DESCRIPTION": "Ciudad, calle, número de edificio...",
     "LBL_IN_RADIUS": "Dentro del radio [km]",
     "LBL_CALCULATE_TRACK": "Establecer ruta",
     "LBL_START": "Comienzo",
@@ -17,6 +17,6 @@
     "LBL_COPY_TO_CLIPBOARD": "Copiar al portapapeles",
     "LBL_CLIPBOARD": "Portapapeles",
     "LBL_INDIRECT_POINT": "Punto indirecto",
-    "ERR_ADDRESS_NOT_FOUND": "Direcci\u00f3n no encontrada"
+    "ERR_ADDRESS_NOT_FOUND": "Dirección no encontrada"
   }
 }
