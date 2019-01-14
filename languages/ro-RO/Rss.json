@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_ADD_FEED_SOURCE": "Adaugati sursa Feed",
-    "LBL_ENTER_FEED_SOURCE": "Introduceti sursa Feed",
-    "LBL_FEEDS_LIST_FROM": "Lista feeduri de la",
-    "LBL_FEED_SOURCE": "Sursa Feed",
     "LBL_RSS_FEED_SOURCES": "Surse Feed RSS",
-    "LBL_SENDER": "Expeditor",
+    "LBL_ADD_FEED_SOURCE": "Adaugati sursa Feed",
+    "LBL_FEEDS_LIST_FROM": "Lista feeduri de la",
     "LBL_SET_AS_DEFAULT": "Setati ca implicit",
+    "LBL_SENDER": "Expeditor",
+    "LBL_FEED_SOURCE": "Sursa Feed",
+    "LBL_ENTER_FEED_SOURCE": "Introduceti sursa Feed",
     "SINGLE_Rss": "Feed RSS",
     "LBL_CHANGE_RSS_CHANNEL": "Schimbati canal RSS"
   },
   "js": {
+    "JS_RSS_SUCCESSFULLY_SAVED": "RSS salvat cu succes",
     "JS_INVALID_RSS_URL": "URL Rss invalid",
-    "JS_RSS_MADE_AS_DEFAULT": "RSS setat ca implicit",
-    "JS_RSS_SUCCESSFULLY_SAVED": "RSS salvat cu succes"
+    "JS_RSS_MADE_AS_DEFAULT": "RSS setat ca implicit"
   }
 }
