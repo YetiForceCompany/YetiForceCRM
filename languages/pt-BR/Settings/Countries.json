@@ -2,7 +2,7 @@
   "php": {
     "LBL_COUNTRY_NAME": "Country name",
     "LBL_COUNTRY_SHORTNAME": "Country code",
-    "LBL_COUNTRY_TOGGLE_STATUS": "Is the country avalable globally in the system?",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Is the country avalabile globally in the system?",
     "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "Enable or disable all countries",
     "LBL_VISIBLE_IN_PHONE": "Is the country visible in phone type field?",
     "LBL_VISIBLE_IN_COUNTRY": "Is the country visible in \"Country\" address field?",
