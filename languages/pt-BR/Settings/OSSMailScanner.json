@@ -1,10 +1,10 @@
 {
   "php": {
-    "LBL_PAGE_NUMBER": "Ir para p\u00e1gina n\u00famero",
     "OSSMailScanner_manual": "Escaner Mensagens",
     "OSSMailScanner": "Escaner Mensagem",
-    "Mail Scanner": "Correio \u2013 Escaner",
+    "Mail Scanner": "Correio – Escaner",
     "LBL_VIEW_LOGS": "Protocolos de Correio",
+    "LBL_PAGE_NUMBER": "Ir para página número",
     "CRM Archive": "Arquivos do CRM",
     "CRM Archive Sent": "Arquivos Enviados CRM",
     "Drafts": "Rascunho",
@@ -12,21 +12,21 @@
     "Junk": "LIXO",
     "Sent": "ENVIAR",
     "ERR_INCORRECT_ACCESS_DATA": "Incorrect access data",
-    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "As pastas abaixo ser\u00e3o removidas ap\u00f3s salvar"
+    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "As pastas abaixo serão removidas após salvar"
   },
   "js": {
     "start_cron": "Cron iniciado",
     "end_cron_ok": "As tarefas do Cron foram finalizadas com sucesso",
     "end_cron_error": "Ocorreu um erro enquanto o Cron estava sendo executado",
-    "JS_mail_error": "O email informado est\u00e1 incorreto",
-    "JS_time_error": "O formato da data informado est\u00e1 incorreto",
+    "JS_mail_error": "O email informado está incorreto",
+    "JS_time_error": "O formato da data informado está incorreto",
     "JS_StopCron": "Parar o Cron manualmente",
-    "stop_user": "Usu\u00e1rio que parou o escaneamento",
+    "stop_user": "Usuário que parou o escaneamento",
     "Manually stopped": "Parar manualmente",
     "OK": "ok",
     "In progress": "Em andamento",
     "whether_remove_an_identity": "Deseja remover uma identidade",
     "removed_identity": "Identidade apagada",
-    "LBL_LOADING_LIST_OF_FOLDERS": "Carregando lista de pastas em andamento.\r\nIsto pode demorar v\u00e1rios minutos..."
+    "LBL_LOADING_LIST_OF_FOLDERS": "Carregando lista de pastas em andamento.\r\nIsto pode demorar vários minutos..."
   }
 }
