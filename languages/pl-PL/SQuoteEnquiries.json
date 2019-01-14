@@ -8,16 +8,16 @@
     "LBL_STATISTICS": "Statystyka",
     "LBL_SUBJECT": "Temat",
     "LBL_NUMBER": "Numer",
-    "LBL_CLOSED_TIME": "Czas zamkni\u0119cia",
+    "LBL_CLOSED_TIME": "Czas zamknięcia",
     "LBL_STATUS": "Status",
     "LBL_RESPONSE_TIME": "Czas reakcji",
-    "SINGLE_SSalesProcesses": "Szansa sprzeda\u017cy",
+    "SINGLE_SSalesProcesses": "Szansa sprzedaży",
     "PLL_DRAFT": "Wersja robocza",
     "PLL_IN_REALIZATION": " W realizacji",
     "PLL_FOR_VERIFICATION": "Do weryfikacji",
     "PLL_CANCELLED": "Anulowane",
     "PLL_COMPLETED": "Wykonane",
-    "LBL_CHANGE_STATUS": "Zmie\u0144 status",
+    "LBL_CHANGE_STATUS": "Zmień status",
     "FL_CAMPAIGN_ID": "Kampania"
   }
 }
