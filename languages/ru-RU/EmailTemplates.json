@@ -1,19 +1,19 @@
 {
   "php": {
-    "EmailTemplates": "\u041f\u043e\u0447\u0442\u043e\u0432\u044b\u0435 \u0448\u0430\u0431\u043b\u043e\u043d\u044b",
-    "SINGLE_EmailTemplates": "\u041f\u043e\u0447\u0442\u043e\u0432\u044b\u0439 \u0448\u0430\u0431\u043b\u043e\u043d",
-    "LBL_CONTENT_MAIL": "\u0421\u043e\u0434\u0435\u0440\u0436\u0438\u043c\u043e\u0435 \u043f\u0438\u0441\u044c\u043c\u0430",
-    "LBL_BASIC_DETAILS": "\u041e\u0441\u043d\u043e\u0432\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f",
-    "FL_NAME": "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435",
-    "FL_TYPE": "\u0422\u0438\u043f",
-    "FL_MODULE": "\u041c\u043e\u0434\u0443\u043b\u044c",
-    "FL_SUBJECT": "\u0422\u0435\u043c\u0430",
-    "FL_CONTENT": "\u0421\u043e\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u0435",
-    "FL_SMTP_PRIORITY": "\u041f\u0440\u0438\u043e\u0440\u0438\u0442\u0435\u0442 SMTP",
-    "PLL_MODULE": "\u041c\u043e\u0434\u0443\u043b\u044c",
-    "PLL_RECORD": "\u0417\u0430\u043f\u0438\u0441\u044c",
-    "PLL_MAIL": "\u0421\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435",
-    "PLL_LIST": "\u0421\u043f\u0438\u0441\u043e\u043a",
-    "PLL_DEFAULT": "\u041a\u043e\u043c\u043f\u0430\u043d\u0438\u044f \u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e"
+    "EmailTemplates": "Почтовые шаблоны",
+    "SINGLE_EmailTemplates": "Почтовый шаблон",
+    "LBL_CONTENT_MAIL": "Содержимое письма",
+    "LBL_BASIC_DETAILS": "Основная информация",
+    "FL_NAME": "Название",
+    "FL_TYPE": "Тип",
+    "FL_MODULE": "Модуль",
+    "FL_SUBJECT": "Тема",
+    "FL_CONTENT": "Содержание",
+    "FL_SMTP_PRIORITY": "Приоритет SMTP",
+    "PLL_MODULE": "Модуль",
+    "PLL_RECORD": "Запись",
+    "PLL_MAIL": "Сообщение",
+    "PLL_LIST": "Список",
+    "PLL_DEFAULT": "Компания по умолчанию"
   }
 }
