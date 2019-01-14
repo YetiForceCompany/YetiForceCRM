@@ -1,10 +1,10 @@
 {
   "php": {
-    "LBL_LOGS": "Sicherheitsvorf\u00e4lle",
-    "LBL_LOGS_DESC": "Oberfl\u00e4che f\u00fcr Anzeige von Sicherheitsvorf\u00e4llen",
-    "LBL_ACCESS_FOR_ADMIN": "Zugriff f\u00fcr Admin",
-    "LBL_ACCESS_FOR_API": "Zugriff f\u00fcr API",
-    "LBL_ACCESS_FOR_USER": "Zugriff f\u00fcr Benutzer",
+    "LBL_LOGS": "Sicherheitsvorfälle",
+    "LBL_LOGS_DESC": "Oberfläche für Anzeige von Sicherheitsvorfällen",
+    "LBL_ACCESS_FOR_ADMIN": "Zugriff für Admin",
+    "LBL_ACCESS_FOR_API": "Zugriff für API",
+    "LBL_ACCESS_FOR_USER": "Zugriff für Benutzer",
     "LBL_ACCESS_TO_RECORD": "Zugriff zu Datensatz",
     "LBL_CSRF": "CSRF",
     "LBL_USERNAME": "Benutzername",
