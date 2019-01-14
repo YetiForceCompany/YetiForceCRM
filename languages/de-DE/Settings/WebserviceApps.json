@@ -3,15 +3,15 @@
     "LBL_APP_NAME": "Name",
     "LBL_ADDRESS_URL": "URL",
     "LBL_TYPE_SERVER": "Typ",
-    "LBL_API_KEY": "Schl\u00fcssel",
-    "LBL_ADD_APPLICATION": "Schl\u00fcssel hinzuf\u00fcgen",
+    "LBL_API_KEY": "Schlüssel",
+    "LBL_ADD_APPLICATION": "Schlüssel hinzufügen",
     "LBL_WEBSERVICE_APPS": "Web service - Applikationen",
-    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Die volle Funktionalit\u00e4t des Moduls steht ab v.3.1 bereit",
+    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Die volle Funktionalität des Moduls steht ab v.3.1 bereit",
     "LBL_PASS": "Passwort",
-    "LBL_TITLE_ADDED": "Hinzuf\u00fcgen",
-    "LBL_TITLE_EDIT": "\u00c4ndern"
+    "LBL_TITLE_ADDED": "Hinzufügen",
+    "LBL_TITLE_EDIT": "Ändern"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "Sind Sie sicher den Schl\u00fcssel zu l\u00f6schen?"
+    "JS_DELETE_CONFIRMATION": "Sind Sie sicher den Schlüssel zu löschen?"
   }
 }
