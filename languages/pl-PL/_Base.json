@@ -230,7 +230,7 @@
     "LBL_FILE_HAS_BEEN_MODIFIED": "Plik zosta\u0142 zmodyfikowany poniewa\u017c zawiera\u0142 niebezpieczny kod.",
     "LBL_FIELDS": "Pola",
     "LBL_FILTER": "Filtr",
-    "LBL_FILTER_FIELD": "Filter field",
+    "LBL_FILTER_FIELD": "Pole z filtru",
     "LBL_FILTER_CONDITIONS": "Warunki dla filtru",
     "LBL_FILTER_ON_DATE": "Filtry zwi\u0105zane z dat\u0105",
     "LBL_FINAL_DISCOUNT_AMOUNT": "\u0141\u0105czna kwota podatku",
