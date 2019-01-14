@@ -1,23 +1,23 @@
 {
   "php": {
-    "BruteForce": "For\u00e7a Bruta",
-    "LBL_NUMBER_OF_ATTEMPTS": "N\u00famero de tentativas",
+    "BruteForce": "Força Bruta",
+    "LBL_NUMBER_OF_ATTEMPTS": "Número de tentativas",
     "LBL_TIME_LOCK": "Tempo de bloqueio (minutos)",
-    "LBL_SETTINGS": "Configura\u00e7\u00f5es",
-    "LBL_BLOCKED_IP": "Endere\u00e7os de IP Bloquedos",
-    "LBL_SAVE_SUCCESS": "As Altera\u00e7\u00f5es foram salvas",
-    "LBL_UNBLOCK_FAIL": "Endere\u00e7o de Ip n\u00e3o foi desbloqueado",
-    "LBL_UNBLOCK_SUCCESS": "Endere\u00e7o de IP foi desbloqueado",
-    "LBL_BRUTEFORCE_DESCRIPTION": "Definir o n\u00famero m\u00e1ximo de tentativas de login e o tempo limite do bloquei de IP",
-    "LBL_IP": "Endere\u00e7o de Ip",
+    "LBL_SETTINGS": "Configurações",
+    "LBL_BLOCKED_IP": "Endereços de IP Bloquedos",
+    "LBL_SAVE_SUCCESS": "As Alterações foram salvas",
+    "LBL_UNBLOCK_FAIL": "Endereço de Ip não foi desbloqueado",
+    "LBL_UNBLOCK_SUCCESS": "Endereço de IP foi desbloqueado",
+    "LBL_BRUTEFORCE_DESCRIPTION": "Definir o número máximo de tentativas de login e o tempo limite do bloquei de IP",
+    "LBL_IP": "Endereço de Ip",
     "LBL_DATE": "Data",
-    "LBL_USERS": "Usu\u00e1rios",
+    "LBL_USERS": "Usuários",
     "LBL_BROWSERS": "Navegadores",
     "LBL_UNBLOCK": "Desbloquear",
-    "LBL_USERS_FOR_NOTIFICATIONS": "Usu\u00e1rios para notifica\u00e7\u00f5es",
+    "LBL_USERS_FOR_NOTIFICATIONS": "Usuários para notificações",
     "LBL_BRUTEFORCE_ACTIVE": "Ativo",
-    "LBL_VIEW_SHOW": "For\u00e7a Bruta",
-    "LBL_SENT_NOTIFICATIONS": "Enviar Notifica\u00e7\u00f5es"
+    "LBL_VIEW_SHOW": "Força Bruta",
+    "LBL_SENT_NOTIFICATIONS": "Enviar Notificações"
   },
   "js": {
     "JS_COULD_NOT_FINNISH_REACTION": "Erro. Falhou ao Salvar."
