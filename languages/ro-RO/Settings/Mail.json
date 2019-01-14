@@ -1,8 +1,8 @@
 {
   "php": {
-    "LBL_AUTOLOGIN": "Mail \u2013 Auto Autentificare",
+    "LBL_AUTOLOGIN": "Mail – Auto Autentificare",
     "LBL_AUTOLOGIN_DESCRIPTION": "Configurarea autentificarii automate pentru modulul Casuta Mail",
-    "LBL_MAIL_GENERAL_CONFIGURATION": "Configuratie \u2013 Mail",
+    "LBL_MAIL_GENERAL_CONFIGURATION": "Configuratie – Mail",
     "LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION": "Configuratia Generala a modulului Mail",
     "LBL_RC_USER": "Contul de utilizator al Utilizatorului",
     "LBL_CRM_USER": "Utilizatorii care au acces la Casuta Mail",
