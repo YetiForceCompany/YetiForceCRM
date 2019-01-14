@@ -1,7 +1,7 @@
 {
   "php": {
-    "Ideas": "Pomys\u0142y",
-    "SINGLE_Ideas": "Pomys\u0142",
+    "Ideas": "Pomysły",
+    "SINGLE_Ideas": "Pomysł",
     "LBL_IDEAS_INFORMATION": "Informacje podstawowe",
     "LBL_SUBJECT": "Temat",
     "LBL_STATUS": "Status",
