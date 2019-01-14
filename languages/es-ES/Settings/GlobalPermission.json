@@ -2,13 +2,13 @@
   "php": {
     "Access to record": "Acceso a los registros",
     "GlobalPermission": "Acceso especial",
-    "LBL_Module_desc": "Aqu\u00ed puede definir qu\u00e9 perfiles tienen acceso a todos los registros independientemente de los roles.",
+    "LBL_Module_desc": "Aquí puede definir qué perfiles tienen acceso a todos los registros independientemente de los roles.",
     "LBL_PROFILE_NAME": "Nombre de perfil",
-    "LBL_DESCRIPTION": "Descripci\u00f3n del perfil",
-    "LBL_VIEW_ALL_DESC": "Si marca esta opci\u00f3n, todos los m\u00f3dulos tendr\u00e1n una opci\u00f3n marcada de: Navegaci\u00f3n",
+    "LBL_DESCRIPTION": "Descripción del perfil",
+    "LBL_VIEW_ALL_DESC": "Si marca esta opción, todos los módulos tendrán una opción marcada de: Navegación",
     "LBL_VIEW_ALL": "Habilitar vista previa de todos los registros",
-    "LBL_EDIT_ALL_DESC": "Si marca esta opci\u00f3n, todos los m\u00f3dulos tendr\u00e1n una opci\u00f3n marcada de: Crear\/Editar.",
-    "LBL_EDIT_ALL": "Habilitar la edici\u00f3n de todos los registros",
+    "LBL_EDIT_ALL_DESC": "Si marca esta opción, todos los módulos tendrán una opción marcada de: Crear\/Editar.",
+    "LBL_EDIT_ALL": "Habilitar la edición de todos los registros",
     "LBL_SAVE_OK": "Cambio guardado"
   }
 }
