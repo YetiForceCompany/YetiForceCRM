@@ -5,11 +5,11 @@
     "LBL_IDEAS_INFORMATION": "Temel Bilgiler",
     "LBL_SUBJECT": "Konu",
     "LBL_STATUS": "Durum",
-    "Description": "Temel a\u00e7\u0131klama",
-    "LBL_EXTENT_DESCRIPTION": "Detayl\u0131 A\u00e7\u0131klama",
+    "Description": "Temel açıklama",
+    "LBL_EXTENT_DESCRIPTION": "Detaylı Açıklama",
     "Attention": "Yorum",
     "LBL_NO": "Numara",
     "Draft": "Taslak",
-    "Proposition": "\u00d6neri"
+    "Proposition": "Öneri"
   }
 }
