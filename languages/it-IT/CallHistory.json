@@ -2,8 +2,6 @@
   "php": {
     "CallHistory": "Cronologia chiamate",
     "SINGLE_CallHistory": "Cronologia chiamate",
-    "LBL_ADD_RECORD": "Aggiungi",
-    "LBL_RECORDS_LIST": "Lista record",
     "LBL_CALLHISTORY_INFORMATION": "Call history information",
     "LBL_CUSTOM_INFORMATION": "Additional information",
     "LBL_PHONE_INFORMATION": "Phone information",
@@ -29,7 +27,6 @@
     "Outgoing received": "Outgoing received",
     "Incoming": "Incoming received",
     "Missed": "Incoming missed",
-    "Voicemail": "Incoming voicemail",
-    "Call history": "Call History"
+    "Voicemail": "Incoming voicemail"
   }
 }
