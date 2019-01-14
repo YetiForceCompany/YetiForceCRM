@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_ADD_FEED_SOURCE": "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a",
-    "LBL_ENTER_FEED_SOURCE": "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a",
-    "LBL_FEEDS_LIST_FROM": "RSS-\u043b\u0435\u043d\u0442\u0430",
-    "LBL_FEED_SOURCE": "RSS \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a",
-    "LBL_RSS_FEED_SOURCES": "RSS \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a\u0438",
-    "LBL_SENDER": "\u0418\u0441\u0442\u043e\u0447\u043d\u0438\u043a",
-    "LBL_SET_AS_DEFAULT": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e",
-    "SINGLE_Rss": "RSS-\u043b\u0435\u043d\u0442\u0430",
-    "LBL_CHANGE_RSS_CHANNEL": "\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c RSS \u0430\u0434\u0440\u0435\u0441"
+    "LBL_RSS_FEED_SOURCES": "RSS источники",
+    "LBL_ADD_FEED_SOURCE": "Добавить источник",
+    "LBL_FEEDS_LIST_FROM": "RSS-лента",
+    "LBL_SET_AS_DEFAULT": "Установить по умолчанию",
+    "LBL_SENDER": "Источник",
+    "LBL_FEED_SOURCE": "RSS источник",
+    "LBL_ENTER_FEED_SOURCE": "Введите источник",
+    "SINGLE_Rss": "RSS-лента",
+    "LBL_CHANGE_RSS_CHANNEL": "Изменить RSS адрес"
   },
   "js": {
-    "JS_INVALID_RSS_URL": "\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 RSS \u0430\u0434\u0440\u0435\u0441",
-    "JS_RSS_MADE_AS_DEFAULT": "RSS \u0421\u0434\u0435\u043b\u0430\u043d\u043e \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c \u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e",
-    "JS_RSS_SUCCESSFULLY_SAVED": "RSS \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u044b"
+    "JS_RSS_SUCCESSFULLY_SAVED": "RSS успешно сохранены",
+    "JS_INVALID_RSS_URL": "Неверный RSS адрес",
+    "JS_RSS_MADE_AS_DEFAULT": "RSS Сделано Использовать по умолчанию"
   }
 }
