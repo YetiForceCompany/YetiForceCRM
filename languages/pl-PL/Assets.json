@@ -2,17 +2,17 @@
   "php": {
     "Assets": "Produkty sprzedane",
     "SINGLE_Assets": "Produkt sprzedany",
-    "LBL_ASSET_INFORMATION": "Szczeg\u00f3\u0142y",
+    "LBL_ASSET_INFORMATION": "Szczegóły",
     "Asset No": "Nr",
     "Serial Number": "Numer seryjny",
-    "Date Sold": "Data sprzeda\u017cy",
-    "Date in Service": "Odnowienie\/Wyga\u015bni\u0119cie",
+    "Date Sold": "Data sprzedaży",
+    "Date in Service": "Odnowienie\/Wygaśnięcie",
     "Invoice Name": "Numer faktury",
     "Shipping Tracking Number": "Numer listu przewozowego",
     "Asset Name": "Nazwa",
     "Customer Name": "Kontrahent",
     "Notes": "Opis",
-    "LBL_GENERATE_EXTENSION": "Generuj przed\u0142u\u017cenie",
+    "LBL_GENERATE_EXTENSION": "Generuj przedłużenie",
     "FL_RENEWAL": "Odnowienie",
     "LBL_SET_RENEWAL": "Ustaw odnowienie",
     "FL_RENEWAL_INVOICE": "Faktura odnowienia",
@@ -34,7 +34,7 @@
     "attentions": "Uwagi",
     "BLOCK_INFORMATION_TIME": "Informacje czasowe",
     "LBL_ORDER_TIME": "Czas realizacji",
-    "LBL_EXPIRING_SOLD_PRODUCTS": "Wygasaj\u0105ce produkty sprzedane",
-    "LBL_CHANGE_STATUS": "Zmie\u0144 status"
+    "LBL_EXPIRING_SOLD_PRODUCTS": "Wygasające produkty sprzedane",
+    "LBL_CHANGE_STATUS": "Zmień status"
   }
 }
