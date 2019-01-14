@@ -1,18 +1,18 @@
 {
   "php": {
-    "LBL_NAME": "Nazwa",
-    "LBL_TYPE": "Typ",
-    "LBL_DEFAULT": "Domy\u015blna",
-    "LBL_ADD_RECORD": "Dodaj centrale",
-    "LBL_CREATE_RECORD": "Dodaj centrale telefoniczn\u0105",
-    "LBL_EDIT_RECORD": "Edycja centrali telefonicznej",
-    "LBL_URL": "Adres serwera",
+    "LBL_NAME": "Name",
+    "LBL_TYPE": "Type",
+    "LBL_DEFAULT": "Default",
+    "LBL_ADD_RECORD": "Add record",
+    "LBL_CREATE_RECORD": "Add telephone exchange",
+    "LBL_EDIT_RECORD": "Edit telephone exchange",
+    "LBL_URL": "Server address",
     "LBL_USERNAME": "Login",
-    "LBL_PASSWORD": "Has\u0142o",
-    "LBL_SECRET_KEY": "Klucz",
-    "LBL_OUTBOUND_CONTEXT": "Kontekst wyj\u015bcia"
+    "LBL_PASSWORD": "Password",
+    "LBL_SECRET_KEY": "Secret Key",
+    "LBL_OUTBOUND_CONTEXT": "Outbound context"
   },
   "js": {
-    "JS_SAVE_SUCCESS": "Zapisano zmiany"
+    "JS_SAVE_SUCCESS": "Changes saved"
   }
 }
