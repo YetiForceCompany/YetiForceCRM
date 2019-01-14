@@ -1,20 +1,20 @@
 {
   "php": {
-    "LBL_ADD_RECORD": "Dodaj grup\u0119",
-    "LBL_ADD_USERS_ROLES": "Dodaj u\u017cytkownik\u00f3w, grupy...",
-    "LBL_DUPLICATES_EXIST": "Nazwa grupy ju\u017c istnieje",
-    "LBL_GROUP_MEMBERS": "Cz\u0142onkowie grupy",
+    "LBL_ADD_RECORD": "Dodaj grupę",
+    "LBL_ADD_USERS_ROLES": "Dodaj użytkowników, grupy...",
+    "LBL_DUPLICATES_EXIST": "Nazwa grupy już istnieje",
+    "LBL_GROUP_MEMBERS": "Członkowie grupy",
     "LBL_GROUP_NAME": "Nazwa grupy",
-    "LBL_ROLEANDSUBORDINATE": "Role i role podrz\u0119dne",
+    "LBL_ROLEANDSUBORDINATE": "Role i role podrzędne",
     "LBL_TO_OTHER_GROUP": "Do innej grupy ",
-    "LBL_TRANSFORM_OWNERSHIP": "Przenie\u015b\u0107 w\u0142a\u015bciciela",
+    "LBL_TRANSFORM_OWNERSHIP": "Przenieść właściciela",
     "SINGLE_Groups": "Grupa",
-    "Users": "U\u017cytkownicy",
+    "Users": "Użytkownicy",
     "Name": "Nazwa",
     "Description": "Opis"
   },
   "js": {
-    "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "Do grupy musisz przydzieli\u0107 przynajmniej jednego cz\u0142onka",
-    "JS_RECORD_DELETED_SUCCESSFULLY": "Usuni\u0119cie grupy wykonano poprawnie"
+    "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "Do grupy musisz przydzielić przynajmniej jednego członka",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Usunięcie grupy wykonano poprawnie"
   }
 }
