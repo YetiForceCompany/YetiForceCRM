@@ -2,12 +2,12 @@
   "php": {
     "LBL_TWITTER": "Twitter",
     "LBL_TWITTER_DESC": "Twitter Integration",
-    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archivierte Datens\u00e4tze - Anzahl von Tagen",
-    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Social Cron ist nicht aktiviert, dies ist f\u00fcr eine korrekte Archivierung aber notwendig.",
+    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archivierte Datensätze - Anzahl von Tagen",
+    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Social Cron ist nicht aktiviert, dies ist für eine korrekte Archivierung aber notwendig.",
     "LBL_SOCIAL_MEDIA_CRON2_WARNING": "Cron muss aktiviert sein, um Nachrichten von Sozialen Medien zu empfangen",
     "LBL_TWITTER_API_KEY": "Twitter API Key",
     "LBL_TWITTER_API_SECRET": "Twitter API Secret",
-    "LBL_TWITTER_INSTRUCTION": "Entwickler-Konto auf Twitter ist erforderlich, um Twitter-API zu konfigurieren. F\u00fcgen Sie eine neue Anwendung hinzu, gehen Sie zu den Details der Anwendung und finden Sie \"Keys and tokens\"  wo die API-Schl\u00fcssel stehen. Geben Sie diese unten ein.",
+    "LBL_TWITTER_INSTRUCTION": "Entwickler-Konto auf Twitter ist erforderlich, um Twitter-API zu konfigurieren. Fügen Sie eine neue Anwendung hinzu, gehen Sie zu den Details der Anwendung und finden Sie \"Keys and tokens\"  wo die API-Schlüssel stehen. Geben Sie diese unten ein.",
     "LBL_TYPE_OF_LOG": "Log Typ",
     "LBL_SOCIAL_MEDIA_TYPE": "Typ",
     "LBL_MESSAGE": "Nachricht"
