@@ -2,11 +2,11 @@
   "php": {
     "QuickCreateEditor": "Edytor szybkiego tworzenia",
     "LBL_QUICK_CREATE_EDITOR": "Pola - szybkie tworzenie",
-    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Modu\u0142 umo\u017cliwiaj\u0105cy zmian\u0119 uk\u0142adu u\u0142o\u017cenia p\u00f3l w oknie szybkiego tworzenia rekord\u00f3w.",
-    "LBL_SEQUENCE": "Kolejno\u015b\u0107 p\u00f3l",
-    "LBL_SAVE_FIELD_SEQUENCE": "Zapisz kolejno\u015b\u0107 p\u00f3l"
+    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Moduł umożliwiający zmianę układu ułożenia pól w oknie szybkiego tworzenia rekordów.",
+    "LBL_SEQUENCE": "Kolejność pól",
+    "LBL_SAVE_FIELD_SEQUENCE": "Zapisz kolejność pól"
   },
   "js": {
-    "JS_FIELD_SEQUENCE_UPDATED": "Kolejno\u015b\u0107 p\u00f3l zosta\u0142a zaktualizowana"
+    "JS_FIELD_SEQUENCE_UPDATED": "Kolejność pól została zaktualizowana"
   }
 }
