@@ -8,5 +8,7 @@
     "LBL_LOCK": "Blocare",
     "LBL_NOTICE_CONFIG_WARNING": "Vizionarea modulelor este activa in configuratie. Dezactivati-o pentru a gestiona notificarile."
   },
-  "js": {}
+  "js": {
+
+  }
 }
