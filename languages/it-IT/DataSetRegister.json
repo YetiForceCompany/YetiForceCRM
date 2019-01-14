@@ -2,6 +2,7 @@
   "php": {
     "DataSetRegister": "Data Set Register",
     "SINGLE_DataSetRegister": "Data Set Register",
+    "LBL_DATA_SET_REGISTER": "Data Set Register",
     "FL_SUBJECT": "Subject",
     "FL_STATUS": "Status",
     "FL_SCOPE_DATA": "Scope of data in set",
@@ -16,6 +17,7 @@
     "FL_DESCRIPTION": "Description",
     "LBL_DESCRIPTION": "Description",
     "FL_COMMENTS": "Comments",
+    "LBL_REGISTER_DATE": "Entries",
     "LBL_BASIC_INFORMATION": "Basic Information",
     "LBL_COMMENTS": "Comments",
     "PLL_CONSENT": "Consent",
