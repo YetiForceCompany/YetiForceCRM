@@ -1,20 +1,20 @@
 {
   "php": {
-    "Announcements": "Komunikaty",
-    "SINGLE_Announcements": "Komunikat",
-    "LBL_ANNOUNCEMENTS_INFORMATION": "Podstawowe informacje",
-    "LBL_SUBJECT": "Temat",
-    "LBL_NUMBER": "Numer",
+    "Announcements": "Announcements",
+    "SINGLE_Announcements": "Announcement",
+    "LBL_ANNOUNCEMENTS_INFORMATION": "Basic information",
+    "LBL_SUBJECT": "Subject",
+    "LBL_NUMBER": "Number",
     "FL_STATUS": "Status",
-    "FL_INTERVAL": "Czas przypomnienia",
-    "FL_IS_MANDATORY": "Obowi\u0105zkowa akceptacja",
-    "PLL_DRAFT": "Wersja robocza",
-    "PLL_FOR_ACCEPTANCE": "Do akceptacji",
-    "PLL_PUBLISHED": "Opublikowano",
-    "PLL_ARCHIVES": "Zarchiwizowano",
-    "LBL_REMIND_ME_LATER": "Przypomnij p\u00f3\u017aniej",
-    "LBL_MARK_AS_READ": "Oznacz jako przeczytane",
-    "LBL_ACCEPT_ANNOUNCEMENT": "Czy akceptowa\u0142",
-    "LBL_DATE": "Data przeczytania"
+    "FL_INTERVAL": "Reminder time",
+    "FL_IS_MANDATORY": "Obligatory to accept",
+    "PLL_DRAFT": "Draft",
+    "PLL_FOR_ACCEPTANCE": "For approval",
+    "PLL_PUBLISHED": "Published",
+    "PLL_ARCHIVES": "Archived",
+    "LBL_REMIND_ME_LATER": "Remind me later",
+    "LBL_MARK_AS_READ": "Mark as read",
+    "LBL_ACCEPT_ANNOUNCEMENT": "Was accepted?",
+    "LBL_DATE": "Read on"
   }
 }
