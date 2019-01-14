@@ -8,8 +8,8 @@
     "LBL_STATISTICS": "Statistik",
     "LBL_SUBJECT": "Bezeichnung",
     "LBL_NUMBER": "Nummer",
-    "LBL_STATUS": "Status",
     "LBL_CLOSED_TIME": "Beendigungszeit",
+    "LBL_STATUS": "Status",
     "LBL_RESPONSE_TIME": "Reaktionszeit",
     "SINGLE_SSalesProcesses": "Verkaufschance",
     "FL_TOTAL_PRICE": "Gesamtnetto",
@@ -19,7 +19,7 @@
     "PLL_IN_REALIZATION": "In Umsetzung",
     "PLL_FOR_VERIFICATION": "Zur Validierung",
     "PLL_CANCELLED": "Abgebrochen",
-    "PLL_COMPLETED": "Vollst\u00e4ndig",
-    "LBL_CHANGE_STATUS": "\u00c4nderungsstatus"
+    "PLL_COMPLETED": "Vollständig",
+    "LBL_CHANGE_STATUS": "Änderungsstatus"
   }
 }
