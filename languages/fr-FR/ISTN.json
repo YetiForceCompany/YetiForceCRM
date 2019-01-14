@@ -1,23 +1,22 @@
 {
   "php": {
-    "LBL_DESCRIPTION_BLOCK": "Description",
-    "PLL_OBJECTIONS": "Objections",
-    "FL_TYPE": "Type",
     "ISTN": "Bons de transfert",
     "SINGLE_ISTN": "Bon de transfert",
+    "LBL_DESCRIPTION_BLOCK": "Description",
     "LBL_ATTENTION_BLOCK": "Commentaires",
-    "FL_ESTIMATED_DATE": "Date estim\u00e9e",
-    "FL_NUMBER": "Nombre",
+    "FL_ESTIMATED_DATE": "Date estimée",
     "FL_SUBJECT": "Sujet",
+    "FL_NUMBER": "Nombre",
     "FL_STATUS": "Statut",
     "PLL_DRAFT": "Brouillon",
     "PLL_IN_REALIZATION": "En cours",
+    "PLL_OBJECTIONS": "Objections",
     "PLL_FOR_APPROVAL": "Pour approbation",
-    "PLL_CANCELLED": "Annul\u00e9",
-    "PLL_ACCEPTED": "Accept\u00e9",
-    "PLL_RECEIVED": "Re\u00e7u",
-    "PLL_TRANSFER": "Transf\u00e9r\u00e9",
-    "PLL_DISPATCHED": "Dispatch\u00e9"
-  },
-  "js": {}
+    "PLL_CANCELLED": "Annulé",
+    "PLL_ACCEPTED": "Accepté",
+    "PLL_RECEIVED": "Reçu",
+    "PLL_TRANSFER": "Transféré",
+    "PLL_DISPATCHED": "Dispatché",
+    "FL_TYPE": "Type"
+  }
 }
