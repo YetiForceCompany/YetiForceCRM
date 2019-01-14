@@ -1,15 +1,15 @@
 {
   "php": {
-    "Ideas": "Ideen",
-    "SINGLE_Ideas": "Idee",
-    "LBL_IDEAS_INFORMATION": "Grundlegende Information",
-    "LBL_SUBJECT": "Betreff",
+    "Ideas": "Ideas",
+    "SINGLE_Ideas": "Idea",
+    "LBL_IDEAS_INFORMATION": "Basic Information",
+    "LBL_SUBJECT": "Subject",
     "LBL_STATUS": "Status",
-    "Description": "Beschreibung",
-    "LBL_EXTENT_DESCRIPTION": "Ausf\u00fchrliche Beschreibung",
-    "Attention": "Kommentare",
-    "LBL_NO": "Nummer",
-    "Draft": "Entwurf",
-    "Proposition": "Vorschlag"
+    "Description": "Basic description",
+    "LBL_EXTENT_DESCRIPTION": "Detailed description",
+    "Attention": "Comments",
+    "LBL_NO": "Number",
+    "Draft": "Draft",
+    "Proposition": "Proposal"
   }
 }
