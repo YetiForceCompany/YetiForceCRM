@@ -1,27 +1,24 @@
 {
   "php": {
     "Calendar": "Kalender",
-    "Task": "Aufgabe",
-    "Meeting": "Besprechung",
-    "Call": "Anruf",
     "LBL_ACTIVITY_TYPES": "Kalendertypen",
-    "LBL_ACTIVITY_TYPES_DESCRIPTION": "Verwaltung von Aktivit\u00e4tstypen.",
-    "LBL_ACTIVITY_NAME": "Aktivit\u00e4tsname",
+    "LBL_ACTIVITY_TYPES_DESCRIPTION": "Verwaltung von Aktivitätstypen.",
+    "LBL_ACTIVITY_NAME": "Aktivitätsname",
     "LBL_MODULE": "Modul",
     "LBL_COLOR": "Farbe",
     "LBL_TOOLS": "Tools",
     "LBL_ACTIVE": "Aktiv",
-    "LBL_SAVE_ACTIVE_TYPE": "\u00c4nderungen gesichert",
-    "LBL_UPDATE_COLOR": "Farbe \u00e4ndern",
+    "LBL_SAVE_ACTIVE_TYPE": "Änderungen gesichert",
+    "LBL_UPDATE_COLOR": "Farbe ändern",
     "LBL_EDIT_COLOR": "Farbe bearbeiten",
-    "LBL_SELECT_COLOR": "Farbe w\u00e4hlen:",
+    "LBL_SELECT_COLOR": "Farbe wählen:",
     "LBL_SAVE_COLOR": "Farbe gesichert",
     "LBL_CALENDAR_CONFIG": "Kalendar - Konfiguration",
     "LBL_CALENDAR_CONFIG_DESCRIPTION": " ",
     "LBL_USER_COLORS": "Benutzerfarben",
-    "PLL_BREAK_TIME": "\u00d6ffnungszeit",
+    "PLL_BREAK_TIME": "Öffnungszeit",
     "PLL_HOLIDAY_TIME": "Ferien",
-    "LBL_SAVE_CHANGES": "\u00c4nderungen Sichern",
+    "LBL_SAVE_CHANGES": "Änderungen Sichern",
     "LBL_UPDATE_EVENT": "Ereignis aktualisieren",
     "LBL_GENERATE_COLOR": "Generiere Zufallsfarbe",
     "LBL_GENERATED_COLOR": "Farbe generiert",
@@ -35,7 +32,12 @@
     "PLL_SATURDAY": "Samstag",
     "PLL_SUNDAY": "Sonntag",
     "LBL_VIEW_USERCOLORS": "Kalendar Konfiguration",
-    "LBL_VIEW_ACTIVITYTYPES": "Aktivit\u00e4tstypen"
+    "LBL_VIEW_ACTIVITYTYPES": "Aktivitätstypen",
+    "Task": "Aufgabe",
+    "Meeting": "Besprechung",
+    "Call": "Anruf"
   },
-  "js": {}
+  "js": {
+
+  }
 }
