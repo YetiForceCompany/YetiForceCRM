@@ -2,6 +2,7 @@
   "php": {
     "DataSetRegister": "Data Set Register",
     "SINGLE_DataSetRegister": "Data Set Register",
+    "LBL_DATA_SET_REGISTER": "Data Set Register",
     "FL_SUBJECT": "Subject",
     "FL_STATUS": "Status",
     "FL_SCOPE_DATA": "Scope of data in set",
@@ -16,6 +17,7 @@
     "FL_DESCRIPTION": "Description",
     "LBL_DESCRIPTION": "Description",
     "FL_COMMENTS": "Comments",
+    "LBL_REGISTER_DATE": "Entries",
     "LBL_BASIC_INFORMATION": "Basic Information",
     "LBL_COMMENTS": "Comments",
     "PLL_CONSENT": "Consent",
@@ -35,6 +37,11 @@
     "PLL_PHONE": "Phone",
     "PLL_EMAIL": "Email",
     "PLL_EMPLOYMENT_PLACE": "Place of employment",
-    "PLL_PROFESSION": "Profession"
+    "PLL_PROFESSION": "Profession",
+    "PLL_DRAFT": "Draft",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Waiting for acceptance",
+    "PLL_IN_REALIZATION": "In realization",
+    "PLL_COMPLETED": "Completed",
+    "PLL_CANCELLED": "Cancelled"
   }
 }
