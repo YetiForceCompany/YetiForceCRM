@@ -1,8 +1,10 @@
 {
   "php": {
-    "Services": "servicii",
-    "Administrative": "administrativ",
-    "Support": "suport",
+    "FL_SERVICE_CONTRACTS": "Service Level Agreement",
+    "FL_SERVICE_CONTRACTS_TYPE": "Tip SLA",
+    "FL_SERVICE_CONTRACTS_DATE": "Data expirare SLA",
+    "FL_REPORT_TIME": "Timp raport",
+    "FL_RESPONSE_TIME": "Timp raspuns",
     "PLL_SUBMITTED_COMMENTS": "Comentarii trimise",
     "PLL_FOR_APPROVAL": "Pentru aprobare",
     "PLL_TO_CLOSE": "Pentru a fi inchis",
@@ -72,8 +74,8 @@
     "Record Id": "ID inregistrare",
     "ticketpriorities": "prioritate",
     "LBL_NO_ACCOUNTS_IN_HELPDESK": "Biletul nu are legatura cu niciun cont. Creati o relatie.",
-    "LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS": "Contul nu are SLA activ",
     "LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK": "Tichetul nu este asociat niciunui SLA.",
+    "LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS": "Contul nu are SLA activ",
     "LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC": "Apasand acest buton veti asocia acest SLA unui tichet.",
     "LBL_NOTICE_WELCOME": "Bine ati venit pe platforma",
     "LBL_NOTICE_CREATED": "a fost creat de:",
@@ -82,10 +84,8 @@
     "LBL_NOTICE_CREATE": "Adaugat",
     "LBL_NOTICE_MODIFICATION": "Modificare",
     "LBL_NOTICE_CLOSE": "Inchis",
-    "FL_SERVICE_CONTRACTS": "Service Level Agreement",
-    "FL_SERVICE_CONTRACTS_TYPE": "Tip SLA",
-    "FL_SERVICE_CONTRACTS_DATE": "Data expirare SLA",
-    "FL_REPORT_TIME": "Timp raport",
-    "FL_RESPONSE_TIME": "Timp raspuns"
+    "Services": "servicii",
+    "Support": "suport",
+    "Administrative": "administrativ"
   }
 }
