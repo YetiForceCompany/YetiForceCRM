@@ -59,7 +59,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 	},
 	getSelectedFolders(treeInstance) {
 		let folders = {};
-		for (let value of treeInstance.jstree("get_selected", true)) {
+		for (let value of treeInstance.jstree('get_selected', true)) {
 			if (!Array.isArray(folders[value.original.db_type])) {
 				folders[value.original.db_type] = [];
 			}
