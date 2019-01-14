@@ -6,8 +6,8 @@
     "LBL_TOTP_OBLIGATORY": "TOTP - obligatorisch, jeder Benutzer muss diese Funktion konfiguriert haben",
     "LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS": "Anzahl fehlgeschlagener Versuche",
     "LBL_2FA_CONF": "Mehr-Faktor-Authentifizierung",
-    "LBL_TOTP": "Einmaliger zeitabh\u00E4ngiger Passwort Algorithmus",
-    "LBL_TOTP_AUTHY_MODE_DESC": "Authentifizierungs Modus w\u00E4hlen",
+    "LBL_TOTP": "Einmaliger zeitabhängiger Passwort Algorithmus",
+    "LBL_TOTP_AUTHY_MODE_DESC": "Authentifizierungs Modus wählen",
     "LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS_DESC": "Maximale Anzahl von fehlerhaften Anmeldeversuche bis zum eingeben des Verifizierungscode"
   }
 }
