@@ -1,15 +1,16 @@
 {
   "php": {
-    "Updates": "Atualiza\u00e7\u00f5es",
+    "Updates": "Atualizações",
     "LBL_YES": "Sim",
-    "LBL_NO": "N\u00e3o",
+    "LBL_NO": "Não",
     "LBL_TIME": "Data",
-    "LBL_USER": "Nome de Usu\u00e1rio",
-    "LBL_FROM_VERSION": "Da vers\u00e3o",
-    "LBL_TO_VERSION": "Para a vers\u00e3o",
-    "LBL_RESULT": "Situa\u00e7\u00e3o",
-    "LBL_UPDATES_DESCRIPTION": "Hist\u00f3rico de Atualiza\u00e7\u00f5es",
-    "LBL_IMPORT_UPDATE": "Enviar Atualiza\u00e7\u00e3o",
+    "LBL_USER": "Nome de Usuário",
+    "LBL_FROM_VERSION": "Da versão",
+    "LBL_TO_VERSION": "Para a versão",
+    "LBL_RESULT": "Situação",
+    "LBL_UPDATES": "Updates",
+    "LBL_UPDATES_DESCRIPTION": "Histórico de Atualizações",
+    "LBL_IMPORT_UPDATE": "Enviar Atualização",
     "LBL_NAME_PACKAGES": "Nome"
   }
 }
