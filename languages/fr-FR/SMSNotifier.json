@@ -1,29 +1,25 @@
 {
   "php": {
-    "message": "Message",
-    "isactive": "Actif",
-    "FL_STATUS": "Statut",
-    "PLL_UNDEFINED": "Non d\u00e9fini",
-    "PLL_DELIVERED": "Remis",
-    "PLL_FAILED": "Echec",
-    "LBL_MASS_SEND_SMS_INFO": "Tous les SMS sont envoy\u00e9 par t\u00e2che planifi\u00e9",
-    "Server configuration": "Configuration du serveur",
     "providertype": "Fournisseur",
-    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS 160 caract\u00e8res maximum",
-    "LBL_SEREVER_CONFIG": "Nouvelle configuration",
+    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS 160 caractères maximum",
     "username": "Utilisateur",
     "password": "Mot de passe",
-    "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Envoyer un SMS aux num\u00e9ros s\u00e9lectionn\u00e9s",
+    "isactive": "Actif",
+    "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Envoyer un SMS aux numéros sélectionnés",
     "LBL_STEP_1": "Etape 1",
     "LBL_STEP_2": "Etape 2",
-    "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "S\u00e9lectionner les champs num\u00e9ros de t\u00e9l\u00e9phones",
+    "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "Sélectionner les champs numéros de téléphones",
     "LBL_TYPE_THE_MESSAGE": "Saisir le message",
     "LBL_WRITE_YOUR_MESSAGE_HERE": "Ecrire votre message ici",
     "LBL_ADD_MORE_FIELDS": "Ajouter des champs",
     "LBL_SERVER_CONFIG": "Configuration serveur",
-    "LBL_CHECK_STATUS": "V\u00e9rifier le statut",
-    "LBL_SMSNOTIFIER_INFORMATION": "Information SMS",
-    "SINGLE_SMSNotifier": "Notification SMS"
-  },
-  "js": {}
+    "FL_STATUS": "Statut",
+    "PLL_UNDEFINED": "Non défini",
+    "PLL_DELIVERED": "Remis",
+    "PLL_FAILED": "Echec",
+    "LBL_MASS_SEND_SMS_INFO": "Tous les SMS sont envoyé par tâche planifié",
+    "LBL_CHECK_STATUS": "Vérifier le statut",
+    "message": "Message",
+    "LBL_SMSNOTIFIER_INFORMATION": "Information SMS"
+  }
 }
