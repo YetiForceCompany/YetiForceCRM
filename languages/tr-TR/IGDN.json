@@ -1,22 +1,22 @@
 {
   "php": {
-    "IGDN": "G\u00f6nderilen mallar\u0131n Notu",
-    "SINGLE_IGDN": "G\u00f6nderilen mal\u0131n Notu",
-    "LBL_DESCRIPTION_BLOCK": "A\u00e7\u0131klama",
+    "IGDN": "Gönderilen malların Notu",
+    "SINGLE_IGDN": "Gönderilen malın Notu",
+    "LBL_DESCRIPTION_BLOCK": "Açıklama",
     "LBL_ATTENTION_BLOCK": "Yorum",
     "FL_ACCEPTANCE_DATE": "Kabul tarihi",
     "FL_ACCOUNT": "Hesap",
-    "FL_NUMBER": "Numara",
     "FL_SUBJECT": "Konu",
+    "FL_NUMBER": "Numara",
     "FL_STORAGE": "Depolama",
     "FL_STATUS": "Durum",
-    "FL_SSIGNLEORDERS": "Sat\u0131n alma emri",
+    "FL_SSIGNLEORDERS": "Satın alma emri",
     "PLL_DRAFT": "Taslak",
-    "PLL_IN_REALIZATION": "Ger\u00e7ekle\u015fmede",
-    "PLL_OBJECTIONS": "\u0130tirazlar",
-    "PLL_FOR_APPROVAL": "Onay i\u00e7in",
-    "PLL_CANCELLED": "\u0130ptal edildi",
+    "PLL_IN_REALIZATION": "Gerçekleşmede",
+    "PLL_OBJECTIONS": "İtirazlar",
+    "PLL_FOR_APPROVAL": "Onay için",
+    "PLL_CANCELLED": "İptal edildi",
     "PLL_ACCEPTED": "Kabul edildi",
-    "LBL_CHANGE_STATUS": "Durumu de\u011fi\u015ftir"
+    "LBL_CHANGE_STATUS": "Durumu değiştir"
   }
 }
