@@ -1,7 +1,12 @@
 {
   "php": {
+    "LBL_INVOICE": "Invoice",
     "LBL_INVOICE_NUMBER": "Vat invoice number",
     "LBL_TO_FINVOICE_NUMBER": "To invoice number",
+    "LBL_INVOICE_PROFORMA": "Pro-forma invoice",
+    "LBL_RECIPIENT": "Recipient",
+    "LBL_ORDER": "Order",
+    "LBL_SUBMIT_ORDER": "Person authorized to submit order",
     "LBL_TO_PAY": "Total",
     "LBL_TO_PAY_WORD": "Total (in words)",
     "LBL_DEALER": "Seller",
@@ -18,6 +23,10 @@
     "LBL_FIRST_NAME": "First name",
     "LBL_LAST_NAME": "Last name",
     "LBL_PHONE": "Phone",
-    "LBL_EMAIL": "Email"
+    "LBL_EMAIL": "Email",
+    "LBL_VATID": "Vat ID",
+    "LBL_SALE_DATE": "Sale date",
+    "LBL_PAYMENT_METHOD": "Payment method",
+    "LBL_PLACE_DATE": "Place, date"
   }
 }
