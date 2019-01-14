@@ -13,7 +13,7 @@
 namespace App\SystemWarnings\YetiForce;
 
 /**
- * Registration warning class
+ * Registration warning class.
  */
 class Registration extends \App\SystemWarnings\Template
 {

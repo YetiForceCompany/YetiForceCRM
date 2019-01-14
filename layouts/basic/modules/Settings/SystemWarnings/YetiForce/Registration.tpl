@@ -1,4 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+<!-- tpl-Settings-SystemWarnings-YetiForce-Registration -->
 {strip}
 	<h6 class="h3">
 		{App\Language::translate('LBL_REGISTRATION','Settings:SystemWarnings')}
@@ -18,3 +19,4 @@
 		</div>
 	</form>
 {/strip}
+<!-- /tpl-Settings-SystemWarnings-YetiForce-Registration -->

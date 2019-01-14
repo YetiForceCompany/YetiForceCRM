@@ -4,6 +4,7 @@
  * String formatting test class file.
  *
  * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -47,6 +48,7 @@ class Z_StringFormatting extends \Tests\Base
 
 	/**
 	 * Store current user preferences.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	public static function setUpBeforeClass()
@@ -86,7 +88,8 @@ class Z_StringFormatting extends \Tests\Base
 	}
 
 	/**
-	 * Generate list of possible combinations
+	 * Generate list of possible combinations.
+	 *
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -112,8 +115,10 @@ class Z_StringFormatting extends \Tests\Base
 	}
 
 	/**
-	 * Append integer validation data sets to test combinations
+	 * Append integer validation data sets to test combinations.
+	 *
 	 * @param $combinations
+	 *
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -154,8 +159,10 @@ class Z_StringFormatting extends \Tests\Base
 	}
 
 	/**
-	 * Append double validation data sets to test combinations
+	 * Append double validation data sets to test combinations.
+	 *
 	 * @param $combinations
+	 *
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -270,6 +277,7 @@ class Z_StringFormatting extends \Tests\Base
 	 * Restore current user preferences.
 	 *
 	 * @codeCoverageIgnore
+	 *
 	 * @throws \Exception
 	 */
 	public static function tearDownAfterClass()

@@ -361,8 +361,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-			->distinct()
-			->createCommand()->query();
+				->distinct()
+				->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
