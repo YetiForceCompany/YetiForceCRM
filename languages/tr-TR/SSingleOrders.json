@@ -8,8 +8,8 @@
     "LBL_STATISTICS": "Statistics",
     "LBL_SUBJECT": "Subject",
     "LBL_NUMBER": "Number",
-    "LBL_STATUS": "Status",
     "LBL_CLOSED_TIME": "Closed time",
+    "LBL_STATUS": "Status",
     "LBL_RESPONSE_TIME": "Respone time",
     "LBL_REALIZATION_START_DATE": "Start date",
     "LBL_REALIZATION_COMPLETION_DATE": "Completion date",
@@ -35,7 +35,6 @@
     "LBL_SYNCHRONIZE_POS": "Synchronize POS",
     "FL_SOURCE": "Source",
     "PLL_MANUAL": "Manual",
-    "PLL_POS": "POS",
     "PLL_SHOP": "Shop"
   }
 }
