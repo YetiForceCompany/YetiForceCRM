@@ -1,6 +1,6 @@
 {
   "php": {
-    "Widgets": "Modules \u2013 Widgets",
+    "Widgets": "Modules – Widgets",
     "LBL_MODULE_DESC": "Module managing widgets in summary",
     "Add widget": "Add Widget",
     "Type widget": "Type",
@@ -43,6 +43,12 @@
     "Filter info": "Enable data filtering by selection list",
     "None": "None",
     "ProductsServices": "Products services",
+    "LBL_SELECTING_FIELDS": "Selecting fields",
+    "LBL_SELECTING_FIELDS_INFO": "Field names from a selected module to be displayed in the view.",
+    "LBL_VIEW_TYPE": "View",
+    "LBL_VIEW_TYPE_INFO": "Widget display type.",
+    "LBL_LIST": "List",
+    "LBL_SUMMARY": "Summary",
     "LBL_SELECT_BUTTON_INFO": "Enable visible select button",
     "LBL_CONDITION": "Condition",
     "LBL_CONDITION_INFO": "Select condition for showing records",
