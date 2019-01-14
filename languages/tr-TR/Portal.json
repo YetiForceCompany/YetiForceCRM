@@ -1,25 +1,25 @@
 {
   "php": {
-    "HTTP_ERROR": "A\u00e7maya \u00e7al\u0131\u015ft\u0131\u011f\u0131n\u0131z web sitesi g\u00fcvenli de\u011fil ve a\u00e7\u0131lamayabilir. Web sayfas\u0131n\u0131 yine de g\u00f6r\u00fcnt\u00fclemek isterseniz, adres \u00e7ubu\u011fundaki i\u00e7erik engelleyiciyi t\u0131klay\u0131p etkinle\u015ftirebilirsiniz. ",
-    "LBL_ADD_BOOKMARK": "Yer \u0130mlerine eklem",
-    "LBL_ADD_NEW_BOOKMARK": "Yeni Yer \u0130mi Ekle",
+    "HTTP_ERROR": "Açmaya çalıştığınız web sitesi güvenli değil ve açılamayabilir. Web sayfasını yine de görüntülemek isterseniz, adres çubuğundaki içerik engelleyiciyi tıklayıp etkinleştirebilirsiniz. ",
+    "LBL_ADD_BOOKMARK": "Yer İmlerine eklem",
+    "LBL_ADD_NEW_BOOKMARK": "Yeni Yer İmi Ekle",
     "LBL_BOOKMARK": "Yer imi",
-    "LBL_BOOKMARK_NAME": "Yer imi ad\u0131",
-    "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Yer imleri ba\u015far\u0131yla kaydedildi",
+    "LBL_BOOKMARK_NAME": "Yer imi adı",
+    "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Yer imleri başarıyla kaydedildi",
     "LBL_BOOKMARKS": "Yer imleri",
-    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Yer imleri ba\u015far\u0131yla silindi",
+    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Yer imleri başarıyla silindi",
     "LBL_BOOKMARKS_LIST": "Yer imleri listesi",
     "LBL_BOOKMARK_URL": "Yer imi URL'si",
-    "LBL_CREATED_ON": "Olu\u015fturuldu",
-    "LBL_EDIT_BOOKMARK": "Yer \u0130mlerini D\u00fczenle",
-    "LBL_ENTER_BOOKMARK_NAME": "Yer imi ad\u0131n\u0131 girin",
+    "LBL_CREATED_ON": "Oluşturuldu",
+    "LBL_EDIT_BOOKMARK": "Yer İmlerini Düzenle",
+    "LBL_ENTER_BOOKMARK_NAME": "Yer imi adını girin",
     "LBL_ENTER_URL": "URL Girin (www.example.com)",
     "LBL_OUR_SITES_LIST": "Sitelerimizin listesi",
-    "LBL_RECORD_DELETED_SUCCESSFULLY": "Kay\u0131t ba\u015far\u0131yla silindi",
+    "LBL_RECORD_DELETED_SUCCESSFULLY": "Kayıt başarıyla silindi",
     "Portal": "Sitelerimiz",
     "SINGLE_Portal": "Sitemiz"
   },
   "js": {
-    "JS_ENTER_MANDATORY_FIELD": "L\u00fctfen t\u00fcm zorunlu alanlar\u0131 girin"
+    "JS_ENTER_MANDATORY_FIELD": "Lütfen tüm zorunlu alanları girin"
   }
 }
