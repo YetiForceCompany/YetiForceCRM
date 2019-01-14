@@ -1,19 +1,19 @@
 {
   "php": {
-    "Conversion Rate": "Tasa de conversi\u00f3n",
+    "Conversion Rate": "Tasa de conversión",
     "Currency": "Moneda",
-    "Symbol": "S\u00edmbolo",
-    "Currency Code": "C\u00f3digo de la moneda",
+    "Symbol": "Símbolo",
+    "Currency Code": "Código de la moneda",
     "Currency Name": "Nombre de la moneda",
-    "LBL_ADD_NEW_CURRENCY": "A\u00f1adir nueva moneda",
-    "LBL_ADD_RECORD": "A\u00f1adir",
-    "LBL_CURRENCY_CODE": "C\u00f3digo de la moneda",
+    "LBL_ADD_NEW_CURRENCY": "Añadir nueva moneda",
+    "LBL_ADD_RECORD": "Añadir",
+    "LBL_CURRENCY_CODE": "Código de la moneda",
     "LBL_CURRENCY_NAME": "Nombre de la moneda",
-    "LBL_CURRENCY_STATUS_DESC": "Activar casilla de verificaci\u00f3n para activar la moneda",
-    "LBL_CURRENCY_SYMBOL": "S\u00edmbolo",
+    "LBL_CURRENCY_STATUS_DESC": "Activar casilla de verificación para activar la moneda",
+    "LBL_CURRENCY_SYMBOL": "Símbolo",
     "LBL_CURRENT_CURRENCY": "Moneda actual",
     "LBL_EDIT_CURRENCY": "Editar moneda",
-    "LBL_ENTER_CONVERSION_RATE": "Introduzca el tipo de conversi\u00f3n",
+    "LBL_ENTER_CONVERSION_RATE": "Introduzca el tipo de conversión",
     "LBL_TRANSFER_CURRENCY": "Moneda de transferencia",
     "Afghanistan, Afghanis": "Afghanistan, Afghanis",
     "Albania, Leke": "Albania, Leke",
@@ -39,7 +39,7 @@
     "China, Yuan Renminbi": "China, Yuan Renminbi",
     "Colombia, Pesos": "Colombia, Pesos",
     "Convertible Marka": "Convertible Marka",
-    "Costa Rica, Col\u00f3n": "Costa Rica, Col\u00f3n",
+    "Costa Rica, Colón": "Costa Rica, Colón",
     "Croatia, Kuna": "Croatia, Kuna",
     "Cuba, Pesos": "Cuba, Pesos",
     "Cyprus, Pounds": "Cyprus, Pounds",
@@ -48,7 +48,7 @@
     "Dominican Republic, Pesos": "Dominican Republic, Pesos",
     "East Caribbean, Dollars": "East Caribbean, Dollars",
     "Egypt, Pounds": "Egypt, Pounds",
-    "El Salvador, Col\u00f3n": "El Salvador, Col\u00f3n",
+    "El Salvador, Colón": "El Salvador, Colón",
     "England, Pounds": "England, Pounds",
     "Estonia, Krooni": "Estonia, Krooni",
     "Euro": "Euro",
@@ -146,10 +146,12 @@
     "Zambia, Kwacha": "Zambia, Kwacha",
     "Zimbabwe Dollars": "Zimbabwe Dollars",
     "Active": "Activo",
-    "Inactive": "Inactiva"
+    "Inactive": "Inactiva",
+    "LBL_SET_AS_DEFAULT": "Set as default"
   },
   "js": {
     "JS_CURRENCY_DELETED_SUCCESSFULLY": "Moneda eliminada correctamente.",
-    "JS_CURRENCY_DETAILS_SAVED": "Se han guardado los detalles de la moneda."
+    "JS_CURRENCY_DETAILS_SAVED": "Se han guardado los detalles de la moneda.",
+    "JS_CURRENCY_DEFAULT_CONFIRMED": "Warning! This operation will change the currency in many places in the system. Financial documents issued prior to this change might require currency conversion. Please perform manual currency conversion if these documents have been issued in their production versions. Calculating exchange rates for the remaining currencies will be required."
   }
 }
