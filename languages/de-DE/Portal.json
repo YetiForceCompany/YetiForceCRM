@@ -1,13 +1,13 @@
 {
   "php": {
-    "HTTP_ERROR": "Die Website, die Sie versuchen zu \u00f6ffnen, ist nicht sicher und k\u00f6nnte sich evt. nicht \u00f6ffnen. Wenn Sie die Webseite trotzdem sehen m\u00f6chten, klicken Sie auf den Content-Blocker in der Adressleiste und aktivieren Sie es.",
-    "LBL_ADD_BOOKMARK": "Lesezeichen hinzuf\u00fcgen",
-    "LBL_ADD_NEW_BOOKMARK": "Neues Lesezeichen hinzuf\u00fcgen",
+    "HTTP_ERROR": "Die Website, die Sie versuchen zu öffnen, ist nicht sicher und könnte sich evt. nicht öffnen. Wenn Sie die Webseite trotzdem sehen möchten, klicken Sie auf den Content-Blocker in der Adressleiste und aktivieren Sie es.",
+    "LBL_ADD_BOOKMARK": "Lesezeichen hinzufügen",
+    "LBL_ADD_NEW_BOOKMARK": "Neues Lesezeichen hinzufügen",
     "LBL_BOOKMARK": "Lesezeichen",
     "LBL_BOOKMARK_NAME": "Lesezeichenname",
     "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Lesezeichen erfolgreich gespeichert",
     "LBL_BOOKMARKS": "Lesezeichen",
-    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Lesezeichen erfolgreich gel\u00f6scht",
+    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Lesezeichen erfolgreich gelöscht",
     "LBL_BOOKMARKS_LIST": "Lesezeichenliste",
     "LBL_BOOKMARK_URL": "Lesezeichen Url",
     "LBL_CREATED_ON": "Erstellt am",
@@ -15,11 +15,11 @@
     "LBL_ENTER_BOOKMARK_NAME": "Lesenzeichenname eingeben",
     "LBL_ENTER_URL": "Url eingeben (www.beispiel.de)",
     "LBL_OUR_SITES_LIST": "Unsere Seiten Liste",
-    "LBL_RECORD_DELETED_SUCCESSFULLY": "Datensatz erfolgreich gel\u00f6scht",
+    "LBL_RECORD_DELETED_SUCCESSFULLY": "Datensatz erfolgreich gelöscht",
     "Portal": "Unsere Seiten",
     "SINGLE_Portal": "Unsere Seite"
   },
   "js": {
-    "JS_ENTER_MANDATORY_FIELD": "Bitte alle Mussfelder f\u00fcllen"
+    "JS_ENTER_MANDATORY_FIELD": "Bitte alle Mussfelder füllen"
   }
 }
