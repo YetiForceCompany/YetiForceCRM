@@ -2,7 +2,6 @@
   "php": {
     "Notification": "Notification",
     "SINGLE_Notification": "Notification",
-    "Notification ID": "Notification ID",
     "LBL_NOTIFICATION_CONTENTS": "Notification contents",
     "FL_TITLE": "titolo",
     "LBL_NOTIFICATION_INFORMATION": "Basic information",
@@ -18,9 +17,9 @@
     "PLL_12_H": "12 ore",
     "PLL_24_H": "24 ore",
     "LBL_WATCHING_MODULES": "Watched modules",
-    "LBL_CREATING_NOTIFICATION": "Send notification",
     "LBL_TITLE": "Titolo",
     "LBL_MESSAGE": "Messaggio",
+    "LBL_CREATING_NOTIFICATION": "Send notification",
     "LBL_SEND_NOTIFICATION_MESSAGE": "Send message",
     "PLL_UNREAD": "Unread",
     "PLL_READ": "Read",
@@ -32,8 +31,12 @@
     "FL_TYPE": "Type",
     "LBL_MARK_AS_READ": "Segna come letto",
     "LBL_NO_NOTIFICATIONS": "No notifications",
+    "LBL_CRON_LAUNCHING_FREQUENCY": "Cron launching frequency",
+    "LBL_MODULES": "Modules",
+    "LBL_SENT_NOTIFICATIONS": "Send notifications",
     "LBL_NOTIFICATION_SETTINGS": "Notification settings",
-    "LBL_UNREAD": "Non letto"
+    "LBL_UNREAD": "Non letto",
+    "LBL_NO_UNREAD_NOTIFICATIONS": "No unread notifications"
   },
   "js": {
     "JS_MARKED_AS_READ": "Segnato come letto"
