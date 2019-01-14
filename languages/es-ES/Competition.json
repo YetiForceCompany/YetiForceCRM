@@ -2,9 +2,9 @@
   "php": {
     "Competition": "Competencia",
     "SINGLE_Competition": "Competidor",
-    "LBL_COMPETITION_INFORMATION": "Informaci\u00f3n sobre el Competidor",
-    "LBL_CUSTOM_INFORMATION": "Informaci\u00f3n adicional",
-    "LBL_DESCRIPTION_INFORMATION": "Descripci\u00f3n",
+    "LBL_COMPETITION_INFORMATION": "Información sobre el Competidor",
+    "LBL_CUSTOM_INFORMATION": "Información adicional",
+    "LBL_DESCRIPTION_INFORMATION": "Descripción",
     "LBL_SUBJECT": "Nombre",
     "LBL_NUMBER": "ID",
     "LBL_CLOSED_TIME": "Fecha de cierre",
