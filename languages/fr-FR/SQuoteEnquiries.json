@@ -2,23 +2,22 @@
   "php": {
     "SQuoteEnquiries": "Demandes de devis",
     "SINGLE_SQuoteEnquiries": "Demande de devis",
-    "LBL_QUOTESENQUIRES_INFORMATION": "D\u00e9tails demande de devis",
-    "LBL_CUSTOM_INFORMATION": "Information syst\u00e8mes",
+    "LBL_QUOTESENQUIRES_INFORMATION": "Détails demande de devis",
+    "LBL_CUSTOM_INFORMATION": "Information systèmes",
     "LBL_DESCRIPTION_INFORMATION": "Description",
     "LBL_STATISTICS": "Statistiques",
     "LBL_SUBJECT": "Sujet",
     "LBL_NUMBER": "Nombre",
-    "LBL_STATUS": "Statut",
     "LBL_CLOSED_TIME": "Heure de fin",
-    "LBL_RESPONSE_TIME": "Temps de r\u00e9ponse",
-    "SINGLE_SSalesProcesses": "Opportunit\u00e9s",
+    "LBL_STATUS": "Statut",
+    "LBL_RESPONSE_TIME": "Temps de réponse",
+    "SINGLE_SSalesProcesses": "Opportunités",
     "PLL_DRAFT": "Brouillon",
     "PLL_IN_REALIZATION": "En cours",
-    "PLL_FOR_VERIFICATION": "A v\u00e9rifier",
-    "PLL_CANCELLED": "Annul\u00e9",
-    "PLL_COMPLETED": "Termin\u00e9",
+    "PLL_FOR_VERIFICATION": "A vérifier",
+    "PLL_CANCELLED": "Annulé",
+    "PLL_COMPLETED": "Terminé",
     "LBL_CHANGE_STATUS": "Modifier le statut",
     "FL_CAMPAIGN_ID": "Campaign"
-  },
-  "js": {}
+  }
 }
