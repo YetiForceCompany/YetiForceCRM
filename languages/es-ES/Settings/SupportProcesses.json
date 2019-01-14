@@ -1,14 +1,16 @@
 {
   "php": {
     "LBL_SUPPORT_PROCESSES": "Soporte",
-    "LBL_GENERAL_CONFIGURATION": "Configuraci\u00f3n general",
+    "LBL_GENERAL_CONFIGURATION": "Configuración general",
     "LBL_OTHER": "Otro",
     "LBL_INFO": "Info",
     "LBL_TYPE": "Tipo",
-    "LBL_TICKET_STATUS_INFO": "Estados que determinan que la Incidencia est\u00e1 cerrada",
+    "LBL_TICKET_STATUS_INFO": "Estados que determinan que la Incidencia está cerrada",
     "LBL_SAVE_CONFIG_OK": "Los cambios han sido guardados",
     "LBL_SAVE_CONFIG_ERROR": "Los cambios han sido guardados.",
     "SupportProcesses": "Procesos de soporte"
   },
-  "js": {}
+  "js": {
+
+  }
 }
