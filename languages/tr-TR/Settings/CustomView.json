@@ -10,7 +10,6 @@
     "Saving CustomView": "View has been saved",
     "Actions": "Actions",
     "Edit": "Edit",
-    "LBL_ATTENTION": "Warning!",
     "LBL_FEATURED_LABELS": "In favorites",
     "LBL_CREATED_BY": "Created by",
     "LBL_ADD_FILTER": "Add filter",
@@ -26,7 +25,8 @@
     "LBL_SORTING_SETTINGS_WORNING": "Record sorting might significantly increase the page loading time.",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Select a field to sort records",
     "LBL_SORT_ASCENDING_ORDER": "Sort in ascending order",
-    "LBL_SORT_DESCENDING_ORDER": "Sort in descending order"
+    "LBL_SORT_DESCENDING_ORDER": "Sort in descending order",
+    "LBL_ATTENTION": "Warning!"
   },
   "js": {
     "Saving changes": "Saving changes...",
