@@ -1,34 +1,22 @@
 {
   "php": {
-    "Enter new data": "Enter new data",
-    "LBL_INFORMGRAD_ACCOUNT_NUMBER": "Account number",
-    "LBL_SMS_SENDER": "Sender",
-    "LBL_SMSPM_AUTH_HASH": "Authentification hash",
-    "LBL_SMS_TIME": "Time (min)",
-    "No": "No",
-    "Yes": "Yes",
-    "User Name": "User name",
-    "Provider": "Provider",
+    "FL_PROVIDER": "Provider",
+    "FL_STATUS": "Status",
+    "FL_SMSAPI_FROM": "Message type",
+    "FL_API_KEY": "Api key",
+    "PLL_INACTIVE": "Inactive",
+    "PLL_ACTIVE": "Active",
     "LBL_ADD_RECORD": "Add record",
-    "SMSNotifier": "SMS provider configuration",
+    "LBL_SMSNOTIFIER": "SMS provider configuration",
+    "LBL_SMSNOTIFIER_DESCRIPTION": " ",
     "LBL_ADD_CONFIGURATION": "New configuration",
     "LBL_EDIT_CONFIGURATION": "Edit configuration",
-    "LBL_SELECT_ONE": "Select one",
-    "providertype": "Provider",
-    "isactive": "Active",
-    "username": "User Name",
-    "password": "Password",
-    "api_id": "API Id",
-    "from": "From",
-    "mo": ""
+    "BTN_SAVE": "Save",
+    "BTN_CLOSE": "Cancel"
   },
   "js": {
-    "LBL_INFORMGRAD_ACCOUNT_NUMBER": "Account number",
-    "LBL_SMSPM_AUTH_HASH": "Authentification hash",
-    "LBL_SMS_TIME": "Time (min)",
-    "LBL_SMS_SENDER": "Sender",
     "LBL_DELETE_CONFIRMATION": "Are you sure, you want to delete this SMSNotifier configuration?",
     "JS_RECORD_DELETED_SUCCESSFULLY": "SMS provider deleted successfully",
-    "JS_CONFIGURATION_SAVED": "SMS provider configurations saved"
+    "JS_SAVE_SUCCESS": "Saved"
   }
 }
