@@ -1,8 +1,8 @@
 {
   "php": {
-    "FBookkeeping": "Ksi\u0119gowania",
-    "SINGLE_FBookkeeping": "Ksi\u0119gowanie",
-    "FBookkeeping ID": "Ksi\u0119gowania ID",
-    "FL_SUBJECT": "Temat"
+    "FBookkeeping": "Bookkeeping",
+    "SINGLE_FBookkeeping": "Bookkeeping",
+    "FBookkeeping ID": "Bookkeeping ID",
+    "FL_SUBJECT": "Subject"
   }
 }
