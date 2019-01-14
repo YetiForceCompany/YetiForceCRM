@@ -1,8 +1,8 @@
 {
   "php": {
-    "HTTP_ERROR": "El sitio web que intenta abrir no es seguro y puede que no se abra. Si todav\u00eda desea ver la p\u00e1gina web, puede hacer clic en el bloqueador de contenido en la barra de direcciones y activarla.",
-    "LBL_ADD_BOOKMARK": "A\u00f1adir Marcador",
-    "LBL_ADD_NEW_BOOKMARK": "A\u00f1adir nuevo Marcador",
+    "HTTP_ERROR": "El sitio web que intenta abrir no es seguro y puede que no se abra. Si todavía desea ver la página web, puede hacer clic en el bloqueador de contenido en la barra de direcciones y activarla.",
+    "LBL_ADD_BOOKMARK": "Añadir Marcador",
+    "LBL_ADD_NEW_BOOKMARK": "Añadir nuevo Marcador",
     "LBL_BOOKMARK": "Marcador",
     "LBL_BOOKMARK_NAME": "Nombre del Marcador",
     "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Marcador guardado satisfactoriamente",
