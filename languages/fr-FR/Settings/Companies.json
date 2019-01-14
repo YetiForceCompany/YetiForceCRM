@@ -1,9 +1,9 @@
 {
   "php": {
-    "LBL_COMPANIES": "Coordonn\u00e9es de l'entreprise",
-    "Companies": "Coordonn\u00e9es de l'entreprise",
-    "LBL_COMPANIES_DESCRIPTION": "G\u00e9rer les d\u00e9tails de l'entreprise",
-    "LBL_ID": "N\u00b0",
+    "LBL_COMPANIES": "Coordonnées de l'entreprise",
+    "Companies": "Coordonnées de l'entreprise",
+    "LBL_COMPANIES_DESCRIPTION": "Gérer les détails de l'entreprise",
+    "LBL_ID": "N°",
     "LBL_NAME": "Nom complet de l'entreprise",
     "LBL_EMAIL": "E-mail",
     "LBL_CITY": "Ville",
