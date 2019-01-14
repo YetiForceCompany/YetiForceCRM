@@ -325,10 +325,15 @@
 .c-circle-icon {
 	height: calculate-rem(30px);
 	width: calculate-rem(30px);
+	max-width: calculate-rem(30px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 50%;
+
+	[class^="userIcon-"] {
+		font-size: calculate-rem(20px);;
+	}
 }
 
 .c-icon--tripple {
@@ -358,6 +363,61 @@
 	}
 }
 
+[contenteditable=true] {
+	&:empty:after {
+		content: attr(placeholder) !important;
+		color: #6c757d !important;
+		display: block !important; /* For Firefox */
+	}
+
+	&.form-control {
+		height: auto !important;
+		min-height: calc(2.25rem + 2px);
+	}
+}
+
+.c-textarea--completions {
+	height: 0;
+	visibility: hidden;
+	position: relative;
+	top: calculate-rem(15px)
+}
+
+.c-completions {
+	color: #808080;
+	font-size: 14px;
+
+	&__item {
+		@extend .mr-1;
+		cursor: pointer;
+	}
+}
+
+.js-completions__emojis {
+	.EmojiPanel {
+		display: none;
+	}
+
+	&.active {
+		.EmojiPanel {
+			display: block;
+		}
+	}
+}
+
+.EmojiPanel {
+	position: absolute;
+	z-index: 90000000;
+	transform: translateY(calc(-100% - #{calculate-rem(15px)}));
+
+	.EmojiPanel__brand {
+		display: none;
+	}
+
+	.fa-search {
+		display: none;
+	}
+}
 
 .c-range-slider {
 	-webkit-appearance: none;

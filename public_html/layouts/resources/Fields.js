@@ -347,6 +347,8 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
+					emojiEnabled: false,
+					mentionsEnabled: false,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
@@ -378,12 +380,12 @@ App.Fields = {
 							name: 'paragraph',
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
 					],
 					toolbar_Min: [
 						{
 							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
 						},
 						{name: 'colors', items: ['TextColor', 'BGColor']},
 						{name: 'tools', items: ['Maximize']},
@@ -391,18 +393,312 @@ App.Fields = {
 							name: 'paragraph',
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+					],
+					toolbar_Clipboard: [
+						{name: 'document', items: ['Print']},
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						}
 					]
 				};
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
+				}
+				if (config.emojiEnabled) {
+					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
+					if (typeof config.toolbar === 'string') {
+						config[`toolbar_${config.toolbar}`].push(emojiToolbar);
+					} else if (Array.isArray(config.toolbar)) {
+						config.toolbar.push(emojiToolbar);
+					}
+					config.extraPlugins = config.extraPlugins + ',emoji'
+					config.outputTemplate = '{id}';
+				}
+				if (config.mentionsEnabled) {
+					config.extraPlugins = config.extraPlugins + ',mentions'
+					config.mentions = this.registerMentions();
 				}
 				if (instance) {
 					CKEDITOR.remove(instance);
 				}
 				element.ckeditor(config);
 			}
+
+			/**
+			 * Register mentions
+			 * @returns {Array}
+			 */
+			registerMentions() {
+				let minSerchTextLength = app.getMainParams('gsMinLength');
+				return [{
+					feed: this.getMentionUsersData.bind(this),
+					itemTemplate: `<li data-id="{id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="fas fa-2x fa-user"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+											</div>
+										</li>`,
+					outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
+					minChars: minSerchTextLength
+				},
+					{
+						feed: App.Fields.Text.getMentionData,
+						marker: '#',
+						itemTemplate: `<li data-id="{id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-{module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+											</div>
+										</li>`,
+						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
+						minChars: minSerchTextLength
+					}
+				];
+			}
+
+			/**
+			 * Get mention Users data (invoked by ck editor mentions plugin)
+			 * @param {object} opts
+			 * @param {function} callback
+			 */
+			getMentionUsersData(opts, callback) {
+				App.Fields.Text.getMentionData(opts, callback, 'Users');
+			}
 		},
+		/**
+		 * Completions class for contenteditable html element for records, users and emojis. Params can be passed in data-completions- of contenteditable element or as argument. Default params:
+		 * {
+		 		completionsCollection: {
+						records: true,
+						users: true,
+						emojis: true
+					}
+			}
+		 */
+		Completions: class {
+			/**
+			 * Constructor
+			 * @param {jQuery} inputDiv - contenteditable div
+			 * @param params
+			 */
+			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
+				let basicParams = {
+					completionsCollection: {
+						records: true,
+						users: true,
+						emojis: true
+					}
+				};
+				this.params = Object.assign(basicParams, inputDiv.data(), params);
+				this.inputDiv = inputDiv;
+				this.collection = [];
+				if (this.params.completionsCollection.records) {
+					this.collection.push(this.registerMentionCollection('#'))
+				}
+				if (this.params.completionsCollection.users) {
+					this.collection.push(this.registerMentionCollection('@', 'Users'))
+				}
+				if (this.params.completionsCollection.emojis) {
+					this.collection.push(this.registerEmojiCollection())
+				}
+				this.register(inputDiv);
+			}
+
+			/**
+			 * Register mention collection for tribute.js
+			 * @param {string} symbol
+			 * @param {string} searchModule
+			 * @returns {{trigger: *, selectTemplate: selectTemplate, values: values, menuItemTemplate: (function(*): string), lookup: string, fillAttr: string}}
+			 */
+			registerMentionCollection(symbol, searchModule = '-') {
+				let self = this;
+				return {
+					trigger: symbol,
+					selectTemplate: function (item) {
+						if (this.range.isContentEditable(this.current.element)) {
+							return `<a href="#" data-id="${item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0]}</a>`;
+						}
+						return symbol + item.original.label;
+					},
+					values: (text, cb) => {
+						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
+							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+						}
+					},
+					menuItemTemplate: function (item) {
+						return self.mentionTemplate({
+							id: item.original.id,
+							module: item.original.module,
+							label: item.original.label,
+							category: item.original.category
+						});
+					},
+					lookup: 'label',
+					fillAttr: 'label'
+				}
+			}
+
+			/**
+			 * Register emoji collection for tribute.js
+			 * @returns {{trigger: string, selectTemplate: selectTemplate, menuItemTemplate: (function(*): string), lookup: string, fillAttr: string, values: Array}}
+			 */
+			registerEmojiCollection() {
+				return {
+					trigger: ':',
+					selectTemplate: function (item) {
+						if (this.range.isContentEditable(this.current.element)) {
+							return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
+						}
+						return item.original.symbol;
+					},
+					menuItemTemplate: function (item) {
+						return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
+					},
+					lookup: 'id',
+					fillAttr: 'keywords',
+					values: (text, cb) => {
+						if (text.length >= 2) {
+							cb(App.emoji);
+						}
+					},
+				}
+			}
+
+			/*
+			 * Mention template
+			 */
+			mentionTemplate(params) {
+				return `<div data-id="${params.id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-${params.module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
+											</div>
+										</div>`
+			}
+
+			/**
+			 * Register
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			register(inputDiv) {
+				const self = this;
+				this.completionsCollection = new Tribute({collection: self.collection});
+				this.completionsCollection.attach(inputDiv[0]);
+				if (this.params.completionsTextarea !== undefined) {
+					this.registerCompletionsTextArea(inputDiv);
+				}
+				if (this.params.completionsButtons !== undefined) {
+					this.registerCompletionsButtons();
+				}
+				if (App.emoji === undefined) {
+					fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+						.then(response => response.json())
+						.then(response => {
+							App.emoji = response;
+						}).catch(error => console.error('Error:', error));
+				} else {
+					this.completionsCollection.append(2, App.emoji);
+				}
+			}
+
+			/**
+			 * Register completons hidden textarea - useful with forms
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			registerCompletionsTextArea(inputDiv) {
+				let textarea = element.siblings(`[name=${inputDiv.attr('id')}]`);
+				inputDiv.on('focus', function () {
+					textarea.val(inputDiv.html());
+				}).on('blur keyup paste input', function () {
+					textarea.val(inputDiv.html());
+				});
+			}
+
+			/**
+			 * Register completions buttons
+			 */
+			registerCompletionsButtons() {
+				let completionsContainer = this.inputDiv.parents().eq(3);
+				this.registerEmojiPanel(this.inputDiv, completionsContainer.find('.js-completions__emojis'));
+				completionsContainer.find('.js-completions__users').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
+				});
+				completionsContainer.find('.js-completions__records').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
+				});
+			}
+
+			/**
+			 * Register emojipanel library
+			 * @param {jQuery} inputDiv - contenteditable div
+			 * @param {jQuery} emojisContainer
+			 */
+			registerEmojiPanel(inputDiv, emojisContainer) {
+				new EmojiPanel({
+					container: '.js-completions__emojis',
+					json_url: '/libraries/emojipanel/dist/emojis.json',
+				});
+				emojisContainer.on('click', (e) => {
+					let element = $(e.target);
+					element.toggleClass('active');
+				})
+				emojisContainer.on('click', '.emoji', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(e.currentTarget).data('char') !== undefined) {
+						inputDiv.append(` ${$(e.currentTarget).data('char')} `);
+					}
+				});
+				emojisContainer.on('mouseenter', '.emoji', (e) => {
+					if ($(e.currentTarget).data('name') !== undefined) {
+						emojisContainer.find('.emoji-hovered').remove();
+						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
+					}
+				});
+				inputDiv.on('focus', () => {
+					emojisContainer.removeClass('active');
+				});
+			}
+		},
+
+		/**
+		 * Get mention data (invoked by ck editor mentions plugin and tribute.js)
+		 * @param {object} opts
+		 * @param {function} callback
+		 * @param {string} searchModule
+		 */
+		getMentionData(text, callback, searchModule = '-') {
+			let basicSearch = new Vtiger_BasicSearch_Js();
+			basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
+			basicSearch.returnHtml = false;
+			basicSearch.searchModule = searchModule;
+			if (typeof text === 'object') {
+				text = text.query.toLowerCase();
+			}
+			basicSearch.search(text).done(function (data) {
+				data = JSON.parse(data);
+				let serverDataFormat = data.result,
+					reponseDataList = [];
+				for (let id in serverDataFormat) {
+					let responseData = serverDataFormat[id];
+					reponseDataList.push(responseData);
+				}
+				callback(reponseDataList);
+			});
+		},
+
 		/**
 		 * Destroy ckEditor
 		 * @param {jQuery} element
@@ -412,6 +708,7 @@ App.Fields = {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
 		},
+
 		/**
 		 * Generate random character
 		 * @returns {string}
@@ -421,6 +718,7 @@ App.Fields = {
 			const rand = Math.floor(Math.random() * chars.length);
 			return chars.substring(rand, rand + 1);
 		},
+
 		/**
 		 * generate random hash
 		 * @returns {string}

@@ -17,7 +17,7 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation: function (field, rules, k, options) {
-		//If validation engine already maked the field as error 
+		//If validation engine already maked the field as error
 		// we dont want to proceed
 		if (typeof options !== "undefined") {
 			if (options.isError === true) {
@@ -146,7 +146,6 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 * @return true
 	 */
 	validate: function () {
-
 		return true;
 	},
 	/**

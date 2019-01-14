@@ -22,11 +22,11 @@
 						<span class="input-group-prepend">
 							<div class="input-group-text"><span class="fas fa-comments"></span></div>
 						</span>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent"
-								  class="js-comment-content commentcontent form-control"
-								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  data-js="val"></textarea>
+						<div name="commentcontent" contenteditable="true"
+							 class="js-comment-content commentcontent form-control js-chat-message js-completions"
+							 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+							 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+							 data-js="html | tribute.js"></div>
 					</div>
 					<button class="btn btn-success mt-3 js-save-comment float-right" type="button"
 							data-mode="add"

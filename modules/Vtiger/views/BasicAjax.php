@@ -114,15 +114,32 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->parseAdvFilter($advFilterList);
-			$query = $queryGenerator->createQuery();
-			$rows = $query->limit(100)->all();
-			foreach ($rows as &$row) {
-				$recordId = current($row);
+			$query = $queryGenerator->createQuery()->limit(AppConfig::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
+			$dataReader = $query->createCommand()->query();
+			while ($recordId = $dataReader->readColumn()) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 				$recordModel->set('permitted', true);
 				$matchingRecords[$moduleName][$recordId] = $recordModel;
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
+		} elseif ('Users' === $searchModule = $request->getRaw('searchModule')) {
+			$searchKey = $request->getByType('value', 'Text');
+			$queryGenerator = new \App\QueryGenerator($searchModule);
+			$queryGenerator->setFields(['id']);
+			$queryGenerator->addNativeCondition(['or',
+				['like', 'user_name', "%$searchKey%", false],
+				['like', 'last_name', "%$searchKey%", false],
+				['like', 'first_name', "%$searchKey%", false],
+			]);
+			$query = $queryGenerator->createQuery();
+			$rows = $query->limit(100)->all();
+			foreach ($rows as &$row) {
+				$recordId = current($row);
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Users');
+				$recordModel->set('permitted', true);
+				$matchingRecords[$searchModule][$recordId] = $recordModel;
+			}
+			$viewer->assign('SEARCH_MODULE', $searchModule);
 		} else {
 			$searchKey = $request->get('value');
 			$limit = false;

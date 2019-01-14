@@ -1347,6 +1347,7 @@ Vtiger_Base_Validator_Js("Vtiger_Textparser_Validator_Js", {
 		return true;
 	}
 });
+
 Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 	invokeValidation: function (field, rules, i, options) {
 		var instance = new Vtiger_YetiForceCompanyName_Validator_Js();

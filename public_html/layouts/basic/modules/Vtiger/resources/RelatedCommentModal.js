@@ -9,13 +9,13 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 	registerSubmitEvent: function (container) {
 		const self = this;
 		container.find('[name="saveButton"]').on('click', function (e) {
-			var progressLoader = jQuery.progressIndicator({
+			var progressLoader = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var comment = container.find('.comment').val();
+			var comment = container.find('.comment').html();
 			var params = {
 				module: self.windowParent.app.getModuleName(),
 				record: self.windowParent.app.getRecordId(),
@@ -36,11 +36,12 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 		});
 	},
 	registerEvents: function () {
-		var container = jQuery('#modalRelatedCommentModal');
+		var container = $('#modalRelatedCommentModal');
+		new App.Fields.Text.Completions(container.find('.js-completions'));
 		this.registerSubmitEvent(container);
 	}
 });
-jQuery(function () {
+$(function () {
 	var instance = new Vtiger_RelatedCommentModal_Js();
 	instance.registerEvents();
 });
