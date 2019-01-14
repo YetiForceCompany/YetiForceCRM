@@ -1,22 +1,22 @@
 {
   "php": {
-    "LBL_SMSNOTIFIER": "SMS Notifier",
-    "LBL_ADD_RECORD": "A\u00f1adir",
     "FL_PROVIDER": "Proveedor",
     "FL_STATUS": "Estado",
-    "FL_API_KEY": "API Key",
     "FL_SMSAPI_FROM": "SMSAPI",
-    "PLL_ACTIVE": "Activo",
+    "FL_API_KEY": "API Key",
     "PLL_INACTIVE": "Inactivo",
+    "PLL_ACTIVE": "Activo",
+    "LBL_ADD_RECORD": "Añadir",
+    "LBL_SMSNOTIFIER": "SMS Notifier",
     "LBL_SMSNOTIFIER_DESCRIPTION": " ",
-    "LBL_ADD_CONFIGURATION": "Nueva configuraci\u00f3n",
+    "LBL_ADD_CONFIGURATION": "Nueva configuración",
     "LBL_EDIT_CONFIGURATION": "Editar",
     "BTN_SAVE": "Guardar",
     "BTN_CLOSE": "Cancelar"
   },
   "js": {
-    "JS_SAVE_SUCCESS": "Configuraci\u00f3n del SMS Notifier creada satisfactoriamente",
-    "LBL_DELETE_CONFIRMATION": "\u00bfSeguro que quieres eliminar esta configuraci\u00f3n?",
-    "JS_RECORD_DELETED_SUCCESSFULLY": "La configuraci\u00f3n se elimin\u00f3 correctamente"
+    "LBL_DELETE_CONFIRMATION": "¿Seguro que quieres eliminar esta configuración?",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "La configuración se eliminó correctamente",
+    "JS_SAVE_SUCCESS": "Configuración del SMS Notifier creada satisfactoriamente"
   }
 }
