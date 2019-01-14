@@ -1,13 +1,13 @@
 {
   "php": {
-    "LBL_RECYCLE_DELETE_ALL": "Usu\u0144 ca\u0142y kosz"
+    "LBL_RECYCLE_DELETE_ALL": "Usuń cały kosz"
   },
   "js": {
     "JS_MASS_DELETE": "Masowe usuwanie",
     "JS_MASS_ACTIVATE": "Masowa aktywacja",
-    "JS_DELETE_ALL_RECYCLE_RECORD": "Usu\u0144 wszystkie rekordy z kosza",
-    "JS_ACTIVATE_RECORD_DESC": "Aktywacja rekordu zmienia tylko stan rekordu nie zmieniaj\u0105c pozosta\u0142ych informacji. Czy na pewno chcesz aktywowa\u0107 ten rekord?",
-    "JS_DELETE_ALL_RECYCLE_RECORD_DESC": "Usuni\u0119cie rekord\u00F3w spowoduje trwa\u0142e i nieodwracalne usuni\u0119cie wszystkich informacji o rekordach. Czy na pewno chcesz kontynuowa\u0107?",
-    "JS_ADDED_TO_QUEUE": "Dodano do kolejki. Wszystkie elementy zostan\u0105 usuni\u0119te"
+    "JS_DELETE_ALL_RECYCLE_RECORD": "Usuń wszystkie rekordy z kosza",
+    "JS_ACTIVATE_RECORD_DESC": "Aktywacja rekordu zmienia tylko stan rekordu nie zmieniając pozostałych informacji. Czy na pewno chcesz aktywować ten rekord?",
+    "JS_DELETE_ALL_RECYCLE_RECORD_DESC": "Usunięcie rekordów spowoduje trwałe i nieodwracalne usunięcie wszystkich informacji o rekordach. Czy na pewno chcesz kontynuować?",
+    "JS_ADDED_TO_QUEUE": "Dodano do kolejki. Wszystkie elementy zostaną usunięte"
   }
 }
