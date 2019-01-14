@@ -1,23 +1,24 @@
 {
   "php": {
     "LBL_ADD_RECORD": "Adicionar",
-    "TreesManager": "Gerenciar \u00c1rvore",
-    "LBL_TREES_MANAGER": "Campos \u2013 Pastas",
-    "LBL_TREES_MANAGER_DESCRIPTION": "Gerenciar Modelo \u00c1rvore",
-    "LBL_NO_RECORDS_FOUND": "Nenhum modelo de \u00c1rvore",
-    "LBL_EDIT_TEMPLATE_TREES": "Editar modelo de \u00c1rvore",
-    "LBL_CREATING_TEMPLATE_TREES": "Criar modelo \u00c1rvore",
+    "TreesManager": "Gerenciar Árvore",
+    "LBL_TREES_MANAGER": "Campos – Pastas",
+    "LBL_TREES_MANAGER_DESCRIPTION": "Gerenciar Modelo Árvore",
+    "LBL_NO_RECORDS_FOUND": "Nenhum modelo de Árvore",
+    "LBL_EDIT_TEMPLATE_TREES": "Editar modelo de Árvore",
+    "LBL_CREATING_TEMPLATE_TREES": "Criar modelo Árvore",
     "LBL_NAME": "Nome modelo",
-    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_MODULE": "Módulo",
     "LBL_ADD_ITEM_TREE": "Adicionar novo item",
     "LBL_ADD_TO_TREES": "Adicionar",
     "LBL_SAVE": "Salvar",
-    "LBL_SELECT_REPLACE_TREE_ITEM": "Mudar item da \u00c1rvore para:",
+    "LBL_SELECT_REPLACE_TREE_ITEM": "Mudar item da Árvore para:",
     "Category": "Categoria",
-    "Reservations": "Reservas"
+    "Reservations": "Reservas",
+    "LBL_SHARE_WITH": "Share with"
   },
   "js": {
-    "JS_TREE_DELETED_SUCCESSFULLY": "O modelo da \u00c1rvore foi apagada com sucesso",
+    "JS_TREE_DELETED_SUCCESSFULLY": "O modelo da Árvore foi apagada com sucesso",
     "JS_JSTREE_CREATE": "Adicionar",
     "JS_JSTREE_RENAME": "Mudar nome",
     "JS_JSTREE_REMOVE": "Apagar",
@@ -26,11 +27,11 @@
     "JS_JSTREE_COPY": "Copiar",
     "JS_JSTREE_PASTE": "Colar",
     "JS_JSTREE_CHANGE_ICON": "Change icon",
-    "JS_FIELD_CAN_NOT_BE_EMPTY": "O campo n\u00e3o pode estar vazio",
+    "JS_FIELD_CAN_NOT_BE_EMPTY": "O campo não pode estar vazio",
     "JS_NO_ITEM_SELECTED": "Nenhum item foi selecionado",
-    "JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS": "Voc\u00ea n\u00e3o pode apagar todos os itens",
-    "JS_YOU_CANNOT_DELETE_PERENT_ITEM": "Voc\u00ea n\u00e3o pode apagar o item pai",
-    "JS_NEW_ITEM": "Novo n\u00f3",
+    "JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS": "Você não pode apagar todos os itens",
+    "JS_YOU_CANNOT_DELETE_PERENT_ITEM": "Você não pode apagar o item pai",
+    "JS_NEW_ITEM": "Novo nó",
     "JS_ONLY_ONE_ITEM_SELECTED": "Somente um item pode ser selecionado."
   }
 }
