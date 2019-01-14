@@ -1,7 +1,12 @@
 {
   "php": {
-    "LBL_INVOICE_NUMBER": "N\u00famero de factura",
+    "LBL_INVOICE": "Invoice",
+    "LBL_INVOICE_NUMBER": "Número de factura",
     "LBL_TO_FINVOICE_NUMBER": "To invoice number",
+    "LBL_INVOICE_PROFORMA": "Pro-forma invoice",
+    "LBL_RECIPIENT": "Recipient",
+    "LBL_ORDER": "Order",
+    "LBL_SUBMIT_ORDER": "Person authorized to submit order",
     "LBL_TO_PAY": "Total",
     "LBL_TO_PAY_WORD": "Total (en palabras)",
     "LBL_DEALER": "Vendedor",
@@ -9,15 +14,19 @@
     "LBL_AUTHORIZED_TO_RECEIVE": "Persona autorizada a recibir",
     "LBL_AUTHORIZED_TO_BE_ISSUED": "Persona autorizada a emitir",
     "LBL_SALES_QUOTE_FOR": "Presupuestado por",
-    "LBL_DATE_EXECUTION": "Fecha de finalizaci\u00f3n",
+    "LBL_DATE_EXECUTION": "Fecha de finalización",
     "LBL_STAGE": "Emitido por",
     "LBL_VALID_UNTIL": "Fecha de validez",
-    "LBL_QUOTE_NUMBER": "N\u00famero de presupuesto",
-    "LBL_DETAILS": "Descripci\u00f3n",
+    "LBL_QUOTE_NUMBER": "Número de presupuesto",
+    "LBL_DETAILS": "Descripción",
     "LBL_COMMENTS": "Observaciones",
     "LBL_FIRST_NAME": "Nombre",
     "LBL_LAST_NAME": "Apellido",
-    "LBL_PHONE": "Tel\u00e9fono",
-    "LBL_EMAIL": "Correo"
+    "LBL_PHONE": "Teléfono",
+    "LBL_EMAIL": "Correo",
+    "LBL_VATID": "Vat ID",
+    "LBL_SALE_DATE": "Sale date",
+    "LBL_PAYMENT_METHOD": "Payment method",
+    "LBL_PLACE_DATE": "Place, date"
   }
 }
