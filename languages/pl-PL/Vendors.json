@@ -5,18 +5,18 @@
     "LBL_VENDOR_ADDRESS_INFORMATION": "Informacje adresowe",
     "LBL_VENDORS_ADD_TASK": "Dodaj zadanie",
     "LBL_VENDORS_ADD_EVENT": "Dodaj termin",
-    "300-Sales-Software": "300-Sprzeda\u017c-Oprogramowanie",
-    "301-Sales-Hardware": "301-Sprzeda\u017c-Sprz\u0119t",
-    "302-Rental-Income": "302-Dzier\u017cawa-Przych\u00f3d",
-    "303-Interest-Income": "303-Odsetki-Przych\u00f3d",
-    "304-Sales-Software-Support": "304-Sprzeda\u017c-Oprogramowanie-Wsparcie",
-    "305-Sales Other": "305-Sprzeda\u017c inna",
-    "306-Internet Sales": "306-Sprzeda\u017c internetowa",
-    "307-Service-Hardware Labor": "307-Serwis-Sprz\u0119t praca",
-    "308-Sales-Books": "308-Sprzeda\u017c-Ksi\u0105zki",
+    "300-Sales-Software": "300-Sprzedaż-Oprogramowanie",
+    "301-Sales-Hardware": "301-Sprzedaż-Sprzęt",
+    "302-Rental-Income": "302-Dzierżawa-Przychód",
+    "303-Interest-Income": "303-Odsetki-Przychód",
+    "304-Sales-Software-Support": "304-Sprzedaż-Oprogramowanie-Wsparcie",
+    "305-Sales Other": "305-Sprzedaż inna",
+    "306-Internet Sales": "306-Sprzedaż internetowa",
+    "307-Service-Hardware Labor": "307-Serwis-Sprzęt praca",
+    "308-Sales-Books": "308-Sprzedaż-Ksiązki",
     "Email": "Mail podstawowy",
     "GL Account": "Konto GL ",
-    "LBL_VENDOR_INFORMATION": "Szczeg\u00f3\u0142y dostawcy",
+    "LBL_VENDOR_INFORMATION": "Szczegóły dostawcy",
     "Phone": "Telefon podstawowy",
     "SINGLE_Vendors": "Dostawca",
     "Vendor Name": "Nazwa dostawcy",
@@ -27,7 +27,7 @@
     "LBL_LOCAL_NUMBER": "Numer lokalu"
   },
   "js": {
-    "LBL_DELETE_CONFIRMATION": "Usuni\u0119cie tego sprzedawcy usunie r\u00f3wnie\u017c jego powi\u0105zane zlecenia. Czy napewno chcesz usun\u0105\u0107 tego sprzedawc\u0119?",
-    "LBL_MASS_DELETE_CONFIRMATION": "Usuni\u0119cie sprzedawcy(\u00f3w) usunie r\u00f3wnie\u017c powi\u0105zane zlecenia. Czy napewno chcesz usuna\u0107 wybrane rekordy?"
+    "LBL_DELETE_CONFIRMATION": "Usunięcie tego sprzedawcy usunie również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?",
+    "LBL_MASS_DELETE_CONFIRMATION": "Usunięcie sprzedawcy(ów) usunie również powiązane zlecenia. Czy napewno chcesz usunać wybrane rekordy?"
   }
 }
