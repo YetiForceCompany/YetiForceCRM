@@ -25,13 +25,13 @@
     "FL_INTERNAL_COMMENT": "Interne Bemerkungen",
     "LBL_BEFORE_CORRECTION": "Vor Korrektur",
     "LBL_AFTER_CORRECTION": "Nach Korrektur",
-    "LBL_CHOOSE_INVOICE": "Zu korrigierende Rechnung w\u00E4hlen",
+    "LBL_CHOOSE_INVOICE": "Zu korrigierende Rechnung wählen",
     "LBL_COPY_FROM_INVOICE": "Von initialer Rechnung kopieren",
     "LBL_INVOICE_INFO": "Initiale Rechnungfelder - vor Korrektur.",
     "LBL_AFTER_INVOICE_INFO": "Wie soll die finale Rechnung ausschauen - nach Korrektur.",
-    "LBL_AFTER_INVOICE_INFO_EDIT": "Zu korrigierende Rechnungsfelder. Alle Felder von initialer Rechnung kopieren und wenn ben\u00F6tigt \u00E4ndern."
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Zu korrigierende Rechnungsfelder. Alle Felder von initialer Rechnung kopieren und wenn benötigt ändern."
   },
   "js": {
-    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Zu korrigierende Rechnung w\u00E4hlen"
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Zu korrigierende Rechnung wählen"
   }
 }
