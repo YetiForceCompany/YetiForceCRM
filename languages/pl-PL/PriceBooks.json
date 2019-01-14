@@ -1,8 +1,8 @@
 {
   "php": {
     "LBL_ADD_TO": "Dodaj do",
-    "LBL_EDIT_LIST_PRICE": "Edytuj ceny dla produkt\u00f3w\/us\u0142ug",
-    "LBL_PRICEBOOK_INFORMATION": "Szczeg\u00f3\u0142y cennika",
+    "LBL_EDIT_LIST_PRICE": "Edytuj ceny dla produktów\/usług",
+    "LBL_PRICEBOOK_INFORMATION": "Szczegóły cennika",
     "LBL_UNIT_PRICE": "Cena jednostkowa",
     "Price Book Name": "Nazwa cennika",
     "PriceBook No": "Numer cennika",
