@@ -2,12 +2,11 @@
   "php": {
     "HolidaysEntitlement": "Droit annuel",
     "SINGLE_HolidaysEntitlement": "Droit annuel",
-    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "D\u00e9tails du droit annuel",
-    "LBL_CUSTOM_INFORMATION": "Information syst\u00e8me",
-    "LBL_YEAR": "Ann\u00e9e",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Détails du droit annuel",
+    "LBL_CUSTOM_INFORMATION": "Information système",
+    "LBL_YEAR": "Année",
     "LBL_DAYS": "Nombre de jours",
-    "LBL_EMPLOYEE": "Employ\u00e9",
+    "LBL_EMPLOYEE": "Employé",
     "LBL_NUMBER": "Nombre"
-  },
-  "js": {}
+  }
 }
