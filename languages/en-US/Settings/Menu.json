@@ -38,6 +38,8 @@
     "LBL_HOMEICON_DESC": "Menu item redirecting to home page.",
     "LBL_CUSTOMFILTER": "Filter",
     "LBL_CUSTOMFILTER_DESC": "Menu item redirecting to selected filter.",
+    "LBL_RECYCLEBIN": "Recycle bin",
+    "LBL_RECYCLEBIN_DESC": "Menu item redirecting to recycle bin.",
     "LBL_PROFILE": "Profile",
     "LBL_PROFILE_DESC": "Menu item that allows changing the user's settings.",
     "LBL_REMOVED_MENU_ITEM": "Menu item has been removed",
