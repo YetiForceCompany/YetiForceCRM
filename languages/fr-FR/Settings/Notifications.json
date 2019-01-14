@@ -1,12 +1,14 @@
 {
   "php": {
     "LBL_EXCEPTIONS": "Exceptions",
-    "LBL_NOTICE_CONFIG_WARNING": "Les modules d'observation sont activ\u00e9s dans la configuration. D\u00e9sactivez-le pour g\u00e9rer les notifications.",
-    "LBL_LOCK": "Bloqu\u00e9",
-    "LBL_MEMBERS": "Membres",
-    "LBL_SELECT_MEMBERS": "S\u00e9lection des membres pour les notifications",
+    "LBL_NOTIFICATIONS_CONFIGURATION": "Notifications - paramètres",
     "LBL_ADD_MEMBERS": "Ajouter des membres aux notifications",
-    "LBL_NOTIFICATIONS_CONFIGURATION": "Notifications - param\u00e8tres"
+    "LBL_SELECT_MEMBERS": "Sélection des membres pour les notifications",
+    "LBL_MEMBERS": "Membres",
+    "LBL_LOCK": "Bloqué",
+    "LBL_NOTICE_CONFIG_WARNING": "Les modules d'observation sont activés dans la configuration. Désactivez-le pour gérer les notifications."
   },
-  "js": {}
+  "js": {
+
+  }
 }
