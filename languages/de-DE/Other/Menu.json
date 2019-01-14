@@ -4,7 +4,7 @@
     "LBL_SEPARATOR": "Trennzeichen",
     "LBL_OTHER": "Andere",
     "MEN_VIRTUAL_DESK": "Arbeitsplatz",
-    "MEN_COMPANIES_CONTACTS": "Gesch\u00e4ftspartner",
+    "MEN_COMPANIES_CONTACTS": "Geschäftspartner",
     "MEN_SALES": "Vertrieb",
     "MEN_PROJECTS": "Realisierung",
     "MEN_MARKETING": "Marketing",
@@ -18,10 +18,10 @@
     "MEN_LISTS": "Listen",
     "MEN_SERVICESBASE": "Servicedatenbank",
     "MEN_SALE_PROCESSES": "Verkaufsprozesse",
-    "Menu": "Men\u00fc",
+    "Menu": "Menü",
     "MEN_LOGISTICS": "Logistik",
-    "LBL_CHANGE_LOGIN_PASSWORD": "Passwort \u00e4ndern",
-    "LBL_CHANGE": "\u00c4ndern",
+    "LBL_CHANGE_LOGIN_PASSWORD": "Passwort ändern",
+    "LBL_CHANGE": "Ändern",
     "LBL_USER_PROFILE": "Benutzerprofil",
     "MEN_GDPR": "DSGVO"
   }
