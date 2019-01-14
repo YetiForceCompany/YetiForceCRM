@@ -2,7 +2,6 @@
   "php": {
     "Notification": "Notificare",
     "SINGLE_Notification": "Notificare",
-    "Notification ID": "ID Notificare",
     "LBL_NOTIFICATION_CONTENTS": "Continut notificare",
     "FL_TITLE": "titlu",
     "LBL_NOTIFICATION_INFORMATION": "Informatii de baza",
@@ -18,9 +17,9 @@
     "PLL_12_H": "12 ore",
     "PLL_24_H": "24 ore",
     "LBL_WATCHING_MODULES": "Module vizualizate",
-    "LBL_CREATING_NOTIFICATION": "Trimite notificare",
     "LBL_TITLE": "Titlu",
     "LBL_MESSAGE": "Mesaj",
+    "LBL_CREATING_NOTIFICATION": "Trimite notificare",
     "LBL_SEND_NOTIFICATION_MESSAGE": "Trimite mesaj",
     "PLL_UNREAD": "Necitit",
     "PLL_READ": "Citit",
