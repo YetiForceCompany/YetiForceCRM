@@ -1,12 +1,12 @@
 {
   "php": {
-    "ISTN": "Rotaci\u00f3n de Inventario",
+    "ISTN": "Rotación de Inventario",
     "SINGLE_ISTN": "Rotaciones de Inventario",
-    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "LBL_DESCRIPTION_BLOCK": "Descripción",
     "LBL_ATTENTION_BLOCK": "Notas",
     "FL_ESTIMATED_DATE": "Fecha estimada",
-    "FL_NUMBER": "ID",
     "FL_SUBJECT": "Asunto",
+    "FL_NUMBER": "ID",
     "FL_STATUS": "Estado",
     "PLL_DRAFT": "Borrador",
     "PLL_IN_REALIZATION": "En proceso",
