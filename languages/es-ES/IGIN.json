@@ -1,12 +1,12 @@
 {
   "php": {
     "IGIN": "Albaranes de Venta Interna",
-    "SINGLE_IGIN": "Albar\u00e1n de Venta Internas",
-    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "SINGLE_IGIN": "Albarán de Venta Internas",
+    "LBL_DESCRIPTION_BLOCK": "Descripción",
     "LBL_ATTENTION_BLOCK": "Notas",
-    "FL_ACCEPTANCE_DATE": "Fecha de aceptaci\u00f3n",
-    "FL_NUMBER": "ID",
+    "FL_ACCEPTANCE_DATE": "Fecha de aceptación",
     "FL_SUBJECT": "Asunto",
+    "FL_NUMBER": "ID",
     "FL_STORAGE": "Almacenamiento",
     "FL_STATUS": "Estado",
     "PLL_DRAFT": "Borrador",
