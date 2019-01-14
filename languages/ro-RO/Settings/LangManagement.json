@@ -65,7 +65,7 @@
     "No matching records found": "Nu au fost gasite inregistrari care sa se potriveasca",
     "Search": "Cauta:",
     "No data available in table": "Nu exista traduceri",
-    "JS_EXPORT": "Exporta",
-    "JS_NOTRANSLATION": "--Fara Traduceri--"
+    "JS_NOTRANSLATION": "--Fara Traduceri--",
+    "JS_EXPORT": "Exporta"
   }
 }
