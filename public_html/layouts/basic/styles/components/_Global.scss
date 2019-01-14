@@ -325,10 +325,15 @@
 .c-circle-icon {
 	height: calculate-rem(30px);
 	width: calculate-rem(30px);
+	max-width: calculate-rem(30px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 50%;
+
+	[class^="userIcon-"] {
+		font-size: calculate-rem(20px);;
+	}
 }
 
 .c-icon--tripple {
@@ -356,4 +361,162 @@
 		top: -7px;
 		left: 5px;
 	}
+}
+
+[contenteditable=true] {
+	&:empty:after {
+		content: attr(placeholder) !important;
+		color: #6c757d !important;
+		display: block !important; /* For Firefox */
+	}
+
+	&.form-control {
+		height: auto !important;
+		min-height: calc(2.25rem + 2px);
+	}
+}
+
+.c-textarea--completions {
+	height: 0;
+	visibility: hidden;
+	position: relative;
+	top: calculate-rem(15px)
+}
+
+.c-completions {
+	color: #808080;
+	font-size: 14px;
+
+	&__item {
+		@extend .mr-1;
+		cursor: pointer;
+	}
+}
+
+.js-completions__emojis {
+	.EmojiPanel {
+		display: none;
+	}
+
+	&.active {
+		.EmojiPanel {
+			display: block;
+		}
+	}
+}
+
+.EmojiPanel {
+	position: absolute;
+	z-index: 90000000;
+	transform: translateY(calc(-100% - #{calculate-rem(15px)}));
+
+	.EmojiPanel__brand {
+		display: none;
+	}
+
+	.fa-search {
+		display: none;
+	}
+}
+
+.c-range-slider {
+	-webkit-appearance: none;
+	margin: 10px 0;
+	width: 100%;
+}
+
+.c-range-slider:focus {
+	outline: none;
+}
+
+.c-range-slider::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 6px;
+	cursor: pointer;
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	background: $gray-200;
+	border-radius: 10px;
+	border: 0px solid #000101;
+}
+
+.c-range-slider::-webkit-slider-thumb {
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	border: 0px solid #000000;
+	height: 20px;
+	width: 20px;
+	border-radius: 0.25rem;
+	background: $primary;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -7px;
+}
+
+.c-range-slider:focus::-webkit-slider-runnable-track {
+	background: $gray-200;
+}
+
+.c-range-slider::-moz-range-track {
+	width: 100%;
+	height: 6px;
+	cursor: pointer;
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	background: $gray-200;
+	border-radius: 10px;
+	border: 0px solid #000101;
+}
+
+.c-range-slider::-moz-range-thumb {
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	border: 0px solid #000000;
+	height: 20px;
+	width: 20px;
+	border-radius: 0.25rem;
+	background: $primary;
+	cursor: pointer;
+}
+
+.c-range-slider::-ms-track {
+	width: 100%;
+	height: 6px;
+	cursor: pointer;
+	background: transparent;
+	border-color: transparent;
+	border-width: 39px 0;
+	color: transparent;
+}
+
+.c-range-slider::-ms-fill-lower {
+	background: $gray-200;
+	border: 0px solid #000101;
+	border-radius: 10px;
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+.c-range-slider::-ms-fill-upper {
+	background: $gray-200;
+	border: 0px solid #000101;
+	border-radius: 10px;
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+.c-range-slider::-ms-thumb {
+	box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	border: 0px solid #000000;
+	height: 20px;
+	width: 20px;
+	border-radius: 0.25rem;
+	background: $primary;
+	cursor: pointer;
+}
+
+.c-range-slider:focus::-ms-fill-lower {
+	background: $gray-200;
+}
+
+.c-range-slider:focus::-ms-fill-upper {
+	background: $gray-200;
+}
+
+.c-gantt-header__option {
+	max-width: 200px;
 }

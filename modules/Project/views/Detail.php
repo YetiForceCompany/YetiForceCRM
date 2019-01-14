@@ -56,6 +56,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTID', $request->getInteger('record'));
+		$viewer->assign('GANTT_TITLE', \App\Language::translate('LBL_GANTT_TITLE', 'Project'));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 

@@ -287,56 +287,6 @@ class CRMEntity
 		])->execute();
 	}
 
-	public function updateMissingSeqNumber($module)
-	{
-		\App\Log::trace('Entered updateMissingSeqNumber function');
-		\VtlibUtils::vtlibSetupModulevars($module, $this);
-		$tabid = \App\Module::getModuleId($module);
-		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid)) {
-			return;
-		}
-
-		$fieldinfo = (new App\Db\Query())->from('vtiger_field')
-			->where(['tabid' => $tabid, 'uitype' => 4])->one();
-		$returninfo = [];
-
-		if ($fieldinfo) {
-			$fieldTable = $fieldinfo['tablename'];
-			$fieldColumn = $fieldinfo['columnname'];
-			if ($fieldTable === $this->table_name) {
-				$dataReader = (new App\Db\Query())->select(['recordid' => $this->table_index])
-					->from($this->table_name)
-					->where(['or', [$fieldColumn => ''], [$fieldColumn => null]])
-					->createCommand()->query();
-				$totalCount = $dataReader->count();
-				if ($totalCount) {
-					$returninfo['totalrecords'] = $totalCount;
-					$returninfo['updatedrecords'] = 0;
-					$moduleData = \App\Fields\RecordNumber::getNumber($tabid);
-					$sequenceNumber = $moduleData['sequenceNumber'];
-					$prefix = $moduleData['prefix'];
-					$postfix = $moduleData['postfix'];
-					$oldNumber = $sequenceNumber;
-					while ($recordinfo = $dataReader->read()) {
-						$recordNumber = \App\Fields\RecordNumber::parse($prefix, $sequenceNumber, $postfix, $moduleData['leading_zeros']);
-						App\Db::getInstance()->createCommand()
-							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
-							->execute();
-						$sequenceNumber += 1;
-						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
-					}
-					$dataReader->close();
-					if ($oldNumber != $sequenceNumber) {
-						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $moduleData['cur_sequence'], $tabid);
-					}
-				}
-			} else {
-				\App\Log::error('Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.');
-			}
-		}
-		return $returninfo;
-	}
-
 	/**
 	 * Save the related module record information. Triggered from CRMEntity->saveentity method or updateRelations.php.
 	 *

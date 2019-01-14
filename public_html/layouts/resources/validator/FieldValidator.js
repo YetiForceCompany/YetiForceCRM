@@ -1263,7 +1263,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js
 	validate: function () {
 		var field = this.getElement();
 		var fieldValue = field.val();
-		var alphaNumericRegex = /^[\/a-z\\0-9{} _-]*$/i;
+		var alphaNumericRegex = /^[\/a-z\\0-9{}: _-]*$/i;
 		if (!fieldValue.match(alphaNumericRegex)) {
 			var errorInfo = app.vtranslate("JS_CONTAINS_ILLEGAL_CHARACTERS");
 			this.setError(errorInfo);
@@ -1347,6 +1347,7 @@ Vtiger_Base_Validator_Js("Vtiger_Textparser_Validator_Js", {
 		return true;
 	}
 });
+
 Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 	invokeValidation: function (field, rules, i, options) {
 		var instance = new Vtiger_YetiForceCompanyName_Validator_Js();

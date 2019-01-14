@@ -108,11 +108,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function outputFile($fileName)
 	{
-		header("Content-Disposition:attachment;filename=$fileName.xml");
-		header('Content-Type:text/csv;charset=UTF-8');
-		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: post-check=0, pre-check=0', false);
+		header("content-disposition: attachment;filename=$fileName.xml");
+		header('content-type: text/csv;charset=UTF-8');
+		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('cache-control: post-check=0, pre-check=0', false);
 
 		readfile($this->tmpXmlPath);
 		unlink($this->tmpXmlPath);
@@ -134,11 +134,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		$zip->close();
 
-		header("Content-Disposition:attachment;filename=$fileName.zip");
-		header('Content-Type:application/zip');
-		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: post-check=0, pre-check=0', false);
+		header("content-disposition: attachment;filename=$fileName.zip");
+		header('content-type: application/zip');
+		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('cache-control: post-check=0, pre-check=0', false);
 		readfile($zipName);
 		unlink($zipName);
 		array_map('unlink', $this->xmlList);

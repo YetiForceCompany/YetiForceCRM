@@ -1878,6 +1878,7 @@ var App = {},
 			})
 		}
 	};
+CKEDITOR.disableAutoInline = true;
 $(document).ready(function () {
 	let document = $(this);
 	app.registerToggleIconClick(document);

@@ -35,7 +35,6 @@
 						   class="form-control js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
 						   data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
 						<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">

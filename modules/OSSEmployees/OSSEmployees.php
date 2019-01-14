@@ -236,7 +236,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$tabId = \App\Module::getModuleId($moduleName);
 			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['and', ['tabid' => $tabId],
 				['columnname' => ['ossemployees_no', 'employee_status', 'name', 'last_name', 'pesel', 'id_card', 'employee_education', 'parentid', 'business_mail']], ])->execute();
-			\App\Fields\RecordNumber::setNumber($moduleName, 'P', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'P')->set('cur_id', 1)->save();
 			// block with comments
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

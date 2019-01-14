@@ -79,7 +79,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		}
 		if ($message) {
 			App\Log::error($message);
-			header('Location: index.php?module=Users&parent=Settings&view=Edit');
+			header('location: index.php?module=Users&parent=Settings&view=Edit');
 
 			return false;
 		}
@@ -94,6 +94,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
 		}
-		header("Location: $loadUrl");
+		header("location: $loadUrl");
 	}
 }

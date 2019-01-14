@@ -34,6 +34,6 @@ class Settings_TreesManager_Save_Action extends Settings_Vtiger_Basic_Action
 		$recordModel->set('share', $request->get('share'));
 		$recordModel->set('replace', $replace);
 		$recordModel->save();
-		header('Location: ' . $moduleModel->getListViewUrl());
+		header('location: ' . $moduleModel->getListViewUrl());
 	}
 }

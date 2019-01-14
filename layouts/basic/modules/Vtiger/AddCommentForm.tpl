@@ -13,7 +13,7 @@
 	<!-- tpl-Base-AddCommentForm -->
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
-	<div id="add-comment__container" class="modal fade" tabindex="-1" role="dialog">
+	<div id="add-comment__container" class="js-add-comment__container modal fade" tabindex="-1" role="dialog" data-js="hasClass">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
@@ -37,12 +37,11 @@
 					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
 					<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
 					<div class="modal-body">
-						<textarea class="form-control-lg form-control js-comment-content" name="commentcontent"
-								  id="commentcontent"
-								  title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}"
-								  rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."
-								  data-js="val"></textarea>
+						<div contenteditable="true" class="form-control-lg form-control js-comment-content js-completions" name="commentcontent"
+							 id="commentcontent"
+							 title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}"
+							 placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."
+							 data-js="html | tribute.js"></div>
 					</div>
 					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>

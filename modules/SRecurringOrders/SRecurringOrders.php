@@ -87,7 +87,7 @@ class SRecurringOrders extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'S-RO')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

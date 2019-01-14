@@ -248,7 +248,7 @@
 								<span class="actionImages">
 									<a class="showModal"
 									   data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="glyphicon glyphicon-pencil alignMiddle"
+										<span class="fas fa-edit alignMiddle"
 											  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>

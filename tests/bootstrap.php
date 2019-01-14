@@ -14,7 +14,7 @@ define('ROOT_DIRECTORY', getcwd());
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
-\App\Config::$requestMode = 'TEST';
+\App\Process::$requestMode = 'TEST';
 
 //fix phpunit console for windows
 if (!getenv('ANSICON')) {

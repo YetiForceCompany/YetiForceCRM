@@ -399,12 +399,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 	},
 
-	/**
-	 * Function to load only Comments Widget.
-	 */
-	loadCommentsWidget: function () {
-
-	},
 	loadContents: function (url, data) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
@@ -481,7 +475,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	getSelectedTab: function () {
 		var tabContainer = this.getTabContainer();
-		return tabContainer.find('.nav li.active:not(.d-none)');
+		return tabContainer.find('.js-detail-tab.active:not(.d-none)');
 	},
 	getTabContainer: function () {
 		return jQuery('div.related');
@@ -614,7 +608,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentMode = currentTarget.data('mode'),
 			closestCommentBlock = currentTarget.closest('.js-add-comment-block'),
 			commentContent = closestCommentBlock.find('.js-comment-content'),
-			commentContentValue = commentContent.val(),
+			commentContentValue = commentContent.html(),
 			errorMsg, editCommentReason;
 		if ("" === commentContentValue) {
 			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
@@ -623,7 +617,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return aDeferred.promise();
 		}
 		if ("edit" === commentMode) {
-			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
+			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').html();
 		}
 		let element = jQuery(e.currentTarget),
 			commentInfoHeader = closestCommentBlock.closest('.js-comment-details').find('.js-comment-info-header'),
@@ -665,6 +659,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	getEditCommentBlock: function () {
 		let clonedCommentBlock = jQuery('.basicEditCommentBlock', this.getContentHolder()).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('js-add-comment-block');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
+		new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'));
 		return clonedCommentBlock;
 	},
 	/*
@@ -674,7 +669,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		jQuery('body').on('submit', '#massSave', function (e) {
 			var form = jQuery(e.currentTarget);
-			var smsTextLength = form.find('#message').val().length;
+			var smsTextLength = form.find('#message').html().length;
 			if (smsTextLength > 160) {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
@@ -1524,34 +1519,38 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (previousValue == ajaxEditNewValue) {
 						closeDescription();
 					} else {
-						let errorExists = fieldElement.validationEngine('validate');
 						//If validation fails
-						if (errorExists) {
-							Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
-							return;
-						}
 						currentDiv.progressIndicator();
 						editElement.add(activityButtonContainer).addClass('d-none');
-						AppConnector.request({
-							action: 'SaveAjax',
-							record: activityId,
-							field: fieldName,
-							value: ajaxEditNewValue,
-							module: moduleName,
-							activitytype: activityType
-						}).done(() => {
-								currentDiv.progressIndicator({'mode': 'hide'});
-								detailViewElement.removeClass('d-none');
-								currentTarget.show();
-								descriptionText.html(ajaxEditNewLable);
-								fieldnameElement.data('prevValue', ajaxEditNewValue);
-								if (ajaxEditNewValue === '') {
-									descriptionEmpty.removeClass('d-none');
-								} else {
-									descriptionEmpty.addClass('d-none');
-								}
+						return new Promise(function (resolve, reject) {
+							resolve(fieldElement.validationEngine('validate'))
+						}).then((errorExists) => {
+							if (errorExists) {
+								Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
+								return;
+							} else {
+								ajaxEditNewValue = fieldElement.val(); //update editor value after conversion
+								AppConnector.request({
+									action: 'SaveAjax',
+									record: activityId,
+									field: fieldName,
+									value: ajaxEditNewValue,
+									module: moduleName,
+									activitytype: activityType
+								}).done(() => {
+									currentDiv.progressIndicator({'mode': 'hide'});
+									detailViewElement.removeClass('d-none');
+									currentTarget.show();
+									descriptionText.html(ajaxEditNewLable);
+									fieldnameElement.data('prevValue', ajaxEditNewValue);
+									if (ajaxEditNewValue === '') {
+										descriptionEmpty.removeClass('d-none');
+									} else {
+										descriptionEmpty.addClass('d-none');
+									}
+								});
 							}
-						);
+						})
 					}
 				},
 				closeDescription = function () {
@@ -2039,8 +2038,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 				commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 				editCommentBlock = self.getEditCommentBlock();
-			editCommentBlock.find('.js-comment-content').val(commentInfoContent.text());
-			editCommentBlock.find('.js-reason-to-edit').val(commentInfoBlock.find('.js-edit-reason-span').text());
+			editCommentBlock.find('.js-comment-content').html(commentInfoContent.text());
+			editCommentBlock.find('.js-reason-to-edit').html(commentInfoBlock.find('.js-edit-reason-span').text());
 			commentInfoContent.hide();
 			commentInfoBlock.find('.js-comment-container').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
@@ -2142,6 +2141,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @param {jQuery} widgetContainer
 	 */
 	registerCommentEventsInDetail(widgetContainer) {
+		new App.Fields.Text.Completions();
 		widgetContainer.on('change', '.js-hierarchy-comments', function (e) {
 			let progressIndicatorElement = $.progressIndicator();
 			AppConnector.request({
@@ -2303,6 +2303,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);
+		new App.Fields.Text.Completions();
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));

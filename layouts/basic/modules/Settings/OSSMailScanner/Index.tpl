@@ -279,12 +279,12 @@
 				</thead>
 				<tbody>
 				{foreach item=item key=key from=$RECORDNUMBERING}
-					<tr {if $item['prefix'] eq ''}class="error"{/if}
+					<tr {if $item->get('prefix') eq ''}class="error"{/if}
 						style="{cycle values="'',background-color: #f9f9f9"}">
 						<td>{\App\Language::translate($key, $key)}</td>
-						<td>{$item['prefix']}</td>
-						<td>{$item['sequenceNumber']}</td>
-						<td>{if $item['prefix'] eq ''}{\App\Language::translate('Alert_scanner_not_work', 'OSSMailScanner')} {/if}</td>
+						<td>{$item->get('prefix')}</td>
+						<td>{$item->get('cur_id')}</td>
+						<td>{if $item->get('prefix') eq ''}{\App\Language::translate('Alert_scanner_not_work', 'OSSMailScanner')} {/if}</td>
 					</tr>
 				{/foreach}
 				</tbody>

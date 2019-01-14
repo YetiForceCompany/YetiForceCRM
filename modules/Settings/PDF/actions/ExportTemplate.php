@@ -4,9 +4,9 @@
  * Export to XML Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
@@ -16,10 +16,10 @@ class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
-		header('Pragma: public');
-		header('Cache-Control: private');
-		header('Content-Disposition: attachment; filename="' . $recordId . '_pdftemplate.xml"');
-		header('Content-Description: PHP Generated Data');
+		header('pragma: public');
+		header('cache-control: private');
+		header('content-disposition: attachment; filename="' . $recordId . '_pdftemplate.xml"');
+		header('content-description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;

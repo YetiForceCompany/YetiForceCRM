@@ -27,11 +27,14 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function convertToSave($value, Vtiger_Record_Model $recordModel)
 	{
-		$value = \App\Fields\RecordNumber::incrementNumber(\App\Module::getModuleId($recordModel->getModuleName()));
-		$recordModel->set($this->getFieldModel()->getFieldName(), $value);
-
+		$recordNumberInstance = \App\Fields\RecordNumber::getInstance($recordModel->getModuleName());
+		$recordNumberInstance->setRecord($recordModel);
+		if ($recordNumberInstance->isNewSequence()) {
+			$value = $recordNumberInstance->getIncrementNumber();
+			$recordModel->set($this->getFieldModel()->getFieldName(), $value);
+		}
 		return $value;
 	}
 

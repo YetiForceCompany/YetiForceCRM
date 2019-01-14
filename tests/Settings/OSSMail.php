@@ -16,7 +16,7 @@ class OSSMail extends \Tests\Base
 	 */
 	public function testChangeConfig()
 	{
-		$configurator = \Settings_OSSMail_Config_Model::getCleanIntance();
+		$configurator = \Settings_OSSMail_Config_Model::getCleanInstance();
 		$configurator->set('product_name', 'YetiForce_Test');
 		$configurator->set('default_host', ['ssl://imap.gmail.com', 'ssl://imap.YT_Test.com']);
 		$configurator->save();

@@ -32,6 +32,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
+		$viewer->assign('PICKLISTS', $defaultModuleModel->getFieldsByType(['picklist']));
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 	}
 

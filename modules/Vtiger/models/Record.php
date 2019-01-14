@@ -514,7 +514,7 @@ class Vtiger_Record_Model extends \App\Base
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
 		if (!$this->isNew()) {
-			$saveFields = array_intersect($saveFields, array_keys($this->changes));
+			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), array_keys($moduleModel->getFieldsByUiType(4))));
 		} else {
 			$entityModel = $this->getEntity();
 			$forSave[$entityModel->table_name] = [];

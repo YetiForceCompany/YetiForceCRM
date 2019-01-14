@@ -117,7 +117,7 @@ class OSSMailView extends CRMEntity
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'M_')->set('cur_id', 1)->save();
 			$displayLabel = 'OSSMailView';
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $displayLabel])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'widget_limit', 'value' => '10'])->execute();

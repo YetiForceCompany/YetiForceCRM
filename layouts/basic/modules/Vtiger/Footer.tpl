@@ -65,10 +65,10 @@
 						{if !\App\YetiForce\Register::verify(true)}
 							<li class="page-item u-cursor-pointer">
 								<a class="page-link text-danger js-popover-tooltip" role="button"
-								   data-content="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME)}"
+								   data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME))}"
 								   title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
 										{if $USER_MODEL->isAdminUser()}
-											href="index.php?parent=Settings&module=Companies&view=List"
+											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
 										{else}
 											href="#"
 										{/if} >
@@ -93,7 +93,7 @@
 					</ul>
 				</div>
 				<div class="mx-auto w-75">
-					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
+					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Process::$startTime, 3)}
 					{if $USER_MODEL->isAdminUser()}
 						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
