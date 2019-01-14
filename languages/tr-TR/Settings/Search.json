@@ -3,7 +3,7 @@
     "Search Configuration": "Search configuration",
     "Search Setup": "Search - Configuration",
     "Search": "Search configuration",
-    "LBL_Module_desc": "This panel allows for setting labels for uitype 10 fields and for search mechanisms. These mechanisms work independently \u2013 you can see many columns in a field while searching, but when you select a record, a name from a label will be loaded.",
+    "LBL_Module_desc": "This panel allows for setting labels for uitype 10 fields and for search mechanisms. These mechanisms work independently – you can see many columns in a field while searching, but when you select a record, a name from a label will be loaded.",
     "Module": "Module",
     "Table": "Table",
     "LabelFields": "Main columns for a module (including a label for uitype 10)",
@@ -18,7 +18,7 @@
     "LBL_TURN_OFF": "Turn off"
   },
   "js": {
-    "Saving changes": "Update in progress\u2026",
+    "Saving changes": "Update in progress…",
     "Update labels": "Update",
     "JS_MODULES_SEQUENCE_UPDATED": "Modules sequence updated",
     "JS_TURN_ON": "Turn on",
