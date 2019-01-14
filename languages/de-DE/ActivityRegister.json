@@ -1,10 +1,10 @@
 {
   "php": {
-    "ActivityRegister": "Aktivit\u00e4tsregister",
-    "SINGLE_ActivityRegister": "Aktivit\u00e4tsregister",
+    "ActivityRegister": "Aktivitätsregister",
+    "SINGLE_ActivityRegister": "Aktivitätsregister",
     "LBL_BASIC_INFORMATION": "Grundinformationen",
     "FL_SUBJECT": "Gegenstand",
-    "FL_PARENT_ACTIVITY": "\u00dcbergeordnete Aktivit\u00e4t",
+    "FL_PARENT_ACTIVITY": "Übergeordnete Aktivität",
     "FL_STATUS": "Status",
     "PLL_DRAFT": "Entwurf",
     "PLL_WAITING_FOR_ACCEPTANCE": "Auf Abnahme warten",
@@ -14,16 +14,16 @@
     "FL_DATA_SET": "Datensatz",
     "PLL_ENTRUSTMENT": "Annehmen",
     "PLL_SHARING": "Teilen",
-    "PLL_TRANSFER": "\u00dcbertragen",
+    "PLL_TRANSFER": "Übertragen",
     "PLL_ENTRUSTMENT_ACCEPTANCE": "Annahme akzeptieren",
     "PLL_INTERNAL": "Intern",
     "FL_START_DATE": "Beginn Datum",
     "FL_END_DATE": "Ende Datum",
-    "LBL_DATES": "\u00c4nderungszeit",
+    "LBL_DATES": "Änderungszeit",
     "LBL_DESCRIPTION": "Beschreibung",
     "FL_DESCRIPTION": "Beschreibung",
     "FL_COMMENTS": "Kommentare",
     "LBL_COMMENTS": "Kommentare",
-    "FL_ACTIVITY_TYPE": "Aktivit\u00e4tstypen"
+    "FL_ACTIVITY_TYPE": "Aktivitätstypen"
   }
 }
