@@ -1,20 +1,20 @@
 {
   "php": {
-    "LBL_LOGS": "Sicherheitsvorf\u00e4lle",
-    "LBL_LOGS_DESC": "Oberfl\u00e4che f\u00fcr Anzeige von Sicherheitsvorf\u00e4llen",
-    "LBL_ACCESS_FOR_ADMIN": "Zugriff f\u00fcr Admin",
-    "LBL_ACCESS_FOR_API": "Zugriff f\u00fcr API",
-    "LBL_ACCESS_FOR_USER": "Zugriff f\u00fcr Benutzer",
-    "LBL_ACCESS_TO_RECORD": "Zugriff zu Datensatz",
+    "LBL_LOGS": "Security incidents",
+    "LBL_LOGS_DESC": "Panel for viewing security incidents",
+    "LBL_ACCESS_FOR_ADMIN": "Access for admin",
+    "LBL_ACCESS_FOR_API": "Access for API",
+    "LBL_ACCESS_FOR_USER": "Access for user",
+    "LBL_ACCESS_TO_RECORD": "Access to record",
     "LBL_CSRF": "CSRF",
-    "LBL_USERNAME": "Benutzername",
-    "LBL_DATE": "Datum",
+    "LBL_USERNAME": "Username",
+    "LBL_DATE": "Date",
     "LBL_IP": "IP",
-    "LBL_RECORD": "Datensatz ID",
-    "LBL_MODULE": "Modul",
+    "LBL_RECORD": "Record ID",
+    "LBL_MODULE": "Module",
     "LBL_URL": "URL",
     "LBL_AGENT": "Agent",
-    "LBL_REQUEST": "Anfrage",
+    "LBL_REQUEST": "Request",
     "LBL_REFERER": "Referer"
   }
 }
