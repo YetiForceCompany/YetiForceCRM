@@ -1,22 +1,21 @@
 {
   "php": {
-    "MailSmtp": "Configura\u00e7\u00f5es do SMTP",
-    "LBL_MAIL_SMTP": "Configura\u00e7\u00e3o do SMTP",
+    "MailSmtp": "Configurações do SMTP",
+    "LBL_MAIL_SMTP": "Configuração do SMTP",
     "LBL_MAILSMTP_EDIT": "Editar Registro",
     "LBL_MAILSMTP_TO_SEND_DESCRIPTION": "Configurar servidores de envio de e-mail",
     "LBL_HOST": "Servidor",
     "LBL_PORT": "Porta",
-    "LBL_USERNAME": "Nome de usu\u00e1rio",
+    "LBL_USERNAME": "Nome de usuário",
     "LBL_MAILER_TYPE": "Typo do Servidor",
-    "LBL_SECURE": "Protocolo de Seguran\u00e7a",
-    "LBL_OPTIONS": "Par\u00e2metros adicionais",
+    "LBL_SECURE": "Protocolo de Segurança",
+    "LBL_OPTIONS": "Parâmetros adicionais",
     "LBL_FROM_NAME": "Nome do Rementente",
-    "LBL_AUTHENTICATION": "Autentica\u00e7\u00e3o",
+    "LBL_AUTHENTICATION": "Autenticação",
     "LBL_REPLY_TO": "Responder para",
     "LBL_INDIVIDUAL_DELIVERY": "Entrega Individual",
-    "LBL_REPLAY_TO": "Replicar para",
-    "LBL_NAME": "Nome",
     "LBL_FROM_EMAIL": "E-mail do Remetente",
+    "LBL_NAME": "Nome",
     "LBL_SAVE_SEND_MAIL": "Do you want to save a sent email?",
     "LBL_SAVE_SEND_MAIL_INFO": "All sent emails are not saved (Gmail saves them automatically, so there is no need to enable this option). In order to save emails, enter an additional configuration.",
     "LBL_VALIDATE_CERT": "Do you want to validate the certificate?",
@@ -30,7 +29,7 @@
     "LBL_SSL": "SSL",
     "LBL_CREATE_SMTP": "Criar SMTP",
     "LBL_SMTP_DETAIL": "Detalhes do SMTP",
-    "LBL_INDIVIDUAL_DELIVERY_INFO": "E-mails ser\u00e3o enviados individualmente para cada destinat\u00e1rio",
-    "LBL_OPTIONS_INFO": "Exemplo de Par\u00e2metros adicionais:\r\n 'ssl' =&gt; [\r\n'verify_peer'  =&gt; true,\r\n'verify_depth' =&gt; 3,\r\n'allow_self_signed' =&gt; true,\r\n'peer_name' =&gt; 'smtp.exemplo.com',\r\n'cafile' =&gt; '\/etc\/ssl\/ca_cert.pem',\r\n]"
+    "LBL_INDIVIDUAL_DELIVERY_INFO": "E-mails serão enviados individualmente para cada destinatário",
+    "LBL_OPTIONS_INFO": "Exemplo de Parâmetros adicionais:\r\n 'ssl' =&gt; [\r\n'verify_peer'  =&gt; true,\r\n'verify_depth' =&gt; 3,\r\n'allow_self_signed' =&gt; true,\r\n'peer_name' =&gt; 'smtp.exemplo.com',\r\n'cafile' =&gt; '\/etc\/ssl\/ca_cert.pem',\r\n]"
   }
 }
