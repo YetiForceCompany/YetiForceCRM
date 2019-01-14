@@ -1,25 +1,25 @@
 {
   "php": {
     "providertype": "Dostawca",
-    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS maksymalnie 160 znak\u00f3w",
-    "username": "Nazwa u\u017cytkownika",
-    "password": "Has\u0142o",
+    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS maksymalnie 160 znaków",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
     "isactive": "Aktywny",
-    "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Wy\u015blij smsa do zaznaczonych numer\u00f3w",
+    "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Wyślij smsa do zaznaczonych numerów",
     "LBL_STEP_1": "Krok 1",
     "LBL_STEP_2": "Krok 2",
-    "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "Wybierz pola numer\u00f3w do wysy\u0142ki",
-    "LBL_TYPE_THE_MESSAGE": "Rodzaj wiadomo\u015bci",
-    "LBL_WRITE_YOUR_MESSAGE_HERE": "tutaj wpisz swoj\u0105 wiadomo\u015b\u0107",
-    "LBL_ADD_MORE_FIELDS": "Dodaj wi\u0119cej p\u00f3l",
+    "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "Wybierz pola numerów do wysyłki",
+    "LBL_TYPE_THE_MESSAGE": "Rodzaj wiadomości",
+    "LBL_WRITE_YOUR_MESSAGE_HERE": "tutaj wpisz swoją wiadomość",
+    "LBL_ADD_MORE_FIELDS": "Dodaj więcej pól",
     "LBL_SERVER_CONFIG": "Konfiguracja serwera",
     "FL_STATUS": "Status",
     "PLL_UNDEFINED": "Niezdefiniowany",
     "PLL_DELIVERED": "Dostarczony",
     "PLL_FAILED": "Niepowodzenie",
-    "LBL_MASS_SEND_SMS_INFO": "Wszystkie SMS-y s\u0105 wys\u0142ane w cronie.",
-    "LBL_CHECK_STATUS": "Sprawd\u017a status",
-    "message": "Wiadomo\u015b\u0107",
-    "LBL_SMSNOTIFIER_INFORMATION": "Informacje o wiadomo\u015bci"
+    "LBL_MASS_SEND_SMS_INFO": "Wszystkie SMS-y są wysłane w cronie.",
+    "LBL_CHECK_STATUS": "Sprawdź status",
+    "message": "Wiadomość",
+    "LBL_SMSNOTIFIER_INFORMATION": "Informacje o wiadomości"
   }
 }
