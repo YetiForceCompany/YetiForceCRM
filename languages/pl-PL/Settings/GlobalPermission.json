@@ -1,14 +1,14 @@
 {
   "php": {
-    "Access to record": "Uprawnienia globalne do rekord\u00f3w",
-    "GlobalPermission": "Dost\u0119p specjalny",
-    "LBL_Module_desc": "Narz\u0119dzie pozwala na ustawienie globalnego dost\u0119pu do rekord\u00f3w (odczyt\/modyfikacja) niezale\u017cnie od r\u00f3l.",
+    "Access to record": "Uprawnienia globalne do rekordów",
+    "GlobalPermission": "Dostęp specjalny",
+    "LBL_Module_desc": "Narzędzie pozwala na ustawienie globalnego dostępu do rekordów (odczyt\/modyfikacja) niezależnie od ról.",
     "LBL_PROFILE_NAME": "Nazwa profilu",
     "LBL_DESCRIPTION": "Opis profilu",
-    "LBL_VIEW_ALL_DESC": "Po zaznaczeniu tej opcji, wszystkie modu\u0142y b\u0119d\u0105 mia\u0142y zaznaczon\u0105 opcj\u0119: Przegl\u0105danie",
-    "LBL_VIEW_ALL": "W\u0142\u0105cz dost\u0119p do podgl\u0105du wszystkich rekord\u00f3w",
-    "LBL_EDIT_ALL_DESC": "Po zaznaczeniu tej opcji, wszystkie modu\u0142y b\u0119d\u0105 mia\u0142y zaznaczon\u0105 opcj\u0119: Tworzenie\/Edycja",
-    "LBL_EDIT_ALL": "W\u0142\u0105cz dost\u0119p do edycji wszystkich rekord\u00f3w",
-    "LBL_SAVE_OK": "Zapisano zmian\u0119"
+    "LBL_VIEW_ALL_DESC": "Po zaznaczeniu tej opcji, wszystkie moduły będą miały zaznaczoną opcję: Przeglądanie",
+    "LBL_VIEW_ALL": "Włącz dostęp do podglądu wszystkich rekordów",
+    "LBL_EDIT_ALL_DESC": "Po zaznaczeniu tej opcji, wszystkie moduły będą miały zaznaczoną opcję: Tworzenie\/Edycja",
+    "LBL_EDIT_ALL": "Włącz dostęp do edycji wszystkich rekordów",
+    "LBL_SAVE_OK": "Zapisano zmianę"
   }
 }
