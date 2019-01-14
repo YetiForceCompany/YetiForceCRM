@@ -1,26 +1,26 @@
 {
   "php": {
     "LBL_SAVE": "Salvar",
-    "ApiAddress": "Pesquisar endere\u00e7o",
+    "ApiAddress": "Pesquisar endereço",
     "LBL_API_ADDRESS": "Mapas [Google & OSM]",
-    "LBL_API_ADDRESS_DESCRIPTION": "O m\u00f3dulo permite pesquisar\/autocompletar o endere\u00e7o durante a cria\u00e7\u00e3o\/edi\u00e7\u00e3o dos dados no Sistema.",
+    "LBL_API_ADDRESS_DESCRIPTION": "O módulo permite pesquisar\/autocompletar o endereço durante a criação\/edição dos dados no Sistema.",
     "LBL_USE_OPENCAGE_GEOCODER": "Utilize o Geocodificador OpenCage",
-    "LBL_REMOVE_CONNECTION": "Remover Conex\u00e3o",
-    "LBL_ENTER_KEY_APPLICATION": "Digita a chave da aplica\u00e7\u00e3o",
-    "LBL_MIN_LOOKUP_LENGHT": "O n\u00famero m\u00ednimo de caracteres que um Usu\u00e1rio pode digitar antes de realizar uma pesquisa",
-    "LBL_SAVE_NOTIFY_OK": "Mudan\u00e7as salvas.",
+    "LBL_REMOVE_CONNECTION": "Remover Conexão",
+    "LBL_ENTER_KEY_APPLICATION": "Digita a chave da aplicação",
+    "LBL_MIN_LOOKUP_LENGTH": "The minimum number of characters a user must type before a search is performed",
+    "LBL_SAVE_NOTIFY_OK": "Mudanças salvas.",
     "LBL_CHOOSE_API": "Escolher API",
     "LBL_USE_GOOGLE_GEOCODER": "Utilizar Google Geocoding",
     "google_map_api": "Google Geocoding",
     "opencage_data": "OpenCage Geocoder",
-    "LBL_GLOBAL_CONFIG": "Configura\u00e7\u00e3o Global",
-    "LBL_SAVE_GLOBAL_SETTINGS": "Salvar as configura\u00e7\u00f5es globais",
-    "LBL_NUMBER_SEARCH_RESULTS": "N\u00famero resultados da busca"
+    "LBL_GLOBAL_CONFIG": "Configuração Global",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Salvar as configurações globais",
+    "LBL_NUMBER_SEARCH_RESULTS": "Número resultados da busca"
   },
   "js": {
-    "Invalid API key": "Chave da API inv\u00e1lida",
+    "Invalid API key": "Chave da API inválida",
     "JS_ERROR": "Erro",
     "JS_LOADING_PLEASE_WAIT": "Carregando, por favor aguarde.",
-    "JS_WRONG_NUMBER": "Caracteres permitidos: d\u00edgitos maior que 1."
+    "JS_WRONG_NUMBER": "Caracteres permitidos: dígitos maior que 1."
   }
 }
