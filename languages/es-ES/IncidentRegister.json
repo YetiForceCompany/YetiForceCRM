@@ -2,12 +2,12 @@
   "php": {
     "IncidentRegister": "Registro de incidencias",
     "SINGLE_IncidentRegister": "Registro de incidencias",
-    "LBL_BASIC_INFORMATION": "Informaci\u00f3n sobre el Registro de incidencias",
+    "LBL_BASIC_INFORMATION": "Información sobre el Registro de incidencias",
     "FL_NAME": "Nombre",
-    "FL_LOCATION_REGISTER": "LRegistro de ubicaci\u00f3n",
+    "FL_LOCATION_REGISTER": "LRegistro de ubicación",
     "FL_DATASETREGISTER": "Registro de conjunto de datos",
     "PLL_DRAFT": "Borrador",
-    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptaci\u00f3n",
+    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptación",
     "PLL_IN_REALIZATION": "En proceso",
     "PLL_COMPLETED": "Completado",
     "PLL_CANCELLED": "Cancelado",
@@ -19,16 +19,15 @@
     "FL_INCIDENT_DATE": "Fecha de la incidencia",
     "FL_INCIDENT_DISCOVERY": "Fecha de descubrimiento de la incidencia",
     "FL_INCIDENT_REPORT_DATE": " Fecha del informe de la incidencia",
-    "FL_INCIDENT_PUBLICATION_DATE": "Fecha de publicaci\u00f3n de la incidencia",
-    "FL_PEOPLE_NUMBER": "N\u00famero de personas",
+    "FL_INCIDENT_PUBLICATION_DATE": "Fecha de publicación de la incidencia",
+    "FL_PEOPLE_NUMBER": "Número de personas",
     "LBL_BREACH_CIRCUMSTANCES": "Circunstancias de incumplimiento",
     "FL_BREACH_CIRCUMSTANCES": "Circunstancias de incumplimiento",
-    "LBL_NATURE_OF_BREACH": "Naturaleza de la infracci\u00f3n",
-    "FL_NATURE_OF_BREACH": "Naturaleza de la infracci\u00f3n",
+    "LBL_NATURE_OF_BREACH": "Naturaleza de la infracción",
+    "FL_NATURE_OF_BREACH": "Naturaleza de la infracción",
     "LBL_POSSIBLE_CONSEQUENCES": "Posibles consecuencias",
     "FL_POSSIBLE_CONSEQUENCES": "Posibles consecuencias",
     "LBL_SECURITY_MEASURES": "Medidas de seguridad aplicadas",
     "FL_SECURITY_MEASURES": "Medidas de seguridad aplicadas"
-  },
-  "js": {}
+  }
 }
