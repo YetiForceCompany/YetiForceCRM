@@ -2,6 +2,7 @@
   "php": {
     "DataSetRegister": "Registre Set Date",
     "SINGLE_DataSetRegister": "Registru Set Date",
+    "LBL_DATA_SET_REGISTER": "Data Set Register",
     "FL_SUBJECT": "Subiect",
     "FL_STATUS": "Status",
     "FL_SCOPE_DATA": "Domeniul de aplicare a datelor in set",
@@ -16,6 +17,7 @@
     "FL_DESCRIPTION": "Descriere",
     "LBL_DESCRIPTION": "Descriere",
     "FL_COMMENTS": "Comentarii",
+    "LBL_REGISTER_DATE": "Entries",
     "LBL_BASIC_INFORMATION": "Informatii de baza",
     "LBL_COMMENTS": "Comentarii",
     "PLL_CONSENT": "Consimtamant",
