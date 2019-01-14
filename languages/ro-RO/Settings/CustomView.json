@@ -10,7 +10,6 @@
     "Saving CustomView": "Vizualizarea a fost salvata",
     "Actions": "Actiuni",
     "Edit": "Modifica",
-    "LBL_ATTENTION": "Atentie!",
     "LBL_FEATURED_LABELS": "In favorite",
     "LBL_CREATED_BY": "Creat de",
     "LBL_ADD_FILTER": "Adauga filtru",
@@ -26,7 +25,8 @@
     "LBL_SORTING_SETTINGS_WORNING": "Incarcarea inregistrarilor poate creste semnificativ timpul de incarcare a paginilor",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Selectati un camp pentru a sorta inregistrarilor",
     "LBL_SORT_ASCENDING_ORDER": "Sorteaza in ordine crescatoare",
-    "LBL_SORT_DESCENDING_ORDER": "Sorteaza in ordine descrescatoare"
+    "LBL_SORT_DESCENDING_ORDER": "Sorteaza in ordine descrescatoare",
+    "LBL_ATTENTION": "Atentie!"
   },
   "js": {
     "Saving changes": "Salveaza schimbarile...",
