@@ -1,29 +1,27 @@
 {
   "php": {
-    "Inactive": "Inaktiv",
-    "Active": "Aktiv",
     "OSSOutsourcedServices": "Outsourcing-Dienste",
     "SINGLE_OSSOutsourcedServices": "Outsourcing-Dienst",
     "LBL_INFORMATION": "Informationsblock",
-    "LBL_ADD_RECORD": "Dienstleistung hinzuf\u00fcgen",
-    "LBL_RECORDS_LIST": "Liste Dienstleistungen",
-    "Assigned To": "zust\u00e4ndig",
+    "Assigned To": "zuständig",
     "LBL_osservicesstatus": "Status",
     "Individual Agreement": "Individuelle Vereinbarung",
-    "In service": "Wird unterst\u00fctzt",
-    "Finished support": "Unterst\u00fctzung beendet",
+    "In service": "Wird unterstützt",
+    "Finished support": "Unterstützung beendet",
     "Product Name": "Name Dienstleistung",
     "Sub Category": "Unterkategorie",
     "Category": "Kategorie",
     "Date Sold": "Verkaufsdatum",
-    "Date in Service": "Unterst\u00fctzung Beendigungsdatum",
+    "Date in Service": "Unterstützung Beendigungsdatum",
     "Description": "Beschreibung",
     "LBL_DESCRIPTION_INFORMATION": "Beschreibende Informationen",
     "LBL_CUSTOM_INFORMATION": "System Information",
     "Where bought": "Wo gekauft",
     "Number": "Nummer",
     "Save": "Speichern",
+    "LBL_GENERATE_EXTENSION": "Generiere Verlängerung",
     "Selling proposition": "Gelegenheit",
-    "LBL_GENERATE_EXTENSION": "Generiere Verl\u00e4ngerung"
+    "Active": "Aktiv",
+    "Inactive": "Inaktiv"
   }
 }
