@@ -1,35 +1,35 @@
 {
   "php": {
-    "Actions": "Actions",
     "CustomView": "Filtres - Configuration",
-    "LBL_CUSTOMVIEW_DESCRIPTION": "Cet outil permet de param\u00e9trer des vues personnalis\u00e9es pour les modules. Ces modules doivent contenir des enregistrements et utiliser des filtres standards de YetiForce CRM.",
+    "LBL_CUSTOMVIEW_DESCRIPTION": "Cet outil permet de paramétrer des vues personnalisées pour les modules. Ces modules doivent contenir des enregistrements et utiliser des filtres standards de YetiForce CRM.",
     "ViewName": "Nom de la vue",
-    "SetDefault": "D\u00e9faut",
-    "Privileges": "Droit d'acc\u00e8s",
+    "SetDefault": "Défaut",
+    "Privileges": "Droit d'accès",
     "Delete": "Supprimer",
-    "Delete CustomView": "La vue personalis\u00e9e a \u00e9t\u00e9 supprim\u00e9e",
-    "Saving CustomView": "Vue sauvegard\u00e9e",
+    "Delete CustomView": "La vue personalisée a été supprimée",
+    "Saving CustomView": "Vue sauvegardée",
+    "Actions": "Actions",
     "Edit": "Editer",
-    "LBL_ATTENTION": "Attention!",
     "LBL_FEATURED_LABELS": "Dans les favoris",
-    "LBL_CREATED_BY": "Cr\u00e9\u00e9 par",
+    "LBL_CREATED_BY": "Créé par",
     "LBL_ADD_FILTER": "Ajouter filtre",
-    "LBL_MANAGE_PERMISSIONS": "G\u00e9rer les permissions",
+    "LBL_MANAGE_PERMISSIONS": "Gérer les permissions",
     "LBL_ALL_GROUP_LIST": "Options disponibles",
     "LBL_GROUP_MEMBERS": "Inclue dans l'action",
     "LBL_ADD_PERMISSIONS": "Ajouter permissions",
     "LBL_RECEIVE_PERMISSION": "Recevoir permissions",
-    "LBL_SAVE_SEQUENCES": "S\u00e9quences sauvegard\u00e9es avec succ\u00e8s",
-    "LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflit avec %s \r\n Permission s\u00e9lectionn\u00e9e ne peuvent \u00eatre utiliser dans plus d'un filtre.",
+    "LBL_SAVE_SEQUENCES": "Séquences sauvegardées avec succès",
+    "LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflit avec %s \r\n Permission sélectionnée ne peuvent être utiliser dans plus d'un filtre.",
     "LBL_SORTING": "Tri",
-    "LBL_SORTING_SETTINGS": "Param\u00e8tres de tri",
+    "LBL_SORTING_SETTINGS": "Paramètres de tri",
     "LBL_SORTING_SETTINGS_WORNING": "Le tri des enregistrements peut fortement augmenter le temps de chargement de la page.",
-    "LBL_SELECT_FIELD_TO_SORT_RECORDS": "S\u00e9lectionner un champ pour activer le tri",
+    "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Sélectionner un champ pour activer le tri",
     "LBL_SORT_ASCENDING_ORDER": "Tri par ordre croissant",
-    "LBL_SORT_DESCENDING_ORDER": "Tri par ordre d\u00e9croissant"
+    "LBL_SORT_DESCENDING_ORDER": "Tri par ordre décroissant",
+    "LBL_ATTENTION": "Attention!"
   },
   "js": {
     "Saving changes": "Sauvergarde des changements...",
-    "Update labels": "Mettre \u00e0 jour"
+    "Update labels": "Mettre à jour"
   }
 }
