@@ -2,24 +2,24 @@
   "php": {
     "PublicHoliday": "Feiertage",
     "LBL_PUBLIC_HOLIDAY": "Kalendar - Feiertage",
-    "LBL_PUBLIC_HOLIDAY_DESCRIPTION": "Pflege von Feiertagen",
-    "LBL_ADD_HOLIDAY": "Feiertag hinzuf\u00fcgen",
+    "LBL_PUBLIC_HOLIDAY_DESCRIPTION": " ",
+    "LBL_ADD_HOLIDAY": "Feiertag hinzufügen",
     "LBL_HOLIDAY_LIST": "Feiertage",
     "LBL_YEAR_FROM": "Von",
     "LBL_YEAR_TO": "Zu",
     "LBL_EDIT": "Bearbeiten",
-    "LBL_DELETE": "L\u00f6schen",
-    "JS_HOLIDAY_DELETE_OK": "Feiertag konnte gel\u00f6scht werden",
-    "JS_HOLIDAY_DELETE_ERROR": "Feiertag konnte nicht gel\u00f6scht werden",
-    "LBL_ADD_NEW_HOLIDAY": "Feiertag hinzuf\u00fcgen",
+    "LBL_DELETE": "Löschen",
+    "JS_HOLIDAY_DELETE_OK": "Feiertag konnte gelöscht werden",
+    "JS_HOLIDAY_DELETE_ERROR": "Feiertag konnte nicht gelöscht werden",
+    "LBL_ADD_NEW_HOLIDAY": "Feiertag hinzufügen",
     "LBL_DATE": "Datum",
     "LBL_DAY_NAME": "Name des Feiertages",
     "LBL_DAY_NAME_DESC": "Name des Feiertages",
-    "LBL_NEW_DATE_OK": "Neuer Feiertag erfolgreich hinzugef\u00fcgt",
-    "LBL_NEW_DATE_ERROR": "Es konnte kein neuer Feiertag hinzugef\u00fcgt werden",
-    "LBL_EDIT_DATE_OK": "\u00c4nderungen erfolgreich gesichert",
+    "LBL_NEW_DATE_OK": "Neuer Feiertag erfolgreich hinzugefügt",
+    "LBL_NEW_DATE_ERROR": "Es konnte kein neuer Feiertag hinzugefügt werden",
+    "LBL_EDIT_DATE_OK": "Änderungen erfolgreich gesichert",
     "LBL_EDIT_DATE_ERROR": "Feiertage konnten nicht gesichert werden",
-    "LBL_FILL_FORM_ERROR": "Es m\u00fcssen alle Felder im Formular bef\u00fcllt werden",
+    "LBL_FILL_FORM_ERROR": "Es müssen alle Felder im Formular befüllt werden",
     "Monday": "Montag",
     "Tuesday": "Dienstag",
     "Wednesday": "Mittwoch",
@@ -36,8 +36,8 @@
     "LBL_DATE_RANGE": "Zeitraum"
   },
   "js": {
-    "JS_ADD_NEW_HOLIDAY": "Feiertag hinzuf\u00fcgen",
-    "JS_EDIT_HOLIDAY": "Feiertag \u00e4ndern",
-    "JS_FILL_FORM_ERROR": "Es m\u00fcssen alle Felder im Formular bef\u00fcllt werden"
+    "JS_ADD_NEW_HOLIDAY": "Feiertag hinzufügen",
+    "JS_EDIT_HOLIDAY": "Feiertag ändern",
+    "JS_FILL_FORM_ERROR": "Es müssen alle Felder im Formular befüllt werden"
   }
 }
