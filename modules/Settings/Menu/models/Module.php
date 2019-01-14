@@ -27,6 +27,7 @@ class Settings_Menu_Module_Model
 		6 => 'HomeIcon',
 		7 => 'CustomFilter',
 		8 => 'Profile',
+		9 => 'RecycleBin',
 	];
 
 	/**
@@ -92,6 +93,9 @@ class Settings_Menu_Module_Model
 				} else {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['viewname'], $data['entitytype']);
 				}
+				break;
+			case 9:
+				$name = 'LBL_RECYCLE_BIN';
 				break;
 			default:
 				$name = $row['label'];
