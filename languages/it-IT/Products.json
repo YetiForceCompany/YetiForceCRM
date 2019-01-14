@@ -1,7 +1,7 @@
 {
   "php": {
     "FL_RENEWABLE": "Rinnovabili",
-    "Unit Code": "unit\u00e0",
+    "Unit Code": "unità",
     "Mf. Country Code": "Mf. country code",
     "Manuf. Country": "Manuf. country",
     "Customs ID": "Customs ID",
@@ -27,7 +27,6 @@
     "Hardware": "Hardware",
     "Hours": "Ore",
     "Impressions": "Impressions",
-    "LBL_ADD_RECORD": "Aggiungi",
     "LBL_ADD_TO_PRICEBOOKS": "Add to PriceBooks",
     "Lb": "Lb",
     "LBL_IMAGE_INFORMATION": "Product image information",
@@ -36,7 +35,6 @@
     "LBL_PRICES": "Prezzi prodotto",
     "LBL_PRODUCT_INFORMATION": "Dettagli prodotto",
     "LBL_PRODUCTSMOD_DISABLED": "Enable products module to view Products",
-    "LBL_RECORDS_LIST": "Lista prodotti",
     "LBL_RESET_PRICE": "Reset price",
     "LBL_RESET": "Reset",
     "LBL_STOCK_INFORMATION": "Stock information",
@@ -76,12 +74,11 @@
     "Support Group": "Support",
     "Marketing Group": "Marketing",
     "Team Selling": "Sales",
+    "pcs": "unità",
+    "pack": "pack",
     "LBL_TAXES": "Tasse",
     "LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO": "List of records is limited to the products and services associated with the sales opportunity",
     "FL_EAN_13": "EAN-13",
-    "FL_QTY_IN_STOCK": "Quantity of product in stock",
-    "pcs": "unit\u00e0",
-    "pack": "pack",
-    "FL_POS": "POS"
+    "FL_QTY_IN_STOCK": "Quantity of product in stock"
   }
 }
