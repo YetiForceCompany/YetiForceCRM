@@ -1,13 +1,12 @@
 {
   "php": {
-    "LBL_MODULE": "Module",
     "ModTracker": "Historique des modifications",
-    "LBL_MODTRACKER_SETTINGS": "Modules \u2013 Auditer\/historiser les modifications",
-    "LBL_MODTRACKER_SETTINGS_DESCRIPTION": "G\u00e9rer l'historique des modifications dans les modules",
+    "LBL_MODTRACKER_SETTINGS": "Modules – Auditer\/historiser les modifications",
+    "LBL_MODTRACKER_SETTINGS_DESCRIPTION": "Gérer l'historique des modifications dans les modules",
+    "LBL_MODULE": "Module",
     "LBL_ACTIVE": "Auditer les modifications",
     "LBL_TOOLS": "Outils",
-    "LBL_TRACK_CHANGES_ENABLED": "Audit des modifications activ\u00e9",
-    "LBL_TRACK_CHANGES_DISABLE": "Audit des modifications d\u00e9sactiv\u00e9"
-  },
-  "js": {}
+    "LBL_TRACK_CHANGES_ENABLED": "Audit des modifications activé",
+    "LBL_TRACK_CHANGES_DISABLE": "Audit des modifications désactivé"
+  }
 }
