@@ -1,21 +1,21 @@
 {
   "php": {
-    "ISTDN": "Depolama Birimi Aktar\u0131lm\u0131\u015f Notlar",
-    "SINGLE_ISTDN": "Depolama Birimi Aktar\u0131lm\u0131\u015f Not",
-    "LBL_DESCRIPTION_BLOCK": "A\u00e7\u0131klama",
+    "ISTDN": "Depolama Birimi Aktarılmış Notlar",
+    "SINGLE_ISTDN": "Depolama Birimi Aktarılmış Not",
+    "LBL_DESCRIPTION_BLOCK": "Açıklama",
     "LBL_ATTENTION_BLOCK": "Yorum",
     "FL_ACCEPTANCE_DATE": "Kabul tarihi",
     "FL_ACCOUNT": "Hesap",
-    "FL_NUMBER": "Numara",
     "FL_SUBJECT": "Konu",
+    "FL_NUMBER": "Numara",
     "FL_STORAGE": "Depolama",
     "FL_STATUS": "Durum",
     "PLL_DRAFT": "Taslak",
-    "PLL_IN_REALIZATION": "Ger\u00e7ekle\u015fmede",
-    "PLL_OBJECTIONS": "\u0130tirazlar",
-    "PLL_FOR_APPROVAL": "Onay i\u00e7in",
-    "PLL_CANCELLED": "\u0130ptal edildi",
+    "PLL_IN_REALIZATION": "Gerçekleşmede",
+    "PLL_OBJECTIONS": "İtirazlar",
+    "PLL_FOR_APPROVAL": "Onay için",
+    "PLL_CANCELLED": "İptal edildi",
     "PLL_ACCEPTED": "Kabul edildi",
-    "LBL_CHANGE_STATUS": "Durumu de\u011fi\u015ftir"
+    "LBL_CHANGE_STATUS": "Durumu değiştir"
   }
 }
