@@ -1,10 +1,10 @@
 {
   "php": {
-    "LBL_PAGE_NUMBER": "Mergi la pagina numarul",
     "OSSMailScanner_manual": "Mail Scanner",
     "OSSMailScanner": "Scaner Mail",
-    "Mail Scanner": "Scaner \u2013 Mail",
+    "Mail Scanner": "Scaner – Mail",
     "LBL_VIEW_LOGS": "Protocol Mail",
+    "LBL_PAGE_NUMBER": "Mergi la pagina numarul",
     "CRM Archive": "Arhiva CRM",
     "CRM Archive Sent": "Arhiva CRM trimisa",
     "Drafts": "Ciorne",
