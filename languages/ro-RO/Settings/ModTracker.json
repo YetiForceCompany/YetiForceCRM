@@ -1,7 +1,7 @@
 {
   "php": {
     "ModTracker": "Schimba istoric",
-    "LBL_MODTRACKER_SETTINGS": "Module \u2013 Urmarire Schimbari \/ Istoric",
+    "LBL_MODTRACKER_SETTINGS": "Module – Urmarire Schimbari \/ Istoric",
     "LBL_MODTRACKER_SETTINGS_DESCRIPTION": "Gestionati istoricul schimbarilor in module",
     "LBL_MODULE": "Modul",
     "LBL_ACTIVE": "Urmareste schimbari",
