@@ -1,7 +1,7 @@
 {
   "php": {
     "Calendar": "Calendar",
-    "LBL_ACTIVITY_TYPES": "Calendar \u2013 Tipuri",
+    "LBL_ACTIVITY_TYPES": "Calendar – Tipuri",
     "LBL_ACTIVITY_TYPES_DESCRIPTION": "Gestionarea tipurilor de activitate.",
     "LBL_ACTIVITY_NAME": "Nume tipuri activitati",
     "LBL_MODULE": "Modul",
@@ -37,5 +37,7 @@
     "Meeting": "Intalnire",
     "Call": "Apel"
   },
-  "js": {}
+  "js": {
+
+  }
 }
