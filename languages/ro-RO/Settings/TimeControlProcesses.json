@@ -1,16 +1,18 @@
 {
   "php": {
     "LBL_TIMECONTROL_PROCESSES": "Flux de lucru",
+    "TimeControlProcesses": "Proces control timp",
     "LBL_TIMECONTROL_PROCESSES_DESCRIPTION": " ",
     "LBL_ONEDAY_VALID": "Timp de lucru limitat la 24 ore",
     "LBL_TIMEOVERLAP_VALID": "Permiteti suprapunerea timpului",
     "LBL_GENERAL_SETTINGS": "Setari generale",
-    "TimeControlProcesses": "Proces control timp",
     "LBL_TIME_CONTROL_WIDGET": "Widget control timp",
     "LBL_TCW_INFO": "Optiunea care ascunde\/afiseaza pictogramele din widget-ul de control al timpului pot fi gasite aici.",
     "LBL_HOLIDAYS": "Pictograme sarbatoare",
     "LBL_WORKING_DAYS": "Pictograme zile lucratoare",
     "LBL_WORKING_TIME": "Pictograme timp lucru"
   },
-  "js": {}
+  "js": {
+
+  }
 }
