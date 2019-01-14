@@ -1,9 +1,9 @@
 {
   "php": {
     "Webservices": "Webservices",
-    "LBL_CHANGE_PASSWORD_FAILURE": "Fehler beim Passwort \u00e4ndern",
-    "LBL_DATABASE_QUERY_ERROR": "Datenbankfehler w\u00e4hrend der Durchf\u00fchrung der angeforderten Operation",
-    "LBL_INVALID_OLD_PASSWORD": "Ung\u00fcltiger Wert f\u00fcr altes Passwort angegeben.",
-    "LBL_NEW_PASSWORD_MISMATCH": "Neues Passwort und Best\u00e4tigungspasswort stimmen nicht \u00fcberein"
+    "LBL_CHANGE_PASSWORD_FAILURE": "Fehler beim Passwort ändern",
+    "LBL_DATABASE_QUERY_ERROR": "Datenbankfehler während der Durchführung der angeforderten Operation",
+    "LBL_INVALID_OLD_PASSWORD": "Ungültiger Wert für altes Passwort angegeben.",
+    "LBL_NEW_PASSWORD_MISMATCH": "Neues Passwort und Bestätigungspasswort stimmen nicht überein"
   }
 }
