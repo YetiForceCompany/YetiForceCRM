@@ -1,6 +1,6 @@
 {
   "php": {
-    "HTTP_ERROR": "O website que voc\u00ea est\u00e1 tentando abrir n\u00e3o \u00e9 seguro e pode n\u00e3o abrir. Se mesmo assim quiser visualizar a p\u00e1gina, ent\u00e3o poder\u00e1 clicar sobre o bloqueador de conte\u00fado na barra de endere\u00e7o e habilita-lo.",
+    "HTTP_ERROR": "O website que você está tentando abrir não é seguro e pode não abrir. Se mesmo assim quiser visualizar a página, então poderá clicar sobre o bloqueador de conteúdo na barra de endereço e habilita-lo.",
     "LBL_ADD_BOOKMARK": "Adicionar Favorito",
     "LBL_ADD_NEW_BOOKMARK": "Adicionar Novo Favorito",
     "LBL_BOOKMARK": "Favorito",
@@ -20,6 +20,6 @@
     "SINGLE_Portal": "Nosso Site"
   },
   "js": {
-    "JS_ENTER_MANDATORY_FIELD": "Por favor, digite todos os campos obrigat\u00f3rios"
+    "JS_ENTER_MANDATORY_FIELD": "Por favor, digite todos os campos obrigatórios"
   }
 }
