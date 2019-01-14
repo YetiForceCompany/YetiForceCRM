@@ -6,7 +6,6 @@
     "LBL_AUTHOR": "Autor",
     "LBL_ADD_ISSUES": "Adauga",
     "LBL_TITLE_ADD_ISSUE": "Adauga",
-    "LBL_ADD_ISSUE": "Problema noua",
     "LBL_CLOSED": "Inchis",
     "LBL_OPEN": "Deschis",
     "closed": "Inchis",
@@ -19,8 +18,6 @@
     "LBL_USERNAME_DESCRIPTION": "Numele dvs de utilizator www.github.com",
     "LBL_TOKEN_DESCRIPTION": "Cod unic de acces pentru un cont de 40 caractere. Este posibil sa gasiti manualul de creare a manualelor %s",
     "LBL_NO_ISSUES": "Nu au fost raportate probleme",
-    "LBL_PHP_VERSION": "PHP",
-    "LBL_LIBRARIES_ERROR": "Erori librarie",
-    "LBL_CONFIGURATION_ERROR": "Erori configuratie server"
+    "LBL_PHP_VERSION": "PHP"
   }
 }
