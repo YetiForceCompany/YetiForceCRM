@@ -2,13 +2,13 @@
   "php": {
     "Access to record": "Acesso aos registros",
     "GlobalPermission": "Acesso aos registros",
-    "LBL_Module_desc": "Aqui voc\u00ea poder\u00e1 definir quais Perfis ter\u00e3o acesso a todos os registros independente das fun\u00e7\u00f5es.",
+    "LBL_Module_desc": "Aqui você poderá definir quais Perfis terão acesso a todos os registros independente das funções.",
     "LBL_PROFILE_NAME": "Nome do Perfil",
-    "LBL_DESCRIPTION": "Descri\u00e7\u00e3o do Perfil",
-    "LBL_VIEW_ALL_DESC": "Se voc\u00ea marcar esta op\u00e7\u00e3o, todos os m\u00f3dulos ter\u00e3o esta op\u00e7\u00e3o marcada por: Examinando",
-    "LBL_VIEW_ALL": "Habilitar visauliza\u00e7\u00e3o de todos os registros",
-    "LBL_EDIT_ALL_DESC": "Se voc\u00ea marcar esta op\u00e7\u00e3o, todos os m\u00f3dulos ter\u00e3o esta op\u00e7\u00e3o marcada por: Criar\/Editar.",
-    "LBL_EDIT_ALL": "Habilitar edi\u00e7\u00e3o de todos os registros",
-    "LBL_SAVE_OK": "As altera\u00e7\u00f5es foram salvas"
+    "LBL_DESCRIPTION": "Descrição do Perfil",
+    "LBL_VIEW_ALL_DESC": "Se você marcar esta opção, todos os módulos terão esta opção marcada por: Examinando",
+    "LBL_VIEW_ALL": "Habilitar visaulização de todos os registros",
+    "LBL_EDIT_ALL_DESC": "Se você marcar esta opção, todos os módulos terão esta opção marcada por: Criar\/Editar.",
+    "LBL_EDIT_ALL": "Habilitar edição de todos os registros",
+    "LBL_SAVE_OK": "As alterações foram salvas"
   }
 }
