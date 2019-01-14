@@ -1,21 +1,21 @@
 {
   "php": {
-    "LBL_CONVERSION": "Convers\u00e3o",
-    "LBL_CONVERSION_TO_ACCOUNT": "Respons\u00e1vel pela altera\u00e7\u00e3o",
-    "LBL_CONVERSION_TO_ACCOUNT_INFO": "Quando esta op\u00e7\u00e3o estiver marcada, o Usu\u00e1rio que converter o Lead para Organiza\u00e7\u00e3o tornar-se-\u00e1 seu Respons\u00e1vel",
+    "LBL_CONVERSION": "Conversão",
+    "LBL_CONVERSION_TO_ACCOUNT": "Responsável pela alteração",
+    "LBL_CONVERSION_TO_ACCOUNT_INFO": "Quando esta opção estiver marcada, o Usuário que converter o Lead para Organização tornar-se-á seu Responsável",
     "LBL_LEADS": "Leads",
-    "LBL_INFO": "Informa\u00e7\u00e3o",
+    "LBL_INFO": "Informação",
     "LBL_VALUES": "Valores",
-    "LBL_GROUPS_INFO": "Grupos sem um Respons\u00e1vel",
+    "LBL_GROUPS_INFO": "Grupos sem um Responsável",
     "LBL_LEAD_STATUS": "Selecione os status que indicam o final do trabalho com Leads",
     "LBL_LEAD_CONVERT_STATUS": "Status que permitem converter o Lead para Conta",
-    "LBL_CURRENTUSER_STATUS": "Altera\u00e7\u00e3o do Respons\u00e1vel para um Usu\u00e1rio que editou um registro",
-    "LBL_CONVERT_LEAD_MERGE": "Vincular os requisitos espec\u00edficos da reuni\u00e3o enquanto converte o Lead para Conta",
-    "LBL_CONVERT_LEAD_MERGE_ALERT": "Esta op\u00e7\u00e3o permite que o Sistema associe automaticamente o registro convertido com o j\u00e1 existente - n\u00e3o ser\u00e1 criada uma nova Conta, ao inv\u00e9s disso os dados do registro existente ser\u00e3o transferidos a partir do Lead",
-    "LBL_CONDITION": "Adiconar condi\u00e7\u00e3o",
+    "LBL_CURRENTUSER_STATUS": "Alteração do Responsável para um Usuário que editou um registro",
+    "LBL_CONVERT_LEAD_MERGE": "Vincular os requisitos específicos da reunião enquanto converte o Lead para Conta",
+    "LBL_CONVERT_LEAD_MERGE_ALERT": "Esta opção permite que o Sistema associe automaticamente o registro convertido com o já existente - não será criada uma nova Conta, ao invés disso os dados do registro existente serão transferidos a partir do Lead",
+    "LBL_CONDITION": "Adiconar condição",
     "MarketingProcesses": "Processo de Marketing"
   },
   "js": {
-    "JS_NO_CONDITIONS": "Pelo menos uma condi\u00e7\u00f5es \u00e9 requirida"
+    "JS_NO_CONDITIONS": "Pelo menos uma condições é requirida"
   }
 }
