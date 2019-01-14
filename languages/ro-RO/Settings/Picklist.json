@@ -9,8 +9,6 @@
     "LBL_ALL_VALUES": "Toate valorile",
     "LBL_ASSIGN_TO_ROLE": "Alocati rolului",
     "LBL_ASSIGN_VALUE": "Alocati Roluri",
-    "LBL_SAVE_COLOR": "Culoare modificata cu succes",
-    "LBL_REMOVED_COLOR": "Culoare eliminata cu succes",
     "LBL_ASSIGN_VALUES_TO_ROLES": "Alocati valori la Rolurile",
     "LBL_CHOOSE_ROLES": "Alege Roluri",
     "LBL_DELETE_PICKLIST_ITEMS": "Stergeti elemente lista de alegere",
@@ -37,7 +35,8 @@
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Valori alocate unui Rol",
     "NO_PICKLIST_FIELDS": "nu aveti campuri de alegere",
     "LBL_NEW_VALUE": "Valoare noua",
-    "LBL_CLOSES_RECORD": "Closes record"
+    "LBL_CLOSES_RECORD": "Closes record",
+    "LBL_PREFIX": "Prefix"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Toate Rolurile selectate",
