@@ -1,16 +1,16 @@
 {
   "php": {
-    "LBL_OWNER_ALLOCATION": "Designar Respons\u00e1vel",
+    "LBL_OWNER_ALLOCATION": "Designar Responsável",
     "LBL_OWNER_ALLOCATION_DESCRIPTION": " ",
-    "LBL_MULTIOWNER_ALLOCATION": "Designar compartilhamento Usu\u00e1rios",
+    "LBL_MULTIOWNER_ALLOCATION": "Designar compartilhamento Usuários",
     "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " ",
-    "LBL_SORTING_SETTINGS_WORNING": "Aten\u00e7\u00e3o!\r\n A configura\u00e7\u00e3o somente funcionar\u00e1 quando voc\u00ea habilita-la no painel de Fun\u00e7\u00f5es ",
-    "LBL_ADD_PANEL_TO_MODULE": "Adicionar aloca\u00e7\u00e3o para o m\u00f3dulo",
-    "LBL_SELECT_MODULE": "Selecionar m\u00f3dulo",
+    "LBL_SORTING_SETTINGS_WORNING": "Atenção!\r\n A configuração somente funcionará quando você habilita-la no painel de Funções ",
+    "LBL_ADD_PANEL_TO_MODULE": "Adicionar alocação para o módulo",
+    "LBL_SELECT_MODULE": "Selecionar módulo",
     "LBL_GO_TO_PANEL": "ir par ao Painel",
-    "LBL_USERS_AND_GROUPS": "Usu\u00e1ios e Grupos"
+    "LBL_USERS_AND_GROUPS": "Usuáios e Grupos"
   },
   "js": {
-    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Tem certeza que deseja remover todas as aloca\u00e7\u00f5es neste m\u00f3dulo?"
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Tem certeza que deseja remover todas as alocações neste módulo?"
   }
 }
