@@ -1,32 +1,32 @@
 {
   "php": {
-    "ERR_INCORRECT_ACCESS_DATA": "Acc\u00e8s aux donn\u00e9es non valide",
-    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Les dossiers ci-dessous seront supprim\u00e9s apr\u00e8s l'enregistrement",
-    "LBL_PAGE_NUMBER": "Aller \u00e0 la page no.",
     "OSSMailScanner_manual": "Scanner mail",
     "OSSMailScanner": "Scanner Mail",
-    "Mail Scanner": "Scanner \u2013 Mail ",
+    "Mail Scanner": "Scanner – Mail ",
     "LBL_VIEW_LOGS": "Protocol mail",
+    "LBL_PAGE_NUMBER": "Aller à la page no.",
     "CRM Archive": "Archive CRM",
-    "CRM Archive Sent": "Archive CRM envoy\u00e9",
+    "CRM Archive Sent": "Archive CRM envoyé",
     "Drafts": "Brouillons",
-    "INBOX": "Bo\u00eete de r\u00e9ception",
+    "INBOX": "Boîte de réception",
     "Junk": "Corbeille",
-    "Sent": "Envoy\u00e9"
+    "Sent": "Envoyé",
+    "ERR_INCORRECT_ACCESS_DATA": "Accès aux données non valide",
+    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Les dossiers ci-dessous seront supprimés après l'enregistrement"
   },
   "js": {
-    "stop_user": "Utilisateur qui a arr\u00eat\u00e9 la v\u00e9rification",
-    "OK": "Ok",
-    "start_cron": "Cron d\u00e9marr\u00e9",
-    "end_cron_ok": "T\u00e2ches Cron termin\u00e9es avec succ\u00e8s",
+    "start_cron": "Cron démarré",
+    "end_cron_ok": "Tâches Cron terminées avec succès",
     "end_cron_error": "Lorsque le cron eait actif une erreur est survenue",
     "JS_mail_error": "L'adresse email fournie est incorrecte",
     "JS_time_error": "Le format de date est incorrect",
     "JS_StopCron": "Stopper manuellement le cron",
-    "Manually stopped": "Stopp\u00e9 manuellement",
+    "stop_user": "Utilisateur qui a arrêté la vérification",
+    "Manually stopped": "Stoppé manuellement",
+    "OK": "Ok",
     "In progress": "En cours",
-    "whether_remove_an_identity": "Retirer une identit\u00e9 ?",
-    "removed_identity": "Identit\u00e9 supprim\u00e9",
+    "whether_remove_an_identity": "Retirer une identité ?",
+    "removed_identity": "Identité supprimé",
     "LBL_LOADING_LIST_OF_FOLDERS": "Chargement de la liste des dossiers en cours.  Cela peut prendre plusieurs minutes..."
   }
 }
