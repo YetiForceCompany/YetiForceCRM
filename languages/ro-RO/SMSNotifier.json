@@ -2,12 +2,9 @@
   "php": {
     "providertype": "Furnizor",
     "LBL_SMS_MAX_CHARACTERS_ALLOWED": "Maxim 160 de caractere sunt permise in SMS",
-    "LBL_SEREVER_CONFIG": "Configuratie noua",
     "username": "Utilizator",
     "password": "Parola",
     "isactive": "Activ",
-    "SINGLE_SMSNotifier": "Notificator SMS",
-    "Server configuration": "Configurare server",
     "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Trimite SMS la numerele selectate",
     "LBL_STEP_1": "Pasul 1",
     "LBL_STEP_2": "Pasul 2",
