@@ -1,21 +1,21 @@
 {
   "php": {
-    "MailSmtp": "Configuraci\u00f3n SMTP",
-    "LBL_MAIL_SMTP": "Configuraci\u00f3n SMTP ",
-    "LBL_MAILSMTP_EDIT": "Edici\u00f3n de registros",
+    "MailSmtp": "Configuración SMTP",
+    "LBL_MAIL_SMTP": "Configuración SMTP ",
+    "LBL_MAILSMTP_EDIT": "Edición de registros",
     "LBL_MAILSMTP_TO_SEND_DESCRIPTION": "Configurar servidores de correo saliente",
     "LBL_HOST": "Host",
     "LBL_PORT": "Puerto",
     "LBL_USERNAME": "Nombre de usuario",
     "LBL_MAILER_TYPE": "Tipo de correo",
     "LBL_SECURE": "Protocolo de seguridad",
-    "LBL_OPTIONS": "Par\u00e1metros adicionales",
+    "LBL_OPTIONS": "Parámetros adicionales",
     "LBL_FROM_NAME": "Nombre del remitente",
-    "LBL_AUTHENTICATION": "Autenticaci\u00f3n",
+    "LBL_AUTHENTICATION": "Autenticación",
     "LBL_REPLY_TO": "Responder a",
     "LBL_INDIVIDUAL_DELIVERY": "Individual delivery",
-    "LBL_NAME": "Nombre",
     "LBL_FROM_EMAIL": "Correo del remitente",
+    "LBL_NAME": "Nombre",
     "LBL_SAVE_SEND_MAIL": "Do you want to save a sent email?",
     "LBL_SAVE_SEND_MAIL_INFO": "All sent emails are not saved (Gmail saves them automatically, so there is no need to enable this option). In order to save emails, enter an additional configuration.",
     "LBL_VALIDATE_CERT": "Do you want to validate the certificate?",
@@ -29,7 +29,7 @@
     "LBL_SSL": "SSL",
     "LBL_CREATE_SMTP": "Crear SMTP",
     "LBL_SMTP_DETAIL": "Detalle SMTP",
-    "LBL_INDIVIDUAL_DELIVERY_INFO": "Los correos electr\u00f3nicos se enviar\u00e1n individualmente para cada destinatario",
-    "LBL_OPTIONS_INFO": "Par\u00e1metros adicionales a modo de ejemplo (Json): \r\n{&quot;ssl&quot;:{&quot;verify_peer&quot;:false,&quot;verify_peer_name&quot;:false,&quot;allow_self_signed&quot;:true}}"
+    "LBL_INDIVIDUAL_DELIVERY_INFO": "Los correos electrónicos se enviarán individualmente para cada destinatario",
+    "LBL_OPTIONS_INFO": "Parámetros adicionales a modo de ejemplo (Json): \r\n{&quot;ssl&quot;:{&quot;verify_peer&quot;:false,&quot;verify_peer_name&quot;:false,&quot;allow_self_signed&quot;:true}}"
   }
 }
