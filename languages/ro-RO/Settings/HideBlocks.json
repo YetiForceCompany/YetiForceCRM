@@ -1,7 +1,7 @@
 {
   "php": {
     "HideBlocks": "Ascunde blocuri",
-    "LBL_HIDEBLOCKS": "Campuri \u2013 Ascunde blocuri",
+    "LBL_HIDEBLOCKS": "Campuri – Ascunde blocuri",
     "LBL_HIDEBLOCKS_DESCRIPTION": "Gestionati care blocuri cu campuri pot fi ascunse",
     "LBL_BLOCK_LABEL": "Bloc",
     "LBL_MODULE": "Modul",
