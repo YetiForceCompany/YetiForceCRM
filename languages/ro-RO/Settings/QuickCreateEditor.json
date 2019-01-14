@@ -1,7 +1,7 @@
 {
   "php": {
     "QuickCreateEditor": "Editor creare rapida",
-    "LBL_QUICK_CREATE_EDITOR": "Campuri \u2013 Creare rapida",
+    "LBL_QUICK_CREATE_EDITOR": "Campuri – Creare rapida",
     "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Modul care permite modificarea layout-ului campurilor din fereastra Creare rapida",
     "LBL_SEQUENCE": "Secventa camp",
     "LBL_SAVE_FIELD_SEQUENCE": "Salveaza secventa camp"
