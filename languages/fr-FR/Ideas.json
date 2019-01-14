@@ -1,16 +1,15 @@
 {
   "php": {
-    "Ideas": "Id\u00e9es",
-    "SINGLE_Ideas": "Id\u00e9e",
-    "LBL_IDEAS_INFORMATION": "D\u00e9tails de l'id\u00e9e",
+    "Ideas": "Idées",
+    "SINGLE_Ideas": "Idée",
+    "LBL_IDEAS_INFORMATION": "Détails de l'idée",
     "LBL_SUBJECT": "Sujet",
     "LBL_STATUS": "Statut",
     "Description": "Description",
-    "LBL_EXTENT_DESCRIPTION": "Description detaill\u00e9e",
+    "LBL_EXTENT_DESCRIPTION": "Description detaillée",
     "Attention": "Commentaires",
-    "LBL_NO": "N\u00b0",
+    "LBL_NO": "N°",
     "Draft": "Brouillon",
     "Proposition": "Proposition"
-  },
-  "js": {}
+  }
 }
