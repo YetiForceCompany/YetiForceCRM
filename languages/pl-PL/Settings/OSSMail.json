@@ -1,7 +1,9 @@
 {
   "php": {
     "OSSMail": "Moja poczta",
-    "ERR_NO_MODULE_IS_INACTIVE": "Modu\u0142 \"Moja poczta\" jest nieaktywny, przed rozpocz\u0119ciem konfiguracji nale\u017cy go w\u0142\u0105czy\u0107."
+    "ERR_NO_MODULE_IS_INACTIVE": "Moduł \"Moja poczta\" jest nieaktywny, przed rozpoczęciem konfiguracji należy go włączyć."
   },
-  "js": {}
+  "js": {
+
+  }
 }
