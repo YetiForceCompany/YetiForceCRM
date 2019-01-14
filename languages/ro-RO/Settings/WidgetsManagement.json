@@ -15,7 +15,7 @@
     "LBL_ADD_CONDITION": "Adaugati rol",
     "LBL_INVALID_DATA": "Data invalida",
     "WidgetsManagement": "Administrare widget",
-    "LBL_WIDGETS_MANAGEMENT": "Configurare \u2013 Widgeturi",
+    "LBL_WIDGETS_MANAGEMENT": "Configurare – Widgeturi",
     "LBL_WIDGETS_MANAGEMENT_DESCRIPTION": " ",
     "LBL_MANDATORY_WIDGET": "Widget obligatoriu",
     "LBL_WIDGET": "Widgeturi",
@@ -49,8 +49,8 @@
     "JS_BLOCK_ADDED": "Blocul a fost adaugat cu succes",
     "JS_CUSTOM_FIELD_DELETED": "Widgetul a fost sters cu succes",
     "JS_CUSTOM_BLOCK_DELETED": "Blocul a fost adaugat cu succes",
+    "JS_WIDGET_ADDED": "Widgetul a fost adaugat cu succes",
     "JS_FIELD_EMPTY": "Campul nu poate fi gol",
-    "JS_FILTERS_AVAILABLE": "Filtre disponibile",
-    "JS_WIDGET_ADDED": "Widgetul a fost adaugat cu succes"
+    "JS_FILTERS_AVAILABLE": "Filtre disponibile"
   }
 }
