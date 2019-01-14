@@ -1,21 +1,20 @@
 {
   "php": {
-    "FL_STATUS": "Statut",
-    "FL_IS_MANDATORY": "Obligation d'accepter",
     "Announcements": "Annonces",
     "SINGLE_Announcements": "Annonce",
-    "LBL_ANNOUNCEMENTS_INFORMATION": "D\u00e9tails annonces",
+    "LBL_ANNOUNCEMENTS_INFORMATION": "Détails annonces",
     "LBL_SUBJECT": "Sujet",
     "LBL_NUMBER": "Nombre",
+    "FL_STATUS": "Statut",
     "FL_INTERVAL": "Temps de rappel",
+    "FL_IS_MANDATORY": "Obligation d'accepter",
     "PLL_DRAFT": "Brouillon",
     "PLL_FOR_ACCEPTANCE": "Pour approbation",
-    "PLL_PUBLISHED": "Publi\u00e9",
-    "PLL_ARCHIVES": "Archiv\u00e9",
+    "PLL_PUBLISHED": "Publié",
+    "PLL_ARCHIVES": "Archivé",
     "LBL_REMIND_ME_LATER": "Me rappeler plus tard",
     "LBL_MARK_AS_READ": "Marquer comme lu",
-    "LBL_ACCEPT_ANNOUNCEMENT": "A \u00e9t\u00e9 accept\u00e9e ?",
+    "LBL_ACCEPT_ANNOUNCEMENT": "A été acceptée ?",
     "LBL_DATE": "Date de lecture"
-  },
-  "js": {}
+  }
 }
