@@ -2,16 +2,16 @@
   "php": {
     "LBL_COUNTRY_NAME": "Nazwa kraju",
     "LBL_COUNTRY_SHORTNAME": "Kod kraju",
-    "LBL_COUNTRY_TOGGLE_STATUS": "Czy kraj jest dost\u0119pny globalnie w systemie",
-    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "W\u0142\u0105cz lub wy\u0142\u0105cz wszystkie kraje og\u00f3lnie",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Czy kraj jest dostępny globalnie w systemie",
+    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "Włącz lub wyłącz wszystkie kraje ogólnie",
     "LBL_VISIBLE_IN_PHONE": "Czy kraj jest widoczny w polu typu telefon",
     "LBL_VISIBLE_IN_COUNTRY": "Czy kraj jest widoczny w polu adresowym kraj",
-    "LBL_ROW_TO_TOP": "Przesu\u0144 wiersz na sam\u0105 g\u00f3r\u0119",
-    "LBL_ROW_TO_BOTTOM": "Przesu\u0144 wiersz na sam d\u00f3\u0142",
-    "LBL_COUNTRY_SETTINGS": "Ustawienia kraj\u00f3w",
-    "LBL_COUNTRY_DESCRIPTION": "Konfiguracja dost\u0119pno\u015bci kraj\u00f3w w systemie"
+    "LBL_ROW_TO_TOP": "Przesuń wiersz na samą górę",
+    "LBL_ROW_TO_BOTTOM": "Przesuń wiersz na sam dół",
+    "LBL_COUNTRY_SETTINGS": "Ustawienia krajów",
+    "LBL_COUNTRY_DESCRIPTION": "Konfiguracja dostępności krajów w systemie"
   },
   "js": {
-    "JS_COUNTRY_SETTING": "Ustawienia kraj\u00f3w"
+    "JS_COUNTRY_SETTING": "Ustawienia krajów"
   }
 }
