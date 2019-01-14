@@ -1,27 +1,27 @@
 {
   "php": {
-    "LBL_SCALCULATIONS_INFORMATION": "Informa\u00e7\u00f5es B\u00e1sicas",
     "SVendorEnquiries": "Consultas de Compras",
     "SINGLE_SVendorEnquiries": "Pedido de Compra",
-    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00f5es do Sistema",
-    "LBL_DESCRIPTION_INFORMATION": "Detalhes da Descri\u00e7\u00e3o",
-    "LBL_STATISTICS": "Estat\u00edsticas",
+    "LBL_SCALCULATIONS_INFORMATION": "Informações Básicas",
+    "LBL_CUSTOM_INFORMATION": "Informações do Sistema",
+    "LBL_DESCRIPTION_INFORMATION": "Detalhes da Descrição",
+    "LBL_STATISTICS": "Estatísticas",
     "LBL_SUBJECT": "Assunto",
-    "LBL_NUMBER": "N\u00famero",
-    "LBL_STATUS": "Situa\u00e7\u00e3o",
+    "LBL_NUMBER": "Número",
     "LBL_CLOSED_TIME": "Hora de Fechamento",
+    "LBL_STATUS": "Situação",
     "LBL_RESPONSE_TIME": "Tempo de Resposta",
     "SINGLE_SSalesProcesses": "Oportunidade",
-    "FL_TOTAL_PRICE": "Total L\u00edquido",
+    "FL_TOTAL_PRICE": "Total Líquido",
     "FL_MARGINP": "Margem Percentual Total",
     "FL_MARGIN": "Margem Total",
     "FL_VENDOR": "Fornecedor",
     "FL_SCALCULATIONS": "Calculo",
     "PLL_DRAFT": "Rascunho",
-    "PLL_IN_REALIZATION": "Em realiza\u00e7\u00e3o",
-    "PLL_FOR_VERIFICATION": "Para verifica\u00e7\u00e3o",
+    "PLL_IN_REALIZATION": "Em realização",
+    "PLL_FOR_VERIFICATION": "Para verificação",
     "PLL_CANCELLED": "Cancelado",
     "PLL_COMPLETED": "Completo",
-    "LBL_CHANGE_STATUS": "Alterar Situa\u00e7\u00e3o"
+    "LBL_CHANGE_STATUS": "Alterar Situação"
   }
 }
