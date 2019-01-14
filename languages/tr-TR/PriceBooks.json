@@ -1,15 +1,15 @@
 {
   "php": {
     "LBL_ADD_TO": "Ekle",
-    "LBL_EDIT_LIST_PRICE": "Fiyat listesini d\u00fczenle",
-    "LBL_PRICEBOOK_INFORMATION": "Fiyat Listesi Ayr\u0131nt\u0131lar\u0131",
+    "LBL_EDIT_LIST_PRICE": "Fiyat listesini düzenle",
+    "LBL_PRICEBOOK_INFORMATION": "Fiyat Listesi Ayrıntıları",
     "LBL_UNIT_PRICE": "Birim fiyat",
-    "Price Book Name": "Fiyat Listesi Ad\u0131",
-    "PriceBook No": "Fiyat Listesi numaras\u0131",
+    "Price Book Name": "Fiyat Listesi Adı",
+    "PriceBook No": "Fiyat Listesi numarası",
     "PriceBooks": "Fiyat Listeleri",
     "SINGLE_PriceBooks": "Fiyat Listesi",
     "yes": "Evet",
-    "no": "Hay\u0131r",
+    "no": "Hayır",
     "Unit Price": "Birim fiyat"
   }
 }
