@@ -1,6 +1,6 @@
 {
   "php": {
-    "Announcements|FL_INTERVAL": "De\u011fi\u015fiklikleri g\u00f6zden ge\u00e7iren kullan\u0131c\u0131lar\u0131n g\u00fcnler i\u00e7indeki hat\u0131rlat\u0131c\u0131lar\u0131n s\u0131kl\u0131\u011f\u0131. Alan bo\u015fsa, hat\u0131rlat\u0131c\u0131 tekrar g\u00f6r\u00fcnt\u00fclenmez.",
-    "Accounts|Account Name": "Bu alan \u015firket ad\u0131 i\u00e7in tasarlanm\u0131\u015ft\u0131r"
+    "Announcements|FL_INTERVAL": "Değişiklikleri gözden geçiren kullanıcıların günler içindeki hatırlatıcıların sıklığı. Alan boşsa, hatırlatıcı tekrar görüntülenmez.",
+    "Accounts|Account Name": "Bu alan şirket adı için tasarlanmıştır"
   }
 }
