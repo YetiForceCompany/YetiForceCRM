@@ -19,15 +19,15 @@
     "FL_INCIDENT_DATE": "Vorfall Datum",
     "FL_INCIDENT_DISCOVERY": "Vorfallsdatum",
     "FL_INCIDENT_REPORT_DATE": " Vorfall Meldedatum",
-    "FL_INCIDENT_PUBLICATION_DATE": "Vorfall Ver\u00f6ffentlichungsdatum",
+    "FL_INCIDENT_PUBLICATION_DATE": "Vorfall Veröffentlichungsdatum",
     "FL_PEOPLE_NUMBER": "Anzahl Personen",
-    "LBL_BREACH_CIRCUMSTANCES": "Umst\u00e4nde der Datenschutzverletzung",
-    "FL_BREACH_CIRCUMSTANCES": "Umst\u00e4nde der Datenschutzverletzung",
+    "LBL_BREACH_CIRCUMSTANCES": "Umstände der Datenschutzverletzung",
+    "FL_BREACH_CIRCUMSTANCES": "Umstände der Datenschutzverletzung",
     "LBL_NATURE_OF_BREACH": "Ursache der Datenschutzverletzung",
     "FL_NATURE_OF_BREACH": "Ursache der Datenschutzverletzung",
-    "LBL_POSSIBLE_CONSEQUENCES": "M\u00f6gliche Konsequenzen",
-    "FL_POSSIBLE_CONSEQUENCES": "M\u00f6gliche Konsequenzen",
-    "LBL_SECURITY_MEASURES": "Angewendete Sicherheitsma\u00dfnahmen",
-    "FL_SECURITY_MEASURES": "Angewendete Sicherheitsma\u00dfnahmen"
+    "LBL_POSSIBLE_CONSEQUENCES": "Mögliche Konsequenzen",
+    "FL_POSSIBLE_CONSEQUENCES": "Mögliche Konsequenzen",
+    "LBL_SECURITY_MEASURES": "Angewendete Sicherheitsmaßnahmen",
+    "FL_SECURITY_MEASURES": "Angewendete Sicherheitsmaßnahmen"
   }
 }
