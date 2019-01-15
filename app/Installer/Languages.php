@@ -21,7 +21,7 @@ class Languages
 	 *
 	 * @var string
 	 */
-	public static $githubUrl = 'https://api.github.com/repos/YetiForceCompany/YetiForceCRMLanguages';
+	private static $githubUrl = 'https://api.github.com/repos/YetiForceCompany/YetiForceCRMLanguages';
 
 	/**
 	 * Get all languages for the current version.
@@ -38,7 +38,10 @@ class Languages
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
 					foreach ($body as $row) {
-						$languages[$row['name']] = \App\Language::getDisplayName($row['name']);
+						$languages[$row['name']] = [
+							'name' => \App\Language::getDisplayName($row['name']),
+							'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$row['name']}")
+						];
 					}
 				}
 			}
