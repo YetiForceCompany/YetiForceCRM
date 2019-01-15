@@ -137,6 +137,28 @@ class PackageImport extends PackageExport
 		return false;
 	}
 
+	/**
+	 * Checks font package type.
+	 *
+	 * @param null $zipfile
+	 *
+	 * @return bool
+	 */
+	public function isFontType($zipfile = null)
+	{
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
+		}
+		$packagetype = $this->type();
+		if ($packagetype) {
+			$lcasetype = strtolower($packagetype);
+			if ($lcasetype === 'font') {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public function isUpdateType($zipfile = null)
 	{
 		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
@@ -236,15 +258,8 @@ class PackageImport extends PackageExport
 	 */
 	public function checkZip($zipfile)
 	{
-		$manifestxml_found = false;
-		$languagefile_found = false;
-		$layoutfile_found = false;
-		$updatefile_found = false;
-		$extensionfile_found = false;
-		$moduleVersionFound = false;
-		$modulename = null;
-		$language_modulename = null;
-
+		$manifestxml_found = $languagefile_found = $layoutfile_found = $updatefile_found = $extensionfile_found = $moduleVersionFound = $fontfile_found = false;
+		$modulename = $language_modulename = null;
 		$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 		$this->__parseManifestFile($zip);
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
@@ -273,6 +288,9 @@ class PackageImport extends PackageExport
 				} elseif ($this->isUpdateType()) {
 					$updatefile_found = true; // No need to search for module language file.
 					break;
+				} elseif ($this->isFontType()) {
+					$fontfile_found = true; // No need to search for module language file.
+					break;
 				} else {
 					continue;
 				}
@@ -289,9 +307,9 @@ class PackageImport extends PackageExport
 			}
 		}
 		// Verify module language file.
-		if (!empty($language_modulename) && $language_modulename == $modulename) {
+		if (!empty($language_modulename) && $language_modulename === $modulename) {
 			$languagefile_found = true;
-		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
+		} elseif (!$fontfile_found && !$updatefile_found && !$layoutfile_found && !$languagefile_found) {
 			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $errorText);
 			$this->_errorText = $errorText;
@@ -321,6 +339,9 @@ class PackageImport extends PackageExport
 			$validzip = true;
 		}
 		if ($manifestxml_found && $updatefile_found && $moduleVersionFound) {
+			$validzip = true;
+		}
+		if ($manifestxml_found && $fontfile_found) {
 			$validzip = true;
 		}
 		if ($this->isLanguageType() && $manifestxml_found && strpos($this->_modulexml->prefix, '/') !== false) {
@@ -529,15 +550,21 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-				if ((string) $this->_modulexml->type === 'update') {
-					Functions::recurseDelete('cache/updates');
-					$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
-					$zip->extract('cache/updates');
-					$this->importUpdate();
-				} else {
-					$this->initImport($zipfile, $overwrite);
-					// Call module import function
-					$this->importModule();
+				switch ((string) $this->_modulexml->type) {
+					case 'update':
+						Functions::recurseDelete('cache/updates');
+						$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
+						$zip->extract('cache/updates');
+						$this->importUpdate();
+						break;
+					case 'font':
+						$this->importFont($zipfile);
+						break;
+					default:
+						$this->initImport($zipfile, $overwrite);
+						// Call module import function
+						$this->importModule();
+						break;
 				}
 			}
 		}
@@ -1081,5 +1108,56 @@ class PackageImport extends PackageExport
 			}
 			$inventory->saveField($fieldModel);
 		}
+	}
+
+	/**
+	 * Import font package.
+	 *
+	 * @param string $zipfile
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function importFont($zipfile)
+	{
+		$fontsDir = \ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
+		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt']]);
+		$files = $zip->unzip(['fonts' => $fontsDir]);
+		$fonts = \App\Json::read($fontsDir . '/fonts.json');
+		$tempFonts = [];
+		foreach ($fonts as $font) {
+			$tempFonts[$font['family']][$font['weight']][$font['style']] = $font['file'];
+		}
+		foreach ($files as $key => &$file) {
+			$file = \str_replace('fonts/', '', $file);
+			if (empty($file)) {
+				unset($files[$key]);
+			}
+		}
+		$files = \array_flip($files);
+		$missing = [];
+		if (!empty($this->_modulexml->fonts->font)) {
+			foreach ($this->_modulexml->fonts->font as $font) {
+				if (!isset($files[(string) $font->file])) {
+					$missing[] = (string) $font->file;
+				}
+				if (!isset($tempFonts[(string) $font->family][(string) $font->weight][(string) $font->style])) {
+					$fonts[] = [
+						'family' => (string) $font->family,
+						'weight' => (string) $font->weight,
+						'style' => (string) $font->style,
+						'file' => (string) $font->file,
+					];
+				}
+			}
+		}
+		if ($missing) {
+			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . \implode(',', $missing);
+		}
+		foreach ($fonts as $key => $font) {
+			if (!\file_exists("$fontsDir/{$font['file']}")) {
+				unset($fonts[$key]);
+			}
+		}
+		\App\Json::save($fontsDir . '/fonts.json', array_values($fonts));
 	}
 }

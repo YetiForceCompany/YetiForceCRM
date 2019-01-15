@@ -52,6 +52,8 @@
 											{\App\Language::translate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
 										{else if $IMPORT_MODULE_TYPE eq 'update'}
 											{\App\Language::translate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
+										{else if $IMPORT_MODULE_TYPE eq 'font'}
+											{\App\Language::translate('LBL_IMPORTED_FONT', $QUALIFIED_MODULE)}
 										{else}
 											{\App\Language::translate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
 										{/if}
