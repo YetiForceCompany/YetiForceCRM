@@ -721,4 +721,16 @@ class Language
 			}
 		}
 	}
+
+	/**
+	 * Get display language name.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return string
+	 */
+	public static function getDisplayName(string $prefix)
+	{
+		return \ucfirst(locale_get_region($prefix) === strtoupper(locale_get_primary_language($prefix)) ? locale_get_display_language($prefix, $prefix) : locale_get_display_name($prefix, $prefix));
+	}
 }
