@@ -3,7 +3,7 @@
  * Developer config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $DEVELOPER_CONFIG = [
 	// Turn the possibility to change generatedtype
@@ -18,4 +18,6 @@ $DEVELOPER_CONFIG = [
 	'CHANGE_RELATIONS' => false,
 	// Developer libraries update mode
 	'MISSING_LIBRARY_DEV_MODE' => false,
+	// Developer Languages update mode
+	'LANGUAGES_UPDATE_DEV_MODE' => false,
 ];
