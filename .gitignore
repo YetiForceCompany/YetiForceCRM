@@ -13,6 +13,8 @@
 /public_html/_private
 /public_html/layouts/basic/styles/.sass-cache
 /public_html/logo.jpg
+/public_html/layouts/resources/fonts/*.txt
+/public_html/layouts/resources/fonts/*.ttf
 
 /layouts/basic/modules/Settings/TestData
 
