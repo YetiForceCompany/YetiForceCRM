@@ -31,7 +31,7 @@ class Request extends \App\Request
 		if ($this->getRequestMethod() === 'GET') {
 			return $this;
 		} else {
-			$encrypted = $this->getHeader('ENCRYPTED');
+			$encrypted = $this->getHeader('encrypted');
 			$content = file_get_contents('php://input');
 			if (\AppConfig::api('ENCRYPT_DATA_TRANSFER') && $encrypted && (int) $encrypted === 1) {
 				$content = $this->decryptData($content);
@@ -47,9 +47,9 @@ class Request extends \App\Request
 
 	public function contentParse($content)
 	{
-		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('CONTENT-TYPE');
+		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('content-type');
 		if (empty($type)) {
-			$type = $this->getHeader('ACCEPT');
+			$type = $this->getHeader('accept');
 		}
 		if (!empty($type)) {
 			$type = explode('/', $type);

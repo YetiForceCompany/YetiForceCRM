@@ -129,8 +129,7 @@ class BaseAction
 	 */
 	public function getParentCrmId()
 	{
-		if ($this->controller && $parentId = $this->controller->request->getHeader('X-PARENT-ID')) {
-			settype($parentId, 'int');
+		if ($this->controller && $parentId = (int) $this->controller->request->getHeader('x-parent-id')) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
 			$hierarchy->session = $this->session;
 			$hierarchy->findId = $parentId;
