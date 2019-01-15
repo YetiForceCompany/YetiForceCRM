@@ -13,8 +13,8 @@ class Settings_LoginHistory_ListAjax_Action extends Settings_Vtiger_ListAjax_Act
 
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 
-		$searchField = $request->get('search_key');
-		$value = $request->get('search_value');
+		$searchField = $request->getByType('search_key', 'Alnum');
+		$value = $request->getByType('search_value', 'Text');
 
 		if (!empty($searchField) && !empty($value)) {
 			$listViewModel->set('search_key', $searchField);

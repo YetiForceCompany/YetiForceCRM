@@ -91,9 +91,11 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 
 		if ($customViewModel) {
 			if (!$request->isEmpty('operator')) {
-				$customViewModel->set('operator', $request->getByType('operator'));
-				$customViewModel->set('search_key', $request->getByType('search_key', 'Alnum'));
-				$customViewModel->set('search_value', $request->get('search_value'));
+				$operator = $request->getByType('operator');
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$customViewModel->set('operator', $operator);
+				$customViewModel->set('search_key', $searchKey);
+				$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $sourceModule, $searchKey, $operator));
 			}
 			$customViewModel->set('search_params', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
 			$customViewModel->set('entityState', $request->getByType('entityState'));

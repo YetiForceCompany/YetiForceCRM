@@ -27,7 +27,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$searchValue = $request->get('search_value');
+		$searchValue = $request->getByType('search_value', 'Text');
 		$searchModule = $request->getByType('search_module');
 		$parentRecordId = $request->getInteger('parent_id');
 		$parentModuleName = $request->getByType('parent_module');

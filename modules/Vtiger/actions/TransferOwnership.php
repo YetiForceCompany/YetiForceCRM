@@ -77,13 +77,12 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		if ($selectedIds[0] == 'all') {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {
-				$searchKey = $request->getByType('search_key');
-				$searchValue = $request->get('search_value');
-				$operator = $request->getByType('operator', 1);
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$operator = $request->getByType('operator');
 				if (!empty($operator)) {
 					$customViewModel->set('operator', $operator);
 					$customViewModel->set('search_key', $searchKey);
-					$customViewModel->set('search_value', $searchValue);
+					$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $module, $searchKey, $operator));
 				}
 				$customViewModel->set('search_params', App\Condition::validSearchParams($module, $request->getArray('search_params')));
 				return $customViewModel->getRecordIds($excludedIds, $module, true);

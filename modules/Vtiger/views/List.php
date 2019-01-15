@@ -242,14 +242,18 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
+		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$this->listViewModel->set('operator', $request->getByType('operator', 1));
-			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
+			$operator = $request->getByType('operator');
+			$this->listViewModel->set('operator', $operator);
+			$viewer->assign('OPERATOR', $operator);
 		}
 		if (!$request->isEmpty('search_key', true)) {
-			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
-			$this->listViewModel->set('search_value', $request->get('search_value'));
-			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
+			$this->listViewModel->set('search_key', $searchKey);
+			$this->listViewModel->set('search_value', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));

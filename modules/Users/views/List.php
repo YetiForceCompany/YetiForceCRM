@@ -82,14 +82,13 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
-
-		$searchKey = $request->getByType('search_key', 2);
-		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator');
 		if (!empty($operator)) {
 			$this->listViewModel->set('operator', $operator);
 		}
 		$viewer->assign('OPERATOR', $operator);
+		$searchKey = $request->getByType('search_key', 'Alnum');
+		$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
 		if ('status' != $searchKey) {
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}

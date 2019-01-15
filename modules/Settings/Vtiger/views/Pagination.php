@@ -37,8 +37,8 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $request->getByType('viewname', 2));
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
+		$searchKey = $request->getByType('search_key', 'Alnum');
+		$searchValue = $request->getByType('search_value', 'Text');
 		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
