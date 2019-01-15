@@ -1,7 +1,7 @@
 {
   "php": {
     "Calendar": "Calendar",
-    "LBL_ACTIVITY_TYPES": "Calendar \u2013 Types",
+    "LBL_ACTIVITY_TYPES": "Calendar – Types",
     "LBL_ACTIVITY_TYPES_DESCRIPTION": "Management of activity types.",
     "LBL_ACTIVITY_NAME": "Activity types name",
     "LBL_MODULE": "Module",
@@ -37,5 +37,7 @@
     "Meeting": "Meeting",
     "Call": "Call"
   },
-  "js": {}
+  "js": {
+
+  }
 }

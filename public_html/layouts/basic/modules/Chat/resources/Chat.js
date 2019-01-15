@@ -1206,6 +1206,7 @@ window.Chat_JS = class Chat_Js {
 		this.registerButtonFavorites();
 		this.registerSearchMessage();
 		this.registerSearchParticipants();
+		new App.Fields.Text.Completions(this.container.find('.js-completions'));
 		setTimeout(() => {
 			this.scrollToBottom();
 		}, 100);
@@ -1231,7 +1232,6 @@ window.Chat_JS = class Chat_Js {
 		this.turnOnInputAndBtnInRoom();
 		this.selectNavHistory();
 		Chat_Js.unregisterTrackingEvents();
-		new App.Fields.Text.Completions(this.container.find('.js-completions'));
 		this.isModalWindow = true;
 	}
 

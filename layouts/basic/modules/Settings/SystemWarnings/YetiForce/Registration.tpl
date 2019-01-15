@@ -1,11 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<!-- tpl-Settings-SystemWarnings-YetiForce-Newsletter -->
+<!-- tpl-Settings-SystemWarnings-YetiForce-Registration -->
 {strip}
 	<h6 class="h3">
-		{App\Language::translate('LBL_NEWSLETTER','Settings:SystemWarnings')}
+		{App\Language::translate('LBL_REGISTRATION','Settings:SystemWarnings')}
 	</h6>
-	<p><strong>{App\Language::translate('LBL_NEWSLETTER_NO_COMPANY_DATA','Settings:SystemWarnings')}</strong></p>
-	<p>{App\Language::translate('LBL_NEWSLETTER_DESC','Settings:SystemWarnings')}</p>
+	<p>{App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR')}</p>
 	<form class="validateForm" method="post" action="index.php">
 		<div class="float-right mr-2">
 			<a href="index.php?module=Companies&parent=Settings&view=List&displayModal=online" target="_blank"
@@ -20,4 +19,4 @@
 		</div>
 	</form>
 {/strip}
-<!-- /tpl-Settings-SystemWarnings-YetiForce-Newsletter -->
+<!-- /tpl-Settings-SystemWarnings-YetiForce-Registration -->

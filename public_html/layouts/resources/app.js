@@ -10,8 +10,64 @@
 'use strict';
 
 //Globals initialization
-var App = {},
-	AppConnector,
+var AppConnector,
+	App = {
+		Components: {
+			Tree: {
+				Basic: class {
+					constructor(container = $('.js-tree-container')) {
+						this.treeInstance = false;
+						this.treeData = false;
+						this.generateTree(container);
+					}
+
+					generateTree(container) {
+						const slef = this;
+						if (slef.treeInstance === false) {
+							slef.treeInstance = container;
+							slef.treeInstance.on('select_node.jstree', function (e, data) {
+								data.instance.select_node(data.node.children_d);
+							}).on('deselect_node.jstree', function (e, data) {
+								data.instance.deselect_node(data.node.children_d);
+							}).jstree({
+								core: {
+									data: slef.getRecords(container),
+									themes: {
+										name: 'proton',
+										responsive: true
+									},
+								},
+								plugins: ["search", "checkbox"]
+							});
+							this.registerSearchEvent();
+						}
+					}
+
+					registerSearchEvent() {
+						const self = this;
+						let searchTimeout = false,
+							treeSearch = $('.js-tree-search');
+						treeSearch.on('keyup', () => {
+							if (searchTimeout) {
+								clearTimeout(searchTimeout);
+							}
+							searchTimeout = setTimeout(function () {
+								var searchValue = treeSearch.val();
+								self.treeInstance.jstree(true).search(searchValue);
+							}, 250);
+						});
+					}
+
+					getRecords(container) {
+						if (this.treeData === false && container !== "undefined") {
+							this.treeData = JSON.parse(container.find('.js-tree-data').val());
+						}
+						return this.treeData;
+					}
+				}
+			}
+		}
+	},
 	app = {
 		/**
 		 * variable stores client side language strings

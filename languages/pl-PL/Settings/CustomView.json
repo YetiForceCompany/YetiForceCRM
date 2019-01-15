@@ -25,7 +25,8 @@
     "LBL_SORTING_SETTINGS_WORNING": "Sortowanie rekord\u00f3w mo\u017ce znacz\u0105co wyd\u0142u\u017cy\u0107 czas \u0142adowania strony.",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Wybierz pole, po kt\u00f3rym chcesz sortowa\u0107 rekordy",
     "LBL_SORT_ASCENDING_ORDER": "Sortuj rosn\u0105co",
-    "LBL_SORT_DESCENDING_ORDER": "Sortuj malej\u0105co"
+    "LBL_SORT_DESCENDING_ORDER": "Sortuj malej\u0105co",
+    "LBL_ATTENTION": "Uwaga!"
   },
   "js": {
     "Saving changes": "Trwa aktualizacja w systemie...",

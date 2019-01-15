@@ -49,6 +49,9 @@
     "LBL_CRON_DISABLED_DESC": "Mechanizm harmonogramu zada\u0144 cron nie zosta\u0142 aktywowany, nie wszystkie funkcjonalno\u015bci systemu s\u0105 dost\u0119pne.",
     "LBL_CRON_TASK_FAILED_DESC": "Nie wszystkie zadania crona zosta\u0142y zako\u0144czone poprawnie.",
     "LBL_HOW_TO_ENABLE_CRON": "Jak w\u0142\u0105czy\u0107 cron",
-    "LBL_CRON_TASKS_LIST": "Lista zada\u0144 cron"
+    "LBL_CRON_TASKS_LIST": "Lista zada\u0144 cron",
+    "LBL_REGISTRATION": "Rejestracja",
+    "LBL_NEWSLETTER_NO_COMPANY_DATA": "Nie wprowadzono adresu e-mail do danych firmy. Je\u015bli chcesz otrzymywa\u0107 newsletter uzupe\u0142nij dane.",
+    "LBL_COMPANY_DATA": "Przejd\u017a do danych firmy"
   }
 }

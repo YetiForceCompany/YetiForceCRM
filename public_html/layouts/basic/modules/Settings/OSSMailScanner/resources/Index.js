@@ -17,6 +17,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		App.Fields.Picklist.showSelect2ElementView(field, params);
 	},
 	registerEditFolders: function (container) {
+		const self = this;
 		container.find('.editFolders').on('click', function () {
 			const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
 				progressIndicatorElement = jQuery.progressIndicator({
@@ -28,26 +29,16 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				});
 			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				app.showScrollBar(data.find('.modal-body'), {
-					height: app.getScreenHeight(70) + 'px'
-				});
+				let recurrenceTree = new App.Components.Tree.Basic();
 				data.find('[name="saveButton"]').on('click', function (e) {
-					const folder = {};
-					data.find('select').each(function () {
-						let select = $(this),
-							val = select.val();
-						if (val == null) {
-							val = [];
-						}
-						folder[select.attr('name')] = val;
-					});
+					const selectedFolders = self.getSelectedFolders(recurrenceTree.treeInstance);
 					AppConnector.request({
 						module: 'OSSMailScanner',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateFolders',
 						user: data.find('.modal-body').data('user'),
-						folders: folder
+						folders: selectedFolders
 					}).done(function (data) {
 						let response = data['result'];
 						if (response['success']) {
@@ -65,6 +56,18 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				});
 			});
 		});
+	},
+	getSelectedFolders(treeInstance) {
+		let folders = {};
+		for (let value of treeInstance.jstree('get_selected', true)) {
+			if (!Array.isArray(folders[value.original.db_type])) {
+				folders[value.original.db_type] = [];
+			}
+			if (value.original.db_id !== undefined) {
+				folders[value.original.db_type].push(value.original.db_id);
+			}
+		}
+		return folders;
 	},
 	registerEvents: function () {
 		const thisIstance = this,

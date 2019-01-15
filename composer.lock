@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "875669d398cfbc202a44e33083f5e84a",
+    "content-hash": "6f33522684c61ed94e8b8260c9b4bc34",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -2663,16 +2663,16 @@
         },
         {
             "name": "yetiforce/icalendar",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/iCalendar.git",
-                "reference": "ffef9c341f3248a017973b06964fb7f559c12dfa"
+                "reference": "c16fd35eb8dbecc3bdbdc6016bfcd179e9dd2bde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/iCalendar/zipball/ffef9c341f3248a017973b06964fb7f559c12dfa",
-                "reference": "ffef9c341f3248a017973b06964fb7f559c12dfa",
+                "url": "https://api.github.com/repos/YetiForceCompany/iCalendar/zipball/c16fd35eb8dbecc3bdbdc6016bfcd179e9dd2bde",
+                "reference": "c16fd35eb8dbecc3bdbdc6016bfcd179e9dd2bde",
                 "shasum": ""
             },
             "type": "library",
@@ -2685,7 +2685,7 @@
             "keywords": [
                 "ical"
             ],
-            "time": "2018-04-17T06:12:21+00:00"
+            "time": "2019-01-14T13:32:14+00:00"
         },
         {
             "name": "yetiforce/yetiforcepdf",

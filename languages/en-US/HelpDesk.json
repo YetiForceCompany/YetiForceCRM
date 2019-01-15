@@ -1,8 +1,10 @@
 {
   "php": {
-    "Services": "services",
-    "Administrative": "administrative",
-    "Support": "support",
+    "FL_SERVICE_CONTRACTS": "Service Level Agreement",
+    "FL_SERVICE_CONTRACTS_TYPE": "SLA type",
+    "FL_SERVICE_CONTRACTS_DATE": "SLA expiry date",
+    "FL_REPORT_TIME": "Report time",
+    "FL_RESPONSE_TIME": "Response time",
     "PLL_SUBMITTED_COMMENTS": "Submitted comments",
     "PLL_FOR_APPROVAL": "For approval",
     "PLL_TO_CLOSE": "To close",
@@ -72,8 +74,8 @@
     "Record Id": "Record ID",
     "ticketpriorities": "priority",
     "LBL_NO_ACCOUNTS_IN_HELPDESK": "The ticket is not related to any Account. Please create a relation.",
+    "LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK": "The ticket is not related to any SLA",
     "LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS": "The Account has no active SLA",
-    "LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK": "The ticket is not related to any SLA.",
     "LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC": "Pressing this button will relate this SLA to ticket.",
     "LBL_NOTICE_WELCOME": "Welcome to platform",
     "LBL_NOTICE_CREATED": "has been created by:",
@@ -82,10 +84,8 @@
     "LBL_NOTICE_CREATE": "Added",
     "LBL_NOTICE_MODIFICATION": "Modification",
     "LBL_NOTICE_CLOSE": "Closed",
-    "FL_SERVICE_CONTRACTS": "Service Level Agreement",
-    "FL_SERVICE_CONTRACTS_TYPE": "SLA type",
-    "FL_SERVICE_CONTRACTS_DATE": "SLA expiry date",
-    "FL_REPORT_TIME": "Report time",
-    "FL_RESPONSE_TIME": "Response time"
+    "Services": "Services",
+    "Support": "Support",
+    "Administrative": "administrative"
   }
 }
