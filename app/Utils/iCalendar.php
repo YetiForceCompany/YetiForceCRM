@@ -24,16 +24,17 @@ class iCalendar
 		$ical = new \Ical();
 		$icalActivities = $ical->iCalReader($filePath);
 		$noOfActivities = count($icalActivities);
+		$activitiesList = [];
 		for ($i = 0; $i < $noOfActivities; ++$i) {
 			if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
 				$activity = new \IcalendarEvent();
 			} else {
 				$activity = new \IcalendarTodo();
 			}
-			$activityFieldsList = $activity->generateArray($icalActivities[$i]);
-			$activityFieldsList['assigned_user_id'] = $userModel->getId();
-			$activityFieldsList['time_end'] = $activityFieldsList['time_end'] ?? $userModel->getDetail('end_hour') . ':00';
+			$activity = $activity->generateArray($icalActivities[$i]);
+			$activity['time_end'] = $activity['time_end'] ?? $userModel->getDetail('end_hour') . ':00';
+			array_push($activitiesList, $activity);
 		}
-		return $activityFieldsList;
+		return $activitiesList;
 	}
 }
