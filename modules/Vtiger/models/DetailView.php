@@ -328,6 +328,18 @@ class Vtiger_DetailView_Model extends \App\Base
 				'badgeClass' => 'bgDanger',
 			];
 		}
+		if (
+			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
+			\App\Module::isModuleActive('Chat') &&
+			in_array(\App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName()), [1, 2, 3])
+		) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_CHAT',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showChat',
+				'linkicon' => 'fas fa-comments',
+			];
+		}
 		foreach ($parentModuleModel->getRelations() as $relation) {
 			if ($relation->isRelatedViewType('RelatedTab')) {
 				$relatedLinks[] = [
