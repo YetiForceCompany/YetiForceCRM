@@ -17,8 +17,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 		}
 		$fields = [];
 		if (!empty($this->Data['relatedfields'])) {
-			settype($this->Data['relatedfields'], 'array');
-			foreach ($this->Data['relatedfields'] as $field) {
+			foreach ((array) $this->Data['relatedfields'] as $field) {
 				list(, $fieldName) = explode('::', $field);
 				$fields[] = $fieldName;
 			}

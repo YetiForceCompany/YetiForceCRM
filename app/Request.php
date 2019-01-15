@@ -229,8 +229,7 @@ class Request
 			if ($value) {
 				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
-			settype($value, 'array');
-			return $this->purifiedValuesByArray[$key] = $value;
+			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
 		return $value;
 	}

@@ -338,8 +338,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$userModel = App\User::getCurrentUserModel();
 		$currentUserId = $userModel->getId();
-		$currentUserGroups = $userModel->get('groups');
-		settype($currentUserGroups, 'array');
+		$currentUserGroups = (array) $userModel->get('groups');
 		if (!$moduleName) {
 			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
