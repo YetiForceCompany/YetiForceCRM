@@ -15,14 +15,14 @@ return [
 	],
 	'SHOW_RELATION_IN_MODAL' => [
 		'default' => ['relationField' => 'parent_id', 'module' => 'Accounts', 'relatedModule' => ['FInvoice', 'ModComments', 'Calendar', 'Documents']],
-		'description' => 'Max depth of hierarchy',
+		'description' => 'Show relations in the modal',
 		'validation' => function () {
 			return false;
 		}
 	],
 	'SHOW_FIELD_IN_MODAL' => [
 		'default' => [],
-		'description' => 'Count Accounts in hierarchy',
+		'description' => 'Show fields in the modal',
 		'validation' => '\App\Validator::isArray' // TODO::the function does not exist
 	],
 	'SHOW_HIERARCHY_IN_MODAL' => [
@@ -39,7 +39,7 @@ return [
 	],
 	'RENEWAL_CUSTOMER_FUNCTION' => [
 		'default' => [],
-		'description' => '["class" => "", "method" => "", "hierarchy" => ""]',
+		'description' => 'Call a callback: ["class" => "", "method" => "", "hierarchy" => ""]',
 		'validation' => ''
 	],
 ];
