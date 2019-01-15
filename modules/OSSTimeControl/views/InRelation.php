@@ -54,14 +54,18 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
 		$viewer = $this->getViewer($request);
+		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$relationListView->set('operator', $request->getByType('operator'));
-			$viewer->assign('OPERATOR', $request->getByType('operator'));
+			$operator = $request->getByType('operator');
+			$relationListView->set('operator', $operator);
+			$viewer->assign('OPERATOR', $operator);
 		}
 		if (!$request->isEmpty('search_key', true)) {
-			$relationListView->set('search_key', $request->getByType('search_key'));
-			$relationListView->set('search_value', $request->get('search_value'));
-			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator);
+			$relationListView->set('search_key', $searchKey);
+			$relationListView->set('search_value', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {

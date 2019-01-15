@@ -22,10 +22,9 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		$record = $request->get('record');
 		$moduleName = $request->getModule(false);
-		if ($record) {
-			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($record, $moduleName);
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$recordModel->getProviderInstance()) {
 				throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 			}
@@ -40,17 +39,13 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		parent::preProcess($request);
-		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-
-		if ($recordId) {
-			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($request->getInteger('record'), $qualifiedModuleName);
 		} else {
 			$recordModel = Settings_SMSNotifier_Record_Model::getCleanInstance($qualifiedModuleName);
 		}
-
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
 		$viewer->assign('PROVIDERS', $recordModel->getModule()->getAllProviders());

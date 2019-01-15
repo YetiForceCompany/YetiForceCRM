@@ -25,7 +25,7 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$nameFiles = $request->get('nameFile');
+		$nameFiles = $request->getArray('nameFile', 'Text');
 		foreach ($_FILES as $file) {
 			$countFiles = count($file['name']);
 			for ($i = 0; $i < $countFiles; ++$i) {

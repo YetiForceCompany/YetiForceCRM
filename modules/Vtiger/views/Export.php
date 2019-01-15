@@ -43,9 +43,9 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('MODULE', 'Export');
 		$viewer->assign('XML_TPL_LIST', Import_Module_Model::getListTplForXmlType($sourceModule));
 		$viewer->assign('EXPORT_TYPE', ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']);
-		$viewer->assign('OPERATOR', $request->getByType('operator', 1));
-		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
-		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
+		$viewer->assign('OPERATOR', $request->getByType('operator'));
+		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $sourceModule, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
+		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
 		$viewer->view('Export.tpl', $sourceModule);
 	}

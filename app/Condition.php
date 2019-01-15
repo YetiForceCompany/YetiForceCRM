@@ -2,10 +2,9 @@
 /**
  * Condition main class.
  *
- * @copyright YetiForce Sp. z o.o
- *
  * @package App
  *
+ * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
@@ -24,6 +23,8 @@ class Condition
 	 * @param array  $searchParams
 	 *
 	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return array
 	 */
 	public static function validSearchParams(string $moduleName, array $searchParams): array
 	{
@@ -45,5 +46,21 @@ class Condition
 			}
 		}
 		return $searchParams;
+	}
+
+	/**
+	 * Checks value search_value.
+	 *
+	 * @param string $value
+	 * @param string $moduleName
+	 * @param string $fieldName
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public static function validSearchValue(string $value, string $moduleName, string $fieldName, string $operator): string
+	{
+		\Vtiger_Module_Model::getInstance($moduleName)->getField($fieldName)->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
+		return $value;
 	}
 }
