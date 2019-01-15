@@ -23,7 +23,6 @@
     "LBL_CHANGE_LOGIN_PASSWORD": "Changing the login password",
     "LBL_CHANGE": "Change",
     "LBL_USER_PROFILE": "User profile",
-    "MEN_GDPR": "GDPR",
-    "MEN_RECYCLE_BIN": "Recycle bin"
+    "MEN_GDPR": "GDPR"
   }
 }

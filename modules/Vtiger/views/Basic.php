@@ -40,9 +40,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Helper::getHistory());
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
-		$recycleBinModuleModel = Vtiger_Module_Model::getInstance('RecycleBin');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-		$viewer->assign('RECYCLE_BIN_MODULE_MODEL', $recycleBinModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 		if (AppConfig::performance('GLOBAL_SEARCH')) {
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
