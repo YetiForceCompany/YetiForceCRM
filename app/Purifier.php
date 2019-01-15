@@ -308,36 +308,23 @@ class Purifier
 			switch ($type) {
 				case 'Standard': // only word
 				case 1:
-					$value = preg_match('/^[\-_a-zA-Z]+$/', $input) ? $input : null;
+					$value = Validator::standard($input) ? $input : null;
 					break;
 				case 'Alnum': // word and int
 				case 2:
-					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : null;
+					$value = Validator::alnum($input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
 						return '';
 					}
-					[$y, $m, $d] = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
-					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
-						$value = $input;
-					}
+					$value = Validator::dateInUserFormat($input) ? $input : null;
 					break;
 				case 'Time':
-					if (preg_match('/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])$/', $input)) {
-						$value = $input;
-					}
+					$value = Validator::time($input) ? $input : null;
 					break;
 				case 'TimeInUserFormat':
-					if (\App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
-						if (preg_match('/^([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)$/', $input)) {
-							$value = Fields\Time::formatToDB($input);
-						}
-					} else {
-						if (preg_match('/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])$/', $input)) {
-							$value = Fields\Time::formatToDB($input);
-						}
-					}
+					$value = Validator::timeInUserFormat($input) ? Fields\Time::formatToDB($input) : null;
 					break;
 				case 'DateRangeUserFormat': // date range user format
 					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
@@ -353,44 +340,16 @@ class Purifier
 					}
 					break;
 				case 'Date': // date in base format yyyy-mm-dd
-					list($y, $m, $d) = Fields\Date::explode($input);
-					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
-						$value = $input;
-					}
+					$value = Validator::date($input) ? $input : null;
 					break;
 				case 'DateTime': // date in base format Y-m-d H:i:s
-					$arrInput = \explode(' ', $input);
-					if (\is_array($arrInput) && count($arrInput) === 2) {
-						[$dateInput, $timeInput] = $arrInput;
-						[$y, $m, $d] = Fields\Date::explode($dateInput);
-						if (
-							checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) &&
-							preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $timeInput)
-						) {
-							$value = $input;
-						}
-					}
+					$value = Validator::dateTime($input) ? $input : null;
 					break;
 				case 'DateTimeInUserFormat':
-					$arrInput = \explode(' ', $input);
-					if (\is_array($arrInput) && count($arrInput) === 2) {
-						$userModel = User::getCurrentUserModel();
-						[$dateInput, $timeInput] = $arrInput;
-						[$y, $m, $d] = Fields\Date::explode($dateInput, $userModel->getDetail('date_format'));
-						if ($userModel->getDetail('hour_format') === '12') {
-							$timePattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])(:([0-5][0-9]))?([ ]PM|[ ]AM|PM|AM)?$/';
-						} else {
-							$timePattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])(:([0-5][0-9]))?$/';
-						}
-						if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) && preg_match($timePattern, $timeInput)) {
-							$value = $input;
-						}
-					}
+					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
 				case 'Bool':
-					if (is_bool($input) || strcasecmp('true', (string) $input) === 0 || (string) $value === '1') {
-						$value = (bool) $input;
-					}
+					$value = Validator::bool($input) ? (bool) $input : null;
 					break;
 				case 'NumberInUserFormat': // number in user format
 					$input = Fields\Double::formatToDb($rawInput = $input);
