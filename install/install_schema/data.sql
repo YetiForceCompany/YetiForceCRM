@@ -5396,7 +5396,7 @@ insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_v
 
 /*Data for the table `vtiger_language` */
 
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English','en-US','US English','2019-01-15 10:11:10',1,1,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',000001,1,1);
 
 /*Data for the table `vtiger_layout` */
 

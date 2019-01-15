@@ -350,7 +350,6 @@ class File
 	public function validate($type = false)
 	{
 		$return = true;
-		Log::trace('File validate - Start', __CLASS__);
 		try {
 			if ($type && $this->getShortMimeType(0) !== $type) {
 				throw new \App\Exceptions\DangerousFile('ERR_FILE_ILLEGAL_FORMAT');
@@ -373,7 +372,6 @@ class File
 			$this->validateError = $message;
 			Log::error("Error: $message | {$this->getName()} | {$this->getSize()}", __CLASS__);
 		}
-		Log::trace('File validate - End', __CLASS__);
 		return $return;
 	}
 

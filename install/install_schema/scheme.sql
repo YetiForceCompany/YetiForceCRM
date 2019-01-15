@@ -6225,16 +6225,16 @@ CREATE TABLE `vtiger_knowledgebase_view` (
 /*Table structure for table `vtiger_language` */
 
 CREATE TABLE `vtiger_language` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `prefix` varchar(10) NOT NULL,
-  `label` varchar(30) NOT NULL,
   `lastupdated` datetime DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
-  `isdefault` tinyint(1) NOT NULL DEFAULT 0,
-  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `sequence` smallint(6) unsigned DEFAULT NULL,
+  `isdefault` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
-  KEY `prefix` (`prefix`)
+  KEY `prefix` (`prefix`),
+  KEY `isdefault` (`isdefault`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_layout` */

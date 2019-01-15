@@ -90,7 +90,6 @@ class LanguageExport extends Package
 		$this->openNode('module');
 		$this->outputNode('language', 'type');
 		$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
-		$this->outputNode(\App\Purifier::decodeHtml($langInfo['label']), 'label');
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
 		$this->outputNode(\AppConfig::main('default_charset'), 'encoding');
@@ -106,7 +105,7 @@ class LanguageExport extends Package
 	/**
 	 * Register language pack information.
 	 */
-	public static function register($prefix, $label, $name = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register($prefix, $name = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core language unless forced
@@ -122,7 +121,6 @@ class LanguageExport extends Package
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->numRows($checkres)) {
 			$adb->update(self::TABLENAME, [
-				'label' => $label,
 				'name' => $name,
 				'lastupdated' => $datetime,
 				'isdefault' => $useisdefault,
@@ -134,13 +132,12 @@ class LanguageExport extends Package
 				'id' => self::__getUniqueId(),
 				'name' => $name,
 				'prefix' => $prefix,
-				'label' => $label,
 				'lastupdated' => $datetime,
 				'isdefault' => $useisdefault,
 				'active' => $useisactive,
 			]);
 		}
-		\App\Log::trace("Registering Language $label [$prefix] ... DONE", __METHOD__);
+		\App\Log::trace("Registering Language $name [$prefix] ... DONE", __METHOD__);
 	}
 
 	/**
@@ -168,14 +165,14 @@ class LanguageExport extends Package
 	 */
 	public static function getAll($includeInActive = false)
 	{
-		$query = (new \App\Db\Query())->from(self::TABLENAME)->select(['prefix', 'label']);
+		$query = (new \App\Db\Query())->from(self::TABLENAME)->select(['prefix', 'name']);
 		if (!$includeInActive) {
 			$query->where(['active' => 1]);
 		}
 		$languages = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$languages[$row['prefix']] = $row['label'];
+			$languages[$row['prefix']] = $row['name'];
 		}
 		asort($languages);
 
