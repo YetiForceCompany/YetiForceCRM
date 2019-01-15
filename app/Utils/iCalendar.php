@@ -25,15 +25,23 @@ class iCalendar
 		$icalActivities = $ical->iCalReader($filePath);
 		$noOfActivities = count($icalActivities);
 		$activitiesList = [];
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Calendar');
 		for ($i = 0; $i < $noOfActivities; ++$i) {
 			if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
 				$activity = new \IcalendarEvent();
 			} else {
 				$activity = new \IcalendarTodo();
 			}
-			$activity = $activity->generateArray($icalActivities[$i]);
-			$activity['time_end'] = $activity['time_end'] ?? $userModel->getDetail('end_hour') . ':00';
-			array_push($activitiesList, $activity);
+			$activityFieldsList = $activity->generateArray($icalActivities[$i]);
+			$activityFieldsList['time_end'] = $activityFieldsList['time_end'] ?? $userModel->getDetail('end_hour') . ':00';
+			$record = \Vtiger_Record_Model::getCleanInstance('Calendar');
+			foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
+				if (!$fieldModel->isWritable() || !isset($activityFieldsList[$fieldName])) {
+					continue;
+				}
+				$record->set($fieldName, $activityFieldsList[$fieldName]);
+			}
+			array_push($activitiesList, $record);
 		}
 		return $activitiesList;
 	}
