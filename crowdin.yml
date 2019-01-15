@@ -1,3 +1,4 @@
+export_languages: ["en-US"]
 files:
   - source: /languages/en-US/**/*.json
     translation: /languages/%locale%/**/%original_file_name%
