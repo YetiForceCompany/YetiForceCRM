@@ -263,7 +263,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
-		settype($langs, 'array');
+		$langs = (array) $langs;
 		if (!in_array($langBase, $langs)) {
 			$langs[] = $langBase;
 		}
