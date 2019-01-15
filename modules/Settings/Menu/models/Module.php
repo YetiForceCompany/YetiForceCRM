@@ -95,7 +95,7 @@ class Settings_Menu_Module_Model
 				}
 				break;
 			case 9:
-				$name = 'LBL_RECYCLE_BIN';
+				$name = $row['name'];
 				break;
 			default:
 				$name = $row['label'];

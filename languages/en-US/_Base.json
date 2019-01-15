@@ -413,7 +413,6 @@
     "LBL_REPLY": "Reply",
     "LBL_THREAD": "Thread",
     "LBL_RESTORED": "restored",
-    "LBL_RECYCLE_BIN": "Recycle bin",
     "LBL_RESULT_FOR_THE_TAG": "Results for the tag",
     "LBL_Sat": "Sat",
     "LBL_SAVE": "Save",
@@ -1309,8 +1308,7 @@
     "LBL_YETIFORCE_REGISTRATION": "CRM system registration",
     "LBL_YETIFORCE_NEWSLETTER": "Newsletter",
     "LBL_YETIFORCE_NEWSLETTER_FILL_DATA": "uzupełnij dane",
-    "LBL_YETIFORCE_NEWSLETTER_ERROR": "Nie wprowadzono adresu e-mail do danych firmy. Jeśli chcesz otrzymywać newsletter %s.",
-    "RecycleBin": "Trash bin"
+    "LBL_YETIFORCE_NEWSLETTER_ERROR": "Nie wprowadzono adresu e-mail do danych firmy. Jeśli chcesz otrzymywać newsletter %s."
   },
   "js": {
     "JS_APPROVE": "Approve",
