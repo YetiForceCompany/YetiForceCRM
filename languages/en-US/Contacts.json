@@ -43,7 +43,8 @@
     "End of support for contact": "End of support for contact",
     "Birthdays of contacts": "Birthdays of contacts",
     "LBL_SWITCH_ON_DECISION_MAKER": "Decision maker",
-    "LBL_SWITCH_OFF_DECISION_MAKER": "All"
+    "LBL_SWITCH_OFF_DECISION_MAKER": "All",
+    "LBL_SHOW_HIERARCHY": "Contact hierarchy"
   },
   "js": {
 

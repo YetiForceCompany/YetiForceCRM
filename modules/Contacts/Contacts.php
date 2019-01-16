@@ -251,7 +251,7 @@ class Contacts extends CRMEntity
 		foreach ($listColumns as $colname) {
 			if (\App\Field::getFieldPermission('Contacts', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false && $colname === 'subject') {
+				if ($getRawData === false && $colname === 'firstname') {
 					if ($recordId != $id) {
 						if ($getLinks) {
 							if ($hasRecordViewAccess) {
