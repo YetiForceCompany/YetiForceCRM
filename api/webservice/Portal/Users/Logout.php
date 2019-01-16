@@ -32,7 +32,7 @@ class Logout extends \Api\Core\BaseAction
 	{
 		$db = \App\Db::getInstance('webservice');
 		$db->createCommand()->delete('w_#__portal_session', [
-			'id' => $this->controller->headers['X-TOKEN'],
+			'id' => $this->controller->headers['x-token'],
 		])->execute();
 		$db->createCommand()
 			->update('w_#__portal_user', [
