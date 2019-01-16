@@ -6,7 +6,7 @@
 				<tr>
 					<td>{$FIELD_DETAILS['name']} [{$FIELD_NAME}]</td>
 					<td>
-						<button class="btn btn-sm btn-outline-dark">
+						<button class="js-download btn btn-sm btn-outline-dark" data-prefix="{$FIELD_NAME}" data-js="click | data">
 							{if $FIELD_DETAILS['exist']}
 								<span class="fas fa-sync fa-xs mr-1"></span>
 							{\App\Language::translate('LBL_UPDATE', 'Settings::YetiForce')}
