@@ -21,9 +21,10 @@ jQuery.Class('Settings_YetiForce_DownloadLanguage_Js', {
 					text: data['result']['message'],
 					type: data['result']['type']
 				});
-				progress.progressIndicator({'mode': 'hide'});
 				if (data['result']['type'] === 'success') {
-					app.hideModalWindow();
+					location.reload();
+				} else {
+					progress.progressIndicator({'mode': 'hide'});
 				}
 			});
 		});
