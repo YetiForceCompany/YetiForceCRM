@@ -1,9 +1,9 @@
 <?php
 /**
- * Developer config
- * @package YetiForce.Config
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Developer config.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $DEVELOPER_CONFIG = [
 	// Turn the possibility to change generatedtype
@@ -16,6 +16,8 @@ $DEVELOPER_CONFIG = [
 	'CHANGE_VISIBILITY' => true,
 	// Adding/Deleting relations between modules.
 	'CHANGE_RELATIONS' => true,
-	// Developer libraries update mode 
+	// Developer libraries update mode
 	'MISSING_LIBRARY_DEV_MODE' => true,
+	// Developer Languages update mode
+	'LANGUAGES_UPDATE_DEV_MODE' => true,
 ];
