@@ -53,22 +53,22 @@ $tmp_dir = 'cache/images/';
 // import_dir default value prepended by cache_dir = import/
 $import_dir = 'cache/import/';
 
-// upload_dir default 
+// upload_dir default
 $upload_dir = 'cache/upload/';
 
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
 $upload_maxsize = 52428800;  // 50MB
 // flag to allow export functionality
-// 'all' to allow anyone to use exports 
-// 'admin' to only allow admins to export 
-// 'none' to block exports completely 
+// 'all' to allow anyone to use exports
+// 'admin' to only allow admins to export
+// 'none' to block exports completely
 // allow_exports default value = all
 $allow_exports = 'all';
 
 // files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
-$upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
+$upload_badext = ['php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm'];
 
 // list_max_entries_per_page default value = 20
 $list_max_entries_per_page = '20';
@@ -92,9 +92,6 @@ $default_theme = 'twilight';
 // default text that is placed initially in the login form for user name
 // no default_user_name default value
 $default_user_name = '';
-
-//Master currency name
-$currency_name = 'Poland, Zlotych';
 
 // default charset
 // default charset default value = 'UTF-8' or 'ISO-8859-1'
@@ -129,7 +126,7 @@ $php_max_execution_time = 0;
 // Set the default timezone as per your preference
 $default_timezone = 'Europe/Warsaw';
 
-/** If timezone is configured, try to set it */
+// If timezone is configured, try to set it
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	date_default_timezone_set($default_timezone);
 }
@@ -171,7 +168,7 @@ $backgroundClosingModal = true;
 // Enable CSRF-protection
 $csrfProtection = false;
 
-// Is sending emails active. 
+// Is sending emails active.
 $isActiveSendingMails = true;
 
 // Should the task in cron be unblocked if the script execution time was exceeded
@@ -186,7 +183,10 @@ $langInLoginView = false;
 // System's lyout selection in the login window (true/false).
 $layoutInLoginView = false;
 
-// Set the default layout 
+// Set the default layout
 $defaultLayout = 'basic';
 
+// Redirect to proper url when wrong url is entered.
 $forceRedirect = false;
+// Enable advanced phone number validation. Enabling  it will block saving invalid phone number.
+$phoneFieldAdvancedVerification = true;
