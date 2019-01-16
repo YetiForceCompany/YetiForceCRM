@@ -33,7 +33,7 @@
 			<tr class="js-lang-row" data-prefix="{$LANG['prefix']}">
 				<td>{$LANG['name']}</td>
 				<td>{$LANG['prefix']}</td>
-				<td class="js-last-update" data-js="html">{$LANG['lastupdated']}</td>
+				<td class="js-last-update" data-js="html">{\App\Fields\DateTime::formatToViewDate($LANG['lastupdated'])}</td>
 				<td>
 					<a href="index.php?module=LangManagement&parent=Settings&action=Export&lang={$LANG['prefix']}" class="btn btn-primary btn-sm marginLeft10">{\App\Language::translate('Export',$QUALIFIED_MODULE)}</a>
 					{if $LANG['isdefault'] neq '1'}
