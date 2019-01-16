@@ -178,7 +178,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$exportType = $this->getExportContentType($request);
 			// Send the right content type and filename
 			header("content-type: $exportType");
-			header("content-Disposition: attachment; filename=\"{$fileName}.ics\"");
+			header("content-disposition: attachment; filename=\"{$fileName}.ics\"");
 			echo $myiCal->serialize();
 		}
 	}
