@@ -8,10 +8,11 @@
 					{if !$FIELD_DETAILS['exist']}
 						<tr>
 							<td {if $INDEX == 0} class="border-top-0"{/if}>
-								<strong>{$FIELD_DETAILS['name']}</strong> [{$FIELD_NAME}]
+								<strong>{\App\Purifier::encodeHtml($FIELD_DETAILS['name'])}</strong>
+								[{\App\Purifier::encodeHtml($FIELD_NAME)}]
 							</td>
 							<td {if $INDEX == 0} class="border-top-0"{/if}>
-								<button class="js-download btn btn-sm btn-outline-success" data-prefix="{$FIELD_NAME}" data-js="click | data">
+								<button class="js-download btn btn-sm btn-outline-success" data-prefix="{\App\Purifier::encodeHtml($FIELD_NAME)}" data-js="click | data">
 									<span class="fas fa-download fa-xs mr-1"></span>
 									{\App\Language::translate('LBL_DOWNLOAD', 'Settings::YetiForce')}
 								</button>

@@ -3,7 +3,7 @@
 /**
  * YetiForce registration modal view class file.
  *
- * @package   Modules
+ * @package   Settings
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
