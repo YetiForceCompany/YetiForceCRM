@@ -153,7 +153,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$db->createCommand()->insert('vtiger_language', [
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
-			'label' => $params['label'],
+			'name' => $params['label'],
 		])->execute();
 		\App\Cache::clear();
 

@@ -606,7 +606,7 @@ class Language
 	 */
 	public static function getLanguageLabel(string $prefix)
 	{
-		return static::getLangInfo($prefix)['label'] ?? null;
+		return static::getLangInfo($prefix)['name'] ?? null;
 	}
 
 	/**
@@ -622,7 +622,7 @@ class Language
 		$cacheKey = $active ? 'Active' : 'All';
 		if (Cache::has('getAllLanguages', $cacheKey)) {
 			if (!$allData) {
-				return array_column(Cache::get('getAllLanguages', $cacheKey), 'label', 'prefix');
+				return array_column(Cache::get('getAllLanguages', $cacheKey), 'name', 'prefix');
 			}
 			return Cache::get('getAllLanguages', $cacheKey);
 		}
@@ -640,7 +640,7 @@ class Language
 		Cache::save('getAllLanguages', 'All', $all);
 		Cache::save('getAllLanguages', 'Active', $actives);
 		if (!$allData) {
-			return array_column(Cache::get('getAllLanguages', $cacheKey), 'label', 'prefix');
+			return array_column(Cache::get('getAllLanguages', $cacheKey), 'name', 'prefix');
 		}
 		return Cache::get('getAllLanguages', $cacheKey);
 	}
