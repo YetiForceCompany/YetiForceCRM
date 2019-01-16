@@ -331,7 +331,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
 			\App\Module::isModuleActive('Chat') &&
-			in_array(\App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName()), [1, 2, 3])
+			\App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName()) !== false
 		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
