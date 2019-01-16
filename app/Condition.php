@@ -60,7 +60,9 @@ class Condition
 	 */
 	public static function validSearchValue(string $value, string $moduleName, string $fieldName, string $operator): string
 	{
-		\Vtiger_Module_Model::getInstance($moduleName)->getField($fieldName)->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
+		if ($value !== '') {
+			\Vtiger_Module_Model::getInstance($moduleName)->getField($fieldName)->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
+		}
 		return $value;
 	}
 }
