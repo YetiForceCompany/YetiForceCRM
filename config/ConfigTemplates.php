@@ -984,5 +984,240 @@ return [
 			'description' => '',
 			'validation' => ''
 		],
+	],
+	'performance' => [
+		'CACHING_DRIVER' => [
+			'default' => 'Base',
+			'description' => 'Data caching is about storing some PHP variables in cache and retrieving it later from cache. Drivers: Base, Apcu',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg === 'Basic' || $arg === 'Apcu';
+			}
+		],
+		'ENABLE_CACHING_USERS' => [
+			'default' => false,
+			'description' => 'Enable caching of user data',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'ENABLE_CACHING_DB_CONNECTION' => [
+			'default' => false,
+			'description' => ' Enable caching database instance, accelerate time database connection',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'SQL_LOG_INCLUDE_CALLER' => [
+			'default' => false,
+			'description' => 'Should the caller information be captured in SQL Logging? It adds little overhead for performance but will be useful to debug. All data can be found in the table "l_yf_sqltime"',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'DB_DEFAULT_CHARSET_UTF8' => [
+			'default' => true,
+			'description' => 'If database default charset is UTF-8, set this to true This avoids executing the SET NAMES SQL for each query!',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'LISTVIEW_COMPUTE_PAGE_COUNT' => [
+			'default' => false,
+			'description' => ' Compute list view record count while loading listview everytime. Recommended value false',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE' => [
+			'default' => true,
+			'description' => 'Enable automatic records list refreshing while changing the value of the selection list',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => [
+			'default' => false,
+			'description' => 'Show in search engine/filters only users and groups available in records list. It might result in a longer search time.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => [
+			'default' => 100,
+			'description' => 'Time to update number of notifications in seconds',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'SEARCH_OWNERS_BY_AJAX' => [
+			'default' => false,
+			'description' => 'Search owners by AJAX. We recommend selecting the "true" value if there are numerous users in the system.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'SEARCH_ROLES_BY_AJAX' => [
+			'default' => false,
+			'description' => 'Search roles by AJAX',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'SEARCH_REFERENCE_BY_AJAX' => [
+			'default' => false,
+			'description' => 'Search reference by AJAX. We recommend selecting the "true" value if there are numerous users in the system.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'MAX_NUMBER_EXPORT_RECORDS' => [
+			'default' => 500,
+			'description' => 'Max number of exported records',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'OWNER_MINIMUM_INPUT_LENGTH' => [
+			'default' => 2,
+			'description' => 'Minimum number of characters to search for record owner',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'ROLE_MINIMUM_INPUT_LENGTH' => [
+			'default' => 2,
+			'description' => 'Minimum number of characters to search for role',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => [
+			'default' => 100,
+			'description' => 'The numbers of emails downloaded during one scanning',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER' => [
+			'default' => 1000000,
+			'description' => 'In how many records should the global search permissions be updated in cron',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER' => [
+			'default' => 10000,
+			'description' => 'In how many records should the address book be updated in cron',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => [
+			'default' => 1000,
+			'description' => 'In how many records should the label be updated in cron',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_MAX_NUMBERS_SENDING_MAILS' => [
+			'default' => 1000,
+			'description' => 'In how many mails should the send in cron (Mailer).',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_MAX_NUMBERS_SENDING_SMS' => [
+			'default' => 10,
+			'description' => 'In how many sms should the send in cron.',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_MAX_ATACHMENTS_DELETE' => [
+			'default' => 1000,
+			'description' => 'In how many atachments should the delete in cron.',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CRON_BATCH_METHODS_LIMIT' => [
+			'default' => 15,
+			'description' => 'Time to execute batch methods [min].',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'LOAD_CUSTOM_FILES' => [
+			'default' => false,
+			'description' => ' Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'SHOW_ADMIN_PANEL' => [
+			'default' => false,
+			'description' => 'Parameter that determines whether admin panel should be available to admin by default',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'SHOW_ADMINISTRATORS_IN_USERS_LIST' => [
+			'default' => true,
+			'description' => 'Display administrators in the list of users (Assigned To)',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'GLOBAL_SEARCH' => [
+			'default' => true,
+			'description' => 'Global search: true/false',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'MAX_MULTIIMAGE_VIEW' => [
+			'default' => 5,
+			'description' => 'Maximum MultiImage icon view in lists',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'BROWSING_HISTORY_WORKING' => [
+			'default' => true,
+			'description' => 'Browsing history working if true',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'BROWSING_HISTORY_VIEW_LIMIT' => [
+			'default' => 20,
+			'description' => 'Number of browsing history steps',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'BROWSING_HISTORY_DELETE_AFTER' => [
+			'default' => 7,
+			'description' => 'Days after browsing history has deleted',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'SESSION_DRIVER' => [
+			'default' => 'File',
+			'description' => 'Session handler name, handler dir: app/Session/',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CHART_MULTI_FILTER_LIMIT' => [
+			'default' => 5,
+			'description' => 'Charts multi filter limit',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CHART_MULTI_FILTER_STR_LEN' => [
+			'default' => 50,
+			'description' => 'Charts multi filter maximum db value length',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'CHART_ADDITIONAL_FILTERS_LIMIT' => [
+			'default' => 6,
+			'description' => "Additional filters limit for ChartFilter's",
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'MAX_MERGE_RECORDS' => [
+			'default' => 4,
+			'description' => 'Maximum number of merged records',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'ACCESS_TO_INTERNET' => [
+			'default' => true,
+			'description' => 'Can CRM have access to the Internet?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'CHANGE_LOCALE' => [
+			'default' => true,
+			'description' => 'Change the locale for sort the data',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'INVENTORY_EDIT_VIEW_LAYOUT' => [
+			'default' => true,
+			'description' => 'Is divided layout style on edit view in modules with products',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'LIMITED_INFO_IN_FOOTER' => [
+			'default' => false,
+			'description' => "Any modifications of this parameter require the vendor's consent.  Any unauthorised modification breaches the terms and conditions of YetiForce Public License.",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'RECORD_POPOVER_DELAY' => [
+			'default' => 500,
+			'description' => "Popover record's trigger delay in ms",
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'PICKLIST_DEPEDENCY_DEFAULT_EMPTY' => [
+			'default' => true,
+			'description' => 'Empty value when is not selected item in picklist depedency',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	]
 ];
