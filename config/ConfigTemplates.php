@@ -805,52 +805,182 @@ return [
 			'validation' => ''
 		],
 		'xlw' => [
-			'default' => false,
+			'default' => 'application/vnd.ms-excel',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'ppt' => [
+			'default' => 'application/vnd.ms-powerpoint',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'pps' => [
+			'default' => 'application/vnd.ms-powerpoint',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'pot' => [
+			'default' => 'application/vnd.ms-powerpoint',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'dot' => [
+			'default' => 'application/msword',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'odc' => [
+			'default' => 'application/vnd.oasis.opendocument.chart',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'otc' => [
+			'default' => 'application/vnd.oasis.opendocument.chart-template',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'odf' => [
+			'default' => 'application/vnd.oasis.opendocument.formula',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'otf' => [
+			'default' => 'application/vnd.oasis.opendocument.formula-template',
 			'description' => '',
 			'validation' => ''
 		],
-		'txt' => [
-			'default' => false,
+		'odg' => [
+			'default' => 'application/vnd.oasis.opendocument.graphics',
+			'description' => '',
+			'validation' => ''
+		],
+		'otg' => [
+			'default' => 'application/vnd.oasis.opendocument.graphics-template',
+			'description' => '',
+			'validation' => ''
+		],
+		'odi' => [
+			'default' => 'application/vnd.oasis.opendocument.image',
+			'description' => '',
+			'validation' => ''
+		],
+		'oti' => [
+			'default' => 'application/vnd.oasis.opendocument.image-template',
+			'description' => '',
+			'validation' => ''
+		],
+		'odp' => [
+			'default' => 'application/vnd.oasis.opendocument.presentation',
+			'description' => '',
+			'validation' => ''
+		],
+		'otp' => [
+			'default' => 'application/vnd.oasis.opendocument.presentation-template',
+			'description' => '',
+			'validation' => ''
+		],
+		'ots' => [
+			'default' => 'application/vnd.oasis.opendocument.spreadsheet-template',
+			'description' => '',
+			'validation' => ''
+		],
+		'otm' => [
+			'default' => 'application/vnd.oasis.opendocument.text-master',
+			'description' => '',
+			'validation' => ''
+		],
+		'ott' => [
+			'default' => 'application/vnd.oasis.opendocument.text-template',
+			'description' => '',
+			'validation' => ''
+		],
+		'oth' => [
+			'default' => 'application/vnd.oasis.opendocument.text-web',
+			'description' => '',
+			'validation' => ''
+		],
+		'docm' => [
+			'default' => 'application/vnd.ms-word.document.macroEnabled.12',
+			'description' => '',
+			'validation' => ''
+		],
+		'docx' => [
+			'default' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'description' => '',
+			'validation' => ''
+		],
+		'dotm' => [
+			'default' => 'application/vnd.ms-word.template.macroEnabled.12',
+			'description' => '',
+			'validation' => ''
+		],
+		'dotx' => [
+			'default' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+			'description' => '',
+			'validation' => ''
+		],
+		'ppsm' => [
+			'default' => 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+			'description' => '',
+			'validation' => ''
+		],
+		'ppsx' => [
+			'default' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+			'description' => '',
+			'validation' => ''
+		],
+		'pptm' => [
+			'default' => 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+			'description' => '',
+			'validation' => ''
+		],
+		'pptx' => [
+			'default' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlsb' => [
+			'default' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlsm' => [
+			'default' => 'application/vnd.ms-excel.sheet.macroEnabled.12',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlsx' => [
+			'default' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+			'description' => '',
+			'validation' => ''
+		],
+		'xps' => [
+			'default' => 'application/vnd.ms-xpsdocument',
+			'description' => '',
+			'validation' => ''
+		],
+		'7z' => [
+			'default' => 'application/x-7z-compressed',
+			'description' => '',
+			'validation' => ''
+		],
+		's7z' => [
+			'default' => 'application/x-7z-compressed',
+			'description' => '',
+			'validation' => ''
+		],
+		'vcf' => [
+			'default' => 'text/vcard',
+			'description' => '',
+			'validation' => ''
+		],
+		'ics' => [
+			'default' => 'text/calendar',
+			'description' => '',
+			'validation' => ''
+		],
+		'dwg' => [
+			'default' => 'application/acad',
 			'description' => '',
 			'validation' => ''
 		],
