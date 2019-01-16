@@ -7,7 +7,6 @@
     "ERR_INVALID_MYSQL_VERSION": "MySQL version is not supported, kindly connect to MySQL 5.1.x or above",
     "ERR_UNABLE_CREATE_DATABASE": "Unable to create database",
     "LBL_ATTENTION": "Attention! ",
-    "LBL_DOWNLOAD_LANGS": "Download languages",
     "LBL_ADMIN_INFORMATION": "Admin User Information",
     "LBL_ADMIN_USER_INFORMATION": "Admin User Information",
     "LBL_CHOOSE_LANGUAGE": "Choose language",

@@ -11,7 +11,7 @@ var Settings_Index_Js = {
 			Settings_Index_Js.LoadEditLang(this)
 		});
 		container.find('.js-add-languages-modal').on('click', () => {
-			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=AddLanguagesModal');
+			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal');
 		});
 		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
 		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);

@@ -13,7 +13,7 @@
 		<div class="btn-group mr-2" role="group">
 			<button class="btn btn-success btn-sm u-h-fit mr-1 js-add-languages-modal" type="button" data-js="click">
 				<span class="fas fas fa-download mr-1"></span>
-				{\App\Language::translate('LBL_DOWNLOAD_LANGS','Install')}
+				{\App\Language::translate('LBL_DOWNLOAD_LANG','Settings::YetiForce')}
 			</button>
 		</div>
 	</div>
