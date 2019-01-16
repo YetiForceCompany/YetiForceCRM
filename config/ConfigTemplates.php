@@ -383,5 +383,177 @@ return [
 			'description' => 'Enable advanced phone number validation. Enabling  it will block saving invalid phone number.',
 			'validation' => '\App\Validator::bool'
 		],
+	],
+	'debug' => [
+		'LOG_TO_FILE' => [
+			'default' => false,
+			'description' => 'Enable saving logs to file. Values: false/true',
+			'validation' => '\App\Validator::bool'
+		],
+		'LOG_TO_CONSOLE' => [
+			'default' => false,
+			'description' => 'Enable displaying logs in debug console. Values: false/true',
+			'validation' => '\App\Validator::bool'
+		],
+		'LOG_TO_PROFILE' => [
+			'default' => false,
+			'description' => 'Enable saving logs profiling.  Values: false/true',
+			'validation' => '\App\Validator::bool'
+		],
+		'LOG_LEVELS' => [
+			'default' => false,
+			'description' => 'Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"]',
+			'validation' => ''
+		],
+		'LOG_TRACE_LEVEL' => [
+			'default' => 0,
+			'description' => 'Level of saved/displayed tracerts. // Values: int',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'DISPLAY_DEBUG_CONSOLE' => [
+			'default' => false,
+			'description' => 'Display main debug console',
+			'validation' => '\App\Validator::bool'
+		],
+		'DEBUG_CONSOLE_ALLOWED_IPS' => [
+			'default' => false,
+			'description' => 'List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"]',
+			'validation' => ''
+		],
+		'SQL_DIE_ON_ERROR' => [
+			'default' => false,
+			'description' => 'Stop the running process of the system if there is and error in sql query',
+			'validation' => '\App\Validator::bool'
+		],
+		'DEBUG_CRON' => [
+			'default' => false,
+			'description' => 'Debug cron => cache/logs/cron/',
+			'validation' => '\App\Validator::bool'
+		],
+		'DEBUG_VIEWER' => [
+			'default' => true,
+			'description' => 'Debug Viewer => cache/logs/viewer-debug.log',
+			'validation' => '\App\Validator::bool'
+		],
+		'DISPLAY_DEBUG_VIEWER' => [
+			'default' => false,
+			'description' => 'Display Smarty Debug Console',
+			'validation' => '\App\Validator::bool'
+		],
+		'SMARTY_ERROR_REPORTING' => [
+			'default' => E_ALL & ~E_NOTICE,
+			'description' => 'Do not show Smarty Notice in phpError.log',
+			'validation' => ''
+		],
+		'JS_DEBUG' => [
+			'default' => true,
+			'description' => 'Turn on/off debug errors javascript',
+			'validation' => '\App\Validator::bool'
+		],
+		'DISPLAY_EXCEPTION_BACKTRACE' => [
+			'default' => false,
+			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true',
+			'validation' => '\App\Validator::bool'
+		],
+		'DISPLAY_EXCEPTION_LOGS' => [
+			'default' => false,
+			'description' => 'Display logs when error exception occurs',
+			'validation' => '\App\Validator::bool'
+		],
+		'EXCEPTION_ERROR_HANDLER' => [
+			'default' => false,
+			'description' => 'Turn on/off the error handler',
+			'validation' => '\App\Validator::bool'
+		],
+		'EXCEPTION_ERROR_TO_FILE' => [
+			'default' => false,
+			'description' => 'Save logs to file (cache/logs/errors.log)',
+			'validation' => '\App\Validator::bool'
+		],
+		'EXCEPTION_ERROR_TO_SHOW' => [
+			'default' => false,
+			'description' => 'Display errors',
+			'validation' => '\App\Validator::bool'
+		],
+		'EXCEPTION_ERROR_LEVEL' => [
+			'default' => E_ALL & ~E_NOTICE,
+			'description' => 'Set the error reporting level. The parameter is either an integer representing a bit field, or named constants. https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting / All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR',
+			'validation' => ''
+		],
+		'DAV_DEBUG_EXCEPTIONS' => [
+			'default' => false,
+			'description' => 'API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML',
+			'validation' => '\App\Validator::bool'
+		], 'DAV_DEBUG_PLUGIN' => [
+			'default' => false,
+			'description' => 'Activate the plugin recording log in DAV',
+			'validation' => '\App\Validator::bool'
+		],
+		'WEBSERVICE_SHOW_ERROR' => [
+			'default' => false,
+			'description' => 'Show errors messages in web service',
+			'validation' => '\App\Validator::bool'
+		],
+		'WEBSERVICE_DEBUG' => [
+			'default' => false,
+			'description' => 'Web service logs',
+			'validation' => '\App\Validator::bool'
+		],
+		'MAILER_DEBUG' => [
+			'default' => false,
+			'description' => 'Mailer debug',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_DEBUG_LEVEL' => [
+			'default' => 1,
+			'description' => ' System error reporting, sum of: 1 = log; 4 = show, 8 = trace',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+
+		'ROUNDCUBE_DEVEL_MODE' => [
+			'default' => false,
+			'description' => 'Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries',
+			'validation' => ''
+		],
+		'ROUNDCUBE_PER_USER_LOGGING' => [
+			'default' => false,
+			'description' => 'Activate this option if logs should be written to per-user directories. Data will only be logged if a directry cache/logs/<username>/ exists and is writable.',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_SMTP_LOG' => [
+			'default' => false,
+			'description' => 'Log sent messages to cache/logs/sendmail or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_LOG_LOGINS' => [
+			'default' => false,
+			'description' => 'Log successful/failed logins to cache/logs/userlogins or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_LOG_SESSION' => [
+			'default' => false,
+			'description' => 'Log session authentication errors to cache/logs/session or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_SQL_DEBUG' => [
+			'default' => false,
+			'description' => 'Log SQL queries to cache/logs/sql or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_IMAP_DEBUG' => [
+			'default' => false,
+			'description' => 'Log IMAP conversation to cache/logs/imap or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_LDAP_DEBUG' => [
+			'default' => false,
+			'description' => 'Log LDAP conversation to cache/logs/ldap or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+		'ROUNDCUBE_SMTP_DEBUG' => [
+			'default' => false,
+			'description' => 'Log SMTP conversation to cache/logs/smtp or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
 	]
 ];
