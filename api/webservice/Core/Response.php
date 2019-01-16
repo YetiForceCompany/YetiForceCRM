@@ -11,7 +11,7 @@ namespace Api\Core;
  */
 class Response
 {
-	protected static $acceptableHeaders = ['X-API-KEY', 'X-ENCRYPTED', 'X-TOKEN'];
+	protected static $acceptableHeaders = ['x-api-key', 'x-encrypted', 'x-token'];
 	protected static $instance = false;
 	protected $body;
 	protected $headers = [];
