@@ -54,13 +54,13 @@ class Z_StringFormatting extends \Tests\Base
 	public static function setUpBeforeClass()
 	{
 		parent::setUpBeforeClass();
-		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		static::$separatorDecimal = $userModel->get('currency_decimal_separator');
-		static::$separatorGrouping = $userModel->get('currency_grouping_separator');
-		static::$symbolPlacement = $userModel->get('currency_symbol_placement');
-		static::$patternGrouping = $userModel->get('currency_grouping_pattern');
-		static::$decimalNum = $userModel->get('no_of_currency_decimals');
-		static::$truncateTrailingZeros = $userModel->get('truncate_trailing_zeros');
+		$userModel = \App\User::getCurrentUserModel();
+		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
+		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
+		static::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
+		static::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
+		static::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
+		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
 	}
 
 	/**
