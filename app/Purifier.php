@@ -349,7 +349,7 @@ class Purifier
 					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
 				case 'Bool':
-					$value = Validator::bool($input) ? (bool) $input : null;
+					$value = self::bool($input);
 					break;
 				case 'NumberInUserFormat': // number in user format
 					$input = Fields\Double::formatToDb($rawInput = $input);
@@ -401,6 +401,18 @@ class Purifier
 			}
 		}
 		return $value;
+	}
+
+	/**
+	 * Function to convert the given value to bool.
+	 *
+	 * @param string|int $value
+	 *
+	 * @return bool|null
+	 */
+	public static function bool($value)
+	{
+		return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 	}
 
 	/**

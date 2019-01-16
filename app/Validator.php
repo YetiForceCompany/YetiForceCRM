@@ -25,8 +25,7 @@ class Validator
 	 */
 	public static function bool($input): bool
 	{
-		return is_bool($input) || 0 === strcasecmp('true', (string) $input) || '1' === (string) $input
-			|| '' === $input || 0 === strcasecmp('false', (string) $input) || '0' === (string) $input;
+		return filter_var($input, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
 	}
 
 	/**
@@ -163,12 +162,24 @@ class Validator
 	/**
 	 * Function verifies if given value is integer type.
 	 *
-	 * @param $input
+	 * @param int|string $input
 	 *
 	 * @return bool
 	 */
 	public static function integer($input): bool
 	{
 		return filter_var($input, FILTER_VALIDATE_INT) !== false;
+	}
+
+	/**
+	 * Function verifies if given value is a natural number.
+	 *
+	 * @param int|string $input
+	 *
+	 * @return bool
+	 */
+	public static function naturalNumber($input): bool
+	{
+		return preg_match('/^[0-9]+$/', $input);
 	}
 }
