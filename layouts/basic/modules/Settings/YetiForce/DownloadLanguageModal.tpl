@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-YetiForce-DownloadLanguageModal modal-body">
-		<table class="table mb-0">
+		<table class="table mb-0 mx-auto u-w-fit">
 			{assign var="INDEX" value=0}
 			{if $LANGUAGES}
 				{foreach key=FIELD_NAME item=FIELD_DETAILS from=$LANGUAGES}
