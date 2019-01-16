@@ -54,7 +54,7 @@ class Z_StringFormatting extends \Tests\Base
 	public static function setUpBeforeClass()
 	{
 		parent::setUpBeforeClass();
-		$userModel = \App\User::getCurrentUserModel();
+		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		static::$separatorDecimal = $userModel->get('currency_decimal_separator');
 		static::$separatorGrouping = $userModel->get('currency_grouping_separator');
 		static::$symbolPlacement = $userModel->get('currency_symbol_placement');
