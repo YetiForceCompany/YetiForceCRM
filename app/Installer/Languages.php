@@ -17,13 +17,6 @@ namespace App\Installer;
 class Languages
 {
 	/**
-	 * Language repository url.
-	 *
-	 * @var string
-	 */
-	private static $githubUrl = 'https://api.github.com/repos/YetiForceCompany/YetiForceCRMLanguages';
-
-	/**
 	 * Get all languages for the current version.
 	 *
 	 * @return string[]
@@ -33,15 +26,18 @@ class Languages
 		$endpoint = \AppConfig::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', static::$githubUrl . '/contents/' . $endpoint, \App\RequestHttp::getOptions() + ['timeout' => 2]);
+			$response = (new \GuzzleHttp\Client())->request('GET', 'https://api.github.com/repos/YetiForceCompany/YetiForceCRMLanguages/contents/' . $endpoint, \App\RequestHttp::getOptions() + ['timeout' => 2]);
 			if ($response->getStatusCode() === 200) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
 					foreach ($body as $row) {
-						$languages[$row['name']] = [
-							'name' => \App\Language::getDisplayName($row['name']),
-							'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$row['name']}")
-						];
+						if ($row['type'] === 'file') {
+							$prefix = pathinfo($row['name'], \PATHINFO_FILENAME);
+							$languages[$prefix] = [
+								'name' => \App\Language::getDisplayName($prefix),
+								'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$prefix}")
+							];
+						}
 					}
 				}
 			}
@@ -49,5 +45,35 @@ class Languages
 			\App\Log::warning($ex->__toString(), __CLASS__);
 		}
 		return $languages;
+	}
+
+	/**
+	 * Download language.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return array
+	 */
+	public static function download(string $prefix)
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return false;
+		}
+		$endpoint = \AppConfig::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
+		$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/{$prefix}.zip";
+		$path = \App\Fields\File::getTmpPath() . $prefix . '.zip';
+		$status = false;
+		try {
+			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+			if (\file_exists($path)) {
+				(new \vtlib\Language())->import($path);
+				\unlink($path);
+				$status = true;
+			}
+		} catch (\Exception $ex) {
+			\App\Log::warning($ex->__toString(), __METHOD__);
+		}
+		return $status;
 	}
 }
