@@ -587,5 +587,272 @@ return [
 			'description' => 'Developer libraries update mode',
 			'validation' => '\App\Validator::bool'
 		],
+	],
+	'mainetypes' => [
+		'txt' => [
+			'default' => 'text/plain',
+			'description' => '',
+			'validation' => ''
+		],
+		'html' => [
+			'default' => 'text/html',
+			'description' => '',
+			'validation' => ''
+		],
+		'php' => [
+			'default' => 'text/php',
+			'description' => '',
+			'validation' => ''
+		],
+		'css' => [
+			'default' => 'text/css',
+			'description' => '',
+			'validation' => ''
+		],
+		'js' => [
+			'default' => 'application/javascript',
+			'description' => '',
+			'validation' => ''
+		],
+		'json' => [
+			'default' => 'application/json',
+			'description' => '',
+			'validation' => ''
+		],
+		'xml' => [
+			'default' => 'application/xml',
+			'description' => '',
+			'validation' => ''
+		],
+		'swf' => [
+			'default' => 'application/x-shockwave-flash',
+			'description' => '',
+			'validation' => ''
+		],
+		'flv' => [
+			'default' => 'video/x-flv',
+			'description' => '',
+			'validation' => ''
+		],
+		'png' => [
+			'default' => 'image/png',
+			'description' => '',
+			'validation' => ''
+		],
+		'jpg' => [
+			'default' => 'image/jpeg',
+			'description' => '',
+			'validation' => ''
+		],
+		'jpe' => [
+			'default' => 'image/jpeg',
+			'description' => '',
+			'validation' => ''
+		],
+		'jpeg' => [
+			'default' => 'image/jpeg',
+			'description' => '',
+			'validation' => ''
+		],
+		'gif' => [
+			'default' => 'image/gif',
+			'description' => '',
+			'validation' => ''
+		],
+		'bmp' => [
+			'default' => 'image/bmp',
+			'description' => '',
+			'validation' => ''
+		],
+		'ico' => [
+			'default' => 'image/vnd.microsoft.icon',
+			'description' => '',
+			'validation' => ''
+		],
+		'tiff' => [
+			'default' => 'image/tiff',
+			'description' => '',
+			'validation' => ''
+		],
+		'tif' => [
+			'default' => 'image/tiff',
+			'description' => '',
+			'validation' => ''
+		],
+		'svg' => [
+			'default' => 'image/svg+xml',
+			'description' => '',
+			'validation' => ''
+		],
+		'svgz' => [
+			'default' => 'image/svg+xml',
+			'description' => '',
+			'validation' => ''
+		],
+		'zip' => [
+			'default' => 'application/zip',
+			'description' => '',
+			'validation' => ''
+		],
+		'rar' => [
+			'default' => 'application/x-rar-compressed',
+			'description' => '',
+			'validation' => ''
+		],
+		'exe' => [
+			'default' => 'application/x-msdownload',
+			'description' => '',
+			'validation' => ''
+		],
+		'msi' => [
+			'default' => 'application/x-msdownload',
+			'description' => '',
+			'validation' => ''
+		],
+		'cab' => [
+			'default' => 'application/vnd.ms-cab-compressed',
+			'description' => '',
+			'validation' => ''
+		],
+		'mov' => [
+			'default' => 'video/quicktime',
+			'description' => '',
+			'validation' => ''
+		],
+		'qt' => [
+			'default' => 'video/quicktime',
+			'description' => '',
+			'validation' => ''
+		],
+		'pdf' => [
+			'default' => 'application/pdf',
+			'description' => '',
+			'validation' => ''
+		],
+		'psd' => [
+			'default' => 'image/vnd.adobe.photoshop',
+			'description' => '',
+			'validation' => ''
+		],
+		'ai' => [
+			'default' => 'application/postscript',
+			'description' => '',
+			'validation' => ''
+		],
+		'eps' => [
+			'default' => 'application/postscript',
+			'description' => '',
+			'validation' => ''
+		],
+		'ps' => [
+			'default' => 'application/postscript',
+			'description' => '',
+			'validation' => ''
+		],
+		'doc' => [
+			'default' => 'application/msword',
+			'description' => '',
+			'validation' => ''
+		],
+		'rtf' => [
+			'default' => 'application/rtf',
+			'description' => '',
+			'validation' => ''
+		],
+		'xls' => [
+			'default' => 'application/vnd.ms-excel',
+			'description' => '',
+			'validation' => ''
+		],
+		'ppt' => [
+			'default' => 'application/vnd.ms-powerpoint',
+			'description' => '',
+			'validation' => ''
+		],
+		'odt' => [
+			'default' => 'application/vnd.oasis.opendocument.text',
+			'description' => '',
+			'validation' => ''
+		],
+		'ods' => [
+			'default' => 'application/vnd.oasis.opendocument.spreadsheet',
+			'description' => '',
+			'validation' => ''
+		],
+		'xls' => [
+			'default' => 'application/vnd.ms-excel',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlm' => [
+			'default' => 'application/vnd.ms-excel',
+			'description' => '',
+			'validation' => ''
+		],
+		'xla' => [
+			'default' => 'application/vnd.ms-excel',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlc' => [
+			'default' => 'application/vnd.ms-excel',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlt' => [
+			'default' => 'application/vnd.ms-excel',
+			'description' => '',
+			'validation' => ''
+		],
+		'xlw' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
+		'txt' => [
+			'default' => false,
+			'description' => '',
+			'validation' => ''
+		],
 	]
 ];
