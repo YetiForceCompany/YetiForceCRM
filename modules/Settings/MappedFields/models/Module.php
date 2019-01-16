@@ -374,8 +374,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			} elseif ($fieldsKey === 'fields') {
 				foreach ($fieldsValue as $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
-						settype($columnKey, 'string');
-						settype($columnValue, 'string');
+						$columnKey = (string) $columnKey;
+						$columnValue = (string) $columnValue;
 						if (in_array($columnKey, ['default', 'type'])) {
 							$mapping[$i][$columnKey] = $columnKey === 'default' ? \App\Purifier::purify($columnValue) : $columnValue;
 							continue;

@@ -153,7 +153,7 @@ class Composer
 			return true;
 		}
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
-		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg'];
+		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json'];
 		foreach (static::$publicPackage as $package => $method) {
 			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {

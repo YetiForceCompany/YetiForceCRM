@@ -93,7 +93,7 @@ class Field
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
 		if (is_numeric($fieldMix)) {
 			$key = 'fieldid';
-			settype($fieldMix, 'int');
+			$fieldMix = (int) $fieldMix;
 		} else {
 			$key = 'fieldname';
 		}

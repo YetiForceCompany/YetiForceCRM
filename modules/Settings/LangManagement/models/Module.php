@@ -151,10 +151,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		vtlib\Functions::recurseCopy('languages/' . \App\Language::DEFAULT_LANG, $destiny);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
-			'id' => $db->getUniqueId('vtiger_language'),
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
-			'label' => $params['label'],
+			'name' => $params['label'],
 		])->execute();
 		\App\Cache::clear();
 
@@ -263,7 +262,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
-		settype($langs, 'array');
+		$langs = (array) $langs;
 		if (!in_array($langBase, $langs)) {
 			$langs[] = $langBase;
 		}
