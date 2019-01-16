@@ -95,7 +95,7 @@ class ConfReport
 		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-powered-by' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
-		'Header: x-frame-options' => ['recommended' => 'SAMEORIGIN', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: x-frame-options' => ['recommended' => 'sameorigin', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-xss-protection' => ['recommended' => '1; mode=block', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-content-type-options' => ['recommended' => 'nosniff', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-robots-tag' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
