@@ -47,8 +47,8 @@ class Api extends \Tests\Base
 	 * @var array
 	 */
 	private static $requestHeaders = [
-		'Content-Type' => 'application/json',
-		'X-ENCRYPTED' => 0,
+		'content-type' => 'application/json',
+		'x-encrypted' => 0,
 	];
 
 	/**
@@ -85,7 +85,7 @@ class Api extends \Tests\Base
 		$this->assertSame($row['status'], 1);
 		$this->assertSame($row['name'], 'portal');
 		$this->assertSame($row['pass'], 'portal');
-		static::$requestHeaders['X-API-KEY'] = $row['api_key'];
+		static::$requestHeaders['x-api-key'] = $row['api_key'];
 
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
 		$webserviceUsers->save([
@@ -122,7 +122,7 @@ class Api extends \Tests\Base
 		$this->logs = $request->raw;
 		$this->assertSame($response->status, 1, (string) $response->error->message);
 		static::$authUserParams = $response->result;
-		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
+		static::$requestHeaders['x-token'] = static::$authUserParams->token;
 	}
 
 	/**
