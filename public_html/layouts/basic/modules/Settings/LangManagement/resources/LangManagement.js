@@ -23,18 +23,22 @@ var Settings_Index_Js = {
 	},
 	registerUpdateLanguageBtn(container) {
 		container.find('.js-update').on('click', function (e) {
-			let icon = $(e.target).find('.js-update__icon');
+			let icon = $(e.target).find('.js-update__icon'),
+				row = $(e.target).closest('.js-lang-row');
 			icon.addClass('fa-spin');
 			AppConnector.request({
 				module: 'YetiForce',
 				parent: 'Settings',
 				action: 'DownloadLanguage',
-				prefix: $(e.target).data('prefix')
+				prefix: row.data('prefix')
 			}).done(function (data) {
 				Vtiger_Helper_Js.showPnotify({
 					text: data['result']['message'],
 					type: data['result']['type']
 				});
+				if (data['result']['success']) {
+					row.find('.js-last-update').html(moment().format('Y-MM-D HH:mm:ss'));
+				}
 				icon.removeClass('fa-spin');
 			});
 		});
