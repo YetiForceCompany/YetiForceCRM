@@ -23,6 +23,7 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('IS_NET_CONNECTED', \App\RequestUtil::isNetConnection());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

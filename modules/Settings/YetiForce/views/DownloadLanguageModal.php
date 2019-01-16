@@ -14,9 +14,14 @@ class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\Moda
 	/**
 	 * {@inheritdoc}
 	 */
+	public $successBtn = '';
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$this->pageTitle = '<span class="fas fas fa-download mr-1"></span>' . \App\Language::translate('LBL_DOWNLOAD_LANGS', 'Settings::YetiForce');
+		$this->pageTitle = '<span class="fas fas fa-download mr-2"></span>' . \App\Language::translate('LBL_DOWNLOAD_LANG', 'Settings::YetiForce');
 		parent::preProcessAjax($request);
 	}
 
