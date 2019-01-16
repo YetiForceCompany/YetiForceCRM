@@ -19,7 +19,7 @@ class Language extends \Tests\Base
 		\App\Session::set('language', 'pl-PL');
 		$currLang = \App\Language::getLanguage();
 		$this->assertSame($currLang, \App\Language::getLanguage());
-		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl-PL'));
+		$this->assertContains(\App\Language::getLanguageLabel('pl-PL'), ['Język Polski', 'Polski']);
 		$this->assertSame('SINGLE_Leads', \App\Language::getSingularModuleName('Leads'));
 		$this->assertSame('Lead', \App\Language::translateSingularModuleName('Leads'));
 		$this->assertSame('TestKey', \App\Language::translateSingleMod('TestKey'));
