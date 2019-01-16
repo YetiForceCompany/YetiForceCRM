@@ -123,7 +123,7 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (67,'SSingleOrders','Block edition','[{\"fieldname\":\"ssingleorders_status\",\"operation\":\"is\",\"value\":\"PLL_CANCELLED\",\"valuetype\":\"rawtext\",\"joincondition\":\"or\",\"groupjoin\":null,\"groupid\":\"1\"},{\"fieldname\":\"ssingleorders_status\",\"operation\":\"is\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":null,\"groupid\":\"1\"}]',9,NULL,'basic',6,0,'','','','',NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (68,'SRecurringOrders','Block edition','[{\"fieldname\":\"srecurringorders_status\",\"operation\":\"is\",\"value\":\"PLL_UNREALIZED\",\"valuetype\":\"rawtext\",\"joincondition\":\"or\",\"groupjoin\":null,\"groupid\":\"1\"},{\"fieldname\":\"srecurringorders_status\",\"operation\":\"is\",\"value\":\"PLL_REALIZED\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":null,\"groupid\":\"1\"}]',9,NULL,'basic',6,0,'','','','',NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (69,'OSSTimeControl','LBL_UPDATE_WORK_TIME','[]',7,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (70,'Users','New user created','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (70,'Users','LBL_NEW_USER_CREATED','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `com_vtiger_workflowtask_queue` */
 
@@ -158,7 +158,7 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod_seq` */
 
-insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (17);
+insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (18);
 
 /*Data for the table `com_vtiger_workflowtemplates` */
 
