@@ -3,11 +3,15 @@
 
 var Settings_Index_Js = {
 	initEvants: function () {
-		$('.LangManagement .add_lang').on('click', Settings_Index_Js.ShowLangMondal);
-		$('.LangManagement .edit_lang a').on('click', function (e) {
+		let container = $('.LangManagement');
+		container.find('.add_lang').on('click', Settings_Index_Js.ShowLangMondal);
+		container.find('.edit_lang a').on('click', function (e) {
 			jQuery('#edit_lang').html('');
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
+		});
+		container.find('.js-add-languages-modal').on('click', () => {
+			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=AddLanguagesModal');
 		});
 		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
 		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
