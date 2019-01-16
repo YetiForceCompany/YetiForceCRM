@@ -2,23 +2,31 @@
 <div class="tpl-Settings-LangManagement-LangList">
 	<div class="btn-toolbar" role="toolbar">
 		<div class="btn-group mr-2" role="group">
-			<a class="btn btn-primary btn-sm float-right marginBottom10px" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><span class="fas fa-download u-mr-5px"></span>{\App\Language::translate('LBL_IMPORT_LANG', $QUALIFIED_MODULE)}</a>
+			<a class="btn btn-primary btn-sm float-right marginBottom10px" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><span class="fas fa-file-import u-mr-5px"></span>{\App\Language::translate('LBL_IMPORT_LANG', $QUALIFIED_MODULE)}
+			</a>
 		</div>
 		<div class="btn-group mr-2" role="group">
-			<button class="btn btn-info add_lang btn-sm float-right marginBottom10px"><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD_LANG', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-info add_lang btn-sm float-right marginBottom10px">
+				<span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD_LANG', $QUALIFIED_MODULE)}
+			</button>
 		</div>
-		
+		<div class="btn-group mr-2" role="group">
+			<button class="btn btn-success btn-sm u-h-fit mr-1 js-add-languages-modal" type="button" data-js="click">
+				<span class="fas fas fa-download mr-1"></span>
+				{\App\Language::translate('LBL_DOWNLOAD_LANGS','Install')}
+			</button>
+		</div>
 	</div>
-<table  class="table tableRWD table-bordered table-sm listViewEntriesTable">
-	<thead>
+	<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
+		<thead>
 		<tr class="blockHeader">
 			<th><strong>{\App\Language::translate('LBL_Lang_label',$QUALIFIED_MODULE)}</strong></th>
 			<th><strong>{\App\Language::translate('LBL_Lang_name',$QUALIFIED_MODULE)}</strong></th>
 			<th><strong>{\App\Language::translate('LBL_Lang_prefix',$QUALIFIED_MODULE)}</strong></th>
 			<th><strong>{\App\Language::translate('LBL_Lang_action',$QUALIFIED_MODULE)}</strong></th>
 		</tr>
-	</thead>
-	<tbody>
+		</thead>
+		<tbody>
 		{foreach from=App\Language::getAll(false, true) item=LANG key=ID}
 			<tr data-prefix="{$LANG['prefix']}">
 				<td>{$LANG['label']}</td>
@@ -33,6 +41,6 @@
 				</td>
 			</tr>
 		{/foreach}
-	</tbody>
-</table>
+		</tbody>
+	</table>
 </div>

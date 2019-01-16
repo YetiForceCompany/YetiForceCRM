@@ -9,17 +9,14 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
-class Settings_Yetiforce_Languages extends \App\Controller\ModalSettings
+class Settings_Yetiforce_AddLanguagesModal_View extends \App\Controller\ModalSettings
 {
 	/**
-	 * Set modal title.
-	 *
-	 * @param \App\Request $request
+	 * {@inheritdoc}
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = \App\Language::translate('YetiForce', $qualifiedModuleName) . ' - ' . \App\Language::translate('LBL_REGISTRATION_OFFLINE_MODAL', $qualifiedModuleName);
+		$this->pageTitle = '<span class="fas fas fa-download mr-1"></span>' . \App\Language::translate('LBL_DOWNLOAD_LANGS', 'Install');
 		parent::preProcessAjax($request);
 	}
 
@@ -33,6 +30,6 @@ class Settings_Yetiforce_Languages extends \App\Controller\ModalSettings
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->view('AddLanguageModal.tpl', $qualifiedModuleName);
+		$viewer->view('AddLanguagesModal.tpl', $qualifiedModuleName);
 	}
 }

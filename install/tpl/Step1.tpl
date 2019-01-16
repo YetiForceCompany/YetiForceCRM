@@ -19,9 +19,9 @@
 							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 						</div>
 						<div class="col-md-6 d-inline-flex justify-content-end">
-							<button class="btn btn-success u-h-fit mr-1">
-								<span class="fas fa-plus mr-1"></span>
-								{\App\Language::translate('LBL_ADD_LANG','Install')}
+							<button class="btn btn-success u-h-fit mr-1 js-add-languages-modal" type="button" data-js="click">
+								<span class="fas fa-download mr-1"></span>
+								{\App\Language::translate('LBL_DOWNLOAD_LANGS','Install')}
 							</button>
 							<div>
 								<label for="lang" class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
