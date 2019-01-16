@@ -207,7 +207,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => static::getFlag(ini_get('expose_php')) !== 'Off',
 			],
-			'Header: x-frame-options' => ['recommended' => 'SAMEORIGIN', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: x-frame-options' => ['recommended' => 'sameorigin', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
 			'Header: x-xss-protection' => ['recommended' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
 			'Header: x-content-type-options' => ['recommended' => 'nosniff', 'help' => 'LBL_HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
 			'Header: x-robots-tag' => ['recommended' => 'none', 'help' => 'LBL_HEADER_X_ROBOTS_TAG_HELP_TEXT', 'current' => '?'],
