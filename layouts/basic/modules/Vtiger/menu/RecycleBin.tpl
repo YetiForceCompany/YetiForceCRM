@@ -5,13 +5,13 @@
 		{assign var=RECYCLE_BIN_MODEL value=Vtiger_Module_Model::getInstance('RecycleBin')}
 		{assign var=MENU_NAME value=\App\Language::translate($RECYCLE_BIN_MODEL->getName(), $RECYCLE_BIN_MODEL->getName())}
 		{if $MODULE eq 'RecycleBin'}
-			{assign var=ACTIVE value='true'}
+			{assign var=ACTIVE value=true}
 		{else}
-			{assign var=ACTIVE value='false'}
+			{assign var=ACTIVE value=false}
 		{/if}
 		<li class="c-menu__item js-menu__item nav-item menuHomeIcon hasParentMenu"
 			data-id="{$MENU['id']}">
-			<a class="nav-link {if $ACTIVE=='true'} active{else} collapsed{/if} hasIcon"
+			<a class="nav-link {if $ACTIVE} active{else} collapsed{/if} hasIcon"
 			   href="{$RECYCLE_BIN_MODEL->getDefaultUrl()}">
 				<span class="fa-lg fa-fw fas fa-trash-alt c-menu__item__icon"></span>
 				<span class="c-menu__item__text js-menu__item__text" title="{$MENU_NAME}"
