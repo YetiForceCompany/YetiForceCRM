@@ -41,6 +41,8 @@
     "LBL_ACTIVATE": "Activate",
     "LBL_DOWNLOAD_LANG": "Download language",
     "LBL_DOWNLOAD": "Download",
-    "LBL_UPDATE": "Update"
+    "LBL_UPDATE": "Update",
+    "LBL_DOWNLOADED_LANGUAGE": "Downloaded language",
+    "LBL_NO_INTERNET_CONNECTION": "There is no Internet connection"
   }
 }

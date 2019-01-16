@@ -25,10 +25,10 @@ class Settings_YetiForce_DownloadLanguage_Action extends Settings_Vtiger_Save_Ac
 	public function process(\App\Request $request)
 	{
 		$result = \App\Installer\Languages::download($request->getByType('prefix'));
-		$message = App\Language::translate('LBL_REGISTERED', $request->getModule(false));
+		$message = App\Language::translate('LBL_DOWNLOADED_LANGUAGE', $request->getModule(false));
 		$responseType = 'success';
 		if (!$result) {
-			$message = App\Language::translate('LBL_INVALID_OFFLINE_KEY', $request->getModule(false));
+			$message = App\Language::translate('LBL_NO_INTERNET_CONNECTION', $request->getModule(false));
 			$responseType = 'error';
 		}
 		$response = new Vtiger_Response();
