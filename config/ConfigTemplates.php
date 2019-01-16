@@ -506,7 +506,7 @@ return [
 		],
 		'ROUNDCUBE_DEBUG_LEVEL' => [
 			'default' => 1,
-			'description' => ' System error reporting, sum of: 1 = log; 4 = show, 8 = trace',
+			'description' => 'System error reporting, sum of: 1 = log; 4 = show, 8 = trace',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 
@@ -553,6 +553,38 @@ return [
 		'ROUNDCUBE_SMTP_DEBUG' => [
 			'default' => false,
 			'description' => 'Log SMTP conversation to cache/logs/smtp or to syslog',
+			'validation' => '\App\Validator::bool'
+		],
+	],
+	'developer' => [
+		'CHANGE_GENERATEDTYPE' => [
+			'default' => false,
+			'description' => 'Turn the possibility to change generatedtype',
+			'validation' => '\App\Validator::bool'
+		],
+		'MINIMIZE_JS' => [
+			'default' => true,
+			'description' => 'Enable minimize JS files',
+			'validation' => '\App\Validator::bool'
+		],
+		'MINIMIZE_CSS' => [
+			'default' => true,
+			'description' => ' Enable minimize CSS files',
+			'validation' => '\App\Validator::bool'
+		],
+		'CHANGE_VISIBILITY' => [
+			'default' => false,
+			'description' => 'Change of fields visibility',
+			'validation' => '\App\Validator::bool'
+		],
+		'CHANGE_RELATIONS' => [
+			'default' => false,
+			'description' => 'Adding/Deleting relations between modules.',
+			'validation' => '\App\Validator::bool'
+		],
+		'MISSING_LIBRARY_DEV_MODE' => [
+			'default' => false,
+			'description' => 'Developer libraries update mode',
 			'validation' => '\App\Validator::bool'
 		],
 	]
