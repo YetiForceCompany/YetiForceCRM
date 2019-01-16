@@ -17,7 +17,8 @@
 /public_html/layouts/resources/fonts/*.ttf
 
 /layouts/basic/modules/Settings/TestData
-/languages/pl-PL
+/languages/*
+!/languages/en-US
 /modules/TestData
 /modules/Settings/TestData
 
