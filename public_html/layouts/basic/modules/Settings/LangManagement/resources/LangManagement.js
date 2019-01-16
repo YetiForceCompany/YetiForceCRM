@@ -18,7 +18,26 @@ var Settings_Index_Js = {
 		$('#lang_list tr').each(function (index, element) {
 			element = $(element);
 			Settings_Index_Js.initEvant(element);
-		})
+		});
+		this.registerUpdateLanguageBtn(container);
+	},
+	registerUpdateLanguageBtn(container) {
+		container.find('.js-update').on('click', function (e) {
+			let icon = $(e.target).find('.js-update__icon');
+			icon.addClass('fa-spin');
+			AppConnector.request({
+				module: 'YetiForce',
+				parent: 'Settings',
+				action: 'DownloadLanguage',
+				prefix: $(e.target).data('prefix')
+			}).done(function (data) {
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: data['result']['type']
+				});
+				icon.removeClass('fa-spin');
+			});
+		});
 	},
 	LoadEditLang: function (e) {
 		var element = jQuery(e);
