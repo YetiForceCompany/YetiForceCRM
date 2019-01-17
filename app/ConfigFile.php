@@ -193,11 +193,12 @@ This file is auto-generated.
 		$class = $file->addClass($className);
 		$class->addComment('Configuration Class.');
 		foreach ($this->template as $parameterName => $parameter) {
-			$value = $this->has($parameterName) ? $this->get($parameterName) : Config::get($className, $parameterName, $parameter['default']);
-			$class->addProperty($parameterName, $value)
-				->setVisibility('public')
-				->setStatic()
-				->addComment($parameter['description']);
+			if (isset($parameter['type']) && 'function' === $parameter['type']) {
+				$class->addMethod($parameterName)->setStatic()->setBody($parameter['default'])->addComment($parameter['description']);
+			} else {
+				$value = $this->has($parameterName) ? $this->get($parameterName) : Config::get($className, $parameterName, $parameter['default']);
+				$class->addProperty($parameterName, $value)->setStatic()->addComment($parameter['description']);
+			}
 		}
 		if (false === file_put_contents($this->path, $file, LOCK_EX)) {
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
@@ -211,7 +212,5 @@ This file is auto-generated.
 		} else {
 			require "{$this->path}";
 		}
-		Cache::clear();
-		Cache::clearOpcache();
 	}
 }

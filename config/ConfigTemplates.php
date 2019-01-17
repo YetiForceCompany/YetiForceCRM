@@ -54,41 +54,31 @@ return [
 		],
 		'PRIVATE_KEY' => [
 			'default' => 'config/private.key',
-			'description' => 'Webservice config.',
-			'validation' => function () {
-				return true;
-			}
+			'description' => 'Webservice config.'
 		],
 		'PUBLIC_KEY' => [
 			'default' => 'config/public.key',
-			'description' => 'Webservice config.',
-			'validation' => function () {
-				return true;
-			}
+			'description' => 'Webservice config.'
 		]
 	],
 	'main' => [
-		'CALENDAR_DISPLAY' => [
-			'default' => 'true',
-			'description' => 'Show or hide calendar, world clock, calculator, chat and CKEditor
- Do NOT remove the quotes if you set these to false!',
-			'validation' => ''
-		],
-		'WORLD_CLOCK_DISPLAY' => [
-			'default' => 'true',
-			'description' => '',
-			'validation' => ''
-		],
-		'CALCULATOR_DISPLAY' => [
-			'default' => 'true',
-			'description' => '',
-			'validation' => ''
-		],
-		'CHAT_DISPLAY' => [
-			'default' => 'true',
-			'description' => '',
-			'validation' => ''
-		],
+//		'CALENDAR_DISPLAY' => [
+//			'default' => 'true',
+//			'description' => 'Show or hide calendar, world clock, calculator, chat and CKEditor
+// Do NOT remove the quotes if you set these to false!'
+//		],
+//		'WORLD_CLOCK_DISPLAY' => [
+//			'default' => 'true',
+//			'description' => ''
+//		],
+//		'CALCULATOR_DISPLAY' => [
+//			'default' => 'true',
+//			'description' => ''
+//		],
+//		'CHAT_DISPLAY' => [
+//			'default' => 'true',
+//			'description' => ''
+//		],
 		'USE_RTE' => [
 			'default' => 'true',
 			'description' => '',
@@ -144,14 +134,9 @@ return [
 			'validation' => ''
 		],
 		'db_hostname' => [
-			'default' => 'db_server' . ':' . 'db_port',
-			'description' => '',
-			'validation' => ''
-		],
-		'host_name' => [
-			'default' => 'db_hostname',
-			'description' => '',
-			'validation' => ''
+			'type' => 'function',
+			'default' => 'return self::$db_server . ":" . self::$db_port;',
+			'description' => 'Gets host name'
 		],
 		'site_URL' => [
 			'default' => '_SITE_URL_',
@@ -159,14 +144,13 @@ return [
 			'validation' => ''
 		],
 		'cache_dir' => [
-			'default' => '_VT_CACHEDIR_',
-			'description' => 'Cache direcory path',
-			'validation' => ''
+			'default' => 'cache/',
+			'description' => 'Cache directory path'
 		],
 		'tmp_dir' => [
-			'default' => '_VT_TMPDIR_',
+			'type' => 'function',
+			'default' => 'return self::$cache_dir . "images/";',
 			'description' => 'Default value prepended by cache_dir = images/',
-			'validation' => ''
 		],
 		'import_dir' => [
 			'default' => 'cache/import/',
@@ -178,7 +162,7 @@ return [
 			'description' => '',
 			'validation' => ''
 		],
-		'$upload_maxsize' => [
+		'upload_maxsize' => [
 			'default' => 52428800,
 			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 3000000',
 			'validation' => '\App\Purifier::naturalNumber'
@@ -194,15 +178,14 @@ return [
 			'validation' => ''
 		],
 		'list_max_entries_per_page' => [
-			'default' => '20',
+			'default' => 20,
 			'description' => 'List max entries per page: default value = 20',
-			'validation' => ''
+			'validation' => '\App\Purifier::naturalNumber'
 		],
-		'limitpage_navigation' => [
-			'default' => '5',
-			'description' => 'Limit page navigation: default value = 5',
-			'validation' => ''
-		],
+//		'limitpage_navigation' => [
+//			'default' => '5',
+//			'description' => 'Limit page navigation: default value = 5'
+//		],
 		'history_max_viewed' => [
 			'default' => '5',
 			'description' => 'History max viewed: default value = 5',
@@ -320,8 +303,11 @@ return [
 		],
 		'systemMode' => [
 			'default' => 'prod',
-			'description' => '',
-			'validation' => ''
+			'description' => 'System mode. Available: prod, demo, test',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return in_array($arg, ['prod', 'demo', 'test']);
+			}
 		],
 		'forceSSL' => [
 			'default' => false,

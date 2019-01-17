@@ -47,7 +47,7 @@ class Config
 
 	public static function main(?string $arg = null, $default = null)
 	{
-		if (isset($GLOBALS[$arg])) {
+		if ($arg && isset($GLOBALS[$arg])) {
 			return $GLOBALS[$arg];
 		}
 		$class = "\Config\Main";
@@ -87,11 +87,16 @@ class Config
 	public static function get(string $class, ?string $arg = null, $default = null)
 	{
 		$value = $default;
-		if ($arg === null) {
-			$value = \class_exists($class) ? (new \ReflectionClass($class))->getStaticProperties() : [];
-		} elseif (\class_exists($class) && isset($class::$$arg)) {
-			$value = $class::$$arg;
+		if (\class_exists($class)) {
+			if ($arg === null) {
+				$value = (new \ReflectionClass($class))->getStaticProperties();
+			} elseif (isset($class::$$arg)) {
+				$value = $class::$$arg;
+			} elseif (\method_exists($class, $arg)) {
+				$value = \call_user_func("{$class}::{$arg}");
+			}
 		}
+
 		return $value;
 	}
 }
