@@ -2294,6 +2294,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				Chat_JS.getInstance(detailContentsHolder, 'detail').unregisterEvents();
 			}
 		}
+		if (this.getSelectedTab().data('labelKey') === 'ModComments') {
+			new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'));
+		}
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);
