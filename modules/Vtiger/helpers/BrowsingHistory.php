@@ -74,6 +74,9 @@ class Vtiger_BrowsingHistory_Helper
 			if (!empty($urlQuery['record'])) {
 				$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
 			}
+			if (mb_strlen($title) > 255) {
+				$title = \App\TextParser::textTruncate($title, 255, false);
+			}
 			\App\Db::getInstance()->createCommand()
 				->insert('u_#__browsinghistory', [
 					'userid' => App\User::getCurrentUserId(),
