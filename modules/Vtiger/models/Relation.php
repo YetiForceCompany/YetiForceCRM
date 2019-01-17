@@ -765,6 +765,20 @@ class Vtiger_Relation_Model extends \App\Base
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();
+			if (10 === $relationFieldModel->getUIType()) {
+				$hierarchy = \App\ModuleHierarchy::getRelationFieldByHierarchy($destinationModuleName);
+				if (isset($hierarchy[$relationFieldModel->getName()][$sourceModule->getName()])) {
+					$relatedRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecordId, $destinationModuleName);
+					foreach ($hierarchy[$relationFieldModel->getName()][$sourceModule->getName()] as $fieldName => $val) {
+						if (is_array($val) && in_array('related_to', $val)) {
+							$hierarchyFieldModel = $relatedRecordModel->getField($fieldName);
+							if (!$hierarchyFieldModel->isEditable() || $hierarchyFieldModel->isEditableReadOnly()) {
+								return false;
+							}
+						}
+					}
+				}
+			}
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
