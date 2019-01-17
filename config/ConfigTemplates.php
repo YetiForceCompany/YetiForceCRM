@@ -342,6 +342,7 @@ return [
 			'default' => false,
 			'description' => "System's language selection in the login window (true/false).",
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'layoutInLoginView' => [
 			'default' => false,
@@ -900,12 +901,6 @@ return [
 				'Active' => '#009405',
 			],
 			'description' => 'Colors for record state will be displayed in list view, history, and preview.',
-			'validation' => function () {
-				$args = func_get_arg(0);
-				foreach ($args as $arg) {
-					return in_array($arg, ['#0032a2', '#ab0505', '#009405']);
-				}
-			}
 		],
 	],
 	'security' => [
@@ -918,56 +913,67 @@ return [
 			'default' => false,
 			'description' => 'Possible to reset the password while logging in (true/false)',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'SHOW_MY_PREFERENCES' => [
 			'default' => true,
 			'description' => 'Show my preferences',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'CHANGE_LOGIN_PASSWORD' => [
 			'default' => true,
 			'description' => 'Changing the settings by the user is possible true/false',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_ROLES' => [
 			'default' => true,
 			'description' => 'Permissions mechanism. The list of system permission levels can be found below',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_SHARING' => [
 			'default' => true,
 			'description' => 'Permitted by sharing',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_SHARED_OWNERS' => [
 			'default' => true,
 			'description' => 'Permitted by shared owners',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_RECORD_HIERARCHY' => [
 			'default' => true,
 			'description' => 'Permitted by record hierarchy',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_ADVANCED_PERMISSION' => [
 			'default' => true,
 			'description' => 'Permitted by advanced permission',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_PRIVATE_FIELD' => [
 			'default' => false,
 			'description' => 'Permitted by private field',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'CACHING_PERMISSION_TO_RECORD' => [
 			'default' => false,
 			'description' => 'Configuration of the permission mechanism on records list. true - Permissions based on the users column in vtiger_crmentity.  true - Permissions are not verified in real time. They are updated via cron.  We do not recommend using this option in production environments. false - Permissions based on adding tables with permissions to query (old mechanism)',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'RESTRICTED_DOMAINS_ACTIVE' => [
 			'default' => false,
 			'description' => 'Restricted domains allow you to block saving an email address from a given domain in the system. Restricted domains work only for email address type fields.',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'RESTRICTED_DOMAINS_VALUES' => [
 			'default' => [],
@@ -985,11 +991,13 @@ return [
 			'default' => false,
 			'description' => 'Remember user credentials',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'FIELDS_REFERENCES_DEPENDENT' => [
 			'default' => false,
 			'description' => 'Interdependent reference fields',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'HPKP_KEYS' => [
 			'default' => [],
@@ -999,6 +1007,7 @@ return [
 			'default' => true,
 			'description' => 'Content Security Policy',
 			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'PURIFIER_ALLOWED_DOMAINS' => [
 			'default' => [],
@@ -1020,6 +1029,26 @@ return [
 			'default' => 3600,
 			'description' => 'Cache lifetime for SensioLabs security checker.',
 			'validation' => '\App\Validator::naturalNumber',
+		],
+	],
+	'sounds' => [
+		'IS_ENABLED' => [
+			'default' => true,
+			'description' => 'Enable system sounds',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'REMINDERS' => [
+			'default' => 'sound_1.mp3',
+			'description' => 'Sets the type of sound of reminders',
+		],
+		'CHAT' => [
+			'default' => 'sound_1.mp3',
+			'description' => 'Sets the type of sound of chat',
+		],
+		'MAILS' => [
+			'default' => 'sound_1.mp3',
+			'description' => 'Sets the type of sound of mails',
 		],
 	]
 ];
