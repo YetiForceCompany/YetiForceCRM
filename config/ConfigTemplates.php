@@ -162,7 +162,7 @@ return [
 			'description' => 'Flag to allow export functionality: "all" - to allow anyone to use exports, "admin" - to only allow admins to export, "none" -  to block exports completely',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === 'all' || $arg === 'admin' || $arg === 'none';
+				return in_array($arg, ['all', 'admin', 'none']);
 			}
 		],
 		'upload_badext' => [
@@ -832,6 +832,80 @@ return [
 			'description' => 'Show record count in tabs related modules',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
+		]
+	],
+	'search' => [
+		'GLOBAL_SEARCH_SELECT_MODULE' => [
+			'default' => true,
+			'description' => 'Auto select current module in global search (true/false)',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT' => [
+			'default' => 100,
+			'description' => 'Auto select current module in global search (int)',
+			'validation' => '\App\Validator::naturalNumber',
+		],
+		'GLOBAL_SEARCH_SORTING_RESULTS' => [
+			'default' => 0,
+			'description' => 'Global search - Should the results be sorted in MySQL or PHP while displaying (None = 0, PHP = 1, Mysql = 2). The parameter impacts system efficiency.',
+			'validation' =>
+				function () {
+					$arg = func_get_arg(0);
+					return is_int($arg) && in_array($arg, [0, 1, 2]);
+				}
+		],
+		'GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP' => [
+			'default' => true,
+			'description' => 'Global search - Show current module as first in search results (true/false).',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'GLOBAL_SEARCH_AUTOCOMPLETE' => [
+			'default' => 1,
+			'description' => 'Global search - Search for records while entering text  (1/0).',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return is_int($arg) && in_array($arg, [0, 1]);
+			}
+		],
+		'GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT' => [
+			'default' => 15,
+			'description' => 'Global search - Max number of displayed results. The parameter impacts system efficiency.',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH' => [
+			'default' => 3,
+			'description' => 'Global search - The minimum number of characters a user must type before a search is performed. The parameter impacts system efficiency',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'GLOBAL_SEARCH_OPERATOR_SELECT' => [
+			'default' => true,
+			'description' => 'Global search - Show operator list.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'GLOBAL_SEARCH_DEFAULT_OPERATOR' => [
+			'default' => 'FulltextBegin',
+			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return in_array($arg, ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']);
+			}
+		],
+		'LIST_ENTITY_STATE_COLOR' => [
+			'default' => [
+				'Archived' => '#0032a2',
+				'Trash' => '#ab0505',
+				'Active' => '#009405',
+			],
+			'description' => 'Colors for record state will be displayed in list view, history, and preview.',
+			'validation' => function () {
+				$args = func_get_arg(0);
+				foreach ($args as $arg) {
+					return in_array($arg, ['#0032a2', '#ab0505', '#009405']);
+				}
+			}
 		],
 	]
 ];
