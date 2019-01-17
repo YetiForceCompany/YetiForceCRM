@@ -569,7 +569,17 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function privilegeToDelete()
 	{
-		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
+		if (!$this->getRelationModuleModel()->isPermitted('RemoveRelation')) {
+			return false;
+		}
+		if ($this->getRelationType() === static::RELATION_O2M) {
+			$relation = \App\Field::getRelatedFieldForModule($this->getRelationModuleName(), $this->getParentModuleModel()->getName());
+			if ($relation) {
+				$fieldModel = $this->getRelationModuleModel()->getFieldByName($relation['fieldname']);
+				return !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly();
+			}
+		}
+		return true;
 	}
 
 	public function getListUrl($parentRecordModel)
@@ -765,20 +775,6 @@ class Vtiger_Relation_Model extends \App\Base
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();
-			if (10 === $relationFieldModel->getUIType()) {
-				$hierarchy = \App\ModuleHierarchy::getRelationFieldByHierarchy($destinationModuleName);
-				if (isset($hierarchy[$relationFieldModel->getName()][$sourceModule->getName()])) {
-					$relatedRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecordId, $destinationModuleName);
-					foreach ($hierarchy[$relationFieldModel->getName()][$sourceModule->getName()] as $fieldName => $val) {
-						if (is_array($val) && in_array('related_to', $val)) {
-							$hierarchyFieldModel = $relatedRecordModel->getField($fieldName);
-							if (!$hierarchyFieldModel->isEditable() || $hierarchyFieldModel->isEditableReadOnly()) {
-								return false;
-							}
-						}
-					}
-				}
-			}
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
