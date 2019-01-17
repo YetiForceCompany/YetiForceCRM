@@ -237,7 +237,6 @@ dompurify@^1.0.3:
 
 "emojipanel@https://github.com/YetiForceCompany/EmojiPanel#master":
   version "1.0.0"
-  uid "9c9a2cd705c9376335840afe008910af9acf4f20"
   resolved "https://github.com/YetiForceCompany/EmojiPanel#9c9a2cd705c9376335840afe008910af9acf4f20"
   dependencies:
     tether "^1.4.0"
