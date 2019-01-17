@@ -12,7 +12,7 @@
 {strip}
 	<!-- tpl-install-tpl-InstallPreProcess -->
 	{include file='Header.tpl'}
-	<div class="w-100 bg-light">
+	<div class="w-100 bg-light o-install__header__wrapper">
 		<div class="container px-2 px-sm-3">
 			<header class="d-flex flex-nowrap align-items-center">
 				<div class="logo">
