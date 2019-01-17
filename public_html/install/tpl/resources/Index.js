@@ -30,7 +30,7 @@ jQuery.Class('Install_Index_Js', {
 			jQuery('form[name="step1"]').submit();
 		});
 		$('.js-add-languages-modal').on('click', () => {
-			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal');
+			app.showModalWindow(null, 'Install.php?mode=downloadLanguageModal');
 		});
 	},
 	registerEventForStep2: function () {

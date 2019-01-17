@@ -71,6 +71,15 @@ class Install_Index_View extends \App\Controller\View
 		$this->exposeMethod('step5');
 		$this->exposeMethod('step6');
 		$this->exposeMethod('step7');
+		$this->exposeMethod('downloadLanguageModal');
+	}
+
+	public function downloadLanguageModal(\App\Request $request)
+	{
+		$view = new Settings_Yetiforce_DownloadLanguageModal_View();
+		$view->preProcessAjax($request);
+		$view->process($request);
+		$view->postProcessAjax($request);
 	}
 
 	public function preProcess(\App\Request $request, $display = true)

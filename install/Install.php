@@ -28,6 +28,10 @@ App\Session::init();
 
 $request = App\Request::init();
 $install = new Install_Index_View();
-$install->preProcess($request);
+if (!$request->isAjax()) {
+	$install->preProcess($request);
+}
 $install->process($request);
-$install->postProcess($request);
+if (!$request->isAjax()) {
+	$install->postProcess($request);
+}
