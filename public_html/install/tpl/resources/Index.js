@@ -30,7 +30,32 @@ jQuery.Class('Install_Index_Js', {
 			jQuery('form[name="step1"]').submit();
 		});
 		$('.js-add-languages-modal').on('click', () => {
-			app.showModalWindow(null, 'Install.php?mode=downloadLanguageModal');
+			app.showModalWindow(null, 'Install.php?mode=downloadLanguageModal', function (container) {
+				container.find('.js-download').on('click', function (e) {
+					let progress = $.progressIndicator({
+						'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+						'blockInfo': {
+							'enabled': true
+						}
+					});
+					AppConnector.request({
+						module: 'YetiForce',
+						parent: 'Settings',
+						action: 'DownloadLanguage',
+						prefix: $(e.target).data('prefix')
+					}).done(function (data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: data['result']['type']
+						});
+						if (data['result']['type'] === 'success') {
+							location.reload();
+						} else {
+							progress.progressIndicator({'mode': 'hide'});
+						}
+					});
+				});
+			});
 		});
 	},
 	registerEventForStep2: function () {
