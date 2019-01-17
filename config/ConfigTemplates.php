@@ -80,58 +80,49 @@ return [
 //			'description' => ''
 //		],
 		'USE_RTE' => [
-			'default' => 'true',
-			'description' => '',
-			'validation' => ''
+			'default' => true,
+			'description' => 'Use rte',
 		],
 		'PORTAL_URL' => [
 			'default' => 'https://portal.yetiforce.com',
 			'description' => 'Url for customer portal (Example: https://portal.yetiforce.com/)',
-			'validation' => ''
 		],
-		'HELPDESK_SUPPORT_NAME' => [
-			'default' => 'your-support name',
-			'description' => 'Helpdesk support email id and support name (Example: "support@yetiforce.com" and "yetiforce support")',
-			'validation' => ''
-		],
+//		'HELPDESK_SUPPORT_NAME' => [
+//			'default' => 'your-support name',
+//			'description' => 'Helpdesk support email id and support name (Example: "support@yetiforce.com" and "yetiforce support")',
+//			'validation' => ''
+//		],
 		'HELPDESK_SUPPORT_EMAIL_REPLY' => [
 			'default' => '',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Help desk support email reply',
 		],
 		'db_server' => [
 			'default' => '_DBC_SERVER_',
-			'description' => '',
-			'validation' => ''
-		], 'db_port' => [
+			'description' => 'Gets the database server',
+		],
+		'db_port' => [
 			'default' => '_DBC_PORT_',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Gets the database port',
 		],
 		'db_username' => [
 			'default' => '_DBC_USER_',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Gets the database user name',
 		],
 		'db_password' => [
 			'default' => '_DBC_PASS_',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Gets the database password',
 		],
 		'db_name' => [
 			'default' => '_DBC_NAME_',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Gets the database name',
 		],
 		'db_type' => [
 			'default' => '_DBC_TYPE_',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Gets the database type',
 		],
 		'db_status' => [
 			'default' => '_DB_STAT_',
-			'description' => '',
-			'validation' => ''
+			'description' => 'Gets the database status',
 		],
 		'db_hostname' => [
 			'type' => 'function',
@@ -141,27 +132,26 @@ return [
 		'site_URL' => [
 			'default' => '_SITE_URL_',
 			'description' => 'Backslash is required at the end of URL',
-			'validation' => ''
 		],
-		'cache_dir' => [
-			'default' => 'cache/',
-			'description' => 'Cache directory path'
-		],
+//		'cache_dir' => [
+//			'default' => 'cache/',
+//			'description' => 'Cache directory path'
+//		],
 		'tmp_dir' => [
 			'type' => 'function',
 			'default' => 'return self::$cache_dir . "images/";',
 			'description' => 'Default value prepended by cache_dir = images/',
 		],
-		'import_dir' => [
-			'default' => 'cache/import/',
-			'description' => 'Import_dir default value prepended by cache_dir = import/',
-			'validation' => ''
-		],
-		'upload_dir' => [
-			'default' => 'cache/upload/',
-			'description' => '',
-			'validation' => ''
-		],
+//		'import_dir' => [
+//			'default' => 'cache/import/',
+//			'description' => 'Import_dir default value prepended by cache_dir = import/',
+//			'validation' => ''
+//		],
+//		'upload_dir' => [
+//			'default' => 'cache/upload/',
+//			'description' => '',
+//			'validation' => ''
+//		],
 		'upload_maxsize' => [
 			'default' => 52428800,
 			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 3000000',
@@ -170,7 +160,10 @@ return [
 		'allow_exports' => [
 			'default' => 'all',
 			'description' => 'Flag to allow export functionality: "all" - to allow anyone to use exports, "admin" - to only allow admins to export, "none" -  to block exports completely',
-			'validation' => ''
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg === 'all' || $arg === 'admin' || $arg === 'none';
+			}
 		],
 		'upload_badext' => [
 			'default' => ['php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm'],
@@ -187,64 +180,67 @@ return [
 //			'description' => 'Limit page navigation: default value = 5'
 //		],
 		'history_max_viewed' => [
-			'default' => '5',
-			'description' => 'History max viewed: default value = 5',
-			'validation' => ''
+			'default' => 5,
+			'description' => 'History max viewed: default value = 5 or "NumberRange5"',
 		],
 		'default_module' => [
 			'default' => 'Home',
 			'description' => 'Default module: default value = Home',
-			'validation' => ''
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return \App\Module::isModuleActive($arg) === true;
+			}
 		],
-		'default_action' => [
-			'default' => 'index',
-			'description' => 'Default action: default value = index',
-			'validation' => ''
-		],
-		'default_theme' => [
-			'default' => 'twilight',
-			'description' => 'Set default theme: default value = blue',
-			'validation' => ''
-		],
-		'default_user_name' => [
-			'default' => '',
-			'description' => 'Default text that is placed initially in the login form for user name',
-			'validation' => ''
-		],
+//		'default_action' => [
+//			'default' => 'index',
+//			'description' => 'Default action: default value = index',
+//			'validation' => ''
+//		],
+//		'default_theme' => [
+//			'default' => 'twilight',
+//			'description' => 'Set default theme: default value = blue',
+//			'validation' => ''
+//		],
+//		'default_user_name' => [
+//			'default' => '',
+//			'description' => 'Default text that is placed initially in the login form for user name',
+//			'validation' => ''
+//		],
 		'default_charset' => [
-			'default' => '_VT_CHARSET_',
+			'default' => 'UTF-8',
 			'description' => 'Default charset:  default value = "UTF-8" or "ISO-8859-1"',
-			'validation' => ''
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg === 'UTF-8' || $arg === 'ISO-8859-1';
+			}
 		],
 		'default_language' => [
-			'default' => '_LANG_',
+			'default' => 'en-US',
 			'description' => 'Default language: default value = en-US',
-			'validation' => ''
 		],
-		'translation_string_prefix' => [
-			'default' => false,
-			'description' => 'Add the language pack name to every translation string in the display: default value = false',
-			'validation' => '\App\Validator::bool'
-		],
-		'cache_tab_perms' => [
-			'default' => true,
-			'description' => '',
-			'validation' => '\App\Validator::bool'
-		],
-		'display_empty_home_blocks' => [
-			'default' => false,
-			'description' => 'Option to hide empty home blocks if no entries.',
-			'validation' => '\App\Validator::bool'
-		],
-		'disable_stats_tracking' => [
-			'default' => false,
-			'description' => 'Disable Stat Tracking of vtiger CRM instance',
-			'validation' => '\App\Validator::bool'
-		],
+//		'translation_string_prefix' => [
+//			'default' => false,
+//			'description' => 'Add the language pack name to every translation string in the display: default value = false',
+//			'validation' => '\App\Validator::bool'
+//		],
+//		'cache_tab_perms' => [
+//			'default' => true,
+//			'description' => 'Cache tab perms',
+//			'validation' => '\App\Validator::bool'
+//		],
+//		'display_empty_home_blocks' => [
+//			'default' => false,
+//			'description' => 'Option to hide empty home blocks if no entries.',
+//			'validation' => '\App\Validator::bool'
+//		],
+//		'disable_stats_tracking' => [
+//			'default' => false,
+//			'description' => 'Disable Stat Tracking of vtiger CRM instance',
+//			'validation' => '\App\Validator::bool'
+//		],
 		'application_unique_key' => [
 			'default' => '_VT_APP_UNIQKEY_',
 			'description' => 'Generating Unique Application Key',
-			'validation' => ''
 		],
 		'listview_max_textlength' => [
 			'default' => 40,
@@ -259,7 +255,6 @@ return [
 		'default_timezone' => [
 			'default' => '_TIMEZONE_',
 			'description' => 'Set the default timezone as per your preference',
-			'validation' => ''
 		],
 		'title_max_length' => [
 			'default' => 60,
@@ -276,11 +271,11 @@ return [
 			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
 			'validation' => '\App\Validator::bool'
 		],
-		'breadcrumbs_separator' => [
-			'default' => '>',
-			'description' => 'Separator for menu breadcrumbs default value = ">"',
-			'validation' => ''
-		],
+//		'breadcrumbs_separator' => [
+//			'default' => '>',
+//			'description' => 'Separator for menu breadcrumbs default value = ">"',
+//			'validation' => ''
+//		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
 			'description' => 'Minimum cron frequency [min]',
@@ -294,13 +289,12 @@ return [
 		'davStorageDir' => [
 			'default' => 'storage/Files',
 			'description' => 'Update the current session id with a newly generated one after login',
-			'validation' => ''
 		],
-		'davHistoryDir' => [
-			'default' => 'storage/FilesHistory',
-			'description' => '',
-			'validation' => ''
-		],
+//		'davHistoryDir' => [
+//			'default' => 'storage/FilesHistory',
+//			'description' => '',
+//			'validation' => ''
+//		],
 		'systemMode' => [
 			'default' => 'prod',
 			'description' => 'System mode. Available: prod, demo, test',
@@ -357,7 +351,10 @@ return [
 		'defaultLayout' => [
 			'default' => 'basic',
 			'description' => 'Set the default layout',
-			'validation' => ''
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg === 'basic';
+			}
 		],
 		'forceRedirect' => [
 			'default' => true,
@@ -389,7 +386,6 @@ return [
 		'LOG_LEVELS' => [
 			'default' => false,
 			'description' => 'Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"]',
-			'validation' => ''
 		],
 		'LOG_TRACE_LEVEL' => [
 			'default' => 0,
@@ -404,7 +400,6 @@ return [
 		'DEBUG_CONSOLE_ALLOWED_IPS' => [
 			'default' => false,
 			'description' => 'List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"]',
-			'validation' => ''
 		],
 		'SQL_DIE_ON_ERROR' => [
 			'default' => false,
@@ -429,7 +424,6 @@ return [
 		'SMARTY_ERROR_REPORTING' => [
 			'default' => E_ALL & ~E_NOTICE,
 			'description' => 'Do not show Smarty Notice in phpError.log',
-			'validation' => ''
 		],
 		'JS_DEBUG' => [
 			'default' => true,
@@ -464,13 +458,13 @@ return [
 		'EXCEPTION_ERROR_LEVEL' => [
 			'default' => E_ALL & ~E_NOTICE,
 			'description' => 'Set the error reporting level. The parameter is either an integer representing a bit field, or named constants. https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting / All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR',
-			'validation' => ''
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,
 			'description' => 'API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML',
 			'validation' => '\App\Validator::bool'
-		], 'DAV_DEBUG_PLUGIN' => [
+		],
+		'DAV_DEBUG_PLUGIN' => [
 			'default' => false,
 			'description' => 'Activate the plugin recording log in DAV',
 			'validation' => '\App\Validator::bool'
@@ -499,7 +493,7 @@ return [
 		'ROUNDCUBE_DEVEL_MODE' => [
 			'default' => false,
 			'description' => 'Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries',
-			'validation' => ''
+			'validation' => '\App\Validator::bool'
 		],
 		'ROUNDCUBE_PER_USER_LOGGING' => [
 			'default' => false,
@@ -727,11 +721,11 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'MAX_MULTIIMAGE_VIEW' => [
-			'default' => 5,
-			'description' => 'Maximum MultiImage icon view in lists',
-			'validation' => '\App\Validator::naturalNumber'
-		],
+//		'MAX_MULTIIMAGE_VIEW' => [
+//			'default' => 5,
+//			'description' => 'Maximum MultiImage icon view in lists',
+//			'validation' => '\App\Validator::naturalNumber'
+//		],
 		'BROWSING_HISTORY_WORKING' => [
 			'default' => true,
 			'description' => 'Browsing history working if true',
