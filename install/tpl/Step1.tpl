@@ -15,16 +15,22 @@
 			<div class="inner-container">
 				<form class="" name="step1" method="post" action="Install.php">
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-6">
 							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 						</div>
-						<div class="col-md-3">
-							<label for="lang" class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
-							<select name="lang" class="select2" id="lang" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}" style="width: 250px;">
-								{foreach key=key item=item from=$LANGUAGES}
-									<option value="{$key}" {if $LANG eq $key}selected{/if} tabindex="0">{$item}</option>
-								{/foreach}
-							</select>
+						<div class="col-md-6 d-inline-flex justify-content-end">
+							<button class="btn btn-success u-h-fit mr-1 js-add-languages-modal" type="button" data-js="click">
+								<span class="fas fa-download mr-1"></span>
+								{\App\Language::translate('LBL_DOWNLOAD_LANG','Settings::YetiForce')}
+							</button>
+							<div>
+								<label for="lang" class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
+								<select name="lang" class="select2" id="lang" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}" style="width: 250px;">
+									{foreach key=key item=item from=$LANGUAGES}
+										<option value="{$key}" {if $LANG eq $key}selected{/if} tabindex="0">{$item}</option>
+									{/foreach}
+								</select></div>
+
 						</div>
 					</div>
 					<hr>

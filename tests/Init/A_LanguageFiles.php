@@ -17,6 +17,7 @@ class A_LanguageFiles extends \Tests\Base
 	 */
 	public function testLoadFiles()
 	{
+		\App\Installer\Languages::download('pl-PL');
 		$parser = new \Seld\JsonLint\JsonParser();
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {

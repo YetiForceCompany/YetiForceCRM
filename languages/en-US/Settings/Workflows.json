@@ -164,6 +164,7 @@
     "LBL_UPDATE_WORK_TIME": "Update working time",
     "LBL_UPDATE_RELATED_FIELD": "Update related record",
     "LBL_AUTO_ASSIGN": "Auto assign record",
+    "LBL_NEW_USER_CREATED": "New user created",
     "Current Date": "Current date",
     "Current Time": "Current time",
     "System Timezone": "System timezone",

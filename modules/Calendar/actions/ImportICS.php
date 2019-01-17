@@ -44,7 +44,7 @@ class Calendar_ImportICS_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$ics = $request->get('ics') . '.ics';
+		$ics = $request->getByType('ics', 'Path') . '.ics';
 		$icsUrl = 'cache/import/' . $ics;
 		if (file_exists($icsUrl)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

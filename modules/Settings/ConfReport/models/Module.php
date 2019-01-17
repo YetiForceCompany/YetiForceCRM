@@ -207,16 +207,16 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => static::getFlag(ini_get('expose_php')) !== 'Off',
 			],
-			'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
-			'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
-			'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'help' => 'LBL_HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
-			'Header: X-Robots-Tag' => ['recommended' => 'none', 'help' => 'LBL_HEADER_X_ROBOTS_TAG_HELP_TEXT', 'current' => '?'],
-			'Header: X-Permitted-Cross-Domain-Policies' => ['recommended' => 'none', 'help' => 'LBL_HEADER_X_PERMITTED_CROSS_DOMAIN_POLICIES_HELP_TEXT', 'current' => '?'],
-			'Header: X-Powered-By' => ['recommended' => '', 'help' => 'LBL_HEADER_X_POWERED_BY_HELP_TEXT', 'current' => '?'],
-			'Header: Server' => ['recommended' => '', 'help' => 'LBL_HEADER_SERVER_HELP_TEXT', 'current' => '?'],
-			'Header: Expect-CT' => ['recommended' => 'enforce; max-age=3600', 'help' => 'LBL_HEADER_EXPECT_CT_HELP_TEXT', 'current' => '?'],
-			'Header: Referrer-Policy' => ['recommended' => 'no-referrer', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
-			'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'LBL_HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
+			'Header: x-frame-options' => ['recommended' => 'sameorigin', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: x-xss-protection' => ['recommended' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
+			'Header: x-content-type-options' => ['recommended' => 'nosniff', 'help' => 'LBL_HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: x-robots-tag' => ['recommended' => 'none', 'help' => 'LBL_HEADER_X_ROBOTS_TAG_HELP_TEXT', 'current' => '?'],
+			'Header: x-permitted-cross-domain-policies' => ['recommended' => 'none', 'help' => 'LBL_HEADER_X_PERMITTED_CROSS_DOMAIN_POLICIES_HELP_TEXT', 'current' => '?'],
+			'Header: x-powered-by' => ['recommended' => '', 'help' => 'LBL_HEADER_X_POWERED_BY_HELP_TEXT', 'current' => '?'],
+			'Header: server' => ['recommended' => '', 'help' => 'LBL_HEADER_SERVER_HELP_TEXT', 'current' => '?'],
+			'Header: expect-ct' => ['recommended' => 'enforce; max-age=3600', 'help' => 'LBL_HEADER_EXPECT_CT_HELP_TEXT', 'current' => '?'],
+			'Header: referrer-policy' => ['recommended' => 'no-referrer', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
+			'Header: strict-transport-security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'LBL_HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
 		];
 		if (!$instalMode) {
 			$directiveValues['session_regenerate_id'] = [
@@ -278,26 +278,26 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$headers = [];
 			}
 			if ($headers) {
-				$directiveValues['Header: X-Frame-Options']['status'] = $headers['x-frame-options'] !== 'sameorigin';
-				$directiveValues['Header: X-Frame-Options']['current'] = $headers['x-frame-options'];
-				$directiveValues['Header: X-XSS-Protection']['status'] = $headers['x-xss-protection'] !== '1; mode=block';
-				$directiveValues['Header: X-XSS-Protection']['current'] = $headers['x-xss-protection'];
-				$directiveValues['Header: X-Content-Type-Options']['status'] = $headers['x-content-type-options'] !== 'nosniff';
-				$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['x-content-type-options'];
-				$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['x-powered-by']);
-				$directiveValues['Header: X-Powered-By']['current'] = $headers['x-powered-by'] ?? '';
-				$directiveValues['Header: X-Robots-Tag']['status'] = $headers['x-robots-tag'] !== 'none';
-				$directiveValues['Header: X-Robots-Tag']['current'] = $headers['x-robots-tag'];
-				$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['status'] = $headers['x-permitted-cross-domain-policies'] !== 'none';
-				$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['current'] = $headers['x-permitted-cross-domain-policies'];
-				$directiveValues['Header: Server']['status'] = !empty($headers['server']);
-				$directiveValues['Header: Server']['current'] = $headers['server'];
-				$directiveValues['Header: Referrer-Policy']['status'] = $headers['referrer-policy'] !== 'no-referrer';
-				$directiveValues['Header: Referrer-Policy']['current'] = $headers['referrer-policy'];
-				$directiveValues['Header: Expect-CT']['status'] = $headers['expect-ct'] !== 'enforce; max-age=3600';
-				$directiveValues['Header: Expect-CT']['current'] = $headers['expect-ct'];
-				$directiveValues['Header: Strict-Transport-Security']['status'] = $headers['strict-transport-security'] !== 'max-age=31536000; includesubdomains; preload';
-				$directiveValues['Header: Strict-Transport-Security']['current'] = $headers['strict-transport-security'];
+				$directiveValues['Header: x-frame-options']['status'] = $headers['x-frame-options'] !== 'sameorigin';
+				$directiveValues['Header: x-frame-options']['current'] = $headers['x-frame-options'];
+				$directiveValues['Header: x-xss-protection']['status'] = $headers['x-xss-protection'] !== '1; mode=block';
+				$directiveValues['Header: x-xss-protection']['current'] = $headers['x-xss-protection'];
+				$directiveValues['Header: x-content-type-options']['status'] = $headers['x-content-type-options'] !== 'nosniff';
+				$directiveValues['Header: x-content-type-options']['current'] = $headers['x-content-type-options'];
+				$directiveValues['Header: x-powered-by']['status'] = !empty($headers['x-powered-by']);
+				$directiveValues['Header: x-powered-by']['current'] = $headers['x-powered-by'] ?? '';
+				$directiveValues['Header: x-robots-tag']['status'] = $headers['x-robots-tag'] !== 'none';
+				$directiveValues['Header: x-robots-tag']['current'] = $headers['x-robots-tag'];
+				$directiveValues['Header: x-permitted-cross-domain-policies']['status'] = $headers['x-permitted-cross-domain-policies'] !== 'none';
+				$directiveValues['Header: x-permitted-cross-domain-policies']['current'] = $headers['x-permitted-cross-domain-policies'];
+				$directiveValues['Header: server']['status'] = !empty($headers['server']);
+				$directiveValues['Header: server']['current'] = $headers['server'];
+				$directiveValues['Header: referrer-policy']['status'] = $headers['referrer-policy'] !== 'no-referrer';
+				$directiveValues['Header: referrer-policy']['current'] = $headers['referrer-policy'];
+				$directiveValues['Header: expect-ct']['status'] = $headers['expect-ct'] !== 'enforce; max-age=3600';
+				$directiveValues['Header: expect-ct']['current'] = $headers['expect-ct'];
+				$directiveValues['Header: strict-transport-security']['status'] = $headers['strict-transport-security'] !== 'max-age=31536000; includesubdomains; preload';
+				$directiveValues['Header: strict-transport-security']['current'] = $headers['strict-transport-security'];
 			}
 		}
 		if ($onlyError) {

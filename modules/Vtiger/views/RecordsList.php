@@ -184,10 +184,16 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
 		}
 		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-			$listViewModel->set('search_key', $request->getByType('search_key', 1));
-			$listViewModel->set('search_value', $request->get('search_value'));
-			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-			$viewer->assign('SEARCH_VALUE', $request->get('search_value'));
+			$operator = 's';
+			if (!$request->isEmpty('operator')) {
+				$operator = $request->getByType('operator');
+			}
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator);
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+			$viewer->assign('SEARCH_KEY', $searchKey);
+			$viewer->assign('SEARCH_VALUE', $searchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($listViewModel->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams)) {
@@ -232,8 +238,13 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
 			}
 			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-				$listViewModel->set('search_key', $request->getByType('search_key', 1));
-				$listViewModel->set('search_value', $request->get('search_value'));
+				$operator = 's';
+				if (!$request->isEmpty('operator')) {
+					$operator = $request->getByType('operator');
+				}
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$listViewModel->set('search_key', $searchKey);
+				$listViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator));
 			}
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);

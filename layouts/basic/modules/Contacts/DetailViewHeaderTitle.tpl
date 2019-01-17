@@ -17,10 +17,15 @@
 					<span class="moduleIcon">
 						{assign var=IMAGE value=$RECORD->getImage()}
 						{if $IMAGE}
-							<img class="pushDown" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
+							<img class="pushDown js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
 							<br/>
 						{else}
-							<span class="pl-0 o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}" data-js="click"></span>
+						{/if}
+						{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+							<span class="hierarchy">
+								<span class="badge bgGreen"></span>
+							</span>
 						{/if}
 					</span>
 				</div>

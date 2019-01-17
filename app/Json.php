@@ -74,4 +74,33 @@ class Json
 	{
 		return empty($value) || $value === '[]' || $value === '""';
 	}
+
+	/**
+	 * Read json file to array.
+	 *
+	 * @param string $path
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function read(string $path)
+	{
+		return static::decode(file_get_contents($path), true) ?? [];
+	}
+
+	/**
+	 * Save json file from array.
+	 *
+	 * @param string $path
+	 * @param array  $data
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool|int
+	 */
+	public static function save(string $path, array $data)
+	{
+		return \file_put_contents($path, static::encode($data));
+	}
 }

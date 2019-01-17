@@ -54,8 +54,8 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$searchParams = $request->get('searchParams');
-		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
-		$searchValue = $request->get('search_value');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 'Alnum');
+		$searchValue = $request->getByType('search_value', 'Text');
 
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';

@@ -120,12 +120,12 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			$listView->set('searchResult', $searchResult);
 		}
 		$searchKey = $request->getByType('search_key');
-		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator');
+		$searchValue = $request->getByType('search_value', 'Text');
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listView->set('operator', $operator);
 			$listView->set('search_key', $searchKey);
-			$listView->set('search_value', $searchValue);
+			$listView->set('search_value', App\Condition::validSearchValue($searchValue, $listView->getQueryGenerator()->getModule(), $searchKey, $operator));
 		}
 		$searchParams = App\Condition::validSearchParams($listView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (!empty($searchParams) && is_array($searchParams)) {

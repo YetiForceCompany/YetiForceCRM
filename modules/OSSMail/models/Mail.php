@@ -273,7 +273,7 @@ class OSSMail_Mail_Model extends \App\Base
 		} elseif (strpos($emails, ',')) {
 			$emails = explode(',', $emails);
 		} else {
-			settype($emails, 'array');
+			$emails = (array) $emails;
 		}
 		if (!empty($emailSearchList)) {
 			foreach ($emailSearchList as $field) {

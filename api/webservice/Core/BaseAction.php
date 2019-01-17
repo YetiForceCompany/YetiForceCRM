@@ -52,7 +52,7 @@ class BaseAction
 	 */
 	public function checkPermission()
 	{
-		if (empty($this->controller->headers['X-TOKEN'])) {
+		if (empty($this->controller->headers['x-token'])) {
 			throw new \Api\Core\Exception('No sent token', 401);
 		}
 		$apiType = strtolower($this->controller->app['type']);
@@ -61,7 +61,7 @@ class BaseAction
 		$db = \App\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", 'sessionLanguage' => "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
-			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
+			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
 			->one($db);
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
@@ -129,8 +129,7 @@ class BaseAction
 	 */
 	public function getParentCrmId()
 	{
-		if ($this->controller && $parentId = $this->controller->request->getHeader('X-PARENT-ID')) {
-			settype($parentId, 'int');
+		if ($this->controller && $parentId = (int) $this->controller->request->getHeader('x-parent-id')) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
 			$hierarchy->session = $this->session;
 			$hierarchy->findId = $parentId;

@@ -48,7 +48,6 @@ class Contacts extends CRMEntity
 	public $list_fields_name = [
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
-		'Title' => 'title',
 		'Member Of' => 'parent_id',
 		'Email' => 'email',
 		'Office Phone' => 'phone',
@@ -57,14 +56,12 @@ class Contacts extends CRMEntity
 	public $search_fields = [
 		'First Name' => ['contactdetails' => 'firstname'],
 		'Last Name' => ['contactdetails' => 'lastname'],
-		'Title' => ['contactdetails' => 'title'],
 		'Member Of' => ['contactdetails' => 'parent_id'],
 		'Assigned To' => ['crmentity' => 'smownerid'],
 	];
 	public $search_fields_name = [
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
-		'Title' => 'title',
 		'Member Of' => 'parent_id',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -194,5 +191,212 @@ class Contacts extends CRMEntity
 				}
 			}
 		}
+	}
+
+	/**
+	 * Function to get contacts hierarchy.
+	 *
+	 * @param int  $id
+	 * @param bool $getRawData
+	 * @param bool $getLinks
+	 *
+	 * @return array
+	 */
+	public function getHierarchy($id, $getRawData = false, $getLinks = true)
+	{
+		$listviewHeader = [];
+		$listviewEntries = [];
+		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		foreach ($listColumns as $fieldname => $colname) {
+			if (\App\Field::getFieldPermission('Contacts', $colname)) {
+				$listviewHeader[] = App\Language::translate($fieldname, 'Contacts');
+			}
+		}
+		$rows = [];
+		$encountered = [$id];
+		$rows = $this->getParent($id, $rows, $encountered);
+		$baseId = current(array_keys($rows));
+		$rows = [$baseId => $rows[$baseId]];
+		$rows[$baseId] = $this->getChild($baseId, $rows[$baseId], $rows[$baseId]['depth']);
+
+		$this->getHierarchyData($id, $rows[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
+	}
+
+	/**
+	 * Function to create array of all the contacts in the hierarchy.
+	 *
+	 * @param int   $id
+	 * @param array $baseInfo
+	 * @param int   $recordId        - id
+	 * @param array $listviewEntries
+	 * @param bool  $getRawData
+	 * @param bool  $getLinks
+	 *
+	 * @return array
+	 */
+	public function getHierarchyData($id, $baseInfo, $recordId, &$listviewEntries, $getRawData = false, $getLinks = true)
+	{
+		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('Contacts', 'DetailView', $recordId);
+		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		$infoData = [];
+		foreach ($listColumns as $colname) {
+			if (\App\Field::getFieldPermission('Contacts', $colname)) {
+				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
+				if ($getRawData === false && $colname === 'firstname') {
+					if ($recordId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=Contacts&action=DetailView&record=' . $recordId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
+							}
+						}
+					} else {
+						$data = '<strong>' . $data . '</strong>';
+					}
+					$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
+					$data = $rowDepth . $data;
+				} elseif ($colname === 'parent_id') {
+					$data = \App\Record::getLabel($data);
+				}
+			}
+			$infoData[] = $data;
+		}
+
+		$listviewEntries[$recordId] = $infoData;
+		foreach ($baseInfo as $accId => $rowInfo) {
+			if (is_array($rowInfo) && (int) $accId) {
+				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
+			}
+		}
+		\App\Log::trace('Exiting getHierarchyData method ...');
+
+		return $listviewEntries;
+	}
+
+	/**
+	 * Function to Recursively get all the parent.
+	 *
+	 * @param int   $id
+	 * @param array $parent
+	 * @param array $encountered
+	 * @param int   $depthBase
+	 *
+	 * @return array
+	 */
+	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0)
+	{
+		\App\Log::trace('Entering getParent(' . $id . ') method ...');
+		if ($depthBase == AppConfig::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
+
+			return $parent;
+		}
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$row = (new App\Db\Query())->select([
+			'vtiger_contactdetails.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('vtiger_contactdetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_contactdetails.contactid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.contactid' => $id])
+			->one();
+		if ($row) {
+			$parentid = $row['reportsto'];
+			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
+				$encountered[] = $parentid;
+				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
+			}
+			$parentInfo = [];
+			$depth = 0;
+			if (isset($parent[$parentid])) {
+				$depth = $parent[$parentid]['depth'] + 1;
+			}
+			$parentInfo['depth'] = $depth;
+			$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+			if (empty($listColumns)) {
+				$listColumns = $this->list_fields_name;
+			}
+			foreach ($listColumns as $columnname) {
+				if ($columnname === 'assigned_user_id') {
+					$parentInfo[$columnname] = $row['user_name'];
+				} elseif ($columnname === 'parent_id') {
+					$parentInfo[$columnname] = $row['parentid'];
+				} else {
+					$parentInfo[$columnname] = $row[$columnname];
+				}
+			}
+
+			$parent[$id] = $parentInfo;
+		}
+		\App\Log::trace('Exiting getParent method ...');
+
+		return $parent;
+	}
+
+	/**
+	 * Function to Recursively get all the child.
+	 *
+	 * @param int   $id
+	 * @param array $childRow
+	 * @param int   $depthBase
+	 *
+	 * @return array
+	 */
+	public function getChild(int $id, array &$childRow, int $depthBase)
+	{
+		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
+		if (empty($id) || $depthBase == AppConfig::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
+
+			return $childRow;
+		}
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$dataReader = (new App\Db\Query())->select([
+			'vtiger_contactdetails.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('vtiger_contactdetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_contactdetails.contactid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.reportsto' => $id])
+			->createCommand()->query();
+		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		if ($dataReader->count() > 0) {
+			$depth = $depthBase + 1;
+			while ($row = $dataReader->read()) {
+				$childId = $row['contactid'];
+				$childContactsInfo = [];
+				$childContactsInfo['depth'] = $depth;
+				foreach ($listColumns as $columnname) {
+					if ($columnname === 'assigned_user_id') {
+						$childContactsInfo[$columnname] = $row['user_name'];
+					} elseif ($columnname === 'parent_id') {
+						$childContactsInfo[$columnname] = $row['parentid'];
+					} else {
+						$childContactsInfo[$columnname] = $row[$columnname];
+					}
+				}
+				$childRow[$childId] = $childContactsInfo;
+				$this->getChild($childId, $childRow[$childId], $depth);
+			}
+			$dataReader->close();
+		}
+		\App\Log::trace('Exiting getChild method ...');
+
+		return $childRow;
 	}
 }

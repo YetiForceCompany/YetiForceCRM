@@ -22,7 +22,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchValue = $request->get('search_value');
+		$searchValue = $request->getForSql('search_value');
 
 		if ($sortOrder == 'ASC') {
 			$nextSortOrder = 'DESC';

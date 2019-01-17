@@ -38,6 +38,12 @@
     "LBL_SUPPLIERS": "Suppliers",
     "LBL_INVALID_OFFLINE_KEY": "Entered incorrect key",
     "LBL_ONLINE_REGISTRATION_FAILED": "Error during registration.",
-    "LBL_ACTIVATE": "Activate"
+    "LBL_ACTIVATE": "Activate",
+    "LBL_DOWNLOAD_LANG": "Download language",
+    "LBL_DOWNLOAD": "Download",
+    "LBL_UPDATE": "Update",
+    "LBL_DOWNLOADED_LANGUAGE": "Downloaded language",
+    "LBL_NO_INTERNET_CONNECTION": "There is no Internet connection",
+    "LBL_NO_LANGUAGES_TO_DOWNLOAD": "No languages to download"
   }
 }

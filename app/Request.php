@@ -229,8 +229,7 @@ class Request
 			if ($value) {
 				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
-			settype($value, 'array');
-			return $this->purifiedValuesByArray[$key] = $value;
+			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
 		return $value;
 	}
@@ -438,12 +437,12 @@ class Request
 		if (!function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) === 'HTTP_') {
-					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
+					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
 					$data[$key] = Purifier::purify($value);
 				}
 			}
 		} else {
-			$data = array_change_key_case(apache_request_headers(), CASE_UPPER);
+			$data = array_change_key_case(apache_request_headers(), \CASE_LOWER);
 			foreach ($data as &$value) {
 				$value = Purifier::purify($value);
 			}

@@ -78,12 +78,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
+		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$relationListView->set('operator', $request->getByType('operator'));
+			$operator = $request->getByType('operator');
+			$relationListView->set('operator', $operator);
 		}
 		if (!$request->isEmpty('search_key', true)) {
-			$relationListView->set('search_key', $request->getByType('search_key'));
-			$relationListView->set('search_value', $request->get('search_value'));
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$relationListView->set('search_key', $searchKey);
+			$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator));
 		}
 		$searchParmams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
@@ -191,12 +194,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$excludedIds = $request->getArray('excluded_ids', 'Integer');
 		if ('all' === $request->getRaw('selected_ids')) {
+			$operator = 's';
 			if (!$request->isEmpty('operator', true)) {
-				$relationListView->set('operator', $request->getByType('operator', 1));
+				$operator = $request->getByType('operator');
+				$relationListView->set('operator', $operator);
 			}
 			if (!$request->isEmpty('search_key', true)) {
-				$relationListView->set('search_key', $request->getByType('search_key', 1));
-				$relationListView->set('search_value', $request->get('search_value'));
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$relationListView->set('search_key', $searchKey);
+				$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator));
 			}
 			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
@@ -238,12 +244,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			if ($request->has('entityState')) {
 				$relationListView->set('entityState', $request->getByType('entityState'));
 			}
+			$operator = 's';
 			if (!$request->isEmpty('operator', true)) {
-				$relationListView->set('operator', $request->getByType('operator', 1));
+				$operator = $request->getByType('operator');
+				$relationListView->set('operator', $operator);
 			}
 			if (!$request->isEmpty('search_key', true)) {
-				$relationListView->set('search_key', $request->getByType('search_key', 1));
-				$relationListView->set('search_value', $request->get('search_value'));
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$relationListView->set('search_key', $searchKey);
+				$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator));
 			}
 			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {

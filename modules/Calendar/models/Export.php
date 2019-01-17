@@ -21,12 +21,12 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
-		$cvId = $request->getByType('viewname', 2);
+		$moduleName = $request->getByType('source_module', 'Alnum');
+		$cvId = $request->getByType('viewname', 'Alnum');
 		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
+		$searchKey = $request->getByType('search_key', 'Alnum');
+		$operator = $request->getByType('operator');
+		$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
 		if (!empty($operator)) {
 			$listInstance->set('operator', $operator);
 		}

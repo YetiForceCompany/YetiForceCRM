@@ -115,7 +115,6 @@
     "Email_FromName": "Mail Scanner",
     "JS_info_restart_ok": "Cron unlocked",
     "permissions_all": "Visible to all",
-    "permissions_vtiger": "Based on vtiger permissions",
     "permissions_user_email": "Based on user address",
     "Permissions": "Permissions",
     "User": "User",
