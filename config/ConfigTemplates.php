@@ -907,5 +907,119 @@ return [
 				}
 			}
 		],
+	],
+	'security' => [
+		'USER_ENCRYPT_PASSWORD_COST' => [
+			'default' => 10,
+			'description' => 'Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.',
+			'validation' => '\App\Validator::naturalNumber',
+		],
+		'RESET_LOGIN_PASSWORD' => [
+			'default' => false,
+			'description' => 'Possible to reset the password while logging in (true/false)',
+			'validation' => '\App\Validator::bool',
+		],
+		'SHOW_MY_PREFERENCES' => [
+			'default' => true,
+			'description' => 'Show my preferences',
+			'validation' => '\App\Validator::bool',
+		],
+		'CHANGE_LOGIN_PASSWORD' => [
+			'default' => true,
+			'description' => 'Changing the settings by the user is possible true/false',
+			'validation' => '\App\Validator::bool',
+		],
+		'PERMITTED_BY_ROLES' => [
+			'default' => true,
+			'description' => 'Permissions mechanism. The list of system permission levels can be found below',
+			'validation' => '\App\Validator::bool',
+		],
+		'PERMITTED_BY_SHARING' => [
+			'default' => true,
+			'description' => 'Permitted by sharing',
+			'validation' => '\App\Validator::bool',
+		],
+		'PERMITTED_BY_SHARED_OWNERS' => [
+			'default' => true,
+			'description' => 'Permitted by shared owners',
+			'validation' => '\App\Validator::bool',
+		],
+		'PERMITTED_BY_RECORD_HIERARCHY' => [
+			'default' => true,
+			'description' => 'Permitted by record hierarchy',
+			'validation' => '\App\Validator::bool',
+		],
+		'PERMITTED_BY_ADVANCED_PERMISSION' => [
+			'default' => true,
+			'description' => 'Permitted by advanced permission',
+			'validation' => '\App\Validator::bool',
+		],
+		'PERMITTED_BY_PRIVATE_FIELD' => [
+			'default' => false,
+			'description' => 'Permitted by private field',
+			'validation' => '\App\Validator::bool',
+		],
+		'CACHING_PERMISSION_TO_RECORD' => [
+			'default' => false,
+			'description' => 'Configuration of the permission mechanism on records list. true - Permissions based on the users column in vtiger_crmentity.  true - Permissions are not verified in real time. They are updated via cron.  We do not recommend using this option in production environments. false - Permissions based on adding tables with permissions to query (old mechanism)',
+			'validation' => '\App\Validator::bool',
+		],
+		'RESTRICTED_DOMAINS_ACTIVE' => [
+			'default' => false,
+			'description' => 'Restricted domains allow you to block saving an email address from a given domain in the system. Restricted domains work only for email address type fields.',
+			'validation' => '\App\Validator::bool',
+		],
+		'RESTRICTED_DOMAINS_VALUES' => [
+			'default' => [],
+			'description' => 'Restricted domains',
+		],
+		'RESTRICTED_DOMAINS_ALLOWED' => [
+			'default' => [],
+			'description' => 'List of modules where restricted domains are enabled, if empty it will be enabled everywhere.',
+		],
+		'RESTRICTED_DOMAINS_EXCLUDED' => [
+			'default' => ['OSSEmployees', 'Users'],
+			'description' => 'List of modules excluded from restricted domains validation.',
+		],
+		'LOGIN_PAGE_REMEMBER_CREDENTIALS' => [
+			'default' => false,
+			'description' => 'Remember user credentials',
+			'validation' => '\App\Validator::bool',
+		],
+		'FIELDS_REFERENCES_DEPENDENT' => [
+			'default' => false,
+			'description' => 'Interdependent reference fields',
+			'validation' => '\App\Validator::bool',
+		],
+		'HPKP_KEYS' => [
+			'default' => [],
+			'description' => 'HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed. https://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/',
+		],
+		'CSP_ACTIVE' => [
+			'default' => true,
+			'description' => 'Content Security Policy',
+			'validation' => '\App\Validator::bool',
+		],
+		'PURIFIER_ALLOWED_DOMAINS' => [
+			'default' => [],
+			'description' => 'List of allowed domains for fields with HTML support',
+		],
+		'MAX_LIFETIME_SESSION' => [
+			'default' => 21600,
+			'description' => 'Lifetime session (in seconds)',
+		],
+		'USER_AUTHY_MODE' => [
+			'default' => 'TOTP_OPTIONAL',
+			'description' => 'User authentication mode possible values: TOTP_OFF - 2FA TOTP is checking off, TOTP_OPTIONAL - It is defined by the user, TOTP_OBLIGATORY - It is obligatory.',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return in_array($arg, ['TOTP_OPTIONAL', 'TOTP_OFF', 'TOTP_OBLIGATORY']);
+			}
+		],
+		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [
+			'default' => 3600,
+			'description' => 'Cache lifetime for SensioLabs security checker.',
+			'validation' => '\App\Validator::naturalNumber',
+		],
 	]
 ];
