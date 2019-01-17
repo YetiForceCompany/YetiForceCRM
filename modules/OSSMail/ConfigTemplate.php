@@ -30,8 +30,9 @@ return [
 	],
 	'validate_cert' => [
 		'default' => false,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Validate cert',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'default_port' => [
 		'default' => 993,
@@ -41,7 +42,7 @@ return [
 	'smtp_server' => [
 		'default' => 'ssl://smtp.gmail.com',
 		'description' => 'Name of SMTP server',
-		'validation' => ''
+		'validation' => '\App\Validator::standard',
 	],
 	'smtp_port' => [
 		'default' => 465,
@@ -50,98 +51,96 @@ return [
 	],
 	'smtp_user' => [
 		'default' => '%u',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Login to SMTP server',
 	],
 	'smtp_pass' => [
 		'default' => '%p',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Password to SMTP server ',
 	],
 	'support_url' => [
 		'default' => 'http://yetiforce.com',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Support url',
+		'validation' => '\App\Validator::standard'
 	],
 	'des_key' => [
 		'default' => 'rGOQ26hR%gxlZk=QA!$HMOvb',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Encryption key of data',
 	],
 	'username_domain' => [
 		'default' => 'gmail.com',
-		'description' => '',
-		'validation' => ''
+		'description' => 'User name domain',
+		'validation' => '\App\Validator::standard'
 	],
 	'product_name' => [
 		'default' => 'YetiForce',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Product name',
+		'validation' => '\App\Validator::standard'
 	],
 	'plugins' => [
 		'default' => ['identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status'],
 		'description' => '',
-		'validation' => ''
 	],
 	'language' => [
 		'default' => 'en_US',
 		'description' => '',
-		'validation' => ''
 	],
 	'mime_param_folding' => [
 		'default' => 0,
-		'description' => '',
+		'description' => 'Mime param folding',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'skin_logo' => [
 		'default' => ['*' => '/images/null.png'],
-		'description' => '',
-		'validation' => ''
+		'description' => 'Skin logo',
 	],
 	'ip_check' => [
 		'default' => false,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Ip check.',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+
 	],
 	'enable_spellcheck' => [
 		'default' => true,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Enable spell check',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'identities_level' => [
-		'default' => '0',
-		'description' => '',
-		'validation' => ''
+		'default' => 0,
+		'description' => 'Identities level.',
 	],
 	'auto_create_user' => [
 		'default' => true,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Auto create user.',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'mail_pagesize' => [
 		'default' => 30,
-		'description' => '',
+		'description' => 'Mail page size.',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'addressbook_pagesize' => [
 		'default' => 50,
-		'description' => '',
+		'description' => 'Address book page size.',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'prefer_html' => [
 		'default' => true,
 		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'preview_pane' => [
 		'default' => false,
 		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'htmleditor' => [
-		'default' => '1',
-		'description' => '',
-		'validation' => ''
+		'default' => 1,
+		'description' => 'Html editor',
 	],
 	'draft_autosave' => [
 		'default' => 300,
@@ -221,52 +220,42 @@ return [
 	'smtp_log' => [
 		'default' => AppConfig::debug('ROUNDCUBE_SMTP_LOG'),
 		'description' => '',
-		'validation' => ''
 	],
 	'log_logins' => [
 		'default' => AppConfig::debug('ROUNDCUBE_LOG_LOGINS'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Logins successful/failed',
 	],
 	'log_session' => [
 		'default' => AppConfig::debug('ROUNDCUBE_LOG_SESSION'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Session authentication debug',
 	],
 	'sql_debug' => [
 		'default' => AppConfig::debug('ROUNDCUBE_SQL_DEBUG'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Sql queries debug',
 	],
 	'imap_debug' => [
 		'default' => AppConfig::debug('ROUNDCUBE_IMAP_DEBUG'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Imap conversation debug',
 	],
 	'ldap_debug' => [
 		'default' => AppConfig::debug('ROUNDCUBE_LDAP_DEBUG'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Ldap conversation debug',
 	],
 	'smtp_debug' => [
 		'default' => AppConfig::debug('ROUNDCUBE_SMTP_DEBUG'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Smtp conversation debug',
 	],
 	'devel_mode' => [
 		'default' => AppConfig::debug('ROUNDCUBE_DEVEL_MODE'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Debugging information about php memory consumption',
 	],
 	'log_dir' => [
 		'default' => RCUBE_INSTALL_PATH . '/../../../../cache/logs/',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Log dir',
 	],
 	'temp_dir' => [
 		'default' => RCUBE_INSTALL_PATH . '/../../../../cache/mail/',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Temp dir',
 	],
 	'imap_conn_options' => [
 		'default' => [
@@ -275,8 +264,7 @@ return [
 				'verify_peer_name' => false,
 			],
 		],
-		'description' => '',
-		'validation' => ''
+		'description' => 'Connection options imap.',
 	],
 	'smtp_conn_options' => [
 		'default' => [
@@ -285,52 +273,51 @@ return [
 				'verify_peer_name' => false,
 			],
 		],
-		'description' => '',
-		'validation' => ''
+		'description' => 'Connection options smtp.',
 	],
 	'smtp_timeout' => [
 		'default' => 5,
-		'description' => '',
-		'validation' => ''
+		'description' => 'Smtp time out',
 	],
 	'smtp_helo_host' => [
 		'default' => 'YetiForceCRM',
-		'description' => '',
-		'validation' => ''
+		'description' => 'The value to give when sending',
+		'validation' => '\App\Validator::time'
 	],
 	'skin' => [
 		'default' => 'yetiforce',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Set the skin',
+		'validation' => '\App\Validator::standard'
 	],
 	'list_cols' => [
 		'default' => ['flag', 'status', 'subject', 'fromto', 'date', 'size', 'attachment', 'authres_status', 'threads'],
-		'description' => '',
-		'validation' => ''
+		'description' => 'List cols',
 	],
 	'enable_authres_status_column' => [
 		'default' => true,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Enable authres status column',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'show_statuses' => [
 		'default' => 127,
-		'description' => '',
+		'description' => 'Show statuses',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'root_directory' => [
 		'default' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR,
-		'description' => '',
-		'validation' => ''
+		'description' => 'Root directory',
 	],
 	'imap_open_add_connection_type' => [
 		'default' => true,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Add connection type',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 	'enable_variables_in_signature' => [
 		'default' => false,
-		'description' => '',
-		'validation' => '\App\Validator::bool'
+		'description' => 'Enable variables in signature',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	],
 ];
