@@ -5,10 +5,14 @@
 		{assign var=FIELD value=$INVENTORY->getField('name')}
 		<div class='font-x-small updateInfoContainer'>
 			{foreach item=CHANGES key=KEY from=$RECENT_ACTIVITY->getInventoryChanges()}
-				{\App\Language::translate($CHANGES['historyState'], 'ModTracker')} {$FIELD->getDisplayValue($CHANGES['item'])}
+				{assign var=SHOW_NAME value=true}
 				{assign var=ROW value=['name'=>$CHANGES['item']]}
 				{foreach item=CHANGE key=KEY from=$CHANGES['data']}
 					{if !$CHANGE['field']->isVisible()}{continue}{/if}
+					{if $SHOW_NAME}
+						{\App\Language::translate($CHANGES['historyState'], 'ModTracker')} {$FIELD->getDisplayValue($CHANGES['item'])}
+						{assign var=SHOW_NAME value=false}
+					{/if}
 					<div class="ml-2">
 						{\App\Language::translate($CHANGE['field']->get('label'), $CHANGE['field']->getModuleName())}:
 						{if isset($CHANGE['prevalue'])}
