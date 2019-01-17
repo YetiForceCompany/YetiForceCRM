@@ -23,10 +23,14 @@ class Languages
 	 */
 	public static function getAll()
 	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return [];
+		}
 		$endpoint = \AppConfig::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', 'https://api.github.com/repos/YetiForceCompany/YetiForceCRMLanguages/contents/' . $endpoint, \App\RequestHttp::getOptions() + ['timeout' => 2]);
+			$response = (new \GuzzleHttp\Client())->request('GET', 'https://api.github.com/repos/YetiForceCompany/YetiForceCRMLanguages/contents/' . $endpoint, \App\RequestHttp::getOptions());
 			if ($response->getStatusCode() === 200) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
