@@ -572,12 +572,8 @@ class Vtiger_Relation_Model extends \App\Base
 		if (!$this->getRelationModuleModel()->isPermitted('RemoveRelation')) {
 			return false;
 		}
-		if ($this->getRelationType() === static::RELATION_O2M) {
-			$relation = \App\Field::getRelatedFieldForModule($this->getRelationModuleName(), $this->getParentModuleModel()->getName());
-			if ($relation) {
-				$fieldModel = $this->getRelationModuleModel()->getFieldByName($relation['fieldname']);
-				return !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly();
-			}
+		if ($this->getRelationType() === static::RELATION_O2M && ($fieldModel = $this->getRelationField())) {
+			return !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly();
 		}
 		return true;
 	}
