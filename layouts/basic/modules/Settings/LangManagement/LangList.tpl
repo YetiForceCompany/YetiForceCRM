@@ -14,7 +14,7 @@
 			<div class="btn-group mr-2" role="group">
 				<button class="btn btn-success btn-sm u-h-fit mr-1 js-add-languages-modal" type="button" data-js="click">
 					<span class="fas fas fa-download mr-1"></span>
-					{\App\Language::translate('LBL_DOWNLOAD_LANG', 'Settings::YetiForce')}
+					{\App\Language::translate('LBL_DOWNLOAD_LANG', $QUALIFIED_MODULE)}
 				</button>
 			</div>
 		{/if}
@@ -30,10 +30,10 @@
 		</thead>
 		<tbody>
 		{foreach from=App\Language::getAll(false, true) item=LANG key=ID}
-			<tr class="js-lang-row" data-prefix="{$LANG['prefix']}">
+			<tr data-prefix="{$LANG['prefix']}">
 				<td>{$LANG['name']}</td>
 				<td>{$LANG['prefix']}</td>
-				<td class="js-last-update" data-js="html">{\App\Fields\DateTime::formatToViewDate($LANG['lastupdated'])}</td>
+				<td>{\App\Fields\DateTime::formatToViewDate($LANG['lastupdated'])}</td>
 				<td>
 					<a href="index.php?module=LangManagement&parent=Settings&action=Export&lang={$LANG['prefix']}" class="btn btn-primary btn-sm marginLeft10">{\App\Language::translate('Export',$QUALIFIED_MODULE)}</a>
 					{if $LANG['isdefault'] neq '1'}
@@ -41,9 +41,9 @@
 						<button class="btn btn-danger btn-sm" data-toggle="confirmation" data-original-title="" id="deleteItemC">{\App\Language::translate('LBL_Delete',$QUALIFIED_MODULE)}</button>
 					{/if}
 					{if $IS_NET_CONNECTED}
-						<button class="js-update btn btn-outline-primary btn-sm" data-js="click | data | class: fa-spin">
+						<button class="js-update btn btn-outline-primary btn-sm" data-prefix="{$LANG['prefix']}" data-js="click | data | class: fa-spin">
 							<span class="js-update__icon fas fa-sync fa-xs mr-1"></span>
-							{\App\Language::translate('LBL_UPDATE', 'Settings::YetiForce')}
+							{\App\Language::translate('LBL_UPDATE', $QUALIFIED_MODULE)}
 						</button>
 					{/if}
 				</td>
