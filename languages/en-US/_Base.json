@@ -230,7 +230,7 @@
     "LBL_FILE_HAS_BEEN_MODIFIED": "The file was modified because it contained dangerous code.",
     "LBL_FIELDS": "Fields",
     "LBL_FILTER": "Filter",
-    "LBL_FILTER_FIELD": "Pole z filtru",
+    "LBL_FILTER_FIELD": "Field from filter",
     "LBL_FILTER_CONDITIONS": "Filter conditions",
     "LBL_FILTER_ON_DATE": "Filter on date",
     "LBL_FINAL_DISCOUNT_AMOUNT": "Final discount amount",
