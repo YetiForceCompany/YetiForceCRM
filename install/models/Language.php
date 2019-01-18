@@ -1,13 +1,40 @@
 <?php
 
+/**
+ * Language basic class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ */
+
 namespace Install;
 
+/**
+ * Class Language.
+ */
 class Language extends \App\Language
 {
+	/**
+	 * Language directory.
+	 *
+	 * @var string
+	 */
 	public static $languageDirectoryForInstall = 'install/languages';
 
+	/**
+	 * Contains module language translations.
+	 *
+	 * @var array
+	 */
 	protected static $languageContainerForInstall = [];
 
+	/**
+	 * Load language file.
+	 *
+	 * @param string $language
+	 * @param string $moduleName
+	 */
 	public static function loadLanguageFileForInstall($language, $moduleName = '_Base')
 	{
 		if (!isset(static::$languageContainerForInstall[$language][$moduleName])) {
@@ -40,6 +67,16 @@ class Language extends \App\Language
 		}
 	}
 
+	/**
+	 * Functions that gets translated string.
+	 *
+	 * @param string      $key        - string which need to be translated
+	 * @param string      $moduleName - module scope in which the translation need to be check
+	 * @param bool|string $language   - language of translation
+	 * @param bool|string $encode
+	 *
+	 * @return string - translated string
+	 */
 	public static function translate($key, $moduleName = '_Base', $language = false, $encode = true)
 	{
 		if (empty($key)) { // nothing to translate

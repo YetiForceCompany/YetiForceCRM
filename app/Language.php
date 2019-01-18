@@ -38,28 +38,28 @@ class Language
 	 *
 	 * @var string|bool
 	 */
-	private static $language = false;
+	protected static $language = false;
 
 	/**
 	 * Temporary language.
 	 *
 	 * @var string|bool
 	 */
-	private static $temporaryLanguage = false;
+	protected static $temporaryLanguage = false;
 
 	/**
 	 * Short current language.
 	 *
 	 * @var string|bool
 	 */
-	private static $shortLanguage = false;
+	protected static $shortLanguage = false;
 
 	/**
 	 * Pluralize cache.
 	 *
 	 * @var array
 	 */
-	private static $pluralizeCache = [];
+	protected static $pluralizeCache = [];
 
 	/**
 	 * Contains module language translations.
