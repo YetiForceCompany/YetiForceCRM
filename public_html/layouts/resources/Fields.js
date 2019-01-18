@@ -505,7 +505,7 @@ App.Fields = {
 					this.collection.push(this.registerMentionCollection('#'))
 				}
 				if (this.params.completionsCollection.users) {
-					this.collection.push(this.registerMentionCollection('@', 'Users'))
+					this.collection.push(this.registerMentionCollection('@', 'owners'))
 				}
 				if (this.params.completionsCollection.emojis) {
 					this.collection.push(this.registerEmojiCollection())
@@ -521,15 +521,17 @@ App.Fields = {
 			 */
 			registerMentionCollection(symbol, searchModule = '-') {
 				let self = this;
+				console.log(symbol);
 				return {
 					trigger: symbol,
 					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
-							return `<a href="#" data-id="${item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0]}</a>`;
+							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0]}</a>`;
 						}
 						return symbol + item.original.label;
 					},
 					values: (text, cb) => {
+						console.log(text);
 						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
 							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
 						}
@@ -685,16 +687,27 @@ App.Fields = {
 			if (typeof text === 'object') {
 				text = text.query.toLowerCase();
 			}
-			basicSearch.search(text).done(function (data) {
-				data = JSON.parse(data);
-				let serverDataFormat = data.result,
-					reponseDataList = [];
-				for (let id in serverDataFormat) {
-					let responseData = serverDataFormat[id];
-					reponseDataList.push(responseData);
-				}
-				callback(reponseDataList);
-			});
+			if (searchModule === 'owners') {
+				AppConnector.request({
+					action: 'Search',
+					mode: 'owners',
+					value: text
+				}).done((data) => {
+					console.log(data);
+				})
+			} else {
+				basicSearch.search(text).done(function (data) {
+					data = JSON.parse(data);
+					let serverDataFormat = data.result,
+						reponseDataList = [];
+					for (let id in serverDataFormat) {
+						let responseData = serverDataFormat[id];
+						reponseDataList.push(responseData);
+					}
+					console.log(reponseDataList);
+					callback(reponseDataList);
+				});
+			}
 		},
 
 		/**

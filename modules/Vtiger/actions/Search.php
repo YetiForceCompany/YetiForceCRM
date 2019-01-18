@@ -15,6 +15,8 @@
  */
 class Vtiger_Search_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritdoc}
 	 */
