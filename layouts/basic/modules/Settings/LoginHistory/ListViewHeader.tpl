@@ -2,8 +2,7 @@
 
 {strip}
 <!-- tpl-Settings-LoginHistory-ListViewHeader -->
-
-<div class="">
+<div class="listViewPageDiv">
 	<div class="row widget_header">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -31,5 +30,5 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="listViewContentDiv" id="listViewContents">
-		<!-- tpl-Settings-LoginHistory-ListViewHeader -->
+		<!-- /tpl-Settings-LoginHistory-ListViewHeader -->
 		{/strip}
