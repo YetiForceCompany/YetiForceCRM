@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="recentActivitiesContainer pt-2">
+	<div class="tpl-Base-RecentActivitiesTimeLine recentActivitiesContainer pt-2">
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}"/>
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}"/>
 		{if !empty($RECENT_ACTIVITIES)}
@@ -28,7 +28,8 @@
 									{$COUNT=$COUNT+1}
 									{if $RECENT_ACTIVITY->isCreate()}
 										<div class="d-flex">
-											<span class="c-circle-icon mt-2 bg-success" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;">
+											<span class="c-circle-icon mt-2 bg-success"
+												  style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
@@ -54,7 +55,10 @@
 																			<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																			{if $FIELDMODEL->has('fullPostValue')}
 																				<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																				<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																				<button type="button"
+																						class="btn btn-info btn-sm moreBtn"
+																						data-on="{\App\Language::translate('LBL_MORE_BTN')}"
+																						data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																			{/if}
 																		</strong>
 																	{/if}
@@ -68,7 +72,8 @@
 										</div>
 									{else if $RECENT_ACTIVITY->isUpdate() || $RECENT_ACTIVITY->isTransferEdit()}
 										<div class="d-flex">
-											<span class="c-circle-icon mt-2" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
+											<span class="c-circle-icon mt-2"
+												  style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
@@ -95,7 +100,10 @@
 																			<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
 																			{if $FIELDMODEL->has('fullPreValue')}
 																				<span class="fullContent d-none">{$FIELDMODEL->get('fullPreValue')}</span>
-																				<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																				<button type="button"
+																						class="btn btn-info btn-sm moreBtn"
+																						data-on="{\App\Language::translate('LBL_MORE_BTN')}"
+																						data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																			{/if}
 																		</strong>
 																	{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
@@ -113,7 +121,10 @@
 																			<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																			{if $FIELDMODEL->has('fullPostValue')}
 																				<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																				<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																				<button type="button"
+																						class="btn btn-info btn-sm moreBtn"
+																						data-on="{\App\Language::translate('LBL_MORE_BTN')}"
+																						data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																			{/if}
 																		</strong>
 																	{/if}
@@ -127,7 +138,8 @@
 										</div>
 									{elseif ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink() || $RECENT_ACTIVITY->isTransferLink() || $RECENT_ACTIVITY->isTransferUnLink())}
 										<div class="d-flex">
-											<span class="c-circle-icon mt-2" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
+											<span class="c-circle-icon mt-2"
+												  style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
@@ -141,27 +153,34 @@
 												</div>
 												<div class="timeline-body small">
 													<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
-													<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}&nbsp;</strong></span>
+													<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}
+															&nbsp;</strong></span>
 													{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-													<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}&nbsp;</span>
+													<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
+														&nbsp;</span>
 													<span>
 														{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
 															<strong class="moreContent">
-																<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue())}</span>
+																<span class="teaserContent">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue()))}</span>
 																{if $RELATION->has('fullValue')}
 																	<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
-																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button"
+																			class="btn btn-info btn-sm moreBtn"
+																			data-on="{\App\Language::translate('LBL_MORE_BTN')}"
+																			data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{/if}
 													</span>
-													<span>&nbsp;({\App\Language::translate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
+													<span>&nbsp;({\App\Language::translate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}
+														)</span>
 												</div>
 											</div>
 										</div>
 									{else if $RECENT_ACTIVITY->isChangeState() || $RECENT_ACTIVITY->isTransferDelete()}
 										<div class="d-flex">
-											<span class="c-circle-icon mt-2" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
+											<span class="c-circle-icon mt-2"
+												  style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
@@ -182,7 +201,8 @@
 										</div>
 									{else if $RECENT_ACTIVITY->isConvertToAccount()}
 										<div class="d-flex">
-											<span class="c-circle-icon mt-2" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
+											<span class="c-circle-icon mt-2"
+												  style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
@@ -203,7 +223,8 @@
 										</div>
 									{else if $RECENT_ACTIVITY->isDisplayed()}
 										<div class="d-flex">
-											<span class="c-circle-icon mt-2" style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
+											<span class="c-circle-icon mt-2"
+												  style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
@@ -239,7 +260,8 @@
 		<div class="d-flex py-1 px-1 js-more-link">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto">
-					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+					<button type="button"
+							class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
 						..
 					</button>
 				</div>
