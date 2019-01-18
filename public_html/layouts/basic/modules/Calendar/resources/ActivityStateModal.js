@@ -7,7 +7,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 		$('.js-activity-buttons button:not(.close)').on('click', function (e) {
 			let currentTarget = $(e.currentTarget),
 				viewName = app.getViewName();
-			currentTarget.closest('.modal').addClass('d-none');
+			app.hideModalWindow();
 			if (1 === currentTarget.data('type')) {
 				self.updateActivityState(currentTarget);
 			} else {
@@ -23,7 +23,6 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 						sourceRecord: currentTarget.data('id')
 					});
 				} else if (currentTarget.hasClass('showQuickCreate')) {
-					app.hideModalWindow();
 					let progressIndicatorElement = $.progressIndicator({
 							'position': 'html',
 							'blockInfo': {
