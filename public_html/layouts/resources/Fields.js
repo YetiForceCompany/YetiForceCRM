@@ -681,7 +681,7 @@ App.Fields = {
 						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
 					}
 				});
-				inputDiv.on('focus', () => {
+				emojisContainer.on('clickoutside', () => {
 					emojisContainer.removeClass('active');
 				});
 			}
