@@ -8,12 +8,12 @@
 return [
 	'db_prefix' => [
 		'default' => 'roundcube_',
-		'description' => '',
+		'description' => 'Set default prefix',
 		'validation' => '\App\Validator::standard'
 	],
 	'default_host' => [
 		'default' => ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'],
-		'description' => '',
+		'description' => 'Set default host',
 		'validation' => '\App\Validator::standard',
 		'sanitization' => function () {
 			$values = func_get_arg(0);
@@ -78,11 +78,11 @@ return [
 	],
 	'plugins' => [
 		'default' => ['identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status'],
-		'description' => '',
+		'description' => 'List of plugins',
 	],
 	'language' => [
 		'default' => 'en_US',
-		'description' => '',
+		'description' => 'Set default language',
 	],
 	'mime_param_folding' => [
 		'default' => 0,
@@ -128,13 +128,13 @@ return [
 	],
 	'prefer_html' => [
 		'default' => true,
-		'description' => '',
+		'description' => 'Turn on/off prefer html',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
 	'preview_pane' => [
 		'default' => false,
-		'description' => '',
+		'description' => 'Turn on/off preview pane',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
@@ -144,82 +144,77 @@ return [
 	],
 	'draft_autosave' => [
 		'default' => 300,
-		'description' => '',
+		'description' => 'Set autosave time',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'mdn_requests' => [
-		'default' => '0',
-		'description' => '',
-		'validation' => ''
+		'default' => 0,
+		'description' => 'Mdn requests',
+		'validation' => '\App\Validator::naturalNumber'
 	],
 	'session_lifetime' => [
 		'default' => 30,
-		'description' => '',
+		'description' => 'Set session lifetime',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'sendmail_delay' => [
 		'default' => 0,
-		'description' => '',
+		'description' => 'Send mail delay',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'date_long' => [
 		'default' => 'Y-m-d H:i',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Set the long date format',
 	],
 	'date_format' => [
 		'default' => 'Y-m-d',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Set date format',
 	],
 	'time_format' => [
 		'default' => 'H:i',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Set time format',
 	],
 	'show_images' => [
-		'default' => '0',
-		'description' => '',
-		'validation' => ''
+		'default' => 0,
+		'description' => 'Turn on/off show images. Value: 0/1',
 	],
 	'imap_cache' => [
 		'default' => 'db',
-		'description' => '',
-		'validation' => ''
+		'description' => 'Imap cache',
 	],
 	'messages_cache' => [
 		'default' => 'db',
-		'description' => '',
-		'validation' => ''
+		'description' => 'messages_cache',
 	],
 	'reply_mode' => [
 		'default' => 1,
-		'description' => '',
+		'description' => 'Set reply mode',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'imap_max_retries' => [
 		'default' => 0,
-		'description' => '',
+		'description' => 'Max retries imap ',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'imap_params' => [
 		'default' => [],
 		'description' => 'Enable this for imap and MS Exchange bug "Kerberos error: Credentials cache file  ... not found "DISABLE_AUTHENTICATOR" => "GSSAPI"',
-		'validation' => ''
 	],
 	'debug_level' => [
 		'default' => AppConfig::debug('ROUNDCUBE_DEBUG_LEVEL'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Debug level. sum of: 1 = log; 4 = show, 8 = trace',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return in_array($arg, [1, 4, 8]);
+		}
 	],
 	'per_user_logging' => [
 		'default' => AppConfig::debug('ROUNDCUBE_PER_USER_LOGGING'),
-		'description' => '',
-		'validation' => ''
+		'description' => 'Per user logging',
 	],
 	'smtp_log' => [
 		'default' => AppConfig::debug('ROUNDCUBE_SMTP_LOG'),
-		'description' => '',
+		'description' => 'Log sent messages to cache/logs/sendmail',
 	],
 	'log_logins' => [
 		'default' => AppConfig::debug('ROUNDCUBE_LOG_LOGINS'),
