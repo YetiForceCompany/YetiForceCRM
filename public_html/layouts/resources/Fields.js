@@ -521,7 +521,6 @@ App.Fields = {
 			 */
 			registerMentionCollection(symbol, searchModule = '-') {
 				let self = this;
-				console.log(symbol);
 				return {
 					trigger: symbol,
 					selectTemplate: function (item) {
@@ -531,7 +530,6 @@ App.Fields = {
 						return symbol + item.original.label;
 					},
 					values: (text, cb) => {
-						console.log(text);
 						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
 							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
 						}
@@ -540,12 +538,13 @@ App.Fields = {
 						return self.mentionTemplate({
 							id: item.original.id,
 							module: item.original.module,
+							image: item.original.image,
 							label: item.original.label,
 							category: item.original.category
 						});
 					},
 					lookup: 'label',
-					fillAttr: 'label'
+					fillAttr: 'label',
 				}
 			}
 
@@ -579,15 +578,26 @@ App.Fields = {
 			 * Mention template
 			 */
 			mentionTemplate(params) {
+				let icon = 'adminIcon-user';
+				if (params.category === 'Groups') {
+					icon = `adminIcon-groups`;
+				}
+				if (params.module !== undefined) {
+					icon = `userIcon-${params.module}`;
+				}
+				let image = `<div class="col c-circle-icon mr-1">
+								<span class="${icon}"></span>
+							</div>`;
+				if (params.image !== undefined && params.image !== '') {
+					image = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`
+				}
 				return `<div data-id="${params.id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-${params.module}"></span>
-											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
-											</div>
-										</div>`
+							${image}
+							<div class="col row no-gutters u-overflow-x-hidden">
+								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
+								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
+							</div>
+						</div>`
 			}
 
 			/**
@@ -596,7 +606,10 @@ App.Fields = {
 			 */
 			register(inputDiv) {
 				const self = this;
-				this.completionsCollection = new Tribute({collection: self.collection});
+				this.completionsCollection = new Tribute({
+					collection: self.collection,
+					allowSpaces: true
+				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
 					this.registerCompletionsTextArea(inputDiv);
@@ -693,7 +706,7 @@ App.Fields = {
 					mode: 'owners',
 					value: text
 				}).done((data) => {
-					console.log(data);
+					callback(data.result);
 				})
 			} else {
 				basicSearch.search(text).done(function (data) {
@@ -704,7 +717,6 @@ App.Fields = {
 						let responseData = serverDataFormat[id];
 						reponseDataList.push(responseData);
 					}
-					console.log(reponseDataList);
 					callback(reponseDataList);
 				});
 			}
