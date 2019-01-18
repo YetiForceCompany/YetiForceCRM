@@ -50,8 +50,8 @@
     "LBL_CRON_TASK_FAILED_DESC": "Not all cron tasks were completed successfully.",
     "LBL_HOW_TO_ENABLE_CRON": "How to enable cron",
     "LBL_CRON_TASKS_LIST": "Cron task list",
-    "LBL_REGISTRATION": "Rejestracja",
-    "LBL_NEWSLETTER_NO_COMPANY_DATA": "Nie wprowadzono adresu e-mail do danych firmy. Jeśli chcesz otrzymywać newsletter uzupełnij dane.",
-    "LBL_COMPANY_DATA": "Przejdź do danych firmy"
+    "LBL_REGISTRATION": "Registration",
+    "LBL_NEWSLETTER_NO_COMPANY_DATA": "No e-mail address was added to company details. Fill in the required data if you want to receive a newsletter.",
+    "LBL_COMPANY_DATA": "Go to company details"
   }
 }
