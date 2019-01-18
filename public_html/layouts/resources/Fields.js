@@ -525,7 +525,7 @@ App.Fields = {
 					trigger: symbol,
 					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
-							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0]}</a>`;
+							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0].trim()}</a>`;
 						}
 						return symbol + item.original.label;
 					},
@@ -608,7 +608,8 @@ App.Fields = {
 				const self = this;
 				this.completionsCollection = new Tribute({
 					collection: self.collection,
-					allowSpaces: true
+					allowSpaces: true,
+					replaceTextSuffix: '',
 				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
@@ -671,7 +672,7 @@ App.Fields = {
 					e.preventDefault();
 					e.stopPropagation();
 					if ($(e.currentTarget).data('char') !== undefined) {
-						inputDiv.append(` ${$(e.currentTarget).data('char')} `);
+						inputDiv.append(`${$(e.currentTarget).data('char')}`);
 					}
 				});
 				emojisContainer.on('mouseenter', '.emoji', (e) => {
