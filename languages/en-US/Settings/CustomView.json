@@ -26,7 +26,7 @@
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Select a field to sort records",
     "LBL_SORT_ASCENDING_ORDER": "Sort in ascending order",
     "LBL_SORT_DESCENDING_ORDER": "Sort in descending order",
-    "LBL_ATTENTION": "Uwaga!"
+    "LBL_ATTENTION": "Warning!"
   },
   "js": {
     "Saving changes": "Saving changes...",
