@@ -1595,16 +1595,17 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					'showPrompt', app.vtranslate('JS_REQUIRED_FIELD'), 'error', 'topRight', true
 				);
 			} else {
-				app.hideModalWindow();
-				const progress = $.progressIndicator({
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=" + selectedModule + "&type=" + type, (modalContainer) => {
-					thisInstance.registerStep2(modalContainer, blockId);
-					progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow(() => {
+					const progress = $.progressIndicator({
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
+					app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=" + selectedModule + "&type=" + type, (modalContainer) => {
+						thisInstance.registerStep2(modalContainer, blockId);
+						progress.progressIndicator({'mode': 'hide'});
+					});
 				});
 			}
 		});
