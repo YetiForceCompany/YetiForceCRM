@@ -20,13 +20,13 @@
 						   value="{\App\Purifier::encodeHtml(\App\Json::encode($USERNAME_BLACKLIST))}">
 					<div class="row">
 						<div class="col-12 text-center">
-							<h2>{\App\Language::translate('LBL_SYSTEM_CONFIGURATION', 'Install')}</h2>
+							<h2>{\Install\Language::translate('LBL_SYSTEM_CONFIGURATION', 'Install')}</h2>
 						</div>
 					</div>
 					<hr>
 					<div class="row">
 						<p class="col-12">
-							{\App\Language::translate('LBL_STEP4_DESCRIPTION', 'Install')}
+							{\Install\Language::translate('LBL_STEP4_DESCRIPTION', 'Install')}
 						</p>
 					</div>
 					<div class="row d-none" id="errorMessage"></div>
@@ -34,25 +34,27 @@
 						<div class="col-lg-6 table-responsive">
 							<table class="config-table input-table">
 								<caption class="sr-only">
-									{\App\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}
+									{\Install\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}
 								</caption>
 								<thead>
 								<tr>
-									<th colspan="2">{\App\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}</th>
+									<th colspan="2">{\Install\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr>
 									<td>
-										<label for="db-type">{\App\Language::translate('LBL_DATABASE_TYPE', 'Install')}
+										<label for="db-type">{\Install\Language::translate('LBL_DATABASE_TYPE', 'Install')}
 											<span class="no">*</span></label>
 									</td>
-									<td>{\App\Language::translate('MySQL', 'Install')}<input id="db-type" type="hidden"
-																							 value="mysql"
-																							 name="db_type"></td>
+									<td>{\Install\Language::translate('MySQL', 'Install')}<input id="db-type"
+																								 type="hidden"
+																								 value="mysql"
+																								 name="db_type"></td>
 								</tr>
 								<tr>
-									<td><label for="db-hostname">{\App\Language::translate('LBL_HOST_NAME', 'Install')}
+									<td>
+										<label for="db-hostname">{\Install\Language::translate('LBL_HOST_NAME', 'Install')}
 											<span
 													class="no">*</span></label></td>
 									<td><input id="db-hostname" type="text" class="form-control" value="{$DB_HOSTNAME}"
@@ -60,14 +62,17 @@
 									</td>
 								</tr>
 								<tr>
-									<td><label for="db-port">{\App\Language::translate('LBL_HOST_PORT', 'Install')}<span
+									<td><label for="db-port">{\Install\Language::translate('LBL_HOST_PORT', 'Install')}
+											<span
 													class="no">*</span></label></td>
 									<td>
-										<input id="db-port" type="text" class="form-control" value="3306" name="db_port">
+										<input id="db-port" type="text" class="form-control" value="3306"
+											   name="db_port">
 									</td>
 								</tr>
 								<tr>
-									<td><label for="db-username">{\App\Language::translate('LBL_USERNAME', 'Install')}
+									<td>
+										<label for="db-username">{\Install\Language::translate('LBL_USERNAME', 'Install')}
 											<span
 													class="no">*</span></label></td>
 									<td><input id="db-username" type="text" class="form-control" value="{$DB_USERNAME}"
@@ -76,14 +81,16 @@
 								</tr>
 								<tr>
 									<td>
-										<label for="db-password">{\App\Language::translate('LBL_PASSWORD','Install')}</label>
+										<label for="db-password">{\Install\Language::translate('LBL_PASSWORD','Install')}</label>
 									</td>
 									<td>
-										<input id="db-password" type="password" class="form-control" value="{$DB_PASSWORD}"
+										<input id="db-password" type="password" class="form-control"
+											   value="{$DB_PASSWORD}"
 											   name="db_password"></td>
 								</tr>
 								<tr>
-									<td><label for="db-name">{\App\Language::translate('LBL_DB_NAME', 'Install')}<span
+									<td><label for="db-name">{\Install\Language::translate('LBL_DB_NAME', 'Install')}
+											<span
 													class="no">*</span></label></td>
 									<td><input id="db-name" type="text" class="form-control" value="{$DB_NAME}"
 											   name="db_name"></td>
@@ -92,12 +99,12 @@
 									<td colspan="2">
 										<input id="create-db" type="checkbox" name="create_db">
 										<div class="chkbox"></div>
-										<label for="create-db">{\App\Language::translate('LBL_CREATE_NEW_DB','Install')}</label>
+										<label for="create-db">{\Install\Language::translate('LBL_CREATE_NEW_DB','Install')}</label>
 									</td>
 								</tr>
 								<tr class="d-none" id="root_user">
 									<td>
-										<label for="db-root-username">{\App\Language::translate('LBL_ROOT_USERNAME', 'Install')}
+										<label for="db-root-username">{\Install\Language::translate('LBL_ROOT_USERNAME', 'Install')}
 											<span class="no">*</span></label>
 									</td>
 									<td><input id="db-root-username" type="text" class="form-control" value=""
@@ -105,7 +112,7 @@
 								</tr>
 								<tr class="d-none" id="root_password">
 									<td>
-										<label for="db-root-password">{\App\Language::translate('LBL_ROOT_PASSWORD', 'Install')}</label>
+										<label for="db-root-password">{\Install\Language::translate('LBL_ROOT_PASSWORD', 'Install')}</label>
 									</td>
 									<td><input id="db-root-password" type="password" class="form-control" value=""
 											   name="db_root_password"></td>
@@ -117,16 +124,16 @@
 						<div class="col-lg-6">
 							<table class="config-table input-table">
 								<caption
-										class="sr-only">{\App\Language::translate('LBL_SYSTEM_INFORMATION', 'Install')}</caption>
+										class="sr-only">{\Install\Language::translate('LBL_SYSTEM_INFORMATION', 'Install')}</caption>
 								<thead>
 								<tr>
-									<th colspan="2">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
+									<th colspan="2">{\Install\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr>
 									<td>
-										<label for="currency-name">{\App\Language::translate('LBL_CURRENCIES','Install')}
+										<label for="currency-name">{\Install\Language::translate('LBL_CURRENCIES','Install')}
 											<span class="no">*</span></label></td>
 									<td>
 										<select id="currency-name" name="currency_name" class="select2 "
@@ -144,16 +151,16 @@
 							<div class="table-responsive">
 								<table class="config-table input-table">
 									<caption
-											class="sr-only">{\App\Language::translate('LBL_ADMIN_INFORMATION', 'Install')}</caption>
+											class="sr-only">{\Install\Language::translate('LBL_ADMIN_INFORMATION', 'Install')}</caption>
 									<thead>
 									<tr>
-										<th colspan="2">{\App\Language::translate('LBL_ADMIN_INFORMATION', 'Install')}</th>
+										<th colspan="2">{\Install\Language::translate('LBL_ADMIN_INFORMATION', 'Install')}</th>
 									</tr>
 									</thead>
 									<tbody>
 									<tr>
 										<td>
-											<label for="user-name">{\App\Language::translate('LBL_USERNAME', 'Install')}</label>
+											<label for="user-name">{\Install\Language::translate('LBL_USERNAME', 'Install')}</label>
 										</td>
 										<td class="position-relative"><input id="user-name" type="text"
 																			 class="form-control validate[required,funcCall[Install_Index_Js.checkUsername]]"
@@ -161,7 +168,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td><label for="password">{\App\Language::translate('LBL_PASSWORD', 'Install')}
+										<td>
+											<label for="password">{\Install\Language::translate('LBL_PASSWORD', 'Install')}
 												<span
 														class="no">*</span></label>
 										</td>
@@ -172,18 +180,19 @@
 									</tr>
 									<tr>
 										<td>
-											<label for="retype-password">{\App\Language::translate('LBL_RETYPE_PASSWORD', 'Install')}
+											<label for="retype-password">{\Install\Language::translate('LBL_RETYPE_PASSWORD', 'Install')}
 												<span
 														class="no">*</span></label></td>
 										<td class="position-relative">
 											<input type="password" class="form-control validate[required]"
-												   value="{$ADMIN_PASSWORD}" name="retype_password" id="retype-password">
+												   value="{$ADMIN_PASSWORD}" name="retype_password"
+												   id="retype-password">
 											<span id="passwordError" class="no"></span>
 										</td>
 									</tr>
 									<tr>
 										<td>
-											<label for="first-name">{\App\Language::translate('First Name', 'Install')}</label>
+											<label for="first-name">{\Install\Language::translate('First Name', 'Install')}</label>
 										</td>
 										<td><input id="first-name" type="text" class="form-control"
 												   value="{$ADMIN_FIRSTNAME}"
@@ -191,17 +200,20 @@
 										</td>
 									</tr>
 									<tr>
-										<td><label for="last-name">{\App\Language::translate('Last Name', 'Install')}
+										<td>
+											<label for="last-name">{\Install\Language::translate('Last Name', 'Install')}
 												<span
 														class="no">*</span></label>
 										</td>
 										<td>
-											<input id="last-name" type="text" class="form-control" value="{$ADMIN_LASTNAME}"
+											<input id="last-name" type="text" class="form-control"
+												   value="{$ADMIN_LASTNAME}"
 												   name="lastname">
 										</td>
 									</tr>
 									<tr>
-										<td><label for="admin-email">{\App\Language::translate('LBL_EMAIL','Install')}
+										<td>
+											<label for="admin-email">{\Install\Language::translate('LBL_EMAIL','Install')}
 												<span
 														class="no">*</span></label></td>
 										<td class="position-relative">
@@ -211,7 +223,7 @@
 									</tr>
 									<tr>
 										<td>
-											<label for="date-format">{\App\Language::translate('LBL_DATE_FORMAT','Install')}
+											<label for="date-format">{\Install\Language::translate('LBL_DATE_FORMAT','Install')}
 												<span
 														class="no">*</span></label>
 										</td>
@@ -231,14 +243,15 @@
 										</td>
 									</tr>
 									<tr>
-										<td><label for="time-zone">{\App\Language::translate('LBL_TIME_ZONE','Install')}
+										<td>
+											<label for="time-zone">{\Install\Language::translate('LBL_TIME_ZONE','Install')}
 												<span class="no">*</span></label>
 										</td>
 										<td>
 											<select class="select2 form-control" id="time-zone" name="timezone">
 												{foreach item=TIMEZONE from=$TIMEZONES}
 													<option value="{$TIMEZONE}"
-															{if $TIMEZONE eq 'Europe/London'}selected{/if}>{\App\Language::translate($TIMEZONE, 'Users')}</option>
+															{if $TIMEZONE eq 'Europe/London'}selected{/if}>{\Install\Language::translate($TIMEZONE, 'Users')}</option>
 												{/foreach}
 											</select>
 										</td>
@@ -248,13 +261,14 @@
 							</div>
 							<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 								<div class="text-center w-100">
-									<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
+									<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0"
+									   href="Install.php"
 									   role="button">
 										<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
-										{App\Language::translate('LBL_BACK', 'Install')}
+										{Install\Language::translate('LBL_BACK', 'Install')}
 									</a>
 									<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary">
-										{App\Language::translate('LBL_NEXT', 'Install')}
+										{Install\Language::translate('LBL_NEXT', 'Install')}
 										<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 									</button>
 								</div>

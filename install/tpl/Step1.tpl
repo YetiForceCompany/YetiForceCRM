@@ -16,14 +16,15 @@
 				<form class="" name="step1" method="post" action="Install.php">
 					<div class="row">
 						<div class="col-md-9">
-							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
+							<h2>{\Install\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 						</div>
 						<div class="col-md-3 d-inline-flex justify-content-end">
 							<div class="w-100">
 								<label for="lang"
-									   class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
-								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
-										title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}"
+									   class="sr-only">{\Install\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
+								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate"
+										data-template-selection="prependDataTemplate"
+										title="{\Install\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}"
 										style="width: 250px;">
 									{foreach key=key item=item from=$LANGUAGES}
 										{assign var=LANG_SHORT_KEY value=$key|truncate:2:""}
@@ -51,22 +52,22 @@
 								<div class="float-right">
 									<a class="helpBtn" target="_blank" rel="noreferrer"
 									   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation"
-									   aria-label="{\App\Language::translate('LBL_IMPLEMENTER_DOCUMENTATION','Install')}">
+									   aria-label="{\Install\Language::translate('LBL_IMPLEMENTER_DOCUMENTATION','Install')}">
 										<span class="fas fa-info-circle"></span>
 									</a>
 								</div>
-								<h3>{\App\Language::translate('LBL_SETUP_WIZARD_BODY', 'Install')}</h3>
+								<h3>{\Install\Language::translate('LBL_SETUP_WIZARD_BODY', 'Install')}</h3>
 								<p>
-									{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_1','Install')}&nbsp;
+									{\Install\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_1','Install')}&nbsp;
 									<a target="_blank" rel="noreferrer"
 									   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
 									   aria-label="github">
 										<span class="fab fa-github-square fa-lg"></span>
 									</a>
 									<br/><br/>
-									{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}
+									{\Install\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}
 									<a target="_blank" rel="noreferrer" href="https://yetiforce.shop"
-									   aria-label="{\App\Language::translate('LBL_SHOP_YETIFORCE', 'Install')}">
+									   aria-label="{\Install\Language::translate('LBL_SHOP_YETIFORCE', 'Install')}">
 										<span class="fas fa-shopping-cart ml-1"></span>
 									</a>
 								</p>
@@ -78,12 +79,12 @@
 							<button href="#"
 									class="btn btn-lg c-btn-block-xs-down btn-primary bt_install mr-sm-1 {if $IS_MIGRATE} mb-1 {/if} mb-sm-0"
 									type="submit">
-								{\App\Language::translate('LBL_INSTALL_BUTTON','Install')}
+								{\Install\Language::translate('LBL_INSTALL_BUTTON','Install')}
 								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>
 							{if $IS_MIGRATE}
 								<button style="" href="#" class="btn btn-lg c-btn-block-xs-down btn-primary bt_migrate">
-									{\App\Language::translate('LBL_MIGRATION','Install')}
+									{\Install\Language::translate('LBL_MIGRATION','Install')}
 								</button>
 							{/if}
 						</div>
