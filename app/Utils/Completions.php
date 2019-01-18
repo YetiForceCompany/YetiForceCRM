@@ -33,7 +33,7 @@ class Completions
 	 *
 	 * @var string
 	 */
-	const PATH_EMOJI_JSON = 'vendor/ckeditor/ckeditor/plugins/emoji/emoji.json';
+	const PATH_EMOJI_JSON = 'public_html/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json';
 	/**
 	 * Emoji regex patter.
 	 *
