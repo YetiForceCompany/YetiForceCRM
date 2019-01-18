@@ -23,6 +23,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 						sourceRecord: currentTarget.data('id')
 					});
 				} else if (currentTarget.hasClass('showQuickCreate')) {
+					app.hideModalWindow();
 					let progressIndicatorElement = $.progressIndicator({
 							'position': 'html',
 							'blockInfo': {
