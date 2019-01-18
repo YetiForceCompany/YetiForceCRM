@@ -401,3 +401,22 @@ ul.ui-autocomplete {
 	width: 1.3em;
 	margin-left: 2px;
 }
+
+//-------- tribute.js --------//
+//styles based on bootstrap dropdown
+.tribute-container {
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: .25rem;
+	min-width: 10rem;
+
+	ul {
+		color: #212529;
+		background-color: #fff;
+		background-clip: padding-box;
+	}
+
+	li.highlight,
+	li:hover {
+		background: #f8f9fa;
+	}
+}
