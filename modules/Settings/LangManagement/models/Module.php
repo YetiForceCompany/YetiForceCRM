@@ -143,7 +143,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
-		if (!self::isCorrectLangTag($prefix)) {
+		if (!\App\Validator::languageTag($prefix)) {
 			return ['success' => false, 'data' => 'LBL_NOT_CORRECT_LANGUAGE_TAG'];
 		}
 		$destiny = 'languages/' . $prefix . '/';
@@ -306,22 +306,5 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			array_unshift($differences, $i);
 		}
 		return $differences;
-	}
-
-	/**
-	 * Check if is correct given language tag.
-	 *
-	 * @param string $languageTag
-	 *
-	 * @return bool
-	 */
-	public static function isCorrectLangTag(string $languageTag): bool
-	{
-		$data = false;
-		if (!empty($languageTag)) {
-			$localePrefix = Locale::acceptFromHttp($languageTag);
-			$data = explode('-', $languageTag) === explode('_', $localePrefix);
-		}
-		return $data;
 	}
 }

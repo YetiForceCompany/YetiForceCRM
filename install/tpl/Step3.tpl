@@ -56,7 +56,7 @@
 											<span
 													class="no">*</span></label></td>
 									<td><input id="db-hostname" type="text" class="form-control" value="{$DB_HOSTNAME}"
-											   name="db_hostname">
+											   name="db_server">
 									</td>
 								</tr>
 								<tr>

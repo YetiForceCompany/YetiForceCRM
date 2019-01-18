@@ -155,7 +155,7 @@ class Install_Index_View extends \App\Controller\View
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
 		$this->viewer->assign('USERNAME_BLACKLIST', require ROOT_DIRECTORY . '/config/username_blacklist.php');
-		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
+		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_server']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
 		$this->viewer->assign('DB_NAME', $defaultParameters['db_name']);
@@ -207,10 +207,10 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step5(\App\Request $request)
 	{
-		if (isset($_SESSION['config_file_info']['db_hostname'])) {
+		if (isset($_SESSION['config_file_info']['db_server'])) {
 			\App\Db::setConfig([
-				'dsn' => $_SESSION['config_file_info']['db_type'] . ':host=' . $_SESSION['config_file_info']['db_hostname'] . ';dbname=' . $_SESSION['config_file_info']['db_name'] . ';port=' . $_SESSION['config_file_info']['db_port'],
-				'host' => $_SESSION['config_file_info']['db_hostname'],
+				'dsn' => $_SESSION['config_file_info']['db_type'] . ':host=' . $_SESSION['config_file_info']['db_server'] . ';dbname=' . $_SESSION['config_file_info']['db_name'] . ';port=' . $_SESSION['config_file_info']['db_port'],
+				'host' => $_SESSION['config_file_info']['db_server'],
 				'port' => $_SESSION['config_file_info']['db_port'],
 				'username' => $_SESSION['config_file_info']['db_username'],
 				'password' => $_SESSION['config_file_info']['db_password'],
@@ -223,11 +223,23 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step5.tpl');
 	}
 
+	/**
+	 * Create configuration file.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \SmartyException
+	 */
 	public function step6(\App\Request $request)
 	{
-		// Create configuration file
-		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
-		$configFile->createConfigFile();
+		$configFile = new \App\ConfigFile('main');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if (isset($_SESSION['config_file_info'][$name])) {
+				$configFile->set($name, $_SESSION['config_file_info'][$name]);
+			}
+		}
+		$configFile->set('application_unique_key', '');
+		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->display('Step6.tpl');
 	}

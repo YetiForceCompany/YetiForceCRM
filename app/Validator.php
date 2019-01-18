@@ -182,4 +182,28 @@ class Validator
 	{
 		return preg_match('/^[0-9]+$/', $input);
 	}
+
+	/**
+	 * Function verifies if given value is a correct language tag.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function languageTag(string $input): bool
+	{
+		return $input && explode('-', $input) === explode('_', Locale::acceptFromHttp($input));
+	}
+
+	/**
+	 * Function checks if its mysql type.
+	 *
+	 * @param string $dbType
+	 *
+	 * @return bool
+	 */
+	public static function isMySQL(string $dbType): bool
+	{
+		return stripos($dbType, 'mysql') === 0;
+	}
 }

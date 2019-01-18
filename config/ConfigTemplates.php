@@ -101,8 +101,9 @@ return [
 			'description' => 'Gets the database server',
 		],
 		'db_port' => [
-			'default' => '_DBC_PORT_',
+			'default' => '',
 			'description' => 'Gets the database port',
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'db_username' => [
 			'default' => '_DBC_USER_',
@@ -155,7 +156,7 @@ return [
 		'upload_maxsize' => [
 			'default' => 52428800,
 			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 3000000',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'allow_exports' => [
 			'default' => 'all',
@@ -173,7 +174,7 @@ return [
 		'list_max_entries_per_page' => [
 			'default' => 20,
 			'description' => 'List max entries per page: default value = 20',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 //		'limitpage_navigation' => [
 //			'default' => '5',
@@ -217,6 +218,7 @@ return [
 		'default_language' => [
 			'default' => 'en-US',
 			'description' => 'Default language: default value = en-US',
+			'validation' => '\App\Validator::languageTag',
 		],
 //		'translation_string_prefix' => [
 //			'default' => false,
@@ -239,18 +241,24 @@ return [
 //			'validation' => '\App\Validator::bool'
 //		],
 		'application_unique_key' => [
-			'default' => '_VT_APP_UNIQKEY_',
-			'description' => 'Generating Unique Application Key',
+			'default' => '',
+			'description' => 'Unique Application Key',
+			'validation' => function () {
+				return !class_exists("\Config\Main");
+			},
+			'sanitization' => function () {
+				return sha1(time() + random_int(1, 9999999));
+			}
 		],
 		'listview_max_textlength' => [
 			'default' => 40,
 			'description' => 'Trim descriptions, titles in listviews to this value',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'php_max_execution_time' => [
 			'default' => 0,
 			'description' => 'Maximum time limit for PHP script execution (in seconds)',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'default_timezone' => [
 			'default' => '_TIMEZONE_',
@@ -259,12 +267,12 @@ return [
 		'title_max_length' => [
 			'default' => 60,
 			'description' => 'Maximum length of characters for title',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'href_max_length' => [
 			'default' => 35,
 			'description' => 'Maximum length for href tag',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'breadcrumbs' => [
 			'default' => true,
@@ -279,7 +287,7 @@ return [
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
 			'description' => 'Minimum cron frequency [min]',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'session_regenerate_id' => [
 			'default' => true,
@@ -311,7 +319,7 @@ return [
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
 			'description' => 'Maximum number of records in a mass edition',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'backgroundClosingModal' => [
 			'default' => true,
@@ -336,7 +344,7 @@ return [
 		'maxExecutionCronTime' => [
 			'default' => 3600,
 			'description' => 'The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.',
-			'validation' => '\App\Purifier::naturalNumber'
+			'validation' => '\App\Validator::naturalNumber'
 		],
 		'langInLoginView' => [
 			'default' => false,
@@ -850,11 +858,10 @@ return [
 		'GLOBAL_SEARCH_SORTING_RESULTS' => [
 			'default' => 0,
 			'description' => 'Global search - Should the results be sorted in MySQL or PHP while displaying (None = 0, PHP = 1, Mysql = 2). The parameter impacts system efficiency.',
-			'validation' =>
-				function () {
-					$arg = func_get_arg(0);
-					return is_int($arg) && in_array($arg, [0, 1, 2]);
-				}
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return is_int($arg) && in_array($arg, [0, 1, 2]);
+			}
 		],
 		'GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP' => [
 			'default' => true,

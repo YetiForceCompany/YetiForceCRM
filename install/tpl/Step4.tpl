@@ -54,7 +54,7 @@
 							</tr>
 							<tr>
 								<td>{\App\Language::translate('LBL_HOST_NAME','Install')}</td>
-								<td>{$INFORMATION['db_hostname']}</td>
+								<td>{$INFORMATION['db_server']}</td>
 							</tr>
 							<tr>
 								<td>{\App\Language::translate('LBL_HOST_PORT','Install')}</td>

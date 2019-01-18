@@ -115,6 +115,18 @@ This file is auto-generated.
 	}
 
 	/**
+	 * Gets template data.
+	 *
+	 * @param string|null $key
+	 *
+	 * @return mixed
+	 */
+	public function getTemplate(?string $key = null)
+	{
+		return $key ? ($this->template[$key] ?? null) : $this->template;
+	}
+
+	/**
 	 * Function for data validation.
 	 *
 	 * @param string $key

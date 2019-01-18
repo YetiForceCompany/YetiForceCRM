@@ -25,8 +25,8 @@ class Install_ConfigFileUtils_Model
 
 	public function __construct($configFileParameters)
 	{
-		if (isset($configFileParameters['db_hostname'])) {
-			$this->dbHostname = $configFileParameters['db_hostname'];
+		if (isset($configFileParameters['db_server'])) {
+			$this->dbHostname = $configFileParameters['db_server'];
 		}
 		if (isset($configFileParameters['db_username'])) {
 			$this->dbUsername = $configFileParameters['db_username'];
@@ -58,7 +58,7 @@ class Install_ConfigFileUtils_Model
 
 	public static function getDbDefaultPort($dbType)
 	{
-		if (Install_Utils_Model::isMySQL($dbType)) {
+		if (\App\Validator::isMySQL($dbType)) {
 			return '3306';
 		}
 	}
