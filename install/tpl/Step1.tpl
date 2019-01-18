@@ -61,7 +61,7 @@
 									<br/><br/>
 									{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}
 									<a target="_blank" rel="noreferrer" href="https://yetiforce.shop"
-									   aria-label="{\App\Language::translate('LBL_SHOP_YETIFORCE')}">
+									   aria-label="{\App\Language::translate('LBL_SHOP_YETIFORCE', 'Install')}">
 										<span class="fas fa-shopping-cart ml-1"></span>
 									</a>
 								</p>
