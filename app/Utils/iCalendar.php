@@ -2,6 +2,8 @@
 /**
  * iCalendar class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
@@ -15,11 +17,15 @@ namespace App\Utils;
 
 class iCalendar
 {
-	public static function import($filePath)
+	/**
+	 * Import
+	 * @param string $filePath
+	 * @return array
+	 */
+	public static function import(string $filePath)
 	{
 		$userModel = \App\User::getCurrentUserModel();
 		$lastImport = new \IcalLastImport();
-		new \IcalendarComponent();
 		$lastImport->clearRecords($userModel->getId());
 		$ical = new \Ical();
 		$icalActivities = $ical->iCalReader($filePath);
