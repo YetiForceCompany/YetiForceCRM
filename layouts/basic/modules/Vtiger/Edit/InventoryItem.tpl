@@ -15,10 +15,10 @@
 				</a>
 				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence"/>
 			{/if}
-			<button class="btn btn-sm btn-danger fas fa-trash-alt deleteRow"
+			<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt deleteRow"
 					title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
 			{if $COUNT_FIELDS2 > 0}
-				<button class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status=""
+				<button type="button" class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status=""
 						href="#" data-js="click">
 					<span class="js-toggle-icon fas fa-angle-down" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
 				</button>
