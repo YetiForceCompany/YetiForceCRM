@@ -71,9 +71,9 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$moduleName = $request->getModule();
-		$searchValue = $request->get('value');
+		$searchValue = $request->getByType('value', 'Text');
 		if ($request->has('result')) {
-			$result = $request->get('result');
+			$result = $request->getArray('result', 'Standard');
 		} else {
 			$result = ['users', 'groups'];
 		}
