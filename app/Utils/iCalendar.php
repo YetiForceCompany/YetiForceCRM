@@ -18,8 +18,10 @@ namespace App\Utils;
 class iCalendar
 {
 	/**
-	 * Import
+	 * Import.
+	 *
 	 * @param string $filePath
+	 *
 	 * @return array
 	 */
 	public static function import(string $filePath)
