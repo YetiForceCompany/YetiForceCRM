@@ -15,7 +15,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
-		$label = $request->get('tab_label');
+		$label = $request->getByType('tab_label', 'Text');
 		if ($request->isEmpty('relatedView', true)) {
 			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
 		} else {
