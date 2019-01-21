@@ -38,7 +38,7 @@ class Language
 	 *
 	 * @var string
 	 */
-	public static $customLanguageDirectory;
+	public static $customDirectory;
 	/**
 	 * Current language.
 	 *
@@ -296,26 +296,6 @@ class Language
 	}
 
 	/**
-	 * Get custom file name.
-	 *
-	 * @param string $file
-	 * @param string $language
-	 * @param string $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getCustomFile(string $file, string $language, string $moduleName): string
-	{
-		if (\is_null(static::$customLanguageDirectory)) {
-			$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . $file;
-		} else {
-			$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . static::$customLanguageDirectory . DIRECTORY_SEPARATOR .
-				$language . DIRECTORY_SEPARATOR . $moduleName . '.' . static::FORMAT;
-		}
-		return $langCustomFile;
-	}
-
-	/**
 	 * Load language file.
 	 *
 	 * @param string $language
@@ -333,7 +313,7 @@ class Language
 				if (file_exists($langFile)) {
 					static::$languageContainer[$language][$moduleName] = Json::decode(file_get_contents($langFile), true) ?? [];
 				}
-				$langCustomFile = static::getCustomFile($file, $language, $moduleName);
+				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . static::$customDirectory . $file;
 				if (file_exists($langCustomFile)) {
 					$translation = Json::decode(file_get_contents($langCustomFile), true) ?? [];
 					foreach ($translation as $type => $rows) {
