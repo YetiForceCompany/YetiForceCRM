@@ -433,16 +433,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
-		if (empty($hierarchyValue)) {
-			if (App\Session::has('DEFAULT_SOURCE_COMMENTS - ' . $moduleName)) {
-				$hierarchyValue = App\Session::get('DEFAULT_SOURCE_COMMENTS - ' . $moduleName);
-			} else {
-				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
-			}
-		} else {
-			App\Session::set('DEFAULT_SOURCE_COMMENTS - ' . $moduleName, $hierarchyValue);
-		}
+		$hierarchyValue = $this->getHierarchyValue($request);
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -454,7 +445,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
 		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
-		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -598,16 +588,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$commentRecordId = $request->getInteger('commentid');
 		$moduleName = $request->getModule();
 		$hierarchy = $this->getHierarchy($request);
-		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
-		if (empty($hierarchyValue)) {
-			if (App\Session::has('DEFAULT_SOURCE_COMMENTS - ' . $moduleName)) {
-				$hierarchyValue = App\Session::get('DEFAULT_SOURCE_COMMENTS - ' . $moduleName);
-			} else {
-				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
-			}
-		} else {
-			App\Session::set('DEFAULT_SOURCE_COMMENTS - ' . $moduleName, $hierarchyValue);
-		}
+		$hierarchyValue = $this->getHierarchyValue($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $moduleName, $hierarchy);
@@ -677,6 +658,30 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
+	 * Returns value source to diplsya comments.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return mixed
+	 */
+	private function getHierarchyValue(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
+		$cacheName = 'DEFAULT_SOURCE_COMMENTS_' . $moduleName;
+		if (empty($hierarchyValue)) {
+			if (App\Session::has($cacheName)) {
+				$hierarchyValue = App\Session::get($cacheName);
+			} else {
+				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
+			}
+		} else {
+			App\Session::set($cacheName, $hierarchyValue);
+		}
+		return $hierarchyValue;
+	}
+
+	/**
 	 * Get comments hierarchy.
 	 *
 	 * @param \App\Request $request
@@ -688,16 +693,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$hierarchy = [];
 		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
-		if (empty($hierarchyValue)) {
-			if (App\Session::has('DEFAULT_SOURCE_COMMENTS - ' . $moduleName)) {
-				$hierarchyValue = App\Session::get('DEFAULT_SOURCE_COMMENTS - ' . $moduleName);
-			} else {
-				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
-			}
-		} else {
-			App\Session::set('DEFAULT_SOURCE_COMMENTS - ' . $moduleName, $hierarchyValue);
-		}
+		$hierarchyValue = $this->getHierarchyValue($request);
 		if (0 === $level) {
 			$hierarchy = in_array('related', $hierarchyValue) ? [1, 2] : [];
 		} elseif (1 === $level) {
