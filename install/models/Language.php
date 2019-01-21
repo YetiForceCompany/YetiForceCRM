@@ -89,11 +89,7 @@ class Language extends \App\Language
 			Log::warning('Invalid module name - module: ' . var_export($moduleName, true));
 			return $key;
 		}
-		if (is_numeric($moduleName)) { // ok, we have a tab id, lets turn it into name
-			$moduleName = Module::getModuleName($moduleName);
-		} else {
-			$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
-		}
+		$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
 		static::loadLanguageFileForInstall($language, $moduleName);
 		if (isset(static::$languageContainerForInstall[$language][$moduleName]['php'][$key])) {
 			if ($encode) {
