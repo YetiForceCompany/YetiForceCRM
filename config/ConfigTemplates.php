@@ -62,23 +62,6 @@ return [
 		]
 	],
 	'main' => [
-//		'CALENDAR_DISPLAY' => [
-//			'default' => 'true',
-//			'description' => 'Show or hide calendar, world clock, calculator, chat and CKEditor
-// Do NOT remove the quotes if you set these to false!'
-//		],
-//		'WORLD_CLOCK_DISPLAY' => [
-//			'default' => 'true',
-//			'description' => ''
-//		],
-//		'CALCULATOR_DISPLAY' => [
-//			'default' => 'true',
-//			'description' => ''
-//		],
-//		'CHAT_DISPLAY' => [
-//			'default' => 'true',
-//			'description' => ''
-//		],
 		'USE_RTE' => [
 			'default' => true,
 			'description' => 'Use rte',
@@ -96,42 +79,8 @@ return [
 			'default' => '',
 			'description' => 'Help desk support email reply',
 		],
-		'db_server' => [
-			'default' => '_DBC_SERVER_',
-			'description' => 'Gets the database server',
-		],
-		'db_port' => [
-			'default' => '',
-			'description' => 'Gets the database port',
-			'validation' => '\App\Validator::naturalNumber'
-		],
-		'db_username' => [
-			'default' => '_DBC_USER_',
-			'description' => 'Gets the database user name',
-		],
-		'db_password' => [
-			'default' => '_DBC_PASS_',
-			'description' => 'Gets the database password',
-		],
-		'db_name' => [
-			'default' => '_DBC_NAME_',
-			'description' => 'Gets the database name',
-		],
-		'db_type' => [
-			'default' => '_DBC_TYPE_',
-			'description' => 'Gets the database type',
-		],
-		'db_status' => [
-			'default' => '_DB_STAT_',
-			'description' => 'Gets the database status',
-		],
-		'db_hostname' => [
-			'type' => 'function',
-			'default' => 'return self::$db_server . ":" . self::$db_port;',
-			'description' => 'Gets host name'
-		],
 		'site_URL' => [
-			'default' => '_SITE_URL_',
+			'default' => '',
 			'description' => 'Backslash is required at the end of URL',
 		],
 		'cache_dir' => [
@@ -477,34 +426,32 @@ return [
 	'developer' => [
 		'CHANGE_GENERATEDTYPE' => [
 			'default' => false,
-			'description' => 'Turn the possibility to change generatedtype',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Turn the possibility to change generatedtype'
 		],
 		'MINIMIZE_JS' => [
 			'default' => true,
-			'description' => 'Enable minimize JS files',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable minimize JS files'
 		],
 		'MINIMIZE_CSS' => [
 			'default' => true,
-			'description' => ' Enable minimize CSS files',
-			'validation' => '\App\Validator::bool'
+			'description' => ' Enable minimize CSS files'
 		],
 		'CHANGE_VISIBILITY' => [
 			'default' => false,
-			'description' => 'Change of fields visibility',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Change of fields visibility'
 		],
 		'CHANGE_RELATIONS' => [
 			'default' => false,
-			'description' => 'Adding/Deleting relations between modules.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Adding/Deleting relations between modules.'
 		],
 		'MISSING_LIBRARY_DEV_MODE' => [
 			'default' => false,
-			'description' => 'Developer libraries update mode',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Developer libraries update mode'
 		],
+		'LANGUAGES_UPDATE_DEV_MODE' => [
+			'default' => false,
+			'description' => 'Developer libraries update mode'
+		]
 	],
 	'performance' => [
 		'CACHING_DRIVER' => [
@@ -984,6 +931,52 @@ return [
 		'MAILS' => [
 			'default' => 'sound_1.mp3',
 			'description' => 'Sets the type of sound of mails',
+		],
+	],
+	'db' => [
+		'db_server' => [
+			'default' => '_DBC_SERVER_',
+			'description' => 'Gets the database server',
+		],
+		'db_port' => [
+			'default' => '',
+			'description' => 'Gets the database port',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'db_username' => [
+			'default' => '_DBC_USER_',
+			'description' => 'Gets the database user name',
+		],
+		'db_password' => [
+			'default' => '_DBC_PASS_',
+			'description' => 'Gets the database password',
+		],
+		'db_name' => [
+			'default' => '_DBC_NAME_',
+			'description' => 'Gets the database name',
+		],
+		'db_type' => [
+			'default' => '_DBC_TYPE_',
+			'description' => 'Gets the database type',
+		],
+		'db_hostname' => [
+			'type' => 'function',
+			'default' => 'return self::$db_server . ":" . self::$db_port;',
+			'description' => 'Gets host name'
+		],
+		'base' => [
+			'type' => 'function',
+			'default' => "return [
+	'dsn' => self::\$db_type . ':host=' . self::\$db_server . ';dbname=' . self::\$db_name . ';port=' . self::\$db_port,
+	'host' => self::\$db_server,
+	'port' => self::\$db_port,
+	'username' => self::\$db_username,
+	'password' => self::\$db_password,
+	'dbName' => self::\$db_name,
+	'tablePrefix' => 'yf_',
+	'charset' => 'utf8',
+];",
+			'description' => 'Gets host name'
 		],
 	]
 ];

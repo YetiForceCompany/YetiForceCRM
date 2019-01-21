@@ -69,7 +69,7 @@ class PearDatabase
 		if (self::$dbCache !== false) {
 			return self::$dbCache;
 		}
-		$db = new self(\Config\Main::$db_type, \Config\Main::$db_server, \Config\Main::$db_name, \Config\Main::$db_username, \Config\Main::$db_password, \Config\Main::$db_port);
+		$db = new self(\Config\Db::$db_type, \Config\Db::$db_server, \Config\Db::$db_name, \Config\Db::$db_username, \Config\Db::$db_password, \Config\Db::$db_port);
 		if ($db->database === null) {
 			\App\Log::error('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');

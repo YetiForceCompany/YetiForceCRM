@@ -240,6 +240,14 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$configFile->set('application_unique_key', '');
 		$configFile->create();
+
+		$configFile = new \App\ConfigFile('db');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if (isset($_SESSION['config_file_info'][$name])) {
+				$configFile->set($name, $_SESSION['config_file_info'][$name]);
+			}
+		}
+		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->display('Step6.tpl');
 	}

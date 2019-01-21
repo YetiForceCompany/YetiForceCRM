@@ -29,6 +29,7 @@ class ConfigFile extends Base
 	/** @var array Types of configuration files */
 	private $types = [
 		'main',
+		'db',
 		'performance',
 		'module',
 		'api',

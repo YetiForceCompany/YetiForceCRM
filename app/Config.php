@@ -102,6 +102,12 @@ class Config
 		return self::get($class, $arg, $default);
 	}
 
+	public static function db(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Db";
+		return self::get($class, $arg, $default);
+	}
+
 	public static function get(string $class, ?string $arg = null, $default = null)
 	{
 		$value = $default;
