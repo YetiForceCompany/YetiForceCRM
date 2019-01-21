@@ -37,7 +37,7 @@
 					<div class="childrenMarginTopX">
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader  c-panel__header">
-					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right"
+					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE_NAME)}</h5>
 							</div>
@@ -140,7 +140,7 @@
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-right small m-1 mt-2" data-hide="fas fa-chevron-right"
+					<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE_NAME)}</h5>
 							</div>
@@ -151,7 +151,7 @@
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-right small m-1 mt-2" data-hide="fas fa-chevron-right"
+					<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_FIND_DUPLICATES',$MODULE_NAME)}</h5>
 							</div>
@@ -176,7 +176,7 @@
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right"
+					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}
 									:</h5>
