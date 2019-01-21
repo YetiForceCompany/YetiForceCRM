@@ -91,7 +91,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 			$viewer->assign('SUCCESS_TASKS', $result['task']);
 			$viewer->assign('SKIPPED_TASKS', $result['skipped_task']);
 		} else {
-			$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
+			$viewer->assign('ERROR_MESSAGE', $request->getByType('error_message', 'Text'));
 		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('ImportResult.tpl', $moduleName);
