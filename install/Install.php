@@ -26,6 +26,8 @@ require_once 'install/models/InitSchema.php';
 require_once 'install/models/Language.php';
 
 App\Session::init();
+\App\Language::$languageDirectory = 'install/languages';
+\App\Language::$customLanguageDirectory = 'languages';
 
 $request = App\Request::init();
 $install = new Install_Index_View();
