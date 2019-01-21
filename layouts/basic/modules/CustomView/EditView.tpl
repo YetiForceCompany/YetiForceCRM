@@ -145,7 +145,7 @@
 								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE_NAME)}</h5>
 							</div>
 							<div class="c-panel__body py-1 d-none">
-								<textarea name="description" id="description" class="js-editor" data-emoji-enabled="true" data-mentions-enabled="true"
+								<textarea name="description" id="description" class="js-editor"
 										  data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 							</div>
 						</div>
