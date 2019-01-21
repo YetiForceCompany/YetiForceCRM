@@ -16,7 +16,7 @@
 		<footer class="noprint fixed-bottom">
 			<div class="vtFooter pb-5 pb-sm-0">
 				<p>
-					{\Install\Language::translate('LBL_FOOTER_CONTENT', 'Install')}
+					{\App\Language::translate('LBL_FOOTER_CONTENT', 'Install')}
 				</p>
 			</div>
 		</footer>

@@ -19,13 +19,13 @@
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">
-							<h2>{\Install\Language::translate('LBL_CONFIRM_CONFIGURATION_SETTINGS', 'Install')}</h2>
+							<h2>{\App\Language::translate('LBL_CONFIRM_CONFIGURATION_SETTINGS', 'Install')}</h2>
 						</div>
 					</div>
 					<hr>
 					<div class="row">
 						<p class="col-12">
-							{\Install\Language::translate('LBL_STEP5_DESCRIPTION', 'Install')}
+							{\App\Language::translate('LBL_STEP5_DESCRIPTION', 'Install')}
 						</p>
 					</div>
 					{if $DB_CONNECTION_INFO['flag'] neq true}
@@ -42,31 +42,31 @@
 						<div class="table-responsive">
 							<table class="config-table input-table">
 								<caption
-										class="sr-only">{\Install\Language::translate('LBL_DATABASE_INFORMATION','Install')}</caption>
+										class="sr-only">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</caption>
 								<thead>
 								<tr>
-									<th colspan="2">{\Install\Language::translate('LBL_DATABASE_INFORMATION','Install')}</th>
+									<th colspan="2">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr>
-									<td>{\Install\Language::translate('LBL_DATABASE_TYPE','Install')}</td>
-									<td>{\Install\Language::translate('MySQL','Install')}</td>
+									<td>{\App\Language::translate('LBL_DATABASE_TYPE','Install')}</td>
+									<td>{\App\Language::translate('MySQL','Install')}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_HOST_NAME','Install')}</td>
+									<td>{\App\Language::translate('LBL_HOST_NAME','Install')}</td>
 									<td>{$INFORMATION['db_hostname']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_HOST_PORT','Install')}</td>
+									<td>{\App\Language::translate('LBL_HOST_PORT','Install')}</td>
 									<td>{$INFORMATION['db_port']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_DB_NAME','Install')}</td>
+									<td>{\App\Language::translate('LBL_DB_NAME','Install')}</td>
 									<td>{$INFORMATION['db_name']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_USERNAME','Install')}</td>
+									<td>{\App\Language::translate('LBL_USERNAME','Install')}</td>
 									<td>{$INFORMATION['db_username']}</td>
 								</tr>
 								</tbody>
@@ -75,19 +75,19 @@
 						<div class="table-responsive">
 							<table class="config-table input-table">
 								<caption
-										class="sr-only">{\Install\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</caption>
+										class="sr-only">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</caption>
 								<thead>
 								<tr>
-									<th colspan="2">{\Install\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
+									<th colspan="2">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr>
-									<td>{\Install\Language::translate('LBL_URL','Install')}</td>
+									<td>{\App\Language::translate('LBL_URL','Install')}</td>
 									<td><a href="#">{$SITE_URL}</a></td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_CURRENCY','Install')}</td>
+									<td>{\App\Language::translate('LBL_CURRENCY','Install')}</td>
 									<td>{$INFORMATION['currency_name']}</td>
 								</tr>
 								</tbody>
@@ -96,35 +96,35 @@
 						<div class="table-responsive">
 							<table class="config-table input-table">
 								<caption
-										class="sr-only">{\Install\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</caption>
+										class="sr-only">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</caption>
 								<thead>
 								<tr>
-									<th colspan="2">{\Install\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</th>
+									<th colspan="2">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr>
-									<td>{\Install\Language::translate('First Name','Install')}</td>
+									<td>{\App\Language::translate('First Name','Install')}</td>
 									<td>{$INFORMATION['firstname']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('Last Name','Install')}</td>
+									<td>{\App\Language::translate('Last Name','Install')}</td>
 									<td>{$INFORMATION['lastname']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_USERNAME','Install')}</td>
+									<td>{\App\Language::translate('LBL_USERNAME','Install')}</td>
 									<td>{$INFORMATION['user_name']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_EMAIL','Install')}</td>
+									<td>{\App\Language::translate('LBL_EMAIL','Install')}</td>
 									<td>{$INFORMATION['admin_email']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_TIME_ZONE','Install')}</td>
+									<td>{\App\Language::translate('LBL_TIME_ZONE','Install')}</td>
 									<td>{$INFORMATION['timezone']}</td>
 								</tr>
 								<tr>
-									<td>{\Install\Language::translate('LBL_DATE_FORMAT','Install')}</td>
+									<td>{\App\Language::translate('LBL_DATE_FORMAT','Install')}</td>
 									<td>{$INFORMATION['dateformat']}</td>
 								</tr>
 								</tbody>
@@ -135,12 +135,12 @@
 								<button class="btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0"
 										{if $DB_CONNECTION_INFO['flag'] eq true} disabled="disabled"{else} onclick="window.history.back()"{/if}>
 									<span class="fas fa-arrow-circle-left mr-1"></span>
-									{Install\Language::translate('LBL_BACK', 'Install')}
+									{App\Language::translate('LBL_BACK', 'Install')}
 								</button>
 								{if $DB_CONNECTION_INFO['flag'] eq true}
 									<button type="submit" role="button" class="btn-lg c-btn-block-xs-down btn-primary">
 										<span class="fas fa-arrow-circle-right mr-1"></span>
-										{Install\Language::translate('LBL_NEXT', 'Install')}
+										{App\Language::translate('LBL_NEXT', 'Install')}
 									</button>
 								{/if}
 							</div>
@@ -153,10 +153,10 @@
 								   href="Install.php"
 								   role="button">
 									<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
-									{Install\Language::translate('LBL_BACK', 'Install')}
+									{App\Language::translate('LBL_BACK', 'Install')}
 								</a>
 								<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary">
-									{Install\Language::translate('LBL_NEXT', 'Install')}
+									{App\Language::translate('LBL_NEXT', 'Install')}
 									<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 								</button>
 							</div>

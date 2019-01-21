@@ -19,18 +19,18 @@
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">
-							<h2>{\Install\Language::translate('LBL_CONFIGURATION_COMPANY_DETAILS', 'Install')}</h2>
+							<h2>{\App\Language::translate('LBL_CONFIGURATION_COMPANY_DETAILS', 'Install')}</h2>
 						</div>
 					</div>
 					<hr>
 					<div class="row">
 						<p class="col-12">
-							{\Install\Language::translate('LBL_STEP6_DESCRIPTION', 'Install')}
+							{\App\Language::translate('LBL_STEP6_DESCRIPTION', 'Install')}
 						</p>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-name">{Install\Language::translate('LBL_NAME', 'Settings:Companies')}
+							   for="company-name">{App\Language::translate('LBL_NAME', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<input id="company-name" type="text" name="company_name" class="form-control"
@@ -39,21 +39,21 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-industry">{Install\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+							   for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<select class="select2 form-control" id="company-industry" name="company_industry"
 									data-validation-engine="validate[required]">
-								<option value="{$ITEM}">{Install\Language::translate($ITEM)}</option>
+								<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 								{foreach from=Install_Utils_Model::getIndustryList() item=ITEM}
-									<option value="{$ITEM}">{Install\Language::translate($ITEM)}</option>
+									<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 								{/foreach}
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-street">{Install\Language::translate('LBL_STREET', 'Settings:Companies')}
+							   for="company-street">{App\Language::translate('LBL_STREET', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<input id="company-street" type="text" name="company_street" class="form-control"
@@ -62,7 +62,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-city">{Install\Language::translate('LBL_CITY', 'Settings:Companies')}
+							   for="company-city">{App\Language::translate('LBL_CITY', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<input id="company-city" type="text" name="company_city" class="form-control"
@@ -71,7 +71,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-code">{Install\Language::translate('LBL_CODE', 'Settings:Companies')}
+							   for="company-code">{App\Language::translate('LBL_CODE', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<input id="company-code" type="text" name="company_code" class="form-control"
@@ -80,14 +80,14 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-state">{Install\Language::translate('LBL_STATE', 'Settings:Companies')}</label>
+							   for="company-state">{App\Language::translate('LBL_STATE', 'Settings:Companies')}</label>
 						<div class="col-sm-10">
 							<input id="company-state" type="text" name="company_state" class="form-control">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-country">{Install\Language::translate('LBL_COUNTRY', 'Settings:Companies')}
+							   for="company-country">{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<select id="company-country" class="select2 form-control" name="company_country"
@@ -100,7 +100,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-phone">{Install\Language::translate('LBL_PHONE', 'Settings:Companies')}</label>
+							   for="company-phone">{App\Language::translate('LBL_PHONE', 'Settings:Companies')}</label>
 						<div class="col-sm-10">
 							<input id="company-phone" type="text" name="company_phone" class="form-control"
 								   data-validation-engine="validate[custom[phone]]">
@@ -108,7 +108,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-website">{Install\Language::translate('LBL_WEBSITE', 'Settings:Companies')}</label>
+							   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}</label>
 						<div class="col-sm-10">
 							<input id="company-website" type="text" name="company_website" class="form-control"
 								   data-validation-engine="validate[custom[url]]">
@@ -116,7 +116,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-email">{Install\Language::translate('LBL_EMAIL', 'Settings:Companies')}
+							   for="company-email">{App\Language::translate('LBL_EMAIL', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">
 							<input id="company-email" type="text" name="company_email" class="form-control"
@@ -125,7 +125,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label"
-							   for="company-vatid">{Install\Language::translate('LBL_VATID', 'Settings:Companies')}</label>
+							   for="company-vatid">{App\Language::translate('LBL_VATID', 'Settings:Companies')}</label>
 						<div class="col-sm-10">
 							<input id="company-vatid" type="text" name="company_vatid" class="form-control"></div>
 					</div>
@@ -134,10 +134,10 @@
 							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
 							   role="button">
 								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
-								{Install\Language::translate('LBL_BACK', 'Install')}
+								{App\Language::translate('LBL_BACK', 'Install')}
 							</a>
 							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary">
-								{Install\Language::translate('LBL_NEXT', 'Install')}
+								{App\Language::translate('LBL_NEXT', 'Install')}
 								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>
 						</div>

@@ -2,7 +2,7 @@
 {strip}
 	<div class="main-container">
 		<div class="inner-container">
-			<h2>{\Install\Language::translate('LBL_MIGRATION_HEADER', 'Install')}</h2>
+			<h2>{\App\Language::translate('LBL_MIGRATION_HEADER', 'Install')}</h2>
 			<form class="" name="step1" method="post" action="Install.php">
 				<input type="hidden" name="mode" value="mStep2">
 				<input type="hidden" name="lang" value="{$LANG}">
@@ -10,14 +10,14 @@
 					<div>
 						<div class="col-md-10 inner-container">
 							<p>
-								<strong>{\Install\Language::translate('LBL_ATTENTION', 'Install')}</strong>
-								{\Install\Language::translate('LBL_DESCRIPTION_CONDITIONS', 'Install')}
+								<strong>{\App\Language::translate('LBL_ATTENTION', 'Install')}</strong>
+								{\App\Language::translate('LBL_DESCRIPTION_CONDITIONS', 'Install')}
 							</p>
 						</div>
 						<div class="float-right col-md-2">
 							<input type="checkbox" id="checkBox3" name="checkBox3" required>
 							<div class="chkbox"></div>
-							{\Install\Language::translate('LBL_ACCEPT', 'Install')}</a>
+							{\App\Language::translate('LBL_ACCEPT', 'Install')}</a>
 						</div>
 						<div class="clearfix"></div>
 						<hr>
@@ -28,7 +28,7 @@
 					<div>
 						<div class="button-container">
 							<input id="agree" type="submit" class="btn btn-sm btn-primary"
-								   value="{\Install\Language::translate('LBL_NEXT', 'Install')}">
+								   value="{\App\Language::translate('LBL_NEXT', 'Install')}">
 						</div>
 					</div>
 				</div>

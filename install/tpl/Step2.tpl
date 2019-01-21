@@ -18,19 +18,19 @@
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">
-							<h2>{\Install\Language::translate('LBL_LICENSE', 'Install')}</h2>
+							<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
 						</div>
 					</div>
 					<hr>
 					<div class="row">
 						<div class="col-12">
 							<p>
-								{\Install\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
+								{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
 								<a target="_blank" rel="noreferrer"
 								   href="https://yetiforce.com/en/yetiforce/license"
-								   aria-label="{\Install\Language::translate('LBL_LICENSE', 'Install')}">
+								   aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
 									<span class="fas fa-link"></span> </a><br/><br/>
-								{\Install\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
+								{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
 							</p>
 						</div>
 					</div>
@@ -45,16 +45,16 @@
 									class="btn btn-lg c-btn-block-sm-down btn-outline-info mb-1 mb-md-0 mr-md-1"
 									data-toggle="modal" data-target="#license-modal">
 								<span class="fas fa-lg fas fa-bars mr-2"></span>
-								{Install\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
+								{App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
 							</button>
 							<a class="btn btn-lg c-btn-block-sm-down btn-danger mb-1 mb-md-0 mr-md-1" href="Install.php"
 							   role="button">
 								<span class="fas fa-lg fa-times-circle mr-2"></span>
-								{Install\Language::translate('LBL_DISAGREE', 'Install')}
+								{App\Language::translate('LBL_DISAGREE', 'Install')}
 							</a>
 							<button type="submit" class="btn btn-lg c-btn-block-sm-down btn-primary">
 								<span class="fas fa-lg fa-check mr-2"></span>
-								{Install\Language::translate('LBL_I_AGREE', 'Install')}
+								{App\Language::translate('LBL_I_AGREE', 'Install')}
 							</button>
 						</div>
 					</div>
@@ -68,7 +68,7 @@
 					<div class="modal-header">
 						<h5 class="modal-title" id="ModalLabel">
 							<span class="fas fa-sm fas fa-bars mr-1"></span>
-							{\Install\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
+							{\App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
 						</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -78,13 +78,13 @@
 						<table class="table table-sm table-bordered js-data-table" data-js="datatable">
 							<thead>
 							<th class="p-2">
-								{\Install\Language::translate('LBL_LIBRARY_NAME', 'Install')}
+								{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
 							</th>
 							<th class="p-2 text-center">
-								{\Install\Language::translate('LBL_VERSION', 'Install')}
+								{\App\Language::translate('LBL_VERSION', 'Install')}
 							</th>
 							<th class="p-2 text-center">
-								{\Install\Language::translate('LBL_LICENSE', 'Install')}
+								{\App\Language::translate('LBL_LICENSE', 'Install')}
 							</th>
 							</thead>
 							<tbody>
@@ -93,13 +93,13 @@
 									{foreach from=$ITEMS item=ITEM}
 										<tr>
 											<td class="u-word-break">
-												<a title="{\Install\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
+												<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
 												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}"
 												   target="_blank">
 													{$ITEM['name']}
 												</a>
 												{if !empty($ITEM['description'])}
-													({\Install\Language::translate($ITEM['description'], 'Settings')})
+													({\App\Language::translate($ITEM['description'], 'Settings')})
 												{/if}
 											</td>
 											<td class="text-center">
@@ -111,7 +111,7 @@
 										</tr>
 									{/foreach}
 								{else}
-									<div class="p-3 mb-2 bg-danger text-white">{\Install\Language::translate('LBL_MISSING_FILE')}</div>
+									<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
 								{/if}
 							{/foreach}
 							</tbody>
