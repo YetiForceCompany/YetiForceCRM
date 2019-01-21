@@ -443,7 +443,7 @@ App.Fields = {
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{module}</div>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
 					outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
@@ -458,7 +458,7 @@ App.Fields = {
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{module}</div>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
 						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
@@ -540,6 +540,7 @@ App.Fields = {
 						return self.mentionTemplate({
 							id: item.original.id,
 							module: item.original.module,
+							category: item.original.category,
 							image: item.original.image,
 							label: item.original.label,
 							icon: item.original.icon
@@ -597,7 +598,7 @@ App.Fields = {
 							${avatar}
 							<div class="col row no-gutters u-overflow-x-hidden">
 								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
-								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.module}</div>
+								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
 							</div>
 						</div>`
 			}

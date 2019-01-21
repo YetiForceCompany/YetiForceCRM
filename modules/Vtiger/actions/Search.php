@@ -53,6 +53,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 				$imageUrl = \App\User::getImageById($key)['url'];
 				$data[] = [
 					'module' => 'Users',
+					'category' => \App\Language::translate('LBL_USER'),
 					'id' => $key,
 					'label' => $value,
 					'image' => $imageUrl ?? '',
@@ -65,6 +66,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 			foreach ($group as $key => $value) {
 				$data[] = [
 					'module' => 'Groups',
+					'category' => \App\Language::translate('LBL_GROUP'),
 					'id' => $key,
 					'label' => $value,
 					'image' => '',
