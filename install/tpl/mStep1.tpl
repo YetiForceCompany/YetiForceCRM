@@ -15,20 +15,15 @@
 							</p>
 						</div>
 						<div class="float-right col-md-2">
-							<input type="checkbox" id="checkBox3" name="checkBox3" required>
-							<div class="chkbox"></div>
-							{\App\Language::translate('LBL_ACCEPT', 'Install')}</a>
+							<input type="checkbox" id="checkBox3" name="checkBox3"  required><div class="chkbox"></div> {\App\Language::translate('LBL_ACCEPT', 'Install')}</a>
 						</div>
-						<div class="clearfix"></div>
-						<hr>
-						<br>
+						<div class="clearfix"></div><hr><br>
 					</div>
 				</div>
 				<div class="row">
 					<div>
 						<div class="button-container">
-							<input id="agree" type="submit" class="btn btn-sm btn-primary"
-								   value="{\App\Language::translate('LBL_NEXT', 'Install')}">
+							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT', 'Install')}">
 						</div>
 					</div>
 				</div>

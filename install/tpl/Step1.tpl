@@ -22,8 +22,7 @@
 							<div class="w-100">
 								<label for="lang"
 									   class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
-								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate"
-										data-template-selection="prependDataTemplate"
+								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
 										title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}"
 										style="width: 250px;">
 									{foreach key=key item=item from=$LANGUAGES}

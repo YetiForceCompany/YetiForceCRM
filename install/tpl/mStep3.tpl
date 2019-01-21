@@ -12,8 +12,7 @@
 			</div>
 			<div class="inner-container">
 				<div>
-					<a class="btn btn-md btn-primary" role="button"
-					   href="../index.php">{\App\Language::translate('LBL_BACK','Install')}</a>
+					<a class="btn btn-md btn-primary" role="button" href="../index.php">{\App\Language::translate('LBL_BACK','Install')}</a>
 				</div>
 			</div>
 		</div>

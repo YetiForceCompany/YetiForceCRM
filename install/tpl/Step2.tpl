@@ -27,8 +27,7 @@
 							<p>
 								{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
 								<a target="_blank" rel="noreferrer"
-								   href="https://yetiforce.com/en/yetiforce/license"
-								   aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
+								   href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
 									<span class="fas fa-link"></span> </a><br/><br/>
 								{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
 							</p>
@@ -41,14 +40,11 @@
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 						<div class="text-center w-100">
-							<button type="button"
-									class="btn btn-lg c-btn-block-sm-down btn-outline-info mb-1 mb-md-0 mr-md-1"
-									data-toggle="modal" data-target="#license-modal">
+							<button type="button" class="btn btn-lg c-btn-block-sm-down btn-outline-info mb-1 mb-md-0 mr-md-1" data-toggle="modal" data-target="#license-modal">
 								<span class="fas fa-lg fas fa-bars mr-2"></span>
 								{App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
 							</button>
-							<a class="btn btn-lg c-btn-block-sm-down btn-danger mb-1 mb-md-0 mr-md-1" href="Install.php"
-							   role="button">
+							<a class="btn btn-lg c-btn-block-sm-down btn-danger mb-1 mb-md-0 mr-md-1" href="Install.php" role="button">
 								<span class="fas fa-lg fa-times-circle mr-2"></span>
 								{App\Language::translate('LBL_DISAGREE', 'Install')}
 							</a>
@@ -61,8 +57,7 @@
 				</form>
 			</div>
 		</main>
-		<div class="modal js-license-modal" id="license-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-			 aria-hidden="true" data-js="shown.bs.modal | container">
+		<div class="modal js-license-modal" id="license-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-js="shown.bs.modal | container">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -94,8 +89,7 @@
 										<tr>
 											<td class="u-word-break">
 												<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
-												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}"
-												   target="_blank">
+												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank">
 													{$ITEM['name']}
 												</a>
 												{if !empty($ITEM['description'])}
