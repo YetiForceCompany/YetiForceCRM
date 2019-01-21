@@ -23,7 +23,6 @@ require_once 'install/views/Index.php';
 require_once 'install/models/Utils.php';
 require_once 'install/models/ConfigFileUtils.php';
 require_once 'install/models/InitSchema.php';
-require_once 'install/models/Language.php';
 
 App\Session::init();
 \App\Language::$customDirectory = 'install';
