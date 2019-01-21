@@ -50,8 +50,9 @@ class Vtiger_Search_Action extends \App\Controller\Action
 		$data = [];
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
-				$image = \App\User::getImageById($key)['url'] ?? '';
-				$icon = \App\User::getImageById($key)['url'] ? '' : 'adminIcon-user';
+				$imageUrl = \App\User::getImageById($key)['url'];
+				$image = $imageUrl ?? '';
+				$icon = $imageUrl ? '' : 'adminIcon-user';
 				$data[] = [
 					'category' => 'Users',
 					'id' => $key,
