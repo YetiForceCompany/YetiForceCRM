@@ -658,7 +658,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Returns value source to diplsya comments.
+	 * Returns value source to display comments.
 	 *
 	 * @param \App\Request $request
 	 *
