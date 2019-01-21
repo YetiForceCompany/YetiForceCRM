@@ -196,22 +196,26 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 		$links = [];
-		$recordLinks = [
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
-				'linkclass' => 'btn btn-xs btn-info',
-			],
-			[
+		$recordLinks = [];
+		$recordLinks[] = [
+			'linktype' => 'LISTVIEWRECORD',
+			'linklabel' => 'LBL_EDIT_RECORD',
+			'linkurl' => $this->getEditViewUrl(),
+			'linkicon' => 'fas fa-edit',
+			'linkclass' => 'btn btn-xs btn-info',
+		];
+		if (is_null(Settings_Companies_ListView_Model::$recordsCount)) {
+			Settings_Companies_ListView_Model::$recordsCount = (new \App\Db\Query())->from('s_#__companies')->count();
+		}
+		if (Settings_Companies_ListView_Model::$recordsCount > 1) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-xs btn-danger',
-			]
-		];
+			];
+		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
