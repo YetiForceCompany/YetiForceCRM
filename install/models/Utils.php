@@ -160,18 +160,18 @@ class Install_Utils_Model
 		$error_msg_info = '';
 
 		if (!$db_type_status || !$db_server_status) {
-			$error_msg = \Install\Language::translate('ERR_DATABASE_CONNECTION_FAILED', 'Install') . '. ' . \Install\Language::translate('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
-			$error_msg_info = \Install\Language::translate('MSG_LIST_REASONS', 'Install') . ':<br />
-					-  ' . \Install\Language::translate('MSG_DB_PARAMETERS_INVALID', 'Install') . '
-					<br />-  ' . \Install\Language::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
+			$error_msg = \App\Language::translate('ERR_DATABASE_CONNECTION_FAILED', 'Install') . '. ' . \App\Language::translate('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
+			$error_msg_info = \App\Language::translate('MSG_LIST_REASONS', 'Install') . ':<br />
+					-  ' . \App\Language::translate('MSG_DB_PARAMETERS_INVALID', 'Install') . '
+					<br />-  ' . \App\Language::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
 			$error_msg_info .= "<br /><br />$pdoException";
 		} elseif (self::isMySQL($db_type) && $mysql_server_version < 4.1) {
-			$error_msg = $mysql_server_version . ' -> ' . \Install\Language::translate('ERR_INVALID_MYSQL_VERSION', 'Install');
+			$error_msg = $mysql_server_version . ' -> ' . \App\Language::translate('ERR_INVALID_MYSQL_VERSION', 'Install');
 		} elseif ($db_creation_failed) {
-			$error_msg = \Install\Language::translate('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
-			$error_msg_info = \Install\Language::translate('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
+			$error_msg = \App\Language::translate('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
+			$error_msg_info = \App\Language::translate('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
 		} elseif (!$db_exist_status) {
-			$error_msg = $db_name . ' -> ' . \Install\Language::translate('ERR_DB_NOT_FOUND', 'Install');
+			$error_msg = $db_name . ' -> ' . \App\Language::translate('ERR_DB_NOT_FOUND', 'Install');
 		} else {
 			$dbCheckResult['flag'] = true;
 
@@ -191,7 +191,7 @@ class Install_Utils_Model
 		$langs = [];
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..' && file_exists($dir . $ff . '/Install.json')) {
-				$langs[$ff] = \Install\Language::translate('LANGNAME', 'Install', $ff);
+				$langs[$ff] = \App\Language::translate('LANGNAME', 'Install', $ff);
 			}
 		}
 		return $langs;
