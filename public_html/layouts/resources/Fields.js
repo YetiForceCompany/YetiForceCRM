@@ -436,8 +436,9 @@ App.Fields = {
 				return [{
 					feed: this.getMentionUsersData.bind(this),
 					itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="fas fa-2x fa-user"></span>
+											<div class="c-img__completion__container">
+												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
+												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
@@ -471,7 +472,7 @@ App.Fields = {
 			 * @param {function} callback
 			 */
 			getMentionUsersData(opts, callback) {
-				App.Fields.Text.getMentionData(opts, callback, 'Users');
+				App.Fields.Text.getMentionData(opts, callback, 'owners');
 			}
 		},
 		/**
@@ -540,7 +541,8 @@ App.Fields = {
 							module: item.original.module,
 							image: item.original.image,
 							label: item.original.label,
-							category: item.original.category
+							category: item.original.category,
+							icon: item.original.icon
 						});
 					},
 					lookup: 'label',
@@ -578,21 +580,20 @@ App.Fields = {
 			 * Mention template
 			 */
 			mentionTemplate(params) {
-				let icon = 'adminIcon-user';
-				if (params.category === 'Groups') {
-					icon = `adminIcon-groups`;
-				}
+				let icon = '';
 				if (params.module !== undefined) {
 					icon = `userIcon-${params.module}`;
+				} else if (params.icon !== undefined && params.icon !== '') {
+					icon = params.icon;
 				}
-				let image = `<div class="col c-circle-icon mr-1">
+				let avatar = `<div class="col c-circle-icon mr-1">
 								<span class="${icon}"></span>
 							</div>`;
 				if (params.image !== undefined && params.image !== '') {
-					image = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`
+					avatar = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`
 				}
 				return `<div data-id="${params.id}" class="row no-gutters">
-							${image}
+							${avatar}
 							<div class="col row no-gutters u-overflow-x-hidden">
 								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
 								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
