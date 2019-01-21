@@ -58,7 +58,11 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_EMAIL',$COMPANIES_MODULE)}</b></label>
+				<label class="col-lg-4 col-form-label text-left text-lg-right">
+					<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
+						 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $COMPANIES_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $COMPANIES_MODULE)}</a>"))}">
+						<span class="fas fa-info-circle"></span></div>
+					<b>{\App\Language::translate('LBL_EMAIL',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<input
 							class="form-control"
