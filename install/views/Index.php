@@ -247,8 +247,7 @@ class Install_Index_View extends \App\Controller\View
 	public function step7(\App\Request $request)
 	{
 		set_time_limit(0);
-		$dbconfig = AppConfig::main('dbconfig');
-		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
+		if ($key = \App\Config::main('application_unique_key', false)) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
 				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
@@ -259,17 +258,10 @@ class Install_Index_View extends \App\Controller\View
 
 			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
+			$this->viewer->assign('APPUNIQUEKEY', $key);
 			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
 			$this->viewer->display('Step7.tpl');
 		}
-	}
-
-	// Helper function as configuration file is still not loaded.
-	protected function retrieveConfiguredAppUniqueKey()
-	{
-		include_once 'config/config.php';
-		return $application_unique_key;
 	}
 
 	protected function preProcessDisplay(\App\Request $request)

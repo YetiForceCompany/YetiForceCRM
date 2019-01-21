@@ -30,21 +30,7 @@ class AppConfig
 	 */
 	public static function main($key, $value = false)
 	{
-		if (isset(self::$main[$key])) {
-			return self::$main[$key];
-		} elseif (isset($GLOBALS[$key])) {
-			self::$main[$key] = $GLOBALS[$key];
-
-			return $GLOBALS[$key];
-		} else {
-			require ROOT_DIRECTORY . '/config/config.php';
-			if (isset($$key)) {
-				self::$main[$key] = $$key;
-				return $$key;
-			}
-			App\Log::warning("Parameter does not exist: $key");
-			return $value;
-		}
+		return \App\Config::main($key, $value);
 	}
 
 	public static function module()
@@ -96,29 +82,17 @@ class AppConfig
 
 	public static function debug($key, $defvalue = false)
 	{
-		if (empty(self::$debug)) {
-			require_once 'config/debug.php';
-			self::load('debug', $DEBUG_CONFIG);
-		}
-		return self::$debug[$key] ?? $defvalue;
+		return \App\Config::debug($key, $defvalue);
 	}
 
 	public static function developer($key, $defvalue = false)
 	{
-		if (empty(self::$developer)) {
-			require_once 'config/developer.php';
-			self::load('developer', $DEVELOPER_CONFIG);
-		}
-		return self::$developer[$key] ?? $defvalue;
+		return \App\Config::developer($key, $defvalue);
 	}
 
 	public static function security($key, $defvalue = false)
 	{
-		if (empty(self::$security)) {
-			require_once 'config/security.php';
-			self::load('security', $SECURITY_CONFIG);
-		}
-		return self::$security[$key] ?? $defvalue;
+		return \App\Config::security($key, $defvalue);
 	}
 
 	public static function securityKeys($key, $defvalue = false)
@@ -132,11 +106,7 @@ class AppConfig
 
 	public static function performance($key, $defvalue = false)
 	{
-		if (!self::$performance) {
-			require_once 'config/performance.php';
-			self::load('performance', $PERFORMANCE_CONFIG);
-		}
-		return self::$performance[$key] ?? $defvalue;
+		return \App\Config::performance($key, $defvalue);
 	}
 
 	public static function relation($key, $defvalue = false)
@@ -148,27 +118,14 @@ class AppConfig
 		return self::$relation[$key] ?? $defvalue;
 	}
 
-	public static function sounds()
+	public static function sounds(?string $arg = null, $default = null)
 	{
-		if (empty(self::$sounds)) {
-			require_once 'config/sounds.php';
-			self::load('sounds', $SOUNDS_CONFIG);
-		}
-		if (func_num_args() == 0) {
-			return self::$sounds;
-		}
-		$key = func_get_args(1);
-
-		return self::$sounds[$key];
+		return \App\Config::search($arg, $default);
 	}
 
 	public static function search($key, $defvalue = false)
 	{
-		if (empty(self::$search)) {
-			require_once 'config/search.php';
-			self::load('search', $CONFIG);
-		}
-		return self::$search[$key] ?? $defvalue;
+		return \App\Config::search($key, $defvalue);
 	}
 
 	public static function load($key, $config)
@@ -193,7 +150,6 @@ if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';
-require_once ROOT_DIRECTORY . '/config/config.php';
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);

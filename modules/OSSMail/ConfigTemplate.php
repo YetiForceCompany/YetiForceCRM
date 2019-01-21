@@ -77,7 +77,7 @@ return [
 		'validation' => '\App\Validator::standard'
 	],
 	'plugins' => [
-		'default' => ['identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status'],
+		'default' => ['identity_smtp', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status'],
 		'description' => 'List of plugins',
 	],
 	'language' => [
@@ -98,7 +98,6 @@ return [
 		'description' => 'Ip check.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
-
 	],
 	'enable_spellcheck' => [
 		'default' => true,
@@ -300,7 +299,7 @@ return [
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'root_directory' => [
-		'default' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR,
+		'default' => new \Nette\PhpGenerator\PhpLiteral('ROOT_DIRECTORY . DIRECTORY_SEPARATOR'),
 		'description' => 'Root directory',
 	],
 	'imap_open_add_connection_type' => [

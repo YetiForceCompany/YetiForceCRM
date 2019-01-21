@@ -134,10 +134,10 @@ return [
 			'default' => '_SITE_URL_',
 			'description' => 'Backslash is required at the end of URL',
 		],
-//		'cache_dir' => [
-//			'default' => 'cache/',
-//			'description' => 'Cache directory path'
-//		],
+		'cache_dir' => [
+			'default' => 'cache/',
+			'description' => 'Cache directory path'
+		],
 		'tmp_dir' => [
 			'type' => 'function',
 			'default' => 'return self::$cache_dir . "images/";',
@@ -155,8 +155,7 @@ return [
 //		],
 		'upload_maxsize' => [
 			'default' => 52428800,
-			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 3000000',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)'
 		],
 		'allow_exports' => [
 			'default' => 'all',
@@ -168,18 +167,13 @@ return [
 		],
 		'upload_badext' => [
 			'default' => ['php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm'],
-			'description' => 'Files with one of these extensions will have ".txt" appended to their filename on upload: efault value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm',
-			'validation' => ''
+			'description' => 'Files with one of these extensions will have ".txt" appended to their filename on upload: efault value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm'
 		],
 		'list_max_entries_per_page' => [
 			'default' => 20,
 			'description' => 'List max entries per page: default value = 20',
 			'validation' => '\App\Validator::naturalNumber'
 		],
-//		'limitpage_navigation' => [
-//			'default' => '5',
-//			'description' => 'Limit page navigation: default value = 5'
-//		],
 		'history_max_viewed' => [
 			'default' => 5,
 			'description' => 'History max viewed: default value = 5 or "NumberRange5"',
@@ -192,21 +186,6 @@ return [
 				return \App\Module::isModuleActive($arg) === true;
 			}
 		],
-//		'default_action' => [
-//			'default' => 'index',
-//			'description' => 'Default action: default value = index',
-//			'validation' => ''
-//		],
-//		'default_theme' => [
-//			'default' => 'twilight',
-//			'description' => 'Set default theme: default value = blue',
-//			'validation' => ''
-//		],
-//		'default_user_name' => [
-//			'default' => '',
-//			'description' => 'Default text that is placed initially in the login form for user name',
-//			'validation' => ''
-//		],
 		'default_charset' => [
 			'default' => 'UTF-8',
 			'description' => 'Default charset:  default value = "UTF-8" or "ISO-8859-1"',
@@ -220,26 +199,6 @@ return [
 			'description' => 'Default language: default value = en-US',
 			'validation' => '\App\Validator::languageTag',
 		],
-//		'translation_string_prefix' => [
-//			'default' => false,
-//			'description' => 'Add the language pack name to every translation string in the display: default value = false',
-//			'validation' => '\App\Validator::bool'
-//		],
-//		'cache_tab_perms' => [
-//			'default' => true,
-//			'description' => 'Cache tab perms',
-//			'validation' => '\App\Validator::bool'
-//		],
-//		'display_empty_home_blocks' => [
-//			'default' => false,
-//			'description' => 'Option to hide empty home blocks if no entries.',
-//			'validation' => '\App\Validator::bool'
-//		],
-//		'disable_stats_tracking' => [
-//			'default' => false,
-//			'description' => 'Disable Stat Tracking of vtiger CRM instance',
-//			'validation' => '\App\Validator::bool'
-//		],
 		'application_unique_key' => [
 			'default' => '',
 			'description' => 'Unique Application Key',
@@ -379,18 +338,15 @@ return [
 	'debug' => [
 		'LOG_TO_FILE' => [
 			'default' => false,
-			'description' => 'Enable saving logs to file. Values: false/true',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable saving logs to file. Values: false/true'
 		],
 		'LOG_TO_CONSOLE' => [
 			'default' => false,
-			'description' => 'Enable displaying logs in debug console. Values: false/true',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable displaying logs in debug console. Values: false/true'
 		],
 		'LOG_TO_PROFILE' => [
 			'default' => false,
-			'description' => 'Enable saving logs profiling.  Values: false/true',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable saving logs profiling.  Values: false/true'
 		],
 		'LOG_LEVELS' => [
 			'default' => false,
@@ -398,13 +354,11 @@ return [
 		],
 		'LOG_TRACE_LEVEL' => [
 			'default' => 0,
-			'description' => 'Level of saved/displayed tracerts. // Values: int',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'Level of saved/displayed tracerts. // Values: int'
 		],
 		'DISPLAY_DEBUG_CONSOLE' => [
 			'default' => false,
-			'description' => 'Display main debug console',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Display main debug console'
 		],
 		'DEBUG_CONSOLE_ALLOWED_IPS' => [
 			'default' => false,
@@ -412,23 +366,19 @@ return [
 		],
 		'SQL_DIE_ON_ERROR' => [
 			'default' => false,
-			'description' => 'Stop the running process of the system if there is and error in sql query',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Stop the running process of the system if there is and error in sql query'
 		],
 		'DEBUG_CRON' => [
 			'default' => false,
-			'description' => 'Debug cron => cache/logs/cron/',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Debug cron => cache/logs/cron/'
 		],
 		'DEBUG_VIEWER' => [
 			'default' => true,
-			'description' => 'Debug Viewer => cache/logs/viewer-debug.log',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Debug Viewer => cache/logs/viewer-debug.log'
 		],
 		'DISPLAY_DEBUG_VIEWER' => [
 			'default' => false,
-			'description' => 'Display Smarty Debug Console',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Display Smarty Debug Console'
 		],
 		'SMARTY_ERROR_REPORTING' => [
 			'default' => E_ALL & ~E_NOTICE,
@@ -436,33 +386,27 @@ return [
 		],
 		'JS_DEBUG' => [
 			'default' => true,
-			'description' => 'Turn on/off debug errors javascript',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Turn on/off debug errors javascript'
 		],
 		'DISPLAY_EXCEPTION_BACKTRACE' => [
 			'default' => false,
-			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true'
 		],
 		'DISPLAY_EXCEPTION_LOGS' => [
 			'default' => false,
-			'description' => 'Display logs when error exception occurs',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Display logs when error exception occurs'
 		],
 		'EXCEPTION_ERROR_HANDLER' => [
 			'default' => false,
-			'description' => 'Turn on/off the error handler',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Turn on/off the error handler'
 		],
 		'EXCEPTION_ERROR_TO_FILE' => [
 			'default' => false,
-			'description' => 'Save logs to file (cache/logs/errors.log)',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Save logs to file (cache/logs/errors.log)'
 		],
 		'EXCEPTION_ERROR_TO_SHOW' => [
 			'default' => false,
-			'description' => 'Display errors',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Display errors'
 		],
 		'EXCEPTION_ERROR_LEVEL' => [
 			'default' => E_ALL & ~E_NOTICE,
@@ -470,79 +414,64 @@ return [
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,
-			'description' => 'API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML',
-			'validation' => '\App\Validator::bool'
+			'description' => 'API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML'
 		],
 		'DAV_DEBUG_PLUGIN' => [
 			'default' => false,
-			'description' => 'Activate the plugin recording log in DAV',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Activate the plugin recording log in DAV'
 		],
 		'WEBSERVICE_SHOW_ERROR' => [
 			'default' => false,
-			'description' => 'Show errors messages in web service',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Show errors messages in web service'
 		],
 		'WEBSERVICE_DEBUG' => [
 			'default' => false,
-			'description' => 'Web service logs',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Web service logs'
 		],
 		'MAILER_DEBUG' => [
 			'default' => false,
-			'description' => 'Mailer debug',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Mailer debug'
 		],
 		'ROUNDCUBE_DEBUG_LEVEL' => [
 			'default' => 1,
-			'description' => 'System error reporting, sum of: 1 = log; 4 = show, 8 = trace',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'System error reporting, sum of: 1 = log; 4 = show, 8 = trace'
 		],
 
 		'ROUNDCUBE_DEVEL_MODE' => [
 			'default' => false,
-			'description' => 'Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries'
 		],
 		'ROUNDCUBE_PER_USER_LOGGING' => [
 			'default' => false,
-			'description' => 'Activate this option if logs should be written to per-user directories. Data will only be logged if a directry cache/logs/<username>/ exists and is writable.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Activate this option if logs should be written to per-user directories. Data will only be logged if a directry cache/logs/<username>/ exists and is writable.'
 		],
 		'ROUNDCUBE_SMTP_LOG' => [
 			'default' => false,
-			'description' => 'Log sent messages to cache/logs/sendmail or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log sent messages to cache/logs/sendmail or to syslog'
 		],
 		'ROUNDCUBE_LOG_LOGINS' => [
 			'default' => false,
-			'description' => 'Log successful/failed logins to cache/logs/userlogins or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log successful/failed logins to cache/logs/userlogins or to syslog'
 		],
 		'ROUNDCUBE_LOG_SESSION' => [
 			'default' => false,
-			'description' => 'Log session authentication errors to cache/logs/session or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log session authentication errors to cache/logs/session or to syslog'
 		],
 		'ROUNDCUBE_SQL_DEBUG' => [
 			'default' => false,
-			'description' => 'Log SQL queries to cache/logs/sql or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log SQL queries to cache/logs/sql or to syslog'
 		],
 		'ROUNDCUBE_IMAP_DEBUG' => [
 			'default' => false,
-			'description' => 'Log IMAP conversation to cache/logs/imap or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log IMAP conversation to cache/logs/imap or to syslog'
 		],
 		'ROUNDCUBE_LDAP_DEBUG' => [
 			'default' => false,
-			'description' => 'Log LDAP conversation to cache/logs/ldap or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log LDAP conversation to cache/logs/ldap or to syslog'
 		],
 		'ROUNDCUBE_SMTP_DEBUG' => [
 			'default' => false,
-			'description' => 'Log SMTP conversation to cache/logs/smtp or to syslog',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Log SMTP conversation to cache/logs/smtp or to syslog'
 		],
 	],
 	'developer' => [
@@ -913,8 +842,7 @@ return [
 	'security' => [
 		'USER_ENCRYPT_PASSWORD_COST' => [
 			'default' => 10,
-			'description' => 'Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.',
-			'validation' => '\App\Validator::naturalNumber',
+			'description' => 'Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.'
 		],
 		'RESET_LOGIN_PASSWORD' => [
 			'default' => false,

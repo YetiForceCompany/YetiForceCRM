@@ -84,6 +84,24 @@ class Config
 		return self::get($class, $arg, $default);
 	}
 
+	public static function security(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Security";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function search(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Search";
+		return self::get($class, $arg, $default);
+	}
+
+	public static function sounds(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Sounds";
+		return self::get($class, $arg, $default);
+	}
+
 	public static function get(string $class, ?string $arg = null, $default = null)
 	{
 		$value = $default;
