@@ -38,7 +38,7 @@ class Language
 	 *
 	 * @var string
 	 */
-	public static $customDirectory;
+	public static $customDirectory = 'custom';
 	/**
 	 * Current language.
 	 *
