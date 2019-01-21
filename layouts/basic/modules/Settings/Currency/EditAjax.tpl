@@ -44,7 +44,7 @@
 											{/if}
 											<option value="{$CURRENCY_MODEL->get('currency_name')}" data-code="{$CURRENCY_MODEL->get('currency_code')}" 
 													data-symbol="{$CURRENCY_MODEL->get('currency_symbol')}" {if $RECORD_MODEL->get('currency_name') == $CURRENCY_MODEL->get('currency_name')} selected {/if}>
-												{\App\Language::translate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
+												{\App\Language::translate($CURRENCY_MODEL->get('currency_code'), 'Other.Currency')}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
 											{/foreach}
 									</select>
 								</div>	
@@ -78,7 +78,7 @@
 								<div class="col-6 controls">
 									<label class="checkbox">
 										<input type="hidden" name="currency_status" value="Inactive" />
-										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 
+										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom"
 										{if !$CURRENCY_MODEL_EXISTS} checked {else}{$RECORD_MODEL->get('currency_status')}{if $RECORD_MODEL->get('currency_status') == 'Active'} checked {/if}{/if} />
 									<span>&nbsp;{\App\Language::translate('LBL_CURRENCY_STATUS_DESC', $QUALIFIED_MODULE)}</span>
 								</label>
