@@ -407,6 +407,7 @@ App.Fields = {
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
 				}
+				config = Object.assign(config, element.data());
 				if (config.emojiEnabled) {
 					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
 					if (typeof config.toolbar === 'string') {
