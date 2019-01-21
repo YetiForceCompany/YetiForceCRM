@@ -161,21 +161,23 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return \ModComments_Record_Model[]
 	 */
-	public static function getAllParentComments($parentId, $hierarchy = false, $pagingModel = false)
+	public static function getAllParentComments($parentId, string $moduleName, $hierarchy = false, $pagingModel = false)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 		$queryGenerator->setSourceRecord($parentId);
-		if (empty($hierarchy) || (count($hierarchy) === 1 && reset($hierarchy) === 0)) {
-			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
-		} else {
-			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
-			if (empty($recordIds)) {
-				return [];
-			}
-			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
+		$where = ['or'];
+		$requireCount = 0;
+		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($moduleName);
+		if ($moduleLevel === false || in_array($moduleLevel, $hierarchy)) {
+			$where[] = ['related_to' => $parentId];
+			$requireCount = 1;
 		}
+		if (count($hierarchy) > $requireCount) {
+			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy)])];
+		}
+		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
 		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
 		if ($pagingModel && $pagingModel->get('limit') !== 0) {
@@ -291,21 +293,24 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return \ModComments_Record_Model[]
 	 */
-	public static function getSearchComments(int $parentId, string $searchValue, bool $isWidget, array $hierarchy = [], Vtiger_Paging_Model $pagingModel = null)
+	public static function getSearchComments(int $parentId, $moduleName, string $searchValue, bool $isWidget, array $hierarchy = [], Vtiger_Paging_Model $pagingModel = null)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 		$queryGenerator->setSourceRecord($parentId);
-		if (empty($hierarchy) || (count($hierarchy) === 1 && reset($hierarchy) === 0)) {
-			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
-		} else {
-			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
-			if (empty($recordIds)) {
-				return [];
-			}
-			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
+		$where = ['or'];
+		$requireCount = 0;
+		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($moduleName);
+
+		if ($moduleLevel === false || in_array($moduleLevel, $hierarchy)) {
+			$where[] = ['related_to' => $parentId];
+			$requireCount = 1;
 		}
+		if (count($hierarchy) > $requireCount) {
+			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy)])];
+		}
+		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['like', 'commentcontent', '%' . $searchValue . '%', false]);
 		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
 		if ($pagingModel && $pagingModel->get('limit') !== 0) {

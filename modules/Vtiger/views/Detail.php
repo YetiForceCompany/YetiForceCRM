@@ -433,8 +433,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$hierarchyValue = $request->getByType('hierarchy');
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $this->getHierarchy($request), $pagingModel);
+		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
+		if (empty($hierarchyValue)) {
+			if (App\Session::has('DEFAULT_SOURCE_COMMENTS - ' . $moduleName)) {
+				$hierarchyValue = App\Session::get('DEFAULT_SOURCE_COMMENTS - ' . $moduleName);
+			} else {
+				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
+			}
+		} else {
+			App\Session::set('DEFAULT_SOURCE_COMMENTS - ' . $moduleName, $hierarchyValue);
+		}
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -444,7 +453,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
-		$viewer->assign('LEVEL', \App\ModuleHierarchy::getModuleLevel($moduleName));
+		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
+		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -558,7 +568,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$commentRecordId = $request->getInteger('commentid');
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $moduleName);
 		$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 
 		$viewer = $this->getViewer($request);
@@ -588,28 +598,28 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$commentRecordId = $request->getInteger('commentid');
 		$moduleName = $request->getModule();
 		$hierarchy = $this->getHierarchy($request);
-		$hierarchyValue = $request->getByType('hierarchy');
+		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
+		if (empty($hierarchyValue)) {
+			if (App\Session::has('DEFAULT_SOURCE_COMMENTS - ' . $moduleName)) {
+				$hierarchyValue = App\Session::get('DEFAULT_SOURCE_COMMENTS - ' . $moduleName);
+			} else {
+				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
+			}
+		} else {
+			App\Session::set('DEFAULT_SOURCE_COMMENTS - ' . $moduleName, $hierarchyValue);
+		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $moduleName, $hierarchy);
 		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 		}
-		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
-		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
-		if ($level > 0) {
-			unset($hierarchyList[1]);
-			if ($level > 1) {
-				unset($hierarchyList[2]);
-			}
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
-		$viewer->assign('HIERARCHY', $hierarchy);
+		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
-		$viewer->assign('HIERARCHY_LIST', $hierarchyList);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
@@ -643,7 +653,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			return $this->showAllComments($request);
 		} else {
 			$searchValue = $request->getByType('search_key', 'Text');
-			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $searchValue, $isWidget, $this->getHierarchy($request));
+			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $moduleName, $searchValue, $isWidget, $this->getHierarchy($request));
 		}
 		$viewer = $this->getViewer($request);
 		if (!empty($parentCommentModels)) {
@@ -677,14 +687,24 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-			$hierarchyValue = $request->getByType('hierarchy');
-			if (0 === $level) {
-				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
-			} elseif (1 === $level) {
-				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
+		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
+		if (empty($hierarchyValue)) {
+			if (App\Session::has('DEFAULT_SOURCE_COMMENTS - ' . $moduleName)) {
+				$hierarchyValue = App\Session::get('DEFAULT_SOURCE_COMMENTS - ' . $moduleName);
+			} else {
+				$hierarchyValue = AppConfig::module('ModComments', 'DEFUALT_SOURCE');
 			}
+		} else {
+			App\Session::set('DEFAULT_SOURCE_COMMENTS - ' . $moduleName, $hierarchyValue);
+		}
+		if (0 === $level) {
+			$hierarchy = in_array('related', $hierarchyValue) ? [1, 2] : [];
+		} elseif (1 === $level) {
+			$hierarchy = in_array('related', $hierarchyValue) ? [2] : [];
+		}
+		if (in_array('current', $hierarchyValue)) {
+			$hierarchy[] = $level;
 		}
 		return $hierarchy;
 	}
