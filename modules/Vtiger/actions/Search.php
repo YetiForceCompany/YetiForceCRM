@@ -52,7 +52,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 			foreach ($users as $key => $value) {
 				$imageUrl = \App\User::getImageById($key)['url'];
 				$data[] = [
-					'category' => 'Users',
+					'module' => 'Users',
 					'id' => $key,
 					'label' => $value,
 					'image' => $imageUrl ?? '',
@@ -64,7 +64,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 		if (!empty($group)) {
 			foreach ($group as $key => $value) {
 				$data[] = [
-					'category' => 'Groups',
+					'module' => 'Groups',
 					'id' => $key,
 					'label' => $value,
 					'image' => '',

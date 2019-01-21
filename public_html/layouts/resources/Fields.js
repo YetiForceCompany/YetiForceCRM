@@ -443,7 +443,7 @@ App.Fields = {
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{module}</div>
 											</div>
 										</li>`,
 					outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
@@ -458,7 +458,7 @@ App.Fields = {
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{module}</div>
 											</div>
 										</li>`,
 						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
@@ -542,7 +542,6 @@ App.Fields = {
 							module: item.original.module,
 							image: item.original.image,
 							label: item.original.label,
-							category: item.original.category,
 							icon: item.original.icon
 						});
 					},
@@ -584,7 +583,8 @@ App.Fields = {
 				let icon = '';
 				if (params.module !== undefined) {
 					icon = `userIcon-${params.module}`;
-				} else if (params.icon !== undefined && params.icon !== '') {
+				}
+				if (params.icon !== undefined && params.icon !== '') {
 					icon = params.icon;
 				}
 				let avatar = `<div class="col c-circle-icon mr-1">
@@ -597,7 +597,7 @@ App.Fields = {
 							${avatar}
 							<div class="col row no-gutters u-overflow-x-hidden">
 								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
-								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
+								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.module}</div>
 							</div>
 						</div>`
 			}
