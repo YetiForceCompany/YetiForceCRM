@@ -108,7 +108,7 @@ class Install_InitSchema_Model
 				'last_name' => $_SESSION['config_file_info']['lastname'],
 				'email1' => $_SESSION['config_file_info']['admin_email'],
 				'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
-				'language' => $_SESSION['default_language'],
+				'language' => \App\Language::DEFAULT_LANG,
 			])->execute();
 		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
 		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);

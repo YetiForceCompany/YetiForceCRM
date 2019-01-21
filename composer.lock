@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f33522684c61ed94e8b8260c9b4bc34",
+    "content-hash": "145983851ae4d1356d0793758f5e9b53",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -629,16 +629,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.7.20",
+            "version": "v5.7.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "758927e5e925c1d442a1faaa1356675ceba0194c"
+                "reference": "3d67e2d7c9087ae3a2a53d9b102697e5f482d6d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/758927e5e925c1d442a1faaa1356675ceba0194c",
-                "reference": "758927e5e925c1d442a1faaa1356675ceba0194c",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/3d67e2d7c9087ae3a2a53d9b102697e5f482d6d0",
+                "reference": "3d67e2d7c9087ae3a2a53d9b102697e5f482d6d0",
                 "shasum": ""
             },
             "require": {
@@ -669,7 +669,7 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2018-11-15T13:49:08+00:00"
+            "time": "2019-01-09T10:34:49+00:00"
         },
         {
             "name": "illuminate/support",
@@ -2689,16 +2689,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.3",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "dc5e8512cd3d21a1b2c3e559d80eba5cb5d13351"
+                "reference": "c3ecd654fee00d1d8600889b15981b723b67a9ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/dc5e8512cd3d21a1b2c3e559d80eba5cb5d13351",
-                "reference": "dc5e8512cd3d21a1b2c3e559d80eba5cb5d13351",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/c3ecd654fee00d1d8600889b15981b723b67a9ee",
+                "reference": "c3ecd654fee00d1d8600889b15981b723b67a9ee",
                 "shasum": ""
             },
             "require": {
@@ -2728,20 +2728,20 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-01-08T10:06:27+00:00"
+            "time": "2019-01-14T14:17:08+00:00"
         },
         {
             "name": "yetiforce/yii2",
-            "version": "2.0.15.2",
+            "version": "2.0.15.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/yii2-framework.git",
-                "reference": "b3dc8f79b7bcbd012714a5aaeb7834bc056c161c"
+                "reference": "c6d89118ad28856b84d4103e6b0da9a5f4965848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/b3dc8f79b7bcbd012714a5aaeb7834bc056c161c",
-                "reference": "b3dc8f79b7bcbd012714a5aaeb7834bc056c161c",
+                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/c6d89118ad28856b84d4103e6b0da9a5f4965848",
+                "reference": "c6d89118ad28856b84d4103e6b0da9a5f4965848",
                 "shasum": ""
             },
             "require": {
@@ -2826,7 +2826,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-04-03T08:26:32+00:00"
+            "time": "2019-01-17T06:59:45+00:00"
         }
     ],
     "packages-dev": [
@@ -3563,16 +3563,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.1",
+            "version": "7.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c23d78776ad415d5506e0679723cb461d71f488f"
+                "reference": "7c89093bd00f7d5ddf0ab81dee04f801416b4944"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c23d78776ad415d5506e0679723cb461d71f488f",
-                "reference": "c23d78776ad415d5506e0679723cb461d71f488f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7c89093bd00f7d5ddf0ab81dee04f801416b4944",
+                "reference": "7c89093bd00f7d5ddf0ab81dee04f801416b4944",
                 "shasum": ""
             },
             "require": {
@@ -3643,7 +3643,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-12T07:20:32+00:00"
+            "time": "2019-01-15T08:19:08+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

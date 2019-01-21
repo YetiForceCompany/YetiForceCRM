@@ -168,9 +168,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		$result = false;
-		foreach ($relatedRecordIdList as $relatedRecordId) {
-			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
-				$result = $relationModel->deleteRelation($sourceRecordId, (int) $relatedRecordId);
+		if ($relationModel->privilegeToDelete()) {
+			foreach ($relatedRecordIdList as $relatedRecordId) {
+				if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
+					$result = $relationModel->deleteRelation($sourceRecordId, (int) $relatedRecordId);
+				}
 			}
 		}
 		$response = new Vtiger_Response();

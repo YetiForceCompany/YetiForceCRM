@@ -25,9 +25,14 @@ require_once 'install/models/ConfigFileUtils.php';
 require_once 'install/models/InitSchema.php';
 
 App\Session::init();
+\App\Language::$languageDirectory = 'install/languages';
 
 $request = App\Request::init();
 $install = new Install_Index_View();
-$install->preProcess($request);
+if (!$request->isAjax()) {
+	$install->preProcess($request);
+}
 $install->process($request);
-$install->postProcess($request);
+if (!$request->isAjax()) {
+	$install->postProcess($request);
+}

@@ -87,7 +87,7 @@ class RecordNumber extends \App\Base
 		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
 			return $this->get('cur_id');
 		}
-		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName)])->scalar() ?: 0;
+		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName)])->scalar() ?: 1;
 	}
 
 	/**
@@ -166,8 +166,8 @@ class RecordNumber extends \App\Base
 			$recordValue = $this->getRecord()->get($piclistName);
 		}
 		foreach ($values as $value) {
-			if ($recordValue == $value[$piclistName]) {
-				return $value['prefix'] ?: '';
+			if ($recordValue === $value[$piclistName]) {
+				return $value['prefix'] ?? '';
 			}
 		}
 		return '';

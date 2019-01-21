@@ -27,7 +27,12 @@ class Language
 	 * Language files format.
 	 */
 	const FORMAT = 'json';
-
+	/**
+	 * Language directory.
+	 *
+	 * @var string
+	 */
+	public static $languageDirectory = 'languages';
 	/**
 	 * Current language.
 	 *
@@ -297,7 +302,7 @@ class Language
 				static::$languageContainer[$language][$moduleName] = Cache::get('LanguageFiles', $language . $moduleName);
 			} else {
 				static::$languageContainer[$language][$moduleName] = [];
-				$file = DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.' . static::FORMAT;
+				$file = DIRECTORY_SEPARATOR . static::$languageDirectory . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.' . static::FORMAT;
 				$langFile = ROOT_DIRECTORY . $file;
 				if (file_exists($langFile)) {
 					static::$languageContainer[$language][$moduleName] = Json::decode(file_get_contents($langFile), true) ?? [];

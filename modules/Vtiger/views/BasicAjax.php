@@ -122,26 +122,8 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				$matchingRecords[$moduleName][$recordId] = $recordModel;
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
-		} elseif ('Users' === $searchModule = $request->getRaw('searchModule')) {
-			$searchKey = $request->getByType('value', 'Text');
-			$queryGenerator = new \App\QueryGenerator($searchModule);
-			$queryGenerator->setFields(['id']);
-			$queryGenerator->addNativeCondition(['or',
-				['like', 'user_name', "%$searchKey%", false],
-				['like', 'last_name', "%$searchKey%", false],
-				['like', 'first_name', "%$searchKey%", false],
-			]);
-			$query = $queryGenerator->createQuery();
-			$rows = $query->limit(100)->all();
-			foreach ($rows as &$row) {
-				$recordId = current($row);
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Users');
-				$recordModel->set('permitted', true);
-				$matchingRecords[$searchModule][$recordId] = $recordModel;
-			}
-			$viewer->assign('SEARCH_MODULE', $searchModule);
 		} else {
-			$searchKey = $request->get('value');
+			$searchKey = $request->getByType('value', 'Text');
 			$limit = false;
 			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
 				$limit = $request->getInteger('limit');

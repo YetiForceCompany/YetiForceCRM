@@ -12,11 +12,12 @@
 {strip}
 	<!-- tpl-install-tpl-InstallPreProcess -->
 	{include file='Header.tpl'}
-	<div class="w-100 bg-light">
+	<div class="w-100 bg-light o-install__header__wrapper">
 		<div class="container px-2 px-sm-3">
 			<header class="d-flex flex-nowrap align-items-center">
 				<div class="logo">
-					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE')} YetiForce">
+					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}"
+						 alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE', 'Install')} YetiForce">
 				</div>
 				<div class="pl-1 pl-sm-3">
 					<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
@@ -52,7 +53,8 @@
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
-							<a rel="noreferrer" target="_blank" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+							<a rel="noreferrer" target="_blank"
+							   href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
 								<span class="fab fa-facebook-square"></span>
 								<span class="sr-only">Facebook</span>
 							</a>
@@ -64,7 +66,8 @@
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
-							<a rel="noreferrer" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
+							<a rel="noreferrer" target="_blank"
+							   href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
 								<span class="fas fa-bug"></span>
 								<span class="sr-only">Issues</span>
 							</a>

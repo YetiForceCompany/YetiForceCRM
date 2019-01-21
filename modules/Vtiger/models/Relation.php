@@ -569,7 +569,11 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function privilegeToDelete()
 	{
-		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
+		$returnVal = $this->getRelationModuleModel()->isPermitted('RemoveRelation');
+		if ($returnVal && $this->getRelationType() === static::RELATION_O2M && ($fieldModel = $this->getRelationField())) {
+			$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly();
+		}
+		return $returnVal;
 	}
 
 	public function getListUrl($parentRecordModel)

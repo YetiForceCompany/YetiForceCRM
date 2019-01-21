@@ -135,12 +135,6 @@ class RequestUtil
 		if (isset(static::$connectionCache)) {
 			return static::$connectionCache;
 		}
-		$status = false;
-		try {
-			$res = (new \GuzzleHttp\Client())->request('GET', 'google.com', \App\RequestHttp::getOptions() + ['timeout' => 1, 'connect_timeout' => 1]);
-			$status = $res->getStatusCode() === 200;
-		} catch (\Throwable $e) {
-		}
-		return static::$connectionCache = $status;
+		return static::$connectionCache = gethostbyname('www.google.com') !== 'www.google.com';
 	}
 }
