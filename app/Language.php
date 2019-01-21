@@ -44,28 +44,28 @@ class Language
 	 *
 	 * @var string|bool
 	 */
-	protected static $language = false;
+	private static $language = false;
 
 	/**
 	 * Temporary language.
 	 *
 	 * @var string|bool
 	 */
-	protected static $temporaryLanguage = false;
+	private static $temporaryLanguage = false;
 
 	/**
 	 * Short current language.
 	 *
 	 * @var string|bool
 	 */
-	protected static $shortLanguage = false;
+	private static $shortLanguage = false;
 
 	/**
 	 * Pluralize cache.
 	 *
 	 * @var array
 	 */
-	protected static $pluralizeCache = [];
+	private static $pluralizeCache = [];
 
 	/**
 	 * Contains module language translations.
