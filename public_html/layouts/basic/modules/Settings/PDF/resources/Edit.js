@@ -160,15 +160,15 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * Register wysiwyg editors
 	 * @param {jQuery} container
 	 */
-	registerEditors(container) {
+	registerEditors(container, fonts = ['DejaVu Sans']) {
 		container.find('.js-editor').each(function () {
 			const editor = $(this);
 			new App.Fields.Text.Editor(editor, {
 				entities_latin: false,
 				toolbar: 'PDF',
-				font_defaultLabel: 'Noto Sans',
+				font_defaultLabel: 'DejaVu Sans',
 				fontSize_defaultLabel: '10px',
-				font_names: 'Source Sans Pro;Noto Sans;',
+				font_names: fonts.join(';'),
 				height: editor.attr('id') === 'body_content' ? '800px' : '80px',
 				stylesSet: [{
 					name: 'Komorka 14',
@@ -254,6 +254,25 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		});
 	},
 	/**
+	 * Register wysiwyg editors with fonts
+	 * @param form
+	 */
+	registerEditorsWithFonts(form) {
+		$.ajax({
+			url: '/layouts/resources/fonts/fonts.json',
+			method: 'GET',
+			dataType: 'json'
+		}).done((response) => {
+			if (response.length === 0) {
+				return this.registerEditors(form);
+			}
+			this.registerEditors(form, response.map(font => font.family));
+		}).fail(() => {
+			this.registerEditors(form);
+			app.errorLog("Could not load fonts.");
+		});
+	},
+	/**
 	 * Register events
 	 */
 	registerEvents() {
@@ -262,6 +281,6 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
 		this.registerMetatagsClickEvent(form);
-		this.registerEditors(form);
+		this.registerEditorsWithFonts(form);
 	}
 });
