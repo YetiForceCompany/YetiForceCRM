@@ -68,7 +68,7 @@
 						<optgroup label="{$BLOCK_NAME}">
 							{foreach item=ITEM from=$FIELDS}
 								<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-										{if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+										{if ($TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)) || (!is_array($TASK_OBJECT->email) && $ITEM['var_value'] eq $TASK_OBJECT->email)}selected=""{/if}>
 									{$ITEM['label']}
 								</option>
 							{/foreach}
@@ -79,7 +79,7 @@
 							<optgroup label="{$BLOCK_NAME}">
 								{foreach item=ITEM from=$RELATED_FIELDS}
 									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-											{if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+											{if ($TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)) || (!is_array($TASK_OBJECT->email) && $ITEM['var_value'] eq $TASK_OBJECT->email)}selected=""{/if}>
 										{$ITEM['label']}
 									</option>
 								{/foreach}
