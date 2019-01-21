@@ -27,7 +27,7 @@
 					data-conversion-symbol="{$CURRENCY.currency_symbol}"
 					data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}"
 					{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
-				{\App\Language::translate($CURRENCY.currency_name, $MODULE_NAME)} ({$CURRENCY.currency_symbol})
+				{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol})
 			</option>
 		{/foreach}
 	</select>

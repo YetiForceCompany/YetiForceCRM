@@ -64,6 +64,8 @@
 							{else}
 								&nbsp;{\App\Language::translate('LBL_INACTIVE',$QUALIFIED_MODULE)}
 							{/if}
+						{elseif $LISTVIEW_HEADERNAME eq 'currency_name'}
+							{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue('currency_code'), 'Other.Currency')}
 						{else}
 							&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 						{/if}
