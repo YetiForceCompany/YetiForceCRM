@@ -12151,6 +12151,18 @@ header .c-header__btn__container .select2-selection {
   width: 1.3em;
   margin-left: 2px; }
 
+.tribute-container {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: .25rem;
+  min-width: 10rem; }
+  .tribute-container ul {
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box; }
+  .tribute-container li.highlight,
+  .tribute-container li:hover {
+    background: #f8f9fa; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
 .table-bordered thead td {
@@ -16280,6 +16292,14 @@ ul.tweets li {
 .c-img__user {
   width: auto;
   height: 2.5rem; }
+.c-img__completion {
+  width: inherit; }
+  .c-img__completion[src=""] {
+    display: none; }
+  .c-img__completion__container {
+    width: 1.875rem;
+    height: fit-content;
+    margin: auto 0.3125rem auto 0; }
 
 .c-popover--link {
   max-width: 30%; }
@@ -16308,7 +16328,9 @@ ul.tweets li {
   justify-content: center;
   align-items: center;
   border-radius: 50%; }
-  .c-circle-icon [class^="userIcon-"] {
+  .c-circle-icon [class^="userIcon-"],
+  .c-circle-icon .adminIcon-user,
+  .c-circle-icon .adminIcon-user {
     font-size: 1.25rem; }
 
 .c-icon--tripple {
