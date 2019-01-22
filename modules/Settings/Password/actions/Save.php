@@ -68,7 +68,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		if (empty($instance->encrypt('test'))) {
 			$response->setResult(App\Language::translate('LBL_NO_REGISTER_ENCRYPTION', $request->getModule(false)));
 		} else {
-			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => App\Json::encode([$method, $password])]))->save();
+			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password]]))->save();
 			$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
 		}
 		$response->emit();
