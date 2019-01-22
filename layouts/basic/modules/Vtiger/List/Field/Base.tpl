@@ -10,18 +10,18 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=$SEARCH_INFO['searchValue']}
 	{else}
 		{assign var=SEARCH_VALUE value=''}
 	{/if}
-	<div class="tpl-List-Field-Base searchField">
+	<div class="tpl-List-Field-Base searchField {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if}">
 		{if !empty($MODULE_MODEL) && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->getName()}
 			<div class="input-group col-12 px-0">
-				<input type="text" name="{$FIELD_MODEL->getName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}" {/if}  class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
-				<div  class="input-group-append alphabetBtnContainer">
+				<input type="text" name="{$FIELD_MODEL->getName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}" {/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
+				<div class="input-group-append alphabetBtnContainer">
 					{if empty($ALPHABET_VALUE)}
 						<button class=" btn btn-outline-secondary alphabetBtn" type="button">
 							<span class="fas fa-font" aria-hidden="true"></span>
@@ -37,7 +37,7 @@
 			</div>
 		{else}
 			<input type="text" name="{$FIELD_MODEL->getName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
-				   {/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
+			{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 		{/if}
-    </div>
+	</div>
 {/strip}
