@@ -16294,6 +16294,8 @@ ul.tweets li {
   height: 2.5rem; }
 .c-img__completion {
   width: inherit; }
+  .c-img__completion[src=""] {
+    display: none; }
   .c-img__completion__container {
     width: 1.875rem;
     height: fit-content;

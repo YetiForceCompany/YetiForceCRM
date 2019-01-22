@@ -290,6 +290,10 @@
 	&__completion {
 		width: inherit;
 
+		&[src=""] {
+			display: none;
+		}
+
 		&__container {
 			width: calculate-rem(30px);
 			height: fit-content;
