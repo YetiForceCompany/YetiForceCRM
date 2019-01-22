@@ -50,13 +50,28 @@ class Vtiger_Search_Action extends \App\Controller\Action
 		$data = [];
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
-				$data[] = ['category' => 'Users', 'id' => $key, 'label' => $value, 'image' => \App\User::getImageById($key)['url'] ?? ''];
+				$imageUrl = \App\User::getImageById($key)['url'];
+				$data[] = [
+					'module' => 'Users',
+					'category' => \App\Language::translate('LBL_USER'),
+					'id' => $key,
+					'label' => $value,
+					'image' => $imageUrl ?? '',
+					'icon' => $imageUrl ? '' : 'adminIcon-user'
+				];
 			}
 		}
 		$group = $owner->getAccessibleGroups('private', 'owner', true);
 		if (!empty($group)) {
 			foreach ($group as $key => $value) {
-				$data[] = ['category' => 'Groups', 'id' => $key, 'label' => $value];
+				$data[] = [
+					'module' => 'Groups',
+					'category' => \App\Language::translate('LBL_GROUP'),
+					'id' => $key,
+					'label' => $value,
+					'image' => '',
+					'icon' => 'adminIcon-groups'
+				];
 			}
 		}
 		$response = new Vtiger_Response();
