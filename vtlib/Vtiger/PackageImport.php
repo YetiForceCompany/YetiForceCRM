@@ -1165,7 +1165,7 @@ class PackageImport extends PackageExport
 				$fontCss .= "    src: local({$font['family']}), url('{$font['file']}') format('truetype');\n";
 				$fontCss .= '}';
 				$css[] = $fontCss;
-				$fonts[$key]['file'] = $fontsDir . $font['file'];
+				$fonts[$key]['file'] = $fontsDir . DIRECTORY_SEPARATOR . $font['file'];
 			}
 		}
 		file_put_contents($fontsDir . '/fonts.css', implode("\n", $css));
