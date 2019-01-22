@@ -475,7 +475,7 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
   integrity sha512-2NM0auVBGft5tee/OxP4PI3d8WItkDM+fPnaRAVo6xTDI2knbz9eC5ArWGqtGlYqiH3RU5yMpdyTTO7MguC4ow==
 
-tributejs@^3.4.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.5.0.tgz#a0dd422eaa930816d7e9680ea06ad0dbd28a6cd8"
-  integrity sha512-O/eI56uxzgitCPI5PguhvQ/hAP67bVesk48sJMszv8r1VGEL7lbXPhTXMoKnoq7TGwFX59dLMFhGKjj0Ls41Tw==
+tributejs@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.5.1.tgz#3bbbe3842270b84f14d05dfa7006606a97a04a88"
+  integrity sha512-LTCNCYjlJgkE/n8QTr68jLaaXXZgwlLTnrQQf9Y02JHm4MhJ9GxgFGepedIsV1EurYcGRF8UcrihFkTSGF5RsA==
