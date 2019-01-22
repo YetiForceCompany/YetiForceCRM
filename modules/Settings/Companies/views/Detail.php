@@ -16,7 +16,7 @@ class Settings_Companies_Detail_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_Companies_Record_Model::getInstance($record);
 
