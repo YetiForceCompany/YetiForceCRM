@@ -25,7 +25,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$viewer->assign('RECORDID', $recordId);
 		if ($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
@@ -42,7 +42,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$weekDays = ['Sunday' => 0, 'Monday' => 1, 'Tuesday' => 2, 'Wednesday' => 3, 'Thursday' => 4, 'Friday' => 5, 'Saturday' => 6];
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		if ($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 			$viewer->assign('RECORDID', $recordId);
@@ -76,7 +76,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		if ($recordId) {
 			$workFlowModel = Settings_Workflows_Record_Model::getInstance($recordId);
@@ -131,7 +131,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		if ($recordId) {
 			$workFlowModel = Settings_Workflows_Record_Model::getInstance($recordId);

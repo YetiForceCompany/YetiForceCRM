@@ -57,7 +57,7 @@ class Users_PreferenceEdit_View extends Vtiger_Edit_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		} else {

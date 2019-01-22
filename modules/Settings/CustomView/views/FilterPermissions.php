@@ -15,11 +15,11 @@ class Settings_CustomView_FilterPermissions_View extends Settings_Vtiger_BasicMo
 		$sourceModuleId = $request->getInteger('sourceModule');
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('IS_DEFAULT', $request->get('isDefault'));
-		$viewer->assign('TYPE', $request->get('type'));
+		$viewer->assign('IS_DEFAULT', $request->getBoolean('isDefault'));
+		$viewer->assign('TYPE', $request->getByType('type', 'Standard'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
-		$viewer->assign('CVID', $request->get('cvid'));
+		$viewer->assign('CVID', $request->getInteger('cvid'));
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$this->preProcess($request);
 		$viewer->view('FilterPermissions.tpl', $moduleName);

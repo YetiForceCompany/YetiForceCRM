@@ -13,8 +13,8 @@ class Settings_Roles_Delete_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
-		$transferRecordId = $request->get('transfer_record');
+		$recordId = $request->getInteger('record');
+		$transferRecordId = $request->getInteger('transfer_record');
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);

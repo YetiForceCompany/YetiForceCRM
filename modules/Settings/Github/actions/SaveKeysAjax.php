@@ -16,7 +16,7 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$clientModel->setToken($request->getByType('token', 'Alnum'));
-		$clientModel->setUsername($request->get('username'));
+		$clientModel->setUsername($request->getByType('username', 'Alnum'));
 		if ($clientModel->checkToken()) {
 			$success = $clientModel->saveKeys() ? true : false;
 		} else {

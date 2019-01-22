@@ -19,7 +19,7 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		if (!empty($recordId)) {
 			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
 			$accountId = $recordModel->get('accounts_id');
