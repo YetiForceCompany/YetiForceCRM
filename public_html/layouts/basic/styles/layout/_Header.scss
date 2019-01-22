@@ -394,6 +394,11 @@
 //breadcrumbs
 .o-breadcrumb__container {
 	width: 100%;
+	display: flex;
+}
+
+.widget_header > div[class*="col-"]:first-child {
+	display: flex;
 }
 
 .widget_header {
