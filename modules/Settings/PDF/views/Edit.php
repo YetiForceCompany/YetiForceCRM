@@ -80,10 +80,16 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		]));
 	}
 
+	/**
+	 * @param \App\Request $request
+	 *
+	 * @return array|Vtiger_CssScript_Model[]
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([
 			'modules.Settings.' . $request->getModule() . '.Edit',
+			'~layouts/resources/fonts/fonts.css',
 		]), parent::getHeaderCss($request));
 	}
 }
