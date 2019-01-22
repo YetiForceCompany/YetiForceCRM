@@ -31,6 +31,7 @@ class API_CardDAV_Model
 		'Contacts' => ['phone' => 'WORK', 'mobile' => 'CELL'],
 		'OSSEmployees' => ['business_phone' => 'WORK', 'private_phone' => 'CELL'],
 	];
+	protected static $cache = [];
 
 	public function __construct()
 	{
@@ -69,7 +70,7 @@ class API_CardDAV_Model
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($record['crmid']);
-						$isPermitted = (int) $record['smownerid'] === $id || in_array($id, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
+						$isPermitted = (int) $record['smownerid'] === $id || in_array($record['smownerid'], $user->get('groups')) || in_array($id, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
 						break;
 					default:
 					case 'PLL_OWNER':
@@ -87,6 +88,7 @@ class API_CardDAV_Model
 						$this->updateCard($moduleName, $record, $card);
 						++$updates;
 					}
+					self::$cache[$record['crmid']] = true;
 				}
 				App\User::setCurrentUserId($orgUserId);
 			}
@@ -118,7 +120,10 @@ class API_CardDAV_Model
 				$this->createRecord('Contacts', $card);
 				++$create;
 			} else {
-				$userId = $this->user->getId();
+				if (isset(self::$cache[$card['crmid']])) {
+					continue;
+				}
+				$userId = (int) $this->user->getId();
 				switch ($this->user->get('sync_carddav')) {
 					case 'PLL_BASED_CREDENTIALS':
 						$isPermitted = \App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid']);
@@ -128,7 +133,7 @@ class API_CardDAV_Model
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($card['crmid']);
-						$isPermitted = (int) $card['smownerid'] === $userId || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
+						$isPermitted = (int) $card['smownerid'] === $userId || in_array($card['smownerid'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
 						break;
 					default:
 					case 'PLL_OWNER':
@@ -139,12 +144,10 @@ class API_CardDAV_Model
 					// Deleting
 					$this->deletedCard($card);
 					++$deletes;
-				} else {
-					if (strtotime($card['modifiedtime']) < $card['lastmodified']) {
-						// Updating
-						$this->updateRecord(Vtiger_Record_Model::getInstanceById($card['crmid'], $card['setype']), $card);
-						++$updates;
-					}
+				} elseif (strtotime($card['modifiedtime']) < $card['lastmodified']) {
+					// Updating
+					$this->updateRecord(Vtiger_Record_Model::getInstanceById($card['crmid'], $card['setype']), $card);
+					++$updates;
 				}
 			}
 		}
@@ -204,8 +207,7 @@ class API_CardDAV_Model
 			$etag,
 			$record['crmid'],
 		]);
-		$this->addChange($cardUri, 1);
-
+		\App\Integrations\Dav\Card::addChange($this->addressBookId, $cardUri, 1);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
@@ -261,14 +263,14 @@ class API_CardDAV_Model
 			$record['crmid'],
 			$card['id'],
 		]);
-		$this->addChange($card['uri'], 2);
+		\App\Integrations\Dav\Card::addChange($this->addressBookId, $card['uri'], 2);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function deletedCard($card)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID:' . $card['id']);
-		$this->addChange($card['crmid'] . '.vcf', 3);
+		\App\Integrations\Dav\Card::addChange($this->addressBookId, $card['crmid'] . '.vcf', 3);
 		$stmt = $this->pdo->prepare('DELETE FROM dav_cards WHERE id = ?;');
 		$stmt->execute([
 			$card['id'],
@@ -477,28 +479,6 @@ class API_CardDAV_Model
 		return '';
 	}
 
-	/**
-	 * Adds a change record to the addressbookchanges table.
-	 *
-	 * @param mixed  $addressBookId
-	 * @param string $objectUri
-	 * @param int    $operation     1 = add, 2 = modify, 3 = delete
-	 */
-	protected function addChange($objectUri, $operation)
-	{
-		$stmt = $this->pdo->prepare('INSERT INTO dav_addressbookchanges  (uri, synctoken, addressbookid, operation) SELECT ?, synctoken, ?, ? FROM dav_addressbooks WHERE id = ?');
-		$stmt->execute([
-			$objectUri,
-			$this->addressBookId,
-			$operation,
-			$this->addressBookId,
-		]);
-		$stmt = $this->pdo->prepare('UPDATE dav_addressbooks SET synctoken = synctoken + 1 WHERE id = ?');
-		$stmt->execute([
-			$this->addressBookId,
-		]);
-	}
-
 	protected function markComplete($moduleName, $crmid)
 	{
 		if ($moduleName == 'Contacts') {
@@ -525,7 +505,6 @@ class API_CardDAV_Model
 	public function setCardAddres(Sabre\VObject\Component $vcard, $moduleName, $record)
 	{
 		$adr1 = $adr2 = [];
-
 		if ($moduleName === 'Contacts') {
 			if (!empty($record['addresslevel5a'])) {
 				$street = $record['addresslevel8a'] . ' ' . $record['buildingnumbera'];
@@ -573,7 +552,6 @@ class API_CardDAV_Model
 				];
 			}
 		}
-
 		if (!empty($adr1)) {
 			$vcard->add('ADR', $adr1, ['type' => 'WORK']);
 		}
