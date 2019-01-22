@@ -1120,7 +1120,7 @@ class PackageImport extends PackageExport
 	public function importFont($zipfile)
 	{
 		$fontsDir = \ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
-		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt']]);
+		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt', 'woff']]);
 		$files = $zip->unzip(['fonts' => $fontsDir]);
 		$fonts = \App\Json::read($fontsDir . '/fonts.json');
 		$tempFonts = [];
@@ -1154,18 +1154,19 @@ class PackageImport extends PackageExport
 			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . \implode(',', $missing);
 		}
 		$css = [];
+		$publicDir = \App\Layout::getPublicUrl('', true);
 		foreach ($fonts as $key => $font) {
 			if (!\file_exists("$fontsDir/{$font['file']}")) {
 				unset($fonts[$key]);
 			} else {
+				$woff = pathinfo($font['file'], PATHINFO_FILENAME) . '.woff';
 				$fontCss = "@font-face {\n";
 				$fontCss .= "    font-family: '{$font['family']}';\n";
 				$fontCss .= "    font-style: {$font['style']};\n";
 				$fontCss .= "    font-weight: {$font['weight']};\n";
-				$fontCss .= "    src: local('{$font['family']}'), url('{$font['file']}') format('truetype');\n";
+				$fontCss .= '    src: url(' . $publicDir . "layouts/resources/fonts/{$woff}) format('woff');\n";
 				$fontCss .= '}';
 				$css[] = $fontCss;
-				$fonts[$key]['file'] = $fontsDir . DIRECTORY_SEPARATOR . $font['file'];
 			}
 		}
 		file_put_contents($fontsDir . '/fonts.css', implode("\n", $css));
