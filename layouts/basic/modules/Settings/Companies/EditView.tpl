@@ -4,12 +4,6 @@
 	<div class="row mb-2 widget_header">
 		<div class="col-12 d-flex">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			<a class="js-popover-tooltip my-auto ml-1 ml-lg-2" role="button" data-js="popover"
-			   data-content="{App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}"
-			   href="#" data-trigger="focus hover">
-				<span class="fas fa-info-circle"></span>
-				<span class="sr-only">{App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}</span>
-			</a>
 		</div>
 	</div>
 	<div class="editViewContainer container">
@@ -108,11 +102,11 @@
 								</div>
 							{elseif $COLUMN eq 'logo'}
 								<div class="form-group row">
-									<div class="col-lg-2">
+									<div class="col-lg-2 col-form-label text-left text-lg-right">
 										{$RECORD_MODEL->getDisplayValue($COLUMN)}
 									</div>
-									<div class="col-lg-offset-2 col-lg-10">
-										<div class="d-block">
+									<div class="col-lg-offset-2 col-lg-10 d-flex">
+										<div class="u-h-fit my-auto">
 											<input type="file" name="{$COLUMN}" id="{$COLUMN}"/>&nbsp;&nbsp;
 										</div>
 									</div>
