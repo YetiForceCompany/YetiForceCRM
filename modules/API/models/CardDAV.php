@@ -13,8 +13,14 @@ class API_CardDAV_Model
 	const PRODID = 'YetiForceCRM';
 
 	public $pdo = false;
+	/**
+	 * @var bool|Users_Record_Model
+	 */
 	public $user = false;
 	public $addressBookId = false;
+	/**
+	 * @var Users_Record_Model[]
+	 */
 	public $davUsers = [];
 	protected $crmRecords = [];
 	public $mailFields = [
@@ -50,11 +56,27 @@ class API_CardDAV_Model
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($record = $dataReader->read()) {
-			foreach ($this->davUsers as $user) {
+			foreach ($this->davUsers as $id => $user) {
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = App\User::getCurrentUserId();
-				App\User::setCurrentUserId($user->get('id'));
-				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
+				App\User::setCurrentUserId($id);
+				switch ($user->get('sync_carddav')) {
+					case 'PLL_BASED_CREDENTIALS':
+						$isPermitted = \App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid']);
+						break;
+					case 'PLL_OWNER_PERSON':
+						$isPermitted = (int) $record['smownerid'] === $id || in_array($id, \App\Fields\SharedOwner::getById($record['crmid']));
+						break;
+					case 'PLL_OWNER_PERSON_GROUP':
+						$shownerIds = \App\Fields\SharedOwner::getById($record['crmid']);
+						$isPermitted = (int) $record['smownerid'] === $id || in_array($id, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
+						break;
+					default:
+					case 'PLL_OWNER':
+						$isPermitted = (int) $record['smownerid'] === $id;
+						break;
+				}
+				if ($isPermitted) {
 					$card = $this->getCardDetail($record['crmid']);
 					if ($card === false) {
 						//Creating
@@ -95,18 +117,34 @@ class API_CardDAV_Model
 				//Creating
 				$this->createRecord('Contacts', $card);
 				++$create;
-			} elseif (!\App\Record::isExists($card['crmid']) || !\App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
-				// Deleting
-				$this->deletedCard($card);
-				++$deletes;
 			} else {
-				$crmLMT = strtotime($card['modifiedtime']);
-				$cardLMT = $card['lastmodified'];
-				if ($crmLMT < $cardLMT) {
-					// Updating
-					$recordModel = Vtiger_Record_Model::getInstanceById($card['crmid']);
-					$this->updateRecord($recordModel, $card);
-					++$updates;
+				$userId = $this->user->getId();
+				switch ($this->user->get('sync_carddav')) {
+					case 'PLL_BASED_CREDENTIALS':
+						$isPermitted = \App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid']);
+						break;
+					case 'PLL_OWNER_PERSON':
+						$isPermitted = (int) $card['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($card['crmid']));
+						break;
+					case 'PLL_OWNER_PERSON_GROUP':
+						$shownerIds = \App\Fields\SharedOwner::getById($card['crmid']);
+						$isPermitted = (int) $card['smownerid'] === $userId || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
+						break;
+					default:
+					case 'PLL_OWNER':
+						$isPermitted = (int) $card['smownerid'] === $userId;
+						break;
+				}
+				if (!\App\Record::isExists($card['crmid']) || !$isPermitted) {
+					// Deleting
+					$this->deletedCard($card);
+					++$deletes;
+				} else {
+					if (strtotime($card['modifiedtime']) < $card['lastmodified']) {
+						// Updating
+						$this->updateRecord(Vtiger_Record_Model::getInstanceById($card['crmid'], $card['setype']), $card);
+						++$updates;
+					}
 				}
 			}
 		}
@@ -341,7 +379,7 @@ class API_CardDAV_Model
 	{
 		if ($moduleName == 'Contacts') {
 			return (new App\Db\Query())->select([
-				'vtiger_crmentity.crmid', 'vtiger_contactdetails.parentid', 'vtiger_contactdetails.firstname',
+				'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_contactdetails.parentid', 'vtiger_contactdetails.firstname',
 				'vtiger_contactdetails.lastname', 'vtiger_contactdetails.phone', 'vtiger_contactdetails.mobile', 'vtiger_contactdetails.email',
 				'vtiger_contactdetails.secondary_email', 'vtiger_contactdetails.jobtitle',
 				'vtiger_crmentity.modifiedtime', 'vtiger_contactaddress.*',
@@ -351,7 +389,7 @@ class API_CardDAV_Model
 				->where(['vtiger_contactdetails.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
 		} elseif ($moduleName == 'OSSEmployees') {
 			return (new App\Db\Query())->select([
-				'vtiger_crmentity.crmid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
+				'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
 				'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
 				'vtiger_ossemployees.private_mail', 'vtiger_crmentity.modifiedtime', 'u_#__multicompany.company_name',
 			])->from('vtiger_ossemployees')
@@ -368,7 +406,7 @@ class API_CardDAV_Model
 
 	public function getDavCardsToSync()
 	{
-		return (new App\Db\Query())->select(['dav_cards.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype'])
+		return (new App\Db\Query())->select(['dav_cards.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype'])
 			->from('dav_cards')
 			->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_cards.crmid')
 			->where(['dav_cards.addressbookid' => $this->addressBookId]);
