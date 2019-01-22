@@ -206,4 +206,76 @@ class Validator
 	{
 		return stripos($dbType, 'mysql') === 0;
 	}
+
+	/**
+	 * Function checks if given value is url.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public static function url(string $url): bool
+	{
+		return filter_var($url, FILTER_VALIDATE_URL) !== false;
+	}
+
+	/**
+	 * Function checks if given value is domain.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function domain(string $input): bool
+	{
+		return filter_var($input, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
+	}
+
+	/**
+	 * Function checks if given value is database type.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function dbType(string $input): bool
+	{
+		return isset((new Db())->schemaMap[$input]);
+	}
+
+	/**
+	 * Function checks if given value is correct database name (mysql).
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function dbName(string $input): bool
+	{
+		return preg_match('/^[^\\/?%*:|\\\"<>.\s]{1,64}$/', $input);
+	}
+
+	/**
+	 * Function checks if given value is port number.
+	 *
+	 * @param int $input
+	 *
+	 * @return bool
+	 */
+	public static function port($input): bool
+	{
+		return preg_match('/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/', $input);
+	}
+
+	/**
+	 * Function checks if given value is valid SQl input.
+	 *
+	 * @param int|string $input
+	 *
+	 * @return bool
+	 */
+	public static function sql($input): bool
+	{
+		return preg_match('/^[_a-zA-Z0-9.,:]+$/', $input);
+	}
 }

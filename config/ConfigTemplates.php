@@ -82,6 +82,7 @@ return [
 		'site_URL' => [
 			'default' => '',
 			'description' => 'Backslash is required at the end of URL',
+			'validation' => '\App\Validator::url'
 		],
 		'cache_dir' => [
 			'default' => 'cache/',
@@ -94,13 +95,11 @@ return [
 		],
 //		'import_dir' => [
 //			'default' => 'cache/import/',
-//			'description' => 'Import_dir default value prepended by cache_dir = import/',
-//			'validation' => ''
+//			'description' => 'Import_dir default value prepended by cache_dir = import/'
 //		],
 //		'upload_dir' => [
 //			'default' => 'cache/upload/',
-//			'description' => '',
-//			'validation' => ''
+//			'description' => ''
 //		],
 		'upload_maxsize' => [
 			'default' => 52428800,
@@ -171,11 +170,21 @@ return [
 		'default_timezone' => [
 			'default' => '_TIMEZONE_',
 			'description' => 'Set the default timezone as per your preference',
+			'validation' => function () {
+				if (!class_exists('UserTimeZones')) {
+					Vtiger_Loader::includeOnce('~modules/Users/UserTimeZonesArray.php');
+				}
+				$arg = func_get_arg(0);
+				return in_array($arg, UserTimeZones::getTimeZones());
+			}
 		],
 		'title_max_length' => [
 			'default' => 60,
 			'description' => 'Maximum length of characters for title',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return 100 > $arg && 1 > $arg;
+			}
 		],
 		'href_max_length' => [
 			'default' => 35,
@@ -187,30 +196,18 @@ return [
 			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
 			'validation' => '\App\Validator::bool'
 		],
-//		'breadcrumbs_separator' => [
-//			'default' => '>',
-//			'description' => 'Separator for menu breadcrumbs default value = ">"',
-//			'validation' => ''
-//		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
-			'description' => 'Minimum cron frequency [min]',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'Minimum cron frequency [min]'
 		],
 		'session_regenerate_id' => [
 			'default' => true,
-			'description' => 'Update the current session id with a newly generated one after login',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Update the current session id with a newly generated one after login'
 		],
 		'davStorageDir' => [
 			'default' => 'storage/Files',
 			'description' => 'Update the current session id with a newly generated one after login',
 		],
-//		'davHistoryDir' => [
-//			'default' => 'storage/FilesHistory',
-//			'description' => '',
-//			'validation' => ''
-//		],
 		'systemMode' => [
 			'default' => 'prod',
 			'description' => 'System mode. Available: prod, demo, test',
@@ -606,11 +603,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-//		'MAX_MULTIIMAGE_VIEW' => [
-//			'default' => 5,
-//			'description' => 'Maximum MultiImage icon view in lists',
-//			'validation' => '\App\Validator::naturalNumber'
-//		],
 		'BROWSING_HISTORY_WORKING' => [
 			'default' => true,
 			'description' => 'Browsing history working if true',
@@ -935,29 +927,39 @@ return [
 	],
 	'db' => [
 		'db_server' => [
-			'default' => '_DBC_SERVER_',
+			'default' => '>URL<',
 			'description' => 'Gets the database server',
+			'validation' => '\App\Validator::domain',
+			'sanitization' => '\App\Purifier::purify'
 		],
 		'db_port' => [
 			'default' => '',
 			'description' => 'Gets the database port',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => '\App\Validator::port'
 		],
 		'db_username' => [
 			'default' => '_DBC_USER_',
 			'description' => 'Gets the database user name',
+			'validation' => '\App\Validator::sql',
+			'sanitization' => '\App\Purifier::purify'
 		],
 		'db_password' => [
 			'default' => '_DBC_PASS_',
 			'description' => 'Gets the database password',
+			'validation' => function () {
+				return true;
+			}
 		],
 		'db_name' => [
 			'default' => '_DBC_NAME_',
 			'description' => 'Gets the database name',
+			'validation' => '\App\Validator::dbName',
+			'sanitization' => '\App\Purifier::purify'
 		],
 		'db_type' => [
-			'default' => '_DBC_TYPE_',
+			'default' => 'mysql',
 			'description' => 'Gets the database type',
+			'validation' => '\App\Validator::dbType'
 		],
 		'db_hostname' => [
 			'type' => 'function',
@@ -976,7 +978,7 @@ return [
 	'tablePrefix' => 'yf_',
 	'charset' => 'utf8',
 ];",
-			'description' => 'Gets host name'
+			'description' => 'Basic database configuration'
 		],
 	]
 ];

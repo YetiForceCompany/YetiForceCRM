@@ -88,29 +88,6 @@
 									<td><input id="db-name" type="text" class="form-control" value="{$DB_NAME}"
 											   name="db_name"></td>
 								</tr>
-								<tr>
-									<td colspan="2">
-										<input id="create-db" type="checkbox" name="create_db">
-										<div class="chkbox"></div>
-										<label for="create-db">{\App\Language::translate('LBL_CREATE_NEW_DB','Install')}</label>
-									</td>
-								</tr>
-								<tr class="d-none" id="root_user">
-									<td>
-										<label for="db-root-username">{\App\Language::translate('LBL_ROOT_USERNAME', 'Install')}
-											<span class="no">*</span></label>
-									</td>
-									<td><input id="db-root-username" type="text" class="form-control" value=""
-											   name="db_root_username"></td>
-								</tr>
-								<tr class="d-none" id="root_password">
-									<td>
-										<label for="db-root-password">{\App\Language::translate('LBL_ROOT_PASSWORD', 'Install')}</label>
-									</td>
-									<td><input id="db-root-password" type="password" class="form-control" value=""
-											   name="db_root_password"></td>
-								</tr>
-								<!--tr><td colspan="2"><input type="checkbox" checked name="populate"><div class="chkbox"></div><label for="checkbox-1"> Populate database with demo data</label></td></tr-->
 								</tbody>
 							</table>
 						</div>
@@ -235,7 +212,7 @@
 												<span class="no">*</span></label>
 										</td>
 										<td>
-											<select class="select2 form-control" id="time-zone" name="timezone">
+											<select class="select2 form-control" id="time-zone" name="default_timezone">
 												{foreach item=TIMEZONE from=$TIMEZONES}
 													<option value="{$TIMEZONE}"
 															{if $TIMEZONE eq 'Europe/London'}selected{/if}>{\App\Language::translate($TIMEZONE, 'Users')}</option>

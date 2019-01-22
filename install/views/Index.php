@@ -123,6 +123,7 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step1(\App\Request $request)
 	{
+		\App\Session::destroy();
 		$isMigrate = false;
 		if (is_dir(ROOT_DIRECTORY . '/install/migrate_schema/')) {
 			$filesInDir = scandir(ROOT_DIRECTORY . '/install/migrate_schema/');
@@ -170,54 +171,90 @@ class Install_Index_View extends \App\Controller\View
 	public function step4(\App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
-		$requestData = $request->getAll();
-		foreach ($requestData as $name => $value) {
-			$_SESSION['config_file_info'][$name] = $value;
+		$error = false;
+		$configFile = new \App\ConfigFile('db');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if ($request->has($name)) {
+				try {
+					$configFile->set($name, $request->getRaw($name));
+					$_SESSION['config_file_info'][$name] = $configFile->get($name);
+				} catch (\Throwable $e) {
+					$_SESSION['config_file_info'][$name] = '';
+					$error = true;
+				}
+			}
 		}
-		$_SESSION['default_language'] = $request->getByType('lang', 1);
-		$_SESSION['timezone'] = $request->get('timezone');
-		$authKey = $_SESSION['config_file_info']['authentication_key'] = sha1(microtime());
-
-		//PHP 5.5+ mysqli is favourable.
-		$dbConnection = Install_Utils_Model::checkDbConnection($request);
-
+		$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
+		if (!$dbConnection['flag']) {
+			$error = true;
+		}
+		$configFile = new \App\ConfigFile('main');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if ($request->has($name)) {
+				try {
+					$configFile->set($name, $request->get($name));
+					$_SESSION['config_file_info'][$name] = $configFile->get($name);
+				} catch (\Throwable $e) {
+					$_SESSION['config_file_info'][$name] = '';
+					$error = true;
+				}
+			}
+		}
 		$webRoot = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 		$webRoot .= $_SERVER['REQUEST_URI'];
-
 		$webRoot = str_replace('index.php', '', $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $webRoot;
 		$tabUrl = explode('/', $webRoot);
 		unset($tabUrl[count($tabUrl) - 1], $tabUrl[count($tabUrl) - 1]);
-
 		$webRoot = implode('/', $tabUrl) . '/';
-		$_SESSION['config_file_info']['site_URL'] = $webRoot;
-		$this->viewer->assign('SITE_URL', $webRoot);
-
-		$currencies = Install_Utils_Model::getCurrencyList();
-		$currencyName = $request->get('currency_name');
-		if (isset($currencyName)) {
-			$_SESSION['config_file_info']['currency_code'] = $currencies[$currencyName][0];
-			$_SESSION['config_file_info']['currency_symbol'] = $currencies[$currencyName][1];
+		$name = 'site_URL';
+		try {
+			$configFile->set($name, $webRoot);
+			$_SESSION['config_file_info'][$name] = $configFile->get($name);
+		} catch (\Throwable $e) {
+			$_SESSION['config_file_info'][$name] = '';
+			$error = true;
 		}
+		foreach (['user_name', 'password', 'retype_password', 'firstname', 'lastname', 'admin_email', 'dateformat', 'currency_name'] as $name) {
+			if ($request->has($name)) {
+				switch ($name) {
+					case 'currency_name':
+						$currencies = Install_Utils_Model::getCurrencyList();
+						if (($value = $request->get('currency_name')) && isset($currencies[$value])) {
+							$_SESSION['config_file_info']['currency_code'] = $currencies[$value][0];
+							$_SESSION['config_file_info']['currency_symbol'] = $currencies[$value][1];
+						} else {
+							$value = '';
+						}
+					case 'password':
+					case 'retype_password':
+						$value = $request->getRaw($name);
+						break;
+					default:
+						$value = $request->get($name);
+						break;
+				}
+				$_SESSION['config_file_info'][$name] = $value;
+			}
+		}
+		$this->viewer->assign('BREAK_INSTALL', $error);
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
-		$this->viewer->assign('INFORMATION', $requestData);
-		$this->viewer->assign('AUTH_KEY', $authKey);
+		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
+		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
 		$this->viewer->display('Step4.tpl');
 	}
 
 	public function step5(\App\Request $request)
 	{
-		if (isset($_SESSION['config_file_info']['db_server'])) {
-			\App\Db::setConfig([
-				'dsn' => $_SESSION['config_file_info']['db_type'] . ':host=' . $_SESSION['config_file_info']['db_server'] . ';dbname=' . $_SESSION['config_file_info']['db_name'] . ';port=' . $_SESSION['config_file_info']['db_port'],
-				'host' => $_SESSION['config_file_info']['db_server'],
-				'port' => $_SESSION['config_file_info']['db_port'],
-				'username' => $_SESSION['config_file_info']['db_username'],
-				'password' => $_SESSION['config_file_info']['db_password'],
-				'dbName' => $_SESSION['config_file_info']['db_name'],
-				'tablePrefix' => 'yf_',
-				'charset' => 'utf8',
-			]);
+		if ($_SESSION['config_file_info']['db_server'] ?? false) {
+			\vtlib\Functions::recurseDelete('config/Db.php');
+			$configFile = new \App\ConfigFile('db');
+			foreach ($configFile->getTemplate() as $name => $data) {
+				if (isset($_SESSION['config_file_info'][$name])) {
+					$configFile->set($name, $_SESSION['config_file_info'][$name]);
+				}
+			}
+			$configFile->create();
 		}
 		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
 		$this->viewer->display('Step5.tpl');
@@ -239,14 +276,6 @@ class Install_Index_View extends \App\Controller\View
 			}
 		}
 		$configFile->set('application_unique_key', '');
-		$configFile->create();
-
-		$configFile = new \App\ConfigFile('db');
-		foreach ($configFile->getTemplate() as $name => $data) {
-			if (isset($_SESSION['config_file_info'][$name])) {
-				$configFile->set($name, $_SESSION['config_file_info'][$name]);
-			}
-		}
 		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->display('Step6.tpl');

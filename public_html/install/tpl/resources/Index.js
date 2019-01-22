@@ -9,8 +9,8 @@
  ************************************************************************************/
 
 jQuery.Class('Install_Index_Js', {
-	fieldsCached: ['db_hostname', 'db_username', 'db_name', 'create_db',
-		'db_root_username', 'currency_name', 'firstname', 'lastname', 'admin_email',
+	fieldsCached: ['db_hostname', 'db_username', 'db_name',
+		'currency_name', 'firstname', 'lastname', 'admin_email',
 		'dateformat', 'timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
@@ -104,17 +104,6 @@ jQuery.Class('Install_Index_Js', {
 			}
 		});
 		var thisInstance = this;
-		jQuery('input[name="create_db"]').on('click', function () {
-			var userName = jQuery('#root_user');
-			var password = jQuery('#root_password');
-			if (jQuery(this).is(':checked')) {
-				userName.removeClass('d-none');
-				password.removeClass('d-none');
-			} else {
-				userName.addClass('d-none');
-				password.addClass('d-none');
-			}
-		});
 
 		function clearPasswordError() {
 			jQuery('#passwordError').html('');
@@ -156,17 +145,6 @@ jQuery.Class('Install_Index_Js', {
 					break;
 				} else {
 					field.removeClass('error');
-				}
-			}
-
-			var createDatabase = jQuery('input[name="create_db"]:checked');
-			if (createDatabase.length > 0) {
-				var dbRootUser = jQuery('input[name="db_root_username"]');
-				if (dbRootUser.val() == '') {
-					dbRootUser.addClass('error').focus();
-					error = true;
-				} else {
-					dbRootUser.removeClass('error');
 				}
 			}
 			var password = jQuery('#passwordError');
@@ -223,8 +201,6 @@ jQuery.Class('Install_Index_Js', {
 					db_hostname: document.step4.db_hostname.value,
 					db_username: document.step4.db_username.value,
 					db_name: document.step4.db_name.value,
-					create_db: jQuery('[name="create_db"]').prop('checked'),
-					db_root_username: document.step4.db_root_username.value,
 					currency_name: document.step4.currency_name.value,
 					firstname: document.step4.firstname.value,
 					lastname: document.step4.lastname.value,
@@ -274,10 +250,6 @@ jQuery.Class('Install_Index_Js', {
 	},
 	registerEvents: function () {
 		jQuery('input[name="back"]').on('click', function () {
-			var createDatabase = jQuery('input[name="create_db"]:checked');
-			if (createDatabase.length > 0) {
-				jQuery('input[name="create_db"]').removeAttr('checked');
-			}
 			window.history.back();
 		});
 		jQuery('form').validationEngine(app.validationEngineOptions);
