@@ -34,6 +34,12 @@ class Language
 	 */
 	public static $languageDirectory = 'languages';
 	/**
+	 * Custom language directory.
+	 *
+	 * @var string
+	 */
+	public static $customDirectory = 'custom';
+	/**
 	 * Current language.
 	 *
 	 * @var string|bool
@@ -307,7 +313,7 @@ class Language
 				if (file_exists($langFile)) {
 					static::$languageContainer[$language][$moduleName] = Json::decode(file_get_contents($langFile), true) ?? [];
 				}
-				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . $file;
+				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . static::$customDirectory . $file;
 				if (file_exists($langCustomFile)) {
 					$translation = Json::decode(file_get_contents($langCustomFile), true) ?? [];
 					foreach ($translation as $type => $rows) {
