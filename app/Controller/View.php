@@ -547,6 +547,7 @@ abstract class View extends Base
 		$userModel = \App\User::getCurrentUserModel();
 		foreach ([
 					 'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
+					 'siteUrl' => \App\Layout::getPublicUrl('', true),
 					 'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
 					 'langPrefix' => \App\Language::getLanguage(),
 					 'langKey' => \App\Language::getShortLanguageName(),
