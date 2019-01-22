@@ -1160,8 +1160,8 @@ class PackageImport extends PackageExport
 			} else {
 				$fontCss = "@font-face {\n";
 				$fontCss .= "    font-family: '{$font['family']}';\n";
-				$fontCss .= "    font-style: '{$font['style']}';\n";
-				$fontCss .= "    font-weight: '{$font['weight']}';\n";
+				$fontCss .= "    font-style: {$font['style']};\n";
+				$fontCss .= "    font-weight: {$font['weight']};\n";
 				$fontCss .= "    src: local({$font['family']}) url('{$font['file']}') format('truetype');\n";
 				$fontCss .= '}';
 				$css[] = $fontCss;
