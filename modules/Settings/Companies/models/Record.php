@@ -115,7 +115,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'logo':
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath());
-				$value = "<img src='$src' class='img-thumbnail'/>";
+				$value = $src ? "<img src='$src' class='img-thumbnail sad'/>" : App\Language::translate('LBL_COMPANY_LOGO', 'Settings::Companies');
 				break;
 			default:
 				break;
