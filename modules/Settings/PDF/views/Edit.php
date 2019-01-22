@@ -81,9 +81,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * @param \App\Request $request
-	 *
-	 * @return array|Vtiger_CssScript_Model[]
+	 * {@inheritdoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
