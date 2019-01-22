@@ -12,6 +12,10 @@
 	bottom: $h-footer-user-info;
 }
 
+.limited-footer--active .mainBody {
+	bottom: $h-footer-limited;
+}
+
 .user-info--active.limited-footer--active .mainBody {
 	bottom: $h-footer;
 }
