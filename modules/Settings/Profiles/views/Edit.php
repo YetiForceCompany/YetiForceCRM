@@ -14,8 +14,8 @@ class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if ($request->get('record')) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+		if ($request->has('record')) {
+			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->getInteger('record'));
 			$title = $recordModel->getName();
 		} else {
 			$title = \App\Language::translate('LBL_VIEW_EDIT', $moduleName);

@@ -20,7 +20,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$viewer->assign('RECORDID', $recordId);
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
@@ -36,7 +36,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
