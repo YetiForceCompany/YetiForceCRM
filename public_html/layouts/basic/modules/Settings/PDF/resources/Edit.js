@@ -266,7 +266,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 			if (response.length === 0) {
 				return this.registerEditors(form);
 			}
-			this.registerEditors(form, response.map(font => font.family));
+			this.registerEditors(form, response.map(font => font.family).filter((val, index, self) => self.indexOf(val) === index));
 		}).fail(() => {
 			this.registerEditors(form);
 			app.errorLog("Could not load fonts.");
