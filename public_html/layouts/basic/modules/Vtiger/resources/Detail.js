@@ -2082,25 +2082,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 				url = recentCommentsTab.data('url'),
 				regex = /&hierarchy=+([\w,]+)/;
 			url = url.replace(regex, "");
-			let hierarchy = app.getUrlVar('hierarchy');
-			if (hierarchy) {
-				hierarchy = hierarchy.split(',');
-			} else {
-				hierarchy = [];
-			}
-			let value = $(this).find('.js-detail-hierarchy-comments').val();
+			let hierarchy = [];
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				let key = $.inArray(value, hierarchy);
-				if (key !== -1) {
-					hierarchy.splice(key, 1);
-				}
 			} else {
 				$(this).addClass('active');
-				if ($.inArray(value, hierarchy) === -1) {
-					hierarchy.push(value);
-				}
 			}
+			detailContentsHolder.find('.js-detail-hierarchy-comments-btn.active').each(function(){
+				hierarchy.push($(this).find('.js-detail-hierarchy-comments').val());
+			});
 			if (hierarchy.length !== 0) {
 				url += '&hierarchy=' + hierarchy.join(',');
 			}
@@ -2184,6 +2174,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				mode: 'showRecentComments',
 				hierarchy: hierarchy.join(','),
 				record: app.getRecordId(),
+				limit: widgetContainer.find('.widgetContentBlock').data('limit'),
 			}).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				let widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
