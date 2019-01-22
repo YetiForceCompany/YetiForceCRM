@@ -259,7 +259,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 */
 	registerEditorsWithFonts(form) {
 		$.ajax({
-			url: '/layouts/resources/fonts/fonts.json',
+			url: CONFIG.siteUrl + 'layouts/resources/fonts/fonts.json',
 			method: 'GET',
 			dataType: 'json'
 		}).done((response) => {
