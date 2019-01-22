@@ -163,7 +163,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module', 2);
-		$relatedRecordIdList = $request->get('related_record_list');
+		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
@@ -414,7 +414,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$label = $request->get('tab_label');
+		$label = $request->getByType('tab_label', 'Text');
 		$totalCount = 0;
 		$pageCount = 0;
 		if ($relatedModuleName === 'ModComments') {
