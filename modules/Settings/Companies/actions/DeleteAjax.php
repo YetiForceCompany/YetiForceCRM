@@ -10,8 +10,10 @@
 class Settings_Companies_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
 	/**
-	 * Block record delete if less than two defined
+	 * Block record delete if less than two defined.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
@@ -20,7 +22,6 @@ class Settings_Companies_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 		if ((new \App\Db\Query())->from('s_#__companies')->count() < 2) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
-
 	}
 
 	/**

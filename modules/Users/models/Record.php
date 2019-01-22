@@ -407,7 +407,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
 			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
-			$users[$userModel->getId()] = $userModel;
+			$users[(int) $userModel->getId()] = $userModel;
 		}
 		$dataReader->close();
 
