@@ -100,7 +100,8 @@
 					<tr>
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th class="col{$FIELD->getType()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getType()=='Name'}u-w-3per-250px{/if}">
+							<th {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->get('colSpan') neq 0 }style="width: {$FIELD->get('colSpan')}%" {/if}
+								class="col{$FIELD->getType()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getType()=='Name'}u-w-3per-250px{/if}">
 								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
 							</th>
 						{/foreach}
@@ -123,7 +124,9 @@
 				<tr>
 					<td colspan="1" class="hideTd">&nbsp;&nbsp;</td>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td colspan="1" class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right
+						<td colspan="1"
+							style="width: {$FIELD->get('colSpan')}%"
+							class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right
 								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
 							data-sumfield="{lcfirst($FIELD->getType())}">
 							{if $FIELD->isSummary()}
