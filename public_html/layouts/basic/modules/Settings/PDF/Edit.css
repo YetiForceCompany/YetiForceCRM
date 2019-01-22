@@ -3,35 +3,35 @@
 	font-family: 'DejaVu Sans';
 	font-style: normal;
 	font-weight: 100;
-	src: local('DejaVu Sans'), url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-ExtraLight.ttf') format('truetype');
+	src: url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-ExtraLight.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'DejaVu Sans';
 	font-style: normal;
 	font-weight: 400;
-	src: local('DejaVu Sans'), url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans.ttf') format('truetype');
+	src: url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'DejaVu Sans';
 	font-style: normal;
 	font-weight: 700;
-	src: local('DejaVu Sans'), url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-Bold.ttf') format('truetype');
+	src: url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-Bold.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'DejaVu Sans';
 	font-style: italic;
 	font-weight: 700;
-	src: local('DejaVu Sans'), url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-BoldOblique.ttf') format('truetype');
+	src: url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-BoldOblique.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'DejaVu Sans';
 	font-style: italic;
 	font-weight: 400;
-	src: local('DejaVu Sans'), url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-Oblique.ttf') format('truetype');
+	src: url('/vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-Oblique.woff') format('woff');
 }
 
 .leftRightPadding3p {
