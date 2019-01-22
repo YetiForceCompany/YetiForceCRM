@@ -25,10 +25,12 @@
 								name="{$ITEM}" {if $ITEM eq 'modules'} data-validation-engine="validate[required]" multiple {/if}>
 							{foreach from=$FIELD_INSTANCE->$functionName() item=ITEMS key=KEY}
 								{assign var='CONDITION' value=0}
-								{if $PARAMS[$ITEM]|is_array && in_array($ITEMS.id,$PARAMS[$ITEM])}
-									{assign var='CONDITION' value=1}
-								{elseif !($PARAMS[$ITEM]|is_array) && $ITEMS.id eq $PARAMS[$ITEM]}
-									{assign var='CONDITION' value=1}
+								{if isset($PARAMS[$ITEM])}
+									{if $PARAMS[$ITEM]|is_array && in_array($ITEMS.id,$PARAMS[$ITEM])}
+										{assign var='CONDITION' value=1}
+									{elseif !($PARAMS[$ITEM]|is_array) && $ITEMS.id eq $PARAMS[$ITEM]}
+										{assign var='CONDITION' value=1}
+									{/if}
 								{/if}
 								<option value="{$ITEMS['id']}" {if $CONDITION}selected{/if}>
 									{if isset($ITEMS['module'])}
