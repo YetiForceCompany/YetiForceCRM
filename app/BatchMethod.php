@@ -38,14 +38,20 @@ class BatchMethod extends Base
 	private $previousStatus;
 
 	/**
-	 * Constructor.
+	 * BatchMethod constructor.
 	 *
 	 * @param array $values
+	 * @param bool  $encode
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
-	public function __construct($values = [])
+	public function __construct($values = [], $encode = true)
 	{
 		$values['status'] = $values['status'] ?? static::STATUS_ENABLED;
-		$values['userid'] = $values['userid'] ?? \App\User::getCurrentUserId();
+		$values['userid'] = $values['userid'] ?? User::getCurrentUserId();
+		if ($encode) {
+			$values['params'] = Json::encode($values['params']);
+		}
 		parent::__construct($values);
 		$this->previousStatus = $values['status'];
 	}

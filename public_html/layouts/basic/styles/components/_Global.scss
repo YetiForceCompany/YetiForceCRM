@@ -286,6 +286,21 @@
 		width: auto;
 		height: calculate-rem(40px);
 	}
+
+	&__completion {
+		width: inherit;
+
+		&[src=""] {
+			display: none;
+		}
+
+		&__container {
+			width: calculate-rem(30px);
+			height: fit-content;
+			margin: auto calculate-rem(5px) auto 0;
+		}
+	}
+
 }
 
 .c-popover--link {
@@ -331,7 +346,9 @@
 	align-items: center;
 	border-radius: 50%;
 
-	[class^="userIcon-"] {
+	[class^="userIcon-"],
+	.adminIcon-user,
+	.adminIcon-user {
 		font-size: calculate-rem(20px);;
 	}
 }

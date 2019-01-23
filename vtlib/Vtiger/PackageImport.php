@@ -1153,11 +1153,22 @@ class PackageImport extends PackageExport
 		if ($missing) {
 			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . \implode(',', $missing);
 		}
+		$css = [];
 		foreach ($fonts as $key => $font) {
 			if (!\file_exists("$fontsDir/{$font['file']}")) {
 				unset($fonts[$key]);
+			} else {
+				$fontCss = "@font-face {\n";
+				$fontCss .= "    font-family: '{$font['family']}';\n";
+				$fontCss .= "    font-style: {$font['style']};\n";
+				$fontCss .= "    font-weight: {$font['weight']};\n";
+				$fontCss .= "    src: local('{$font['family']}'), url('{$font['file']}') format('truetype');\n";
+				$fontCss .= '}';
+				$css[] = $fontCss;
+				$fonts[$key]['file'] = $fontsDir . DIRECTORY_SEPARATOR . $font['file'];
 			}
 		}
+		file_put_contents($fontsDir . '/fonts.css', implode("\n", $css));
 		\App\Json::save($fontsDir . '/fonts.json', array_values($fonts));
 	}
 }

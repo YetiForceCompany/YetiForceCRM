@@ -177,7 +177,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->validate();
 			$this->saveToDb();
 			$this->afterSaveToDb();
-			(new App\BatchMethod(['method' => '\App\PrivilegeUtil::recalculateSharingRulesByUser', 'params' => App\Json::encode([$this->getId()])]))->save();
+			(new App\BatchMethod(['method' => '\App\PrivilegeUtil::recalculateSharingRulesByUser', 'params' => [$this->getId()]]))->save();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -331,13 +331,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function afterSaveToDb()
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		if ($this->getPreviousValue('user_password') !== false && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
-			\App\Db::getInstance()->createCommand()
-				->insert('l_#__userpass_history', [
-					'pass' => \App\Encryption::createHash($this->get('user_password')),
-					'user_id' => $this->getId(),
-					'date' => date('Y-m-d H:i:s'),
-				])->execute();
+			$dbCommand->insert('l_#__userpass_history', [
+				'pass' => \App\Encryption::createHash($this->get('user_password')),
+				'user_id' => $this->getId(),
+				'date' => date('Y-m-d H:i:s'),
+			])->execute();
 		}
 		if ($this->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $this->getId()) {
 			App\Session::set('language', $this->get('language'));
@@ -346,6 +346,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
+		}
+		if ($this->getPreviousValue('sync_caldav') || $this->isNew()) {
+			$dbCommand->update('vtiger_activity', ['dav_status' => 1])->execute();
+		}
+		if ($this->getPreviousValue('sync_carddav') || $this->isNew()) {
+			$dbCommand->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
+			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 	}
 
@@ -407,7 +414,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
 			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
-			$users[$userModel->getId()] = $userModel;
+			$users[(int) $userModel->getId()] = $userModel;
 		}
 		$dataReader->close();
 

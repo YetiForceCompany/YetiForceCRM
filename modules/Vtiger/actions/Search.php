@@ -15,6 +15,8 @@
  */
 class Vtiger_Search_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -48,13 +50,28 @@ class Vtiger_Search_Action extends \App\Controller\Action
 		$data = [];
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
-				$data[] = ['type' => 'Users', 'id' => $key, 'name' => $value, 'image' => \App\User::getImageById($key)['url'] ?? ''];
+				$imageUrl = \App\User::getImageById($key)['url'];
+				$data[] = [
+					'module' => 'Users',
+					'category' => \App\Language::translate('LBL_USER'),
+					'id' => $key,
+					'label' => $value,
+					'image' => $imageUrl ?? '',
+					'icon' => $imageUrl ? '' : 'adminIcon-user'
+				];
 			}
 		}
-		$grup = $owner->getAccessibleGroups('private', 'owner', true);
-		if (!empty($grup)) {
-			foreach ($grup as $key => $value) {
-				$data[] = ['type' => 'Groups', 'id' => $key, 'name' => $value];
+		$group = $owner->getAccessibleGroups('private', 'owner', true);
+		if (!empty($group)) {
+			foreach ($group as $key => $value) {
+				$data[] = [
+					'module' => 'Groups',
+					'category' => \App\Language::translate('LBL_GROUP'),
+					'id' => $key,
+					'label' => $value,
+					'image' => '',
+					'icon' => 'adminIcon-groups'
+				];
 			}
 		}
 		$response = new Vtiger_Response();

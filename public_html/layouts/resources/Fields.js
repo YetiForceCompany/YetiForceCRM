@@ -407,6 +407,7 @@ App.Fields = {
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
 				}
+				config = Object.assign(config, element.data());
 				if (config.emojiEnabled) {
 					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
 					if (typeof config.toolbar === 'string') {
@@ -436,8 +437,9 @@ App.Fields = {
 				return [{
 					feed: this.getMentionUsersData.bind(this),
 					itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="fas fa-2x fa-user"></span>
+											<div class="c-img__completion__container">
+												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
+												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
 											<div class="col row no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
@@ -471,7 +473,7 @@ App.Fields = {
 			 * @param {function} callback
 			 */
 			getMentionUsersData(opts, callback) {
-				App.Fields.Text.getMentionData(opts, callback, 'Users');
+				App.Fields.Text.getMentionData(opts, callback, 'owners');
 			}
 		},
 		/**
@@ -505,7 +507,7 @@ App.Fields = {
 					this.collection.push(this.registerMentionCollection('#'))
 				}
 				if (this.params.completionsCollection.users) {
-					this.collection.push(this.registerMentionCollection('@', 'Users'))
+					this.collection.push(this.registerMentionCollection('@', 'owners'))
 				}
 				if (this.params.completionsCollection.emojis) {
 					this.collection.push(this.registerEmojiCollection())
@@ -525,7 +527,7 @@ App.Fields = {
 					trigger: symbol,
 					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
-							return `<a href="#" data-id="${item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0]}</a>`;
+							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0].trim()}</a>`;
 						}
 						return symbol + item.original.label;
 					},
@@ -538,12 +540,14 @@ App.Fields = {
 						return self.mentionTemplate({
 							id: item.original.id,
 							module: item.original.module,
+							category: item.original.category,
+							image: item.original.image,
 							label: item.original.label,
-							category: item.original.category
+							icon: item.original.icon
 						});
 					},
 					lookup: 'label',
-					fillAttr: 'label'
+					fillAttr: 'label',
 				}
 			}
 
@@ -577,15 +581,26 @@ App.Fields = {
 			 * Mention template
 			 */
 			mentionTemplate(params) {
+				let icon = '';
+				if (params.module !== undefined) {
+					icon = `userIcon-${params.module}`;
+				}
+				if (params.icon !== undefined && params.icon !== '') {
+					icon = params.icon;
+				}
+				let avatar = `<div class="col c-circle-icon mr-1">
+								<span class="${icon}"></span>
+							</div>`;
+				if (params.image !== undefined && params.image !== '') {
+					avatar = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`
+				}
 				return `<div data-id="${params.id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-${params.module}"></span>
-											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
-												<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
-												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
-											</div>
-										</div>`
+							${avatar}
+							<div class="col row no-gutters u-overflow-x-hidden">
+								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
+								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
+							</div>
+						</div>`
 			}
 
 			/**
@@ -594,7 +609,11 @@ App.Fields = {
 			 */
 			register(inputDiv) {
 				const self = this;
-				this.completionsCollection = new Tribute({collection: self.collection});
+				this.completionsCollection = new Tribute({
+					collection: self.collection,
+					allowSpaces: true,
+					replaceTextSuffix: '',
+				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
 					this.registerCompletionsTextArea(inputDiv);
@@ -656,7 +675,7 @@ App.Fields = {
 					e.preventDefault();
 					e.stopPropagation();
 					if ($(e.currentTarget).data('char') !== undefined) {
-						inputDiv.append(` ${$(e.currentTarget).data('char')} `);
+						inputDiv.append(`${$(e.currentTarget).data('char')}`);
 					}
 				});
 				emojisContainer.on('mouseenter', '.emoji', (e) => {
@@ -665,7 +684,7 @@ App.Fields = {
 						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
 					}
 				});
-				inputDiv.on('focus', () => {
+				emojisContainer.on('clickoutside', () => {
 					emojisContainer.removeClass('active');
 				});
 			}
@@ -685,16 +704,26 @@ App.Fields = {
 			if (typeof text === 'object') {
 				text = text.query.toLowerCase();
 			}
-			basicSearch.search(text).done(function (data) {
-				data = JSON.parse(data);
-				let serverDataFormat = data.result,
-					reponseDataList = [];
-				for (let id in serverDataFormat) {
-					let responseData = serverDataFormat[id];
-					reponseDataList.push(responseData);
-				}
-				callback(reponseDataList);
-			});
+			if (searchModule === 'owners') {
+				AppConnector.request({
+					action: 'Search',
+					mode: 'owners',
+					value: text
+				}).done((data) => {
+					callback(data.result);
+				})
+			} else {
+				basicSearch.search(text).done(function (data) {
+					data = JSON.parse(data);
+					let serverDataFormat = data.result,
+						reponseDataList = [];
+					for (let id in serverDataFormat) {
+						let responseData = serverDataFormat[id];
+						reponseDataList.push(responseData);
+					}
+					callback(reponseDataList);
+				});
+			}
 		},
 
 		/**

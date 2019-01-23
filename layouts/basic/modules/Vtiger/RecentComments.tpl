@@ -50,23 +50,27 @@
 				</div>
 			</div>
 			<div class="col-3 col-lg-7 col-md-12 col-sm-6 p-0 text-md-center text-lg-right m-md-2 m-lg-0">
-				{if $LEVEL < 2}
-					<div class="btn-group btn-group-toggle hierarchyButtons float-right float-md-none"
+				{if $HIERARCHY !== false && $HIERARCHY < 2}
+					<div class="btn-group btn-group-toggle float-right float-md-none"
 						 data-toggle="buttons">
-						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
-							<input class="js-hierarchy-comments" type="radio" name="options"
-								   id="option1"
-								   value="current" autocomplete="off"
-								   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
-								   data-js="value"
-							> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+						<label class="js-hierarchy-comments-btn mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
+							   title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
+							<input type="checkbox"
+								   class="js-hierarchy-comments"
+								   data-js="val"
+								   value="current"
+									{if in_array('current', $HIERARCHY_VALUE)} checked="checked"{/if}
+								   autocomplete="off"/>
+							{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
 						</label>
-						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
-							<input class="js-hierarchy-comments" type="radio" name="options"
-								   id="option2" value="all"
-								   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
-								   autocomplete="off"
-								   data-js="value">
+						<label class="js-hierarchy-comments-btn mt-1 mt-sm-0 btn btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
+							   title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
+							<input type="checkbox"
+								   class="js-hierarchy-comments"
+								   data-js="val"
+								   value="related"
+									{if in_array('related', $HIERARCHY_VALUE)} checked="checked"{/if}
+								   autocomplete="off"/>
 							{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
 						</label>
 					</div>

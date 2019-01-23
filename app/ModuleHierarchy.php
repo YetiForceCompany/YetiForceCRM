@@ -290,6 +290,51 @@ class ModuleHierarchy
 
 		return $queryGenerator->createQuery()->column();
 	}
+
+	/**
+	 * Get related query by hierarchy.
+	 *
+	 * @param int   $record
+	 * @param array $hierarchy
+	 *
+	 * @return \App\Db\Query
+	 */
+	public static function getQueryRelatedRecords(int $record, array $hierarchy): \App\Db\Query
+	{
+		$moduleName = Record::getType($record);
+		$queries = [];
+		$modules = static::getChildModules($moduleName, $hierarchy);
+		if ($modules) {
+			$fields = Field::getRelatedFieldForModule(false, $moduleName);
+			foreach ($fields as $field) {
+				if (in_array($field['name'], $modules)) {
+					$queryGenerator = new QueryGenerator($field['name']);
+					$queryGenerator->setFields(['id']);
+					$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+					$tempQuery = $queryGenerator->createQuery();
+					$queries[] = $tempQuery;
+					$modulesNextLevels = static::getChildModules($field['name'], $hierarchy);
+					if ($modulesNextLevels) {
+						$subFields = Field::getRelatedFieldForModule(false, $field['name']);
+						foreach ($subFields as $subField) {
+							if (in_array($subField['name'], $modulesNextLevels)) {
+								$queryGenerator = new QueryGenerator($subField['name']);
+								$queryGenerator->setFields(['id']);
+								$queryGenerator->addNativeCondition([$subField['tablename'] . '.' . $subField['columnname'] => clone $tempQuery]);
+								$queries[] =  $queryGenerator->createQuery();
+							}
+						}
+					}
+				}
+			}
+		}
+		$subQuery = $queries[0];
+		unset($queries[0]);
+		foreach ($queries as $query) {
+			$subQuery->union($query);
+		}
+		return $subQuery;
+	}
 }
 
 ModuleHierarchy::init();
