@@ -268,7 +268,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$query = new \App\Db\Query();
 		$query->from('s_#__companies')
 			->where(['name' => $request->getByType('name', 'Text')]);
-		if ($request->has('record')) {
+		if (!$request->isEmpty('record')) {
 			$query->andWhere(['<>', 'id', $request->getInteger('record')]);
 		}
 		return $query->exists($db);

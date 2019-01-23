@@ -21,9 +21,8 @@ class Notification_Notification_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$id = $request->getInteger('id');
-		if ($id) {
-			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
+		if (!$request->isEmpty('id')) {
+			$notice = Notification_NoticeEntries_Model::getInstanceById($request->getInteger('id'));
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
