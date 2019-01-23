@@ -1173,31 +1173,34 @@ class PackageImport extends PackageExport
 			font-family: \'DejaVu Sans\';
 			font-style: normal;
 			font-weight: 100;
-			src: local(\'DejaVu Sans\'), url(\'' . $publicDir . 'vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-ExtraLight.woff\') format(\'woff\');
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-ExtraLight.woff\') format(\'woff\');
 		}
 		@font-face {
 			font-family: \'DejaVu Sans\';
 			font-style: normal;
 			font-weight: 400;
-			src: local(\'DejaVu Sans\'), url(\'' . $publicDir . 'vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans.woff\') format(\'woff\');
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans.woff\') format(\'woff\');
 		}
 		@font-face {
 			font-family: \'DejaVu Sans\';
 			font-style: normal;
 			font-weight: 700;
-			src: local(\'DejaVu Sans\'), url(\'' . $publicDir . 'vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-Bold.woff\') format(\'woff\');
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-Bold.woff\') format(\'woff\');
 		}
 		@font-face {
 			font-family: \'DejaVu Sans\';
 			font-style: italic;
 			font-weight: 700;
-			src: local(\'DejaVu Sans\'), url(\'' . $publicDir . 'vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-BoldOblique.woff\') format(\'woff\');
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-BoldOblique.woff\') format(\'woff\');
 		}
 		@font-face {
 			font-family: \'DejaVu Sans\';
 			font-style: italic;
 			font-weight: 400;
-			src: local(\'DejaVu Sans\'), url(\'' . $publicDir . 'vendor/yetiforce/yetiforcepdf/lib/Fonts/DejaVuSans-Oblique.woff\') format(\'woff\');
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-Oblique.woff\') format(\'woff\');
+		}
+		* {
+			font-family: \'DejaVu Sans\';
 		}';
 		file_put_contents($fontsDir . '/fonts.css', implode("\n", $css));
 		\App\Json::save($fontsDir . '/fonts.json', array_values($fonts));
