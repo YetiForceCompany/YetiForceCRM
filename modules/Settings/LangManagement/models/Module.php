@@ -227,18 +227,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function setAsDefault($prefix)
 	{
-		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $lang . ') method ...');
+		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $prefix . ') method ...');
 		$db = \App\Db::getInstance();
-		$fileName = 'config/config.inc.php';
-		$completeData = file_get_contents($fileName);
-		$updatedFields = 'default_language';
-		$patternString = '$%s = %s;';
-		$pattern = '/\$' . $updatedFields . '[\s]+=([^\n]+);/';
-		$replacement = sprintf($patternString, $updatedFields, App\Utils::varExport(ltrim($prefix, '0')));
-		$fileContent = preg_replace($pattern, $replacement, $completeData);
-		$filePointer = fopen($fileName, 'w');
-		fwrite($filePointer, $fileContent);
-		fclose($filePointer);
+
+		$configFile = new \App\ConfigFile('main');
+		$configFile->set('default_language', $prefix);
+		$configFile->create();
+
 		$dataReader = (new \App\Db\Query())->select(['prefix'])
 			->from('vtiger_language')
 			->where(['isdefault' => 1])

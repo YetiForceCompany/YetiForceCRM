@@ -82,8 +82,7 @@ class Install_Index_View extends \App\Controller\View
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
 
-		$configFileName = 'config/config.inc.php';
-		if ($request->getMode() !== 'step7' && is_file($configFileName) && filesize($configFileName) > 10) {
+		if ($request->getMode() !== 'step7' && \App\Config::main('application_unique_key', false)) {
 			$defaultModule = \AppConfig::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
@@ -123,7 +122,6 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step1(\App\Request $request)
 	{
-		\App\Session::destroy();
 		$isMigrate = false;
 		if (is_dir(ROOT_DIRECTORY . '/install/migrate_schema/')) {
 			$filesInDir = scandir(ROOT_DIRECTORY . '/install/migrate_schema/');
@@ -226,6 +224,7 @@ class Install_Index_View extends \App\Controller\View
 						} else {
 							$value = '';
 						}
+						break;
 					case 'password':
 					case 'retype_password':
 						$value = $request->getRaw($name);
@@ -284,7 +283,7 @@ class Install_Index_View extends \App\Controller\View
 	public function step7(\App\Request $request)
 	{
 		set_time_limit(0);
-		if ($key = \App\Config::main('application_unique_key', false)) {
+		if (\App\Config::main('application_unique_key', false)) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
 				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
@@ -295,7 +294,6 @@ class Install_Index_View extends \App\Controller\View
 
 			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-			$this->viewer->assign('APPUNIQUEKEY', $key);
 			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
 			$this->viewer->display('Step7.tpl');
 		}

@@ -67,7 +67,7 @@ return [
 			'description' => 'Use rte',
 		],
 		'PORTAL_URL' => [
-			'default' => 'https://portal.yetiforce.com',
+			'default' => '',
 			'description' => 'Url for customer portal (Example: https://portal.yetiforce.com/)',
 		],
 //		'HELPDESK_SUPPORT_NAME' => [
@@ -93,14 +93,6 @@ return [
 			'default' => 'return self::$cache_dir . "images/";',
 			'description' => 'Default value prepended by cache_dir = images/',
 		],
-//		'import_dir' => [
-//			'default' => 'cache/import/',
-//			'description' => 'Import_dir default value prepended by cache_dir = import/'
-//		],
-//		'upload_dir' => [
-//			'default' => 'cache/upload/',
-//			'description' => ''
-//		],
 		'upload_maxsize' => [
 			'default' => 52428800,
 			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)'
@@ -115,16 +107,12 @@ return [
 		],
 		'upload_badext' => [
 			'default' => ['php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm'],
-			'description' => 'Files with one of these extensions will have ".txt" appended to their filename on upload: efault value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm'
+			'description' => 'Files with one of these extensions will have ".txt" appended to their filename on upload.'
 		],
 		'list_max_entries_per_page' => [
 			'default' => 20,
 			'description' => 'List max entries per page: default value = 20',
 			'validation' => '\App\Validator::naturalNumber'
-		],
-		'history_max_viewed' => [
-			'default' => 5,
-			'description' => 'History max viewed: default value = 5 or "NumberRange5"',
 		],
 		'default_module' => [
 			'default' => 'Home',
@@ -136,10 +124,9 @@ return [
 		],
 		'default_charset' => [
 			'default' => 'UTF-8',
-			'description' => 'Default charset:  default value = "UTF-8" or "ISO-8859-1"',
+			'description' => 'Default charset:  default value = "UTF-8"',
 			'validation' => function () {
-				$arg = func_get_arg(0);
-				return $arg === 'UTF-8' || $arg === 'ISO-8859-1';
+				return func_get_arg(0) === 'UTF-8';
 			}
 		],
 		'default_language' => [
@@ -473,7 +460,7 @@ return [
 		],
 		'SQL_LOG_INCLUDE_CALLER' => [
 			'default' => false,
-			'description' => 'Should the caller information be captured in SQL Logging? It adds little overhead for performance but will be useful to debug. All data can be found in the table "l_yf_sqltime"',
+			'description' => "Should the caller information be captured in SQL Logging?\nIt adds little overhead for performance but will be useful to debug.\nAll data can be found in the table 'l_yf_sqltime'",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -581,7 +568,7 @@ return [
 		],
 		'LOAD_CUSTOM_FILES' => [
 			'default' => false,
-			'description' => ' Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php',
+			'description' => "Parameter that allows to disable file overwriting.\nAfter enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -664,7 +651,13 @@ return [
 		],
 		'LIMITED_INFO_IN_FOOTER' => [
 			'default' => false,
-			'description' => "Any modifications of this parameter require the vendor's consent.  Any unauthorised modification breaches the terms and conditions of YetiForce Public License.",
+			'description' => "Any modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'LIMITED_INFO_SUPPORT' => [
+			'default' => false,
+			'description' => "Any modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -673,9 +666,9 @@ return [
 			'description' => "Popover record's trigger delay in ms",
 			'validation' => '\App\Validator::naturalNumber'
 		],
-		'PICKLIST_DEPEDENCY_DEFAULT_EMPTY' => [
+		'PICKLIST_DEPENDENCY_DEFAULT_EMPTY' => [
 			'default' => true,
-			'description' => 'Empty value when is not selected item in picklist depedency',
+			'description' => 'Empty value when is not selected item in picklist dependency',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -875,7 +868,7 @@ return [
 		],
 		'HPKP_KEYS' => [
 			'default' => [],
-			'description' => 'HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed. https://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/',
+			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/",
 		],
 		'CSP_ACTIVE' => [
 			'default' => true,
