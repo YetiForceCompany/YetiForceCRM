@@ -14,11 +14,9 @@
  */
 class Calendar_ListView_Model extends Vtiger_ListView_Model
 {
-	/*
-	 * Function to give advance links of a module
-	 * 	@RETURN array of advanced links
+	/**
+	 * {@inheritdoc}
 	 */
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
@@ -33,14 +31,12 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-download',
 			];
 		}
-
-		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
-		if ($exportPermission) {
+		if ($moduleModel->isPermitted('Export')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Calendar_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'fas fa-upload',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkicon' => 'fas fa-upload'
 			];
 		}
 		return $advancedLinks;
