@@ -19,13 +19,12 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
-
-		$recordId = $request->getInteger('record');
-		$viewer->assign('RECORDID', $recordId);
+		$recordId = !$request->isEmpty('record') ? $request->getInteger('record') : '';
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 			$viewer->assign('MAPPEDFIELDS_MODULE_MODEL', $moduleInstance);
 		}
+		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('RECORD_MODE', $request->getMode());
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
@@ -35,9 +34,8 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->getInteger('record');
-		if ($recordId) {
+		if (!$request->isEmpty('record')) {
+			$recordId = $request->getInteger('record');
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODE', 'edit');
