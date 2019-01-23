@@ -161,7 +161,8 @@
 													<span>
 														{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
 															<strong class="moreContent">
-																<span class="teaserContent">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue()))}</span>
+																<span class="teaserContent">
+																	{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}</span>
 																{if $RELATION->has('fullValue')}
 																	<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
 																	<button type="button"

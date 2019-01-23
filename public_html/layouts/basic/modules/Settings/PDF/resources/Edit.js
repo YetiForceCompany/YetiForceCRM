@@ -159,16 +159,22 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	/**
 	 * Register wysiwyg editors
 	 * @param {jQuery} container
+	 * @param {array} fonts
 	 */
 	registerEditors(container, fonts = ['DejaVu Sans']) {
 		container.find('.js-editor').each(function () {
 			const editor = $(this);
+			if (typeof CONFIG.fonts !== 'undefined' && fonts.length === 1) {
+				fonts = CONFIG.fonts.map(font => font);
+				fonts.unshift('DejaVu Sans');
+			}
 			new App.Fields.Text.Editor(editor, {
 				entities_latin: false,
 				toolbar: 'PDF',
 				font_defaultLabel: 'DejaVu Sans',
 				fontSize_defaultLabel: '10px',
 				font_names: fonts.join(';'),
+				contentsCss: CONFIG.siteUrl + 'layouts/resources/fonts/fonts.css',
 				height: editor.attr('id') === 'body_content' ? '800px' : '80px',
 				stylesSet: [{
 					name: 'Komorka 14',
@@ -266,7 +272,9 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 			if (response.length === 0) {
 				return this.registerEditors(form);
 			}
-			this.registerEditors(form, response.map(font => font.family).filter((val, index, self) => self.indexOf(val) === index));
+			const fonts = response.map(font => font.family).filter((val, index, self) => self.indexOf(val) === index);
+			CONFIG.fonts = fonts;
+			this.registerEditors(form, fonts);
 		}).fail(() => {
 			this.registerEditors(form);
 			app.errorLog("Could not load fonts.");

@@ -16,7 +16,9 @@
 				<div class="col-9 px-4">
 					<div class="js-user-name u-font-size-13px">{$USER['user_name']}</div>
 					<div class="js-role u-font-size-10px font-weight-bold color-blue-600">{$USER['role_name']}</div>
-					<div class="js-message o-chat__user-message text-truncate">{$USER['message']}</div>
+					<div class="js-message o-chat__user-message text-truncate">
+						{\App\Utils\Completions::decode(\App\Purifier::decodeHtml($USER['message']))}
+					</div>
 				</div>
 			</div>
 		</li>
