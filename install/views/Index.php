@@ -128,6 +128,8 @@ class Install_Index_View extends \App\Controller\View
 			if (count($filesInDir) > 2) {
 				$isMigrate = true;
 			}
+		} else {
+			Install_Utils_Model::cleanConfiguration();
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
@@ -246,7 +248,6 @@ class Install_Index_View extends \App\Controller\View
 	public function step5(\App\Request $request)
 	{
 		if ($_SESSION['config_file_info']['db_server'] ?? false) {
-			\vtlib\Functions::recurseDelete('config/Db.php');
 			$configFile = new \App\ConfigFile('db');
 			foreach ($configFile->getTemplate() as $name => $data) {
 				if (isset($_SESSION['config_file_info'][$name])) {
@@ -285,6 +286,7 @@ class Install_Index_View extends \App\Controller\View
 		set_time_limit(0);
 		if (\App\Config::main('application_unique_key', false)) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
+				Install_Utils_Model::cleanConfiguration();
 				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 			// Initialize and set up tables
@@ -296,6 +298,8 @@ class Install_Index_View extends \App\Controller\View
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
 			$this->viewer->display('Step7.tpl');
+		} else {
+			Install_Utils_Model::cleanConfiguration();
 		}
 	}
 

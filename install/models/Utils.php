@@ -144,4 +144,16 @@ class Install_Utils_Model
 		}
 		return $langs;
 	}
+
+	/**
+	 * Clean data configuration.
+	 */
+	public static function cleanConfiguration()
+	{
+		\vtlib\Functions::recurseDelete('config/Db.php');
+		\vtlib\Functions::recurseDelete('config/Main.php');
+		if (isset($_SESSION['config_file_info'])) {
+			unset($_SESSION['config_file_info']);
+		}
+	}
 }

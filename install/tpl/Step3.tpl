@@ -47,30 +47,33 @@
 										<label for="db-type">{\App\Language::translate('LBL_DATABASE_TYPE', 'Install')}
 											<span class="no">*</span></label>
 									</td>
-									<td>{\App\Language::translate('MySQL', 'Install')}<input id="db-type" type="hidden"
-																							 value="mysql"
-																							 name="db_type"></td>
+									<td>{\App\Language::translate('MySQL', 'Install')}
+										<input id="db-type" type="hidden" value="mysql" name="db_type">
+									</td>
 								</tr>
 								<tr>
 									<td><label for="db-hostname">{\App\Language::translate('LBL_HOST_NAME', 'Install')}
 											<span
 													class="no">*</span></label></td>
-									<td><input id="db-hostname" type="text" class="form-control" value="{$DB_HOSTNAME}"
+									<td class="position-relative">
+										<input id="db-hostname" type="text"
+											   class="form-control validate[required]" value="{$DB_HOSTNAME}"
 											   name="db_server">
 									</td>
 								</tr>
 								<tr>
 									<td><label for="db-port">{\App\Language::translate('LBL_HOST_PORT', 'Install')}<span
 													class="no">*</span></label></td>
-									<td>
-										<input id="db-port" type="text" class="form-control" value="3306" name="db_port">
+									<td class="position-relative">
+										<input id="db-port" type="text" class="form-control validate[required]" value="3306" name="db_port">
 									</td>
 								</tr>
 								<tr>
 									<td><label for="db-username">{\App\Language::translate('LBL_USERNAME', 'Install')}
 											<span
 													class="no">*</span></label></td>
-									<td><input id="db-username" type="text" class="form-control" value="{$DB_USERNAME}"
+									<td class="position-relative">
+										<input id="db-username" type="text" class="form-control validate[required]" value="{$DB_USERNAME}"
 											   name="db_username">
 									</td>
 								</tr>
@@ -78,15 +81,18 @@
 									<td>
 										<label for="db-password">{\App\Language::translate('LBL_PASSWORD','Install')}</label>
 									</td>
-									<td>
+									<td class="position-relative">
 										<input id="db-password" type="password" class="form-control" value="{$DB_PASSWORD}"
-											   name="db_password"></td>
+											   name="db_password">
+									</td>
 								</tr>
 								<tr>
 									<td><label for="db-name">{\App\Language::translate('LBL_DB_NAME', 'Install')}<span
 													class="no">*</span></label></td>
-									<td><input id="db-name" type="text" class="form-control" value="{$DB_NAME}"
-											   name="db_name"></td>
+									<td class="position-relative">
+										<input id="db-name" type="text" class="form-control validate[required]" value="{$DB_NAME}"
+											   name="db_name">
+									</td>
 								</tr>
 								</tbody>
 							</table>
@@ -132,9 +138,10 @@
 										<td>
 											<label for="user-name">{\App\Language::translate('LBL_USERNAME', 'Install')}</label>
 										</td>
-										<td class="position-relative"><input id="user-name" type="text"
-																			 class="form-control validate[required,funcCall[Install_Index_Js.checkUsername]]"
-																			 value="{$ADMIN_NAME}" name="user_name">
+										<td class="position-relative">
+											<input id="user-name" type="text"
+												   class="form-control validate[required,funcCall[Install_Index_Js.checkUsername]]"
+												   value="{$ADMIN_NAME}" name="user_name">
 										</td>
 									</tr>
 									<tr>

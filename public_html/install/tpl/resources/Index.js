@@ -11,7 +11,7 @@
 jQuery.Class('Install_Index_Js', {
 	fieldsCached: ['db_hostname', 'db_username', 'db_name',
 		'currency_name', 'firstname', 'lastname', 'admin_email',
-		'dateformat', 'timezone'
+		'dateformat', 'default_timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
 		var logins = JSON.parse(jQuery('#not_allowed_logins').val());
@@ -63,7 +63,7 @@ jQuery.Class('Install_Index_Js', {
 		});
 	},
 	checkPwd: function (pass) {
-		var error = false;
+		let error = false;
 
 		if (pass.length < 8) {
 			jQuery('#passwordError').html(app.vtranslate('LBL_PASS_TO_SHORT'));
@@ -172,83 +172,27 @@ jQuery.Class('Install_Index_Js', {
 		}
 	},
 	checkForm() {
-		var thisInstance = this;
-		var error = false;
-		var validateFieldNames = ['db_hostname', 'db_username', 'db_name', 'password', 'retype_password', 'lastname', 'admin_email'];
-		for (var fieldName in validateFieldNames) {
-			var field = jQuery('input[name="' + validateFieldNames[fieldName] + '"]');
-			if (field.val() == '') {
-				field.addClass('error').focus();
-				error = true;
-				break;
-			} else {
-				field.removeClass('error');
-			}
-		}
-		var password = jQuery('#passwordError');
-		if (password.html().trim()) {
+		let error = false;
+		if (jQuery('#passwordError').html().trim()) {
 			error = true;
 		}
-		var emailField = jQuery('input[name="admin_email"]');
-		var invalidEmailAddress = false;
-		var regex = /^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;
-		if (!regex.test(emailField.val()) && emailField.val() != '') {
-			invalidEmailAddress = true;
-			emailField.addClass('error').focus();
-			error = true;
-		} else {
-			emailField.removeClass('error');
-		}
-		var checkPwdError = false;
-		checkPwdError = thisInstance.checkPwd(jQuery('input[name="password"]').val());
-		if (checkPwdError) {
+		if (this.checkPwd(jQuery('input[name="password"]').val())) {
 			error = true;
 		}
 		return error;
 	},
-	submitForm(error) {
-		if (error) {
-			var content;
-			if (invalidEmailAddress) {
-				content = '<div class="span12">' +
-					'<div class="alert alert-error">' +
-					'<button class="close" data-dismiss="alert" type="button">x</button>' +
-					jQuery('[name="invalidEmailError"]').val() +
-					'</div>' +
-					'</div>';
-			} else {
-				if (checkPwdError) {
-					content = '<div class="span12">' +
-						'<div class="alert alert-error">' +
-						'<button class="close" data-dismiss="alert" type="button">x</button>' +
-						jQuery('[name="insufficientlyStrongPassword"]').val() +
-						'</div>' +
-						'</div>';
-				} else {
-					content = '<div class="span12">' +
-						'<div class="alert alert-error">' +
-						'<button class="close" data-dismiss="alert" type="button">x</button>' +
-						app.vtranslate('LBL_MANDATORY_FIELDS_ERROR') +
-						'</div>' +
-						'</div>';
-				}
-			}
-			jQuery('#errorMessage').html(content).show();
-		} else {
-			var config = {
-				db_hostname: document.step4.db_hostname.value,
-				db_username: document.step4.db_username.value,
-				db_name: document.step4.db_name.value,
-				currency_name: document.step4.currency_name.value,
-				firstname: document.step4.firstname.value,
-				lastname: document.step4.lastname.value,
-				admin_email: document.step4.admin_email.value,
-				dateformat: document.step4.dateformat.value,
-				timezone: document.step4.timezone.value
-			};
-			window.localStorage.setItem('yetiforce_install', JSON.stringify(config));
-			jQuery('form[name="step4"]').submit();
-		}
+	submitForm() {
+		window.localStorage.setItem('yetiforce_install', JSON.stringify({
+			db_hostname: document.step4.db_hostname.value,
+			db_username: document.step4.db_username.value,
+			db_name: document.step4.db_name.value,
+			currency_name: document.step4.currency_name.value,
+			firstname: document.step4.firstname.value,
+			lastname: document.step4.lastname.value,
+			admin_email: document.step4.admin_email.value,
+			dateformat: document.step4.dateformat.value,
+			default_timezone: document.step4.default_timezone.value
+		}));
 	},
 	changeLanguage: function (e) {
 		jQuery('input[name="mode"]').val('step1');
