@@ -1154,7 +1154,6 @@ class PackageImport extends PackageExport
 			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . \implode(',', $missing);
 		}
 		$css = [];
-		$publicDir = \App\Layout::getPublicUrl('', true);
 		foreach ($fonts as $key => $font) {
 			if (!\file_exists("$fontsDir/{$font['file']}")) {
 				unset($fonts[$key]);
@@ -1164,7 +1163,7 @@ class PackageImport extends PackageExport
 				$fontCss .= "    font-family: '{$font['family']}';\n";
 				$fontCss .= "    font-style: {$font['style']};\n";
 				$fontCss .= "    font-weight: {$font['weight']};\n";
-				$fontCss .= "    src: local('{$font['family']}'), url(" . $publicDir . "layouts/resources/fonts/{$woff}) format('woff');\n";
+				$fontCss .= "    src: local('{$font['family']}'), url({$woff}) format('woff');\n";
 				$fontCss .= '}';
 				$css[] = $fontCss;
 			}
