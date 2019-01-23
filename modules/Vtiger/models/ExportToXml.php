@@ -22,8 +22,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	public function initializeFromRequest(\App\Request $request)
 	{
 		parent::initializeFromRequest($request);
-		if ($request->get('xmlExportType', \App\Purifier::TEXT)) {
-			$this->tplName = $request->get('xmlExportType');
+		if ($request->has('xmlExportType')) {
+			$this->tplName = $request->getByType('xmlExportType');
 		}
 	}
 
