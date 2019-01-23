@@ -45,7 +45,7 @@ class Purifier
 	/**
 	 * Purify type Alnum.
 	 */
-	public const ALNUM = 2;
+	public const ALNUM = 'Alnum';
 
 	/**
 	 * Default charset.

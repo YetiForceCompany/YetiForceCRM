@@ -81,7 +81,7 @@ class Vtiger_Export_Model extends \App\Base
 		if (empty($module)) {
 			$module = $request->getModule();
 		}
-		$exportModel = static::getInstance($module, $request->get('export_type'));
+		$exportModel = static::getInstance($module, $request->getByType('export_type', \App\Purifier::ALNUM));
 		$exportModel->initializeFromRequest($request);
 		return $exportModel;
 	}
@@ -103,10 +103,10 @@ class Vtiger_Export_Model extends \App\Base
 			$this->focus = CRMEntity::getInstance($module);
 		}
 		if (!$request->isEmpty('export_type')) {
-			$this->exportType = $request->get('export_type', \App\Purifier::TEXT);
+			$this->exportType = $request->getByType('export_type', \App\Purifier::TEXT);
 		}
 		if (!$request->isEmpty('viewname', true)) {
-			$this->queryOptions['viewname'] = $request->get('viewname', \App\Purifier::ALNUM);
+			$this->queryOptions['viewname'] = $request->getByType('viewname', \App\Purifier::ALNUM);
 		}
 		$this->queryOptions['entityState'] = $request->getByType('entityState');
 		$this->queryOptions['page'] = $request->getInteger('page');
