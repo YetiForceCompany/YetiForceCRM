@@ -42,6 +42,7 @@ class Calendar_CalendarHandler_Handler
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
+		$ids = [];
 		foreach (static::UPDATE_FIELDS as &$fieldName) {
 			if (!$recordModel->isEmpty($fieldName)) {
 				$ids[$recordModel->get($fieldName)] = $fieldName;
