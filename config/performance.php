@@ -96,6 +96,9 @@ $PERFORMANCE_CONFIG = [
 	// Any modifications of this parameter require the vendor's consent.
 	// Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
 	'LIMITED_INFO_IN_FOOTER' => false,
+	// Any modifications of this parameter require the vendor's consent.
+	// Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
+	'LIMITED_INFO_SUPPORT' => false,
 	// Popover record's trigger delay in ms
 	'RECORD_POPOVER_DELAY' => 500,
 	// Empty value when is not selected item in picklist depedency
