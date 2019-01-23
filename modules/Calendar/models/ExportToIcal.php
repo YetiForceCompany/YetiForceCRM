@@ -42,6 +42,14 @@ class Calendar_ExportToIcal_Model extends Vtiger_Export_Model
 	/**
 	 * {@inheritdoc}
 	 */
+	public function sanitizeValues($arr)
+	{
+		return $arr;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function output($headers, $entries)
 	{
 		$timeZone = new IcalendarTimezone();
@@ -116,10 +124,10 @@ class Calendar_ExportToIcal_Model extends Vtiger_Export_Model
 	private function getIcalendarEvent(array $eventFields): IcalendarEvent
 	{
 		$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
+		$priorityval = $eventFields['taskpriority'];
 		$temp = $this->moduleInstance->get('eventFields');
 		foreach ($temp as $fieldName => $access) {
 			if ($fieldName === 'priority') {
-				$priorityval = $eventFields['taskpriority'];
 				$icalZeroPriority = 0;
 				if (array_key_exists($priorityval, $priorityMap)) {
 					$temp[$fieldName] = $priorityMap[$priorityval];

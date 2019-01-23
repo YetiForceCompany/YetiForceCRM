@@ -188,7 +188,9 @@ class Vtiger_Export_Model extends \App\Base
 	/**
 	 * Function that generates Export Query based on the mode.
 	 *
-	 * @return string export query
+	 * @throws \Exception
+	 *
+	 * @return \App\Db\Query
 	 */
 	public function getExportQuery()
 	{
@@ -326,7 +328,6 @@ class Vtiger_Export_Model extends \App\Base
 			$value = trim(App\Purifier::decodeHtml($value), '"');
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
-
 			if (empty($this->fieldDataTypeCache[$fieldName])) {
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}
