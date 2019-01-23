@@ -1164,7 +1164,7 @@ class PackageImport extends PackageExport
 				$fontCss .= "    font-family: '{$font['family']}';\n";
 				$fontCss .= "    font-style: {$font['style']};\n";
 				$fontCss .= "    font-weight: {$font['weight']};\n";
-				$fontCss .= '    src: url(' . $publicDir . "layouts/resources/fonts/{$woff}) format('woff');\n";
+				$fontCss .= "    src: local('{$font['familly']}') url(" . $publicDir . "layouts/resources/fonts/{$woff}) format('woff');\n";
 				$fontCss .= '}';
 				$css[] = $fontCss;
 			}
