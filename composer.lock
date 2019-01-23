@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "145983851ae4d1356d0793758f5e9b53",
+    "content-hash": "31c139ab44bb09cbc71df1b73c5a75da",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -629,7 +629,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.7.21",
+            "version": "v5.7.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -673,7 +673,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v5.7.20",
+            "version": "v5.7.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -2689,16 +2689,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.4",
+            "version": "0.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "c3ecd654fee00d1d8600889b15981b723b67a9ee"
+                "reference": "1f0a79a8994a8a515d5f5173f4ca116826b223ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/c3ecd654fee00d1d8600889b15981b723b67a9ee",
-                "reference": "c3ecd654fee00d1d8600889b15981b723b67a9ee",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/1f0a79a8994a8a515d5f5173f4ca116826b223ab",
+                "reference": "1f0a79a8994a8a515d5f5173f4ca116826b223ab",
                 "shasum": ""
             },
             "require": {
@@ -2728,7 +2728,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-01-14T14:17:08+00:00"
+            "time": "2019-01-22T10:43:03+00:00"
         },
         {
             "name": "yetiforce/yii2",
@@ -4302,7 +4302,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
