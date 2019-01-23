@@ -43,6 +43,11 @@ class Purifier
 	public const BOOL = 'Bool';
 
 	/**
+	 * Purify type Alnum.
+	 */
+	public const ALNUM = 2;
+
+	/**
 	 * Default charset.
 	 *
 	 * @var string

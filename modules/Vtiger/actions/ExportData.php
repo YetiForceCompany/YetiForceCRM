@@ -41,6 +41,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		if ($request->getMode() === 'ExportSelectedRecords') {
 			$exportModel->setRecordList($this->getRecordsListFromRequest($request));
 		}
-		$exportModel->exportData($request);
+		$exportModel->sendHttpHeader();
+		$exportModel->exportData();
 	}
 }
