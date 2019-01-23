@@ -75,16 +75,28 @@
 		max-width: 400px;
 	}
 
-	td, th {
-		border: 1px solid #ddd;
+	tfoot td.hideTd {
+		border-width: 0 0 1px 0;
+		background: #fafafb;
+
+		& + td:not(.hideTd) {
+			border-left: 1px solid #dee2e6 !important;
+		}
 	}
 
-	tfoot td.hideTd {
-		border: 0;
-		background: #fafafb;
-	}
 	//reboot correction for hidden list in table
 	.subProductsContainer ul {
 		margin-bottom: 0;
+	}
+}
+
+//u-table-flex needs tr with .d-flex class
+.table-bordered.u-table-flex {
+	border-top: 1px solid #dee2e6 !important;
+	border-left: 1px solid #dee2e6 !important;
+
+	th,
+	td {
+		border-width: 0 1px 1px 0;
 	}
 }
