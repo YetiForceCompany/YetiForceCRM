@@ -280,7 +280,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `nexttrigger_time` datetime DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtask_queue` */
 
@@ -301,7 +301,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   PRIMARY KEY (`task_id`),
   KEY `workflow_id` (`workflow_id`),
   CONSTRAINT `com_vtiger_workflowtasks_ibfk_1` FOREIGN KEY (`workflow_id`) REFERENCES `com_vtiger_workflows` (`workflow_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -410,6 +410,8 @@ CREATE TABLE `dav_calendarobjects` (
   `crmid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `calendarid` (`calendarid`,`uri`),
+  KEY `uri` (`uri`),
+  KEY `crmid` (`crmid`),
   CONSTRAINT `dav_calendarobjects_ibfk_1` FOREIGN KEY (`calendarid`) REFERENCES `dav_calendars` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -453,7 +455,9 @@ CREATE TABLE `dav_cards` (
   `size` int(10) unsigned NOT NULL,
   `crmid` int(10) DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `addressbookid` (`addressbookid`,`crmid`),
+  KEY `addressbookid` (`addressbookid`),
+  KEY `crmid` (`crmid`),
+  KEY `uri` (`uri`),
   CONSTRAINT `dav_cards_ibfk_1` FOREIGN KEY (`addressbookid`) REFERENCES `dav_addressbooks` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -4748,7 +4752,7 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
   KEY `setype` (`setype`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */
 
@@ -5449,7 +5453,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 
@@ -8103,7 +8107,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=579 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=586 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

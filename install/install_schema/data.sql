@@ -3049,7 +3049,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (32,'EntityAfterUnLink','OSSTimeControl_TimeControl_Handler',1,'OSSTimeControl','',5,51);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (33,'EntityChangeState','OSSTimeControl_TimeControl_Handler',1,'OSSTimeControl','',3,51);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (34,'EntityAfterSave','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (35,'EntityAfterSave','API_CalDAV_Handler',1,'Events,Calendar','',3,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (35,'EntityAfterSave','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (36,'EntityAfterLink','HelpDesk_TicketRangeTime_Handler',1,'HelpDesk','',5,13);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (38,'EntityAfterSave','ProjectTask_ProjectTaskHandler_Handler',1,'ProjectTask','',3,42);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (39,'EntityChangeState','ProjectTask_ProjectTaskHandler_Handler',1,'ProjectTask','',5,42);
@@ -3064,7 +3064,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (50,'EntityAfterSave','Calendar_CalendarHandler_Handler',1,'Calendar,Events,Activity','',3,9);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (51,'EntityChangeState','Calendar_CalendarHandler_Handler',1,'Calendar,Events,Activity','',5,9);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (52,'EntityAfterSave','IStorages_RecalculateStockHandler_Handler',1,'IGRN,IIDN,IGDN,IGIN,IPreOrder,ISTDN,ISTRN,IGRNC,IGDNC','',3,97);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (53,'EntityAfterSave','Accounts_SaveChanges_Handler',1,'Accounts','',5,6);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (53,'EntityAfterSave','Accounts_SaveChanges_Handler',1,'Accounts','',3,6);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (54,'EntityAfterSave','OpenStreetMap_OpenStreetMapHandler_Handler',1,'Accounts,Leads,Partners,Vendors,Competition,Contacts','',3,110);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (55,'EntitySystemAfterCreate','Vtiger_AutomaticAssignment_Handler',0,'','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (56,'EntityAfterSave','ModTracker_ModTrackerHandler_Handler',1,'','',5,32);
@@ -3079,6 +3079,10 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (66,'EntityAfterSave','Project_ProjectHandler_Handler',1,'Project,ProjectMilestone','',3,42);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (67,'EntityChangeState','Project_ProjectHandler_Handler',1,'Project,ProjectMilestone','',3,42);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (68,'UserAfterSave','Vtiger_Workflow_Handler',1,'Users','',4,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (69,'EntityAfterDelete','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (70,'EntityChangeState','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (71,'EntityAfterDelete','API_CalDAV_Handler',1,'Calendar','',3,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
 
 /*Data for the table `vtiger_eventstatus` */
 
@@ -5402,7 +5406,7 @@ insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_v
 
 /*Data for the table `vtiger_language` */
 
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',000001,1,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',1,1,1);
 
 /*Data for the table `vtiger_layout` */
 
