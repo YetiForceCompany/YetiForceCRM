@@ -512,12 +512,30 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
+	 * Load custom fonts.
+	 *
+	 * @return $this
+	 */
+	private function loadCustomFonts()
+	{
+		$fontsDir = 'layouts' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR;
+		$resolvedDir = \Vtiger_Loader::resolveNameToPath('~' . $fontsDir, 'css');
+		$customFonts = \App\Json::read($resolvedDir . 'fonts.json');
+		foreach ($customFonts as &$font) {
+			$font['file'] = $resolvedDir . $font['file'];
+		}
+		\YetiForcePDF\Document::addFonts($customFonts);
+		return $this;
+	}
+
+	/**
 	 * Write html.
 	 *
 	 * @return $this
 	 */
 	public function writeHTML()
 	{
+		$this->loadCustomFonts();
 		$footer = $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		$header = $this->header ? $this->wrapHeaderContent($this->header) : '';
 		$watermark = $this->watermark ? $this->wrapWatermark($this->watermark) : '';
