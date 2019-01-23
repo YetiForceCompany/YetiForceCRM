@@ -23,7 +23,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		if (\App\User::getCurrentUserModel()->isAdmin()) {
 			return;
 		}
-		if (!$request->getBoolean('duplicate') && $request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
+		if (!$request->getBoolean('duplicate') && !$request->isEmpty('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}

@@ -26,7 +26,7 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
-		if (!$currentUserModel->isAdmin() || empty($request->getInteger('record'))) {
+		if (!$currentUserModel->isAdmin() || $request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}

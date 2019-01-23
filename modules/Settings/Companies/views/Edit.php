@@ -19,8 +19,7 @@ class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->getInteger('record');
-
+		$record = !$request->isEmpty('record') ? $request->getInteger('record') : '';
 		if ($record) {
 			$recordModel = Settings_Companies_Record_Model::getInstance($record);
 		} else {

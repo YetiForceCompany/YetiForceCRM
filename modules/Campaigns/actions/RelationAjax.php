@@ -84,15 +84,13 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	public function updateStatus(\App\Request $request)
 	{
 		$relatedModuleName = $request->getByType('relatedModule', 2);
-		$status = $request->getInteger('status');
+		$status = !$request->isEmpty('status') ? $request->getInteger('status') : '';
 		$response = new Vtiger_Response();
 		if ($status && $status < 5) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			$relationModel->updateStatus($request->getInteger('sourceRecord'), [$request->getInteger('relatedRecord') => $status]);
-
 			$response->setResult([true]);
 		} else {
 			$response->setError(false);

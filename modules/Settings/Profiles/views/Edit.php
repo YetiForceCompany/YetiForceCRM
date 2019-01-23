@@ -14,7 +14,7 @@ class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if ($request->has('record')) {
+		if (!$request->isEmpty('record')) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->getInteger('record'));
 			$title = $recordModel->getName();
 		} else {
