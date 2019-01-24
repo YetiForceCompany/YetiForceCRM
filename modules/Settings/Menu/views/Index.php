@@ -11,7 +11,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$roleId = $request->get('roleid');
+		$roleId = $request->getByType('roleid', 'Alnum');
 		if (empty($roleId)) {
 			$roleId = 0;
 		}
