@@ -114,11 +114,11 @@
 						<div class="row">
 							{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
 							{if $IMAGE}
-							<div class='col-md-6'>
-								<img src="{$IMAGE.url}"
-									 class="c-img__user" alt="{$LISTVIEW_ENTRY->getName()}"
-									 title="{$LISTVIEW_ENTRY->getName()}">
-							</div>
+								<div class='col-md-6'>
+									<img src="{$IMAGE.url}"
+										 class="c-img__user" alt="{$LISTVIEW_ENTRY->getName()}"
+										 title="{$LISTVIEW_ENTRY->getName()}">
+								</div>
 							{else}
 								<div class='col-md-6'>
 									<img class="c-img__user" alt=""
@@ -184,7 +184,7 @@
 			<tr>
 				<td></td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if}
+					<td {if $LISTVIEW_HEADER@last}colspan="2"{/if}
 						class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}">
 						{if !empty($LISTVIEW_HEADER->isCalculateField())}
 							<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
