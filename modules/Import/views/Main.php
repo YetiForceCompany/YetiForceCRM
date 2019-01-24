@@ -62,17 +62,26 @@ class Import_Main_View extends \App\Controller\View
 		}
 	}
 
-	public function triggerImport($batchImport = false)
+	/**
+	 * Trigger import.
+	 *
+	 * @param bool $batchImport
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function triggerImport(bool $batchImport = false)
 	{
-		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
-		$importDataController = new Import_Data_Action($importInfo, $this->user);
+		$moduleName = $this->request->getModule();
+		$importInfo = Import_Queue_Action::getImportInfo($moduleName, $this->user);
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Data', $moduleName);
+		$importDataController = new $modelClassName($importInfo, $this->user);
 		if (!$batchImport && !$importDataController->initializeImport()) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
 		}
 		$importDataController->importData();
 		Import_Queue_Action::updateStatus($importInfo['id'], Import_Queue_Action::$IMPORT_STATUS_HALTED);
-		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
+		$importInfo = Import_Queue_Action::getImportInfo($moduleName, $this->user);
 		self::showImportStatus($importInfo, $this->user);
 	}
 

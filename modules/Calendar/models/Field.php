@@ -36,7 +36,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	public function getFieldDataType()
 	{
 		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
-			return 'date';
+			return 'datetime';
 		} elseif ($this->getUIType() === 30) {
 			return 'reminder';
 		}
