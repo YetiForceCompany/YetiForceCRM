@@ -16,6 +16,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	 */
 	public function saveRecord(\App\Request $request)
 	{
+		$request->set('time_start', date('H:i:s', strtotime($request->getByType('time_start', 'TimeInUserFormat'))));
+		$request->set('time_end', date('H:i:s', strtotime($request->getByType('time_end', 'TimeInUserFormat'))));
 		$recordModel = parent::saveRecord($request);
 		if ($request->getBoolean('postponed') && ($relId = $recordModel->get('followup')) && \App\Privilege::isPermitted($recordModel->getModuleName(), 'ActivityPostponed', $relId)) {
 			$relRecord = Vtiger_Record_Model::getInstanceById($relId, $recordModel->getModuleName());
