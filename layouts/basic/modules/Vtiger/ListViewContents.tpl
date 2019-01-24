@@ -32,6 +32,12 @@
 		</div>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
+			<colgroup class="colgroup">
+				<col>
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+					<col style="width:{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}{$LISTVIEW_HEADER->get('maxwidthcolumn')}{else}0{/if}%">
+				{/foreach}
+			</colgroup>
 			<thead>
 			<tr class="{if isset($CUSTOM_VIEWS) && $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
 				<th class="p-2">
@@ -44,7 +50,7 @@
 					{else}
 						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 					{/if}
-					<th class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}columnSorted{/if}" {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if}>
+					<th class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}columnSorted{/if}" {if $LISTVIEW_HEADER@last}colspan="2"{/if}>
 						<a href="javascript:void(0);" class="listViewHeaderValues float-left js-listview_header" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER_NAME}">
 							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
 								{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;
@@ -129,7 +135,7 @@
 				<tr>
 					<td></td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}">
+						<td {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}">
 							{if !empty($LISTVIEW_HEADER->isCalculateField())}
 								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
 									<span class="fas fa-signal" title="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}"></span>
