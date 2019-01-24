@@ -150,7 +150,6 @@ class Install_Utils_Model
 	 */
 	public static function cleanConfiguration()
 	{
-		file_put_contents('xxxxcleanConfiguration.txt', print_r([$_REQUEST, debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)], true), FILE_APPEND);
 		\vtlib\Functions::recurseDelete('config/Db.php');
 		\vtlib\Functions::recurseDelete('config/Main.php');
 		if (isset($_SESSION['config_file_info'])) {

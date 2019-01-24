@@ -228,9 +228,4 @@ This file is auto-generated.
 			require "{$this->path}";
 		}
 	}
-//
-//	public static function isTemplateExists(string $type, ?string $moduleName = null)
-//	{
-//
-//	}
 }
