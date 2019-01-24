@@ -727,6 +727,7 @@ var AppConnector,
 			// Avoid scroll decision and let it scroll up page when form is too big
 			// Reference: http://www.position-absolute.com/articles/jquery-form-validator-because-form-validation-is-a-mess/
 			scroll: false,
+			binded: false,
 			promptPosition: 'topLeft',
 			//to support validation for select2 select box
 			prettySelect: true,
@@ -734,6 +735,7 @@ var AppConnector,
 		},
 		validationEngineOptionsForRecord: {
 			scroll: false,
+			binded: false,
 			promptPosition: 'topLeft',
 			//to support validation for select2 select box
 			prettySelect: true,
