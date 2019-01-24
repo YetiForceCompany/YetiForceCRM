@@ -25,7 +25,7 @@ class Settings_PBX_EditModal_View extends Settings_Vtiger_BasicModal_View
 			$recordModel = Settings_PBX_Record_Model::getCleanInstance();
 		}
 		if ($request->getBoolean('connectorConfig')) {
-			$recordModel->set('type', $request->get('type'));
+			$recordModel->set('type', $request->getByType('type', 'Alnum'));
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordId);
