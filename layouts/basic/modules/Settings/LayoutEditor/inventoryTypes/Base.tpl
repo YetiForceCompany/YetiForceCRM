@@ -33,8 +33,17 @@
 			{\App\Language::translate('LBL_COLSPAN', $QUALIFIED_MODULE)}:
 		</div>
 		<div class="col-md-7">
-			<input name="colSpan" value="{$FIELD_INSTANCE->getColSpan()}" type="text" class="form-control"
-				   data-validation-engine="validate[required, custom[integer]]"/>
+			<div class=" input-group">
+				<input name="colSpan" value="{$FIELD_INSTANCE->getColSpan()}" type="text" class="form-control"
+					   data-validation-engine="validate[required, custom[integer]]"/>
+				<div class="input-group-append">
+					<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
+						 data-placement="top"
+						 data-content="{App\Language::translate('LBL_MAX_WIDTH_COLUMN_INFO', $QUALIFIED_MODULE)}">
+						<span class="fas fa-info-circle"></span>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- /tpl-Settings-LayoutEditor-inventoryTypes-Base -->

@@ -38,7 +38,7 @@ select[readonly].select2-hidden-accessible + .select2-container {
 		border-radius: 0.25rem 0 0 0.25rem !important;
 	}
 	// Border correction for select2 sm
-	@at-root .input-group #{&} {
+	@at-root .input-group-sm #{&} {
 		border-top-right-radius: 0.25rem !important;
 		border-bottom-right-radius: 0.25rem !important;
 	}
