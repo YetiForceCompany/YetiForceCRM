@@ -100,12 +100,6 @@
 		</div>
 		<div class="table-responsive mx-1">
 			<table class="table table-bordered inventoryItems">
-				<colgroup>
-					<col class="u-w-1per-45px">
-					{foreach item=FIELD from=$FIELDS[1]}
-						<col style="width: {if $FIELD->get('colSpan') neq 0 }{$FIELD->get('colSpan')}{else}0{/if}%">
-					{/foreach}
-				</colgroup>
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 					<tr>
