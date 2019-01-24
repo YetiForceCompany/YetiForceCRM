@@ -155,5 +155,11 @@ class Install_Utils_Model
 		if (isset($_SESSION['config_file_info'])) {
 			unset($_SESSION['config_file_info']);
 		}
+		$className = '\Config\Main';
+		if (\class_exists($className)) {
+			foreach ((new \ReflectionClass($className))->getStaticProperties() as $name) {
+				$className::$$name = null;
+			}
+		}
 	}
 }

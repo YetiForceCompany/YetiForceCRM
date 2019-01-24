@@ -343,7 +343,7 @@ return [
 		],
 		'EXCEPTION_ERROR_LEVEL' => [
 			'default' => E_ALL & ~E_NOTICE,
-			'description' => 'Set the error reporting level. The parameter is either an integer representing a bit field, or named constants. https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting / All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR',
+			'description' => "Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.\nhttps://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting\nAll errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR",
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,
@@ -376,7 +376,7 @@ return [
 		],
 		'ROUNDCUBE_PER_USER_LOGGING' => [
 			'default' => false,
-			'description' => 'Activate this option if logs should be written to per-user directories. Data will only be logged if a directry cache/logs/<username>/ exists and is writable.'
+			'description' => "Activate this option if logs should be written to per-user directories.\nData will only be logged if a directry cache/logs/<username>/ exists and is writable."
 		],
 		'ROUNDCUBE_SMTP_LOG' => [
 			'default' => false,
