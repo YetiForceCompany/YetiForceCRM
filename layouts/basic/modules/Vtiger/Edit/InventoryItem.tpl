@@ -6,8 +6,8 @@
 	{elseif $MAIN_PARAMS}
 		{assign var="REFERENCE_MODULE" value=$REFERENCE_MODULE_DEFAULT}
 	{/if}
-	<tr class="inventoryRow" numrow="{$ROW_NO}">
-		<td class="u-white-space-nowrap">
+	<tr class="inventoryRow d-flex" numrow="{$ROW_NO}">
+		<td class="u-white-space-nowrap u-w-1per-45px">
 			{if $INVENTORY_MODEL->isField('seq')}
 				<a class="dragHandle mx-1">
 					<img src="{\App\Layout::getImagePath('drag.png')}" border="0"
@@ -36,8 +36,8 @@
 			{/if}
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
-			<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->getType()!='Name' && $FIELD->get('colSpan') neq 0 }style="width: {$FIELD->get('colSpan')}%" {/if}
-				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
+			<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->get('colSpan') neq 0 }style="min-width: {$FIELD->get('colSpan')}%" {else} style="min-width: 4rem"{/if}
+				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue u-text-ellipsis">
 				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 				{if !isset($ITEM_DATA[$COLUMN_NAME])}

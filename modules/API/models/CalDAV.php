@@ -59,18 +59,17 @@ class API_CalDAV_Model
 	public $davUsers = [];
 
 	/**
-	 * Crm records.
-	 *
-	 * @var array
-	 */
-	protected $crmRecords = [];
-
-	/**
 	 * Max date.
 	 *
 	 * @var string
 	 */
 	const MAX_DATE = '2038-01-01';
+	/**
+	 * Cache.
+	 *
+	 * @var array
+	 */
+	protected static $cache = [];
 
 	/**
 	 * calDavCrm2Dav.
@@ -94,34 +93,40 @@ class API_CalDAV_Model
 	 */
 	public function davSync()
 	{
-		foreach ($this->davUsers as &$user) {
+		$create = $updates = 0;
+		foreach ($this->davUsers as $userId => $user) {
 			$this->calendarId = $user->get('calendarsid');
-			$accessibleGroups = \App\Fields\Owner::getInstance(false, $user)->getAccessibleGroups();
-			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || isset($accessibleGroups[$this->record['smownerid']])) {
-				$sync = true;
+			$this->user = $user;
+
+			$isPermitted = !isset(self::$cache[$userId][$this->record['crmid']]) && !$this->toDelete($this->record);
+			if ($isPermitted) {
 				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($this->record[$key] == $value) {
-							$sync = false;
+							$isPermitted = false;
 						}
 					}
 				}
-				if ($sync) {
+				if ($isPermitted) {
 					$orgUserId = App\User::getCurrentUserId();
-					App\User::setCurrentUserId($user->get('id'));
-					$vcalendar = $this->getDavDetail();
-					if ($vcalendar === false) {
+					App\User::setCurrentUserId($userId);
+					$event = $this->getDavDetail();
+					if ($event === false) {
 						// Creating
 						$this->davCreate();
-					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
-						$this->davUpdate($vcalendar);
+						$create++;
+					} elseif (strtotime($this->record['modifiedtime']) > $event['lastmodified']) { // Updating
+						$this->davUpdate($event);
+						$updates++;
 					}
 					App\User::setCurrentUserId($orgUserId);
+					self::$cache[$userId][$this->record['crmid']] = true;
 				}
 			}
 		}
 		$this->recordMarkComplete();
+		\App\Log::trace("Calendar end - CRM >> DAV | create: $create | updates: $updates", __METHOD__);
 	}
 
 	/**
@@ -131,7 +136,7 @@ class API_CalDAV_Model
 	{
 		$recordInstance = $this->record;
 		\App\Log::trace(__METHOD__ . ' | Start CRM ID:' . $recordInstance['crmid']);
-		$calType = $recordInstance['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
+		$calType = $recordInstance['activitytype'] === 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
 		$uid = date('Y-m-d\THis') . '-' . $recordInstance['crmid'];
 		$calUri = $uid . '.ics';
@@ -207,7 +212,7 @@ class API_CalDAV_Model
 			'uid' => $uid,
 			'crmid' => $recordInstance['crmid'],
 		])->execute();
-		$this->addChange($calUri, 1);
+		\App\Integrations\Dav\Calendar::addChange($this->calendarId, $calUri, 1);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
@@ -292,7 +297,7 @@ class API_CalDAV_Model
 			'crmid' => $recordInstance['crmid'],
 		], ['id' => $calendar['id']]
 		)->execute();
-		$this->addChange($calendar['uri'], 2);
+		\App\Integrations\Dav\Calendar::addChange($this->calendarId, $calendar['uri'], 2);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
@@ -304,7 +309,7 @@ class API_CalDAV_Model
 	public function davDelete($calendar)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $calendar['id']);
-		$this->addChange($calendar['uri'], 3);
+		\App\Integrations\Dav\Calendar::addChange($this->calendarId, $calendar['uri'], 3);
 		\App\Db::getInstance()->createCommand()->delete('dav_calendarobjects', ['id' => $calendar['id']])->execute();
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -328,8 +333,8 @@ class API_CalDAV_Model
 	 */
 	public function recordSync()
 	{
-		\App\Log::trace(__METHOD__ . ' | Start');
-		$query = (new \App\Db\Query())->select(['dav_calendarobjects.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype', 'vtiger_crmentity.smownerid'])->from('dav_calendarobjects')->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_calendarobjects.crmid')->where(['calendarid' => $this->calendarId]);
+		\App\Log::trace('Start', __METHOD__);
+		$query = (new \App\Db\Query())->select(['dav_calendarobjects.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.deleted', 'vtiger_activity.visibility'])->from('dav_calendarobjects')->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_calendarobjects.crmid')->leftJoin('vtiger_activity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')->where(['calendarid' => $this->calendarId]);
 		$skipped = $create = $deletes = $updates = 0;
 		$dataReader = $query->createCommand()->query();
 
@@ -337,24 +342,24 @@ class API_CalDAV_Model
 			if (!$row['crmid']) { //Creating
 				if ($this->recordCreate($row)) {
 					$create++;
+				} else {
+					++$skipped;
 				}
-				++$skipped;
 			} elseif ($this->toDelete($row)) { // Deleting
 				$this->davDelete($row);
 				++$deletes;
 			} else {
 				if (strtotime($row['modifiedtime']) < $row['lastmodified']) { // Updating
-					$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
-					if ($this->recordUpdate($recordModel, $row)) {
+					if ($this->recordUpdate(Vtiger_Record_Model::getInstanceById($row['crmid'], $row['setype']), $row)) {
 						$updates++;
+					} else {
+						++$skipped;
 					}
-					++$skipped;
 				}
 			}
 		}
 		$dataReader->close();
-		\App\Log::trace("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log::trace("Calendar end - DAV >> CRM | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped", __METHOD__);
 	}
 
 	/**
@@ -771,20 +776,6 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Adds a change record to the addressbookchanges table.
-	 *
-	 * @param string $objectUri
-	 * @param int    $operation 1 = add, 2 = modify, 3 = delete
-	 */
-	protected function addChange($objectUri, $operation)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$syncToken = (new \App\Db\Query())->select(['synctoken'])->from('dav_calendars')->where(['id' => $this->calendarId])->scalar();
-		$dbCommand->insert('dav_calendarchanges', ['uri' => $objectUri, 'synctoken' => $syncToken, 'calendarid' => $this->calendarId, 'operation' => $operation])->execute();
-		$dbCommand->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
-	}
-
-	/**
 	 * Record mark complete.
 	 */
 	protected function recordMarkComplete()
@@ -804,16 +795,24 @@ class API_CalDAV_Model
 	 */
 	protected function toDelete($cal)
 	{
-		if ($cal['smownerid'] == '') {
+		if ($cal['smownerid'] === '' || (int) $cal['deleted'] !== 0) {
 			return true;
 		}
-		$accessibleGroups = \App\Fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
-		$result = (new App\Db\Query())->select(['visibility'])->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['activityid' => $cal['crmid'], 'vtiger_crmentity.deleted' => 0])->one();
-		if (!$result) {
-			return true;
+		$userId = (int) $this->user->getId();
+		switch ($this->user->get('sync_caldav')) {
+			case 'PLL_OWNER_PERSON':
+				$isPermitted = (int) $cal['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($cal['crmid']));
+				break;
+			case 'PLL_OWNER_PERSON_GROUP':
+				$shownerIds = \App\Fields\SharedOwner::getById($cal['crmid']);
+				$isPermitted = (int) $cal['smownerid'] === $userId || in_array($cal['smownerid'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
+				break;
+			default:
+			case 'PLL_OWNER':
+				$isPermitted = (int) $cal['smownerid'] === $userId;
+				break;
 		}
-		$visibility = $result['visibility'];
-		if ($cal['smownerid'] != $this->user->get('id') && (!array_key_exists($cal['smownerid'], $accessibleGroups)) && $visibility != 'Public') {
+		if (!$isPermitted && $cal['visibility'] !== 'Public') {
 			return true;
 		}
 		return false;

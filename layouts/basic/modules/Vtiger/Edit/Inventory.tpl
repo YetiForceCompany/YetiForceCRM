@@ -47,13 +47,12 @@
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
 		<input id="isRequiredInventory" type="hidden" value="{$IS_REQUIRED_INVENTORY}"/>
 		<div class="table-responsive mx-1">
-			<table class="table table-bordered inventoryHeader blockContainer mb-0">
+			<table class="table inventoryHeader blockContainer mb-0 table-bordered u-table-flex">
 				<thead>
 				<tr data-rownumber="0" class="d-flex u-min-w-650px">
 					<th class="col-3 border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">
-
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules'] name=moduleList}
 								{if \App\Module::isModuleActive($MAIN_MODULE)}
 									{if $smarty.foreach.moduleList.first}
@@ -94,13 +93,14 @@
 			</table>
 		</div>
 		<div class="table-responsive mx-1">
-			<table class="table blockContainer inventoryItems">
+			<table class="table table-bordered inventoryItems u-table-flex">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
-					<tr>
+					<tr class="d-flex">
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th class="col{$FIELD->getType()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getType()=='Name'}u-w-3per-250px{/if}">
+							<th {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->get('colSpan') neq 0 }style="min-width: {$FIELD->get('colSpan')}%" {else} style="min-width: 4rem"{/if}
+								class="col{$FIELD->getType()} {if !$FIELD->isEditable()} d-none{/if} text-center u-text-ellipsis">
 								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
 							</th>
 						{/foreach}
@@ -120,11 +120,12 @@
 				{/foreach}
 				</tbody>
 				<tfoot>
-				<tr>
-					<td colspan="1" class="hideTd">&nbsp;&nbsp;</td>
+				<tr class="d-flex">
+					<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td colspan="1" class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right
-								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
+						<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->get('colSpan') neq 0 }style="min-width: {$FIELD->get('colSpan')}%" {else} style="min-width: 4rem"{/if}
+							class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right
+								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if} u-text-ellipsis"
 							data-sumfield="{lcfirst($FIELD->getType())}">
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}

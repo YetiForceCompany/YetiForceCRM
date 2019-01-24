@@ -1120,7 +1120,7 @@ class PackageImport extends PackageExport
 	public function importFont($zipfile)
 	{
 		$fontsDir = \ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
-		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt']]);
+		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt', 'woff']]);
 		$files = $zip->unzip(['fonts' => $fontsDir]);
 		$fonts = \App\Json::read($fontsDir . '/fonts.json');
 		$tempFonts = [];
@@ -1158,16 +1158,49 @@ class PackageImport extends PackageExport
 			if (!\file_exists("$fontsDir/{$font['file']}")) {
 				unset($fonts[$key]);
 			} else {
+				$woff = pathinfo($font['file'], PATHINFO_FILENAME) . '.woff';
 				$fontCss = "@font-face {\n";
 				$fontCss .= "    font-family: '{$font['family']}';\n";
 				$fontCss .= "    font-style: {$font['style']};\n";
 				$fontCss .= "    font-weight: {$font['weight']};\n";
-				$fontCss .= "    src: local('{$font['family']}'), url('{$font['file']}') format('truetype');\n";
+				$fontCss .= "    src: local('{$font['family']}'), url({$woff}) format('woff');\n";
 				$fontCss .= '}';
 				$css[] = $fontCss;
-				$fonts[$key]['file'] = $fontsDir . DIRECTORY_SEPARATOR . $font['file'];
 			}
 		}
+		$css[] = '@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: normal;
+			font-weight: 100;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-ExtraLight.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: normal;
+			font-weight: 400;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: normal;
+			font-weight: 700;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-Bold.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: italic;
+			font-weight: 700;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-BoldOblique.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: italic;
+			font-weight: 400;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-Oblique.woff\') format(\'woff\');
+		}
+		* {
+			font-family: \'DejaVu Sans\';
+		}';
 		file_put_contents($fontsDir . '/fonts.css', implode("\n", $css));
 		\App\Json::save($fontsDir . '/fonts.json', array_values($fonts));
 	}

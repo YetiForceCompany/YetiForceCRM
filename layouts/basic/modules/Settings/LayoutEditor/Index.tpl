@@ -15,9 +15,6 @@
 		<div class="widget_header row">
 			<div class="col-md-6">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				{if isset($SELECTED_PAGE)}
-					{App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
 			</div>
 			<div class="float-right col-md-6 form-inline">
 				<div class="form-group float-right col-md-6">

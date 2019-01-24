@@ -17140,7 +17140,11 @@ input[type="radio"]:checked:before {
   .actionMenu.actionMenuOn .o-action-menu__container {
     right: 0; } }
 .o-breadcrumb__container {
-  width: 100%; }
+  width: 100%;
+  display: flex; }
+
+.widget_header > div[class*="col-"]:first-child {
+  display: flex; }
 
 .widget_header .breadcrumb {
   background: none;

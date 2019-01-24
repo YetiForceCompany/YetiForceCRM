@@ -241,6 +241,11 @@
 	width: fit-content !important;
 }
 
+.u-w-max {
+	width: max-content !important;
+	width: -moz-max-content !important;
+}
+
 .u-w-max-320px {
 	max-width: 320px !important;
 }

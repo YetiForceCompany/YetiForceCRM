@@ -50,31 +50,31 @@ class API_CardDAV_Model
 
 	public function syncCrmRecord($moduleName)
 	{
-		$create = $deletes = $updates = 0;
+		$create = $updates = 0;
 		$query = $this->getCrmRecordsToSync($moduleName);
 		if (!$query) {
 			return;
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($record = $dataReader->read()) {
-			foreach ($this->davUsers as $id => $user) {
+			foreach ($this->davUsers as $userId => $user) {
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = App\User::getCurrentUserId();
-				App\User::setCurrentUserId($id);
+				App\User::setCurrentUserId($userId);
 				switch ($user->get('sync_carddav')) {
 					case 'PLL_BASED_CREDENTIALS':
 						$isPermitted = \App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid']);
 						break;
 					case 'PLL_OWNER_PERSON':
-						$isPermitted = (int) $record['smownerid'] === $id || in_array($id, \App\Fields\SharedOwner::getById($record['crmid']));
+						$isPermitted = (int) $record['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($record['crmid']));
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($record['crmid']);
-						$isPermitted = (int) $record['smownerid'] === $id || in_array($record['smownerid'], $user->get('groups')) || in_array($id, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
+						$isPermitted = (int) $record['smownerid'] === $userId || in_array($record['smownerid'], $user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
 						break;
 					default:
 					case 'PLL_OWNER':
-						$isPermitted = (int) $record['smownerid'] === $id;
+						$isPermitted = (int) $record['smownerid'] === $userId;
 						break;
 				}
 				if ($isPermitted) {
@@ -88,14 +88,14 @@ class API_CardDAV_Model
 						$this->updateCard($moduleName, $record, $card);
 						++$updates;
 					}
-					self::$cache[$record['crmid']] = true;
+					self::$cache[$userId][$record['crmid']] = true;
 				}
 				App\User::setCurrentUserId($orgUserId);
 			}
 			$this->markComplete($moduleName, $record['crmid']);
 		}
 		$dataReader->close();
-		\App\Log::trace("syncCrmRecord $moduleName | create: $create | deletes: $deletes | updates: $updates");
+		\App\Log::trace("AddressBooks end - CRM >> DAV ($moduleName) | create: $create | updates: $updates", __METHOD__);
 	}
 
 	public function cardDav2Crm()
@@ -111,7 +111,7 @@ class API_CardDAV_Model
 
 	public function syncAddressBooks()
 	{
-		\App\Log::trace(__METHOD__ . ' | Start');
+		\App\Log::trace('AddressBooks start', __METHOD__);
 		$dataReader = $this->getDavCardsToSync()->createCommand()->query();
 		$create = $deletes = $updates = 0;
 		while ($card = $dataReader->read()) {
@@ -120,10 +120,10 @@ class API_CardDAV_Model
 				$this->createRecord('Contacts', $card);
 				++$create;
 			} else {
-				if (isset(self::$cache[$card['crmid']])) {
+				$userId = (int) $this->user->getId();
+				if (isset(self::$cache[$userId][$card['crmid']])) {
 					continue;
 				}
-				$userId = (int) $this->user->getId();
 				switch ($this->user->get('sync_carddav')) {
 					case 'PLL_BASED_CREDENTIALS':
 						$isPermitted = \App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid']);
@@ -152,8 +152,7 @@ class API_CardDAV_Model
 			}
 		}
 		$dataReader->close();
-		\App\Log::trace("cardDavDav2Crm | create: $create | deletes: $deletes | updates: $updates");
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log::trace("AddressBooks end - DAV >> CRM | create: $create | deletes: $deletes | updates: $updates", __METHOD__);
 	}
 
 	public function createCard($moduleName, $record)
