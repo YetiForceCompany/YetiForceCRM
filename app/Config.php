@@ -60,6 +60,12 @@ class Config
 		return self::get($class, $arg, $default);
 	}
 
+	public static function component(string $component, ?string $arg = null, $default = null)
+	{
+		$class = "\Config\Components\\$component";
+		return self::get($class, $arg, $default);
+	}
+
 	public static function performance(?string $arg = null, $default = null)
 	{
 		$class = "\Config\Performance";

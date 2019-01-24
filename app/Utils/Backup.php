@@ -80,7 +80,7 @@ class Backup
 	 */
 	public static function getBackupCatalogPath()
 	{
-		return \AppConfig::module('Backup', 'BACKUP_PATH');
+		return \App\Config::component('Backup', 'BACKUP_PATH');
 	}
 
 	/**
@@ -90,6 +90,6 @@ class Backup
 	 */
 	public static function getAllowedExtension()
 	{
-		return \AppConfig::module('Backup', 'EXT_TO_SHOW');
+		return \App\Config::component('Backup', 'EXT_TO_SHOW');
 	}
 }

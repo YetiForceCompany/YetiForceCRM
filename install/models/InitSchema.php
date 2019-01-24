@@ -196,7 +196,7 @@ class Install_InitSchema_Model
 	 */
 	private function createConfigFiles()
 	{
-		$skip = ['main', 'db', 'performance', 'debug', 'security', 'module'];
+		$skip = ['main', 'db', 'performance', 'debug', 'security', 'module', 'component'];
 		foreach (\App\ConfigFile::TYPES as $type) {
 			if (!in_array($type, $skip)) {
 				(new \App\ConfigFile($type))->create();
@@ -212,6 +212,11 @@ class Install_InitSchema_Model
 			if (file_exists($filePath)) {
 				(new \App\ConfigFile('module', $moduleData['name']))->create();
 			}
+		}
+		$path = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'config' . \DIRECTORY_SEPARATOR . 'Components' . \DIRECTORY_SEPARATOR . 'ConfigTemplates.php';
+		$componentsData = require_once "$path";
+		foreach ($componentsData as $component => $data) {
+			(new \App\ConfigFile('component', $component))->create();
 		}
 	}
 }

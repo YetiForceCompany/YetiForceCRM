@@ -30,12 +30,13 @@ class ConfigFile extends Base
 		'relation',
 		'sounds',
 		'search',
+		'component',
 	];
 
 	/** @var string Type of configuration file */
 	private $type;
-	/** @var string|null Module name */
-	private $moduleName;
+	/** @var string|null Component name */
+	private $component;
 	/** @var string Path to the configuration file */
 	private $path;
 	/** @var string Path to the configuration template file */
@@ -57,23 +58,26 @@ This file is auto-generated.
 	 * ConfigFile constructor.
 	 *
 	 * @param string      $type
-	 * @param string|null $moduleName
+	 * @param string|null $component
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function __construct(string $type, ?string $moduleName = '')
+	public function __construct(string $type, ?string $component = '')
 	{
 		parent::__construct();
 		if (!in_array($type, self::TYPES)) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $type, 406);
 		}
 		$this->type = $type;
-		if ($moduleName) {
-			$this->moduleName = $moduleName;
+		if ($component) {
+			$this->component = $component;
 		}
 		if ($this->type === 'module') {
-			$this->templatePath = 'modules' . \DIRECTORY_SEPARATOR . $moduleName . \DIRECTORY_SEPARATOR . 'ConfigTemplate.php';
-			$this->path = 'config' . \DIRECTORY_SEPARATOR . 'Modules' . \DIRECTORY_SEPARATOR . "{$moduleName}.php";
+			$this->templatePath = 'modules' . \DIRECTORY_SEPARATOR . $component . \DIRECTORY_SEPARATOR . 'ConfigTemplate.php';
+			$this->path = 'config' . \DIRECTORY_SEPARATOR . 'Modules' . \DIRECTORY_SEPARATOR . "{$component}.php";
+		} elseif ($this->type === 'component') {
+			$this->templatePath = 'config' . \DIRECTORY_SEPARATOR . 'Components' . \DIRECTORY_SEPARATOR . 'ConfigTemplates.php';
+			$this->path = 'config' . \DIRECTORY_SEPARATOR . 'Components' . \DIRECTORY_SEPARATOR . "{$component}.php";
 		} else {
 			$this->templatePath = 'config' . \DIRECTORY_SEPARATOR . 'ConfigTemplates.php';
 			$this->path = 'config' . \DIRECTORY_SEPARATOR . \ucfirst($this->type) . '.php';
@@ -92,7 +96,12 @@ This file is auto-generated.
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->templatePath, 406);
 		}
 		$data = require "{$this->templatePath}";
-		if ($this->type !== 'module') {
+		if ('component' === $this->type) {
+			if (!isset($data[$this->component])) {
+				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->type, 406);
+			}
+			$data = $data[$this->component];
+		} elseif ('module' === $this->type) {
 			if (!isset($data[$this->type])) {
 				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->type, 406);
 			}
@@ -110,7 +119,9 @@ This file is auto-generated.
 	{
 		$className = 'Config\\';
 		if ($this->type === 'module') {
-			$className .= 'Modules\\' . $this->moduleName;
+			$className .= 'Modules\\' . $this->component;
+		} elseif ($this->type === 'component') {
+			$className .= 'Components\\' . $this->component;
 		} else {
 			$className .= ucfirst($this->type);
 		}
