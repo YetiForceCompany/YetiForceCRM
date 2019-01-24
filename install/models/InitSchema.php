@@ -196,7 +196,7 @@ class Install_InitSchema_Model
 	 */
 	private function createConfigFiles()
 	{
-		$skip = ['main', 'db', 'performance', 'debug', 'module'];
+		$skip = ['main', 'db', 'performance', 'debug', 'security', 'module'];
 		foreach (\App\ConfigFile::TYPES as $type) {
 			if (!in_array($type, $skip)) {
 				(new \App\ConfigFile($type))->create();
