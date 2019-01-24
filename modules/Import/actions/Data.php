@@ -770,6 +770,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'tree' || $fieldInstance->getFieldDataType() === 'categoryMultipicklist') {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
+			} elseif ($fieldInstance->getModuleName() === 'Calendar' && in_array($fieldInstance->getFieldName(), ['date_start', 'due_date'])) {
+				$fieldData[$fieldName] = $this->transformDate($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'datetime' && $fieldValue !== '') {
 				$fieldData[$fieldName] = $this->transformDatetime($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'date' && $fieldValue !== '') {
