@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- tpl-Calendar-ImportFinalResult -->
-<div>
+<div>{*Closing of the DIV in  tpl-IndexPostProcess *}
 	<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 	<table class="col-12 paddingLRZero no-margin searchUIBasic well">
 		<tr>
@@ -32,11 +32,13 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="2">
-				<a href="index.php?module={$MODULE_NAME}&view=List" button name="next" class="create btn btn-success">
+				<a href="index.php?module={$MODULE_NAME}&view=List" button name="next"
+				   class="create btn btn-success">
 					<strong>{\App\Language::translate('LBL_FINISH', $MODULE_NAME)}</strong>
 				</a>
 			</td>
 		</tr>
 	</table>
+	{*</div>Closing of the DIV in  tpl-IndexPostProcess *}
 	<!-- /tpl-Calendar-ImportFinalResult -->
 	{/strip}
