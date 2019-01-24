@@ -31,8 +31,8 @@
 					<button class="btn btn-success mt-3 js-save-comment float-right" type="button"
 							data-mode="add"
 							data-js="click|data-mode">
-						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+						<span class="visible-xs-inline fas fa-check"></span>
+						<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
 					</button>
 				</div>
 			</div>
