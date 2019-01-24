@@ -261,14 +261,9 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 * @param toolbar
 	 */
 	showChangeDateButtons(view, toolbar) {
-		let viewType = view.type,
+		let viewType = view.type.replace(/basic|agenda/g, '').toLowerCase(),
 			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
-		if (viewType === 'agendaWeek') {
-			viewType = 'week'
-		} else if (viewType === 'agendaDay') {
-			viewType = 'day';
-		}
 		if (!calendarLoaded) {
 			yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
 			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
