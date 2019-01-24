@@ -80,11 +80,11 @@ class Install_InitSchema_Model
 				}
 			}
 			\App\Log::info("create_query: $create_query | insert_query: $insert_query | alter_query: $alter_query | executed_query: $executed_query");
-			$_SESSION['instalation_success'] = $create_query && $executed_query;
+			$_SESSION['installation_success'] = $create_query && $executed_query;
 		} catch (Throwable $e) {
 			$return = false;
 			\App\Log::error($e->__toString());
-			$_SESSION['instalation_success'] = false;
+			$_SESSION['installation_success'] = false;
 		} finally {
 			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 1;')->execute();
 		}
@@ -103,7 +103,7 @@ class Install_InitSchema_Model
 			->update('vtiger_users', [
 				'user_name' => $_SESSION['config_file_info']['user_name'],
 				'date_format' => $_SESSION['config_file_info']['dateformat'],
-				'time_zone' => $_SESSION['config_file_info']['timezone'],
+				'time_zone' => $_SESSION['config_file_info']['default_timezone'],
 				'first_name' => $_SESSION['config_file_info']['firstname'],
 				'last_name' => $_SESSION['config_file_info']['lastname'],
 				'email1' => $_SESSION['config_file_info']['admin_email'],
@@ -171,14 +171,15 @@ class Install_InitSchema_Model
 	public function setCompanyDetails(\App\Request $request)
 	{
 		$details = [];
-		foreach ($request->getAll() as $key => $value) {
-			if (strpos($key, 'company_') === 0) {
-				$details[str_replace('company_', '', $key)] = $value;
+		foreach (Settings_Companies_Module_Model::getColumnNames() as $name) {
+			if ($request->has("company_{$name}")) {
+				$details[$name] = $request->getByType("company_{$name}", 'Text');
 			}
 		}
-		$this->db->createCommand()->update('s_#__companies', $details)->execute();
-		$this->db->createCommand()->update('u_#__multicompany', [
-			'company_name' => $details['name']
-		])->execute();
+		$companies = $this->db->createCommand()->update('s_#__companies', $details);
+		$multiCompany = $this->db->createCommand()->update('u_#__multicompany', ['company_name' => $details['name']]);
+		if (!$details || !$companies->execute() || !$multiCompany->execute()) {
+			throw new \App\Exceptions\AppException('No company data', 406);
+		}
 	}
 }

@@ -128,8 +128,6 @@ class Install_Index_View extends \App\Controller\View
 			if (count($filesInDir) > 2) {
 				$isMigrate = true;
 			}
-		} else {
-			Install_Utils_Model::cleanConfiguration();
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
@@ -248,13 +246,24 @@ class Install_Index_View extends \App\Controller\View
 	public function step5(\App\Request $request)
 	{
 		if ($_SESSION['config_file_info']['db_server'] ?? false) {
+			$success = true;
 			$configFile = new \App\ConfigFile('db');
 			foreach ($configFile->getTemplate() as $name => $data) {
-				if (isset($_SESSION['config_file_info'][$name])) {
-					$configFile->set($name, $_SESSION['config_file_info'][$name]);
+				try {
+					if (isset($_SESSION['config_file_info'][$name])) {
+						$configFile->set($name, $_SESSION['config_file_info'][$name]);
+					}
+				} catch (\Throwable $e) {
+					$success = false;
+					\App\Log::error($e->__toString());
+					unset($_SESSION['config_file_info'][$name]);
 				}
 			}
-			$configFile->create();
+			if ($success) {
+				$configFile->create();
+			}
+		} else {
+			Install_Utils_Model::cleanConfiguration();
 		}
 		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
 		$this->viewer->display('Step5.tpl');
@@ -291,12 +300,19 @@ class Install_Index_View extends \App\Controller\View
 			}
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model();
-			$initSchema->initialize();
-			$initSchema->setCompanyDetails($request);
-
-			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
-			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
+			try {
+				$initSchema->initialize();
+				$initSchema->setCompanyDetails($request);
+			} catch (\Throwable $e) {
+				$_SESSION['installation_success'] = false;
+				\App\Log::error($e->__toString());
+			}
+			if (!($success = $_SESSION['installation_success'] ?? false)) {
+				Install_Utils_Model::cleanConfiguration();
+			}
+			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name'] ?? '');
+			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password'] ?? '');
+			$this->viewer->assign('INSTALATION_SUCCESS', $success);
 			$this->viewer->display('Step7.tpl');
 		} else {
 			Install_Utils_Model::cleanConfiguration();
