@@ -32,12 +32,6 @@
 		</div>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
-			<colgroup class="colgroup">
-				<col>
-				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<col style="width:{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}{$LISTVIEW_HEADER->get('maxwidthcolumn')}{else}0{/if}%">
-				{/foreach}
-			</colgroup>
 			<thead>
 			<tr class="{if isset($CUSTOM_VIEWS) && $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
 				<th class="p-2">
@@ -50,7 +44,7 @@
 					{else}
 						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 					{/if}
-					<th class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}columnSorted{/if}" {if $LISTVIEW_HEADER@last}colspan="2"{/if}>
+					<th class="noWrap p-2 u-before-block{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))} u-table-column-vw-{$LISTVIEW_HEADER->get('maxwidthcolumn')}{/if}{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME} columnSorted{/if}">
 						<a href="javascript:void(0);" class="listViewHeaderValues float-left js-listview_header" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER_NAME}">
 							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
 								{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;
@@ -70,6 +64,7 @@
 						{/if}
 					</th>
 				{/foreach}
+				<th class="reducePadding"></th>
 			</tr>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
 				<tr class="bg-white">
@@ -107,6 +102,7 @@
 			<tbody>
 			{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
+				{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksRightSide()}
 				{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 				{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
 				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
