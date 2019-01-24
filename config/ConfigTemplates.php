@@ -774,7 +774,7 @@ return [
 	'security' => [
 		'USER_ENCRYPT_PASSWORD_COST' => [
 			'default' => 10,
-			'description' => 'Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.'
+			'description' => "Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10.\nThe greater the value, the longer it takes to encrypt the password."
 		],
 		'RESET_LOGIN_PASSWORD' => [
 			'default' => false,
@@ -796,49 +796,49 @@ return [
 		],
 		'PERMITTED_BY_ROLES' => [
 			'default' => true,
-			'description' => 'Permissions mechanism. The list of system permission levels can be found below',
+			'description' => 'Permitted by roles.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_SHARING' => [
 			'default' => true,
-			'description' => 'Permitted by sharing',
+			'description' => 'Permitted by sharing.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_SHARED_OWNERS' => [
 			'default' => true,
-			'description' => 'Permitted by shared owners',
+			'description' => 'Permitted by shared owners.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_RECORD_HIERARCHY' => [
 			'default' => true,
-			'description' => 'Permitted by record hierarchy',
+			'description' => 'Permitted by record hierarchy.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_ADVANCED_PERMISSION' => [
 			'default' => true,
-			'description' => 'Permitted by advanced permission',
+			'description' => 'Permitted by advanced permission.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_PRIVATE_FIELD' => [
 			'default' => false,
-			'description' => 'Permitted by private field',
+			'description' => 'Permitted by private field.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'CACHING_PERMISSION_TO_RECORD' => [
 			'default' => false,
-			'description' => 'Configuration of the permission mechanism on records list. true - Permissions based on the users column in vtiger_crmentity.  true - Permissions are not verified in real time. They are updated via cron.  We do not recommend using this option in production environments. false - Permissions based on adding tables with permissions to query (old mechanism)',
+			'description' => "Configuration of the permission mechanism on records list.\ntrue - Permissions based on the users column in vtiger_crmentity.\n		Permissions are not verified in real time. They are updated via cron.\n		We do not recommend using this option in production environments.\nfalse - Permissions based on adding tables with permissions to query (old mechanism)",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'RESTRICTED_DOMAINS_ACTIVE' => [
 			'default' => false,
-			'description' => 'Restricted domains allow you to block saving an email address from a given domain in the system. Restricted domains work only for email address type fields.',
+			'description' => "Restricted domains allow you to block saving an email address from a given domain in the system.\nRestricted domains work only for email address type fields.",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],

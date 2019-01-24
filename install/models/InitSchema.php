@@ -20,7 +20,7 @@ class Install_InitSchema_Model
 	{
 		$this->db = \App\Db::getInstance();
 		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
-		if (!($_SESSION['installation_success'] ?? false)) {
+		if ($_SESSION['installation_success'] ?? false) {
 			$this->createConfigFiles();
 			$this->setDefaultUsersAccess();
 			$this->db->createCommand()
