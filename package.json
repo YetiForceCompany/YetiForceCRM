@@ -34,7 +34,7 @@
     "chartjs-plugin-datalabels": "^0.4.0",
     "chartjs-plugin-funnel": "^1.1.2",
     "clipboard": ">=2.0.0",
-    "clockpicker": "^0.0.7",
+    "clockpicker": "https://github.com/djibe/clockpicker",
     "color-convert": "^1.9.3",
     "css-element-queries": "^1.0.5",
     "datatables.net": "^1.10.19",
