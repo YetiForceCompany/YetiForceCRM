@@ -137,8 +137,17 @@
 						</div>
 						<div class="form-group">
 							<label for="maxwidthcolumn"><strong>{App\Language::translate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}</strong></label>
-							<input type="text" class="form-control" id="maxwidthcolumn" name="maxwidthcolumn"
-								   value="{$FIELD_MODEL->get('maxwidthcolumn')}"/>
+							<div class=" input-group">
+								<input type="text" class="form-control" id="maxwidthcolumn" name="maxwidthcolumn"
+									   value="{$FIELD_MODEL->get('maxwidthcolumn')}"/>
+								<div class="input-group-append">
+									<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
+										 data-placement="top"
+										 data-content="{App\Language::translate('LBL_MAX_WIDTH_COLUMN_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
+								</div>
+							</div>
 						</div>
 						{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
 							<div class="checkbox">
