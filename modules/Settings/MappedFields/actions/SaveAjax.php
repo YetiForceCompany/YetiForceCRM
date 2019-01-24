@@ -20,10 +20,16 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function step1(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$params = $request->get('param');
-		$recordId = $params['record'];
-		$step = $params['step'];
 
+		$params = $request->getByType('param', 'Text');
+		$step = (int) $params['step'];
+		if ($step !== 3) {
+			$validators = Settings_MappedFields_Module_Model::$validatorFields;
+			$validators['record'] = 'Integer';
+			$validators['step'] = 'Integer';
+			$params = $request->getMultiDimensionArray('param', $validators);
+		}
+		$recordId = $params['record'];
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		} else {
@@ -49,9 +55,19 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function step2(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'mapping' => [
+				[
+					'source' => 'Integer',
+					'type' => 'Standard',
+					'target' => 'Integer',
+					'default' => 'Text'
+				]
+			],
+			'otherConditions' => 'Text',
+			'record' => 'Integer'
+		]);
 		$recordId = $params['record'];
-
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		$moduleInstance->getRecord()->set('params', $params['otherConditions']);
 		if (!empty($params['mapping'])) {

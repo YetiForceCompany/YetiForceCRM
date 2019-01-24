@@ -285,10 +285,14 @@ class Request
 						if (isset($template[$firstKey])) {
 							$tempTemplate = $template[$firstKey];
 						}
-						if (!isset($tempTemplate[$secondKey])) {
+						if (count($tempTemplate) === 1) {
+							$tempTemplate = current($tempTemplate);
+						} else if (!isset($tempTemplate[$secondKey])) {
 							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
+						} else {
+							$tempTemplate = $tempTemplate[$secondKey];
 						}
-						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate[$secondKey]);
+						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate);
 					}
 				} else {
 					if (!isset($template[$firstKey])) {

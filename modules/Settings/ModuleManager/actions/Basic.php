@@ -70,7 +70,13 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function createModule(\App\Request $request)
 	{
-		$formData = $request->get('formData');
+		$formData = $request->getMultiDimensionArray('formData',[
+			'module_name' => 'Alnum',
+			'module_label' => 'Text',
+			'entityfieldname' => 'Text',
+			'entityfieldlabel' => 'Text',
+			'entitytype' => 'Integer'
+		]);
 		$moduleName = $formData['module_name'];
 		if (!Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
 			$result = ['success' => true, 'text' => ucfirst($moduleName)];

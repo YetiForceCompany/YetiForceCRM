@@ -31,6 +31,12 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static $step2Fields = ['source', 'target', 'default', 'type'];
 	public static $step3Fields = ['conditions'];
 	public static $step4Fields = ['permissions'];
+	public static $validatorFields = [
+		'status' => 'Integer',
+		'tabid' => 'Integer',
+		'reltabid' => 'Integer',
+		'permissions' => ['Text'],
+	];
 	public $name = 'MappedFields';
 	public $parent = 'Settings';
 
