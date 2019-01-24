@@ -878,10 +878,9 @@ var AppConnector,
 			formatTime = parseInt(formatTime) === 12 ? true : false;
 			let params = {
 				placement: 'bottom',
-				autoclose: true,
+				autoclose: !formatTime,
 				twelvehour: formatTime,
-				minutestep: 5,
-				ampmSubmit: true,
+				minutestep: 5
 			};
 
 			$('.js-clock__btn').on('click', (e) => {
