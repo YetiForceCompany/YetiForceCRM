@@ -9,7 +9,7 @@
  ************************************************************************************/
 
 jQuery.Class('Install_Index_Js', {
-	fieldsCached: ['db_hostname', 'db_username', 'db_name',
+	fieldsCached: ['db_server', 'db_username', 'db_name',
 		'currency_name', 'firstname', 'lastname', 'admin_email',
 		'dateformat', 'default_timezone'
 	],
@@ -183,7 +183,7 @@ jQuery.Class('Install_Index_Js', {
 	},
 	submitForm() {
 		window.localStorage.setItem('yetiforce_install', JSON.stringify({
-			db_hostname: document.step4.db_hostname.value,
+			db_server: document.step4.db_server.value,
 			db_username: document.step4.db_username.value,
 			db_name: document.step4.db_name.value,
 			currency_name: document.step4.currency_name.value,

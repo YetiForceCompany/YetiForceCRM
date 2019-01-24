@@ -306,7 +306,7 @@ return [
 			'description' => 'Debug cron => cache/logs/cron/'
 		],
 		'DEBUG_VIEWER' => [
-			'default' => true,
+			'default' => false,
 			'description' => 'Debug Viewer => cache/logs/viewer-debug.log'
 		],
 		'DISPLAY_DEBUG_VIEWER' => [
