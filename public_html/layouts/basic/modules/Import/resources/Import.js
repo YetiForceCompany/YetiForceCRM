@@ -82,7 +82,7 @@ if (typeof (ImportJs) === "undefined") {
 				importFile.focus();
 				return false;
 			}
-			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip")) {
+			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip|ics|ical")) {
 				return false;
 			}
 			if (!ImportJs.uploadFileSize("import_file")) {
@@ -97,7 +97,6 @@ if (typeof (ImportJs) === "undefined") {
 				var fileParts = filePath.toLowerCase().split('.');
 				var fileType = fileParts[fileParts.length - 1];
 				var validExtensions = allowedExtensions.toLowerCase().split('|');
-
 				if (validExtensions.indexOf(fileType) < 0) {
 					var errorMessage = app.vtranslate('JS_SELECT_FILE_EXTENSION') + '\n' + validExtensions;
 					var params = {

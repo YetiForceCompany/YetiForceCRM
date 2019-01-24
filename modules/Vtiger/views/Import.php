@@ -89,7 +89,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$uploadMaxSize = AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
-
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOR_MODULE', $moduleName);
@@ -105,7 +104,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
 		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
-
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
