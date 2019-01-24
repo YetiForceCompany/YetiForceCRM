@@ -100,7 +100,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$moduleModel = $this->record->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$selectedTabLabel = $request->get('tab_label');
+		$selectedTabLabel = $request->getByType('tab_label', 'Text');
 		$requestMode = $request->getByType('requestMode', 1);
 		$mode = $request->getMode();
 		if (empty($selectedTabLabel) && !empty($requestMode)) {

@@ -24,7 +24,7 @@ class Settings_CustomView_Sorting_View extends Settings_Vtiger_BasicModal_View
 		$viewer->assign('SOURCE_MODULE_MODEL', $sourceModuleModel);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleModel->getName());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('CVID', $request->get('cvid'));
+		$viewer->assign('CVID', $request->getInteger('cvid'));
 		$this->preProcess($request);
 		$viewer->view('Sorting.tpl', $moduleName);
 		$this->postProcess($request);

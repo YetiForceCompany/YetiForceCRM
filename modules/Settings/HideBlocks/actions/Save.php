@@ -17,7 +17,7 @@ class Settings_HideBlocks_Save_Action extends Settings_Vtiger_Index_Action
 	{
 		$blockId = $request->getInteger('blockid');
 		$enabled = $request->getBoolean('enabled');
-		$conditions = $request->get('conditions');
+		$conditions = $request->getArray('conditions', 'Text');
 		$views = $request->getForSql('views');
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->isEmpty('record', true)) {

@@ -18,7 +18,7 @@ class Products_SummaryWidget_Model
 
 	public function getProductsServices(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$fromModule = $request->get('fromModule');
+		$fromModule = $request->getByType('fromModule', 'Text');
 		$record = $request->getInteger('record');
 		$mod = $request->getByType('mod', 1);
 		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
