@@ -281,10 +281,14 @@ class Request
 						$template = current($template);
 					}
 					foreach ($value as $secondKey => $val) {
-						if (!isset($template[$secondKey])) {
+						$tempTemplate = $template;
+						if (isset($template[$firstKey])) {
+							$tempTemplate = $template[$firstKey];
+						}
+						if (!isset($tempTemplate[$secondKey])) {
 							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
 						}
-						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $template[$secondKey]);
+						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate[$secondKey]);
 					}
 				} else {
 					if (!isset($template[$firstKey])) {

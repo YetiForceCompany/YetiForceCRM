@@ -24,7 +24,7 @@ class Vtiger_Export_Model extends \App\Base
 			$module = $request->getModule();
 		}
 		$componentName = 'Export';
-		if ('xml' === $request->get('export_type')) {
+		if ('xml' === $request->getByType('export_type')) {
 			$componentName = 'ExportToXml';
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $module);
@@ -189,7 +189,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function getExportContentType(\App\Request $request)
 	{
-		$type = $request->get('export_type');
+		$type = $request->getByType('export_type');
 		if (empty($type)) {
 			return 'text/csv';
 		}

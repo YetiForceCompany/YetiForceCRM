@@ -18,8 +18,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function exportData(\App\Request $request)
 	{
-		if ($request->get('xmlExportType')) {
-			$this->tplName = $request->get('xmlExportType');
+		if ($request->has('xmlExportType')) {
+			$this->tplName = $request->getByType('xmlExportType', 'Text');
 		}
 		$query = $this->getExportQuery($request);
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));

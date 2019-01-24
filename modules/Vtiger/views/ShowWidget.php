@@ -13,23 +13,19 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 {
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$moduleName = $request->getModule();
-		$componentName = $request->getByType('name', 1);
-		$linkId = $request->getInteger('linkid');
-		$id = $request->get('widgetid');
+		$componentName = $request->getByType('name');
 		if (!empty($componentName)) {
 			$className = Vtiger_Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
 			if (!empty($className)) {
 				$widget = null;
-				if (!empty($linkId)) {
+				if (!$request->isEmpty('linkid', true)) {
 					$widget = new Vtiger_Widget_Model();
-					$widget->set('linkid', (int) $linkId);
-					$widget->set('userid', $currentUser->getId());
-					$widget->set('widgetid', (int) $id);
-					$widget->set('active', $request->get('active'));
-					$widget->set('filterid', $request->get('filterid', null));
+					$widget->set('linkid', (int) $request->getInteger('linkid'));
+					$widget->set('userid', App\User::getCurrentUserId());
+					$widget->set('widgetid', (int) $request->getInteger('widgetid'));
+					$widget->set('active', $request->getInteger('active'));
+					$widget->set('filterid', $request->getInteger('filterid', null));
 					if ($request->has('data')) {
 						$widget->set('data', $request->get('data'));
 					}

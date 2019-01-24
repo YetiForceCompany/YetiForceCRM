@@ -39,7 +39,7 @@
 			{assign var="CURRENCY_SYMBOLAND" value=\App\Fields\Currency::getById($CURRENCY)}
 		{/if}
 		{assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
-		{assign var="RELATED_FIELD" value=\App\Field::getRelatedFieldForModule($MODULE_NAME, 'Account')}
+		{assign var="RELATED_FIELD" value=\App\Field::getRelatedFieldForModule($MODULE_NAME, 'Accounts')}
 		<input type="hidden" class="aggregationTypeDiscount" value="{$DISCOUNTS_CONFIG['aggregation']}">
 		<input type="hidden" class="aggregationTypeTax" value="{$TAXS_CONFIG['aggregation']}">
 		<input type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" id="inventoryItemsNo"/>

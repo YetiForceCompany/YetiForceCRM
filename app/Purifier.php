@@ -405,6 +405,11 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Double':
+					if (($input = filter_var($input, FILTER_VALIDATE_FLOAT)) !== false) {
+						$value = $input;
+					}
+					break;
 				case 'Html':
 					$value = self::purifyHtml($input);
 					break;

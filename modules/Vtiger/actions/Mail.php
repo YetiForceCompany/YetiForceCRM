@@ -115,9 +115,8 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		} else {
 			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->getByType('viewname', 2));
 		}
-		$searchResult = $request->get('searchResult');
-		if (!empty($searchResult)) {
-			$listView->set('searchResult', $searchResult);
+		if (!$request->isEmpty('searchResult', true)) {
+			$listView->set('searchResult', $request->getArray('searchResult', 'Integer'));
 		}
 		$searchKey = $request->getByType('search_key');
 		$operator = $request->getByType('operator');

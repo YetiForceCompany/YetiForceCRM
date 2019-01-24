@@ -382,8 +382,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
-		if (!empty($data['additionalFiltersFields']) && count($data['additionalFiltersFields']) > App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
-			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['additionalFiltersFields']), 406);
+		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
+			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['data']['additionalFiltersFields']), 406);
 		}
 		$data['data'] = App\Json::encode($data['data']);
 		$size = \App\Json::encode([

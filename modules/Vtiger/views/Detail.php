@@ -100,8 +100,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$moduleModel = $this->record->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$selectedTabLabel = $request->get('tab_label');
-		$requestMode = $request->getByType('requestMode', 1);
+		$selectedTabLabel = $request->getByType('tab_label', 'Text');
+		$requestMode = $request->getByType('requestMode');
 		$mode = $request->getMode();
 		if (empty($selectedTabLabel) && !empty($requestMode)) {
 			if ($requestMode == 'full') {
@@ -356,7 +356,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentRecordId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = $request->getInteger('limit');
-		$whereCondition = $request->get('whereCondition');
+		$whereCondition = $request->getArray('whereCondition', 'Standard');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -380,9 +380,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pagingModel->set('nextPageExists', true);
 		}
 		if ($type === 'changes') {
-			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+			$newChange = $request->has('newChange') ? $request->getBoolean('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
 		} else {
-			$newChange = '';
+			$newChange = false;
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
@@ -783,11 +783,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
-		$limit = (int) $request->get('limit');
+		$limit = 10;
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$columns = $request->get('col');
+		$columns = 0;
 		$moduleName = $request->getModule();
 		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 		$totalCount = $request->getInteger('totalCount');
@@ -796,11 +796,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		if ($limit) {
-			$pagingModel->set('limit', $limit);
-		} else {
-			$pagingModel->set('limit', 10);
+		if (!$request->isEmpty('limit', true)) {
+			$limit = $request->getInteger('limit');
 		}
+		$pagingModel->set('limit', $limit);
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
@@ -864,7 +863,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
-		if ($columns) {
+
+		if ($request->has('col')) {
+			$columns = $request->getInteger('col');
 			$header = array_splice($header, 0, $columns);
 		}
 		$viewer->assign('TYPE_VIEW', $viewType);

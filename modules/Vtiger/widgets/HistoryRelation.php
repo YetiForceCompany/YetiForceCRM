@@ -76,7 +76,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		if ($request->isEmpty('type')) {
 			return [];
 		}
-		$query = static::getQuery($recordId, $request->getModule(), $request->get('type'));
+		$query = static::getQuery($recordId, $request->getModule(), $request->getArray('type', 'Alnum'));
 		if (empty($query)) {
 			return [];
 		}
