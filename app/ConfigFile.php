@@ -16,18 +16,8 @@ namespace App;
  */
 class ConfigFile extends Base
 {
-	/** @var string Type of configuration file */
-	private $type;
-	/** @var string|null Module name */
-	private $moduleName;
-	/** @var string Path to the configuration file */
-	private $path;
-	/** @var string Path to the configuration template file */
-	private $templatePath;
-	/** @var array Template data */
-	private $template = [];
-	/** @var array Types of configuration files */
-	private $types = [
+	/** Types of configuration files */
+	public const TYPES = [
 		'main',
 		'db',
 		'performance',
@@ -41,6 +31,18 @@ class ConfigFile extends Base
 		'sounds',
 		'search',
 	];
+
+	/** @var string Type of configuration file */
+	private $type;
+	/** @var string|null Module name */
+	private $moduleName;
+	/** @var string Path to the configuration file */
+	private $path;
+	/** @var string Path to the configuration template file */
+	private $templatePath;
+	/** @var array Template data */
+	private $template = [];
+
 	/** @var string License */
 	private $license = 'Configuration file.
 This file is auto-generated.
@@ -62,7 +64,7 @@ This file is auto-generated.
 	public function __construct(string $type, ?string $moduleName = '')
 	{
 		parent::__construct();
-		if (!in_array($type, $this->types)) {
+		if (!in_array($type, self::TYPES)) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $type, 406);
 		}
 		$this->type = $type;
@@ -214,7 +216,7 @@ This file is auto-generated.
 			}
 		}
 		if (false === file_put_contents($this->path, $file, LOCK_EX)) {
-			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
+			throw new Exceptions\AppException("ERR_CREATE_FILE_FAILURE||{$this->path}");
 		}
 		if (\class_exists($className)) {
 			foreach ($class->getProperties() as $name => $property) {
@@ -226,4 +228,9 @@ This file is auto-generated.
 			require "{$this->path}";
 		}
 	}
+//
+//	public static function isTemplateExists(string $type, ?string $moduleName = null)
+//	{
+//
+//	}
 }

@@ -20,33 +20,36 @@ class Install_InitSchema_Model
 	{
 		$this->db = \App\Db::getInstance();
 		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
-		$this->setDefaultUsersAccess();
-		$this->db->createCommand()
-			->update('vtiger_currency_info', [
-				'currency_name' => $_SESSION['config_file_info']['currency_name'],
-				'currency_code' => $_SESSION['config_file_info']['currency_code'],
-				'currency_symbol' => $_SESSION['config_file_info']['currency_symbol']
-			])->execute();
-		$this->db->createCommand()
-			->update('vtiger_version', [
-				'current_version' => \App\Version::get(),
-				'old_version' => \App\Version::get()
-			])->execute();
-		// recalculate all sharing rules for users
-		require_once 'include/utils/CommonUtils.php';
-		require_once 'include/fields/DateTimeField.php';
-		require_once 'include/fields/DateTimeRange.php';
-		require_once 'include/fields/CurrencyField.php';
-		require_once 'include/CRMEntity.php';
-		require_once 'modules/Vtiger/CRMEntity.php';
-		require_once 'include/runtime/Cache.php';
-		require_once 'modules/Vtiger/helpers/Util.php';
-		require_once 'modules/PickList/DependentPickListUtils.php';
-		require_once 'modules/Users/Users.php';
-		require_once 'include/Webservices/Utils.php';
-		\App\UserPrivilegesFile::recalculateAll();
-		\App\Cache::clear();
-		\App\Cache::clearOpcache();
+		if (!($_SESSION['installation_success'] ?? false)) {
+			$this->createConfigFiles();
+			$this->setDefaultUsersAccess();
+			$this->db->createCommand()
+				->update('vtiger_currency_info', [
+					'currency_name' => $_SESSION['config_file_info']['currency_name'],
+					'currency_code' => $_SESSION['config_file_info']['currency_code'],
+					'currency_symbol' => $_SESSION['config_file_info']['currency_symbol']
+				])->execute();
+			$this->db->createCommand()
+				->update('vtiger_version', [
+					'current_version' => \App\Version::get(),
+					'old_version' => \App\Version::get()
+				])->execute();
+			// recalculate all sharing rules for users
+			require_once 'include/utils/CommonUtils.php';
+			require_once 'include/fields/DateTimeField.php';
+			require_once 'include/fields/DateTimeRange.php';
+			require_once 'include/fields/CurrencyField.php';
+			require_once 'include/CRMEntity.php';
+			require_once 'modules/Vtiger/CRMEntity.php';
+			require_once 'include/runtime/Cache.php';
+			require_once 'modules/Vtiger/helpers/Util.php';
+			require_once 'modules/PickList/DependentPickListUtils.php';
+			require_once 'modules/Users/Users.php';
+			require_once 'include/Webservices/Utils.php';
+			\App\UserPrivilegesFile::recalculateAll();
+			\App\Cache::clear();
+			\App\Cache::clearOpcache();
+		}
 	}
 
 	public function initializeDatabase($location, $filesName = [])
@@ -167,9 +170,14 @@ class Install_InitSchema_Model
 	 * Set company details.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function setCompanyDetails(\App\Request $request)
 	{
+		if (!($_SESSION['installation_success'] ?? false)) {
+			return;
+		}
 		$details = [];
 		foreach (Settings_Companies_Module_Model::getColumnNames() as $name) {
 			if ($request->has("company_{$name}")) {
@@ -180,6 +188,30 @@ class Install_InitSchema_Model
 		$multiCompany = $this->db->createCommand()->update('u_#__multicompany', ['company_name' => $details['name']]);
 		if (!$details || !$companies->execute() || !$multiCompany->execute()) {
 			throw new \App\Exceptions\AppException('No company data', 406);
+		}
+	}
+
+	/**
+	 * Create config files.
+	 */
+	private function createConfigFiles()
+	{
+		$skip = ['main', 'db', 'performance', 'debug', 'module'];
+		foreach (\App\ConfigFile::TYPES as $type) {
+			if (!in_array($type, $skip)) {
+				(new \App\ConfigFile($type))->create();
+			}
+		}
+		$dirPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'config' . \DIRECTORY_SEPARATOR . 'Modules';
+		if (!is_dir($dirPath)) {
+			mkdir($dirPath);
+		}
+		$modules = \vtlib\Functions::getAllModules();
+		foreach ($modules as $moduleData) {
+			$filePath = 'modules' . \DIRECTORY_SEPARATOR . $moduleData['name'] . \DIRECTORY_SEPARATOR . 'ConfigTemplate.php';
+			if (file_exists($filePath)) {
+				(new \App\ConfigFile('module', $moduleData['name']))->create();
+			}
 		}
 	}
 }

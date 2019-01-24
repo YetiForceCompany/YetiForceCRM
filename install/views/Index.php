@@ -307,16 +307,14 @@ class Install_Index_View extends \App\Controller\View
 				$_SESSION['installation_success'] = false;
 				\App\Log::error($e->__toString());
 			}
-			if (!($success = $_SESSION['installation_success'] ?? false)) {
-				Install_Utils_Model::cleanConfiguration();
-			}
 			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name'] ?? '');
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password'] ?? '');
-			$this->viewer->assign('INSTALATION_SUCCESS', $success);
-			$this->viewer->display('Step7.tpl');
-		} else {
+		}
+		if (!($success = $_SESSION['installation_success'] ?? false)) {
 			Install_Utils_Model::cleanConfiguration();
 		}
+		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
+		$this->viewer->display('Step7.tpl');
 	}
 
 	protected function preProcessDisplay(\App\Request $request)
