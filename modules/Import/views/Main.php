@@ -73,7 +73,10 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$moduleName = $this->request->getModule();
 		$importInfo = Import_Queue_Action::getImportInfo($moduleName, $this->user);
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Data', $moduleName);
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Data', $moduleName, false);
+		if (!$modelClassName) {
+			$modelClassName = 'Import_Data_Action';
+		}
 		$importDataController = new $modelClassName($importInfo, $this->user);
 		if (!$batchImport && !$importDataController->initializeImport()) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
