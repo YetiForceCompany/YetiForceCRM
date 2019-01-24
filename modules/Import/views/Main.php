@@ -70,11 +70,9 @@ class Import_Main_View extends \App\Controller\View
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
 		}
-
 		$importDataController->importData();
 		Import_Queue_Action::updateStatus($importInfo['id'], Import_Queue_Action::$IMPORT_STATUS_HALTED);
 		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
-
 		self::showImportStatus($importInfo, $this->user);
 	}
 
@@ -187,7 +185,6 @@ class Import_Main_View extends \App\Controller\View
 		$fileReader->deleteFile();
 		if ($fileReader->getStatus() === 'success') {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
-
 			return true;
 		} else {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .

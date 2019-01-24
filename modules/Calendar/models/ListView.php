@@ -18,22 +18,19 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 * Function to give advance links of a module
 	 * 	@RETURN array of advanced links
 	 */
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
 		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView') && \App\Privilege::isPermitted($moduleModel->getName(), 'EditView');
 		$advancedLinks = [];
-		$importPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Import');
-		if ($importPermission && $createPermission) {
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('Import')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
-				'linkurl' => 'javascript:Calendar_List_Js.triggerImportAction("' . $moduleModel->getImportUrl() . '")',
-				'linkicon' => 'fas fa-download',
+				'linkurl' => $moduleModel->getImportUrl(),
+				'linkicon' => 'fas fa-download'
 			];
 		}
-
 		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = [
