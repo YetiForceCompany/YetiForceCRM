@@ -102,7 +102,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$advFilterList = $request->get('advfilterlist');
+		$advFilterList = $request->getByType('advfilterlist', 'Text');
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];

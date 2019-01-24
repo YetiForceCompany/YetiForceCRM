@@ -27,7 +27,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 					$widget->set('active', $request->getInteger('active'));
 					$widget->set('filterid', $request->getInteger('filterid', null));
 					if ($request->has('data')) {
-						$widget->set('data', $request->get('data'));
+						$widget->set('data', $request->getByType('data', 'Text'));
 					}
 					$widget->show();
 				}

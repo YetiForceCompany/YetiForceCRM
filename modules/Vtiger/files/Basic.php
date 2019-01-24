@@ -84,7 +84,7 @@ abstract class Vtiger_Basic_File
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
-				'field' => $request->get('field'),
+				'field' => $request->getByType('field', 'Alnum'),
 				'module' => $request->getModule(),
 				'attach' => $attach,
 			]);
