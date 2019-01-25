@@ -878,7 +878,7 @@ var AppConnector,
 			formatTime = parseInt(formatTime) === 12 ? true : false;
 			let params = {
 				placement: 'bottom',
-				autoclose: !formatTime,
+				autoclose: true,
 				twelvehour: formatTime,
 				minutestep: 5
 			};
