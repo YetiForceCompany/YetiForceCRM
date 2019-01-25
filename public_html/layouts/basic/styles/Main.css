@@ -15882,6 +15882,10 @@ ul.tweets li {
 .u-w-fit {
   width: fit-content !important; }
 
+.u-w-max {
+  width: max-content !important;
+  width: -moz-max-content !important; }
+
 .u-w-max-320px {
   max-width: 320px !important; }
 
@@ -16839,6 +16843,9 @@ input[type="radio"]:checked:before {
 .user-info--active .mainBody {
   bottom: calc(2rem + 1rem); }
 
+.limited-footer--active .mainBody {
+  bottom: 1rem; }
+
 .user-info--active.limited-footer--active .mainBody {
   bottom: 2rem; }
 
@@ -16937,6 +16944,11 @@ input[type="radio"]:checked:before {
   .remindersNotificationContainer.toggled {
     visibility: visible;
     right: 0; }
+
+.limited-footer--active .remindersNoticeContainer,
+.limited-footer--active .remindersNotificationContainer,
+.limited-footer--active .modalRightSiteBar {
+  height: calc(100vh - (1rem + 3.125rem)); }
 
 .remindersContent {
   margin: 5px 8px 0 8px; }
@@ -17701,13 +17713,20 @@ input[type="radio"]:checked:before {
   max-width: 100% !important; }
 .inventoryItems .rowName .input-group {
   max-width: 400px; }
-.inventoryItems td, .inventoryItems th {
-  border: 1px solid #ddd; }
 .inventoryItems tfoot td.hideTd {
-  border: 0;
+  border-width: 0 0 1px 0;
   background: #fafafb; }
+  .inventoryItems tfoot td.hideTd + td:not(.hideTd) {
+    border-left: 1px solid #dee2e6 !important; }
 .inventoryItems .subProductsContainer ul {
   margin-bottom: 0; }
+
+.table-bordered.u-table-flex {
+  border-top: 1px solid #dee2e6 !important;
+  border-left: 1px solid #dee2e6 !important; }
+  .table-bordered.u-table-flex th,
+  .table-bordered.u-table-flex td {
+    border-width: 0 1px 1px 0; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .calendarViewContainer .widget_header {
@@ -17759,7 +17778,13 @@ input[type="radio"]:checked:before {
     right: 0;
     top: 3.125rem;
     bottom: 2rem;
-    z-index: 100; } }
+    z-index: 100; }
+
+  .limited-footer--active .siteBarRight {
+    bottom: 1rem; }
+
+  .user-info--active.limited-footer--active .siteBarRight {
+    bottom: 2rem; } }
 .hideSiteBar {
   right: -25%; }
   .hideSiteBar .siteBarContent {
@@ -18230,7 +18255,11 @@ input[type="radio"]:checked:before {
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__tab--filters,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__tab--filters {
-    height: calc(100vh - 2rem - 3.125rem); }
+    height: calc(100vh - (2rem + 3.125rem)); }
+    .limited-footer--active .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__tab--filters, .tpl-Calendar-Extended-QuickCreate .o-calendar__form, .tpl-Calendar-Extended-QuickCreate .o-calendar__tab--filters {
+      height: calc(100vh - (1rem + 3.125rem)); }
+    .user-info--active.limited-footer--active .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__tab--filters, .tpl-Calendar-Extended-QuickCreate .o-calendar__form, .tpl-Calendar-Extended-QuickCreate .o-calendar__tab--filters {
+      height: calc(100vh - (2rem + 3.125rem)); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
     position: relative; }
@@ -18317,10 +18346,10 @@ input[type="radio"]:checked:before {
 .limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
   height: calc(100vh - 1rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem); }
 
-.limited-footer--active.limited-footer--active .o-calendar__tab--filters, .limited-footer--active.limited-footer--active .o-calendar__form {
-  height: calc(100vh - 2rem - 3.125rem); }
+.limited-footer--active .o-calendar__tab--filters, .limited-footer--active .o-calendar__form {
+  height: calc(100vh - (1rem + 3.125rem)); }
 
-.limited-footer--active.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
   height: calc(100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem); }
 
 .tpl-Calendar-Extended-QuickCreate .boxEventTitle {
