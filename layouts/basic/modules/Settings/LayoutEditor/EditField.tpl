@@ -118,7 +118,7 @@
 							<label for="fieldMask"><strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong></label>
 							<div class=" input-group">
 								<input type="text" class="form-control" id="fieldMask" name="fieldMask"
-									   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}{if $FIELD_MODEL->get('maximumlength')}maxSize[{$FIELD_MODEL->get('maximumlength')}],{/if}funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]"
+										{if $FIELD_MODEL->get('maximumlength')} data-validation-engine="validate[maxSize[{$FIELD_MODEL->get('maximumlength')}]{/if}"
 									   value="{$FIELD_MODEL->get('fieldparams')}"/>
 								<div class="input-group-append">
 								<span class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
