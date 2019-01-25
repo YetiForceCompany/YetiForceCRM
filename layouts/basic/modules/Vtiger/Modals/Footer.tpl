@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Modals-Footer modal-footer">
 		{if !empty($BTN_SUCCESS)}
-			<button class="btn btn-success" type="submit" name="saveButton" data-js="click">
+			<button class="js-modal__save btn btn-success" type="submit" name="saveButton" data-js="click">
 				<span class="fas fa-check mr-1"></span>
 				<strong>
 					{if !empty($QUALIFIED_MODULE)}
