@@ -60,22 +60,22 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 						name: 'proton',
 						responsive: true
 					},
-					check_callback: true,
+					check_callback: true
 				},
 				contextmenu: {
 					items: {
 						create: {
 							label: app.vtranslate('JS_JSTREE_CREATE'),
 							action: function (data) {
-								var inst = $.jstree.reference(data.reference);
-								obj = inst.get_node(data.reference);
+								let treeInstance = $.jstree.reference(data.reference),
+									selectedNode = treeInstance.get_node(data.reference);
 								thisInstance.jstreeLastID = thisInstance.jstreeLastID + 1;
-								inst.create_node(obj, {
+								treeInstance.create_node(selectedNode, {
 									id: thisInstance.jstreeLastID,
 									text: app.vtranslate('JS_NEW_ITEM')
 								}, "last", function (new_node) {
 									setTimeout(function () {
-										inst.edit(new_node);
+										treeInstance.edit(new_node);
 									}, 0);
 								});
 							}
@@ -83,21 +83,21 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 						rename: {
 							label: app.vtranslate('JS_JSTREE_RENAME'),
 							action: function (data) {
-								var inst = $.jstree.reference(data.reference),
-									obj = inst.get_node(data.reference);
-								inst.edit(obj);
+								let treeInstance = $.jstree.reference(data.reference),
+									selectedNode = treeInstance.get_node(data.reference);
+								treeInstance.edit(selectedNode);
 							}
 						},
 						changeIcon: {
 							label: app.vtranslate('JS_JSTREE_CHANGE_ICON'),
 							action: function (data) {
-								var instanceTree = $.jstree.reference(data.reference);
-								var node = instanceTree.get_node(data.reference);
+								let treeInstance = $.jstree.reference(data.reference),
+									selectedNode = treeInstance.get_node(data.reference);
 								Settings_Vtiger_Index_Js.selectIcon().done(function (data) {
 									if (data['name'] == '-') {
-										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, false);
+										thisInstance.jstreeInstance.jstree(true).set_icon(selectedNode.id, false);
 									} else {
-										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, data['name']);
+										thisInstance.jstreeInstance.jstree(true).set_icon(selectedNode.id, data['name']);
 									}
 								});
 							}
@@ -105,27 +105,27 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 						remove: {
 							label: app.vtranslate('JS_JSTREE_REMOVE'),
 							action: function (data) {
-								var inst = $.jstree.reference(data.reference);
-								var id = inst.get_selected();
-								var status = true;
+								let treeInstance = $.jstree.reference(data.reference),
+									id = treeInstance.get_selected(),
+									status = true;
 								$.each(id, function (index, value) {
-									var menu = inst.get_node(value);
+									let menu = treeInstance.get_node(value);
 									if (menu.children.length > 0) {
 										Settings_Vtiger_Index_Js.showMessage({
 											text: app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'),
 											type: 'error'
-										})
+										});
 										status = false;
 									}
 								});
 								if (status) {
-									thisInstance.deleteItemEvent(id, inst).done(function (e) {
+									thisInstance.deleteItemEvent(id, treeInstance).done(function (e) {
 										if (e.length > 0) {
 											$.each(id, function (index, value) {
-												inst.delete_node(value);
+												treeInstance.delete_node(value);
 											});
 										}
-									})
+									});
 								}
 							}
 						},
@@ -135,21 +135,21 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 								cut: {
 									label: app.vtranslate('JS_JSTREE_CUT'),
 									"action": function (data) {
-										var inst = $.jstree.reference(data.reference),
-											obj = inst.get_node(data.reference);
-										if (inst.is_selected(obj)) {
-											inst.cut(inst.get_top_selected());
+										let treeInstance = $.jstree.reference(data.reference),
+											selectedNode = treeInstance.get_node(data.reference);
+										if (treeInstance.is_selected(selectedNode)) {
+											treeInstance.cut(treeInstance.get_top_selected());
 										} else {
-											inst.cut(obj);
+											treeInstance.cut(selectedNode);
 										}
 									}
 								},
 								paste: {
 									label: app.vtranslate('JS_JSTREE_PASTE'),
 									"action": function (data) {
-										var inst = $.jstree.reference(data.reference),
-											obj = inst.get_node(data.reference);
-										inst.paste(obj);
+										let treeInstance = $.jstree.reference(data.reference),
+											selectedNode = treeInstance.get_node(data.reference);
+										treeInstance.paste(selectedNode);
 									}
 								},
 							}
