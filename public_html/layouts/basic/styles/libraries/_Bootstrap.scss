@@ -84,3 +84,7 @@ label.btn[class*=btn-outline-] {
 .input-group.input-group-sm {
 	min-width: calculate-rem(65px);
 }
+
+.modal-backdrop {
+	z-index: 1031;
+}
