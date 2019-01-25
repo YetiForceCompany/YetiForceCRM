@@ -1030,7 +1030,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		if (!isset($this->data[$groupValue][$dividingValue]['link'])) {
 			$value = $row[$this->groupName];
-			if ($this->groupName === 'link') {
+			if ($this->groupFieldModel->getFieldType() === 'I') {
 				$value = $groupValue;
 			}
 			$params = array_merge($this->searchParams, [[$this->groupFieldName, 'e', $value]]);
