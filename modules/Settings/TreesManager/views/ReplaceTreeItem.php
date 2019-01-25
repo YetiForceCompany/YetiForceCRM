@@ -21,7 +21,7 @@ class Settings_TreesManager_ReplaceTreeItem_View extends \App\Controller\ModalSe
 	public function preProcessAjax(\App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = '<span class="fas fas exchange-alt mr-2"></span>' . \App\Language::translate('LBL_SELECT_REPLACE_TREE_ITEM', $this->qualifiedModuleName);
+		$this->pageTitle = '<span class="fas fa-exchange-alt mr-2"></span>' . \App\Language::translate('LBL_SELECT_REPLACE_TREE_ITEM', $this->qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
 
