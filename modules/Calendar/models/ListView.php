@@ -21,7 +21,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView') &&
 			\App\Privilege::isPermitted($moduleModel->getName(), 'EditView');
 		$advancedLinks = [];
 		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('Import')) {
