@@ -97,11 +97,7 @@ class AppConfig
 
 	public static function securityKeys($key, $defvalue = false)
 	{
-		if (empty(self::$securityKeys)) {
-			require_once 'config/secret_keys.php';
-			self::load('securityKeys', $SECURITY_KEYS_CONFIG);
-		}
-		return self::$securityKeys[$key] ?? $defvalue;
+		return \App\Config::securityKeys($key, $defvalue);
 	}
 
 	public static function performance($key, $defvalue = false)

@@ -771,6 +771,25 @@ return [
 			'description' => 'Colors for record state will be displayed in list view, history, and preview.',
 		],
 	],
+	'securityKeys' => [
+		'encryptionPass' => [
+			'default' => 'yeti',
+			'description' => "Key to encrypt passwords, changing the key results in the loss of all encrypted data.",
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
+					in_array($arg['method'], \App\Encryption::getMethods()) && strlen($arg['pass']) === App\Encryption::getLengthVector($arg['method']);
+			}
+		],
+		'encryptionMethod' => [
+			'default' => 'AES-256-CBC',
+			'description' => "Encryption method.",
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg === '' || ($arg && !in_array($arg, \App\Encryption::getMethods()));
+			}
+		],
+	],
 	'security' => [
 		'USER_ENCRYPT_PASSWORD_COST' => [
 			'default' => 10,

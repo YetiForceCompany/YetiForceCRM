@@ -26,7 +26,7 @@ class ConfigFile extends Base
 		'debug',
 		'developer',
 		'security',
-//		'securityKeys',
+		'securityKeys',
 		'relation',
 		'sounds',
 		'search',

@@ -108,6 +108,12 @@ class Config
 		return self::get($class, $arg, $default);
 	}
 
+	public static function securityKeys(?string $arg = null, $default = null)
+	{
+		$class = "\Config\SecurityKeys";
+		return self::get($class, $arg, $default);
+	}
+
 	public static function db(?string $arg = null, $default = null)
 	{
 		$class = "\Config\Db";
