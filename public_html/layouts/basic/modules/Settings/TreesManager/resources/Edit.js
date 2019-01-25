@@ -5,11 +5,11 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	jstreeInstance: false,
 	jstreeLastID: 0,
 	registerEvents: function () {
-		const thisInstance = this,
+		const self = this,
 			editContainer = $("#EditView"),
-			jstreeInstance = thisInstance.createTree();
+			jstreeInstance = self.createTree();
 		editContainer.validationEngine();
-		$('.addNewElementBtn').on('click', function (e) {
+		$('.addNewElementBtn').on('click', () => {
 			const newElement = $('input.addNewElement'),
 				ref = jstreeInstance.jstree(true);
 			if (newElement.val() === '') {
@@ -17,15 +17,15 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 				newElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 				return false;
 			}
-			thisInstance.jstreeLastID += 1;
+			self.jstreeLastID += 1;
 			ref.create_node('#', {
-				id: thisInstance.jstreeLastID,
+				id: self.jstreeLastID,
 				text: newElement.val(),
 				icon: false
 			}, 'last');
 			newElement.val('');
 		});
-		$('.saveTree').on('click', function (e) {
+		$('.saveTree').on('click', () => {
 			jstreeInstance.jstree('deselect_all', true);
 			const json = jstreeInstance.jstree("get_json");
 			let forSave = [];
@@ -38,7 +38,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			$('#treeValues').val(JSON.stringify(forSave));
 			editContainer.submit();
 		});
-		$('.addNewElement').on('keydown', function (event) {
+		$('.addNewElement').on('keydown', (event) => {
 			if (event.keyCode == 13) {
 				$('.addNewElementBtn').trigger("click");
 				event.preventDefault();
@@ -47,13 +47,13 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		});
 	},
 	createTree: function () {
-		var thisInstance = this;
+		const self = this;
 		if (this.jstreeInstance == false) {
-			thisInstance.jstreeLastID = parseInt($('#treeLastID').val());
-			var treeValues = $('#treeValues').val();
-			var data = JSON.parse(treeValues);
-			thisInstance.jstreeInstance = $("#treeContents");
-			thisInstance.jstreeInstance.jstree({
+			self.jstreeLastID = parseInt($('#treeLastID').val());
+			let treeValues = $('#treeValues').val(),
+				data = JSON.parse(treeValues);
+			self.jstreeInstance = $("#treeContents");
+			self.jstreeInstance.jstree({
 				core: {
 					data: data,
 					themes: {
@@ -69,9 +69,9 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							action: function (data) {
 								let treeInstance = $.jstree.reference(data.reference),
 									selectedNode = treeInstance.get_node(data.reference);
-								thisInstance.jstreeLastID = thisInstance.jstreeLastID + 1;
+								self.jstreeLastID = self.jstreeLastID + 1;
 								treeInstance.create_node(selectedNode, {
-									id: thisInstance.jstreeLastID,
+									id: self.jstreeLastID,
 									text: app.vtranslate('JS_NEW_ITEM')
 								}, "last", function (new_node) {
 									setTimeout(function () {
@@ -95,9 +95,9 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									selectedNode = treeInstance.get_node(data.reference);
 								Settings_Vtiger_Index_Js.selectIcon().done(function (data) {
 									if (data['name'] == '-') {
-										thisInstance.jstreeInstance.jstree(true).set_icon(selectedNode.id, false);
+										self.jstreeInstance.jstree(true).set_icon(selectedNode.id, false);
 									} else {
-										thisInstance.jstreeInstance.jstree(true).set_icon(selectedNode.id, data['name']);
+										self.jstreeInstance.jstree(true).set_icon(selectedNode.id, data['name']);
 									}
 								});
 							}
@@ -119,7 +119,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									}
 								});
 								if (status) {
-									thisInstance.deleteItemEvent(id, treeInstance).done(function (e) {
+									self.deleteItemEvent(id, treeInstance).done(function (e) {
 										if (e.length > 0) {
 											$.each(id, function (index, value) {
 												treeInstance.delete_node(value);
@@ -162,11 +162,11 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		return this.jstreeInstance;
 	},
 	deleteItemEvent: function (id, inst) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var data = inst.get_json();
+		let self = this,
+			aDeferred = jQuery.Deferred(),
+			data = inst.get_json();
 		$.each(id, function (index, id) {
-			data = thisInstance.checkChildren(id, data);
+			data = self.checkChildren(id, data);
 		});
 		if (data.length == 0) {
 			Settings_Vtiger_Index_Js.showMessage({
@@ -176,9 +176,8 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			aDeferred.resolve();
 			return aDeferred.promise();
 		}
-		app.showModalWindow(null, "index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem", function (wizardContainer) {
-			let form = jQuery('form', wizardContainer),
-				jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
+		app.showModalWindow(null, 'index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem', function (wizardContainer) {
+			let jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
 			jstreeInstanceReplace.jstree({
 				core: {
 					data: data,
@@ -190,26 +189,22 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			}).on("loaded.jstree", function (event, data) {
 				$(this).jstree("open_all");
 			});
-			form.on('submit', function (e) {
+			wizardContainer.find('.js-modal__save').on('click', () => {
 				let selected = jstreeInstanceReplace.jstree("get_selected"),
 					replaceIdsElement = $('#replaceIds'),
 					replaceIds = replaceIdsElement.val(),
-					data;
-				if (replaceIds === '') {
 					data = [];
-				} else {
+				if (replaceIds !== '') {
 					data = JSON.parse(replaceIds);
 				}
-				if (!selected.length) {
+				if (!selected.length || selected.length > 1) {
+					let message = 'JS_ONLY_ONE_ITEM_SELECTED';
+					if (!selected.length) {
+						message = 'JS_NO_ITEM_SELECTED';
+					}
 					Settings_Vtiger_Index_Js.showMessage({
 						type: 'error',
-						text: app.vtranslate('JS_NO_ITEM_SELECTED')
-					});
-					return false;
-				} else if (selected.length > 1) {
-					Settings_Vtiger_Index_Js.showMessage({
-						type: 'error',
-						text: app.vtranslate('JS_ONLY_ONE_ITEM_SELECTED')
+						text: app.vtranslate(message)
 					});
 					return false;
 				}
@@ -222,12 +217,12 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		return aDeferred.promise();
 	},
 	checkChildren: function (id, data) {
-		var thisInstance = this;
-		var dataNew = [];
+		let self = this,
+			dataNew = [];
 		for (var key in data) {
 			if (data[key].id != id) {
 				if (data[key].children.length) {
-					data[key].children = thisInstance.checkChildren(id, data[key].children);
+					data[key].children = self.checkChildren(id, data[key].children);
 				}
 				dataNew.push(data[key]);
 			}
