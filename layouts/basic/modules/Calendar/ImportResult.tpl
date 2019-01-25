@@ -31,7 +31,8 @@
 		{else}
 			<tr>
 				<td valign="top">
-					<table cellpadding="5" cellspacing="0" align="center" width="100%" class="dvtSelectedCell thickBorder importContents">
+					<table cellpadding="5" cellspacing="0" align="center" width="100%"
+						   class="dvtSelectedCell thickBorder importContents">
 						<tr>
 							<td>{\App\Language::translate('LBL_TOTAL_EVENTS_IMPORTED', $MODULE_NAME)}</td>
 							<td width="10%">:</td>
@@ -60,10 +61,12 @@
 		<tr>
 			<td align="right" colspan="1">
 				<div class="float-right">
-					<a href="index.php?module={$MODULE_NAME}&view=Import&mode=undoImport" name="next" class="marginLeft10 delete btn btn-danger">
+					<a href="index.php?module={$MODULE_NAME}&view=Import&mode=undoImport&type=ics" name="next"
+					   class="marginLeft10 delete btn btn-danger">
 						<strong>{\App\Language::translate('LBL_UNDO_LAST_IMPORT', $MODULE_NAME)}</strong>
 						<a/>
-						<a href="{$MODULE_MODEL->getListViewUrl()}" name="next" class="marginLeft10 create btn btn-success">
+						<a href="{$MODULE_MODEL->getListViewUrl()}" name="next"
+						   class="marginLeft10 create btn btn-success">
 							<strong>{\App\Language::translate('LBL_FINISH', $MODULE_NAME)}</strong>
 						</a>
 				</div>

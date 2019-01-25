@@ -83,19 +83,23 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 */
 	public function undoImport(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$moduleName = $request->getModule();
-		$lastImport = new IcalLastImport();
-		$returnValue = $lastImport->undo($moduleName, $currentUserModel->getId());
-		if (!empty($returnValue)) {
-			$undoStatus = true;
+		if ($request->has('type') && 'ics' === $request->getByType('type', \App\Purifier::TEXT)) {
+			$currentUserModel = Users_Record_Model::getCurrentUserModel();
+			$moduleName = $request->getModule();
+			$lastImport = new IcalLastImport();
+			$returnValue = $lastImport->undo($moduleName, $currentUserModel->getId());
+			if (!empty($returnValue)) {
+				$undoStatus = true;
+			} else {
+				$undoStatus = false;
+			}
+			$viewer = $this->getViewer($request);
+			$viewer->assign('MODULE_NAME', $moduleName);
+			$viewer->assign('VIEW', 'List');
+			$viewer->assign('UNDO_STATUS', $undoStatus);
+			$viewer->view('ImportFinalResult.tpl', $moduleName);
 		} else {
-			$undoStatus = false;
+			parent::undoImport($request);
 		}
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('VIEW', 'List');
-		$viewer->assign('UNDO_STATUS', $undoStatus);
-		$viewer->view('ImportFinalResult.tpl', $moduleName);
 	}
 }
