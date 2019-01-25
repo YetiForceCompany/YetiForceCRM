@@ -3,7 +3,7 @@
 	<!-- tpl-Base-BodyHeader -->
 	{assign var='count' value=0}
 	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header c-header"
-			data-js="height">
+	        data-js="height">
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
@@ -16,15 +16,15 @@
 
 			{if AppConfig::performance('GLOBAL_SEARCH')}
 				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex"
-					 data-js="container">
+				     data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
 						<select class="select2 basicSearchModulesList form-control"
-								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
+						        title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
 							<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 							{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
 								{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
 									<option value="{$SEARCHABLE_MODULE}"
-											selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+									        selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 								{else}
 									<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 								{/if}
@@ -32,10 +32,10 @@
 						</select>
 					</div>
 					<input id="global-search-__value" type="text"
-						   class="form-control js-global-search__value o-global-search__value"
-						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
-						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-						   data-js="keypress | value | autocomplete"/>
+					       class="form-control js-global-search__value o-global-search__value"
+					       title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+					       placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
+					       data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
 						<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">
 							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
@@ -46,28 +46,28 @@
 								   id="globalSearchOperator" href="#" role="button" data-toggle="dropdown"
 								   aria-haspopup="true" aria-expanded="false">
 									<span class="fas fa-crosshairs fa-fw"
-										  title="{\App\Language::translate('LBL_SPECIAL_OPTIONS')}"></span>
+									      title="{\App\Language::translate('LBL_SPECIAL_OPTIONS')}"></span>
 								</a>
 								<ul class="dropdown-menu js-global-search-operator"
-									aria-labelledby="globalSearchOperator" data-js="click">
+								    aria-labelledby="globalSearchOperator" data-js="click">
 									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="FulltextBegin">
+									    href="#" data-operator="FulltextBegin">
 										{\App\Language::translate('LBL_FULLTEXT_BEGIN')}
 									</li>
 									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="FulltextWord">
+									    href="#" data-operator="FulltextWord">
 										{\App\Language::translate('LBL_FULLTEXT_WORD')}
 									</li>
 									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="Contain">
+									    href="#" data-operator="Contain">
 										{\App\Language::translate('LBL_CONTAINS')}
 									</li>
 									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="Begin">
+									    href="#" data-operator="Begin">
 										{\App\Language::translate('LBL_STARTS_WITH')}
 									</li>
 									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="End">
+									    href="#" data-operator="End">
 										{\App\Language::translate('LBL_ENDS_WITH')}
 									</li>
 								</ul>
@@ -75,7 +75,7 @@
 						{/if}
 						{if $USER_MODEL->getRoleDetail()->get('globalsearchadv')}
 							<button class="btn btn-outline-dark border-0 h-100 globalSearch"
-									title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+							        title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 								<span class="fa fa-th-large fa-fw"></span>
 							</button>
 						{/if}
@@ -87,7 +87,7 @@
 							<a class="btn btn-light c-header__btn" href="#" role="button" aria-expanded="false"
 							   aria-controls="o-search-menu__container">
 								<span class="fas fa-search fa-fw"
-									  title="{\App\Language::translate('LBL_SEARCH')}"></span>
+								      title="{\App\Language::translate('LBL_SEARCH')}"></span>
 							</a>
 						</div>
 					</div>
@@ -95,13 +95,13 @@
 						<div class="input-group mb-3">
 							<div class="form-control select2WithButtonWidth">
 								<select class="select2 basicSearchModulesList"
-										title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+								        title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
 									<option value="-"
-											class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
+									        class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 									{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 										{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
 											<option value="{$MODULE_NAME}"
-													selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
+											        selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
 										{else}
 											<option value="{$MODULE_NAME}">{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
 										{/if}
@@ -111,19 +111,19 @@
 							{if $USER_MODEL->getRoleDetail()->get('globalsearchadv')}
 								<div class="input-group-append">
 									<button class="btn btn-light globalSearch"
-											title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+									        title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 										<span class="fas fa-th-large"></span>
 									</button>
 								</div>
 							{/if}
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input"
-							 data-js="container">
+						     data-js="container">
 							<input id="global-search-__value--mobile" type="text"
-								   class="form-control js-global-search__value o-global-search__value"
-								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
-								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-								   data-js="keypress | value | autocomplete"/>
+							       class="form-control js-global-search__value o-global-search__value"
+							       title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+							       placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
+							       data-js="keypress | value | autocomplete"/>
 							<div class="input-group-append">
 								<button class="btn btn-light searchIcon" type="button">
 									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
@@ -149,8 +149,8 @@
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
 						<div class="c-header__btn__container bg-white rounded js-header__btn--mail"
-							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
-							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+						     {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
+						     data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
 								<a class="c-header__btn btn btn-outline-dark border-0 h-100"
 								   title="{$MAIN_MAIL.username}"
@@ -162,16 +162,16 @@
 									</div>
 									<div class="d-xxl-none">
 										<span class="fas fa-inbox fa-fw"
-											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+										      title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</div>
 								</a>
 							{elseif $CONFIG['showMailAccounts']=='true'}
 								<div class="d-none d-xxl-block">
 									<select id="mail-select" class="form-control-sm"
-											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+									        title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}"
-													data-nomail="" class="noMails">
+											        data-nomail="" class="noMails">
 												{$ITEM.username}
 											</option>
 										{/foreach}
@@ -183,13 +183,13 @@
 									   data-boundary="window" href="#" role="button" aria-haspopup="true"
 									   aria-expanded="false">
 										<span class="fas fa-inbox fa-fw"
-											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+										      title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</a>
 									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list"
-										data-js="click">
+									    data-js="click">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<li value="{$KEY}" data-id="{$KEY}" data-nomail=""
-												class="dropdown-item noMails js-mail-link" data-js="click">
+											    class="dropdown-item noMails js-mail-link" data-js="click">
 												{$ITEM.username}
 											</li>
 										{/foreach}
@@ -207,21 +207,21 @@
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
 					   target="_blank">
 						<span class="fas fa-shopping-cart fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
+						      title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
 					</a>
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://yetiforce.shop/#support"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
 					   target="_blank">
 						<span class="far fa-life-ring fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
+						      title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
 					</a>
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
 					   target="_blank">
 						<span class="fas fa-bug fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
+						      title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
 					</a>
 				</div>
 			{/if}
@@ -239,10 +239,9 @@
 							   data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}"
 							   href="#">
 								<span class="fas fa-plus fa-fw"
-									  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
+								      title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 							</a>
-							{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}
 						</div>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
@@ -251,7 +250,7 @@
 							   role="button" data-js="popover"
 							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
 								<span class="fas fa-bell fa-fw"
-									  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
+								      title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
 								<span class="badge badge-dark d-none mr-1">0</span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 							</a>
@@ -272,7 +271,7 @@
 							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
 							   href="#">
 								<span class="fas fa-comments fa-fw"
-									  title="{\App\Language::translate('LBL_CHAT')}"></span>
+								      title="{\App\Language::translate('LBL_CHAT')}"></span>
 								<span class="badge badge-danger mr-1 hide js-badge" data-js="change">0</span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 							</a>
@@ -284,7 +283,7 @@
 							   data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}"
 							   href="#">
 							<span class="fas fa-calendar fa-fw"
-								  title="{\App\Language::translate('LBL_REMINDER')}"></span>
+							      title="{\App\Language::translate('LBL_REMINDER')}"></span>
 								<span class="badge badge-danger d-none mr-1">0</span>
 								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_REMINDER')}</span>
 							</a>
@@ -298,7 +297,7 @@
 								   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#"
 								   role="button">
 								<span class="fas fa-history fa-fw"
-									  title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
+								      title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
 									<span class="c-header__label--sm-down">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 								</a>
 								{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
@@ -331,7 +330,7 @@
 									{/if}
 									{if $ICON_PATH}
 										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
-											 title="{\App\Language::translate($TITLE,$MODULE)}"/>
+										     title="{\App\Language::translate($TITLE,$MODULE)}"/>
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}
@@ -370,5 +369,6 @@
 			</nav>
 		</div>
 	</header>
+	{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}
 	<!-- /tpl-Base-BodyHeader -->
 {/strip}
