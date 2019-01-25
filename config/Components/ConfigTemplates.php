@@ -8,8 +8,9 @@
 return [
 	'AddressFinder' => [
 		'REMAPPING_OPENCAGE' => [
-			'default' => null,
-			'description' => 'Main function to remapping fields for OpenCage. It should be function'
+			'type' => 'function',
+			'default' => "return null;",
+			'description' => 'Main function to remapping fields for OpenCage. It should be function.'
 		],
 		'REMAPPING_OPENCAGE_FOR_COUNTRY' => [
 			'type' => 'function',

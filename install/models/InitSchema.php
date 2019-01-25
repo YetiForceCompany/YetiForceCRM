@@ -197,20 +197,18 @@ class Install_InitSchema_Model
 	private function createConfigFiles()
 	{
 		$skip = ['main', 'db', 'performance', 'debug', 'security', 'module', 'component'];
-		foreach (\App\ConfigFile::TYPES as $type) {
-			if (!in_array($type, $skip)) {
-				(new \App\ConfigFile($type))->create();
-			}
+		foreach (array_diff(\App\ConfigFile::TYPES, $skip) as $type) {
+			(new \App\ConfigFile($type))->create();
 		}
 		$dirPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'config' . \DIRECTORY_SEPARATOR . 'Modules';
 		if (!is_dir($dirPath)) {
 			mkdir($dirPath);
 		}
-		$modules = \vtlib\Functions::getAllModules();
-		foreach ($modules as $moduleData) {
-			$filePath = 'modules' . \DIRECTORY_SEPARATOR . $moduleData['name'] . \DIRECTORY_SEPARATOR . 'ConfigTemplate.php';
+		$dataReader = (new \App\Db\Query())->select(['name'])->from('vtiger_tab')->createCommand()->query();
+		while ($moduleName = $dataReader->readColumn(0)) {
+			$filePath = 'modules' . \DIRECTORY_SEPARATOR . $moduleName . \DIRECTORY_SEPARATOR . 'ConfigTemplate.php';
 			if (file_exists($filePath)) {
-				(new \App\ConfigFile('module', $moduleData['name']))->create();
+				(new \App\ConfigFile('module', $moduleName))->create();
 			}
 		}
 		$path = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'config' . \DIRECTORY_SEPARATOR . 'Components' . \DIRECTORY_SEPARATOR . 'ConfigTemplates.php';

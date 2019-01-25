@@ -98,10 +98,10 @@ This file is auto-generated.
 		$data = require "{$this->templatePath}";
 		if ('component' === $this->type) {
 			if (!isset($data[$this->component])) {
-				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->type, 406);
+				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$this->type}:{$this->component}", 406);
 			}
 			$data = $data[$this->component];
-		} elseif ('module' === $this->type) {
+		} elseif ('module' !== $this->type) {
 			if (!isset($data[$this->type])) {
 				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->type, 406);
 			}
