@@ -413,10 +413,12 @@
 	.breadcrumb {
 		background: none;
 		flex-wrap: nowrap;
+		align-items: center;
 	}
 
 	.breadcrumb-item {
 		white-space: nowrap;
+		height: fit-content;
 
 		&.active {
 			color: darken($breadcrumb-active-color, 10%);
