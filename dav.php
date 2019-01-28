@@ -4,16 +4,20 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require __DIR__ . '/include/ConfigUtils.php';
-if (!in_array('dav', $enabledServices)) {
+if (!in_array('dav', \App\Config::api('enabledServices', []))) { // TODO: replace all variable in this file like this
 	require __DIR__ . '/include/main/WebUI.php';
 	$apiLog = new \App\Exceptions\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
 	return;
 }
 // Database
-$pdo = new PDO($dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
+$dbConfig = \App\Config::db('base');
+$pdo = new PDO($dbConfig['dsn'] . ';charset=' . $dbConfig['charset'], $dbConfig['username'], $dbConfig['password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+$enableCalDAV = \App\Config::api('enableCalDAV');
+$enableCardDAV = \App\Config::api('enableCardDAV');
+$enableBrowser = \App\Config::api('enableBrowser');
 set_error_handler(['App\Dav\Debug', 'exceptionErrorHandler']);
 $enableWebDAV = false;
 // Backends
@@ -34,7 +38,7 @@ if ($enableCardDAV) {
 // The object tree needs in turn to be passed to the server class
 $server = new App\Dav\DavServer($nodes);
 $server->setBaseUri($_SERVER['SCRIPT_NAME']);
-$server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
+$server->debugExceptions = \App\Config::debug('DAV_DEBUG_EXCEPTIONS');
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend));
 $aclPlugin = new Sabre\DAVACL\Plugin();
@@ -57,7 +61,7 @@ if ($enableWebDAV) {
 	//WebDAV integration
 	$server->addPlugin(new Sabre\DAV\Sync\Plugin());
 }
-if (AppConfig::debug('DAV_DEBUG_PLUGIN')) {
+if (\App\Config::debug('DAV_DEBUG_PLUGIN')) {
 	$server->addPlugin(new App\Dav\Debug());
 }
 // And off we go!
