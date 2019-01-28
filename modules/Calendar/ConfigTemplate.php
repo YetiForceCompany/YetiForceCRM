@@ -122,26 +122,22 @@ return [
 	],
 	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => [
 		'default' => false,
-		'description' => 'Show activity status buttons in edit form',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'description' => 'Show activity status buttons in edit form'
 	],
 	'SHOW_EDIT_FORM' => [
 		'default' => false,
-		'description' => 'Show default edit form',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'description' => 'Show default edit form'
 	],
 	'AUTOFILL_TIME' => [
 		'default' => false,
-		'description' => 'Select event free time automatically',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'description' => 'Select event free time automatically'
 	],
 	'ALL_DAY_SLOT' => [
 		'default' => true,
-		'description' => 'Shows "all day" row in agendaWeek and agendaDay view',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'description' => 'Shows "all day" row in agendaWeek and agendaDay view'
 	],
+	'EXPORT_SUPPORTED_FILE_FORMATS' => [
+		'default' => ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml', 'LBL_ICAL' => 'ical'],
+		'description' => 'Supported file types for data export.'
+	]
 ];
