@@ -20,9 +20,9 @@ class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 		if ($recordModel) {
 			$recordModel->set('profilename', $request->getByType('profilename', 'Text'));
 			$recordModel->set('description', $request->getByType('description', 'Text'));
-			$recordModel->set('viewall', $request->get('viewall'));
-			$recordModel->set('editall', $request->get('editall'));
-			$recordModel->set('profile_permissions', $request->get('permissions'));
+			$recordModel->set('viewall', $request->getBoolean('viewall'));
+			$recordModel->set('editall', $request->getBoolean('editall'));
+			$recordModel->set('profile_permissions', $request->getArray('permissions', 'Alnum'));
 			$recordModel->save();
 		}
 

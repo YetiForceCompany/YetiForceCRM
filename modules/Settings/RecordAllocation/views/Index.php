@@ -38,7 +38,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$type = $request->get('type');
+		$type = $request->getByType('type', 'Alnum');
 		if (empty($type)) {
 			$type = 'owner';
 		}
@@ -53,8 +53,8 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$index = (int) $request->get('index');
-		$type = $request->get('type');
+		$index = $request->getInteger('index');
+		$type = $request->getByType('type', 'Alnum');
 		if (empty($type)) {
 			$type = 'owner';
 		}
