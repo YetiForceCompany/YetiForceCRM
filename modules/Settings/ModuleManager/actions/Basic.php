@@ -70,7 +70,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function createModule(\App\Request $request)
 	{
-		$formData = $request->getMultiDimensionArray('formData',[
+		$formData = $request->getMultiDimensionArray('formData', [
 			'module_name' => 'Alnum',
 			'module_label' => 'Text',
 			'entityfieldname' => 'Text',

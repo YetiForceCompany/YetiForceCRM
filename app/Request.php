@@ -287,7 +287,7 @@ class Request
 						}
 						if (count($tempTemplate) === 1) {
 							$tempTemplate = current($tempTemplate);
-						} else if (!isset($tempTemplate[$secondKey])) {
+						} elseif (!isset($tempTemplate[$secondKey])) {
 							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
 						} else {
 							$tempTemplate = $tempTemplate[$secondKey];
