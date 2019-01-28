@@ -31,6 +31,9 @@ class VTTaskManager
 		if (!empty($task->id) && is_numeric($task->id)) {
 			//How do I check whether a member exists in php?
 			$taskId = $task->id;
+			if ($task->email && !is_array($task->email)) {
+				$task->email = [$task->email];
+			}
 			$db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
 
 			return $taskId;
