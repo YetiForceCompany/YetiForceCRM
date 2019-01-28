@@ -186,6 +186,9 @@ class Language
 			}
 			return \nl2br(static::$languageContainer[$language]['_Base']['php'][$key]);
 		}
+		if (static::DEFAULT_LANG !== $language) {
+			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode);
+		}
 		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
 		return $key;
 	}

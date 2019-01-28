@@ -44,19 +44,20 @@
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_LIBRARY', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_LIBRARY', 'Install')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_MANDATORY', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_MANDATORY', 'Install')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_INSTALLED', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_INSTALLED', 'Install')}
 										</th>
 									</tr>
 									</thead>
 									<tbody>
 									{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
 											<td>
 												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 												{if !$ITEM['status']}
@@ -102,13 +103,15 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['security'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
 											<td class="bg-light text-left u-word-break-keep-all">
 												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 												{if !$ITEM['status']}
 													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
 													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+														<a href="#" class="js-popover-tooltip float-right"
+														   data-js="popover"
 														   data-trigger="focus hover" data-placement="right"
 														   data-content="{$HELP_TEXT}">
 															<span class="fas fa-info-circle"></span>
@@ -143,13 +146,15 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['stability'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
 											<td>
 												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 												{if !$ITEM['status']}
 													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
 													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+														<a href="#" class="js-popover-tooltip float-right"
+														   data-js="popover"
 														   data-trigger="focus hover" data-placement="right"
 														   data-content="{$HELP_TEXT}">
 															<span class="fas fa-info-circle"></span>
@@ -178,14 +183,15 @@
 												class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
 										<thead>
 										<tr>
-											<th>{App\Language::translate('LBL_PARAMETER', 'Settings::ConfReport')}</th>
+											<th>{App\Language::translate('LBL_PARAMETER', 'Install')}</th>
 											<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
 											<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
 										</tr>
 										</thead>
 										<tbody>
 										{foreach from=$ALL['database'] key=KEY item=ITEM}
-											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+												data-js="length">
 												<td>
 													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 													{if !$ITEM['status']}
@@ -237,13 +243,15 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['performance'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
 											<td>
 												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 												{if !$ITEM['status']}
 													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
 													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+														<a href="#" class="js-popover-tooltip float-right"
+														   data-js="popover"
 														   data-trigger="focus hover" data-placement="right"
 														   data-content="{$HELP_TEXT}">
 															<span class="fas fa-info-circle"></span>
@@ -282,13 +290,15 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
 											<td>
 												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 												{if !$ITEM['status']}
 													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
 													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+														<a href="#" class="js-popover-tooltip float-right"
+														   data-js="popover"
 														   data-trigger="focus hover" data-placement="right"
 														   data-content="{$HELP_TEXT}">
 															<span class="fas fa-info-circle"></span>
@@ -324,7 +334,8 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['environment'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
 											<td>
 												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 												{if !$ITEM['status']}
@@ -364,7 +375,8 @@
 										</thead>
 										<tbody>
 										{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
-											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+												data-js="length">
 												<td>
 													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
 													{if !$ITEM['status']}
