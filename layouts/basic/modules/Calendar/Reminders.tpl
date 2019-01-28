@@ -112,7 +112,7 @@
 					{/if}
 					<hr/>
 					<div class="actionRow text-center" role="toolbar">
-						<a class="btn btn-success btn-sm showModal" role="button" href="#" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+						<a class="btn btn-success btn-sm showModal" role="button" href="#" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}" data-modalid="calendar-reminder-modal">
 							<span class="fas fa-check" title="{\App\Language::translate('LBL_SET_RECORD_STATUS')}"></span>
 						</a>
 						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="15m" title="{\App\Language::translate('LBL_REMAIND_MINS', $MODULE_NAME)}">
