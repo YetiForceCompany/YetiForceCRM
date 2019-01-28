@@ -40,6 +40,7 @@
 								</li>
 
 
+
 {if $smarty.foreach.actionCount.last eq true}
 								<li class="dropdown-divider"></li>
 							{/if}
@@ -72,7 +73,7 @@
 			<select class="select2 form-control" id="usersFilter" name="status">
 				<option value='[[["status","e","Active"]]]'>{\App\Language::translate('LBL_ACTIVE_USERS', $QUALIFIED_MODULE)}</option>
 				<option value='[[["status","e","Inactive"]]]'>{\App\Language::translate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
-				<option value='[[["force_password_change","e","1"],["date_password_change","b","{Settings_Password_Record_Model::getPasswordChangeDate()}"]]]'>{\App\Language::translate('LBL_USERS_NEED_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</option>
+				<option value='[[[]],[["force_password_change","e","1"],["date_password_change","b","{Settings_Password_Record_Model::getPasswordChangeDate()}"]]]'>{\App\Language::translate('LBL_USERS_NEED_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</option>
 			</select>
 		</div>
 		<div class="col-md-4">
