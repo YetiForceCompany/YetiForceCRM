@@ -192,22 +192,19 @@ $.Class("Vtiger_DashBoard_Js", {
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
 							$('.js-widget-list').prev('.js-widget-predefined').removeClass('d-none');
-							let data = `<li class="js-widget-list__item dropdown-item d-flex flex-row-reverse align-items-center justify-content-between" data-js="remove">`;
-							if (response.result.deleteFromList) {
-								data += `<button data-widget-id="${response.result.id}" 
-											class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
-										<span class="fas fa-trash-alt"></span>
-										</button>`;
-							}
-							data += `<a onclick="Vtiger_DashBoard_Js.addWidget(this, '${response.result.url}')"
+							let data = `<a class="js-widget-list__item dropdown-item d-flex"
 										href="#"
-										class="pl-1"
+										data-widget-url="${response.result.url}"
 										data-linkid="${response.result.linkid}"
 										data-name="${response.result.name}"
 										data-width="${width}"
-										data-height="${height}">
-										${response.result.title}</a>
-									</li>`;
+										data-height="${height}" data-js="remove | click">${response.result.title}`;
+							if (response.result.deleteFromList) {
+								data += `<span class="text-danger pl-5 ml-auto">
+											<span class="fas fa-trash-alt removeWidgetFromList" data-widget-id="${response.result.id}"></span>
+										</span>`;
+							}
+							data += `</a>`;
 							let divider = $('.js-widget-list .dropdown-divider');
 							if (divider.length) {
 								$(data).insertBefore(divider);
@@ -695,8 +692,8 @@ $.Class("Vtiger_DashBoard_Js", {
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				currentTarget.closest('.js-widget-list__item').remove();
-				if ($('ul.js-widget-list .js-widget-list__item').length < 1) {
-					$('ul.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
+				if ($('.js-widget-list .js-widget-list__item').length < 1) {
+					$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 				}
 				thisInstance.updateLazyWidget();
 			});
