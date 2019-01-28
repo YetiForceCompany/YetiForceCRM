@@ -211,6 +211,22 @@ class Config
 	}
 
 	/**
+	 * Gets relation configuration.
+	 *
+	 * @param string|null $arg
+	 * @param mixed       $default
+	 *
+	 * @throws \ReflectionException
+	 *
+	 * @return mixed
+	 */
+	public static function relation(?string $arg = null, $default = null)
+	{
+		$class = "\Config\Relation";
+		return self::get($class, $arg, $default);
+	}
+
+	/**
 	 * Gets security keys configuration.
 	 *
 	 * @param string|null $arg

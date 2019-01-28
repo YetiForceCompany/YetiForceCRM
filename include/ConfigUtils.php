@@ -70,11 +70,7 @@ class AppConfig
 
 	public static function relation($key, $defvalue = false)
 	{
-		if (empty(self::$relation)) {
-			require_once 'config/relation.php';
-			self::load('relation', $RELATION_CONFIG);
-		}
-		return self::$relation[$key] ?? $defvalue;
+		return \App\Config::relation($key, $defvalue);
 	}
 
 	public static function sounds(?string $arg = null, $default = null)
