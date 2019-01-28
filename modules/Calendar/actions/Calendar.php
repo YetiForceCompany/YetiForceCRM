@@ -50,16 +50,16 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
 		}
 		if ($request->has('filters')) {
-			$record->set('filters', $request->get('filters'));
+			$record->set('filters', $request->getByType('filters', 'Alnum'));
 		}
 		if ($request->has('cvid')) {
 			$record->set('customFilter', $request->getInteger('cvid'));
 		}
-		if ($request->get('widget')) {
+		if ($request->getBoolean('widget')) {
 			$record->set('customFilter', $request->getByType('customFilter', 2));
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
-			if ($request->get('yearView')) {
+			if ($request->getBoolean('yearView')) {
 				$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 			} else {
 				$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
@@ -85,7 +85,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
 		}
 		if ($request->has('filters')) {
-			$record->set('filters', $request->get('filters'));
+			$record->set('filters', $request->getByType('filters', 'Alnum'));
 		}
 		if ($request->has('cvid')) {
 			$record->set('customFilter', $request->getInteger('cvid'));
@@ -112,7 +112,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
 		}
 		if ($request->has('filters')) {
-			$record->set('filters', $request->get('filters'));
+			$record->set('filters', $request->getByType('filters', 'Alnum'));
 		}
 		if ($request->has('cvid')) {
 			$record->set('customFilter', $request->getInteger('cvid'));
@@ -135,7 +135,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$record->set('types', $request->getArray('types', 'Text'));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('filters')) {
-			$record->set('filters', $request->get('filters'));
+			$record->set('filters', $request->getByType('filters', 'Alnum'));
 		}
 		if ($request->has('cvid')) {
 			$record->set('customFilter', $request->getInteger('cvid'));

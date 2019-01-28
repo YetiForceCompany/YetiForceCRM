@@ -50,7 +50,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 		$data = [];
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
-				$imageUrl = \App\User::getImageById($key)['url'];
+				$imageUrl = \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '';
 				$data[] = [
 					'module' => 'Users',
 					'category' => \App\Language::translate('LBL_USER'),

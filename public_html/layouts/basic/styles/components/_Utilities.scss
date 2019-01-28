@@ -241,6 +241,11 @@
 	width: fit-content !important;
 }
 
+.u-w-max {
+	width: max-content !important;
+	width: -moz-max-content !important;
+}
+
 .u-w-max-320px {
 	max-width: 320px !important;
 }
@@ -286,7 +291,11 @@
 }
 
 .u-min-w-650px {
-	min-width: 650px !important;
+	min-width: calculate-rem(650px) !important;
+}
+
+.u-min-w-300px {
+	min-width: calculate-rem(300px) !important;
 }
 
 .u-w-1em {
@@ -557,5 +566,18 @@
 .u-align-middle-children {
 	* {
 		vertical-align: middle !important;
+	}
+}
+
+.u-before-block:before {
+	content: '';
+	display: block;
+}
+
+@for $i from 1 through 100 {
+	.u-table-column-vw-#{$i} {
+		&:before {
+			width: #{$i}vw;
+		}
 	}
 }

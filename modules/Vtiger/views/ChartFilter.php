@@ -22,9 +22,9 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
+		$viewer->assign('WIZARD_STEP', $request->getByType('step', 'Alnum'));
 
-		switch ($request->get('step')) {
+		switch ($request->getByType('step', 'Alnum')) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
 				$chartTypes = [

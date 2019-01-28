@@ -565,7 +565,8 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 				self.registerDayClickEvent(date.format());
 				self.getCalendarView().fullCalendar('unselect');
 			},
-			selectable: false
+			selectable: false,
+			editable: true
 		};
 	}
 

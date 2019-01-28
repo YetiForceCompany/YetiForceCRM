@@ -52,12 +52,12 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
-		$modules = $request->get('modules');
+		$modules = $request->getArray('modules', 'Alnum');
 		$assignId = $request->getInteger('assigned_user_id');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$entityValues = [];
-		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
+		$entityValues['transferRelatedRecordsTo'] = $request->getByType('transferModule', 'Alnum');
 		$entityValues['assignedTo'] = $assignId;
 		$entityValues['leadId'] = $recordId;
 		$createAlways = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'create_always');

@@ -30,12 +30,11 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$id = $request->get('id');
 		$type = $request->getByType('view', 1);
-		if (empty($id)) {
+		if ($request->isEmpty('id')) {
 			$recordModel = new Settings_Inventory_Record_Model();
 		} else {
-			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
+			$recordModel = Settings_Inventory_Record_Model::getInstanceById($request->getInteger('id'), $type);
 		}
 		$fields = $request->getAll();
 		foreach ($fields as $fieldName => $fieldValue) {
@@ -62,9 +61,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function checkDuplicateName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$id = $request->get('id');
-		$name = $request->get('name');
-		$type = $request->getByType('view', 1);
+		$id = !$request->isEmpty('id') ? $request->getInteger('id') : '';
+		$name = $request->getByType('name', 'Text');
+		$type = $request->getByType('view', 'Standard');
 
 		$exists = Settings_Inventory_Record_Model::checkDuplicate($name, $id, $type);
 
@@ -82,7 +81,10 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function deleteInventory(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'id' => 'Integer',
+			'view' => 'Standard'
+		]);
 		$id = $params['id'];
 		$type = $params['view'];
 
@@ -102,9 +104,14 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function saveConfig(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'view' => 'Standard',
+			'param' => [
+				'value' => 'Text',
+				'param' => 'Standard'
+			]
+		]);
 		$type = $params['view'];
-
 		$recordModel = Settings_Inventory_Module_Model::getCleanInstance();
 		$status = $recordModel->setConfig($type, $params['param']);
 

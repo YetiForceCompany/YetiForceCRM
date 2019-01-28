@@ -92,9 +92,8 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		} else {
 			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->getByType('viewname', 2));
 		}
-		$searchResult = $request->get('searchResult');
-		if (!empty($searchResult)) {
-			$listView->set('searchResult', $searchResult);
+		if (!$request->isEmpty('searchResult', true)) {
+			$listView->set('searchResult', $request->getArray('searchResult', 'Integer'));
 		}
 		$searchKey = $request->getByType('search_key', 'Alnum');
 		$operator = $request->getByType('operator');

@@ -65,8 +65,8 @@ class Calendar_RecuringEvents_Model extends \App\Base
 		$instance->recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$instance->isNew = $request->isEmpty('record');
 		if (!$instance->isNew) {
-			$instance->templateRecordId = $request->get('record');
-			$instance->typeSaving = $request->get('typeSaving');
+			$instance->templateRecordId = $request->getInteger('record');
+			$instance->typeSaving = $request->getInteger('typeSaving');
 			if (empty($instance->typeSaving)) {
 				$instance->typeSaving = self::UPDATE_THIS_EVENT;
 			}

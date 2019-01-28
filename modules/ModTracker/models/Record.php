@@ -123,13 +123,19 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	public static function isNewChange($recordId, $userId = false)
+	/**
+	 * Checks if is new changes.
+	 *
+	 * @param int $recordId
+	 * @param int $userId
+	 *
+	 * @return bool
+	 */
+	public static function isNewChange(int $recordId, int $userId = 0): bool
 	{
-		if ($userId === false) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$userId = $currentUser->getId();
+		if ($userId === 0) {
+			$userId = App\User::getCurrentUserId();
 		}
-
 		$lastReviewedUsers = (new \App\Db\Query())->select(['last_reviewed_users'])->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordId])
 			->andWhere(['<>', 'status', self::DISPLAYED])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->limit(1)->scalar();

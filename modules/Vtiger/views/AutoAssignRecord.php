@@ -20,9 +20,9 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
+
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 			if ($recordModel && $recordModel->isEditable()) {
 				return true;
 			}
@@ -50,7 +50,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');

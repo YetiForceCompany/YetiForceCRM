@@ -19,7 +19,7 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 		$viewer = $this->getViewer($request);
 		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $this->record->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
-		$salutationType = $request->get('salutationtype');
+		$salutationType = $request->getByType('salutationtype', 'Text');
 		if (!empty($salutationType)) {
 			$salutationFieldModel->set('fieldvalue', $salutationFieldModel->getUITypeModel()->getDBValue($salutationType, $this->record));
 		} else {

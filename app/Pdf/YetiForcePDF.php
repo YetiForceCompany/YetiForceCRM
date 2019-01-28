@@ -99,7 +99,7 @@ class YetiForcePDF extends PDF
 	 *
 	 * @var string
 	 */
-	protected $defaultFontFamily = 'Noto Serif';
+	protected $defaultFontFamily = 'DejaVu Sans';
 
 	/**
 	 * Default font size.
@@ -374,12 +374,16 @@ class YetiForcePDF extends PDF
 					break;
 				case 'header_height':
 					if (is_numeric($value)) {
-						\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__ . __LINE__);
+						$this->setHeaderMargin($value);
+					} else {
+						$this->setHeaderMargin($this->defaultMargins['header']);
 					}
 					break;
 				case 'footer_height':
 					if (is_numeric($value)) {
-						\App\Log::info('NOT IMPLEMENTED: ' . __CLASS__ . __METHOD__ . __LINE__);
+						$this->setFooterMargin($value);
+					} else {
+						$this->setFooterMargin($this->defaultMargins['footer']);
 					}
 					break;
 				case 'title':
@@ -508,12 +512,30 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
+	 * Load custom fonts.
+	 *
+	 * @return $this
+	 */
+	private function loadCustomFonts()
+	{
+		$fontsDir = 'layouts' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR;
+		$resolvedDir = \Vtiger_Loader::resolveNameToPath('~' . $fontsDir, 'css');
+		$customFonts = \App\Json::read($resolvedDir . 'fonts.json');
+		foreach ($customFonts as &$font) {
+			$font['file'] = $resolvedDir . $font['file'];
+		}
+		\YetiForcePDF\Document::addFonts($customFonts);
+		return $this;
+	}
+
+	/**
 	 * Write html.
 	 *
 	 * @return $this
 	 */
 	public function writeHTML()
 	{
+		$this->loadCustomFonts();
 		$footer = $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		$header = $this->header ? $this->wrapHeaderContent($this->header) : '';
 		$watermark = $this->watermark ? $this->wrapWatermark($this->watermark) : '';

@@ -11,7 +11,7 @@ class Settings_MappedFields_DeleteAjax_Action extends Settings_Vtiger_Index_Acti
 {
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$response = new Vtiger_Response();
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);

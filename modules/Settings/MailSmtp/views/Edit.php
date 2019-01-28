@@ -18,8 +18,8 @@ class Settings_MailSmtp_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$record = $request->get('record');
-		if (!empty($record)) {
+		$record = !$request->isEmpty('record') ? $request->getInteger('record') : '';
+		if ($record) {
 			$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($record);
 		} else {
 			$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();

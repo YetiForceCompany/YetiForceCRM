@@ -707,6 +707,46 @@ class Import_Data_Action extends \App\Controller\Action
 	}
 
 	/**
+	 * Function transforms value for datetime type field.
+	 *
+	 * @param string $fieldValue
+	 *
+	 * @return string
+	 */
+	public function transformDatetime(string $fieldValue): string
+	{
+		if ($fieldValue === null || $fieldValue === '0000-00-00 00:00:00') {
+			$fieldValue = '';
+		}
+		$valuesList = explode(' ', $fieldValue);
+		if (count($valuesList) === 1) {
+			$fieldValue = '';
+		}
+		if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $fieldValue) == 0) {
+			$fieldValue = '';
+		}
+		return $fieldValue;
+	}
+
+	/**
+	 * Function transforms value for date type field.
+	 *
+	 * @param string $fieldValue
+	 *
+	 * @return string
+	 */
+	public function transformDate(string $fieldValue): string
+	{
+		if ($fieldValue === null || $fieldValue === '0000-00-00') {
+			$fieldValue = '';
+		}
+		if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $fieldValue) == 0) {
+			$fieldValue = '';
+		}
+		return $fieldValue;
+	}
+
+	/**
 	 * Function parses data to import.
 	 *
 	 * @param array $fieldData
@@ -730,29 +770,12 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'tree' || $fieldInstance->getFieldDataType() === 'categoryMultipicklist') {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
-			} else {
-				if ($fieldInstance->getFieldDataType() === 'datetime' && $fieldValue !== '') {
-					if ($fieldValue === null || $fieldValue === '0000-00-00 00:00:00') {
-						$fieldValue = '';
-					}
-					$valuesList = explode(' ', $fieldValue);
-					if (count($valuesList) === 1) {
-						$fieldValue = '';
-					}
-					if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $fieldValue) == 0) {
-						$fieldValue = '';
-					}
-					$fieldData[$fieldName] = $fieldValue;
-				}
-				if ($fieldInstance->getFieldDataType() === 'date' && $fieldValue !== '') {
-					if ($fieldValue === null || $fieldValue === '0000-00-00') {
-						$fieldValue = '';
-					}
-					if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $fieldValue) == 0) {
-						$fieldValue = '';
-					}
-					$fieldData[$fieldName] = $fieldValue;
-				}
+			} elseif ($fieldInstance->getModuleName() === 'Calendar' && in_array($fieldInstance->getFieldName(), ['date_start', 'due_date'])) {
+				$fieldData[$fieldName] = $this->transformDate($fieldValue);
+			} elseif ($fieldInstance->getFieldDataType() === 'datetime' && $fieldValue !== '') {
+				$fieldData[$fieldName] = $this->transformDatetime($fieldValue);
+			} elseif ($fieldInstance->getFieldDataType() === 'date' && $fieldValue !== '') {
+				$fieldData[$fieldName] = $this->transformDate($fieldValue);
 			}
 		}
 		return $fieldData;

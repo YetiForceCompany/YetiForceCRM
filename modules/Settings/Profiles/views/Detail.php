@@ -14,8 +14,8 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if ($request->get('record')) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->getInteger('record'));
 			$title = $recordModel->getName();
 		} else {
 			$title = \App\Language::translate('LBL_VIEW_DETAIL', $moduleName);
@@ -30,7 +30,7 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 

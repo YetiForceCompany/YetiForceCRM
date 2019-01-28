@@ -35,7 +35,7 @@ class Vtiger_NoteBook_Action extends \App\Controller\Action
 
 	public function noteBookCreate(\App\Request $request)
 	{
-		$dataValue['contents'] = $request->get('notePadContent');
+		$dataValue['contents'] = $request->getByType('notePadContent', 'Text');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 		$data = \App\Json::encode((object) $dataValue);
 		$size = \App\Json::encode(['width' => $request->getInteger('width'), 'height' => $request->getInteger('height')]);
@@ -45,7 +45,7 @@ class Vtiger_NoteBook_Action extends \App\Controller\Action
 				'linkid' => $request->getInteger('linkId'),
 				'blockid' => $request->getInteger('blockid'),
 				'filterid' => 0,
-				'title' => $request->get('notePadName'),
+				'title' => $request->getByType('notePadName', 'Text'),
 				'data' => $data,
 				'isdefault' => $request->getInteger('isdefault'),
 				'size' => $size,

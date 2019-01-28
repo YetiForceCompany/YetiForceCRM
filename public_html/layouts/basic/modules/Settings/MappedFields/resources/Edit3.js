@@ -61,6 +61,11 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 
 		var saveData = form.serializeFormData();
 		saveData['step'] = 3;
+		delete saveData['__vtrftk'];
+		delete saveData['module'];
+		delete saveData['view'];
+		delete saveData['mode'];
+		delete saveData['parent'];
 		app.saveAjax('step1', saveData).done(function (data) {
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});

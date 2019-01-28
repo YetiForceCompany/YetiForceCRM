@@ -23,7 +23,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	{
 		parent::initializeFromRequest($request);
 		if ($request->has('xmlExportType')) {
-			$this->tplName = $request->getByType('xmlExportType');
+			$this->tplName = $request->getByType('xmlExportType', 'Text');
 		}
 	}
 

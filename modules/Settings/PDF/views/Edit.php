@@ -87,7 +87,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 	{
 		return array_merge($this->checkAndConvertCssStyles([
 			'modules.Settings.' . $request->getModule() . '.Edit',
-			'~layouts/resources/fonts/fonts.css',
 		]), parent::getHeaderCss($request));
 	}
 }

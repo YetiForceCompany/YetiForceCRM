@@ -48,16 +48,14 @@ class Rss_List_View extends Vtiger_Index_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$module = $request->getModule();
-		$recordId = $request->get('id');
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		if ($recordId) {
-			$recordInstance = Rss_Record_Model::getInstanceById($recordId, $module);
+		if (!$request->isEmpty('id')) {
+			$recordInstance = Rss_Record_Model::getInstanceById($request->getInteger('id'), $module);
 		} else {
 			$recordInstance = Rss_Record_Model::getCleanInstance($module);
 			$recordInstance->getDefaultRss();
 			$recordInstance = Rss_Record_Model::getInstanceById($recordInstance->getId(), $module);
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('RECORD', $recordInstance);

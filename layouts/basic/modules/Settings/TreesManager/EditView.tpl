@@ -15,11 +15,6 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
-			<div class="badge badge-info my-2">
-				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
-			</div>
 			<div class="row">
 				<label class="col-md-3"><strong><span class="redColor">*</span>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 						: </strong></label>

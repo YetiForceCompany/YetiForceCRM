@@ -134,15 +134,12 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			'depth' => $depth,
 			'label' => $label,
 			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
-			'icon' => $icon,
+			'icon' => $icon
 		];
 		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
-			foreach ($tree['children'] as $tree) {
-				$this->insertData($tree, $depth + 1, $parenttrre);
-				if ($tree['metadata']['replaceid']) {
-					$this->replaceValue($tree, $this->getId());
-				}
+			foreach ($tree['children'] as $treeChild) {
+				$this->insertData($treeChild, $depth + 1, $parenttrre);
 			}
 		}
 	}
