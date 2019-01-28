@@ -90,7 +90,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 					self.triggerListSearch();
 				}
 			});
-			app.event.on("Clockpicker.changed", (e, inputEl) => {
+			app.event.on('Clockpicker.changed', (e, inputEl) => {
 				if (listViewContainer.find(inputEl).length) {
 					self.triggerListSearch();
 				}
