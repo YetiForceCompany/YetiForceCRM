@@ -67,8 +67,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = !$request->isEmpty('block') ? $request->getInteger('block') : '';
-		$fieldId = !$request->isEmpty('fieldid') ? $request->getInteger('fieldid') : '';
+		$selectedMenuId = $request->getInteger('block', '');
+		$fieldId = $request->getInteger('fieldid', '');
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
@@ -125,8 +125,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$qualifiedModuleName = 'Settings:Github';
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$isAuthor = $request->getBoolean('author');
-		$pageNumber = !$request->isEmpty('page') ? $request->getInteger('page') : 1;
-		$state = $request->isEmpty('state') ? 'open' : $request->getByType('state', 'Text');
+		$pageNumber = $request->getInteger('page', 1);
+		$state = $request->isEmpty('state', true) ? 'open' : $request->getByType('state', 'Text');
 		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
