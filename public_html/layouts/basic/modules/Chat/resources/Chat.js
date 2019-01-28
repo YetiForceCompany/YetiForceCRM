@@ -85,6 +85,9 @@ window.Chat_JS = class Chat_Js {
 			});
 			return;
 		}
+		if (!Chat_Js.getRefreshTimeGlobal()) {
+			return;
+		}
 		Chat_Js.timerGlobal = setTimeout(() => {
 			AppConnector.request({
 				module: 'Chat',

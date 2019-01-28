@@ -33,46 +33,9 @@ class AppConfig
 		return \App\Config::main($key, $value);
 	}
 
-	public static function module()
+	public static function module($module, $key = null, $defaultValue = null)
 	{
-		$argsLength = func_num_args();
-		$args = func_get_args();
-		$module = $args[0];
-		if ($argsLength === 2) {
-			$key = $args[1];
-		}
-		if (isset(self::$modules[$module])) {
-			switch ($argsLength) {
-				case 1:
-					return self::$modules[$module];
-				case 2:
-					if (isset(self::$modules[$module][$key])) {
-						return self::$modules[$module][$key];
-					}
-					App\Log::warning("Parameter does not exist: $module, $key");
-
-					return null;
-				default:
-					break;
-			}
-		}
-		$fileName = "config/modules/$module.php";
-		if (!file_exists($fileName)) {
-			return false;
-		}
-		$moduleConfig = require $fileName;
-		if (empty($moduleConfig)) {
-			return false;
-		}
-		self::$modules[$module] = $moduleConfig;
-		if ($argsLength === 2) {
-			if (!isset($moduleConfig[$key])) {
-				return false;
-			}
-			return $moduleConfig[$key];
-		} else {
-			return $moduleConfig;
-		}
+		return \App\Config::module($module, $key, $defaultValue);
 	}
 
 	public static function api($key, $defvalue = false)
