@@ -15,7 +15,7 @@ class Settings_Vtiger_ListMenu_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$menuId = $request->get('block');
+		$menuId = $request->getInteger('block');
 
 		$menuModel = Settings_Vtiger_Menu_Model::getInstanceById($menuId);
 		$menuItems = $menuModel->getItems();

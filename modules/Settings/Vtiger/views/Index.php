@@ -67,8 +67,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->get('block');
-		$fieldId = $request->get('fieldid');
+		$selectedMenuId = !$request->isEmpty('block') ? $request->getInteger('block') : '';
+		$fieldId = !$request->isEmpty('fieldid') ? $request->getInteger('fieldid') : '';
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
@@ -124,22 +124,15 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
 		$clientModel = Settings_Github_Client_Model::getInstance();
-		$isAuthor = $request->get('author');
-		$isAuthor = $isAuthor == 'true' ? true : false;
-		$pageNumber = $request->getInteger('page');
-		if (empty($pageNumber)) {
-			$pageNumber = 1;
-		}
-
-		$state = empty($request->get('state')) ? 'open' : $request->get('state');
+		$isAuthor = $request->getBoolean('author');
+		$pageNumber = !$request->isEmpty('page') ? $request->getInteger('page') : 1;
+		$state = $request->isEmpty('state') ? 'open' : $request->getByType('state', 'Text'); //is ok?
 		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('totalCount', Settings_Github_Issues_Model::$totalCount);
-
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
 		$viewer->assign('IS_AUTHOR', $isAuthor);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ISSUES_STATE', $state);
@@ -199,7 +192,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	public function getWarningsList(\App\Request $request)
 	{
-		$folder = $request->get('folder');
+		$folder = $request->getArray('folder', 'Text');
 		$active = $request->getBoolean('active');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
