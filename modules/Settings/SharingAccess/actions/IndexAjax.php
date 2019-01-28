@@ -32,7 +32,7 @@ class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $request->getInteger('record'));
 		}
 		$prevValues['permission'] = $ruleModel->getPermission();
-		$newValues['permission'] = $request->get('permission');
+		$newValues['permission'] = $request->getInteger('permission');
 		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $newValues);
 		$ruleModel->set('source_id', $request->getByType('source_id', 'Text'));
 		$ruleModel->set('target_id', $request->getByType('target_id', 'Text'));

@@ -20,7 +20,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function createMenu(\App\Request $request)
 	{
-		$data = $request->get('mdata');
+		$data = $request->getArray('mdata', 'Text');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->initialize($data);
 		$recordModel->save();
@@ -34,7 +34,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function updateMenu(\App\Request $request)
 	{
-		$data = $request->get('mdata');
+		$data = $request->getArray('mdata', 'Text');
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
 		$recordModel->initialize($data);
 		$recordModel->set('edit', true);
@@ -62,7 +62,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function updateSequence(\App\Request $request)
 	{
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
-		$recordModel->saveSequence($request->get('mdata'), true);
+		$recordModel->saveSequence($request->getArray('mdata', 'Text'), true);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

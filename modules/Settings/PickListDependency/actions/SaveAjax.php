@@ -12,14 +12,14 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 {
 	public function process(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 2);
-		$sourceField = $request->get('sourceField');
-		$targetField = $request->get('targetField');
+		$sourceModule = $request->getByType('sourceModule', 'Alnum');
+		$sourceField = $request->getByType('sourceField', 'Alnum');
+		$targetField = $request->getByType('targetField', 'Alnum');
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $targetField);
 
 		$response = new Vtiger_Response();
 		try {
-			$result = $recordModel->save($request->get('mapping'));
+			$result = $recordModel->save($request->getArray('mapping', 'Text'));
 			$response->setResult(['success' => $result]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
