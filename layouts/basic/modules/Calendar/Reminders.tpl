@@ -23,7 +23,7 @@
 						</a>
 					</div>
 					<div class="float-right ml-1">
-						<button class="btn btn-success btn-sm  showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+						<button class="btn btn-success btn-sm  showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}" data-modalid="calendar-reminder-modal">
 							<span class="fas fa-check"></span>
 						</button>
 					</div>
