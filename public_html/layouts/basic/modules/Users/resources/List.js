@@ -270,35 +270,32 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 *Function to filter Active and Inactive users from Users List View
 	 */
 	usersFilter: function () {
-		var thisInstance = this;
-		jQuery('#usersFilter').on('change', function () {
-			var progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+		$('#usersFilter').on('change', () => {
+			const progressInstance = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
-			var params = {
+			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'List',
 				parent: app.getParentModuleName(),
-				search_params: jQuery('#usersFilter').val()
-			};
-			AppConnector.request(params)
-				.done(function (data) {
-					progressInstance.progressIndicator({
-						'mode': 'hide'
-					});
-					$('.js-fixed-thead').floatThead('destroy');
-					$('#listViewContents').html(data);
-					thisInstance.updatePaginationFilter();
-					var listSearchInstance = thisInstance.getListSearchInstance();
-					if (listSearchInstance !== false) {
-						listSearchInstance.registerEvents();
-					} else {
-						App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
-					}
+				search_params: $('#usersFilter').val()
+			}).done((data) => {
+				progressInstance.progressIndicator({
+					mode: 'hide'
 				});
+				$('.js-fixed-thead').floatThead('destroy');
+				$('#listViewContents').html(data);
+				this.updatePaginationFilter();
+				let listSearchInstance = this.getListSearchInstance();
+				if (listSearchInstance !== false) {
+					listSearchInstance.registerEvents();
+				} else {
+					App.Fields.Picklist.showSelect2ElementView($('#listViewContents').find('select.select2'));
+				}
+			});
 		});
 	},
 	updatePaginationFilter: function () {
