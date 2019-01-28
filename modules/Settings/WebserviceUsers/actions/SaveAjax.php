@@ -16,7 +16,18 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 	 */
 	public function process(\App\Request $request)
 	{
-		$data = $request->getArray('param', 'Text');
+		$data = $request->getMultiDimensionArray('param', [
+			'server_id' => 'Integer',
+			'status' => 'Integer',
+			'user_name' => 'Alnum',
+			'password_t' => 'Text',
+			'type' => 'Integer',
+			'language' => 'Text',
+			'popupReferenceModule' => 'Alnum',
+			'crmid' => 'Integer',
+			'crmid_display' => 'Text',
+			'user_id' => 'Integer'
+		]);
 		$typeApi = $request->getByType('typeApi', 'Alnum');
 		if (!$request->isEmpty('record')) {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record'), $typeApi);
@@ -24,7 +35,6 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
 		}
 		$result = $recordModel->save($data);
-
 		$responceToEmit = new Vtiger_Response();
 		$responceToEmit->setResult($result);
 		$responceToEmit->emit();
