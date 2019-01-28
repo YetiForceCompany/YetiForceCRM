@@ -19,9 +19,16 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('save');
-		$data = $request->getArray('param', 'Text');
 		$qualifiedModuleName = $request->getModule(false);
-
+		$data = $request->getMultiDimensionArray('param', [
+			'module' => 'Alnum',
+			'userid' => 'Integer',
+			'type' => 'Alnum',
+			'ids' => [
+				'users' => ['Integer'],
+				'groups' => ['Integer'],
+			]
+		]);
 		$oldValues = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($data['type'], $data['module']);
 		$oldValues = array_merge((array) ($oldValues[$data['userid'][0]]['users'] ?? []), (array) ($oldValues[$data['userid'][0]]['groups'] ?? []));
 
@@ -44,7 +51,10 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('delete');
-		$data = $request->getArray('param', 'Text');
+		$data = $request->getMultiDimensionArray('param', [
+			'module' => 'Alnum',
+			'type' => 'Alnum',
+		]);
 		$moduleName = $data['module'];
 		$qualifiedModuleName = $request->getModule(false);
 
