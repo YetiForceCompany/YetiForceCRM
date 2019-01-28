@@ -13,12 +13,12 @@
 		{assign var="WIDGET" value=""}
 		{foreach from=$WIDGETS item=WIDGET}
 			<a class="js-widget-list__item dropdown-item d-flex"
-			   data-js="remove" href="#" data-widget-url="{$WIDGET->getUrl()}" data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
+			   data-js="remove | click" href="#" data-widget-url="{$WIDGET->getUrl()}" data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
 			   data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}"
 			   data-id="{$WIDGET->get('widgetid')}">
-				<span class="pl-1">{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</span>
+				{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}
 				{if $WIDGET->get('deleteFromList')}
-					<span class="removeWidgetFromList text-danger pl-5 ml-auto">
+					<span class="text-danger pl-5 ml-auto">
 						<span class="fas fa-trash-alt removeWidgetFromList" data-widget-id="{$WIDGET->get('widgetid')}"></span>
 					</span>
 				{/if}
