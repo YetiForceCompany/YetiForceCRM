@@ -6,9 +6,15 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class Vtiger_Export_Model extends \App\Base
 {
+	/**
+	 * Module model.
+	 *
+	 * @var Vtiger_Module_Model
+	 */
 	protected $moduleInstance;
 	protected $focus;
 	private $picklistValues;
@@ -16,25 +22,78 @@ class Vtiger_Export_Model extends \App\Base
 	private $fieldDataTypeCache = [];
 	protected $moduleName;
 	protected $recordsListFromRequest = [];
+	/**
+	 * Query options.
+	 *
+	 * @var array
+	 */
+	protected $queryOptions;
+	/**
+	 * The type of exported file.
+	 *
+	 * @var string
+	 */
+	protected $exportType = 'csv';
+	/**
+	 * File extension.
+	 *
+	 * @var string
+	 */
+	protected $fileExtension = 'csv';
 
+	/**
+	 * Get supported file formats.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getSupportedFileFormats(string $moduleName): array
+	{
+		$supportedFileFormats = AppConfig::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS');
+		return $supportedFileFormats ? $supportedFileFormats : ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
+	}
+
+	/**
+	 * Get instance.
+	 *
+	 * @return \self
+	 */
+	public static function getInstance(string $moduleName, string $exportType = 'csv')
+	{
+		if ($exportType === 'csv') {
+			$componentName = 'Export';
+		} else {
+			$componentName = "ExportTo{$exportType}";
+		}
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
+		return new $modelClassName();
+	}
+
+	/**
+	 * Get instance from request.
+	 *
+	 * @return \self
+	 */
 	public static function getInstanceFromRequest(\App\Request $request)
 	{
-		$module = $request->getByType('source_module', 2);
+		$module = $request->getByType('source_module', \App\Purifier::ALNUM);
 		if (empty($module)) {
 			$module = $request->getModule();
 		}
-		$componentName = 'Export';
-		if ('xml' === $request->getByType('export_type')) {
-			$componentName = 'ExportToXml';
-		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $module);
-		$exportModel = new $modelClassName();
-		$exportModel->initialize($request);
-
+		$exportModel = static::getInstance($module, $request->getByType('export_type', \App\Purifier::ALNUM));
+		$exportModel->initializeFromRequest($request);
 		return $exportModel;
 	}
 
-	public function initialize(\App\Request $request)
+	/**
+	 * Initialize from request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function initializeFromRequest(\App\Request $request)
 	{
 		$module = $request->getByType('source_module', 2);
 		if (!empty($module)) {
@@ -43,17 +102,25 @@ class Vtiger_Export_Model extends \App\Base
 			$this->moduleFieldInstances = $this->moduleInstance->getFields();
 			$this->focus = CRMEntity::getInstance($module);
 		}
+		if (!$request->isEmpty('export_type')) {
+			$this->exportType = $request->getByType('export_type', \App\Purifier::TEXT);
+		}
+		if (!$request->isEmpty('viewname', true)) {
+			$this->queryOptions['viewname'] = $request->getByType('viewname', \App\Purifier::ALNUM);
+		}
+		$this->queryOptions['entityState'] = $request->getByType('entityState');
+		$this->queryOptions['page'] = $request->getInteger('page');
+		$this->queryOptions['mode'] = $request->getMode();
+		$this->queryOptions['excluded_ids'] = $request->getArray('excluded_ids', \App\Purifier::ALNUM);
 	}
 
 	/**
 	 * Function exports the data based on the mode.
-	 *
-	 * @param \App\Request $request
 	 */
-	public function exportData(\App\Request $request)
+	public function exportData()
 	{
-		$module = $request->getByType('source_module', 2);
-		$query = $this->getExportQuery($request);
+		$module = $this->moduleName;
+		$query = $this->getExportQuery();
 		$headers = [];
 		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
@@ -94,7 +161,6 @@ class Vtiger_Export_Model extends \App\Base
 			}
 			$table = $inventoryModel->getDataTableName();
 		}
-
 		$entries = [];
 		$dataReader = $query->createCommand()->query();
 		$i = 0;
@@ -116,21 +182,21 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		}
 		$dataReader->close();
-		$this->output($request, $headers, $entries);
+		$this->output($headers, $entries);
 	}
 
 	/**
 	 * Function that generates Export Query based on the mode.
 	 *
-	 * @param \App\Request $request
+	 * @throws \Exception
 	 *
-	 * @return string export query
+	 * @return \App\Db\Query
 	 */
-	public function getExportQuery(\App\Request $request)
+	public function getExportQuery()
 	{
-		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 2));
-		if (!$request->isEmpty('viewname', true)) {
-			$queryGenerator->initForCustomViewById($request->getByType('viewname', 2));
+		$queryGenerator = new \App\QueryGenerator($this->moduleName);
+		if (!empty($this->queryOptions['viewname'])) {
+			$queryGenerator->initForCustomViewById($this->queryOptions['viewname']);
 		}
 		$fieldInstances = $this->moduleFieldInstances;
 		$fields[] = 'id';
@@ -141,17 +207,17 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		}
 		$queryGenerator->setFields($fields);
-		$queryGenerator->setStateCondition($request->getByType('entityState'));
+		$queryGenerator->setStateCondition($this->queryOptions['entityState']);
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
-		switch ($request->getMode()) {
+		switch ($this->queryOptions['mode']) {
 			case 'ExportAllData':
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 			case 'ExportCurrentPage':
 				$pagingModel = new Vtiger_Paging_Model();
 				$limit = $pagingModel->getPageLimit();
-				$currentPage = $request->getInteger('page');
+				$currentPage = $this->queryOptions['page'];
 				if (empty($currentPage)) {
 					$currentPage = 1;
 				}
@@ -170,7 +236,7 @@ class Vtiger_Export_Model extends \App\Base
 						$query->andWhere(['in', "$baseTable.$baseTableColumnId", $idList]);
 					}
 				} else {
-					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->getArray('excluded_ids', 2)]);
+					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $this->queryOptions['excluded_ids']]);
 				}
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
@@ -183,45 +249,50 @@ class Vtiger_Export_Model extends \App\Base
 	/**
 	 * Function returns the export type - This can be extended to support different file exports.
 	 *
-	 * @param \App\Request $request
+	 * @return string
+	 */
+	public function getExportContentType(): string
+	{
+		return "text/{$this->exportType}";
+	}
+
+	/**
+	 * @param string $moduleName
 	 *
 	 * @return string
 	 */
-	public function getExportContentType(\App\Request $request)
+	public function getFileName(): string
 	{
-		$type = $request->getByType('export_type');
-		if (empty($type)) {
-			$type = 'text/csv';
-		}
-		return $type;
+		return str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName))) .
+			".{$this->fileExtension}";
 	}
 
 	/**
 	 * Function that create the exported file.
 	 *
-	 * @param \App\Request $request
-	 * @param array        $headers - output file header
-	 * @param array        $entries - outfput file data
+	 * @param array $headers - output file header
+	 * @param array $entries - outfput file data
 	 */
-	public function output(\App\Request $request, $headers, $entries)
+	public function output($headers, $entries)
 	{
-		$module = $request->getByType('source_module', 2);
-		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($module, $module))) . '.csv';
-		$exportType = $this->getExportContentType($request);
-
-		header("content-disposition: attachment; filename=\"$fileName\"");
-		header("content-type: $exportType; charset=UTF-8");
-		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
-		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('cache-control: post-check=0, pre-check=0', false);
-
-		// Start the ouput
 		$output = fopen('php://output', 'w');
 		fputcsv($output, $headers);
 		foreach ($entries as $row) {
 			fputcsv($output, $row);
 		}
 		fclose($output);
+	}
+
+	/**
+	 * Send HTTP Header.
+	 */
+	public function sendHttpHeader()
+	{
+		header("content-disposition: attachment; filename=\"{$this->getFileName()}\"");
+		header("content-type: {$this->getExportContentType()}; charset=UTF-8");
+		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('cache-control: post-check=0, pre-check=0', false);
 	}
 
 	/**
@@ -257,7 +328,6 @@ class Vtiger_Export_Model extends \App\Base
 			$value = trim(App\Purifier::decodeHtml($value), '"');
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
-
 			if (empty($this->fieldDataTypeCache[$fieldName])) {
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}

@@ -14,6 +14,10 @@
 		@extend .border-top;
 	}
 
+	.fieldLabel {
+		height: inherit;
+	}
+
 	.fieldLabel.medium, .fieldValue.medium {
 		padding: 10px;
 		min-height: 40px;
@@ -332,6 +336,16 @@
 	}
 }
 
+@media only screen and (min-width: 1200px) {
+	.detailViewTable .fieldValue .js-detail-quick-edit {
+		display: none;
+	}
+
+	.detailViewTable .fieldValue:hover .js-detail-quick-edit {
+		display: inline-block;
+	}
+}
+
 .detailViewTitle {
 	padding: 0 15px 0 15px;
 	-webkit-box-sizing: border-box;
@@ -371,10 +385,6 @@
 
 	.btn-toolbar, .btn-toolbar .btn-group:first-child {
 		margin: 0;
-	}
-
-	.fieldValue:hover .js-detail-quick-edit {
-		display: inherit;
 	}
 }
 

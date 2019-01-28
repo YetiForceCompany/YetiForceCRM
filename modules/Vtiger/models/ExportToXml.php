@@ -16,12 +16,23 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	protected $index;
 	protected $inventoryFields;
 
-	public function exportData(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function initializeFromRequest(\App\Request $request)
 	{
+		parent::initializeFromRequest($request);
 		if ($request->has('xmlExportType')) {
 			$this->tplName = $request->getByType('xmlExportType', 'Text');
 		}
-		$query = $this->getExportQuery($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function exportData()
+	{
+		$query = $this->getExportQuery();
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));
 		$entries = $query->all();
 		$entriesInventory = [];

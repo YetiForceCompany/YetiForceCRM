@@ -57,5 +57,7 @@ return [
 	//Select event free time automatically
 	'AUTOFILL_TIME' => false,
 	//Shows 'all day' row in agendaWeek and agendaDay view
-	'ALL_DAY_SLOT' => true
+	'ALL_DAY_SLOT' => true,
+	//Supported file types for data export
+	'EXPORT_SUPPORTED_FILE_FORMATS' => ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml', 'LBL_ICAL' => 'ical']
 ];

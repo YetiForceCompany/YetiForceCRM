@@ -11,7 +11,8 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			if (1 === currentTarget.data('type')) {
 				self.updateActivityState(currentTarget);
 			} else {
-				if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended') {
+				let isReminder = currentTarget.closest('#calendar-reminder-modal').length;
+				if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended' && !isReminder) {
 					let calendarInstance = new Calendar_CalendarExtended_Js;
 					calendarInstance.getCalendarSidebarData({
 						module: 'Calendar',
@@ -22,7 +23,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 						sourceModule: 'Calendar',
 						sourceRecord: currentTarget.data('id')
 					});
-				} else if (currentTarget.hasClass('showQuickCreate')) {
+				} else if (currentTarget.hasClass('showQuickCreate') || isReminder) {
 					let progressIndicatorElement = $.progressIndicator({
 							'position': 'html',
 							'blockInfo': {
