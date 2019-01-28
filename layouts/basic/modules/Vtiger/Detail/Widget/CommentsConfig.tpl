@@ -4,7 +4,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form class="form-modalAddWidget">  
-					<input type="hidden" name="wid" value="{$WID}" />
+					{if !empty($WID)}<input type="hidden" name="wid" value="{$WID}" />{/if}
 					<input type="hidden" name="type" value="{$TYPE}" />
 					<div class="modal-header">
 						<h5 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h5>
