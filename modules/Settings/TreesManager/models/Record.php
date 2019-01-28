@@ -282,21 +282,59 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 			$uiType = (int) $row['uitype'];
-			foreach ($tree as $treeRow) {
-				$params = [];
-				foreach ($treeRow['old'] as $new) {
-					$params[] = $uiType === 309 ? ",T{$new}," : 'T' . $new;
+			if (309 === $uiType) {
+				$this->updateCategoryMultipicklist($tree, $tableName, $columnName);
+			} else {
+				foreach ($tree as $treeRow) {
+					$params = [];
+					foreach ($treeRow['old'] as $new) {
+						$params[] = 'T' . $new;
+					}
+					$db->createCommand()
+						->update($tableName, [$columnName => 'T' . current($treeRow['new'])], [$columnName => $params])
+						->execute();
 				}
-				$newVal = 'T' . current($treeRow['new']);
-				if ($uiType === 309) {
-					$newVal = ",{$newVal},";
-				}
-				$db->createCommand()
-					->update($tableName, [$columnName => $newVal], [$columnName => $params])
-					->execute();
 			}
 		}
 		$dataReader->close();
+	}
+
+	/**
+	 * Update category multipicklist.
+	 *
+	 * @param array  $tree
+	 * @param string $tableName
+	 * @param string $columnName
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private function updateCategoryMultipicklist(array $tree, string $tableName, string $columnName)
+	{
+		$db = App\Db::getInstance();
+		foreach ($tree as $treeRow) {
+			$query = (new \App\Db\Query())->from($tableName);
+			foreach ($treeRow['old'] as $new) {
+				$query->orWhere(['like', 'legal_basis', "T{$new}"]);
+			}
+			$replaceNew = $treeRow['new'];
+			array_walk($replaceNew, function (&$item) {
+				$item = "T{$item}";
+			});
+			$replaceOld = $treeRow['old'];
+			array_walk($replaceOld, function (&$item) {
+				$item = "T{$item}";
+			});
+			$dataReaderTree = $query->createCommand()->query();
+			while ($rowTree = $dataReaderTree->read()) {
+				$db->createCommand()
+					->update(
+						$tableName,
+						[$columnName => str_replace($replaceOld, $replaceNew, $rowTree[$columnName])],
+						[$columnName => $rowTree[$columnName]]
+					)->execute();
+			}
+			$dataReaderTree->close();
+		}
 	}
 
 	/**
