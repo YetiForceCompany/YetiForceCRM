@@ -37,7 +37,7 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$ids = $request->get('ids');
+		$ids = $request->getArray('ids', 'Integer');
 		$user = $request->getInteger('user');
 		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
 		$response = new Vtiger_Response();

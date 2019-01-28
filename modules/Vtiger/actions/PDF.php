@@ -41,7 +41,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->getModule();
 		$records = $request->getArray('records', 'Integer');
-		$templates = $request->get('templates');
+		$templates = $request->getArray('templates', 'Integer');
 		$allRecords = count($records);
 		$output = ['valid_records' => [], 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
 
@@ -75,15 +75,12 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	public function generate(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getArray('record', 'Integer');
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
 
 		$postfix = time() . '_' . random_int(0, 1000);
-		if (!is_array($recordId)) {
-			$recordId = [$recordId];
-		}
 		foreach ($recordId as $templateId) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $templateId)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);

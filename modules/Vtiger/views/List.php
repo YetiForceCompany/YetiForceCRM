@@ -207,7 +207,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
 			$orderBy = App\CustomView::getSortby($moduleName);
 			$sortOrder = App\CustomView::getSorder($moduleName);
@@ -230,10 +229,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		}
-		if (!empty($searchResult)) {
-			$this->listViewModel->set('searchResult', $searchResult);
+		if (!$request->isEmpty('searchResult', true)) {
+			$this->listViewModel->set('searchResult', $request->getArray('searchResult', 'Integer'));
 		}
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $this->viewName];
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 'Alnum'), 'CVID' => $this->viewName];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);

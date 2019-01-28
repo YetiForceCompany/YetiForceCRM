@@ -46,8 +46,8 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$currency = $request->get('currency');
-		$price = $request->get('price');
+		$currency = $request->getInteger('currency');
+		$price = $request->getByType('price', 'Double');
 		$limitFieldName = 'creditlimit';
 		$balanceFieldName = 'inventorybalance';
 		$response = new Vtiger_Response();
