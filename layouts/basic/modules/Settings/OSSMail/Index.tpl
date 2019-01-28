@@ -52,7 +52,7 @@
 									<select class="form-control" name="{$FIELD_NAME}" multiple="multiple"
 											{if $FIELD_DETAILS['required'] === 1}data-validation-engine="validate[required]"{/if}>
 										{foreach item=ITEM key=KEY from=$RECORD_MODEL->get($FIELD_NAME)}
-											<option value="{$KEY}" selected>{$KEY}</option>
+											<option value="{\App\Purifier::encodeHtml($KEY)}" selected>{$KEY}</option>
 										{/foreach}
 									</select>
 								</div>
@@ -66,7 +66,7 @@
 								<div class="row col-sm-12">
 									<input class="form-control" type="text" name="{$FIELD_NAME}"
 										   {if $FIELD_DETAILS['required'] === 1}data-validation-engine="validate[required]"{/if}
-										   value="{$RECORD_MODEL->get($FIELD_NAME)}"/>
+										   value="{\App\Purifier::encodeHtml($RECORD_MODEL->get($FIELD_NAME))}"/>
 								</div>
 							{/if}
 						</div>
