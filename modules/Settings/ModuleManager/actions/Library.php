@@ -25,7 +25,7 @@ class Settings_ModuleManager_Library_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function update(\App\Request $request)
 	{
-		Settings_ModuleManager_Library_Model::update($request->get('name'));
+		Settings_ModuleManager_Library_Model::update($request->getByType('name', 'Alnum'));
 		header('location: index.php?module=ModuleManager&parent=Settings&view=List');
 	}
 
@@ -36,7 +36,7 @@ class Settings_ModuleManager_Library_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function download(\App\Request $request)
 	{
-		Settings_ModuleManager_Library_Model::download($request->get('name'));
+		Settings_ModuleManager_Library_Model::download($request->getByType('name', 'Alnum'));
 		header('location: index.php?module=ModuleManager&parent=Settings&view=List');
 	}
 }

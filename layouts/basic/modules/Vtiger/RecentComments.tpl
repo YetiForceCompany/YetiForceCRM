@@ -108,16 +108,16 @@
 								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
 						</div>
-						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
+						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right ml-1 cancel"
 								type="reset">
-							<span class="visible-xs-inline-block fas fa-times"></span>
-							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+							<span class="visible-xs-inline fas fa-times"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</span>
 						</button>
 						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 								data-mode="add"
 								data-js="click|data-mode">
-							<span class="visible-xs-inline-block fas fa-check"></span>
-							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+							<span class="visible-xs-inline fas fa-check"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
 						</button>
 					</div>
 				</div>
@@ -146,16 +146,16 @@
 								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
 						</div>
-						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
+						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right ml-1 cancel"
 								type="reset">
-							<span class="visible-xs-inline-block fas fa-times"></span>
-							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+							<span class="visible-xs-inline fas fa-times"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</span>
 						</button>
 						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 								data-mode="edit"
 								data-js="click|data-mode">
-							<span class="visible-xs-inline-block fas fa-check"></span>
-							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+							<span class="visible-xs-inline fas fa-check"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
 						</button>
 					</div>
 				</div>

@@ -15,9 +15,7 @@
 class Calendar_Field_Model extends Vtiger_Field_Model
 {
 	/**
-	 * Function returns special validator for fields.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
 	public function getValidator()
 	{
@@ -33,15 +31,13 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get the Webservice Field data type.
-	 *
-	 * @return string Data type of the field
+	 * {@inheritdoc}
 	 */
 	public function getFieldDataType()
 	{
 		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
 			return 'datetime';
-		} elseif ($this->get('uitype') == '30') {
+		} elseif ($this->getUIType() === 30) {
 			return 'reminder';
 		}
 		return parent::getFieldDataType();

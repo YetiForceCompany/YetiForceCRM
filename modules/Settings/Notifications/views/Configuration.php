@@ -17,11 +17,12 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	 */
 	public function process(\App\Request $request)
 	{
-		$srcModule = $request->get('srcModule');
 		$modules = Vtiger_Watchdog_Model::getSupportedModules();
 		if ($request->isEmpty('srcModule')) {
 			reset($modules);
 			$srcModule = key($modules);
+		} else {
+			$srcModule = $request->getInteger('srcModule');
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('WATCHDOG_MODULE', Vtiger_Watchdog_Model::getInstance($srcModule));
