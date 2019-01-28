@@ -19,7 +19,7 @@
 				{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}
 				{if $WIDGET->get('deleteFromList')}
 					<span class="text-danger pl-5 ml-auto">
-						<span class="fas fa-trash-alt removeWidgetFromList" data-widget-id="{$WIDGET->get('widgetid')}"></span>
+						<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="{$WIDGET->get('widgetid')}" data-js="click"></span>
 					</span>
 				{/if}
 			</a>
