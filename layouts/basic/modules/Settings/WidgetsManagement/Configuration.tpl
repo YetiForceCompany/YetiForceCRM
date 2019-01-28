@@ -136,7 +136,7 @@
 											{/if}
 											<div class="btn-group actions ml-1">
 												<a href="javascript:void(0)"
-												   class="deleteCustomBlock btn btn-sm btn-danger">
+												   class="js-delete-custom-block-btn btn btn-sm btn-danger">
 													<span class="fas fa-trash-alt alignMiddle"
 														  title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 												</a>
@@ -282,7 +282,8 @@
 										</div>
 									{/if}
 									<div class="btn-group actions">
-										<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger">
+										<a href="javascript:void(0)"
+										   class="js-delete-custom-block-btn btn btn-sm btn-danger">
 											<span class="fas fa-trash-alt alignMiddle"
 												  title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 										</a>
