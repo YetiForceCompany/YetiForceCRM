@@ -116,6 +116,11 @@
 	@extend .font-weight-bold;
 }
 
+.u-hover-opacity:hover {
+	opacity: 0.5;
+	@include u-transition(opacity 275ms ease);
+}
+
 .u-word-break-all {
 	word-break: break-all !important;
 }
