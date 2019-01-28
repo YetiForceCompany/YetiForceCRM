@@ -18,7 +18,7 @@ class Settings_TreesManager_Save_Action extends Settings_Vtiger_Basic_Action
 		$qualifiedModuleName = $request->getModule(false);
 		$name = $request->getByType('name', 'Text');
 		$tree = $request->getArray('tree', 'Text');
-		$replace = $request->get('replace');
+		$replace = $request->getMultiDimensionArray('replace', [['old' => ['Integer'], ['new' => ['Integer']]]]);
 		$templatemodule = $request->getInteger('templatemodule');
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		if (!$request->isEmpty('record')) {
