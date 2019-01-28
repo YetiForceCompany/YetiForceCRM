@@ -17,15 +17,15 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = $request->get('task_id');
-		$workflowId = $request->get('for_workflow');
+		$recordId = !$request->isEmpty('task_id') ? $request->getInteger('task_id') : '';
+		$workflowId = $request->getInteger('for_workflow');
 
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 		$taskTypes = $workflowModel->getTaskTypes();
 		if ($recordId) {
 			$taskModel = Settings_Workflows_TaskRecord_Model::getInstance($recordId);
 		} else {
-			$taskType = $request->get('type');
+			$taskType = $request->getByType('type', 'Alnum');
 			if (empty($taskType)) {
 				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'VTEmailTask';
 			}

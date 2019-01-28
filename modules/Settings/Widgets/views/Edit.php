@@ -12,7 +12,7 @@ class Settings_Widgets_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$wid = $request->get('id');
+		$wid = $request->getInteger('id');
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
 		$WidgetInfo = $moduleModel->getWidgetInfo($wid);
 		$RelatedModule = $moduleModel->getRelatedModule($WidgetInfo['tabid']);

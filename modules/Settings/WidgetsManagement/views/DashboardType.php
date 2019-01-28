@@ -11,7 +11,7 @@ class Settings_WidgetsManagement_DashboardType_View extends Settings_Vtiger_Basi
 {
 	public function process(\App\Request $request)
 	{
-		$dashboardId = $request->get('dashboardId');
+		$dashboardId = !$request->isEmpty('dashboardId') ? $request->getInteger('dashboardId') : 0;
 		$dashboardInfo = Settings_WidgetsManagement_Module_Model::getDashboardInfo($dashboardId);
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
