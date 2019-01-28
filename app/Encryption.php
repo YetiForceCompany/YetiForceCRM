@@ -67,6 +67,7 @@ class Encryption extends Base
 		if ($decryptInstance->get('method') === $method && $decryptInstance->get('vector') === $password) {
 			return;
 		}
+		$oldMethod = $decryptInstance->get('method');
 		$dbAdmin = Db::getInstance('admin');
 		$transactionAdmin = $dbAdmin->beginTransaction();
 		$transactionBase = Db::getInstance()->beginTransaction();
@@ -124,21 +125,13 @@ class Encryption extends Base
 			$transactionWebservice->commit();
 			$transactionBase->commit();
 			$transactionAdmin->commit();
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
 			$transactionAdmin->rollBack();
-			if (isset($config)) {
-				$config->revert();
-			}
-			throw $e;
-		} catch (\Error $e) {
-			$transactionWebservice->rollBack();
-			$transactionBase->rollBack();
-			$transactionAdmin->rollBack();
-			if (isset($config)) {
-				$config->revert();
-			}
+			$configFile = new ConfigFile('securityKeys');
+			$configFile->set('encryptionMethod', $oldMethod);
+			$configFile->create();
 			throw $e;
 		}
 	}
