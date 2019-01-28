@@ -191,8 +191,9 @@ class Vtiger_Export_Model extends \App\Base
 	{
 		$type = $request->getByType('export_type');
 		if (empty($type)) {
-			return 'text/csv';
+			$type = 'text/csv';
 		}
+		return $type;
 	}
 
 	/**

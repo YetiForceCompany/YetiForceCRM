@@ -190,7 +190,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$pbx = App\Integrations\Pbx::getDefaultInstance();
 		$pbx->loadUserPhone();
 		try {
-			$pbx->performCall($request->getByType('phoneNumber', 'Text'));
+			$pbx->performCall($request->getByType('phoneNumber', 'Phone'));
 			$response = new Vtiger_Response();
 			$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
 			$response->emit();

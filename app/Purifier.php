@@ -410,6 +410,9 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Phone':
+					$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
+					break;
 				case 'Html':
 					$value = self::purifyHtml($input);
 					break;

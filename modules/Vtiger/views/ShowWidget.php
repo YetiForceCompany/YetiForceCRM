@@ -21,9 +21,9 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 				$widget = null;
 				if (!$request->isEmpty('linkid', true)) {
 					$widget = new Vtiger_Widget_Model();
-					$widget->set('linkid', (int) $request->getInteger('linkid'));
+					$widget->set('linkid', $request->getInteger('linkid'));
 					$widget->set('userid', App\User::getCurrentUserId());
-					$widget->set('widgetid', (int) $request->getInteger('widgetid'));
+					$widget->set('widgetid', $request->getInteger('widgetid'));
 					$widget->set('active', $request->getInteger('active'));
 					$widget->set('filterid', $request->getInteger('filterid', null));
 					if ($request->has('data')) {

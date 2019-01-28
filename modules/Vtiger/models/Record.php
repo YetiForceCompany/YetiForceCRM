@@ -439,6 +439,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function save()
 	{
+		var_dump($this->getData());
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
 		$eventHandler = new App\EventHandler();

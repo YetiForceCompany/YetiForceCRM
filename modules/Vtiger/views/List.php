@@ -232,7 +232,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!$request->isEmpty('searchResult', true)) {
 			$this->listViewModel->set('searchResult', $request->getArray('searchResult', 'Integer'));
 		}
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view'), 'CVID' => $this->viewName];
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 'Alnum'), 'CVID' => $this->viewName];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
