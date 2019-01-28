@@ -16,11 +16,10 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 	 */
 	public function process(\App\Request $request)
 	{
-		$data = $request->get('param');
-		$typeApi = $request->get('typeApi');
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
+		$data = $request->getArray('param', 'Text');
+		$typeApi = $request->getByType('typeApi', 'Alnum');
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record'), $typeApi);
 		} else {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
 		}

@@ -34,16 +34,13 @@ class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 
 	public function updateFieldPinnedStatus(\App\Request $request)
 	{
-		$fieldId = $request->get('fieldid');
+		$fieldId = $request->getInteger('fieldid');
 		$menuItemModel = Settings_Vtiger_MenuItem_Model::getInstanceById($fieldId);
-
-		$pin = $request->get('pin');
-		if ($pin == 'true') {
+		if ($request->getBoolean('pin')) {
 			$menuItemModel->markPinned();
 		} else {
 			$menuItemModel->unMarkPinned();
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult(['SUCCESS' => 'OK']);
 		$response->emit();

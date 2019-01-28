@@ -18,8 +18,8 @@ class Settings_WebserviceUsers_Edit_View extends Settings_Vtiger_BasicModal_View
 	{
 		parent::preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
-		$type = $request->get('typeApi');
+		$recordId = !$request->isEmpty('record') ? $request->getInteger('record') : '';
+		$type = $request->getByType('typeApi', 'Alnum');
 		if (!empty($recordId)) {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $type);
 		} else {
