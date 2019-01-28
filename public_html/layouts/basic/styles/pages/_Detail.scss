@@ -340,6 +340,10 @@
 	.detailViewTable .fieldValue .js-detail-quick-edit {
 		display: none;
 	}
+
+	.detailViewTable .fieldValue:hover .js-detail-quick-edit {
+		display: inline-block;
+	}
 }
 
 .detailViewTitle {
@@ -381,10 +385,6 @@
 
 	.btn-toolbar, .btn-toolbar .btn-group:first-child {
 		margin: 0;
-	}
-
-	.fieldValue:hover .js-detail-quick-edit {
-		display: inherit;
 	}
 }
 
