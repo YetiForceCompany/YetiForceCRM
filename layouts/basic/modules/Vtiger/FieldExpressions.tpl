@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-FieldExpressions -->
 	<div class="popupUi modal fade" data-backdrop="false">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -116,4 +117,5 @@
 		</div>
 	</div>
 	<div class="clonedPopUp"></div>
+	<!-- /tpl-Base-FieldExpressions -->
 {/strip}

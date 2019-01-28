@@ -38,6 +38,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 		'csv' => 'CSVReader',
 		'vcf' => 'VCardReader',
 		'ics' => 'ICSReader',
+		'ical' => 'ICSReader',
 		'default' => 'FileReader',
 		'xml' => 'XmlReader',
 		'zip' => 'ZipReader',
@@ -57,7 +58,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 	];
 	public static $supportedDelimiters = [',' => 'comma', ';' => 'semicolon'];
 	public static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
-	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf', 'xml', 'zip'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
+	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf', 'xml', 'zip'], 'Calendar' => ['csv', 'ical', 'ics', 'xml'], 'Default' => ['csv', 'xml', 'zip']];
 	public $importModule;
 	public $importModuleModel;
 
@@ -68,7 +69,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public static function getSupportedFileExtensions($moduleName = null)
+	public static function getSupportedFileExtensions(?string $moduleName = null)
 	{
 		if (!$moduleName) {
 			return self::$supportedFileExtensions;
@@ -94,7 +95,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 	{
 		$supportedFileTypes = self::getSupportedFileExtensions($moduleName);
 		$description = [];
-
 		foreach ($supportedFileTypes as $fileType) {
 			$description[] = '.' . strtoupper($fileType);
 		}
@@ -169,7 +169,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
 			$modelClassName = Vtiger_Loader::getComponentClassName('Reader', $componentName, 'Import');
-
 			return new $modelClassName($request, $user);
 		}
 		return null;

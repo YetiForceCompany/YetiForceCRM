@@ -31,29 +31,31 @@
 		<br/>
 		<div>
 			<div class="row">
-				<div class="col-md-3">
-					{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:
+				<div class="col-sm-5 d-flex">
+					<strong class="ml-sm-auto">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</strong>
+
 				</div>
-				<div class="col-md-9">
-					<div class="iconName"></div>
+				<div class="col-sm-7 d-flex">
+					<div class="iconName m-sm-auto"></div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-3">
-					{\App\Language::translate('LBL_ICON_EXAMPLE', $QUALIFIED_MODULE)}:
+				<div class="col-sm-5 d-flex">
+					<strong class="ml-sm-auto my-sm-auto">{\App\Language::translate('LBL_ICON_EXAMPLE', $QUALIFIED_MODULE)}
+						:</strong>
 				</div>
-				<div class="col-md-9">
-					<div class="iconExample" style="font-size: 32px;"></div>
+				<div class="col-sm-7 d-flex">
+					<div class="iconExample m-sm-auto u-font-size-38px"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-success" type="submit" name="saveButton" data-dismiss="modal">
-			<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SELECT_OPTION', $MODULE)}</strong>
+			<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</strong>
 		</button>
 		<button class="btn btn-danger" type="reset" data-dismiss="modal">
-			<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
+			<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}</strong>
 		</button>
 	</div>
 {/strip}

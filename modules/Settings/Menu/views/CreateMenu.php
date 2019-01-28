@@ -28,7 +28,7 @@ class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 	public function step2(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$type = $request->get('mtype');
+		$type = $request->getInteger('mtype');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', Settings_Menu_Module_Model::getInstance());
 		$viewer->assign('RECORD', Settings_Menu_Record_Model::getCleanInstance());

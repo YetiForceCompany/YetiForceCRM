@@ -12,7 +12,7 @@ class Settings_PDF_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$response = new Vtiger_Response();
 		$recordModel = Vtiger_PDF_Model::getInstanceById($recordId);

@@ -99,8 +99,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ($request->getBoolean('history')) {
 			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
-			$viewer->assign('HIDDEN_DAYS', $request->get('hiddenDays'));
-			$viewer->assign('TIME', $request->get('time'));
+			$viewer->assign('HIDDEN_DAYS', implode(',', $request->getExploded('hiddenDays', ',', 'Integer')));
+			$viewer->assign('TIME', $request->getByType('time', 'Standard'));
 		}
 		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
 		$viewer->assign('CURRENT_USER', $currentUserModel);

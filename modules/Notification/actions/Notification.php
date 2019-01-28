@@ -21,9 +21,8 @@ class Notification_Notification_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$id = $request->get('id');
-		if ($id) {
-			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
+		if (!$request->isEmpty('id')) {
+			$notice = Notification_NoticeEntries_Model::getInstanceById($request->getInteger('id'));
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -67,7 +66,7 @@ class Notification_Notification_Action extends \App\Controller\Action
 	{
 		$selectedModules = $request->getArray('selctedModules', 2);
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
-		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
+		Vtiger_Watchdog_Model::setSchedulerByUser($request->getArray('sendNotifications', 'Integer'), $request->getInteger('frequency'));
 		foreach ($selectedModules as $moduleId) {
 			$watchdogModel = Vtiger_Watchdog_Model::getInstance((int) $moduleId);
 			$watchdogModel->changeModuleState(1);

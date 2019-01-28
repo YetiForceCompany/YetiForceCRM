@@ -83,7 +83,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$moduleModel->setTodoFieldsForExport();
 
 		$query = $this->getExportQuery($request);
-		$fileName = $request->get('filename');
+		$fileName = $request->getByType('filename', 'Path');
 		$this->outputData($request, $query->createCommand()->query(), $moduleModel, $fileName);
 	}
 

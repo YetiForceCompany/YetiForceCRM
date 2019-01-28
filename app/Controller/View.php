@@ -230,7 +230,7 @@ abstract class View extends Base
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
-			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
+			'~libraries/clockpicker/dist/bootstrap4-clockpicker.css',
 			'~libraries/animate.css/animate.css',
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',

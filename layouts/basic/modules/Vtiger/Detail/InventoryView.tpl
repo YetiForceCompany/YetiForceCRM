@@ -34,12 +34,11 @@
 		{/if}
 		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity','Unit']}
 		<div class="table-responsive">
-			<table class="table blockContainer inventoryItems">
+			<table class="table table-bordered inventoryItems">
 				<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<th {if $FIELD->get('colSpan') neq 0 } style="width: {$FIELD->get('colSpan')}%" {/if}
-								class="textAlignCenter">
+						<th class="textAlignCenter u-before-block{if $FIELD->get('colSpan') neq 0 } u-table-column-vw-{$FIELD->get('colSpan')}{/if}">
 							{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
 						</th>
 					{/foreach}
@@ -63,9 +62,8 @@
 				<tfoot>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td {if $FIELD->get('colSpan') neq 0 } style="width: {$FIELD->get('colSpan')}%" {/if}
-								class="col{$FIELD->getType()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}"
-								data-sumfield="{lcfirst($FIELD->getType())}">
+						<td class="col{$FIELD->getType()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}"
+							data-sumfield="{lcfirst($FIELD->getType())}">
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}

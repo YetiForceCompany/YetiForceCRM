@@ -880,8 +880,7 @@ var AppConnector,
 				placement: 'bottom',
 				autoclose: true,
 				twelvehour: formatTime,
-				minutestep: 5,
-				ampmSubmit: true,
+				minutestep: 5
 			};
 
 			$('.js-clock__btn').on('click', (e) => {

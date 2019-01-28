@@ -70,7 +70,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/clockpicker/dist/jquery-clockpicker.js',
+			'~libraries/clockpicker/dist/bootstrap4-clockpicker.js',
 			'~libraries/inputmask/dist/jquery.inputmask.bundle.js',
 			'~libraries/mousetrap/mousetrap.js',
 			'modules.Vtiger.resources.Menu',

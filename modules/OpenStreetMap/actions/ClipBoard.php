@@ -63,7 +63,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 
 	public function save(\App\Request $request)
 	{
-		$records = $request->get('recordIds');
+		$records = $request->getArray('recordIds', 'Integer');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->getByType('srcModule'));
 		$coordinatesModel->deleteCache();

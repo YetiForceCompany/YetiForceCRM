@@ -252,7 +252,7 @@ class Gantt {
 		this.resize();
 		const self = this;
 		if (typeof self.ganttElastic === 'undefined') {
-			GanttElastic.mount({
+			this.ganttApp = GanttElastic.mount({
 				el: '#' + this.container.attr('id'),
 				tasks: this.allTasks,
 				options: this.options,
@@ -264,7 +264,7 @@ class Gantt {
 			});
 			this.container = this.containerParent.find('.gantt-elastic').eq(0);
 		} else {
-			self.ganttState.tasks = this.allTasks;
+			self.ganttApp.tasks = this.allTasks;
 		}
 	}
 
@@ -296,7 +296,7 @@ class Gantt {
 	 */
 	saveFilter(filterOptions) {
 		this.filter = filterOptions;
-		this.ganttState.tasks = this.filterProjectData(this.projectData);
+		this.ganttApp.tasks = this.filterProjectData(this.projectData);
 	}
 
 	/**

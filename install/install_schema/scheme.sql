@@ -585,8 +585,8 @@ CREATE TABLE `l_yf_settings_tracker_basic` (
 
 CREATE TABLE `l_yf_settings_tracker_detail` (
   `id` int(10) unsigned NOT NULL,
-  `prev_value` varchar(255) NOT NULL DEFAULT '',
-  `post_value` varchar(255) NOT NULL DEFAULT '',
+  `prev_value` text NOT NULL DEFAULT '',
+  `post_value` text NOT NULL DEFAULT '',
   `field` varchar(255) NOT NULL,
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
