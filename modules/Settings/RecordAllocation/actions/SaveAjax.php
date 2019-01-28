@@ -19,7 +19,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('save');
-		$data = $request->get('param');
+		$data = $request->getArray('param', 'Text');
 		$qualifiedModuleName = $request->getModule(false);
 
 		$oldValues = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($data['type'], $data['module']);
@@ -44,7 +44,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('delete');
-		$data = $request->get('param');
+		$data = $request->getArray('param', 'Text');
 		$moduleName = $data['module'];
 		$qualifiedModuleName = $request->getModule(false);
 
