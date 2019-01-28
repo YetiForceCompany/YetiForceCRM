@@ -786,7 +786,7 @@ return [
 			'description' => "Encryption method.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === '' || ($arg && !in_array($arg, \App\Encryption::getMethods()));
+				return empty($arg) || ($arg && in_array($arg, \App\Encryption::getMethods()));
 			}
 		],
 	],
