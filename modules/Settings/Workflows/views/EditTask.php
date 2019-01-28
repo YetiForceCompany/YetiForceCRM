@@ -17,7 +17,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = !$request->isEmpty('task_id') ? $request->getInteger('task_id') : '';
+		$recordId = $request->getInteger('task_id', '');
 		$workflowId = $request->getInteger('for_workflow');
 
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
