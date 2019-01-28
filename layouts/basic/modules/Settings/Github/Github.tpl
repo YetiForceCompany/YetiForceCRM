@@ -108,7 +108,7 @@
 			</div>
 		</div>
 		<div class="table-responsive">
-			<table class="table listViewEntriesTable mt-1">
+			<table class="table table-bordered listViewEntriesTable mt-1">
 				<thead>
 				<th>{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}</th>
 				<th>{\App\Language::translate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>

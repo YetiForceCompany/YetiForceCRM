@@ -43,6 +43,11 @@ class Purifier
 	public const BOOL = 'Bool';
 
 	/**
+	 * Purify type Alnum.
+	 */
+	public const ALNUM = 'Alnum';
+
+	/**
 	 * Default charset.
 	 *
 	 * @var string
@@ -363,6 +368,14 @@ class Purifier
 					if (is_numeric($dbFormat) && Fields\Double::formatToDisplay($dbFormat, false) === Fields\Double::truncateZeros($input)) {
 						$value = $input;
 					}
+					break;
+				case 'Double':
+					if (($input = filter_var($input, FILTER_VALIDATE_FLOAT)) !== false) {
+						$value = $input;
+					}
+					break;
+				case 'Phone':
+					$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
 					break;
 				case 'Html':
 					$value = self::purifyHtml($input);

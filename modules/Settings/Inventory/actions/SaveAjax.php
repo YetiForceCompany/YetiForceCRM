@@ -81,7 +81,10 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function deleteInventory(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'id' => 'Integer',
+			'view' => 'Standard'
+		]);
 		$id = $params['id'];
 		$type = $params['view'];
 
@@ -101,9 +104,14 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function saveConfig(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'view' => 'Standard',
+			'param' => [
+				'value' => 'Text',
+				'param' => 'Standard'
+			]
+		]);
 		$type = $params['view'];
-
 		$recordModel = Settings_Inventory_Module_Model::getCleanInstance();
 		$status = $recordModel->setConfig($type, $params['param']);
 

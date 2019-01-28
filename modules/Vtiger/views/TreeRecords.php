@@ -48,14 +48,16 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$branches = $request->get('branches');
-		$filter = $request->getByType('filter', 2);
-		if (empty($branches)) {
+		if ($request->isEmpty('branches', true)) {
 			return;
 		}
-
+		$filter = $request->getByType('filter', 'Alnum');
+		$branches = $request->getArray('branches', 'Text');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

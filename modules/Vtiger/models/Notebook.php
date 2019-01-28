@@ -31,7 +31,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 	 */
 	public function save(\App\Request $request)
 	{
-		$content = $request->get('contents');
+		$content = $request->getByType('contents', 'Text');
 		$noteBookId = $request->getInteger('widgetid');
 		$dataValue = [];
 		$dataValue['contents'] = strip_tags($content);

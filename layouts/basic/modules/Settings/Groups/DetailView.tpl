@@ -14,9 +14,6 @@
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			{if isset($SELECTED_PAGE)}
-				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-			{/if}
 		</div>
 		<div class="col-md-4 ">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-primary float-right mt-3">

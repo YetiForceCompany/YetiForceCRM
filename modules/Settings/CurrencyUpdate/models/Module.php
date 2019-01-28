@@ -297,7 +297,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $to, ])
-					->limit(1);
+						->limit(1);
 				$num = (float) ($query->count());
 				// no exchange rate in archive, fetch new rates
 				if ($num == 0) {
@@ -311,7 +311,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to, ])
-				->limit(1);
+					->limit(1);
 			$exchange = (float) ($query->scalar());
 			if ($exchange > 0) {
 				$exchange = 1 / $exchange;
@@ -326,7 +326,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $from, ])
-					->limit(1);
+						->limit(1);
 				$fromExchange = (float) ($query->scalar());
 				if ($from != $mainCurrencyCode && $to != $mainCurrencyCode) {
 					$exchange = $fromExchange / $convertToMainCurrency;
