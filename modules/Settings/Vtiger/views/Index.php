@@ -126,7 +126,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$isAuthor = $request->getBoolean('author');
 		$pageNumber = !$request->isEmpty('page') ? $request->getInteger('page') : 1;
-		$state = $request->isEmpty('state') ? 'open' : $request->getByType('state', 'Text'); //is ok?
+		$state = $request->isEmpty('state') ? 'open' : $request->getByType('state', 'Text');
 		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
