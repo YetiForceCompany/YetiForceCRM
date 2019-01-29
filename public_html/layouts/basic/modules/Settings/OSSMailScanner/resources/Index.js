@@ -41,6 +41,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						folders: selectedFolders
 					}).done(function (data) {
 						let response = data['result'];
+						let emptyFoldersAlert = $('.js-empty-folders-alert');
 						if (response['success']) {
 							Vtiger_Helper_Js.showPnotify({
 								text: response['message'],
@@ -50,6 +51,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 							Vtiger_Helper_Js.showPnotify({
 								text: response['message'],
 							});
+						}
+						if (Object.keys(selectedFolders).length) {
+							emptyFoldersAlert.addClass('d-none');
+						} else {
+							emptyFoldersAlert.removeClass('d-none');
 						}
 						app.hideModalWindow();
 					});
