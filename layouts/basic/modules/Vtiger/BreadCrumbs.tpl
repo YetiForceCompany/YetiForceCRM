@@ -34,7 +34,7 @@
 							<span class="fas fa-info-circle fa-sm"></span>
 						</li>
 					{else}
-						<li class="breadcrumb-item"><a href="#">{$item['name']}</a></li>
+						<li class="breadcrumb-item">{$item['name']}</li>
 					{/if}
 					{assign var="ITEM_PREV" value=$item['name']}
 				{/foreach}
