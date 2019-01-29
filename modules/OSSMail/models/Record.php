@@ -50,8 +50,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function loadRoundcubeConfig()
 	{
+		$configMail = \App\Config::module('OSSMail');
 		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
-		$config = \App\Config::module('OSSMail') + $config;
+		$config = $configMail + $config;
 		if (!defined('RCMAIL_VERSION') && file_exists(RCUBE_INSTALL_PATH . '/program/include/iniset.php')) {
 			// read rcube version from iniset
 			$iniset = file_get_contents(RCUBE_INSTALL_PATH . '/program/include/iniset.php');
