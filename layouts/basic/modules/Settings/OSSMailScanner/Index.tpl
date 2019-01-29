@@ -136,9 +136,7 @@
 									</button>
 								</div>
 							</div>
-							{if empty($FOLDERS)}
-								<span class="badge badge-danger">{\App\Language::translate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
-							{/if}
+							<span class="js-empty-folders-alert badge badge-danger{if !empty($FOLDERS)} d-none{/if}">{\App\Language::translate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
 						</td>
 					</tr>
 					<tr style="display: none;" data-user-id="{$row['user_id']}">
