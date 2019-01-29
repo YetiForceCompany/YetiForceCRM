@@ -16,7 +16,11 @@ class Settings_SalesProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Acti
 
 	public function updateConfig(\App\Request $request)
 	{
-		$param = $request->getArray('param', 'Standard');
+		$param = [
+			'type' => $request->getByType('type', 'Alnum'),
+			'param' => $request->getByType('param', 'Alnum'),
+			'val' => $request->getBoolean('val') ? 'true' : 'false'
+		];
 		$moduleModel = Settings_SalesProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 		$response->setResult([
