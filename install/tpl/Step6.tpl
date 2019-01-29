@@ -48,13 +48,6 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label" for="company-street">{App\Language::translate('LBL_STREET', 'Settings:Companies')}
-							&nbsp;<span class="no">*</span></label>
-						<div class="col-sm-10">
-							<input id="company-street" type="text" name="company_street" class="form-control" data-validation-engine="validate[required]">
-						</div>
-					</div>
-					<div class="form-group row">
 						<label class="col-sm-2 col-form-label" for="company-city">{App\Language::translate('LBL_CITY', 'Settings:Companies')}
 							&nbsp;<span class="no">*</span></label>
 						<div class="col-sm-10">

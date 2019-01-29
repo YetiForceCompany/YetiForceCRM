@@ -11,7 +11,7 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 {
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');

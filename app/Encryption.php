@@ -6,6 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -66,6 +67,7 @@ class Encryption extends Base
 		if ($decryptInstance->get('method') === $method && $decryptInstance->get('vector') === $password) {
 			return;
 		}
+		$oldMethod = $decryptInstance->get('method');
 		$dbAdmin = Db::getInstance('admin');
 		$transactionAdmin = $dbAdmin->beginTransaction();
 		$transactionBase = Db::getInstance()->beginTransaction();
@@ -101,12 +103,10 @@ class Encryption extends Base
 			} else {
 				$dbAdmin->createCommand()->update('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
 			}
-			$config = new Configurator('securityKeys');
-			$config->set('encryptionMethod', $method);
-			$config->save();
+			$configFile = new ConfigFile('securityKeys');
+			$configFile->set('encryptionMethod', $method);
+			$configFile->create();
 			Cache::clear();
-			\AppConfig::set('securityKeys', 'encryptionMethod', $method);
-			\AppConfig::set('securityKeys', 'encryptionPass', $decryptInstance->get('pass'));
 			$encryptInstance = static::getInstance();
 			foreach ($passwords as $tableName => $pass) {
 				$dbCommand = Db::getInstance(self::$mapPasswords[$tableName]['db'])->createCommand();
@@ -125,21 +125,13 @@ class Encryption extends Base
 			$transactionWebservice->commit();
 			$transactionBase->commit();
 			$transactionAdmin->commit();
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
 			$transactionAdmin->rollBack();
-			if (isset($config)) {
-				$config->revert();
-			}
-			throw $e;
-		} catch (\Error $e) {
-			$transactionWebservice->rollBack();
-			$transactionBase->rollBack();
-			$transactionAdmin->rollBack();
-			if (isset($config)) {
-				$config->revert();
-			}
+			$configFile = new ConfigFile('securityKeys');
+			$configFile->set('encryptionMethod', $oldMethod);
+			$configFile->create();
 			throw $e;
 		}
 	}

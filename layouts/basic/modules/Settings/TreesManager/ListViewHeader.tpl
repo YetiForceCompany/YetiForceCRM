@@ -7,12 +7,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="badge badge-info my-2">
-			{if isset($SELECTED_PAGE)}
-				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-			{/if}
-		</div>
-		<div class="form-row align-items-center mb-2">
+		<div class="form-row align-items-center my-2">
 			<div class="col-md-4 btn-toolbar">
 				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					<button class="btn addButton btn-success" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'

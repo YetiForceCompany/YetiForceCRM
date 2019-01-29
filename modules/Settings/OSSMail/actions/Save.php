@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 {
@@ -33,27 +34,15 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$recordModel = Settings_OSSMail_Config_Model::getCleanInstance();
+		$configFile = new \App\ConfigFile('module', $request->getModule(true));
 		foreach ($recordModel->getForm() as $fieldName => $fieldInfo) {
 			if ($fieldInfo['required'] === 1 && $request->isEmpty($fieldName)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
-			if ($fieldInfo['fieldType'] === 'text') {
-				$recordModel->set($fieldName, $request->getByType($fieldName, 'Text'));
-			} elseif ($fieldInfo['fieldType'] === 'checkbox') {
-				$recordModel->set($fieldName, $request->getBoolean($fieldName));
-			} elseif ($fieldInfo['fieldType'] === 'multipicklist') {
-				$recordModel->set($fieldName, $request->getArray($fieldName, 'Text'));
-			} elseif ($fieldInfo['fieldType'] === 'int') {
-				$recordModel->set($fieldName, $request->getInteger($fieldName));
-			} elseif ($fieldInfo['fieldType'] === 'picklist') {
-				$value = $request->getByType($fieldName, 'Alnum');
-				if (!in_array($value, $fieldInfo['value'])) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-				}
-				$recordModel->set($fieldName, $value);
-			}
+			$configFile->set($fieldName, $request->getRaw($fieldName));
 		}
-		$recordModel->save();
+		$configFile->create();
+		\App\Db::getInstance()->createCommand()->update('roundcube_users', ['language' => \Config\Modules\OSSMail::$language])->execute();
 		$result = ['success' => true, 'data' => \App\Language::translate('JS_save_config_info', 'OSSMailScanner')];
 		$response = new Vtiger_Response();
 		$response->setResult($result);

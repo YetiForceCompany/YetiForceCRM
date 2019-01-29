@@ -35,7 +35,7 @@ class Import_Utils_Helper
 	/**
 	 * Get supported file extensions description.
 	 *
-	 * @param $moduleName
+	 * @param string $moduleName
 	 *
 	 * @return string
 	 */

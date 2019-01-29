@@ -14260,18 +14260,6 @@ html, body, .o-base-container {
   width: 100%;
   height: 300px; }
 
-@media only screen and (min-width: 1200px) {
-  .pull-right-lg {
-    float: right; }
-
-  .pull-left-lg {
-    float: left; }
-
-  .selectSearch {
-    display: block; }
-
-  .detailViewTable .fieldValue .js-detail-quick-edit {
-    display: none; } }
 @media only screen and (max-width: 1200px) {
   .o-base-container:not(.c-menu--open) .c-menu__container:hover + .basePanel {
     width: calc(100% - 180px);
@@ -17465,9 +17453,11 @@ input[type="radio"]:checked:before {
 
 .widget_header .breadcrumb {
   background: none;
-  flex-wrap: nowrap; }
+  flex-wrap: nowrap;
+  align-items: center; }
 .widget_header .breadcrumb-item {
-  white-space: nowrap; }
+  white-space: nowrap;
+  height: fit-content; }
   .widget_header .breadcrumb-item.active {
     color: #545b62; }
 
@@ -18667,6 +18657,8 @@ input[type="radio"]:checked:before {
   .o-detail__icon.fa {
     display: inline; }
 
+.detailViewTable .fieldLabel {
+  height: inherit; }
 .detailViewTable .fieldLabel.medium, .detailViewTable .fieldValue.medium {
   padding: 10px;
   min-height: 40px; }
@@ -18852,6 +18844,12 @@ input[type="radio"]:checked:before {
     padding-bottom: 10px;
     padding-top: 10px; }
 
+@media only screen and (min-width: 1200px) {
+  .detailViewTable .fieldValue .js-detail-quick-edit {
+    display: none; }
+
+  .detailViewTable .fieldValue:hover .js-detail-quick-edit {
+    display: inline-block; } }
 .detailViewTitle {
   padding: 0 15px 0 15px;
   -webkit-box-sizing: border-box;
@@ -18878,8 +18876,6 @@ input[type="radio"]:checked:before {
     float: left; }
   .detailViewTitle .btn-toolbar, .detailViewTitle .btn-toolbar .btn-group:first-child {
     margin: 0; }
-  .detailViewTitle .fieldValue:hover .js-detail-quick-edit {
-    display: inherit; }
 
 .c-progress__container {
   display: flex;

@@ -243,7 +243,7 @@ class Picklist
 		$dataReader = $query->createCommand()->query();
 		$picklistDependencyDatasource = [];
 		static::$picklistDependencyFields[$module] = [];
-		$isEmptyDefaultValue = \AppConfig::performance('PICKLIST_DEPEDENCY_DEFAULT_EMPTY');
+		$isEmptyDefaultValue = \AppConfig::performance('PICKLIST_DEPENDENCY_DEFAULT_EMPTY');
 		while ($row = $dataReader->read()) {
 			$pickArray = [];
 			$sourceField = $row['sourcefield'];

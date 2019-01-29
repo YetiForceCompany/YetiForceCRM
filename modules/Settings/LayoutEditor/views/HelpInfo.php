@@ -48,7 +48,7 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
 		$viewer->assign('LANG_DEFAULT', \App\Language::getLanguage());
 		$viewer->assign('LANGUAGES', \App\Language::getAll());
 		$viewer->assign('SELECTED_VIEWS', ['Edit', 'Detail', 'QuickCreateAjax']);
-		$viewer->assign('DEFAULT_VALUE', $request->get('defaultValue'));
+		$viewer->assign('DEFAULT_VALUE', $request->getByType('defaultValue', 'Text'));
 		$viewer->view('HelpInfo.tpl', $qualifiedModuleName);
 	}
 

@@ -26,7 +26,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 	 */
 	public function delete(\App\Request $request)
 	{
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
 		$output = Settings_PDF_Record_Model::deleteWatermark($pdfModel);
 		$response = new Vtiger_Response();

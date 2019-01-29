@@ -35,7 +35,6 @@
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				{assign var=FIELD_VALIDATION  value=['HELPDESK_SUPPORT_EMAIL_REPLY' => ['name'=>'Email'],
 				'upload_maxsize' => ['name' => 'number'],
-				'history_max_viewed' => ['name' => 'NumberRange5'],
 				'popupType' =>['name' => 'NumberRange2'],
 				'title_max_length' => ['name' => 'NumberRange100'],
 				'MINIMUM_CRON_FREQUENCY' => ['name' => 'NumberRange100'],

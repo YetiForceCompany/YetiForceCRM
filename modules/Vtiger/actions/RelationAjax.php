@@ -74,7 +74,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			return $queryGenerator;
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 2), $request->get('tab_label'));
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $request->getByType('tab_label', 'Text'));
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
@@ -359,10 +359,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module', 2);
-		$recordsToRemove = $request->get('recordsToRemove');
-		$recordsToAdd = $request->get('recordsToAdd');
-		$categoryToAdd = $request->get('categoryToAdd');
-		$categoryToRemove = $request->get('categoryToRemove');
+		$recordsToRemove = $request->getArray('recordsToRemove', 'Integer');
+		$recordsToAdd = $request->getArray('recordsToAdd', 'Integer');
+		$categoryToAdd = $request->getArray('categoryToAdd', 'Alnum');
+		$categoryToRemove = $request->getArray('categoryToRemove', 'Alnum');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);

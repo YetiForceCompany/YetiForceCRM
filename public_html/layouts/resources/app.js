@@ -897,6 +897,11 @@ var AppConnector,
 						let timeString = timeInput.val(),
 							timeStringFormatted = [timeString.slice(0, timeString.length - 2), ' ', timeString.slice(timeString.length - 2)].join('');
 						timeInput.val(timeStringFormatted);
+						app.event.trigger('Clockpicker.changed', timeInput);
+					};
+				} else {
+					params.afterDone = () => {
+						app.event.trigger('Clockpicker.changed', timeInput);
 					};
 				}
 			}

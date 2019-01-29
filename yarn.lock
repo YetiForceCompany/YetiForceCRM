@@ -267,7 +267,7 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.7.0:
+gantt-elastic@^0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.7.3.tgz#e10a734ec9694228bf58c0b08c05b0f48f17a57c"
   integrity sha512-tr0rWvgjSB3NkkkslALCMllPkmKKvMlEYyqQ9QLN6oC/4Q70SYHIRzSa6xkUPONzrmq2DvhMgesoDVbElXyGZg==

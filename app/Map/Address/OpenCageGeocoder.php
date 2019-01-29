@@ -40,7 +40,7 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['opencage_data']['key'];
-		if ($countryCode = \AppConfig::module('AddressFinder', 'OPENCAGE_COUNTRY_CODE')) {
+		if ($countryCode = \App\Config::component('AddressFinder', 'OPENCAGE_COUNTRY_CODE')) {
 			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
 		}
 		try {
@@ -52,11 +52,11 @@ class OpenCageGeocoder extends Base
 			$body = \App\Json::decode($response->body);
 			$rows = [];
 			if ($body['total_results']) {
-				$mainMapping = \AppConfig::module('AddressFinder', 'REMAPPING_OPENCAGE');
+				$mainMapping = \App\Config::component('AddressFinder', 'REMAPPING_OPENCAGE');
 				if (!is_callable($mainMapping)) {
 					$mainMapping = [$this, 'parseRow'];
 				}
-				$countryMapping = \AppConfig::module('AddressFinder', 'REMAPPING_OPENCAGE_FOR_COUNTRY');
+				$countryMapping = \App\Config::component('AddressFinder', 'REMAPPING_OPENCAGE_FOR_COUNTRY');
 				foreach ($body['results'] as $row) {
 					$mappingFunction = $mainMapping;
 					if (isset($row['components']['country'], $countryMapping[$row['components']['country']])) {

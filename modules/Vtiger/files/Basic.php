@@ -59,10 +59,9 @@ abstract class Vtiger_Basic_File
 	public function postCheckPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
 		$field = $request->getByType('field', 'Alnum');
-		if (!empty($record)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
@@ -85,7 +84,7 @@ abstract class Vtiger_Basic_File
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
-				'field' => $request->get('field'),
+				'field' => $request->getByType('field', 'Alnum'),
 				'module' => $request->getModule(),
 				'attach' => $attach,
 			]);

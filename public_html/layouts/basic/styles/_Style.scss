@@ -2677,24 +2677,6 @@ html, body, .o-base-container {
 	height: 300px;
 }
 
-@media only screen and (min-width: 1200px) {
-	.pull-right-lg {
-		float: right;
-	}
-
-	.pull-left-lg {
-		float: left;
-	}
-
-	.selectSearch {
-		display: block;
-	}
-
-	.detailViewTable .fieldValue .js-detail-quick-edit {
-		display: none;
-	}
-}
-
 @media only screen and (max-width: 1200px) {
 	.o-base-container:not(.c-menu--open) .c-menu__container:hover + .basePanel {
 		width: calc(100% - 180px);

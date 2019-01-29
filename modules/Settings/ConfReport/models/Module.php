@@ -15,7 +15,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static $writableFilesAndFolders = [
 		'Configuration directory' => 'config/',
-		'Configuration file' => 'config/config.inc.php',
 		'User privileges directory' => 'user_privileges/',
 		'Tabdata file' => 'user_privileges/tabdata.php',
 		'Menu file' => 'user_privileges/menu_0.php',

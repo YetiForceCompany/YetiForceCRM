@@ -426,7 +426,7 @@ class PackageImport extends PackageExport
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
-				'config' => 'config/modules',
+				'config' => 'config/Modules',
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder

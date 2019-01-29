@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="tpl-install-tpl-Step7">
-		{if $INSTALATION_SUCCESS}
+		{if $INSTALLATION_SUCCESS}
 			<form class="" name="step7" method="post" action="../index.php?module=Users&action=Login">
 				<input type="hidden" name="mode" value="install">
 				<input type="hidden" name="username" value="{$USER_NAME}">
@@ -26,7 +26,24 @@
 				});
 			</script>
 		{else}
-			{nl2br(\App\Log::getlastLogs())}
+			<div class="container u-white-space-n u-word-break">
+				<div class="card mx-auto mt-5 u-w-fit shadow" role="alert">
+					<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center flex-wrap">
+						<h3 class="align-items-center card-title d-flex justify-content-center">{\App\Language::translate('LBL_ERROR_INSTALL', 'Install')}</h3>
+					</div>
+				</div>
+			</div>
+			<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
+				<div class="text-center w-100">
+					<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php" role="button">
+						<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
+						{App\Language::translate('LBL_BACK', 'Install')}
+					</a>
+				</div>
+			</div>
+			<script type="text/javascript">
+				$('#progressIndicator').remove();
+			</script>
 		{/if}
 	</div>
 {/strip}
