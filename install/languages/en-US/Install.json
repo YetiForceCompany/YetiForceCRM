@@ -33,6 +33,7 @@
     "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Library name",
     "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
     "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Next",
     "LBL_ONE_LAST_THING": "One last thing...",
@@ -110,6 +111,8 @@
   },
   "js": {
     "JS_ALL": "All",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "Password is too short - the minimum length is 8 characters",
     "LBL_PASS_TO_LONG": "The password is too long - maximum length is 32 characters",
     "LBL_PASS_NO_NUM": "The password must contain numbers",
