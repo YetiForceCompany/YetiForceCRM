@@ -20,7 +20,18 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function createMenu(\App\Request $request)
 	{
-		$data = $request->getArray('mdata', 'Text');
+		$data = $request->getMultiDimensionArray('mdata', [
+				'type' => 'Alnum',
+				'module' => 'Alnum',
+				'label' => 'Text',
+				'newwindow' => 'Integer',
+				'hotkey' => 'Text',
+				'filters' => 'Integer',
+				'icon' => 'Text',
+				'role' => 'Alnum',
+				'dataurl' => 'Text',
+			]
+		);
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->initialize($data);
 		$recordModel->save();
@@ -34,7 +45,19 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function updateMenu(\App\Request $request)
 	{
-		$data = $request->getArray('mdata', 'Text');
+		$data = $request->getMultiDimensionArray('mdata', [
+				'id' => 'Integer',
+				'type' => 'Alnum',
+				'module' => 'Alnum',
+				'label' => 'Text',
+				'newwindow' => 'Integer',
+				'hotkey' => 'Text',
+				'filters' => 'Integer',
+				'icon' => 'Text',
+				'role' => 'Alnum',
+				'dataurl' => 'Text',
+			]
+		);
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
 		$recordModel->initialize($data);
 		$recordModel->set('edit', true);

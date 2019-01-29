@@ -16,10 +16,15 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 		$sourceField = $request->getByType('sourceField', 'Alnum');
 		$targetField = $request->getByType('targetField', 'Alnum');
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $targetField);
-
 		$response = new Vtiger_Response();
 		try {
-			$result = $recordModel->save($request->getArray('mapping', 'Text'));
+			$data = $request->getMultiDimensionArray('mapping',
+				[[
+					'sourcevalue' => 'Text',
+					'targetvalues' => 'Text'
+				]]
+			);
+			$result = $recordModel->save($data);
 			$response->setResult(['success' => $result]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
