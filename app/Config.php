@@ -287,4 +287,23 @@ class Config
 		}
 		return $value;
 	}
+
+	/**
+	 * Set config value.
+	 *
+	 * @return bool
+	 */
+	public static function set(): bool
+	{
+		if (4 === func_num_args()) {
+			[$component, $type, $key, $value] = func_get_args();
+		} else {
+			[$type, $key, $value] = func_get_args();
+		}
+		$class = '\Config\\' . (isset($component) ? ucfirst($component) . 's\\' : '') . ucfirst($type);
+		if ($result = (class_exists($class) && isset($class::$$key))) {
+			$class::$$key = $value;
+		}
+		return $result;
+	}
 }

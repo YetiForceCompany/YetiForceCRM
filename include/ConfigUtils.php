@@ -125,20 +125,13 @@ class AppConfig
 	/**
 	 * Set config value.
 	 *
+	 * @deprecated Use \App\Config::set()
+	 *
 	 * @return bool
 	 */
 	public static function set(): bool
 	{
-		if (4 === func_num_args()) {
-			[$component, $type, $key, $value] = func_get_args();
-		} else {
-			[$type, $key, $value] = func_get_args();
-		}
-		$class = '\Config\\' . (isset($component) ? ucfirst($component) . 's\\' : '') . ucfirst($type);
-		if ($result = (class_exists($class) && isset($class::$$key))) {
-			$class::$$key = $value;
-		}
-		return $result;
+		return call_user_func_array('\App\Config::set', func_get_args());
 	}
 }
 
