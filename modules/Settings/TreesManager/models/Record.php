@@ -326,7 +326,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			});
 			$dataReaderTree = $query->createCommand()->query();
 			while ($rowTree = $dataReaderTree->read()) {
-				$db->createCommand()
+				$dbCommand ->
 					->update(
 						$tableName,
 						[$columnName => str_replace($replaceOld, $replaceNew, $rowTree[$columnName])],
