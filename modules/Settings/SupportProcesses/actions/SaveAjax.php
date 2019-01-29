@@ -16,7 +16,10 @@ class Settings_SupportProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Ac
 
 	public function updateConfig(\App\Request $request)
 	{
-		$param = $request->getArray('param', 'Text');
+		$param = $request->getMultiDimensionArray('param', [
+			'param' => 'Alnum',
+			'val' => ['Text'],
+		]);
 		$moduleModel = Settings_SupportProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 		$response->setResult([
