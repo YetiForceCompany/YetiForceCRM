@@ -132,16 +132,17 @@
 				thisInstance.blockedElement = thisInstance.elementToBlock;
 				if (thisInstance.isPageBlockMode()) {
 					$.blockUI({
-						'message': thisInstance.container,
-						'overlayCSS': thisInstance.blockOverlayCSS,
-						'css': thisInstance.blockCss
+						message: thisInstance.container,
+						overlayCSS: thisInstance.blockOverlayCSS,
+						css: thisInstance.blockCss,
+						onBlock: thisInstance.options.blockInfo.onBlock
 					});
 				} else {
 					thisInstance.elementToBlock.block({
-						'message': thisInstance.container,
-						'overlayCSS': thisInstance.blockOverlayCSS,
-						'css': thisInstance.blockCss
-					})
+						message: thisInstance.container,
+						overlayCSS: thisInstance.blockOverlayCSS,
+						css: thisInstance.blockCss
+					});
 				}
 			}
 
