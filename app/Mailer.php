@@ -136,7 +136,7 @@ class Mailer
 	 */
 	public static function addMail($params)
 	{
-		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
+		$params['status'] = \App\Config::component('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		$params['date'] = date('Y-m-d H:i:s');
 		if (empty($params['owner'])) {
 			$owner = User::getCurrentUserRealId();

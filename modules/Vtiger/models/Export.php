@@ -122,7 +122,7 @@ class Vtiger_Export_Model extends \App\Base
 		$module = $this->moduleName;
 		$query = $this->getExportQuery();
 		$headers = [];
-		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
+		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			foreach ($this->accessibleFields as $fieldName) {

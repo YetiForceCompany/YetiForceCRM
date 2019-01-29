@@ -672,6 +672,10 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'recursiveTranslate' => [
+			'default' => false,
+			'description' => 'If there is no translation in the chosen language, then get from the default language.'
+		]
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [
@@ -774,7 +778,7 @@ return [
 	'securityKeys' => [
 		'encryptionPass' => [
 			'default' => 'yeti',
-			'description' => "Key to encrypt passwords, changing the key results in the loss of all encrypted data.",
+			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
@@ -783,7 +787,7 @@ return [
 		],
 		'encryptionMethod' => [
 			'default' => 'AES-256-CBC',
-			'description' => "Encryption method.",
+			'description' => 'Encryption method.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return empty($arg) || ($arg && in_array($arg, \App\Encryption::getMethods()));

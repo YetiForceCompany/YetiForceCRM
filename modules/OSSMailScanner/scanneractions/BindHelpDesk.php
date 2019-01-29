@@ -4,8 +4,8 @@
  * Mail scanner action bind HelpDesk.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
@@ -24,14 +24,14 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 			}
 			$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->moduleName);
-			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
-				$recordModel->set('ticketstatus', AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
+			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\App\Config::component('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
+				$recordModel->set('ticketstatus', \App\Config::component('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();
 			}
 			$ticketStatus = array_flip(Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
 			if ($mail->getTypeEmail() == 1 && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ($conf['changeTicketStatus'] === 'openTicket') {
-					$recordModel->set('ticketstatus', AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));
+					$recordModel->set('ticketstatus', \App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS'));
 					$recordModel->save();
 				} elseif ($conf['changeTicketStatus'] === 'createTicket') {
 					$mailAccount = $mail->getAccount();
