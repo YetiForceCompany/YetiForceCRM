@@ -25,11 +25,6 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 			e.preventDefault();
 			if (form.validationEngine('validate')) {
 				let formData = form.serializeFormData();
-				formData.module = app.getModuleName();
-				formData.parent = app.getParentModuleName();
-				formData.action = 'SaveAjax';
-				formData.typeApi = container.find('#typeApi').val();
-				formData.record = container.find('#record').val();
 				AppConnector.request(formData).done(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
