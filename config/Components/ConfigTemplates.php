@@ -46,5 +46,19 @@ return [
 			'default' => ['7z', 'bz2', 'gz', 'rar', 'tar', 'tar.bz2', 'tar.gz', 'tar.lzma', 'tbz2', 'tgz', 'zip', 'zipx'],
 			'description' => 'Allowed extensions to show on the list.',
 		]
+	],
+	'Dav' => [
+		'CALDAV_DEFAULT_VISIBILITY_FROM_DAV' => [
+			'default' => false,
+			'description' => "Default visibility for events synchronized with CalDAV. Available values: false/'Public'/'Private'\nSetting default value will result in  skipping visibility both ways, default value for both ways will be set.",
+		],
+		'CALDAV_EXCLUSION_FROM_DAV' => [
+			'default' => false,
+			'description' => "Rules to set exclusions/omissions in synchronization\nExample. All private entries from CalDAV should not be synchronized: ['visibility' => 'Private']",
+		],
+		'CALDAV_EXCLUSION_TO_DAV' => [
+			'default' => false,
+			'description' => "Exclusions",
+		]
 	]
 ];
