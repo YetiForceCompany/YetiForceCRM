@@ -310,7 +310,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	private function updateCategoryMultipicklist(array $tree, string $tableName, string $columnName)
 	{
-		$db = App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($tree as $treeRow) {
 			$query = (new \App\Db\Query())->from($tableName);
 			foreach ($treeRow['old'] as $new) {
