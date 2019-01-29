@@ -7,6 +7,7 @@ composer install
 vendor/bin/phpunit --version
 yarn install --force --modules-folder "./public_html/libraries"
 mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
+cp tests/setup/Db.txt config/Db.php
 cp tests/setup/Main.txt config/Main.php
 cp tests/setup/Debug.txt config/Debug.php
 cp tests/setup/Developer.txt config/Developer.php
