@@ -14,6 +14,19 @@ class Vtiger_MultiDependField_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->getArray($requestFieldName, 'Text');
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value)) {
