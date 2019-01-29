@@ -35,6 +35,9 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$params = [];
 		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('current');
 		$params['user'] = $currentUser->getId();
+		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype', 'Text') !== 'all') {
+			$params['activitytype'] = $request->getByType('activitytype', 'Text');
+		}
 		$conditions = [
 			'condition' => [
 				'vtiger_activity.status' => $params['status'],
