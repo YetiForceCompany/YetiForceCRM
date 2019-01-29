@@ -18,7 +18,7 @@ class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_Basic_
 
 	public function save(\App\Request $request)
 	{
-		Settings_WidgetsManagement_Module_Model::saveDashboard(!$request->isEmpty('dashboardId') ? $request->getInteger('dashboardId') : '', $request->getByType('name', 'Text'));
+		Settings_WidgetsManagement_Module_Model::saveDashboard($request->getInteger('dashboardId'), $request->getByType('name', 'Text'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

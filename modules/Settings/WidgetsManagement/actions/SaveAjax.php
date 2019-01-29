@@ -44,6 +44,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'cache' => 'Integer',
 			'default_date' => 'Standard',
 			'authorized' => 'Alnum',
+			'__vtrftk' => 'Text',
 		]);
 		$moduleName = $request->getByType('sourceModule', 2);
 		$addToUser = $request->getBoolean('addToUser');
