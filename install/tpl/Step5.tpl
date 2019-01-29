@@ -59,9 +59,9 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right"
 														   data-js="popover"
@@ -75,16 +75,16 @@
 											{if isset($ITEM['mandatory'])}
 											<td>
 												{if $ITEM['mandatory']}
-													{App\Language::translate('LBL_MANDATORY', 'Settings::ConfReport')}
+													{App\Language::translate('LBL_MANDATORY', 'Settings:ConfReport')}
 												{else}
-													{App\Language::translate('LBL_OPTIONAL', 'Settings::ConfReport')}
+													{App\Language::translate('LBL_OPTIONAL', 'Settings:ConfReport')}
 												{/if}
 											</td>
 											<td>
 												{else}
 											<td colspan="2" class="u-word-break-keep-all">
 												{/if}
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -106,9 +106,9 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td class="bg-light text-left u-word-break-keep-all">
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right"
 														   data-js="popover"
@@ -121,13 +121,13 @@
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'Settings::ConfReport')}
+													{App\Language::translate($ITEM['recommended'], 'Settings:ConfReport')}
 												{else}
 													-
 												{/if}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -149,9 +149,9 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right"
 														   data-js="popover"
@@ -164,13 +164,13 @@
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'Settings::ConfReport')}
+													{App\Language::translate($ITEM['recommended'], 'Settings:ConfReport')}
 												{else}
 													-
 												{/if}
 											</td>
 											<td colspan="2">
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -193,9 +193,9 @@
 											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 												data-js="length">
 												<td>
-													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 													{if !$ITEM['status']}
-														{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+														{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 														{if !empty($HELP_TEXT)}
 															<a href="#" class="js-popover-tooltip float-right"
 															   data-js="popover"
@@ -211,11 +211,11 @@
 														{$ITEM['recommended']}
 													</td>
 													<td>
-														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 													</td>
 												{else}
 													<td colspan="2">
-														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 													</td>
 												{/if}
 											</tr>
@@ -226,15 +226,15 @@
 								<br>
 								<table class="config-table table u-word-break-all">
 									<caption class="sr-only">
-										{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'Settings::ConfReport')}
+										{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'Settings:ConfReport')}
 									</caption>
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PARAMETER', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_PARAMETER', 'Settings:ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_RECOMMENDED', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_RECOMMENDED', 'Settings:ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
 											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
@@ -246,9 +246,9 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right"
 														   data-js="popover"
@@ -261,13 +261,13 @@
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'Settings::ConfReport')}
+													{App\Language::translate($ITEM['recommended'], 'Settings:ConfReport')}
 												{else}
 													-
 												{/if}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -276,15 +276,15 @@
 								<br>
 								<table class="config-table table u-word-break-all">
 									<caption class="sr-only">
-										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'Settings::ConfReport')}
+										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'Settings:ConfReport')}
 									</caption>
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PUBLIC_DIR', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_PUBLIC_DIR', 'Settings:ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'Settings:ConfReport')}
 										</th>
 									</tr>
 									</thead>
@@ -293,9 +293,9 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right"
 														   data-js="popover"
@@ -308,9 +308,9 @@
 											</td>
 											<td colspan="2">
 												{if $ITEM.status}
-													{App\Language::translate('LBL_YES', 'Settings::ConfReport')}
+													{App\Language::translate('LBL_YES', 'Settings:ConfReport')}
 												{else}
-													{App\Language::translate('LBL_NO', 'Settings::ConfReport')}
+													{App\Language::translate('LBL_NO', 'Settings:ConfReport')}
 												{/if}
 											</td>
 										</tr>
@@ -320,12 +320,12 @@
 								<br>
 								<table class="config-table table u-word-break-all">
 									<caption class="sr-only">
-										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'Settings::ConfReport')}
+										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'Settings:ConfReport')}
 									</caption>
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PARAMETER', 'Settings::ConfReport')}
+											{App\Language::translate('LBL_PARAMETER', 'Settings:ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
 											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
@@ -337,9 +337,9 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right"
 														   data-js="popover"
@@ -351,7 +351,7 @@
 												{/if}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -366,10 +366,10 @@
 										<thead>
 										<tr class="blockHeader">
 											<th colspan="1" class="mediumWidthType">
-												<span>{App\Language::translate('LBL_PATH', 'Settings::ConfReport')}</span>
+												<span>{App\Language::translate('LBL_PATH', 'Settings:ConfReport')}</span>
 											</th>
 											<th colspan="1" class="mediumWidthType">
-												<span>{App\Language::translate('LBL_PERMISSION', 'Settings::ConfReport')}</span>
+												<span>{App\Language::translate('LBL_PERMISSION', 'Settings:ConfReport')}</span>
 											</th>
 										</tr>
 										</thead>
@@ -378,9 +378,9 @@
 											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 												data-js="length">
 												<td>
-													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 													{if !$ITEM['status']}
-														{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+														{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 														{if !empty($HELP_TEXT)}
 															<a href="#" class="js-popover-tooltip float-right"
 															   data-js="popover"
@@ -392,7 +392,7 @@
 													{/if}
 												</td>
 												<td>
-													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
 												</td>
 											</tr>
 										{/foreach}

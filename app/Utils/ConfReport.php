@@ -1009,9 +1009,9 @@ class ConfReport
 		$row['spaceTotal'] = $total;
 		$row['spaceFree'] = $free;
 		$row[$sapi] = round((($total - $free) / $total) * 100) . '% | ';
-		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
+		$row[$sapi] .= \App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
 		$row[$sapi] .= \vtlib\Functions::showBytes($free) . ' | ';
-		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
+		$row[$sapi] .= \App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
 		$row[$sapi] .= \vtlib\Functions::showBytes($total - $free);
 		if ($free < 1024 * 1024 * 1024) {
 			$row['status'] = false;
