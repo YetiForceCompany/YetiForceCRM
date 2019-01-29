@@ -41,7 +41,7 @@ class PackageUpdate extends PackageImport
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
-				'config' => 'config/modules',
+				'config' => 'config/Modules',
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
