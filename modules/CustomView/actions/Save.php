@@ -72,7 +72,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			'color' => !$request->isEmpty('color') ? $request->getByType('color', 'Color') : '',
 			'description' => $request->getByType('description', 'Text'),
 		];
-		$selectedColumnsList = $request->getArray('columnslist');
+		$selectedColumnsList = $request->getArray('columnslist', 'Text');
 		if (empty($selectedColumnsList)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
