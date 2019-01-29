@@ -43,8 +43,8 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = !$request->isEmpty('block') ? $request->getInteger('block') : '';
-		$fieldId = !$request->isEmpty('fieldid') ? $request->getInteger('fieldid') : '';
+		$selectedMenuId = $request->getInteger('block', '');
+		$fieldId = $request->getInteger('fieldid', '');
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
