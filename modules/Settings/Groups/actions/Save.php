@@ -32,7 +32,7 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 			$recordModel->set('groupname', $request->getByType('groupname', 'Text'));
 			$recordModel->set('description', $request->getByType('description', 'Text'));
 			$recordModel->set('group_members', $request->getArray('members', 'Text'));
-			$recordModel->set('modules', $request->getArray('modules', 'Text'));
+			$recordModel->set('modules', $request->getArray('modules', 'Integer'));
 			$recordModel->save();
 			$postValues = $recordModel->getDisplayData();
 			Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
