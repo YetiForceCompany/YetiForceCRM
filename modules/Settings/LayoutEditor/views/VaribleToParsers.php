@@ -37,7 +37,7 @@ class Settings_LayoutEditor_VaribleToParsers_View extends Settings_Vtiger_BasicM
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VARIBLES', \App\TextParser::$variableDates);
-		$viewer->assign('DEFAULT_VALUE', $request->get('defaultValue'));
+		$viewer->assign('DEFAULT_VALUE', $request->getByType('defaultValue', 'Text'));
 		$viewer->view('VaribleToParsers.tpl', $qualifiedModuleName);
 		$this->postProcess($request);
 	}
