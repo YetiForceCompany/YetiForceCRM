@@ -102,7 +102,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$advFilterList = $request->get('advfilterlist');
+		$advFilterList = $request->getByType('advfilterlist', 'Text');
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
@@ -190,7 +190,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$pbx = App\Integrations\Pbx::getDefaultInstance();
 		$pbx->loadUserPhone();
 		try {
-			$pbx->performCall($request->get('phoneNumber'));
+			$pbx->performCall($request->getByType('phoneNumber', 'Phone'));
 			$response = new Vtiger_Response();
 			$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
 			$response->emit();

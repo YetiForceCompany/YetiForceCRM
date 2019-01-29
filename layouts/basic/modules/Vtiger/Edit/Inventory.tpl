@@ -39,7 +39,7 @@
 			{assign var="CURRENCY_SYMBOLAND" value=\App\Fields\Currency::getById($CURRENCY)}
 		{/if}
 		{assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
-		{assign var="RELATED_FIELD" value=\App\Field::getRelatedFieldForModule($MODULE_NAME, 'Account')}
+		{assign var="RELATED_FIELD" value=\App\Field::getRelatedFieldForModule($MODULE_NAME, 'Accounts')}
 		<input type="hidden" class="aggregationTypeDiscount" value="{$DISCOUNTS_CONFIG['aggregation']}">
 		<input type="hidden" class="aggregationTypeTax" value="{$TAXS_CONFIG['aggregation']}">
 		<input type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" id="inventoryItemsNo"/>
@@ -47,10 +47,16 @@
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
 		<input id="isRequiredInventory" type="hidden" value="{$IS_REQUIRED_INVENTORY}"/>
 		<div class="table-responsive mx-1">
-			<table class="table inventoryHeader blockContainer mb-0 table-bordered u-table-flex">
+			<table class="table inventoryHeader blockContainer mb-0 table-bordered">
+				<colgroup>
+					<col class="w-25">
+					{foreach item=FIELD from=$FIELDS[1]}
+						<col class="w-25">
+					{/foreach}
+				</colgroup>
 				<thead>
-				<tr data-rownumber="0" class="d-flex u-min-w-650px">
-					<th class="col-3 border-bottom-0">
+				<tr data-rownumber="0" class="u-min-w-650px">
+					<th class="border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules'] name=moduleList}
@@ -73,7 +79,7 @@
 					{assign var="ROW_NO" value=1}
 					{if isset($FIELDS[0])}
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th class="{if !$FIELD->isEditable()}d-none {/if}col-3 border-bottom-0">
+							<th class="{if !$FIELD->isEditable()}d-none {/if} border-bottom-0">
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE_NAME)}
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
@@ -93,14 +99,14 @@
 			</table>
 		</div>
 		<div class="table-responsive mx-1">
-			<table class="table table-bordered inventoryItems u-table-flex">
+			<table class="table table-bordered inventoryItems">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
-					<tr class="d-flex">
+					<tr>
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->get('colSpan') neq 0 }style="min-width: {$FIELD->get('colSpan')}%" {else} style="min-width: 4rem"{/if}
-								class="col{$FIELD->getType()} {if !$FIELD->isEditable()} d-none{/if} text-center u-text-ellipsis">
+							<th {if !$FIELD->isEditable()}colspan="0"{/if}
+								class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} u-before-block{if $FIELD->get('colSpan') neq 0 } u-table-column-vw-{$FIELD->get('colSpan')}{/if} text-center text-nowrap">
 								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
 							</th>
 						{/foreach}
@@ -120,12 +126,12 @@
 				{/foreach}
 				</tbody>
 				<tfoot>
-				<tr class="d-flex">
+				<tr>
 					<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td {if !$FIELD->isEditable()}colspan="0" {elseif $FIELD->get('colSpan') neq 0 }style="min-width: {$FIELD->get('colSpan')}%" {else} style="min-width: 4rem"{/if}
+						<td {if !$FIELD->isEditable()}colspan="0"{/if}
 							class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right
-								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if} u-text-ellipsis"
+								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
 							data-sumfield="{lcfirst($FIELD->getType())}">
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}

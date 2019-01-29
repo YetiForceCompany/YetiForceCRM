@@ -22,7 +22,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$discountType = $request->getInteger('discountType');
 		$currency = $request->getInteger('currency');
 		$relatedRecord = $request->isEmpty('relatedRecord', true) ? false : $request->getInteger('relatedRecord');
-		$totalPrice = (float) $request->get('totalPrice');
+		$totalPrice = $request->getByType('totalPrice', 'Double');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
@@ -53,11 +53,11 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$recordModule = $request->get('recordModule');
+		$recordModule = $request->getByType('recordModule', 'Alnum');
 		$currency = $request->getInteger('currency');
 		$sourceRecord = $request->isEmpty('sourceRecord', true) ? false : $request->getInteger('sourceRecord');
-		$taxType = $request->get('taxType');
-		$totalPrice = (float) $request->get('totalPrice');
+		$taxType = $request->getInteger('taxType');
+		$totalPrice = $request->getByType('totalPrice', 'Double');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}

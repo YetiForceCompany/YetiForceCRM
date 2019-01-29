@@ -45,7 +45,7 @@ class Settings_Notifications_Members_View extends Settings_Vtiger_BasicModal_Vie
 	public function addWatchingMembers(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$srcModule = $request->get('srcModule');
+		$srcModule = $request->getInteger('srcModule');
 		$watchdogModel = Vtiger_Watchdog_Model::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_TO_ADD', true);
@@ -64,8 +64,8 @@ class Settings_Notifications_Members_View extends Settings_Vtiger_BasicModal_Vie
 	public function exceptions(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$srcModule = $request->get('srcModule');
-		$member = $request->get('member');
+		$srcModule = $request->getInteger('srcModule');
+		$member = $request->getByType('member', 'Text');
 		$watchdogModel = Vtiger_Watchdog_Model::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MEMBER', $member);

@@ -11,9 +11,6 @@
 		<div class="row widget_header">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
 			</div>
 		</div>
 		<form name="EditRole" action="index.php" method="post" id="EditView" class="form-horizontal">

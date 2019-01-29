@@ -536,7 +536,7 @@ class ModuleBasic
 	public function deleteDir(self $moduleInstance)
 	{
 		\App\Log::trace('Start', __METHOD__);
-		Functions::recurseDelete("config/modules/{$moduleInstance->name}.php");
+		Functions::recurseDelete("config/Modules/{$moduleInstance->name}.php");
 		Functions::recurseDelete('modules/' . $moduleInstance->name);
 		Functions::recurseDelete('modules/Settings/' . $moduleInstance->name);
 		foreach (\App\Layout::getAllLayouts() as $name => $label) {

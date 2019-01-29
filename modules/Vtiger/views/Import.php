@@ -89,7 +89,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$uploadMaxSize = AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
-
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOR_MODULE', $moduleName);
@@ -102,10 +101,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('AUTO_MERGE_TYPES', Import_Module_Model::getAutoMergeTypes());
 		$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 		$viewer->assign('FOR_MODULE_MODEL', $importModule->getImportModuleModel());
-		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
+		$viewer->assign('ERROR_MESSAGE', $request->getByType('error_message', 'Text'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
 		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
-
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
@@ -126,13 +124,13 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$hasHeader = $fileReader->hasHeader();
 			$rowData = $fileReader->getFirstRowData($hasHeader);
 			$viewer = $this->getViewer($request);
-			$autoMerge = $request->get('auto_merge');
+			$autoMerge = $request->getBoolean('auto_merge');
 			if (!$autoMerge) {
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
 				$viewer->assign('MERGE_FIELDS', '');
 			} else {
-				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->get('merge_fields')));
+				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->getArray('merge_fields', 'Alnum')));
 			}
 			$moduleName = $request->getModule();
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

@@ -36,13 +36,13 @@ class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		$relatedRecord = $request->getByType('relid', 'Alnum');
-		$relatedModuleName = $request->getByType('relmodule', 2);
+		$relatedModuleName = $request->getByType('relmodule', 'Alnum');
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$rcmModel->save($request->get('comment'));
+		$rcmModel->save($request->getByType('comment', 'Text'));
 
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Language::translate('LBL_SAVED_RELATION_COMMENT', $moduleName));

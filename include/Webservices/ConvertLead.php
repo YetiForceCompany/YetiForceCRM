@@ -8,11 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ******************************************************************************* */
-require_once 'config/config.php';
-require_once 'config/debug.php';
-require_once 'config/performance.php';
-require_once 'include/Loader.php';
-require_once 'include/ConfigUtils.php';
 
 class WebservicesConvertLead
 {

@@ -32,11 +32,17 @@ class Import_Utils_Helper
 		}
 	}
 
-	public function getSupportedFileExtensionsDescription($moduleName)
+	/**
+	 * Get supported file extensions description.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string
+	 */
+	public static function getSupportedFileExtensionsDescription(string $moduleName)
 	{
 		$supportedFileTypes = self::getSupportedFileExtensions($moduleName);
 		$description = [];
-
 		foreach ($supportedFileTypes as $fileType) {
 			$description[] = '.' . strtoupper($fileType);
 		}

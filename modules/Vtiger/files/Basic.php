@@ -60,7 +60,7 @@ abstract class Vtiger_Basic_File
 	{
 		$moduleName = $request->getModule();
 		$field = $request->getByType('field', 'Alnum');
-		if (!$request->isEmpty('record')) {
+		if (!$request->isEmpty('record', true)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);

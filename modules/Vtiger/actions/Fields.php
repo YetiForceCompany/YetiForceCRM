@@ -123,7 +123,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if ($this->fieldModel->getFieldDataType() !== 'userRole') {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
-		$searchValue = $request->get('value');
+		$searchValue = $request->getByType('value', 'Text');
 		$response = new Vtiger_Response();
 		if (empty($searchValue)) {
 			$response->setError('NO');
@@ -151,7 +151,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$response = new Vtiger_Response();
-		$rows = (new \App\RecordSearch($request->get('value'), $this->fieldModel->getReferenceList()))->search();
+		$rows = (new \App\RecordSearch($request->getByType('value', 'Text'), $this->fieldModel->getReferenceList()))->search();
 		$data = $modules = $ids = [];
 		foreach ($rows as $row) {
 			$ids[] = $row['crmid'];
@@ -187,7 +187,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		}
 		if (empty($data['message'])) {
 			try {
-				$data = App\Fields\Phone::verifyNumber($request->get('phoneNumber'), $request->getByType('phoneCountry', 1));
+				$data = App\Fields\Phone::verifyNumber($request->getByType('phoneNumber', 'Text'), $request->getByType('phoneCountry', 1));
 			} catch (\App\Exceptions\FieldException $e) {
 				$data = ['isValidNumber' => false];
 			}

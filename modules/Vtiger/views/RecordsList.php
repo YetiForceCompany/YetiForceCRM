@@ -111,9 +111,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$filterFields = $request->getArray('filterFields', 'Alnum');
 		$showSwitch = $request->getInteger('showSwitch');
 		//Check whether the request is in multi select mode
-		$multiSelectMode = $request->get('multi_select');
-		if (empty($multiSelectMode)) {
+		if ($request->isEmpty('multi_select', true)) {
 			$multiSelectMode = false;
+		} else {
+			$multiSelectMode = $request->getByType('multi_select');
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);

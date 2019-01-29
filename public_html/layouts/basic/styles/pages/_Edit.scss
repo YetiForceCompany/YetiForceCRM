@@ -82,6 +82,10 @@
 		& + td:not(.hideTd) {
 			border-left: 1px solid #dee2e6 !important;
 		}
+
+		&:first-child {
+			border-width: 0 0 1px 1px;
+		}
 	}
 
 	//reboot correction for hidden list in table
@@ -90,13 +94,3 @@
 	}
 }
 
-//u-table-flex needs tr with .d-flex class
-.table-bordered.u-table-flex {
-	border-top: 1px solid #dee2e6 !important;
-	border-left: 1px solid #dee2e6 !important;
-
-	th,
-	td {
-		border-width: 0 1px 1px 0;
-	}
-}

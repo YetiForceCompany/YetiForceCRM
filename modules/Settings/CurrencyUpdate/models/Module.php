@@ -180,7 +180,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->innerJoin('yetiforce_currencyupdate_banks', 'yetiforce_currencyupdate_banks.id = yetiforce_currencyupdate.bank_id')
 			->where(['yetiforce_currencyupdate.bank_id' => $bankId]);
 		// filter by date - if not exists then display this months history
-		if ($request->get('duedate') == '' && $dateCur) {
+		if ($request->isEmpty('duedate') && $dateCur) {
 			$query->andWhere(['between', 'exchange_date', date('Y-m-01'), date('Y-m-t')]);
 		} else {
 			$query->andWhere(['exchange_date' => $dateCur]);

@@ -88,7 +88,29 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 */
 	public function add(\App\Request $request)
 	{
-		$data = $request->get('form');
+		$data = $request->getMultiDimensionArray('form', [
+			'data' => 'Text',
+			'blockid' => 'Integer',
+			'linkid' => 'Integer',
+			'label' => 'Text',
+			'title' => 'Text',
+			'name' => 'Text',
+			'filterid' => 'Text',
+			'isdefault' => 'Integer',
+			'height' => 'Integer',
+			'width' => 'Integer',
+			'owners_all' => [
+				'Standard',
+				'Standard',
+				'Standard',
+				'Standard',
+			],
+			'default_owner' => 'Standard',
+			'dashboardId' => 'Integer',
+			'limit' => 'Integer',
+			'cache' => 'Integer',
+			'default_date' => 'Standard'
+		]);
 		$moduleName = $request->getByType('sourceModule', 2);
 		$addToUser = $request->getBoolean('addToUser');
 		$linkId = $request->getInteger('linkid');

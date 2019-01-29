@@ -144,10 +144,9 @@ clipboard@>=2.0.0:
     select "^1.1.2"
     tiny-emitter "^2.0.0"
 
-clockpicker@^0.0.7:
+"clockpicker@https://github.com/djibe/clockpicker":
   version "0.0.7"
-  resolved "https://registry.yarnpkg.com/clockpicker/-/clockpicker-0.0.7.tgz#32d02c3a6cb00a3b6ea6d1ec2c5fc147d7bec06e"
-  integrity sha1-MtAsOmywCjtuptHsLF/BR9e+wG4=
+  resolved "https://github.com/djibe/clockpicker#1a57e602296cf58e60d746800c71248fd5e02448"
 
 color-convert@^0.5.3:
   version "0.5.3"
@@ -268,10 +267,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.6.26:
-  version "0.6.26"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.6.26.tgz#b70ea1ffbf1b4498143799330618a67f8edc68b0"
-  integrity sha512-2y8821/FOriDhGHKfTdlkZUHpskEBjeWAnAYG35IAAvMt9luG4bXu4icsf4yGyNfBsKbm9WLcSX5icTGVDzOMA==
+gantt-elastic@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.7.3.tgz#e10a734ec9694228bf58c0b08c05b0f48f17a57c"
+  integrity sha512-tr0rWvgjSB3NkkkslALCMllPkmKKvMlEYyqQ9QLN6oC/4Q70SYHIRzSa6xkUPONzrmq2DvhMgesoDVbElXyGZg==
   dependencies:
     dayjs "^1.7.8"
 

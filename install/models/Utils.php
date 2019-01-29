@@ -18,7 +18,7 @@ class Install_Utils_Model
 	public static function getDefaultPreInstallParameters()
 	{
 		return [
-			'db_hostname' => 'localhost',
+			'db_server' => 'localhost',
 			'db_username' => '',
 			'db_password' => '',
 			'db_name' => 'yetiforce',
@@ -63,49 +63,23 @@ class Install_Utils_Model
 	}
 
 	/**
-	 * Function checks if its mysql type.
-	 *
-	 * @param type $dbType
-	 *
-	 * @return type
-	 */
-	public static function isMySQL($dbType)
-	{
-		return stripos($dbType, 'mysql') === 0;
-	}
-
-	/**
 	 * Function checks the database connection.
 	 *
-	 * @param string $db_type
-	 * @param string $db_hostname
-	 * @param string $db_username
-	 * @param string $db_password
-	 * @param string $db_name
-	 * @param string $create_db
-	 * @param string $create_utf8_db
-	 * @param string $root_user
-	 * @param string $root_password
+	 * @param array $config
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
-	public static function checkDbConnection(\App\Request $request)
+	public static function checkDbConnection(array $config)
 	{
-		$create_db = false;
-		$createDB = $request->get('create_db');
-		if ($createDB == 'on') {
-			$create_db = true;
-		}
-		$db_type = $request->get('db_type');
-		$db_hostname = $request->get('db_hostname');
-		$db_username = $request->get('db_username');
-		$db_password = $request->getRaw('db_password');
-		$db_name = $request->get('db_name');
-		$create_utf8_db = true;
+		$db_type = $config['db_type'];
+		$db_server = $config['db_server'];
+		$db_username = $config['db_username'];
+		$db_password = $config['db_password'];
+		$db_name = $config['db_name'];
+		$dbPort = $config['db_port'];
 
 		$db_type_status = false; // is there a db type?
 		$db_server_status = false; // does the db server connection exist?
-		$db_creation_failed = false; // did we try to create a database and fail?
 		$db_exist_status = false; // does the database exist?
 		$db_utf8_support = false; // does the database support utf8?
 		//Checking for database connection parameters
@@ -113,7 +87,7 @@ class Install_Utils_Model
 			$conn = false;
 			$pdoException = '';
 			try {
-				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8;port=' . $request->get('db_port');
+				$dsn = $db_type . ':host=' . $db_server . ';charset=utf8;port=' . $dbPort;
 				$conn = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 			} catch (PDOException $e) {
 				$pdoException = $e->getMessage();
@@ -121,31 +95,10 @@ class Install_Utils_Model
 			$db_type_status = true;
 			if ($conn) {
 				$db_server_status = true;
-				if (self::isMySQL($db_type)) {
+				if (\App\Validator::isMySQL($db_type)) {
 					$stmt = $conn->query("SHOW VARIABLES LIKE 'version'");
 					$res = $stmt->fetch(PDO::FETCH_ASSOC);
 					$mysql_server_version = $res['Value'];
-				}
-				if ($create_db) {
-					// drop the current database if it exists
-					$stmt = $conn->query("SHOW DATABASES LIKE '$db_name'");
-					if ($stmt->rowCount() != 0) {
-						$conn->query("DROP DATABASE `$db_name`");
-					}
-
-					// create the new database
-					$db_creation_failed = true;
-
-					$query = "CREATE DATABASE `$db_name`";
-					if ($create_utf8_db == 'true') {
-						if (self::isMySQL($db_type)) {
-							$query .= ' DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci';
-						}
-						$db_utf8_support = true;
-					}
-					if ($conn->query($query)) {
-						$db_creation_failed = false;
-					}
 				}
 				$stmt = $conn->query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db_name'");
 				if ($stmt->rowCount() == 1) {
@@ -156,7 +109,6 @@ class Install_Utils_Model
 		$dbCheckResult = [];
 		$dbCheckResult['db_utf8_support'] = $db_utf8_support;
 
-		$error_msg = '';
 		$error_msg_info = '';
 
 		if (!$db_type_status || !$db_server_status) {
@@ -165,16 +117,12 @@ class Install_Utils_Model
 					-  ' . \App\Language::translate('MSG_DB_PARAMETERS_INVALID', 'Install') . '
 					<br />-  ' . \App\Language::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
 			$error_msg_info .= "<br /><br />$pdoException";
-		} elseif (self::isMySQL($db_type) && $mysql_server_version < 4.1) {
+		} elseif (\App\Validator::isMySQL($db_type) && version_compare($mysql_server_version, '5.1', '<')) {
 			$error_msg = $mysql_server_version . ' -> ' . \App\Language::translate('ERR_INVALID_MYSQL_VERSION', 'Install');
-		} elseif ($db_creation_failed) {
-			$error_msg = \App\Language::translate('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
-			$error_msg_info = \App\Language::translate('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
 		} elseif (!$db_exist_status) {
 			$error_msg = $db_name . ' -> ' . \App\Language::translate('ERR_DB_NOT_FOUND', 'Install');
 		} else {
 			$dbCheckResult['flag'] = true;
-
 			return $dbCheckResult;
 		}
 		$dbCheckResult['flag'] = false;
@@ -195,5 +143,23 @@ class Install_Utils_Model
 			}
 		}
 		return $langs;
+	}
+
+	/**
+	 * Clean data configuration.
+	 */
+	public static function cleanConfiguration()
+	{
+		\vtlib\Functions::recurseDelete('config/Db.php');
+		\vtlib\Functions::recurseDelete('config/Main.php');
+		if (isset($_SESSION['config_file_info'])) {
+			unset($_SESSION['config_file_info']);
+		}
+		$className = '\Config\Main';
+		if (\class_exists($className)) {
+			foreach ((new \ReflectionClass($className))->getStaticProperties() as $name => $value) {
+				$className::$$name = null;
+			}
+		}
 	}
 }

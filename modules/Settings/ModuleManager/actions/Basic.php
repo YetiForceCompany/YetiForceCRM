@@ -24,7 +24,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 
 	public function updateModuleStatus(\App\Request $request)
 	{
-		$moduleName = $request->get('forModule');
+		$moduleName = $request->getByType('forModule', 'Alnum');
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		$response = new Vtiger_Response();
 		try {
@@ -47,7 +47,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	public function checkModuleName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = ucfirst($request->get('moduleName'));
+		$moduleName = ucfirst($request->getByType('moduleName', 'Alnum'));
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];
@@ -70,7 +70,13 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function createModule(\App\Request $request)
 	{
-		$formData = $request->get('formData');
+		$formData = $request->getMultiDimensionArray('formData', [
+			'module_name' => 'Alnum',
+			'module_label' => 'Text',
+			'entityfieldname' => 'Text',
+			'entityfieldlabel' => 'Text',
+			'entitytype' => 'Integer'
+		]);
 		$moduleName = $formData['module_name'];
 		if (!Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
 			$result = ['success' => true, 'text' => ucfirst($moduleName)];
@@ -90,7 +96,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 
 	public function deleteModule(\App\Request $request)
 	{
-		$moduleName = $request->get('forModule');
+		$moduleName = $request->getByType('forModule', 'Alnum');
 		$moduleInstance = vtlib\Module::getInstance($moduleName);
 		if ($moduleInstance && (int) $moduleInstance->customized === 1) {
 			$moduleInstance->delete();

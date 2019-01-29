@@ -26,11 +26,6 @@
 			</a>
 		</div>
 	</div>
-	<div class="badge badge-info mb-1 mt-2">
-		{if isset($SELECTED_PAGE)}
-			<a> {\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}</a>
-		{/if}
-	</div>
 	<hr class="mt-1 mb-2">
 	<table class="table tableRWD table-bordered table-sm themeTableColor">
 		<thead>

@@ -87,7 +87,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 			}
 			$pdfModel->set($field, $value);
 		}
-		$pdfModel->set('conditions', $request->get('conditions'));
+		$pdfModel->set('conditions', $request->getArray('conditions', 'Text'));
 		Settings_PDF_Record_Model::transformAdvanceFilterToWorkFlowFilter($pdfModel);
 		Settings_PDF_Record_Model::save($pdfModel, $step);
 		$this->saveWatermarkImage($pdfModel);
