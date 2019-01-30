@@ -149,7 +149,7 @@ class Request
 	 *
 	 * @return bool|mixed
 	 */
-	public function getByType($key, $type = 1)
+	public function getByType($key, $type = 'Standard')
 	{
 		if (isset($this->purifiedValuesByType[$key])) {
 			return $this->purifiedValuesByType[$key];

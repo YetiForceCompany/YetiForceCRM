@@ -50,8 +50,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public static function getSupportedFileFormats(string $moduleName): array
 	{
-		$supportedFileFormats = AppConfig::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS');
-		return $supportedFileFormats ? $supportedFileFormats : ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
+		return AppConfig::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
 	}
 
 	/**
@@ -77,11 +76,11 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public static function getInstanceFromRequest(\App\Request $request)
 	{
-		$module = $request->getByType('source_module', \App\Purifier::ALNUM);
+		$module = $request->getByType('source_module', 'Alnum');
 		if (empty($module)) {
 			$module = $request->getModule();
 		}
-		$exportModel = static::getInstance($module, $request->getByType('export_type', \App\Purifier::ALNUM));
+		$exportModel = static::getInstance($module, $request->getByType('export_type', 'Alnum'));
 		$exportModel->initializeFromRequest($request);
 		return $exportModel;
 	}
@@ -103,15 +102,15 @@ class Vtiger_Export_Model extends \App\Base
 			$this->focus = CRMEntity::getInstance($module);
 		}
 		if (!$request->isEmpty('export_type')) {
-			$this->exportType = $request->getByType('export_type', \App\Purifier::TEXT);
+			$this->exportType = $request->getByType('export_type');
 		}
 		if (!$request->isEmpty('viewname', true)) {
-			$this->queryOptions['viewname'] = $request->getByType('viewname', \App\Purifier::ALNUM);
+			$this->queryOptions['viewname'] = $request->getByType('viewname', 'Alnum');
 		}
 		$this->queryOptions['entityState'] = $request->getByType('entityState');
 		$this->queryOptions['page'] = $request->getInteger('page');
 		$this->queryOptions['mode'] = $request->getMode();
-		$this->queryOptions['excluded_ids'] = $request->getArray('excluded_ids', \App\Purifier::ALNUM);
+		$this->queryOptions['excluded_ids'] = $request->getArray('excluded_ids', 'Alnum');
 	}
 
 	/**
