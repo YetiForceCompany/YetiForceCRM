@@ -22,7 +22,6 @@ class Settings_Menu_Module_Model
 		1 => 'Shortcut',
 		2 => 'Label',
 		3 => 'Separator',
-		4 => 'Script',
 		5 => 'QuickCreate',
 		6 => 'HomeIcon',
 		7 => 'CustomFilter',
