@@ -33,7 +33,10 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 		return 'osssoldservices_renew';
 	}
 
-	public function getConditions()
+	/**
+	 * (@inheritdoc}
+	 */
+	public function getConditions(): array
 	{
 		return [['ssservicesstatus', 'e', 'PLL_ACCEPTED'], ['osssoldservices_renew', 'e', 'PLL_WAITING_FOR_RENEWAL']];
 	}
