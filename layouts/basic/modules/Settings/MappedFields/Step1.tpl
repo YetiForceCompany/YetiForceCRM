@@ -7,11 +7,10 @@
 			<input type="hidden" name="mode" value="Step2" />
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="1" />
-			<input type="hidden" name="record" value="{$RECORDID}" />
-
 			{if $RECORDID}
 				<input type="hidden" name="tabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('tabid')}" />
 				<input type="hidden" name="reltabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('reltabid')}" />
+				<input type="hidden" name="record" value="{$RECORDID}"/>
 			{/if}
 			<div class="col-md-12 px-0">
 				<div class="card">

@@ -24,10 +24,10 @@ class Reservations_Calendar_Model extends \App\Base
 			$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $this->get('user')]);
 		}
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$queryGenerator->addNativeCondition([

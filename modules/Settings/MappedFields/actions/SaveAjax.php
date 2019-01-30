@@ -29,7 +29,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$validators['step'] = 'Integer';
 			$params = $request->getMultiDimensionArray('param', $validators);
 		}
-		$recordId = $params['record'];
+		$recordId = $params['record'] ?? null;
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		} else {

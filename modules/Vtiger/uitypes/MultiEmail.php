@@ -20,6 +20,20 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 
 	/**
 	 * {@inheritdoc}
+	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->getArray($requestFieldName, 'Text');
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritdoc}
 	 *
 	 * @example validate('[{"e":"a.adach@yetiforce.com","o":0},{"e":"test@yetiforce.com","o":0}]');
 	 */
