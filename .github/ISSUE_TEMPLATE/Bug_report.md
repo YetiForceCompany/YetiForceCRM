@@ -23,8 +23,8 @@ about: Create a report to help us improve
 #### Screenshot of configuration
 <!---  Before reporting an issue, check if your server has been properly configured.  Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
 
-#### PHP/Apache/Nginx/Browser/CRM Logs
-<!---  Please include a part of logs which describes when the error occurred. The more info you provide, the quicker we will be able to solve your problem. Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome).
+#### PHP/Apache/Nginx/Browser/CRM Logs should be sent to github@yetiforce.com
+<!---  Please send a part of logs that describes the circumstances when the error occurred to the following email address: github@yetiforce.com. DO NOT paste the logs in the issues, as they might contain sensitive info, such as credentials. The more info you provide, the quicker we will be able to solve your problem. Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome).
 ex. cache/logs/phpError.log, cache/logs/system.log, -->
 
 <!--- Put here the FULL LOG -->
