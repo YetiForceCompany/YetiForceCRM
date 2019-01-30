@@ -2154,7 +2154,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var userDefaultActivityView = 'month';
 		var container = thisInstance.getContainer();
 		//Default time format
-		var userDefaultTimeFormat = jQuery('#time_format').val();
+		var userDefaultTimeFormat = CONFIG.hourFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
 		} else {
