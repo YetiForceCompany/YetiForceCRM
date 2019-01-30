@@ -15,12 +15,9 @@ class Settings_TwoFactorAuthentication_SaveAjax_Action extends Settings_Vtiger_B
 	public function process(\App\Request $request)
 	{
 		$methods = $request->getByType('methods', 'Alnum');
-		if (!in_array($methods, Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE)) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $methods, 406);
-		}
-		$config = new \App\Configurator('security');
+		$config = new \App\ConfigFile('security');
 		$config->set('USER_AUTHY_MODE', $methods);
-		$config->save();
+		$config->create();
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
