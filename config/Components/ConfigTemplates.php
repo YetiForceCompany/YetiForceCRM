@@ -94,7 +94,10 @@ return [
 		'statusUrl' => [
 			'default' => '',
 			'description' => 'Service URL',
-			'validation' => '\App\Validator::url',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return empty($arg) || \App\Validator::url($arg);
+			},
 			'sanitization' => '\App\Purifier::purify'
 		],
 		'domain' => [

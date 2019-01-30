@@ -27,7 +27,12 @@ class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
 		$result = true;
 		$message = App\Language::translate('LBL_SAVED', $request->getModule(false));
 		if (isset(\App\YetiForce\Status::$variables[$flagName])) {
-			$config->set($flagName, $request->getByType('newParam', \App\Purifier::TEXT));
+			try {
+				$config->set($flagName, $request->getByType('newParam', \App\Purifier::TEXT));
+			} catch (\App\Exceptions\IllegalValue $e) {
+				$result = false;
+				$message = $e->getMessage();
+			}
 		} else {
 			$result = false;
 			$message = App\Language::translate('LBL_PARAM_NOT_ALLOWED', $request->getModule(false));
