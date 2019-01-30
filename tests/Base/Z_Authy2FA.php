@@ -34,9 +34,9 @@ class Z_Authy2FA extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
-		static::$userAuthyMode = \AppConfig::security('USER_AUTHY_MODE');
+		static::$userAuthyMode = \App\Config::security('USER_AUTHY_MODE');
 		static::$transaction = \App\Db::getInstance()->beginTransaction();
-		static::$systemMode = \AppConfig::main('systemMode');
+		static::$systemMode = \App\Config::main('systemMode');
 	}
 
 	/**
@@ -78,13 +78,13 @@ class Z_Authy2FA extends \Tests\Base
 	 */
 	public function testConfig()
 	{
-		\AppConfig::set('security', 'USER_AUTHY_MODE', 'TOTP_OFF');
-		$this->assertSame(\AppConfig::security('USER_AUTHY_MODE'), 'TOTP_OFF', 'Problem with saving the configuration');
+		\App\Config::set('security', 'USER_AUTHY_MODE', 'TOTP_OFF');
+		$this->assertSame(\App\Config::security('USER_AUTHY_MODE'), 'TOTP_OFF', 'Problem with saving the configuration');
 		$this->assertFalse(\Users_Totp_Authmethod::isActive());
-		\AppConfig::set('security', 'USER_AUTHY_MODE', 'TOTP_OBLIGATORY');
-		\AppConfig::set('main', 'systemMode', 'demo');
+		\App\Config::set('security', 'USER_AUTHY_MODE', 'TOTP_OBLIGATORY');
+		\App\Config::set('main', 'systemMode', 'demo');
 		$this->assertFalse(\Users_Totp_Authmethod::isActive());
-		\AppConfig::set('main', 'systemMode', 'prod');
+		\App\Config::set('main', 'systemMode', 'prod');
 	}
 
 	/**
@@ -94,8 +94,8 @@ class Z_Authy2FA extends \Tests\Base
 	public static function tearDownAfterClass()
 	{
 		static::$transaction->rollBack();
-		\AppConfig::set('security', 'USER_AUTHY_MODE', static::$userAuthyMode);
-		\AppConfig::set('main', 'systemMode', static::$systemMode);
+		\App\Config::set('security', 'USER_AUTHY_MODE', static::$userAuthyMode);
+		\App\Config::set('main', 'systemMode', static::$systemMode);
 		\App\Cache::clear();
 	}
 }
