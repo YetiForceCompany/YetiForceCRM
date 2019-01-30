@@ -424,7 +424,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns all the blocks for the module.
 	 *
-	 * @return <Array of Vtiger_Block_Model> - list of block models
+	 * @return Vtiger_Block_Model[] - list of block models
 	 */
 	public function getBlocks()
 	{
