@@ -16,7 +16,7 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$date = $request->getByType('date', 'DateInUserFormat');
+		$date = $request->getArray('date', 'DateInUserFormat');
 		if (!$date) {
 			$startDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 			$startDate = new DateTimeField($startDate);
