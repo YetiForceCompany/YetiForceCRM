@@ -32,8 +32,8 @@
 				   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 			<div class="relatedHeader">
 				<div class="btn-toolbar row">
-					<div class="col-md-9">
-						<div class="btn-group listViewMassActions btn-group pr-2">
+					<div class="col-lg-9">
+						<div class="btn-group listViewMassActions btn-group pr-2 mb-2">
 							{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
 								<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
 									<strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span
@@ -71,7 +71,7 @@
 								</ul>
 							{/if}
 						</div>
-						<div class="btn-group col-md-3">
+						<div class="btn-group col-md-3 mb-2">
 							<span class="customFilterMainSpan">
 								{if isset($CUSTOM_VIEWS)}
 									<select id="recordsFilter" class="col-md-12"
@@ -95,7 +95,7 @@
 								{/if}
 							</span>
 						</div>
-						<div class="btn-group pr-2">
+						<div class="btn-group pr-2 mb-2">
 							<button type="button" class="btn btn-light loadFormFilterButton js-popover-tooltip"
 									data-js="popover"
 									data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
@@ -105,7 +105,7 @@
 						</div>
 						{if isset($RELATED_LIST_LINKS['LISTVIEWBASIC'])}
 							{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-								<div class="btn-group pr-2">
+								<div class="btn-group pr-2 mb-2">
 									{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 									{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
 									<button type="button" class="btn btn-light addButton
@@ -126,7 +126,7 @@
 							{/foreach}
 						{/if}
 					</div>
-					<div class="col-md-3">
+					<div class="col-lg-3 mb-2">
 						<div class="float-right">
 							{if $VIEW_MODEL}
 								<div class="float-right pl-1">
@@ -182,7 +182,7 @@
 								</div>
 							{/if}
 						</div>
-						<div class="paginationDiv float-right">
+						<div class="paginationDiv pl-1 d-flex justify-content-end">
 							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 						</div>
 					</div>
@@ -206,9 +206,6 @@
 							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}"
 								   id="listViewEntriesMainCheckBox"/>
 						</th>
-						{if $IS_FAVORITES}
-							<th></th>
-						{/if}
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
 								{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
@@ -263,62 +260,61 @@
 							data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 							<td class="medium noWrap leftRecordActions {$WIDTHTYPE}"
 								{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
-								<input type="checkbox" value="{$RELATED_RECORD->getId()}"
-									   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-									   class="listViewEntriesCheckBox"/>
+								<div>
+									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
+										   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+										   class="listViewEntriesCheckBox"/>
+								</div>
+								{if !empty($IS_FAVORITES)}
+									{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
+									<div class="ml-1">
+										<a class="favorites btn btn-light btn-sm" data-state="{$RECORD_IS_FAVORITE}">
+										<span class="fas fa-star {if !$RECORD_IS_FAVORITE}d-none{/if}"
+											  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}"></span>
+											<span class="far fa-star {if $RECORD_IS_FAVORITE}d-none{/if}"
+												  title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}"></span>
+										</a>
+									</div>
+								{/if}
 								<div class="actions">
-									<div class="actions">
-										<div class="dropright u-remove-dropdown-icon">
-											<button class="btn btn-sm btn-light toolsAction dropdown-toggle"
-													type="button" data-toggle="dropdown" aria-haspopup="true"
-													aria-expanded="false">
+									<div class="dropright u-remove-dropdown-icon">
+										<button class="btn btn-sm btn-light toolsAction dropdown-toggle"
+												type="button" data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false">
 												<span class="fas fa-wrench"
 													  title="{\App\Language::translate('LBL_ACTIONS')}"></span>
-											</button>
-											<div class="dropdown-menu"
-												 aria-label="{\App\Language::translate('LBL_ACTIONS')}">
-												<div class="c-btn-link btn-group mr-1">
-													<a role="button" class="btn btn-sm btn-default"
-													   href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+										</button>
+										<div class="dropdown-menu"
+											 aria-label="{\App\Language::translate('LBL_ACTIONS')}">
+											<div class="c-btn-link btn-group mr-1">
+												<a role="button" class="btn btn-sm btn-default"
+												   href="{$RELATED_RECORD->getFullDetailViewUrl()}">
 														<span class="fas fa-th-list align-middle"
 															  title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"></span>
-													</a>
-												</div>
-												{if $IS_EDITABLE}
-													<div class="c-btn-link btn-group mr-1">
-														<a role="button" class="btn btn-sm btn-default"
-														   href='{$RELATED_RECORD->getEditViewUrl()}'>
+												</a>
+											</div>
+											{if $IS_EDITABLE}
+												<div class="c-btn-link btn-group mr-1">
+													<a role="button" class="btn btn-sm btn-default"
+													   href='{$RELATED_RECORD->getEditViewUrl()}'>
 															<span class="fas fa-edit align-middle"
 																  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
-														</a>
-													</div>
-												{/if}
-												{if $IS_DELETABLE}
-													<div class="c-btn-link btn-group">
-														<button type="button"
-																class="relationDelete btn btn-sm btn-danger entityStateBtn">
+													</a>
+												</div>
+											{/if}
+											{if $IS_DELETABLE}
+												<div class="c-btn-link btn-group">
+													<button type="button"
+															class="relationDelete btn btn-sm btn-danger entityStateBtn">
 															<span class="fas fa-trash-alt align-middle"
 																  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-														</button>
-													</div>
-												{/if}
-											</div>
+													</button>
+												</div>
+											{/if}
 										</div>
-
 									</div>
 								</div>
 							</td>
-							{if $IS_FAVORITES}
-								<td class="{$WIDTHTYPE} text-center text-center font-larger">
-									{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
-									<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-										<span class="fas fa-star align-middle {if !$RECORD_IS_FAVORITE}d-none{/if}"
-											  title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}"></span>
-										<span class="far fa-star align-middle {if $RECORD_IS_FAVORITE}d-none{/if}"
-											  title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}"></span>
-									</a>
-								</td>
-							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 								{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 								<td nowrap class="{$WIDTHTYPE}">
