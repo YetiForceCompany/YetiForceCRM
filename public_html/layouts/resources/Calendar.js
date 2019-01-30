@@ -34,7 +34,7 @@ window.Calendar_Js = class {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
 			defaultView = app.moduleCacheGet('defaultView'),
-			userDefaultTimeFormat = app.getMainParams('time_format');
+			userDefaultTimeFormat = CONFIG.hourFormat;
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
