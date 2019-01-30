@@ -87,10 +87,18 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	public function getFields(): array
 	{
 		$summaryFields = [];
-		$entity = Vtiger_CRMEntity::getInstance($this->recordModel->getModuleName())->list_fields_name;
-		foreach ($this->recordModel->getModule()->getFields() as $fieldName => &$fieldModel) {
-			if (!$this->recordModel->isEmpty($fieldName) && (($fieldModel->isSummaryField() && $fieldModel->isViewableInDetailView()) || array_search($fieldModel->name, $entity))) {
+		$fields = $this->recordModel->getModule()->getFields();
+		foreach ($fields as $fieldName => $fieldModel) {
+			if (!$this->recordModel->isEmpty($fieldName) && $fieldModel->isSummaryField() && $fieldModel->isViewableInDetailView()) {
 				$summaryFields[$fieldName] = $fieldModel;
+			}
+		}
+		if (!$summaryFields) {
+			foreach (Vtiger_CRMEntity::getInstance($this->recordModel->getModuleName())->list_fields_name as $fieldLabel => $fieldName) {
+				$fieldModel = $fields[$fieldName];
+				if (isset($fieldModel) && !$this->recordModel->isEmpty($fieldName) && $fieldModel->isViewableInDetailView()) {
+					$summaryFields[$fieldName] = $fieldModel;
+				}
 			}
 		}
 		return $summaryFields;
