@@ -94,9 +94,9 @@ class Vtiger_RecordPopover_Model extends \App\Base
 			}
 		}
 		if (!$summaryFields) {
-			foreach (Vtiger_CRMEntity::getInstance($this->recordModel->getModuleName())->list_fields_name as $fieldLabel => $fieldName) {
-				$fieldModel = $fields[$fieldName];
-				if (isset($fieldModel) && !$this->recordModel->isEmpty($fieldName) && $fieldModel->isViewableInDetailView()) {
+			foreach ($this->recordModel->getEntity()->list_fields_name as $fieldLabel => $fieldName) {
+				$fieldModel = $fields[$fieldName] ?? '';
+				if ($fieldModel && !$this->recordModel->isEmpty($fieldName) && $fieldModel->isViewableInDetailView()) {
 					$summaryFields[$fieldName] = $fieldModel;
 				}
 			}
