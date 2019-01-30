@@ -60,7 +60,7 @@ class Status
 	public static function getAll()
 	{
 		$result = [];
-		$config = \AppConfig::module('YetiForce');
+		$config = \App\Config::component('YetiForce');
 		foreach (static::$variables as $flag => $type) {
 			$result[$flag] = ['name' => $flag, 'label' => 'LBL_' . \strtoupper($flag), 'type' => $type, 'value' => $config[$flag] ?? '-'];
 		}
