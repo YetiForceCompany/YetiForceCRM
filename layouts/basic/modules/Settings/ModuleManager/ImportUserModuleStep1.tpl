@@ -52,11 +52,11 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success" type="submit" name="saveButton">
-							<strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong>
+							{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}
 						</button>
 						<div class="float-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning"
-							   href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+							<button class="cancelLink btn btn-warning"
+							   href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
 					</div>
 				</form>
