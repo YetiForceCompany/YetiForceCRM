@@ -25,7 +25,7 @@
 			<input type="hidden" id="selectedIds" name="selectedIds"
 				   data-selected-ids="{if $SELECTED_IDS === 'all'}{App\Purifier::encodeHtml($SELECTED_IDS)}{else}{App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}{/if}"/>
 			<input type="hidden" id="excludedIds" name="excludedIds"
-				   data-excluded-ids="{if $EXCLUDED_IDS === 'all'}{App\Purifier::encodeHtml($EXCLUDED_IDS)}{else}{App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}{/if}"/>
+				   data-excluded-ids="{App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}"/>
 			<input type="hidden" id="recordsCount" name="recordsCount"/>
 			<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
 			<input type="hidden" id="autoRefreshListOnChange"
@@ -90,13 +90,7 @@
 									<span class="filterImage">
 										<span class="fas fa-filter"></span>
 									</span>
-
-
-
-{else}
-
-
-
+								{else}
 									<input type="hidden" value="0" id="customFilter"/>
 								{/if}
 							</span>
