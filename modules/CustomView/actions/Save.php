@@ -70,7 +70,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			'status' => $request->getInteger('status', 0),
 			'featured' => $request->getInteger('featured', 0),
 			'color' => !$request->isEmpty('color') ? $request->getByType('color', 'Color') : '',
-			'description' => $request->getByType('description', 'Text'),
+			'description' => $request->getForHtml('description'),
 		];
 		$selectedColumnsList = $request->getArray('columnslist', 'Text');
 		if (empty($selectedColumnsList)) {
