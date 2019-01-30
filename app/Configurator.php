@@ -16,8 +16,7 @@ class Configurator extends Base
 {
 	/** @var string[] Paths to files */
 	private static $paths = [
-		'yetiforce' => 'config/modules/YetiForce.php',
-		'backup' => 'config/modules/Backup.php'
+		'yetiforce' => 'config/modules/YetiForce.php'
 	];
 
 	/** @var string Type of configuration */
