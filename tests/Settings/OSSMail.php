@@ -16,12 +16,11 @@ class OSSMail extends \Tests\Base
 	 */
 	public function testChangeConfig()
 	{
-		$configurator = \Settings_OSSMail_Config_Model::getCleanInstance();
+		$configurator = new \App\ConfigFile('module', 'OSSMail');
 		$configurator->set('product_name', 'YetiForce_Test');
 		$configurator->set('default_host', ['ssl://imap.gmail.com', 'ssl://imap.YT_Test.com']);
-		$configurator->save();
-		$configuration = \Settings_OSSMail_Config_Model::getInstance();
-		$this->assertSame($configuration->get('product_name'), $configurator->get('product_name'));
-		$this->assertSame(\array_values($configuration->get('default_host')), $configurator->get('default_host'));
+		$configurator->create();
+		$this->assertSame('YetiForce_Test', \App\Config::module('OSSMail', 'product_name'));
+		$this->assertCount(0, array_diff(\App\Config::module('OSSMail', 'default_host'), ['ssl://imap.gmail.com', 'ssl://imap.YT_Test.com']));
 	}
 }
