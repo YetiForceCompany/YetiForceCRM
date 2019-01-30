@@ -8,7 +8,7 @@
     "LBL_FILE_DATE": "Modified date",
     "LBL_BACKUP_LIST": "Backup list",
     "ERR_CONFIG_ALERT_TITLE": "Backup Manager is disabled",
-    "ERR_CONFIG_ALERT_DESC": "Set the appropriate path in BACKUP_PATH variable in the configuration file [config\/modules\/Backup.php] to enable it."
+    "ERR_CONFIG_ALERT_DESC": "Set the appropriate path in BACKUP_PATH variable in the configuration file [config\/Components\/Backup.php] to enable it."
   },
   "js": {
 

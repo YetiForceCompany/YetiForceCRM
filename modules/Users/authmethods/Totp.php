@@ -13,7 +13,10 @@ use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 class Users_Totp_Authmethod
 {
 	/**
-	 *  User authentication mode possible values.
+	 * User authentication mode possible values.
+	 * TOTP_OFF - 2FA TOTP is checking off
+	 * TOTP_OPTIONAL - It is defined by the user
+	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	const ALLOWED_USER_AUTHY_MODE = ['TOTP_OFF', 'TOTP_OPTIONAL', 'TOTP_OBLIGATORY'];
 	/**

@@ -13,7 +13,6 @@ class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		include 'config/api.php';
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Dav_Module_Model::getInstance($qualifiedModuleName);
@@ -22,7 +21,7 @@ class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('USERS', Users_Record_Model::getAll());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
+		$viewer->assign('ENABLEDAV', !in_array('dav', App\Config::api('enabledServices')));
 		$viewer->view('Keys.tpl', $qualifiedModuleName);
 	}
 

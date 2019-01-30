@@ -909,10 +909,10 @@ return [
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
-			'description' => 'User authentication mode possible values: TOTP_OFF - 2FA TOTP is checking off, TOTP_OPTIONAL - It is defined by the user, TOTP_OBLIGATORY - It is obligatory.',
+			'description' => "User authentication mode.\n@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return in_array($arg, ['TOTP_OPTIONAL', 'TOTP_OFF', 'TOTP_OBLIGATORY']);
+				return in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 			}
 		],
 		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [
