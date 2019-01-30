@@ -1,6 +1,6 @@
 <?php
 /**
- * Class to change configurtion.
+ * Class to change configuration.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -16,10 +16,7 @@ class Configurator extends Base
 {
 	/** @var string[] Paths to files */
 	private static $paths = [
-		'securityKeys' => 'config/secret_keys.php',
-		'security' => 'config/security.php',
-		'yetiforce' => 'config/modules/YetiForce.php',
-		'backup' => 'config/modules/Backup.php'
+		'yetiforce' => 'config/modules/YetiForce.php'
 	];
 
 	/** @var string Type of configuration */

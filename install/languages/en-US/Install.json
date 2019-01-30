@@ -102,7 +102,8 @@
     "LBL_DESCRIPTION_CONDITIONS": "During the migration you will loose all data related to the following modules: MailManager, EmailTemplates, Workflows. \r\n Please be aware that migration is still in its testing stage so you should make all possible back-up copies and follow security procedures in case of any unforeseen events.",
     "LBL_MIGRATION_IN_PROGRESS": "Migration in progress",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
-    "LBL_VERSION": "Version"
+    "LBL_VERSION": "Version",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "All",

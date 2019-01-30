@@ -211,8 +211,8 @@ class PackageExport
 			$zip->addFile('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png", "$module.png");
 		}
 		// Copy config files
-		if (file_exists("config/modules/$module.php")) {
-			$zip->addFile("config/modules/$module.php", "config/$module.php");
+		if (file_exists("config/Modules/$module.php")) {
+			$zip->addFile("config/Modules/$module.php", "config/$module.php");
 		}
 		if ($directDownload) {
 			$zip->download($module);

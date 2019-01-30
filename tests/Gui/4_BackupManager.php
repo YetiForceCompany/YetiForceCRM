@@ -37,9 +37,9 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public static function setUpBeforeClass()
 	{
 		self::$testDir = App\Fields\File::getTmpPath() . 'backups';
-		$config = new \App\Configurator('backup');
+		$config = new \App\ConfigFile('component', 'Backup');
 		$config->set('BACKUP_PATH', self::$testDir);
-		$config->save();
+		$config->create();
 		self::$testDir .= DIRECTORY_SEPARATOR;
 		if (is_dir(self::$testDir) === false) {
 			if (mkdir(self::$testDir)) {
@@ -74,8 +74,8 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public static function tearDownAfterClass()
 	{
 		\vtlib\Functions::recurseDelete(self::$testDir, true);
-		$config = new \App\Configurator('backup');
+		$config = new \App\ConfigFile('component', 'Backup');
 		$config->set('BACKUP_PATH', '');
-		$config->save();
+		$config->create();
 	}
 }

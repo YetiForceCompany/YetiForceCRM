@@ -1029,9 +1029,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!isset($this->data[$groupValue][$dividingValue]['link'])) {
-			$params = array_merge($this->searchParams, [[$this->groupFieldName, 'e', $row[$this->groupName]]]);
+			$operator = 'e';
+			if ($this->groupFieldModel->isReferenceField()) {
+				$operator = 'a';
+			}
+			$params = array_merge($this->searchParams, [[$this->groupFieldName, $operator, $row[$this->groupName]]]);
 			if ($this->isDividedByField()) {
-				$params = array_merge($params, [[$this->dividingFieldName, 'e', $row[$this->dividingName]]]);
+				$params = array_merge($params, [[$this->dividingFieldName, $operator, $row[$this->dividingName]]]);
 			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$params]);
 			$this->addValue('link', $link, $groupValue, $dividingValue);

@@ -10,7 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="tpl-Users-ListViewHeader listViewPageDiv">
+<!-- tpl-Users-ListViewHeader -->
+<div class="listViewPageDiv">
 	<div class="widget_header row">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -37,6 +38,8 @@
 										{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}
 									</a>
 								</li>
+
+
 
 {if $smarty.foreach.actionCount.last eq true}
 								<li class="dropdown-divider"></li>
@@ -80,4 +83,5 @@
 		</div>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
+		<!-- /tpl-Users-ListViewHeader -->
 		{/strip}

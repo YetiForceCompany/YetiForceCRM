@@ -426,7 +426,7 @@ class PackageImport extends PackageExport
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
-				'config' => 'config/modules',
+				'config' => 'config/Modules',
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
@@ -550,7 +550,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-				switch ((string) $this->_modulexml->type) {
+					switch ((string) $this->_modulexml->type) {
 					case 'update':
 						Functions::recurseDelete('cache/updates');
 						$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
@@ -618,6 +618,10 @@ class PackageImport extends PackageExport
 		$this->importCustomLinks($this->_modulexml, $moduleInstance);
 		$this->importCronTasks($this->_modulexml);
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
+		register_shutdown_function(function () {
+			chdir(ROOT_DIRECTORY);
+			\App\UserPrivilegesFile::recalculateAll();
+		});
 	}
 
 	/**

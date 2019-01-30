@@ -14,22 +14,6 @@ $.Class("Vtiger_DashBoard_Js", {
 	//static property which will store the instance of dashboard
 	currentInstance: false,
 	scrollContainer: false,
-	addWidget: function (element, url) {
-		element = $(element);
-		var linkId = element.data('linkid');
-		var name = element.data('name');
-		var widgetId = element.data('id');
-		$(element).parent().remove();
-		if ($('.js-widget-list .js-widget-list__item').length < 1) {
-			$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
-		}
-		var widgetContainer = $('<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
-		widgetContainer.find('.dashboardWidget').data('url', url);
-		var width = element.data('width');
-		var height = element.data('height');
-		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
-		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
-	},
 	restrictContentDrag: function (container) {
 		container.on('mousedown.draggable', function (e) {
 			var element = $(e.target);
@@ -192,22 +176,19 @@ $.Class("Vtiger_DashBoard_Js", {
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
 							$('.js-widget-list').prev('.js-widget-predefined').removeClass('d-none');
-							let data = `<li class="js-widget-list__item dropdown-item d-flex flex-row-reverse align-items-center justify-content-between" data-js="remove">`;
-							if (response.result.deleteFromList) {
-								data += `<button data-widget-id="${response.result.id}" 
-											class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
-										<span class="fas fa-trash-alt"></span>
-										</button>`;
-							}
-							data += `<a onclick="Vtiger_DashBoard_Js.addWidget(this, '${response.result.url}')"
+							let data = `<a class="js-widget-list__item dropdown-item d-flex"
 										href="#"
-										class="pl-1"
+										data-widget-url="${response.result.url}"
 										data-linkid="${response.result.linkid}"
 										data-name="${response.result.name}"
 										data-width="${width}"
-										data-height="${height}">
-										${response.result.title}</a>
-									</li>`;
+										data-height="${height}" data-js="remove | click">${response.result.title}`;
+							if (response.result.deleteFromList) {
+								data += `<span class="text-danger pl-5 ml-auto">
+											<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="${response.result.id}" data-js="click"></span>
+										</span>`;
+							}
+							data += `</a>`;
 							let divider = $('.js-widget-list .dropdown-divider');
 							if (divider.length) {
 								$(data).insertBefore(divider);
@@ -468,7 +449,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				let linkElement = element.clone();
 				linkElement.data('name', 'ChartFilter');
 				linkElement.data('id', result['wid']);
-				Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
+				thisInstance.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
 				Vtiger_Helper_Js.showMessage(params);
 			} else {
 				let message = data['error']['message'],
@@ -612,7 +593,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				let linkElement = element.clone();
 				linkElement.data('name', 'MiniList');
 				linkElement.data('id', result['wid']);
-				Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
+				thisInstance.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
 				Vtiger_Helper_Js.showMessage(params);
 			} else {
 				let message = data['error']['message'],
@@ -695,8 +676,8 @@ $.Class("Vtiger_DashBoard_Js", {
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				currentTarget.closest('.js-widget-list__item').remove();
-				if ($('ul.js-widget-list .js-widget-list__item').length < 1) {
-					$('ul.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
+				if ($('.js-widget-list .js-widget-list__item').length < 1) {
+					$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 				}
 				thisInstance.updateLazyWidget();
 			});
@@ -732,15 +713,36 @@ $.Class("Vtiger_DashBoard_Js", {
 	 * Updates list of predefined widgets after changed dashboard
 	 */
 	registerUpdatePredefinedWidgets: function () {
-		var thisInstance = this;
+		let container = $('.js-predefined-widgets');
+		container.on('click', '.js-widget-list__item', (e) => {
+			if (!$(e.target).hasClass('removeWidgetFromList')) {
+				this.addWidget($(e.currentTarget), $(e.currentTarget).data('widgetUrl'));
+			}
+		});
 		AppConnector.request({
 			view: 'BasicAjax',
 			mode: 'getDashBoardPredefinedWidgets',
 			module: app.getModuleName(),
-			dashboardId: thisInstance.getCurrentDashboard()
-		}).done(function (data) {
-			$('.js-predefined-widgets').html(data);
+			dashboardId: this.getCurrentDashboard()
+		}).done((data) => {
+			container.html(data);
 		});
+	},
+	addWidget(element, url) {
+		element = $(element);
+		var linkId = element.data('linkid');
+		var name = element.data('name');
+		var widgetId = element.data('id');
+		element.remove();
+		if ($('.js-widget-list .js-widget-list__item').length < 1) {
+			$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
+		}
+		var widgetContainer = $('<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
+		widgetContainer.find('.dashboardWidget').data('url', url);
+		var width = element.data('width');
+		var height = element.data('height');
+		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
+		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	registerEvents: function () {
 		this.registerGrid();

@@ -254,7 +254,6 @@ class ConfReport
 	 */
 	public static $writableFilesAndFolders = [
 		'config/' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/config.inc.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],

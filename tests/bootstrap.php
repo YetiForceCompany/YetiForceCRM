@@ -56,7 +56,7 @@ if ($installDatabase) {
 
 	$initSchema = new \Install_InitSchema_Model();
 	$initSchema->initialize();
-	if (isset($_SESSION['instalation_success']) && $_SESSION['instalation_success'] === false) {
+	if (!($_SESSION['installation_success'] ?? false)) {
 		echo 'Some exceptions occurred in database install queries, verify if database was empty before run.' . PHP_EOL;
 	}
 } else {

@@ -12,7 +12,7 @@ class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');

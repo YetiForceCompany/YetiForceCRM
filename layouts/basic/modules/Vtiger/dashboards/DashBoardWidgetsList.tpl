@@ -9,26 +9,20 @@
 				</span>
 		<span class="d-none d-md-inline">{\App\Language::translate('LBL_PREDEFINED_WIDGETS')}</span>
 	</button>
-	<ul class="js-widget-list dropdown-menu widgetsList addWidgetDropDown" data-js="container">
+	<div class="js-widget-list dropdown-menu widgetsList addWidgetDropDown" data-js="container">
 		{assign var="WIDGET" value=""}
 		{foreach from=$WIDGETS item=WIDGET}
-			<li class="js-widget-list__item dropdown-item d-flex flex-row-reverse align-items-center justify-content-between"
-				data-js="remove">
+			<a class="js-widget-list__item dropdown-item d-flex"
+			   data-js="remove | click" href="#" data-widget-url="{$WIDGET->getUrl()}" data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
+			   data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}"
+			   data-id="{$WIDGET->get('widgetid')}">
+				{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}
 				{if $WIDGET->get('deleteFromList')}
-					<button data-widget-id="{$WIDGET->get('widgetid')}"
-							class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
-						<span class='fas fa-trash-alt'></span>
-					</button>
+					<span class="text-danger pl-5 ml-auto">
+						<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="{$WIDGET->get('widgetid')}" data-js="click"></span>
+					</span>
 				{/if}
-				<a class="pl-1"
-				   onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')"
-				   href="#"
-				   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
-				   data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}"
-				   data-id="{$WIDGET->get('widgetid')}">
-					{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}
-				</a>
-			</li>
+			</a>
 		{/foreach}
-	</ul>
+	</div>
 {/strip}

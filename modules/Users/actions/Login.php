@@ -173,13 +173,9 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function cleanInstallationFiles()
 	{
-		foreach (glob('languages/*/Install.php') as $path) {
-			unlink($path);
-		}
 		\vtlib\Functions::recurseDelete('install');
 		\vtlib\Functions::recurseDelete('public_html/install');
 		\vtlib\Functions::recurseDelete('tests');
-		\vtlib\Functions::recurseDelete('config/config.template.php');
 		\vtlib\Functions::recurseDelete('.github');
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');

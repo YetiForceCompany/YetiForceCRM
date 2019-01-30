@@ -29,7 +29,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	{
 		$moduleName = $request->getModule(false);
 		$type = $request->getByType('type', 2);
-		$vale = $request->get('vale');
+		$vale = $request->getBoolean('vale') ? 'true' : 'false';
 		if (Settings_Password_Record_Model::validation($type, $vale)) {
 			Settings_Password_Record_Model::setPassDetail($type, $vale);
 			$resp = \App\Language::translate('LBL_SAVE_OK', $moduleName);
@@ -59,13 +59,13 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
 		\AppConfig::set('securityKeys', 'encryptionMethod', $method);
-		\AppConfig::set('securityKeys', 'encryptionPass', $password);
 		$instance = new App\Encryption();
 		$instance->set('method', $method);
 		$instance->set('vector', $password);
 		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
 		$response = new Vtiger_Response();
-		if (empty($instance->encrypt('test'))) {
+		$encryption = $instance->encrypt('test');
+		if (empty($encryption) || $encryption === 'test') {
 			$response->setResult(App\Language::translate('LBL_NO_REGISTER_ENCRYPTION', $request->getModule(false)));
 		} else {
 			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password]]))->save();

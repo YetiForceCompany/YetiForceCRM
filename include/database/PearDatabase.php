@@ -69,16 +69,7 @@ class PearDatabase
 		if (self::$dbCache !== false) {
 			return self::$dbCache;
 		}
-		$config = AppConfig::main('dbconfig');
-		if ($config === false) {
-			include 'config/config.inc.php';
-			if (file_exists('config/config_override.php')) {
-				include 'config/config_override.php';
-			}
-			$config = $dbconfig;
-		}
-		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
-
+		$db = new self(\Config\Db::$db_type, \Config\Db::$db_server, \Config\Db::$db_name, \Config\Db::$db_username, \Config\Db::$db_password, \Config\Db::$db_port);
 		if ($db->database === null) {
 			\App\Log::error('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');

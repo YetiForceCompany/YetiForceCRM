@@ -145,9 +145,9 @@
 									{foreach from=$ALL['stability'] key=KEY item=ITEM}
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
 												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
 													{if !empty($HELP_TEXT)}
 														<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 														   data-trigger="focus hover" data-placement="right"

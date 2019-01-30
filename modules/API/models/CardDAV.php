@@ -35,7 +35,7 @@ class API_CardDAV_Model
 
 	public function __construct()
 	{
-		$dbConfig = \App\Db::getConfig('base');
+		$dbConfig = \App\Config::db('base');
 		$this->pdo = new PDO($dbConfig['dsn'] . ';charset=' . $dbConfig['charset'], $dbConfig['username'], $dbConfig['password']);
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}

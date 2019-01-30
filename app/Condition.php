@@ -2,7 +2,7 @@
 /**
  * Condition main class.
  *
- * @package App
+ * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -34,6 +34,9 @@ class Condition
 		$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
 		foreach ($searchParams as $params) {
 			foreach ($params as $param) {
+				if (empty($param)) {
+					continue;
+				}
 				$countvariables = count($param);
 				if ($countvariables !== 3 && $countvariables !== 4) {
 					throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
