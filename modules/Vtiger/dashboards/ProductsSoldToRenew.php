@@ -34,7 +34,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('WIDGET_MODEL', $this);
 		$viewer->assign('BASE_MODULE', $this->getTargetModule());
-		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/ProductsSoldToRenewContents.tpl', $moduleName);
@@ -124,11 +123,16 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		return count($this->getHeaders());
 	}
 
-	public function getRecords($user)
+	/**
+	 * @return array
+	 */
+	public function getRecords()
 	{
 		$this->initListViewController();
 		if (empty($this->listviewRecords)) {
-			$this->queryGenerator->addNativeCondition($this->getConditions());
+			foreach ($this->getConditions() as $condition) {
+				$this->queryGenerator->addCondition($condition[0], $condition[2], $condition[1]);
+			}
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());
 			if (strtoupper($this->getFromData('sortorder')) === 'ASC') {
@@ -151,8 +155,25 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		return 'assets_renew';
 	}
 
+	/**
+	 * Conditions.
+	 *
+	 * @return array
+	 */
 	public function getConditions()
 	{
-		return ['assetstatus' => 'PLL_ACCEPTED', 'assets_renew' => 'PLL_WAITING_FOR_RENEWAL'];
+		return [['assetstatus', 'e', 'PLL_ACCEPTED'], ['assets_renew', 'e', 'PLL_WAITING_FOR_RENEWAL']];
+	}
+
+	/**
+	 * Gets url.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return string
+	 */
+	public function getUrl()
+	{
+		return $this->getTargetModuleModel()->getListViewUrl() . '&viewname=All&search_params=' . urlencode(App\Json::encode([$this->getConditions()]));
 	}
 }
