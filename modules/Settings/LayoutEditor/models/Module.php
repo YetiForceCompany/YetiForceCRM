@@ -201,8 +201,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldParams = [];
 			$fieldParams['module'] = $params['MRVModule'];
 			$fieldParams['field'] = $params['MRVField'];
-			$fieldParams['filterField'] = $params['MRVFilterField'];
-			$fieldParams['filterValue'] = $params['MRVFilterValue'];
+			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
+			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);

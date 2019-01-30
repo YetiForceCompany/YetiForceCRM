@@ -202,7 +202,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$field = $this->getFieldModel();
 		$params = $field->getFieldParams();
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
-
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$targetModel->getRelationQuery();
@@ -213,11 +212,11 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		$queryGenerator->setFields([$fieldInfo['fieldname']]);
 		$query = $queryGenerator->createQuery(true);
-		$values = $query->distinct()->indexBy($fieldInfo['column'])->column();
+		$values = $query->distinct()->column();
 		if ($values) {
 			$values = self::COMMA . implode(self::COMMA, $values) . self::COMMA;
 		}
-		App\Db::getInstance()->createCommand()->update($field->get('table'), [
+		\App\Db::getInstance()->createCommand()->update($field->get('table'), [
 			$field->get('column') => $values,
 		], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
 		)->execute();
