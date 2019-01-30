@@ -50,9 +50,9 @@
 					<td class="listViewEntryValue {$WIDTHTYPE}">
 						&nbsp;
 						{if $LISTVIEW_HEADERNAME==='duration'}
-							{if $VALUE==='running'}<i class="fa fa-spinner fa-spin"
+							{if $VALUE==='running'}<i class="fas fa-spinner fa-spin"
 													  title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
-							{elseif $VALUE==='timeout'}<i class="fa fa-exclamation-triangle text-danger"
+							{elseif $VALUE==='timeout'}<i class="fas fa-exclamation-triangle text-danger"
 														  title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
 							{else}{$VALUE}
 							{/if}
