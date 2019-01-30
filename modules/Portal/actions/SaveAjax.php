@@ -23,8 +23,8 @@ class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		$module = $request->getModule();
 		$recordId = $request->isEmpty('record') ? null : $request->getInteger('record');
-		$bookmarkName = $request->get('bookmarkName');
-		$bookmarkUrl = $request->get('bookmarkUrl');
+		$bookmarkName = $request->getByType('bookmarkName', 'Text');
+		$bookmarkUrl = $request->getByType('bookmarkUrl', 'Text');
 
 		Portal_Module_Model::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
 

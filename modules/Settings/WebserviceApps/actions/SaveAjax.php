@@ -23,8 +23,8 @@ class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Acti
 			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($request->getInteger('id'));
 		}
 		$recordModel->set('status', $request->getBoolean('status'));
-		$recordModel->set('name', $request->get('name'));
-		$recordModel->set('acceptable_url', $request->get('url'));
+		$recordModel->set('name', $request->getByType('name', 'Text'));
+		$recordModel->set('acceptable_url', $request->getByType('url', 'Text'));
 		$recordModel->set('pass', $request->getRaw('pass'));
 		$recordModel->set('accounts_id', $request->isEmpty('accounts') ? 0 : $request->getInteger('accounts'));
 		$recordModel->save();

@@ -19,7 +19,7 @@ class Settings_Mail_Autologin_View extends Settings_Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', Settings_Mail_Autologin_Model::getInstance());
-		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
+		$viewer->assign('ERROR_MESSAGE', $request->getByType('errorMessage', 'Text'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('Autologin.tpl', $qualifiedModuleName);
 	}
