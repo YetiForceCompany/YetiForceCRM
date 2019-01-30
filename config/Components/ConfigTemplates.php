@@ -89,5 +89,127 @@ return [
 			'default' => false,
 			'description' => 'Required acceptation before sending mails.'
 		]
+	],
+	'YetiForce' => [
+		'statusUrl' => [
+			'default' => '',
+			'description' => 'Service URL',
+			'validation' => '\App\Validator::url',
+			'sanitization' => '\App\Purifier::purify'
+		],
+		'domain' => [
+			'default' => false,
+			'description' => 'CRM system URL',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'phpVersion' => [
+			'default' => false,
+			'description' => 'PHP version',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'crmVersion' => [
+			'default' => false,
+			'description' => 'CRM version',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'dbVersion' => [
+			'default' => false,
+			'description' => 'Database version',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'osVersion' => [
+			'default' => false,
+			'description' => 'System version',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'sapiVersion' => [
+			'default' => false,
+			'description' => 'API server version',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'lastCronTime' => [
+			'default' => false,
+			'description' => 'Last Cron time',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'spaceRoot' => [
+			'default' => false,
+			'description' => 'Root space',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'spaceStorage' => [
+			'default' => false,
+			'description' => 'Storage space',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'spaceTemp' => [
+			'default' => false,
+			'description' => 'Temporary directory space',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'updates' => [
+			'default' => false,
+			'description' => 'System update history',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'security' => [
+			'default' => false,
+			'description' => 'Security',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'stability' => [
+			'default' => false,
+			'description' => 'System stability configuration',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'libraries' => [
+			'default' => false,
+			'description' => 'Support for libraries',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'performance' => [
+			'default' => false,
+			'description' => 'Performance verification',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'publicDirectoryAccess' => [
+			'default' => false,
+			'description' => 'Public directory',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'environment' => [
+			'default' => false,
+			'description' => 'Environment information',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'writableFilesAndFolders' => [
+			'default' => false,
+			'description' => 'Writable files and folders',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'database' => [
+			'default' => false,
+			'description' => 'Database information',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	]
 ];
