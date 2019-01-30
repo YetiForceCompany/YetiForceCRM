@@ -97,8 +97,7 @@ return [
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return empty($arg) || \App\Validator::url($arg);
-			},
-			'sanitization' => '\App\Purifier::purify'
+			}
 		],
 		'domain' => [
 			'default' => false,
