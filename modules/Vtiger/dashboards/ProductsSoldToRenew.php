@@ -124,22 +124,21 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	}
 
 	/**
+	 * Gets record list.
+	 *
 	 * @return array
 	 */
-	public function getRecords()
+	public function getRecords(): array
 	{
 		$this->initListViewController();
 		if (empty($this->listviewRecords)) {
 			foreach ($this->getConditions() as $condition) {
 				$this->queryGenerator->addCondition($condition[0], $condition[2], $condition[1]);
 			}
+			$this->queryGenerator->setOrder($this->getFromData('orderby'), $this->getFromData('sortorder'));
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());
-			if (strtoupper($this->getFromData('sortorder')) === 'ASC') {
-				$query->orderBy([$this->getFromData('orderby') => SORT_ASC]);
-			} else {
-				$query->orderBy([$this->getFromData('orderby') => SORT_DESC]);
-			}
+
 			$this->listviewRecords = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
@@ -160,7 +159,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @return array
 	 */
-	public function getConditions()
+	public function getConditions(): array
 	{
 		return [['assetstatus', 'e', 'PLL_ACCEPTED'], ['assets_renew', 'e', 'PLL_WAITING_FOR_RENEWAL']];
 	}
@@ -172,7 +171,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @return string
 	 */
-	public function getUrl()
+	public function getUrl(): string
 	{
 		return $this->getTargetModuleModel()->getListViewUrl() . '&viewname=All&search_params=' . urlencode(App\Json::encode([$this->getConditions()]));
 	}
