@@ -185,6 +185,7 @@ window.Calendar_Js = class {
 	 * @param {jQuery} element
 	 */
 	eventRenderer(event, element) {
+		element.find('.fc-title').html(event.title);
 		if (event.rendering === 'background') {
 			element.append(`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`);
 			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
