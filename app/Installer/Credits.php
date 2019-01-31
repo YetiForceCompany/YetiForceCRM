@@ -35,6 +35,8 @@ class Credits
 		'html5shiv' => 'MIT',
 		'jquery-lazy' => 'MIT',
 		'dompurify' => 'Apache-2.0',
+		'nette/php-generator' => 'BSD-3-Clause',
+		'nette/utils' => 'BSD-3-Clause',
 	];
 	/**
 	 * Information about forks CRM.

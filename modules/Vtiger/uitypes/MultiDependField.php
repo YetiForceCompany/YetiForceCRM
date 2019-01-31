@@ -24,6 +24,7 @@ class Vtiger_MultiDependField_UIType extends Vtiger_Base_UIType
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
+
 	/**
 	 * {@inheritdoc}
 	 */

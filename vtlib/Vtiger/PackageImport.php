@@ -550,7 +550,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-					switch ((string) $this->_modulexml->type) {
+				switch ((string) $this->_modulexml->type) {
 					case 'update':
 						Functions::recurseDelete('cache/updates');
 						$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);

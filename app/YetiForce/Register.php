@@ -206,7 +206,7 @@ class Register
 		}
 		$status = $conf['status'] > 6;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
-			return [true, 9];
+			return true;
 		}
 		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;

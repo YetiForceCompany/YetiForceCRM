@@ -34,7 +34,7 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 	}
 
 	/**
-	 * (@inheritdoc}
+	 * (@inheritdoc}.
 	 */
 	public function getConditions(): array
 	{
