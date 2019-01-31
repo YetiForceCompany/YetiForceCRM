@@ -130,25 +130,27 @@
 								</tbody>
 							</table>
 							{if $MODULEIMPORT_DIR_EXISTS eq 'true'}
-								<br/>
 								<div class="alert alert-danger" role="alert">{\App\Language::translate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
 							{/if}
 							<div class="text-right">
 								{if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
 								<input type="hidden" name="view" value="List">
-								<button class="btn btn-success" class="crmbutton small delete"
-										onclick="this.form.mode.value = '';">
-									<span class="fas fa-times mr-1"></span>
-									{\App\Language::translate('LBL_CANCEL', $MODULE)}
-								</button>
 								{if $MODULEIMPORT_EXISTS eq 'true'}
 									<input type="hidden" name="view" value="ModuleImport">
 									<input type="hidden" name="module_import_file" value="{$MODULEIMPORT_FILE}">
 									<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
 									<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 									<input type="hidden" name="mode" value="importUserModuleStep3">
-									<button class="btn btn-warning" onclick="this.form.mode.value = 'updateUserModuleStep3';this.form.submit();">{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</button>
+									<button class="btn btn-success" onclick="this.form.mode.value = 'updateUserModuleStep3';this.form.submit();">
+										<span class="fas fa-sync-alt fa-xs mr-1"></span>
+										{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}
+									</button>
 								{/if}
+								<button class="btn btn-warning ml-1" class="crmbutton small delete"
+										onclick="this.form.mode.value = '';">
+									<span class="fas fa-times mr-1"></span>
+									{\App\Language::translate('LBL_CANCEL', $MODULE)}
+								</button>
 								{else}
 								<input type="hidden" name="view" value="ModuleImport">
 								<input type="hidden" name="module_import_file" value="{$MODULEIMPORT_FILE}">

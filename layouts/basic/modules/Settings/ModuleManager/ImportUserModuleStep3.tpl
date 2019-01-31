@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<div class="">
+			<div>
 				<div id="vtlib_modulemanager_import_div">
 					<form method="POST" action="index.php">
 						<table class="table table-bordered">
