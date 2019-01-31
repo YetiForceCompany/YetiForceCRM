@@ -298,8 +298,21 @@ App.Fields = {
 				} else {
 					elements = $('.js-editor:not([disabled])', parentElement);
 				}
-				if (elements.length !== 0 || typeof elements !== "undefined") {
-					this.loadEditor(elements, params);
+				if (elements.length !== 0 && typeof elements !== "undefined") {
+					this.isModal = elements.closest('.js-modal-container').length;
+					if (this.isModal) {
+						let self = this;
+						this.progressInstance = jQuery.progressIndicator({
+							blockInfo: {
+								enabled: true,
+								onBlock: () => {
+									self.loadEditor(elements, params);
+								}
+							},
+						});
+					} else {
+						this.loadEditor(elements, params);
+					}
 				}
 			}
 
@@ -338,119 +351,101 @@ App.Fields = {
 			 * @param {Object} customConfig custom configurations for ckeditor
 			 */
 			loadEditor(element, customConfig) {
-				if (!element.length) {
-					return;
-				}
-				let isModal = element.closest('.js-modal-container').length;
-				if (isModal) {
-					var progressInstance = jQuery.progressIndicator({
-						blockInfo: {
-							enabled: true,
-							onBlock: () => {
-								loadEditor();
+				this.setElement(element);
+				const instance = this.getEditorInstanceFromName(),
+					self = this;
+				let config = {
+					language: CONFIG.langKey,
+					allowedContent: true,
+					removeButtons: '',
+					scayt_autoStartup: false,
+					enterMode: CKEDITOR.ENTER_BR,
+					shiftEnterMode: CKEDITOR.ENTER_P,
+					emojiEnabled: false,
+					mentionsEnabled: false,
+					on: {
+						instanceReady: function (evt) {
+							evt.editor.on('blur', function () {
+								evt.editor.updateElement();
+							});
+							if (self.isModal) {
+								self.progressInstance.progressIndicator({mode: 'hide'});
 							}
-						},
-					});
-				}
-				let loadEditor = () => {
-					this.setElement(element);
-					const instance = this.getEditorInstanceFromName();
-					let config = {
-						language: CONFIG.langKey,
-						allowedContent: true,
-						removeButtons: '',
-						scayt_autoStartup: false,
-						enterMode: CKEDITOR.ENTER_BR,
-						shiftEnterMode: CKEDITOR.ENTER_P,
-						emojiEnabled: false,
-						mentionsEnabled: false,
-						on: {
-							instanceReady: function (evt) {
-								evt.editor.on('blur', function () {
-									evt.editor.updateElement();
-								});
-								if (isModal) {
-									progressInstance.progressIndicator({mode: 'hide'});
-								}
-							}
-						},
-						extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
-						toolbar: 'Full',
-						toolbar_Full: [
-							{
-								name: 'clipboard',
-								items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-							},
-							{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
-							{name: 'links', items: ['Link', 'Unlink']},
-							{
-								name: 'insert',
-								items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
-							},
-							{name: 'tools', items: ['Maximize', 'ShowBlocks']},
-							{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
-							{name: 'document', items: ['Source', 'Print']},
-							'/',
-							{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-							{
-								name: 'basicstyles',
-								items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
-							},
-							{name: 'colors', items: ['TextColor', 'BGColor']},
-							{
-								name: 'paragraph',
-								items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-							},
-							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
-						],
-						toolbar_Min: [
-							{
-								name: 'basicstyles',
-								items: ['Bold', 'Italic', 'Underline', 'Strike']
-							},
-							{name: 'colors', items: ['TextColor', 'BGColor']},
-							{name: 'tools', items: ['Maximize']},
-							{
-								name: 'paragraph',
-								items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-							},
-							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
-						],
-						toolbar_Clipboard: [
-							{name: 'document', items: ['Print']},
-							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-							{
-								name: 'clipboard',
-								items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-							}
-						]
-					};
-					if (typeof customConfig !== "undefined") {
-						config = $.extend(config, customConfig);
-					}
-					config = Object.assign(config, element.data());
-					if (config.emojiEnabled) {
-						let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
-						if (typeof config.toolbar === 'string') {
-							config[`toolbar_${config.toolbar}`].push(emojiToolbar);
-						} else if (Array.isArray(config.toolbar)) {
-							config.toolbar.push(emojiToolbar);
 						}
-						config.extraPlugins = config.extraPlugins + ',emoji'
-						config.outputTemplate = '{id}';
-					}
-					if (config.mentionsEnabled) {
-						config.extraPlugins = config.extraPlugins + ',mentions'
-						config.mentions = this.registerMentions();
-					}
-					if (instance) {
-						CKEDITOR.remove(instance);
-					}
-					element.ckeditor(config);
+					},
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+					toolbar: 'Full',
+					toolbar_Full: [
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						},
+						{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+						{name: 'links', items: ['Link', 'Unlink']},
+						{
+							name: 'insert',
+							items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
+						},
+						{name: 'tools', items: ['Maximize', 'ShowBlocks']},
+						{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
+						{name: 'document', items: ['Source', 'Print']},
+						'/',
+						{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+						},
+						{name: 'colors', items: ['TextColor', 'BGColor']},
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+					],
+					toolbar_Min: [
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
+						},
+						{name: 'colors', items: ['TextColor', 'BGColor']},
+						{name: 'tools', items: ['Maximize']},
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+					],
+					toolbar_Clipboard: [
+						{name: 'document', items: ['Print']},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						}
+					]
+				};
+				if (typeof customConfig !== "undefined") {
+					config = $.extend(config, customConfig);
 				}
-				if (!isModal) {
-					loadEditor();
+				config = Object.assign(config, element.data());
+				if (config.emojiEnabled) {
+					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
+					if (typeof config.toolbar === 'string') {
+						config[`toolbar_${config.toolbar}`].push(emojiToolbar);
+					} else if (Array.isArray(config.toolbar)) {
+						config.toolbar.push(emojiToolbar);
+					}
+					config.extraPlugins = config.extraPlugins + ',emoji'
+					config.outputTemplate = '{id}';
 				}
+				if (config.mentionsEnabled) {
+					config.extraPlugins = config.extraPlugins + ',mentions'
+					config.mentions = this.registerMentions();
+				}
+				if (instance) {
+					CKEDITOR.remove(instance);
+				}
+				element.ckeditor(config);
 			}
 
 			/**
