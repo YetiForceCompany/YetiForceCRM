@@ -28,7 +28,18 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 */
 	public function save(\App\Request $request)
 	{
-		$data = $request->get('param');
+		$data = $request->getMultiDimensionArray('param', [
+			'tabid' => 'Integer',
+			'field' => 'Alnum',
+			'roleid' => 'Alnum',
+			'value' => 'Text',
+			'roles' => ['Alnum'],
+			'smowners' => ['Integer'],
+			'assign' => 'Integer',
+			'conditions' => 'Text',
+			'user_limit' => 'Integer',
+			'active' => 'Integer'
+		]);
 		if ($request->isEmpty('record')) {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
 		} else {
@@ -52,8 +63,8 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 */
 	public function changeRoleType(\App\Request $request)
 	{
-		$member = $request->get('param');
-		$recordId = $request->get('record');
+		$member = $request->getByType('param', 'Text');
+		$recordId = $request->getInteger('record');
 		if ($recordId) {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
 		} else {
@@ -73,9 +84,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 */
 	public function deleteElement(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
-		$recordModel->deleteElement($request->get('name'), $request->get('value'));
+		$recordModel->deleteElement($request->getByType('name'), $request->getByType('value', 'Text'));
 
 		$responceToEmit = new Vtiger_Response();
 		$responceToEmit->setResult($recordModel->getId());

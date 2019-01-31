@@ -64,15 +64,15 @@ class CustomView_Save_Action extends \App\Controller\Action
 		}
 		$customViewData = [
 			'cvid' => $cvId,
-			'viewname' => $request->get('viewname'),
+			'viewname' => $request->getByType('viewname', 'Text'),
 			'setdefault' => $request->getInteger('setdefault'),
 			'setmetrics' => $request->isEmpty('setmetrics') ? 0 : $request->getInteger('setmetrics'),
 			'status' => $request->getInteger('status', 0),
 			'featured' => $request->getInteger('featured', 0),
-			'color' => $request->get('color'),
-			'description' => $request->get('description'),
+			'color' => !$request->isEmpty('color') ? $request->getByType('color', 'Color') : '',
+			'description' => $request->getForHtml('description'),
 		];
-		$selectedColumnsList = $request->get('columnslist');
+		$selectedColumnsList = $request->getArray('columnslist', 'Text');
 		if (empty($selectedColumnsList)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
@@ -83,7 +83,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
 		}
 		$customViewData['columnslist'] = $selectedColumnsList;
-		$advFilterList = $request->get('advfilterlist');
+		$advFilterList = $request->getArray('advfilterlist', 'Text');
 		if (!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;
 		}

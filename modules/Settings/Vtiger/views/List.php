@@ -53,7 +53,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchParams = $request->get('searchParams');
+		$searchParams = $request->getArray('searchParams', 'Text');
 		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 'Alnum');
 		$searchValue = $request->getByType('search_value', 'Text');
 

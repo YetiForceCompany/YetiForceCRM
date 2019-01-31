@@ -11,7 +11,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 {
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 		$workflowObject = $workflowModel->getWorkflowObject();
 		$workflowMethods = [];

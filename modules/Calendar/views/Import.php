@@ -44,7 +44,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 */
 	public function uploadAndParse(\App\Request $request)
 	{
-		$type = $request->getByType('type', \App\Purifier::TEXT);
+		$type = $request->getByType('type', 'Text');
 		if ('ics' === $type || 'ical' === $type) {
 			$this->importResult($request);
 		} else {
@@ -83,7 +83,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 */
 	public function undoImport(\App\Request $request)
 	{
-		if ($request->has('type') && 'ics' === $request->getByType('type', \App\Purifier::TEXT)) {
+		if ($request->has('type') && 'ics' === $request->getByType('type', 'Text')) {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$moduleName = $request->getModule();
 			$lastImport = new IcalLastImport();

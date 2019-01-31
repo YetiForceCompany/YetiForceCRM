@@ -215,7 +215,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
-		$wid = $data['wid'];
+		$wid = $data['wid'] ?? '';
 		$widgetName = 'Vtiger_' . $data['type'] . '_Widget';
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();

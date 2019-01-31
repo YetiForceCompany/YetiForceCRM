@@ -27,7 +27,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 		// force updateing password
 		if ($isPassword) {
-			$recordId = $request->get('record');
+			$recordId = $request->getInteger('record');
 			$properPassword = $isPassword ? $request->get('value') : '**********';
 
 			\App\Log::trace('recordid: ' . $recordId . ' properpass:' . $properPassword);

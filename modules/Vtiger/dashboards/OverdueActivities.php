@@ -37,8 +37,8 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$params = ['status' => Calendar_Module_Model::getComponentActivityStateLabel('overdue')];
-		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
-			$params['activitytype'] = $request->getByType('activitytype');
+		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype', 'Text') !== 'all') {
+			$params['activitytype'] = $request->getByType('activitytype', 'Text');
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $params);

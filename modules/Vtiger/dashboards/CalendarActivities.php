@@ -35,8 +35,8 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 			$stateActivityLabels['in_realization'],
 		],
 		];
-		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
-			$params['activitytype'] = $request->getByType('activitytype');
+		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype', 'Text') !== 'all') {
+			$params['activitytype'] = $request->getByType('activitytype', 'Text');
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));

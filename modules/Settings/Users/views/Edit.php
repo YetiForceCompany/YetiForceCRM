@@ -54,8 +54,8 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->get('block');
-		$fieldId = $request->get('fieldid');
+		$selectedMenuId = $request->getInteger('block', '');
+		$fieldId = $request->getInteger('fieldid', '');
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);

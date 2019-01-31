@@ -51,7 +51,7 @@ class TableCurrencySummary extends Base
 			}
 			if (!empty($currency) && !empty($currencyData) && $baseCurrency['id'] !== $currency && $inventory->isField('tax') && $inventory->isField('taxmode') && $inventory->isField('currency')) {
 				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
-				$html .= '<table class="productTable colapseBorder">
+				$html .= '<table style="border-collapse:collapse;width:100%;border:1px solid #ddd;">
 								<thead>
 									<tr>
 
@@ -70,7 +70,7 @@ class TableCurrencySummary extends Base
 								</tr>';
 				}
 				$html .= '<tr>
-								<td style="text-align:right;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+								<td style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 								<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>

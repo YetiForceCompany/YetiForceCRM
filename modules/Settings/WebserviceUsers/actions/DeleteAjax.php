@@ -16,8 +16,8 @@ class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$typeApi = $request->get('typeApi');
+		$recordId = $request->getInteger('record');
+		$typeApi = $request->getByType('typeApi', 'Alnum');
 		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
 		$result = $recordModel->delete();
 

@@ -13,6 +13,11 @@ class Vtiger_Block_Model extends vtlib\Block
 {
 	public $fields = false;
 
+	/**
+	 * Get fields.
+	 *
+	 * @return Vtiger_Field_Model[]|false
+	 */
 	public function getFields()
 	{
 		if (empty($this->fields)) {

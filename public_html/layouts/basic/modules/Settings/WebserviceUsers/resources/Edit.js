@@ -17,16 +17,15 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 		}
 	},
 	registerEvents: function () {
-		var thisInstance = this;
-		var container = this.getForm();
+		const self = this,
+			container = this.getForm();
 		this.registerBasicEvents(container);
-		var form = container.find('form');
+		let form = container.find('form');
 		form.on('submit', function (e) {
 			e.preventDefault();
 			if (form.validationEngine('validate')) {
-				var formData = form.serializeFormData();
-				var param = {typeApi: container.find('#typeApi').val(), record: container.find('#record').val()};
-				app.saveAjax('', formData, param).done(function (data) {
+				let formData = form.serializeFormData();
+				AppConnector.request(formData).done(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						let listInstance = Settings_WebserviceUsers_List_Js.getInstance();
@@ -38,10 +37,10 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 				});
 			}
 		});
-		var typeElement = form.find('[name="type"]');
-		thisInstance.showHideFields(typeElement);
+		let typeElement = form.find('[name="type"]');
+		self.showHideFields(typeElement);
 		typeElement.on('change', function (e) {
-			thisInstance.showHideFields(jQuery(e.currentTarget));
+			self.showHideFields(jQuery(e.currentTarget));
 		});
 	}
 })

@@ -25,11 +25,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		if (empty($sourceModule)) {
 			$sourceModule = 'Home';
 		}
-
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $request->isEmpty('dashboardId', true) ? Settings_WidgetsManagement_Module_Model::getDefaultDashboard() : $request->getInteger('dashboardId');
 		$viewer = $this->getViewer($request);
 		// get widgets list
 		$widgets = $dashboardModules[$sourceModule];

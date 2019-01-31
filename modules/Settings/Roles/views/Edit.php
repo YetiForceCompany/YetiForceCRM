@@ -43,7 +43,7 @@ class Settings_Roles_Edit_View extends Settings_Roles_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('TYPE', $request->get('type'));
+		$viewer->assign('TYPE', $request->getByType('type', 'Alnum'));
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

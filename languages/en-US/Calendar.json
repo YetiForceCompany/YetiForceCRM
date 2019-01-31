@@ -132,7 +132,7 @@
     "LBL_PHONE": "PHONE",
     "LBL_EDIT_EVENT": "Edit event",
     "LBL_USER_NAME": "User name",
-    "LBL_AUTO_FILL_DESCRIPTION": "Fill the start date based on the first available date",
+    "LBL_AUTO_FILL_DESCRIPTION": "Clicking this button will result in filling the start date based on the earliest available date for the current user.",
     "LBL_CACHE_SELECTED_FILTERS": "Standard view in calendar changed. Click \"Clear view\" to clear it.",
     "LBL_CACHE_CLEAR": "Clear view",
     "LBL_PROCESS": "Process",

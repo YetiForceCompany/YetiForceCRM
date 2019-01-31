@@ -38,10 +38,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$type = $request->get('type');
-		if (empty($type)) {
-			$type = 'owner';
-		}
+		$type = $request->isEmpty('type', true) ? 'owner' : $request->getByType('type', 'Alnum');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -53,11 +50,8 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$index = (int) $request->get('index');
-		$type = $request->get('type');
-		if (empty($type)) {
-			$type = 'owner';
-		}
+		$index = $request->getInteger('index');
+		$type = $request->isEmpty('type', true) ? 'owner' : $request->getByType('type', 'Alnum');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
