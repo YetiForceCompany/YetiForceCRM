@@ -20,6 +20,9 @@ class Gantt {
 				}
 			},
 			maxRows: 30,
+			times: {
+				timeZoom: 21
+			},
 			style: {
 				'chart-row-bar-polygon': {
 					'stroke': '#E74C3C00',
@@ -92,7 +95,7 @@ class Gantt {
 							}
 						}
 					},
-					{id: 5, label: app.vtranslate('JS_ASSIGNED', 'Project'), value: 'assigned_user_name', width: 150},
+					{id: 5, label: app.vtranslate('JS_ASSIGNED', 'Project'), value: 'assigned_user_name', width: 110},
 					{
 						id: 5, label: '%', value: 'progress', width: 35, style: {
 							'task-list-header-label': {
