@@ -79,7 +79,7 @@ class Register
 	 */
 	private static function getInstanceKey(): string
 	{
-		return sha1(\App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? null));
+		return sha1(\App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
 	}
 
 	/**
