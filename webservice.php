@@ -6,7 +6,7 @@
 require_once 'include/main/WebUI.php';
 \App\Process::$requestMode = 'API';
 try {
-	if (!in_array('webservice', $enabledServices)) {
+	if (!in_array('webservice', \App\Config::api('enabledServices'))) {
 		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);
 	}
 	$controller = Api\Controller::getInstance();
