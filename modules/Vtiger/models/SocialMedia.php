@@ -15,12 +15,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 * @var \Vtiger_Record_Model
 	 */
 	private $recordModel;
-	/**
-	 * Social media module configuration.
-	 *
-	 * @var string[]
-	 */
-	private $moduleConfig;
 
 	/**
 	 * Vtiger_SocialMedia_Model constructor.
@@ -31,7 +25,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
-		$this->moduleConfig = \AppConfig::module($this->recordModel->getModuleName(), 'enable_social');
 	}
 
 	/**
@@ -100,10 +93,8 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		$columnNames = [];
 		foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
-			if (in_array($socialMediaType, $this->moduleConfig)) {
-				foreach ($this->recordModel->getModule()->getFieldsByUiType($uiType) as $socialField) {
-					$columnNames[$uiType] = $socialField->getColumnName();
-				}
+			foreach ($this->recordModel->getModule()->getFieldsByUiType($uiType) as $socialField) {
+				$columnNames[$uiType] = $socialField->getColumnName();
 			}
 		}
 		return $columnNames;

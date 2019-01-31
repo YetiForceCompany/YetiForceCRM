@@ -213,5 +213,11 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+	],
+	'social' => [
+		'TWITTER_ENABLE_FOR_MODULES' => [
+			'default' => [],
+			'description' => 'List of modules for which Twitter has been enabled.',
+		]
 	]
 ];
