@@ -4,9 +4,9 @@
  * Module Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -56,6 +56,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'template_members',
 		'watermark_image',
 		'one_pdf',
+		'meta_creator'
 	];
 	public static $step1Fields = ['status', 'meta_creator', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_image', 'watermark_angle'];
 	public static $step2Fields = ['module_name', 'header_content', 'module_name', 'body_content', 'footer_content'];
