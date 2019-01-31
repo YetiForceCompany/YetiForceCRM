@@ -1,8 +1,8 @@
 ---
 name: "\U0001F4DAQuestions or docs request"
 about: Questions or docs request
-title: ''
-labels: ''
+title: '[Question]           '
+labels: 'question'
 assignees: ''
 
 ---
