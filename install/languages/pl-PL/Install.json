@@ -102,8 +102,7 @@
     "LBL_DESCRIPTION_CONDITIONS": "W trakcie migracji zostaną bezpowrotnie utracone wszystkie dane związane z modułami: MailManager, EmailTemplates, Workflows. \r\n Migracja jest ciągle w fazie testów, więc należy wykonać wszelkie możliwe kopie i zabazpieczenia w przypadku wystąpienia nieprzewidzianych zdarzeń.",
     "LBL_MIGRATION_IN_PROGRESS": "Trwa proces migracji",
     "LBL_SETUP_WIZARD_HEADER": "Kreator instalacji systemu YetiForce",
-    "LBL_VERSION": "Wersja",
-    "LBL_ERROR_INSTALL": "Proces instalacji zakończył się niepowodzeniem"
+    "LBL_VERSION": "Wersja"
   },
   "js": {
     "JS_ALL": "Wszystkie",
