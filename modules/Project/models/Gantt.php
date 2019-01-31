@@ -477,7 +477,7 @@ class Project_Gantt_Model
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
 				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
 			];
-			$project['number'] = '<a href="' . $project['url'] . '" target="_blank">' . $project['no'] . '</a>';
+			$project['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $project['no'] . '" href="' . $project['url'] . '" target="_blank">' . $project['no'] . '</a>';
 			if (empty($project['parentId'])) {
 				unset($project['parentId']);
 			} else {
@@ -628,7 +628,7 @@ class Project_Gantt_Model
 				'startIsMilestone' => true,
 				'color' => $row['projectmilestone_status'] ? $this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']] : App\Colors::getRandomColor('projectmilestone_status_' . $row['id']),
 			];
-			$milestone['number'] = '<a href="' . $milestone['url'] . '" target="_blank">' . $milestone['no'] . '</a>';
+			$milestone['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $milestone['no'] . '" href="' . $milestone['url'] . '" target="_blank">' . $milestone['no'] . '</a>';
 			if (empty($milestone['parentId'])) {
 				unset($milestone['parentId']);
 			} else {
@@ -703,7 +703,7 @@ class Project_Gantt_Model
 				'module' => 'ProjectTask',
 				'status' => 'STATUS_ACTIVE',
 			];
-			$task['number'] = '<a href="' . $task['url'] . '" target="_blank">' . $task['no'] . '</a>';
+			$task['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $task['no'] . '" href="' . $task['url'] . '" target="_blank">' . $task['no'] . '</a>';
 			if (empty($task['parentId'])) {
 				$parentId = (int) ($row['projectmilestoneid'] ?? $row['projectid']);
 				if ($parentId) {
