@@ -1,7 +1,7 @@
 ---
 name: "\U0001F41EBug report"
 about: Report a bug
-title: ''
+title: '[bug] '
 labels: ''
 assignees: ''
 
@@ -20,22 +20,27 @@ Before you create a new issue, please check out our [manual] (https://yetiforce.
 
 # 🐞 bug report
 
-### ⁉️ Issue
+### ⁉️ Describe the bug
 <!-- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug. -->
 
 <!-- Descriptions can be provided in English or Polish (remember to add [PL] for Polish in the title). -->
 
 <!-- ✍️-->
 
+### 🔥 How to trigger the error
+<!-- If possible, please make a video using [ScreenToGif] (https://screentogif.codeplex.com/) or any other program used for recording actions from your desktop. -->
+
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
 ### 👎 Actual Behavior
 <!-- Describe the result -->
 
 ### 👍 Expected Behavior
 <!-- Describe what you would want the result to be -->
-
-### 🔥 How to trigger the error
-<!-- If possible, please make a video using [ScreenToGif] (https://screentogif.codeplex.com/) or any other program used for recording actions from your desktop. -->
-
 
 ### 📷 Screenshot of configuration
 <!--  Before reporting an issue, check if your server has been properly configured.  
@@ -69,5 +74,7 @@ ex.
 | Operating System (name and version)  | 		|
 | Database (name and version) | 		|
 
+### ❓ Additional context
+Add any other context about the problem here.
 
 <!-- Please check on your issue from time to time, in case we have questions or need some extra information. --->
