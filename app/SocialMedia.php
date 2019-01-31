@@ -107,21 +107,16 @@ class SocialMedia extends Base
 	 *
 	 * @return bool
 	 */
-	public static function isEnableForModule(string $moduleName)
+	public static function isEnableForModule(string $moduleName): bool
 	{
-		$socialMediaConfig = \AppConfig::module($moduleName, 'enable_social');
-		if (false === $socialMediaConfig || empty($socialMediaConfig)) {
-			return false;
-		}
-		if (!is_array($socialMediaConfig)) {
-			throw new \App\Exceptions\AppException("ERR_ILLEGAL_VALUE||$moduleName:ENABLE_SOCIAL");
-		}
-		foreach ($socialMediaConfig as $socialMediaType) {
-			if (in_array($socialMediaType, static::ALLOWED_UITYPE)) {
-				return true;
+		$returnVal = false;
+		foreach (static::ALLOWED_UITYPE as $socialMediaType) {
+			if (in_array($moduleName, \App\Config::component('social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES")))) {
+				$returnVal = true;
+				break;
 			}
 		}
-		return false;
+		return $returnVal;
 	}
 
 	/**
