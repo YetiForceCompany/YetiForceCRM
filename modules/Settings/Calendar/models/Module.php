@@ -36,14 +36,21 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Cache::clear();
 	}
 
-	public static function updateNotWorkingDays($params)
+	/**
+	 * Updates working days.
+	 *
+	 * @param array $params
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return void
+	 */
+	public static function updateNotWorkingDays(array $params)
 	{
-		if (!empty($params['val']) && is_array($params['val'])) {
+		if (!empty($params['val'])) {
 			$value = implode(';', $params['val']);
-		} elseif (!is_array($params['val'])) {
-			$value = $params['val'];
 		} else {
-			$value = null;
+			$value = '';
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $value], ['name' => 'notworkingdays']
 		)->execute();
