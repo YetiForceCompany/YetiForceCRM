@@ -18,7 +18,6 @@
 		<div class="widget_header row align-items-center">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="float-right col-md-4 h3">
 				<select class="select2 form-control" name="quickCreateEditorModules">

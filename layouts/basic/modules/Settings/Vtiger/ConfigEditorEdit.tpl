@@ -16,7 +16,6 @@
 				<div class="row widget_header">
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-						{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
 					<div class="col-md-4 btn-toolbar mt-2">
 						<div class="float-right">

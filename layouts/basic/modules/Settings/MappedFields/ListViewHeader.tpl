@@ -6,7 +6,6 @@
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				{\App\Language::translate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<div class="row align-items-center my-1">

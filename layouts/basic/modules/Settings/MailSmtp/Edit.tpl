@@ -3,9 +3,6 @@
 	<div class="row widget_header">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			{if $RECORD_ID}
-				{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
-			{/if}
 		</div>
 	</div>
 	<div class="editViewContainer">
@@ -14,11 +11,11 @@
 				<h4 class="alert-heading">{\App\Language::translate('LBL_ERROR', $QUALIFIED_MODULE)}</h4>
 				<p></p>
 			</div>
-			<input type="hidden" name="module" value="MailSmtp" />
-			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="SaveAjax" />
-			<input type="hidden" name="mode" value="updateSmtp" />
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="module" value="MailSmtp"/>
+			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" name="action" value="SaveAjax"/>
+			<input type="hidden" name="mode" value="updateSmtp"/>
+			<input type="hidden" name="record" value="{$RECORD_ID}"/>
 			<div class="form-group row mt-3">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
@@ -53,7 +50,7 @@
 					{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="host" placeholder="smtp.gmail.com" value="{$RECORD_MODEL->get('host')}" >
+					<input class="form-control" type="text" name="host" placeholder="smtp.gmail.com" value="{$RECORD_MODEL->get('host')}">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -61,7 +58,7 @@
 					{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="port" placeholder="587" value="{$RECORD_MODEL->get('port')}"  data-validation-engine="validate[custom[integer]]">
+					<input class="form-control" type="text" name="port" placeholder="587" value="{$RECORD_MODEL->get('port')}" data-validation-engine="validate[custom[integer]]">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -69,7 +66,7 @@
 					{\App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input type="checkbox" name="authentication" value="1"  {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
+					<input type="checkbox" name="authentication" value="1" {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -77,7 +74,7 @@
 					{\App\Language::translate('LBL_USERNAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" value="{$RECORD_MODEL->get('username')}" name="username" >
+					<input class="form-control" type="text" value="{$RECORD_MODEL->get('username')}" name="username">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -86,7 +83,7 @@
 				</label>
 				<div class="controls col-md-8">
 					<div class="input-group">
-						<input class="form-control" type="password" value="{App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('password')))}" name="password" >
+						<input class="form-control" type="password" value="{App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('password')))}" name="password">
 						<span class="input-group-append">
 							<button class="btn btn-outline-secondary previewPassword" type="button" data-target-name="password">
 								<span class="fas fa-eye"></span>
@@ -113,7 +110,7 @@
 				</label>
 				<div class="controls col-md-8">
 					<select class="select2 form-control sourceModule col-md-8" name="secure" id="secure">
-						<option  value="">{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
+						<option value="">{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
 						<option {if $RECORD_MODEL->get('secure') eq 'tls'} selected {/if} value="tls">{\App\Language::translate('LBL_TLS', $QUALIFIED_MODULE)}</option>
 						<option {if $RECORD_MODEL->get('secure') eq 'ssl'} selected {/if} value="ssl">{\App\Language::translate('LBL_SSL', $QUALIFIED_MODULE)}</option>
 					</select>
@@ -132,7 +129,7 @@
 					{\App\Language::translate('LBL_FROM_EMAIL', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" value="{$RECORD_MODEL->get('from_email')}" name="from_email"  data-validation-engine="validate[custom[email]]">
+					<input class="form-control" type="text" value="{$RECORD_MODEL->get('from_email')}" name="from_email" data-validation-engine="validate[custom[email]]">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -146,7 +143,7 @@
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
-					<span class="js-popover-tooltip delay0" data-js="popover"  data-placement="top"
+					<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
 						  data-content="{\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE)}">
 						<span class="fas fa-info-circle"></span>
 					</span>
@@ -181,7 +178,7 @@
 						{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" name="smtp_host" placeholder="ssl://imap.gmail.com" value="{$RECORD_MODEL->get('smtp_host')}" >
+						<input class="form-control" type="text" name="smtp_host" placeholder="ssl://imap.gmail.com" value="{$RECORD_MODEL->get('smtp_host')}">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -189,7 +186,7 @@
 						{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" name="smtp_port" placeholder="993" value="{$RECORD_MODEL->get('smtp_port')}"  data-validation-engine="validate[custom[integer]]">
+						<input class="form-control" type="text" name="smtp_port" placeholder="993" value="{$RECORD_MODEL->get('smtp_port')}" data-validation-engine="validate[custom[integer]]">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -197,7 +194,7 @@
 						{\App\Language::translate('LBL_USERNAME', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_username')}" name="smtp_username" >
+						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_username')}" name="smtp_username">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -206,7 +203,7 @@
 					</label>
 					<div class="controls col-md-8">
 						<div class="input-group">
-							<input class="form-control" type="password" value="{App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('smtp_password')))}" name="smtp_password" >
+							<input class="form-control" type="password" value="{App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('smtp_password')))}" name="smtp_password">
 							<span class="input-group-append">
 								<button class="btn btn-outline-secondary previewPassword" type="button" data-target-name="smtp_password">
 									<span class="fas fa-eye"></span>
@@ -215,7 +212,7 @@
 						</div>
 					</div>
 					<div class="controls col-md-8">
-						
+
 					</div>
 				</div>
 				<div class="form-group row">
@@ -223,7 +220,7 @@
 						{\App\Language::translate('LBL_SEND_FOLDER', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_folder')}" placeholder="Send"  name="smtp_folder" >
+						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_folder')}" placeholder="Send" name="smtp_folder">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -237,8 +234,12 @@
 			</div>
 			<div class="row">
 				<div class="col-12 text-center">
-					<button class="btn btn-success" type="submit"><span class="fas fa-check"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-					<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+					<button class="btn btn-success" type="submit">
+						<span class="fas fa-check"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
+					</button>
+					<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+						<span class="fas fa-times"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+					</button>
 				</div>
 			</div>
 		</form>
