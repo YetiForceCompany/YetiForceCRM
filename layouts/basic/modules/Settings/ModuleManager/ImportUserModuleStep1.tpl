@@ -26,7 +26,7 @@
 		{/if}
 		<div class="contents">
 			<div>
-				<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule"
+				<form class="form-horizontal" id="importUserModule" name="importUserModule"
 					  action='index.php' method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="module" value="ModuleManager"/>
 					<input type="hidden" name="moduleAction" value="Import"/>
@@ -34,29 +34,36 @@
 					<input type="hidden" name="view" value="ModuleImport"/>
 					<input type="hidden" name="mode" value="importUserModuleStep2"/>
 					<div name="uploadUserModule">
-						<div class="modal-body tabbable">
-							<div class="tab-content massEditContent">
-								<table class="massEditTable table table-bordered">
-									<tr>
-										<td class="fieldLabel alignMiddle">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</td>
-										<td class="fieldValue">
-											<input type="file" name="moduleZip" id="moduleZip" size="80px"
-												   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-												   data-validator={\App\Json::encode([['name'=>'UploadModuleZip']])}
-											/>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
+						<table class="massEditTable table table-bordered">
+							<thead>
+							<tr class="blockHeader">
+								<th class="fieldLabel">
+									<strong>{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</strong>
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td class="fieldValue">
+									<input type="file" name="moduleZip" id="moduleZip" size="80px"
+										   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+										   data-validator={\App\Json::encode([['name'=>'UploadModuleZip']])}
+									/>
+								</td>
+							</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="modal-footer">
-						<button class="btn btn-success" type="submit" name="saveButton">
-							<strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong>
+					<div class="d-flex justify-content-end">
+						<button class="btn btn-success mr-1" type="submit" name="saveButton">
+							<span class="fas fa-check mr-1"></span>
+							{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}
 						</button>
-						<div class="float-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning"
-							   href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+						<div class="cancelLinkContainer">
+							<button class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</button>
 						</div>
 					</div>
 				</form>

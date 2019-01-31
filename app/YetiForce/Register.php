@@ -69,7 +69,7 @@ class Register
 	 */
 	private static function getCrmKey(): string
 	{
-		return sha1(\AppConfig::main('application_unique_key'));
+		return sha1(\App\Config::main('application_unique_key'));
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Register
 	 */
 	private static function getInstanceKey(): string
 	{
-		return sha1(\AppConfig::main('site_URL') . $_SERVER['SERVER_ADDR']);
+		return sha1(\App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
 	}
 
 	/**

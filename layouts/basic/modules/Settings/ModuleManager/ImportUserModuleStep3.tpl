@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<div class="">
+			<div>
 				<div id="vtlib_modulemanager_import_div">
 					<form method="POST" action="index.php">
 						<table class="table table-bordered">
@@ -59,10 +59,9 @@
 							</tr>
 							</tbody>
 						</table>
-						<div class="modal-footer">
-							<a href="index.php?module=ModuleManager&parent=Settings&view=List"
-							   class="btn btn-success"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></a>
-						</div>
+						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button"
+						   class="btn btn-success"><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						</a>
 					</form>
 				</div>
 			</div>
