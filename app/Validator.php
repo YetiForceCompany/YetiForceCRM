@@ -192,7 +192,7 @@ class Validator
 	 */
 	public static function languageTag(string $input): bool
 	{
-		return $input && explode('-', $input) === explode('_', Locale::acceptFromHttp($input));
+		return $input && explode('-', $input) === explode('_', \Locale::acceptFromHttp($input));
 	}
 
 	/**
