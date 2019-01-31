@@ -26,7 +26,8 @@
 	color: #fff;
 }
 
-.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
+.listViewEntries .listViewEntriesCheckBox,
+.listViewEntriesTable .entryCheckBox {
 	margin: 0;
 	vertical-align: middle;
 	width: 16px;
@@ -122,6 +123,7 @@ td.fieldValue {
 
 .listViewEntriesDiv {
 	position: relative;
+
 	.listViewHeaders th {
 		background-color: $light;
 		background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
@@ -171,6 +173,7 @@ td.fieldValue {
 		.unreviewed .badge {
 			margin-left: 4px;
 		}
+
 		.c-badge__icon {
 			padding: 6px;
 			text-align: center;
@@ -205,6 +208,7 @@ td.fieldValue {
 	display: none;
 	background-color: #fafad2;
 	text-align: center;
+
 	div {
 		width: 100%;
 		top: 0;

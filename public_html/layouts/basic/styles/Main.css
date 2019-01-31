@@ -15165,6 +15165,14 @@ ul.tweets li {
 .u-text-underline {
   text-decoration: underline; }
 
+.u-hover-opacity:hover {
+  opacity: 0.5;
+  -webkit-transition: opacity 275ms ease;
+  -moz-transition: opacity 275ms ease;
+  -ms-transition: opacity 275ms ease;
+  -o-transition: opacity 275ms ease;
+  transition: opacity 275ms ease; }
+
 .u-word-break-all {
   word-break: break-all !important; }
 
@@ -16610,12 +16618,13 @@ ul.tweets li {
   .c-popover--link.bs-popover-bottom .arrow::after, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::after, .c-popover--link.bs-popover-bottom .arrow::before, .c-popover--link.bs-popover-auto[x-placement^="bottom"] .arrow::before {
     border-bottom-color: #f8f9fa; }
   .c-popover--link__header {
+    display: flex;
+    align-items: center;
     border-top-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem; }
     .c-popover--link__header__buttons {
-      float: right !important;
-      margin-top: -0.2rem;
-      margin-left: 5px; }
+      padding-left: .25rem;
+      margin-left: auto; }
 
 .c-circle-icon {
   height: 1.875rem;
@@ -18960,7 +18969,8 @@ input[type="radio"]:checked:before {
   border-color: #337ab7;
   color: #fff; }
 
-.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
+.listViewEntries .listViewEntriesCheckBox,
+.listViewEntriesTable .entryCheckBox {
   margin: 0;
   vertical-align: middle;
   width: 16px;
