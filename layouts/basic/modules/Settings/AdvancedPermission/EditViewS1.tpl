@@ -3,7 +3,6 @@
 	<div class="row widget_header tpl-Settings-AdvancedPermission-EditVewS1">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			{\App\Language::translate('LBL_ADVANCED_PERMISSION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<div class="editViewContainer">

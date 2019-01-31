@@ -4,7 +4,6 @@
 	<div class='widget_header row '>
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-			{App\Language::translate('LBL_EMAILS_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<div class="listViewActionsDiv row">

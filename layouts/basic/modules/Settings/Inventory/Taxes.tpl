@@ -5,7 +5,6 @@
 		<div class="widget_header form-row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-				{\App\Language::translate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<div class="contents form-row">

@@ -4,7 +4,6 @@
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-				<h5>{\App\Language::translate('LBL_TIMECONTROL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}</h5>
 			</div>
 		</div>
 		<ul id="tabs" class="nav nav-tabs mt-1" data-tabs="tabs">

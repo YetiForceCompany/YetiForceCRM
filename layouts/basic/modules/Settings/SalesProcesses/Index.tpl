@@ -4,7 +4,6 @@
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-				{\App\Language::translate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<ul id="tabs" class="nav nav-tabs mt-1 layoutTabs massEditTabs" data-tabs="tabs">

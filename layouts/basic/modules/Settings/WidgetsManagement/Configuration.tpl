@@ -5,7 +5,6 @@
 		<div class="widget_header row align-items-lg-center">
 			<div class="col-md-9">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-3">
 				<div class="float-right col-6 col-md-6 px-0">
