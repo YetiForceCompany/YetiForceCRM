@@ -3,13 +3,10 @@
 	<div class="">
 		<div class="clearfix">
 			<form id="PassForm" class="form-horizontal">
-				<div class="widget_header form-row">
+				<div class="widget_header form-row mb-2">
 					<div class="col-md-12">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 					</div>
-				</div>
-				<div class="badge badge-info my-2">
-						<a>{\App\Language::translate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</a>
 				</div>
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>

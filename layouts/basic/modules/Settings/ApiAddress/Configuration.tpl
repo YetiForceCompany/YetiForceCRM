@@ -10,15 +10,11 @@
 *************************************************************************************************************************************/
 -->*}
 <div id="tpl-Settings-ApiAddress-Configuration menuEditorContainer">
-    <div class="widget_header row">
+    <div class="widget_header row mb-2">
         <div class="col-md-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
     </div>
-	<div class="badge badge-info my-2">
-		{\App\Language::translate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
-	</div>
-    <hr>
 	<div class="main_content">
 		<form>
 			<div class="col-12 form-row m-0">
