@@ -123,15 +123,16 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : CurrentTime)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');
-		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$parserClean
-			->setContent('+ $(general : BaseTimeZone)$ +')
-			->parse()
-			->getContent(), 'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
+		$this->assertSame(
+			'+ ' . (empty($defaultTimeZone = date_default_timezone_get()) ? \App\Config::main('default_timezone') : $defaultTimeZone) . ' +',
+			static::$parserClean->setContent('+ $(general : BaseTimeZone)$ +')->parse()->getContent(),
+			'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
 		$user = \App\User::getCurrentUserModel();
-		$this->assertSame('+ ' . ($user->getDetail('time_zone') ? $user->getDetail('time_zone') : \AppConfig::main('default_timezone')) . ' +', static::$parserClean
-			->setContent('+ $(general : UserTimeZone)$ +')
-			->parse()
-			->getContent(), 'Clean instance: $(general : UserTimeZone)$ should return user timezone');
+		$this->assertSame(
+			'+ ' . ($user->getDetail('time_zone') ? $user->getDetail('time_zone') : \App\Config::main('default_timezone')) . ' +',
+			static::$parserClean->setContent('+ $(general : UserTimeZone)$ +')->parse()->getContent(),
+			'Clean instance: $(general : UserTimeZone)$ should return user timezone'
+		);
 		$currUser = \App\User::getCurrentUserId();
 		\App\User::setCurrentUserId(0);
 		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$parserClean
