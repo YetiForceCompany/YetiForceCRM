@@ -1405,6 +1405,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					thisInstance.lockCheckbox(modalContainer);
 					thisInstance.registerVaribleToParsers(modalContainer);
 					app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
+					modalContainer.find("[data-inputmask]").inputmask();
 				},
 				sendByAjaxCb: (formData, response) => {
 					if (!response.success) {
