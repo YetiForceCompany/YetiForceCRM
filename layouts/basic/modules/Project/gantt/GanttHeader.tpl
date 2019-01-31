@@ -18,7 +18,7 @@
 				<div class="text-center d-inline-flex mr-1 c-gantt-header__option">
 					<label class="mb-0">
 						{\App\Language::translate('LBL_GANTT_ZOOM_X','Project')}
-						<input type="range" min="2" max="24" value="17" class="c-range-slider vertical-align-middle js-gantt-header__range-slider js-gantt-header__range-slider--x">
+						<input type="range" min="2" max="24" value="21" class="c-range-slider vertical-align-middle js-gantt-header__range-slider js-gantt-header__range-slider--x">
 					</label>
 				</div>
 				<div class="text-center d-inline-flex mr-1 c-gantt-header__option">
