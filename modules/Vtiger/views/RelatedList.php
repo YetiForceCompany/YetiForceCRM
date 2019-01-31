@@ -128,13 +128,12 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = (int) $relationListView->getRelatedEntriesCount();
+			$pagingModel->set('totalCount', $totalCount);
+		} else if (!empty($totalCount)) {
+			$pagingModel->set('totalCount', $totalCount);
 		}
-		if (empty($totalCount)) {
-			$totalCount = 0;
-		}
-		$pagingModel->set('totalCount', (int) $totalCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
