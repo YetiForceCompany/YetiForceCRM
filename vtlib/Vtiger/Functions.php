@@ -418,13 +418,13 @@ class Functions
 			}
 		}
 		if (\App\Process::$requestMode === 'API') {
-			throw new \APIException($message, 401);
+			throw new \App\Exceptions\APIException($message, 401);
 		}
 		if (\App\Request::_isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
+			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {
