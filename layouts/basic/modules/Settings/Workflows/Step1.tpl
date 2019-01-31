@@ -226,6 +226,7 @@
 											<input type="text" class="clockPicker form-control"
 												   data-format="{$USER_MODEL->get('hour_format')}"
 												   name="schtime" value="{if !empty($SCHTIME)}{$SCHTIME}{/if}"
+												   autocomplete="off"
 												   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 											<div class="input-group-append">
 												<span class="input-group-text u-cursor-pointer js-clock__btn"

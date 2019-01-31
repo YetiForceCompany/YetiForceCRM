@@ -83,7 +83,7 @@
 			<span class="col-md-3">{\App\Language::translate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-9">
 				<div class="input-group time">
-					<input type="text" class="clockPicker form-control" data-format="{$timeFormat}"
+					<input type="text" class="clockPicker form-control" data-format="{$timeFormat}" autocomplete="off"
 						   value="{$START_TIME}" name="startTime"/>
 					<div class="input-group-append">
 						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
@@ -130,7 +130,8 @@
 			<div class="col-md-3">{\App\Language::translate('LBL_END_TIME',$QUALIFIED_MODULE)}</div>
 			<div class="col-md-9">
 				<div class="input-group time">
-					<input type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime"/>
+					<input type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime"
+						   autocomplete="off"/>
 					<div class="input-group-append">
 						<div class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>

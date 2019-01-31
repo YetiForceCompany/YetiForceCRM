@@ -85,7 +85,7 @@
 					{else}
 						{assign var=TIME value=App\Fields\Time::formatToDisplay('')}
 					{/if}
-					<input type="text" class="clockPicker form-control" value="{$TIME}" name="time"/>
+					<input type="text" class="clockPicker form-control" value="{$TIME}" name="time" autocomplete="off"/>
 					<div class="input-group-append">
 						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
