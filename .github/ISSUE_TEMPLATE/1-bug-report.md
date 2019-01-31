@@ -1,8 +1,8 @@
 ---
 name: "\U0001F41EBug report"
 about: Report a bug
----
 
+---
 <!--🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅
 
 Oh hi there! 😄
@@ -23,7 +23,7 @@ Before you create a new issue, please check out our [manual] (https://yetiforce.
 
 <!-- ✍️-->
 
-### 👎  Actual Behavior
+### 👎 Actual Behavior
 <!-- Describe the result -->
 
 ### 👍 Expected Behavior
@@ -33,7 +33,7 @@ Before you create a new issue, please check out our [manual] (https://yetiforce.
 <!-- If possible, please make a video using [ScreenToGif] (https://screentogif.codeplex.com/) or any other program used for recording actions from your desktop. -->
 
 
-### 👓 Screenshot of configuration
+### 📷 Screenshot of configuration
 <!--  Before reporting an issue, check if your server has been properly configured.  Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
 
 ### 📝 PHP/Apache/Nginx/Browser/CRM Logs
