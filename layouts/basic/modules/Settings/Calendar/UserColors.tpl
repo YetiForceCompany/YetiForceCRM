@@ -44,7 +44,7 @@
 							</td>
 							<td>
 								<div class="col-md-4">
-									<select class="select2 workignDaysField float-left" multiple
+									<select class="select2 workignDaysField float-left" multiple="multiple"
 											id="update_workingdays" name="notworkingdays"
 											data-metod="updateNotWorkingDays">
 										<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{\App\Language::translate(PLL_MONDAY,$QUALIFIED_MODULE)}</option>
