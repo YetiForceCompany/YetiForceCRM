@@ -338,94 +338,119 @@ App.Fields = {
 			 * @param {Object} customConfig custom configurations for ckeditor
 			 */
 			loadEditor(element, customConfig) {
-				this.setElement(element);
-				const instance = this.getEditorInstanceFromName();
-				let config = {
-					language: CONFIG.langKey,
-					allowedContent: true,
-					removeButtons: '',
-					scayt_autoStartup: false,
-					enterMode: CKEDITOR.ENTER_BR,
-					shiftEnterMode: CKEDITOR.ENTER_P,
-					emojiEnabled: false,
-					mentionsEnabled: false,
-					on: {
-						instanceReady: function (evt) {
-							evt.editor.on('blur', function () {
-								evt.editor.updateElement();
-							});
-						}
-					},
-					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
-					toolbar: 'Full',
-					toolbar_Full: [
-						{
-							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-						},
-						{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
-						{name: 'links', items: ['Link', 'Unlink']},
-						{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
-						{name: 'tools', items: ['Maximize', 'ShowBlocks']},
-						{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
-						{name: 'document', items: ['Source', 'Print']},
-						'/',
-						{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-						{
-							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
-						},
-						{name: 'colors', items: ['TextColor', 'BGColor']},
-						{
-							name: 'paragraph',
-							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-						},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
-					],
-					toolbar_Min: [
-						{
-							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike']
-						},
-						{name: 'colors', items: ['TextColor', 'BGColor']},
-						{name: 'tools', items: ['Maximize']},
-						{
-							name: 'paragraph',
-							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-						},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
-					],
-					toolbar_Clipboard: [
-						{name: 'document', items: ['Print']},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-						{
-							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-						}
-					]
-				};
-				if (typeof customConfig !== "undefined") {
-					config = $.extend(config, customConfig);
+				if (!element.length) {
+					return;
 				}
-				config = Object.assign(config, element.data());
-				if (config.emojiEnabled) {
-					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
-					if (typeof config.toolbar === 'string') {
-						config[`toolbar_${config.toolbar}`].push(emojiToolbar);
-					} else if (Array.isArray(config.toolbar)) {
-						config.toolbar.push(emojiToolbar);
+				let isModal = element.closest('.js-modal-container').length;
+				if (isModal) {
+					var progressInstance = jQuery.progressIndicator({
+						blockInfo: {
+							enabled: true,
+							onBlock: () => {
+								loadEditor();
+							}
+						},
+					});
+				}
+				let loadEditor = () => {
+					this.setElement(element);
+					const instance = this.getEditorInstanceFromName();
+					let config = {
+						language: CONFIG.langKey,
+						allowedContent: true,
+						removeButtons: '',
+						scayt_autoStartup: false,
+						enterMode: CKEDITOR.ENTER_BR,
+						shiftEnterMode: CKEDITOR.ENTER_P,
+						emojiEnabled: false,
+						mentionsEnabled: false,
+						on: {
+							instanceReady: function (evt) {
+								evt.editor.on('blur', function () {
+									evt.editor.updateElement();
+								});
+								if (isModal) {
+									progressInstance.progressIndicator({mode: 'hide'});
+								}
+							}
+						},
+						extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+						toolbar: 'Full',
+						toolbar_Full: [
+							{
+								name: 'clipboard',
+								items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+							},
+							{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+							{name: 'links', items: ['Link', 'Unlink']},
+							{
+								name: 'insert',
+								items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
+							},
+							{name: 'tools', items: ['Maximize', 'ShowBlocks']},
+							{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
+							{name: 'document', items: ['Source', 'Print']},
+							'/',
+							{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+							{
+								name: 'basicstyles',
+								items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+							},
+							{name: 'colors', items: ['TextColor', 'BGColor']},
+							{
+								name: 'paragraph',
+								items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+							},
+							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+						],
+						toolbar_Min: [
+							{
+								name: 'basicstyles',
+								items: ['Bold', 'Italic', 'Underline', 'Strike']
+							},
+							{name: 'colors', items: ['TextColor', 'BGColor']},
+							{name: 'tools', items: ['Maximize']},
+							{
+								name: 'paragraph',
+								items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+							},
+							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+						],
+						toolbar_Clipboard: [
+							{name: 'document', items: ['Print']},
+							{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+							{
+								name: 'clipboard',
+								items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+							}
+						]
+					};
+					if (typeof customConfig !== "undefined") {
+						config = $.extend(config, customConfig);
 					}
-					config.extraPlugins = config.extraPlugins + ',emoji'
-					config.outputTemplate = '{id}';
+					config = Object.assign(config, element.data());
+					if (config.emojiEnabled) {
+						let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
+						if (typeof config.toolbar === 'string') {
+							config[`toolbar_${config.toolbar}`].push(emojiToolbar);
+						} else if (Array.isArray(config.toolbar)) {
+							config.toolbar.push(emojiToolbar);
+						}
+						config.extraPlugins = config.extraPlugins + ',emoji'
+						config.outputTemplate = '{id}';
+					}
+					if (config.mentionsEnabled) {
+						config.extraPlugins = config.extraPlugins + ',mentions'
+						config.mentions = this.registerMentions();
+					}
+					if (instance) {
+						CKEDITOR.remove(instance);
+					}
+					element.ckeditor(config);
 				}
-				if (config.mentionsEnabled) {
-					config.extraPlugins = config.extraPlugins + ',mentions'
-					config.mentions = this.registerMentions();
+				if (!isModal) {
+					loadEditor();
 				}
-				if (instance) {
-					CKEDITOR.remove(instance);
-				}
-				element.ckeditor(config);
 			}
 
 			/**
