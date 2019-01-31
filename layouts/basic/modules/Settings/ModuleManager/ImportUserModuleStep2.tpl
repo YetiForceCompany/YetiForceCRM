@@ -24,19 +24,14 @@
 						<input type="hidden" name="parent" value="Settings"/>
 						{if $MODULEIMPORT_ERROR neq ''}
 							<div class="alert alert-warning">
-								<div class="modal-header">
-									<h3>{\App\Language::translate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
-								</div>
-								<div class="modal-body">
-									<p><b>{\App\Language::translate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
-								</div>
-								<div class="">
-									<input type="hidden" name="view" value="List">
-									<button class="btn btn-success" type="submit">
-										<strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong>
-									</button>
-								</div>
+								<h4 class="alert-heading">{\App\Language::translate('LBL_FAILED', $QUALIFIED_MODULE)}</h4>
+								<p>{\App\Language::translate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</p>
+								<input type="hidden" name="view" value="List">
 							</div>
+							<button class="btn btn-success float-right" type="submit">
+								<span class="fas fa-check mr-1"></span>
+								{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+							</button>
 						{else}
 							<table class="table table-bordered">
 								<thead>
