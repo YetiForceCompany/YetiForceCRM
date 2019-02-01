@@ -574,13 +574,19 @@
 	}
 }
 
-.u-before-block:before {
-	content: '';
-	display: block;
+.u-table-column__before-block {
+	&--inventory {
+		width: 1%;
+	}
+
+	&:before {
+		content: '';
+		display: block;
+	}
 }
 
 @for $i from 1 through 100 {
-	.u-table-column-vw-#{$i} {
+	.u-table-column__vw-#{$i} {
 		&:before {
 			width: #{$i}vw;
 		}
