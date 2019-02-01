@@ -72,7 +72,7 @@
 															label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
-																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewSelectColumnName())}
+																{append var="MANDATORY_FIELDS" value=$FIELD_MODEL->getCustomViewSelectColumnName()}
 															{/if}
 															{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}"
