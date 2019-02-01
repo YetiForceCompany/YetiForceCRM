@@ -318,20 +318,19 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$replaceNew = $treeRow['new'];
 			array_walk($replaceNew, function (&$item) {
-				$item = "T{$item}";
+				$item = "T{$item},";
 			});
 			$replaceOld = $treeRow['old'];
 			array_walk($replaceOld, function (&$item) {
-				$item = "T{$item}";
+				$item = "T{$item},";
 			});
 			$dataReaderTree = $query->createCommand()->query();
 			while ($rowTree = $dataReaderTree->read()) {
-				$dbCommand ->
-					->update(
-						$tableName,
-						[$columnName => str_replace($replaceOld, $replaceNew, $rowTree[$columnName])],
-						[$columnName => $rowTree[$columnName]]
-					)->execute();
+				$dbCommand->update(
+					$tableName,
+					[$columnName => str_replace($replaceOld, $replaceNew, $rowTree[$columnName])],
+					[$columnName => $rowTree[$columnName]]
+				)->execute();
 			}
 			$dataReaderTree->close();
 		}
