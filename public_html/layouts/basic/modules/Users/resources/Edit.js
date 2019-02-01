@@ -95,10 +95,10 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger('change');
 		});
 	},
-	triggerHourFormatChangeEvent: function (form) {
-		this.hourFormatConditionMapping = jQuery('input[name="timeFormatOptions"]', form).data('value');
+	triggerHourFormatChangeEvent(form) {
+		this.hourFormatConditionMapping = $('input[name="timeFormatOptions"]', form).data('value');
 		this.changeStartHourValuesEvent(form);
-		jQuery('select[name="hour_format"]', form).trigger('change');
+		$('select[name="hour_format"]', form).trigger('change');
 	},
 	/**
 	 * Function to register recordpresave event
@@ -128,8 +128,8 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 					}
 				})
 				.fail(function (data, error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				e.preventDefault();
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					e.preventDefault();
 				});
 		});
 	},
