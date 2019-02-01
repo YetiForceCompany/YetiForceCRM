@@ -56,7 +56,7 @@ class Country
 		];
 		foreach (\array_unique($languagesToCheck) as $language) {
 			$languageStrings = \App\Language::getFromFile('Other/Country', $language);
-			if ($changedCountryName = \array_search(trim($countryName), $languageStrings['php'])) {
+			if (!empty($languageStrings['php']) && $changedCountryName = \array_search(trim($countryName), $languageStrings['php'])) {
 				return $changedCountryName;
 			}
 		}
