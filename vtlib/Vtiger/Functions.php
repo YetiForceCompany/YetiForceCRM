@@ -418,7 +418,7 @@ class Functions
 			}
 		}
 		if (\App\Process::$requestMode === 'API') {
-			throw new \App\Exceptions\APIException($message, 401);
+			throw new \App\Exceptions\ApiException($message, 401);
 		}
 		if (\App\Request::_isAjax()) {
 			$response = new \Vtiger_Response();

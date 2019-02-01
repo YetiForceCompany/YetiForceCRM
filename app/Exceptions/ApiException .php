@@ -1,6 +1,6 @@
 <?php
 /**
- * APIException represents a database error.
+ * ApiException  represents a database error.
  *
  *
  * @package   Exceptions
@@ -13,8 +13,8 @@
 namespace App\Exceptions;
 
 /**
- * Class APIException.
+ * Class ApiException .
  */
-class APIException extends AppException
+class ApiException extends AppException
 {
 }
