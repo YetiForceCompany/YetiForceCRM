@@ -12,6 +12,15 @@ namespace Tests\App;
 class Purifier extends \Tests\Base
 {
 	/**
+	 * @codeCoverageIgnore
+	 * Setting of tests.
+	 */
+	public static function setUpBeforeClass()
+	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+	}
+
+	/**
 	 * Provide data for purifyByType test cases.
 	 *
 	 * @codeCoverageIgnore
