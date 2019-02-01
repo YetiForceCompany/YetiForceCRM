@@ -10,10 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Users-EditView -->
 	{assign var=QUALIFIED_MODULE value={$MODULE_NAME}}
 	{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', $MODULE)}
-	<input type="hidden" name="isPreference" value="{$IS_PREFERENCE}" />
-	<input type="hidden" name="timeFormatOptions" data-value="{\App\Purifier::encodeHtml($DAY_STARTS)}" />
+	<input type="hidden" name="isPreference" value="{$IS_PREFERENCE}"/>
+	<input type="hidden" name="timeFormatOptions" data-value="{\App\Purifier::encodeHtml($DAY_STARTS)}"/>
 	{include file=\App\Layout::getTemplatePath('EditViewActions.tpl', $MODULE)}
+	<!-- /tpl-Users-EditView -->
 {/strip}
 
