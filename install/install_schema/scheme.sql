@@ -130,7 +130,6 @@ CREATE TABLE `a_yf_pdf` (
   `primary_name` varchar(255) NOT NULL,
   `secondary_name` varchar(255) NOT NULL,
   `meta_author` varchar(255) NOT NULL,
-  `meta_creator` varchar(255) NOT NULL,
   `meta_keywords` varchar(255) NOT NULL,
   `metatags_status` tinyint(1) NOT NULL,
   `meta_subject` varchar(255) NOT NULL,

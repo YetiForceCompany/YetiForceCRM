@@ -61,7 +61,6 @@ class Pdf extends \Tests\Base
 		$pdfModel->set('watermark_angle', 0);
 		$pdfModel->set('watermark_image', '');
 		$pdfModel->set('template_members', '');
-		$pdfModel->set('meta_creator', '');
 		\Settings_PDF_Record_Model::save($pdfModel, 'import');
 		$this->assertSame((int) (new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
