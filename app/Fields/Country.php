@@ -40,4 +40,26 @@ class Country
 
 		return $rows;
 	}
+
+	/**
+	 * Return correct key value of given country in user language.
+	 *
+	 * @param $countryName
+	 *
+	 * @return string
+	 */
+	public static function getCountryName(string $countryName): string
+	{
+		$languagesToCheck = [
+			\App\Language::getLanguage(),
+			\App\Config::main('default_language')
+		];
+		foreach (\array_unique($languagesToCheck) as $language) {
+			$languageStrings = \App\Language::getFromFile('Other/Country', $language);
+			if ($changedCountryName = \array_search(trim($countryName), $languageStrings['php'])) {
+				return $changedCountryName;
+			}
+		}
+		return $countryName;
+	}
 }
