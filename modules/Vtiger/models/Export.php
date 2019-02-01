@@ -63,7 +63,7 @@ class Vtiger_Export_Model extends \App\Base
 		if ($exportType === 'csv') {
 			$componentName = 'Export';
 		} else {
-			$componentName = "ExportTo{$exportType}";
+			$componentName = 'ExportTo' . ucfirst($exportType);
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
 		return new $modelClassName();
@@ -118,6 +118,8 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function exportData()
 	{
+		echo 'test';
+		die();
 		$module = $this->moduleName;
 		$query = $this->getExportQuery();
 		$headers = [];
