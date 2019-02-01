@@ -106,7 +106,7 @@
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
 							<th {if !$FIELD->isEditable()}colspan="0"{/if}
-								class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} u-before-block{if $FIELD->get('colSpan') neq 0 } u-table-column-vw-{$FIELD->get('colSpan')}{/if} text-center text-nowrap">
+								class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} u-table-column__before-block u-table-column__before-block--inventory{if $FIELD->get('colSpan') neq 0 } u-table-column__vw-{$FIELD->get('colSpan')}{/if} text-center text-nowrap">
 								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
 							</th>
 						{/foreach}

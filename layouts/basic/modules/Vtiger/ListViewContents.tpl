@@ -44,7 +44,7 @@
 					{else}
 						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 					{/if}
-					<th class="noWrap p-2 u-before-block{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))} u-table-column-vw-{$LISTVIEW_HEADER->get('maxwidthcolumn')}{/if}{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME} columnSorted{/if}">
+					<th class="noWrap p-2 u-table-column__before-block{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))} u-table-column__vw-{$LISTVIEW_HEADER->get('maxwidthcolumn')}{/if}{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME} columnSorted{/if}">
 						<a href="javascript:void(0);" class="listViewHeaderValues float-left js-listview_header" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER_NAME}">
 							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
 								{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;

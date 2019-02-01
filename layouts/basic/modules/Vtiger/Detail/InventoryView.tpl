@@ -38,7 +38,7 @@
 				<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<th class="textAlignCenter u-before-block{if $FIELD->get('colSpan') neq 0 } u-table-column-vw-{$FIELD->get('colSpan')}{/if}">
+						<th class="textAlignCenter u-table-column__before-block u-table-column__before-block--inventory{if $FIELD->get('colSpan') neq 0 } u-table-column__vw-{$FIELD->get('colSpan')}{/if}">
 							{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
 						</th>
 					{/foreach}
