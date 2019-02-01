@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Detail-FullContents -->
+	<!-- tpl-Users-Detail-FullContents -->
 	<input type="hidden" name="timeFormatOptions" data-value="{\App\Purifier::encodeHtml($DAY_STARTS)}"/>
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='DetailTop'}
@@ -9,5 +9,5 @@
 		{include file=\App\Layout::getTemplatePath('Detail/InventoryView.tpl', $MODULE_NAME) MODULE_NAME=$MODULE_NAME}
 	{/if}
 	{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='DetailBottom'}
-	<!-- /tpl-Detail-FullContents -->
+	<!-- /tpl-Users-Detail-FullContents -->
 {/strip}
