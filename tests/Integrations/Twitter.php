@@ -56,7 +56,7 @@ class Twitter extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
-		\App\Config::set('component', 'social', 'TWITTER_ENABLE_FOR_MODULES', ['Contacts']);
+		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', ['Contacts']);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
@@ -79,11 +79,11 @@ class Twitter extends \Tests\Base
 	public function testConfigModule()
 	{
 		$this->assertTrue(
-			\is_array(\App\Config::component('social', 'TWITTER_ENABLE_FOR_MODULES')),
+			\is_array(\App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES')),
 			'Module Contacts not configured for social media'
 		);
 		$this->assertTrue(
-			\in_array('Contacts', \App\Config::component('social', 'TWITTER_ENABLE_FOR_MODULES')),
+			\in_array('Contacts', \App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES')),
 			'Module Contacts not configured for social media'
 		);
 	}
@@ -289,7 +289,7 @@ class Twitter extends \Tests\Base
 	 */
 	public static function tearDownAfterClass()
 	{
-		\App\Config::set('component', 'social', 'TWITTER_ENABLE_FOR_MODULES', []);
+		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', []);
 		foreach (static::$twitterFields as $fieldModel) {
 			$fieldModel->delete();
 		}

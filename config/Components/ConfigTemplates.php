@@ -214,7 +214,7 @@ return [
 			'sanitization' => '\App\Purifier::bool'
 		],
 	],
-	'social' => [
+	'Social' => [
 		'TWITTER_ENABLE_FOR_MODULES' => [
 			'default' => [],
 			'description' => 'List of modules for which Twitter has been enabled.',
