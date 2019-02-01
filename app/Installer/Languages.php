@@ -27,7 +27,7 @@ class Languages
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			return [];
 		}
-		$endpoint = \AppConfig::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
+		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
 			$response = (new \GuzzleHttp\Client())->request('GET', "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json", \App\RequestHttp::getOptions());
@@ -53,7 +53,7 @@ class Languages
 	 *
 	 * @param string $prefix
 	 *
-	 * @return array
+	 * @return bool true if success
 	 */
 	public static function download(string $prefix)
 	{
@@ -61,7 +61,7 @@ class Languages
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			return false;
 		}
-		$endpoint = \AppConfig::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
+		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/{$prefix}.zip";
 		$path = \App\Fields\File::getTmpPath() . $prefix . '.zip';
 		$status = false;
