@@ -53,7 +53,7 @@
 						{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 						{assign var="PREFIX" value='inventory_'}
 						{assign var="INVENTORY_FIELDS" value=Vtiger_Inventory_Model::getInstance($FOR_MODULE)->getAllColumns()}
-						{array_push($INVENTORY_FIELDS, 'recordIteration')}
+						{append var="INVENTORY_FIELDS" value="recordIteration"}
 					{else}
 						{assign var="TYPE_AVAILABLE_BLOCKS" value=$AVAILABLE_BLOCKS}
 						{assign var="PREFIX" value=''}
