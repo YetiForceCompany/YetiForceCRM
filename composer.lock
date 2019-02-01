@@ -2833,16 +2833,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "51d4790c75b2709ef87a60a9cf8348f47808040b"
+                "reference": "790d8c6ff0fd3bd2e8648b75db605e4ad8bdcacb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/51d4790c75b2709ef87a60a9cf8348f47808040b",
-                "reference": "51d4790c75b2709ef87a60a9cf8348f47808040b",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/790d8c6ff0fd3bd2e8648b75db605e4ad8bdcacb",
+                "reference": "790d8c6ff0fd3bd2e8648b75db605e4ad8bdcacb",
                 "shasum": ""
             },
             "require": {
@@ -2872,7 +2872,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-01-31T09:32:46+00:00"
+            "time": "2019-02-01T12:28:29+00:00"
         },
         {
             "name": "yetiforce/yii2",
