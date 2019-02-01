@@ -776,6 +776,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformDatetime($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'date' && $fieldValue !== '') {
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
+			} elseif ($fieldInstance->getFieldDataType() === 'country' && $fieldValue !== '') {
+				$fieldData[$fieldName] = \App\Fields\Country::getCountryName($fieldValue);
 			}
 		}
 		return $fieldData;
