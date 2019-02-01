@@ -111,7 +111,7 @@ class SocialMedia extends Base
 	{
 		$returnVal = false;
 		foreach (static::ALLOWED_UITYPE as $socialMediaType) {
-			if (in_array($moduleName, \App\Config::component('social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES")))) {
+			if (in_array($moduleName, \App\Config::component('Social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES")))) {
 				$returnVal = true;
 				break;
 			}
