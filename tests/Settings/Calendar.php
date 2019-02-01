@@ -44,7 +44,10 @@ class Calendar extends \Tests\Base
 	 */
 	public function testGetPicklistValue()
 	{
-		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype'=>'UnitTestCalendar', 'presence'=>1, 'picklist_valueid'=>99999, 'sortorderid' => 99, 'color'=>'A0B584'])->execute();
+		\App\Db::getInstance()->createCommand()->insert(
+			'vtiger_activitytype',
+			['activitytype' => 'UnitTestCalendar', 'presence' => 1, 'picklist_valueid' => 99999, 'sortorderid' => 99, 'color' => 'A0B584']
+		)->execute();
 		\App\Cache::clear();
 		$this->assertGreaterThan(0, (count(\Settings_Calendar_Module_Model::getPicklistValue())), 'Calendar activity type picklist is empty');
 	}
@@ -66,10 +69,8 @@ class Calendar extends \Tests\Base
 			}
 		}
 		$this->assertTrue($found, 'Calendar config option not found');
-
-		$referenceNotWorkingDays = [];
-		\Settings_Calendar_Module_Model::updateNotWorkingDays(['val' => $referenceNotWorkingDays]);
+		\Settings_Calendar_Module_Model::updateNotWorkingDays(['val' => []]);
 		$result = \Settings_Calendar_Module_Model::getNotWorkingDays();
-		$this->assertSame($result, $referenceNotWorkingDays, 'Not working days should be empty');
+		$this->assertSame($result, [''], 'Not working days should be empty');
 	}
 }
