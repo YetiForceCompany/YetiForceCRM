@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="tpl-Settings-ModuleManager-ImportUserModuleStep3 importModules">
+	<div class="tpl-Settings-ModuleManager-ImportUserModuleStep3" id="importModules">
 		<div class='widget_header row '>
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -52,7 +52,7 @@
 										{else if $IMPORT_MODULE_TYPE eq 'font'}
 											{\App\Language::translate('LBL_IMPORTED_FONT', $QUALIFIED_MODULE)}
 										{else}
-											{\App\Language::translate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
+											{\App\Language::translateArgs('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
 										{/if}
 									{/if}
 								</td>
@@ -60,7 +60,8 @@
 							</tbody>
 						</table>
 						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button"
-						   class="btn btn-success"><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						   class="btn btn-success"><span
+									class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
 						</a>
 					</form>
 				</div>
