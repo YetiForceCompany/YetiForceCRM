@@ -118,8 +118,6 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function exportData()
 	{
-		echo 'test';
-		die();
 		$module = $this->moduleName;
 		$query = $this->getExportQuery();
 		$headers = [];
