@@ -112,7 +112,7 @@
 							{/if}
 						</div>
 					</div>
-					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
+					{if in_array($FIELD_MODEL->getFieldDataType(),['string','currency','url','integer','double'])}
 					<div>
 						<div class="form-group">
 							<label for="fieldMask"><strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong></label>

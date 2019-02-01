@@ -93,10 +93,14 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 			var group = field.closest('.input-group');
 			var phoneCountryList = group.find('.phoneCountryList');
 			field.attr('readonly', true);
+			let moduleName = form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName();
+			if (moduleName === 'LayoutEditor') {
+				moduleName = $('#selectedModuleName').val();
+			}
 			AppConnector.request({
 				async: false,
 				data: {
-					module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
+					module: moduleName,
 					action: 'Fields',
 					mode: 'verifyPhoneNumber',
 					fieldName: fieldInfo.name,
@@ -115,7 +119,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					}
 				}
 				field.attr('readonly', false);
-			});
+			})
 		}
 		return result;
 	}
