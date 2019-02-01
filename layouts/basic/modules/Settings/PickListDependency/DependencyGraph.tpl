@@ -59,7 +59,7 @@
 		{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
 		{assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
 		{foreach item=MAPPING from=$MAPPED_VALUES}
-			{assign var=value value=array_push($MAPPED_SOURCE_PICKLIST_VALUES, $MAPPING['sourcevalue'])}
+			{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
 			{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
 		{/foreach}
 		<input type="hidden" class="allSourceValues"

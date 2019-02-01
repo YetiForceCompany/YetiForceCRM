@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Settings-Profiles-DetailView -->
 	<div class="">
 		<div class="widget_header row">
 			<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}</div>
@@ -181,7 +182,7 @@
 											{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
 											{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
 												{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
-													{assign var="testArray" array_push($ALL_UTILITY_ACTIONS_ARRAY,$ACTION_MODEL)}
+													{append var="ALL_UTILITY_ACTIONS_ARRAY" value=$ACTION_MODEL}
 												{/if}
 											{/foreach}
 											{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
@@ -210,4 +211,5 @@
 						</div>
 						<br />
 					</div>
+					<!-- /tpl-Settings-Profiles-DetailView -->
 					{/strip}
