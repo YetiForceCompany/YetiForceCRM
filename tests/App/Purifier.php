@@ -42,6 +42,11 @@ class Purifier extends \Tests\Base
 	public static $hourFormat;
 
 	/**
+	 * @var string Timezone.
+	 */
+	public static $timeZone;
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
@@ -56,6 +61,7 @@ class Purifier extends \Tests\Base
 		static::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
 		static::$hourFormat = $userModel->getDetail('hour_format');
 		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
+		static::$timeZone = $userModel->getDetail('time_zone');
 		$userRecordModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userRecordModel->set('currency_decimal_separator', '.');
 		$userRecordModel->set('currency_grouping_separator', ' ');
@@ -64,6 +70,7 @@ class Purifier extends \Tests\Base
 		$userRecordModel->set('no_of_currency_decimals', '2');
 		$userRecordModel->set('truncate_trailing_zeros', 1);
 		$userRecordModel->set('hour_format', '24');
+		$userRecordModel->set('time_zone', date_default_timezone_get());
 		$userRecordModel->save();
 	}
 
@@ -207,6 +214,7 @@ class Purifier extends \Tests\Base
 		$userModel->set('no_of_currency_decimals', static::$decimalNum);
 		$userModel->set('truncate_trailing_zeros', static::$truncateTrailingZeros);
 		$userModel->set('hour_format', static::$hourFormat);
+		$userModel->set('time_zone', static::$timeZone);
 		$userModel->save();
 		parent::tearDownAfterClass();
 	}
