@@ -74,7 +74,7 @@ class Purifier extends \Tests\Base
 			$userModel->getDetail('time_zone'),
 			date('H:i'),
 			$userModel->getDetail('date_format'),
-			'gggggggggggg',
+			'gggggggggggg----',
 			\App\Fields\DateTime::getTimeZone(),
 			\AppConfig::main('default_timezone'),
 			//$rr,
