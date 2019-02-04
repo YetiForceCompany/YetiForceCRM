@@ -132,23 +132,22 @@
 		<div class="js-comment-container  d-flex flex-wrap justify-content-between align-items-center m-0"
 			 data-js="hide|show">
 			{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-			<div class="js-edited-status edited-status" name="editStatus" data-js="class: d-none">
+			<div class="js-edited-status edited-status w-100" name="editStatus" data-js="class: d-none">
 				<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-edit-reason text-muted" data-js="class: d-none">
-					<p>
-						<small>
+					<p class="d-flex flex-wrap small">
+						<span>
 							[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
-							<span name="editReason" class="js-edit-reason-span u-text-ellipsis ml-1" data-js="text">
+
+							<span name="editReason" class="js-edit-reason-span ml-1" data-js="text">
 								{nl2br($REASON_TO_EDIT)}
 							</span>
-						</small>
+							</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-							<span class="d-block text-muted">
-								<small>
-									<em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
-								</small>&nbsp;
-								<small class="js-comment-modified-time commentModifiedTime" data-js="html">
+							<span class="ml-auto">
+									<em class="mr-1">{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
+								<span class="js-comment-modified-time commentModifiedTime" data-js="html">
 									{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
-								</small>
+								</span>
 							</span>
 						{/if}
 					</p>
