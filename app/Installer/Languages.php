@@ -34,11 +34,11 @@ class Languages
 			if ($response->getStatusCode() === 200) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
-					foreach ($body as $prefix) {
-						$languages[$prefix] = [
+					foreach ($body as $prefix => $row) {
+						$languages[$prefix] = \array_merge($row, [
 							'name' => \App\Language::getDisplayName($prefix),
 							'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$prefix}")
-						];
+						]);
 					}
 				}
 			}

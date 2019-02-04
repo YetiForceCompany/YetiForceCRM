@@ -63,7 +63,7 @@
     "LBL_STEP6_DESCRIPTION": "Geben Sie die Details Ihres Unternehmens ein. Das Ausfüllen des Formulars ist eine Verpflichtung, die sich aus der Lizenz ergibt. \r\nDaten, die über das Anmeldeformular erhoben werden, werden niemals an Dritte weitergegeben. \r\nDank der gesammelten Informationen sind wir in der Lage, die Anpassungen an YetiForce besser zu planen, so dass unser System bei den täglichen Aufgaben noch besser wird.",
     "LBL_STEP7_DESCRIPTION": "Die Installation läuft gerade, bitte haben Sie Geduld. \r\nIn der Zwischenzeit empfehlen wir Ihnen, die wichtigsten Informationen über unser System zu lesen:",
     "LBL_WELCOME": "Willkommen",
-    "LBL_ZLIB_SUPPORT": "Zlib Support",
+    "LBL_ZLIB_SUPPORT": "Zlib Unterstützung",
     "MSG_DB_PARAMETERS_INVALID": "Angegebener Datenbank-Benutzer, -Passwort, -Hostname, -Datenbanktyp oder -Port ist ungültig",
     "MSG_DB_ROOT_USER_NOT_AUTHORIZED": "Nachricht: Angegebener Datenbank Root-Benutzer hat keine Berechtigung für die Erstellung der Datenbank oder der Datenbankname enthält Sonderzeichen. Ändern Sie die Datenbankeinstellungen",
     "MSG_DB_USER_NOT_AUTHORIZED": "Der angegebene Datenbankbenutzer hat keinen Zugriff auf den Datenbankserver auf dem Host",
