@@ -13,7 +13,10 @@
 		 bootstrap="bootstrap.php"
 		 timeoutForLargeTests="1000">
 	<testsuites>
-		<file>./App/Purifier.php</file>
+		<testsuite name="MyTest">
+			<file>./App/Purifier.php</file>
+		</testsuite>
+
 		<!--<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
