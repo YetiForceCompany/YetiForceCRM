@@ -114,14 +114,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param array  $tree
 	 * @param int    $depth
-	 * @param string $parenttrre
+	 * @param string $parentTree
 	 */
 	public function insertData($tree, $depth, $parentTree)
 	{
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = (int) $tree['icon'] === 1 ? '' : $tree['icon'];
+		$icon = (int)$tree['icon'] === 1 ? '' : $tree['icon'];
 		if ($parentTree != '') {
 			$parentTree = $parentTree . '::';
 		}
@@ -170,11 +170,11 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$treeValue = $treeValue ? explode(',', $treeValue) : [];
 		while ($row = $dataReader->read()) {
-			$treeID = (int) str_replace('T', '', $row['tree']);
+			$treeID = (int)str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
 			$parentTree = substr($row['parentTree'], 0, -$cut);
 			$pieces = explode('::', $parentTree);
-			$parent = (int) str_replace('T', '', end($pieces));
+			$parent = (int)str_replace('T', '', end($pieces));
 			$icon = false;
 			if (!empty($row['icon'])) {
 				$basePath = '';
@@ -276,12 +276,12 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$modules[] = $this->get('module');
 		$dataReader = (new App\Db\Query())->select(['tablename', 'columnname', 'uitype'])
 			->from('vtiger_field')
-			->where(['tabid' => $modules, 'fieldparams' => (string) $templateId, 'presence' => [0, 2]])
+			->where(['tabid' => $modules, 'fieldparams' => (string)$templateId, 'presence' => [0, 2]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
-			$uiType = (int) $row['uitype'];
+			$uiType = (int)$row['uitype'];
 			foreach ($tree as $treeRow) {
 				$params = [];
 				foreach ($treeRow['old'] as $new) {

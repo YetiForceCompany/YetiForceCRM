@@ -9074,13 +9074,13 @@ CREATE TABLE `vtiger_trees_templates_data` (
   `templateid` smallint(5) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `tree` varchar(255) NOT NULL,
-  `parenttrre` varchar(255) NOT NULL,
+  `parentTree` varchar(255) NOT NULL,
   `depth` tinyint(3) unsigned NOT NULL,
   `label` varchar(255) NOT NULL,
   `state` varchar(100) NOT NULL DEFAULT '',
   `icon` varchar(255) NOT NULL DEFAULT '',
   KEY `id` (`templateid`),
-  KEY `parenttrre` (`parenttrre`,`templateid`)
+  KEY `parentTree` (`parentTree`,`templateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_troubletickets` */
