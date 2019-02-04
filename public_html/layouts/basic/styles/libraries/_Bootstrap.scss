@@ -6,6 +6,10 @@
 	border-bottom-width: 1px;
 }
 
+.btn-xs {
+	@include button-size($btn-padding-y-sm /1.25, $btn-padding-x-sm /1.25, $font-size-sm/1.25, $btn-line-height-sm/1.25, $btn-border-radius-sm/1.25);
+}
+
 //Switch button
 label.btn[class*=btn-outline-] {
 	&:not(.active) {
