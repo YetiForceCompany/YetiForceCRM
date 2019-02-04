@@ -95,7 +95,14 @@ return [
 		],
 		'upload_maxsize' => [
 			'default' => 52428800,
-			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)'
+			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && ($arg * 1048576) <= vtlib\Functions::getMaxUploadSize();
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0) * 1048576;
+			}
 		],
 		'allow_exports' => [
 			'default' => 'all',
@@ -170,7 +177,10 @@ return [
 			'description' => 'Maximum length of characters for title',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return 100 > $arg && 1 > $arg;
+				return $arg && is_numeric($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
 			}
 		],
 		'href_max_length' => [
@@ -185,7 +195,14 @@ return [
 		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
-			'description' => 'Minimum cron frequency [min]'
+			'description' => 'Minimum cron frequency [min]',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && is_numeric($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'session_regenerate_id' => [
 			'default' => true,
@@ -211,7 +228,13 @@ return [
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
 			'description' => 'Maximum number of records in a mass edition',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'backgroundClosingModal' => [
 			'default' => true,
