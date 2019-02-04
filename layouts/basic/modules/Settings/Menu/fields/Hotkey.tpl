@@ -8,7 +8,8 @@
 			<div class="input-group-append">
 				<a class="btn btn-default testBtn" role="button" data-toggle="button">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
 			</div>
-			<a class="input-group-append js-popover-tooltip" data-js="popover" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover"
+			<a class="input-group-append js-popover-tooltip" data-js="popover" target="_blank" href="https://github.com/ccampbell/mousetrap"
+			   rel="noreferrer noopener" data-toggle="popover"
 			   data-content="{\App\Language::translate('LBL_MORE_INFO', $QUALIFIED_MODULE)}">
 				<div class="input-group-text">
 					<span class="fas fa-info-circle"></span>

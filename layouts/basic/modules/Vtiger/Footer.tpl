@@ -37,24 +37,24 @@
 				{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 					<ul class="float-left pagination border-0">
 						<li class="page-item">
-							<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
+							<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer">
+							<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer noopener">
 								<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
 							</a>
 						</li>
 						<li class="page-item">
 							<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"
-							   rel="noreferrer">
+							   rel="noreferrer noopener">
 								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
 							</a>
 						</li>
 						<li class="page-item">
 							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM"
-							   rel="noreferrer">
+							   rel="noreferrer noopener">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
@@ -79,7 +79,7 @@
 						{/if}
 						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 							<li class="page-item">
-								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
+								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
 									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 								</a>
 							</li>
@@ -145,49 +145,49 @@
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p>The Program is provided AS IS, without warranty. Licensed under <a
 									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-									target="_blank"><strong>YetiForce Public License 3.0</strong></a>.</p>
+									target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License 3.0</strong></a>.</p>
 						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br/><br/>
 						</p>
 						<div class="u-word-break">
 							<p><span class="badge badge-secondary">License:</span> <a
 										href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-										target="_blank"><strong>YetiForce Public License 3.0</strong></a></p>
+										target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License 3.0</strong></a></p>
 							<p><span class="badge badge-primary">WWW:</span> <a href="https://yetiforce.com"
 																				target="_blank"
-																				rel="noreferrer"><strong>https://yetiforce.com</strong></a>
+																				rel="noreferrer noopener"><strong>https://yetiforce.com</strong></a>
 							</p>
 							<p><span class="badge badge-success">Code:</span> <a
 										href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"
-										rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a>
+										rel="noreferrer noopener"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a>
 							</p>
 							<p><span class="badge badge-info">Documentation:</span> <a
 										href="https://yetiforce.com/en/knowledge-base/documentation" target="_blank"
-										rel="noreferrer"><strong>https://yetiforce.com/en/documentation.html</strong></a>
+										rel="noreferrer noopener"><strong>https://yetiforce.com/en/documentation.html</strong></a>
 							</p>
 							<p><span class="badge badge-warning">Issues:</span> <a
 										href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"
-										rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a>
+										rel="noreferrer noopener"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a>
 							</p>
 							<p><span class="badge badge-primary">Shop:</span> <a
 										href="https://yetiforce.shop/" target="_blank"
-										rel="noreferrer"><strong>https://yetiforce.shop/</strong></a>
+										rel="noreferrer noopener"><strong>https://yetiforce.shop/</strong></a>
 							</p>
 						</div>
 						<ul class="text-center list-inline">
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer" href="https://www.linkedin.com/groups/8177576"><span
+								<a rel="noreferrer noopener" href="https://www.linkedin.com/groups/8177576"><span
 											class="fab fa-linkedin" title="LinkendIn"></span></a>
 							</li>
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer" href="https://twitter.com/YetiForceEN"><span
+								<a rel="noreferrer noopener" href="https://twitter.com/YetiForceEN"><span
 											class="fab fa-twitter-square" title="Twitter"></span></a>
 							</li>
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"><span
+								<a rel="noreferrer noopener" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"><span
 											class="fab fa-facebook-square" title="Facebook"></span></a>
 							</li>
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM"><span
+								<a rel="noreferrer noopener" href="https://github.com/YetiForceCompany/YetiForceCRM"><span
 											class="fab fa-github-square" title="Github"></span></a>
 							</li>
 						</ul>

@@ -130,7 +130,7 @@
 								</span>
 							{/if}
 							{if $RECORD->get('location')}
-								<a target="_blank" rel="noreferrer"
+								<a target="_blank" rel="noreferrer noopener"
 								   href="https://www.google.com/maps/search/{urlencode ($RECORD->getDisplayValue('location'))}"
 								   class="float-right js-popover-tooltip delay0" data-js="popover"
 								   data-original-title="{\App\Language::translate('Location', 'Calendar')}"
