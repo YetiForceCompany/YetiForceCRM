@@ -43,6 +43,8 @@
     "LBL_DOWNLOAD": "Download",
     "LBL_DOWNLOADED_LANGUAGE": "Downloaded language",
     "LBL_NO_INTERNET_CONNECTION": "There is no Internet connection",
-    "LBL_NO_LANGUAGES_TO_DOWNLOAD": "No languages to download"
+    "LBL_NO_LANGUAGES_TO_DOWNLOAD": "No languages to download",
+    "LBL_TRANSLATED_WORDS": "Translated words",
+    "LBL_LANG": "Language"
   }
 }

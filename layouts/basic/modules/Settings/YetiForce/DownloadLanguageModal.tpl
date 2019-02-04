@@ -1,9 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-YetiForce-DownloadLanguageModal modal-body p-1">
+	<div class="tpl-Settings-YetiForce-DownloadLanguageModal modal-body p-0">
 		<table class="table mb-0 mx-auto">
 			{assign var="INDEX" value=0}
 			{if $LANGUAGES}
+				<thead>
+				<tr>
+					<th class="text-center border-top-0">{App\Language::translate('LBL_LANG', $QUALIFIED_MODULE)}</th>
+					<th class="text-center border-top-0">{App\Language::translate('LBL_TRANSLATED_WORDS', $QUALIFIED_MODULE)}</th>
+					<th class="text-center border-top-0">{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+				</tr>
+				</thead>
 				{foreach key=PREFIX item=DETAILS from=$LANGUAGES}
 					{if !$DETAILS['exist']}
 						<tr>
