@@ -47,6 +47,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 	 * Function to register event for step1 of import module
 	 */
 	registerEventForStep1: function () {
+		$('.js-validation-engine').validationEngine();
 		var detailContentsHolder = jQuery('.contentsDiv');
 		app.showScrollBar(jQuery('.extensionDescription'), {'height': '120px', 'width': '100%', 'railVisible': true});
 		this.registerEventsForImportModuleStep1(detailContentsHolder);
