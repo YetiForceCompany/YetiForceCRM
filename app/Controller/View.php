@@ -354,16 +354,16 @@ abstract class View extends Base
 			if (is_file($completeFilePath)) {
 				$jsScript->set('base', $completeFilePath);
 				if (strpos($jsFileName, '~') === 0) {
-					$filePath = $prefix . ltrim(ltrim($jsFileName, '~'), '/');
+					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
-					$filePath = $prefix . str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
+					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
 				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
+				\App\Cache::save('ConvertJsScripts', $jsFileName, $prefix . $filePath, \App\Cache::LONG);
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $prefix . $filePath);
 			} else {
 				$preLayoutPath = '';
 				if (strpos($jsFileName, '~') === 0) {
