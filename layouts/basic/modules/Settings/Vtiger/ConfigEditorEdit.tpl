@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -32,14 +33,6 @@
 				</div>
 				<hr>
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-				{assign var=FIELD_VALIDATION  value=['HELPDESK_SUPPORT_EMAIL_REPLY' => ['name'=>'Email'],
-				'upload_maxsize' => ['name' => 'number'],
-				'popupType' =>['name' => 'NumberRange2'],
-				'title_max_length' => ['name' => 'NumberRange100'],
-				'MINIMUM_CRON_FREQUENCY' => ['name' => 'NumberRange100'],
-				'href_max_length' => ['name' => 'NumberRange100'],
-				'listview_max_textlength' => ['name' => 'NumberRange100'],
-				'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 					<tr class="blockHeader">
@@ -48,61 +41,32 @@
 					</tr>
 					</thead>
 					<tbody>
-					{assign var=FIELD_DATA value=$MODEL->getViewableData()}
-					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
+					{foreach key=FIELD_NAME item=FIELD_LABEL from=$MODEL->listFields}
+						{assign var="FIELD_MODEL" value=$MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$MODEL->get($FIELD_NAME))}
 						<tr>
-							<td width="30%" class="{$WIDTHTYPE}"><label
-										class="muted float-right marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label>
-							</td>
-							<td style="border-left: none;" class="row {$WIDTHTYPE}">
-								{if $FIELD_DETAILS['fieldType'] == 'picklist'}
-									<div class="col-md-4">
-										<select class="select2 form-control" name="{$FIELD_NAME}">
-											{foreach key=optionName item=optionLabel from=$MODEL->getPicklistValues($FIELD_NAME)}
-												{if $FIELD_NAME != 'default_module' && $FIELD_NAME != 'defaultLayout' }
-													<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{\App\Language::translate($optionLabel, $QUALIFIED_MODULE)}</option>
-												{else}
-													<option value="{$optionName}" {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{\App\Language::translate($optionLabel, $optionLabel)}</option>
-												{/if}
-											{/foreach}
-										</select>
-									</div>
-								{else if $FIELD_NAME == 'USE_RTE'}
-									<div class="col-md-4">
-										<input type="hidden" name="{$FIELD_NAME}" value="false"/>
-										<input type="checkbox" name="{$FIELD_NAME}"
-											   value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
-									</div>
-								{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-									<div class="col-md-4">
-										<select class="select2 form-control" name="{$FIELD_NAME}">
-											<option value="false" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{\App\Language::translate(LBL_NO)}</option>
-											<option value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{\App\Language::translate(LBL_YES)}</option>
-										</select>
-									</div>
-								{else}
-
-									{if $FIELD_NAME == 'upload_maxsize'}
-										{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
-										<div class="col-md-4">
-											<div class="input-group">
-												<input type="text" class="form-control" name="{$FIELD_NAME}"
-													   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]}
-													   data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}"/>
-												<div class="input-group-addon">{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}</div>
+							<td width="30%" class="{$WIDTHTYPE} textAlignRight">
+								<div class="form-row">
+									<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
+										{\App\Language::translate($FIELD_LABEL, $QUALIFIED_MODULE)}
+										{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+									</label>
+									{if $FIELD_NAME eq 'upload_maxsize'}
+										<div class="input-group col-md-3 fieldValue">
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE RECORD=null }
+											<div class="input-group-append">
+												<span class="input-group-text">{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}</span>
 											</div>
 										</div>
 										<label class="col-form-label">
-											(upload_max_filesize: {vtlib\Functions::showBytes($MAXUPLOADSIZE)})
+											(upload_max_filesize: {vtlib\Functions::showBytes(vtlib\Functions::getMaxUploadSize())}
+											)
 										</label>
 									{else}
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="{$FIELD_NAME}"
-												   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]}
-												   data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}"/>
+										<div class="col-md-3 fieldValue">
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE RECORD=null }
 										</div>
 									{/if}
-								{/if}
+								</div>
 							</td>
 						</tr>
 					{/foreach}

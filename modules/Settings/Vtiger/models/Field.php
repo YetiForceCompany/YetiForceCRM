@@ -79,4 +79,12 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	{
 		return $this->isReadOnly ?? false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValidator()
+	{
+		return $this->validator ?? parent::getValidator();
+	}
 }
