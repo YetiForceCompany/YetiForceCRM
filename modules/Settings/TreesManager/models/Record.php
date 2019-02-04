@@ -116,21 +116,21 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 * @param int    $depth
 	 * @param string $parenttrre
 	 */
-	public function insertData($tree, $depth, $parenttrre)
+	public function insertData($tree, $depth, $parentTree)
 	{
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
 		$icon = (int) $tree['icon'] === 1 ? '' : $tree['icon'];
-		if ($parenttrre != '') {
-			$parenttrre = $parenttrre . '::';
+		if ($parentTree != '') {
+			$parentTree = $parentTree . '::';
 		}
-		$parenttrre = $parenttrre . $treeID;
+		$parentTree = $parentTree . $treeID;
 		$params = [
 			'templateid' => $this->getId(),
 			'name' => $label,
 			'tree' => $treeID,
-			'parenttrre' => $parenttrre,
+			'parentTree' => $parentTree,
 			'depth' => $depth,
 			'label' => $label,
 			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
@@ -139,7 +139,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
 			foreach ($tree['children'] as $treeChild) {
-				$this->insertData($treeChild, $depth + 1, $parenttrre);
+				$this->insertData($treeChild, $depth + 1, $parentTree);
 			}
 		}
 	}
@@ -172,8 +172,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$treeID = (int) str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
-			$parenttrre = substr($row['parenttrre'], 0, -$cut);
-			$pieces = explode('::', $parenttrre);
+			$parentTree = substr($row['parentTree'], 0, -$cut);
+			$pieces = explode('::', $parentTree);
 			$parent = (int) str_replace('T', '', end($pieces));
 			$icon = false;
 			if (!empty($row['icon'])) {
@@ -329,10 +329,10 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$tree = $row['tree'];
 			$parent = '';
 			if ($row['depth'] > 0) {
-				$parenttrre = $row['parenttrre'];
+				$parentTree = $row['parentTree'];
 				$cut = strlen('::' . $tree);
-				$parenttrre = substr($parenttrre, 0, -$cut);
-				$pieces = explode('::', $parenttrre);
+				$parentTree = substr($parentTree, 0, -$cut);
+				$pieces = explode('::', $parentTree);
 				$parent = end($pieces);
 			}
 			if ($parent && in_array($parent, $values) && !in_array($tree, $values)) {

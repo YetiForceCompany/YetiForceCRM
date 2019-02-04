@@ -138,7 +138,7 @@ class Vtiger_TreeView_Model extends \App\Base
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
-			$pieces = explode('::', $row['parenttrre']);
+			$pieces = explode('::', $row['parentTree']);
 			end($pieces);
 			$parent = (int) ltrim(prev($pieces), 'T');
 			$tree[] = [

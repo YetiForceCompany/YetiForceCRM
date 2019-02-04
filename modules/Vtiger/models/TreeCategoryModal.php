@@ -110,7 +110,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$selected = $this->getSelectedTreeList();
 		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
-			$pieces = explode('::', $row['parenttrre']);
+			$pieces = explode('::', $row['parentTree']);
 			end($pieces);
 			$parent = (int) ltrim(prev($pieces), 'T');
 			$tree = [
