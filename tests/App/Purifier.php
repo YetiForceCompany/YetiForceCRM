@@ -55,7 +55,7 @@ class Purifier extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
 
-		$aObj = new class() extends \App\Fields\DateTime {
+		/*$aObj = new class() extends \App\Fields\DateTime {
 			public static function getDatabaseTimeZone()
 			{
 				return self::$databaseTimeZone;
@@ -66,8 +66,8 @@ class Purifier extends \Tests\Base
 				self::$databaseTimeZone = $val;
 			}
 		};
-		$rr = $aObj::getDatabaseTimeZone();
-		$aObj::setDatabaseTimeZone(false);
+		$rr = $aObj::getDatabaseTimeZone();*/
+		//$aObj::setDatabaseTimeZone(false);
 
 		var_dump(
 			date_default_timezone_get(),
@@ -77,12 +77,12 @@ class Purifier extends \Tests\Base
 			'gggggggggggg',
 			\App\Fields\DateTime::getTimeZone(),
 			\AppConfig::main('default_timezone'),
-			$rr,
-			$aObj::getDatabaseTimeZone()
+			//$rr,
+			//$aObj::getDatabaseTimeZone()
 		);
 
-		$v = \App\Purifier::purifyByType(date('H:i'), 'TimeInUserFormat');
-		var_dump($v, date('H:i:00'));
+		/*$v = \App\Purifier::purifyByType(date('H:i'), 'TimeInUserFormat');
+		var_dump($v, date('H:i:00'));*/
 
 		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
 		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
@@ -93,6 +93,7 @@ class Purifier extends \Tests\Base
 		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
 		static::$timeZone = $userModel->getDetail('time_zone');
 		//\date_default_timezone_set($userModel->getDetail('time_zone'));
+		\date_default_timezone_set(\App\Fields\DateTime::getTimeZone());
 
 		$userRecordModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userRecordModel->set('currency_decimal_separator', '.');
@@ -102,7 +103,7 @@ class Purifier extends \Tests\Base
 		$userRecordModel->set('no_of_currency_decimals', '2');
 		$userRecordModel->set('truncate_trailing_zeros', 1);
 		$userRecordModel->set('hour_format', '24');
-		$userRecordModel->set('time_zone', date_default_timezone_get());
+		$userRecordModel->set('time_zone', \App\Fields\DateTime::getTimeZone());
 		$userRecordModel->save();
 	}
 
