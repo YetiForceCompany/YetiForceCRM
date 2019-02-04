@@ -2587,7 +2587,7 @@ fieldset:disabled a.btn {
   border-radius: 0.3rem; }
 
 .btn-sm, .btn-group-sm > .btn, .rightRecordActions .actions .dropdown-menu .btn-xs,
-.leftRecordActions .actions .dropdown-menu .btn-xs, .Comment .commentActionsDiv .btn {
+.leftRecordActions .actions .dropdown-menu .btn-xs {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -2841,7 +2841,7 @@ input[type="button"].btn-block {
     margin-right: 0; }
 
 .btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split,
-.leftRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split, .Comment .commentActionsDiv .btn + .dropdown-toggle-split {
+.leftRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split {
   padding-right: 0.375rem;
   padding-left: 0.375rem; }
 
@@ -12166,6 +12166,12 @@ header .c-header__btn__container .select2-selection {
 .table-bordered thead td {
   border-bottom-width: 1px; }
 
+.btn-xs {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  border-radius: 0.16rem; }
+
 label.btn[class*=btn-outline-]:not(.active) {
   background: #fff; }
   label.btn[class*=btn-outline-]:not(.active):hover {
@@ -12736,100 +12742,6 @@ hr {
   padding-left: 0 !important; }
 .userPreferences .details {
   border-right: 0 !important; }
-
-.commentContainer {
-  border-radius: 2px; }
-  .commentContainer hr {
-    margin: 0 !important; }
-  .commentContainer .commentsList > .liStyleNone > .commentDetails .comment-div {
-    width: 100%; }
-  .commentContainer .singleComment {
-    border-bottom: 1px solid #ddd; }
-  .commentContainer .commentDetails {
-    background: #fff;
-    width: 100%;
-    margin-bottom: 0;
-    border-radius: 2px;
-    padding: 10px 0 0 0;
-    display: inline-block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word; }
-  .commentContainer .commentorInfo p {
-    margin-bottom: 0; }
-  .commentContainer .addCommentBlock .commentcontent {
-    min-height: 56px !important;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    padding: 7px !important;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    resize: none; }
-  .commentContainer .commentInfoContent {
-    padding: 1px 0;
-    word-wrap: break-word; }
-
-.commentTitle .col-md-1 {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-  .commentTitle .col-md-1 img {
-    width: 32px;
-    height: 32px; }
-
-.commentsList > ul {
-  margin-left: 0;
-  padding-left: 0; }
-
-.singleComment .edited-status {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-  .singleComment .edited-status p {
-    margin-bottom: 0; }
-.singleComment .commentActionsDiv p {
-  margin-bottom: 0; }
-.singleComment:hover .commentActionsDiv {
-  display: block;
-  margin-bottom: 3px; }
-
-.recentComments {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-  .recentComments .comment-div {
-    min-width: 100%; }
-  .recentComments .addCommentBlock {
-    border: 0;
-    margin-top: 0;
-    display: block; }
-  .recentComments .commentDetails {
-    display: block; }
-
-.singleComment:hover .commentActions .replyComment {
-  display: inline-block; }
-
-.commentActions {
-  margin-bottom: 5px; }
-
-.commentActionsContainer a:hover {
-  text-decoration: none; }
-.commentActionsContainer .editStatus {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  height: 15px; }
-  .commentActionsContainer .editStatus p {
-    margin-bottom: 0; }
 
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
 .summaryViewEntries .js-detail-quick-edit, .activityDescription .editDescription {
@@ -16491,7 +16403,7 @@ ul.tweets li {
   .c-btn-collapsible.btn-xs {
     max-width: 1.5625rem; }
   .c-btn-collapsible.btn-sm, .btn-group-sm > .c-btn-collapsible.btn, .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs,
-  .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs, .Comment .commentActionsDiv .c-btn-collapsible.btn {
+  .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs {
     max-width: 1.875rem; }
   .c-btn-collapsible.btn-lg, .btn-group-lg > .c-btn-collapsible.btn {
     max-width: 3.125rem; }
@@ -18823,19 +18735,102 @@ input[type="radio"]:checked:before {
 .recordEditView .table tbody tr:hover td, .recordEditView .c-detail-widget__table tbody tr:hover td, .recordEditView .table tbody tr:hover th, .recordEditView .c-detail-widget__table tbody tr:hover th {
   background: #f7f7f9; }
 
-.singleComment .commentActionsContainer .commentActions {
-  -webkit-transition: all 0.2s 0s ease;
-  -moz-transition: all 0.2s 0s ease;
-  -ms-transition: all 0.2s 0s ease;
-  -o-transition: all 0.2s 0s ease;
-  transition: all 0.2s 0s ease;
-  height: 0;
-  overflow: hidden; }
-.singleComment:hover .commentActionsContainer .commentActions {
-  height: 1.9375rem; }
+.singleComment .commentActions {
+  visibility: hidden;
+  transition: 0s visibility; }
+.singleComment:hover .commentActions {
+  visibility: visible;
+  animation: fadeIn 0.3s;
+  animation-delay: 0.3s;
+  transition-delay: 0.3s; }
 
-.quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
-  height: 0; }
+.commentContainer {
+  border-radius: 2px; }
+  .commentContainer hr {
+    margin: 0 !important; }
+  .commentContainer .commentsList > .liStyleNone > .commentDetails .comment-div {
+    width: 100%; }
+  .commentContainer .singleComment {
+    border-bottom: 1px solid #ddd; }
+  .commentContainer .commentDetails {
+    background: #fff;
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 2px;
+    padding: 10px 0 0 0;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word; }
+  .commentContainer .commentorInfo p {
+    margin-bottom: 0; }
+  .commentContainer .addCommentBlock .commentcontent {
+    min-height: 56px !important;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 7px !important;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    resize: none; }
+  .commentContainer .commentInfoContent {
+    padding: 1px 0;
+    word-wrap: break-word; }
+
+.commentTitle .col-md-1 {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word; }
+  .commentTitle .col-md-1 img {
+    width: 32px;
+    height: 32px; }
+
+.commentsList > ul {
+  margin-left: 0;
+  padding-left: 0; }
+
+.singleComment .edited-status {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word; }
+  .singleComment .edited-status p {
+    margin-bottom: 0; }
+.singleComment .commentActionsDiv p {
+  margin-bottom: 0; }
+
+.recentComments {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word; }
+  .recentComments .comment-div {
+    min-width: 100%; }
+  .recentComments .addCommentBlock {
+    border: 0;
+    margin-top: 0;
+    display: block; }
+  .recentComments .commentDetails {
+    display: block; }
+
+.commentActions {
+  margin-bottom: 5px; }
+
+.commentActionsContainer a:hover {
+  text-decoration: none; }
+.commentActionsContainer .editStatus {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  height: 15px; }
+  .commentActionsContainer .editStatus p {
+    margin-bottom: 0; }
 
 .tpl-Detail-HeaderFields a {
   color: #79baff; }
