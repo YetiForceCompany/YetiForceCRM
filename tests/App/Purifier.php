@@ -55,7 +55,15 @@ class Purifier extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
 
-		var_dump(date_default_timezone_get(), $userModel->getDetail('time_zone'), date('H:i'));
+		var_dump(
+			date_default_timezone_get(),
+			$userModel->getDetail('time_zone'),
+			date('H:i'),
+			$userModel->getDetail('date_format'),
+			'gggggggggggg',
+			\App\Fields\DateTime::getTimeZone(),
+			\AppConfig::main('default_timezone')
+		);
 
 		$v = \App\Purifier::purifyByType(date('H:i'), 'TimeInUserFormat');
 		var_dump($v, date('H:i:00'));
@@ -162,6 +170,8 @@ class Purifier extends \Tests\Base
 	 */
 	public function testPurifyByType($type, $assertion, $expected = 'NOT_SET', $text, $message, $exception)
 	{
+		//\var_dump('TIME_ZONE', \App\User::getCurrentUserModel()->getDetail('time_zone'));
+
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
 			$this->expectException($exception);
