@@ -26,8 +26,8 @@
 		{/if}
 		<div class="contents">
 			<div>
-				<form class="form-horizontal" id="importUserModule" name="importUserModule"
-					  action='index.php' method="POST" enctype="multipart/form-data">
+				<form class="form-horizontal js-validation-engine" id="importUserModule" name="importUserModule"
+					  action='index.php' method="POST" enctype="multipart/form-data" data-js="container">
 					<input type="hidden" name="module" value="ModuleManager"/>
 					<input type="hidden" name="moduleAction" value="Import"/>
 					<input type="hidden" name="parent" value="Settings"/>
@@ -44,11 +44,14 @@
 							</thead>
 							<tbody>
 							<tr>
-								<td class="fieldValue">
-									<input type="file" name="moduleZip" id="moduleZip" size="80px"
-										   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										   data-validator={\App\Json::encode([['name'=>'UploadModuleZip']])}
-									/>
+								<td>
+									<div class="fieldValue position-relative">
+										<input type="file" name="moduleZip" id="moduleZip" size="80px"
+											   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+											   data-validator={\App\Json::encode([['name'=>'UploadModuleZip']])}
+										/>
+									</div>
+
 								</td>
 							</tr>
 							</tbody>
@@ -60,10 +63,11 @@
 							{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}
 						</button>
 						<div class="cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">
+							<a role="button" class="cancelLink btn btn-danger"
+							   href="index.php?module=ModuleManager&parent=Settings&view=List">
 								<span class="fas fa-times mr-1"></span>
 								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
-							</button>
+							</a>
 						</div>
 					</div>
 				</form>
