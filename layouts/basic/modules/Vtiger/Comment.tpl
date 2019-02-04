@@ -41,13 +41,13 @@
 									{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 								{/if}
 								{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-									<button type="button" class="btn btn-xs btn-success js-reply-comment"
+									<button type="button" class="btn btn-xs btn-success js-reply-comment mr-1"
 											title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 										<span class="fas fa-share"></span>
 									</button>
 								{/if}
 								{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-									<button type="button" class="btn btn-xs btn-primary js-edit-comment feedback ml-1 mr-1"
+									<button type="button" class="btn btn-xs btn-primary js-edit-comment feedback mr-1"
 											data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 										<span class="fas fa-edit"></span>
 									</button>
@@ -63,7 +63,7 @@
 									<span class="js-view-thread-block viewThreadBlock"
 										  data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 										  data-js="data-child-comments-count">
-								<button type="button" class="btn btn-xs btn-info viewThread ml-1"
+								<button type="button" class="btn btn-xs btn-info viewThread"
 										title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 										data-js="click">
 									<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
@@ -82,7 +82,7 @@
 									<span class="js-view-thread-block viewThreadBlock"
 										  data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 										  data-js="data-child-comments-count">
-								<button type="button" class="btn btn-xs btn-info viewThread ml-1"
+								<button type="button" class="btn btn-xs btn-info viewThread"
 										title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 										data-js="click">
 									<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>
@@ -101,7 +101,7 @@
 								{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
 									<span class="view-parent-thread-block">
 								<button type="button"
-										class="btn btn-xs btn-secondary js-view-parent-thread ml-1"
+										class="btn btn-xs btn-secondary js-view-parent-thread"
 										data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
 									<span class="fas fa-share"></span>
 								</button>
