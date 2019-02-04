@@ -91,7 +91,7 @@ class Purifier extends \Tests\Base
 	{
 		//$type, $assertion, $expected, $text, $message, $exception
 		return [
-			['Standard', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample text should be unchanged', false],
+			/*['Standard', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample text should be unchanged', false],
 			['Standard', 'Same', ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], 'Sample text should be unchanged(array)', false],
 			['Standard', 'NotSame', 'Test-text-string-for-purifier%$54#T$#BR', 'Test-text-string-for-purifier%$54#T$#BR', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['Alnum', 'Same', 'Test_text_alnum_4_purifier', 'Test_text_alnum_4_purifier', 'Sample text should be unchanged', false],
@@ -105,7 +105,7 @@ class Purifier extends \Tests\Base
 			['Date', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', false],
 			['Date', 'NotSame', '201X-07-26', '201X-07-26', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['Time', 'Same', date('H:i:s'), date('H:i:s'), 'Sample text should be unchanged', false],
-			['Time', 'NotSame', '24:12:20', '24:12:20', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],
+			['Time', 'NotSame', '24:12:20', '24:12:20', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],*/
 			['TimeInUserFormat', 'Same', date('H:i:00'), date('H:i'), 'Sample text should be unchanged', false],
 			['TimeInUserFormat', 'NotSame', '24:12:00', '24:12', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],
 			['Bool', 'Same', true, true, 'Sample text should be unchanged', false],
