@@ -12,12 +12,59 @@ namespace Tests\App;
 class Purifier extends \Tests\Base
 {
 	/**
+	 * @var string Decimal numbers separator
+	 */
+	public static $separatorDecimal;
+	/**
+	 * @var string Numbers grouping separator
+	 */
+	public static $separatorGrouping;
+	/**
+	 * @var string Currency symbol placement
+	 */
+	public static $symbolPlacement;
+	/**
+	 * @var string Numbers grouping pattern
+	 */
+	public static $patternGrouping;
+	/**
+	 * @var int Decimal places count
+	 */
+	public static $decimalNum;
+	/**
+	 * @var bool Truncate zeros in decimal numbers
+	 */
+	public static $truncateTrailingZeros;
+
+	/**
+	 * @var string Hour format.
+	 */
+	public static $hourFormat;
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
 	public static function setUpBeforeClass()
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$userModel = \App\User::getCurrentUserModel();
+		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
+		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
+		static::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
+		static::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
+		static::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
+		static::$hourFormat = $userModel->getDetail('hour_format');
+		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
+		$userRecordModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
+		$userRecordModel->set('currency_decimal_separator', '.');
+		$userRecordModel->set('currency_grouping_separator', ' ');
+		$userRecordModel->set('currency_symbol_placement', '1.0$');
+		$userRecordModel->set('currency_grouping_pattern', '123456789');
+		$userRecordModel->set('no_of_currency_decimals', '2');
+		$userRecordModel->set('truncate_trailing_zeros', 1);
+		$userRecordModel->set('hour_format', '24');
+		$userRecordModel->save();
 	}
 
 	/**
@@ -141,5 +188,26 @@ class Purifier extends \Tests\Base
 			$this->expectException(\App\Exceptions\IllegalValue::class);
 			$this->assertNotSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be purified');
 		}
+	}
+
+	/**
+	 * Restore current user preferences.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @throws \Exception
+	 */
+	public static function tearDownAfterClass()
+	{
+		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
+		$userModel->set('currency_decimal_separator', static::$separatorDecimal);
+		$userModel->set('currency_grouping_separator', static::$separatorGrouping);
+		$userModel->set('currency_symbol_placement', static::$symbolPlacement);
+		$userModel->set('currency_grouping_pattern', static::$patternGrouping);
+		$userModel->set('no_of_currency_decimals', static::$decimalNum);
+		$userModel->set('truncate_trailing_zeros', static::$truncateTrailingZeros);
+		$userModel->set('hour_format', static::$hourFormat);
+		$userModel->save();
+		parent::tearDownAfterClass();
 	}
 }
