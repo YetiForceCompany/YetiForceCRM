@@ -32,7 +32,7 @@
 							</div>
 						</div>
 						{\App\Language::translate('LBL_STEP3_DESCRIPTION','Install')}&nbsp;
-						<a target="_blank" rel="noreferrer"
+						<a target="_blank" rel="noreferrer noopener"
 						   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"
 						   aria-label="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements">
 							<span class="fas fa-link"></span>

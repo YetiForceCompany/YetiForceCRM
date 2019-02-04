@@ -49,7 +49,7 @@
 						<div class="col-md-8">
 							<div class="welcome-div">
 								<div class="float-right">
-									<a class="helpBtn" target="_blank" rel="noreferrer"
+									<a class="helpBtn" target="_blank" rel="noreferrer noopener"
 									   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation"
 									   aria-label="{\App\Language::translate('LBL_IMPLEMENTER_DOCUMENTATION','Install')}">
 										<span class="fas fa-info-circle"></span>
@@ -58,14 +58,14 @@
 								<h3>{\App\Language::translate('LBL_SETUP_WIZARD_BODY', 'Install')}</h3>
 								<p>
 									{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_1','Install')}&nbsp;
-									<a target="_blank" rel="noreferrer"
+									<a target="_blank" rel="noreferrer noopener"
 									   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
 									   aria-label="github">
 										<span class="fab fa-github-square fa-lg"></span>
 									</a>
 									<br/><br/>
 									{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}
-									<a target="_blank" rel="noreferrer" href="https://yetiforce.shop"
+									<a target="_blank" rel="noreferrer noopener" href="https://yetiforce.shop"
 									   aria-label="{\App\Language::translate('LBL_SHOP_YETIFORCE', 'Install')}">
 										<span class="fas fa-shopping-cart ml-1"></span>
 									</a>

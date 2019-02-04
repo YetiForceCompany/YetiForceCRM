@@ -26,7 +26,7 @@
 						<div class="col-12">
 							<p>
 								{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
-								<a target="_blank" rel="noreferrer"
+								<a target="_blank" rel="noreferrer noopener"
 								   href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
 									<span class="fas fa-link"></span> </a><br/><br/>
 								{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
