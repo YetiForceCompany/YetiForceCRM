@@ -13,7 +13,8 @@
 		 bootstrap="bootstrap.php"
 		 timeoutForLargeTests="1000">
 	<testsuites>
-		<testsuite name="Init">
+		<file>./App/Purifier.php</file>
+		<!--<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
 		<testsuite name="Base">
@@ -33,7 +34,7 @@
 		</testsuite>
 		<testsuite name="Finish">
 			<directory suffix=".php">./Finish/</directory>
-		</testsuite>
+		</testsuite>-->
 	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
