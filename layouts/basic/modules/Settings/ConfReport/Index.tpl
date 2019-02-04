@@ -1,6 +1,21 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-ConfReport-Index">
+	<!-- tpl-Settings-ConfReport-Index -->
+	{function SHOW_HELP_TEXT ITEM=[] KEY='' MODULE=''}
+		{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+		{if !$ITEM['status']}
+			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
+			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+				   data-trigger="focus hover" data-placement="right"
+				   data-content="{$HELP_TEXT_TRANS}">
+					<span class="fas fa-info-circle"></span>
+				</a>
+			{/if}
+		{/if}
+	{/function}
+	<div>
 		<div class="o-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
 			<div class="o-breadcrumb__container">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -50,17 +65,7 @@
 					{foreach from=$ALL['libraries'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							<td>
 								{if isset($ITEM['mandatory'])}
@@ -117,17 +122,7 @@
 					{foreach from=$ALL['performance'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
@@ -174,17 +169,7 @@
 					{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							<td colspan="2">
 								{if $ITEM.status}
@@ -225,17 +210,7 @@
 					{foreach from=$ALL['stability'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
@@ -286,17 +261,7 @@
 					{foreach from=$ALL['environment'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
@@ -340,17 +305,7 @@
 					{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
@@ -396,17 +351,7 @@
 					{foreach from=$ALL['security'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
@@ -457,17 +402,7 @@
 					{foreach from=$ALL['database'] key=KEY item=ITEM}
 						<tr {if !$ITEM['status']}class="table-danger"{/if}>
 							<td class="bg-light text-left u-word-break-keep-all">
-								{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
-								{if !$ITEM['status']}
-									{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
-									{if !empty($HELP_TEXT)}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{$HELP_TEXT}">
-											<span class="fas fa-info-circle"></span>
-										</a>
-									{/if}
-								{/if}
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY MODULE=$MODULE}
 							</td>
 							{if isset($ITEM['recommended'])}
 								<td>
@@ -488,4 +423,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-ConfReport-Index -->
 {/strip}
