@@ -35,9 +35,10 @@ class Languages
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
 					foreach ($body as $prefix => $row) {
+						$prefixName = \App\Language::getDisplayName($prefix);
 						$languages[$prefix] = \array_merge($row, [
-							'name' => \App\Language::getDisplayName($prefix),
-							'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$prefix}")
+							'name' => $prefixName,
+							'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$prefixName}")
 						]);
 					}
 				}
