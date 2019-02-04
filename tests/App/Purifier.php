@@ -55,7 +55,10 @@ class Purifier extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
 
-		var_dump(date_default_timezone_get(), $userModel->getDetail('time_zone'));
+		var_dump(date_default_timezone_get(), $userModel->getDetail('time_zone'), date('H:i'));
+
+		$v = \App\Purifier::purifyByType(date('H:i'), 'TimeInUserFormat');
+		var_dump($v, date('H:i:00'));
 
 		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
 		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
