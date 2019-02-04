@@ -191,7 +191,8 @@ return [
 		'breadcrumbs' => [
 			'default' => true,
 			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
-			'validation' => '\App\Validator::bool'
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
@@ -214,16 +215,11 @@ return [
 		],
 		'systemMode' => [
 			'default' => 'prod',
-			'description' => 'System mode. Available: prod, demo, test',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return in_array($arg, ['prod', 'demo', 'test']);
-			}
+			'description' => 'System mode. Available: prod, demo, test'
 		],
 		'forceSSL' => [
 			'default' => false,
-			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
 		],
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
@@ -239,27 +235,24 @@ return [
 		'backgroundClosingModal' => [
 			'default' => true,
 			'description' => 'Enable closing of mondal window by clicking on the background',
-			'validation' => '\App\Validator::bool'
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'csrfProtection' => [
 			'default' => true,
-			'description' => 'Enable CSRF protection',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable CSRF protection'
 		],
 		'isActiveSendingMails' => [
 			'default' => true,
-			'description' => 'Is sending emails active.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Is sending emails active.'
 		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
-			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded'
 		],
 		'maxExecutionCronTime' => [
 			'default' => 3600,
-			'description' => 'The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.'
 		],
 		'langInLoginView' => [
 			'default' => false,
@@ -270,7 +263,8 @@ return [
 		'layoutInLoginView' => [
 			'default' => false,
 			'description' => "System's lyout selection in the login window (true/false)",
-			'validation' => '\App\Validator::bool'
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'defaultLayout' => [
 			'default' => 'basic',
@@ -282,13 +276,11 @@ return [
 		],
 		'forceRedirect' => [
 			'default' => true,
-			'description' => 'Redirect to proper url when wrong url is entered.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Redirect to proper url when wrong url is entered.'
 		],
 		'phoneFieldAdvancedVerification' => [
 			'default' => true,
-			'description' => 'Enable advanced phone number validation. Enabling  it will block saving invalid phone number.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable advanced phone number validation. Enabling  it will block saving invalid phone number.'
 		],
 	],
 	'debug' => [

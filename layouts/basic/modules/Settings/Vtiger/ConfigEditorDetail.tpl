@@ -42,7 +42,6 @@
 						<td width="30%" class="{$WIDTHTYPE} textAlignRight">
 							<label class="muted marginRight10px">
 								{\App\Language::translate($FIELD_LABEL, $QUALIFIED_MODULE)}
-								{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 							</label>
 						</td>
 						<td style="border-left: none;" class="{$WIDTHTYPE}">
