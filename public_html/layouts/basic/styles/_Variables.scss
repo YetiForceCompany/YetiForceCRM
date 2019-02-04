@@ -38,7 +38,6 @@ $h-btn-sm: calculate-rem(31px);
 $h-header: calculate-rem(50px);
 $h-breadcrumb: calculate-rem(54px);
 $h-dashboard-tabs: calculate-rem(58px);
-$h-header-logo: calculate-rem(52px);
 $w-header-search: 500px;
 $h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));
 $h-main-viewport-limited-footer: calc(100vh - (#{$h-footer-limited} + #{$h-header}));

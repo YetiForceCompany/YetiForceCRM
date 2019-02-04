@@ -17666,7 +17666,7 @@ input[type="radio"]:checked:before {
       margin-top: auto;
       margin-bottom: auto; }
 .c-menu__header {
-  height: 3.25rem;
+  height: 3.125rem;
   padding-right: 0;
   padding-left: 0;
   background-color: #406a95; }
