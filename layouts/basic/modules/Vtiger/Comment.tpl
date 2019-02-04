@@ -13,19 +13,19 @@
 {assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
 <div class="tpl-Base-Comment Comment comment-div js-comment-div" data-js="container">
 	<div class="js-comment-single singleComment" data-js="append">
-		<div class="js-comment-info-header commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
+		<div class="js-comment-info-header commentInfoHeader m-0 d-flex" data-commentid="{$COMMENT->getId()}"
 			 data-parentcommentid="{$COMMENT->get('parent_comments')}"
 			 data-js="data-commentid|data-parentcommentid">
-			<div class="float-left">
+			<div class="u-w-50px d-flex justify-content-center">
 				{assign var=IMAGE value=$COMMENT->getImage()}
 				{if $IMAGE}
-					<img class="c-img__user float-left" alt="" src="{$IMAGE.url}">
+					<img class="c-img__user" alt="" src="{$IMAGE.url}">
 					<br/>
 				{else}
-					<span class="fas fa-user userImage float-left"></span>
+					<span class="fas fa-user fa-2x userImage"></span>
 				{/if}
 			</div>
-			<div class="commentTitle ml-5 mb-0 d-flex justify-content-between" id="{$COMMENT->getId()}">
+			<div class="commentTitle mb-0 d-flex justify-content-between w-100" id="{$COMMENT->getId()}">
 				{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 				{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 				<div class="commentorInfo w-100">
