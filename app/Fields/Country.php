@@ -44,20 +44,26 @@ class Country
 	/**
 	 * Return correct key value of given country in user language.
 	 *
-	 * @param $countryName
+	 * @param string $countryName
 	 *
 	 * @return string
 	 */
-	public static function getCountryName(string $countryName): string
+	public static function findCountryName(string $value): string
 	{
-		$languagesToCheck = [
-			\App\Language::getLanguage(),
-			\App\Config::main('default_language')
-		];
-		foreach (\array_unique($languagesToCheck) as $language) {
-			$languageStrings = \App\Language::getFromFile('Other/Country', $language);
-			if (!empty($languageStrings['php']) && $changedCountryName = \array_search(trim($countryName), $languageStrings['php'])) {
-				return $changedCountryName;
+		if (empty($value)) {
+			return '';
+		}
+		if (($userLanguage = \App\Language::getLanguage()) !== ($defaultLanguage = \App\Config::main('default_language'))) {
+			$secondLanguage = array_map('strtolower', \App\Language::getFromFile('Other/Country', $defaultLanguage)['php']);
+		}
+		$firstLanguage = array_map('strtolower', \App\Language::getFromFile('Other/Country', $userLanguage)['php']);
+		$countryName = ucwords(trim($value));
+		$formattedCountryName = strtolower($countryName);
+		if (empty($firstLanguage[$countryName])) {
+			if (\in_array($formattedCountryName, $firstLanguage)) {
+				$countryName = \array_search($formattedCountryName, $firstLanguage);
+			} elseif (!empty($secondLanguage) && \in_array($formattedCountryName, $secondLanguage)) {
+				$countryName = \array_search($formattedCountryName, $secondLanguage);
 			}
 		}
 		return $countryName;
