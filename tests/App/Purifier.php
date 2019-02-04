@@ -55,6 +55,20 @@ class Purifier extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
 
+		$aObj = new class() extends \App\Fields\DateTime {
+			public static function getDatabaseTimeZone()
+			{
+				return self::$databaseTimeZone;
+			}
+
+			public static function setDatabaseTimeZone($val)
+			{
+				self::$databaseTimeZone = $val;
+			}
+		};
+		$rr = $aObj::getDatabaseTimeZone();
+		$aObj::setDatabaseTimeZone(false);
+
 		var_dump(
 			date_default_timezone_get(),
 			$userModel->getDetail('time_zone'),
@@ -62,7 +76,9 @@ class Purifier extends \Tests\Base
 			$userModel->getDetail('date_format'),
 			'gggggggggggg',
 			\App\Fields\DateTime::getTimeZone(),
-			\AppConfig::main('default_timezone')
+			\AppConfig::main('default_timezone'),
+			$rr,
+			$aObj::getDatabaseTimeZone()
 		);
 
 		$v = \App\Purifier::purifyByType(date('H:i'), 'TimeInUserFormat');
@@ -76,6 +92,8 @@ class Purifier extends \Tests\Base
 		static::$hourFormat = $userModel->getDetail('hour_format');
 		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
 		static::$timeZone = $userModel->getDetail('time_zone');
+		//\date_default_timezone_set($userModel->getDetail('time_zone'));
+
 		$userRecordModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userRecordModel->set('currency_decimal_separator', '.');
 		$userRecordModel->set('currency_grouping_separator', ' ');
