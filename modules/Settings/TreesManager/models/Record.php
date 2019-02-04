@@ -314,21 +314,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($tree as $treeRow) {
 			$query = (new \App\Db\Query())->from($tableName);
 			foreach ($treeRow['old'] as $new) {
-				$query->orWhere(['like', 'legal_basis', "T{$new}"]);
+				$query->orWhere(['like', $columnName, ",T{$new},"]);
 			}
-			$replaceNew = $treeRow['new'];
-			array_walk($replaceNew, function (&$item) {
-				$item = "T{$item},";
-			});
-			$replaceOld = $treeRow['old'];
-			array_walk($replaceOld, function (&$item) {
-				$item = "T{$item},";
-			});
 			$dataReaderTree = $query->createCommand()->query();
 			while ($rowTree = $dataReaderTree->read()) {
 				$dbCommand->update(
 					$tableName,
-					[$columnName => str_replace($replaceOld, $replaceNew, $rowTree[$columnName])],
+					[$columnName => str_replace(",T{$treeRow['old'][0]},", ",T{$treeRow['new'][0]},", $rowTree[$columnName])],
 					[$columnName => $rowTree[$columnName]]
 				)->execute();
 			}
