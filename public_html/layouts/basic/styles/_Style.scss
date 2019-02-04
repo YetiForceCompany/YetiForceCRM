@@ -2629,10 +2629,6 @@ html, body, .o-base-container {
 	background: #fff;
 }
 
-.modal-backdrop {
-	z-index: 1030;
-}
-
 .commonActionsContainer .badge {
 	font-size: 11px;
 	top: -3px;
@@ -2678,19 +2674,6 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 1200px) {
-	.o-base-container:not(.c-menu--open) .c-menu__container:hover + .basePanel {
-		width: calc(100% - 180px);
-		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-	}
-
-	.pull-left-md {
-		float: left;
-	}
-
-	.pull-right-md {
-		float: right;
-	}
 
 	.tl-media-content-container {
 		width: 60%;
