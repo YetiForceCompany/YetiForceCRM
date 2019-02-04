@@ -4,17 +4,14 @@
 		 aria-labelledby="c-quick-create__title" aria-hidden="true">
 		<div class="modal-dialog c-modal-xxl" role="document">
 			<div class="modal-content">
-				<div class="modal-header container-fluid row">
-					<div class="col col-md-5 col-lg-6 col-xl-8">
-						<h5 class="modal-tile" id="c-quick-create__title">
-							<span class="fas fa-plus fa-fw mr-1"></span>
+				<div class="modal-header row no-gutters">
+					<div class="col col-md-5 col-lg-6 col-xl-8 my-auto pb-1 pb-md-0">
+						<h5 class="modal-tile mb-0" id="c-quick-create__title">
+							<span class="fas fa-plus fa-xs fa-fw mr-1"></span>
 							{\App\Language::translate('LBL_QUICK_CREATE')}
 						</h5>
 					</div>
-					<button type="button" class="close d-md-none" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<div class="col-md-6 col-lg-5 col-xl-3">
+					<div class="col-md-6 col-lg-5 col-xl-3 order-last order-md-0">
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -22,7 +19,7 @@
 							<input type="text" class="form-control js-quickcreate-search">
 						</div>
 					</div>
-					<button type="button" class="close d-none d-md-block" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close order-2 order-md-3" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
