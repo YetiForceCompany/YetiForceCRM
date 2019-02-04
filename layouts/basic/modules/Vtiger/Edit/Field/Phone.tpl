@@ -14,11 +14,11 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="NUMBER" value=$FIELD_MODEL->get('fieldvalue')}
 	<div class="tpl-Edit-Field-Phone">
-		{if AppConfig::main('phoneFieldAdvancedVerification',false)}
+		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
 			{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
-			{assign var="ACTIVE_EXTRA_FIELD" value=$FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
+			{assign var="ACTIVE_EXTRA_FIELD" value=($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
 			<div class="form-row">
 				<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
 					<div class="input-group phoneGroup mb-1">
