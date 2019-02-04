@@ -23,7 +23,7 @@
 			<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'/>
 			<input type="hidden" id="recordsCount" value=""/>
 			<input type="hidden" id="selectedIds" name="selectedIds"
-				   data-selected-ids="{if $SELECTED_IDS === 'all'}{App\Purifier::encodeHtml($SELECTED_IDS)}{else}{App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}{/if}"/>
+				   data-selected-ids="{if $SELECTED_IDS === 'all'}all{else}{App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}{/if}"/>
 			<input type="hidden" id="excludedIds" name="excludedIds"
 				   data-excluded-ids="{App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}"/>
 			<input type="hidden" id="recordsCount" name="recordsCount"/>
