@@ -418,3 +418,11 @@ ul.ui-autocomplete {
 		background: #f8f9fa;
 	}
 }
+
+//-------- font-awesome --------//
+
+.btn-sm {
+	.fa-xs {
+		vertical-align: calculate-rem(1px);
+	}
+}
