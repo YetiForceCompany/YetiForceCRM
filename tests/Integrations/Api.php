@@ -138,7 +138,7 @@ class Api extends \Tests\Base
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 		];
 		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
-		$this->logs = $request->body;
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
 		static::$recordId = $response['result']['id'];
