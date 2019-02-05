@@ -2038,7 +2038,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 				commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 				editCommentBlock = self.getEditCommentBlock();
-			editCommentBlock.find('.js-comment-content').html(commentInfoContent.text());
+			editCommentBlock.find('.js-comment-content').html(commentInfoContent.html());
 			editCommentBlock.find('.js-reason-to-edit').html(commentInfoBlock.find('.js-edit-reason-span').text());
 			commentInfoContent.hide();
 			commentInfoBlock.find('.js-comment-container').hide();
