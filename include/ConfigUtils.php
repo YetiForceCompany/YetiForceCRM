@@ -143,6 +143,9 @@ session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEP
 if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);
 }
-if (\AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
+if (\App\Config::debug('EXCEPTION_ERROR_HANDLER')) {
 	\App\ErrorHandler::init();
+}
+if (($timeZone = \App\Config::main('default_timezone')) && function_exists('date_default_timezone_set')) {
+	date_default_timezone_set($timeZone);
 }
