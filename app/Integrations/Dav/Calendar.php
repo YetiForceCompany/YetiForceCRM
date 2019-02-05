@@ -41,12 +41,6 @@ class Calendar
 	 */
 	private $vcomponent;
 	/**
-	 * Sequence counter.
-	 *
-	 * @var int
-	 */
-	private $sequence = 0;
-	/**
 	 * Optimization for creating a time zone.
 	 *
 	 * @var bool
@@ -108,12 +102,19 @@ class Calendar
 		return (new \App\Db\Query())->from('dav_calendars')->where(['id' => $id])->one();
 	}
 
-	public static function loadFromRecord(int $recordId)
+	/**
+	 * Create instance from dav data.
+	 *
+	 * @param string $calendar
+	 *
+	 * @return \App\Integrations\Dav\Calendar
+	 */
+	public static function loadFromDav(string $calendar)
 	{
 		$instance = new self();
-		$instance->record[$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
-		(new \App\Db\Query())->from('dav_calendarobjects')->where(['calendarid' => $this->calendarId, 'crmid' => $this->record['crmid']])->one();
-		//$instance->vcalendar
+		$instance->record = \Vtiger_Record_Model::getCleanInstance('Calendar');
+		$instance->vcalendar = VObject\Reader::read($calendar);
+		$instance->vcomponent = current($instance->vcalendar->getBaseComponents());
 		return $instance;
 	}
 
@@ -161,15 +162,39 @@ class Calendar
 	/**
 	 * Create a class instance from vcalendar content.
 	 *
-	 * @param string $content
+	 * @param string                    $content
+	 * @param \Vtiger_Record_Model|null $recordModel
 	 *
 	 * @return \App\Integrations\Dav\Calendar
 	 */
-	public static function loadFromContent(string $content)
+	public static function loadFromContent(string $content, ?\Vtiger_Record_Model $recordModel = null, ?string $uid = null)
 	{
 		$instance = new self();
 		$instance->vcalendar = VObject\Reader::read($content);
+		if ($recordModel && $uid) {
+			$instance->records[$uid] = $recordModel;
+		}
 		return $instance;
+	}
+
+	/**
+	 * Get VCalendar instance.
+	 *
+	 * @return \Sabre\VObject\Component\VCalendar
+	 */
+	public function getVCalendar()
+	{
+		return $this->vcalendar;
+	}
+
+	/**
+	 * Get calendar component instance.
+	 *
+	 * @return \Sabre\VObject\Component
+	 */
+	public function getComponent()
+	{
+		return $this->vcomponent;
 	}
 
 	/**
@@ -182,7 +207,8 @@ class Calendar
 		foreach ($this->vcalendar->getBaseComponents() as $component) {
 			$type = (string) $component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
-				$this->parseComponent($component);
+				$this->vcomponent = $component;
+				$this->parseComponent();
 			}
 		}
 		return $this->records;
@@ -190,60 +216,54 @@ class Calendar
 
 	/**
 	 * Parse component.
-	 *
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parseComponent(VObject\Component $component)
+	private function parseComponent()
 	{
-		$uid = (string) $component->UID;
+		$uid = (string) $this->vcomponent->UID;
 		if (isset($this->records[$uid])) {
-			$recordModel = $this->records[$uid];
+			$this->record = $this->records[$uid];
 		} else {
-			$recordModel = $this->records[$uid] = \Vtiger_Record_Model::getCleanInstance('Calendar');
+			$this->record = $this->records[$uid] = \Vtiger_Record_Model::getCleanInstance('Calendar');
 		}
-		$this->parseText('subject', 'SUMMARY', $recordModel, $component);
-		$this->parseText('location', 'LOCATION', $recordModel, $component);
-		$this->parseText('description', 'DESCRIPTION', $recordModel, $component);
-		$this->parseStatus($recordModel, $component);
-		$this->parsePriority($recordModel, $component);
-		$this->parseVisibility($recordModel, $component);
-		$this->parseState($recordModel, $component);
-		$this->parseType($recordModel, $component);
-		$this->parseDateTime($recordModel, $component);
+		$this->parseText('subject', 'SUMMARY');
+		$this->parseText('location', 'LOCATION');
+		$this->parseText('description', 'DESCRIPTION');
+		$this->parseStatus();
+		$this->parsePriority();
+		$this->parseVisibility();
+		$this->parseState();
+		$this->parseType();
+		$this->parseDateTime();
 	}
 
 	/**
 	 * Parse simple text.
 	 *
-	 * @param string                   $fieldName
-	 * @param string                   $davName
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
+	 * @param string               $fieldName
+	 * @param string               $davName
+	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	private function parseText(string $fieldName, string $davName, \Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parseText(string $fieldName, string $davName)
 	{
 		$value = \str_replace([
 			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-'
-		], '', \App\Purifier::purify((string) $component->$davName));
-		if ($length = $recordModel->getField($fieldName)->get('maximumlength')) {
+		], '', \App\Purifier::purify((string) $this->vcomponent->$davName));
+		if ($length = $this->record->getField($fieldName)->get('maximumlength')) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}
-		$recordModel->set($fieldName, \trim($value));
+		$this->record->set($fieldName, \trim($value));
 	}
 
 	/**
 	 * Parse status.
-	 *
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parseStatus(\Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parseStatus()
 	{
 		$davValue = null;
 		if (isset($component->STATUS)) {
-			$davValue = strtoupper($component->STATUS->getValue());
+			$davValue = strtoupper($this->vcomponent->STATUS->getValue());
 		}
-		if ((string) $component->name === 'VEVENT') {
+		if ((string) $this->vcomponent->name === 'VEVENT') {
 			$values = [
 				'TENTATIVE' => 'PLL_PLANNED',
 				'CANCELLED' => 'PLL_CANCELLED',
@@ -261,21 +281,18 @@ class Calendar
 		if ($davValue && isset($values[$davValue])) {
 			$value = $values[$davValue];
 		}
-		$recordModel->set('activitystatus', $value);
+		$this->record->set('activitystatus', $value);
 	}
 
 	/**
 	 * Parse visibility.
-	 *
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parseVisibility(\Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parseVisibility()
 	{
 		$davValue = null;
 		$value = 'Private';
-		if (isset($component->CLASS)) {
-			$davValue = strtoupper($component->CLASS->getValue());
+		if (isset($this->vcomponent->CLASS)) {
+			$davValue = strtoupper($this->vcomponent->CLASS->getValue());
 			$values = [
 				'PUBLIC' => 'Public',
 				'PRIVATE' => 'Private'
@@ -284,21 +301,18 @@ class Calendar
 				$value = $values[$davValue];
 			}
 		}
-		$recordModel->set('visibility', $value);
+		$this->record->set('visibility', $value);
 	}
 
 	/**
 	 * Parse state.
-	 *
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parseState(\Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parseState()
 	{
 		$davValue = null;
 		$value = '';
-		if (isset($component->TRANSP)) {
-			$davValue = strtoupper($component->TRANSP->getValue());
+		if (isset($this->vcomponent->TRANSP)) {
+			$davValue = strtoupper($this->vcomponent->TRANSP->getValue());
 			$values = [
 				'OPAQUE' => 'PLL_OPAQUE',
 				'TRANSPARENT' => 'PLL_TRANSPARENT'
@@ -307,21 +321,18 @@ class Calendar
 				$value = $values[$davValue];
 			}
 		}
-		$recordModel->set('state', $value);
+		$this->record->set('state', $value);
 	}
 
 	/**
 	 * Parse priority.
-	 *
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parsePriority(\Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parsePriority()
 	{
 		$davValue = null;
 		$value = 'Medium';
-		if (isset($component->PRIORITY)) {
-			$davValue = strtoupper($component->PRIORITY->getValue());
+		if (isset($this->vcomponent->PRIORITY)) {
+			$davValue = strtoupper($this->vcomponent->PRIORITY->getValue());
 			$values = [
 				1 => 'High',
 				5 => 'Medium',
@@ -331,44 +342,38 @@ class Calendar
 				$value = $values[$davValue];
 			}
 		}
-		$recordModel->set('taskpriority', $value);
+		$this->record->set('taskpriority', $value);
 	}
 
 	/**
 	 * Parse type.
-	 *
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parseType(\Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parseType()
 	{
-		$recordModel->set('activitytype', (string) $component->name === 'VTODO' ? 'Task' : 'Meeting');
+		$this->record->set('activitytype', (string) $this->vcomponent->name === 'VTODO' ? 'Task' : 'Meeting');
 	}
 
 	/**
 	 * Parse date time.
-	 *
-	 * @param \Vtiger_Record_Model     $recordModel
-	 * @param \Sabre\VObject\Component $component
 	 */
-	private function parseDateTime(\Vtiger_Record_Model $recordModel, VObject\Component $component)
+	private function parseDateTime()
 	{
 		$allDay = 0;
 		$endHasTime = $startHasTime = false;
-		$endField = ((string) $component->name) === 'VEVENT' ? 'DTEND' : 'DUE';
-		if (isset($component->DTSTART)) {
-			$davStart = VObject\DateTimeParser::parse($component->DTSTART);
+		$endField = ((string) $this->vcomponent->name) === 'VEVENT' ? 'DTEND' : 'DUE';
+		if (isset($this->vcomponent->DTSTART)) {
+			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTART);
 			$dateStart = $davStart->format('Y-m-d');
 			$timeStart = $davStart->format('H:i:s');
-			$startHasTime = $component->DTSTART->hasTime();
+			$startHasTime = $this->vcomponent->DTSTART->hasTime();
 		} else {
-			$davStart = VObject\DateTimeParser::parse($component->DTSTAMP);
+			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTAMP);
 			$dateStart = $davStart->format('Y-m-d');
 			$timeStart = $davStart->format('H:i:s');
 		}
-		if (isset($component->$endField)) {
-			$davEnd = VObject\DateTimeParser::parse($component->$endField);
-			$endHasTime = $component->$endField->hasTime();
+		if (isset($this->vcomponent->$endField)) {
+			$davEnd = VObject\DateTimeParser::parse($this->vcomponent->$endField);
+			$endHasTime = $this->vcomponent->$endField->hasTime();
 			$dueDate = $davEnd->format('Y-m-d');
 			$timeEnd = $davEnd->format('H:i:s');
 			if (!$endHasTime) {
@@ -387,25 +392,17 @@ class Calendar
 			$timeStart = $currentUser->getDetail('start_hour') . ':00';
 			$timeEnd = $currentUser->getDetail('end_hour') . ':00';
 		}
-		$recordModel->set('allday', $allDay);
-		$recordModel->set('date_start', $dateStart);
-		$recordModel->set('due_date', $dueDate);
-		$recordModel->set('time_start', $timeStart);
-		$recordModel->set('time_end', $timeEnd);
-	}
-
-	/**
-	 * Get vcalendar serialized blob.
-	 *
-	 * @return string
-	 */
-	public function generate()
-	{
-		return $this->vcalendar->serialize();
+		$this->record->set('allday', $allDay);
+		$this->record->set('date_start', $dateStart);
+		$this->record->set('due_date', $dueDate);
+		$this->record->set('time_start', $timeStart);
+		$this->record->set('time_end', $timeEnd);
 	}
 
 	/**
 	 * Create calendar entry component.
+	 *
+	 * @return \Sabre\VObject\Component
 	 */
 	public function createComponent()
 	{
@@ -413,9 +410,8 @@ class Calendar
 		$this->vcomponent = $this->vcalendar->createComponent($componentType);
 		$this->vcomponent->UID = \str_replace('sabre-vobject', 'YetiForceCRM', (string) $this->vcomponent->UID);
 		$this->updateComponent();
-		$this->vcomponent->add($this->vcalendar->createProperty('SEQUENCE', $this->sequence));
-		$this->sequence++;
 		$this->vcalendar->add($this->vcomponent);
+		return $this->vcomponent;
 	}
 
 	/**
@@ -437,6 +433,11 @@ class Calendar
 			$createdTime = new \DateTime();
 			$createdTime->setTimezone(new \DateTimeZone('UTC'));
 			$this->vcomponent->add($this->vcalendar->createProperty('CREATED', $createdTime));
+		}
+		if (empty($this->vcomponent->SEQUENCE)) {
+			$this->vcomponent->add($this->vcalendar->createProperty('SEQUENCE', 1));
+		} else {
+			$this->vcomponent->SEQUENCE = $this->vcomponent->SEQUENCE->getValue() + 1;
 		}
 	}
 
@@ -555,7 +556,7 @@ class Calendar
 			'Medium' => 5,
 			'Low' => 9
 		];
-		$value = 'Medium';
+		$value = 5;
 		if ($priority && isset($values[$priority])) {
 			$value = $values[$priority];
 		}
@@ -646,15 +647,15 @@ class Calendar
 				$cmpName = 'STANDARD';
 			}
 			if ($cmp && empty($vt->select($cmpName))) {
-				$dt = new \DateTime($trans['time']);
 				$offset = $trans['offset'] / 3600;
-				$cmp->DTSTART = $dt->format('Ymd\THis');
 				$cmp->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '', floor($tzfrom), ($tzfrom - floor($tzfrom)) * 60);
 				$cmp->TZOFFSETTO = sprintf('%s%02d%02d', $offset >= 0 ? '+' : '', floor($offset), ($offset - floor($offset)) * 60);
 				// add abbreviated timezone name if available
 				if (!empty($trans['abbr'])) {
 					$cmp->TZNAME = $trans['abbr'];
 				}
+				$dt = new \DateTime($trans['time']);
+				$cmp->DTSTART = $dt->format('Ymd\THis');
 				$tzfrom = $offset;
 				$vt->add($cmp);
 			}
