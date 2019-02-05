@@ -18,7 +18,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'primary_name' => 'LBL_PRIMARY_NAME',
 		'secondary_name' => 'LBL_SECONDARY_NAME',
 		'meta_author' => 'LBL_META_AUTHOR',
-		'meta_creator' => 'LBL_META_CREATOR',
 		'meta_keywords' => 'LBL_META_KEYWORDS',
 		'margin_chkbox' => 'LBL_MAIN_MARGIN',
 		'page_format' => 'LBL_PAGE_FORMAT',
