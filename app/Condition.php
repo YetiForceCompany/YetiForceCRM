@@ -48,9 +48,9 @@ class Condition
 				}
 				$fieldModel = $fields[$param[0]];
 				$fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
-				$tempParam []= $param;
+				$tempParam[]= $param;
 			}
-			$result []= $tempParam;
+			$result[]= $tempParam;
 		}
 		return $result;
 	}
