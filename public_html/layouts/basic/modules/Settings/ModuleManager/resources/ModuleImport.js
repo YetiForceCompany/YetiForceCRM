@@ -47,10 +47,45 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 	 * Function to register event for step1 of import module
 	 */
 	registerEventForStep1: function () {
-		$('.js-validation-engine').validationEngine();
+		let form = $('.js-validation-engine');
+		form.validationEngine();
+		this.validationFileZipPath(form);
 		var detailContentsHolder = jQuery('.contentsDiv');
 		app.showScrollBar(jQuery('.extensionDescription'), {'height': '120px', 'width': '100%', 'railVisible': true});
 		this.registerEventsForImportModuleStep1(detailContentsHolder);
+	},
+
+	/**
+	 * Function to validation file zip
+	 */
+	validationFileZipPath: function (form) {
+		form.on('submit', function (e) {
+			if (typeof form.data('submit') !== "undefined") {
+				return false;
+			} else {
+				let filePath = form.find('.js-validation-zip').val()
+				let fileParts = filePath.toLowerCase().split('.');
+				let fileType = fileParts[fileParts.length - 1];
+				if (fileType == '') {
+					let errorMessage = app.vtranslate('JS_IMPORT_FILE_CAN_NOT_BE_EMPTY');
+					let params = {
+						text: errorMessage,
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showMessage(params);
+					return false;
+				}
+				if (fileType != 'zip') {
+					let errorMessage = app.vtranslate('JS_SELECT_FILE_EXTENSION') + '\n' + '.zip';
+					let params = {
+						text: errorMessage,
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showMessage(params);
+					return false;
+				}
+			}
+		});
 	},
 
 	/**
