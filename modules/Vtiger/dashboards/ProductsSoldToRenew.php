@@ -28,6 +28,8 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			'orderby' => $request->getForSql('orderby'),
 			'sortorder' => $request->getForSql('sortorder'),
 		]);
+		$data['orderby'] = $this->getFromData('orderby');
+		$data['sortorder'] = $this->getFromData('sortorder');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('OWNER', $currentUser->getId());
