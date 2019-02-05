@@ -20,7 +20,9 @@
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon"
 					 data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
 					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
-						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+						<span class="modCT_{$MODULE_NAME}">
+							{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RECORD->getName())))}
+						</span>
 					</h4>
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
