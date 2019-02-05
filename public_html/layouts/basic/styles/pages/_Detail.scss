@@ -281,13 +281,11 @@
 	.commentActions {
 		visibility: hidden;
 		transition: 0s visibility;
+		transition-delay: 0.3s;
 	}
 
 	&:hover .commentActions {
 		visibility: visible;
-		animation: fadeIn 0.3s;
-		animation-delay: 0.3s;
-		transition-delay: 0.3s;
 	}
 }
 
@@ -397,10 +395,6 @@
 	.commentDetails {
 		display: block;
 	}
-}
-
-.commentActions {
-	margin-bottom: 5px;
 }
 
 .commentActionsContainer {
