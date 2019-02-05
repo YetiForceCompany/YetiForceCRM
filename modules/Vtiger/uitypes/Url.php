@@ -21,25 +21,45 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->getRaw($requestFieldName);
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (empty(parse_url($value)['scheme'])) {
-			$value = 'http://' . $value;
-		}
-		if (!preg_match('/^([^\:]+)\:/i', $value, $m)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE1||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		if (!(filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($m[1]), static::ALLOWED_PROTOCOLS))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
+		if (!($scheme = parse_url($value, PHP_URL_SCHEME))) {
+			$scheme = 'http';
+			$value = "{$scheme}://{$value}";
+		}
+		if (!(preg_match('/^([^\:]+)\:/i', $value) && filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
 		$this->validate[$value] = true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return $value ? $value : '';
 	}
 
 	/**
