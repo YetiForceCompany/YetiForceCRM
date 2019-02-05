@@ -7,6 +7,7 @@
 				<thead>
 				<tr>
 					<th class="text-center border-top-0">{App\Language::translate('LBL_LANG', $QUALIFIED_MODULE)}</th>
+					<th class="text-center border-top-0">{App\Language::translate('LBL_Lang_prefix', 'Settings:LangManagement')}</th>
 					<th class="text-center border-top-0">{App\Language::translate('LBL_TRANSLATED_WORDS', $QUALIFIED_MODULE)}</th>
 					<th class="text-center border-top-0">{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 				</tr>
@@ -15,11 +16,15 @@
 					{if !$DETAILS['exist']}
 						<tr>
 							<td class="align-middle{if $INDEX == 0} border-top-0{/if} u-white-space-normal u-white-space-lg-nowrap">
-								<strong>{\App\Purifier::encodeHtml($DETAILS['name'])} {\App\Purifier::encodeHtml($PREFIX)}</strong>
+								<strong>{\App\Purifier::encodeHtml($DETAILS['name'])}</strong>
+							</td>
+							<td class="align-middle{if $INDEX == 0} border-top-0{/if} u-white-space-normal u-white-space-lg-nowrap">
+								<strong>{\App\Purifier::encodeHtml($PREFIX)}</strong>
 							</td>
 							<td class="align-middle u-table-column__vw-20 u-table-column__before-block{if $INDEX == 0} border-top-0{/if} w-100">
 								<div class="progress position-relative">
-									<div class="progress-bar bg-color-blue-100" role="progressbar" style="width: {$DETAILS['progress']}%;"
+									<div class="progress-bar bg-color-blue-100" role="progressbar"
+										 style="width: {$DETAILS['progress']}%;"
 										 aria-valuenow="{$DETAILS['progress']}" aria-valuemin="0" aria-valuemax="100">
 									</div>
 									<div class="position-absolute w-100 text-center">{$DETAILS['progress']}%</div>

@@ -42,6 +42,6 @@ class Calendar_ExportToIcal_Model extends Vtiger_Export_Model
 			$calendar->loadFromArray($row);
 			$calendar->createComponent();
 		}
-		echo $calendar->generate();
+		echo $calendar->getVCalendar()->serialize();
 	}
 }
