@@ -1804,7 +1804,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerContextHelp: function (container) {
 		container.on('click', '.js-context-help', function (e) {
-			let modalContainer = null;
 			const customConfig = {
 				toolbar: 'Min',
 			};
