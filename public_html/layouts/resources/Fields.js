@@ -302,7 +302,7 @@ App.Fields = {
 					this.isModal = elements.closest('.js-modal-container').length;
 					if (this.isModal) {
 						let self = this;
-						this.progressInstance = jQuery.progressIndicator({
+						this.progressInstance = $.progressIndicator({
 							blockInfo: {
 								enabled: true,
 								onBlock: () => {
