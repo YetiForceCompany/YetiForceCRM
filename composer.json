@@ -65,7 +65,6 @@
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
-    "yetiforce/icalendar": "^1.0.2",
     "yetiforce/yetiforcepdf": "0.1.9"
   },
   "require-dev": {

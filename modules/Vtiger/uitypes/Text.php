@@ -72,7 +72,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 		}
-		return $value;
+		return nl2br($value);
 	}
 
 	/**

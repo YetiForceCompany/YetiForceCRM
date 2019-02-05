@@ -617,7 +617,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return aDeferred.promise();
 		}
 		if ("edit" === commentMode) {
-			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').html();
+			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
 		}
 		let element = jQuery(e.currentTarget),
 			commentInfoHeader = closestCommentBlock.closest('.js-comment-details').find('.js-comment-info-header'),

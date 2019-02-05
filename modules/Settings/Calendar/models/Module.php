@@ -56,6 +56,13 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		)->execute();
 	}
 
+	/**
+	 * Get not working days.
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return []
+	 */
 	public static function getNotWorkingDays()
 	{
 		$query = (new \App\Db\Query())
@@ -63,7 +70,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 			->where(['name' => 'notworkingdays']);
 		$row = $query->createCommand()->queryOne();
 		$return = [];
-		if (isset($row['value'])) {
+		if (!empty($row['value'])) {
 			$return = explode(';', $row['value']);
 		}
 		return $return;

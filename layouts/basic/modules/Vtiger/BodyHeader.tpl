@@ -242,7 +242,6 @@
 									  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 							</a>
-							{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}
 						</div>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
@@ -370,5 +369,8 @@
 			</nav>
 		</div>
 	</header>
+	{if !empty($QUICKCREATE_MODULES_PARENT)}
+		{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}
+	{/if}
 	<!-- /tpl-Base-BodyHeader -->
 {/strip}

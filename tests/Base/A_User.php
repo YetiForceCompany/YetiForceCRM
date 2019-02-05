@@ -73,9 +73,8 @@ class A_User extends \Tests\Base
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'small_letters'])->execute();
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'numbers'])->execute();
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'special'])->execute();
-
 		\App\User::setCurrentUserId(static::createUsersRecord()->getId());
-		$this->assertInternalType('int', static::createUsersRecord()->getId());
+		$this->assertIsInt(static::createUsersRecord()->getId());
 	}
 
 	/**
@@ -93,7 +92,7 @@ class A_User extends \Tests\Base
 		$user->set('roleid', 'H2');
 		$user->save();
 		static::$id = $user->getId();
-		$this->assertInternalType('int', static::$id);
+		$this->assertIsInt(static::$id);
 		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['user_name'], 'testuser');

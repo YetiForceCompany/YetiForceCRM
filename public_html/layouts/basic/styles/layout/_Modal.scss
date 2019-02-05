@@ -1,4 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.modal-backdrop {
+	z-index: 1032;
+}
+
 @include media-breakpoint-up(md) {
 	.modal-full {
 		max-width: 72%;
@@ -55,11 +60,11 @@
 	.modal-header,
 	.modal-body,
 	.modal-footer {
-		padding: 0.5rem !important;
+		padding: 0.5rem;
 	}
 
 	.modal {
-		padding: 0 !important;
+		padding: 0;
 	}
 }
 

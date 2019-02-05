@@ -1,7 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
+jQuery.Class("Settings_Mail_Detail_Js", {}, {
+
 	registerRemoveEvents: function () {
 		var container = jQuery('.contentsDiv');
 		container.on('click', '.js-delete', function () {

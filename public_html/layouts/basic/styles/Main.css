@@ -2587,7 +2587,7 @@ fieldset:disabled a.btn {
   border-radius: 0.3rem; }
 
 .btn-sm, .btn-group-sm > .btn, .rightRecordActions .actions .dropdown-menu .btn-xs,
-.leftRecordActions .actions .dropdown-menu .btn-xs, .Comment .commentActionsDiv .btn {
+.leftRecordActions .actions .dropdown-menu .btn-xs {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -2841,7 +2841,7 @@ input[type="button"].btn-block {
     margin-right: 0; }
 
 .btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split,
-.leftRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split, .Comment .commentActionsDiv .btn + .dropdown-toggle-split {
+.leftRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split {
   padding-right: 0.375rem;
   padding-left: 0.375rem; }
 
@@ -12161,10 +12161,20 @@ header .c-header__btn__container .select2-selection {
   .tribute-container li:hover {
     background: #f8f9fa; }
 
+.btn-sm .fa-xs, .btn-group-sm > .btn .fa-xs, .rightRecordActions .actions .dropdown-menu .btn-xs .fa-xs,
+.leftRecordActions .actions .dropdown-menu .btn-xs .fa-xs {
+  vertical-align: 0.0625rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
 .table-bordered thead td {
   border-bottom-width: 1px; }
+
+.btn-xs {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  border-radius: 0.16rem; }
 
 label.btn[class*=btn-outline-]:not(.active) {
   background: #fff; }
@@ -12736,100 +12746,6 @@ hr {
   padding-left: 0 !important; }
 .userPreferences .details {
   border-right: 0 !important; }
-
-.commentContainer {
-  border-radius: 2px; }
-  .commentContainer hr {
-    margin: 0 !important; }
-  .commentContainer .commentsList > .liStyleNone > .commentDetails .comment-div {
-    width: 100%; }
-  .commentContainer .singleComment {
-    border-bottom: 1px solid #ddd; }
-  .commentContainer .commentDetails {
-    background: #fff;
-    width: 100%;
-    margin-bottom: 0;
-    border-radius: 2px;
-    padding: 10px 0 0 0;
-    display: inline-block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word; }
-  .commentContainer .commentorInfo p {
-    margin-bottom: 0; }
-  .commentContainer .addCommentBlock .commentcontent {
-    min-height: 56px !important;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    padding: 7px !important;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    resize: none; }
-  .commentContainer .commentInfoContent {
-    padding: 1px 0;
-    word-wrap: break-word; }
-
-.commentTitle .col-md-1 {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-  .commentTitle .col-md-1 img {
-    width: 32px;
-    height: 32px; }
-
-.commentsList > ul {
-  margin-left: 0;
-  padding-left: 0; }
-
-.singleComment .edited-status {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-  .singleComment .edited-status p {
-    margin-bottom: 0; }
-.singleComment .commentActionsDiv p {
-  margin-bottom: 0; }
-.singleComment:hover .commentActionsDiv {
-  display: block;
-  margin-bottom: 3px; }
-
-.recentComments {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-  .recentComments .comment-div {
-    min-width: 100%; }
-  .recentComments .addCommentBlock {
-    border: 0;
-    margin-top: 0;
-    display: block; }
-  .recentComments .commentDetails {
-    display: block; }
-
-.singleComment:hover .commentActions .replyComment {
-  display: inline-block; }
-
-.commentActions {
-  margin-bottom: 5px; }
-
-.commentActionsContainer a:hover {
-  text-decoration: none; }
-.commentActionsContainer .editStatus {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  height: 15px; }
-  .commentActionsContainer .editStatus p {
-    margin-bottom: 0; }
 
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
 .summaryViewEntries .js-detail-quick-edit, .activityDescription .editDescription {
@@ -14228,9 +14144,6 @@ html, body, .o-base-container {
 .chosen-container-single .chosen-single {
   background: #fff; }
 
-.modal-backdrop {
-  z-index: 1030; }
-
 .commonActionsContainer .badge {
   font-size: 11px;
   top: -3px; }
@@ -14261,17 +14174,6 @@ html, body, .o-base-container {
   height: 300px; }
 
 @media only screen and (max-width: 1200px) {
-  .o-base-container:not(.c-menu--open) .c-menu__container:hover + .basePanel {
-    width: calc(100% - 180px);
-    -webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-    transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s; }
-
-  .pull-left-md {
-    float: left; }
-
-  .pull-right-md {
-    float: right; }
-
   .tl-media-content-container {
     width: 60%; }
 
@@ -15959,9 +15861,6 @@ ul.tweets li {
 .u-min-h-85vh {
   min-height: 85vh; }
 
-.u-white-space-nowrap {
-  white-space: nowrap !important; }
-
 .u-border-right-10px {
   border-right: 10px solid; }
 
@@ -15996,9 +15895,6 @@ ul.tweets li {
 
 .u-z-index-100 {
   z-index: 100; }
-
-.u-white-space-n {
-  white-space: normal !important; }
 
 .u-cursor-pointer, .c-panel__header {
   cursor: pointer;
@@ -16424,6 +16320,54 @@ ul.tweets li {
 .u-table-column__vw-100:before {
   width: 100vw; }
 
+.u-white-space-nowrap {
+  white-space: nowrap !important; }
+
+.u-white-space-normal {
+  white-space: normal !important; }
+
+@media (min-width: 400px) {
+  .u-white-space-xsm-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xsm-normal {
+    white-space: normal !important; } }
+@media (min-width: 576px) {
+  .u-white-space-sm-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-sm-normal {
+    white-space: normal !important; } }
+@media (min-width: 768px) {
+  .u-white-space-md-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-md-normal {
+    white-space: normal !important; } }
+@media (min-width: 992px) {
+  .u-white-space-lg-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-lg-normal {
+    white-space: normal !important; } }
+@media (min-width: 1200px) {
+  .u-white-space-xl-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xl-normal {
+    white-space: normal !important; } }
+@media (min-width: 1300px) {
+  .u-white-space-xxl-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xxl-normal {
+    white-space: normal !important; } }
+@media (min-width: 1800px) {
+  .u-white-space-xxxl-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xxxl-normal {
+    white-space: normal !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel, .bodyContents, .mainContainer, .contentsDiv {
   min-height: 100%; }
@@ -16491,7 +16435,7 @@ ul.tweets li {
   .c-btn-collapsible.btn-xs {
     max-width: 1.5625rem; }
   .c-btn-collapsible.btn-sm, .btn-group-sm > .c-btn-collapsible.btn, .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs,
-  .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs, .Comment .commentActionsDiv .c-btn-collapsible.btn {
+  .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs {
     max-width: 1.875rem; }
   .c-btn-collapsible.btn-lg, .btn-group-lg > .c-btn-collapsible.btn {
     max-width: 3.125rem; }
@@ -17182,8 +17126,8 @@ input[type="radio"]:checked:before {
 .o-base-container:not(.c-menu--open) .c-menu__container.js-expand + .c-header,
 .o-base-container:not(.c-menu--open) .c-menu__container:hover + .c-header {
   left: 230px; }
-  .o-base-container:not(.c-menu--open) .c-menu__container.js-expand + .c-header + .basePanel,
-  .o-base-container:not(.c-menu--open) .c-menu__container:hover + .c-header + .basePanel {
+  .o-base-container:not(.c-menu--open) .c-menu__container.js-expand + .c-header ~ .basePanel,
+  .o-base-container:not(.c-menu--open) .c-menu__container:hover + .c-header ~ .basePanel {
     left: 180px; }
 
 .c-header.open, .c-footer.open {
@@ -17198,7 +17142,7 @@ input[type="radio"]:checked:before {
     left: 0 !important; }
   .o-base-container .c-menu__container.js-expand + .c-header {
     left: 230px !important; }
-    .o-base-container .c-menu__container.js-expand + .c-header + .basePanel {
+    .o-base-container .c-menu__container.js-expand + .c-header ~ .basePanel {
       left: 230px !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
@@ -17620,7 +17564,7 @@ input[type="radio"]:checked:before {
       margin-top: auto;
       margin-bottom: auto; }
 .c-menu__header {
-  height: 3.25rem;
+  height: 3.125rem;
   padding-right: 0;
   padding-left: 0;
   background-color: #406a95; }
@@ -17792,6 +17736,9 @@ input[type="radio"]:checked:before {
   .c-footer--user-info-active {
     height: 2rem; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.modal-backdrop {
+  z-index: 1032; }
+
 @media (min-width: 768px) {
   .modal-full {
     max-width: 72%; } }
@@ -17830,10 +17777,10 @@ input[type="radio"]:checked:before {
   .modal-header,
   .modal-body,
   .modal-footer {
-    padding: 0.5rem !important; }
+    padding: 0.5rem; }
 
   .modal {
-    padding: 0 !important; } }
+    padding: 0; } }
 @media (min-width: 768px) {
   .c-modal-xl {
     max-width: calc(768px - 5vw); }
@@ -18823,19 +18770,102 @@ input[type="radio"]:checked:before {
 .recordEditView .table tbody tr:hover td, .recordEditView .c-detail-widget__table tbody tr:hover td, .recordEditView .table tbody tr:hover th, .recordEditView .c-detail-widget__table tbody tr:hover th {
   background: #f7f7f9; }
 
-.singleComment .commentActionsContainer .commentActions {
-  -webkit-transition: all 0.2s 0s ease;
-  -moz-transition: all 0.2s 0s ease;
-  -ms-transition: all 0.2s 0s ease;
-  -o-transition: all 0.2s 0s ease;
-  transition: all 0.2s 0s ease;
-  height: 0;
-  overflow: hidden; }
-.singleComment:hover .commentActionsContainer .commentActions {
-  height: 1.9375rem; }
+.singleComment .commentActions {
+  visibility: hidden;
+  transition: 0s visibility; }
+.singleComment:hover .commentActions {
+  visibility: visible;
+  animation: fadeIn 0.3s;
+  animation-delay: 0.3s;
+  transition-delay: 0.3s; }
 
-.quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
-  height: 0; }
+.commentContainer {
+  border-radius: 2px; }
+  .commentContainer hr {
+    margin: 0 !important; }
+  .commentContainer .commentsList > .liStyleNone > .commentDetails .comment-div {
+    width: 100%; }
+  .commentContainer .singleComment {
+    border-bottom: 1px solid #ddd; }
+  .commentContainer .commentDetails {
+    background: #fff;
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 2px;
+    padding: 10px 0 0 0;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word; }
+  .commentContainer .commentorInfo p {
+    margin-bottom: 0; }
+  .commentContainer .addCommentBlock .commentcontent {
+    min-height: 56px !important;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 7px !important;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    resize: none; }
+  .commentContainer .commentInfoContent {
+    padding: 1px 0;
+    word-wrap: break-word; }
+
+.commentTitle .col-md-1 {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word; }
+  .commentTitle .col-md-1 img {
+    width: 32px;
+    height: 32px; }
+
+.commentsList > ul {
+  margin-left: 0;
+  padding-left: 0; }
+
+.singleComment .edited-status {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word; }
+  .singleComment .edited-status p {
+    margin-bottom: 0; }
+.singleComment .commentActionsDiv p {
+  margin-bottom: 0; }
+
+.recentComments {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word; }
+  .recentComments .comment-div {
+    min-width: 100%; }
+  .recentComments .addCommentBlock {
+    border: 0;
+    margin-top: 0;
+    display: block; }
+  .recentComments .commentDetails {
+    display: block; }
+
+.commentActions {
+  margin-bottom: 5px; }
+
+.commentActionsContainer a:hover {
+  text-decoration: none; }
+.commentActionsContainer .editStatus {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  height: 15px; }
+  .commentActionsContainer .editStatus p {
+    margin-bottom: 0; }
 
 .tpl-Detail-HeaderFields a {
   color: #79baff; }

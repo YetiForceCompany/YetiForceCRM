@@ -72,7 +72,7 @@
 		.c-menu__container:hover + .c-header {
 			left: 230px;
 
-			+ .basePanel {
+			~ .basePanel {
 				left: 180px;
 			}
 		}
@@ -98,7 +98,7 @@
 		.c-menu__container.js-expand + .c-header {
 			left: 230px !important;
 
-			+ .basePanel {
+			~ .basePanel {
 				left: 230px !important;
 			}
 		}

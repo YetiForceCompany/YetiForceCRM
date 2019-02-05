@@ -31,8 +31,8 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userName = $request->get('user_name');
-		$email = $request->get('emailId');
+		$userName = $request->getByType('user_name', 'Text');
+		$email = $request->getByType('emailId', 'Text');
 		$moduleModel = Users_Module_Model::getInstance($moduleName);
 		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
