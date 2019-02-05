@@ -41,7 +41,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $this->getTemplate()])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
-			$pieces = explode('::', $row['parenttrre']);
+			$pieces = explode('::', $row['parentTree']);
 			end($pieces);
 			$parent = (int) ltrim(prev($pieces), 'T');
 			$tree = [

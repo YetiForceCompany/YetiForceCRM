@@ -66,7 +66,7 @@ class Tree
 			$parent = '';
 			$parentName = '';
 			if ($row['depth'] > 0) {
-				$parentTrre = $row['parenttrre'];
+				$parentTrre = $row['parentTree'];
 				$cut = strlen('::' . $tree);
 				$parentTrre = substr($parentTrre, 0, -$cut);
 				$pieces = explode('::', $parentTrre);
@@ -99,7 +99,7 @@ class Tree
 		$parent = '';
 		$parentName = '';
 		if ($row['depth'] > 0) {
-			$parentTrre = $row['parenttrre'];
+			$parentTrre = $row['parentTree'];
 			$cut = strlen('::' . $treeId);
 			$parentTrre = substr($parentTrre, 0, -$cut);
 			$pieces = explode('::', $parentTrre);

@@ -517,7 +517,7 @@ class PackageExport
 						$this->openNode('tree_value');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'name'), 'name');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'tree'), 'tree');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'parenttrre'), 'parenttrre');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'parentTree'), 'parentTree');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'depth'), 'depth');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'label'), 'label');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'state'), 'state');

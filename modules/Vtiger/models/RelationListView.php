@@ -333,7 +333,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$rows = $relationModelInstance->getRelationTree();
 		$trees = [];
 		foreach ($rows as &$row) {
-			$pieces = explode('::', $row['parenttrre']);
+			$pieces = explode('::', $row['parentTree']);
 			end($pieces);
 			$parent = prev($pieces);
 			$parentName = '';

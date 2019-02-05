@@ -287,7 +287,7 @@ class Field extends FieldBasic
 
 		foreach ($tree->tree_values->tree_value as $treeValue) {
 			$db->createCommand()->insert('vtiger_trees_templates_data', ['templateid' => $templateId, 'name' => $treeValue->name, 'tree' => $treeValue->tree,
-				'parenttrre' => $treeValue->parenttrre, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state,
+				'parentTree' => $treeValue->parentTree, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state,
 			])->execute();
 		}
 		\App\Log::trace("Add tree template $tree->name ... DONE", __METHOD__);

@@ -1200,7 +1200,7 @@ class Base4 extends \App\Db\Importers\Base
 					'templateid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'name' => $this->stringType()->notNull(),
 					'tree' => $this->stringType()->notNull(),
-					'parenttrre' => $this->stringType()->notNull(),
+					'parentTree' => $this->stringType()->notNull(),
 					'depth' => $this->smallInteger(3)->unsigned()->notNull(),
 					'label' => $this->stringType()->notNull(),
 					'state' => $this->stringType(100)->notNull()->defaultValue(''),
@@ -1211,7 +1211,7 @@ class Base4 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['id', 'templateid'],
-					['parenttrre', ['parenttrre', 'templateid']],
+					['parentTree', ['parentTree', 'templateid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -8953,7 +8953,7 @@ class Base4 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_trees_templates_data' => [
-				'columns' => ['templateid', 'name', 'tree', 'parenttrre', 'depth', 'label', 'state', 'icon'],
+				'columns' => ['templateid', 'name', 'tree', 'parentTree', 'depth', 'label', 'state', 'icon'],
 				'values' => [
 					[2, 'Hardware', 'T1', 'T1', 0, 'Hardware', '', ''],
 					[2, 'Software', 'T2', 'T2', 0, 'Software', '', ''],

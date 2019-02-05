@@ -114,23 +114,23 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param array  $tree
 	 * @param int    $depth
-	 * @param string $parenttrre
+	 * @param string $parentTree
 	 */
-	public function insertData($tree, $depth, $parenttrre)
+	public function insertData($tree, $depth, $parentTree)
 	{
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = (int) $tree['icon'] === 1 ? '' : $tree['icon'];
-		if ($parenttrre != '') {
-			$parenttrre = $parenttrre . '::';
+		$icon = (int)$tree['icon'] === 1 ? '' : $tree['icon'];
+		if ($parentTree != '') {
+			$parentTree = $parentTree . '::';
 		}
-		$parenttrre = $parenttrre . $treeID;
+		$parentTree = $parentTree . $treeID;
 		$params = [
 			'templateid' => $this->getId(),
 			'name' => $label,
 			'tree' => $treeID,
-			'parenttrre' => $parenttrre,
+			'parentTree' => $parentTree,
 			'depth' => $depth,
 			'label' => $label,
 			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
@@ -139,7 +139,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
 			foreach ($tree['children'] as $treeChild) {
-				$this->insertData($treeChild, $depth + 1, $parenttrre);
+				$this->insertData($treeChild, $depth + 1, $parentTree);
 			}
 		}
 	}
@@ -170,11 +170,11 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$treeValue = $treeValue ? explode(',', $treeValue) : [];
 		while ($row = $dataReader->read()) {
-			$treeID = (int) str_replace('T', '', $row['tree']);
+			$treeID = (int)str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
-			$parenttrre = substr($row['parenttrre'], 0, -$cut);
-			$pieces = explode('::', $parenttrre);
-			$parent = (int) str_replace('T', '', end($pieces));
+			$parentTree = substr($row['parentTree'], 0, -$cut);
+			$pieces = explode('::', $parentTree);
+			$parent = (int)str_replace('T', '', end($pieces));
 			$icon = false;
 			if (!empty($row['icon'])) {
 				$basePath = '';
@@ -276,27 +276,54 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$modules[] = $this->get('module');
 		$dataReader = (new App\Db\Query())->select(['tablename', 'columnname', 'uitype'])
 			->from('vtiger_field')
-			->where(['tabid' => $modules, 'fieldparams' => (string) $templateId, 'presence' => [0, 2]])
+			->where(['tabid' => $modules, 'fieldparams' => (string)$templateId, 'presence' => [0, 2]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
-			$uiType = (int) $row['uitype'];
-			foreach ($tree as $treeRow) {
-				$params = [];
-				foreach ($treeRow['old'] as $new) {
-					$params[] = $uiType === 309 ? ",T{$new}," : 'T' . $new;
+      			$uiType = (int) $row['uitype'];
+			if (309 === $uiType) {
+				$this->updateCategoryMultipicklist($tree, $tableName, $columnName);
+			} else {
+				foreach ($tree as $treeRow) {
+					$params = [];
+					foreach ($treeRow['old'] as $new) {
+						$params[] = 'T' . $new;
+					}
+					$db->createCommand()
+						->update($tableName, [$columnName => 'T' . current($treeRow['new'])], [$columnName => $params])
+						->execute();
 				}
-				$newVal = 'T' . current($treeRow['new']);
-				if ($uiType === 309) {
-					$newVal = ",{$newVal},";
-				}
-				$db->createCommand()
-					->update($tableName, [$columnName => $newVal], [$columnName => $params])
-					->execute();
 			}
 		}
 		$dataReader->close();
+	}
+
+	/**
+	 * Update category multipicklist.
+	 *
+	 * @param array  $tree
+	 * @param string $tableName
+	 * @param string $columnName
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private function updateCategoryMultipicklist(array $tree, string $tableName, string $columnName)
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		foreach ($tree as $treeRow) {
+			$query = (new \App\Db\Query())->from($tableName);
+			$query->orWhere(['like', $columnName, ",T{$treeRow['old'][0]},"]);
+			$dataReaderTree = $query->createCommand()->query();
+			while ($rowTree = $dataReaderTree->read()) {
+				$dbCommand->update(
+					$tableName,
+					[$columnName => str_replace(",T{$treeRow['old'][0]},", ",T{$treeRow['new'][0]},", $rowTree[$columnName])],
+					[$columnName => $rowTree[$columnName]]
+				)->execute();
+			}
+			$dataReaderTree->close();
+		}
 	}
 
 	/**
@@ -329,10 +356,10 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$tree = $row['tree'];
 			$parent = '';
 			if ($row['depth'] > 0) {
-				$parenttrre = $row['parenttrre'];
+				$parentTree = $row['parentTree'];
 				$cut = strlen('::' . $tree);
-				$parenttrre = substr($parenttrre, 0, -$cut);
-				$pieces = explode('::', $parenttrre);
+				$parentTree = substr($parentTree, 0, -$cut);
+				$pieces = explode('::', $parentTree);
 				$parent = end($pieces);
 			}
 			if ($parent && in_array($parent, $values) && !in_array($tree, $values)) {

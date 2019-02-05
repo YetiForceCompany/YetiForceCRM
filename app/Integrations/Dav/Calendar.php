@@ -350,7 +350,9 @@ class Calendar
 	 */
 	private function parseType()
 	{
-		$this->record->set('activitytype', (string) $this->vcomponent->name === 'VTODO' ? 'Task' : 'Meeting');
+		if ($this->record->isEmpty('activitytype')) {
+			$this->record->set('activitytype', (string) $this->vcomponent->name === 'VTODO' ? 'Task' : 'Meeting');
+		}
 	}
 
 	/**

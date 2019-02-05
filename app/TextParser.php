@@ -917,8 +917,8 @@ class TextParser
 				$value = $parentName = '';
 				if ($row) {
 					if ($row['depth'] > 0) {
-						$parenttrre = $row['parenttrre'];
-						$pieces = explode('::', $parenttrre);
+						$parentTree = $row['parentTree'];
+						$pieces = explode('::', $parentTree);
 						end($pieces);
 						$parent = prev($pieces);
 						$parentRow = Fields\Tree::getValueByTreeId($template, $parent);
