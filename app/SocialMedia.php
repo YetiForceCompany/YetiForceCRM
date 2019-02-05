@@ -50,8 +50,8 @@ class SocialMedia extends Base
 	public function __construct(string $type)
 	{
 		$this->type = $type;
-		if (\App\Cache::has('SocialMediaConfig', $this->type)) {
-			$this->value = \App\Cache::get('SocialMediaConfig', $this->type);
+		if (Cache::has('SocialMediaConfig', $this->type)) {
+			$this->value = Cache::get('SocialMediaConfig', $this->type);
 			return;
 		}
 		$this->value = [];
@@ -65,7 +65,7 @@ class SocialMedia extends Base
 			$this->value[$row['name']] = \App\Json::decode($row['value']);
 		}
 		$dataReader->close();
-		\App\Cache::save('SocialMediaConfig', $this->type, $this->value, \App\Cache::LONG);
+		Cache::save('SocialMediaConfig', $this->type, $this->value, Cache::LONG);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class SocialMedia extends Base
 	 */
 	public function clearCache()
 	{
-		\App\Cache::delete('SocialMediaConfig', $this->type);
+		Cache::delete('SocialMediaConfig', $this->type);
 	}
 
 	/**
