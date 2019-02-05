@@ -229,6 +229,7 @@ This file is auto-generated.
 		if (false === file_put_contents($this->path, $file, LOCK_EX)) {
 			throw new Exceptions\AppException("ERR_CREATE_FILE_FAILURE||{$this->path}");
 		}
+		Cache::resetFileCache($this->path);
 		if (\class_exists($className)) {
 			foreach ($class->getProperties() as $name => $property) {
 				if (isset($className::$$name)) {
