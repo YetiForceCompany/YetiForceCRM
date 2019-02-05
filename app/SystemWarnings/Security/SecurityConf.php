@@ -59,7 +59,7 @@ class SecurityConf extends \App\SystemWarnings\Template
 			$this->description = \App\Language::translateArgs(
 				'LBL_SECURITY_CONF_DESC',
 				'Settings:SystemWarnings',
-				'<a target="_blank" rel="noreferrer" href="' . \App\Language::translate('LBL_CONFIG_DOC_URL', 'Settings:SystemWarnings') . '"><u>' . \App\Language::translate('LBL_CONFIG_DOC_URL_LABEL', 'Settings:SystemWarnings') . '</u></a>',
+				'<a target="_blank" rel="noreferrer noopener" href="' . \App\Language::translate('LBL_CONFIG_DOC_URL', 'Settings:SystemWarnings') . '"><u>' . \App\Language::translate('LBL_CONFIG_DOC_URL_LABEL', 'Settings:SystemWarnings') . '</u></a>',
 				$errorsText
 			);
 		}

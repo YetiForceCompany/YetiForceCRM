@@ -26,13 +26,13 @@
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 					<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap>
-						<a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer">{$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME}</a>
+						<a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer noopener">{$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME}</a>
 						{if $LISTVIEW_HEADER@last}
 						</td>
 						<td nowrap class="{$WIDTHTYPE}">
 							<span class="actions">
 								<span class="actionImages float-right">
-									<a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></i></a>&nbsp;
+									<a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer noopener"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></i></a>&nbsp;
 								</span>
 							</span>
 						</td>
@@ -43,7 +43,7 @@
 		{/foreach}
 		<tr class="listViewEntrie {$WIDTHTYPE}" nowrap>
 			<td class="listViewEntryValue">
-				<a href="{$RECORD->get('url')}" target="_blank" rel="noreferrer" name="history_more">{\App\Language::translate('LBL_MORE')}...</a>
+				<a href="{$RECORD->get('url')}" target="_blank" rel="noreferrer noopener" name="history_more">{\App\Language::translate('LBL_MORE')}...</a>
 			</td>
 			<td nowrap class="{$WIDTHTYPE}">
 			</td>
