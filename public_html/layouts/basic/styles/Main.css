@@ -12161,6 +12161,10 @@ header .c-header__btn__container .select2-selection {
   .tribute-container li:hover {
     background: #f8f9fa; }
 
+.btn-sm .fa-xs, .btn-group-sm > .btn .fa-xs, .rightRecordActions .actions .dropdown-menu .btn-xs .fa-xs,
+.leftRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .Comment .commentActionsDiv .btn .fa-xs {
+  vertical-align: 0.0625rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
 .table-bordered thead td {
@@ -15871,9 +15875,6 @@ ul.tweets li {
 .u-min-h-85vh {
   min-height: 85vh; }
 
-.u-white-space-nowrap {
-  white-space: nowrap !important; }
-
 .u-border-right-10px {
   border-right: 10px solid; }
 
@@ -15908,9 +15909,6 @@ ul.tweets li {
 
 .u-z-index-100 {
   z-index: 100; }
-
-.u-white-space-n {
-  white-space: normal !important; }
 
 .u-cursor-pointer, .c-panel__header {
   cursor: pointer;
@@ -16336,6 +16334,54 @@ ul.tweets li {
 .u-table-column__vw-100:before {
   width: 100vw; }
 
+.u-white-space-nowrap {
+  white-space: nowrap !important; }
+
+.u-white-space-normal {
+  white-space: normal !important; }
+
+@media (min-width: 400px) {
+  .u-white-space-xsm-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xsm-normal {
+    white-space: normal !important; } }
+@media (min-width: 576px) {
+  .u-white-space-sm-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-sm-normal {
+    white-space: normal !important; } }
+@media (min-width: 768px) {
+  .u-white-space-md-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-md-normal {
+    white-space: normal !important; } }
+@media (min-width: 992px) {
+  .u-white-space-lg-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-lg-normal {
+    white-space: normal !important; } }
+@media (min-width: 1200px) {
+  .u-white-space-xl-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xl-normal {
+    white-space: normal !important; } }
+@media (min-width: 1300px) {
+  .u-white-space-xxl-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xxl-normal {
+    white-space: normal !important; } }
+@media (min-width: 1800px) {
+  .u-white-space-xxxl-nowrap {
+    white-space: nowrap !important; }
+
+  .u-white-space-xxxl-normal {
+    white-space: normal !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel, .bodyContents, .mainContainer, .contentsDiv {
   min-height: 100%; }
@@ -17532,7 +17578,7 @@ input[type="radio"]:checked:before {
       margin-top: auto;
       margin-bottom: auto; }
 .c-menu__header {
-  height: 3.25rem;
+  height: 3.125rem;
   padding-right: 0;
   padding-left: 0;
   background-color: #406a95; }
@@ -17742,10 +17788,10 @@ input[type="radio"]:checked:before {
   .modal-header,
   .modal-body,
   .modal-footer {
-    padding: 0.5rem !important; }
+    padding: 0.5rem; }
 
   .modal {
-    padding: 0 !important; } }
+    padding: 0; } }
 @media (min-width: 768px) {
   .c-modal-xl {
     max-width: calc(768px - 5vw); }

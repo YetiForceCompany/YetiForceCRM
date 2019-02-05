@@ -360,11 +360,6 @@
 	min-height: 85vh;
 }
 
-//--- WHITE SPACE ---//
-.u-white-space-nowrap {
-	white-space: nowrap !important;
-}
-
 //--- BORDER ---//
 .u-border-right-10px {
 	border-right: 10px solid
@@ -419,10 +414,6 @@
 
 .u-z-index-100 {
 	z-index: 100;
-}
-
-.u-white-space-n {
-	white-space: normal !important;
 }
 
 .u-cursor-pointer {
@@ -589,6 +580,21 @@
 	.u-table-column__vw-#{$i} {
 		&:before {
 			width: #{$i}vw;
+		}
+	}
+}
+
+//--- WHITE SPACE ---//
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		.u-white-space#{$infix}-nowrap {
+			white-space: nowrap !important;
+		}
+		.u-white-space#{$infix}-normal {
+			white-space: normal !important;
 		}
 	}
 }
