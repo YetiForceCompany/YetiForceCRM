@@ -36,11 +36,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function setUpBeforeClass()
 	{
-		self::$testDir = App\Fields\File::getTmpPath() . 'backups';
-		$config = new \App\ConfigFile('component', 'Backup');
-		$config->set('BACKUP_PATH', self::$testDir);
-		$config->create();
-		self::$testDir .= DIRECTORY_SEPARATOR;
+		self::$testDir = App\Fields\File::getTmpPath() . 'backups' . DIRECTORY_SEPARATOR;
 		if (is_dir(self::$testDir) === false) {
 			if (mkdir(self::$testDir)) {
 				self::$fileName = date('Ymd_His') . '.zip';
@@ -52,6 +48,9 @@ class Gui_BackupManager extends \Tests\GuiBase
 				if (is_dir($catalogDir) === false) {
 					mkdir($catalogDir);
 				}
+				$config = new \App\ConfigFile('component', 'Backup');
+				$config->set('BACKUP_PATH', self::$testDir);
+				$config->create();
 			}
 		}
 	}

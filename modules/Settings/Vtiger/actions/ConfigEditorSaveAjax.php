@@ -12,8 +12,10 @@
 class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \ReflectionException
 	 */
 	public function process(\App\Request $request)
