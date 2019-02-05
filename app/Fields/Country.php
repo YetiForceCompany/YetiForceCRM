@@ -44,7 +44,7 @@ class Country
 	/**
 	 * Return correct key value of given country in user language.
 	 *
-	 * @param string $countryName
+	 * @param string $value
 	 *
 	 * @return string
 	 */
