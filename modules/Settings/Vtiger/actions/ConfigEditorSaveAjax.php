@@ -6,28 +6,32 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @throws \ReflectionException
+	 */
 	public function process(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
-		$editableFields = $moduleModel->getEditableFields();
-		$updatedFields = $request->getMultiDimensionArray('updatedFields', array_combine(array_keys($editableFields), array_column($editableFields, 'validator')));
-		if ($updatedFields) {
-			$moduleModel->set('updatedFields', $updatedFields);
-			$status = $moduleModel->save();
-
-			if ($status === true) {
-				$response->setResult([$status]);
-			} else {
-				$response->setError(\App\Language::translate($status, $qualifiedModuleName));
+		try {
+			$configFile = new \App\ConfigFile('main');
+			foreach (array_keys($moduleModel->listFields) as $fieldName) {
+				if ($request->has($fieldName)) {
+					$configFile->set($fieldName, $request->getRaw($fieldName));
+				}
 			}
-		} else {
-			$response->setError(\App\Language::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
+			$configFile->create();
+			$response->setResult(true);
+		} catch (\Throwable $e) {
+			$response->setError(\App\Language::translate('LBL_ERROR', $qualifiedModuleName));
 		}
 		$response->emit();
 	}

@@ -59,7 +59,7 @@
 						</div>
 						{if $ACTIVITY->get('location') neq '' }
 							<div>
-								<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
+								<a target="_blank" rel="noreferrer noopener" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
 									<span class="fas fa-globe"></span>
 								</a>
 							</div>

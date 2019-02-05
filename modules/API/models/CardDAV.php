@@ -587,7 +587,7 @@ class API_CardDAV_Model
 				$adr = $property->getParts();
 				$street = $adr[1] . ' ' . $adr[2];
 				if ($moduleName === 'Contacts') {
-					$record->set('addresslevel1' . $contactsPostFix, \App\Purifier::purify($adr[6])); //country
+					$record->set('addresslevel1' . $contactsPostFix, \App\Fields\Country::findCountryName(\App\Purifier::purify($adr[6]))); //country
 					$record->set('addresslevel7' . $contactsPostFix, \App\Purifier::purify($adr[5])); //code
 					$record->set('addresslevel2' . $contactsPostFix, \App\Purifier::purify($adr[4])); //state
 					$record->set('addresslevel5' . $contactsPostFix, \App\Purifier::purify($adr[3])); //city

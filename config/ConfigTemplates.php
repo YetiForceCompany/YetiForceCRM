@@ -95,7 +95,14 @@ return [
 		],
 		'upload_maxsize' => [
 			'default' => 52428800,
-			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)'
+			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && ($arg * 1048576) <= vtlib\Functions::getMaxUploadSize();
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0) * 1048576;
+			}
 		],
 		'allow_exports' => [
 			'default' => 'all',
@@ -112,7 +119,13 @@ return [
 		'list_max_entries_per_page' => [
 			'default' => 20,
 			'description' => 'List max entries per page: default value = 20',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'default_module' => [
 			'default' => 'Home',
@@ -147,12 +160,17 @@ return [
 		'listview_max_textlength' => [
 			'default' => 40,
 			'description' => 'Trim descriptions, titles in listviews to this value',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'php_max_execution_time' => [
 			'default' => 0,
-			'description' => 'Maximum time limit for PHP script execution (in seconds)',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'Maximum time limit for PHP script execution (in seconds)'
 		],
 		'default_timezone' => [
 			'default' => '_TIMEZONE_',
@@ -170,22 +188,39 @@ return [
 			'description' => 'Maximum length of characters for title',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return 100 > $arg && 1 > $arg;
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
 			}
 		],
 		'href_max_length' => [
 			'default' => 35,
 			'description' => 'Maximum length for href tag',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'breadcrumbs' => [
 			'default' => true,
 			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
-			'validation' => '\App\Validator::bool'
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
-			'description' => 'Minimum cron frequency [min]'
+			'description' => 'Minimum cron frequency [min]',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'session_regenerate_id' => [
 			'default' => true,
@@ -197,46 +232,44 @@ return [
 		],
 		'systemMode' => [
 			'default' => 'prod',
-			'description' => 'System mode. Available: prod, demo, test',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return in_array($arg, ['prod', 'demo', 'test']);
-			}
+			'description' => 'System mode. Available: prod, demo, test'
 		],
 		'forceSSL' => [
 			'default' => false,
-			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
 		],
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
 			'description' => 'Maximum number of records in a mass edition',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (5000 >= $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'backgroundClosingModal' => [
 			'default' => true,
 			'description' => 'Enable closing of mondal window by clicking on the background',
-			'validation' => '\App\Validator::bool'
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'csrfProtection' => [
 			'default' => true,
-			'description' => 'Enable CSRF protection',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable CSRF protection'
 		],
 		'isActiveSendingMails' => [
 			'default' => true,
-			'description' => 'Is sending emails active.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Is sending emails active.'
 		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
-			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded'
 		],
 		'maxExecutionCronTime' => [
 			'default' => 3600,
-			'description' => 'The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.'
 		],
 		'langInLoginView' => [
 			'default' => false,
@@ -247,25 +280,23 @@ return [
 		'layoutInLoginView' => [
 			'default' => false,
 			'description' => "System's lyout selection in the login window (true/false)",
-			'validation' => '\App\Validator::bool'
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'defaultLayout' => [
 			'default' => 'basic',
 			'description' => 'Set the default layout',
 			'validation' => function () {
-				$arg = func_get_arg(0);
-				return $arg === 'basic';
+				return isset(\App\Layout::getAllLayouts()[func_get_arg(0)]);
 			}
 		],
 		'forceRedirect' => [
 			'default' => true,
-			'description' => 'Redirect to proper url when wrong url is entered.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Redirect to proper url when wrong url is entered.'
 		],
 		'phoneFieldAdvancedVerification' => [
 			'default' => true,
-			'description' => 'Enable advanced phone number validation. Enabling  it will block saving invalid phone number.',
-			'validation' => '\App\Validator::bool'
+			'description' => 'Enable advanced phone number validation. Enabling  it will block saving invalid phone number.'
 		],
 	],
 	'debug' => [

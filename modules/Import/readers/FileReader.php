@@ -140,7 +140,7 @@ class Import_FileReader_Reader
 			];
 			foreach ($inventoryModel->getFields() as $fieldObject) {
 				$dbType = $fieldObject->getDBType();
-				if (in_array($fieldObject->getType(), ['Name', 'Reference'])) {
+				if (in_array($fieldObject->getType(), ['Name', 'Reference', 'Currency'])) {
 					$dbType = $schema->createColumnSchemaBuilder('string', 200);
 				} elseif (is_array($dbType)) {
 					$dbType = $schema->createColumnSchemaBuilder($dbType[0], $dbType[1]);

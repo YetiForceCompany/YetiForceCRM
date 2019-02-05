@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -30,39 +31,21 @@
 				<thead>
 				<tr class="blockHeader">
 					<th colspan="2" class="{$WIDTHTYPE}">
-						<span class="alignMiddle">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</span>
+						<span class="alignMiddle">{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}</span>
 					</th>
 				</tr>
 				</thead>
 				<tbody>
-				{assign var=FIELD_DATA value=$MODEL->getViewableData()}
-				{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
+				{foreach key=FIELD_NAME item=FIELD_LABEL from=$MODEL->listFields}
+					{assign var="FIELD_MODEL" value=$MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$MODEL->get($FIELD_NAME))}
 					<tr>
 						<td width="30%" class="{$WIDTHTYPE} textAlignRight">
-							<label class="muted marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label>
+							<label class="muted marginRight10px">
+								{\App\Language::translate($FIELD_LABEL, $QUALIFIED_MODULE)}
+							</label>
 						</td>
 						<td style="border-left: none;" class="{$WIDTHTYPE}">
-							<span>
-								{if $FIELD_NAME == 'default_module'}
-									{if !empty($FIELD_DATA[$FIELD_NAME])}
-										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
-									{/if}
-								{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-									{if isset($FIELD_DATA[$FIELD_NAME]) && $FIELD_DATA[$FIELD_NAME] === 'true'}
-										{\App\Language::translate(LBL_YES)}
-									{else}
-										{\App\Language::translate(LBL_NO)}
-									{/if}
-								{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
-									{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
-									{if isset($FIELD_DATA[$FIELD_NAME]) && !empty($PICKLIST[$FIELD_DATA[$FIELD_NAME]])}
-										{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
-									{/if}
-								{elseif isset($FIELD_DATA[$FIELD_NAME])}
-									{$FIELD_DATA[$FIELD_NAME]}
-								{/if}
-								{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}
-							</span>
+							{$MODEL->getDisplayValue($FIELD_NAME)}
 						</td>
 					</tr>
 				{/foreach}

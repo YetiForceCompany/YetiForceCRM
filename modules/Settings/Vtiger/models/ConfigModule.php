@@ -6,25 +6,41 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 {
-	public $fileName = 'config/config.inc.php';
-	public $completeData;
-	public $data;
+	public $listFields = [
+		'upload_maxsize' => 'LBL_MAX_UPLOAD_SIZE',
+		'default_module' => 'LBL_DEFAULT_MODULE',
+		'listview_max_textlength' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW',
+		'list_max_entries_per_page' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW',
+		'defaultLayout' => 'LBL_DEFAULT_LAYOUT',
+		'breadcrumbs' => 'LBL_SHOWING_BREADCRUMBS',
+		'title_max_length' => 'LBL_TITLE_MAX_LENGTH',
+		'MINIMUM_CRON_FREQUENCY' => 'LBL_MINIMUM_CRON_FREQUENCY',
+		'listMaxEntriesMassEdit' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT',
+		'backgroundClosingModal' => 'LBL_BG_CLOSING_MODAL',
+		'href_max_length' => 'LBL_HREF_MAX_LEGTH',
+		'langInLoginView' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE',
+		'layoutInLoginView' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE'
+	];
 
 	/**
-	 * Function to read config file.
+	 * Function to initiation.
 	 *
-	 * @return array The data of config file
+	 * @throws \ReflectionException
 	 */
-	public function readFile()
+	public function init()
 	{
-		if (!$this->completeData) {
-			$this->completeData = file_get_contents($this->fileName);
+		foreach ($this->listFields as $fieldName => $fieldData) {
+			$value = \App\Config::main($fieldName);
+			if ('upload_maxsize' === $fieldName) {
+				$value /= 1048576;
+			}
+			$this->set($fieldName, $value);
 		}
-		return $this->completeData;
 	}
 
 	/**
@@ -62,151 +78,83 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Viewable data of config details.
-	 *
-	 * @return array
-	 */
-	public function getViewableData()
-	{
-		if (!$this->getData()) {
-			$fileContent = $this->readFile();
-			$pattern = '/\$([^=]+)=([^;]+);/';
-			$matches = null;
-			$matchesFound = preg_match_all($pattern, $fileContent, $matches);
-			$configContents = [];
-			if ($matchesFound) {
-				$configContents = $matches[0];
-			}
-			$dataArray = [];
-			$editableFields = $this->getEditableFields();
-			foreach ($editableFields as $fieldName => $fieldDetails) {
-				foreach ($configContents as $configContent) {
-					if (strpos($configContent, $fieldName)) {
-						$fieldValue = explode(' = ', $configContent);
-						$fieldValue = str_replace(';', '', str_replace("'", '', $fieldValue[1]));
-						if ($fieldName === 'upload_maxsize') {
-							$fieldValue = round(number_format($fieldValue / 1048576, 2));
-						}
-
-						$dataArray[$fieldName] = $fieldValue;
-						break;
-					}
-				}
-			}
-			$this->setData($dataArray);
-		}
-		return $this->getData();
-	}
-
-	/**
-	 * Function to get picklist values.
-	 *
-	 * @param string $fieldName
-	 *
-	 * @return array list of module names
-	 */
-	public function getPicklistValues($fieldName)
-	{
-		if ($fieldName === 'default_module') {
-			$presence = [0];
-			$restrictedModules = ['Integration', 'Dashboard'];
-			$query = (new \App\Db\Query())->select(['name', 'tablabel'])->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
-			$rows = $query->createCommand()->queryAllByGroup(0);
-
-			return array_merge(['Home' => 'Home'], $rows);
-		} elseif ($fieldName === 'defaultLayout') {
-			return \App\Layout::getAllLayouts();
-		}
-		return ['true', 'false'];
-	}
-
-	/**
-	 * Function to get editable fields.
-	 *
-	 * @return array list of field names
-	 */
-	public function getEditableFields()
-	{
-		return [
-			'upload_maxsize' => ['label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'default_module' => ['label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist', 'validator' => 'Alnum'],
-			'listview_max_textlength' => ['label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'list_max_entries_per_page' => ['label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'defaultLayout' => ['label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist', 'validator' => 'Standard'],
-			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
-			'title_max_length' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
-			'href_max_length' => ['label' => 'LBL_HREF_MAX_LEGTH', 'fieldType' => 'input', 'validator' => 'Integer'],
-			'langInLoginView' => ['label' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
-			'layoutInLoginView' => ['label' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE', 'fieldType' => 'checkbox', 'validator' => 'Standard'],
-		];
-	}
-
-	/**
-	 * Function to save the data.
-	 */
-	public function save()
-	{
-		$fileContent = $this->completeData;
-		$updatedFields = $this->get('updatedFields');
-		$validationInfo = $this->validateFieldValues($updatedFields);
-		if ($validationInfo === true) {
-			foreach ($updatedFields as $fieldName => $fieldValue) {
-				if ($fieldName === 'upload_maxsize') {
-					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
-				} elseif (in_array($fieldName, ['title_max_length', 'listview_max_textlength', 'listMaxEntriesMassEdit', 'list_max_entries_per_page', 'MINIMUM_CRON_FREQUENCY', 'href_max_length'])) {
-					$fieldValue = (int) $fieldValue;
-				} elseif (in_array($fieldName, ['layoutInLoginView', 'langInLoginView', 'backgroundClosingModal', 'breadcrumbs'])) {
-					$fieldValue = strcasecmp('true', (string) $fieldValue) === 0;
-				}
-				$replacement = sprintf('$%s = %s;', $fieldName, \App\Utils::varExport($fieldValue));
-				$fileContent = preg_replace('/\$' . $fieldName . '[\s]+=([^;]+);/', $replacement, $fileContent);
-			}
-			$filePointer = fopen($this->fileName, 'w');
-			fwrite($filePointer, $fileContent);
-			fclose($filePointer);
-		}
-		return $validationInfo;
-	}
-
-	/**
-	 * Function to validate the field values.
-	 *
-	 * @param array $updatedFields
-	 *
-	 * @return bool|string True/Error message
-	 */
-	public function validateFieldValues($updatedFields)
-	{
-		if (!in_array($updatedFields['default_module'], $this->getPicklistValues('default_module'))) {
-			return 'LBL_INVALID_MODULE';
-		} elseif (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) ||
-			!filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) ||
-			!filter_var(ltrim($updatedFields['title_max_length'], '0'), FILTER_VALIDATE_INT) ||
-			!filter_var(ltrim($updatedFields['listMaxEntriesMassEdit'], '0'), FILTER_VALIDATE_INT) ||
-			!filter_var(ltrim($updatedFields['href_max_length'], '0'), FILTER_VALIDATE_INT) ||
-			!filter_var(ltrim($updatedFields['MINIMUM_CRON_FREQUENCY'], '0'), FILTER_VALIDATE_INT) ||
-			!filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT)) {
-			return 'LBL_INVALID_NUMBER';
-		}
-		if (array_diff(array_keys($updatedFields), array_keys($this->getEditableFields()))) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Function to get the instance of Config module model.
 	 *
-	 * @return /self $moduleModel
+	 * @throws \ReflectionException
+	 *
+	 * @return \Settings_Vtiger_ConfigModule_Model|\Settings_Vtiger_Module_Model
 	 */
-	public static function getInstance($name = false)
+	public static function getInstance($name = 'Settings:Vtiger')
 	{
 		$moduleModel = new self();
-		$moduleModel->getViewableData();
-
+		$moduleModel->init();
 		return $moduleModel;
+	}
+
+	/**
+	 * Function determines fields available in edition view.
+	 *
+	 * @param string $name
+	 *
+	 * @return \Settings_Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName($name)
+	{
+		$moduleName = $this->getName(true);
+		$params = ['uitype' => 7, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']]];
+		switch ($name) {
+			case 'listMaxEntriesMassEdit':
+				$params['maximumlength'] = '5000';
+				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
+				break;
+			case 'upload_maxsize':
+				$params['maximumlength'] = (string) round((vtlib\Functions::getMaxUploadSize() / 1048576), 0);
+				unset($params['validator']);
+				break;
+			case 'layoutInLoginView':
+			case 'langInLoginView':
+			case 'backgroundClosingModal':
+			case 'breadcrumbs':
+				$params['uitype'] = 56;
+				$params['typeofdata'] = 'C~M';
+				unset($params['validator']);
+				break;
+			case 'default_module':
+				$params['uitype'] = 16;
+				unset($params['validator']);
+				$params['picklistValues'] = ['Home' => \App\Language::translate('Home')];
+				foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
+					$params['picklistValues'][$module['name']] = \App\Language::translate($module['name'], $module['name']);
+				}
+				break;
+			case 'defaultLayout':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = \App\Layout::getAllLayouts();
+				unset($params['validator']);
+				break;
+			default:
+				break;
+		}
+		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+	}
+
+	/**
+	 * Function to getDisplay value of every field.
+	 *
+	 * @param string $name field name
+	 *
+	 * @return mixed
+	 */
+	public function getDisplayValue($name)
+	{
+		switch ($name) {
+			case 'upload_maxsize':
+				$value = $this->get($name) . ' ' . \App\Language::translate('LBL_MB', $this->getName(true));
+				break;
+			default:
+				$value = $this->getFieldInstanceByName($name)->getDisplayValue($this->get($name));
+				break;
+		}
+		return $value;
 	}
 }

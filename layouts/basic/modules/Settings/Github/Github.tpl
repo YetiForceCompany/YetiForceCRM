@@ -28,7 +28,7 @@
 							<div class="alert alert-warning">
 								<ul>
 									<li>{\App\Language::translate('LBL_USERNAME_DESCRIPTION', $QUALIFIED_MODULE)}</li>
-									<li>{\App\Language::translateArgs('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE,'<a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">help.github.com</a>')}</li>
+									<li>{\App\Language::translateArgs('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE,'<a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use" rel="noreferrer noopener">help.github.com</a>')}</li>
 								</ul>
 							</div>
 						</div>
@@ -119,12 +119,12 @@
 				{foreach from=$GITHUB_ISSUES item=ISSUE}
 					<tr class="">
 						<td>
-							<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
+							<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer noopener">
 								{$ISSUE->get('title')}
 							</a>
 						</td>
 						<td>
-							<a href="{$ISSUE->get('user')->html_url}" target="_blank" rel="noreferrer">
+							<a href="{$ISSUE->get('user')->html_url}" target="_blank" rel="noreferrer noopener">
 								{$ISSUE->get('user')->login}
 							</a>
 						</td>
@@ -134,7 +134,7 @@
 						<td>
 							<div class="float-right actions">
 							<span class="actionImages">
-								<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
+								<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer noopener">
 									<span title="" class="fas fa-th-list alignMiddle"></span>
 								</a>
 							</span>

@@ -18684,7 +18684,6 @@ input[type="radio"]:checked:before {
             width: 40px;
             height: 40px; } }
       .timeline > li .timeline-item > .timeline-body {
-        padding-right: 10px;
         padding-left: 0;
         font-size: 0.7em; }
       @media (min-width: 576px) {
@@ -18772,12 +18771,10 @@ input[type="radio"]:checked:before {
 
 .singleComment .commentActions {
   visibility: hidden;
-  transition: 0s visibility; }
-.singleComment:hover .commentActions {
-  visibility: visible;
-  animation: fadeIn 0.3s;
-  animation-delay: 0.3s;
+  transition: 0s visibility;
   transition-delay: 0.3s; }
+.singleComment:hover .commentActions {
+  visibility: visible; }
 
 .commentContainer {
   border-radius: 2px; }
@@ -18852,9 +18849,6 @@ input[type="radio"]:checked:before {
     display: block; }
   .recentComments .commentDetails {
     display: block; }
-
-.commentActions {
-  margin-bottom: 5px; }
 
 .commentActionsContainer a:hover {
   text-decoration: none; }

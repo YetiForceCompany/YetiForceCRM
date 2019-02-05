@@ -32,7 +32,9 @@ class Condition
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
 		}
 		$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
+		$result = [];
 		foreach ($searchParams as $params) {
+			$tempParam = [];
 			foreach ($params as $param) {
 				if (empty($param)) {
 					continue;
@@ -46,9 +48,11 @@ class Condition
 				}
 				$fieldModel = $fields[$param[0]];
 				$fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
+				$tempParam[]= $param;
 			}
+			$result[]= $tempParam;
 		}
-		return $searchParams;
+		return $result;
 	}
 
 	/**
