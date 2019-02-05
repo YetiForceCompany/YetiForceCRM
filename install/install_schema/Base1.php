@@ -4482,7 +4482,7 @@ Created for your account in the customer portal, below sending data access<br />
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|Location)$</i></div>
 						</td>
-						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><span><span>$(record : location)$</span><span> (<a href="https://maps.google.pl/maps?q=$(record%20:%20location)$">mapa</a>)</span></span></td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><span><span>$(record : location)$</span><span> (<a href="https://maps.google.pl/maps?q=$(record%20:%20location)$" rel="noreferrer noopener">mapa</a>)</span></span></td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|Status)$</i></div>
 						</td>
