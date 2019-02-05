@@ -119,7 +119,13 @@ return [
 		'list_max_entries_per_page' => [
 			'default' => 20,
 			'description' => 'List max entries per page: default value = 20',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'default_module' => [
 			'default' => 'Home',
@@ -154,12 +160,17 @@ return [
 		'listview_max_textlength' => [
 			'default' => 40,
 			'description' => 'Trim descriptions, titles in listviews to this value',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'php_max_execution_time' => [
 			'default' => 0,
-			'description' => 'Maximum time limit for PHP script execution (in seconds)',
-			'validation' => '\App\Validator::naturalNumber'
+			'description' => 'Maximum time limit for PHP script execution (in seconds)'
 		],
 		'default_timezone' => [
 			'default' => '_TIMEZONE_',
@@ -177,7 +188,7 @@ return [
 			'description' => 'Maximum length of characters for title',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg && is_numeric($arg) && (100 >= $arg) && (0 < $arg);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
 			'sanitization' => function () {
 				return (int) func_get_arg(0);
@@ -186,7 +197,13 @@ return [
 		'href_max_length' => [
 			'default' => 35,
 			'description' => 'Maximum length for href tag',
-			'validation' => '\App\Validator::naturalNumber'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'breadcrumbs' => [
 			'default' => true,
@@ -199,7 +216,7 @@ return [
 			'description' => 'Minimum cron frequency [min]',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg && is_numeric($arg) && (100 >= $arg) && (0 < $arg);
+				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
 			'sanitization' => function () {
 				return (int) func_get_arg(0);
@@ -226,7 +243,7 @@ return [
 			'description' => 'Maximum number of records in a mass edition',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg && \App\Validator::naturalNumber($arg);
+				return $arg && \App\Validator::naturalNumber($arg) && (5000 >= $arg);
 			},
 			'sanitization' => function () {
 				return (int) func_get_arg(0);
@@ -270,8 +287,7 @@ return [
 			'default' => 'basic',
 			'description' => 'Set the default layout',
 			'validation' => function () {
-				$arg = func_get_arg(0);
-				return $arg === 'basic';
+				return isset(\App\Layout::getAllLayouts()[func_get_arg(0)]);
 			}
 		],
 		'forceRedirect' => [
