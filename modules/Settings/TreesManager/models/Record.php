@@ -281,7 +281,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
-      $uiType = (int) $row['uitype'];
+      			$uiType = (int) $row['uitype'];
 			if (309 === $uiType) {
 				$this->updateCategoryMultipicklist($tree, $tableName, $columnName);
 			} else {
