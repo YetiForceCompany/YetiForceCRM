@@ -37,6 +37,7 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 				var paramsForm = form.serializeFormData();
 				paramsForm['active'] = form.find('[name="active"]').prop('checked') ? 1 : 0;
 				paramsForm['sent'] = form.find('[name="sent"]').prop('checked') ? 1 : 0;
+				delete paramsForm['__vtrftk'];
 				thisInstance.saveAjax(form.data('mode'), paramsForm);
 				return false;
 			} else {
