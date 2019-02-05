@@ -11,7 +11,7 @@
 [![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
 [![dependencies Status](https://david-dm.org/YetiForceCompany/YetiForceCRM/status.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
-<a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm" rel="noreferrer noopener">
+<a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/16547/badge.svg"/>
 </a>
@@ -71,31 +71,31 @@ https://github.com/YetiForceCompany/YetiForceIncompleteLanguages
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
 Testing Supported By<br/>
-<a href="http://browserstack.com" rel="noreferrer noopener">
+<a href="http://browserstack.com">
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
 
 ## Contributors
  This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors"><img src="https://opencollective.com/YetiForceCRM/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
  Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/YetiForceCRM#backer)]
- <a href="https://opencollective.com/YetiForceCRM#backers" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/backers.svg?width=890"></a>
+ <a href="https://opencollective.com/YetiForceCRM#backers" target="_blank"><img src="https://opencollective.com/YetiForceCRM/backers.svg?width=890"></a>
  
  ## Sponsors
  Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/YetiForceCRM#sponsor)]
  
-<a href="https://opencollective.com/YetiForceCRM/sponsor/0/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/1/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/2/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/3/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/4/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/5/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/6/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/7/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/8/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/9/website" target="_blank" rel="noreferrer noopener"><img src="https://opencollective.com/YetiForceCRM/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/0/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/1/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/2/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/3/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/4/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/5/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/6/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/7/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/8/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/YetiForceCRM/sponsor/9/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/9/avatar.svg"></a>
 
 ### Gallery: https://public.yetiforce.com/gallery
 
