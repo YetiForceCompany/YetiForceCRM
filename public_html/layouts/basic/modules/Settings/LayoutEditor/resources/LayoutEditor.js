@@ -1804,8 +1804,16 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerContextHelp: function (container) {
 		container.on('click', '.js-context-help', function (e) {
-			var progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
+			let modalContainer = null;
+			const customConfig = {
+				toolbar: 'Min',
+			};
 			const element = $(e.currentTarget);
+			this.progressInstance = $.progressIndicator({
+				blockInfo: {
+					enabled: true,
+				}
+			});
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -1813,12 +1821,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				field: element.data('field-id')
 			}).done(function (data) {
 				app.showModalWindow(data, function (modalContainer) {
-					const customConfig = {
-						toolbar: 'Clipboard'
-					};
 					new App.Fields.Text.Editor(modalContainer, customConfig);
 					app.showPopoverElementView(modalContainer.find('.js-help-info'));
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					modalContainer.find('.js-lang').on('change', function (e) {
 						let previous = modalContainer.find('.js-editor:not([disabled])');
 						App.Fields.Text.destroyEditor(previous);

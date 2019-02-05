@@ -155,7 +155,9 @@
 			$('.imageHolder', this.container).remove();
 			if (typeof this.blockedElement !== "undefined") {
 				if (this.isPageBlockMode()) {
-					$.unblockUI();
+					$.unblockUI({
+						onUnblock: thisInstance.options.blockInfo.onUnblock
+					});
 				} else {
 					this.blockedElement.unblock();
 				}
