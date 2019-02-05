@@ -4,6 +4,7 @@ use PHPUnit\Framework\PhptTestCase;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\TestSuite;
 
 /**
  * Travis CI result printer class.
@@ -35,6 +36,9 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	 */
 	public function endTest(Test $test, float $time): void
 	{
+		if ($this->debug) {
+			echo " - $time second(s) | Assertions: " . $test->getNumAssertions();
+		}
 		if (!$this->lastTestFailed) {
 			$this->writeProgress('.');
 		}
@@ -62,6 +66,68 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		$this->write("\n==========================================================================================================");
 		parent::printResult($result);
 		$this->write("\n==========================================================================================================");
+	}
+
+	public function startTestSuite(TestSuite $suite): void
+	{
+		parent::startTestSuite($suite);
+	}
+
+	public function endTestSuite(TestSuite $suite): void
+	{
+		//printf("Ended all tests: %s.\n", $suite->getName());
+		parent::endTestSuite($suite);
+	}
+
+	public function addError(Test $test, \Throwable $t, float $time): void
+	{
+		$time = round($time, 2);
+		echo '! Test ' . $test->getName() . " error.\n";
+		//echo "Exception Message: " . $e->getMessage() . "\n";
+		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
+		parent::addError($test, $t, $time);
+	}
+
+	public function addWarning(Test $test, Warning $e, float $time): void
+	{
+		$time = round($time, 2);
+		echo '! Test ' . $test->getName() . " warning.\n";
+		//echo "Exception Message: " . $e->getMessage() . "\n";
+		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
+		parent::addWarning($test, $e, $time);
+	}
+
+	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
+	{
+		$time = round($time, 2);
+		echo '! Test ' . $test->getName() . " failed.\n";
+		//echo "Exception Message: " . $e->getMessage() . "\n";
+		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
+		parent::addFailure($test, $e, $time);
+	}
+
+	public function addIncompleteTest(Test $test, \Throwable $t, float $time): void
+	{
+		$time = round($time, 2);
+		printf("addIncompleteTest: Test '%s' is incomplete.\n", $test->getName());
+		parent::addIncompleteTest($test, $t, $time);
+	}
+
+	public function addRiskyTest(Test $test, \Throwable $t, float $time): void
+	{
+		printf("! Test %s is deemed risky.\n", $test->getName());
+		//echo "Exception Message: " . $e->getMessage() . "\n";
+		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
+		parent::addRiskyTest($test, $t, $time);
+	}
+
+	public function addSkippedTest(Test $test, \Throwable $t, float $time): void
+	{
+		$time = round($time, 2);
+		printf("! Test '%s' has been skipped. ($time second(s))\n", $test->getName());
+		//echo "Exception Message: " . $e->getMessage() . "\n";
+		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
+		parent::addSkippedTest($test, $t, $time);
 	}
 }
 

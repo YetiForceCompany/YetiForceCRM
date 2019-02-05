@@ -72,7 +72,4 @@
 			</exclude>
 		</whitelist>
 	</filter>
-	<listeners>
-		<listener class="YtTimes" file="./times.php"/>
-	</listeners>
 </phpunit>
