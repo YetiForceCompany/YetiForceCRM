@@ -104,11 +104,11 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		$params = ['uitype' => 7, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']]];
 		switch ($name) {
 			case 'listMaxEntriesMassEdit':
-				$params['maximumlength'] = '10000';
+				$params['maximumlength'] = '5000';
 				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
 				break;
 			case 'upload_maxsize':
-				$params['maximumlength'] = '1073741824';
+				$params['maximumlength'] = (string) round((vtlib\Functions::getMaxUploadSize() / 1048576), 0);
 				unset($params['validator']);
 				break;
 			case 'layoutInLoginView':

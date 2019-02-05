@@ -31,7 +31,7 @@
 				<thead>
 				<tr class="blockHeader">
 					<th colspan="2" class="{$WIDTHTYPE}">
-						<span class="alignMiddle">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</span>
+						<span class="alignMiddle">{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}</span>
 					</th>
 				</tr>
 				</thead>

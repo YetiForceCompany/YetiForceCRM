@@ -71,12 +71,10 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 							jQuery('.contentsDiv').html(data);
 							thisInstance.registerDetailViewEvents();
 						});
+						Settings_Vtiger_Index_Js.showMessage(params);
 					} else {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						params['text'] = data['error']['message'];
-						params['type'] = 'error';
 					}
-					Settings_Vtiger_Index_Js.showMessage(params);
 				}).fail(function (error, err) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});

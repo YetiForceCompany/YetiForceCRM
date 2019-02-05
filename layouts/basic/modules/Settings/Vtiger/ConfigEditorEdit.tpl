@@ -37,7 +37,7 @@
 					<thead>
 					<tr class="blockHeader">
 						<th colspan="2"
-							class="{$WIDTHTYPE}">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</th>
+							class="{$WIDTHTYPE}">{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -48,7 +48,6 @@
 								<div class="form-row">
 									<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
 										{\App\Language::translate($FIELD_LABEL, $QUALIFIED_MODULE)}
-										{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 									</label>
 									{if $FIELD_NAME eq 'upload_maxsize'}
 										<div class="input-group col-md-3 fieldValue">
