@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Import_ICSReader_Reader extends Ical
+class Import_ICSReader_Reader
 {
 	/**
 	 * Function to get info about imported file contains header or not.

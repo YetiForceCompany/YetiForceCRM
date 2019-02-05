@@ -18684,7 +18684,6 @@ input[type="radio"]:checked:before {
             width: 40px;
             height: 40px; } }
       .timeline > li .timeline-item > .timeline-body {
-        padding-right: 10px;
         padding-left: 0;
         font-size: 0.7em; }
       @media (min-width: 576px) {
