@@ -24,7 +24,7 @@ abstract class Base extends \PHPUnit\Framework\TestCase
 	protected function onNotSuccessfulTest(\Throwable $t)
 	{
 		if (isset($this->logs)) {
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			//var_export(array_shift($t->getTrace()));
 			\print_r($this->logs);
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
