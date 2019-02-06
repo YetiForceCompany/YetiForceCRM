@@ -1071,32 +1071,41 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to unHide the selected fields in the inactive fields modal
 	 */
 	reActivateHiddenFields: function (currentBlock) {
-		var thisInstance = this;
-		var progressIndicatorElement = $.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-		var params = {};
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['action'] = 'Field';
-		params['mode'] = 'unHide';
-		params['blockId'] = currentBlock.data('blockId');
-		params['fieldIdList'] = JSON.stringify(thisInstance.reactiveFieldsList);
-
-		AppConnector.request(params).done(function (data) {
-			for (var index in data.result) {
-				thisInstance.showCustomField(data.result[index]);
-			}
+		const thisInstance = this;
+		let progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			}),
+			params = {
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'Field',
+				mode: 'unHide',
+				blockId: currentBlock.data('blockId'),
+				fieldIdList: JSON.stringify(thisInstance.reactiveFieldsList)
+			},
+			messageParams = {};
+		if (params.fieldIdList !== '[]') {
+			AppConnector.request(params).done(function (data) {
+				for (let index in data.result) {
+					console.log('index');
+					console.log(data.result[index]);
+					thisInstance.showCustomField(data.result[index]);
+				}
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				messageParams.text = app.vtranslate('JS_SELECTED_FIELDS_REACTIVATED');
+				Settings_Vtiger_Index_Js.showMessage(messageParams);
+			}).fail(function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
+		} else {
+			messageParams.text = app.vtranslate('JS_NO_ITEM_SELECTED');
+			messageParams.type = 'error';
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var params = {};
-			params['text'] = app.vtranslate('JS_SELECTED_FIELDS_REACTIVATED');
-			Settings_Vtiger_Index_Js.showMessage(params);
-		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-		});
+			Settings_Vtiger_Index_Js.showMessage(messageParams);
+		}
 	},
 	/**
 	 * Function to register the click event for delete custom block
