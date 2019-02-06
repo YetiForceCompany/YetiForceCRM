@@ -21,7 +21,10 @@ class Gantt {
 			},
 			maxRows: 30,
 			times: {
-				timeZoom: 21
+				timeZoom: 20
+			},
+			calendar: {
+				workingDays: [0, 1, 2, 3, 4]
 			},
 			style: {
 				'chart-row-bar-polygon': {
@@ -32,6 +35,9 @@ class Gantt {
 				'chart-row-progress-bar-outline': {
 					'stroke': '#E74C3C00',
 					'stroke-width': 0
+				},
+				'chart-days-highlight-rect': {
+					'fill': '#00000008'
 				},
 				'header-title': {
 					'float': 'none',
