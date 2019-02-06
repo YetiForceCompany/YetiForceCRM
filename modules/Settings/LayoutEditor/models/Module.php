@@ -83,7 +83,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return [
 			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
-			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail'
+			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
+			'Smtp'
 		];
 	}
 
@@ -412,6 +413,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 314;
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
+				break;
+			case 'Smtp':
+				$uitype = 316;
+				$uichekdata = 'V~O';
+				$type = $importerType->integer()->defaultValue(null)->unsigned();
 				break;
 			default:
 				break;

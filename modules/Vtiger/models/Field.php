@@ -325,6 +325,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 315:
 						$fieldDataType = 'multiDependField';
 						break;
+					case 316:
+						$fieldDataType = 'smtp';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
