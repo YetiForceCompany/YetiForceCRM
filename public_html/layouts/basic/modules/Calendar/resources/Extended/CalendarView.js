@@ -806,24 +806,27 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	}
 
 	getCalendarCreateView() {
-		const thisInstance = this;
-		let sideBar = thisInstance.getSidebarView(),
-			qcForm = sideBar.find('.js-qc-form'),
-			aDeferred = $.Deferred();
-		if (qcForm.find('form').length > 0 && qcForm.find('input[name=record]').length === 0) {
-			aDeferred.resolve(qcForm);
+		if (CONFIG.createEvent) {
+			const thisInstance = this;
+			let sideBar = thisInstance.getSidebarView(),
+				qcForm = sideBar.find('.js-qc-form'),
+				aDeferred = $.Deferred();
+			if (qcForm.find('form').length > 0 && qcForm.find('input[name=record]').length === 0) {
+				aDeferred.resolve(qcForm);
+				return aDeferred.promise();
+			}
+			let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+			this.getCalendarSidebarData({'module': app.getModuleName(), 'view': 'EventForm',}).done(() => {
+				progressInstance.progressIndicator({mode: 'hide'});
+				thisInstance.registerAutofillTime();
+				aDeferred.resolve(qcForm);
+			}).fail((error) => {
+				progressInstance.progressIndicator({mode: 'hide'});
+				app.errorLog(error);
+			});
 			return aDeferred.promise();
 		}
-		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.getCalendarSidebarData({'module': app.getModuleName(), 'view': 'EventForm',}).done(() => {
-			progressInstance.progressIndicator({mode: 'hide'});
-			thisInstance.registerAutofillTime();
-			aDeferred.resolve(qcForm);
-		}).fail((error) => {
-			progressInstance.progressIndicator({mode: 'hide'});
-			app.errorLog(error);
-		});
-		return aDeferred.promise();
+
 	}
 
 	/**
