@@ -85,7 +85,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $user
 	 * @param string $password
 	 * @param string $host
-	 * @param string $folder
+	 * @param string $folder Character encoding UTF7-IMAP
 	 * @param bool   $dieOnError
 	 * @param array  $config
 	 *

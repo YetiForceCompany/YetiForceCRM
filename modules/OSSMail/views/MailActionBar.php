@@ -4,8 +4,9 @@
  * Mail cction bar class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSMail_MailActionBar_View extends Vtiger_Index_View
 {
@@ -15,22 +16,26 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$uid = $request->getInteger('uid');
-		$folder = $request->get('folder');
 		$params = null; // YTfixme - non existent
-
 		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
 		if (!$account) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$rcId = $account['user_id'];
 		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
-		$record = $mailViewModel->checkMailExist($uid, $folder, $rcId);
+		$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
+		$folderDecode = \App\Purifier::purifyByType($folderDecode, 'Text');
+		$folderDecode = \App\Purifier::decodeHtml($folderDecode);
+		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId);
 		if (!$record && !empty($account['actions'])) {
+			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
-			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
-			if (!empty($return['CreatedEmail'])) {
-				$record = $return['CreatedEmail']['mailViewId'];
+			if ($mail = $mailModel->getMail($mbox, $uid)) {
+				$return = OSSMailScanner_Record_Model::executeActions($account, $mail, $folderDecode, $params);
+				if (!empty($return['CreatedEmail'])) {
+					$record = $return['CreatedEmail']['mailViewId'];
+				}
 			}
 		}
 		$viewer = $this->getViewer($request);
