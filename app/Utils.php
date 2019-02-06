@@ -67,4 +67,23 @@ class Utils
 		}
 		return array_keys($arr) !== range(0, count($arr) - 1);
 	}
+
+	/**
+	 * Convert string from encoding to encoding.
+	 *
+	 * @param string $value
+	 * @param string $fromCharset
+	 * @param string $toCharset
+	 *
+	 * @return string
+	 */
+	public static function convertCharacterEncoding($value, $fromCharset, $toCharset)
+	{
+		if (function_exists('mb_convert_encoding') && function_exists('mb_list_encodings') && in_array($fromCharset, mb_list_encodings()) && in_array($toCharset, mb_list_encodings())) {
+			$value = mb_convert_encoding($value, $toCharset, $fromCharset);
+		} else {
+			$value = iconv($fromCharset, $toCharset, $value);
+		}
+		return $value;
+	}
 }
