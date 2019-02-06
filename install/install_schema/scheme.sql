@@ -987,15 +987,17 @@ CREATE TABLE `s_yf_batchmethod` (
 
 CREATE TABLE `s_yf_companies` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(255) NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `industry` varchar(50) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `logo` varchar(50) DEFAULT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

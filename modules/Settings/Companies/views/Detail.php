@@ -19,9 +19,12 @@ class Settings_Companies_Detail_View extends Settings_Vtiger_Index_View
 		$record = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_Companies_Record_Model::getInstance($record);
-
+		if (is_null(Settings_Companies_ListView_Model::$recordsCount)) {
+			Settings_Companies_ListView_Model::$recordsCount = (new \App\Db\Query())->from('s_#__companies')->count();
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COMPANY_COLUMNS', Settings_Companies_Module_Model::getColumnNames());
+		$viewer->assign('REMOVE_BTN', Settings_Companies_ListView_Model::$recordsCount > 1);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);

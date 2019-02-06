@@ -9,11 +9,13 @@
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2">
 				<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
 			</a>
-			<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
-					data-record-id="{$RECORD_MODEL->getId()}">
-				<span class="fas fa-trash-alt mr-1"></span>
-				<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
-			</button>
+			{if $REMOVE_BTN}
+				<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
+						data-record-id="{$RECORD_MODEL->getId()}">
+					<span class="fas fa-trash-alt mr-1"></span>
+					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
+				</button>
+			{/if}
 		</div>
 	</div>
 	<div class="detailViewInfo" id="groupsDetailContainer">
