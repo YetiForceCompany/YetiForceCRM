@@ -117,7 +117,7 @@ class Mailer
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
 		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);
-		if (empty($params['smtp_id']) && isset($template['smtp_id'])) {
+		if (empty($params['smtp_id']) && !empty($template['smtp_id'])) {
 			$params['smtp_id'] = $template['smtp_id'];
 		}
 		if (isset($template['attachments'])) {

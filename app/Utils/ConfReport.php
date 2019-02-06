@@ -402,7 +402,7 @@ class ConfReport
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
 				'crmDir' => ROOT_DIRECTORY,
-				'operatingSystem' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+				'operatingSystem' => \App\Config::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
@@ -437,7 +437,7 @@ class ConfReport
 	 */
 	private static function getRequest()
 	{
-		$requestUrl = \AppConfig::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
+		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
 		$request = [];
 		try {
 			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -741,7 +741,7 @@ class ConfReport
 	private static function validateOnOff(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && $row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \AppConfig::main('systemMode') === 'demo')) {
+		if (isset($row[$sapi]) && $row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \App\Config::main('systemMode') !== 'prod')) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -870,9 +870,9 @@ class ConfReport
 	private static function validateSessionRegenerate(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (\AppConfig::main('site_URL')) {
-			$row[$sapi] = \AppConfig::main('session_regenerate_id') ? 'On' : 'Off';
-			$row['status'] = \AppConfig::main('session_regenerate_id');
+		if (\App\Config::main('site_URL')) {
+			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
+			$row['status'] = \App\Config::main('session_regenerate_id');
 		} else {
 			$row['skip'] = true;
 		}
@@ -963,7 +963,7 @@ class ConfReport
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
 	{
 		unset($sapi);
-		$row['status'] = !\App\Fields\File::isExistsUrl(\AppConfig::main('site_URL') . $name);
+		$row['status'] = !\App\Fields\File::isExistsUrl(\App\Config::main('site_URL') . $name);
 		return $row;
 	}
 
@@ -1030,7 +1030,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
+		$requestUrl = \App\Config::main('site_URL') . 'shorturl.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -1147,7 +1147,14 @@ class ConfReport
 						$val = $data['status'];
 					}
 				} else {
-					$val = $data['www'] ?? $data['cron'];
+					$tmp = [];
+					if (isset($data['www'])) {
+						$tmp[] = 'www: ' . $data['www'];
+					}
+					if (isset($data['cron'])) {
+						$tmp[] = 'cron: ' . $data['cron'];
+					}
+					$val = \implode('|', $tmp) ?? '';
 				}
 				if ($returnMore) {
 					$data['val'] = $val;

@@ -16368,6 +16368,36 @@ ul.tweets li {
 
   .u-white-space-xxxl-normal {
     white-space: normal !important; } }
+.u-min-height-10 {
+  min-height: 10px; }
+
+.u-min-height-20 {
+  min-height: 20px; }
+
+.u-min-height-30 {
+  min-height: 30px; }
+
+.u-min-height-40 {
+  min-height: 40px; }
+
+.u-min-height-50 {
+  min-height: 50px; }
+
+.u-min-height-60 {
+  min-height: 60px; }
+
+.u-min-height-70 {
+  min-height: 70px; }
+
+.u-min-height-80 {
+  min-height: 80px; }
+
+.u-min-height-90 {
+  min-height: 90px; }
+
+.u-min-height-100 {
+  min-height: 100px; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel, .bodyContents, .mainContainer, .contentsDiv {
   min-height: 100%; }
