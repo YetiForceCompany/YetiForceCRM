@@ -655,7 +655,7 @@ App.Fields = {
 			 * @param {jQuery} inputDiv - contenteditable div
 			 */
 			registerCompletionsTextArea(inputDiv) {
-				let textarea = element.siblings(`[name=${inputDiv.attr('id')}]`);
+				let textarea = inputDiv.siblings(`[name=${inputDiv.attr('id')}]`);
 				inputDiv.on('focus', function () {
 					textarea.val(inputDiv.html());
 				}).on('blur keyup paste input', function () {
