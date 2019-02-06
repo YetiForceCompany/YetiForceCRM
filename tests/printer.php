@@ -1,10 +1,12 @@
 <?php
 
+use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\PhptTestCase;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Warning;
 
 /**
  * Travis CI result printer class.
