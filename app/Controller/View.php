@@ -560,6 +560,7 @@ abstract class View extends Base
 					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
 					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
 					 'eventLimit' => \AppConfig::module('Calendar', 'EVENT_LIMIT'),
+					 'eventCreate' => \Vtiger_Record_Model::getCleanInstance('Calendar')->isCreateable(),
 					 'timeZone' => $userModel->getDetail('time_zone'),
 					 'currencyId' => $userModel->getDetail('currency_id'),
 					 'currencyName' => $userModel->getDetail('currency_name'),
