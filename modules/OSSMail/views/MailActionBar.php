@@ -16,7 +16,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$uid = $request->getInteger('uid');
-		$record = $params = null;
+		$params = null;
 		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
 		if (!$account) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -26,10 +26,10 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
 		$folderDecode = \App\Purifier::purifyByType($folderDecode, 'Text');
 		$folderDecode = \App\Purifier::decodeHtml($folderDecode);
+		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId);
 		$modelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		if (!empty($account['actions']) && strpos($account['actions'], 'CreatedEmail') !== false &&
-			isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode]) &&
-			!($record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId))
+		if (!($record) && !empty($account['actions']) && strpos($account['actions'], 'CreatedEmail') !== false &&
+			isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode])
 		) {
 			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
