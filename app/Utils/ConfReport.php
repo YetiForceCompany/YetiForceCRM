@@ -49,7 +49,7 @@ class ConfReport
 	public static $stability = [
 		'phpVersion' => ['recommended' => '7.1.x, 7.2.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '1.x', 'type' => 'Version', 'container' => 'request', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
-		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
+		'error_reporting' => ['recommended' => 'E_ALL', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
 		'max_execution_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'max_input_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
@@ -85,9 +85,9 @@ class ConfReport
 		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
+		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
 		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => true],
+		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
@@ -603,7 +603,7 @@ class ConfReport
 		unset($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
+		if (E_ALL === (int) $current || $current === 'E_ALL (32767)') {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
@@ -938,16 +938,17 @@ class ConfReport
 		unset($name);
 		$value = $row[$sapi];
 		if (!\is_array($row[$sapi])) {
-			$value = \explode(', ', $row[$sapi]);
+			$value = \explode(',', $row[$sapi]);
 		}
-		$recommended = \explode(', ', $row['recommended']);
+		$value = \array_map('trim', $value);
+		$recommended = \array_map('trim', \explode(',', $row['recommended']));
 		foreach ($recommended as &$item) {
 			if (!\in_array($item, $value)) {
 				$row['status'] = false;
 				$item = "<b class=\"text-danger\">$item</b>";
 			}
 		}
-		$row['recommended'] = \implode(',', $recommended);
+		$row['recommended'] = \implode(', ', $recommended);
 		return $row;
 	}
 
