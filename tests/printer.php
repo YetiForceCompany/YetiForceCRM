@@ -114,7 +114,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		echo '! Test ' . $test->getName() . " failed.\n";
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		parent::addFailure($test, $e, $time);
+		//parent::addFailure($test, $e, $time);
 	}
 
 	public function addIncompleteTest(Test $test, \Throwable $t, float $time): void
