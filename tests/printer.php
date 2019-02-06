@@ -42,7 +42,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 			echo " - $time second(s) | Assertions: " . $test->getNumAssertions();
 		}
 		if (!$this->lastTestFailed) {
-			$this->writeProgress('.');
+			//$this->writeProgress('.');
 		}
 		if ($test instanceof TestCase) {
 			$this->numAssertions += $test->getNumAssertions();
@@ -57,7 +57,9 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 				$this->write("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 			}
 		}
-		$this->write("\n");
+		if ($this->debug) {
+			$this->write("\n");
+		}
 	}
 
 	/**
