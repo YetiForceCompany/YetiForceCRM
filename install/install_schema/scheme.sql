@@ -1598,6 +1598,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `content` text DEFAULT NULL,
   `sys_name` varchar(50) DEFAULT NULL,
   `email_template_priority` varchar(1) DEFAULT '1',
+  `smtp_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),
   CONSTRAINT `fk_1_vtiger_emailtemplatesemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -5630,7 +5631,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2778 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2779 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
