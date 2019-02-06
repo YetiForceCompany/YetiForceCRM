@@ -420,4 +420,29 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		}
 		return ['events' => $totalCount[$eventModule] - $skipCount[$eventModule], 'skipped_events' => $skipCount[$eventModule], 'task' => $totalCount[$todoModule] - $skipCount[$todoModule], 'skipped_task' => $skipCount[$todoModule]];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getQuickCreateFields($editMode = false)
+	{
+		$fieldList = $this->getFields();
+		$quickCreateFieldList = [];
+
+		$quickSequenceTemp = [];
+		foreach ($fieldList as $fieldName => $fieldModel) {
+			if (($editMode || $fieldModel->isQuickCreateEnabled()) && $fieldModel->isEditable()) {
+				$quickCreateFieldList[$fieldName] = $fieldModel;
+				$quickSequenceTemp[$fieldName] = $fieldModel->get('quicksequence');
+			}
+		}
+
+		// sort quick create fields by sequence
+		asort($quickSequenceTemp, SORT_NUMERIC);
+		$quickCreateSortedList = [];
+		foreach ($quickSequenceTemp as $key => $value) {
+			$quickCreateSortedList[$key] = $quickCreateFieldList[$key];
+		}
+		return $quickCreateSortedList;
+	}
 }

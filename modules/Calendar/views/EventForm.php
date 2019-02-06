@@ -41,7 +41,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		if ($request->has('record')) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-			$recordStructure = $recordStructureInstance->getStructure();
+			$recordStructure = $recordStructureInstance->getStructure($request->has('editMode') ?? false);
 			$fieldValues = [];
 			$fieldList = $recordModel->getModule()->getFields();
 			$sourceRelatedField = $recordModel->getModule()->getValuesFromSource($request);

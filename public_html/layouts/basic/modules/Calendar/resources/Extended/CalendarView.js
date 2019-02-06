@@ -415,7 +415,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 * EditView
 	 * @param {Object}|{number} params
 	 */
-	getCalendarSidebarData(params) {
+	getCalendarSidebarData(params, editMode = false) {
 		const thisInstance = this,
 			aDeferred = $.Deferred();
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
@@ -423,7 +423,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			params = {
 				module: app.getModuleName(),
 				view: 'EventForm',
-				record: params
+				record: params,
+				editMode: editMode
 			};
 		}
 		AppConnector.request(params).done((data) => {
@@ -440,7 +441,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					thisInstance.getCalendarCreateView();
 				});
 				sideBar.find('.js-activity-state .editRecord').on('click', function () {
-					thisInstance.getCalendarSidebarData($(this).data('id'));
+					thisInstance.getCalendarSidebarData($(this).data('id'), true);
 				});
 			}
 			aDeferred.resolve(sideBar.find('.js-qc-form'));
@@ -806,7 +807,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	}
 
 	getCalendarCreateView() {
-		if (CONFIG.createEvent) {
+		if (CONFIG.eventCreate) {
 			const thisInstance = this;
 			let sideBar = thisInstance.getSidebarView(),
 				qcForm = sideBar.find('.js-qc-form'),
@@ -859,7 +860,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		});
 	}
 
-	registerAddForm() {
+	loadSidebarData() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
 		thisInstance.getCalendarCreateView();
@@ -939,7 +940,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 */
 	registerEvents() {
 		super.registerEvents();
-		this.registerAddForm();
+		this.loadSidebarData();
 		this.registerSiteBarEvents();
 		this.registerFilterForm();
 		this.registetPopoverButtonsClickEvent();

@@ -18,7 +18,7 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
-	public function getStructure()
+	public function getStructure($editMode = false)
 	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
@@ -28,7 +28,7 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 
-		$fieldModelList = $moduleModel->getQuickCreateFields();
+		$fieldModelList = $moduleModel->getQuickCreateFields($editMode);
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$recordModelFieldValue = $recordModel->get($fieldName);
 			if (!empty($recordModelFieldValue)) {
