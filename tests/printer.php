@@ -108,6 +108,8 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
+		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName() . 'failed.' . PHP_EOL . $e->getTraceAsString());
+		$this->lastTestFailed = true;
 		$time = round($time, 2);
 		echo '! Test ' . $test->getName() . " failed.\n";
 		//echo "Exception Message: " . $e->getMessage() . "\n";
