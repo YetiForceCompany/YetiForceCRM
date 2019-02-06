@@ -304,29 +304,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Manually scan mail.
 	 *
-	 * @param array $params
+	 * @param int    $uid
+	 * @param string $folder
+	 * @param array  $account
 	 *
-	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function manualScanMail($params)
+	public function manualScanMail(int $uid, string $folder, array $account)
 	{
-		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
-		if (!$account) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $params['folder']);
-		$mail = $mailModel->getMail($mbox, $params['uid']);
+		$imapFolder = \App\Utils::convertCharacterEncoding($folder, 'UTF-8', 'UTF7-IMAP');
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $imapFolder);
+		$mail = $mailModel->getMail($mbox, $uid);
 		if (!$mail) {
 			return [];
 		}
+		$params = [];
 		if (empty($account['actions'])) {
 			$params['actions'] = ['CreatedEmail', 'BindAccounts', 'BindContacts', 'BindLeads'];
 		}
-		$return = self::executeActions($account, $mail, $params['folder'], $params);
+		$return = self::executeActions($account, $mail, $folder, $params);
 		unset($mail);
 
 		return $return;
