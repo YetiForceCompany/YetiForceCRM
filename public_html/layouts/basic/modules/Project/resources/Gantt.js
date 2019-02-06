@@ -13,6 +13,13 @@ class Gantt {
 		this.container = $(container);
 		this.containerParent = this.container.parent();
 		this.headerContainer = this.containerParent.parent().find('.js-gantt-header').eq(0);
+		let workingDays = [1, 2, 3, 4, 5].map(day => {
+			day = day - CONFIG.firstDayOfWeekNo;
+			if (day < 0) {
+				day = day + 7;
+			}
+			return day;
+		});
 		this.options = {
 			slots: {
 				header: {
@@ -24,7 +31,7 @@ class Gantt {
 				timeZoom: 20
 			},
 			calendar: {
-				workingDays: [0, 1, 2, 3, 4]
+				workingDays
 			},
 			style: {
 				'chart-row-bar-polygon': {
