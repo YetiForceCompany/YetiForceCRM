@@ -60,7 +60,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public static function getInstance(string $moduleName, string $exportType = 'csv')
 	{
-		if ($exportType === 'csv') {
+		if ($exportType === 'csv' || empty($exportType)) {
 			$componentName = 'Export';
 		} else {
 			$componentName = 'ExportTo' . ucfirst($exportType);
