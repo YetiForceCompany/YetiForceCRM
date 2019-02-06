@@ -16,7 +16,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$uid = $request->getInteger('uid');
-		$params = null; // YTfixme - non existent
+		$record = $params = null;
 		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
 		if (!$account) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -26,16 +26,17 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
 		$folderDecode = \App\Purifier::purifyByType($folderDecode, 'Text');
 		$folderDecode = \App\Purifier::decodeHtml($folderDecode);
-		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId);
-		if (!$record && !empty($account['actions'])) {
+		$modelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		if (!empty($account['actions']) && strpos($account['actions'], 'CreatedEmail') !== false &&
+			isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode]) &&
+			!($record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId))
+		) {
 			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
-			if ($mail = $mailModel->getMail($mbox, $uid)) {
-				$return = OSSMailScanner_Record_Model::executeActions($account, $mail, $folderDecode, $params);
-				if (!empty($return['CreatedEmail'])) {
-					$record = $return['CreatedEmail']['mailViewId'];
-				}
+			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folderDecode, $params);
+			if (!empty($return['CreatedEmail'])) {
+				$record = $return['CreatedEmail']['mailViewId'];
 			}
 		}
 		$viewer = $this->getViewer($request);
