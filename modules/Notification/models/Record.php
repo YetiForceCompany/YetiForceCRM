@@ -191,7 +191,9 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				continue;
 			}
 			$this->set('assigned_user_id', $userId);
-			$this->isNew = true;
+			if ($this->get('notification_status') !== 'PLL_READ') {
+				$this->isNew = true;
+			}
 			parent::save();
 		}
 		return true;
