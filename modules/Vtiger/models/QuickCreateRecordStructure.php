@@ -16,9 +16,11 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 	/**
 	 * Function to get the values in stuctured format.
 	 *
+	 * @param bool $editMode
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
-	public function getStructure($editMode = false)
+	public function getStructure(bool $editMode = false): array
 	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;

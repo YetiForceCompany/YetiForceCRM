@@ -423,8 +423,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @param bool $editMode
 	 */
-	public function getQuickCreateFields($editMode = false)
+	public function getQuickCreateFields(bool $editMode = false): array
 	{
 		$fieldList = $this->getFields();
 		$quickCreateFieldList = [];
