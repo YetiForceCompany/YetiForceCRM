@@ -537,6 +537,7 @@ class Functions
 		if (is_numeric($str)) {
 			return (float) $str;
 		}
+		$bytes = 0;
 		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
 			$bytes = (float) ($regs[1]);
 			switch (strtolower($regs[2])) {
