@@ -27,18 +27,16 @@
 								{/if}
 							{/if}
 						{/if}
-						{if $RECORD->isEditable()}
+						{if $PERMISSION_TO_EDIT}
 							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-sm btn-light mr-1" role="button">
 							<span class="fas fa-edit js-detail-quick-edit" data-js="click"
 								  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</a>
 						{/if}
-						{if $RECORD->isViewable()}
-							<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-sm btn-light" role="button">
+						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-sm btn-light" role="button">
 							<span class="fas fa-th-list js-detail-quick-edit"
 								  title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"></span>
-							</a>
-						{/if}
+						</a>
 					</div>
 					<button type="button" class="close" data-dismiss="modal"
 							aria-label="{\App\Language::translate('LBL_CLOSE')}">
@@ -50,7 +48,7 @@
 				</div>
 				<div class="modal-footer">
 					<div class="col-12 p-0">
-						{if $RECORD->isEditable()}
+						{if $PERMISSION_TO_EDIT}
 							{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}
 							{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
 							{assign var=EMPTY value=!in_array($ACTIVITY_STATE, [$ACTIVITY_STATE_LABEL.cancelled,$ACTIVITY_STATE_LABEL.completed])}
