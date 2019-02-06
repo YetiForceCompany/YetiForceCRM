@@ -21,6 +21,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
+				selectable: CONFIG.eventCreate,
 				select: function (start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
