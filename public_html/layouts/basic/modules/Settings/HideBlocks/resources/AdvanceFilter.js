@@ -254,14 +254,14 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 			element;
 		if (comparatorSelectedOptionVal.length > 0) {
 			if (comparatorSelectedOptionVal == 'between' || comparatorSelectedOptionVal == 'custom') {
-				html = '<div class="date"><input class="dateRangeField"' +
+				html = '<div class="date"><input class="dateRangeField form-control"' +
 					'data-calendar-type="range" name="' + this.getName() +
 					'" data-date-format="' + this.getDateFormat() +
 					'" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
 				element = jQuery(html);
 				return this.addValidationToElement(element);
 			} else if (this._specialDateComparator(comparatorSelectedOptionVal)) {
-				html = '<input name="' + this.getName() + '" type="text" value="' +
+				html = '<input name="' + this.getName() + '" class="form-control" type="text" value="' +
 					this.getValue() + '" data-validation-engine="' +
 					'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"' +
 					' data-validator="[{"name":"PositiveNumber"}]">' +
@@ -271,7 +271,7 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 			} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
 				let startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'],
 					endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
-				html = '<input name="' + this.getName() + '"  type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">'
+				html = '<input name="' + this.getName() + '" class="form-control" type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">'
 				return jQuery(html);
 			} else if (comparatorSelectedOptionVal == 'is today') {
 				//show nothing
@@ -279,7 +279,7 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 				return this._super();
 			}
 		} else {
-			html = '<input type="text" class="getPopupUi date" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
+			html = '<input type="text" class="getPopupUi form-control date" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
 				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />'
 			element = jQuery(html);
 			return this.addValidationToElement(element);

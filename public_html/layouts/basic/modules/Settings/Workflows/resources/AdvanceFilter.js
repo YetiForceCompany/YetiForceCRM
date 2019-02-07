@@ -254,7 +254,7 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 			element;
 		if (comparatorSelectedOptionVal.length > 0) {
 			if (comparatorSelectedOptionVal === 'between' || comparatorSelectedOptionVal === 'custom') {
-				html = '<div class="date"><input class="dateRangeField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+				html = '<div class="date"><input class="form-control dateRangeField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" value="' + this.getValue() + '"></div>';
 				element = jQuery(html);
 				return this.addValidationToElement(element);
 			} else if (this._specialDateComparator(comparatorSelectedOptionVal)) {
