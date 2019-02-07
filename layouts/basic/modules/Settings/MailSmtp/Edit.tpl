@@ -220,7 +220,7 @@
 						{\App\Language::translate('LBL_SEND_FOLDER', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_folder')}" placeholder="Send" name="smtp_folder">
+						<input class="form-control" type="text" value="{\App\Purifier::encodeHtml($RECORD_MODEL->get('smtp_folder'))}" placeholder="Send" name="smtp_folder">
 					</div>
 				</div>
 				<div class="form-group row">
