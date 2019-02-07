@@ -87,7 +87,7 @@
 							{elseif $COLUMN neq 'logo' && $COLUMN neq 'id' && $COLUMN neq 'status'}
 								<div class="form-group row">
 									<label class="col-lg-2 col-form-label text-left text-lg-right">
-										{if $COLUMN eq 'email'}
+										{if $COLUMN eq 'email' || $COLUMN eq 'firstname' || $COLUMN eq 'lastname'}
 											<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
 												 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $QUALIFIED_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $QUALIFIED_MODULE)}</a>"))}">
 												<span class="fas fa-info-circle"></span></div>

@@ -49,7 +49,7 @@ class ConfReport
 	public static $stability = [
 		'phpVersion' => ['recommended' => '7.1.x, 7.2.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '1.x', 'type' => 'Version', 'container' => 'request', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
-		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
+		'error_reporting' => ['recommended' => 'E_ALL', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
 		'max_execution_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'max_input_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
@@ -85,9 +85,9 @@ class ConfReport
 		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
+		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
 		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => true],
+		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
@@ -402,7 +402,7 @@ class ConfReport
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
 				'crmDir' => ROOT_DIRECTORY,
-				'operatingSystem' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+				'operatingSystem' => \App\Config::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
@@ -437,7 +437,7 @@ class ConfReport
 	 */
 	private static function getRequest()
 	{
-		$requestUrl = \AppConfig::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
+		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
 		$request = [];
 		try {
 			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -603,7 +603,7 @@ class ConfReport
 		unset($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
+		if (E_ALL === (int) $current || $current === 'E_ALL (32767)') {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
@@ -741,7 +741,7 @@ class ConfReport
 	private static function validateOnOff(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && $row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \AppConfig::main('systemMode') === 'demo')) {
+		if (isset($row[$sapi]) && $row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \App\Config::main('systemMode') !== 'prod')) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -870,9 +870,9 @@ class ConfReport
 	private static function validateSessionRegenerate(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (\AppConfig::main('site_URL')) {
-			$row[$sapi] = \AppConfig::main('session_regenerate_id') ? 'On' : 'Off';
-			$row['status'] = \AppConfig::main('session_regenerate_id');
+		if (\App\Config::main('site_URL')) {
+			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
+			$row['status'] = \App\Config::main('session_regenerate_id');
 		} else {
 			$row['skip'] = true;
 		}
@@ -938,16 +938,17 @@ class ConfReport
 		unset($name);
 		$value = $row[$sapi];
 		if (!\is_array($row[$sapi])) {
-			$value = \explode(', ', $row[$sapi]);
+			$value = \explode(',', $row[$sapi]);
 		}
-		$recommended = \explode(', ', $row['recommended']);
+		$value = \array_map('trim', $value);
+		$recommended = \array_map('trim', \explode(',', $row['recommended']));
 		foreach ($recommended as &$item) {
 			if (!\in_array($item, $value)) {
 				$row['status'] = false;
 				$item = "<b class=\"text-danger\">$item</b>";
 			}
 		}
-		$row['recommended'] = \implode(',', $recommended);
+		$row['recommended'] = \implode(', ', $recommended);
 		return $row;
 	}
 
@@ -963,7 +964,7 @@ class ConfReport
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
 	{
 		unset($sapi);
-		$row['status'] = !\App\Fields\File::isExistsUrl(\AppConfig::main('site_URL') . $name);
+		$row['status'] = !\App\Fields\File::isExistsUrl(\App\Config::main('site_URL') . $name);
 		return $row;
 	}
 
@@ -1030,7 +1031,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
+		$requestUrl = \App\Config::main('site_URL') . 'shorturl.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -1147,7 +1148,14 @@ class ConfReport
 						$val = $data['status'];
 					}
 				} else {
-					$val = $data['www'] ?? $data['cron'];
+					$tmp = [];
+					if (isset($data['www'])) {
+						$tmp[] = 'www: ' . $data['www'];
+					}
+					if (isset($data['cron'])) {
+						$tmp[] = 'cron: ' . $data['cron'];
+					}
+					$val = \implode('|', $tmp) ?? '';
 				}
 				if ($returnMore) {
 					$data['val'] = $val;

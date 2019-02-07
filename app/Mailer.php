@@ -117,7 +117,7 @@ class Mailer
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
 		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);
-		if (empty($params['smtp_id']) && isset($template['smtp_id'])) {
+		if (empty($params['smtp_id']) && !empty($template['smtp_id'])) {
 			$params['smtp_id'] = $template['smtp_id'];
 		}
 		if (isset($template['attachments'])) {
@@ -534,6 +534,8 @@ class Mailer
 	/**
 	 * Save sent email.
 	 *
+	 * @throws \App\Exceptions\AppException
+	 *
 	 * @return bool
 	 */
 	public function saveMail()
@@ -549,7 +551,7 @@ class Mailer
 			'imap_params' => [],
 			'imap_open_add_connection_type' => true,
 		];
-		$folder = \OSSMail_Record_Model::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF7-IMAP', 'UTF-8');
+		$folder = Utils::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF-8', 'UTF7-IMAP');
 		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], Encryption::getInstance()->decrypt($this->smtp['smtp_password']), $this->smtp['smtp_host'], $folder, false, $params);
 		if ($mbox === false && !imap_last_error()) {
 			static::$error[] = 'IMAP error - ' . imap_last_error();

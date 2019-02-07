@@ -85,7 +85,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $user
 	 * @param string $password
 	 * @param string $host
-	 * @param string $folder
+	 * @param string $folder Character encoding UTF7-IMAP
 	 * @param bool   $dieOnError
 	 * @param array  $config
 	 *
@@ -562,29 +562,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$list = imap_list($mbox, $ref, '*');
 			foreach ($list as $mailboxname) {
 				$name = str_replace($ref, '', $mailboxname);
-				$folders[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+				$name = \App\Utils::convertCharacterEncoding($name, 'UTF7-IMAP', 'UTF-8');
+				$folders[$name] = $name;
 			}
 		}
 		return $folders;
-	}
-
-	/**
-	 * Convert string from encoding to encoding.
-	 *
-	 * @param string $value
-	 * @param string $toCharset
-	 * @param string $fromCharset
-	 *
-	 * @return string
-	 */
-	public static function convertCharacterEncoding($value, $toCharset, $fromCharset)
-	{
-		if (function_exists('mb_convert_encoding')) {
-			$value = mb_convert_encoding($value, $toCharset, $fromCharset);
-		} else {
-			$value = iconv($toCharset, $fromCharset, $value);
-		}
-		return $value;
 	}
 
 	/**

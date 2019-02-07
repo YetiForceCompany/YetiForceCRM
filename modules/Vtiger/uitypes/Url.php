@@ -78,7 +78,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		}
 		$rawValue = \App\TextParser::textTruncate($rawValue, is_int($length) ? $length : false);
 
-		return '<a class="urlField u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
+		return '<a class="urlField u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}
 
 	/**

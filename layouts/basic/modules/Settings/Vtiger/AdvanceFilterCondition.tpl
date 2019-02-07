@@ -16,7 +16,7 @@
 	<div class="tpl-Settings-Base-AdvanceFilterCondition js-conditions-row form-row" data-js="container | clone">
 		<div class="col-md-4 conditionField">
 			<select class="{if empty($NOCHOSEN)}select2{/if} row form-control m-0" name="columnname"
-					title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
+			        title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -29,7 +29,7 @@
 								{assign var=columnNameApi value=getCustomViewColumnName}
 							{/if}
 							<option value="{$FIELD_MODEL->$columnNameApi()}"
-									data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
+							        data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
 									{if isset($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq App\Purifier::decodeHtml($CONDITION_INFO['columnname'])}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
@@ -63,7 +63,7 @@
 		</div>
 		<div class="col-md-3">
 			<input type="hidden" name="comparatorValue"
-				   value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
+			       value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
 			{if !empty($SELECTED_FIELD_MODEL)}
 				{if empty($FIELD_TYPE)}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
@@ -79,11 +79,11 @@
 				{/if}
 			{/if}
 			<select class="{if empty($NOCHOSEN)}select2{/if} row form-control m-0" name="comparator"
-					title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
+			        title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
 				{if !empty($ADVANCE_FILTER_OPTIONS)}
 					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 						<option value="{$ADVANCE_FILTER_OPTION}"
-								{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>
+						        {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>
 							{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}
 						</option>
 					{/foreach}
@@ -91,9 +91,7 @@
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
-				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control"
-				   type="text" value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
+			<input name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}" {if !empty($CONDITION_INFO['valuetype'])} data-valuetype="{$CONDITION_INFO['valuetype']}"{/if}/>
 		</div>
 		<span class="d-none">
 			{if empty($CONDITION)}
@@ -103,7 +101,7 @@
 		</span>
 		<div class="col-md-1 btn">
 			<span class="deleteCondition fas fa-trash-alt alignMiddle"
-				  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+			      title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
 		</div>
 	</div>
 {/strip}

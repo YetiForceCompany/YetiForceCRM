@@ -747,6 +747,12 @@ var AppConnector,
 			},
 		},
 		/**
+		 * Default scroll options
+		 */
+		scrollOptions: {
+			wheelSpeed: 0.1
+		},
+		/**
 		 * Function to push down the error message size when validation is invoked
 		 * @params : form Element
 		 */
@@ -972,11 +978,12 @@ var AppConnector,
 		showNewScrollbar: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			return new PerfectScrollbar(element[0], options);
+			return new PerfectScrollbar(element[0], Object.assign(this.scrollOptions, options));
 		},
 		showNewScrollbarTopBottomRight: function (element, options = {}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
+			options = Object.assign(this.scrollOptions, options);
 			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
 			let scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
@@ -990,17 +997,12 @@ var AppConnector,
 			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 			return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 		},
-		showNewScrollbarTopBottom: function (element) {
+		showNewScrollbarTopBottom: function (element, options = {wheelPropagation: true, suppressScrollY: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			new PerfectScrollbar(element[0], {
-				wheelPropagation: true,
-				suppressScrollY: true
-			});
-			new PerfectScrollbar(element[0], {
-				wheelPropagation: true,
-				suppressScrollY: true
-			});
+			options = Object.assign(this.scrollOptions, options);
+			new PerfectScrollbar(element[0], options);
+			new PerfectScrollbar(element[0], options);
 			var scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
 				top: 0,
@@ -1011,13 +1013,11 @@ var AppConnector,
 				bottom: 'auto'
 			});
 		},
-		showNewScrollbarTop: function (element) {
+		showNewScrollbarTop: function (element, options = {wheelPropagation: true, suppressScrollY: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			new PerfectScrollbar(element[0], {
-				wheelPropagation: true,
-				suppressScrollY: true
-			});
+			options = Object.assign(this.scrollOptions, options);
+			new PerfectScrollbar(element[0], options);
 			var scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
 				top: 0,
@@ -1031,6 +1031,7 @@ var AppConnector,
 		showNewScrollbarLeft: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
+			options = Object.assign(this.scrollOptions, options);
 			new PerfectScrollbar(element[0], options);
 			var scrollbarLeftElement = element.children('.ps__rail-y').first();
 			scrollbarLeftElement.css({

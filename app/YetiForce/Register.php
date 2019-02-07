@@ -133,6 +133,7 @@ class Register
 						'status' => $body['status'],
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'] ?? '',
+						'last_check_time' => ''
 					]);
 					$result = true;
 				}
@@ -157,7 +158,7 @@ class Register
 			return false;
 		}
 		$conf = static::getConf();
-		if (isset($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time()))) {
+		if (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time()))) {
 			return false;
 		}
 		$params = [
@@ -168,7 +169,7 @@ class Register
 			'status' => $conf['status'] ?? 0,
 		];
 		try {
-			$data = [];
+			$data = ['last_check_time' => date('Y-m-d H:i:s')];
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
@@ -180,6 +181,7 @@ class Register
 						'status' => $body['status'],
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'],
+						'last_check_time' => date('Y-m-d H:i:s')
 					];
 					$status = true;
 				}
@@ -222,13 +224,14 @@ class Register
 	private static function updateMetaData(array $data): void
 	{
 		$conf = static::getConf();
-		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export([
-				'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
-				'last_check_time' => date('Y-m-d H:i:s'),
-				'status' => $data['status'] ?? $conf['status'] ?? 0,
-				'text' => $data['text'] ?? $conf['text'] ?? '',
-				'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
-			], true) . ';');
+		static::$config = [
+			'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
+			'last_check_time' => $data['last_check_time'] ?? '',
+			'status' => $data['status'] ?? $conf['status'] ?? 0,
+			'text' => $data['text'] ?? $conf['text'] ?? '',
+			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
+		];
+		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
 	}
 
 	/**
@@ -247,7 +250,7 @@ class Register
 			'status' => 7,
 			'text' => 'OK',
 			'insKey' => static::getInstanceKey(),
-			'serialKey' => $serial,
+			'serialKey' => $serial
 		]);
 		return true;
 	}

@@ -37,7 +37,7 @@ class CronState extends \App\SystemWarnings\Template
 			->where(['status' => 1, 'lastend' => null])
 			->limit(1)->exists();
 		$timeOut = round((\AppConfig::main('maxExecutionCronTime') + 300) / 60);
-		if ($lastStart === 0 || !$checkTasks || strtotime("-{$timeOut} minutes") > $lastStart) {
+		if ($lastStart === 0 || $checkTasks || strtotime("-{$timeOut} minutes") > $lastStart) {
 			$this->status = 0;
 		} else {
 			$this->status = 1;

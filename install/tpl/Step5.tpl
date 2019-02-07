@@ -10,7 +10,22 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step5 container px-2 px-sm-3">
+	<!-- tpl-install-tpl-Step5 -->
+	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
+		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
+		{if !$ITEM['status']}
+			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
+			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'Settings:ConfReport')}
+			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+				   data-trigger="focus hover" data-placement="right"
+				   data-content="{$HELP_TEXT_TRANS}">
+					<span class="fas fa-info-circle"></span>
+				</a>
+			{/if}
+		{/if}
+	{/function}
+	<div class="container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
 				<form class="js-confirm" name="step3" method="post" action="Install.php" data-js="submit">
@@ -44,13 +59,13 @@
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_LIBRARY', 'Install')}
+											{App\Language::translate('LBL_LIBRARY', 'Settings:ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_MANDATORY', 'Install')}
+											{App\Language::translate('LBL_MANDATORY', 'Settings:ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_INSTALLED', 'Install')}
+											{App\Language::translate('LBL_INSTALLED', 'Settings:ConfReport')}
 										</th>
 									</tr>
 									</thead>
@@ -59,18 +74,7 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right"
-														   data-js="popover"
-														   data-trigger="focus hover" data-placement="right"
-														   data-content="{$HELP_TEXT}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-												{/if}
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											{if isset($ITEM['mandatory'])}
 											<td>
@@ -106,18 +110,7 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td class="bg-light text-left u-word-break-keep-all">
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right"
-														   data-js="popover"
-														   data-trigger="focus hover" data-placement="right"
-														   data-content="{$HELP_TEXT}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-												{/if}
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
@@ -149,18 +142,7 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right"
-														   data-js="popover"
-														   data-trigger="focus hover" data-placement="right"
-														   data-content="{$HELP_TEXT}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-												{/if}
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
@@ -193,18 +175,7 @@
 											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 												data-js="length">
 												<td>
-													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-													{if !$ITEM['status']}
-														{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-														{if !empty($HELP_TEXT)}
-															<a href="#" class="js-popover-tooltip float-right"
-															   data-js="popover"
-															   data-trigger="focus hover" data-placement="right"
-															   data-content="{$HELP_TEXT}">
-																<span class="fas fa-info-circle"></span>
-															</a>
-														{/if}
-													{/if}
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 												</td>
 												{if isset($ITEM['recommended'])}
 													<td>
@@ -246,18 +217,7 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right"
-														   data-js="popover"
-														   data-trigger="focus hover" data-placement="right"
-														   data-content="{$HELP_TEXT}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-												{/if}
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
@@ -293,18 +253,7 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right"
-														   data-js="popover"
-														   data-trigger="focus hover" data-placement="right"
-														   data-content="{$HELP_TEXT}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-												{/if}
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td colspan="2">
 												{if $ITEM.status}
@@ -337,18 +286,7 @@
 										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 											data-js="length">
 											<td>
-												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-												{if !$ITEM['status']}
-													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-													{if !empty($HELP_TEXT)}
-														<a href="#" class="js-popover-tooltip float-right"
-														   data-js="popover"
-														   data-trigger="focus hover" data-placement="right"
-														   data-content="{$HELP_TEXT}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-												{/if}
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
 												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
@@ -378,18 +316,7 @@
 											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
 												data-js="length">
 												<td>
-													{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
-													{if !$ITEM['status']}
-														{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings:ConfReport')}
-														{if !empty($HELP_TEXT)}
-															<a href="#" class="js-popover-tooltip float-right"
-															   data-js="popover"
-															   data-trigger="focus hover" data-placement="right"
-															   data-content="{$HELP_TEXT}">
-																<span class="fas fa-info-circle"></span>
-															</a>
-														{/if}
-													{/if}
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 												</td>
 												<td>
 													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
@@ -419,4 +346,5 @@
 			</div>
 		</main>
 	</div>
+	<!-- /tpl-install-tpl-Step5 -->
 {/strip}

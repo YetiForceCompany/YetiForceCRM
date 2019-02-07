@@ -37,8 +37,9 @@
 					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
 					<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
 					<div class="modal-body">
-						<div contenteditable="true" class="form-control-lg form-control js-comment-content js-completions" name="commentcontent"
-							 id="commentcontent"
+						<textarea name="commentcontent" class="c-textarea--completions" data-validation-engine="validate[required]"></textarea>
+						<div contenteditable="true" class="form-control-lg form-control js-comment-content js-completions"
+							 id="commentcontent" data-completions-textarea="true"
 							 title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}"
 							 placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."
 							 data-js="html | tribute.js"></div>

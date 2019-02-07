@@ -302,7 +302,7 @@ App.Fields = {
 					this.isModal = elements.closest('.js-modal-container').length;
 					if (this.isModal) {
 						let self = this;
-						this.progressInstance = jQuery.progressIndicator({
+						this.progressInstance = $.progressIndicator({
 							blockInfo: {
 								enabled: true,
 								onBlock: () => {
@@ -655,7 +655,7 @@ App.Fields = {
 			 * @param {jQuery} inputDiv - contenteditable div
 			 */
 			registerCompletionsTextArea(inputDiv) {
-				let textarea = element.siblings(`[name=${inputDiv.attr('id')}]`);
+				let textarea = inputDiv.siblings(`[name=${inputDiv.attr('id')}]`);
 				inputDiv.on('focus', function () {
 					textarea.val(inputDiv.html());
 				}).on('blur keyup paste input', function () {

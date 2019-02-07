@@ -250,7 +250,7 @@ class Completions
 		if (!($moduleName = \App\Record::getType($recordId))) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		} elseif (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\">" .
+			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\" data-id=\"#{$recordId}\">" .
 				\App\Record::getLabel($recordId) . '</a>&nbsp;';
 		} else {
 			$html = \App\Record::getLabel($recordId);
@@ -270,7 +270,7 @@ class Completions
 		if (!\App\User::isExists($userId)) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $userId)) {
-			$html = "<a href=\"index.php?module=Users&parent=Settings&view=Detail&record={$userId}\">" .
+			$html = "<a href=\"index.php?module=Users&parent=Settings&view=Detail&record={$userId}\" data-id=\"@{$userId}\">" .
 				\App\User::getUserModel($userId)->getName() .
 				'</a>';
 		} else {

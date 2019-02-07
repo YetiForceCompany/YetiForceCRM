@@ -276,13 +276,13 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : current instance
 	 */
 	loadFieldSpecificUi: function (fieldSelect) {
-		var selectedOption = fieldSelect.find('option:selected');
-		var row = fieldSelect.closest('div.js-conditions-row');
-		var fieldUiHolder = row.find('.fieldUiHolder');
-		var conditionSelectElement = row.find('select[name="comparator"]');
-		var fieldInfo = selectedOption.data('fieldinfo');
-
-		var fieldType = 'string';
+		const selectedOption = fieldSelect.find('option:selected');
+		const row = fieldSelect.closest('div.js-conditions-row');
+		const fieldUiHolder = row.find('.fieldUiHolder');
+		const conditionSelectElement = row.find('select[name="comparator"]');
+		let fieldInfo = selectedOption.data('fieldinfo');
+		const valueType = fieldUiHolder.find(`[name="${fieldInfo.name}"]`).data('valuetype');
+		let fieldType = 'string';
 		if (typeof fieldInfo !== "undefined") {
 			fieldType = fieldInfo.type;
 		} else {
@@ -325,7 +325,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-decimal-separator', fieldInfo.decimal_separator).attr('data-group-separator', fieldInfo.group_separator);
 			fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-decimal-separator', fieldInfo.decimal_separator).attr('data-group-separator', fieldInfo.group_separator);
 		}
-
+		if (valueType) {
+			this.fieldModelInstance.data.workflow_valuetype = valueType;
+		}
 		fieldUiHolder.html(fieldSpecificUi);
 
 		if (fieldSpecificUi.is('select')) {

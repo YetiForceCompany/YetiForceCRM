@@ -396,7 +396,7 @@ CREATE TABLE `dav_calendarinstances` (
 
 CREATE TABLE `dav_calendarobjects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `calendardata` mediumblob DEFAULT NULL,
+  `calendardata` blob DEFAULT NULL,
   `uri` varbinary(200) DEFAULT NULL,
   `calendarid` int(10) unsigned NOT NULL,
   `lastmodified` int(10) unsigned DEFAULT NULL,
@@ -447,7 +447,7 @@ CREATE TABLE `dav_calendarsubscriptions` (
 CREATE TABLE `dav_cards` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `addressbookid` int(10) unsigned NOT NULL,
-  `carddata` mediumblob DEFAULT NULL,
+  `carddata` blob DEFAULT NULL,
   `uri` varbinary(200) DEFAULT NULL,
   `lastmodified` int(10) unsigned DEFAULT NULL,
   `etag` varbinary(32) DEFAULT NULL,
@@ -987,15 +987,17 @@ CREATE TABLE `s_yf_batchmethod` (
 
 CREATE TABLE `s_yf_companies` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(255) NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `industry` varchar(50) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `logo` varchar(50) DEFAULT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -1598,6 +1600,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `content` text DEFAULT NULL,
   `sys_name` varchar(50) DEFAULT NULL,
   `email_template_priority` varchar(1) DEFAULT '1',
+  `smtp_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),
   CONSTRAINT `fk_1_vtiger_emailtemplatesemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -3900,7 +3903,7 @@ CREATE TABLE `vtiger_account` (
   `otherphone` varchar(30) DEFAULT NULL,
   `email1` varchar(100) DEFAULT NULL,
   `email2` varchar(100) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `fax` varchar(30) DEFAULT NULL,
   `employees` int(10) DEFAULT 0,
   `emailoptout` smallint(1) DEFAULT 0,
@@ -5630,7 +5633,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2778 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2779 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7661,7 +7664,7 @@ CREATE TABLE `vtiger_products` (
   `discontinued` tinyint(1) NOT NULL DEFAULT 0,
   `usageunit` varchar(200) DEFAULT NULL,
   `reorderlevel` int(10) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `mfr_part_no` varchar(200) DEFAULT NULL,
   `vendor_part_no` varchar(200) DEFAULT NULL,
   `serialno` varchar(200) DEFAULT NULL,
@@ -8361,7 +8364,7 @@ CREATE TABLE `vtiger_service` (
   `expiry_date` date DEFAULT NULL,
   `discontinued` tinyint(1) NOT NULL DEFAULT 0,
   `service_usageunit` varchar(200) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `currency_id` int(10) NOT NULL DEFAULT 1,
   `commissionrate` decimal(7,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT 0,
@@ -9289,7 +9292,7 @@ CREATE TABLE `vtiger_vendor` (
   `vendorname` varchar(255) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `glacct` varchar(200) DEFAULT NULL,
   `category` varchar(50) DEFAULT NULL,
   `description` text DEFAULT NULL,
