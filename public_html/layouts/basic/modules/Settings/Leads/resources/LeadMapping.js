@@ -186,14 +186,12 @@ jQuery.Class("Settings_LeadMapping_Js", {
 					notifyParams = {
 						title: app.vtranslate('JS_INVALID_MAPPING'),
 						text: data.result,
-						type: 'error',
-						width: '25%'
+						type: 'error'
 					};
 				} else {
 					notifyParams = {
 						title: app.vtranslate('JS_MAPPING_SAVED_SUCCESSFULLY'),
-						type: 'info',
-						width: '25%'
+						type: 'info'
 					};
 				}
 				Vtiger_Helper_Js.showPnotify(notifyParams);
