@@ -16,7 +16,7 @@
 						class="redColor">*</span></span>
 			<div class="col-md-9">
 				<input data-validation-engine='validate[required]' class="form-control" name="todo" type="text"
-					   value="{if isset($TASK_OBJECT->todo)}{$TASK_OBJECT->todo}{/if}"/>
+				       value="{if isset($TASK_OBJECT->todo)}{$TASK_OBJECT->todo}{/if}"/>
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
@@ -104,9 +104,9 @@
 				<div class="col-10">
 					<select class="select2 form-control" name="direction_start">
 						<option {if isset($TASK_OBJECT->direction_start) && $TASK_OBJECT->direction_start eq 'after'}selected=""{/if}
-								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+						        value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if isset($TASK_OBJECT->direction_start) && $TASK_OBJECT->direction_start eq 'before'}selected=""{/if}
-								value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+						        value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -119,12 +119,12 @@
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 							<option {if $DATE_FIELD_START eq $DATETIME_FIELD->get('name')}selected="selected"{/if}
-									value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							        value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
 						<option {if $DATE_FIELD_START eq 'wfRunTime'}selected="selected"{/if}
-								value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+						        value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
 			</div>
@@ -140,9 +140,9 @@
 					<select class="select2 form-control" name="direction_end"
 					>
 						<option {if isset($TASK_OBJECT->direction_end) && $TASK_OBJECT->direction_end eq 'after'}selected=""{/if}
-								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+						        value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if isset($TASK_OBJECT->direction_end) && $TASK_OBJECT->direction_end eq 'before'}selected=""{/if}
-								value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+						        value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -155,12 +155,12 @@
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 							<option {if $DATE_FIELD_END eq $DATETIME_FIELD->get('name')}selected="selected"{/if}
-									value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							        value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
 						<option {if $DATE_FIELD_END eq 'wfRunTime'}selected="selected"{/if}
-								value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+						        value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
 			</div>
@@ -169,14 +169,14 @@
 			<span class="col-md-8">{\App\Language::translate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<input type="checkbox" name="sendNotification" value="true"
-					   {if !empty($TASK_OBJECT->sendNotification)}checked{/if} />
+				       {if !empty($TASK_OBJECT->sendNotification)}checked{/if} />
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-8">{\App\Language::translate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<input type="checkbox" name="doNotDuplicate" value="true"
-					   {if !empty($TASK_OBJECT->doNotDuplicate)}checked{/if} />
+				       {if !empty($TASK_OBJECT->doNotDuplicate)}checked{/if} />
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
