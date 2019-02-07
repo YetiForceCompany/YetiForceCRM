@@ -32,7 +32,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView') && $request->getMode() !== 'verifyIsHolidayDate') {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($request->getMode() !== 'findAddress') {
@@ -223,6 +223,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function verifyIsHolidayDate(\App\Request $request)
 	{
+		var_dump($this->fieldModel->getFieldDataType());
 		if ($this->fieldModel->getFieldDataType() === 'datetime' || $this->fieldModel->getFieldDataType() === 'date') {
 			$response = new Vtiger_Response();
 			$result = false;
