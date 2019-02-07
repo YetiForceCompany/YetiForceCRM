@@ -442,7 +442,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			} else {
 				app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {suppressScrollX: true});
 				sideBar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
-					thisInstance.getCalendarCreateView();
+					thisInstance.showSidebarPlaceholder();
 				});
 				sideBar.find('.js-activity-state .editRecord').on('click', function () {
 					thisInstance.getCalendarSidebarData($(this).data('id'), true);
@@ -751,6 +751,12 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		if (calendarRightPanel.hasClass('hideSiteBar')) {
 			calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
 		}
+		$('.js-event-placeholder').addClass('d-none');
+	}
+
+	showSidebarPlaceholder(sideBar = this.getSidebarView()) {
+		sideBar.find('.js-event-placeholder').removeClass('d-none');
+		sideBar.find('.js-qc-form').empty();
 	}
 
 	showRightPanelForm() {
@@ -830,8 +836,9 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				app.errorLog(error);
 			});
 			return aDeferred.promise();
+		} else {
+			this.showSidebarPlaceholder();
 		}
-
 	}
 
 	/**

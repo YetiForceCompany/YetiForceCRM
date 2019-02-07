@@ -734,6 +734,18 @@ $h-calendar-form-actions: calculate-rem(49px);
 				}
 			}
 
+			&__tab__placeholder {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				height: 100%;
+				justify-content: center;
+				font-size: $font-size-lg;
+				font-weight: lighter;
+				color: $gray-700;
+				text-align: center;
+			}
+
 			&__form__wrapper {
 				position: relative;
 
