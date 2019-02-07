@@ -148,7 +148,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
 			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
-			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
+			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
 			clonedPopupUi.find('select').addClass('select2');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
 			var value;
@@ -186,7 +186,10 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 					clonedPopupUi.find('.fieldValueContainer input').removeAttr('checked');
 				}
 			}
-			var callBackFunction = function (data) {
+			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
+			const clonedPopupElement = $('.clonedPopUp', conditionsContainer).find('.clonedPopupUi');
+			$('.clonedPopupUi', conditionsContainer).on('shown.bs.modal', function () {
+				const data = $('.clonedPopupUi', conditionsContainer);
 				data.find('.clonedPopupUi').removeClass('d-none');
 				var moduleNameElement = conditionRow.find('[name="modulename"]');
 				if (moduleNameElement.length > 0) {
@@ -201,19 +204,14 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				thisInstance.registerChangeFieldEvent(data);
 				thisInstance.registerSelectOptionEvent(data);
 				thisInstance.registerPopUpSaveEvent(data, fieldUiHolder);
-				thisInstance.registerRemoveModalEvent(data);
 				data.find('.fieldValue').filter(':visible').trigger('focus');
-				data.find('[data-close-modal="modal"]').off('click').on('click', function () {
-					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
+				clonedPopupElement.find('[data-close-modal="modal"], [data-dismiss="modal"]').off('click').on('click', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).closest('.modal').removeClass('in').css('display', 'none');
 				});
-			}
-			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
-			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
-				if (typeof callBackFunction == 'function') {
-					callBackFunction(jQuery('.clonedPopupUi', conditionsContainer));
-				}
 			});
-			jQuery('.clonedPopUp', conditionsContainer).find('.clonedPopupUi').modal();
+			clonedPopupElement.modal();
 		});
 	},
 	registerRemoveModalEvent: function (data) {
