@@ -56,7 +56,8 @@ class Register
 		1 => 'LBL_WAITING_FOR_ACCEPTANCE',
 		2 => 'LBL_INCORRECT_DATA',
 		3 => 'LBL_INCOMPLETE_DATA',
-		4 => 'LBL_OFFLINE_SERIAL_NOT_FOUND',
+		4 => 'LBL_OFFLINE_SIGNED',
+		5 => 'LBL_OFFLINE_SERIAL_NOT_FOUND',
 		7 => 'LBL_OFFLINE_SIGNED',
 		8 => 'LBL_SPECIAL_REGISTRATION',
 		9 => 'LBL_ACCEPTED',
@@ -247,7 +248,7 @@ class Register
 			return false;
 		}
 		static::updateMetaData([
-			'status' => 7,
+			'status' => 4,
 			'text' => 'OK',
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
