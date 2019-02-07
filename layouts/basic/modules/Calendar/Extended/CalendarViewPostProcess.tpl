@@ -26,6 +26,7 @@
 		<div class="tab-content" id="rightPanelTabContent">
 			<div class="tab-pane fade active show js-right-panel-event" id="rightPanelEvent" role="tabpanel"
 				 aria-labelledby="rightPanelEvent-tab" data-js="class: active">
+				<div class="js-event-placeholder {if $EVENT_CREATE} d-none{/if}">{\App\Language::translate('ACTIVITY_PREVIEW_INFO', $MODULE)}</div>
 				<div class="js-qc-form qc-form"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">

@@ -8,6 +8,7 @@
     "ICAL_FORMAT": "iCal format",
     "last": "Last",
     "LBL_ACTIVITY_TYPES": "Activity types",
+    "ACTIVITY_PREVIEW_INFO": "Select an activity from the calendar to see its preview.",
     "LBL_ADD_CALENDAR_VIEW": "Add Calendar view",
     "LBL_ADDED_CALENDARS": "Added Calendars",
     "LBL_ADD_EVENT": "Add Event",

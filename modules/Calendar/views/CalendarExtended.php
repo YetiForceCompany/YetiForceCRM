@@ -50,4 +50,14 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 			'modules.Calendar.resources.Extended.CalendarView',
 		]));
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcess(\App\Request $request, $display = true)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('EVENT_CREATE', \Vtiger_Record_Model::getCleanInstance('Calendar')->isCreateable());
+		parent::postProcess($request);
+	}
 }
