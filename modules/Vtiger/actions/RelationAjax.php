@@ -374,7 +374,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			}
 		}
 		if (!empty($recordsToRemove)) {
-			if ($relationModel->privilegeToDelete()) {
+			if ($relationModel->privilegeToEdit()) {
 				foreach ($recordsToRemove as $relatedRecordId) {
 					$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
 				}
