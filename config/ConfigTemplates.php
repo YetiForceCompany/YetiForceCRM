@@ -886,25 +886,25 @@ return [
 		],
 		'CACHING_PERMISSION_TO_RECORD' => [
 			'default' => false,
-			'description' => "Configuration of the permission mechanism on records list.\ntrue - Permissions based on the users column in vtiger_crmentity.\n		Permissions are not verified in real time. They are updated via cron.\n		We do not recommend using this option in production environments.\nfalse - Permissions based on adding tables with permissions to query (old mechanism)",
+			'description' => "Configuration of the permission mechanism on records list.\ntrue - Permissions based on the users column in vtiger_crmentity.\n		Permissions are not verified in real time. They are updated via cron.\n		We do not recommend using this option in production environments.\nfalse - Permissions based on adding tables with permissions to query (old mechanism).",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'RESTRICTED_DOMAINS_ACTIVE' => [
+		'EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE' => [
 			'default' => false,
 			'description' => "Restricted domains allow you to block saving an email address from a given domain in the system.\nRestricted domains work only for email address type fields.",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'RESTRICTED_DOMAINS_VALUES' => [
+		'EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES' => [
 			'default' => [],
 			'description' => 'Restricted domains',
 		],
-		'RESTRICTED_DOMAINS_ALLOWED' => [
+		'EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED' => [
 			'default' => [],
 			'description' => 'List of modules where restricted domains are enabled, if empty it will be enabled everywhere.',
 		],
-		'RESTRICTED_DOMAINS_EXCLUDED' => [
+		'EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED' => [
 			'default' => ['OSSEmployees', 'Users'],
 			'description' => 'List of modules excluded from restricted domains validation.',
 		],
@@ -922,7 +922,7 @@ return [
 		],
 		'HPKP_KEYS' => [
 			'default' => [],
-			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/",
+			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
 		],
 		'CSP_ACTIVE' => [
 			'default' => true,
@@ -940,7 +940,7 @@ return [
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
-			'description' => "User authentication mode.\n@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
+			'description' => "User authentication mode.\n		@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);

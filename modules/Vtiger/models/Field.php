@@ -876,16 +876,16 @@ class Vtiger_Field_Model extends vtlib\Field
 				$this->fieldInfo['picklistvalues'] = \App\Fields\Tree::getPicklistValue($this->getFieldParams(), $this->getModuleName());
 				break;
 			case 'email':
-				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+				if (\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES'))) {
 					$validate = false;
-					if (empty(AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+					if (empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED'))) {
 						$validate = true;
 					}
-					if (in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+					if (in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED'))) {
 						$validate = false;
 					}
 					if ($validate) {
-						$this->fieldInfo['restrictedDomains'] = AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+						$this->fieldInfo['restrictedDomains'] = \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES');
 					}
 				}
 				break;
