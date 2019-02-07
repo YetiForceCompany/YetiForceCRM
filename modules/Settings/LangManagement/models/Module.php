@@ -142,11 +142,10 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (isset(App\Language::getAll(false)[$params['prefix']])) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
-		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
-		if (!\App\Validator::languageTag($prefix)) {
+		if (!\App\Validator::languageTag($params['prefix'])) {
 			return ['success' => false, 'data' => 'LBL_NOT_CORRECT_LANGUAGE_TAG'];
 		}
-		$destiny = 'languages/' . $prefix . '/';
+		$destiny = 'languages/' . $params['prefix'] . '/';
 		mkdir($destiny);
 		vtlib\Functions::recurseCopy('languages/' . \App\Language::DEFAULT_LANG, $destiny);
 		$db = \App\Db::getInstance();
