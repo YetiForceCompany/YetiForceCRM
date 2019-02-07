@@ -127,7 +127,7 @@ App.Fields = {
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
 					monthNames: App.Fields.Date.fullMonthsTranslated,
-				},
+				}
 			};
 
 			if (typeof customParams !== "undefined") {
@@ -138,10 +138,19 @@ App.Fields = {
 			});
 			elements.each((index, element) => {
 				let currentParams = $.extend(true, params, $(element).data('params'));
-				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
-					$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
-					$(this).trigger('change');
-				});
+				$(element).daterangepicker(currentParams)
+					.on('apply.daterangepicker', function (ev, picker) {
+						$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
+						$(this).trigger('change');
+					})
+					.on('show.daterangepicker', function (ev, picker) {
+						if (picker.element.offset().top - $(window).scrollTop() + picker.container.outerHeight() > $(window).height()) {
+							picker.drops = 'up';
+						} else {
+							picker.drops = 'down';
+						}
+						picker.move();
+					});
 			});
 		},
 	},
