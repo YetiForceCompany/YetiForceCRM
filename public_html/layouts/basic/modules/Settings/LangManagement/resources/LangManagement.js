@@ -234,22 +234,7 @@ var Settings_Index_Js = {
 			'prefix': container.find("input[name='prefix']").val()
 		});
 		if (SaveEvent.resp) {
-			let params = SaveEvent.result.params;
-			$('#lang_list table tbody').append(
-				'<tr data-prefix="' + params.prefix + '"><td>' + params.label + '</td><td>' +
-				params.name + '</td><td>' + params.prefix +
-				'</td><td><a href="index.php?module=LangManagement&parent=Settings&action=Export&lang=' + params.prefix +
-				'" class="btn btn-primary btn-xs marginLeft10">' + app.vtranslate('JS_EXPORT') +
-				'</a> <button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">' +
-				app.vtranslate('JS_DEFAULT') +
-				'</button> <button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">' +
-				app.vtranslate('Delete') + '</button></td></tr>'
-			);
-			Settings_Index_Js.initEvant($('#lang_list tr[data-prefix=' + params.prefix + ']'));
-			container.find('.AddNewLangMondal').modal('hide');
-			$(".AddNewLangMondal input[name='label']").val('');
-			$(".AddNewLangMondal input[name='name']").val('');
-			$(".AddNewLangMondal input[name='prefix']").val('');
+			window.location.reload();
 		}
 	},
 	AddTranslationMondal: function (e) {

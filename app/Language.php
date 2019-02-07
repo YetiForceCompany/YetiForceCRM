@@ -618,7 +618,7 @@ class Language
 	}
 
 	/**
-	 * Function return languanges data.
+	 * Function return languages data.
 	 *
 	 * @param bool $active
 	 * @param bool $allData
