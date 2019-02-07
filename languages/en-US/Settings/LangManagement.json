@@ -53,6 +53,7 @@
     "LBL_STATS_INFO": "The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.",
     "LBL_UNTRANSLATED_LABELS": "Untranslated labels",
     "LBL_IMPORT_LANG": "Import language",
+    "LBL_IETF_LANGUAGE_TAG": "IETF language tag",
     "LBL_NOT_CORRECT_LANGUAGE_TAG": "Language tag not compliant with the IETF standard."
   },
   "js": {

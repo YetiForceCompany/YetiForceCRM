@@ -128,7 +128,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$params = [
 			'label' => $request->getByType('label', 'Text'),
 			'name' => $request->getByType('name', 'Text'),
-			'prefix' => $request->getByType('prefix'),
+			'prefix' => $request->getByType('prefix', 'Text'),
 		];
 		$saveResp = Settings_LangManagement_Module_Model::add($params);
 		$response = new Vtiger_Response();

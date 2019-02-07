@@ -208,9 +208,8 @@ var Settings_Index_Js = {
 		});
 	},
 	ShowLangMondal: function (e) {
-		var cloneModal = $('.AddNewLangMondal').clone(true, true);
+		let cloneModal = $('.AddNewLangMondal').clone(true, true);
 		app.showModalWindow($(cloneModal));
-		$(cloneModal).css("z-index", "9999999");
 	},
 	ShowTranslationMondal: function (e) {
 		var langs_list = $(".LangManagement #langs_list").val();
