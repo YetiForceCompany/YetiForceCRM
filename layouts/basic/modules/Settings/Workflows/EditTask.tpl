@@ -37,18 +37,18 @@
 							</div>
 							<div class="col-md-5">
 								<input name="summary" class="form-control" data-validation-engine='validate[required]'
-									   type="text" value="{$TASK_MODEL->get('summary')}"/>
+								       type="text" value="{$TASK_MODEL->get('summary')}"/>
 							</div>
 							<div class="col-md-4 form-control-plaintext">
 								<div class="float-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
 								<div class="float-left" id="taskStatus">
 									<input type="radio" name="active"
-										   class="alignTop" {if $TASK_MODEL->get('status') eq 1} checked="" {/if}
-										   value="true">&nbsp;{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}
+									       class="alignTop" {if $TASK_MODEL->get('status') eq 1} checked="" {/if}
+									       value="true">&nbsp;{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}
 									&nbsp;&nbsp;
 									<input type="radio" name="active"
-										   class="alignTop" {if $TASK_MODEL->get('status') neq 1} checked="" {/if}
-										   value="false"/>&nbsp;{\App\Language::translate('LBL_IN_ACTIVE',$QUALIFIED_MODULE)}
+									       class="alignTop" {if $TASK_MODEL->get('status') neq 1} checked="" {/if}
+									       value="false"/>&nbsp;{\App\Language::translate('LBL_IN_ACTIVE',$QUALIFIED_MODULE)}
 								</div>
 							</div>
 						</div>
@@ -72,11 +72,11 @@
 										{if !empty($TRIGGER)} checked {/if}/>
 							</div>
 							<div class="col-md-10 form-row {if !empty($TRIGGER)} show {else} d-none {/if}"
-								 id="checkSelectDateContainer">
+							     id="checkSelectDateContainer">
 								<div class="col-md-2">
 									<input class="form-control" type="text" name="select_date_days"
-										   value="{if !empty($DAYS)}{$DAYS}{/if}"
-										   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
+									       value="{if !empty($DAYS)}{$DAYS}{/if}"
+									       data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 								</div>
 								<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-2 ml-0">
@@ -91,7 +91,7 @@
 									<select class="select2" name="select_date_field">
 										{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 											<option {if !empty($TRIGGER['field']) && ($TRIGGER['field'] eq $DATETIME_FIELD->get('name'))} selected="" {/if}
-													value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+													value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'), $DATETIME_FIELD->getModuleName())}</option>
 										{/foreach}
 									</select>
 								</div>
