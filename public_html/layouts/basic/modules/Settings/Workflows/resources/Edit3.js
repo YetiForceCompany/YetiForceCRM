@@ -90,14 +90,17 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			}
 		});
 	},
-	registerSaveTaskSubmitEvent: function (taskType) {
-		const thisInstance = this;
-		$('#saveTask').on('submit', function (e) {
+	/**
+	 * Register save task submit event
+	 * @param {string} taskType
+	 */
+	registerSaveTaskSubmitEvent(taskType) {
+		$('#saveTask').on('submit', (e) => {
 			let form = $(e.currentTarget);
 			if (form.validationEngine('validate') === true) {
 				let customValidationFunctionName = taskType + 'CustomValidation';
-				if (typeof thisInstance[customValidationFunctionName] !== "undefined") {
-					let result = thisInstance[customValidationFunctionName].apply(thisInstance);
+				if (typeof this[customValidationFunctionName] !== "undefined") {
+					let result = this[customValidationFunctionName].apply(this);
 					if (result !== true) {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_MESSAGE'),
@@ -109,18 +112,18 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					}
 				}
 				let preSaveActionFunctionName = 'preSave' + taskType;
-				if (typeof thisInstance[preSaveActionFunctionName] !== "undefined") {
-					thisInstance[preSaveActionFunctionName].apply(thisInstance, [taskType]);
+				if (typeof this[preSaveActionFunctionName] !== "undefined") {
+					this[preSaveActionFunctionName].apply(this, [taskType]);
 				}
-				AppConnector.request(form.serializeFormData()).done(function (data) {
+				AppConnector.request(form.serializeFormData()).done((data) => {
 					if (data.result) {
-						thisInstance.getTaskList();
+						this.getTaskList();
 						app.hideModalWindow();
 					}
 				});
 			}
 			e.preventDefault();
-		})
+		});
 	},
 	VTUpdateFieldsTaskCustomValidation: function () {
 		return this.checkDuplicateFieldsSelected();
@@ -168,7 +171,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	isEmptyFieldSelected: function (fieldSelect) {
 		var selectedOption = fieldSelect.find('option:selected');
 		//assumption that empty field will be having value none
-		if (selectedOption.val() == 'none') {
+		if (selectedOption.val() === 'none' || !selectedOption.val()) {
 			return true;
 		}
 		return false;
@@ -182,21 +185,25 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	getVTUpdateRelatedFieldTaskFieldList: function () {
 		return new Array('fieldname', 'value', 'valuetype');
 	},
-	getValues: function (tasktype) {
-		const thisInstance = this;
+	/**
+	 * Get values
+	 * @param {string} tasktype
+	 * @returns {Array}
+	 */
+	getValues(tasktype) {
 		let fieldListFunctionName = 'get' + tasktype + 'FieldList',
 			fieldList = [];
-		if (typeof thisInstance[fieldListFunctionName] !== "undefined") {
-			fieldList = thisInstance[fieldListFunctionName].apply()
+		if (typeof this[fieldListFunctionName] !== "undefined") {
+			fieldList = this[fieldListFunctionName].apply()
 		}
 
 		let values = [];
-		$('.js-conditions-row', $('#save_fieldvaluemapping')).each(function (i, conditionDomElement) {
+		$('.js-conditions-row', $('#save_fieldvaluemapping')).each((i, conditionDomElement) => {
 			let rowElement = $(conditionDomElement),
 				fieldSelectElement = $('[name="fieldname"]', rowElement),
 				valueSelectElement = $('[data-value="value"]', rowElement);
 			//To not send empty fields to server
-			if (thisInstance.isEmptyFieldSelected(fieldSelectElement)) {
+			if (this.isEmptyFieldSelected(fieldSelectElement)) {
 				return true;
 			}
 			let fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo'),
@@ -204,7 +211,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				rowValues = {},
 				key,
 				field;
-			if (fieldType == 'owner') {
+			if (fieldType === 'owner') {
 				for (key in fieldList) {
 					field = fieldList[key];
 					if (field == 'value' && valueSelectElement.is('select')) {
@@ -213,26 +220,26 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 						rowValues[field] = $('[name="' + field + '"]', rowElement).val();
 					}
 				}
-			} else if (fieldType == 'picklist' || fieldType == 'multipicklist') {
+			} else if (fieldType === 'picklist' || fieldType == 'multipicklist') {
 				for (key in fieldList) {
 					field = fieldList[key];
-					if (field == 'value' && valueSelectElement.is('input')) {
+					if (field === 'value' && valueSelectElement.is('input')) {
 						let pickListValues = valueSelectElement.data('picklistvalues'),
 							valuesArr = valueSelectElement.val().split(','),
 							newValuesArr = [];
-						for (i = 0; i < valuesArr.length; i++) {
-							if (typeof pickListValues[valuesArr[i]] !== "undefined") {
-								newValuesArr.push(pickListValues[valuesArr[i]]);
+						for (let j = 0; j < valuesArr.length; j++) {
+							if (typeof pickListValues[valuesArr[j]] !== "undefined") {
+								newValuesArr.push(pickListValues[valuesArr[j]]);
 							} else {
-								newValuesArr.push(valuesArr[i]);
+								newValuesArr.push(valuesArr[j]);
 							}
 						}
 						rowValues[field] = newValuesArr.join(',');
-					} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'picklist') {
+					} else if (field === 'value' && valueSelectElement.is('select') && fieldType == 'picklist') {
 						rowValues[field] = valueSelectElement.val();
-					} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'multipicklist') {
+					} else if (field === 'value' && valueSelectElement.is('select') && fieldType == 'multipicklist') {
 						var value = valueSelectElement.val();
-						if (value == null) {
+						if (value === null) {
 							rowValues[field] = value;
 						} else {
 							rowValues[field] = value.join(',');
