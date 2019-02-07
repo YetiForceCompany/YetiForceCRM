@@ -217,9 +217,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 								`);
 			toolbar.append(this.subDateRow);
 			if ($(window).width() > app.breakpoints.lg) {
-				app.showNewScrollbar(this.subDateRow, {
-					suppressScrollY: true
-				});
+				app.showNewScrollbar(this.subDateRow);
 			}
 		}
 	}
