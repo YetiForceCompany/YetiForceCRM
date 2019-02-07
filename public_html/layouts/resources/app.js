@@ -872,20 +872,16 @@ var AppConnector,
 				currentElement.val(date);
 			});
 		},
-		registerEventForClockPicker: function (object) {
-			let elementClockBtn, formatTime;
-			if (typeof object === "undefined") {
-				elementClockBtn = $('.clockPicker');
-				formatTime = CONFIG.hourFormat;
-			} else {
-				elementClockBtn = object;
-				formatTime = elementClockBtn.data('format');
+		registerEventForClockPicker: function (timeInputs = $('.clockPicker')) {
+			if (!timeInputs.hasClass('clockPicker')) {
+				timeInputs = timeInputs.find('.clockPicker');
 			}
-			formatTime = parseInt(formatTime) === 12 ? true : false;
+			if (!timeInputs.length) {
+				return;
+			}
 			let params = {
 				placement: 'bottom',
 				autoclose: true,
-				twelvehour: formatTime,
 				minutestep: 5
 			};
 
@@ -916,8 +912,10 @@ var AppConnector,
 				}
 			}
 
-			elementClockBtn.each((i, e) => {
+			timeInputs.each((i, e) => {
 				let timeInput = $(e);
+				let formatTime = timeInputs.data('format') || CONFIG.hourFormat;
+				params.twelvehour = parseInt(formatTime) === 12 ? true : false;
 				formatTimeString(timeInput);
 				timeInput.clockpicker(params);
 			});
