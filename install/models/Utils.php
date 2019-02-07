@@ -134,7 +134,7 @@ class Install_Utils_Model
 
 	public static function getLanguages()
 	{
-		$dir = 'install\languages\\';
+		$dir = './install/languages/';
 		$ffs = scandir($dir);
 		$langs = [];
 		foreach ($ffs as $ff) {
