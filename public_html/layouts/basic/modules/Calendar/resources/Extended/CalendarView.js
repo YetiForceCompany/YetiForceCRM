@@ -394,7 +394,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 * Register events to EditView
 	 * @param {jQuery} sideBar
 	 */
-	registerEditForm(sideBar) {
+	registerEditForm(sideBar, id) {
 		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
 			headerInstance = new Vtiger_Header_Js(),
 			params = [];
@@ -403,8 +403,12 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		rightFormCreate.validationEngine(app.validationEngineOptions);
 		headerInstance.registerHelpInfo(rightFormCreate);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-		sideBar.find('.js-summary-close-edit').on('click', () => {
-			this.getCalendarCreateView();
+		sideBar.find('.js-summary-close-edit').on('click', (e) => {
+			if (CONFIG.eventCreate) {
+				this.getCalendarCreateView();
+			} else {
+				this.getCalendarSidebarData(`index.php?module=Calendar&view=ActivityState&record=${id}`);
+			}
 		});
 		params.callbackFunction = this.registerAfterSubmitForm(this, rightFormCreate);
 		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
@@ -434,7 +438,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			sideBar.find('.js-qc-form').html(data);
 			thisInstance.showRightPanelForm();
 			if (sideBar.find('form').length) {
-				thisInstance.registerEditForm(sideBar);
+				thisInstance.registerEditForm(sideBar, params.record);
 			} else {
 				app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {suppressScrollX: true});
 				sideBar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
