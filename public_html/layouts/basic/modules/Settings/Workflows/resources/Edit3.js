@@ -473,13 +473,18 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		});
 		this.fieldValueMap = fieldValueReMap;
 	},
-	loadFieldSpecificUi: function (fieldSelect) {
-		var selectedOption = fieldSelect.find('option:selected');
-		var row = fieldSelect.closest('div.js-conditions-row');
-		var fieldUiHolder = row.find('.fieldUiHolder');
-		var fieldInfo = selectedOption.data('fieldinfo');
-		var fieldValueMapping = this.getFieldValueMapping();
-		var selectField = '';
+	/**
+	 * Load field specific UI
+	 * @param {jQuery} fieldSelect
+	 * @returns this
+	 */
+	loadFieldSpecificUi(fieldSelect) {
+		const selectedOption = fieldSelect.find('option:selected');
+		const row = fieldSelect.closest('div.js-conditions-row');
+		const fieldUiHolder = row.find('.fieldUiHolder');
+		const fieldInfo = selectedOption.data('fieldinfo');
+		const fieldValueMapping = this.getFieldValueMapping();
+		let selectField = '';
 		if (fieldValueMapping && typeof fieldValueMapping[fieldInfo.name] !== "undefined") {
 			selectField = fieldValueMapping[fieldInfo.name];
 		} else if (fieldValueMapping && typeof fieldValueMapping[fieldSelect.val()] !== "undefined") {
@@ -491,14 +496,13 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		} else {
 			fieldInfo.workflow_valuetype = 'rawtext';
 		}
-		var moduleName = this.getModuleName();
-
-		var fieldModel = Vtiger_Field_Js.getInstance(fieldInfo, moduleName);
+		const moduleName = this.getModuleName();
+		const fieldModel = Vtiger_Field_Js.getInstance(fieldInfo, moduleName);
 		this.fieldModelInstance = fieldModel;
-		var fieldSpecificUi = this.getFieldSpecificUi(fieldSelect);
+		const fieldSpecificUi = this.getFieldSpecificUi(fieldSelect);
 		//remove validation since we dont need validations for all eleements
 		// Both filter and find is used since we dont know whether the element is enclosed in some conainer like currency
-		var fieldName = fieldModel.getName();
+		let fieldName = fieldModel.getName();
 		if (fieldModel.getType() == 'multipicklist') {
 			fieldName = fieldName + "[]";
 		}
@@ -507,7 +511,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		fieldSpecificUi.filter('[name="valuetype"]').removeAttr('data-validation-engine');
 		fieldSpecificUi.find('[name="valuetype"]').removeAttr('data-validation-engine');
 		//If the workflowValueType is rawtext then only validation should happen
-		var workflowValueType = fieldSpecificUi.filter('[name="valuetype"]').val();
+		const workflowValueType = fieldSpecificUi.filter('[name="valuetype"]').val();
 		if (workflowValueType != 'rawtext' && typeof workflowValueType !== "undefined") {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 			fieldSpecificUi.find('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
