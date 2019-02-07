@@ -44,7 +44,7 @@ class Gantt {
 					'stroke-width': 0
 				},
 				'chart-days-highlight-rect': {
-					'fill': '#00000008'
+					'fill': '#f3f5f780'
 				},
 				'header-title': {
 					'float': 'none',
