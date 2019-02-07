@@ -153,6 +153,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
 			'name' => $params['label'],
+			'lastupdated' => date('Y-m-d H:i:s')
 		])->execute();
 		\App\Cache::clear();
 
