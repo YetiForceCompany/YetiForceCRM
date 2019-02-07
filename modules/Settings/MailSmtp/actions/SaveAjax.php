@@ -45,7 +45,7 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'smtp_username' => $request->getByType('smtp_username', 'Text'),
 			'smtp_host' => $request->getByType('smtp_host', 'Text'),
 			'smtp_port' => $request->isEmpty('smtp_port') ? '' : $request->getInteger('smtp_port'),
-			'smtp_folder' => $request->getByType('smtp_folder', 'Text'),
+			'smtp_folder' => \App\Purifier::decodeHtml($request->getByType('smtp_folder', 'Text')),
 			'save_send_mail' => $request->isEmpty('save_send_mail') ? 0 : $request->getInteger('save_send_mail'),
 			'smtp_validate_cert' => $request->isEmpty('smtp_validate_cert') ? 0 : $request->getInteger('smtp_validate_cert'),
 		];
