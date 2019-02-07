@@ -18,6 +18,7 @@
 	width: calc(100% - 50px);
 	margin-left: 50px;
 	margin-right: 0;
+	min-height: calc(100% - 80px); // if not - nested modals will be cutted
 }
 
 @media only screen and (max-width: 768px) {
