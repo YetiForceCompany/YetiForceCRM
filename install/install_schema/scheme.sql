@@ -396,7 +396,7 @@ CREATE TABLE `dav_calendarinstances` (
 
 CREATE TABLE `dav_calendarobjects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `calendardata` mediumblob DEFAULT NULL,
+  `calendardata` blob DEFAULT NULL,
   `uri` varbinary(200) DEFAULT NULL,
   `calendarid` int(10) unsigned NOT NULL,
   `lastmodified` int(10) unsigned DEFAULT NULL,
@@ -447,7 +447,7 @@ CREATE TABLE `dav_calendarsubscriptions` (
 CREATE TABLE `dav_cards` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `addressbookid` int(10) unsigned NOT NULL,
-  `carddata` mediumblob DEFAULT NULL,
+  `carddata` blob DEFAULT NULL,
   `uri` varbinary(200) DEFAULT NULL,
   `lastmodified` int(10) unsigned DEFAULT NULL,
   `etag` varbinary(32) DEFAULT NULL,
