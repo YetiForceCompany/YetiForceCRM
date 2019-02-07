@@ -251,7 +251,7 @@
 					</label>
 					<div class="controls col-md-8">
 						<input class="form-control js-smtp-folder" type="text"
-							   value="{$RECORD_MODEL->get('smtp_folder')}"
+							   value="{\App\Purifier::encodeHtml($RECORD_MODEL->get('smtp_folder'))}"
 							   name="smtp_folder" data-js="validation">
 					</div>
 				</div>
