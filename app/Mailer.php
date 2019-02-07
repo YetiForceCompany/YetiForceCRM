@@ -534,6 +534,8 @@ class Mailer
 	/**
 	 * Save sent email.
 	 *
+	 * @throws \App\Exceptions\AppException
+	 *
 	 * @return bool
 	 */
 	public function saveMail()
@@ -549,7 +551,7 @@ class Mailer
 			'imap_params' => [],
 			'imap_open_add_connection_type' => true,
 		];
-		$folder = Utils::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF7-IMAP', 'UTF-8');
+		$folder = Utils::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF-8', 'UTF7-IMAP');
 		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], Encryption::getInstance()->decrypt($this->smtp['smtp_password']), $this->smtp['smtp_host'], $folder, false, $params);
 		if ($mbox === false && !imap_last_error()) {
 			static::$error[] = 'IMAP error - ' . imap_last_error();
