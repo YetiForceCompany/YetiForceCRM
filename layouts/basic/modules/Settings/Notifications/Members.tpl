@@ -2,7 +2,7 @@
 {strip}
 	<form class="tpl-Settings-Notifications-Members form-horizontal" id="modalMembersView">
 		<input type="hidden" id="srcModule" name="srcModule" value="{$SRC_MODULE}"/>
-		<input type="hidden" id="isToAdd" name="isToAdd" value={$IS_TO_ADD}/>
+		<input type="hidden" id="isToAdd" name="isToAdd" value="{$IS_TO_ADD}"/>
 		<input type="hidden" id="mode" name="mode" value="addOrRemoveMembers"/>
 		<div class="modal-header">
 			<h5 class="modal-title"><span
