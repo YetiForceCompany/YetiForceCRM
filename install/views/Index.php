@@ -170,6 +170,7 @@ class Install_Index_View extends \App\Controller\View
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$error = false;
+		$dbConnection['flag'] = true;
 		$configFile = new \App\ConfigFile('db');
 		foreach ($configFile->getTemplate() as $name => $data) {
 			if ($request->has($name)) {
@@ -182,9 +183,11 @@ class Install_Index_View extends \App\Controller\View
 				}
 			}
 		}
-		$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
-		if (!$dbConnection['flag']) {
-			$error = true;
+		if (!$error) {
+			$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
+			if (!$dbConnection['flag']) {
+				$error = true;
+			}
 		}
 		$configFile = new \App\ConfigFile('main');
 		foreach ($configFile->getTemplate() as $name => $data) {
