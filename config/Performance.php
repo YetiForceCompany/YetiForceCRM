@@ -155,4 +155,7 @@ class Performance
 
 	/** Empty value when is not selected item in picklist dependency */
 	public static $PICKLIST_DEPENDENCY_DEFAULT_EMPTY = true;
+
+	/** If there is no translation in the chosen language, then get from the default language. */
+	public static $recursiveTranslate = false;
 }
