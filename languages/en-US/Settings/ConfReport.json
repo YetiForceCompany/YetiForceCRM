@@ -184,7 +184,7 @@
     "LBL_HELP_OPCACHE_SAVE_COMMENTS": "If disabled, all documentation comments will be discarded from the opcode cache to reduce the size of the optimised code.",
     "LBL_HELP_OPCACHE_MEMORY_CONSUMPTION": "OPcache shared memory storage size in megabytes",
     "LBL_HELP_REALPATH_CACHE_TTL": "Duration of time (in seconds) for which to cache realpath information for a given file or directory.",
-    "LBL_HELP_APC_ENABLED": "This can be set to 0 to disable APC.",
+    "LBL_HELP_APC_ENABLED": "The Alternative PHP Cache (APC) is a PHP extension that provides opcode caching. By caching the compiled operation codes (opcodes) of PHP scripts, APC enables sites to serve page content significantly faster.",
     "LBL_HELP_COOKIE_SECURE": "",
     "LBL_HELP_MAX_CONNECTIONS": "Maximum number of simultaneous client connections.",
     "LBL_HELP_DRIVER": "Database engine",
