@@ -271,6 +271,8 @@ var AppConnector,
 				.addClass('u-text-ellipsis--not-active')
 				.css(element.css(['font-size', 'font-weight', 'font-family']))
 				.appendTo('body');
+			clone.find('.u-text-ellipsis')
+				.removeClass('u-text-ellipsis').addClass('u-text-ellipsis--not-active');
 			if (clone.width() - 1 > element.width()) {
 				clone.remove();
 				return true;
@@ -903,7 +905,7 @@ var AppConnector,
 						app.event.trigger('Clockpicker.changed', timeInput);
 					};
 					params.beforeHide = () => {
-						meridiemTime = $('.clockpicker-buttons-am-pm').find('a:not(.text-white-50)').text();
+						meridiemTime = $('.clockpicker-buttons-am-pm:visible').find('a:not(.text-white-50)').text();
 					};
 				} else {
 					params.afterDone = () => {

@@ -9,8 +9,12 @@
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
+			{assign var="BREADCRUMBS_TEXT" value="<span class='$HOMEICON' aria-hidden='true'></span>"}
+			{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
+				{assign var="BREADCRUMBS_TEXT" value="`$BREADCRUMBS_TEXT` / `$item['name']`"}
+			{/foreach}
 			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon"
-				data-content="{App\Purifier::encodeHtml($BREADCRUMBS[$BREADCRUMBS|@count - 1]['name'])}"
+				data-content="{$BREADCRUMBS_TEXT}"
 				data-toggle="popover"
 				data-js="popover | mouseenter">
 				<li class="breadcrumb-item">
@@ -21,13 +25,13 @@
 				</li>
 				{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
 					{if isset($item['url'])}
-						<li class="breadcrumb-item">
+						<li class="breadcrumb-item u-text-ellipsis">
 							<a href="{$item['url']}">
 								{$item['name']}
 							</a>
 						</li>
 					{elseif $item@last}
-						<li class="breadcrumb-item active js-popover-text js-text-content" data-js="text"
+						<li class="breadcrumb-item active js-text-content u-text-ellipsis"
 							aria-current="page">
 							{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($item['name'])))}
 						</li>
@@ -35,7 +39,7 @@
 							<span class="fas fa-info-circle fa-sm"></span>
 						</li>
 					{else}
-						<li class="breadcrumb-item">{$item['name']}</li>
+						<li class="breadcrumb-item u-text-ellipsis">{$item['name']}</li>
 					{/if}
 					{assign var="ITEM_PREV" value=$item['name']}
 				{/foreach}
