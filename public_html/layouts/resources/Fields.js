@@ -522,6 +522,9 @@ App.Fields = {
 			 * @param params
 			 */
 			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
+				if (typeof inputDiv === "undefined" || inputDiv.length === 0) {
+					return;
+				}
 				let basicParams = {
 					completionsCollection: {
 						records: true,

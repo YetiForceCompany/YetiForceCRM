@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-RelatedCommentModal -->
 	<div class="modal-header">
 		<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_RELATED_COMMENT', $MODULE)}</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -9,7 +10,7 @@
 	<div class="modal-body">
 		<input type="hidden" class="relatedRecord" value="{$RELATED_RECORD}"/>
 		<input type="hidden" class="relatedModuleName" value="{$RELATED_MODULE}"/>
-		<div contenteditable="true" class="form-control comment js-completions" data-js="html | tribute.js">{$COMMENT}</div>
+		<textarea class="form-control comment" rows="4">{$COMMENT}</textarea>
 	</div>
 	<div class="modal-footer">
 		<div class="float-right">
@@ -19,4 +20,5 @@
 				<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 		</div>
 	</div>
+	<!-- /tpl-Base-RelatedCommentModal -->
 {/strip}
