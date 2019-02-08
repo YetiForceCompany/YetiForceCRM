@@ -406,6 +406,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = $this->getRecord()->get('tabid');
 		$reltabid = $this->getRecord()->get('reltabid');
 		if (empty($tabid) || empty($reltabid)) {
+			$id = null;
 			$message = 'LBL_MODULE_NOT_EXIST';
 		} elseif (!$this->importsAllowed()) {
 			$this->setMapping($mapping);
@@ -413,6 +414,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			$message = 'LBL_IMPORT_OK';
 			$id = $this->getRecordId();
 		} else {
+			$id = null;
 			$message = 'LBL_NO_PERMISSION_TO_IMPORT';
 		}
 		return [$id, $message];
