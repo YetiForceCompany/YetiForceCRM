@@ -49,7 +49,7 @@ class ConfReport
 	public static $stability = [
 		'phpVersion' => ['recommended' => '7.1.x, 7.2.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '1.x', 'type' => 'Version', 'container' => 'request', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
-		'error_reporting' => ['recommended' => 'E_ALL', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
+		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
 		'max_execution_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'max_input_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
@@ -603,7 +603,7 @@ class ConfReport
 		unset($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if (E_ALL === (int) $current || $current === 'E_ALL (32767)') {
+		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
