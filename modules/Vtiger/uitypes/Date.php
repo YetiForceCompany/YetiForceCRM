@@ -163,8 +163,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		$defaultValue = $this->getFieldModel()->get('defaultvalue');
 		if ($defaultValue && \App\TextParser::isVaribleToParse($defaultValue)) {
-			$textParser = \App\TextParser::getInstance($this->getModuleName());
-			$textParser->setContent($this->defaultvalue)->parse();
+			$textParser = \App\TextParser::getInstance($this->getFieldModel()->getModuleName());
+			$textParser->setContent($defaultValue)->parse();
 			$defaultValue = $textParser->getContent();
 		}
 		return $defaultValue;
