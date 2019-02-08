@@ -143,7 +143,7 @@
 								</div>
 								<div class="blockFieldsList blockFieldsSortable row m-0 p-1 u-min-height-50">
 									<ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}"
-									    class="sortTableUl connectedSortable col-md-6 mb-0">
+									    class="sortTableUl js-sort-table1 connectedSortable col-md-6 mb-0" data-js="container">
 										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
 											{if $smarty.foreach.fieldlist.index % 2 eq 0}
 												<li>
@@ -208,7 +208,8 @@
 										{/foreach}
 									</ul>
 									<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if}
-									    class="connectedSortable sortTableUl col-md-6 mb-0">
+									    class="connectedSortable js-sort-table2 sortTableUl col-md-6 mb-0"
+										data-js="container">
 										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 												<li>
