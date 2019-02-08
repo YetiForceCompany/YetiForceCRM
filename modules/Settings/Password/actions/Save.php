@@ -28,8 +28,12 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	public function pass(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$type = $request->getByType('type', 2);
-		$vale = $request->getBoolean('vale') ? 'true' : 'false';
+		$type = $request->getByType('type', 'Alnum');
+		if (in_array($type, ['min_length', 'max_length', 'change_time', 'lock_time'])) {
+			$vale = $request->getInteger('vale');
+		} else {
+			$vale = $request->getBoolean('vale') ? 'true' : 'false';
+		}
 		if (Settings_Password_Record_Model::validation($type, $vale)) {
 			Settings_Password_Record_Model::setPassDetail($type, $vale);
 			$resp = \App\Language::translate('LBL_SAVE_OK', $moduleName);

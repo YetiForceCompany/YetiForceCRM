@@ -4,7 +4,7 @@
  * Settings Password save model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
@@ -39,18 +39,27 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		\App\Cache::delete('PasswordgetPassDetail', '');
 	}
 
-	public static function validation($type, $vale)
+	/**
+	 * Validation.
+	 *
+	 * @param string $type
+	 * @param string $vale
+	 *
+	 * @return bool
+	 */
+	public static function validation(string $type, string $vale): bool
 	{
-		if ($type == 'min_length' || $type == 'max_length' || $type == 'change_time' || $type == 'lock_time') {
-			return is_numeric($vale);
+		$returnVal = false;
+		if ($type == 'min_length') {
+			$returnVal = is_numeric($vale) && (int) $vale <= (int) static::getUserPassConfig('max_length');
+		} elseif ($type == 'max_length') {
+			$returnVal = is_numeric($vale) && (int) $vale >= (int) static::getUserPassConfig('min_length');
+		} elseif ($type == 'change_time' || $type == 'lock_time') {
+			$returnVal = is_numeric($vale);
+		} elseif ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
+			$returnVal = $vale === 'false' || $vale === 'true';
 		}
-		if ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
-			if ($vale === 'false' || $vale === 'true') {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		return $returnVal;
 	}
 
 	public static function checkPassword($pass)
