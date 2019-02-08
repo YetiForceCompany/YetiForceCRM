@@ -37,7 +37,7 @@ class Settings_Github_Issues_Model
 		} else {
 			$url = 'https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-report-bugs';
 		}
-		return "<a href='{$url}' target='_blank'>link</a>";
+		return "<a href='{$url}' target='_blank' rel='noreferrer noopener'>link</a>";
 	}
 
 	/**
