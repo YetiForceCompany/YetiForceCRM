@@ -15,7 +15,7 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 					enabled: true
 				}
 			});
-			var comment = container.find('.comment').html();
+			var comment = container.find('.comment').val();
 			var params = {
 				module: self.windowParent.app.getModuleName(),
 				record: self.windowParent.app.getRecordId(),

@@ -4,17 +4,13 @@
  * Update comment for related record.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 {
 	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -27,9 +23,7 @@ class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -37,13 +31,11 @@ class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 		$record = $request->getInteger('record');
 		$relatedRecord = $request->getByType('relid', 'Alnum');
 		$relatedModuleName = $request->getByType('relmodule', 'Alnum');
-
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$rcmModel->save($request->getByType('comment', 'Text'));
-
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Language::translate('LBL_SAVED_RELATION_COMMENT', $moduleName));
 		$response->emit();
