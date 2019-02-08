@@ -43,7 +43,7 @@
 								<td>
 									{if !empty($ITEM['homepage'])}
 										<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', $QUALIFIED_MODULE)}"
-										   href="{$ITEM['homepage']}" target="_blank"><span
+										   href="{$ITEM['homepage']}" target="_blank" rel="noreferrer noopener"><span
 													class="fas fa-link mr-2"></span></a>
 									{/if}
 									{if !empty($ITEM['licenseError'])}
