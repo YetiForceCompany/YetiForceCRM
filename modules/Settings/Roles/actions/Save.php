@@ -34,7 +34,7 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 		$parentRoleId = $request->getByType('parent_roleid', 2);
 		if ($recordModel && !empty($parentRoleId)) {
 			$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
-			$recordModel->set('change_owner', $request->get('change_owner'))
+			$recordModel->set('changeowner', $request->get('changeowner'))
 				->set('searchunpriv', $request->get('searchunpriv'))
 				->set('listrelatedrecord', $request->getInteger('listRelatedRecord'))
 				->set('previewrelatedrecord', $request->getInteger('previewRelatedRecord'))

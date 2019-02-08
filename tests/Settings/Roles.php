@@ -24,7 +24,7 @@ class Roles extends \Tests\Base
 		$recordModel = new \Settings_Roles_Record_Model();
 		$parentRole = \Settings_Roles_Record_Model::getInstanceById('H2');
 		$this->assertNotNull($parentRole);
-		$recordModel->set('change_owner', 1);
+		$recordModel->set('changeowner', 1);
 		$recordModel->set('searchunpriv', ['Contacts']);
 		$recordModel->set('listrelatedrecord', 0);
 		$recordModel->set('editrelatedrecord', 1);
@@ -82,7 +82,7 @@ class Roles extends \Tests\Base
 		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$this->assertNotNull($recordModel);
 
-		$recordModel->set('change_owner', 0);
+		$recordModel->set('changeowner', 0);
 		$recordModel->set('searchunpriv', ['Contacts', 'Accounts']);
 		$recordModel->set('listrelatedrecord', 1);
 		$recordModel->set('editrelatedrecord', 0);

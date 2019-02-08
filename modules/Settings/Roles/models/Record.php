@@ -319,7 +319,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'depth' => $this->getDepth(),
 			'allowassignedrecordsto' => $this->get('allowassignedrecordsto'),
 			'assignedmultiowner' => $this->get('assignedmultiowner'),
-			'changeowner' => (int) $this->get('change_owner'),
+			'changeowner' => (int) $this->get('changeowner'),
 			'searchunpriv' => $searchunpriv,
 			'clendarallorecords' => $this->get('clendarallorecords'),
 			'listrelatedrecord' => $this->get('listrelatedrecord'),
