@@ -44,7 +44,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					return '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					return '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
 				}
 			}
 		}

@@ -77,7 +77,8 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
-									<a target="_blank" class="float-right" href="{$COMPOSE_URL}">
+									<a target="_blank" class="float-right" href="{$COMPOSE_URL}"
+									   rel="noreferrer noopener">
 										<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
 									</a>
 								{else}

@@ -477,7 +477,7 @@ class Project_Gantt_Model
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
 				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
 			];
-			$project['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $project['no'] . '" href="' . $project['url'] . '" target="_blank">' . $project['no'] . '</a>';
+			$project['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $project['no'] . '" href="' . $project['url'] . '" target="_blank" rel="noreferrer noopener">' . $project['no'] . '</a>';
 			if (empty($project['parentId'])) {
 				unset($project['parentId']);
 			} else {

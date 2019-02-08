@@ -15,7 +15,7 @@
 						{if $USER_MODEL->get('internal_mailer') == 1}
 							{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 							<a target="_blank" class="btn mt-1 btn-default mr-1" role="button"
-							   href="{$COMPOSE_URL}"
+							   href="{$COMPOSE_URL}" rel="noreferrer noopener"
 							   title="{\App\Language::translate('LBL_SEND_EMAIL')}">
 								<span class="fas fa-envelope"></span>
 							</a>

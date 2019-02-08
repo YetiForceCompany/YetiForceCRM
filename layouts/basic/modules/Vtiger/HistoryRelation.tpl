@@ -29,8 +29,9 @@
 								<div class="timeline-body small">
 									<div class="float-right time text-muted">
 										<span>{\App\Fields\DateTime::formatToViewDate($HISTORY['time'])}</span>
-										<a href="{$HISTORY['url']}" target="_blank">
-											<span class="fas fa-link mx-1" title="{\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}"></span>
+										<a href="{$HISTORY['url']}" target="_blank" rel="noreferrer noopener">
+											<span class="fas fa-link mx-1"
+												  title="{\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}"></span>
 										</a>
 									</div>
 									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
