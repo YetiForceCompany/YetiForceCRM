@@ -2,20 +2,20 @@
 {strip}
 	<!-- tpl-Settings-Companies-DetailView -->
 	<div class="widget_header row">
-		<div class="col-md-10 d-flex">
+		<div class="col-md-12 align-items-center flex-wrap">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-		</div>
-		<div class="col-md-2 mt-2">
-			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2">
-				<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
-			</a>
-			{if $REMOVE_BTN}
-				<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
-						data-record-id="{$RECORD_MODEL->getId()}">
-					<span class="fas fa-trash-alt mr-1"></span>
-					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
-				</button>
-			{/if}
+			<div class="ml-auto">
+				<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2" role="button">
+					<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
+				</a>
+				{if $REMOVE_BTN}
+					<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
+							data-record-id="{$RECORD_MODEL->getId()}">
+						<span class="fas fa-trash-alt mr-1"></span>
+						{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}
+					</button>
+				{/if}
+			</div>
 		</div>
 	</div>
 	<div class="detailViewInfo" id="groupsDetailContainer">
