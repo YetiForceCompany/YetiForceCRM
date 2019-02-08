@@ -15,11 +15,13 @@ class Settings_Roles_DeleteAjax_View extends Settings_Roles_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->getByType('record', 2);
-
+		$recordId = $request->getByType('record', 'Alnum');
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
+		$baseParentRole = $recordModel->get('parentrole');
 		$allRoles = Settings_Roles_Record_Model::getAll();
-		unset($allRoles[$recordId]);
+		$allRoles = array_filter($allRoles, function ($items) use ($baseParentRole) {
+			return strpos($items->get('parentrole') , $baseParentRole) === false;
+		});
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
