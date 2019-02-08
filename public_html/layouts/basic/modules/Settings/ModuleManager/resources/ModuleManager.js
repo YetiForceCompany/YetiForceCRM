@@ -71,7 +71,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 			}
 		});
 	},
-	registerMondalCreateModule(data) {
+	registerModalCreateModule(data) {
 		const form = data.find('form');
 		form.validationEngine(app.validationEngineOptions);
 		data.find('[name="saveButton"]').on('click', (e) => {
@@ -118,7 +118,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		app.showModalWindow(null, "index.php?module=ModuleManager&parent=Settings&view=CreateModule", function (wizardContainer) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			Settings_Module_Manager_Js.registerMondalCreateModule(wizardContainer);
+			Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
 		});
 	},
 	//This will show the notification message using pnotify
