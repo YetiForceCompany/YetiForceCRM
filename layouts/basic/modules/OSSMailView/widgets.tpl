@@ -68,17 +68,20 @@
 									</button>
 								{else}
 									<a class="btn btn-sm btn-light ml-1" role="button"
-									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}">
+									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}"
+									   rel="noreferrer noopener">
 										<span class="fas fa-reply"
 											  title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}"></span>
 									</a>
 									<a class="btn btn-sm btn-light ml-1" role="button"
-									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}">
+									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}"
+									   rel="noreferrer noopener">
 										<span class="fas fa-reply-all"
 											  title="{\App\Language::translate('LBL_REPLYALLL', $MODULE_NAME)}"></span>
 									</a>
 									<a class="btn btn-sm btn-light ml-1" role="button"
-									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}">
+									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}"
+									   rel="noreferrer noopener">
 										<span class="fas fa-share"
 											  title="{\App\Language::translate('LBL_FORWARD', $MODULE_NAME)}"></span>
 									</a>
