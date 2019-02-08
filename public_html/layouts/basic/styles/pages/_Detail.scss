@@ -16,7 +16,9 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.fieldLabel {
-		height: inherit;
+		@include media-breakpoint-up(lg) {
+			height: inherit;
+		}
 	}
 
 	.fieldLabel.medium, .fieldValue.medium {
