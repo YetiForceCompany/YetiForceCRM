@@ -5,6 +5,7 @@
 	<input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}"/>
 	<input type="hidden" id="showType" value="current"/>
 	<input type="hidden" id="switchingDays" value="workDays"/>
+	<input value="{$EVENT_CREATE}" type="hidden" id="eventCreate"/>
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
 	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>

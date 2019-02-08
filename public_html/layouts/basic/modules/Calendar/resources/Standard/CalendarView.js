@@ -16,11 +16,13 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	constructor(container, readonly) {
 		super(container, readonly);
+		this.eventCreate = app.getMainParams('eventCreate');
 	}
 
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
+				selectable: self.eventCreate,
 				select: function (start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
