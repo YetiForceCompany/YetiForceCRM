@@ -114,7 +114,6 @@ App.Fields = {
 				autoUpdateInput: false,
 				autoApply: true,
 				ranges: ranges,
-				opens: "center",
 				locale: {
 					format: format,
 					separator: ",",
@@ -144,10 +143,17 @@ App.Fields = {
 						$(this).trigger('change');
 					})
 					.on('show.daterangepicker', function (ev, picker) {
-						if (picker.element.offset().top - $(window).scrollTop() + picker.container.outerHeight() > $(window).height()) {
+						let offset = picker.element.offset();
+						let $window = $(window);
+						if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
 							picker.drops = 'up';
 						} else {
 							picker.drops = 'down';
+						}
+						if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
+							picker.opens = 'left';
+						} else {
+							picker.opens = 'right';
 						}
 						picker.move();
 					});
