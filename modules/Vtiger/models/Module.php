@@ -963,7 +963,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linkicon' => 'fas fa-desktop',
 			]);
 		}
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($this->getName());
 		if ($treeViewModel->isActive()) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',

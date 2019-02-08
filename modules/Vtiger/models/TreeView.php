@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeView_Model extends \App\Base
 {
@@ -74,26 +75,6 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
-	 * Load filter parameters.
-	 *
-	 * @param array $branches selected tree branche
-	 *
-	 * @return array
-	 */
-	public function getSearchParams($branches)
-	{
-		$field = $this->getTreeField();
-		return [
-			['columns' => [[
-				'columnname' => $field['tablename'] . ':' . $field['columnname'] . ':' . $field['fieldname'],
-				'value' => implode(',', $branches),
-				'column_condition' => '',
-				'comparator' => 'c',
-			]]],
-		];
-	}
-
-	/**
 	 * Load records tree address.
 	 *
 	 * @return string - url
@@ -106,19 +87,20 @@ class Vtiger_TreeView_Model extends \App\Base
 	/**
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model.
 	 *
-	 * @param string name of the module
+	 * @param string $moduleName
 	 *
-	 * @return Vtiger_TreeView_Model instance
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return Vtiger_TreeView_Model
 	 */
-	public static function getInstance($moduleModel)
+	public static function getInstance(string $moduleName)
 	{
-		$moduleName = $moduleModel->get('name');
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeView', $moduleName);
 		$instance = new $modelClassName();
-		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
+		self::$_cached_instance[$moduleName] = $instance->set('moduleName', $moduleName);
 
 		return self::$_cached_instance[$moduleName];
 	}

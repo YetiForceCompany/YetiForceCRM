@@ -6,14 +6,29 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
 {
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!Vtiger_TreeView_Model::getInstance($request->getModule())->isActive()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 		return \App\Language::translate($treeViewModel->getName(), $moduleName);
 	}
 
@@ -21,8 +36,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
@@ -53,21 +67,21 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$filter = $request->has('filter') ? $request->getByType('filter', 'Alnum') : \App\CustomView::getInstance($moduleName)->getViewId();
+		$viewer->assign('VIEWID', $filter);
+
 		if ($request->isEmpty('branches', true)) {
 			return;
 		}
-		$filter = $request->getByType('filter', 'Alnum');
 		$branches = $request->getArray('branches', 'Text');
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
+		$field = $treeViewModel->getTreeField();
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
-		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
-
+		$listViewModel->getQueryGenerator()->addCondition($field['fieldname'], implode('##', $branches), 'e');
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		if (count($listEntries) === 0) {
 			return;
