@@ -1090,8 +1090,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		if (params.fieldIdList !== '[]') {
 			AppConnector.request(params).done(function (data) {
 				for (let index in data.result) {
-					console.log('index');
-					console.log(data.result[index]);
 					thisInstance.showCustomField(data.result[index]);
 				}
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
