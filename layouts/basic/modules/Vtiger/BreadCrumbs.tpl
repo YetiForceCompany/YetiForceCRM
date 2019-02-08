@@ -9,9 +9,13 @@
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
-			{assign var="BREADCRUMBS_TEXT" value="<span class='$HOMEICON' aria-hidden='true'></span>"}
+			{assign var="BREADCRUMBS_TEXT" value="<a href='`AppConfig::main('site_URL')`'><span class='$HOMEICON' aria-hidden='true'></span></a>"}
 			{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
-				{assign var="BREADCRUMBS_TEXT" value="`$BREADCRUMBS_TEXT` / `$item['name']`"}
+				{assign var="BREADCRUMBS_ITEM" value=$item['name']}
+				{if isset($item['url'])}
+					{assign var="BREADCRUMBS_ITEM" value="<a href='`$item['url']`'>`$item['name']`</a>"}
+				{/if}
+				{assign var="BREADCRUMBS_TEXT" value="`$BREADCRUMBS_TEXT` / `$BREADCRUMBS_ITEM`"}
 			{/foreach}
 			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon"
 				data-content="{$BREADCRUMBS_TEXT}"
