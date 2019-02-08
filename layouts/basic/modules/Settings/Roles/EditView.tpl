@@ -124,7 +124,7 @@
 					<div class="col-md-7 fieldValue">
 						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('changeowner')} checked="" {/if}
-								   name="change_owner" class="alignTop"/>
+								   name="changeowner" class="alignTop"/>
 						</div>
 					</div>
 				</div>
