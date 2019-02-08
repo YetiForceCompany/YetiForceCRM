@@ -803,9 +803,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			fieldContainer.find('.maskField').remove();
 		}
 		var block = relatedBlock.find('.blockFieldsList');
-		var sortable1 = block.find('ul[name=sortable1]');
+		var sortable1 = block.find('.js-sort-table1');
 		var length1 = sortable1.children().length;
-		var sortable2 = block.find('ul[name=sortable2]');
+		var sortable2 = block.find('.js-sort-table12');
 		var length2 = sortable2.children().length;
 		// Deciding where to add the new field
 		if (length1 > length2) {
@@ -1087,6 +1087,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				fieldIdList: JSON.stringify(thisInstance.reactiveFieldsList)
 			},
 			messageParams = {};
+		console.log(params);
 		if (params.fieldIdList !== '[]') {
 			AppConnector.request(params).done(function (data) {
 				for (let index in data.result) {
