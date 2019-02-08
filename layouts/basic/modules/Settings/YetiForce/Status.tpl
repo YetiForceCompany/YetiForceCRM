@@ -14,17 +14,17 @@
 					</button>
 					<h4 class="alert-heading">
 						<span class="fas fa-info-circle mr-1"></span>
-						{\App\Language::Translate('LBL_YETIFORCE_STATUS_HEADER',$QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_YETIFORCE_STATUS_HEADER',$QUALIFIED_MODULE)}
 					</h4>
-					<p>{\App\Language::Translate('LBL_YETIFORCE_STATUS_FULL_DESC',$QUALIFIED_MODULE)}</p>
+					<p>{\App\Language::translate('LBL_YETIFORCE_STATUS_FULL_DESC',$QUALIFIED_MODULE)}</p>
 				</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col-lg-4">
-					<strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
 				</div>
 				<div class="col-lg-8">
-					<strong>{\App\Language::Translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</strong>
 				</div>
 			</div>
 			{foreach $ALL_PARAMS as $CONF_FLAG}
@@ -45,7 +45,7 @@
 											autocomplete="off"
 											{if $CONF_FLAG['value']} checked{/if}
 									>
-									{\App\Language::Translate('LBL_YES',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_YES',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-secondary{if !$CONF_FLAG['value']} active{/if}">
 									<input
@@ -58,7 +58,7 @@
 											data-type="{$CONF_FLAG['type']}"
 											autocomplete="off"
 											{if !$CONF_FLAG['value']} checked{/if}
-									> {\App\Language::Translate('LBL_NO',$QUALIFIED_MODULE)}
+									> {\App\Language::translate('LBL_NO',$QUALIFIED_MODULE)}
 								</label>
 							</div>
 						{else}

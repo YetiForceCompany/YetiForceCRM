@@ -68,7 +68,7 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getCrmKey(): string
+	public static function getCrmKey(): string
 	{
 		return sha1(\App\Config::main('application_unique_key'));
 	}

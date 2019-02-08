@@ -37,7 +37,7 @@ class Languages
 					foreach ($body as $prefix => $row) {
 						$languages[$prefix] = \array_merge($row, [
 							'name' => \App\Language::getDisplayName($prefix),
-							'exist' => \is_dir(\ROOT_DIRECTORY . "/languages/{$prefix}/_Base.json")
+							'exist' => \file_exists(\ROOT_DIRECTORY . "/languages/{$prefix}/_Base.json")
 						]);
 					}
 				}

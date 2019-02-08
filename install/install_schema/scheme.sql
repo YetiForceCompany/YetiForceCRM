@@ -993,6 +993,7 @@ CREATE TABLE `s_yf_companies` (
   `industry` varchar(50) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
+  `companysize` mediumint(6) unsigned DEFAULT 0,
   `website` varchar(255) DEFAULT NULL,
   `logo` varchar(50) DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
