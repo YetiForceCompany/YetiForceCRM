@@ -6,7 +6,8 @@
 		 data-name="{$FIELD_MODEL->getName()}">
 		<div class="col-10">
 			{assign var="FIELD_MODEL" value=$FIELD_MODEL->set('fieldvalue',$FIELD_MODEL->get('defaultvalue'))}
-			{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $FIELD_MODEL->getModuleName())}
+			{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $FIELD_MODEL->getModuleName())
+			MODULE=$FIELD_MODEL->getModuleName() RECORD=null}
 		</div>
 		<div class="col-2">
 			<span class="input-group-prepend"
