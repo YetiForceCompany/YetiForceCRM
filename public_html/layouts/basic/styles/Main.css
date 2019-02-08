@@ -17779,7 +17779,8 @@ input[type="radio"]:checked:before {
   max-width: calc(100% - 50px);
   width: calc(100% - 50px);
   margin-left: 50px;
-  margin-right: 0; }
+  margin-right: 0;
+  min-height: calc(100% - 80px); }
 
 @media only screen and (max-width: 768px) {
   .modal-fullscreen {
@@ -17835,6 +17836,9 @@ input[type="radio"]:checked:before {
 
   .c-modal-xxl {
     max-width: 90vw; } }
+.clonedPopupUi.modal {
+  top: 3.125rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardContainer {
   padding: 0; }
