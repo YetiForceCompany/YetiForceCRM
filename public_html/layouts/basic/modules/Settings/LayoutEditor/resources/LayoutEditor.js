@@ -1087,7 +1087,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				fieldIdList: JSON.stringify(thisInstance.reactiveFieldsList)
 			},
 			messageParams = {};
-		console.log(params);
 		if (params.fieldIdList !== '[]') {
 			AppConnector.request(params).done(function (data) {
 				for (let index in data.result) {
