@@ -197,6 +197,25 @@
 		height: calc(100% - 50px);
 		width: 100%;
 		position: relative;
+
+		.ps {
+			&__rail-y,
+			&__rail-x {
+				background-color: transparent !important;
+			}
+
+			&__rail-y:hover {
+				> .ps__thumb-y {
+					width: calculate-rem(8px);
+				}
+			}
+
+			&__rail-x:hover {
+				> .ps__thumb-x {
+					width: calculate-rem(8px);
+				}
+			}
+		}
 	}
 
 	&__item__icon {
