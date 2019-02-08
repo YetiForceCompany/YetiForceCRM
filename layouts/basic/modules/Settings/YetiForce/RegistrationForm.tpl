@@ -49,6 +49,13 @@
 				</div>
 			</div>
 			<div class="form-group row">
+				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_COMPANYSIZE',$COMPANIES_MODULE)}</b></label>
+				<div class="col-lg-8">
+					<input class="form-control" name="companies[{$company['id']}][companysize]"
+						   data-validation-engine="validate[required]" value="{$company['companysize']}">
+				</div>
+			</div>
+			<div class="form-group row">
 				<label class="col-lg-4 col-form-label text-left text-lg-right"><b>{\App\Language::translate('LBL_WEBSITE',$COMPANIES_MODULE)}</b></label>
 				<div class="col-lg-8">
 					<input

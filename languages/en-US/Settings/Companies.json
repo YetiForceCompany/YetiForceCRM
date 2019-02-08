@@ -12,6 +12,7 @@
     "LBL_TYPE_TARGET_USER": "End user",
     "LBL_TYPE_INTEGRATOR": "Integrator",
     "LBL_TYPE_PROVIDER": "Provider",
+    "LBL_COMPANYSIZE": "Company size",
     "LBL_WEBSITE": "Website",
     "LBL_INDUSTRY": "Industry",
     "LBL_FIRSTNAME": "First name",

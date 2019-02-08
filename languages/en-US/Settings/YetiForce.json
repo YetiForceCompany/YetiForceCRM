@@ -33,6 +33,8 @@
     "LBL_REGISTER": "Register",
     "LBL_REGISTERED": "Registration successful",
     "LBL_REGISTRATION_KEY": "Registration key",
+    "LBL_REGISTRATION_OFFLINE_DESC": "To register a version of the system that has no access to the Internet send an email to %s with the following data",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name:\nCountry:\nCity:\nCompany size:\nCRM ID: %s",
     "LBL_END_USERS": "End users",
     "LBL_INTEGRATORS": "Integrators",
     "LBL_SUPPLIERS": "Suppliers",
