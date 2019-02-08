@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Settings-Base-ReAlignSettingsShortCut-->
 	{assign var=SPAN_COUNT value=1}
 	{foreach item=SETTING_SHORTCUT from=$SETTINGS_SHORTCUT name=shortcuts}
 		<div class="tpl-Settings-Base-ReAlignSettingsShortCut col-lg-12 col-xl-3 mx-2 mb-3 p-3 contentsBackground well u-cursor-pointer moduleBlock"
@@ -17,7 +18,7 @@
 			 data-url="{$SETTING_SHORTCUT->getUrl()}">
 			<div class="d-flex align-items-center">
 				<h5 class="themeTextColor mb-0">
-					<span class="{$SETTINGS_SHORTCUT->get('iconpath')} mr-2"></span>
+					<span class="{$SETTING_SHORTCUT->get('iconpath')} mr-2"></span>
 					{\App\Language::translate($SETTING_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTING_SHORTCUT->getUrl()))}
 				</h5>
 				<button data-id="{$SETTING_SHORTCUT->getId()}" title="{\App\Language::translate('LBL_REMOVE',$MODULE)}"
@@ -33,4 +34,5 @@
 		{/if}
 		{$SPAN_COUNT=$SPAN_COUNT+1}
 	{/foreach}
+	<!-- /tpl-Settings-Base-ReAlignSettingsShortCut-->
 {/strip}
