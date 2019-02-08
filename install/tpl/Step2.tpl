@@ -89,7 +89,8 @@
 										<tr>
 											<td class="u-word-break">
 												<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
-												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank">
+												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank"
+												   rel="noreferrer noopener">
 													{$ITEM['name']}
 												</a>
 												{if !empty($ITEM['description'])}

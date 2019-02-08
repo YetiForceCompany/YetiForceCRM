@@ -63,7 +63,7 @@
 							<tr>
 								<td><label>{$LIB_NAME} ({$LIB['version']})</label></td>
 								<td><label>{$ADVISORIE['title']}</label></td>
-								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
+								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
 								<td><label>{$ADVISORIE['cve']}</label></td>
 							</tr>
 						{/foreach}

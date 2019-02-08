@@ -6,7 +6,7 @@
 			data-js="mouseenter mouseleave">
 			<a class="nav-link {if $HASCHILDS=='true'} collapsed{/if}{if $ICON} hasIcon{/if}{if isset($MENU['hotkey'])} hotKey{/if}{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}"{if isset($MENU['hotkey'])} data-hotkeys="{$MENU['hotkey']}"{/if}
 					{if $HASCHILDS == 'true'} data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button"{/if}
-			   href="{$MENU['dataurl']}"
+			   href="{$MENU['dataurl']}" rel="noreferrer noopener"
 					{if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}"{/if}
 					{if $MENU['newwindow'] eq 1}target="_blank" {/if}>
 				{$ICON}{$MENU['active']}
