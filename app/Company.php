@@ -75,6 +75,9 @@ class Company extends Base
 					'country' => $companiesNew[$companyCurrent['id']]['country'],
 					'website' => $companiesNew[$companyCurrent['id']]['website'],
 					'email' => $companiesNew[$companyCurrent['id']]['email'],
+					'companysize' => $companiesNew[$companyCurrent['id']]['companysize'],
+					'firstname' => $companiesNew[$companyCurrent['id']]['firstname'],
+					'lastname' => $companiesNew[$companyCurrent['id']]['lastname'],
 				], ['id' => $companyCurrent['id']])
 				->execute();
 		}

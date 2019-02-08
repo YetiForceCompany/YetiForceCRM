@@ -24,6 +24,7 @@ class Vtiger_Record_Model extends \App\Base
 	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
+	protected $dataForSave = [];
 
 	/**
 	 * Function to get the id of the record.
@@ -549,7 +550,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEntityDataForSave()
 	{
-		$row = [];
+		$row = $this->dataForSave;
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
