@@ -83,9 +83,9 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getMessage()
+	public function getMessage(): string
 	{
-		return $this->getDisplayValue('description', $this->getId(), $this);
+		return \App\Utils\Completions::decode($this->getDisplayValue('description', $this->getId(), $this));
 	}
 
 	/**
