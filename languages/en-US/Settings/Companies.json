@@ -25,8 +25,8 @@
     "LBL_WAITING_FOR_ACCEPTANCE": "Pending approval",
     "LBL_INCORRECT_DATA": "Incorrect data",
     "LBL_INCOMPLETE_DATA": "Incomplete data",
-    "LBL_OFFLINE_SERIAL_NOT_FOUND": "Key not found",
-    "LBL_OFFLINE_SIGNED": "Key approved",
+    "LBL_OFFLINE_SERIAL_NOT_FOUND": "Offline - Key not found",
+    "LBL_OFFLINE_SIGNED": "Offline - Accepted",
     "LBL_SPECIAL_REGISTRATION": "Special registration",
     "LBL_ACCEPTED": "Accepted"
   },
