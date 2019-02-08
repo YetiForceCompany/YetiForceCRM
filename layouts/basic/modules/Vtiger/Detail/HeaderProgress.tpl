@@ -31,7 +31,7 @@
 									{$ICON_CLASS}
 								{/if}
 								{if $IS_ACTIVE}
-									{assign var=ICON_CLASS value="fas fa-circle"}
+									{assign var=ICON_CLASS value="c-progress__icon__dot"}
 								{/if}
 								  {' '}c-progress__icon"></span>
 								</div>

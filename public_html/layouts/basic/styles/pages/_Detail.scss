@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+$progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 .o-detail__icon {
 	font-size: calculate-rem(48px);
@@ -508,21 +509,24 @@
 
 	&__icon {
 		color: var(--white);
-		font-size: calculate-rem(15px);
+		font-size: calculate-rem(16px);
 
-		&.fa-circle {
-			margin-right: calculate-rem(1px);
+		&__dot {
+			width: $progress-dot-size;
+			height: $progress-dot-size;
+			background: white;
+			border-radius: 50%;
 		}
 
 		&.fa-check,
 		&.fa-lock {
-			font-size: calculate-rem(11px);
+			font-size: calculate-rem(12px);
 		}
 
 		&__container {
 			z-index: 1;
-			height: calculate-rem(21px);
-			width: calculate-rem(21px);
+			height: calculate-rem(22px);
+			width: calculate-rem(22px);
 			display: flex;
 			background: $progress-bg--active;
 			border-radius: 50%;
@@ -546,7 +550,7 @@
 		&:after, &:before {
 			content: '';
 			position: absolute;
-			top: calculate-rem(9px);
+			top: calculate-rem(10px);
 			width: 50%;
 			background: $progress-bg--active;
 			left: 0;
