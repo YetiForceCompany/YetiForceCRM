@@ -345,7 +345,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return mixed
 	 */
-	public static function mailScan(resource $mbox, array $account, string $folder, int $scan_id, int $countEmails)
+	public static function mailScan($mbox, array $account, string $folder, int $scan_id, int $countEmails)
 	{
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
 		$msgno = imap_msgno($mbox, $lastScanUid);
