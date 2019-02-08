@@ -47,16 +47,16 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
+						<th colspan="1" scope="col" class="text-lef">
 							{\App\Language::translate('LBL_FILE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
+						<th colspan="1" scope="col">
 							{\App\Language::translate('LBL_MANDATORY', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
+						<th colspan="1" scope="col">
 							{\App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
+						<th colspan="1" scope="col">
 							{\App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
 						</th>
 					</tr>
@@ -104,17 +104,17 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
 						</th>
 					</tr>
 					</thead>
@@ -157,11 +157,11 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PUBLIC_DIR', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PUBLIC_DIR', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', $MODULE_NAME)}
 						</th>
 					</tr>
 					</thead>
@@ -192,17 +192,17 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
 						</th>
 					</tr>
 					</thead>
@@ -245,15 +245,15 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
 						</th>
 						<th colspan=" 1
-							" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+							" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
 						</th>
 					</tr>
 					</thead>
@@ -289,15 +289,15 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
 						</th>
 						<th colspan=" 1
-							" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+							" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
 						</th>
 					</tr>
 					</thead>
@@ -333,17 +333,17 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
 						</th>
 					</tr>
 					</thead>
@@ -387,14 +387,14 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
-							{\App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							{\App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
 						</th>
-						<th colspan="1" scope="col" class="u-text-ellipsis">
-							<span>{\App\Language::translate('LBL_VALUE', $MODULE_NAME)}</span>
+						<th colspan="1" scope="col">
+							<span>{App\Language::translate('LBL_VALUE', $MODULE_NAME)}</span>
 						</th>
 					</tr>
 					</thead>
