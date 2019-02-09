@@ -67,7 +67,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			]);
 		} else {
 			$jsFiles = $this->checkAndConvertJsScripts([
+				'~layouts/resources/Calendar.js',
 				'modules.Calendar.resources.Edit',
+				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.CalendarView',
 				'modules.Calendar.resources.QuickCreate'
 			]);
