@@ -193,9 +193,9 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			$('.clonedPopupUi', conditionsContainer).on('shown.bs.modal', () => {
 				const data = $('.clonedPopupUi', conditionsContainer);
 				data.find('.clonedPopupUi').removeClass('d-none');
-				var moduleNameElement = conditionRow.find('[name="modulename"]');
+				const moduleNameElement = conditionRow.find('[name="modulename"]');
 				if (moduleNameElement.length > 0) {
-					var moduleName = moduleNameElement.val();
+					const moduleName = moduleNameElement.val();
 					data.find('.useFieldElement').addClass('d-none');
 					data.find('[name="' + moduleName + '"]').removeClass('d-none');
 				}
