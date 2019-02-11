@@ -269,12 +269,10 @@ class Completions
 	{
 		if (!\App\User::isExists($userId)) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
-		} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $userId)) {
-			$html = "<a href=\"index.php?module=Users&parent=Settings&view=Detail&record={$userId}\" data-id=\"@{$userId}\">" .
+		} else {
+			$html = '<a class="js-completions__tag" href="#" data-js="click">' .
 				\App\User::getUserModel($userId)->getName() .
 				'</a>';
-		} else {
-			$html = \App\User::getUserModel($userId)->getName();
 		}
 		return $html;
 	}
