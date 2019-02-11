@@ -270,14 +270,17 @@ class Vtiger_Base_UIType extends \App\Base
 		$moduleSpecificFilePath = Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
 		$completeFilePath = Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
-		var_dump('........................', $moduleSpecificFilePath, $completeFilePath, $fallBackClassName);
-		var_dump($moduleSpecificUiTypeClassName, $uiTypeClassName, $fallBackClassName);
+		//var_dump('........................', $moduleSpecificFilePath, $completeFilePath, $fallBackClassName);
+		//var_dump($moduleSpecificUiTypeClassName, $uiTypeClassName, $fallBackClassName);
 		if (file_exists($moduleSpecificFilePath)) {
 			$instance = new $moduleSpecificUiTypeClassName();
+			var_dump('[1] ********************', $moduleSpecificUiTypeClassName);
 		} elseif (file_exists($completeFilePath)) {
 			$instance = new $uiTypeClassName();
+			var_dump('[2] ********************', $uiTypeClassName);
 		} else {
 			$instance = new $fallBackClassName();
+			var_dump('[3] ********************', $fallBackClassName);
 		}
 		$instance->set('field', $fieldModel);
 
