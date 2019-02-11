@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "English",
     "ERR_DATABASE_CONNECTION_FAILED": "Unable to connect to database server",
     "ERR_DB_NOT_FOUND": "Could not find this database. Try changing the database settings",
     "ERR_INVALID_MYSQL_PARAMETERS": "Invalid mySQL connection parameters specified",
