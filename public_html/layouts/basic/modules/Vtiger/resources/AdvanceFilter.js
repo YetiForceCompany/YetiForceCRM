@@ -570,7 +570,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	registerDeleteCondition: function () {
 		var thisInstance = this;
 		var filterContainer = this.getFilterContainer();
-		filterContainer.on('click', '.deleteCondition', function (e) {
+		filterContainer.on('click', '.js-condition-delete', function (e) {
 			thisInstance.deleteConditionHandler(e);
 		});
 	},
