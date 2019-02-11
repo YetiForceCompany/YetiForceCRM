@@ -20,7 +20,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				<div class="my-auto o-header-toggle__actions js-header-toggle__actions d-flex flex-column flex-md-row" id="o-view-actions__container">
 					<div class="detailViewButtoncontainer">
-						<div class="float-right btn-toolbar btn-group">
+						<div class="btn-toolbar btn-group">
 							{if isset($DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL'])}
 								{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
 									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' CLASS='c-btn-link--responsive'}

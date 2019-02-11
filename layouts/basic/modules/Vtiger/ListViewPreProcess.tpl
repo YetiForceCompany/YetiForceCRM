@@ -20,7 +20,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="my-auto o-header-toggle__actions js-header-toggle__actions" id="o-view-actions__container">
-				<div class="float-right btn-toolbar btn-group">
+				<div class="btn-toolbar btn-group flex-md-nowrap">
 					{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
 					{/foreach}
