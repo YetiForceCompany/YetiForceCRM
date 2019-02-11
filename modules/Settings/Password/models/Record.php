@@ -17,8 +17,8 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getUserPassConfig($type = false)
 	{
-		if (\App\Cache::has('UserPasswordgConfig', '')) {
-			$detail = \App\Cache::get('UserPasswordgConfig', '');
+		if (\App\Cache::has('PasswordConfig', '')) {
+			$detail = \App\Cache::get('PasswordConfig', '');
 		} else {
 			$dataReader = (new \App\Db\Query())->from('vtiger_password')->createCommand()->query();
 			$detail = [];
@@ -26,7 +26,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 				$detail[$row['type']] = $row['val'];
 			}
 			$dataReader->close();
-			\App\Cache::save('UserPasswordgConfig', '', $detail);
+			\App\Cache::save('PasswordConfig', '', $detail);
 		}
 		return $type ? $detail[$type] : $detail;
 	}
@@ -36,7 +36,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_password', ['val' => $vale], ['type' => $type])
 			->execute();
-		\App\Cache::delete('PasswordgetPassDetail', '');
+		\App\Cache::delete('PasswordConfig', '');
 	}
 
 	/**
