@@ -2025,7 +2025,6 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	registerEvents: function () {
-		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerMainCheckBoxClickEvent();
