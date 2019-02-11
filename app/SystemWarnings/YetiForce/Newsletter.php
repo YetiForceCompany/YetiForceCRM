@@ -51,7 +51,10 @@ class Newsletter extends \App\SystemWarnings\Template
 	 */
 	public static function emailProvided($company = false)
 	{
-		$query = (new \App\Db\Query())->from('s_#__companies')->where(['<>', 'email', null]);
+		$query = (new \App\Db\Query())->from('s_#__companies')->where(['and',
+			['not', ['email' => null]],
+			['<>', 'email', ''],
+		]);
 		if ($company) {
 			$query->andWhere(['id' => $company]);
 		}
