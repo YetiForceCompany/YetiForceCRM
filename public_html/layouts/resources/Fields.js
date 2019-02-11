@@ -673,6 +673,7 @@ App.Fields = {
 							App.emoji = response;
 						}).catch(error => console.error('Error:', error));
 				}
+				this.registerTagClick(inputDiv);
 			}
 
 			/**
@@ -685,6 +686,16 @@ App.Fields = {
 					textarea.val(inputDiv.html());
 				}).on('blur keyup paste input', function () {
 					textarea.val(inputDiv.html());
+				});
+			}
+
+			/**
+			 * Register tag click
+			 * @param inputDiv
+			 */
+			registerTagClick(inputDiv) {
+				inputDiv.closest('.js-completions__container').find('.js-completions__messages').on('click', '.js-completions__tag', (e) => {
+					inputDiv.append($(e.target).clone());
 				});
 			}
 

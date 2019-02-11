@@ -270,7 +270,7 @@ class Completions
 		if (!\App\User::isExists($userId)) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		} else {
-			$html = '<a class="js-completions__tag" href="#" data-js="click">' .
+			$html = "<a class=\"js-completions__tag\" href=\"#\" data-id=\"@$userId\" data-js=\"click\">" .
 				\App\User::getUserModel($userId)->getName() .
 				'</a>';
 		}
