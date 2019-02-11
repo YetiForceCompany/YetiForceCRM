@@ -4,13 +4,15 @@
 	{if AppConfig::main('breadcrumbs') eq  'true'}
 		{if isset($BREADCRUMB_TITLE)}
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
+			{assign var="BREADCRUMBS_POPOVER" value=Vtiger_Menu_Model::getBreadcrumbs()}
 		{else}
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+			{assign var="BREADCRUMBS_POPOVER" value=$BREADCRUMBS}
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
 			{assign var="BREADCRUMBS_TEXT" value="<a href='`AppConfig::main('site_URL')`'><span class='$HOMEICON' aria-hidden='true'></span></a>"}
-			{foreach key=key item=item from=Vtiger_Menu_Model::getBreadcrumbs() name=breadcrumbs}
+			{foreach key=key item=item from=$BREADCRUMBS_POPOVER}
 				{assign var="BREADCRUMBS_ITEM" value=$item['name']}
 				{if isset($item['url'])}
 					{assign var="BREADCRUMBS_ITEM" value="<a href='`$item['url']`'>`$item['name']`</a>"}
