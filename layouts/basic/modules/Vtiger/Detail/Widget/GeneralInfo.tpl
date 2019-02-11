@@ -6,7 +6,6 @@
 		<div>
 			<div class="c-detail-widget__header">
 				<h5 class="mb-0 py-2"> {\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
-				<hr/>
 			</div>
 		</div>
 		<div class="c-detail-widget__content table-responsive-sm">
