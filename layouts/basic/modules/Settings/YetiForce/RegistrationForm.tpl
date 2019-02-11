@@ -2,12 +2,12 @@
 {strip}
 	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body" data-js="container">
 		<div class="card-body">
-			{$MODULE_NAME}
 			{if !empty($COMPANY_ID)}
 				{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)}
 			{else}
 				{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getCleanInstance()}
 			{/if}
+			{assign var="SOURCE_MODULE" value=$RECORD_MODEL->set('SOURCE_MODULE',$MODULE_NAME)}
 			{assign var="MODULE_TRANSLATION" value="Settings::Companies"}
 			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
 				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false}
@@ -62,6 +62,12 @@
 					{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
+							{if $FIELD_NAME === 'newsletter'}
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
+									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $COMPANIES_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $COMPANIES_MODULE)}</a>"))}">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							{/if}
 							{if $FIELD_MODEL->isMandatory() eq true}
 								<span class="redColor">*</span>
 							{/if}
