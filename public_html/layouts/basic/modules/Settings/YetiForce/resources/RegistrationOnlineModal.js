@@ -7,17 +7,17 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 	 */
 	registerNewsletter() {
 		const form = $('[data-view="RegistrationOnlineModal"]').find('form');
-		form.find('[id$=newsletter\\]]').on('click', (e) => {
+		form.find('[id$="newsletter]"]').on('click', (e) => {
 			let inputsContainer = $(e.target).closest('.js-card-body');
 			if (inputsContainer.find('.newsletterContent').hasClass('d-none')) {
-				inputsContainer.find('[id$=firstname\\]]').attr('data-validation-engine', 'validate[required]');
-				inputsContainer.find('[id$=lastname\\]]').attr('data-validation-engine', 'validate[required]');
-				inputsContainer.find('[id$=email\\]]').attr('data-validation-engine', 'validate[required,custom[email]]');
+				inputsContainer.find('[id$="firstname]"]').attr('data-validation-engine', 'validate[required]');
+				inputsContainer.find('[id$="lastname]"]').attr('data-validation-engine', 'validate[required]');
+				inputsContainer.find('[id$="email]"]').attr('data-validation-engine', 'validate[required,custom[email]]');
 				inputsContainer.find('.newsletterContent').removeClass('d-none');
 			} else {
-				inputsContainer.find('[id$=firstname\\]]').removeAttr('data-validation-engine');
-				inputsContainer.find('[id$=lastname\\]]').removeAttr('data-validation-engine');
-				inputsContainer.find('[id$=email\\]]').removeAttr('data-validation-engine');
+				inputsContainer.find('[id$="firstname]"]').removeAttr('data-validation-engine');
+				inputsContainer.find('[id$="lastname]"]').removeAttr('data-validation-engine');
+				inputsContainer.find('[id$="email]"]').removeAttr('data-validation-engine');
 				inputsContainer.find('.newsletterContent').addClass('d-none');
 			}
 		});
