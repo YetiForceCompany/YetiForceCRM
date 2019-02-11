@@ -4,7 +4,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require __DIR__ . '/include/ConfigUtils.php';
-if (!in_array('dav', \App\Config::api('enabledServices', []))) { // TODO: replace all variable in this file like this
+if (!in_array('dav', \App\Config::api('enabledServices', []))) {
 	require __DIR__ . '/include/main/WebUI.php';
 	$apiLog = new \App\Exceptions\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
