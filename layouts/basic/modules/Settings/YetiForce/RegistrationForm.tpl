@@ -2,26 +2,76 @@
 {strip}
 	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body" data-js="container">
 		<div class="card-body">
-			{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getInstance($company['id'])}
+			{$MODULE_NAME}
+			{if !empty($COMPANY_ID)}
+				{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)}
+			{else}
+				{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getCleanInstance()}
+			{/if}
+			{assign var="MODULE_TRANSLATION" value="Settings::Companies"}
 			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
+				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false}
+					{continue}
+				{/if}
 				{if $FIELD_NAME === 'spacer'}
 					<hr/>
 					{continue}
-				{/if}
-				{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME, $FIELD)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
-				<div class="form-group row">
-					<label class="col-lg-4 col-form-label text-left text-lg-right">
-						<b>
+				{elseif $FIELD_NAME === 'type'}
+					<div class="form-group row">
+						<label class="col-lg-4 col-form-label text-left text-lg-right">
+							<b>{App\Language::translate($FIELD['label'], $MODULE_TRANSLATION)}</b>
+						</label>
+						<div class="col-lg-8">
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===1} active{/if}"
+									   for="option1">
+									<input value="1" type="radio" name="type" id="option1"
+										   data-validation-engine="validate[required]"
+										   autocomplete="off"{if $RECORD_MODEL->get('type')==1} checked{/if}>
+									{\App\Language::translate('LBL_TYPE_TARGET_USER',$MODULE_TRANSLATION)}
+								</label>
+								<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===2} active{/if}"
+									   for="option2">
+									<input value="2" type="radio" name="type" id="option2"
+										   data-validation-engine="validate[required]"
+										   autocomplete="off"{if $RECORD_MODEL->get('type')==2} checked{/if}>
+									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$MODULE_TRANSLATION)}
+								</label>
+								<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===3} active{/if}"
+									   for="option3">
+									<input value="3" type="radio" name="type" id="option3"
+										   data-validation-engine="validate[required]"
+										   autocomplete="off"{if $RECORD_MODEL->get('type')==3} checked{/if}>
+									{\App\Language::translate('LBL_TYPE_PROVIDER',$MODULE_TRANSLATION)}
+								</label>
+							</div>
+						</div>
+					</div>
+				{elseif $FIELD_NAME === 'logo'}
+					<div class="form-group row">
+						<div class="col-lg-4 col-form-label text-left text-lg-right">
+							<b>{$RECORD_MODEL->getDisplayValue($FIELD_NAME)}</b>
+						</div>
+						<div class="col-lg-8 d-flex">
+							<div class="u-h-fit my-auto">
+								<input type="file" name="{$FIELD_NAME}" id="{$FIELD_NAME}"/>&nbsp;&nbsp;
+							</div>
+						</div>
+					</div>
+				{else}
+					{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
+					<div class="form-group row">
+						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_MODEL->isMandatory() eq true}
 								<span class="redColor">*</span>
 							{/if}
-							{App\Language::translate($FIELD_MODEL->getFieldLabel(), $COMPANIES_MODULE)}
-						</b>
-					</label>
-					<div class="col-lg-8">
-						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+							<b>{App\Language::translate($FIELD['label'], $MODULE_TRANSLATION)}</b>
+						</label>
+						<div class="col-lg-8">
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+						</div>
 					</div>
-				</div>
+				{/if}
 				{if $FIELD_NAME === 'newsletter'}
 					<div class="newsletterContent d-none" data-js="class:d-none">
 						{elseif $FIELD_NAME === 'email'}

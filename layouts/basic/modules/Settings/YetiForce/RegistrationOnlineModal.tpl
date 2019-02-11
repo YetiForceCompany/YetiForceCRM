@@ -9,20 +9,20 @@
 			<input type="hidden" name="mode" value="online"/>
 			{if !empty($REGISTER_COMPANIES['users'])}
 				<h6>{\App\Language::translate('LBL_END_USERS',$QUALIFIED_MODULE)}:</h6>
-				{foreach $REGISTER_COMPANIES['users'] as $companyRow}
-					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl',$QUALIFIED_MODULE) company=$companyRow}
+				{foreach $REGISTER_COMPANIES['users'] as $COMPANY_ROW}
+					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl',$QUALIFIED_MODULE) COMPANY_ID=$COMPANY_ROW['id']}
 				{/foreach}
 			{/if}
 			{if !empty($REGISTER_COMPANIES['integrators'])}
 				<h6>{\App\Language::translate('LBL_INTEGRATORS',$QUALIFIED_MODULE)}:</h6>
-				{foreach $REGISTER_COMPANIES['integrators'] as $companyRow}
-					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl',$QUALIFIED_MODULE) company=$companyRow}
+				{foreach $REGISTER_COMPANIES['integrators'] as $COMPANY_ROW}
+					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl',$QUALIFIED_MODULE) COMPANY_ID=$COMPANY_ROW['id']}
 				{/foreach}
 			{/if}
 			{if $REGISTER_COMPANIES['suppliers']}
-				<h6>{\App\Language::translate('LBL_SUPPLIERS',$QUALIFIED_MODULE)}:</h6>
-				{foreach $REGISTER_COMPANIES['suppliers'] as $companyRow}
-					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl',$QUALIFIED_MODULE) company=$companyRow}
+				<h6>{\App\Language::translate('LBL_PROVIDERS',$QUALIFIED_MODULE)}:</h6>
+				{foreach $REGISTER_COMPANIES['suppliers'] as $COMPANY_ROW}
+					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl',$QUALIFIED_MODULE) COMPANY_ID=$COMPANY_ROW['id']}
 				{/foreach}
 			{/if}
 		</form>
