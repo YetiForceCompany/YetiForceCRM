@@ -331,15 +331,13 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_Percentage_Validator_Js", {
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function () {
-		var response = this._super();
+	validate() {
+		const response = this._super();
 		if (response != true) {
 			return response;
 		} else {
-			var fieldValue = this.getFieldValue();
-			if (fieldValue > 100) {
-				var errorInfo = app.vtranslate('JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100');
-				this.setError(errorInfo);
+			if (App.Fields.Double.formatToDb(this.getFieldValue()) > 100) {
+				this.setError(app.vtranslate('JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100'));
 				return false;
 			}
 			return true;
