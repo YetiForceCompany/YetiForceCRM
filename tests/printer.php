@@ -108,7 +108,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
-		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . 'failed.' . PHP_EOL . $e->getTraceAsString());
+		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . 'failed.' . PHP_EOL . $e->__toString());
 		$this->lastTestFailed = true;
 		$time = round($time, 2);
 		echo '! Test ' . $test->getName() . " failed.\n";
@@ -135,10 +135,8 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	public function addSkippedTest(Test $test, \Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		printf("! Test '%s' has been skipped. ($time second(s))\n", $test->getName());
-		//echo "Exception Message: " . $e->getMessage() . "\n";
-		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		parent::addSkippedTest($test, $t, $time);
+		$this->writeProgressWithColor('fg-cyan, bold', "! Test '{$this->getTestName($test)}' has been skipped. ($time second(s))\n" . PHP_EOL . $t->__toString());
+		$this->lastTestFailed = true;
 	}
 }
 
