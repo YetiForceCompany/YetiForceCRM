@@ -345,7 +345,7 @@ return [
 			'description' => 'Display Smarty Debug Console'
 		],
 		'SMARTY_ERROR_REPORTING' => [
-			'default' => E_ALL & ~E_NOTICE,
+			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
 			'description' => 'Do not show Smarty Notice in phpError.log',
 		],
 		'JS_DEBUG' => [
@@ -373,7 +373,7 @@ return [
 			'description' => 'Display errors'
 		],
 		'EXCEPTION_ERROR_LEVEL' => [
-			'default' => E_ALL & ~E_NOTICE,
+			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
 			'description' => "Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.\nhttps://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting\nAll errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR",
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
