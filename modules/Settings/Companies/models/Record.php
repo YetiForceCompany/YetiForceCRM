@@ -71,6 +71,16 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * function to get clean instance.
+	 *
+	 * @return \static
+	 */
+	public static function getCleanInstance()
+	{
+		return new static();
+	}
+
+	/**
 	 * Function to get Module instance.
 	 *
 	 * @return Settings_Companies_Module_Model
@@ -299,7 +309,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$moduleName = $this->getModule()->getName(true);
 		$companyId = $this->getId();
-		$params = ['uitype' => 7, 'column' => $name, 'name' => "companies[$companyId][$name]", 'id' => "companies_$name", 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
+		$fieldName = $moduleName === 'YetiForce' ? "companies[$companyId][$name]" : $name;
+		$params = ['uitype' => 1, 'column' => $name, 'name' => $fieldName, 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
 		switch ($name) {
 			case 'name':
 				unset($params['validator']);
@@ -320,7 +331,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				break;
 			case 'companysize':
+				$params['uitype'] = 7;
 				$params['typeofdata'] = 'I~M';
+				$params['maximumlength'] = '99999999999999999999';
 				unset($params['validator']);
 				break;
 			case 'website':
