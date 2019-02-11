@@ -25,7 +25,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
 	 */
-	protected $uitypeModel;
+	public $uitypeModel;
 
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
 
