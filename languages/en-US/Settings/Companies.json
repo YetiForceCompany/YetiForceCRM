@@ -17,6 +17,7 @@
     "LBL_INDUSTRY": "Industry",
     "LBL_FIRSTNAME": "First name",
     "LBL_LASTNAME": "Last name",
+    "LBL_LOGO": "Logo",
     "LBL_EMAIL_NEWSLETTER_INFO": "Optional fields, entering data, you agree to receive Newsletter",
     "LBL_COMPANY_NAMES_EXIST": "The company name already exists",
     "LBL_REGISTER_CRM_ONLINE": "Registration - OnLine",

@@ -34,12 +34,7 @@ class Register
 	 * @var string
 	 */
 	private static $registrationUrl = 'https://api.yetiforce.com/registration/';
-	/**
-	 * Companies details.
-	 *
-	 * @var null|string[]
-	 */
-	public $companies;
+
 	/**
 	 * Registration file path.
 	 *
@@ -80,7 +75,7 @@ class Register
 	 */
 	private static function getInstanceKey(): string
 	{
-		return sha1(\App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
+		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
 	}
 
 	/**
@@ -90,7 +85,7 @@ class Register
 	 */
 	private function getData(): array
 	{
-		$companies = $this->companies ?? \App\Company::getAll();
+		$companies = \App\Company::getAll();
 		foreach ($companies as &$row) {
 			if (\file_exists(\Settings_Companies_Record_Model::$logoPath . $row['id'])) {
 				$row['logo'] = \App\Fields\File::getImageBaseData(\Settings_Companies_Record_Model::$logoPath . $row['id']);
@@ -187,6 +182,7 @@ class Register
 					$status = true;
 				}
 			}
+
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);

@@ -21,7 +21,7 @@ class Settings_Roles_DeleteAjax_View extends Settings_Roles_IndexAjax_View
 		$allRoles = Settings_Roles_Record_Model::getAll();
 		unset($allRoles[$recordId]);
 		$allRoles = array_filter($allRoles, function ($items) use ($baseParentRole) {
-			return strpos($items->get('parentrole') , $baseParentRole) === false;
+			return strpos($items->get('parentrole'), $baseParentRole) === false;
 		});
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
