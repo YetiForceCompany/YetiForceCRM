@@ -132,17 +132,22 @@ class Install_Utils_Model
 		return $dbCheckResult;
 	}
 
+	/**
+	 * Gets languages for install.
+	 *
+	 * @return array
+	 */
 	public static function getLanguages()
 	{
-		$dir = './install/languages/';
-		$ffs = scandir($dir);
-		$langs = [];
-		foreach ($ffs as $ff) {
-			if ($ff != '.' && $ff != '..' && file_exists($dir . $ff . '/Install.json')) {
-				$langs[$ff] = \App\Language::translate('LANGNAME', 'Install', $ff);
+		$languages = [];
+		foreach ((new \DirectoryIterator('install/languages/')) as $item) {
+			if ($item->isDir() && !in_array($item->getBasename(), ['.', '..'])) {
+				if (file_exists($item->getPathname() . DIRECTORY_SEPARATOR . 'Install.json')) {
+					$languages[$item->getBasename()] = \App\Language::getDisplayName($item->getBasename());
+				}
 			}
 		}
-		return $langs;
+		return $languages;
 	}
 
 	/**
