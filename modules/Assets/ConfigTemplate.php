@@ -22,8 +22,7 @@ return [
 	],
 	'SHOW_FIELD_IN_MODAL' => [
 		'default' => [],
-		'description' => 'Show fields in the modal',
-		'validation' => '\App\Validator::isArray' // TODO::the function does not exist
+		'description' => 'Show fields in the modal'
 	],
 	'SHOW_HIERARCHY_IN_MODAL' => [
 		'default' => [],
