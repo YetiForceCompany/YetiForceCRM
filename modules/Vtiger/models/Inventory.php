@@ -489,7 +489,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @return array
 	 */
-	public function getCustomAutoComplete(string $sourceFieldName, \Vtiger_Record_Model $recordModel) // TODO: CHECK
+	public function getCustomAutoComplete(string $sourceFieldName, \Vtiger_Record_Model $recordModel)
 	{
 		$values = [];
 		$inventoryMap = AppConfig::module($this->getModuleName(), 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
