@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	<div class="tpl-Base-RecentComments js-comments-container commentContainer recentComments" data-js="container">
+	<div class="tpl-Base-RecentComments js-comments-container js-completions__container commentContainer recentComments" data-js="container">
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
@@ -80,7 +80,7 @@
 			</div>
 		</div>
 		<hr>
-		<div class="js-comments-body commentsBody" data-js="html">
+		<div class="js-comments-body js-completions__messages commentsBody" data-js="html | click">
 			{if !empty($PARENT_COMMENTS)}
 				{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 			{else}
