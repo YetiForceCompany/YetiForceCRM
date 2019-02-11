@@ -116,7 +116,8 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				continue;
 			}
 			if ($request->has($fieldName)) {
-				var_dump($fieldName, $fieldModel->getId(), $fieldModel->getUIType(), $fieldModel->getFieldDataType());
+				//var_dump($fieldName, $fieldModel->getId(), $fieldModel->getUIType(), $fieldModel->getFieldDataType());
+				var_dump($fieldModel->getUITypeModel());
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
 		}
