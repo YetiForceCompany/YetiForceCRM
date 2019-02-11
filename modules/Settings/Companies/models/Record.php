@@ -71,6 +71,19 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Function to get Module instance.
+	 *
+	 * @return Settings_Companies_Module_Model
+	 */
+	public function getModule()
+	{
+		if (!$this->module) {
+			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:Companies');
+		}
+		return $this->module;
+	}
+
+	/**
 	 * Function to save.
 	 */
 	public function save()
@@ -272,5 +285,63 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			$query->andWhere(['<>', 'id', $request->getInteger('record')]);
 		}
 		return $query->exists($db);
+	}
+
+	/**
+	 * Function determines fields available in edition view.
+	 *
+	 * @param string $name
+	 * @param string $label
+	 *
+	 * @return \Settings_Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName($name, $label)
+	{
+		$moduleName = $this->getModule()->getName(true);
+		$companyId = $this->getId();
+		$params = ['uitype' => 7, 'column' => $name, 'name' => "companies[$companyId][$name]", 'id' => "companies_$name", 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
+		switch ($name) {
+			case 'name':
+				unset($params['validator']);
+				break;
+			case 'industry':
+				$params['uitype'] = 16;
+				foreach (Settings_Companies_Module_Model::getIndustryList() as $industry) {
+					$params['picklistValues'][$industry] = \App\Language::translate($industry, $moduleName);
+				}
+				break;
+			case 'city':
+				unset($params['validator']);
+				break;
+			case 'country':
+				$params['uitype'] = 16;
+				foreach (\App\Fields\Country::getAll() as $country) {
+					$params['picklistValues'][$country['name']] = \App\Language::translateSingleMod($country['name'], 'Other.Country');
+				}
+				break;
+			case 'companysize':
+				$params['typeofdata'] = 'I~M';
+				unset($params['validator']);
+				break;
+			case 'website':
+				unset($params['validator']);
+				break;
+			case 'firstname':
+				unset($params['validator']);
+				break;
+			case 'lastname':
+				break;
+			case 'email':
+				$params['uitype'] = 13;
+				break;
+			case 'newsletter':
+				$params['typeofdata'] = 'V~O';
+				$params['uitype'] = 56;
+				unset($params['validator']);
+				break;
+			default:
+				break;
+		}
+		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 }

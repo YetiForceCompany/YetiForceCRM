@@ -2,6 +2,26 @@
 'use strict';
 
 jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
+	/**
+	 * Register events for form checkbox element
+	 */
+	registerNewsletter() {
+		const form = $('[data-view="RegistrationOnlineModal"]').find('form');
+		form.find('[id$=newsletter\\]]').on('click', (e) => {
+			let inputsContainer = $(e.target).closest('.js-card-body');
+			if (inputsContainer.find('.newsletterContent').hasClass('d-none')) {
+				inputsContainer.find('[id$=firstname\\]]').attr('data-validation-engine', 'validate[required]');
+				inputsContainer.find('[id$=lastname\\]]').attr('data-validation-engine', 'validate[required]');
+				inputsContainer.find('[id$=email\\]]').attr('data-validation-engine', 'validate[required,custom[email]]');
+				inputsContainer.find('.newsletterContent').removeClass('d-none');
+			} else {
+				inputsContainer.find('[id$=firstname\\]]').removeAttr('data-validation-engine');
+				inputsContainer.find('[id$=lastname\\]]').removeAttr('data-validation-engine');
+				inputsContainer.find('[id$=email\\]]').removeAttr('data-validation-engine');
+				inputsContainer.find('.newsletterContent').addClass('d-none');
+			}
+		});
+	},
 	registerEvents() {
 		const container = $("[data-view='RegistrationOnlineModal']");
 		const form = container.find('form');
@@ -20,7 +40,7 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 				return false;
 			}
 			container.find('button[name=saveButton]').prop("disabled", true);
-			var progress = $.progressIndicator({
+			let progress = $.progressIndicator({
 				'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				'blockInfo': {
 					'enabled': true
@@ -39,6 +59,7 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 				return data['result'];
 			});
 		});
+		this.registerNewsletter();
 	}
 }, {});
 Settings_YetiForce_RegistrationOnlineModal_Js.registerEvents();
