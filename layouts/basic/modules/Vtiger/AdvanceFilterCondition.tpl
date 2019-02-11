@@ -107,9 +107,9 @@
 				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" type="text"
 				   value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
 		</div>
-		<div class="btn btn-danger deleteCondition">
+		<button class="btn btn-danger js-condition-delete" data-js="click">
 			<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-		</div>
+		</button>
 		<span class="d-none">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}
