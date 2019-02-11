@@ -711,32 +711,19 @@ return [
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [
 			'default' => 20,
-			'description' => 'Maximum length of a comment visible in the related module',
-			'validation' => '\App\Validator::naturalNumber',
-		],
-		'SELECTABLE_CATEGORY' => [
-			'default' => true,
-			'description' => 'Enabling this option makes it possible to select a folder/category in the Tree Category Modal window, together with the category tree and records; for example: Product and Services in Account.',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
+			'description' => 'Maximum length of a comment visible in the related module'
 		],
 		'SHOW_RELATED_MODULE_NAME' => [
 			'default' => true,
-			'description' => 'Show names related modules',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
+			'description' => 'Show names related modules'
 		],
 		'SHOW_RELATED_ICON' => [
 			'default' => true,
-			'description' => 'Show icon related modules',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
+			'description' => 'Show icon related modules'
 		],
 		'SHOW_RECORDS_COUNT' => [
 			'default' => false,
-			'description' => 'Show record count in tabs related modules',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
+			'description' => 'Show record count in tabs related modules'
 		]
 	],
 	'search' => [

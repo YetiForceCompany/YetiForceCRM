@@ -24,12 +24,8 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 		return this.treeData;
 	},
 	generateTree: function (container) {
-		var thisInstance = this;
+		const thisInstance = this;
 		thisInstance.treeInstance = container.find("#treeListContents");
-		var plugins = ["checkbox"];
-		if (app.getMainParams('isActiveCategory') == '1') {
-			plugins.push("category");
-		}
 		thisInstance.treeInstance.jstree({
 			core: {
 				data: thisInstance.getTreeListValues(container),
@@ -38,27 +34,20 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 					responsive: true
 				}
 			},
-			plugins: plugins
+			plugins: ['checkbox']
 		});
 	},
 	getRecordsParams: function (container) {
-		var thisInstance = this;
-		var selectedFilter = container.find('#moduleFilter').val();
-
-		var selected = [];
-		$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
+		let selected = [];
+		$.each(this.treeInstance.jstree("get_selected", true), function (index, value) {
 			selected.push(value.original.record_id);
 		});
-		var params = {
+		return {
 			module: app.getModuleName(),
 			view: app.getViewName(),
 			branches: selected,
-			filter: selectedFilter
+			filter: container.find('#moduleFilter').val()
 		};
-		if (app.getMainParams('isActiveCategory') == '1') {
-			params.category = thisInstance.treeInstance.jstree("getCategory");
-		}
-		return params;
 	},
 	getRecordsList: function () {
 		var thisInstance = this;

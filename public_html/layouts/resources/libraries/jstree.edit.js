@@ -30,7 +30,7 @@
 				const module = modal.find('#relatedModule').val();
 				if ($(data.event.target).hasClass("jstree-edit")) {
 					const obj = data.node;
-					if (obj.original.type === 'category') {
+					if (obj.original.attr !== 'record') {
 						app.hideModalWindow();
 						const callbackFunction = function () {
 							$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
@@ -77,7 +77,7 @@
 				}
 				if (tmp && this._model.data[obj.id].original.type !== undefined) {
 					icon = _i.cloneNode(false);
-					if (this._model.data[obj.id].original.type == 'category') {
+					if (this._model.data[obj.id].original.attr !== 'record') {
 						icon.className += options.createClass;
 					} else {
 						icon.className += options.deleteClass;

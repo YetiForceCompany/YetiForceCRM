@@ -30,7 +30,6 @@
 				</div>
 			</div>
 			<input type="hidden" id="treeListValues" value="{\App\Purifier::encodeHtml($TREE_LIST)}">
-			<input type="hidden" id="isActiveCategory" value="{$SELECTABLE_CATEGORY}"/>
 			<div id="treeListContents"></div>
 		</div>
 	</div>

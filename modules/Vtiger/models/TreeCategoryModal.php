@@ -68,24 +68,42 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		return self::$_cached_instance[$moduleName];
 	}
 
+	/**
+	 * Gets relation model.
+	 *
+	 * @return bool|\Vtiger_Relation_Model
+	 */
+	public function getRelationModel()
+	{
+		if (!isset($this->relationModel)) {
+			$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
+			$this->relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
+		}
+		return $this->relationModel;
+	}
+
+	/**
+	 * Gets relation type.
+	 *
+	 * @return mixed
+	 */
 	public function getRelationType()
 	{
 		if ($this->has('relationType')) {
 			return $this->get('relationType');
 		}
-		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
-		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
-		$this->set('relationType', $relationModel->getRelationType());
-
+		$this->set('relationType', $this->getRelationModel()->getRelationType());
 		return $this->get('relationType');
 	}
 
+	/**
+	 * Function check if record is deletable.
+	 *
+	 * @return bool
+	 */
 	public function isDeletable()
 	{
-		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
-		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
-
-		return $relationModel->privilegeToDelete();
+		return $this->getRelationModel()->privilegeToDelete();
 	}
 
 	public function getTreeData()
@@ -101,7 +119,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	private function getTreeList()
 	{
 		$trees = [];
-		$isDeletable = $this->isDeletable();
+		$isDeletable = $this->getRelationModel()->privilegeToTreeDelete();
 		$lastId = 0;
 		$dataReader = (new App\Db\Query())
 			->from('vtiger_trees_templates_data')
@@ -201,12 +219,14 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 			}
 			$tree[] = [
 				'id' => $this->lastIdinTree,
-				'type' => 'record',
+				'type' => 'category',
+				'attr' => 'record',
 				'record_id' => $item->getId(),
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
-				'icon' => 'fas fa-file',
+				'icon' => "js-detail__icon userIcon-{$this->getModuleName()}",
+				'category' => ['checked' => $selected]
 			];
 		}
 		return $tree;
