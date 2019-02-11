@@ -282,13 +282,6 @@
 	}
 }
 
-.o-header-toggle {
-	&__actions {
-		flex: none;
-	}
-}
-
-//mobile
 @include media-breakpoint-down(sm) {
 	.o-header-toggle {
 		&__actions-btn {
