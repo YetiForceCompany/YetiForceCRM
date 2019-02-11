@@ -205,8 +205,8 @@ class Gantt {
 		let offsetTop = this.container.offset().top;
 		let contentHeight = $('body').eq(0).height() - $('.js-footer').eq(0).height();
 		let height = contentHeight - offsetTop - 100;
-		if (height < 0) {
-			height = 0;
+		if (height < 300) {
+			height = 300;
 		}
 		this.options.maxHeight = height;
 		if (typeof this.ganttState !== 'undefined' && this.ganttState) {
