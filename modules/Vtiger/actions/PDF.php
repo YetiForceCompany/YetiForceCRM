@@ -134,8 +134,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			if ($singlePdf) {
 				$pdf = new \App\Pdf\YetiForcePDF();
 				$html = '';
-				$last = count($recordId) - 1;
-				$lastTemplateIndex = count($templateIds) - 1;
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					foreach ($templateIdsTemp as $templateIndex => $templateId) {
