@@ -131,7 +131,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$replaceValue = $request->getInteger('replace_value');
 		$pickListFieldName = $request->getForSql('picklistName');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, Vtiger_Module_Model::getInstance($moduleName));
-		if (!$fieldModel || count($fieldModel->getPicklistValues()) <= 1) {
+		if (!$fieldModel || count($fieldModel->getPicklistValues(true)) <= 1) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		if ($moduleName === 'Calendar' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
