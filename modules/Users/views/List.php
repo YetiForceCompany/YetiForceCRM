@@ -82,19 +82,22 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
-		$operator = $request->getByType('operator');
-		if (!empty($operator)) {
+		$operator = '';
+		if (!$request->isEmpty('operator', true)) {
+			$operator = $request->getByType('operator');
 			$this->listViewModel->set('operator', $operator);
 		}
 		$viewer->assign('OPERATOR', $operator);
-		$searchKey = $request->getByType('search_key', 'Alnum');
-		$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
-		if ('status' != $searchKey) {
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-		}
-		if (!empty($searchKey) && !empty($searchValue)) {
-			$this->listViewModel->set('search_key', $searchKey);
-			$this->listViewModel->set('search_value', $searchValue);
+		if (!$request->isEmpty('search_key', true)) {
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
+			if (!empty($searchKey) && !empty($searchValue)) {
+				$this->listViewModel->set('search_key', $searchKey);
+				$this->listViewModel->set('search_value', $searchValue);
+				if ('status' != $searchKey) {
+					$viewer->assign('ALPHABET_VALUE', $searchValue);
+				}
+			}
 		}
 		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
