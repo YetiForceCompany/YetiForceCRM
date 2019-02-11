@@ -144,9 +144,9 @@ clipboard@>=2.0.0:
     select "^1.1.2"
     tiny-emitter "^2.0.0"
 
-"clockpicker@https://github.com/djibe/clockpicker":
+"clockpicker@https://github.com/YetiForceCompany/clockpicker#master":
   version "0.0.7"
-  resolved "https://github.com/djibe/clockpicker#2b9326f4896662dbe1c61325a818a48dabdb872f"
+  resolved "https://github.com/YetiForceCompany/clockpicker#70df989d12d1e84455255ecfde24ccda821dafd7"
 
 color-convert@^0.5.3:
   version "0.5.3"
@@ -214,10 +214,10 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
-dayjs@^1.7.8:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.0.tgz#507963ac3023f4b1f9f399a278356946fc4c9ae9"
-  integrity sha512-2ofInmfMKLLR5R02q3WEUuDt86UK33VQQTaEeJudF+C04ZUaekCP3VpB0NJPiyPDCGJWq9XYhHX2AemdxA8+dg==
+dayjs@^1.8.5:
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.5.tgz#0b066770f89a20022218544989f3d23e5e8db29a"
+  integrity sha512-jo5sEFdsT43RqXxoqQVEuD7XL6iSIRxcjTgheJdlV0EHKObKP3pb9JcJEv/KStVMy25ABNQrFnplKcCit05vOA==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -267,12 +267,12 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.7.4:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.7.5.tgz#65cb300120ae0812c38de1e6df71809f5d1631fd"
-  integrity sha512-3/S8P9xH1IiUp6h+RHPp7gpP3KwE1I1IHB5CDwSIQb8HTgAhk2O8lYyHGDVxetZpgdLbtvFT6aWm12iYCzK/QA==
+gantt-elastic@^0.7.13:
+  version "0.7.14"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.7.14.tgz#c10a28419c56df72ea54ecd3a0c6906d68e8bfde"
+  integrity sha512-f/HSAbFrRw8xtLk8Fkwk2yX4RVAUAQb7pmRABF5VHSVQ5M5nGgdvlIaIYt1yZ6qTQYEhSvdf9bIAfJpJ+YTM0Q==
   dependencies:
-    dayjs "^1.7.8"
+    dayjs "^1.8.5"
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -309,7 +309,7 @@ inputmask@^4.0:
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
-  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#c186c171d2eb1d344844f8c2bf92f25cd73a6fb5"
+  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#4e4a37d1473875aa79b6cf0598826a7a1760f714"
 
 jquery-hoverintent@^1.9.0:
   version "1.9.0"
@@ -470,9 +470,9 @@ tether@^1.4.0:
   integrity sha512-fysT1Gug2wbRi7a6waeu39yVDwiNtvwj5m9eRD+qZDSHKNghLo6KqP/U3yM2ap6TNUL2skjXGJaJJTJqoC31vw==
 
 tiny-emitter@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
-  integrity sha512-2NM0auVBGft5tee/OxP4PI3d8WItkDM+fPnaRAVo6xTDI2knbz9eC5ArWGqtGlYqiH3RU5yMpdyTTO7MguC4ow==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tributejs@^3.4.0:
   version "3.5.3"
