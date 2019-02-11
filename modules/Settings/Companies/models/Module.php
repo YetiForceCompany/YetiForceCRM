@@ -18,17 +18,58 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var array
 	 */
 	public static $formFields = [
-		'name' => 'LBL_NAME',
-		'industry' => 'LBL_INDUSTRY',
-		'city' => 'LBL_CITY',
-		'country' => 'LBL_COUNTRY',
-		'companysize' => 'LBL_COMPANYSIZE',
-		'website' => 'LBL_WEBSITE',
-		'spacer' => '',
-		'newsletter' => 'LBL_YETIFORCE_NEWSLETTER',
-		'firstname' => 'LBL_FIRSTNAME',
-		'lastname' => 'LBL_LASTNAME',
-		'email' => 'LBL_EMAIL'
+		'name' => [
+			'label' => 'LBL_NAME',
+			'registerView' => true
+		],
+		'type' => [
+			'label' => 'LBL_TYPE',
+			'registerView' => false
+		],
+		'industry' => [
+			'label' => 'LBL_INDUSTRY',
+			'registerView' => true
+		],
+		'city' => [
+			'label' => 'LBL_CITY',
+			'registerView' => true
+		],
+		'country' => [
+			'label' => 'LBL_COUNTRY',
+			'registerView' => true
+		],
+		'companysize' => [
+			'label' => 'LBL_COMPANYSIZE',
+			'registerView' => true
+		],
+		'website' => [
+			'label' => 'LBL_WEBSITE',
+			'registerView' => true
+		],
+		'spacer' => [
+			'label' => '',
+			'registerView' => true
+		],
+		'newsletter' => [
+			'label' => 'LBL_YETIFORCE_NEWSLETTER',
+			'registerView' => true
+		],
+		'firstname' => [
+			'label' => 'LBL_FIRSTNAME',
+			'registerView' => true
+		],
+		'lastname' => [
+			'label' => 'LBL_LASTNAME',
+			'registerView' => true
+		],
+		'email' => [
+			'label' => 'LBL_EMAIL',
+			'registerView' => true
+		],
+		'logo' => [
+			'label' => 'LBL_LOGO',
+			'registerView' => false
+		],
 	];
 	public $name = 'Companies';
 
