@@ -39,7 +39,13 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fields = $request->getAll();
 		foreach ($fields as $fieldName => $fieldValue) {
 			if ($request->has($fieldName) && !in_array($fieldName, ['module', 'parent', 'view', '__vtrftk', 'action'])) {
-				if ($fieldName === 'value') {
+				if ('Taxes' === $type && 'value' === $fieldName) {
+					$val = (float) $request->getByType('value', 'NumberInUserFormat');
+					if ($val < 0 || $val > 100) {
+						throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||value||{$val}", 406);
+					}
+					$recordModel->set($fieldName, $val);
+				} elseif ($fieldName === 'value') {
 					$recordModel->set($fieldName, $request->getByType('value', 'NumberInUserFormat'));
 				} else {
 					$recordModel->set($fieldName, $fieldValue);
