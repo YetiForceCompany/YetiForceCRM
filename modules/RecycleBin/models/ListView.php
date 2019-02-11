@@ -38,8 +38,6 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
-		$moduleModel = $this->getModule();
-
 		$basicLinks[] = [
 			'linktype' => 'LISTVIEWBASIC',
 			'linklabel' => 'LBL_RECYCLE_DELETE_ALL',

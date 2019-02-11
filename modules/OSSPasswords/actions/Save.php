@@ -34,7 +34,6 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 	public function saveRecord(\App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
-		$adb = PearDatabase::getInstance();
 		// check if encryption is enabled
 		$config = false;
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {

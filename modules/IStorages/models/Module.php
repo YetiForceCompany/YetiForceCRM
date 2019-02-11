@@ -41,7 +41,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
 		$db = App\Db::getInstance();
-		$qtyInStock = $productRecords = [];
+		$qtyInStock = [];
 		foreach ($data as $product) {
 			if (!isset($qtyInStock[$product['name']])) {
 				$qtyInStock[$product['name']] = 0;

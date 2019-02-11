@@ -64,7 +64,7 @@ class PearDatabase
 	/**
 	 * Manage instance usage of this class.
 	 */
-	public static function &getInstance($type = 'base')
+	public static function &getInstance()
 	{
 		if (self::$dbCache !== false) {
 			return self::$dbCache;
