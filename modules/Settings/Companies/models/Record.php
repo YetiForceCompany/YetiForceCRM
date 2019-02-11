@@ -308,8 +308,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	public function getFieldInstanceByName($name, $label)
 	{
 		$moduleName = $this->getModule()->getName(true);
+		$sourceModule = $this->get('SOURCE_MODULE');
 		$companyId = $this->getId();
-		$fieldName = $moduleName === 'YetiForce' ? "companies[$companyId][$name]" : $name;
+		$fieldName = $sourceModule === 'YetiForce' ? "companies[$companyId][$name]" : $name;
 		$params = ['uitype' => 1, 'column' => $name, 'name' => $fieldName, 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
 		switch ($name) {
 			case 'name':
