@@ -577,17 +577,13 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Function which will specify whether the relation is editable.
+	 * Function which will specify whether the tree element is deletable.
 	 *
 	 * @return bool
 	 */
-	public function privilegeToEdit(): bool
+	public function privilegeToTreeDelete(): bool
 	{
-		$returnVal = $this->getRelationModuleModel()->isPermitted('RemoveRelation');
-		if ($returnVal && $this->getRelationType() === static::RELATION_O2M && ($fieldModel = $this->getRelationField())) {
-			$returnVal = $fieldModel->isEditable();
-		}
-		return $returnVal;
+		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}
 
 	public function getListUrl($parentRecordModel)
