@@ -137,7 +137,11 @@ class Api extends \Tests\Base
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 		];
-		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
+		$request = \Requests::post(
+			static::$url . 'Accounts/Record/', static::$requestHeaders,
+			\App\Json::encode($recordData), static::$requestOptions
+		);
+		\var_dump(static::$url, $request);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
