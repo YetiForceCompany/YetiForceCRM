@@ -142,23 +142,30 @@ App.Fields = {
 						$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
 						$(this).trigger('change');
 					})
-					.on('show.daterangepicker', function (ev, picker) {
-						let offset = picker.element.offset();
-						let $window = $(window);
-						if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
-							picker.drops = 'up';
-						} else {
-							picker.drops = 'down';
-						}
-						if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
-							picker.opens = 'left';
-						} else {
-							picker.opens = 'right';
-						}
-						picker.move();
+					.on('show.daterangepicker', (ev, picker) => {
+						this.positionPicker(ev, picker);
+					})
+					.on('showCalendar.daterangepicker', (ev, picker) => {
+						this.positionPicker(ev, picker);
 					});
 			});
 		},
+		positionPicker(ev, picker) {
+			let offset = picker.element.offset();
+			let $window = $(window);
+			if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
+				picker.opens = 'left';
+			} else {
+				picker.opens = 'right';
+			}
+			picker.move();
+			if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
+				picker.drops = 'up';
+			} else {
+				picker.drops = 'down';
+			}
+			picker.move();
+		}
 	},
 	DateTime: {
 		/*
