@@ -53,6 +53,13 @@ class Status
 	public $cache = [];
 
 	/**
+	 * Send status informations.
+	 */
+	public static function send()
+	{
+	}
+
+	/**
 	 * Returns array of all flags with current config.
 	 *
 	 * @return array
@@ -77,7 +84,10 @@ class Status
 		if (empty($this->cache['stability'])) {
 			$this->cache['stability'] = \App\Utils\ConfReport::get('stability');
 		}
-		$value = [$this->cache['stability']['phpVersion']['www']];
+		$value = [];
+		if (isset($this->cache['stability']['phpVersion']['www'])) {
+			$value[] = $this->cache['stability']['phpVersion']['www'];
+		}
 		if (isset($this->cache['stability']['phpVersion']['cron'])) {
 			$value[] = $this->cache['stability']['phpVersion']['cron'];
 		}
@@ -94,7 +104,7 @@ class Status
 		if (empty($this->cache['environment'])) {
 			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
 		}
-		return $this->cache['environment']['crmVersion']['www'];
+		return $this->cache['environment']['crmVersion']['www'] ?? '';
 	}
 
 	/**
@@ -107,7 +117,7 @@ class Status
 		if (empty($this->cache['database'])) {
 			$this->cache['database'] = \App\Utils\ConfReport::get('database');
 		}
-		return $this->cache['database']['serverVersion']['www'];
+		return $this->cache['database']['serverVersion']['www'] ?? '';
 	}
 
 	/**
@@ -120,7 +130,7 @@ class Status
 		if (empty($this->cache['environment'])) {
 			$this->cache['environment'] = \App\Utils\ConfReport::get('database');
 		}
-		return $this->cache['environment']['operatingSystem']['www'];
+		return $this->cache['environment']['operatingSystem']['www'] ?? '';
 	}
 
 	/**
