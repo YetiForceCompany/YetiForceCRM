@@ -57,11 +57,6 @@ class Field extends FieldBasic
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
 		}
-		$specialNameSpacedPicklists = [
-			'opportunity_type' => 'opptypeid',
-			'duration_minutes' => 'minutesid',
-		];
-
 		// END
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();
