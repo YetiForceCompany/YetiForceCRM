@@ -25,7 +25,8 @@ class A_LanguageFiles extends \Tests\Base
 					$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
 					// @codeCoverageIgnoreStart
 				} catch (\Seld\JsonLint\ParsingException $e) {
-					$this->fail("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
+					\var_dump("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
+					throw new \Exception("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
 				}
 				// @codeCoverageIgnoreEnd
 			}
