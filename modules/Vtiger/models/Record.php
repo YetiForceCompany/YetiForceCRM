@@ -1406,7 +1406,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkicon' => 'fas fa-eraser',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-				'linkclass' => 'btn-sm btn-black recordEvent',
+				'linkclass' => 'btn-sm btn-dark recordEvent',
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
@@ -1495,7 +1495,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linkicon' => 'fas fa-eraser',
 					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-					'linkclass' => 'btn-sm btn-black relationDelete entityStateBtn'
+					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
 				]);
 			}
 		}
