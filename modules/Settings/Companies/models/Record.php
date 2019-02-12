@@ -273,7 +273,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'companysize':
 				$params['uitype'] = 7;
 				$params['typeofdata'] = 'I~M';
-				$params['maximumlength'] = '99999999999999999999';
+				$params['maximumlength'] = '16777215';
 				unset($params['validator']);
 				break;
 			case 'website':
