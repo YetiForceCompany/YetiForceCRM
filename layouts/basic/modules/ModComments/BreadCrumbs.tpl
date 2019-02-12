@@ -39,7 +39,7 @@
 					{elseif $item@last}
 						<li class="breadcrumb-item active js-text-content u-text-ellipsis"
 							aria-current="page">
-							{$item['name']}
+								{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($item['name'])))}
 						</li>
 						<li class="js-popover-icon d-none mr-1" data-js="class: d-none">
 							<span class="fas fa-info-circle fa-sm"></span>
