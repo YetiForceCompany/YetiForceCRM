@@ -297,9 +297,9 @@ class ModuleHierarchy
 	 * @param int   $record
 	 * @param array $hierarchy
 	 *
-	 * @return \App\Db\Query
+	 * @return \App\Db\Query|null
 	 */
-	public static function getQueryRelatedRecords(int $record, array $hierarchy): \App\Db\Query
+	public static function getQueryRelatedRecords(int $record, array $hierarchy): ?\App\Db\Query
 	{
 		$moduleName = Record::getType($record);
 		$queries = [];
@@ -327,6 +327,9 @@ class ModuleHierarchy
 					}
 				}
 			}
+		}
+		if (count($queries) === 0) {
+			return null;
 		}
 		$subQuery = $queries[0];
 		unset($queries[0]);

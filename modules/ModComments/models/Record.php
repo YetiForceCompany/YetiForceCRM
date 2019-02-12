@@ -174,8 +174,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$where[] = ['related_to' => $parentId];
 			$requireCount = 1;
 		}
-		if (count($hierarchy) > $requireCount) {
-			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy)])];
+		if (count($hierarchy) > $requireCount && ($query = \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy))) {
+			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => $query])];
 		}
 		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
@@ -307,8 +307,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$where[] = ['related_to' => $parentId];
 			$requireCount = 1;
 		}
-		if (count($hierarchy) > $requireCount) {
-			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy)])];
+		if (count($hierarchy) > $requireCount && ($query = \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy))) {
+			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => $query])];
 		}
 		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['like', 'commentcontent', '%' . $searchValue . '%', false]);
