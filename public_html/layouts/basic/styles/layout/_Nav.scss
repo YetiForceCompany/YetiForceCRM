@@ -74,6 +74,9 @@
 	}
 
 	&__item {
+		width: -webkit-fill-available;
+		width: -moz-available;
+
 		a {
 			display: inline-flex;
 			width: 100%;
