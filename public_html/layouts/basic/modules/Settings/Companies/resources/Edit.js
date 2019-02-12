@@ -9,15 +9,16 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 		const form = $('[name="EditCompanies"]');
 		form.find('[id$="newsletter"]').on('click', (e) => {
 			let inputsContainer = $(e.target).closest('.js-card-body');
-			if (inputsContainer.find('.newsletterContent').hasClass('d-none')) {
+			let newsletter = inputsContainer.find('[id$="newsletter"]');
+			if (newsletter.prop('checked')) {
 				inputsContainer.find('[id$="firstname"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="lastname"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="email"]').attr('data-validation-engine', 'validate[required,custom[email]]');
 				inputsContainer.find('.newsletterContent').removeClass('d-none');
 			} else {
-				inputsContainer.find('[id$="firstname"]').removeAttr('data-validation-engine');
-				inputsContainer.find('[id$="lastname"]').removeAttr('data-validation-engine');
-				inputsContainer.find('[id$="email"]').removeAttr('data-validation-engine');
+				inputsContainer.find('[id$="firstname"]').removeAttr('data-validation-engine').val('');
+				inputsContainer.find('[id$="lastname"]').removeAttr('data-validation-engine').val('');
+				inputsContainer.find('[id$="email"]').removeAttr('data-validation-engine').val('');
 				inputsContainer.find('.newsletterContent').addClass('d-none');
 			}
 		});

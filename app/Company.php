@@ -8,6 +8,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Company extends Base
 {
@@ -54,7 +55,7 @@ class Company extends Base
 	 *
 	 * @param array $companiesNew
 	 *
-	 * @throws \yii\db\Exception
+	 * @throws \App\Exceptions\Security
 	 *
 	 * @return bool
 	 */
@@ -63,25 +64,22 @@ class Company extends Base
 		if (empty($companiesNew)) {
 			return false;
 		}
-		foreach (static::getAll() as $companyCurrent) {
-			if (!isset($companiesNew[$companyCurrent['id']])) {
-				continue;
+		$companies = \array_column(static::getAll(), 'id', 'id');
+		foreach ($companiesNew as $key => $company) {
+			if (!isset($companies[$key])) {
+				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $key);
 			}
-			\App\Db::getInstance()->createCommand()
-				->update('s_#__companies', [
-					'name' => $companiesNew[$companyCurrent['id']]['name'],
-					'industry' => $companiesNew[$companyCurrent['id']]['industry'],
-					'city' => $companiesNew[$companyCurrent['id']]['city'],
-					'country' => $companiesNew[$companyCurrent['id']]['country'],
-					'website' => $companiesNew[$companyCurrent['id']]['website'],
-					'email' => $companiesNew[$companyCurrent['id']]['email'],
-					'companysize' => $companiesNew[$companyCurrent['id']]['companysize'],
-					'firstname' => $companiesNew[$companyCurrent['id']]['firstname'],
-					'lastname' => $companiesNew[$companyCurrent['id']]['lastname'],
-				], ['id' => $companyCurrent['id']])
-				->execute();
+			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $key);
+			$field = $recordModel->getModule()->getFormFields();
+			foreach (array_keys($field) as $fieldName) {
+				if (isset($company[$fieldName])) {
+					$uiTypeModel = $recordModel->getFieldInstanceByName($fieldName)->getUITypeModel();
+					$uiTypeModel->validate($company[$fieldName], true);
+					$recordModel->set($fieldName, $uiTypeModel->getDBValue($company[$fieldName]));
+				}
+			}
+			$recordModel->save();
 		}
-		Cache::delete('CompanyGetAll', '');
 		return (new \App\YetiForce\Register())->register();
 	}
 }

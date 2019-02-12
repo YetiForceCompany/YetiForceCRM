@@ -104,7 +104,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = \App\Db::getInstance('admin');
 		$recordId = $this->getId();
-		$params = $this->getData();
+		$fields = $this->getModule()->getNameFields();
+		$params = array_intersect_key($this->getData(), array_flip($fields));
 		if ($recordId) {
 			$db->createCommand()->update('s_#__companies', $params, ['id' => $recordId])->execute();
 		} else {
@@ -197,9 +198,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save company logos.
+	 * Function to save company logo.
 	 *
-	 * @return array
+	 * @throws \Exception
 	 */
 	public function saveCompanyLogos()
 	{
@@ -243,7 +244,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleName = $this->getModule()->getName(true);
 		$labels = $this->getModule()->getFormFields();
 		$label = $label ? $label : ($labels[$name]['label'] ?? '');
-		$sourceModule = $this->get('SOURCE_MODULE');
+		$sourceModule = $this->get('source');
 		$companyId = $this->getId();
 		$fieldName = $sourceModule === 'YetiForce' ? "companies[$companyId][$name]" : $name;
 		$params = ['uitype' => 1, 'column' => $name, 'name' => $fieldName, 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
@@ -253,15 +254,18 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'industry':
 				$params['uitype'] = 16;
+				$params['maximumlength'] = '50';
 				foreach (Settings_Companies_Module_Model::getIndustryList() as $industry) {
 					$params['picklistValues'][$industry] = \App\Language::translate($industry, $moduleName);
 				}
 				break;
 			case 'city':
+				$params['maximumlength'] = '100';
 				unset($params['validator']);
 				break;
 			case 'country':
 				$params['uitype'] = 16;
+				$params['maximumlength'] = '100';
 				foreach (\App\Fields\Country::getAll() as $country) {
 					$params['picklistValues'][$country['name']] = \App\Language::translateSingleMod($country['name'], 'Other.Country');
 				}
