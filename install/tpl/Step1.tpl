@@ -22,17 +22,14 @@
 							<div class="w-100">
 								<label for="lang"
 									   class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
-								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
+								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate"
+										data-template-selection="prependDataTemplate"
 										title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}"
 										style="width: 250px;">
-									{foreach key=key item=item from=$LANGUAGES}
-										{assign var=LANG_SHORT_KEY value=$key|truncate:2:""}
-										{if $LANG_SHORT_KEY == 'en'}
-											{assign var=LANG_SHORT_KEY value='us'}
-										{/if}
+									{foreach key=key item=ROW from=$LANGUAGES}
 										<option value="{$key}" {if $LANG eq $key}selected{/if} tabindex="0"
-												data-template="<span><span title='{$item}' class='flag-icon flag-icon-{$LANG_SHORT_KEY} mr-2'></span>{$item}</span>">
-											{$item}
+												data-template="<span><span title='{$ROW}' class='flag-icon flag-icon-{$ROW['region']} mr-2'></span>{$ROW['displayName']}</span>">
+											{$ROW['displayName']}
 										</option>
 									{/foreach}
 								</select></div>

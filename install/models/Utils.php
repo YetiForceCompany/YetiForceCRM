@@ -142,7 +142,10 @@ class Install_Utils_Model
 		$languages = [];
 		foreach ((new \DirectoryIterator('install/languages/')) as $item) {
 			if ($item->isDir() && !$item->isDot() && file_exists($item->getPathname() . DIRECTORY_SEPARATOR . 'Install.json')) {
-				$languages[$item->getBasename()] = \App\Language::getDisplayName($item->getBasename());
+				$languages[$item->getBasename()] = [
+					'displayName' => \App\Language::getDisplayName($item->getBasename()),
+					'region' => strtolower(\App\Language::getRegion($item->getBasename())),
+				];
 			}
 		}
 		return $languages;
