@@ -15,8 +15,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public const TYPES = [1 => 'LBL_TYPE_TARGET_USER', 2 => 'LBL_TYPE_INTEGRATOR', 3 => 'LBL_TYPE_PROVIDER'];
 
-	public static $logoPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'storage/CompaniesLogo';
-
 	/**
 	 * Function to get the Id.
 	 *
@@ -128,10 +126,10 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$value = $this->get($key);
 		switch ($key) {
 			case 'type':
-				$value = $this->getDisplayTypeValue((int) $value);
+				$value = \App\Language::translate(self::TYPES[$value], 'Settings::Companies');
 				break;
 			case 'status':
-				$value = $this->getDisplayStatusValue((int) $value);
+				$value = \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[(int) $value], 'Settings::Companies');
 				break;
 			case 'tabid':
 				$value = \App\Module::getModuleName($value);
@@ -143,52 +141,11 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Language::translateSingleMod($value, 'Other.Country');
 				break;
 			case 'logo':
-				$src = \App\Fields\File::getImageBaseData($this->getLogoPath());
-				$value = $src ? "<img src='$src' class='img-thumbnail sad'/>" : App\Language::translate('LBL_COMPANY_LOGO', 'Settings::Companies');
+				$src = \App\Purifier::encodeHtml($value);
+				$value = $src ? "<img src='$src' class='img-thumbnail sad'/>" : \App\Language::translate('LBL_COMPANY_LOGO', 'Settings::Companies');
 				break;
 			default:
 				break;
-		}
-		return $value;
-	}
-
-	/**
-	 * Get the displayed value for the type column.
-	 *
-	 * @param int $value
-	 *
-	 * @return string
-	 */
-	public function getDisplayTypeValue(int $value): string
-	{
-		return \App\Language::translate(self::TYPES[$value], 'Settings::Companies');
-	}
-
-	/**
-	 * Get the displayed value for the type column.
-	 *
-	 * @param int $value
-	 *
-	 * @return string
-	 */
-	public function getDisplayStatusValue(int $value): string
-	{
-		return \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[$value], 'Settings::Companies');
-	}
-
-	/**
-	 * Function to get the Display Value, for the checbox field type with given DB Insert Value.
-	 *
-	 * @param int $value
-	 *
-	 * @return string
-	 */
-	public function getDisplayCheckboxValue($value)
-	{
-		if (0 === $value) {
-			$value = \App\Language::translate('LBL_NO');
-		} else {
-			$value = \App\Language::translate('LBL_YES');
 		}
 		return $value;
 	}
@@ -240,20 +197,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Logo path to display.
-	 *
-	 * @return string path
-	 */
-	public function getLogoPath()
-	{
-		$logo = static::$logoPath . $this->getId();
-		if (file_exists($logo)) {
-			return $logo;
-		}
-		return '';
-	}
-
-	/**
 	 * Function to save company logos.
 	 *
 	 * @return array
@@ -263,11 +206,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($_FILES['logo']['name'])) {
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['logo']);
 			if ($fileInstance->validate('image')) {
-				$path = static::$logoPath . $this->getId();
-				if (file_exists($path)) {
-					unlink($path);
-				}
-				$fileInstance->moveFile($path);
+				$this->set('logo', \App\Fields\File::getImageBaseData($fileInstance->getPath()));
 			}
 		}
 	}
@@ -299,9 +238,11 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \Settings_Vtiger_Field_Model
 	 */
-	public function getFieldInstanceByName($name, $label)
+	public function getFieldInstanceByName($name, $label = '')
 	{
 		$moduleName = $this->getModule()->getName(true);
+		$labels = $this->getModule()->getFormFields();
+		$label = $label ? $label : ($labels[$name]['label'] ?? '');
 		$sourceModule = $this->get('SOURCE_MODULE');
 		$companyId = $this->getId();
 		$fieldName = $sourceModule === 'YetiForce' ? "companies[$companyId][$name]" : $name;

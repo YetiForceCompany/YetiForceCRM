@@ -21,42 +21,27 @@
 	<div class="detailViewInfo" id="groupsDetailContainer">
 		<div class="">
 			<form id="detailView" class="form-horizontal" method="POST">
-				{if $COMPANY_COLUMNS}
-					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-					<table class="table table-bordered">
-						<thead>
-						<tr class="blockHeader">
-							<th colspan="2"
-								class="{$WIDTHTYPE}">{App\Language::translate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</th>
+				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+				<table class="table table-bordered">
+					<thead>
+					<tr class="blockHeader">
+						<th colspan="2"
+							class="{$WIDTHTYPE}">{App\Language::translate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</th>
+					</tr>
+					</thead>
+					<tbody>
+					{foreach from=$RECORD_MODEL->getModule()->getNameFields() item=COLUMN}
+						<tr>
+							<td class="{$WIDTHTYPE} w-25"><label
+										class="float-right">{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}</label>
+							</td>
+							<td class="{$WIDTHTYPE}">
+								{$RECORD_MODEL->getDisplayValue($COLUMN)}
+							</td>
 						</tr>
-						</thead>
-						<tbody>
-						{foreach from=$COMPANY_COLUMNS item=COLUMN}
-							{if $COLUMN neq 'logo'}
-								{if $COLUMN neq 'id'}
-									<tr>
-										<td class="{$WIDTHTYPE} w-25"><label
-													class="float-right">{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}</label>
-										</td>
-										<td class="{$WIDTHTYPE}">
-											{$RECORD_MODEL->getDisplayValue($COLUMN)}
-										</td>
-									</tr>
-								{/if}
-							{else}
-								<tr>
-									<td class="{$WIDTHTYPE} w-25"><label
-												class="float-right">{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}</label>
-									</td>
-									<td class="{$WIDTHTYPE}">
-										{$RECORD_MODEL->getDisplayValue($COLUMN)}
-									</td>
-								</tr>
-							{/if}
-						{/foreach}
-						</tbody>
-					</table>
-				{/if}
+					{/foreach}
+					</tbody>
+				</table>
 			</form>
 		</div>
 	</div>
