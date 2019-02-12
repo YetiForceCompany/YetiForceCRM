@@ -2,7 +2,7 @@
 {strip}
 	<button class="js-widget-predefined btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle u-remove-dropdown-icon{if !$WIDGETS|count gt 0} d-none{/if} tpl-Base-dashboards-DashBoardWidgetsList"
 			data-js="class: d-none" data-toggle="dropdown">
-				<span class="c-icon--tripple mr-md-2">
+				<span class="c-icon--tripple">
 					<span class="c-icon--tripple__top fas fa-chart-pie"></span>
 					<span class="c-icon--tripple__left fas fa-chart-line"></span>
 					<span class="c-icon--tripple__right fas fa-chart-area"></span>
