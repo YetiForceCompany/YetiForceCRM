@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -53,18 +54,9 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	 */
 	public function prepareCompanies(): array
 	{
-		$data = ['users' => [], 'integrators' => [], 'suppliers' => []];
+		$data = [];
 		foreach (\App\Company::getAll() as $company) {
-			switch ($company['type']) {
-				case 2:
-					$key = 'integrators';
-					break;
-				case 3:
-					$key = 'suppliers';
-					break;
-				default:
-					$key = 'users';
-			}
+			$key = \Settings_Companies_Record_Model::TYPES[$company['type']];
 			$data[$key][] = $company;
 		}
 		return $data;

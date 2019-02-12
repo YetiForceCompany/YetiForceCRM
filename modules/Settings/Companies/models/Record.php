@@ -6,9 +6,15 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
+	/**
+	 * List of types.
+	 */
+	public const TYPES = [1 => 'LBL_TYPE_TARGET_USER', 2 => 'LBL_TYPE_INTEGRATOR', 3 => 'LBL_TYPE_PROVIDER'];
+
 	public static $logoPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'storage/CompaniesLogo';
 
 	/**
@@ -155,19 +161,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayTypeValue(int $value): string
 	{
-		switch ($value) {
-			case 1:
-				$label = 'LBL_TYPE_TARGET_USER';
-				break;
-			case 2:
-				$label = 'LBL_TYPE_INTEGRATOR';
-				break;
-			case 3:
-			default:
-				$label = 'LBL_TYPE_PROVIDER';
-				break;
-		}
-		return \App\Language::translate($label, 'Settings::Companies');
+		return \App\Language::translate(self::TYPES[$value], 'Settings::Companies');
 	}
 
 	/**
