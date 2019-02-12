@@ -270,7 +270,10 @@ class Completions
 		if (!\App\User::isExists($userId)) {
 			$html = \App\Language::translate('LBL_RECORD_NOT_FOUND');
 		} else {
-			$html = "<a class=\"js-completions__tag\" href=\"#\" data-id=\"@$userId\" data-js=\"click\">" .
+			$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $userId);
+			$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
+			$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&parent=Settings&view=Detail&record={$userId}" : '#';
+			$html = "<a class=\"js-completions__tag $popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$userId\" data-js=\"click\">" .
 				\App\User::getUserModel($userId)->getName() .
 				'</a>';
 		}
