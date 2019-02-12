@@ -34,6 +34,9 @@ class Gantt {
 				workingDays
 			},
 			style: {
+				'chart-expander-wrapper': {
+					'line-height': '1'
+				},
 				'chart-row-bar-polygon': {
 					'stroke': '#E74C3C00',
 					'stroke-width': 0,
