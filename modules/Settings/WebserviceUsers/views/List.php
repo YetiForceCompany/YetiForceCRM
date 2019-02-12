@@ -35,7 +35,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
+		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 'Standard'));
 		parent::process($request);
 	}
 
