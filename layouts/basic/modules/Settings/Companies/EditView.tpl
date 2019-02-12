@@ -22,7 +22,7 @@
 					{if !empty(RECORD_ID)}
 						<input type="hidden" name="id" value="{$RECORD_ID}"/>
 					{/if}
-					{include file=\App\Layout::getTemplatePath('RegistrationForm.tpl','Settings::YetiForce') MODULE_NAME=$QUALIFIED_MODULE COMPANY_ID=$RECORD_ID}
+					{include file=\App\Layout::getTemplatePath('Form.tpl',$QUALIFIED_MODULE) MODULE_NAME=$QUALIFIED_MODULE COMPANY_ID=$RECORD_ID}
 				</div>
 				<div class="card-footer text-center">
 					<button class="btn btn-success mr-1" type="submit">

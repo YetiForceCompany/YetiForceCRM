@@ -7,8 +7,6 @@
 			{else}
 				{assign var="RECORD" value=Settings_Companies_Record_Model::getCleanInstance()}
 			{/if}
-			{assign var="SOURCE_MODULE" value=$RECORD->set('SOURCE_MODULE',$MODULE_NAME)}
-			{assign var="MODULE_TRANSLATION" value="Settings::Companies"}
 			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD->getModule()->getFormFields()}
 				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false}
 					{continue}
@@ -19,7 +17,7 @@
 				{elseif $FIELD_NAME === 'type'}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
-							<b>{App\Language::translate($FIELD['label'], $MODULE_TRANSLATION)}</b>
+							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -28,21 +26,21 @@
 									<input value="1" type="radio" name="type" id="option1"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==1} checked{/if}>
-									{\App\Language::translate('LBL_TYPE_TARGET_USER',$MODULE_TRANSLATION)}
+									{\App\Language::translate('LBL_TYPE_TARGET_USER',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===2} active{/if}"
 									   for="option2">
 									<input value="2" type="radio" name="type" id="option2"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==2} checked{/if}>
-									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$MODULE_TRANSLATION)}
+									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===3} active{/if}"
 									   for="option3">
 									<input value="3" type="radio" name="type" id="option3"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==3} checked{/if}>
-									{\App\Language::translate('LBL_TYPE_PROVIDER',$MODULE_TRANSLATION)}
+									{\App\Language::translate('LBL_TYPE_PROVIDER',$QUALIFIED_MODULE)}
 								</label>
 							</div>
 						</div>
@@ -64,14 +62,14 @@
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_NAME === 'newsletter'}
 								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
-									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $MODULE_TRANSLATION,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $MODULE_TRANSLATION)}</a>"))}">
+									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $QUALIFIED_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $QUALIFIED_MODULE)}</a>"))}">
 									<span class="fas fa-info-circle"></span>
 								</div>
 							{/if}
 							{if $FIELD_MODEL->isMandatory() eq true}
 								<span class="redColor">*</span>
 							{/if}
-							<b>{App\Language::translate($FIELD['label'], $MODULE_TRANSLATION)}</b>
+							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
