@@ -11,7 +11,15 @@ var Settings_Index_Js = {
 			Settings_Index_Js.LoadEditLang(this)
 		});
 		container.find('.js-add-languages-modal').on('click', () => {
-			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal');
+			const progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal', () => {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
 		});
 		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
 		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
