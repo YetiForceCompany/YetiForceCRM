@@ -248,7 +248,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'user_id':
 				return \App\Fields\Owner::getLabel($this->get($name));
 			case 'language':
-				return \App\Language::getAll()[$this->get($name)] ?? '';
+				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
 
