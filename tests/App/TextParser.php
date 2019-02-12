@@ -282,8 +282,6 @@ class TextParser extends \Tests\Base
 
 		$text = '+ $(employee : name)$ +';
 
-		var_dump(\Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name'), $employeeModel->getId());
-
 		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
