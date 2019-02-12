@@ -5,7 +5,7 @@
 		{App\Language::translate('LBL_NEWSLETTER','Settings:SystemWarnings')}
 	</h6>
 	<p><strong>{App\Language::translate('LBL_NEWSLETTER_NO_COMPANY_DATA','Settings:SystemWarnings')}</strong></p>
-	<p>{App\Language::translate('LBL_NEWSLETTER_DESC','Settings:SystemWarnings')}</p>
+	<p>{App\Language::translate('LBL_EMAIL_NEWSLETTER_INFO','Settings:Companies')}</p>
 	<form class="validateForm" method="post" action="index.php">
 		<div class="float-right mr-2">
 			<a href="index.php?module=Companies&parent=Settings&view=List&displayModal=online" target="_blank"
