@@ -1824,6 +1824,7 @@ var AppConnector,
 								{
 									text: app.vtranslate('JS_OK'),
 									primary: true,
+									promptTrigger: true,
 									click: function (notice) {
 										notice.close();
 										confirmCallback();
