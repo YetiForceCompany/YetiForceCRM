@@ -1,10 +1,10 @@
 <?php
 /**
- * Cron - Send notifications via mail
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Cron - Send notifications via mail.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'include/main/WebUI.php';
 $notifications = new Cron_Notification();
@@ -15,17 +15,18 @@ $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
+$dataReader->close();
 if (\AppConfig::module('Notification', 'AUTO_MARK_NOTIFICATIONS_READ_AFTER_EMAIL_SEND')) {
 	$notifications->markAsRead();
 }
 
 class Cron_Notification
 {
-
 	const MODULE_NAME = 'Notification';
 
 	/**
-	 * Function executes the sending notifications action
+	 * Function executes the sending notifications action.
+	 *
 	 * @param array $row
 	 */
 	public function executeScheduled($row)
@@ -36,11 +37,12 @@ class Cron_Notification
 			$endDate = $this->getEndDate($currentTime, $timestampEndDate, $row['frequency']);
 			if (\App\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
 				\App\Mailer::sendFromTemplate([
+					'moduleName' => 'Notification',
 					'template' => 'SendNotificationsViaMail',
 					'to' => \App\User::getUserModel($row['userid'])->getDetail('email1'),
 					'startDate' => $row['last_execution'],
 					'endDate' => $endDate,
-					'userId' => $row['userid']
+					'userId' => $row['userid'],
 				]);
 			}
 			\App\Db::getInstance()->createCommand()
@@ -50,24 +52,29 @@ class Cron_Notification
 	}
 
 	/**
-	 * Function checks if notification exists
-	 * @param int $userId
+	 * Function checks if notification exists.
+	 *
+	 * @param int    $userId
 	 * @param string $startDate
 	 * @param string $endDate
+	 *
 	 * @return int
 	 */
 	private function existNotifications($userId, $startDate, $endDate)
 	{
 		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule($userId, true);
 		$modules = $scheduleData['modules'];
+
 		return Notification_Module_Model::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
 	}
 
 	/**
-	 * Function get date
+	 * Function get date.
+	 *
 	 * @param string $currentTime
 	 * @param string $timestampEndDate
-	 * @param int $frequency
+	 * @param int    $frequency
+	 *
 	 * @return string
 	 */
 	private function getEndDate($currentTime, $timestampEndDate, $frequency)
@@ -79,21 +86,22 @@ class Cron_Notification
 	}
 
 	/**
-	 * Function get date
+	 * Function get date.
+	 *
 	 * @param string $currentTime
 	 * @param string $timestampEndDate
-	 * @param int $frequency
+	 * @param int    $frequency
 	 */
 	public function markAsRead()
 	{
 		$notifications = (new \App\Db\Query())
-				->select(['smownerid', 'crmid'])
-				->from('u_#__notification')
-				->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
-				->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
-				->createCommand()->queryAllByGroup(2);
-		foreach ($notifications as $userId => $noticesByUser) {
+			->select(['smownerid', 'crmid'])
+			->from('u_#__notification')
+			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
+			->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
+			->createCommand()->queryAllByGroup(2);
+		foreach ($notifications as $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, 0, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
 				$notice = Vtiger_Record_Model::getInstanceById($noticeId);

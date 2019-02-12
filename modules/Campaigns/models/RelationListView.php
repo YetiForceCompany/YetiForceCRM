@@ -10,9 +10,9 @@
 
 class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-
 	/**
-	 * Function to get the links for related list
+	 * Function to get the links for related list.
+	 *
 	 * @return Vtiger_Link_Model[] List of action models Vtiger_Link_Model
 	 */
 	public function getLinks()
@@ -21,17 +21,15 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 		$relationModel = $this->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
-		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			if ($relatedModuleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
-				$emailLink = Vtiger_Link_Model::getInstanceFromValues([
-						'linktype' => 'LISTVIEWBASIC',
-						'linklabel' => \App\Language::translate('LBL_SEND_EMAIL', $relatedModuleName),
-						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",
-						'linkicon' => 'glyphicon glyphicon-envelope'
-				]);
-				$emailLink->set('_sendEmail', true);
-				$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
-			}
+		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition']) && $relatedModuleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
+			$emailLink = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => \App\Language::translate('LBL_SEND_EMAIL', $relatedModuleName),
+				'linkurl' => 'javascript:Campaigns_RelatedList_Js.triggerSendEmail();',
+				'linkicon' => 'fas fa-envelope',
+			]);
+			$emailLink->set('_sendEmail', true);
+			$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
 		}
 		return $relatedLinks;
 	}

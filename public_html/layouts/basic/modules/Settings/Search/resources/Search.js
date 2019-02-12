@@ -1,19 +1,21 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 var Settings_Index_Js = {
 	updatedBlockFieldsList: [],
 	initEvants: function () {
-		$('.SearchFieldsEdit .fieldname').on('change',Settings_Index_Js.save);
-		$('.SearchFieldsEdit .searchcolumn').on('change',Settings_Index_Js.save);
-		$('.SearchFieldsEdit .updateLabels').on('click',Settings_Index_Js.updateLabels);
-		$('.SearchFieldsEdit .editLabels').on('click',Settings_Index_Js.editLabels);
-		$('.SearchFieldsEdit .turn_off').on('click',Settings_Index_Js.replacement);
+		$('.SearchFieldsEdit .fieldname').on('change', Settings_Index_Js.save);
+		$('.SearchFieldsEdit .searchcolumn').on('change', Settings_Index_Js.save);
+		$('.SearchFieldsEdit .updateLabels').on('click', Settings_Index_Js.updateLabels);
+		$('.SearchFieldsEdit .editLabels').on('click', Settings_Index_Js.editLabels);
+		$('.SearchFieldsEdit .turn_off').on('click', Settings_Index_Js.replacement);
 	},
 	replacement: function (e) {
 		var target = $(e.currentTarget);
 		if (parseInt(target.val())) {
-			target.val(0).html(app.vtranslate('JS_TURN_ON'));
+			target.val(0).html('<span class="fas fa-power-off u-mr-5px"></span>' + app.vtranslate('JS_TURN_ON'));
 		} else {
-			target.val(1).html(app.vtranslate('JS_TURN_OFF'));
+			target.val(1).html('<span class="fas fa-power-off u-mr-5px"></span>' + app.vtranslate('JS_TURN_OFF'));
 		}
 		target.toggleClass("btn-success btn-danger");
 		Settings_Index_Js.save(e);
@@ -21,7 +23,7 @@ var Settings_Index_Js = {
 	updateLabels: function (e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
-		if(!closestTrElement.hasClass('ui-sortable-handle')){
+		if (!closestTrElement.hasClass('ui-sortable-handle')) {
 			closestTrElement = closestTrElement.prev();
 		}
 		Settings_Index_Js.registerSaveEvent('updateLabels', {
@@ -29,12 +31,19 @@ var Settings_Index_Js = {
 		});
 	},
 	editLabels: function (e) {
-		var target = $(e.currentTarget);
-		var tabId = target.data('tabid');
-		var closestTrElement = target.closest('tr');
-		jQuery('.elementLabels'+tabId).addClass('hide');
-		var e = jQuery('.elementEdit'+tabId).removeClass('hide');
-		Settings_Index_Js.registerSelectElement(e.find('select'));
+		let tabId = $(e.currentTarget).data('tabid'),
+			select = $('.elementEdit' + tabId).removeClass('d-none').find('[data-select-cb="registerSelectSortable"]');
+
+		$('.elementLabels' + tabId).addClass('d-none');
+		App.Fields.Picklist.showSelect2ElementView(select, {
+			sortableCb: (currentSelect) => {
+				Settings_Index_Js.registerSaveEvent('save', {
+					name: currentSelect.attr('name'),
+					value: currentSelect.val(),
+					tabid: currentSelect.data('tabid'),
+				});
+			}
+		});
 	},
 	save: function (e) {
 		var target = $(e.currentTarget);
@@ -42,7 +51,7 @@ var Settings_Index_Js = {
 			name: target.attr('name'),
 			value: target.val(),
 			tabid: target.data('tabid'),
-		});		
+		});
 	},
 	registerSaveEvent: function (mode, data) {
 		var progress = $.progressIndicator({
@@ -63,23 +72,17 @@ var Settings_Index_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-					progress.progressIndicator({'mode': 'hide'});
-				},
-				function (data, err) {
-					app.errorLog(data, err);
-					progress.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+			progress.progressIndicator({'mode': 'hide'});
+		}).fail(function (data, err) {
+			progress.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * Function to regiser the event to make the modules sortable
@@ -119,7 +122,7 @@ var Settings_Index_Js = {
 		var layout = jQuery('.SearchFieldsEdit');
 		var saveButton = layout.find('.saveModuleSequence');
 		thisInstance.updatedBlockFieldsList = [];
-		saveButton.removeClass('hide');
+		saveButton.removeClass('d-none');
 	},
 	/**
 	 * Function which will hide the saveModuleSequence button
@@ -127,7 +130,7 @@ var Settings_Index_Js = {
 	hideSaveModuleSequenceButton: function () {
 		var layout = jQuery('.SearchFieldsEdit');
 		var saveButton = layout.find('.saveModuleSequence');
-		saveButton.addClass('hide');
+		saveButton.addClass('d-none');
 	},
 	/**
 	 * Function will save the field sequences
@@ -147,17 +150,14 @@ var Settings_Index_Js = {
 		params['mode'] = 'saveSequenceNumber';
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
-		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var params = {};
-					params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			var params = {};
+			params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
+			Settings_Vtiger_Index_Js.showMessage(params);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * Function to create the list of updated modules and their sequences
@@ -187,27 +187,6 @@ var Settings_Index_Js = {
 			thisInstance.createUpdatedSequenceModulesList();
 			thisInstance.updateModulesSequence();
 		});
-	},
-	registerSelectElement: function (element) {
-			var value = element.val();
-			if(!element.hasClass('selectized')){
-				element.selectize({plugins: ['drag_drop', 'remove_button'],
-					onChange: function (value) {
-						if(value.length > 1){
-							jQuery(this.$control[0]).find('.remove').removeClass('hide');
-						}else{
-							jQuery(this.$control[0]).find('.remove').addClass('hide');
-						}
-					},
-					onInitialize: function () {
-						if(this.items.length > 1){
-							jQuery(this.$control[0]).find('.remove').removeClass('hide');
-						}else{
-							jQuery(this.$control[0]).find('.remove').addClass('hide');
-						}
-					},
-				})
-			}
 	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();

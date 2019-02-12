@@ -11,9 +11,9 @@
 
 class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -33,6 +33,7 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					$fieldModel->set('rocordId', $recordId);
 					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
 						$fieldModel->set('editable', $currentUserModel->getId() !== $recordId);
 						$fieldValue = false;
@@ -51,6 +52,7 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 			}
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

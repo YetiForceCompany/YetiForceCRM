@@ -6,35 +6,41 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
-		<div class="col-xs-12 col-sm-12 col-md-8">
+	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+		<div class="u-min-w-md-70 w-100">
 			<div>
-				<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 					<span class="moduleIcon">
-						{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
-						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-							{if !empty($IMAGE_INFO.path)}
-								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" width="65" height="80" align="left"><br />
-							{/if}
-						{foreachelse}
-							<span class="detailViewIcon userIcon-{$MODULE}"></span>
-						{/foreach}
+						{assign var=IMAGE value=$RECORD->getImage()}
+						{if $IMAGE}
+							<img class="pushDown js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
+							<br/>
+						{else}
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}" data-js="click"></span>
+						{/if}
+						{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+							<span class="hierarchy">
+								<span class="badge bgGreen"></span>
+							</span>
+						{/if}
 					</span>
 				</div>
-				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true)}&nbsp;{$RECORD->getName()}">
-					{if $RECORD->getDisplayValue('salutationtype')}
-						<span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
-					{/if}
-					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true))} {\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
+					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
+						{if $RECORD->getDisplayValue('salutationtype')}
+							<span class="salutation mr-1">{$RECORD->getDisplayValue('salutationtype')}</span>
+						{/if}
+						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					</h4>
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
-						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
@@ -42,21 +48,30 @@
 							{/if}
 						</span>
 					{/if}
-				</h4>
-			</div>
-			<div class="paddingLeft5px">
-				{$RECORD->getDisplayValue('parent_id')}
-				<div>
-					<span class="muted">
-						{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
-						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-						{if $SHOWNERS != ''}
-							<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
-						{/if}
-					</span>
 				</div>
 			</div>
+			<div class="pl-1">
+				{$RECORD->getDisplayValue('parent_id')}
+				<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
+					<span class="mr-1 text-muted u-white-space-nowrap">
+						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
+					</span>
+					<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('assigned_user_id')}</span>
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
+				</div>
+				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+				{if $SHOWNERS != ''}
+					<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter">
+						<span class="mr-1 text-muted u-white-space-nowrap">
+							{\App\Language::translate('Share with users',$MODULE_NAME)}:
+						</span>
+						<span class="js-popover-text" data-js="clone">{$SHOWNERS}</span>
+						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
+					</div>
+				{/if}
+			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
 {/strip}

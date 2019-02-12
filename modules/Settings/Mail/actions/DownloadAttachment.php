@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Mail download attachment action model class
- * @package YetiForce.Settings.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * Mail download attachment action model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * Checking permission 
+	 * Checking permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
@@ -24,32 +25,24 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
-		$id = $request->get('record');
-		$selectedFile = (int) $request->get('selectedFile');
+		$id = $request->getInteger('record');
+		$selectedFile = $request->getInteger('selectedFile');
 		$filePath = Settings_Mail_Module_Model::getAttachmentPath($id, $selectedFile);
 		if (file_exists($filePath)) {
-			header('Content-Description: File Transfer');
-			header('Content-Type: application/octet-stream');
-			header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate');
-			header('Pragma: public');
-			header('Content-Length: ' . filesize($filePath));
+			header('content-description: File Transfer');
+			header('content-type: application/octet-stream');
+			header('content-disposition: attachment; filename="' . basename($filePath) . '"');
+			header('expires: 0');
+			header('cache-control: must-revalidate');
+			header('pragma: public');
+			header('content-length: ' . filesize($filePath));
 			readfile($filePath);
 		}
-	}
-
-	/**
-	 * Validate Request
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateReadAccess();
 	}
 }

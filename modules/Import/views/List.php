@@ -9,8 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_List_View extends Vtiger_Popup_View
+class Import_List_View extends \App\Controller\View
 {
+	use \App\Controller\ExposeMethod;
 
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
@@ -29,7 +30,8 @@ class Import_List_View extends Vtiger_Popup_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -42,13 +44,11 @@ class Import_List_View extends Vtiger_Popup_View
 			$this->initializeListViewContents($request, $viewer);
 			$moduleName = $request->getByType('forModule');
 			$viewer->assign('MODULE_NAME', $moduleName);
-
-			$viewer->view('Popup.tpl', $moduleName);
+			$viewer->view('ImportPreview.tpl', 'Import');
 		}
 	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
+
+	// Function to initialize the required data in smarty to display the List View Contents
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
@@ -62,12 +62,12 @@ class Import_List_View extends Vtiger_Popup_View
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "downArrowSmall.png";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'downArrowSmall.png';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "upArrowSmall.png";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'upArrowSmall.png';
 		}
 
 		if (empty($pageNumber)) {
@@ -94,7 +94,6 @@ class Import_List_View extends Vtiger_Popup_View
 		$noOfEntries = count($this->listViewEntries);
 		$viewer->assign('MODULE', $moduleName);
 
-
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 
@@ -118,8 +117,7 @@ class Import_List_View extends Vtiger_Popup_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$forModule = $request->getByType('forModule');
-		$user = Users_Record_Model::getCurrentUserModel();
-		$importRecords = Import_Data_Action::getImportDetails($user, $forModule);
+		$importRecords = Import_Data_Action::getImportDetails(\App\User::getCurrentUserModel(), $forModule);
 		$viewer->assign('IMPORT_RECORDS', $importRecords);
 		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('MODULE', $moduleName);

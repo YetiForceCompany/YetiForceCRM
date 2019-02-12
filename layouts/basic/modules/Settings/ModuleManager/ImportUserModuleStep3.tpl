@@ -10,55 +10,59 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="importModules">
+	<div class="tpl-Settings-ModuleManager-ImportUserModuleStep3" id="importModules">
 		<div class='widget_header row '>
-			<div class="col-xs-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
+			<div class="col-12">
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="contents">
-			<div class="">
+			<div>
 				<div id="vtlib_modulemanager_import_div">
 					<form method="POST" action="index.php">
 						<table class="table table-bordered">
 							<thead>
-								<tr class="blockHeader">
-									<th colspan="2"><strong>{\App\Language::translate('LBL_IMPORTING_MODULE',$QUALIFIED_MODULE)}</strong></th>
-								</tr>
+							<tr class="blockHeader">
+								<th colspan="2">
+									<strong>{\App\Language::translate('LBL_IMPORTING_MODULE',$QUALIFIED_MODULE)}</strong>
+								</th>
+							</tr>
 							</thead>
 							<tbody>
-								<tr valign=top>
-									<td class='cellText small'>
-										{if $MODULEIMPORT_ERROR}
-											<div class="alert alert-warning">
-												<div class="modal-header">
-													<h3>{\App\Language::translate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
-												</div>
-												<div class="modal-body">
-													<p><b>{\App\Language::translate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
-												</div>
+							<tr valign=top>
+								<td class='cellText small'>
+									{if isset($MODULEIMPORT_ERROR) && $MODULEIMPORT_ERROR}
+										<div class="alert alert-warning">
+											<div class="modal-header">
+												<h3>{\App\Language::translate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
 											</div>
+											<div class="modal-body">
+												<p>
+													<b>{\App\Language::translate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b>
+												</p>
+											</div>
+										</div>
+									{else}
+										{if $IMPORT_MODULE_TYPE eq 'Language'}
+											{\App\Language::translate('LBL_IMPORTED_LANGUAGE', $QUALIFIED_MODULE)}
+										{else if $IMPORT_MODULE_TYPE eq 'extension'}
+											{\App\Language::translate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
+										{else if $IMPORT_MODULE_TYPE eq 'update'}
+											{\App\Language::translate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
+										{else if $IMPORT_MODULE_TYPE eq 'font'}
+											{\App\Language::translate('LBL_IMPORTED_FONT', $QUALIFIED_MODULE)}
 										{else}
-											{if $IMPORT_MODULE_TYPE eq 'Language'}
-												{\App\Language::translate('LBL_IMPORTED_LANGUAGE', $QUALIFIED_MODULE)}
-											{else if $IMPORT_MODULE_TYPE eq 'extension'}
-												{\App\Language::translate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
-											{else if $IMPORT_MODULE_TYPE eq 'update'}
-												{\App\Language::translate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
-											{else}
-												{\App\Language::translate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
-											{/if}
+											{\App\Language::translateArgs('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
 										{/if}
-									</td>
-								</tr>
+									{/if}
+								</td>
+							</tr>
 							</tbody>
 						</table>
-						<div class="modal-footer">
-							<a href="index.php?module=ModuleManager&parent=Settings&view=List" class="btn btn-success"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></a>
-						</div>
+						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button"
+						   class="btn btn-success"><span
+									class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						</a>
 					</form>
 				</div>
 			</div>

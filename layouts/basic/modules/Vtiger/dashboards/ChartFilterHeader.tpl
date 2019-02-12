@@ -1,52 +1,44 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="dashboardWidgetHeader">
-		<div class="row">
-			<div class="col-md-7">
-				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
-			</div>
-			<div class="col-md-5">
-				<div class="box pull-right">
-					<button class="btn btn-xs btn-default downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
-					</button>&nbsp;
-					<button class="btn btn-xs btn-default printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="glyphicon glyphicon-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
-					</button>&nbsp;
-					<button class="btn btn-xs btn-default recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}">
-						<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
-						<a class="pull-left hide" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
-							<span class="count badge pull-left"></span>
+		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
+			<div class="d-inline-flex">
+				<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
+					<span class="far fa-arrow-alt-circle-down"></span>
+				</button>&nbsp;
+				<button class="btn btn-sm btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
+					<span class="fas fa-print"></span>
+				</button>&nbsp;
+				{if count($CHART_MODEL->getFilterIds())<=1}
+					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
+						<span class="fas fa-signal" aria-hidden="false"></span>
+						<a class="d-none" aria-hidden="true" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
+							<span class="count badge badge-secondary"></span>
 						</a>
 					</button>
-					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
-				</div>
+				{/if}
+				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
-		{if $WIDGET_DATA['timeRange'] || $WIDGET_DATA['showOwnerFilter']}
-			<hr class="widgetHr" />
+		{if !empty($WIDGET_DATA['additionalFiltersFields'])}
+			<hr class="widgetHr"/>
 		{/if}
-		<div class="row">
-			{if $WIDGET_DATA['timeRange']}
-				<div class="col-md-6">
-					<div class="input-group input-group-sm">
-						<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" />
-					</div>	
-				</div>
+		{foreach item=FIELD from=$ADDITIONAL_FILTERS_FIELDS key=COUNTER}
+			{assign var=FIELD_UI_TYPE_MODEL value=$FIELD->getUITypeModel()}
+			{assign var=FIELD_NAME value=$FIELD->getName()}
+			{if isset($SEARCH_DETAILS[$FIELD_NAME])}
+				{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$FIELD_NAME]}
+			{else}
+				{assign var=SEARCH_INFO value=[]}
 			{/if}
-			{if $WIDGET_DATA['showOwnerFilter']}
-				<div class="col-md-6 ownersFilter">
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span></span>
-						<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
-							<option value="0">{\App\Language::translate('LBL_ALL_OWNERS','Home')}</option>
-						</select>
-					</div>
+			{if $COUNTER % 2 === 0}<div class="row no-gutters">{/if}
+				<div class="col-ceq-xsm-6">
+					{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE=$WIDGET_DATA['module'] CLASS_SIZE='input-group-sm'}
 				</div>
-			{/if}
-		</div>
+			{if $COUNTER % 2 !==0 || $COUNTER===count($ADDITIONAL_FILTERS_FIELDS)-1}</div>{/if}
+		{/foreach}
 	</div>
 	<div class="dashboardWidgetContent">
 		{include file=\App\Layout::getTemplatePath('dashboards/ChartFilterContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}

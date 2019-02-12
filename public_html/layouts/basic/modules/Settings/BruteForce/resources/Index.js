@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 	container: false,
 	getContainer: function () {
@@ -8,25 +10,21 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 		return this.container;
 	},
 	saveAjax: function (mode, params) {
-		app.saveAjax(mode, params).then(
-				function (data) {
-					var response = data.result;
-					var params = {
-						text: app.vtranslate(response.message),
-						type: 'info'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (textStatus, errorThrown) {
-					Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION')});
-					app.errorLog(textStatus, errorThrown);
-				}
-		);
+		app.saveAjax(mode, params).done(function (data) {
+			var response = data.result;
+			var params = {
+				text: app.vtranslate(response.message),
+				type: 'info'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+		}).fail(function (textStatus, errorThrown) {
+			Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION')});
+			app.errorLog(textStatus, errorThrown);
+		});
 	},
 	registerSwitchEvents: function () {
-		this.getContainer().find('.switchBtn[name="sent"]').on('switchChange.bootstrapSwitch', function (e, state) {
-			var element = jQuery(e.currentTarget);
-			element.closest('.form-group').find('.selectedUsersForm').toggleClass('hide');
+		this.getContainer().find('.js-switch--sent').on('change', (e) => {
+			$(e.currentTarget).closest('.form-group').find('.selectedUsersForm').toggleClass('d-none');
 		});
 	},
 	registerEvents: function () {
@@ -39,6 +37,7 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 				var paramsForm = form.serializeFormData();
 				paramsForm['active'] = form.find('[name="active"]').prop('checked') ? 1 : 0;
 				paramsForm['sent'] = form.find('[name="sent"]').prop('checked') ? 1 : 0;
+				delete paramsForm['__vtrftk'];
 				thisInstance.saveAjax(form.data('mode'), paramsForm);
 				return false;
 			} else {
@@ -54,7 +53,7 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 				}
 			});
 			var element = jQuery(e.currentTarget);
-			app.saveAjax('unBlock', element.data('id')).then(function (data) {
+			app.saveAjax('unBlock', element.data('id')).done(function (data) {
 				var response = data.result;
 				var params = {text: app.vtranslate(response.message)};
 				if (response.success) {

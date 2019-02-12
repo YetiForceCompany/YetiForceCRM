@@ -11,37 +11,38 @@
 
 class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \vtlib\Functions::textLength(\App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName()), is_int($length) ? $length : false);
+		$displayValue = \App\TextParser::textTruncate(\App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName()), is_int($length) ? $length : false);
 		if (\App\User::getCurrentUserModel()->isAdmin() && $rawText !== false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
+
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml($displayValue) . '</a>';
 		}
 		return $displayValue;
 	}
 
 	/**
-	 * Function to get all the available picklist values for the current field
+	 * Function to get all the available picklist values for the current field.
+	 *
 	 * @return string[]
 	 */
 	public function getPicklistValues()
@@ -55,22 +56,51 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	}
 
 	/**
-	 * Function searches for value data
+	 * Function searches for value data.
+	 *
 	 * @param string $value
+	 *
 	 * @return string[]
 	 */
 	public function getSearchValues($value)
 	{
-		$roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
-				->createCommand()->queryAllByGroup();
-		return $roles;
+		return (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
+			->createCommand()->queryAllByGroup();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/UserRoleFieldSearchView.tpl';
+		return 'List/Field/UserRole.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'c'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/UserRole.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if ($operator === 'e') {
+			return 'ConditionBuilder/UserRole.tpl';
+		} else {
+			return 'ConditionBuilder/Base.tpl';
+		}
 	}
 }

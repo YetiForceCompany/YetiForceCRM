@@ -6,7 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
+'use strict';
 
 jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	//stores the module that need to be searched
@@ -26,7 +26,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (this.searchModule === false) {
 			//default gives current module
 			var module = app.getModuleName();
-			if (typeof this.getCurrentSearchModule() != 'undefined') {
+			if (typeof this.getCurrentSearchModule() !== "undefined") {
 				module = this.getCurrentSearchModule();
 			}
 
@@ -42,7 +42,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		return this;
 	},
 	/**
-	 * Function to set main conatainer 
+	 * Function to set main conatainer
 	 */
 	setMainContainer: function (container) {
 		this.mainConatiner = container;
@@ -62,23 +62,30 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	 */
 	_search: function (params) {
 		var aDeferred = jQuery.Deferred();
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
-		params.module = app.getModuleName();
+		if (params.searchModule && params.searchModule !== '-') {
+			params.module = params.searchModule;
+		} else {
+			params.module = app.getModuleName();
+		}
 		params.view = 'BasicAjax';
 		params.mode = 'showSearchResults';
 		params.limit = this.reduceNumberResults;
 		params.html = this.returnHtml;
-		if(app.getParentModuleName()){
-			params.parent = app.getParentModuleName()
+		if (app.getParentModuleName()) {
+			params.parent = app.getParentModuleName();
 		}
-		if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
-			params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
+		params.operator = CONFIG.globalSearchDefaultOperator;
+		if (this.mainContainer) {
+			if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
+				params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
+			}
 		}
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			aDeferred.resolve(data);
-		}, function (error, err) {
+		}).fail(function (error, err) {
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
@@ -90,8 +97,10 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		var searchModule = this.getCurrentSearchModule();
 		var params = {};
 		params.value = value;
-		if (typeof searchModule != 'undefined') {
+		if (typeof searchModule !== "undefined" && searchModule !== false) {
 			params.searchModule = searchModule;
+		} else if (this.searchModule) {
+			params.searchModule = this.searchModule;
 		}
 		return this._search(params);
 	},
@@ -101,8 +110,6 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	showSearchResults: function (data) {
 		var aDeferred = jQuery.Deferred();
 		var postLoad = function (data) {
-			var body = jQuery(data).find('.contents');
-			//app.showScrollBar(body,{'height':'600px','railVisible':'true'});
 			aDeferred.resolve(data);
 		};
 		var params = {};

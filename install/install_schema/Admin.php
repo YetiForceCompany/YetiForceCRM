@@ -1,16 +1,16 @@
 <?php
+
 namespace Importers;
 
 /**
- * Class that imports admin database
- * @package YetiForce.Install
+ * Class that imports admin database.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Admin extends \App\Db\Importers\Base
 {
-
 	public $dbType = 'admin';
 
 	public function scheme()
@@ -220,6 +220,34 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'a_#__record_converter' => [
+				'columns' => [
+					'id' => $this->smallInteger(10)->notNull(),
+					'name' => $this->stringType(),
+					'status' => $this->smallInteger(1),
+					'source_module' => $this->smallInteger(5)->notNull(),
+					'destiny_module' => $this->stringType()->notNull(),
+					'field_merge' => $this->stringType(50),
+					'field_mappging' => $this->text(),
+					'inv_field_mapping' => $this->text(),
+					'redirect_to_edit' => $this->smallInteger(1),
+					'change_view' => $this->smallInteger(5),
+					'check_duplicate' => $this->smallInteger(1),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1),
+					'redirect_to_edit' => $this->tinyInteger(1),
+					'check_duplicate' => $this->tinyInteger(1),
+				],
+				'index' => [
+					['a_yf_record_converter_fk_tab', 'source_module'],
+				],
+				'primaryKeys' => [
+					['record_converter_pk', ['id', 'source_module', 'destiny_module']]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'a_#__relatedlists_inv_fields' => [
 				'columns' => [
 					'relation_id' => $this->integer(10),
@@ -266,9 +294,45 @@ class Admin extends \App\Db\Importers\Base
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'default' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(1),
+					'default' => $this->tinyInteger(1)->notNull()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__address_finder' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned(),
+					'name' => $this->stringType(),
+					'level1' => $this->stringType(100),
+					'level2' => $this->stringType(100),
+					'level3' => $this->stringType(100),
+					'level4' => $this->stringType(100),
+					'level5' => $this->stringType(100),
+					'level6' => $this->stringType(100),
+					'level7' => $this->stringType(100),
+					'level8' => $this->stringType(100),
+					'source' => $this->stringType(10),
+				],
+				'index' => [
+					['source', 'source'],
+					['name', 'name'],
+				],
+				'engine' => 'MyISAM',
+				'charset' => 'utf8'
+			],
+			's_#__address_finder_config' => [
+				'columns' => [
+					'id' => $this->smallInteger(4)->unsigned()->notNull(),
+					'name' => $this->stringType(50)->notNull(),
+					'type' => $this->stringType(50)->notNull(),
+					'val' => $this->stringType()->notNull(),
+				],
+				'primaryKeys' => [
+					['address_finder_config_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -290,6 +354,21 @@ class Admin extends \App\Db\Importers\Base
 				'columns_mysql' => [
 					'active' => $this->tinyInteger(1)->defaultValue(1),
 					'user_limit' => $this->tinyInteger(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__batchmethod' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned(),
+					'method' => $this->stringType(50)->notNull(),
+					'params' => $this->text()->notNull(),
+					'created_time' => $this->date()->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull(),
+					'userid' => $this->integer(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -325,19 +404,6 @@ class Admin extends \App\Db\Importers\Base
 					'logo_login_height' => $this->tinyInteger(3)->unsigned(),
 					'logo_main_height' => $this->tinyInteger(3)->unsigned(),
 					'logo_mail_height' => $this->tinyInteger(3)->unsigned(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			's_#__handler_updater' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
-					'crmid' => $this->integer(10)->unsigned()->notNull(),
-					'userid' => $this->integer(10)->unsigned()->notNull(),
-					'handler_name' => $this->stringType(50)->notNull(),
-					'class' => $this->stringType(50)->notNull(),
-					'params' => $this->text()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -478,6 +544,7 @@ class Admin extends \App\Db\Importers\Base
 		$this->foreignKey = [
 			['fk_1_vtiger_bruteforce_users', 'a_#__bruteforce_users', 'id', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
 			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
+			['a_#__record_converter_fk_tab', 'a_#__record_converter', 'source_module', 'vtiger_tab', 'tabid', 'RESTRICT', 'RESTRICT'],
 			['s_#__mail_queue_ibfk_1', 's_#__mail_queue', 'smtp_id', 's_#__mail_smtp', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
@@ -488,44 +555,44 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__bruteforce' => [
 				'columns' => ['attempsnumber', 'timelock', 'active', 'sent'],
 				'values' => [
-					[10, 15, 1, 0],
+						[10, 15, 1, 0],
 				]
 			],
 			'a_#__discounts_config' => [
 				'columns' => ['param', 'value'],
 				'values' => [
-					['active', '0'],
-					['aggregation', '0'],
-					['discounts', '0,1,2'],
+						['active', '0'],
+						['aggregation', '0'],
+						['discounts', '0,1,2'],
 				]
 			],
 			'a_#__mapped_config' => [
 				'columns' => ['id', 'tabid', 'reltabid', 'status', 'conditions', 'permissions', 'params'],
 				'values' => [
-					[1, 104, 106, 1, '[]', '', '{"autofill":"on"}'],
-					[2, 6, 18, 1, '[]', '', '{"autofill":"on"}'],
+						[1, 104, 106, 1, '[]', '', '{"autofill":"on"}'],
+						[2, 6, 18, 1, '[]', '', '{"autofill":"on"}'],
 				]
 			],
 			'a_#__mapped_fields' => [
 				'columns' => ['id', 'mappedid', 'type', 'source', 'target', 'default'],
 				'values' => [
-					[1, 1, 'INVENTORY', 'name', 'name', ''],
-					[2, 1, 'INVENTORY', 'ean', 'ean', ''],
-					[3, 1, 'INVENTORY', 'unit', 'unit', ''],
-					[4, 1, 'INVENTORY', 'qty', 'qty', ''],
-					[5, 1, 'INVENTORY', 'price', 'price', ''],
-					[6, 1, 'INVENTORY', 'comment1', 'comment1', ''],
-					[7, 1, 'INVENTORY', 'total', 'total', ''],
-					[8, 1, 'V', '2226', '2250', ''],
-					[9, 1, 'SELF', 'id', '2262', ''],
-					[10, 2, 'V', '1', '288', ''],
-					[11, 2, 'E', '9', '291', ''],
+						[1, 1, 'INVENTORY', 'name', 'name', ''],
+						[2, 1, 'INVENTORY', 'ean', 'ean', ''],
+						[3, 1, 'INVENTORY', 'unit', 'unit', ''],
+						[4, 1, 'INVENTORY', 'qty', 'qty', ''],
+						[5, 1, 'INVENTORY', 'price', 'price', ''],
+						[6, 1, 'INVENTORY', 'comment1', 'comment1', ''],
+						[7, 1, 'INVENTORY', 'total', 'total', ''],
+						[8, 1, 'V', '2226', '2250', ''],
+						[9, 1, 'SELF', 'id', '2262', ''],
+						[10, 2, 'V', '1', '288', ''],
+						[11, 2, 'E', '9', '291', ''],
 				]
 			],
 			'a_#__pdf' => [
 				'columns' => ['pdfid', 'module_name', 'header_content', 'body_content', 'footer_content', 'status', 'primary_name', 'secondary_name', 'meta_author', 'meta_creator', 'meta_keywords', 'metatags_status', 'meta_subject', 'meta_title', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'conditions', 'watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image', 'template_members', 'one_pdf'],
 				'values' => [
-					[1, 'SCalculations', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
+						[1, 'SCalculations', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
 			<td height="25" width="65%"> </td>
 			<td height="25" width="25%"> </td>
 			<td height="25" width="5%"> </td>
@@ -586,8 +653,8 @@ class Admin extends \App\Db\Importers\Base
 			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
-		</tr></tbody></table>', 1, 'Kalkulacje', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'kalkulacje', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[2, 'SQuotes', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
+		</tr></tbody></table>', 1, 'Kalkulacje', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'kalkulacje', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[2, 'SQuotes', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
 			<td height="25" width="65%"> </td>
 			<td height="25" width="25%"> </td>
 			<td height="25" width="5%"> </td>
@@ -643,8 +710,8 @@ class Admin extends \App\Db\Importers\Base
 			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
-		</tr></tbody></table>', 1, 'Oferty', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'oferty', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[3, 'SSingleOrders', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
+		</tr></tbody></table>', 1, 'Oferty', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'oferty', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[3, 'SSingleOrders', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
 			<td height="25" width="65%"> </td>
 			<td height="25" width="25%"> </td>
 			<td height="25" width="5%"> </td>
@@ -703,8 +770,8 @@ class Admin extends \App\Db\Importers\Base
 			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
-		</tr></tbody></table>', 1, 'Zapytanie jednorazowe', '*', '', '', '', 1, '', '', 'A4', NULL, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'zapytanie_jednorazowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, 'null', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[4, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>
+		</tr></tbody></table>', 1, 'Zapytanie jednorazowe', '*', '', '', '', 1, '', '', 'A4', null, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'zapytanie_jednorazowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, 'null', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[4, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></table><hr><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;">$(organization : name)$<br />
 			$(organization : street)$<br />
@@ -716,8 +783,8 @@ class Admin extends \App\Db\Importers\Base
 		</tr></table></div>
 <br />
 $(custom : ProductsControlTable|IStorages)$', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
-', 1, 'Arkusz kontrolny stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'arkusz_kont_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[5, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT STANÓW MAGAZYNOWYCH</b></td>
+', 1, 'Arkusz kontrolny stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'arkusz_kont_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[5, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT STANÓW MAGAZYNOWYCH</b></td>
 		</tr></table><hr><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;">$(organization : name)$<br />
 			$(organization : street)$<br />
@@ -729,8 +796,8 @@ $(custom : ProductsControlTable|IStorages)$', '<div style="text-align:center;"><
 		</tr></table></div>
 <br />
 $(custom : ProductsTable|IStorages)$', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
-', 1, 'Raport stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[6, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT WARTOŚCIOWY STANÓW MAGAZYNOWYCH</b></td>
+', 1, 'Raport stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[6, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT WARTOŚCIOWY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></table><hr><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;">$(organization : name)$<br />
 			$(organization : street)$<br />
@@ -742,8 +809,8 @@ $(custom : ProductsTable|IStorages)$', '<div style="text-align:center;"><span st
 		</tr></table></div>
 <br />
 $(custom : ProductsValueTable|IStorages)$', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
-', 1, 'Raport wartościowy stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_wart_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[7, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie wewnętrzne</strong></span></td>
+', 1, 'Raport wartościowy stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_wart_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[7, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie wewnętrzne</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IIDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IIDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', '<br /> < br /><table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>FIRMA</b><br />
 			$(organization : name)$<br />
@@ -765,8 +832,8 @@ $(translate : IIDN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Przyjęcie wewnętrzne', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_wewnetrzne', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[8, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie z zewnątrz</strong></span></td>
+', 1, 'Przyjęcie wewnętrzne', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_wewnetrzne', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[8, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie z zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGRN|Assigned To)$:</strong> $(translate : IGRN|Assigned To)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br />
 			$(relatedRecord : storageid|RecordId)$<br />
@@ -788,8 +855,8 @@ $(translate : IGRN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Przyjęcie zewnętrzne', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_zewnetrzne', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[9, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Rozchód wewnętrzny</strong></span></td>
+', 1, 'Przyjęcie zewnętrzne', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_zewnetrzne', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[9, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Rozchód wewnętrzny</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGIN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGIN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>FIRMA</b><br />
 			$(organization : name)$<br />
@@ -810,8 +877,8 @@ $(custom : ProductsTableNew)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Rozchód wewnętrzny', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'rozchod_wewnetrzny', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[10, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie na zewnątrz</strong></span></td>
+', 1, 'Rozchód wewnętrzny', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'rozchod_wewnetrzny', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[10, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie na zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
@@ -833,8 +900,8 @@ $(translate : IGDN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Wydanie na zewnątrz', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'wydanie_na_zewnatrz', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[11, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie magazynowe</strong></span></td>
+', 1, 'Wydanie na zewnątrz', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'wydanie_na_zewnatrz', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[11, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie magazynowe</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTRN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br />
@@ -856,8 +923,8 @@ $(translate : ISTRN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Przyjęcie magazynowe', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_magazynowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[12, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;line-height:25.6px;"><b>Rezerwacja magazynowa</b></span></td>
+', 1, 'Przyjęcie magazynowe', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_magazynowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[12, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;line-height:25.6px;"><b>Rezerwacja magazynowa</b></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IPreOrder|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IPreOrder|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
 			$(relatedRecord : accountid|accountname|Accounts)$<br />
@@ -879,8 +946,8 @@ $(translate : IPreOrder|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Rezerwacja magazynowa', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'rezerwacja_magazynowa', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[13, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie magazynowe</strong></span></td>
+', 1, 'Rezerwacja magazynowa', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'rezerwacja_magazynowa', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[13, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie magazynowe</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTDN|Assigned To)$ :</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
@@ -903,8 +970,8 @@ $(translate : ISTDN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;">ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			.............................................</td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Wydanie magazynowe', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'wydanie_magazynowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[14, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Internal Delivery Notes</span></strong></td>
+', 1, 'Wydanie magazynowe', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'wydanie_magazynowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[14, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Internal Delivery Notes</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IIDN|FL_ACCEPTANCE_DATE)$:</strong> $(translate : IIDN|FL_ACCEPTANCE_DATE)$</span><br /><span style="font-size:10px;"><strong>$(translate : IIDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>COMPANY</b><br />
@@ -928,8 +995,8 @@ $(translate : IIDN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Internal Delivery Notes', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'internal_delivery_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[15, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Received Note</span></strong></td>
+', 1, 'Internal Delivery Notes', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'internal_delivery_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[15, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Received Note</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGRN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(translate : IGRN|Assigned To)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>VENDOR</b><br />
@@ -952,8 +1019,8 @@ $(translate : IGRN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Goods Received Note', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_received_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[16, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Issued Note</span></strong></td>
+', 1, 'Goods Received Note', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_received_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[16, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Issued Note</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGIN|FL_ACCEPTANCE_DATE)$:</strong> $(translate : IGIN|FL_ACCEPTANCE_DATE)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGIN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>COMPANY</b><br />
@@ -977,8 +1044,8 @@ $(translate : IGIN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Goods Issued Note', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_issued_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[17, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Dispatched Note</span></strong></td>
+', 1, 'Goods Issued Note', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_issued_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[17, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Dispatched Note</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br />
@@ -1001,8 +1068,8 @@ $(translate : IGDN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;">ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			.............................................</td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Goods Dispatched Note', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_dispatched_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[18, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Storage Transfer Received Notes</strong></span></td>
+', 1, 'Goods Dispatched Note', '*', '', '', '', 1, '', '', 'A4', 1, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_dispatched_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[18, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Storage Transfer Received Notes</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTRN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>VENDOR</strong><br />
@@ -1025,8 +1092,8 @@ $(translate : ISTRN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Storage Transfer Received Notes', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'storage_transfer_received_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[19, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Pre-order</span></strong></td>
+', 1, 'Storage Transfer Received Notes', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'storage_transfer_received_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[19, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Pre-order</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IPreOrder|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IPreOrder|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br />
@@ -1049,8 +1116,8 @@ $(translate : IPreOrder|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			............................................. </b></span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Pre-order', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'pre_order', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[20, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Storage Transfer Dispatched Notes</span></strong></td>
+', 1, 'Pre-order', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'pre_order', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[20, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Storage Transfer Dispatched Notes</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br />
@@ -1062,7 +1129,7 @@ $(translate : IPreOrder|Attention)$: $(record : attention)$<br />
 			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br />
 			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br /><br />
 			 </td>
-		</tr></table><br /> 
+		</tr></table><br />
 $(custom : ProductsTableNew)$<br />
 $(translate : ISTDN|Description)$: $(record : description)$<br />
 $(translate : ISTDN|Attention)$: $(record : attention)$<br />
@@ -1073,16 +1140,16 @@ $(translate : ISTDN|Attention)$: $(record : attention)$<br />
 			<td style="width:50%;text-align:right;">ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			.............................................</td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Storage Transfer Dispatched Notes', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'storage_transfer_dispatched_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[21, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT CAŁKOWITY STANÓW MAGAZYNOWYCH</b></td>
+', 1, 'Storage Transfer Dispatched Notes', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'storage_transfer_dispatched_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[21, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT CAŁKOWITY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></table><hr><div style="width:50%;float:left;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;">$(organization : name)$<br />
 			$(organization : street)$<br />
 			$(organization : city)$, $(organization : code)$<br /><strong>$(translate : Vat ID)$ :</strong> $(organization : vatid)$<br /><strong>$(translate : Registration number 2)$:</strong> $(organization : id1)$<br /><b>$(translate : IStorages|FL_NUMBER)$</b> $(record : number)$<br /><b>$(translate : IStorages|FL_SUBJECT)$</b> $(record : subject)$<br /><strong>Data wygenerowania</strong> $(general : CurrentDate)$</td>
 		</tr></table></div>
 $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
-', 1, 'Raport całkowity stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[22, 'IGRNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta przyjęcia z zewnątrz</strong></span></td>
+', 1, 'Raport całkowity stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[22, 'IGRNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta przyjęcia z zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGRNC|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGRNC|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$<br /><strong>Data wystawienia:</strong> $(general : CurrentDate)$</span></td>
 		</tr></tbody></table><hr />', '<br /><br /><table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br />
 			$(relatedRecord : vendorid|vendorname|Vendors)$<br />
@@ -1103,8 +1170,8 @@ $(custom : ProductsTableNew)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;">ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			.............................................</span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Korekta przyjęcia zewnętrznego', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'korekta_przyjecia_zewnetrznego', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[23, 'IGDNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta wydania na zewnątrz</strong></span></td>
+', 1, 'Korekta przyjęcia zewnętrznego', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'korekta_przyjecia_zewnetrznego', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[23, 'IGDNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta wydania na zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGDNC|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGDNC|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$<br /><strong>Data wystawienia:</strong> $(general : CurrentDate)$</span></td>
 		</tr></tbody></table><hr />', '<br /><br /><table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
 			$(relatedRecord : accountid|accountname|Accounts)$<br />
@@ -1125,8 +1192,8 @@ $(custom : ProductsTableNew)$<br />
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;">ZAAKCEPTOWAŁ<br /><br /><br /><br />
 			.............................................</span></td>
 		</tr></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
-', 1, 'Korekta wydania na zewnątrz', '*', '', '', '', 1, '', '', 'A4', NULL, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'korekta_wydania_na_zewnatrz', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[24, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>HIERARCHIA MAGAZYNÓW</b></td>
+', 1, 'Korekta wydania na zewnątrz', '*', '', '', '', 1, '', '', 'A4', null, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'korekta_wydania_na_zewnatrz', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[24, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>HIERARCHIA MAGAZYNÓW</b></td>
 		</tr></table><hr><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;">
 			$(organization : name)$<br />
@@ -1138,17 +1205,17 @@ $(custom : ProductsTableNew)$<br />
 		</tr></table></div>
 <br />
 $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
-', 1, 'Hierarchia magazynów', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'hierarchia_magazynow', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
-					[25, 'FInvoice', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="60%">
+', 1, 'Hierarchia magazynów', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'hierarchia_magazynow', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', null],
+						[25, 'FInvoice', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="60%">
 				<img alt="$(translate : LBL_COMPANY_LOGO)$" src="$(organization%20%3A%20logo_login)$" style="height:80px;float:left;"></td>
 			<td height="150" width="40%">
 				<table border="0" style="margin:0 auto;" width="100%"><tr><td height="20" width="100%">
 								Miejsce wystawienia: <b>$(organization : city)$</b><br />
 								Data wystawienia: <b>$(general : CurrentDate)$</b><br />
 								$(translate : FInvoice|FL_SALE_DATE)$: <b>$(record : saledate)$</b><br />
-								Faktura VAT:<b> $(record : number)$</b> 
+								Faktura VAT:<b> $(record : number)$</b>
 							</td>
-						</tr><tr><td height="130" width="100%"> 							
+						</tr><tr><td height="130" width="100%"> 
 							</td>
 						</tr></table></td>
 		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">
@@ -1247,27 +1314,27 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 		</tr></table>', '<table border="0" cellpadding="10" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td align="center">
 			<p style="font-size:12px;">Generated by YetiForce CRM</p>
 			</td>
-		</tr></tbody></table>', 1, 'Faktura', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'Faktura', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', '', NULL],
+		</tr></tbody></table>', 1, 'Faktura', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'Faktura', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', '', null],
 				]
 			],
 			'a_#__taxes_config' => [
 				'columns' => ['param', 'value'],
 				'values' => [
-					['active', '0'],
-					['aggregation', '0'],
-					['taxs', '0,1,2,3'],
+						['active', '0'],
+						['aggregation', '0'],
+						['taxs', '0,1,2,3'],
 				]
 			],
 			'a_#__taxes_global' => [
 				'columns' => ['id', 'name', 'value', 'status'],
 				'values' => [
-					[1, 'VAT', '23.00', 0],
+						[1, 'VAT', '23.00', 0],
 				]
 			],
 			's_#__companies' => [
 				'columns' => ['id', 'name', 'short_name', 'default', 'industry', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
 				'values' => [
-					[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, NULL, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
+						[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, null, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', null, 'yetiforce.com', null, null, null, null, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
 				]
 			],
 		];

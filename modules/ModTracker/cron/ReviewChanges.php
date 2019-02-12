@@ -1,10 +1,10 @@
 <?php
 /**
- * Cron task to review changes in records
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Cron task to review changes in records.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $db = \App\Db::getInstance();
 $query = (new \App\Db\Query())->from('u_#__reviewed_queue');
@@ -18,10 +18,10 @@ while ($row = $dataReader->read()) {
 		break;
 	}
 }
+$dataReader->close();
 
 class CronReviewed
 {
-
 	const MAX_RECORDS = 200;
 
 	private $limit;
@@ -39,7 +39,8 @@ class CronReviewed
 	}
 
 	/**
-	 * Initiation of data
+	 * Initiation of data.
+	 *
 	 * @param array $row
 	 */
 	public function init($row)
@@ -57,7 +58,7 @@ class CronReviewed
 	}
 
 	/**
-	 * Clear data
+	 * Clear data.
 	 */
 	public function clearData()
 	{
@@ -67,8 +68,10 @@ class CronReviewed
 	}
 
 	/**
-	 * Get key value
+	 * Get key value.
+	 *
 	 * @param string $key
+	 *
 	 * @return key value
 	 */
 	private function get($key)
@@ -77,7 +80,8 @@ class CronReviewed
 	}
 
 	/**
-	 * Function to get records id
+	 * Function to get records id.
+	 *
 	 * @return array - List of records
 	 */
 	private function getRecords()
@@ -85,7 +89,7 @@ class CronReviewed
 		$data = $this->get('data');
 		if ('all' === $this->get('selected_ids')) {
 			$data['module'] = \App\Module::getModuleName($this->get('tabid'));
-			$request = new \App\Request($data, $data);
+			$request = new \App\Request($data, false);
 			$this->recordList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		} else {
 			$this->recordList = $this->get('selected_ids');
@@ -94,7 +98,7 @@ class CronReviewed
 	}
 
 	/**
-	 * Function marks forwarded records as reviewed
+	 * Function marks forwarded records as reviewed.
 	 */
 	public function reviewChanges()
 	{
@@ -107,7 +111,7 @@ class CronReviewed
 					break;
 				}
 				$query = (new \App\Db\Query())
-					->select('last_reviewed_users as u, id, changedon')
+					->select(['u' => 'last_reviewed_users', 'id', 'changedon'])
 					->from('vtiger_modtracker_basic')
 					->where(['crmid' => $crmId])
 					->andWhere(['<>', 'status', $this->displayed])
@@ -125,7 +129,8 @@ class CronReviewed
 						break;
 					}
 				}
-				$this->counter++;
+				$dataReader->close();
+				++$this->counter;
 				$this->done[] = $crmId;
 			}
 			$this->finish();
@@ -133,20 +138,21 @@ class CronReviewed
 	}
 
 	/**
-	 * Function marks forwarded records as reviewed
+	 * Function marks forwarded records as reviewed.
 	 */
 	private function setReviewed($id, $users)
 	{
 		$db = \App\Db::getInstance();
 		$lastReviewedUsers = explode('#', $users);
 		$lastReviewedUsers[] = $this->get('userid');
+
 		return $db->createCommand()->update(
-				'vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $id]
-			)->execute();
+			'vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $id]
+		)->execute();
 	}
 
 	/**
-	 * Function to clean data in database
+	 * Function to clean data in database.
 	 */
 	private function finish()
 	{
@@ -159,7 +165,7 @@ class CronReviewed
 	}
 
 	/**
-	 * Function adds records to task queue that updates reviewing changes in records
+	 * Function adds records to task queue that updates reviewing changes in records.
 	 */
 	private function addPartToDBRecursive($records)
 	{
@@ -167,14 +173,14 @@ class CronReviewed
 		$list = array_splice($records, 0, self::MAX_RECORDS);
 		$data = \App\Json::encode(['selected_ids' => $list]);
 		$id = (new \App\Db\Query())
-				->from('u_#__reviewed_queue')
-				->max('id') + 1;
+			->from('u_#__reviewed_queue')
+			->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
 			'userid' => $this->get('userid'),
 			'tabid' => $this->get('tabid'),
 			'data' => $data,
-			'time' => $this->get('time')
+			'time' => $this->get('time'),
 		])->execute();
 		if (!empty($records)) {
 			$this->addPartToDBRecursive($records);
@@ -182,8 +188,9 @@ class CronReviewed
 	}
 
 	/**
-	 * Function to check the status cron
-	 * @return boolean
+	 * Function to check the status cron.
+	 *
+	 * @return bool
 	 */
 	public function isEnd()
 	{

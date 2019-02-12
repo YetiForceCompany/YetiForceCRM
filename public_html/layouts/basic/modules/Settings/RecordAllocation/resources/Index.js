@@ -1,8 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 	container: false,
+	/**
+	 * Register tables
+	 * @param {jQuery} contentData
+	 */
 	registerDataTables: function (contentData) {
-		var thisInstance = this;
+		const thisInstance = this;
 		$.extend($.fn.dataTable.defaults, {
 			language: {
 				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
@@ -23,208 +29,222 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		if (contentData == undefined) {
 			contentData = thisInstance.getContainer();
 		}
-		contentData.find('.dataTable').dataTable({
+		contentData.find('.js-data-table').dataTable({
 			scrollY: 200,
 			deferRender: true,
 			scroller: true,
 			paging: false,
-//			scrollCollapse: true,
 			info: false
 		});
 	},
+	/**
+	 * Register event drag and drop
+	 * @param {jQuery} contentData
+	 */
 	registerDragDropEvent: function (contentData) {
-		var thisInstance = this;
 		if (contentData == undefined) {
 			return;
 		}
-		var panel = contentData.closest('.panel');
-		var index = panel.data('index');
-		contentData.find('.dragDrop' + index).draggable({
+		const thisInstance = this;
+		let panel = contentData.closest('.js-panel'),
+			index = panel.data('index'),
+			width;
+		contentData.find('.js-drag-drop-' + index).draggable({
 			appendTo: 'body',
 			helper: 'clone',
-			start: function (e, ui)
-			{
-				var width = $(ui.helper.context).width();
+			start: function (e, ui) {
+				width = $(ui.helper.context).width();
 				$(ui.helper).css('width', width).addClass('dataTableDragDrop bg-primary');
 			},
 			zIndex: 9999999999
 		});
-		contentData.find('.dataTables_scrollBody .dataTable').droppable({
+		contentData.find('.dataTables_scrollBody .js-data-table').droppable({
 			activeClass: 'ui-state-default',
 			hoverClass: 'ui-state-hover',
-			accept: '.dragDrop' + index,
+			accept: '.js-drag-drop-' + index,
 			drop: function (event, ui) {
-				var tableBase = $(ui.draggable).closest('.dataTable');
-				var table = $(this);
+				let tableBase = $(ui.draggable).closest('.js-data-table'),
+					table = $(this);
 				if (tableBase.data('mode') != table.data('mode')) {
 					tableBase.DataTable().row(ui.draggable).remove().draw();
 					table.DataTable().row.add(ui.draggable[0]).draw();
-					var table = table.data('mode') == 'active' ? table : tableBase;
-					thisInstance.save(table.closest('.panel'));
+					table = table.data('mode') == 'active' ? table : tableBase;
+					thisInstance.save(table.closest('.js-panel'));
 				}
 			}
 		});
 	},
+	/**
+	 * Save users for module
+	 * @param {jQuery} container
+	 */
 	save: function (container) {
-		var data = {
-			module: container.data('modulename'),
-			userid: container.find('select.baseUser').val(),
-			type: app.getMainParams('fieldType')
-		};
-		var userData = [];
-		var dataContainer = container.find('.dataTables_scrollBody:first tbody tr');
+		let data = {
+				module: container.data('modulename'),
+				userid: container.find('.js-base-user').val(),
+				type: app.getMainParams('fieldType')
+			},
+			userData = [],
+			dataContainer = container.find('.dataTables_scrollBody:first tbody tr');
 		dataContainer.each(function (e) {
-			var id = jQuery(this).data('id');
-			var mode = jQuery(this).data('type');
+			let id = $(this).data('id'),
+				mode = $(this).data('type');
 			if (id && mode) {
 				if (!userData[mode]) {
 					userData[mode] = [];
 				}
 				userData[mode].push(id);
 			}
-		})
+		});
 		data['ids'] = jQuery.extend({}, userData);
-		app.saveAjax('save', jQuery.extend({}, data))
+		app.saveAjax('save', jQuery.extend({}, data));
 	},
+	/**
+	 * Register event to show form
+	 */
 	registerModalButton: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		container.find('button.addPanel').on('click', function () {
-			var myModal = container.find('#myModal').clone(true, true);
-			var inUseModules = thisInstance.getModules();
-			myModal.find('select option').each(function () {
-				if (jQuery.inArray(jQuery(this).val(), inUseModules) != -1) {
-					jQuery(this).remove();
+		const thisInstance = this,
+			container = this.getContainer();
+		container.find('button.js-add-panel').on('click', function () {
+			let modalWindow = container.find('.js-modal-add-panel').clone(true, true),
+				inUseModules = thisInstance.getModules();
+			modalWindow.find('select option').each(function () {
+				if ($.inArray($(this).val(), inUseModules) != -1) {
+					$(this).remove();
 				}
 			});
-			var callBackFunction = function (data) {
+			app.showModalWindow(modalWindow, function (data) {
 				//register all select2 Elements
-				var selectElement = data.find('select');
-				app.showSelect2ElementView(selectElement);
-				var form = data.find('form');
-
-				form.submit(function (e) {
-					var currentTarget = jQuery(e.currentTarget);
-					var module = currentTarget.find('#modulesList');
+				let selectElement = data.find('select'),
+					form = data.find('form');
+				App.Fields.Picklist.showSelect2ElementView(selectElement);
+				form.on('submit', function (e) {
+					let currentTarget = $(e.currentTarget),
+						module = currentTarget.find('.js-modules-list');
 					if (module.length && module.val()) {
 						thisInstance.addPanel(module.val());
 					}
 					e.preventDefault();
-				})
-			}
-			app.showModalWindow(myModal, function (data) {
-				if (typeof callBackFunction == 'function') {
-					callBackFunction(data);
-				}
+				});
 			});
-		})
+		});
 	},
+	/**
+	 * Returns list of modules which are visible
+	 * @returns {Array}
+	 */
 	getModules: function () {
-		var thisInstance = this;
 		var modules = [];
-		this.getContainer().find('.panel').each(function () {
+		this.getContainer().find('.js-panel').each(function () {
 			modules.push(jQuery(this).data('modulename'));
 		});
 		return modules;
 	},
+	/**
+	 * Load users form modules
+	 * @param {string} module
+	 * @returns {jQuery.Deferred}
+	 */
 	addPanel: function (module) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-
-		var lastPanel = this.getContainer().find('.panel:last');
-		var params = {};
-		params['index'] = lastPanel.data('index')
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['sourceModule'] = module;
-		params['view'] = 'Index';
-		params['mode'] = 'getPanel';
-		params['type'] = app.getMainParams('fieldType');
-		AppConnector.request(params).then(
-				function (data) {
-					var elements = thisInstance.getContainer().find('.panelsContainer').append(data);
-					app.changeSelectElementView(elements.find('.chzn-select'));
-					app.hideModalWindow();
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
+		const thisInstance = this;
+		let aDeferred = jQuery.Deferred(),
+			progressIndicatorElement = jQuery.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
-		);
+			}),
+			lastPanel = this.getContainer().find('.js-panel:last');
+		AppConnector.request({
+			index: lastPanel.data('index'),
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			sourceModule: module,
+			view: 'Index',
+			mode: 'getPanel',
+			type: app.getMainParams('fieldType')
+		}).done(function (data) {
+			let elements = thisInstance.getContainer().find('.js-panels-container').append(data);
+			App.Fields.Picklist.showSelect2ElementView(elements.find('.select2'));
+			app.hideModalWindow();
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}, function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
+	/**
+	 * Register event to load users
+	 */
 	registerLoadData: function () {
-		var thisInstance = this;
-		this.getContainer().on('change', 'select.baseUser', function (e) {
-			var selectElement = jQuery(e.currentTarget);
-			var panel = selectElement.closest('.panelItem');
-			var dataJson = panel.find('.moduleAllocationData').val();
-			var data = [];
+		const thisInstance = this;
+		this.getContainer().on('change', '.js-base-user', function (e) {
+			let selectElement = jQuery(e.currentTarget),
+				panel = selectElement.closest('.js-panel-item'),
+				dataJson = panel.find('.js-module-allocation-data').val(),
+				data = [];
 			if (dataJson && dataJson != 'null') {
 				data = JSON.parse(dataJson);
 			}
-			var userData = data[selectElement.val()];
-			var bodyContainer = panel.find('.activePanel');
+			let userData = data[selectElement.val()],
+				bodyContainer = panel.find('.js-active-panel');
 			if (bodyContainer.length) {
 				bodyContainer.remove();
 			}
-			var bodyContainer = panel.find('.clearTables').clone(true, true);
+			let bodyContainerTable = panel.find('.js-clear-tables').clone(true, true);
 			if (userData != undefined) {
-				var activeData = bodyContainer.find('.dataTable .dropContainer:first');
-				var baseData = bodyContainer.find('.dataTable .dropContainer:last');
+				let activeData = bodyContainerTable.find('.js-data-table .dropContainer:first'),
+					baseData = bodyContainerTable.find('.js-data-table .dropContainer:last');
 				baseData.find('tr').each(function () {
-					var mode = jQuery(this).data('type')
-					var id = jQuery(this).data('id')
+					let mode = jQuery(this).data('type'),
+						id = jQuery(this).data('id');
 					if (jQuery.inArray(id.toString(), userData[mode]) != -1) {
 						activeData.append(jQuery(this));
 					}
-				})
+				});
 			}
-			panel.find('.panel-body').removeClass('hide').append(bodyContainer.removeClass('clearTables hide').addClass('activePanel'));
-			thisInstance.registerDataTables(bodyContainer);
-			thisInstance.registerDragDropEvent(bodyContainer);
+			panel.find('.js-panel-body').removeClass('d-none').append(bodyContainerTable.removeClass('js-clear-tables d-none').addClass('js-active-panel'));
+			thisInstance.registerDataTables(bodyContainerTable);
+			thisInstance.registerDragDropEvent(bodyContainerTable);
 		});
 	},
+	/**
+	 * Register basic events
+	 */
 	registerHeaderElements: function () {
-		var thisInstance = this;
-		this.getContainer().on('click', '.removePanel', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var panel = currentTarget.closest('.panel');
-			var data = {
-				module: panel.data('modulename'),
-				type: app.getMainParams('fieldType')
-			};
-			var message = app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						app.saveAjax('removePanel', data).then(function () {
-							panel.fadeOut(300, function () {
-								$(this).remove();
-							});
-						})
-					},
-					function (error, err) {
-					}
-			);
+		this.getContainer().on('click', '.js-remove-panel', function (e) {
+			let currentTarget = jQuery(e.currentTarget),
+				panel = currentTarget.closest('.js-panel');
+			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL')}).done(function (e) {
+				app.saveAjax('removePanel', {
+					module: panel.data('modulename'),
+					type: app.getMainParams('fieldType')
+				}).done(function () {
+					panel.fadeOut(300, function () {
+						$(this).remove();
+					});
+				});
+			});
 		});
 		this.registerLoadData();
 	},
+	/**
+	 * Returns container
+	 * @returns {jQuery}
+	 */
 	getContainer: function () {
 		if (this.container == false) {
 			this.container = jQuery('div.contentsDiv');
 		}
 		return this.container;
 	},
+	/**
+	 * Main function
+	 */
 	registerEvents: function () {
 		this.registerModalButton();
 		this.registerHeaderElements();
 	}
-})
+});

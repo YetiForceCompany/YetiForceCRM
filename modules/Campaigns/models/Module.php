@@ -11,26 +11,12 @@
 
 class Campaigns_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get Specific Relation Query for this Module
-	 * @param <type> $relatedModule
-	 * @return <type>
-	 */
-	public function getSpecificRelationQuery($relatedModule)
-	{
-		if ($relatedModule === 'Leads') {
-			$specificQuery = 'AND vtiger_leaddetails.converted = 0';
-			return $specificQuery;
-		}
-		return parent::getSpecificRelationQuery($relatedModule);
-	}
-
-	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)

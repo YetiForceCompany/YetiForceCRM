@@ -1,0 +1,193 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.dashboardContainer {
+	padding: 0;
+
+	.dashboardHeading hr {
+		border-bottom: 1px solid #ddd;
+	}
+}
+
+.widgetsList {
+	min-width: 150px;
+	max-height: 450px;
+	text-align: left;
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	li {
+		display: block;
+
+		a {
+			white-space: nowrap;
+			word-wrap: break-word;
+		}
+	}
+}
+
+.dashboard_notebookWidget_view .row {
+	margin-bottom: 5px;
+}
+
+.grid-stack {
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	display: block;
+	min-height: 460px;
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+	margin-top: 0 !important;
+
+	.dashboardWidget {
+		background: #fff;
+		border-radius: 1px;
+		border: 1px solid #ddd;
+		-webkit-box-shadow: 0 0 3px -1px #ddd;
+		-moz-box-shadow: 0 0 3px -1px #ddd;
+		box-shadow: 0 0 3px -1px #ddd;
+
+		.dashboardWidgetHeader {
+			background-color: $light;
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+			border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+			text-shadow: 0 1px #fff;
+			border-top: 1px solid #fff;
+			border-bottom: 1px solid #ddd;
+			color: #444;
+			cursor: move;
+			padding: 7px 5px;
+
+			table {
+				height: 28px;
+			}
+		}
+
+		.widgetFooterContent .row:first-child {
+			position: relative;
+			background-color: #f5f5f5;
+			padding-top: 3px;
+			padding-bottom: 2px;
+		}
+
+		.dashboardWidgetHeader {
+			.dashboardTitle {
+				text-align: left;
+				padding-left: 10px;
+			}
+
+			.widgeticons {
+				opacity: 0.5;
+				padding-right: 6px;
+			}
+
+			.box {
+				position: relative;
+				top: -2px;
+			}
+		}
+
+		.filterContainer {
+			position: absolute;
+			border: 1px solid #ddd;
+			background: #fff;
+			margin-left: -7px;
+			margin-right: 3px;
+			margin-top: 4px;
+			padding: 8px 0;
+			border-radius: 0 0 5px 5px;
+			box-shadow: 0 5px 8px -5px #888;
+
+			div span {
+				margin-top: 6px;
+			}
+
+			.col-md-5 {
+				margin-top: 3px;
+			}
+		}
+
+		.dashboardWidgetContent {
+			@extend .small;
+
+			&:not(.dashboardWidgetCalendar) {
+				padding: 5px;
+				line-height: 20px;
+			}
+
+			.row {
+				@extend .mx-0;
+			}
+		}
+
+		.widgeticons {
+			min-width: 50px;
+			height: 30px;
+			margin-right: 30px;
+
+			a {
+				cursor: pointer;
+				text-decoration: none;
+			}
+		}
+	}
+
+	.widgetChartContainer {
+		height: 100% !important;
+	}
+}
+
+.NotificationsItem {
+	.userImage {
+		width: 22px;
+	}
+}
+
+.js-css-element-queries {
+	.no-gutters {
+		margin-right: 0;
+		margin-left: 0;
+
+		> .col,
+		> [class*="col-"] {
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+
+	&[min-width~="#{map-get($grid-breakpoints, xsm)}"] {
+		.col-ceq-xsm-6 {
+			@extend .col-6;
+		}
+
+		.col-ceq-xsm-6:nth-child(2) {
+			@extend .pl-1, .pt-0;
+		}
+	}
+
+	.col-ceq-xsm-6 {
+		@extend .col-12;
+
+		&:nth-child(2) {
+			@extend .pt-1;
+		}
+	}
+}
+
+.o-tablet-scroll {
+	&__container {
+		width: 25px;
+	}
+
+	&__content {
+		height: calc(#{$h-main-viewport} - #{$h-breadcrumb} - #{$h-breadcrumb} - 0.5rem);
+	}
+
+	&__icons {
+		top: 50%;
+		transform: translateY(-50%);
+		position: relative;
+	}
+}

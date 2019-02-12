@@ -1,15 +1,14 @@
 <?php
 /**
- * CallHistory model class
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
+ * CallHistory model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class CallHistory extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'vtiger_callhistory';
 	public $table_index = 'callhistoryid';
 
@@ -30,13 +29,13 @@ class CallHistory extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_callhistory' => 'callhistoryid',
-		'vtiger_callhistorycf' => 'callhistoryid'];
+		'vtiger_callhistorycf' => 'callhistoryid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_TO_NUMBER' => ['callhistory', 'to_number'],
 		'LBL_FROM_NUMBER' => ['callhistory', 'from_number'],
@@ -45,7 +44,7 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_START_TIME' => ['callhistory', 'start_time'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_TO_NUMBER' => 'to_number',
 		'LBL_FROM_NUMBER' => 'from_number',
 		'LBL_DURATION' => 'duration',
@@ -61,7 +60,7 @@ class CallHistory extends Vtiger_CRMEntity
 	public $list_link_field = 'to_number';
 	// For Popup listview and UI type support
 	public $search_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_TO_NUMBER' => ['callhistory', 'to_number'],
 		'LBL_FROM_NUMBER' => ['callhistory', 'from_number'],
@@ -70,7 +69,7 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_START_TIME' => ['callhistory', 'start_time'],
 	];
 	public $search_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_TO_NUMBER' => 'to_number',
 		'LBL_FROM_NUMBER' => 'from_number',
 		'LBL_DURATION' => 'duration',
@@ -88,5 +87,4 @@ class CallHistory extends Vtiger_CRMEntity
 	public $mandatory_fields = ['to_number', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
-
 }

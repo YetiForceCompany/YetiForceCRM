@@ -1,0 +1,77 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.c-footer {
+	background: $dark;
+	height: $h-footer;
+	color: $white;
+	font-size: $font-size-small;
+
+	a {
+		color: inherit;
+	}
+
+	p {
+		font-size: 0.85em;
+	}
+
+	.page-item {
+		&:last-child .page-link, &:first-child .page-link {
+			border-radius: initial;
+		}
+	}
+
+	.page-link {
+		@extend .p-1;
+
+		color: inherit;
+		background: inherit;
+		padding: 0.4rem 0.3rem;
+		border: none;
+
+		&:hover {
+			background: $white;
+			color: $dark;
+		}
+	}
+}
+
+.c-footer__user-info {
+	padding: 0 5px;
+	height: $h-user-info;
+	color: #fff;
+	width: 100%;
+	z-index: 1030;
+	background: #4979aa;
+}
+
+.c-footer--user-info-active {
+	height: $h-footer-user-info;
+}
+
+.c-footer--limited {
+	height: $h-footer-limited;
+
+	.page-link {
+		font-size: 0.52em;
+		padding: 0.1rem 0.2rem !important;
+	}
+}
+
+.c-footer--limited.c-footer--user-info-active {
+	height: $h-footer;
+}
+
+@include media-breakpoint-down(sm) {
+	.c-footer {
+		height: $h-footer-limited;
+
+		.page-link {
+			font-size: 0.52em;
+			padding: 0.1rem 0.2rem !important;
+		}
+
+	}
+	.c-footer--user-info-active {
+		height: $h-footer;
+	}
+}

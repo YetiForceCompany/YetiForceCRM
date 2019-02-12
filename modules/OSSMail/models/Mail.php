@@ -1,44 +1,48 @@
 <?php
 /**
- * Mail Scanner bind email action
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Mail Scanner bind email action.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Mail Scanner bind email action
+ * Mail Scanner bind email action.
  */
 class OSSMail_Mail_Model extends \App\Base
 {
-
 	/**
-	 * Mail account
+	 * Mail account.
+	 *
 	 * @var array
 	 */
 	protected $mailAccount = [];
 
 	/**
-	 * Mail folder
+	 * Mail folder.
+	 *
 	 * @var string
 	 */
 	protected $mailFolder = '';
 
 	/**
-	 * Mail crm id
+	 * Mail crm id.
+	 *
 	 * @var int|bool
 	 */
 	protected $mailCrmId = false;
 
 	/**
-	 * Action result
+	 * Action result.
+	 *
 	 * @var array
 	 */
 	protected $actionResult = [];
 
 	/**
-	 * Set account
+	 * Set account.
+	 *
 	 * @param array $account
 	 */
 	public function setAccount($account)
@@ -47,7 +51,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Set folder
+	 * Set folder.
+	 *
 	 * @param string $folder
 	 */
 	public function setFolder($folder)
@@ -56,7 +61,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Add action result
+	 * Add action result.
+	 *
 	 * @param string $type
 	 * @param string $result
 	 */
@@ -66,7 +72,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Get account
+	 * Get account.
+	 *
 	 * @return array
 	 */
 	public function getAccount()
@@ -75,7 +82,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Get folder
+	 * Get folder.
+	 *
 	 * @return string
 	 */
 	public function getFolder()
@@ -84,8 +92,10 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Get action result
+	 * Get action result.
+	 *
 	 * @param string $action
+	 *
 	 * @return array
 	 */
 	public function getActionResult($action = false)
@@ -97,8 +107,10 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Get type email
+	 * Get type email.
+	 *
 	 * @param bool $returnText
+	 *
 	 * @return string|int
 	 */
 	public function getTypeEmail($returnText = false)
@@ -134,8 +146,10 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Find email user
+	 * Find email user.
+	 *
 	 * @param string $emails
+	 *
 	 * @return array
 	 */
 	public static function findEmailUser($emails)
@@ -148,7 +162,7 @@ class OSSMail_Mail_Model extends \App\Base
 				if ($result) {
 					$return[] = $result;
 				} else {
-					$notFound++;
+					++$notFound;
 				}
 			}
 		}
@@ -156,7 +170,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Get account owner
+	 * Get account owner.
+	 *
 	 * @return int
 	 */
 	public function getAccountOwner()
@@ -169,7 +184,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Generation crm unique id
+	 * Generation crm unique id.
+	 *
 	 * @return string
 	 */
 	public function getUniqueId()
@@ -179,11 +195,13 @@ class OSSMail_Mail_Model extends \App\Base
 		}
 		$uid = sha1($this->get('fromaddress') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('body'));
 		$this->set('cid', $uid);
+
 		return $uid;
 	}
 
 	/**
-	 * Get mail crm id
+	 * Get mail crm id.
+	 *
 	 * @return int|bool
 	 */
 	public function getMailCrmId()
@@ -200,7 +218,8 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Set mail crm id
+	 * Set mail crm id.
+	 *
 	 * @param int $id
 	 */
 	public function setMailCrmId($id)
@@ -209,8 +228,10 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Get email
+	 * Get email.
+	 *
 	 * @param string $name
+	 *
 	 * @return string
 	 */
 	public function getEmail($name)
@@ -233,10 +254,12 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Find email address
+	 * Find email address.
+	 *
 	 * @param string $field
 	 * @param string $searchModule
-	 * @param bool $returnArray
+	 * @param bool   $returnArray
+	 *
 	 * @return string|array
 	 */
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
@@ -250,19 +273,16 @@ class OSSMail_Mail_Model extends \App\Base
 		} elseif (strpos($emails, ',')) {
 			$emails = explode(',', $emails);
 		} else {
-			settype($emails, 'array');
+			$emails = (array) $emails;
 		}
 		if (!empty($emailSearchList)) {
 			foreach ($emailSearchList as $field) {
 				$enableFind = true;
 				$row = explode('=', $field);
 				$moduleName = $row[1];
-				if ($searchModule) {
-					if ($searchModule !== $moduleName) {
-						$enableFind = false;
-					}
+				if ($searchModule && $searchModule !== $moduleName) {
+					$enableFind = false;
 				}
-
 				if ($enableFind) {
 					foreach ($emails as $email) {
 						if (empty($email)) {
@@ -284,6 +304,7 @@ class OSSMail_Mail_Model extends \App\Base
 								while (($crmid = $dataReader->readColumn(0)) !== false) {
 									$ids[] = $crmid;
 								}
+								$dataReader->close();
 								$return = array_merge($return, $ids);
 							}
 							if (empty($ids)) {
@@ -302,7 +323,7 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
-	 * Function to saving attachments
+	 * Function to saving attachments.
 	 */
 	public function saveAttachments()
 	{
@@ -314,13 +335,15 @@ class OSSMail_Mail_Model extends \App\Base
 			'assigned_user_id' => $userId,
 			'modifiedby' => $userId,
 			'createdtime' => $useTime,
-			'modifiedtime' => $useTime
+			'modifiedtime' => $useTime,
 		];
 		if ($attachments = $this->get('attachments')) {
 			foreach ($attachments as $attachment) {
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
-				if ($fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if ($fileInstance && $fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
+				} else {
+					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);
 				}
 			}
 		}
@@ -329,17 +352,16 @@ class OSSMail_Mail_Model extends \App\Base
 			$db->createCommand()->insert('vtiger_ossmailview_files', [
 				'ossmailviewid' => $this->mailCrmId,
 				'documentsid' => $file['crmid'],
-				'attachmentsid' => $file['attachmentsId']
+				'attachmentsid' => $file['attachmentsId'],
 			])->execute();
 		}
 		return $files;
 	}
 
 	/**
-	 * Post process function
+	 * Post process function.
 	 */
 	public function postProcess()
 	{
-		
 	}
 }

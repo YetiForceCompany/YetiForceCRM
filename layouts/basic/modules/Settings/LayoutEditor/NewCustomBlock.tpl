@@ -10,43 +10,54 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
-		<div class="row layoutBlockHeader no-margin">
-			<div class="col-md-6 blockLabel padding10">
-				<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
+	<div class="newCustomBlockCopy d-none mb-2 border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
+		<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
+			<div class="blockLabel u-white-space-nowrap">
+				<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>&nbsp;&nbsp;
 			</div>
-			<div class="col-md-6 marginLeftZero">
-				<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
-					<div class="btn-group">
-						<button class="btn btn-success addCustomField hide" type="button">
-							<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
-						</button>
-					</div>
-					<div class="btn-group">
-						<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-							<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu pull-right">
-							<li class="blockVisibility" data-visible="1" data-block-id="">
-								<a href="javascript:void(0)">
-									<span class="glyphicon glyphicon-ok"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
-								</a>
-							</li>
-							<li class="inActiveFields">
-								<a href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
-							</li>
-							<li class="deleteCustomBlock">
-								<a href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
-							</li>
-						</ul>
-					</div>
+			<div class="btn-toolbar pl-1" role="toolbar" aria-label="Toolbar with button groups">
+				<div class="btn-group btn-group-sm u-h-fit mr-1 mt-1">
+					<button class="btn btn-success addCustomField" type="button">
+						<span class="fas fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+					</button>
+				</div>
+				<div class="btn-group btn-group-sm mr-1 mt-1 u-h-fit" role="group" aria-label="Third group">
+					<button class="js-inactive-fields-btn btn btn-default" data-js="click">
+						<span class="fas mr-1 fa-ban"></span>
+						<span>{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</span>
+					</button>
+				</div>
+				<div class="btn-group btn-group-sm btn-group-toggle mt-1" data-toggle="buttons">
+					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
+						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
+						<input type="radio" name="options" id="option1" autocomplete="off" {if $BLOCK_MODEL->isHidden()} checked{/if}>
+						<span class="fas fa-fw mr-1 fa-eye-slash"></span>
+						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}</span>
+					</label>
+					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
+						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
+						<input type="radio" name="options" id="option2" autocomplete="off" {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} checked{/if}>
+						<span class="fas fa-fw mr-1 fa-eye"></span>
+						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}</span>
+					</label>
+					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
+						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
+						<input type="radio" name="options" id="option3" autocomplete="off"{if $BLOCK_MODEL->isDynamic()} checked{/if}>
+						<span class="fas fa-fw mr-1 fa-atom"></span>
+						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}</span>
+					</label>
+				</div>
+				<div class="btn-group btn-group-sm ml-1 mt-1 u-h-fit" role="group" aria-label="Third group">
+					<button class="js-delete-custom-block-btn c-btn-collapsible btn btn-danger js-popover-tooltip" data-js="click">
+						<span class="fas fa-trash-alt mr-1"></span>
+						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</span>
+					</button>
 				</div>
 			</div>
 		</div>
-		<div class="blockFieldsList row blockFieldsSortable no-margin" style="padding:5px;min-height: 27px">
-			<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-			<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+		<div class="blockFieldsList row blockFieldsSortable m-0 p-1" style="min-height: 27px;">
+			<ul class="connectedSortable col-md-6 ui-sortable p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable1"></ul>
+			<ul class="connectedSortable col-md-6 ui-sortable m-0 p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable2"></ul>
 		</div>
 	</div>
 {/strip}

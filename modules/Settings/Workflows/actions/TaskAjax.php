@@ -9,8 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -19,15 +20,6 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('changeStatus');
 		$this->exposeMethod('changeStatusAllTasks');
 		$this->exposeMethod('save');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function delete(\App\Request $request)
@@ -48,10 +40,11 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		if (!empty($record)) {
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			$taskObject = $taskRecordModel->getTaskObject();
-			if ($request->get('status') == 'true')
+			if ($request->get('status') == 'true') {
 				$taskObject->active = true;
-			else
+			} else {
 				$taskObject->active = false;
+			}
 			$taskRecordModel->save();
 			$response = new Vtiger_Response();
 			$response->setResult(['ok']);
@@ -69,10 +62,11 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			foreach ($taskList as $task) {
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($task->getId());
 				$taskObject = $taskRecordModel->getTaskObject();
-				if ($status == 'true')
+				if ($status == 'true') {
 					$taskObject->active = true;
-				else
+				} else {
 					$taskObject->active = false;
+				}
 				$taskRecordModel->save();
 			}
 			$response = new Vtiger_Response();
@@ -83,7 +77,6 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function save(\App\Request $request)
 	{
-
 		$workflowId = $request->get('for_workflow');
 		if (!empty($workflowId)) {
 			$record = $request->get('task_id');
@@ -95,11 +88,11 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			}
 
 			$taskObject = $taskRecordModel->getTaskObject();
-			$taskObject->summary = htmlspecialchars($request->get("summary"));
-			$active = $request->get("active");
-			if ($active == "true") {
+			$taskObject->summary = htmlspecialchars($request->get('summary'));
+			$active = $request->get('active');
+			if ($active == 'true') {
 				$taskObject->active = true;
-			} else if ($active == "false") {
+			} elseif ($active == 'false') {
 				$taskObject->active = false;
 			}
 			$checkSelectDate = $request->get('check_select_date');
@@ -107,7 +100,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			if (!empty($checkSelectDate)) {
 				$trigger = [
 					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int) $request->get('select_date_days'),
-					'field' => $request->get('select_date_field')
+					'field' => $request->get('select_date_field'),
 				];
 				$taskObject->trigger = $trigger;
 			} else {
@@ -119,8 +112,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			foreach ($fieldNames as $fieldName) {
 				if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
 					$values = \App\Json::decode($request->getRaw($fieldName));
-
-					if ($values) {
+					if (is_array($values)) {
 						foreach ($values as $index => $value) {
 							$values[$index]['value'] = htmlspecialchars($value['value']);
 						}
@@ -164,10 +156,5 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$response->setResult(['for_workflow' => $workflowId]);
 			$response->emit();
 		}
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

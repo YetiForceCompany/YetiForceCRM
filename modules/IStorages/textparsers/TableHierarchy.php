@@ -1,15 +1,14 @@
 <?php
 
 /**
- * IStorages storage hierarchy parser class
- * @package YetiForce.TextParser
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * IStorages storage hierarchy parser class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class IStorages_TableHierarchy_TextParser extends \App\TextParser\Base
+class IStorages_TableHierarchy_Textparser extends \App\TextParser\Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_TABLE_HIERARCHY';
 
@@ -17,7 +16,8 @@ class IStorages_TableHierarchy_TextParser extends \App\TextParser\Base
 	public $type = 'pdf';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -43,9 +43,8 @@ class IStorages_TableHierarchy_TextParser extends \App\TextParser\Base
 			$html .= '<tr><td style="text-align:' . $thDataArray[0]['align'] . ';">' . $rowNum . '.</td>';
 			$html .= '<td style="text-align:' . $thDataArray[1]['align'] . ';">' . $entry[0] . '</td>';
 			$html .= '<td style="text-align:' . $thDataArray[2]['align'] . ';">' . $entry[1] . '</td></tr>';
-			$rowNum++;
+			++$rowNum;
 		}
-		$html .= '</tbody></table>';
-		return $html;
+		return $html . '</tbody></table>';
 	}
 }

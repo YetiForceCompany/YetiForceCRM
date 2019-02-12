@@ -8,13 +8,12 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('include/Webservices/Utils.php');
-require_once("include/Webservices/WebServiceError.php");
-require_once("modules/Users/Users.php");
+require_once 'include/Webservices/Utils.php';
+require_once 'include/Webservices/WebServiceError.php';
+require_once 'modules/Users/Users.php';
 
 class VTCreateTodoTask extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -22,17 +21,9 @@ class VTCreateTodoTask extends VTTask
 		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates'];
 	}
 
-	public function getAdmin()
-	{
-		$user = Users::getActiveAdminUser();
-		$currentUser = vglobal('current_user');
-		$this->originalUser = $currentUser;
-		$currentUser = $user;
-		return $user;
-	}
-
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
@@ -41,42 +32,41 @@ class VTCreateTodoTask extends VTTask
 			return;
 		}
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
-		$adminUser = $this->getAdmin();
 		$userId = $recordModel->get('assigned_user_id');
 		if ($userId === null) {
-			$userId = $adminUser;
+			$userId = Users::getActiveAdminUser();
 		}
 		$moduleName = $recordModel->getModuleName();
 
 		if ($this->doNotDuplicate == 'true') {
-
 			$entityId = $recordModel->getId();
 			$query = (new App\Db\Query())->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where([
-				'and',
-				['vtiger_crmentity.deleted' => 0],
-				['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
-				['vtiger_activity.activitytype' => 'Task'],
-				['vtiger_activity.subject' => $this->todo]
-			]);
+					'and',
+					['vtiger_crmentity.deleted' => 0],
+					['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
+					['vtiger_activity.activitytype' => 'Task'],
+					['vtiger_activity.subject' => $this->todo],
+				]);
 			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
 			}
 			if ($query->count() > 0) {
 				\App\Log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
+
 				return;
 			}
 		}
 
 		if ($this->assigned_user_id === 'currentUser') {
 			$userId = \App\User::getCurrentUserId();
-		} else if ($this->assigned_user_id === 'triggerUser') {
+		} elseif ($this->assigned_user_id === 'triggerUser') {
 			$userId = $recordModel->executeUser;
-		} else if ($this->assigned_user_id === 'copyParentOwner') {
+		} elseif ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
-		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
+		} elseif (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = (new App\Db\Query())->from('vtiger_users')
 				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
 				->exists();
@@ -130,7 +120,7 @@ class VTCreateTodoTask extends VTTask
 				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			} else {
-				$timeEnd = $adminUser->column_fields['end_hour'];
+				$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->column_fields['end_hour'];
 				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
 				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
@@ -153,7 +143,7 @@ class VTCreateTodoTask extends VTTask
 			'time_start' => $time,
 			'time_end' => $timeEnd,
 			'sendnotification' => ($this->sendNotification != '' && $this->sendNotification != 'N') ?
-			true : false,
+				true : false,
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
@@ -181,7 +171,7 @@ class VTCreateTodoTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 
-		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
 			App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [

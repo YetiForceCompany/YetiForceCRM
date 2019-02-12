@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Save pbx record
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Save pbx record.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-
 	/**
-	 * Save pbx record
+	 * Save pbx record.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -21,7 +21,7 @@ class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		} else {
 			$recordModel = Settings_PBX_Record_Model::getCleanInstance();
 		}
-		$recordModel->parseFromRequest($request->getArray('param'));
+		$recordModel->parseFromRequest($request->getArray('param', 'Text'));
 		$result = $recordModel->save();
 
 		$responceToEmit = new Vtiger_Response();

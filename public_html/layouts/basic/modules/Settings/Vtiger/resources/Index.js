@@ -7,24 +7,26 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-jQuery.Class("Settings_Vtiger_Index_Js", {
+'use strict';
+
+$.Class("Settings_Vtiger_Index_Js", {
 	showMessage: function (customParams) {
-		var params = {};
-		params.animation = "show";
-		params.type = 'success';
-		params.title = app.vtranslate('JS_MESSAGE');
-		if (typeof customParams != 'undefined') {
-			var params = jQuery.extend(params, customParams);
+		let params = {
+			type: 'success',
+			title: app.vtranslate('JS_MESSAGE')
+		};
+		if (typeof customParams !== "undefined") {
+			params = $.extend(params, customParams);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	selectIcon: function () {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		app.showModalWindow({
 			id: 'iconsModal',
 			url: 'index.php?module=Vtiger&view=IconsModal&parent=Settings',
 			cb: function (container) {
-				app.showSelect2ElementView(container.find('#iconsList'), {
+				App.Fields.Picklist.showSelect2ElementView(container.find('#iconsList'), {
 					templateSelection: function (data) {
 						if (!data.id) {
 							return (data.text);
@@ -49,7 +51,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						var type = $(data.element).data('type');
 						var option;
 						if (type === 'icon') {
-							option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
+							option = $('<span class="' + data.element.value + '" aria-hidden="true"></span><span> - ' + $(data.element).data('class') + '</span>');
 						} else if (type === 'image') {
 							option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
 						}
@@ -57,7 +59,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					},
 					closeOnSelect: true
 				});
-				container.find('[name="saveButton"]').click(function (e) {
+				container.find('[name="saveButton"]').on('click', function (e) {
 					aDeferred.resolve({
 						type: container.find('#iconType').val(),
 						name: container.find('#iconName').val(),
@@ -69,34 +71,34 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		return aDeferred.promise();
 	},
 	showWarnings: function () {
-		jQuery('li[data-mode="systemWarnings"] a').click();
+		$('li[data-mode="systemWarnings"] a').click();
 	},
 	showSecurity: function () {
-		jQuery('li[data-mode="security"] a').click();
+		app.openUrl('index.php?module=Log&parent=' + app.getParentModuleName() + '&view=Index&type=access_for_admin');
 	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
-		if (typeof shortCutBlock == 'undefined') {
-			var shortCutBlock = jQuery('div#settingsShortCutsContainer')
+		if (typeof shortCutBlock === "undefined") {
+			shortCutBlock = $('div#settingsShortCutsContainer')
 		}
 		shortCutBlock.on('click', '.unpin', function (e) {
-			var actionEle = jQuery(e.currentTarget);
+			var actionEle = $(e.currentTarget);
 			var closestBlock = actionEle.closest('.moduleBlock');
 			var fieldId = actionEle.data('id');
 			var shortcutBlockActionUrl = closestBlock.data('actionurl');
 			var actionUrl = shortcutBlockActionUrl + '&pin=false';
-			var progressIndicatorElement = jQuery.progressIndicator({
+			var progressIndicatorElement = $.progressIndicator({
 				'blockInfo': {
 					'enabled': true
 				}
 			});
-			AppConnector.request(actionUrl).then(function (data) {
+			AppConnector.request(actionUrl).done(function (data) {
 				if (data.result.SUCCESS == 'OK') {
 					closestBlock.remove();
 					thisInstance.registerSettingShortCutAlignmentEvent();
 					var menuItemId = '#' + fieldId + '_menuItem';
-					var shortCutActionEle = jQuery(menuItemId);
+					var shortCutActionEle = $(menuItemId);
 					var imagePath = shortCutActionEle.data('pinimageurl');
 					shortCutActionEle.attr('src', imagePath).data('action', 'pin');
 					progressIndicatorElement.progressIndicator({
@@ -105,7 +107,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
-						animation: 'show',
 						type: 'info'
 					};
 					thisInstance.registerReAlign();
@@ -116,15 +117,14 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	registerPinShortCutEvent: function (element) {
-		var thisInstance = this;
 		var id = element.data('id');
 		var url = 'index.php?module=Vtiger&parent=Settings&action=Basic&mode=updateFieldPinnedStatus&pin=true&fieldid=' + id;
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-		AppConnector.request(url).then(function (data) {
+		AppConnector.request(url).done(function (data) {
 			if (data.result.SUCCESS == 'OK') {
 				var params = {
 					'fieldid': id,
@@ -133,17 +133,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					'parent': 'Settings',
 					'view': 'IndexAjax'
 				}
-				AppConnector.request(params).then(function (data) {
-					var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
-					var existingDivBlock = jQuery('#settingsShortCutsContainer div.row:last');
-					var count = jQuery('#settingsShortCutsContainer div.row:last').children("div").length;
-					if (count == 3) {
-
-						var newBlock = jQuery('#settingsShortCutsContainer').append('<div class="row">' + data);
-					} else {
-						var newBlock = jQuery(data).appendTo(existingDivBlock);
-					}
-					thisInstance.registerSettingShortCutAlignmentEvent();
+				AppConnector.request(params).done(function (data) {
+					var existingDivBlock = $('#settingsShortCutsContainer');
+					$(data).appendTo(existingDivBlock);
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
 					});
@@ -156,26 +148,26 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	registerSettingsShortcutClickEvent: function () {
-		jQuery('#settingsShortCutsContainer').on('click', '.moduleBlock', function (e) {
-			var url = jQuery(e.currentTarget).data('url');
+		$('#settingsShortCutsContainer').on('click', '.moduleBlock', function (e) {
+			var url = $(e.currentTarget).data('url');
 			window.location.href = url;
 		});
 	},
 	registerSettingShortCutAlignmentEvent: function () {
-		jQuery('#settingsShortCutsContainer').find('.moduleBlock').removeClass('marginLeftZero');
-		jQuery('#settingsShortCutsContainer').find('.moduleBlock:nth-child(3n+1)').addClass('marginLeftZero');
+		$('#settingsShortCutsContainer').find('.moduleBlock').removeClass('marginLeftZero');
+		$('#settingsShortCutsContainer').find('.moduleBlock:nth-child(3n+1)').addClass('marginLeftZero');
 	},
 	registerWidgetsEvents: function () {
-		var widgets = jQuery('div.widgetContainer');
+		var widgets = $('div.widgetContainer');
 		widgets.on('shown.bs.collapse', function (e) {
-			var widgetContainer = jQuery(e.currentTarget);
+			var widgetContainer = $(e.currentTarget);
 			var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
 			var imageEle = quickWidgetHeader.find('.imageElement')
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
 		});
 		widgets.on('hidden.bs.collapse', function (e) {
-			var widgetContainer = jQuery(e.currentTarget);
+			var widgetContainer = $(e.currentTarget);
 			var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
 			var imageEle = quickWidgetHeader.find('.imageElement')
 			var imagePath = imageEle.data('rightimage');
@@ -184,27 +176,26 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	},
 	registerAddShortcutDragDropEvent: function () {
 		var thisInstance = this;
-		var elements = jQuery(".subMenu .menuShortcut a");
-		var classes = 'ui-draggable-menuShortcut bg-primary';
+		var elements = $(".js-menu__item .js-menu__link--draggable");
+		var classes = 'ui-draggable-menuShortcut bg-warning';
 		elements.draggable({
 			containment: "#page",
 			appendTo: "body",
 			helper: "clone",
-			start: function (e, ui)
-			{
+			start: function (e, ui) {
 				$(ui.helper).addClass(classes);
 			},
 			zIndex: 99999
 		});
-		jQuery("#settingsShortCutsContainer").droppable({
+		$("#settingsShortCutsContainer").droppable({
 			activeClass: "ui-state-default",
 			hoverClass: "ui-state-hover",
-			accept: ".subMenu .menuShortcut a",
+			accept: ".js-menu__item .js-menu__link--draggable",
 			drop: function (event, ui) {
 				var url = ui.draggable.attr('href');
 				var isExist = false;
-				jQuery('#settingsShortCutsContainer [id^="shortcut"]').each(function () {
-					var shortCutUrl = jQuery(this).data('url');
+				$('#settingsShortCutsContainer [id^="shortcut"]').each(function () {
+					var shortCutUrl = $(this).data('url');
 					if (shortCutUrl == url) {
 						isExist = true;
 						return;
@@ -214,7 +205,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SHORTCUT_ALREADY_ADDED'),
-						animation: 'show',
 						type: 'info'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -225,8 +215,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			}
 		});
 	},
-	registerReAlign: function ()
-	{
+	registerReAlign: function () {
 
 		var params = {
 			'mode': 'realignSettingsShortCutBlock',
@@ -235,24 +224,21 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			'view': 'IndexAjax'
 		}
 
-		AppConnector.request(params).then(function (data) {
-			jQuery('#settingsShortCutsContainer').html(data);
+		AppConnector.request(params).done(function (data) {
+			$('#settingsShortCutsContainer').html(data);
 		});
 	},
-	loadCkEditorElement: function () {
-		var customConfig = {};
-		var noteContentElement = jQuery('.ckEditorSource');
-		var ckEditorInstance = new Vtiger_CkEditor_Js();
-		ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
+	loadEditorElement: function () {
+		new App.Fields.Text.Editor($('.js-editor'), {});
 	},
 	registerSaveIssues: function () {
-		var container = jQuery('.addIssuesModal');
+		var container = $('.addIssuesModal');
 		container.validationEngine(app.validationEngineOptions);
-		var title = jQuery('#titleIssues');
+		var title = $('#titleIssues');
 		var CKEditorInstance = CKEDITOR.instances['bodyIssues'];
 		var thisInstance = this;
 		var saveBtn = container.find('.saveIssues');
-		saveBtn.click(function () {
+		saveBtn.on('click', function () {
 			if (container.validationEngine('validate')) {
 				var body = CKEditorInstance.document.getBody().getHtml();
 				var params = {
@@ -262,7 +248,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					title: title.val(),
 					body: body
 				};
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					app.hideModalWindow();
 					thisInstance.reloadContent();
 					if (data.result.success == true) {
@@ -270,15 +256,14 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_ADDED_ISSUE_COMPLETE'),
 							type: 'success',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showMessage(params);
 					}
 				});
 			}
 		});
-		jQuery('[name="confirmRegulations"]').on('click', function () {
-			var currentTarget = jQuery(this);
+		$('[name="confirmRegulations"]').on('click', function () {
+			var currentTarget = $(this);
 			if (currentTarget.is(':checked')) {
 				saveBtn.removeAttr('disabled');
 			} else {
@@ -287,13 +272,13 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	reloadContent: function () {
-		jQuery('.massEditTabs li.active').trigger('click');
+		$('.js-tabs li .active').trigger('click');
 	},
 	resisterSaveKeys: function (modal) {
 		var thisInstance = this;
 		var container = modal.find('.authModalContent');
 		container.validationEngine(app.validationEngineOptions);
-		container.find('.saveKeys').click(function () {
+		container.find('.saveKeys').on('click', function () {
 			if (container.validationEngine('validate')) {
 				var params = {
 					module: 'Github',
@@ -304,11 +289,11 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					token: $('[name="token"]').val()
 				};
 				container.progressIndicator({});
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					container.progressIndicator({mode: 'hide'});
 					if (data.result.success == false) {
 						var errorDiv = container.find('.errorMsg');
-						errorDiv.removeClass('hide');
+						errorDiv.removeClass('d-none');
 						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
 					} else {
 						app.hideModalWindow();
@@ -317,36 +302,33 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
 							type: 'success',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showMessage(params);
 					}
-				},
-						function (error, err) {
-							container.progressIndicator({mode: 'hide'});
-							app.hideModalWindow();
-						});
+				}).fail(function (error, err) {
+					container.progressIndicator({mode: 'hide'});
+					app.hideModalWindow();
+				});
 			}
-
 		});
 	},
 	registerTabEvents: function () {
 		var thisInstance = this;
-		jQuery('.massEditTabs li').on('click', function () {
-			thisInstance.loadContent(jQuery(this).data('mode'), false, jQuery(this).data('params'));
+		$('.js-tabs li').on('click', function () {
+			thisInstance.loadContent($(this).data('mode'), false, $(this).data('params'));
 		});
 	},
 	registerPagination: function () {
-		var page = jQuery('.pagination .pageNumber');
+		var page = $('.pagination .pageNumber');
 		var thisInstance = this;
-		page.click(function () {
+		page.on('click', function () {
 			thisInstance.loadContent('github', $(this).data('id'));
 		});
 	},
 	registerAuthorizedEvent: function () {
 		var thisInstance = this;
-		jQuery('.showModal').on('click', function () {
-			app.showModalWindow(jQuery('.authModal'), function (container) {
+		$('.showModal').on('click', function () {
+			app.showModalWindow($('.authModal'), function (container) {
 				thisInstance.resisterSaveKeys(container);
 			});
 		});
@@ -355,11 +337,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var thisInstance = this;
 		thisInstance.registerAuthorizedEvent();
 		thisInstance.registerPagination();
-		app.showBtnSwitch(container.find('.switchBtn'));
-		container.find('.switchAuthor').on('switchChange.bootstrapSwitch', function (e, state) {
-			thisInstance.loadContent('github', 1);
-		});
-		container.find('.switchState').on('switchChange.bootstrapSwitch', function (e, state) {
+		container.find('.js-switch--state, .js-switch--author').on('change', () => {
 			thisInstance.loadContent('github', 1);
 		});
 		$('.addIssuesBtn').on('click', function () {
@@ -369,35 +347,36 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				view: 'AddIssue'
 			};
 			container.progressIndicator({});
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				container.progressIndicator({mode: 'hide'});
 				app.showModalWindow(data, function () {
-					thisInstance.loadCkEditorElement();
+					thisInstance.loadEditorElement();
 					thisInstance.registerSaveIssues();
 				});
 			});
 		});
 	},
 	registerWarningsAlert: function () {
-		var aletrsContainer = jQuery('#systemWarningAletrs');
-		if (aletrsContainer.length) {
-			app.showModalWindow(aletrsContainer, function (modal) {
-				aletrsContainer.find('.warning').first().removeClass('hide');
-				aletrsContainer.find('.warning .btn').click(function (e) {
-					var btn = $(this);
-					var save = true;
+		const alertsContainer = $('#systemWarningAletrs');
+		if (alertsContainer.length) {
+			app.showModalWindow(alertsContainer, function () {
+				alertsContainer.find('.warning').first().removeClass('d-none');
+				alertsContainer.find('.warning .btn').on('click', function (e) {
+					let btn = $(this),
+						save = true,
+						params;
 					if (btn.hasClass('ajaxBtn')) {
-						if (btn.data('params') == undefined) {
-							var form = btn.closest('form');
+						if (btn.data('params') === undefined) {
+							let form = btn.closest('form');
 							if (form.hasClass('validateForm') && !form.validationEngine('validate')) {
 								save = false;
 							}
-							var params = btn.closest('form').serializeArray().reduce(function (obj, item) {
+							params = btn.closest('form').serializeArray().reduce(function (obj, item) {
 								obj[item.name] = item.value;
 								return obj;
 							}, {});
 						} else {
-							var params = btn.data('params');
+							params = btn.data('params');
 						}
 						if (save) {
 							AppConnector.request({
@@ -407,13 +386,13 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 								mode: 'update',
 								id: btn.closest('.warning').data('id'),
 								params: params,
-							}).then(function (data) {
+							}).done(function (data) {
 								if (data.result.result) {
-									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'success', animation: 'show'});
+									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'success'});
 								} else {
-									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'error', animation: 'show'});
+									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'error'});
 								}
-							})
+							});
 						}
 					}
 					if (btn.hasClass('cancel')) {
@@ -425,17 +404,17 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						});
 					}
 					if (save) {
-						aletrsContainer.find('.warning').first().remove();
-						if (aletrsContainer.find('.warning').length) {
-							aletrsContainer.find('.warning').first().removeClass('hide');
+						alertsContainer.find('.warning').first().remove();
+						if (alertsContainer.find('.warning').length) {
+							alertsContainer.find('.warning').first().removeClass('d-none');
 						} else {
-							app.hideModalWindow(modal);
+							app.hideModalWindow(alertsContainer);
 						}
 					}
 				});
-				aletrsContainer.find('.input-group-addon input[type="checkbox"]').click(function (e) {
-					var btn = $(this);
-					var group = btn.closest('.input-group')
+				alertsContainer.find('.input-group-addon input[type="checkbox"]').on('click', function (e) {
+					let btn = $(this),
+						group = btn.closest('.input-group')
 					if (this.checked) {
 						group.find('input[type="text"]').attr("disabled", false);
 					} else {
@@ -467,7 +446,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				check_callback: true
 			},
 			plugins: ["checkbox"]
-		}).bind("loaded.jstree", function (event, data) {
+		}).on("loaded.jstree", function (event, data) {
 			$(this).jstree("open_all");
 		}).on('changed.jstree', function (e, data) {
 			if (data.action != 'model') {
@@ -497,8 +476,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				}
 			}
 		});
-		var element = app.showBtnSwitch(container.find('.switchBtn'));
-		element.on('switchChange.bootstrapSwitch', function (e, state) {
+		container.find('.js-switch--warnings').on('change', () => {
 			thisInstance.getWarningsList();
 		});
 	},
@@ -506,8 +484,11 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var thisInstance = this;
 		var selected = thisInstance.getSelectedFolders();
 		var container = $('#warningsContent');
-		var progressIndicator = jQuery.progressIndicator({message: app.vtranslate('JS_LOADING_OF_RECORDS'), blockInfo: {enabled: true}});
-		var active = $('.warningsIndexPage input.switchBtn').bootstrapSwitch('state');
+		var progressIndicator = $.progressIndicator({
+			message: app.vtranslate('JS_LOADING_OF_RECORDS'),
+			blockInfo: {enabled: true}
+		});
+		var active = $('.warningsIndexPage .js-switch--warnings').first().is(':checked');
 		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
@@ -515,26 +496,25 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			mode: 'getWarningsList',
 			active: active,
 			folder: selected
-		}).then(function (data) {
+		}).done(function (data) {
 			container.html(data);
 			thisInstance.registerWarningsList(container);
 			progressIndicator.progressIndicator({mode: 'hide'});
-		}, function (error) {
+		}).fail(function (error) {
 			progressIndicator.progressIndicator({mode: 'hide'});
-		})
+		});
 	},
 	registerWarningsList: function (container) {
 		var thisInstance = this;
 		container.find('table').dataTable({
 			order: [[2, 'desc']]
 		});
-		app.showPopoverElementView(container.find('.popoverTooltip'));
-		container.find('.showDescription').click(function (e) {
+		container.find('.showDescription').on('click', function (e) {
 			var html = $(this).closest('td').find('.showDescriptionContent').html();
 			app.showModalWindow(html);
 		});
-		container.find('.setIgnore').click(function (e) {
-			container.find('.popoverTooltip').popover('hide');
+		container.find('.setIgnore').on('click', function (e) {
+			container.find('.js-popover-tooltip').popover('hide');
 			var data = $(this).closest('tr').data();
 			AppConnector.request({
 				module: app.getModuleName(),
@@ -543,11 +523,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				mode: 'update',
 				id: data.id,
 				params: data.status,
-			}).then(function (data) {
+			}).done(function (data) {
 				thisInstance.getWarningsList(container);
-			}, function (error) {
-
-			})
+			});
 		});
 	},
 	getSelectedFolders: function () {
@@ -559,9 +537,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	},
 	loadContent: function (mode, page, modeParams) {
 		var thisInstance = this;
-		var container = jQuery('.indexContainer');
-		var state = container.find('.switchState');
-		var author = container.find('.switchAuthor');
+		var container = $('.indexContainer');
+		var state = container.find('.js-switch--state');
+		var author = container.find('.js-switch--author');
 		var params = {
 			mode: mode,
 			module: app.getModuleName(),
@@ -574,20 +552,20 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		if (modeParams) {
 			params.params = modeParams;
 		}
-		if (state.is(':checked')) {
+		if (state.last().is(':checked')) {
 			params.state = 'closed';
 		} else {
 			params.state = 'open';
 		}
-		params.author = author.is(':checked');
-		var progressIndicatorElement = jQuery.progressIndicator({
+		params.author = author.first().is(':checked');
+		var progressIndicatorElement = $.progressIndicator({
 			position: 'html',
 			'blockInfo': {
 				'enabled': true,
 				'elementToBlock': container
 			}
 		});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			container.html(data);
 			if (mode == 'index') {
@@ -601,8 +579,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				thisInstance.registerGithubEvents(container);
 			} else if (mode == 'systemWarnings') {
 				thisInstance.registerSystemWarningsEvents(container);
-			} else if (mode == 'security') {
-				app.showPopoverElementView(container.find('.popoverTooltip'));
 			}
 		});
 	},

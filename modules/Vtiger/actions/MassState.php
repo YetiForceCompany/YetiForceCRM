@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Mass records state action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Mass records state action class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_MassState_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -34,13 +35,17 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 					return true;
 				}
 				break;
+			default:
+				break;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\AppException
 	 */
 	public function process(\App\Request $request)
@@ -68,6 +73,8 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 						$skipped[] = $recordModel->getName();
 						continue;
 					}
+					break;
+				default:
 					break;
 			}
 			$recordModel->changeState($request->getByType('state'));

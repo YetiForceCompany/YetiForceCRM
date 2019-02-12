@@ -1,0 +1,20 @@
+{
+  "php": {
+    "LBL_LOGS": "Security incidents",
+    "LBL_LOGS_DESC": "Panel for viewing security incidents",
+    "LBL_ACCESS_FOR_ADMIN": "Access for admin",
+    "LBL_ACCESS_FOR_API": "Access for API",
+    "LBL_ACCESS_FOR_USER": "Access for user",
+    "LBL_ACCESS_TO_RECORD": "Access to record",
+    "LBL_CSRF": "CSRF",
+    "LBL_USERNAME": "Username",
+    "LBL_DATE": "Date",
+    "LBL_IP": "IP",
+    "LBL_RECORD": "Record ID",
+    "LBL_MODULE": "Module",
+    "LBL_URL": "URL",
+    "LBL_AGENT": "Agent",
+    "LBL_REQUEST": "Request",
+    "LBL_REFERER": "Referer"
+  }
+}

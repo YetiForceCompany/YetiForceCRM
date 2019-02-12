@@ -1,33 +1,35 @@
 <?php
 
 /**
- * Record Model
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Record Model.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Edit fields 
+	 * Edit fields.
+	 *
 	 * @var array
 	 */
 	private $editFields = [
 		'name' => ['label' => 'LBL_NAME'],
 		'type' => ['label' => 'LBL_TYPE', 'uitype' => 16],
-		'default' => ['label' => 'LBL_DEFAULT', 'uitype' => 56, 'typeofdata' => 'C~O']
+		'default' => ['label' => 'LBL_DEFAULT', 'uitype' => 56, 'typeofdata' => 'C~O'],
 	];
 
 	/**
-	 * Connector configuration
-	 * @var array 
+	 * Connector configuration.
+	 *
+	 * @var array
 	 */
 	public $param;
 
 	/**
-	 * Record ID
+	 * Record ID.
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -36,7 +38,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Record name
+	 * Record name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -45,8 +48,10 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the confog param for a given key
+	 * Function to get the confog param for a given key.
+	 *
 	 * @param string $key
+	 *
 	 * @return mixed Value for the given key
 	 */
 	public function getParam($key)
@@ -55,7 +60,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Module instance
+	 * Function to get Module instance.
+	 *
 	 * @return Settings_PBX_Module_Model
 	 */
 	public function getModule()
@@ -67,32 +73,37 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to set Module instance
+	 * Function to set Module instance.
+	 *
 	 * @param Settings_PBX_Module_Model $moduleModel
+	 *
 	 * @return $this
 	 */
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;
+
 		return $this;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $name
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($name)
 	{
-		switch ($name) {
-			case 'default':
-				return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+		if ($name === 'default') {
+			return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
 		return $this->get($name);
 	}
 
 	/**
-	 * Function determines fields available in edition view
+	 * Function determines fields available in edition view.
+	 *
 	 * @return string[]
 	 */
 	public function getEditFields()
@@ -101,7 +112,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
@@ -112,17 +124,17 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'index.php?module=PBX&parent=Settings&view=EditModal&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-sm btn-primary',
-				'modalView' => true
+				'modalView' => true,
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn btn-sm btn-danger'
-			]
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-sm btn-danger',
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
@@ -131,9 +143,11 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance, given id
-	 * @param int $id
+	 * Function to get the instance, given id.
+	 *
+	 * @param int    $id
 	 * @param string $type
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceById($id)
@@ -151,23 +165,27 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$instance->setData($data);
 		\App\Cache::staticSave('Settings_PBX_Record_Model', $id, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get the clean instance
+	 * Function to get the clean instance.
+	 *
 	 * @return \self
 	 */
 	public static function getCleanInstance()
 	{
 		$instance = new self();
 		$instance->module = Settings_Vtiger_Module_Model::getInstance('Settings:PBX');
+
 		return $instance;
 	}
 
 	/**
-	 * Function removes record
-	 * @return boolean
+	 * Function removes record.
+	 *
+	 * @return bool
 	 */
 	public function delete()
 	{
@@ -180,7 +198,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Get edit fields model
+	 * Get edit fields model.
+	 *
 	 * @return Settings_Vtiger_Field_Model[]
 	 */
 	public function getEditFieldsModel()
@@ -189,14 +208,12 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
 		foreach ($this->editFields as $name => $params) {
-			switch ($name) {
-				case 'type':
-					$connectors = [];
-					foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
-						$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
-					}
-					$params['picklistValues'] = $connectors;
-					break;
+			if ($name === 'type') {
+				$connectors = [];
+				foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
+					$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
+				}
+				$params['picklistValues'] = $connectors;
 			}
 			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 			$fieldModel->set('fieldvalue', $this->get($name));
@@ -209,7 +226,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Get connector config fields model
+	 * Get connector config fields model.
+	 *
 	 * @return type
 	 */
 	public function getConnectorFieldsModel()
@@ -229,9 +247,11 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Save pbx instance
+	 * Save pbx instance.
+	 *
 	 * @param \App\Request $request
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function save()
 	{
@@ -254,20 +274,21 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Parse dana from request
+	 * Parse dana from request.
+	 *
 	 * @param array $data
 	 */
 	public function parseFromRequest($data)
 	{
 		foreach ($this->getEditFields() as $name => $value) {
-			$this->set($name, isset($data[$name]) ? $data[$name] : null);
+			$this->set($name, $data[$name] ?? null);
 		}
 		$connector = App\Integrations\Pbx::getConnectorInstance($data['type']);
-		$param = [];
+		$params = [];
 		foreach ($connector->configFields as $name => $config) {
-			$param[$name] = isset($data[$name]) ? $data[$name] : null;
+			$params[$name] = $data[$name] ?? null;
 		}
-		$this->param = $param;
-		$this->set('param', \App\Json::encode($param));
+		$this->param = $params;
+		$this->set('param', \App\Json::encode($params));
 	}
 }

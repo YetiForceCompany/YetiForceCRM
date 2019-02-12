@@ -10,9 +10,9 @@
 
 class Vendors_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function to get List of Fields which are related from Vendors to Inventyory Record
+	 * Function to get List of Fields which are related from Vendors to Inventyory Record.
+	 *
 	 * @return <array>
 	 */
 	public function getInventoryMappingFields()

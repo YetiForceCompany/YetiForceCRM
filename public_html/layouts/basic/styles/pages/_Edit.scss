@@ -1,0 +1,96 @@
+.c-form__action-panel {
+	position: fixed;
+	bottom: 33px;
+	height: 48px;
+	width: calc(100% - 50px);
+	background: $light;
+	margin-left: -10px;
+	text-align: center;
+	border-top: 1px solid #ddd;
+	z-index: 5;
+	padding: 5px;
+
+	.btn-group {
+		margin-right: 3px;
+	}
+}
+
+.user-info--active {
+	.c-form__action-panel {
+		bottom: $h-footer-user-info;
+	}
+
+	.verticalScroll {
+		height: calc(100vh - 150px);
+	}
+}
+
+.limited-footer--active {
+	.c-form__action-panel {
+		bottom: $h-footer-limited;
+	}
+}
+
+.verticalScroll {
+	position: absolute;
+	left: 0;
+	height: calc(100vh - 128px);
+	width: 100%;
+	overflow-x: hidden;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+@include media-breakpoint-down(sm) {
+	.c-form__action-panel {
+		bottom: $h-footer-limited;
+		width: 100%;
+	}
+
+	.verticalScroll {
+		height: calc(100vh - 112px);
+	}
+
+	.user-info--active {
+		.verticalScroll {
+			height: calc(100vh - 31px);
+		}
+
+		.c-form__action-panel {
+			bottom: $h-footer;
+		}
+	}
+}
+
+.inventoryItems {
+	.fieldValue {
+		position: relative;
+	}
+
+	.input-group {
+		max-width: 100% !important;
+	}
+
+	.rowName .input-group {
+		max-width: 400px;
+	}
+
+	tfoot td.hideTd {
+		border-width: 0 0 1px 0;
+		background: #fafafb;
+
+		& + td:not(.hideTd) {
+			border-left: 1px solid #dee2e6 !important;
+		}
+
+		&:first-child {
+			border-width: 0 0 1px 1px;
+		}
+	}
+
+	//reboot correction for hidden list in table
+	.subProductsContainer ul {
+		margin-bottom: 0;
+	}
+}
+

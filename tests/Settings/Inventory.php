@@ -1,31 +1,54 @@
 <?php
 /**
- * Inventory test class
- * @package YetiForce.Test
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * Inventory test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+
 namespace Tests\Settings;
 
 class Inventory extends \Tests\Base
 {
-
 	/**
-	 * Inventory id
+	 * Inventory id.
 	 */
 	private static $id;
 
 	/**
-	 * Save to database
-	 * @param int $id
-	 * @param string $type
-	 * @param string $name
+	 * Testing taxes creation.
+	 */
+	public function testAddTaxes()
+	{
+		$type = 'Taxes';
+		$name = 'test';
+		$value = 3.14;
+		$status = $default = 0;
+		static::$id = $this->save(0, $type, $name, $value, $status, $default);
+		$this->assertNotNull(static::$id, 'Id is null');
+
+		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame((float) $row['value'], $value);
+		$this->assertSame((int) $row['status'], $status);
+		$this->assertSame((int) $row['default'], $default);
+	}
+
+	/**
+	 * Save to database.
+	 *
+	 * @param int       $id
+	 * @param string    $type
+	 * @param string    $name
 	 * @param float|int $value
-	 * @param int $status
+	 * @param int       $status
+	 *
 	 * @return int
 	 */
-	private function save($id, $type, $name, $value, $status)
+	private function save($id, $type, $name, $value, $status, $default = false)
 	{
 		if (empty($id)) {
 			$recordModel = new \Settings_Inventory_Record_Model();
@@ -41,51 +64,36 @@ class Inventory extends \Tests\Base
 		$recordModel->set('name', $name);
 		$recordModel->set('value', $value);
 		$recordModel->set('status', $status);
+		if ($default !== false && $type === 'Taxes') {
+			$recordModel->set('default', $default);
+		}
 		$recordModel->setType($type);
+
 		return $recordModel->save();
 	}
 
 	/**
-	 * Testing taxes creation
-	 */
-	public function testAddTaxes()
-	{
-		$type = 'Taxes';
-		$name = 'test';
-		$value = 3.14;
-		$status = 0;
-		static::$id = $this->save(0, $type, $name, $value, $status);
-		$this->assertNotNull(static::$id, 'Id is null');
-
-		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], $name);
-		$this->assertEquals($row['value'], $value);
-		$this->assertEquals($row['status'], $status);
-	}
-
-	/**
-	 * Testing taxes edition
+	 * Testing taxes edition.
 	 */
 	public function testEditTaxes()
 	{
 		$type = 'Taxes';
 		$name = 'test edit';
 		$value = 1.16;
-		$status = 1;
-		$this->save(static::$id, $type, $name, $value, $status);
+		$status = $default = 1;
+		$this->save(static::$id, $type, $name, $value, $status, $default);
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], $name);
-		$this->assertEquals($row['value'], $value);
-		$this->assertEquals($row['status'], $status);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame((float) $row['value'], $value);
+		$this->assertSame((int) $row['status'], $status);
+		$this->assertSame((int) $row['default'], $default);
 	}
 
 	/**
-	 * Testing taxes deletion
+	 * Testing taxes deletion.
 	 */
 	public function testDeleteTaxes()
 	{
@@ -98,7 +106,7 @@ class Inventory extends \Tests\Base
 	}
 
 	/**
-	 * Testing discount creation
+	 * Testing discount creation.
 	 */
 	public function testAddDiscount()
 	{
@@ -112,13 +120,13 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], $name);
-		$this->assertEquals($row['value'], $value);
-		$this->assertEquals($row['status'], $status);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame((float) $row['value'], $value);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
-	 * Testing discount edition
+	 * Testing discount edition.
 	 */
 	public function testEditDiscount()
 	{
@@ -131,13 +139,13 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], $name);
-		$this->assertEquals($row['value'], $value);
-		$this->assertEquals($row['status'], $status);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame((float) $row['value'], $value);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
-	 * Testing discount deletion
+	 * Testing discount deletion.
 	 */
 	public function testDeleteDiscount()
 	{
@@ -150,7 +158,7 @@ class Inventory extends \Tests\Base
 	}
 
 	/**
-	 * Testing credit limits creation
+	 * Testing credit limits creation.
 	 */
 	public function testAddCreditLimits()
 	{
@@ -164,13 +172,13 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], $name);
-		$this->assertEquals($row['value'], $value);
-		$this->assertEquals($row['status'], $status);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame((int) $row['value'], $value);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
-	 * Testing credit limits edition
+	 * Testing credit limits edition.
 	 */
 	public function testEditCreditLimits()
 	{
@@ -183,13 +191,13 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], $name);
-		$this->assertEquals($row['value'], $value);
-		$this->assertEquals($row['status'], $status);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame((int) $row['value'], $value);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
-	 * Testing credit limits deletion
+	 * Testing credit limits deletion.
 	 */
 	public function testDeleteCreditLimits()
 	{

@@ -11,49 +11,60 @@
 
 class Users_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
-			if (!empty($record)) {
-				$queryGenerator->addNativeCondition(['<>', 'vtiger_users.id', $record]);
-			}
+		if ($sourceModule === 'Users' && $field === 'reports_to_id' && !empty($record)) {
+			$queryGenerator->addNativeCondition(['<>', 'vtiger_users.id', $record]);
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isWorkflowSupported()
+	{
+		return true;
 	}
 
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param string $searchValue - Search value
-	 * @param <Integer> $parentId - parent recordId
-	 * @param string $parentModule - parent module name
+	 *
+	 * @param string    $searchValue  - Search value
+	 * @param <Integer> $parentId     - parent recordId
+	 * @param string    $parentModule - parent module name
+	 *
 	 * @return <Array of Users_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
 		if (!empty($searchValue)) {
 			$dataReader = (new App\Db\Query())->from('vtiger_users')
-					->where(['and', ['or', ['like', 'first_name', $searchValue], ['like', 'last_name', $searchValue]], ['status' => 'Active']])
-					->createCommand()->query();
+				->where(['and', ['or', ['like', 'first_name', $searchValue], ['like', 'last_name', $searchValue]], ['status' => 'Active']])
+				->createCommand()->query();
 			$matchingRecords = [];
 			while ($row = $dataReader->read()) {
 				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
+			$dataReader->close();
+
 			return $matchingRecords;
 		}
 	}
 
 	/**
-	 * Function returns the default column for Alphabetic search
+	 * Function returns the default column for Alphabetic search.
+	 *
 	 * @return string columnname
 	 */
 	public function getAlphabetSearchField()
@@ -62,7 +73,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url for the Create Record view of the module
+	 * Function to get the url for the Create Record view of the module.
+	 *
 	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
@@ -71,7 +83,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url for list view of the module
+	 * Function to get the url for list view of the module.
+	 *
 	 * @return string - url
 	 */
 	public function getListViewUrl()
@@ -80,7 +93,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to store the login history
+	 * Function to store the login history.
+	 *
 	 * @param type $userName
 	 */
 	public function saveLoginHistory($userName, $status = 'Signed in')
@@ -94,12 +108,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 				'login_time' => date('Y-m-d H:i:s'),
 				'logout_time' => null,
 				'status' => $status,
-				'browser' => $browser->name . ' ' . $browser->ver
+				'browser' => $browser->name . ' ' . $browser->ver,
 			])->execute();
 	}
 
 	/**
-	 * Function to store the logout history
+	 * Function to store the logout history.
 	 */
 	public function saveLogoutHistory()
 	{
@@ -108,61 +122,27 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$outtime = date('Y-m-d H:i:s');
 
 		$loginId = (new \App\Db\Query())
-				->select('login_id')
-				->from('vtiger_loginhistory')
-				->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
-				->limit(1)->orderBy('login_id DESC')->scalar();
+			->select(['login_id'])
+			->from('vtiger_loginhistory')
+			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
+			->limit(1)->orderBy('login_id DESC')->scalar();
 		if ($loginId !== false) {
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_loginhistory', [
 					'logout_time' => $outtime,
 					'status' => 'Signed off',
-					], ['login_id' => $loginId])
+				], ['login_id' => $loginId])
 				->execute();
 		}
 	}
 
 	/**
-	 * @return an array with the list of currencies which are available in source
-	 */
-	public function getCurrenciesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
-		$result = $adb->pquery($currency_query, []);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$currencyname = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_name'));
-			$currencycode = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_code'));
-			$currencysymbol = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_symbol'));
-			$currencies[$currencyname] = [$currencycode, $currencysymbol];
-		}
-		return $currencies;
-	}
-
-	/**
-	 * @return an array with the list of time zones which are availables in source
-	 */
-	public function getTimeZonesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
-		$result = $adb->pquery($timezone_query, []);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$time_zone = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'time_zone'));
-			$time_zones_list[$time_zone] = $time_zone;
-		}
-		return $time_zones_list;
-	}
-
-	/**
-	 * Check mail exist
-	 * @param string $email
+	 * Check mail exist.
+	 *
+	 * @param string    $email
 	 * @param int|false $userId
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function checkMailExist($email, $userId = false)
 	{
@@ -174,10 +154,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Validation of user name
-	 * @param string $userName
+	 * Validation of user name.
+	 *
+	 * @param string    $userName
 	 * @param int|false $userId
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function checkUserName($userName, $userId = false)
 	{
@@ -199,32 +181,15 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * @return an array with the list of languages which are available in source
-	 */
-	public static function getLanguagesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$language_query = 'SELECT prefix, label FROM vtiger_language';
-		$result = $adb->query($language_query);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$lang_prefix = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'prefix'));
-			$label = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'label'));
-			$languages[$lang_prefix] = $label;
-		}
-		asort($languages);
-		return $languages;
-	}
-
-	/**
-	 * Get switch users
-	 * @param boolean $showRole
+	 * Get switch users.
+	 *
+	 * @param bool $showRole
+	 *
 	 * @return array
 	 */
 	public static function getSwitchUsers($showRole = false)
 	{
-		require('user_privileges/switchUsers.php');
+		require 'user_privileges/switchUsers.php';
 		$baseUserId = \App\User::getCurrentUserRealId();
 		$users = $userIds = [];
 		if (isset($switchUsers[$baseUserId])) {
@@ -234,12 +199,13 @@ class Users_Module_Model extends Vtiger_Module_Model
 			}
 			if ($showRole) {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_role.rolename', 'vtiger_user2role.userid'])->from('vtiger_role')
-						->leftJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
-						->where(['vtiger_user2role.userid' => $userIds])
-						->createCommand()->query();
+					->leftJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
+					->where(['vtiger_user2role.userid' => $userIds])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$users[$row['userid']]['roleName'] = $row['rolename'];
 				}
+				$dataReader->close();
 			}
 			if ($users) {
 				return $users;
@@ -254,7 +220,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function gives list fields for save
+	 * Function gives list fields for save.
+	 *
 	 * @return string[]
 	 */
 	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)

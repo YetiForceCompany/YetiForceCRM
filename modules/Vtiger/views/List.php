@@ -11,20 +11,21 @@
 
 class Vtiger_List_View extends Vtiger_Index_View
 {
-
 	protected $listViewEntries = false;
 	protected $listViewCount = false;
 	protected $listViewLinks = false;
 	protected $listViewHeaders = false;
 
 	/**
-	 * List view model instance
+	 * List view model instance.
+	 *
 	 * @var Vtiger_ListView_Model
 	 */
 	protected $listViewModel;
 
 	/**
-	 * List view name or id
+	 * List view name or id.
+	 *
 	 * @var int|string
 	 */
 	protected $viewName;
@@ -41,11 +42,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$title = App\Language::translate($moduleName, $moduleName);
 		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
-		if ($request->has('viewname')) {
+		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
-			if (!empty($customView)) {
-				$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
-			}
+			$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
 		}
 		return $title;
 	}
@@ -54,20 +53,19 @@ class Vtiger_List_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
-		if ($request->has('viewname')) {
+		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
-			if (!empty($customView)) {
-				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
-					. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
-			}
+			$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
+				. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
 		}
 		return $title;
 	}
 
 	/**
-	 * Pre process
+	 * Pre process.
+	 *
 	 * @param \App\Request $request
-	 * @param bool $display
+	 * @param bool         $display
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -115,7 +113,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -151,9 +149,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -163,8 +161,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_JsScript_Model[] - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -173,31 +173,33 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Vtiger.resources.CkEditor',
 			'modules.Vtiger.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch"
+			"modules.$moduleName.resources.ListSearch",
 		];
+
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page
+	 * Retrieves css styles that need to loaded in the page.
+	 *
 	 * @param \App\Request $request - request model
+	 *
 	 * @return Vtiger_CssScript_Model[] - array of Vtiger_CssScript_Model
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
 		];
+
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
+
+	// Function to initialize the required data in smarty to display the List View Contents
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
@@ -205,7 +207,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
 			$orderBy = App\CustomView::getSortby($moduleName);
 			$sortOrder = App\CustomView::getSorder($moduleName);
@@ -217,10 +218,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = App\CustomView::getCurrentPage($moduleName, $this->viewName);
@@ -228,10 +229,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		}
-		if (!empty($searchResult)) {
-			$this->listViewModel->set('searchResult', $searchResult);
+		if (!$request->isEmpty('searchResult', true)) {
+			$this->listViewModel->set('searchResult', $request->getArray('searchResult', 'Integer'));
 		}
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $this->viewName];
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 'Alnum'), 'CVID' => $this->viewName];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -240,19 +241,23 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
+		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$this->listViewModel->set('operator', $request->getByType('operator', 1));
-			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
+			$operator = $request->getByType('operator');
+			$this->listViewModel->set('operator', $operator);
+			$viewer->assign('OPERATOR', $operator);
 		}
 		if (!$request->isEmpty('search_key', true)) {
-			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
-			$this->listViewModel->set('search_value', $request->get('search_value'));
-			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
+			$this->listViewModel->set('search_key', $searchKey);
+			$this->listViewModel->set('search_value', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
@@ -261,7 +266,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-					$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+					$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? null;
 					$searchParams[$fieldName] = $fieldSearchInfo;
 				}
 			}
@@ -280,7 +285,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
-		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
+		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION'] ?? []);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ORDER_BY', $orderBy);

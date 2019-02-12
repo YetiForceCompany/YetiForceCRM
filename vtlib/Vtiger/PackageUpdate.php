@@ -7,32 +7,31 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to update module into vtiger CRM
- * @package vtlib
+ * Provides API to update module into vtiger CRM.
  */
 class PackageUpdate extends PackageImport
 {
-
 	public $_migrationinfo = false;
 	public $listFields = [];
 	public $listBlocks = [];
 
 	/**
-	 * Initialize Update
-	 * @access private
+	 * Initialize Update.
 	 */
 	public function initUpdate($moduleInstance, $zipfile, $overwrite)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if (!$moduleInstance || $moduleInstance->name != $module) {
-			self::log('Module name mismatch!');
+			\App\Log::trace('Module name mismatch!', __METHOD__);
+
 			return false;
 		}
 		if ($module !== null) {
-			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
@@ -42,7 +41,7 @@ class PackageUpdate extends PackageImport
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
-				'config' => 'config/modules',
+				'config' => 'config/Modules',
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
@@ -52,9 +51,9 @@ class PackageUpdate extends PackageImport
 				// Settings templates folder
 				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/images/$module",
 				'updates' => 'cache/updates',
-				'layouts' => 'layouts'
+				'layouts' => 'layouts',
 			]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
@@ -65,29 +64,28 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Update Module from zip file
+	 * Update Module from zip file.
+	 *
 	 * @param Module Instance of the module to update
-	 * @param String Zip file name
-	 * @param Boolean True for overwriting existing module
+	 * @param string Zip file name
+	 * @param bool True for overwriting existing module
 	 */
 	public function update($moduleInstance, $zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module !== null) {
-			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
 				$this->__parseManifestFile($zip);
 			}
-
-			$buildModuleArray = [];
-			$installSequenceArray = [];
-			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
+			$installSequenceArray = $buildModuleArray = [];
+			$moduleBundle = (bool) $this->_modulexml->modulebundle;
 			if ($moduleBundle === true) {
-				$moduleList = (Array) $this->_modulexml->modulelist;
+				$moduleList = (array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {
-						$moduleInfo = (Array) $moduleInfo;
+						$moduleInfo = (array) $moduleInfo;
 						$buildModuleArray[] = $moduleInfo;
 						$installSequenceArray[] = $moduleInfo['install_sequence'];
 					}
@@ -104,33 +102,24 @@ class PackageUpdate extends PackageImport
 				}
 			} else {
 				if (!$moduleInstance || $moduleInstance->name != $module) {
-					self::log('Module name mismatch!');
+					\App\Log::trace('Module name mismatch!', __METHOD__);
+
 					return false;
 				}
-				$module = $this->initUpdate($moduleInstance, $zipfile, $overwrite);
+				$this->initUpdate($moduleInstance, $zipfile, $overwrite);
 				// Call module update function
 				$this->updateModule($moduleInstance);
 			}
-			unlink($zipfile);
 		}
 	}
 
 	/**
-	 * Update Module
-	 * @access private
+	 * Update Module.
 	 */
 	public function updateModule($moduleInstance)
 	{
 		$tablabel = $this->_modulexml->label;
 		$tabversion = $this->_modulexml->version;
-
-		$isextension = false;
-		if (!empty($this->_modulexml->type)) {
-			$type = strtolower($this->_modulexml->type);
-			if ($type == 'extension' || $type == 'language')
-				$isextension = true;
-		}
-
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_PREUPDATE);
 		$moduleInstance->label = $tablabel;
 		$moduleInstance->save();
@@ -151,12 +140,11 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Parse migration information from manifest
-	 * @access private
+	 * Parse migration information from manifest.
 	 */
 	public function parseMigration($modulenode)
 	{
-		if (!$this->_migrations) {
+		if (empty($this->_migrations)) {
 			$this->_migrations = [];
 			if (!empty($modulenode->migrations) &&
 				!empty($modulenode->migrations->migration)) {
@@ -174,8 +162,7 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Handle migration of the module
-	 * @access private
+	 * Handle migration of the module.
 	 */
 	public function handleMigration($modulenode, $moduleInstance)
 	{
@@ -184,29 +171,28 @@ class PackageUpdate extends PackageImport
 		foreach ($this->_migrations as $migversion => $migrationnode) {
 			// Perform migration only for higher version than current
 			if (version_compare($cur_version, $migversion, '<')) {
-				self::log("Migrating to $migversion ... STARTED");
+				\App\Log::trace("Migrating to $migversion ... STARTED", __METHOD__);
 				if (!empty($migrationnode->tables) && !empty($migrationnode->tables->table)) {
 					foreach ($migrationnode->tables->table as $tablenode) {
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
 						if (Utils::isDestructiveSql($tablesql)) {
-							self::log("SQL: $tablesql ... SKIPPED");
+							\App\Log::trace("SQL: $tablesql ... SKIPPED", __METHOD__);
 						} else {
 							// Supress any SQL query failures
-							self::log("SQL: $tablesql ... ", false);
+							\App\Log::trace("SQL: $tablesql ... ", __METHOD__);
 							Utils::executeQuery($tablesql, true);
-							self::log('DONE');
+							\App\Log::trace('DONE', __METHOD__);
 						}
 					}
 				}
-				self::log("Migrating to $migversion ... DONE");
+				\App\Log::trace("Migrating to $migversion ... DONE", __METHOD__);
 			}
 		}
 	}
 
 	/**
-	 * Update Tables of the module
-	 * @access private
+	 * Update Tables of the module.
 	 */
 	public function updateTables($modulenode)
 	{
@@ -214,17 +200,17 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Update Blocks of the module
-	 * @access private
+	 * Update Blocks of the module.
 	 */
 	public function updateBlocks($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->blocks) || empty($modulenode->blocks->block))
+		if (empty($modulenode->blocks) || empty($modulenode->blocks->block)) {
 			return;
+		}
 
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$this->listBlocks[] = strval($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance);
+			$this->listBlocks[] = (string) ($blocknode->label);
+			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -243,41 +229,41 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Update Block of the module
-	 * @access private
+	 * Update Block of the module.
 	 */
 	public function updateBlock($modulenode, $moduleInstance, $blocknode, $blockInstance)
 	{
-		$blockInstance->label = strval($blocknode->label);
-		if (isset($blocknode->sequence) && isset($blocknode->display_status)) {
-			$blockInstance->sequence = strval($blocknode->sequence);
-			$blockInstance->showtitle = strval($blocknode->show_title);
-			$blockInstance->visible = strval($blocknode->visible);
-			$blockInstance->increateview = strval($blocknode->create_view);
-			$blockInstance->ineditview = strval($blocknode->edit_view);
-			$blockInstance->indetailview = strval($blocknode->detail_view);
-			$blockInstance->display_status = strval($blocknode->display_status);
-			$blockInstance->iscustom = strval($blocknode->iscustom);
-			$blockInstance->islist = strval($blocknode->islist);
+		$blockInstance->label = (string) ($blocknode->label);
+		if (isset($blocknode->sequence, $blocknode->display_status)) {
+			$blockInstance->sequence = (string) ($blocknode->sequence);
+			$blockInstance->showtitle = (string) ($blocknode->show_title);
+			$blockInstance->visible = (string) ($blocknode->visible);
+			$blockInstance->increateview = (string) ($blocknode->create_view);
+			$blockInstance->ineditview = (string) ($blocknode->edit_view);
+			$blockInstance->indetailview = (string) ($blocknode->detail_view);
+			$blockInstance->display_status = (string) ($blocknode->display_status);
+			$blockInstance->iscustom = (string) ($blocknode->iscustom);
+			$blockInstance->islist = (string) ($blocknode->islist);
 		} else {
-			$blockInstance->display_status = NULL;
+			$blockInstance->display_status = null;
 		}
 		$blockInstance->save();
+
 		return $blockInstance;
 	}
 
 	/**
-	 * Update Fields of the module
-	 * @access private
+	 * Update Fields of the module.
 	 */
 	public function updateFields($blocknode, $blockInstance, $moduleInstance)
 	{
-		if (empty($blocknode->fields) || empty($blocknode->fields->field))
+		if (empty($blocknode->fields) || empty($blocknode->fields->field)) {
 			return;
+		}
 
 		foreach ($blocknode->fields->field as $fieldnode) {
-			$this->listFields[] = strval($fieldnode->fieldname);
-			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
+			$this->listFields[] = (string) ($fieldnode->fieldname);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance->id);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
@@ -295,47 +281,49 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Update Field of the module
-	 * @access private
+	 * Update Field of the module.
 	 */
 	public function updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
 	{
+		// strval used because in $fieldnode there is a SimpleXMLElement object
+		$fieldInstance->name = (string) ($fieldnode->fieldname);
+		$fieldInstance->label = (string) ($fieldnode->fieldlabel);
+		$fieldInstance->table = (string) ($fieldnode->tablename);
+		$fieldInstance->column = (string) ($fieldnode->columnname);
+		$fieldInstance->uitype = (string) ($fieldnode->uitype);
+		$fieldInstance->generatedtype = (string) ($fieldnode->generatedtype);
+		$fieldInstance->readonly = (string) ($fieldnode->readonly);
+		$fieldInstance->presence = (string) ($fieldnode->presence);
+		$fieldInstance->defaultvalue = (string) ($fieldnode->defaultvalue);
+		$fieldInstance->maximumlength = (string) ($fieldnode->maximumlength);
+		$fieldInstance->sequence = (string) ($fieldnode->sequence);
+		$fieldInstance->quickcreate = (string) ($fieldnode->quickcreate);
+		$fieldInstance->quicksequence = (string) ($fieldnode->quickcreatesequence);
+		$fieldInstance->typeofdata = (string) ($fieldnode->typeofdata);
+		$fieldInstance->displaytype = (string) ($fieldnode->displaytype);
+		$fieldInstance->info_type = (string) ($fieldnode->info_type);
+		$fieldInstance->fieldparams = (string) ($fieldnode->fieldparams);
 
-		// strval used because in $fieldnode there is a SimpleXMLElement object 
-		$fieldInstance->name = strval($fieldnode->fieldname);
-		$fieldInstance->label = strval($fieldnode->fieldlabel);
-		$fieldInstance->table = strval($fieldnode->tablename);
-		$fieldInstance->column = strval($fieldnode->columnname);
-		$fieldInstance->uitype = strval($fieldnode->uitype);
-		$fieldInstance->generatedtype = strval($fieldnode->generatedtype);
-		$fieldInstance->readonly = strval($fieldnode->readonly);
-		$fieldInstance->presence = strval($fieldnode->presence);
-		$fieldInstance->defaultvalue = strval($fieldnode->defaultvalue);
-		$fieldInstance->maximumlength = strval($fieldnode->maximumlength);
-		$fieldInstance->sequence = strval($fieldnode->sequence);
-		$fieldInstance->quickcreate = strval($fieldnode->quickcreate);
-		$fieldInstance->quicksequence = strval($fieldnode->quickcreatesequence);
-		$fieldInstance->typeofdata = strval($fieldnode->typeofdata);
-		$fieldInstance->displaytype = strval($fieldnode->displaytype);
-		$fieldInstance->info_type = strval($fieldnode->info_type);
-		$fieldInstance->fieldparams = strval($fieldnode->fieldparams);
-
-		if (!empty($fieldnode->fieldparams))
-			$fieldInstance->fieldparams = strval($fieldnode->fieldparams);
+		if (!empty($fieldnode->fieldparams)) {
+			$fieldInstance->fieldparams = (string) ($fieldnode->fieldparams);
+		}
 
 		// Check if new parameters are defined
 		if (isset($fieldnode->columntype)) {
-			$fieldInstance->columntype = strval($fieldnode->columntype);
+			$fieldInstance->columntype = (string) ($fieldnode->columntype);
 		} else {
-			$fieldInstance->columntype = NULL;
+			$fieldInstance->columntype = null;
 		}
 
-		if (!empty($fieldnode->helpinfo))
+		if (!empty($fieldnode->helpinfo)) {
 			$fieldInstance->setHelpInfo($fieldnode->helpinfo);
-		if (!empty($fieldnode->masseditable))
+		}
+		if (!empty($fieldnode->masseditable)) {
 			$fieldInstance->setMassEditable($fieldnode->masseditable);
-		if (!empty($fieldnode->summaryfield))
+		}
+		if (!empty($fieldnode->summaryfield)) {
 			$fieldInstance->setSummaryField($fieldnode->summaryfield);
+		}
 
 		$fieldInstance->block = $blockInstance;
 		$fieldInstance->save();
@@ -343,12 +331,12 @@ class PackageUpdate extends PackageImport
 		// Set the field as entity identifier if marked.
 		if (!empty($fieldnode->entityidentifier)) {
 			if (isset($fieldnode->entityidentifier->fieldname) && !empty($fieldnode->entityidentifier->fieldname)) {
-				$moduleInstance->entityfieldname = strval($fieldnode->entityidentifier->fieldname);
+				$moduleInstance->entityfieldname = (string) ($fieldnode->entityidentifier->fieldname);
 			} else {
 				$moduleInstance->entityfieldname = $fieldInstance->name;
 			}
-			$moduleInstance->entityidfield = strval($fieldnode->entityidentifier->entityidfield);
-			$moduleInstance->entityidcolumn = strval($fieldnode->entityidentifier->entityidcolumn);
+			$moduleInstance->entityidfield = (string) ($fieldnode->entityidentifier->entityidfield);
+			$moduleInstance->entityidcolumn = (string) ($fieldnode->entityidentifier->entityidcolumn);
 			$moduleInstance->setEntityIdentifier($fieldInstance);
 		}
 
@@ -374,17 +362,17 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Import Custom views of the module
-	 * @access private
+	 * Import Custom views of the module.
 	 */
 	public function updateCustomViews($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
+		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview)) {
 			return;
+		}
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance);
+			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance->id);
 			if (!$filterInstance) {
-				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
+				$this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
 				$this->updateCustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance);
 			}
@@ -392,29 +380,26 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Update Custom View of the module
-	 * @access private
+	 * Update Custom View of the module.
 	 */
 	public function updateCustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance)
 	{
-
 		$filterInstance->delete();
 		$this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 	}
 
 	/**
-	 * Update Sharing Access of the module
-	 * @access private
+	 * Update Sharing Access of the module.
 	 */
 	public function updateSharingAccess($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->sharingaccess))
+		if (empty($modulenode->sharingaccess)) {
 			return;
+		}
 	}
 
 	/**
-	 * Update Events of the module
-	 * @access private
+	 * Update Events of the module.
 	 */
 	public function updateEvents($modulenode, $moduleInstance)
 	{
@@ -429,30 +414,27 @@ class PackageUpdate extends PackageImport
 	}
 
 	/**
-	 * Update actions of the module
-	 * @access private
+	 * Update actions of the module.
 	 */
 	public function updateActions($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->actions) || empty($modulenode->actions->action))
+		if (empty($modulenode->actions) || empty($modulenode->actions->action)) {
 			return;
+		}
 		foreach ($modulenode->actions->action as $actionnode) {
 			$this->updateAction($modulenode, $moduleInstance, $actionnode);
 		}
 	}
 
 	/**
-	 * Update action of the module
-	 * @access private
+	 * Update action of the module.
 	 */
 	public function updateAction($modulenode, $moduleInstance, $actionnode)
 	{
-		
 	}
 
 	/**
-	 * Update related lists of the module
-	 * @access private
+	 * Update related lists of the module.
 	 */
 	public function updateRelatedLists($modulenode, $moduleInstance)
 	{
@@ -471,7 +453,6 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Import related list of the module.
-	 * @access private
 	 */
 	public function updateRelatedlist($modulenode, $moduleInstance, $relatedlistnode)
 	{
@@ -511,16 +492,18 @@ class PackageUpdate extends PackageImport
 
 	public function updateCustomLinks($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
+		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink)) {
 			return;
+		}
 		Link::deleteAll($moduleInstance->id);
 		$this->importCustomLinks($modulenode, $moduleInstance);
 	}
 
 	public function updateCronTasks($modulenode)
 	{
-		if (empty($modulenode->crons) || empty($modulenode->crons->cron))
+		if (empty($modulenode->crons) || empty($modulenode->crons->cron)) {
 			return;
+		}
 		$cronTasks = Cron::listAllInstancesByModule($modulenode->name);
 		foreach ($modulenode->crons->cron as $importCronTask) {
 			foreach ($cronTasks as $cronTask) {

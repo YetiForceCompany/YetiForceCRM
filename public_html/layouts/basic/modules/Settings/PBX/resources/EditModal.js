@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_EditModal_Js('Settings_PBX_EditModal_Js', {}, {
 	registerEvents: function () {
 		this._super();
@@ -11,7 +13,7 @@ Settings_Vtiger_EditModal_Js('Settings_PBX_EditModal_Js', {}, {
 					view: 'EditModal',
 					type: this.value,
 					connectorConfig: true
-				}).then(function (html) {
+				}).done(function (html) {
 					container.find('.editModalContent').html($(html).find('.editModalContent').html());
 				});
 			} else {

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<table class="table table-condensed table-bordered">
+	<table class="table table-sm table-bordered">
 		<thead>
 			<tr>
 				<th>{\App\Language::translate('LBL_SUBJECT', $MODULE_NAME)}</th>

@@ -11,9 +11,8 @@
 
 class Vtiger_Time_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -24,11 +23,25 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 *
+	 * @param mixed  $value
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::purifyByType($value, 'TimeInUserFormat');
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$rawValue = $value;
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -36,14 +49,14 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		}
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
-		if (!($d && $d->format($timeFormat) === $value)) {
+		if (!$d || $d->format($timeFormat) !== $value) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$rawValue] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -55,7 +68,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -63,41 +76,45 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/TimeFieldSearchView.tpl';
+		return 'List/Field/Time.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Time.tpl';
+		return 'Edit/Field/Time.tpl';
 	}
 
 	public static function getDBTimeFromUserValue($value)
 	{
-		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
-		return $time->format('H:i:s');
+		return DateTimeField::convertToDBTimeZone(date('Y-m-d') . ' ' . $value, null, false)->format('H:i:s');
 	}
 
 	/**
-	 * Function to get display value for time
+	 * Function to get display value for time.
+	 *
 	 * @param string time
+	 *
 	 * @return string time
 	 */
 	public static function getDisplayTimeValue($time)
 	{
 		$date = new DateTimeField($time);
+
 		return $date->getDisplayTime();
 	}
 
 	/**
-	 * Function to get time value in AM/PM format
+	 * Function to get time value in AM/PM format.
+	 *
 	 * @param string $time
+	 *
 	 * @return string time
 	 */
 	public static function getTimeValueInAMorPM($time)
@@ -108,7 +125,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 			if ($hours > 12) {
 				$hours = (int) $hours - 12;
-			} else if ($hours < 12) {
+			} elseif ($hours < 12) {
 				$format = \App\Language::translate('AM');
 			}
 
@@ -117,7 +134,9 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 				$hours = '12';
 				$format = \App\Language::translate('AM');
 			}
-
+			if (strlen($hours) === 1) {
+				$hours = "0$hours";
+			}
 			return "$hours:$minutes $format";
 		} else {
 			return '';
@@ -125,8 +144,10 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get Time value with seconds
+	 * Function to get Time value with seconds.
+	 *
 	 * @param string $time
+	 *
 	 * @return string time
 	 */
 	public static function getTimeValueWithSeconds($time)
@@ -152,5 +173,45 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return null;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Time.tpl';
+	}
+
+	/**
+	 * Generate valid sample value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function getSampleValue()
+	{
+		return random_int(0, 23) . ':' . random_int(0, 59) . ':' . random_int(0, 59);
 	}
 }

@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	triggerDelete: function (event, url) {
 		event.stopPropagation();
@@ -18,11 +20,11 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 		var params = $.extend(instance.getDeleteParams(), {
 			record: id,
 		});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			if (data.success) {
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
-				instance.getListViewRecords().then(function () {
+				instance.getListViewRecords().done(function () {
 					instance.updatePagination();
 				});
 			}
@@ -41,9 +43,9 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	/*
 	 * Function to register the list view container
 	 */
-	getListViewContainer: function () {
+	getListViewContainer() {
 		if (this.listViewContainer == false) {
-			this.listViewContainer = jQuery('div.listViewContentDiv');
+			this.listViewContainer = $('div.listViewPageDiv');
 		}
 		return this.listViewContainer;
 	},
@@ -53,20 +55,14 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	 */
 	DeleteRecord: function (url) {
 		var thisInstance = this;
-		var css = jQuery.extend({'text-align': 'left'}, css);
 
-		AppConnector.request(url).then(
-				function (data) {
-					if (data) {
-						app.showModalWindow(data, function (container) {
-							thisInstance.postDeleteAction(container);
-						});
-					}
-				},
-				function (error, err) {
-
-				}
-		);
+		AppConnector.request(url).done(function (data) {
+			if (data) {
+				app.showModalWindow(data, function (container) {
+					thisInstance.postDeleteAction(container);
+				});
+			}
+		});
 	},
 
 	/**
@@ -78,24 +74,21 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 		deleteConfirmForm.on('submit', function (e) {
 			e.preventDefault();
 			var deleteActionUrl = deleteConfirmForm.serializeFormData();
-			AppConnector.request(deleteActionUrl).then(
-					function () {
-						app.hideModalWindow();
-						var params = {
-							text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
-						};
-						Settings_Vtiger_Index_Js.showMessage(params);
-						jQuery('#recordsCount').val('');
-						jQuery('#totalPageCount').text('');
-						thisInstance.getListViewRecords().then(function () {
-							thisInstance.updatePagination();
-						});
-					},
-					function (error, err) {
-						app.hideModalWindow();
-					}
-			);
-		})
+			AppConnector.request(deleteActionUrl).done(function () {
+				app.hideModalWindow();
+				var params = {
+					text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
+				};
+				Settings_Vtiger_Index_Js.showMessage(params);
+				jQuery('#recordsCount').val('');
+				jQuery('#totalPageCount').text('');
+				thisInstance.getListViewRecords().done(function () {
+					thisInstance.updatePagination();
+				});
+			}).fail(function (error, err) {
+				app.hideModalWindow();
+			});
+		});
 	},
 
 	/**
@@ -112,7 +105,7 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 			"viewname": cvId
 		}
 		var sourceModule = jQuery('#moduleFilter').val();
-		if (typeof sourceModule != 'undefined') {
+		if (typeof sourceModule !== "undefined") {
 			pageCountParams['sourceModule'] = sourceModule;
 		}
 		return pageCountParams;

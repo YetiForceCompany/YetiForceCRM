@@ -1,21 +1,21 @@
 <?php
 /**
- * Record Class for SMSNotifier
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Record Class for SMSNotifier.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Record Class for SMSNotifier
+ * Record Class for SMSNotifier.
  */
 class SMSNotifier_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function defines the ability to create a record
-	 * @return boolean
+	 * Function defines the ability to create a record.
+	 *
+	 * @return bool
 	 */
 	public function isCreateable()
 	{
@@ -23,8 +23,9 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function defines the ability to edit a record
-	 * @return boolean
+	 * Function defines the ability to edit a record.
+	 *
+	 * @return bool
 	 */
 	public function isEditable()
 	{
@@ -32,11 +33,13 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function sends sms
-	 * @param string $message
+	 * Function sends sms.
+	 *
+	 * @param string   $message
 	 * @param string[] $toNumbers
-	 * @param int[] $recordIds
-	 * @param string $ralModuleName
+	 * @param int[]    $recordIds
+	 * @param string   $ralModuleName
+	 *
 	 * @return bool
 	 */
 	public static function sendSMS($message, $toNumbers, $recordIds, $ralModuleName)
@@ -62,6 +65,7 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 		}
 		$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$recordModel->save();
+
 		return $result;
 	}
 }

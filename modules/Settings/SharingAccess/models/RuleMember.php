@@ -1,24 +1,24 @@
 <?php
 /**
- * Settings SharingAccess RuleMember model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings SharingAccess RuleMember model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
- * Sharng Access Vtiger Module Model Class
+ * Sharng Access Vtiger Module Model Class.
  */
 class Settings_SharingAccess_RuleMember_Model extends \App\Base
 {
-
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';
 	const RULE_MEMBER_TYPE_ROLES = 'Roles';
 	const RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES = 'RoleAndSubordinates';
 	const RULE_MEMBER_TYPE_USERS = 'Users';
 
 	/**
-	 * Function to get the Qualified Id of the Group RuleMember
+	 * Function to get the Qualified Id of the Group RuleMember.
+	 *
 	 * @return <Number> Id
 	 */
 	public function getId()
@@ -50,7 +50,8 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Group Name
+	 * Function to get the Group Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -59,7 +60,8 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Group Name
+	 * Function to get the Group Name.
+	 *
 	 * @return string
 	 */
 	public function getQualifiedName()
@@ -78,8 +80,10 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get instance of class
-	 * @param integer $qualifiedId
+	 * Function to get instance of class.
+	 *
+	 * @param int $qualifiedId
+	 *
 	 * @return self
 	 */
 	public static function getInstance($qualifiedId)
@@ -93,6 +97,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 				->one();
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_GROUPS, $row['groupid']);
+
 				return (new self())->set('id', $qualifiedId)->set('name', $row['groupname']);
 			}
 		}
@@ -102,6 +107,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 				->one();
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $row['id']);
+
 				return (new self())->set('id', $qualifiedId)->set('name', $row['first_name'] . ' ' . $row['last_name']);
 			}
 		}
@@ -109,6 +115,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 			$row = App\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLES, $row['roleid']);
+
 				return (new self())->set('id', $qualifiedId)->set('name', $row['rolename']);
 			}
 		}
@@ -116,6 +123,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 			$row = App\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
+
 				return (new self())->set('id', $qualifiedId)->set('name', $row['rolename']);
 			}
 		}
@@ -123,7 +131,8 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all the rule members
+	 * Function to get all the rule members.
+	 *
 	 * @return <Array> - Array of Settings_SharingAccess_RuleMember_Model instances
 	 */
 	public static function getAll()
@@ -154,7 +163,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 			$rule = new self();
 			$rules[self::RULE_MEMBER_TYPE_USERS][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $userModel->getDisplayName());
 		}
-
 		return $rules;
 	}
 }

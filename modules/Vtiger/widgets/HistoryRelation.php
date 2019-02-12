@@ -1,33 +1,34 @@
 <?php
 
 /**
- * Class for history widget
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Class for history widget.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 {
-
 	/**
-	 * Names od classes that define color
-	 * @var string[] 
+	 * Names od classes that define color.
+	 *
+	 * @var string[]
 	 */
 	public static $colors = [
-		'ModComments' => 'bgBlue',
-		'OSSMailViewReceived' => 'bgDanger',
-		'OSSMailViewSent' => 'bgGreen',
-		'OSSMailViewInternal' => 'bgBlue',
-		'Calendar' => 'bgOrange',
+		'ModComments' => 'bg-primary',
+		'OSSMailViewReceived' => 'bg-danger',
+		'OSSMailViewSent' => 'bg-success',
+		'OSSMailViewInternal' => 'bg-primary',
+		'Calendar' => 'bg-warning',
 	];
 
 	/**
-	 * Function gets modules name
+	 * Function gets modules name.
+	 *
 	 * @return string[]
 	 */
-	static public function getActions()
+	public static function getActions()
 	{
 		$modules = ['ModComments', 'OSSMailView', 'Calendar'];
 		foreach ($modules as $key => $module) {
@@ -35,6 +36,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				unset($modules[$key]);
 			}
 		}
+
 		return $modules;
 	}
 
@@ -44,6 +46,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		foreach (self::getActions() as $type) {
 			$url .= '&type[]=' . $type;
 		}
+
 		return $url;
 	}
 
@@ -51,8 +54,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	{
 		$this->Config['tpl'] = 'HistoryRelation.tpl';
 		$this->Config['url'] = $this->getUrl();
-		$widget = $this->Config;
-		return $widget;
+		return $this->Config;
 	}
 
 	public function getConfigTplName()
@@ -61,9 +63,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	}
 
 	/**
-	 * Function gets records for timeline widget
-	 * @param \App\Request $request
+	 * Function gets records for timeline widget.
+	 *
+	 * @param \App\Request        $request
 	 * @param Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return array - List of records
 	 */
 	public static function getHistory(\App\Request $request, Vtiger_Paging_Model $pagingModel)
@@ -72,7 +76,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		if ($request->isEmpty('type')) {
 			return [];
 		}
-		$query = static::getQuery($recordId, $request->getModule(), $request->get('type'));
+		$query = static::getQuery($recordId, $request->getModule(), $request->getArray('type', 'Alnum'));
 		if (empty($query)) {
 			return [];
 		}
@@ -101,22 +105,25 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			}
 			$body = trim(App\Purifier::purify($row['body']));
 			if (!$request->getBoolean('isFullscreen')) {
-				$body = vtlib\Functions::textLength($body, 100);
+				$body = App\TextParser::textTruncate($body, 100);
 			} else {
 				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], App\Purifier::decodeHtml(App\Purifier::purify($body)));
-				$body = nl2br(vtlib\Functions::textLength($body, 500), false);
+				$body = nl2br(App\TextParser::textTruncate($body, 500), false);
 			}
 			$row['body'] = $body;
 			$history[] = $row;
 		}
+
 		return $history;
 	}
 
 	/**
-	 * Function creates database query in order to get records for timeline widget
-	 * @param int $recordId
+	 * Function creates database query in order to get records for timeline widget.
+	 *
+	 * @param int    $recordId
 	 * @param string $moduleName
-	 * @param array $type
+	 * @param array  $type
+	 *
 	 * @return \App\Db\Query()|false
 	 */
 	public static function getQuery($recordId, $moduleName, $type)
@@ -133,7 +140,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'id' => 'vtiger_crmentity.crmid',
 					'content' => 'a.subject',
 					'user' => 'vtiger_crmentity.smownerid',
-					'time' => new \yii\db\Expression('CONCAT(a.date_start, ' . $db->quoteValue(' ') . ', a.time_start)')
+					'time' => new \yii\db\Expression('CONCAT(a.date_start, ' . $db->quoteValue(' ') . ', a.time_start)'),
 				])
 				->from('vtiger_activity a')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
@@ -151,7 +158,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'id' => 'm.modcommentsid',
 					'content' => 'm.commentcontent',
 					'user' => 'vtiger_crmentity.smownerid',
-					'time' => 'vtiger_crmentity.createdtime'
+					'time' => 'vtiger_crmentity.createdtime',
 				])
 				->from('vtiger_modcomments m')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = m.modcommentsid')
@@ -169,7 +176,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'id' => 'o.ossmailviewid',
 					'content' => 'o.subject',
 					'user' => 'vtiger_crmentity.smownerid',
-					'time' => 'vtiger_crmentity.createdtime'
+					'time' => 'vtiger_crmentity.createdtime',
 				])
 				->from('vtiger_ossmailview o')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = o.ossmailviewid')
@@ -189,14 +196,15 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					$subQuery->union($query, true);
 				}
 
-				$index++;
+				++$index;
 			}
 			if ($subQuery) {
-				$sql = (new \App\Db\Query)->from(['records' => $subQuery]);
+				$sql = (new \App\Db\Query())->from(['records' => $subQuery]);
 			} else {
 				return false;
 			}
 		}
+
 		return $sql->orderBy(['time' => SORT_DESC]);
 	}
 }

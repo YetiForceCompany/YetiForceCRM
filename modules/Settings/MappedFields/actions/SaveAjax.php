@@ -1,15 +1,14 @@
 <?php
 
 /**
- * SaveAjax Action Class for MappedFields Settings
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * SaveAjax Action Class for MappedFields Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,10 +20,16 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 	public function step1(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$params = $request->get('param');
-		$recordId = $params['record'];
-		$step = $params['step'];
 
+		$params = $request->getByType('param', 'Text');
+		$step = (int) $params['step'];
+		if ($step !== 3) {
+			$validators = Settings_MappedFields_Module_Model::$validatorFields;
+			$validators['record'] = 'Integer';
+			$validators['step'] = 'Integer';
+			$params = $request->getMultiDimensionArray('param', $validators);
+		}
+		$recordId = $params['record'] ?? null;
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		} else {
@@ -32,7 +37,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		}
 		$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
-			$moduleInstance->getRecord()->set($field, $params[$field]);
+			$moduleInstance->getRecord()->set($field, $params[$field] ?? null);
 			if ($field === 'conditions') {
 				$moduleInstance->transformAdvanceFilterToWorkFlowFilter();
 			}
@@ -44,18 +49,30 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message, $qualifiedModuleName)]);
+		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message ?? '', $qualifiedModuleName)]);
 		$response->emit();
 	}
 
 	public function step2(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'mapping' => [
+				[
+					'source' => 'Integer',
+					'type' => 'Standard',
+					'target' => 'Integer',
+					'default' => 'Text'
+				]
+			],
+			'otherConditions' => 'Text',
+			'record' => 'Integer'
+		]);
 		$recordId = $params['record'];
-
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		$moduleInstance->getRecord()->set('params', $params['otherConditions']);
-		$moduleInstance->setMapping($params['mapping']);
+		if (!empty($params['mapping'])) {
+			$moduleInstance->setMapping($params['mapping']);
+		}
 		$moduleInstance->save(true);
 
 		$response = new Vtiger_Response();

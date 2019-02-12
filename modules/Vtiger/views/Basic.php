@@ -7,6 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 /* * *******************************************************************************
  * $Header$
  * Description:  Contains a variety of utility functions used to display UI
@@ -19,7 +20,6 @@
 
 abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -48,9 +48,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
-		if (\App\Module::isModuleActive('Chat')) {
-			$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries());
-		}
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if ($display) {
 			$this->preProcessDisplay($request);
@@ -62,55 +59,39 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return Vtiger_Menu_Model::getAll(true);
 	}
 
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'BasicHeader.tpl';
-	}
-
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 *
+	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
-			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
-			'~libraries/jquery/inputmask/jquery.inputmask.js',
-			'~libraries/jquery/mousetrap/mousetrap.min.js',
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/clockpicker/dist/bootstrap4-clockpicker.js',
+			'~libraries/inputmask/dist/jquery.inputmask.bundle.js',
+			'~libraries/mousetrap/mousetrap.js',
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
 			"modules.$moduleName.resources.Edit",
-			'modules.Vtiger.resources.Popup',
-			"modules.$moduleName.resources.Popup",
 			'~layouts/resources/Field.js',
 			"modules.$moduleName.resources.Field",
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.jquery.jquery_windowmsg',
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',
+			'modules.Vtiger.resources.ConditionBuilder',
 			"modules.$moduleName.resources.AdvanceFilter",
 			'modules.Vtiger.resources.SearchAdvanceFilter',
 			"modules.$moduleName.resources.SearchAdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
-
-	public function getGuiderModels(\App\Request $request)
-	{
-		return [];
+			'~libraries/html2canvas/dist/html2canvas.js',
+		]));
 	}
 }

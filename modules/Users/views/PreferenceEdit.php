@@ -9,15 +9,14 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Users_PreferenceEdit_View extends Vtiger_Edit_View
+class Users_PreferenceEdit_View extends Vtiger_Edit_View
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
@@ -58,18 +57,15 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		if (!$request->isEmpty('record')) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
 		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
 		$viewer = $this->getViewer($request);
-		$viewer->assign("DAY_STARTS", \App\Json::encode($dayStartPicklistValues));
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		parent::process($request);
 	}
 }

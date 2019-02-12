@@ -8,39 +8,46 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
+class Vtiger_GetData_Action extends App\Controller\Action
 {
-
 	/**
-	 * Check permission
+	 * Check permission.
+	 *
 	 * @param \App\Request $request
-	 * @return boolean
+	 *
 	 * @throws \Exception\NoPermittedToRecord
+	 *
+	 * @return bool
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$sourceModule = $request->getByType('source_module', 2);
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $request->getModule());
 		if (!$recordModel->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$labels = $data = $display = [];
-		foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
+		if ($request->has('fieldType')) {
+			$fields = $recordModel->getModule()->getFieldsByType($request->getArray('fieldType', 'Standard'));
+		} else {
+			$fields = $recordModel->getModule()->getFields();
+		}
+		foreach ($fields as $fieldName => $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				$data[$fieldName] = $recordModel->get($fieldName);
 				$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
@@ -52,7 +59,7 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 			'success' => true,
 			'data' => array_map('App\Purifier::decodeHtml', $data),
 			'displayData' => array_map('App\Purifier::decodeHtml', $display),
-			'labels' => $labels
+			'labels' => $labels,
 		]);
 		$response->emit();
 	}

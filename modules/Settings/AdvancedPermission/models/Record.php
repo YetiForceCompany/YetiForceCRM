@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Advanced permission record model class
- * @package YetiForce.Settings.Record
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Advanced permission record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return int Id
 	 */
 	public function getId()
@@ -20,7 +20,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the Name
+	 * Function to get the Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -29,7 +30,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the Edit View Url
+	 * Function to get the Edit View Url.
+	 *
 	 * @return string URL
 	 */
 	public function getEditViewUrl($step = false)
@@ -42,16 +44,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the Delete Action Url
-	 * @return string URL
-	 */
-	public function getDeleteActionUrl()
-	{
-		return 'index.php?module=AdvancedPermission&parent=Settings&action=DeleteAjax&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get the Detail Url
+	 * Function to get the Detail Url.
+	 *
 	 * @return string URL
 	 */
 	public function getDetailViewUrl()
@@ -60,9 +54,11 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the instance of advanced permission record model
+	 * Function to get the instance of advanced permission record model.
+	 *
 	 * @param int $id
-	 * @return \self instance, if exists.
+	 *
+	 * @return \self instance, if exists
 	 */
 	public static function getInstance($id)
 	{
@@ -80,7 +76,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to save
+	 * Function to save.
 	 */
 	public function save()
 	{
@@ -112,8 +108,10 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $key
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($key)
@@ -144,19 +142,21 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 					foreach ($value as $member) {
 						list($type, $id) = explode(':', $member);
 						switch ($type) {
-							case 'Users' :
+							case 'Users':
 								$name = \App\Fields\Owner::getUserLabel($id);
 								break;
-							case 'Groups' :
+							case 'Groups':
 								$name = \App\Language::translate(\App\Fields\Owner::getGroupName($id));
 								break;
-							case 'Roles' :
+							case 'Roles':
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
 								$name = \App\Language::translate($roleInfo['rolename']);
 								break;
-							case 'RoleAndSubordinates' :
+							case 'RoleAndSubordinates':
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
 								$name = \App\Language::translate($roleInfo['rolename']);
+								break;
+							default:
 								break;
 						}
 						$values[] = \App\Language::translate($type) . ': ' . $name;
@@ -164,12 +164,14 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 					$value = implode(', ', $values);
 				}
 				break;
+			default:
+				break;
 		}
 		return $value;
 	}
 
 	/**
-	 * Function to delete the current Record Model
+	 * Function to delete the current Record Model.
 	 */
 	public function delete()
 	{
@@ -184,26 +186,28 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * Function to get the list view actions for the record.
+	 *
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
 	{
-
 		$links = [];
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-primary btn-sm',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash'
-			]
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-danger btn-sm',
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
@@ -212,7 +216,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to retrieve a list of users
+	 * Function to retrieve a list of users.
+	 *
 	 * @return array
 	 */
 	public function getUserByMember()

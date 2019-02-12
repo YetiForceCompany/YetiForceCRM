@@ -1,21 +1,22 @@
 <?php
 /**
- * Mail scanner action bind ServiceContracts
- * @package YetiForce.MailScanner
- * @copyright YetiForce Sp. z o.o.
+ * Mail scanner action bind ServiceContracts.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Mail scanner action bind ServiceContracts
+ * Mail scanner action bind ServiceContracts.
  */
 class OSSMailScanner_BindServiceContracts_ScannerAction
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param OSSMail_Mail_Model $mail
+	 *
 	 * @return array
 	 */
 	public function process(OSSMail_Mail_Model $mail)
@@ -31,7 +32,9 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 		if ($accounts) {
 			$keys = ['BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk'];
 			foreach ($keys as $key) {
-				$accountNumbers = array_merge($accountNumbers, $accounts[$key]);
+				if (isset($accounts[$key]) && is_array($accounts[$key])) {
+					$accountNumbers = array_merge($accountNumbers, $accounts[$key]);
+				}
 			}
 		}
 

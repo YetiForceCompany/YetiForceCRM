@@ -10,6 +10,8 @@
 
 class Vtiger_ListAjax_View extends Vtiger_List_View
 {
+	use \App\Controller\ExposeMethod,
+		App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -19,27 +21,9 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	/**
-	 * Function to get the page count for list
+	 * Function to get the page count for list.
+	 *
 	 * @return total number of pages
 	 */
 	public function getPageCount(\App\Request $request)
@@ -61,7 +45,8 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 	}
 
 	/**
-	 * Function returns the number of records for the current filter
+	 * Function returns the number of records for the current filter.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRecordsCount(\App\Request $request)
@@ -82,7 +67,8 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 	}
 
 	/**
-	 * Function to get listView count
+	 * Function to get listView count.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getListViewCount(\App\Request $request)
@@ -95,17 +81,20 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 			}
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}
+		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$this->listViewModel->set('operator', $request->getByType('operator', 1));
+			$operator  = $request->getByType('operator');
+			$this->listViewModel->set('operator', $operator);
 		}
 		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
-			$this->listViewModel->set('search_value', $request->get('search_value'));
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$this->listViewModel->set('search_key', $searchKey);
+			$this->listViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
 		}
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParmams) && is_array($searchParmams)) {
 			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);

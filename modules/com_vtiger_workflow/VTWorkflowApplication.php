@@ -10,7 +10,6 @@
 
 class VTWorkflowApplication
 {
-
 	public function __construct($action)
 	{
 		$this->request;
@@ -46,6 +45,7 @@ class VTWorkflowApplication
 	public function deleteWorkflowUrl($id)
 	{
 		$idPart = "&workflow_id=$id";
+
 		return "index.php?module={$this->name}&action=deleteworkflow$idPart&return_url=" . urlencode($this->returnUrl());
 	}
 
@@ -60,6 +60,7 @@ class VTWorkflowApplication
 	public function deleteTaskUrl($id)
 	{
 		$idPart = "&task_id=$id";
+
 		return "index.php?module={$this->name}&action=deletetask$idPart&return_url=" . urlencode($this->returnUrl());
 	}
 

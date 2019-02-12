@@ -1,26 +1,25 @@
 <?php
 
 /**
- * Export to XML Class for PDF Settings
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Export to XML Class for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
-		header('Pragma: public');
-		header('Cache-Control: private');
-		header('Content-Disposition: attachment; filename="' . $recordId . '_pdftemplate.xml"');
-		header('Content-Description: PHP Generated Data');
+		header('pragma: public');
+		header('cache-control: private');
+		header('content-disposition: attachment; filename="' . $recordId . '_pdftemplate.xml"');
+		header('content-description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;
@@ -58,6 +57,14 @@ class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 		$xmlFields->appendChild($xmlField);
 		$xmlTemplate->appendChild($xmlFields);
 		$xml->appendChild($xmlTemplate);
-		print $xml->saveXML();
+		echo $xml->saveXML();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
 	}
 }

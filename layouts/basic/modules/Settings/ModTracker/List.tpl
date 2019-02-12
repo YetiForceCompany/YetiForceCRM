@@ -2,14 +2,13 @@
 {strip}
 	<div id="modTrackerContainer">
 		<div class="widget_header row">
-			<div class="col-xs-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate('LBL_MODTRACKER_SETTINGS_DESCRIPTION', $QUALIFIED_MODULE)}	
+			<div class="col-12">
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="contents">
 			<div class="contents tabbable">
-				<table class="table table-bordered table-condensed listViewEntriesTable">
+				<table class="table table-bordered table-sm listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
 							<th><strong>{\App\Language::translate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
@@ -18,10 +17,10 @@
 					</thead>
 					<tbody>
 						{foreach from=$MODULE_MODEL->getModTrackerModules() item=item key=key}
-							<tr data-id="{$item.id}">
+							<tr data-id="{$item.id}" class="js-row" data-js="data">
 								<td>{\App\Language::translate($item.module,$item.module)}</td>
 								<td>
-									<input class="activeModTracker" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
+									<input class="js-active-modtracker" data-js="change" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 								</td>
 							</tr>
 						{/foreach}

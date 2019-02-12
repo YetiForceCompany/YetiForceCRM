@@ -7,26 +7,25 @@
 			<input type="hidden" name="mode" value="Step2" />
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="1" />
-			<input type="hidden" name="record" value="{$RECORDID}" />
-
 			{if $RECORDID}
 				<input type="hidden" name="tabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('tabid')}" />
 				<input type="hidden" name="reltabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('reltabid')}" />
+				<input type="hidden" name="record" value="{$RECORDID}"/>
 			{/if}
-			<div class="col-md-12 paddingLRZero">
-				<div class="panel panel-default">
-					<div class="panel-heading">
+			<div class="col-md-12 px-0">
+				<div class="card">
+					<div class="card-header">
 						<label>
-							<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
 						</label>
 					</div>
-					<div class="panel-body">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">
+							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
-								<select class="chzn-select form-control" id="status" name="status" required="true">
+								<select class="select2 form-control" id="status" name="status" required="true">
 									<option value="1" {if $MAPPEDFIELDS_MODULE_MODEL->get('status')}selected{/if}>
 										{\App\Language::translate('active', $QUALIFIED_MODULE)}
 									</option>
@@ -37,11 +36,11 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">
+							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
-								<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
+								<select class="select2 form-control" id="tabid" name="tabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
 									{foreach from=$ALL_MODULES key=TABID item=MODULE}
 										{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 										<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('tabid') == $TABID} selected {/if}>
@@ -52,11 +51,11 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">
+							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
-								<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
+								<select class="select2 form-control" id="reltabid" name="reltabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
 									{foreach from=$ALL_MODULES key=TABID item=MODULE}
 										{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 										<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('reltabid') == $TABID} selected {/if}>
@@ -67,10 +66,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
-							<button class="btn btn-success" type="submit" >{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+					<div class="card-footer clearfix">
+						<div class="btn-toolbar float-right">
+							<button class="btn btn-success" type="submit" >
+								<span class="fas fa-caret-right mr-1"></span>
+								{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+							</button>
+							<button class="btn btn-warning cancelLink" type="reset">
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</button>
 						</div>
 					</div>
 				</div>

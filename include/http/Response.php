@@ -13,51 +13,51 @@ class Vtiger_Response
 	// Constants
 
 	/**
-	 * Emit response wrapper as raw string
+	 * Emit response wrapper as raw string.
 	 */
 	public static $EMIT_RAW = 0;
 
 	/**
-	 * Emit response wrapper as json string
+	 * Emit response wrapper as json string.
 	 */
 	public static $EMIT_JSON = 1;
 
 	/**
-	 * Emit response wrapper as html string
+	 * Emit response wrapper as html string.
 	 */
 	public static $EMIT_HTML = 2;
 
 	/**
-	 * Emit response wrapper as string/jsonstring
+	 * Emit response wrapper as string/jsonstring.
 	 */
 	public static $EMIT_JSONTEXT = 3;
 
 	/**
-	 * Emit response wrapper as padded-json
+	 * Emit response wrapper as padded-json.
 	 */
 	public static $EMIT_JSONP = 4;
 
 	/**
 	 * Error data.
 	 */
-	private $error = NULL;
+	private $error;
 
 	/**
 	 * Result data.
 	 */
-	private $result = NULL;
+	private $result;
 
-	/* Active emit type */
+	// Active emit type
 	private $emitType = 1; // EMIT_JSON
 
-	/* JSONP padding */
+	// JSONP padding
 	private $emitJSONPFn = false; // for EMIT_JSONP
 
-	/* List of response headers */
+	// List of response headers
 	private $headers = [];
 
 	/**
-	 * Set headers to send
+	 * Set headers to send.
 	 */
 	public function setHeader($header)
 	{
@@ -65,12 +65,13 @@ class Vtiger_Response
 	}
 
 	/**
-	 * Set error data to send
+	 * Set error data to send.
 	 */
 	public function setError($code, $message = null, $trace = false)
 	{
-		if ($message === null)
+		if ($message === null) {
 			$message = $code;
+		}
 		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 		$this->error = $error;
 	}
@@ -101,7 +102,7 @@ class Vtiger_Response
 	}
 
 	/**
-	 * Get the error data
+	 * Get the error data.
 	 */
 	public function getError()
 	{
@@ -109,7 +110,7 @@ class Vtiger_Response
 	}
 
 	/**
-	 * Check the presence of error data
+	 * Check the presence of error data.
 	 */
 	public function hasError()
 	{
@@ -146,7 +147,7 @@ class Vtiger_Response
 	protected function prepareResponse()
 	{
 		$response = [];
-		if ($this->error !== NULL) {
+		if ($this->error !== null) {
 			$response['success'] = false;
 			$response['error'] = $this->error;
 		} else {
@@ -161,7 +162,6 @@ class Vtiger_Response
 	 */
 	public function emit()
 	{
-
 		$contentTypeSent = false;
 		foreach ($this->headers as $header) {
 			if (!$contentTypeSent && stripos($header, 'content-type') === 0) {
@@ -170,34 +170,39 @@ class Vtiger_Response
 			header($header);
 		}
 
-		/* Set right charset (UTF-8) to avoid IE complaining about c00ce56e error */
+		// Set right charset (UTF-8) to avoid IE complaining about c00ce56e error
 		if ($this->emitType == self::$EMIT_JSON) {
-			if (!$contentTypeSent)
-				header('Content-type: text/json; charset=UTF-8');
+			if (!$contentTypeSent) {
+				header('content-type: text/json; charset=UTF-8');
+			}
 			$this->emitJSON();
-		} else if ($this->emitType == self::$EMIT_JSONTEXT) {
-			if (!$contentTypeSent)
-				header('Content-type: text/json; charset=UTF-8');
+		} elseif ($this->emitType == self::$EMIT_JSONTEXT) {
+			if (!$contentTypeSent) {
+				header('content-type: text/json; charset=UTF-8');
+			}
 			$this->emitText();
-		} else if ($this->emitType == self::$EMIT_HTML) {
-			if (!$contentTypeSent)
-				header('Content-type: text/html; charset=UTF-8');
+		} elseif ($this->emitType == self::$EMIT_HTML) {
+			if (!$contentTypeSent) {
+				header('content-type: text/html; charset=UTF-8');
+			}
 			$this->emitRaw();
-		} else if ($this->emitType == self::$EMIT_RAW) {
-			if (!$contentTypeSent)
-				header('Content-type: text/plain; charset=UTF-8');
+		} elseif ($this->emitType == self::$EMIT_RAW) {
+			if (!$contentTypeSent) {
+				header('content-type: text/plain; charset=UTF-8');
+			}
 			$this->emitRaw();
-		} else if ($this->emitType == self::$EMIT_JSONP) {
-			if (!$contentTypeSent)
-				header('Content-type: application/javascript; charset=UTF-8');
-			echo $this->emitJSONPFn . "(";
+		} elseif ($this->emitType == self::$EMIT_JSONP) {
+			if (!$contentTypeSent) {
+				header('content-type: application/javascript; charset=UTF-8');
+			}
+			echo $this->emitJSONPFn . '(';
 			$this->emitJSON();
-			echo ")";
+			echo ')';
 		}
 	}
 
 	/**
-	 * Emit response wrapper as JSONString
+	 * Emit response wrapper as JSONString.
 	 */
 	protected function emitJSON()
 	{
@@ -205,20 +210,22 @@ class Vtiger_Response
 	}
 
 	/**
-	 * Emit response wrapper as String/JSONString
+	 * Emit response wrapper as String/JSONString.
 	 */
 	protected function emitText()
 	{
-		if ($this->result === NULL) {
-			if (is_string($this->error))
+		if ($this->result === null) {
+			if (is_string($this->error)) {
 				echo $this->error;
-			else
+			} else {
 				echo \App\Json::encode($this->prepareResponse());
+			}
 		} else {
-			if (is_string($this->result))
+			if (is_string($this->result)) {
 				echo $this->result;
-			else
+			} else {
 				echo \App\Json::encode($this->prepareResponse());
+			}
 		}
 	}
 
@@ -227,8 +234,9 @@ class Vtiger_Response
 	 */
 	protected function emitRaw()
 	{
-		if ($this->result === NULL)
+		if ($this->result === null) {
 			echo (is_string($this->error)) ? $this->error : var_export($this->error, true);
+		}
 		echo $this->result;
 	}
 }

@@ -1,19 +1,20 @@
 <?php
 
 /**
- * List View Model Class for PDF Settings
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * List View Model Class for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -25,7 +26,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
-		$listFields [] = $module->baseIndex;
+		$listFields[] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
@@ -44,31 +45,23 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
-			$module_name = $row['module_name'];
-
-			//To handle translation of calendar to To Do
-			if ($module_name === 'Calendar') {
-				$module_name = \App\Language::translate('LBL_TASK', $module_name);
-			} else {
-				$module_name = \App\Language::translate($module_name, $module_name);
-			}
-			$row['module_name'] = $module_name;
+			$row['module_name'] = \App\Language::translate($row['module_name'], $row['module_name']);
 			$row['summary'] = isset($row['summary']) ? \App\Language::translate($row['summary'], $qualifiedModuleName) : '';
-
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
 		}
-
 		$pagingModel->calculatePageRange($dataReader->count());
-
 		if ($dataReader->count() > $pageLimit) {
 			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
+
 		return $listViewRecordModels;
 	}
+
 	/*
 	 * Function which will get the list view count
 	 * @return - number of records

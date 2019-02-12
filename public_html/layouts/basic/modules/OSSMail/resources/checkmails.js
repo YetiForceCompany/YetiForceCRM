@@ -1,38 +1,26 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery(function () {
-	if ($('#OSSMailBoxInfo').data('numberunreademails') != undefined) {
+	if ($('.js-header__btn--mail').data('numberunreademails') != undefined) {
 		window.stopScanMails = false;
 		if (getUrlVars()['view'] != 'Popup') {
 			startCheckMails();
 		}
 	}
-	if ($('#OSSMailBoxInfo select').length > 0) {
+	if ($('.js-header__btn--mail select').length > 0) {
 		registerUserList();
 	}
 });
+
 function registerUserList() {
-	var selectUsers = $('#OSSMailBoxInfo select');
+	var selectUsers = $('.js-header__btn--mail select');
 	if (selectUsers.data('select2')) {
 		selectUsers.select2('destroy');
 	} else {
-		selectUsers.on('change', function () {
-			var params = {
-				'module': 'OSSMail',
-				'action': "SetUser",
-				'user': $(this).val(),
-			};
-			AppConnector.request(params).then(
-					function (response) {
-						if (app.getModuleName() == 'OSSMail') {
-							location.reload();
-						} else {
-							window.location.href = "index.php?module=OSSMail&view=Index";
-						}
-					}
-			);
-		});
+		selectUsers.on('change', handleChangeUserEvent);
 	}
-	app.showSelect2ElementView(selectUsers, {
+	App.Fields.Picklist.showSelect2ElementView(selectUsers, {
 		templateResult: function (state) {
 			if (!state.id) {
 				return state.text;
@@ -61,11 +49,28 @@ function registerUserList() {
 		e.stopPropagation();
 		selectUsers.trigger('change');
 	});
+	$('.js-mail-list').on('click', '.js-mail-link', handleChangeUserEvent);
 }
+
+function handleChangeUserEvent() {
+	var params = {
+		'module': 'OSSMail',
+		'action': "SetUser",
+		'user': $(this).val()
+	};
+	AppConnector.request(params).done(function (response) {
+		if (app.getModuleName() == 'OSSMail') {
+			location.reload();
+		} else {
+			window.location.href = "index.php?module=OSSMail&view=Index";
+		}
+	});
+}
+
 function startCheckMails() {
 	var users = [];
-	var timeCheckingMails = $('#OSSMailBoxInfo').data('interval');
-	$("#OSSMailBoxInfo .noMails").each(function (index) {
+	var timeCheckingMails = $('.js-header__btn--mail').data('interval');
+	$(".js-header__btn--mail .noMails").each(function (index) {
 		users.push($(this).data('id'));
 	});
 	if (users.length > 0) {
@@ -79,6 +84,7 @@ function startCheckMails() {
 		}, timeCheckingMails * 1000);
 	}
 }
+
 function checkMails(users) {
 	var params = {
 		'module': 'OSSMail',
@@ -86,42 +92,46 @@ function checkMails(users) {
 		'users': users,
 	};
 	var reloadSelect = false;
-	AppConnector.request(params).then(
-			function (response) {
-				if (response.success && response.success.error != true && response.result.error != true) {
-					var result = response.result;
-					$("#OSSMailBoxInfo .noMails").each(function (index) {
-						var element = jQuery(this);
-						var id = element.data('id');
-						if (jQuery.inArray(id, result)) {
-							var num = result[id];
-							if (element.is('option')) {
-								element.data('nomail', num);
-								reloadSelect = true;
-							} else {
-								var text = '';
-								if (num > 0) {
-									text = '(' + num + ')';
-								}
-								element.text(text);
-							}
+	AppConnector.request(params).done(function (response) {
+		if (response.success && response.success.error != true && response.result.error != true) {
+			var result = response.result;
+			$(".js-header__btn--mail .noMails").each(function (index) {
+				var element = jQuery(this);
+				var id = element.data('id');
+				if (jQuery.inArray(id, result)) {
+					var num = result[id];
+					if (element.is('option')) {
+						element.data('nomail', num);
+						reloadSelect = true;
+					} else {
+						let prevVal = element.data('nomail');
+						element.data('nomail', num);
+						var text = '';
+						if (num > 0) {
+							text = ' <span class="badge badge-danger mr-1">' + num + '</span>';
 						}
-					});
-					if (reloadSelect) {
-						registerUserList();
+						element.html(text);
+						if ((prevVal < num && prevVal >= 0) || (!prevVal && num > 0)) {
+							element.parent().effect("pulsate", 1500);
+							app.playSound('MAILS');
+						}
 					}
-				} else {
-					window.stopScanMails = true;
 				}
-			},
-			function (data, err) {
-				window.stopScanMails = true;
+			});
+			if (reloadSelect) {
+				registerUserList();
 			}
-	);
+		} else {
+			window.stopScanMails = true;
+		}
+	}).fail(function () {
+		window.stopScanMails = true;
+	});
 }
+
 function getUrlVars() {
 	var vars = {};
-	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+	window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 		vars[key] = value;
 	});
 	return vars;

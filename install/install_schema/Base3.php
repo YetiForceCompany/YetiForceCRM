@@ -1,16 +1,16 @@
 <?php
+
 namespace Importers;
 
 /**
- * Class that imports base database
- * @package YetiForce.Install
+ * Class that imports base database.
+ *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base3 extends \App\Db\Importers\Base
 {
-
 	public $dbType = 'base';
 
 	public function scheme()
@@ -323,6 +323,32 @@ class Base3 extends \App\Db\Importers\Base
 				],
 				'columns_mysql' => [
 					'temp_status' => $this->tinyInteger(1)->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_incidentregister_status' => [
+				'columns' => [
+					'incidentregister_statusid' => $this->primaryKey(),
+					'incidentregister_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_incidentregister_type' => [
+				'columns' => [
+					'incidentregister_typeid' => $this->primaryKey(),
+					'incidentregister_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -768,6 +794,14 @@ class Base3 extends \App\Db\Importers\Base
 					'cocument_no' => $this->stringType(100)->defaultValue(''),
 					'no_internal' => $this->stringType(100)->defaultValue(''),
 					'lin_dimensions' => $this->stringType()->defaultValue(''),
+					'custom_sender' => $this->stringType(),
+					'lin_type' => $this->stringType(),
+					'cash_amount_on_delivery' => $this->decimal('25,8'),
+					'date_of_receipt' => $this->date(),
+					'outgoing_correspondence' => $this->integer(10),
+				],
+				'index' => [
+					['vtiger_lettersin_outgoing_correspondence_idx', 'outgoing_correspondence'],
 				],
 				'primaryKeys' => [
 					['lettersin_pk', 'lettersinid']
@@ -778,6 +812,8 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_lettersincf' => [
 				'columns' => [
 					'lettersinid' => $this->integer(10)->notNull(),
+					'internal_notes' => $this->text(),
+					'public_notes' => $this->text(),
 				],
 				'primaryKeys' => [
 					['lettersincf_pk', 'lettersinid']
@@ -801,6 +837,10 @@ class Base3 extends \App\Db\Importers\Base
 					'cocument_no' => $this->stringType(100)->defaultValue(''),
 					'no_internal' => $this->stringType(100)->defaultValue(''),
 					'lout_dimensions' => $this->stringType()->defaultValue(''),
+					'incoming_correspondence' => $this->integer(10),
+				],
+				'index' => [
+					['vtiger_lettersout_incoming_correspondence_idx', 'incoming_correspondence'],
 				],
 				'primaryKeys' => [
 					['lettersout_pk', 'lettersoutid']
@@ -849,6 +889,19 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_lin_status_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_lin_type' => [
+				'columns' => [
+					'lin_typeid' => $this->primaryKey(),
+					'lin_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -907,6 +960,32 @@ class Base3 extends \App\Db\Importers\Base
 					['linklabel', 'linklabel'],
 					['linkid', ['linkid', 'tabid', 'linktype', 'linklabel']],
 					['linktype', 'linktype'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_locationregister_status' => [
+				'columns' => [
+					'locationregister_statusid' => $this->primaryKey(),
+					'locationregister_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_login_method' => [
+				'columns' => [
+					'login_methodid' => $this->primaryKey(),
+					'login_method' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1051,7 +1130,7 @@ class Base3 extends \App\Db\Importers\Base
 					'commentcontent' => $this->text(),
 					'related_to' => $this->integer(10),
 					'parent_comments' => $this->integer(10),
-					'customer' => $this->stringType(100),
+					'customer' => $this->integer(),
 					'userid' => $this->integer(10),
 					'reasontoedit' => $this->stringType(100),
 				],
@@ -1207,9 +1286,9 @@ class Base3 extends \App\Db\Importers\Base
 					'filterid' => $this->stringType(100),
 					'title' => $this->stringType(100),
 					'data' => $this->text(),
-					'size' => $this->stringType(50),
+					'size' => $this->text(),
 					'limit' => $this->smallInteger(2),
-					'position' => $this->stringType(50),
+					'position' => $this->text(),
 					'isdefault' => $this->smallInteger(1)->defaultValue(0),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'owners' => $this->stringType(100),
@@ -1227,6 +1306,22 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 					['vtiger_module_dashboard_widgets_ibfk_1', 'templateid'],
 					['userid', ['userid', 'active', 'module']],
+					['vtiger_module_dashboard_widgets_linkid_idx', 'linkid'],
+					['vtiger_module_dashboard_widgets_dashboardid_idx', 'dashboardid'],
+					['vtiger_module_dashboard_widgets_module_idx', 'module'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_mulcomp_status' => [
+				'columns' => [
+					'mulcomp_statusid' => $this->primaryKey(),
+					'mulcomp_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1655,9 +1750,14 @@ class Base3 extends \App\Db\Importers\Base
 					'password' => $this->stringType(200)->notNull(),
 					'link_adres' => $this->stringType(),
 					'linkto' => $this->integer(10),
+					'linkextend' => $this->integer(10),
 				],
 				'columns_mysql' => [
 					'password' => $this->varbinary(200)->notNull(),
+				],
+				'index' => [
+					['linkto', 'linkto'],
+					['linkextend', 'linkextend'],
 				],
 				'primaryKeys' => [
 					['osspasswords_pk', 'osspasswordsid']
@@ -1743,6 +1843,7 @@ class Base3 extends \App\Db\Importers\Base
 					'process' => $this->integer(10),
 					'link' => $this->integer(10),
 					'subprocess' => $this->integer(10),
+					'linkextend' => $this->integer(10),
 				],
 				'index' => [
 					['on_update_cascade', 'deleted'],
@@ -1751,6 +1852,7 @@ class Base3 extends \App\Db\Importers\Base
 					['subprocess', 'subprocess'],
 					['link', 'link'],
 					['process', 'process'],
+					['linkextend', 'linkextend'],
 				],
 				'primaryKeys' => [
 					['osstimecontrol_pk', 'osstimecontrolid']
@@ -1813,7 +1915,7 @@ class Base3 extends \App\Db\Importers\Base
 					'oproductstatus' => $this->stringType(),
 					'pscategory' => $this->stringType()->defaultValue(''),
 					'wherebought' => $this->stringType()->defaultValue(''),
-					'prodcount' => $this->stringType()->defaultValue(''),
+					'prodcount' => $this->integer(),
 					'parent_id' => $this->integer(10),
 					'ssalesprocessesid' => $this->integer(10),
 				],
@@ -1947,65 +2049,6 @@ class Base3 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 					['paymentsoutcf_pk', 'paymentsoutid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanager' => [
-				'columns' => [
-					'pbxmanagerid' => $this->primaryKey(10),
-					'direction' => $this->stringType(10),
-					'callstatus' => $this->stringType(20),
-					'starttime' => $this->dateTime(),
-					'endtime' => $this->dateTime(),
-					'totalduration' => $this->integer(10),
-					'billduration' => $this->integer(10),
-					'recordingurl' => $this->stringType(200),
-					'sourceuuid' => $this->stringType(100),
-					'gateway' => $this->stringType(20),
-					'customer' => $this->integer(10),
-					'user' => $this->stringType(100),
-					'customernumber' => $this->stringType(100),
-					'customertype' => $this->stringType(100),
-					'customernumber_extra' => $this->stringType(100),
-				],
-				'index' => [
-					['index_sourceuuid', 'sourceuuid'],
-					['index_pbxmanager_id', 'pbxmanagerid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanager_gateway' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'gateway' => $this->stringType(20),
-					'parameters' => $this->text(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanager_phonelookup' => [
-				'columns' => [
-					'crmid' => $this->integer(10),
-					'setype' => $this->stringType(30),
-					'fnumber' => $this->stringType(100),
-					'rnumber' => $this->stringType(100),
-					'fieldname' => $this->stringType(50),
-				],
-				'index' => [
-					['unique_key', ['crmid', 'setype', 'fieldname'], true],
-					['index_phone_number', ['fnumber', 'rnumber']],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_pbxmanagercf' => [
-				'columns' => [
-					'pbxmanagerid' => $this->integer(10)->notNull(),
-				],
-				'primaryKeys' => [
-					['pbxmanagercf_pk', 'pbxmanagerid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2214,6 +2257,7 @@ class Base3 extends \App\Db\Importers\Base
 					['profile2field_profileid_tabid_fieldname_idx', ['profileid', 'tabid']],
 					['profile2field_tabid_profileid_idx', ['tabid', 'profileid']],
 					['profile2field_visible_profileid_idx', ['visible', 'profileid']],
+					['profile2field_readonly_idx', 'readonly'],
 				],
 				'primaryKeys' => [
 					['profile2field_pk', ['profileid', 'fieldid']]
@@ -2353,14 +2397,17 @@ class Base3 extends \App\Db\Importers\Base
 					'projectmilestonename' => $this->stringType(),
 					'projectmilestone_no' => $this->stringType(100),
 					'projectmilestonedate' => $this->stringType(),
+					'projectmilestone_status' => $this->stringType()->defaultValue(''),
 					'projectid' => $this->integer(10),
 					'projectmilestonetype' => $this->stringType(100),
 					'projectmilestone_priority' => $this->stringType(),
 					'projectmilestone_progress' => $this->stringType(10),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
+					'parentid' => $this->integer(10),
 				],
 				'index' => [
 					['projectid', 'projectid'],
+					['vtiger_projectmilestone_parentid_idx', 'parentid'],
 				],
 				'primaryKeys' => [
 					['projectmilestone_pk', 'projectmilestoneid']
@@ -2382,6 +2429,20 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_projectmilestone_priority_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_projectmilestone_status' => [
+				'columns' => [
+					'projectmilestone_statusid' => $this->primaryKey(),
+					'projectmilestone_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->integer(10)->defaultValue(0),
+					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2638,9 +2699,6 @@ class Base3 extends \App\Db\Importers\Base
 			['fk_1_vtiger_paymentsincf', 'vtiger_paymentsincf', 'paymentsinid', 'vtiger_paymentsin', 'paymentsinid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_paymentsout', 'vtiger_paymentsout', 'paymentsoutid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_paymentsoutcf', 'vtiger_paymentsoutcf', 'paymentsoutid', 'vtiger_paymentsout', 'paymentsoutid', 'CASCADE', 'RESTRICT'],
-			['vtiger_pbxmanager_ibfk_1', 'vtiger_pbxmanager', 'pbxmanagerid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_pbxmanager_phonelookup_ibfk_1', 'vtiger_pbxmanager_phonelookup', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_pbxmanagercf_ibfk_1', 'vtiger_pbxmanagercf', 'pbxmanagerid', 'vtiger_pbxmanager', 'pbxmanagerid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebook', 'vtiger_pricebook', 'pricebookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebookcf', 'vtiger_pricebookcf', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebookproductrel', 'vtiger_pricebookproductrel', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
@@ -2699,9 +2757,9 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_groups' => [
 				'columns' => ['groupid', 'groupname', 'description', 'color', 'modules'],
 				'values' => [
-					[2, 'Team Selling', 'Group Related to Sales', '#E6FAD8', NULL],
-					[3, 'Marketing Group', 'Group Related to Marketing Activities', '#E6FAD8', NULL],
-					[4, 'Support Group', 'Group Related to providing Support to Customers', '#E6FAD8', NULL],
+					[2, 'Team Selling', 'Group Related to Sales', '#E6FAD8', null],
+					[3, 'Marketing Group', 'Group Related to Marketing Activities', '#E6FAD8', null],
+					[4, 'Support Group', 'Group Related to providing Support to Customers', '#E6FAD8', null],
 				]
 			],
 			'vtiger_holidaysentitlement_year' => [
@@ -2940,13 +2998,15 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_language' => [
 				'columns' => ['id', 'name', 'prefix', 'label', 'lastupdated', 'sequence', 'isdefault', 'active'],
 				'values' => [
-					[1, 'English', 'en_us', 'US English', '2014-07-16 11:20:12', NULL, 1, 1],
-					[2, 'Język Polski', 'pl_pl', 'Język Polski', '2014-07-16 11:20:40', NULL, 0, 1],
-					[3, 'Deutsch', 'de_de', 'DE Deutsch', '2014-11-21 11:20:40', NULL, 0, 1],
-					[4, 'Portuguese', 'pt_br', 'Brazilian Portuguese', '2017-06-05 11:20:40', NULL, 0, 1],
-					[5, 'Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', NULL, 0, 1],
-					[6, 'Italian', 'it_it', 'Italian', '2017-12-23 15:12:39', NULL, 0, 1],
-					[7, 'Spanish', 'es_es', 'ES Spanish', '2017-03-11 00:00:00', NULL, 0, 1],
+					[1, 'English', 'en_us', 'US English', '2014-07-16 11:20:12', null, 1, 1],
+					[2, 'Język Polski', 'pl_pl', 'Język Polski', '2014-07-16 11:20:40', null, 0, 1],
+					[3, 'Deutsch', 'de_de', 'DE Deutsch', '2014-11-21 11:20:40', null, 0, 1],
+					[4, 'Portuguese', 'pt_br', 'Brazilian Portuguese', '2017-06-05 11:20:40', null, 0, 1],
+					[5, 'Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', null, 0, 1],
+					[6, 'Italian', 'it_it', 'Italian', '2017-12-23 15:12:39', null, 0, 1],
+					[7, 'Spanish', 'es_es', 'ES Spanish', '2017-03-11 00:00:00', null, 0, 1],
+					[8, 'Turkish', 'tr_tr', 'Turkish', '2018-02-13 00:00:00', null, 0, 1],
+					[9, 'French', 'fr_fr', 'French', '2018-03-12 00:00:00', null, 0, 1],
 				]
 			],
 			'vtiger_language_seq' => [
@@ -3128,134 +3188,133 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_links' => [
 				'columns' => ['linkid', 'tabid', 'linktype', 'linklabel', 'linkurl', 'linkicon', 'sequence', 'handler_path', 'handler_class', 'handler', 'params'],
 				'values' => [
-					[1, 3, 'DASHBOARDWIDGET', 'DW_SUMMATION_BY_MONTHS', 'index.php?module=FInvoice&view=ShowWidget&name=SummationByMonths', NULL, 0, NULL, NULL, NULL, NULL],
-					[2, 3, 'DASHBOARDWIDGET', 'DW_SUMMATION_BY_USER', 'index.php?module=FInvoice&view=ShowWidget&name=SummationByUser', NULL, NULL, NULL, NULL, NULL, NULL],
-					[3, 3, 'DASHBOARDWIDGET', 'Notifications', 'index.php?module=Notification&view=ShowWidget&name=Notifications', NULL, 3, NULL, NULL, NULL, NULL],
-					[5, 0, 'HEADERSCRIPT', 'Incoming Calls', 'modules/PBXManager/resources/PBXManagerJS.js', '', 0, 'modules/PBXManager/PBXManager.php', 'PBXManager', 'checkLinkPermission', NULL],
-					[11, 7, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[12, 4, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[13, 6, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[45, 6, 'DASHBOARDWIDGET', 'History', 'index.php?module=Accounts&view=ShowWidget&name=History', '', 1, NULL, NULL, NULL, NULL],
-					[46, 6, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Accounts&view=ShowWidget&name=CalendarActivities', '', 2, NULL, NULL, NULL, NULL],
-					[47, 6, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Accounts&view=ShowWidget&name=OverdueActivities', '', 3, NULL, NULL, NULL, NULL],
-					[48, 4, 'DASHBOARDWIDGET', 'History', 'index.php?module=Contacts&view=ShowWidget&name=History', '', 1, NULL, NULL, NULL, NULL],
-					[49, 4, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Contacts&view=ShowWidget&name=CalendarActivities', '', 2, NULL, NULL, NULL, NULL],
-					[50, 4, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Contacts&view=ShowWidget&name=OverdueActivities', '', 3, NULL, NULL, NULL, NULL],
-					[51, 7, 'DASHBOARDWIDGET', 'History', 'index.php?module=Leads&view=ShowWidget&name=History', '', 1, NULL, NULL, NULL, NULL],
-					[52, 7, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Leads&view=ShowWidget&name=CalendarActivities', '', 2, NULL, NULL, NULL, NULL],
-					[53, 7, 'DASHBOARDWIDGET', 'Leads by Status', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatus', '', 4, NULL, NULL, NULL, NULL],
-					[54, 7, 'DASHBOARDWIDGET', 'Leads by Source', 'index.php?module=Leads&view=ShowWidget&name=LeadsBySource', '', 5, NULL, NULL, NULL, NULL],
-					[55, 7, 'DASHBOARDWIDGET', 'Leads by Industry', 'index.php?module=Leads&view=ShowWidget&name=LeadsByIndustry', '', 6, NULL, NULL, NULL, NULL],
-					[56, 7, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Leads&view=ShowWidget&name=OverdueActivities', '', 7, NULL, NULL, NULL, NULL],
-					[57, 13, 'DASHBOARDWIDGET', 'Tickets by Status', 'index.php?module=HelpDesk&view=ShowWidget&name=TicketsByStatus', '', 1, NULL, NULL, NULL, NULL],
-					[58, 13, 'DASHBOARDWIDGET', 'Open Tickets', 'index.php?module=HelpDesk&view=ShowWidget&name=OpenTickets', '', 2, NULL, NULL, NULL, NULL],
-					[59, 3, 'DASHBOARDWIDGET', 'History', 'index.php?module=Home&view=ShowWidget&name=History', '', 1, NULL, NULL, NULL, NULL],
-					[60, 3, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Home&view=ShowWidget&name=CalendarActivities', '', 2, NULL, NULL, NULL, NULL],
-					[66, 3, 'DASHBOARDWIDGET', 'Leads by Status', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatus', '', 10, NULL, NULL, NULL, NULL],
-					[67, 3, 'DASHBOARDWIDGET', 'Leads by Source', 'index.php?module=Leads&view=ShowWidget&name=LeadsBySource', '', 11, NULL, NULL, NULL, NULL],
-					[68, 3, 'DASHBOARDWIDGET', 'Leads by Industry', 'index.php?module=Leads&view=ShowWidget&name=LeadsByIndustry', '', 12, NULL, NULL, NULL, NULL],
-					[69, 3, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Home&view=ShowWidget&name=OverdueActivities', '', 13, NULL, NULL, NULL, NULL],
-					[70, 3, 'DASHBOARDWIDGET', 'Tickets by Status', 'index.php?module=HelpDesk&view=ShowWidget&name=TicketsByStatus', '', 13, NULL, NULL, NULL, NULL],
-					[71, 3, 'DASHBOARDWIDGET', 'Open Tickets', 'index.php?module=HelpDesk&view=ShowWidget&name=OpenTickets', '', 14, NULL, NULL, NULL, NULL],
-					[72, 13, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[73, 15, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[102, 3, 'DASHBOARDWIDGET', 'Key Metrics', 'index.php?module=Home&view=ShowWidget&name=KeyMetrics', '', 15, NULL, NULL, NULL, NULL],
-					[103, 3, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 16, NULL, NULL, NULL, NULL],
-					[107, 3, 'DASHBOARDWIDGET', 'Notebook', 'index.php?module=Home&view=ShowWidget&name=Notebook', '', 18, NULL, NULL, NULL, NULL],
-					[111, 42, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[114, 43, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[186, 51, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[188, 54, 'DASHBOARDWIDGET', 'Graf', 'index.php?module=OSSMailView&view=ShowWidget&name=Graf', '', 1, NULL, NULL, NULL, NULL],
-					[195, 61, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[198, 48, 'HEADERSCRIPT', 'OSSMailJScheckmails', 'layouts/_layoutName_/modules/OSSMail/resources/checkmails.js', NULL, 0, NULL, NULL, NULL, NULL],
-					[199, 3, 'DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList', '', NULL, NULL, NULL, NULL, NULL],
-					[201, 3, 'DASHBOARDWIDGET', 'Delagated Events/To Dos', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks', '', NULL, NULL, NULL, NULL, NULL],
-					[202, 3, 'DASHBOARDWIDGET', 'Delegated (overdue) Events/ToDos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks', '', NULL, NULL, NULL, NULL, NULL],
-					[203, 3, 'DASHBOARDWIDGET', 'Delegated project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks', NULL, NULL, NULL, NULL, NULL, NULL],
-					[204, 3, 'DASHBOARDWIDGET', 'Delegated (overdue) project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks', NULL, NULL, NULL, NULL, NULL, NULL],
-					[205, 7, 'DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted', NULL, 8, NULL, NULL, NULL, NULL],
-					[206, 3, 'DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted', NULL, 24, NULL, NULL, NULL, NULL],
-					[208, 3, 'DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl', '', 12, NULL, NULL, NULL, NULL],
-					[209, 61, 'DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl', '', 1, NULL, NULL, NULL, NULL],
-					[211, 75, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 1, NULL, NULL, NULL, NULL],
-					[212, 40, 'HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'modules/ModComments/ModCommentsCommon.js', '', 0, NULL, NULL, NULL, NULL],
-					[213, 3, 'DASHBOARDWIDGET', 'LIST_OF_LAST_UPDATED_RECORD', 'index.php?module=Home&view=ShowWidget&name=ListUpdatedRecord', '', 1, NULL, NULL, NULL, NULL],
-					[220, 81, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[222, 82, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[228, 84, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[229, 3, 'DASHBOARDWIDGET', 'Calendar', 'index.php?module=Home&view=ShowWidget&name=Calendar', '', 0, NULL, NULL, NULL, NULL],
-					[232, 3, 'DASHBOARDWIDGET', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'index.php?module=Home&view=ShowWidget&name=CreatedNotMineActivities', '', 0, NULL, NULL, NULL, NULL],
-					[235, 85, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[237, 86, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[239, 87, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[241, 88, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[243, 89, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[245, 90, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[247, 91, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[249, 92, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[251, 93, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[252, 18, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[254, 95, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[255, 99, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[256, 100, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[257, 101, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[258, 98, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[259, 102, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[260, 103, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[261, 97, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[262, 94, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[263, 104, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[264, 105, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[265, 106, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[266, 96, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[267, 3, 'DASHBOARDWIDGET', 'LBL_PRODUCTS_SOLD_TO_RENEW', 'index.php?module=Home&view=ShowWidget&name=ProductsSoldToRenew', '', 0, NULL, NULL, NULL, NULL],
-					[268, 3, 'DASHBOARDWIDGET', 'LBL_SOLD_SERVICES_TO_RENEW', 'index.php?module=Home&view=ShowWidget&name=ServicesSoldToRenew', '', 0, NULL, NULL, NULL, NULL],
-					[269, 107, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[270, 108, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[271, 109, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[272, 4, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, NULL, NULL, NULL, NULL],
-					[273, 6, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, NULL, NULL, NULL, NULL],
-					[274, 7, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, NULL, NULL, NULL, NULL],
-					[275, 13, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, NULL, NULL, NULL, NULL],
-					[276, 54, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, NULL, NULL, NULL, NULL],
-					[277, 61, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, NULL, NULL, NULL, NULL],
-					[278, 3, 'DASHBOARDWIDGET', 'LBL_ALL_TIME_CONTROL', 'index.php?module=OSSTimeControl&view=ShowWidget&name=AllTimeControl', NULL, 0, NULL, NULL, NULL, NULL],
-					[279, 3, 'DASHBOARDWIDGET', 'LBL_NEW_ACCOUNTS', 'index.php?module=Accounts&view=ShowWidget&name=NewAccounts', '', 0, NULL, NULL, NULL, NULL],
-					[280, 3, 'DASHBOARDWIDGET', 'LBL_NEGLECTED_ACCOUNTS', 'index.php?module=Accounts&view=ShowWidget&name=NeglectedAccounts', '', 0, NULL, NULL, NULL, NULL],
-					[281, 3, 'DASHBOARDWIDGET', 'Chart', 'index.php?module=Reports&view=ShowWidget&name=Charts', '', 0, NULL, NULL, NULL, NULL],
-					[282, 26, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[283, 3, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[284, 6, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[285, 4, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[286, 7, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[287, 13, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[288, 54, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[289, 61, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, NULL, NULL, NULL, NULL],
-					[290, 3, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[291, 6, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[292, 4, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[293, 7, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[294, 13, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[295, 54, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[296, 61, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, NULL, NULL, NULL, NULL],
-					[297, 3, 'DASHBOARDWIDGET', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'index.php?module=HelpDesk&view=ShowWidget&name=ClosedTicketsByPriority', '', 0, NULL, NULL, NULL, NULL],
-					[298, 3, 'DASHBOARDWIDGET', 'LBL_CLOSED_TICKETS_BY_USER', 'index.php?module=HelpDesk&view=ShowWidget&name=ClosedTicketsByUser', '', 0, NULL, NULL, NULL, NULL],
-					[299, 3, 'DASHBOARDWIDGET', 'LBL_ACCOUNTS_BY_INDUSTRY', 'index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry', '', 0, NULL, NULL, NULL, NULL],
-					[300, 6, 'DASHBOARDWIDGET', 'LBL_ACCOUNTS_BY_INDUSTRY', 'index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry', '', 0, NULL, NULL, NULL, NULL],
-					[301, 3, 'DASHBOARDWIDGET', 'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus', '', 0, NULL, NULL, NULL, NULL],
-					[302, 86, 'DASHBOARDWIDGET', 'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus', '', 0, NULL, NULL, NULL, NULL],
-					[303, 111, 'DASHBOARDWIDGET', 'Notifications', 'index.php?module=Notification&view=ShowWidget&name=Notifications', '', 0, NULL, NULL, NULL, NULL],
-					[304, 3, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_SENDER', 'index.php?module=Notification&view=ShowWidget&name=NotificationsBySender', '', 0, NULL, NULL, NULL, NULL],
-					[305, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_SENDER', 'index.php?module=Notification&view=ShowWidget&name=NotificationsBySender', '', 0, NULL, NULL, NULL, NULL],
-					[306, 3, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
-					[307, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
-					[308, 3, 'DASHBOARDWIDGET', 'LBL_EXPIRING_SOLD_PRODUCTS', 'index.php?module=Assets&view=ShowWidget&name=ExpiringSoldProducts', '', 0, NULL, NULL, NULL, NULL],
-					[309, 113, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[310, 114, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[311, 115, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[312, 117, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
-					[313, 86, 'DASHBOARDWIDGET', 'DW_TEAMS_ESTIMATED_SALES', 'index.php?module=SSalesProcesses&view=ShowWidget&name=TeamsEstimatedSales', '', 0, NULL, NULL, NULL, NULL],
-					[314, 86, 'DASHBOARDWIDGET', 'DW_ACTUAL_SALES_OF_TEAM', 'index.php?module=SSalesProcesses&view=ShowWidget&name=ActualSalesOfTeam', '', 0, NULL, NULL, NULL, NULL],
+					[1, 3, 'DASHBOARDWIDGET', 'DW_SUMMATION_BY_MONTHS', 'index.php?module=FInvoice&view=ShowWidget&name=SummationByMonths', null, 0, null, null, null, null],
+					[2, 3, 'DASHBOARDWIDGET', 'DW_SUMMATION_BY_USER', 'index.php?module=FInvoice&view=ShowWidget&name=SummationByUser', null, null, null, null, null, null],
+					[3, 3, 'DASHBOARDWIDGET', 'Notifications', 'index.php?module=Notification&view=ShowWidget&name=Notifications', null, 3, null, null, null, null],
+					[11, 7, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[12, 4, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[13, 6, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[45, 6, 'DASHBOARDWIDGET', 'History', 'index.php?module=Accounts&view=ShowWidget&name=History', '', 1, null, null, null, null],
+					[46, 6, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Accounts&view=ShowWidget&name=CalendarActivities', '', 2, null, null, null, null],
+					[47, 6, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Accounts&view=ShowWidget&name=OverdueActivities', '', 3, null, null, null, null],
+					[48, 4, 'DASHBOARDWIDGET', 'History', 'index.php?module=Contacts&view=ShowWidget&name=History', '', 1, null, null, null, null],
+					[49, 4, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Contacts&view=ShowWidget&name=CalendarActivities', '', 2, null, null, null, null],
+					[50, 4, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Contacts&view=ShowWidget&name=OverdueActivities', '', 3, null, null, null, null],
+					[51, 7, 'DASHBOARDWIDGET', 'History', 'index.php?module=Leads&view=ShowWidget&name=History', '', 1, null, null, null, null],
+					[52, 7, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Leads&view=ShowWidget&name=CalendarActivities', '', 2, null, null, null, null],
+					[53, 7, 'DASHBOARDWIDGET', 'Leads by Status', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatus', '', 4, null, null, null, null],
+					[54, 7, 'DASHBOARDWIDGET', 'Leads by Source', 'index.php?module=Leads&view=ShowWidget&name=LeadsBySource', '', 5, null, null, null, null],
+					[55, 7, 'DASHBOARDWIDGET', 'Leads by Industry', 'index.php?module=Leads&view=ShowWidget&name=LeadsByIndustry', '', 6, null, null, null, null],
+					[56, 7, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Leads&view=ShowWidget&name=OverdueActivities', '', 7, null, null, null, null],
+					[57, 13, 'DASHBOARDWIDGET', 'Tickets by Status', 'index.php?module=HelpDesk&view=ShowWidget&name=TicketsByStatus', '', 1, null, null, null, null],
+					[58, 13, 'DASHBOARDWIDGET', 'Open Tickets', 'index.php?module=HelpDesk&view=ShowWidget&name=OpenTickets', '', 2, null, null, null, null],
+					[59, 3, 'DASHBOARDWIDGET', 'History', 'index.php?module=Home&view=ShowWidget&name=History', '', 1, null, null, null, null],
+					[60, 3, 'DASHBOARDWIDGET', 'Upcoming Activities', 'index.php?module=Home&view=ShowWidget&name=CalendarActivities', '', 2, null, null, null, null],
+					[66, 3, 'DASHBOARDWIDGET', 'Leads by Status', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatus', '', 10, null, null, null, null],
+					[67, 3, 'DASHBOARDWIDGET', 'Leads by Source', 'index.php?module=Leads&view=ShowWidget&name=LeadsBySource', '', 11, null, null, null, null],
+					[68, 3, 'DASHBOARDWIDGET', 'Leads by Industry', 'index.php?module=Leads&view=ShowWidget&name=LeadsByIndustry', '', 12, null, null, null, null],
+					[69, 3, 'DASHBOARDWIDGET', 'Overdue Activities', 'index.php?module=Home&view=ShowWidget&name=OverdueActivities', '', 13, null, null, null, null],
+					[70, 3, 'DASHBOARDWIDGET', 'Tickets by Status', 'index.php?module=HelpDesk&view=ShowWidget&name=TicketsByStatus', '', 13, null, null, null, null],
+					[71, 3, 'DASHBOARDWIDGET', 'Open Tickets', 'index.php?module=HelpDesk&view=ShowWidget&name=OpenTickets', '', 14, null, null, null, null],
+					[72, 13, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[73, 15, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[102, 3, 'DASHBOARDWIDGET', 'Key Metrics', 'index.php?module=Home&view=ShowWidget&name=KeyMetrics', '', 15, null, null, null, null],
+					[103, 3, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 16, null, null, null, null],
+					[107, 3, 'DASHBOARDWIDGET', 'Notebook', 'index.php?module=Home&view=ShowWidget&name=Notebook', '', 18, null, null, null, null],
+					[111, 42, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[114, 43, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[186, 51, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[188, 54, 'DASHBOARDWIDGET', 'Graf', 'index.php?module=OSSMailView&view=ShowWidget&name=Graf', '', 1, null, null, null, null],
+					[195, 61, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[198, 48, 'HEADERSCRIPT', 'OSSMailJScheckmails', 'layouts/_layoutName_/modules/OSSMail/resources/checkmails.js', null, 0, null, null, null, null],
+					[199, 3, 'DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList', '', null, null, null, null, null],
+					[201, 3, 'DASHBOARDWIDGET', 'Delagated Events/To Dos', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks', '', null, null, null, null, null],
+					[202, 3, 'DASHBOARDWIDGET', 'Delegated (overdue) Events/ToDos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks', '', null, null, null, null, null],
+					[203, 3, 'DASHBOARDWIDGET', 'Delegated project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks', null, null, null, null, null, null],
+					[204, 3, 'DASHBOARDWIDGET', 'Delegated (overdue) project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks', null, null, null, null, null, null],
+					[205, 7, 'DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted', null, 8, null, null, null, null],
+					[206, 3, 'DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted', null, 24, null, null, null, null],
+					[208, 3, 'DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl', '', 12, null, null, null, null],
+					[209, 61, 'DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl', '', 1, null, null, null, null],
+					[211, 75, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 1, null, null, null, null],
+					[212, 40, 'HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'modules/ModComments/ModCommentsCommon.js', '', 0, null, null, null, null],
+					[213, 3, 'DASHBOARDWIDGET', 'LIST_OF_LAST_UPDATED_RECORD', 'index.php?module=Home&view=ShowWidget&name=ListUpdatedRecord', '', 1, null, null, null, null],
+					[220, 81, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[222, 82, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[228, 84, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[229, 3, 'DASHBOARDWIDGET', 'Calendar', 'index.php?module=Home&view=ShowWidget&name=Calendar', '', 0, null, null, null, null],
+					[232, 3, 'DASHBOARDWIDGET', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'index.php?module=Home&view=ShowWidget&name=CreatedNotMineActivities', '', 0, null, null, null, null],
+					[235, 85, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[237, 86, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[239, 87, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[241, 88, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[243, 89, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[245, 90, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[247, 91, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[249, 92, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[251, 93, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[252, 18, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[254, 95, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[255, 99, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[256, 100, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[257, 101, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[258, 98, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[259, 102, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[260, 103, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[261, 97, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[262, 94, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[263, 104, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[264, 105, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[265, 106, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[266, 96, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[267, 3, 'DASHBOARDWIDGET', 'LBL_PRODUCTS_SOLD_TO_RENEW', 'index.php?module=Home&view=ShowWidget&name=ProductsSoldToRenew', '', 0, null, null, null, null],
+					[268, 3, 'DASHBOARDWIDGET', 'LBL_SOLD_SERVICES_TO_RENEW', 'index.php?module=Home&view=ShowWidget&name=ServicesSoldToRenew', '', 0, null, null, null, null],
+					[269, 107, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[270, 108, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[271, 109, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[272, 4, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, null, null, null, null],
+					[273, 6, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, null, null, null, null],
+					[274, 7, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, null, null, null, null],
+					[275, 13, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, null, null, null, null],
+					[276, 54, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, null, null, null, null],
+					[277, 61, 'DASHBOARDWIDGET', 'Mini List', 'index.php?module=Home&view=ShowWidget&name=MiniList', '', 0, null, null, null, null],
+					[278, 3, 'DASHBOARDWIDGET', 'LBL_ALL_TIME_CONTROL', 'index.php?module=OSSTimeControl&view=ShowWidget&name=AllTimeControl', null, 0, null, null, null, null],
+					[279, 3, 'DASHBOARDWIDGET', 'LBL_NEW_ACCOUNTS', 'index.php?module=Accounts&view=ShowWidget&name=NewAccounts', '', 0, null, null, null, null],
+					[280, 3, 'DASHBOARDWIDGET', 'LBL_NEGLECTED_ACCOUNTS', 'index.php?module=Accounts&view=ShowWidget&name=NeglectedAccounts', '', 0, null, null, null, null],
+					[281, 3, 'DASHBOARDWIDGET', 'Chart', 'index.php?module=Reports&view=ShowWidget&name=Charts', '', 0, null, null, null, null],
+					[282, 26, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, null, null, null, null],
+					[283, 3, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[284, 6, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[285, 4, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[286, 7, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[287, 13, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[288, 54, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[289, 61, 'DASHBOARDWIDGET', 'ChartFilter', 'index.php?module=Home&view=ShowWidget&name=ChartFilter', '', 0, null, null, null, null],
+					[290, 3, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[291, 6, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[292, 4, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[293, 7, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[294, 13, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[295, 54, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[296, 61, 'DASHBOARDWIDGET', 'Rss', 'index.php?module=Home&view=ShowWidget&name=Rss', '', 0, null, null, null, null],
+					[297, 3, 'DASHBOARDWIDGET', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'index.php?module=HelpDesk&view=ShowWidget&name=ClosedTicketsByPriority', '', 0, null, null, null, null],
+					[298, 3, 'DASHBOARDWIDGET', 'LBL_CLOSED_TICKETS_BY_USER', 'index.php?module=HelpDesk&view=ShowWidget&name=ClosedTicketsByUser', '', 0, null, null, null, null],
+					[299, 3, 'DASHBOARDWIDGET', 'LBL_ACCOUNTS_BY_INDUSTRY', 'index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry', '', 0, null, null, null, null],
+					[300, 6, 'DASHBOARDWIDGET', 'LBL_ACCOUNTS_BY_INDUSTRY', 'index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry', '', 0, null, null, null, null],
+					[301, 3, 'DASHBOARDWIDGET', 'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus', '', 0, null, null, null, null],
+					[302, 86, 'DASHBOARDWIDGET', 'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus', '', 0, null, null, null, null],
+					[303, 111, 'DASHBOARDWIDGET', 'Notifications', 'index.php?module=Notification&view=ShowWidget&name=Notifications', '', 0, null, null, null, null],
+					[304, 3, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_SENDER', 'index.php?module=Notification&view=ShowWidget&name=NotificationsBySender', '', 0, null, null, null, null],
+					[305, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_SENDER', 'index.php?module=Notification&view=ShowWidget&name=NotificationsBySender', '', 0, null, null, null, null],
+					[306, 3, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, null, null, null, null],
+					[307, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, null, null, null, null],
+					[308, 3, 'DASHBOARDWIDGET', 'LBL_EXPIRING_SOLD_PRODUCTS', 'index.php?module=Assets&view=ShowWidget&name=ExpiringSoldProducts', '', 0, null, null, null, null],
+					[309, 113, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[310, 114, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[311, 115, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[312, 117, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', null],
+					[313, 86, 'DASHBOARDWIDGET', 'DW_TEAMS_ESTIMATED_SALES', 'index.php?module=SSalesProcesses&view=ShowWidget&name=TeamsEstimatedSales', '', 0, null, null, null, null],
+					[314, 86, 'DASHBOARDWIDGET', 'DW_ACTUAL_SALES_OF_TEAM', 'index.php?module=SSalesProcesses&view=ShowWidget&name=ActualSalesOfTeam', '', 0, null, null, null, null],
 				]
 			],
 			'vtiger_lout_dimensions' => [
@@ -3859,15 +3918,15 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_ossmailscanner_config' => [
 				'columns' => ['conf_type', 'parameter', 'value'],
 				'values' => [
-					['emailsearch', 'fields', NULL],
+					['emailsearch', 'fields', null],
 					['cron', 'email', ''],
 					['cron', 'time', ''],
 					['emailsearch', 'changeTicketStatus', 'noAction'],
 					['email_list', 'widget_limit', '10'],
 					['email_list', 'target', '_blank'],
 					['email_list', 'permissions', 'vtiger'],
-					['exceptions', 'crating_mails', NULL],
-					['exceptions', 'crating_tickets', NULL],
+					['exceptions', 'crating_mails', null],
+					['exceptions', 'crating_tickets', null],
 				]
 			],
 			'vtiger_ossmailview_sendtype' => [
@@ -4079,23 +4138,23 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_picklist_dependency' => [
 				'columns' => ['id', 'tabid', 'sourcefield', 'targetfield', 'sourcevalue', 'targetvalues', 'criteria'],
 				'values' => [
-					[1, 7, 'industry', 'subindustry', 'Administration', '["Ministry","Chancellery","Voivodeship Office","Marshal Office","District","City\\/Township\\/District","Social Welfare Centre","Water and Sewerage Company","Voivodeship Job Centre","District Job Center","Court of justice","Attorney General\'s Office","Other"]', NULL],
-					[2, 7, 'industry', 'subindustry', 'Construction Industry', '["Other","Developers","Real Estate"]', NULL],
-					[3, 7, 'industry', 'subindustry', 'Education', '["Other","Primary Schools","High Schools"]', NULL],
-					[4, 7, 'industry', 'subindustry', 'Power Industry', '[""]', NULL],
-					[5, 7, 'industry', 'subindustry', 'Finance', '["Other","Banking","Capital Market","Financial Services","Investments","Insurance"]', NULL],
-					[6, 7, 'industry', 'subindustry', 'Trade', '["Other","Retail","Wholesale","Resale"]', NULL],
-					[7, 7, 'industry', 'subindustry', 'Hotels and Restaurants', '[""]', NULL],
-					[8, 7, 'industry', 'subindustry', 'Health Care', '[""]', NULL],
-					[9, 7, 'industry', 'subindustry', 'Industry / Manufacturing', '["Other","Automotive","Plastics","Chamical","Raw material","Fuel","Wood and paper","Electromechanical","Pharmaceutical","Building Materials","Metal","Light","Food industry","Recycling"]', NULL],
-					[10, 7, 'industry', 'subindustry', 'Uniformed Services', '["Army","Police"]', NULL],
-					[11, 7, 'industry', 'subindustry', 'Transport & Logistics', '[""]', NULL],
-					[12, 7, 'industry', 'subindustry', 'Technologies', '["Other","Information Technology","Telecommunication","Media"]', NULL],
-					[13, 14, 'usageunit', 'subunit', 'pcs', '[""]', NULL],
-					[14, 14, 'usageunit', 'subunit', 'pack', '[""]', NULL],
-					[15, 14, 'usageunit', 'subunit', 'kg', '["50g","100g","300g","500g"]', NULL],
-					[16, 14, 'usageunit', 'subunit', 'm', '[""]', NULL],
-					[17, 14, 'usageunit', 'subunit', 'l', '["100ml","250ml","330ml","500ml"]', NULL],
+					[1, 7, 'industry', 'subindustry', 'Administration', '["Ministry","Chancellery","Voivodeship Office","Marshal Office","District","City\\/Township\\/District","Social Welfare Centre","Water and Sewerage Company","Voivodeship Job Centre","District Job Center","Court of justice","Attorney General\'s Office","Other"]', null],
+					[2, 7, 'industry', 'subindustry', 'Construction Industry', '["Other","Developers","Real Estate"]', null],
+					[3, 7, 'industry', 'subindustry', 'Education', '["Other","Primary Schools","High Schools"]', null],
+					[4, 7, 'industry', 'subindustry', 'Power Industry', '[""]', null],
+					[5, 7, 'industry', 'subindustry', 'Finance', '["Other","Banking","Capital Market","Financial Services","Investments","Insurance"]', null],
+					[6, 7, 'industry', 'subindustry', 'Trade', '["Other","Retail","Wholesale","Resale"]', null],
+					[7, 7, 'industry', 'subindustry', 'Hotels and Restaurants', '[""]', null],
+					[8, 7, 'industry', 'subindustry', 'Health Care', '[""]', null],
+					[9, 7, 'industry', 'subindustry', 'Industry / Manufacturing', '["Other","Automotive","Plastics","Chamical","Raw material","Fuel","Wood and paper","Electromechanical","Pharmaceutical","Building Materials","Metal","Light","Food industry","Recycling"]', null],
+					[10, 7, 'industry', 'subindustry', 'Uniformed Services', '["Army","Police"]', null],
+					[11, 7, 'industry', 'subindustry', 'Transport & Logistics', '[""]', null],
+					[12, 7, 'industry', 'subindustry', 'Technologies', '["Other","Information Technology","Telecommunication","Media"]', null],
+					[13, 14, 'usageunit', 'subunit', 'pcs', '[""]', null],
+					[14, 14, 'usageunit', 'subunit', 'pack', '[""]', null],
+					[15, 14, 'usageunit', 'subunit', 'kg', '["50g","100g","300g","500g"]', null],
+					[16, 14, 'usageunit', 'subunit', 'm', '[""]', null],
+					[17, 14, 'usageunit', 'subunit', 'l', '["100ml","250ml","330ml","500ml"]', null],
 				]
 			],
 			'vtiger_picklist_dependency_seq' => [

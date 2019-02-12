@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class CustomView_Delete_Action extends Vtiger_Action_Controller
+class CustomView_Delete_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -22,21 +21,16 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
 		$customViewModel->delete();
+		if ($request->getInteger('record') == App\CustomView::getCurrentView($customViewModel->getModule()->get('name'))) {
+			\App\CustomView::resetCurrentView();
+		}
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
-		header("Location: $listViewUrl");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
+		header("location: $listViewUrl");
 	}
 }

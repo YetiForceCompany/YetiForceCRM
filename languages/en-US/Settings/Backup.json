@@ -1,0 +1,16 @@
+{
+  "php": {
+    "LBL_BACKUP_MANAGER": "Backup Manager",
+    "LBL_BACKUP_MANAGER_DESCRIPTION": "Manage backup files",
+    "LBL_DOWNLOAD": "Download",
+    "LBL_FILE_NAME": "File name",
+    "LBL_FILE_SIZE": "File size",
+    "LBL_FILE_DATE": "Modified date",
+    "LBL_BACKUP_LIST": "Backup list",
+    "ERR_CONFIG_ALERT_TITLE": "Backup Manager is disabled",
+    "ERR_CONFIG_ALERT_DESC": "Set the appropriate path in BACKUP_PATH variable in the configuration file [config\/Components\/Backup.php] to enable it."
+  },
+  "js": {
+
+  }
+}

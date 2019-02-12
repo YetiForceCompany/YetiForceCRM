@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityMethodManager.php');
+require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 
 class VTEntityMethodTask extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -21,7 +20,8 @@ class VTEntityMethodTask extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)

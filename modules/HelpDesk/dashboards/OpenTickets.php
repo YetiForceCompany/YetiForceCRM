@@ -11,24 +11,22 @@
 
 class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Function returns Tickets grouped by Status
+	 * Function returns Tickets grouped by Status.
+	 *
 	 * @return array
 	 */
 	public function getOpenTickets()
 	{
-
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$query = new \App\Db\Query();
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
-				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
-				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
+			'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
+			'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
 					vtiger_users.cal_color ELSE vtiger_groups.color END"),
-				'id' => 'smownerid'])
+			'id' => 'smownerid', ])
 			->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
@@ -38,25 +36,39 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 		}
-		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color'
-			, 'vtiger_groups.color']);
+		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color', 'vtiger_groups.color']);
 		$dataReader = $query->createCommand()->query();
-		$listViewUrl = $moduleModel->getListViewUrl();
-		$chartData = [];
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'links' => [],
+					'titlesFormatted' => [],
+				],
+			],
+			'show_chart' => false,
+		];
+		$chartData['show_chart'] = (bool) $dataReader->count();
 		while ($row = $dataReader->read()) {
-			$chartData [] = [
-				$row['count'],
-				trim($row['name']),
-				$listViewUrl . $this->getSearchParams($row['id']),
-				$row['color']
-			];
+			$label = trim($row['name']);
+			$chartData['labels'][] = \App\Utils::getInitials($label);
+			$chartData['datasets'][0]['titlesFormatted'][] = $label;
+			$chartData['datasets'][0]['data'][] = (int) $row['count'];
+			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['id']);
+			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor($row['id']);
 		}
+		$dataReader->close();
 		return $chartData;
 	}
 
 	/**
-	 * Return params to search
-	 * @param integer $value
+	 * Return params to search.
+	 *
+	 * @param int $value
+	 *
 	 * @return string
 	 */
 	public function getSearchParams($value)
@@ -72,26 +84,23 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = [['assigned_user_id', 'e', $value]];
 		array_push($conditions, ['ticketstatus', 'e', $openTicketsStatus]);
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . urlencode(App\Json::encode($listSearchParams));
+		return '&entityState=Active&viewname=All&search_params=' . urlencode(App\Json::encode($listSearchParams));
 	}
 
 	/**
-	 * Main process
+	 * Main process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$data = $this->getOpenTickets();
-		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('WIDGET', Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId()));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		//Include special script and css needed for this widget
-		$viewer->assign('CURRENTUSER', $currentUser);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {

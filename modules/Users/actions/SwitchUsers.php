@@ -1,27 +1,28 @@
 <?php
 
 /**
- * Switch Users Action Class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Switch Users Action Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_SwitchUsers_Action extends Vtiger_Action_Controller
+class Users_SwitchUsers_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function checks permissions
+	 * Function checks permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$userId = $request->getInteger('id');
-		require('user_privileges/switchUsers.php');
+		require 'user_privileges/switchUsers.php';
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();
-		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
+		if (!array_key_exists($baseUserId, $switchUsers) || !array_key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__switch_users', [
 				'baseid' => $baseUserId,
@@ -38,20 +39,19 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function proccess
+	 * Function proccess.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$baseUserId = $currentUserModel->getId();
+		$currentUser = \App\User::getCurrentUserModel();
+		$baseUserId = $currentUser->getId();
 		$userId = $request->getInteger('id');
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-		$name = $currentUserModel->getName();
-		$userName = $currentUser->column_fields['user_name'];
+		$newUser = \App\User::getUserModel($userId);
+		$name = $newUser->getName();
 		App\Session::set('authenticated_user_id', $userId);
-		App\Session::set('user_name', $userName);
+		App\Session::set('user_name', $newUser->getDetail('user_name'));
 		App\Session::set('full_user_name', $name);
 
 		$status = 'Switched';
@@ -70,7 +70,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		$db->createCommand()->insert('l_#__switch_users', [
 			'baseid' => $baseUserId,
 			'destid' => $userId,
-			'busername' => $currentUserModel->getName(),
+			'busername' => $currentUser->getName(),
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
@@ -78,6 +78,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			'status' => $status,
 		])->execute();
 		\App\CustomView::resetCurrentView();
-		header('Location: index.php');
+		OSSMail_Logout_Model::logoutCurrentUser();
+		header('location: index.php');
 	}
 }

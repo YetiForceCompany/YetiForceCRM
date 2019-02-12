@@ -11,14 +11,14 @@
 
 class Products_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
-	 * @param boolean $skipSelected
+	 * @param bool                $skipSelected
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
@@ -30,86 +30,77 @@ class Products_Module_Model extends Vtiger_Module_Model
 					->select(['productid'])
 					->from('vtiger_seproductsrel')
 					->where(['setype' => $sourceModule]);
-				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
+				$condition[] = ['not in', 'vtiger_products.productid', $subQuery];
 				$subQuery = (new App\Db\Query())
 					->select(['crmid'])
 					->from('vtiger_seproductsrel')
 					->where(['productid' => $record]);
-				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
-				$condition [] = ['<>', 'vtiger_products.productid', $record];
+				$condition[] = ['not in', 'vtiger_products.productid', $subQuery];
+				$condition[] = ['<>', 'vtiger_products.productid', $record];
 			} elseif ($sourceModule === 'PriceBooks') {
 				$subQuery = (new App\Db\Query())
 					->select(['productid'])
 					->from('vtiger_pricebookproductrel')
 					->where(['pricebookid' => $record]);
-				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
+				$condition[] = ['not in', 'vtiger_products.productid', $subQuery];
 			} elseif ($sourceModule === 'Vendors') {
-				$condition [] = ['<>', 'vtiger_products.vendor_id', $record];
+				$condition[] = ['<>', 'vtiger_products.vendor_id', $record];
 			}
 			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 
 	/**
-	 * Function to get Specific Relation Query for this Module
-	 * @param <type> $relatedModule
-	 * @return <type>
-	 */
-	public function getSpecificRelationQuery($relatedModule)
-	{
-		if ($relatedModule === 'Leads') {
-			$specificQuery = 'AND vtiger_leaddetails.converted = 0';
-			return $specificQuery;
-		}
-		return parent::getSpecificRelationQuery($relatedModule);
-	}
-
-	/**
-	 * Function to get prices for specified products with specific currency
+	 * Function to get prices for specified products with specific currency.
+	 *
 	 * @param <Integer> $currenctId
-	 * @param <Array> $productIdsList
+	 * @param <Array>   $productIdsList
+	 *
 	 * @return <Array>
 	 */
 	public function getPricesForProducts($currencyId, $productIdsList)
 	{
 		$priceList = [];
-		if (count($productIds) > 0) {
-			if ($this->getName() == 'Services') {
+		$moduleName = $this->getName();
+		if (count($productIdsList) > 0) {
+			if ($moduleName === 'Services') {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
-							'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price'])
-						->from('vtiger_service')
-						->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
-						->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-						->where(['vtiger_service.serviceid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
-						->createCommand()->query();
+					'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
+					->from('vtiger_service')
+					->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
+					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
+					->where(['vtiger_service.serviceid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
+					->createCommand()->query();
 			} else {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
-							'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price'])
-						->from('vtiger_products')
-						->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
-						->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-						->where(['vtiger_products.productid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
-						->createCommand()->query();
+					'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
+					->from('vtiger_products')
+					->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
+					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
+					->where(['vtiger_products.productid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
+					->createCommand()->query();
 			}
 			while ($row = $dataReader->read()) {
 				$productId = $row['productid'];
-				if (\App\Field::getFieldPermission($this->getName(), 'unit_price')) {
+				if (\App\Field::getFieldPermission($moduleName, 'unit_price')) {
 					$actualPrice = (float) $row['actual_price'];
-					if ($actualPrice === null || $actualPrice == '') {
-						$actualPrice = $row['unit_price'] * $row['conversion_rate'] * getBaseConversionRateForProduct($productId, 'edit', $this->getName());
+					if (empty($row['actual_price'])) {
+						$actualPrice = $row['unit_price'] * $row['conversion_rate'] * Products_Record_Model::getBaseConversionRateForProduct($productId, 'edit', $moduleName);
 					}
 					$priceList[$productId] = $actualPrice;
 				} else {
-					$priceList[$productId] = '';
+					$priceList[$productId] = 0;
 				}
 			}
+			$dataReader->close();
 		}
 		return $priceList;
 	}
 
 	/**
-	 * Function to check whether the module is summary view supported
-	 * @return boolean - true/false
+	 * Function to check whether the module is summary view supported.
+	 *
+	 * @return bool - true/false
 	 */
 	public function isSummaryViewSupported()
 	{

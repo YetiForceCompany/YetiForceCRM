@@ -1,0 +1,38 @@
+{
+  "php": {
+    "LBL_COMPANIES": "Company details",
+    "Companies": "Company details",
+    "LBL_COMPANIES_DESCRIPTION": "Manage company details",
+    "LBL_ID": "Id",
+    "LBL_NAME": "Full company name",
+    "LBL_EMAIL": "E-mail",
+    "LBL_CITY": "City",
+    "LBL_COUNTRY": "Country",
+    "LBL_TYPE": "Type",
+    "LBL_TYPE_TARGET_USER": "End user",
+    "LBL_TYPE_INTEGRATOR": "Integrator",
+    "LBL_TYPE_PROVIDER": "Provider",
+    "LBL_COMPANYSIZE": "Company size",
+    "LBL_WEBSITE": "Website",
+    "LBL_INDUSTRY": "Industry",
+    "LBL_FIRSTNAME": "First name",
+    "LBL_LASTNAME": "Last name",
+    "LBL_LOGO": "Logo",
+    "LBL_EMAIL_NEWSLETTER_INFO": "Sign up for YetiForce’s free newsletter. Keep up with all latest features in the system, and find out more about the CRM sector. We will send you information about new versions, updates, events, new additions to the system, and much more.\nJoin our community and stay up to date.\nInternet connection is required to sign up.",
+    "LBL_COMPANY_NAMES_EXIST": "The company name already exists",
+    "LBL_REGISTER_CRM_ONLINE": "Registration - OnLine",
+    "LBL_REGISTER_CRM_SERIAL": "Registration - Key",
+    "LBL_NOT_REGISTERED": "Not registered",
+    "LBL_WAITING_FOR_ACCEPTANCE": "Pending approval",
+    "LBL_INCORRECT_DATA": "Incorrect data",
+    "LBL_INCOMPLETE_DATA": "Incomplete data",
+    "LBL_OFFLINE_SERIAL_NOT_FOUND": "Offline - Key not found",
+    "LBL_OFFLINE_SIGNED": "Offline - Accepted",
+    "LBL_SPECIAL_REGISTRATION": "Special registration",
+    "LBL_ACCEPTED": "Accepted"
+  },
+  "js": {
+    "JS_ENTER_REGISTRATION_KEY": "Enter registration key",
+    "JS_ENTER_ALL_REGISTRATION_DATA": "Enter all required data"
+  }
+}

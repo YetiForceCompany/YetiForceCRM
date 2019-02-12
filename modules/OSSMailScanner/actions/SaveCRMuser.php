@@ -1,20 +1,21 @@
 <?php
 /**
- * OSSMailScanner SaveCRMuser action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSMailScanner SaveCRMuser action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
- * OSSMailScanner SaveCRMuser action class
+ * OSSMailScanner SaveCRMuser action class.
  */
-class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
+class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
@@ -26,7 +27,8 @@ class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

@@ -1,14 +1,15 @@
 <?php
 
 /**
- * Action to clipboard
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Action to clipboard.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -20,8 +21,10 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	}
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -35,15 +38,6 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		}
 		if (!$request->isEmpty('srcModuleName') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('srcModuleName'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 
@@ -69,7 +63,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 
 	public function save(\App\Request $request)
 	{
-		$records = $request->get('recordIds');
+		$records = $request->getArray('recordIds', 'Integer');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->getByType('srcModule'));
 		$coordinatesModel->deleteCache();
@@ -84,7 +78,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$record = $request->getInteger('record');
 		$srcModuleName = $request->getByType('srcModuleName');
 		if (!\App\Privilege::isPermitted($srcModuleName, 'DetailView', $record)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $srcModuleName);

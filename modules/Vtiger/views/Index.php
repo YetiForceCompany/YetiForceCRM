@@ -11,15 +11,11 @@
 
 class Vtiger_Index_View extends Vtiger_Basic_View
 {
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -51,7 +47,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		return 'IndexViewPreProcess.tpl';
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -68,8 +64,10 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -81,10 +79,8 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			'modules.Vtiger.resources.' . $view,
 			"modules.$moduleName.resources.$moduleName",
 			"modules.$moduleName.resources.$view",
-			'libraries.jquery.ckeditor.ckeditor',
-			'libraries.jquery.ckeditor.adapters.jquery',
-			'modules.Vtiger.resources.CkEditor',
 		];
+
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 

@@ -10,9 +10,9 @@
 
 class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list view header
+	 * Function to get the list view header.
+	 *
 	 * @return <Array> - List of Vtiger_Field_Model instances
 	 */
 	public function getListViewHeaders()
@@ -36,9 +36,11 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 	}
 
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -50,7 +52,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
 
 		$listViewRecordModels = [];
-		for ($i = 0; $i < $noOfRecords; $i++) {
+		for ($i = 0; $i < $noOfRecords; ++$i) {
 			$record = new $recordModelClass();
 			$module = $dependentPicklists[$i]['module'];
 			unset($dependentPicklists[$i]['module']);
@@ -60,6 +62,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 			$listViewRecordModels[] = $record;
 		}
 		$pagingModel->calculatePageRange($noOfRecords);
+
 		return $listViewRecordModels;
 	}
 }

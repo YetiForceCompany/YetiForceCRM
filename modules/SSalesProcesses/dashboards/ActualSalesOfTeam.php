@@ -1,22 +1,23 @@
 <?php
 /**
- * Widget that displays the actual value of the team's sales
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Widget that displays the actual value of the team's sales.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Class to Team's actual sales widget
+ * Class to Team's actual sales widget.
  */
 class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsEstimatedSales_Dashboard
 {
-
 	/**
-	 * Function to get search params in address listview
-	 * @param int $owner number id of user
+	 * Function to get search params in address listview.
+	 *
+	 * @param int    $owner  number id of user
 	 * @param string $status
+	 *
 	 * @return string
 	 */
 	public function getSearchParams($row, $time)
@@ -29,9 +30,11 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	}
 
 	/**
-	 * Function to get data to chart
-	 * @param string $time
+	 * Function to get data to chart.
+	 *
+	 * @param string      $time
 	 * @param string|bool $compare
+	 *
 	 * @return array
 	 */
 	public function getEstimatedValue($time, $compare = false)
@@ -50,12 +53,14 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 		$i = -1;
 		while ($row = $dataReader->read()) {
 			$i = $compare ? $row['assigned_user_id'] : $i + 1;
-			$data [$i] = [
+			$data[$i] = [
 				$row['actual_sale'],
 				\App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				$listView . $this->getSearchParams($row, $time)
+				$listView . $this->getSearchParams($row, $time),
 			];
 		}
+		$dataReader->close();
+
 		return $data;
 	}
 }

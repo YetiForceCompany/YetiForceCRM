@@ -10,9 +10,9 @@
 
 class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_RecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -31,11 +31,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isViewable()) {
-						if (in_array($moduleModel->getName(), ['Calendar', 'Events']) && $fieldModel->getDisplayType() == 3) {
-							/* Restricting the following fields(Event module fields) for "Calendar" module
-							 * time_start, time_end, eventstatus, activitytype,	visibility, duration_hours,
-							 * duration_minutes, reminder_time, notime
-							 */
+						if ($moduleModel->getName() === 'Calendar' && $fieldModel->getDisplayType() == 3) {
 							continue;
 						}
 						if (!empty($recordId)) {
@@ -66,8 +62,9 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner')
+			if ($type == 'owner') {
 				$referenceModules = ['Users'];
+			}
 			foreach ($referenceModules as $refModule) {
 				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
@@ -94,6 +91,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 			}
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

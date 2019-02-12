@@ -8,15 +8,39 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-AppConfig::iniSet("auto_detect_line_endings", true);
 
 class Import_CSVReader_Reader extends Import_FileReader_Reader
 {
+	/**
+	 * Parsed file data.
+	 *
+	 * @var array
+	 */
+	private $data;
+
+	/**
+	 * Import_CSVReader_Reader constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param \App\User    $user
+	 */
+	public function __construct(\App\Request $request, \App\User $user)
+	{
+		parent::__construct($request, $user);
+		$csv = new \ParseCsv\Csv();
+		$csv->encoding($this->request->get('file_encoding'), \AppConfig::main('default_charset', 'UTF-8'));
+		$csv->delimiter = $this->request->get('delimiter');
+		$csv->heading = false;
+		$csv->parse($this->getFilePath());
+		$this->data = $csv->data;
+	}
 
 	/**
 	 * Creates a table using one table's values as keys, and the other's as values.
+	 *
 	 * @param array $keys
 	 * @param array $values
+	 *
 	 * @return array
 	 */
 	public function arrayCombine($keys, $values)
@@ -24,10 +48,10 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		$combine = $dup = [];
 		foreach ($keys as $key => $keyData) {
 			if (isset($combine[$keyData])) {
-				if (!$dup[$keyData]) {
+				if (!isset($dup[$keyData])) {
 					$dup[$keyData] = 1;
 				}
-				$keyData = $keyData . "(" . ++$dup[$keyData] . ")";
+				$keyData = $keyData . '(' . ++$dup[$keyData] . ')';
 			}
 			$combine[$keyData] = $values[$key];
 		}
@@ -35,63 +59,57 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	}
 
 	/**
-	 * Function gets data of the first record to import
+	 * Function gets data of the first record to import.
+	 *
 	 * @param bool $hasHeader
+	 *
 	 * @return array
 	 */
 	public function getFirstRowData($hasHeader = true)
 	{
-		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
-		$fileHandler = $this->getFileHandler();
-		if ($this->moduleModel->isInventory()) {
-			$isInventory = true;
-		}
-
+		$isInventory = $this->moduleModel->isInventory();
 		$rowData = $headers = $standardData = $inventoryData = [];
-		$currentRow = 0;
-		while ($data = fgetcsv($fileHandler, 0, $this->request->get('delimiter'))) {
+		foreach ($this->data as $currentRow => $data) {
 			if ($currentRow === 0 || ($currentRow === 1 && $hasHeader)) {
 				if ($hasHeader && $currentRow === 0) {
 					foreach ($data as $key => $value) {
 						if (!empty($isInventory) && strpos($value, 'Inventory::') === 0) {
 							$value = substr($value, 11);
-							$inventoryHeaders[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$inventoryHeaders[$key] = $value;
 						} else {
-							$headers[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$headers[$key] = $value;
 						}
 					}
 				} else {
 					foreach ($data as $key => $value) {
 						if (!empty($isInventory) && isset($inventoryHeaders[$key])) {
-							$inventoryData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$inventoryData[$key] = $value;
 						} else {
-							$standardData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+							$standardData[$key] = $value;
 						}
 					}
 					break;
 				}
 			}
-			$currentRow++;
 		}
-
 		if ($hasHeader) {
 			$standardData = $this->syncRowData($headers, $standardData);
 			$rowData['LBL_STANDARD_FIELDS'] = $this->arrayCombine($headers, $standardData);
 			if ($inventoryData) {
-				$standardData = $this->syncRowData($inventoryHeaders, $inventoryData);
 				$rowData['LBL_INVENTORY_FIELDS'] = $this->arrayCombine($inventoryHeaders, $inventoryData);
 			}
 		} else {
 			$rowData = $standardData;
 		}
-		unset($fileHandler);
 		return $rowData;
 	}
 
 	/**
-	 * Adjust first row data to get in sync with the number of headers
+	 * Adjust first row data to get in sync with the number of headers.
+	 *
 	 * @param array $keys
 	 * @param array $values
+	 *
 	 * @return array
 	 */
 	public function syncRowData($keys, $values)
@@ -107,24 +125,19 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	}
 
 	/**
-	 * Function creates tables for import in database
+	 * Function creates tables for import in database.
 	 */
 	public function read()
 	{
-		$defaultCharset = AppConfig::main('default_charset');
-		$fileHandler = $this->getFileHandler();
 		$this->createTable();
-
 		$fieldMapping = $this->request->get('field_mapping');
 		$inventoryFieldMapping = $this->request->get('inventory_field_mapping');
 		if ($this->moduleModel->isInventory()) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
-			$inventoryFields = $inventoryFieldModel->getFields();
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleModel->getName());
+			$inventoryFields = $inventoryModel->getFields();
 		}
-		$i = -1;
 		$skip = $importId = $skipData = false;
-		while ($data = fgetcsv($fileHandler, 0, $this->request->get('delimiter'))) {
-			$i++;
+		foreach ($this->data as $i => $data) {
 			if ($this->request->get('has_header') && $i === 0) {
 				foreach ($data as $index => $fullName) {
 					if ($this->moduleModel->isInventory() && strpos($fullName, 'Inventory::') === 0) {
@@ -142,9 +155,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$allValuesEmpty = true;
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
-				if ($this->request->get('file_encoding') !== $defaultCharset) {
-					$fieldValue = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
-				}
 				$fieldValueTemp = $fieldValue;
 				$fieldValueTemp = str_replace(',', '.', $fieldValueTemp);
 				if (is_numeric($fieldValueTemp)) {
@@ -178,6 +188,5 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 				}
 			}
 		}
-		unset($fileHandler);
 	}
 }

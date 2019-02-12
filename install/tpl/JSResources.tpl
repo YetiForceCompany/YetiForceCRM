@@ -12,7 +12,7 @@
 {strip}
 	<div>
 		{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
-            <script type="{$jsModel->getType()}" src="../{$jsModel->getSrc()}"></script>
+    <script type="{$jsModel->getType()}" src="../{$jsModel->getSrc()}"></script>
 		{/foreach}
 	</div>
 {/strip}

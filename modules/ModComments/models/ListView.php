@@ -9,39 +9,40 @@
  * *********************************************************************************** */
 
 /**
- * ModComments ListView Model Class
+ * ModComments ListView Model Class.
  */
 class ModComments_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list of listview links for the module
+	 * Function to get the list of listview links for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
 		$links = parent::getListViewLinks($linkParams);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		unset($links['LISTVIEW']);
-		unset($links['LISTVIEWSETTING']);
+		unset($links['LISTVIEW'], $links['LISTVIEWSETTING']);
 
 		if ($currentUserModel->isAdminUser()) {
 			$settingsLink = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflow&sourceModule=' . $this->getName(),
-				'linkicon' => Vtiger_Theme::getImagePath('EditWorkflows.png')
+				'linkicon' => Vtiger_Theme::getImagePath('EditWorkflows.png'),
 			];
 			$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
 		}
-
 		return $links;
 	}
 
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> - empty array
 	 */
 	public function getListViewMassActions($linkParams)

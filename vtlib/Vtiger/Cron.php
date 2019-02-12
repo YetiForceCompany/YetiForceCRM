@@ -8,15 +8,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to work with Cron tasks
- * @package vtlib
+ * Provides API to work with Cron tasks.
  */
 class Cron
 {
-
 	protected static $cronAction = false;
 	protected static $baseTable = 'vtiger_cron_task';
 	protected static $schemaInitialized = false;
@@ -28,7 +27,7 @@ class Cron
 	protected $data;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	protected function __construct($values)
 	{
@@ -37,12 +36,14 @@ class Cron
 	}
 
 	/**
-	 * set the value to the data
-	 * @param type $value,$key
+	 * set the value to the data.
+	 *
+	 * @param type $value ,$key
 	 */
 	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
+
 		return $this;
 	}
 
@@ -67,15 +68,15 @@ class Cron
 	 */
 	public function getFrequency()
 	{
-		return intval($this->data['frequency']);
+		return (int) ($this->data['frequency']);
 	}
 
 	/**
-	 * Get the status
+	 * Get the status.
 	 */
 	public function getStatus()
 	{
-		return intval($this->data['status']);
+		return (int) ($this->data['status']);
 	}
 
 	/**
@@ -83,7 +84,7 @@ class Cron
 	 */
 	public function getLastStart()
 	{
-		return intval($this->data['laststart']);
+		return (int) ($this->data['laststart']);
 	}
 
 	/**
@@ -91,7 +92,7 @@ class Cron
 	 */
 	public function getLastEnd()
 	{
-		return intval($this->data['lastend']);
+		return (int) ($this->data['lastend']);
 	}
 
 	/**
@@ -103,12 +104,13 @@ class Cron
 	}
 
 	/**
-	 * Get the user datetimefeild
+	 * Get the user datetimefeild.
 	 */
 	public function getLastEndDateTime()
 	{
-		if ($this->data['lastend'] != NULL) {
+		if ($this->data['lastend'] !== null) {
 			$lastEndDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
+
 			return $lastEndDateTime->getDisplayDateTimeValue();
 		} else {
 			return '';
@@ -116,13 +118,13 @@ class Cron
 	}
 
 	/**
-	 *
-	 * get the last start datetime field
+	 * get the last start datetime field.
 	 */
 	public function getLastStartDateTime()
 	{
-		if ($this->data['laststart'] != NULL) {
+		if ($this->data['laststart'] !== null) {
 			$lastStartDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
+
 			return $lastStartDateTime->getDisplayDateTimeValue();
 		} else {
 			return '';
@@ -130,14 +132,11 @@ class Cron
 	}
 
 	/**
-	 * Get Time taken to complete task
+	 * Get Time taken to complete task.
 	 */
 	public function getTimeDiff()
 	{
-		$lastStart = $this->getLastStart();
-		$lastEnd = $this->getLastEnd();
-		$timeDiff = $lastEnd - $lastStart;
-		return $timeDiff;
+		return $this->getLastEnd() - $this->getLastStart();
 	}
 
 	/**
@@ -149,16 +148,15 @@ class Cron
 	}
 
 	/**
-	 * Get the Module name
+	 * Get the Module name.
 	 */
 	public function getModule()
 	{
-
 		return $this->data['module'];
 	}
 
 	/**
-	 * get the Sequence
+	 * get the Sequence.
 	 */
 	public function getSequence()
 	{
@@ -166,7 +164,7 @@ class Cron
 	}
 
 	/**
-	 * get the description of cron
+	 * get the description of cron.
 	 */
 	public function getDescription()
 	{
@@ -187,7 +185,8 @@ class Cron
 		// Take care to start the cron im
 		$lastTime = ($this->getLastStart() > 0) ? $this->getLastStart() : $this->getLastEnd();
 		$elapsedTime = time() - $lastTime;
-		return ($elapsedTime >= ($this->getFrequency() - 60));
+
+		return $elapsedTime >= ($this->getFrequency() - 60);
 	}
 
 	/**
@@ -195,7 +194,8 @@ class Cron
 	 */
 	public function statusEqual($value)
 	{
-		$status = intval($this->data['status']);
+		$status = (int) ($this->data['status']);
+
 		return $status == $value;
 	}
 
@@ -224,25 +224,28 @@ class Cron
 	}
 
 	/**
-	 * Update status
+	 * Update status.
+	 *
 	 * @param int $status
+	 *
 	 * @throws \Exception
 	 */
 	public function updateStatus($status)
 	{
-		switch (intval($status)) {
+		switch ((int) $status) {
 			case self::$STATUS_DISABLED:
 			case self::$STATUS_ENABLED:
 			case self::$STATUS_RUNNING:
 				break;
 			default:
-				throw new \Exception('Invalid status');
+				throw new \App\Exceptions\AppException('Invalid status');
 		}
 		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['status' => $status], ['id' => $this->getId()])->execute();
 	}
 
 	/**
-	 * Update frequency
+	 * Update frequency.
+	 *
 	 * @param int $frequency
 	 */
 	public function updateFrequency($frequency)
@@ -257,11 +260,13 @@ class Cron
 	{
 		$time = time();
 		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['status' => self::$STATUS_RUNNING, 'laststart' => $time], ['id' => $this->getId()])->execute();
+
 		return $this->set('laststart', $time);
 	}
 
 	/**
 	 * Mark this instance as finished.
+	 *
 	 * @return int
 	 */
 	public function markFinished()
@@ -273,6 +278,7 @@ class Cron
 			$contitions['status'] = self::$STATUS_ENABLED;
 		}
 		\App\Db::getInstance()->createCommand()->update(self::$baseTable, $contitions, ['id' => $this->getId()])->execute();
+
 		return $this->set('lastend', $time);
 	}
 
@@ -284,7 +290,7 @@ class Cron
 		if (!$this->isRunning()) {
 			return false;
 		}
-		$maxExecutionTime = intval(ini_get('max_execution_time'));
+		$maxExecutionTime = (int) (ini_get('max_execution_time'));
 		if ($maxExecutionTime == 0) {
 			$maxExecutionTime = \AppConfig::main('maxExecutionCronTime');
 		}
@@ -299,13 +305,14 @@ class Cron
 	}
 
 	/**
-	 * Register cron task
+	 * Register cron task.
+	 *
 	 * @param string $name
 	 * @param string $handler_file
-	 * @param int $frequency
+	 * @param int    $frequency
 	 * @param string $module
-	 * @param int $status
-	 * @param int $sequence
+	 * @param int    $status
+	 * @param int    $sequence
 	 * @param string $description
 	 */
 	public static function register($name, $handler_file, $frequency, $module = 'Home', $status = 1, $sequence = 0, $description = '')
@@ -321,12 +328,13 @@ class Cron
 			'status' => $status,
 			'sequence' => $sequence,
 			'module' => $module,
-			'description' => $description
+			'description' => $description,
 		])->execute();
 	}
 
 	/**
-	 * De-register cron task
+	 * De-register cron task.
+	 *
 	 * @param string $name
 	 */
 	public static function deregister($name)
@@ -338,7 +346,8 @@ class Cron
 	}
 
 	/**
-	 * Get instances that are active (not disabled)
+	 * Get instances that are active (not disabled).
+	 *
 	 * @return \self[]
 	 */
 	public static function listAllActiveInstances()
@@ -354,7 +363,9 @@ class Cron
 
 	/**
 	 * Get instance of cron task.
+	 *
 	 * @param string $name
+	 *
 	 * @return \self
 	 */
 	public static function getInstance($name)
@@ -374,8 +385,10 @@ class Cron
 	}
 
 	/**
-	 * Get instance of cron job by id
+	 * Get instance of cron job by id.
+	 *
 	 * @param int $id
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceById($id)
@@ -394,14 +407,16 @@ class Cron
 	}
 
 	/**
-	 * Get instance of cron
-	 * @param string $module
+	 * Get instance of cron.
+	 *
+	 * @param string $moduleName
+	 *
 	 * @return \self[]
 	 */
-	public static function listAllInstancesByModule($module)
+	public static function listAllInstancesByModule($moduleName)
 	{
 		$instances = [];
-		$dataReader = (new \App\Db\Query())->from(self::$baseTable)->where(['module' => $moduleInstance->id])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from(self::$baseTable)->where(['module' => $moduleName])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
 		}
@@ -414,16 +429,21 @@ class Cron
 	}
 
 	/**
-	 * Delete all cron tasks associated with module
+	 * Delete all cron tasks associated with module.
+	 *
 	 * @param ModuleBasic $moduleInstance
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['module' => $moduleInstance->name])->execute();
+		if (is_dir("cron/modules/{$moduleInstance->name}")) {
+			Functions::recurseDelete("cron/modules/{$moduleInstance->name}");
+		}
 	}
 
 	/**
-	 * Function sets cron status
+	 * Function sets cron status.
+	 *
 	 * @param bool $status
 	 */
 	public static function setCronAction($status)
@@ -432,7 +452,8 @@ class Cron
 	}
 
 	/**
-	 * Function checks cron status
+	 * Function checks cron status.
+	 *
 	 * @return bool
 	 */
 	public static function isCronAction()

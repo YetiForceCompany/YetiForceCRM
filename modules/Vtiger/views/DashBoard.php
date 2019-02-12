@@ -11,7 +11,6 @@
 
 class Vtiger_DashBoard_View extends Vtiger_Index_View
 {
-
 	public function preProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -29,7 +28,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards('Header');
+			$widgets = $dashBoardModel->getDashboards(0);
 		} else {
 			$widgets = [];
 		}
@@ -60,7 +59,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards('Header');
+			$widgets = $dashBoardModel->getDashboards(0);
 		} else {
 			$widgets = [];
 		}
@@ -102,14 +101,16 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		parent::postProcess($request);
 	}
 
 	/**
-	 * Get dashboard id
+	 * Get dashboard id.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return int
 	 */
 	public function getDashboardId(\App\Request $request)
@@ -124,57 +125,55 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			$dashboardId = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$request->set('dashboardId', $dashboardId);
+
 		return $dashboardId;
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/jquery/gridster/jquery.gridster.js',
-			'~libraries/jquery/flot/jquery.flot.js',
-			'~libraries/jquery/flot/jquery.flot.pie.js',
-			'~libraries/jquery/flot/jquery.flot.stack.js',
-			'~libraries/jquery/jqplot/jquery.jqplot.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.donutRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.enhancedLegendRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.enhancedPieLegendRenderer.js',
+			'~libraries/lodash/lodash.js',
+			'~libraries/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
+			'~libraries/gridstack/dist/gridstack.js',
+			'~libraries/gridstack/dist/gridstack.jQueryUI.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~libraries/chart.js/dist/Chart.js',
+			'~libraries/hammerjs/hammer.js',
+			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',
+			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
+			'~libraries/jquery-lazy/jquery.lazy.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/fullcalendar/fullcalendar.js'
+			'~libraries/fullcalendar/dist/fullcalendar.js',
 		];
+
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	/**
-	 * Function to get the list of Css models to be included
+	 * Function to get the list of Css models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_CssScript_Model[]
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCss = [
-			'~libraries/jquery/gridster/jquery.gridster.css',
-			'~libraries/jquery/jqplot/jquery.jqplot.css',
-			'~libraries/fullcalendar/fullcalendar.css',
-			'~libraries/fullcalendar/fullcalendarCRM.css'
+			'~libraries/gridstack/dist/gridstack.css',
+			'~libraries/fullcalendar/dist/fullcalendar.css',
 		];
+
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($headerCss));
 	}
 }

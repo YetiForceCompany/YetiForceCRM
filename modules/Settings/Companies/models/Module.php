@@ -1,22 +1,81 @@
 <?php
 
 /**
- * Companies module model class
- * @package YetiForce.Settings.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Companies module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'phone' => 'LBL_PHONE', 'vatid' => 'LBL_VATID', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY'];
+	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE'];
+	/**
+	 * List of fields in form.
+	 *
+	 * @var array
+	 */
+	public static $formFields = [
+		'name' => [
+			'label' => 'LBL_NAME',
+			'registerView' => true
+		],
+		'type' => [
+			'label' => 'LBL_TYPE',
+			'registerView' => false
+		],
+		'industry' => [
+			'label' => 'LBL_INDUSTRY',
+			'registerView' => true
+		],
+		'city' => [
+			'label' => 'LBL_CITY',
+			'registerView' => true
+		],
+		'country' => [
+			'label' => 'LBL_COUNTRY',
+			'registerView' => true
+		],
+		'companysize' => [
+			'label' => 'LBL_COMPANYSIZE',
+			'registerView' => true
+		],
+		'website' => [
+			'label' => 'LBL_WEBSITE',
+			'registerView' => true
+		],
+		'spacer' => [
+			'label' => '',
+			'registerView' => true
+		],
+		'newsletter' => [
+			'label' => 'LBL_YETIFORCE_NEWSLETTER',
+			'registerView' => true
+		],
+		'firstname' => [
+			'label' => 'LBL_FIRSTNAME',
+			'registerView' => true
+		],
+		'lastname' => [
+			'label' => 'LBL_LASTNAME',
+			'registerView' => true
+		],
+		'email' => [
+			'label' => 'LBL_EMAIL',
+			'registerView' => true
+		],
+		'logo' => [
+			'label' => 'LBL_LOGO',
+			'registerView' => false
+		],
+	];
 	public $name = 'Companies';
 
 	/**
-	 * Function to get the url for default view of the module
+	 * Function to get the url for default view of the module.
+	 *
 	 * @return string URL
 	 */
 	public function getDefaultUrl()
@@ -25,7 +84,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url for create view of the module
+	 * Function to get the url for create view of the module.
+	 *
 	 * @return string URL
 	 */
 	public function getCreateRecordUrl()
@@ -34,7 +94,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the column names
+	 * Function to get the column names.
+	 *
 	 * @return array|false
 	 */
 	public static function getColumnNames()
@@ -49,20 +110,33 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getIndustryList()
 	{
 		return array_merge(
-			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column()
-			, (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
+			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(), (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
 		);
 	}
 
 	/**
-	 * Function to get the all companies
+	 * Return list fields in form.
+	 *
+	 * @return string[]
+	 */
+	public static function getFormFields()
+	{
+		return static::$formFields;
+	}
+
+	/**
+	 * Names of fields.
+	 *
 	 * @return array
 	 */
-	public static function getAllCompanies()
+	public function getNameFields()
 	{
-		$db = App\Db::getInstance('admin');
-		$query = new \App\Db\Query();
-		$query->select(['id', 'name', 'default'])->from('s_#__companies');
-		return $query->createCommand($db)->queryAllByGroup(1);
+		$columnNames = self::getColumnNames();
+		unset($columnNames[array_search('id', $columnNames)]);
+		$editFields = array_keys(self::$formFields);
+		usort($columnNames, function ($a, $b) use ($editFields) {
+			return array_search($a, $editFields) < array_search($b, $editFields) ? -1 : 1;
+		});
+		return $columnNames;
 	}
 }

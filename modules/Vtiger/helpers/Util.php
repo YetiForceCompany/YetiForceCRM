@@ -11,59 +11,24 @@
 
 class Vtiger_Util_Helper
 {
-
 	/**
-	 * Function used to transform mulitiple uploaded file information into useful format.
-	 * @param array $_files - ex: array( 'file' => array('name'=> array(0=>'name1',1=>'name2'),
-	 * 												array('type'=>array(0=>'type1',2=>'type2'),
-	 * 												...);
-	 * @param type $top
-	 * @return array   array( 'file' => array(0=> array('name'=> 'name1','type' => 'type1'),
-	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
-	 * 												...);
-	 */
-	public static function transformUploadedFiles(array $_files, $top = true)
-	{
-		$files = [];
-		foreach ($_files as $name => $file) {
-			if ($top)
-				$subName = $file['name'];
-			else
-				$subName = $name;
-
-			if (is_array($subName)) {
-				foreach (array_keys($subName) as $key) {
-					$files[$name][$key] = [
-						'name' => $file['name'][$key],
-						'type' => $file['type'][$key],
-						'tmp_name' => $file['tmp_name'][$key],
-						'error' => $file['error'][$key],
-						'size' => $file['size'][$key],
-					];
-					$files[$name] = self::transformUploadedFiles($files[$name], false);
-				}
-			} else {
-				$files[$name] = $file;
-			}
-		}
-		return $files;
-	}
-
-	/**
-	 * Function parses date into readable format
+	 * Function parses date into readable format.
+	 *
 	 * @param <Date Time> $dateTime
+	 *
 	 * @return string
 	 */
 	public static function formatDateDiffInStrings($dateTime)
 	{
 		// http://www.php.net/manual/en/datetime.diff.php#101029
 		$seconds = strtotime('now') - strtotime($dateTime);
-		if ($seconds === 0)
+		if ($seconds === 0) {
 			return \App\Language::translate('LBL_JUSTNOW');
+		}
 		if ($seconds > 0) {
 			$prefix = '';
 			$suffix = ' ' . \App\Language::translate('LBL_AGO');
-		} else if ($seconds < 0) {
+		} elseif ($seconds < 0) {
 			$prefix = \App\Language::translate('LBL_DUE') . ' ';
 			$suffix = '';
 			$seconds = -($seconds);
@@ -74,16 +39,21 @@ class Vtiger_Util_Helper
 		$days = floor($hours / 24);
 		$months = floor($days / 30);
 
-		if ($seconds < 60)
+		if ($seconds < 60) {
 			return $prefix . self::pluralize($seconds, 'LBL_SECOND') . $suffix;
-		if ($minutes < 60)
+		}
+		if ($minutes < 60) {
 			return $prefix . self::pluralize($minutes, 'LBL_MINUTE') . $suffix;
-		if ($hours < 24)
+		}
+		if ($hours < 24) {
 			return $prefix . self::pluralize($hours, 'LBL_HOUR') . $suffix;
-		if ($days < 30)
+		}
+		if ($days < 30) {
 			return $prefix . self::pluralize($days, 'LBL_DAY') . $suffix;
-		if ($months < 12)
+		}
+		if ($months < 12) {
 			return $prefix . self::pluralize($months, 'LBL_MONTH') . $suffix;
+		}
 		if ($months > 11) {
 			$month = $months % 12;
 			$monthAgo = '';
@@ -91,36 +61,44 @@ class Vtiger_Util_Helper
 				$monthAgo = self::pluralize($month, 'LBL_MONTH');
 			}
 			$result = self::pluralize(floor($months / 12), 'LBL_YEAR') . ' ' . $monthAgo;
+
 			return $prefix . $result . $suffix;
 		}
 	}
 
 	/**
-	 * Function returns singular or plural text
+	 * Function returns singular or plural text.
+	 *
 	 * @param <Number> $count
-	 * @param string $text
+	 * @param string   $text
+	 *
 	 * @return string
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . " " . (($count == 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
+		return $count . ' ' . (($count == 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
 	}
 
 	/**
-	 * Function that will strip all the tags while displaying
+	 * Function that will strip all the tags while displaying.
+	 *
 	 * @param string $input - html data
+	 *
 	 * @return string vtiger6 displayable data
 	 */
 	public static function toVtiger6SafeHTML($input)
 	{
 		$allowableTags = '<a><br />';
+
 		return strip_tags($input, $allowableTags);
 	}
 
 	/**
-	 * Function to parses date into string format
+	 * Function to parses date into string format.
+	 *
 	 * @param <Date> $date
 	 * @param <Time> $time
+	 *
 	 * @return string
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
@@ -167,8 +145,10 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to replace spaces with under scores
+	 * Function to replace spaces with under scores.
+	 *
 	 * @param string $string
+	 *
 	 * @return string
 	 */
 	public static function replaceSpaceWithUnderScores($string)
@@ -177,27 +157,31 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function gets the CRM's base Currency information
-	 * @return Array
+	 * Function gets the CRM's base Currency information.
+	 *
+	 * @return array
 	 */
 	public static function getBaseCurrency()
 	{
-		return(new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
+		return (new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
 	}
 
 	/**
-	 * Function to get maximum upload size
+	 * Function to get maximum upload size.
+	 *
 	 * @return float maximum upload size
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = vglobal('upload_maxsize');
+		$upload_maxsize = \AppConfig::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
 	/**
-	 * Function decodes the utf-8 characters
+	 * Function decodes the utf-8 characters.
+	 *
 	 * @param string $string
+	 *
 	 * @return string
 	 */
 	public static function getDecodedValue($string)
@@ -207,7 +191,7 @@ class Vtiger_Util_Helper
 
 	public static function getActiveAdminCurrentDateTime()
 	{
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
@@ -217,15 +201,15 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to get the time value in user preferred hour format
-	 * @param <Time> $time
+	 * Function to get the time value in user preferred hour format.
+	 *
+	 * @param <Time>               $time
 	 * @param <Vtiger_Users_Model> $userObject
+	 *
 	 * @return string time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
 	{
-		require_once 'include/runtime/LanguageHandler.php';
-		require_once 'include/runtime/Globals.php';
 		if ($userObject) {
 			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
 		} else {
@@ -235,78 +219,15 @@ class Vtiger_Util_Helper
 		if ($userModel->get('hour_format') == '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
-
 		return $time;
-	}
-
-	/**
-	 * Function gets the CRM's base Currency information according to user preference
-	 * @return Array
-	 */
-	public static function getCurrentInfoOfUser()
-	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', [$currentUser->get('currency_id')]);
-		if ($db->numRows($result))
-			return $db->queryResultRowData($result, 0);
-	}
-
-	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
-	{
-		if (empty($searchParams)) {
-			return [];
-		}
-		$advFilterConditionFormat = [];
-		$glueOrder = ['and', 'or'];
-		$groupIterator = 0;
-		foreach ($searchParams as &$groupInfo) {
-			if (empty($groupInfo)) {
-				continue;
-			}
-			$groupColumnsInfo = [];
-			foreach ($groupInfo as &$fieldSearchInfo) {
-				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
-				if ($field->getFieldDataType() === 'tree' && $specialOption) {
-					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
-				}
-				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($field->getFieldDataType() === 'currency') {
-					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
-				}
-				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
-					$dateValues = explode(',', $fieldValue);
-					//Indicate whether it is fist date in the between condition
-					$isFirstDate = true;
-					foreach ($dateValues as $key => $dateValue) {
-						$dateTimeCompoenents = explode(' ', $dateValue);
-						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate) {
-								$dateTimeCompoenents[1] = '00:00:00';
-							} else {
-								$dateTimeCompoenents[1] = '23:59:59';
-							}
-						}
-						$dateValue = implode(' ', $dateTimeCompoenents);
-						$dateValues[$key] = $dateValue;
-						$isFirstDate = false;
-					}
-					$fieldValue = implode(',', $dateValues);
-				}
-				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
-			}
-			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
-			$groupIterator++;
-		}
-		return $advFilterConditionFormat;
 	}
 
 	public static function getAllSkins()
 	{
-		return ['twilight' => '#404952', 'modern' => '#0d9605'];
+		return [
+			'twilight' => '#404952',
+			//'modern' => '#0d9605'
+		];
 	}
 
 	public static function isUserDeleted($userid)
@@ -314,51 +235,9 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', [$userid, 'Inactive', 1]);
 		$count = $db->numRows($result);
-		if ($count > 0)
+		if ($count > 0) {
 			return true;
-
-		return false;
-	}
-	/*
-	 * Function used to get default value based on data type
-	 * @param $dataType - data type of field
-	 * @return returns default value for data type if match case found
-	 * else returns empty string
-	 */
-
-	public function getDefaultMandatoryValue($dataType)
-	{
-		$value;
-		switch ($dataType) {
-			case 'date':
-				$dateObject = new DateTime();
-				$value = DateTimeField::convertToUserFormat($dateObject->format('Y-m-d'));
-				break;
-			case 'time' :
-				$value = '00:00:00';
-				break;
-			case 'boolean':
-				$value = false;
-				break;
-			case 'email':
-				$value = '??@??.??';
-				break;
-			case 'url':
-				$value = '???.??';
-				break;
-			case 'integer':
-				$value = 0;
-				break;
-			case 'double':
-				$value = 00.00;
-				break;
-			case 'currency':
-				$value = 0.00;
-				break;
-			default :
-				$value = '?????';
-				break;
 		}
-		return $value;
+		return false;
 	}
 }

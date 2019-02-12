@@ -9,15 +9,16 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger EditView Model Class
+ * Vtiger EditView Model Class.
  */
 class Vtiger_EditView_Model extends \App\Base
 {
-
 	/**
-	 * Function to get the instance
+	 * Function to get the instance.
+	 *
 	 * @param string $moduleName - module name
-	 * @param string $recordId - record id
+	 * @param string $recordId   - record id
+	 *
 	 * @return <Vtiger_DetailView_Model>
 	 */
 	public static function getInstance($moduleName, $recordId)
@@ -25,11 +26,13 @@ class Vtiger_EditView_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'EditView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
 		return $instance->set('module', $moduleModel);
 	}
 
 	/**
-	 * Function to get the Module Model
+	 * Function to get the Module Model.
+	 *
 	 * @return Vtiger_Module_Model instance
 	 */
 	public function getModule()
@@ -38,13 +41,14 @@ class Vtiger_EditView_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list of listview links for the module
+	 * Function to get the list of listview links for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
 	public function getEditViewLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
-		return $links;
+		return Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
 	}
 }

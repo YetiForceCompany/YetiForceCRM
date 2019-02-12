@@ -1,78 +1,66 @@
 <?php
 /**
- * Base test class
- * @package YetiForce.Test
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Base test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-namespace Tests;
 
-abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
+namespace tests;
+
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\WebDriverBy;
+
+abstract class GuiBase extends \PHPUnit\Framework\TestCase
 {
+	/**
+	 * Last logs.
+	 *
+	 * @var mixed
+	 */
+	public $logs;
+	public $driver;
+	protected static $isLogin = false;
 
 	/**
-	 * Whether is login
-	 * @var boolean
+	 * @codeCoverageIgnore
 	 */
-	protected static $isLogin = false;
-	public static $browsers = [
-		[
-			'driver' => 'chrome',
-			'host' => 'localhost',
-			'port' => 4444,
-			'browserName' => 'chrome',
-			'sessionStrategy' => 'shared',
-		],
-	];
-	public $captureScreenshotOnFailure = TRUE;
-	public $logs;
-	protected $coverageScriptUrl = 'http://localhost/phpunit_coverage.php';
+	protected function onNotSuccessfulTest(\Throwable $t)
+	{
+		if (isset($this->logs)) {
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			//var_export(array_shift($t->getTrace()));
+			\print_r($this->logs, true);
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		}
+		throw $t;
+	}
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->setBrowserUrl(\AppConfig::main('site_URL'));
-		$this->setBrowser('chrome');
-		$screenshotsDir = __DIR__ . '/../screenshots';
-		if (!file_exists($screenshotsDir)) {
-			mkdir($screenshotsDir, 0777, true);
-		}
-		$this->listener = new \PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
-		$this->prepareSession();
+		$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
 		$this->login();
 	}
 
-	/**
-	 * @codeCoverageIgnore
-	 */
-	public function onNotSuccessfulTest(\Throwable $e)
+	public function url($url)
 	{
-		if ($this->logs) {
-			var_export($this->logs);
-		}
-		$this->listener->addError($this, $e, null);
-		parent::onNotSuccessfulTest($e);
+		$this->driver->get(\AppConfig::main('site_URL') . $url);
 	}
 
 	/**
-	 * Testing login page display
+	 * Testing login page display.
 	 */
 	public function login()
 	{
-		if (!static::$isLogin) {
-			$this->shareSession(true);
-			$this->url('index.php');
-			$this->byId('username')->value('demo');
-			$this->byId('password')->value('demo');
-			$this->byTag('form')->submit();
-
-			$this->url('index.php?module=Home&view=DashBoard');
-			$this->assertEquals('Home', $this->byId('module')->value());
-			$this->assertEquals('DashBoard', $this->byId('view')->value());
-
-			static::$isLogin = true;
-		}
+		$this->driver->get(\AppConfig::main('site_URL') . 'index.php?module=Users&view=Login');
+		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
+		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
+		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 	}
 }

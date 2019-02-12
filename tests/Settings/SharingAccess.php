@@ -1,58 +1,75 @@
 <?php
 /**
- * SharingAccess test class
- * @package YetiForce.Test
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * SharingAccess test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+
 namespace Tests\Settings;
 
 class SharingAccess extends \Tests\Base
 {
-
 	/**
-	 * Share id
+	 * Share id.
 	 */
 	private static $shareId;
 
 	/**
-	 * Relation type
+	 * Relation type.
 	 */
 	private static $relationType;
 
 	/**
-	 * Change of permissions
-	 * @param array $modulePermissions
+	 * Testing add shared access policy.
 	 */
-	private function changePermissions($modulePermissions)
+	public function testAddSharedAccessPolicy()
 	{
-		$modulePermissions[4] = $modulePermissions[6];
+		$sourceId = 'Groups:2';
+		$targetId = 'Groups:2';
+		$permission = 0;
+		$ruleId = 0;
+		$forModule = 'Accounts';
+		$ruleModel = $this->saveRule($forModule, $ruleId, $permission, $sourceId, $targetId);
 
-		$postValues = [];
-		$prevValues = [];
-		foreach ($modulePermissions as $tabId => $permission) {
-			$permission = (int) $permission;
-			$moduleModel = \Settings_SharingAccess_Module_Model::getInstance($tabId);
-			$permissionOld = (int) $moduleModel->get('permission');
-			$moduleModel->set('permission', $permission);
-			if ($permissionOld !== $permission) {
-				$prevValues[$tabId] = $permissionOld;
-				$postValues[$tabId] = (int) $moduleModel->get('permission');
-			}
-			$moduleModel->save();
-		}
-		\Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
-		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
+		static::$shareId = $ruleModel->get('shareid');
+		static::$relationType = $ruleModel->get('relationtype');
+		$relationTypeComponents = \explode('::', static::$relationType);
+		$sourceType = $relationTypeComponents[0];
+		$targetType = $relationTypeComponents[1];
+
+		$row = (new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => static::$shareId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$shareId);
+		$relationType = implode('::', [$sourceType, $targetType]);
+
+		$this->assertSame($ruleModel->getModule()->getId(), $row['tabid']);
+		$this->assertSame($relationType, $row['relationtype']);
+
+		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$sourceType][$targetType];
+		$tableName = $tableColumnInfo['table'];
+		$sourceColumnName = $tableColumnInfo['source_id'];
+		$targetColumnName = $tableColumnInfo['target_id'];
+		$row2 = (new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->one();
+		$this->assertNotFalse($row2, 'No record id: ' . static::$shareId);
+
+		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
+		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
+
+		$this->assertSame($permission, $row2['permission']);
+		$this->assertSame((string) $sourceIdComponents[1], (string) $row2[$sourceColumnName]);
+		$this->assertSame((string) $targetIdComponents[1], (string) $row2[$targetColumnName]);
 	}
 
 	/**
-	 * Save permissions
+	 * Save permissions.
+	 *
 	 * @param string $forModule
-	 * @param int $ruleId
-	 * @param int $permission
+	 * @param int    $ruleId
+	 * @param int    $permission
 	 * @param string $sourceId
 	 * @param string $targetId
+	 *
 	 * @return \Settings_SharingAccess_Rule_Model
 	 */
 	private function saveRule($forModule, $ruleId, $permission, $sourceId, $targetId)
@@ -82,47 +99,7 @@ class SharingAccess extends \Tests\Base
 	}
 
 	/**
-	 * Testing add shared access policy
-	 */
-	public function testAddSharedAccessPolicy()
-	{
-		$sourceId = 'Groups:2';
-		$targetId = 'Groups:2';
-		$permission = 0;
-		$ruleId = 0;
-		$forModule = 'Accounts';
-		$ruleModel = $this->saveRule($forModule, $ruleId, $permission, $sourceId, $targetId);
-
-		static::$shareId = $ruleModel->get('shareid');
-		static::$relationType = $ruleModel->get('relationtype');
-		$relationTypeComponents = explode('::', static::$relationType);
-		$sourceType = $relationTypeComponents[0];
-		$targetType = $relationTypeComponents[1];
-
-		$row = (new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => static::$shareId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$shareId);
-		$relationType = implode('::', [$sourceType, $targetType]);
-
-		$this->assertEquals($ruleModel->getModule()->getId(), $row['tabid']);
-		$this->assertEquals($relationType, $row['relationtype']);
-
-		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$sourceType][$targetType];
-		$tableName = $tableColumnInfo['table'];
-		$sourceColumnName = $tableColumnInfo['source_id'];
-		$targetColumnName = $tableColumnInfo['target_id'];
-		$row2 = (new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->one();
-		$this->assertNotFalse($row2, 'No record id: ' . static::$shareId);
-
-		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
-		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
-
-		$this->assertEquals($permission, $row2['permission']);
-		$this->assertEquals($sourceIdComponents[1], $row2[$sourceColumnName]);
-		$this->assertEquals($targetIdComponents[1], $row2[$targetColumnName]);
-	}
-
-	/**
-	 * Testing edit shared access policy
+	 * Testing edit shared access policy.
 	 */
 	public function testEditSharedAccessPolicy()
 	{
@@ -140,7 +117,7 @@ class SharingAccess extends \Tests\Base
 
 		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->exists(), 'Record id ' . static::$shareId . ' from table ' . $tableName . ' should not exist');
 
-		$relationTypeComponents = explode('::', $ruleModel->get('relationtype'));
+		$relationTypeComponents = \explode('::', $ruleModel->get('relationtype'));
 		$sourceType = $relationTypeComponents[0];
 		$targetType = $relationTypeComponents[1];
 		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$sourceType][$targetType];
@@ -154,13 +131,13 @@ class SharingAccess extends \Tests\Base
 		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
 
-		$this->assertEquals($permission, $row2['permission']);
-		$this->assertEquals($sourceIdComponents[1], $row2[$sourceColumnName]);
-		$this->assertEquals($targetIdComponents[1], $row2[$targetColumnName]);
+		$this->assertSame($permission, $row2['permission']);
+		$this->assertSame((string) $sourceIdComponents[1], (string) $row2[$sourceColumnName]);
+		$this->assertSame((string) $targetIdComponents[1], (string) $row2[$targetColumnName]);
 	}
 
 	/**
-	 * Testing delete shared access policy
+	 * Testing delete shared access policy.
 	 */
 	public function testDeleteSharedAccessPolicy()
 	{
@@ -181,7 +158,7 @@ class SharingAccess extends \Tests\Base
 	}
 
 	/**
-	 * Testing permission changes
+	 * Testing permission changes.
 	 */
 	public function testChangePermissions()
 	{
@@ -195,10 +172,36 @@ class SharingAccess extends \Tests\Base
 		$this->changePermissions($modulePermissions);
 
 		foreach ($modulePermissions as $tabId => $permission) {
-			$this->assertEquals((new \App\Db\Query())->select('permission')->from('vtiger_def_org_share')->where(['tabid' => $tabId])->scalar(), $permission);
+			$this->assertSame((new \App\Db\Query())->select(['permission'])->from('vtiger_def_org_share')->where(['tabid' => $tabId])->scalar(), $permission);
 		}
 
 		$modulePermissions = [6 => $oldPermission, 4 => $oldPermission];
 		$this->changePermissions($modulePermissions);
+	}
+
+	/**
+	 * Change of permissions.
+	 *
+	 * @param array $modulePermissions
+	 */
+	private function changePermissions($modulePermissions)
+	{
+		$modulePermissions[4] = $modulePermissions[6];
+
+		$postValues = [];
+		$prevValues = [];
+		foreach ($modulePermissions as $tabId => $permission) {
+			$permission = (int) $permission;
+			$moduleModel = \Settings_SharingAccess_Module_Model::getInstance($tabId);
+			$permissionOld = (int) $moduleModel->get('permission');
+			$moduleModel->set('permission', $permission);
+			if ($permissionOld !== $permission) {
+				$prevValues[$tabId] = $permissionOld;
+				$postValues[$tabId] = (int) $moduleModel->get('permission');
+			}
+			$moduleModel->save();
+		}
+		\Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
+		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 }

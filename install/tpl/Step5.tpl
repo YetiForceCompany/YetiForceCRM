@@ -10,163 +10,341 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<form class="form-horizontal" name="step5" method="post" action="Install.php">
-		<input type="hidden" name="mode" value="step6" />
-		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
-		<input type="hidden" name="lang" value="{$LANG}" />
-		<div class="row main-container">
+	<!-- tpl-install-tpl-Step5 -->
+	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
+		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings:ConfReport')}{/if}
+		{if !$ITEM['status']}
+			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
+			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'Settings:ConfReport')}
+			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+				   data-trigger="focus hover" data-placement="right"
+				   data-content="{$HELP_TEXT_TRANS}">
+					<span class="fas fa-info-circle"></span>
+				</a>
+			{/if}
+		{/if}
+	{/function}
+	<div class="container px-2 px-sm-3">
+		<main class="main-container">
 			<div class="inner-container">
-				<h4>{\App\Language::translate('LBL_CONFIRM_CONFIGURATION_SETTINGS','Install')}</h4>
-				<hr>
-				{if $DB_CONNECTION_INFO['flag'] neq true}
-					<div class="offset2 row" id="errorMessage">
-						<div class="col-md-12">
-							<div class="alert alert-danger">
-								{$DB_CONNECTION_INFO['error_msg']}<br />
-								{$DB_CONNECTION_INFO['error_msg_info']}
-							</div>
+				<form class="js-confirm" name="step3" method="post" action="Install.php" data-js="submit">
+					<input type="hidden" name="mode" value="step6">
+					<input type="hidden" name="lang" value="{$LANG}">
+					<div class="row">
+						<div class="col-12 text-center">
+							<h2>{App\Language::translate('LBL_INSTALL_PREREQUISITES', 'Install')}</h2>
 						</div>
 					</div>
-				{/if}
-				<div class="offset2 ">
-					<table class="config-table input-table">
-						<thead>
-							<tr>
-								<th colspan="2">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_DATABASE_TYPE','Install')}
-								</td>
-								<td>
-									{\App\Language::translate('MySQL','Install')}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_HOST_NAME','Install')}
-								</td><td>
-									{$INFORMATION['db_hostname']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_HOST_PORT','Install')}
-								</td><td>
-									{$INFORMATION['db_port']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_DB_NAME','Install')}
-								</td><td>
-									{$INFORMATION['db_name']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_USERNAME','Install')}
-								</td><td>
-									{$INFORMATION['db_username']}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="config-table input-table">
-						<thead>
-							<tr>
-								<th colspan="2">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_URL','Install')}
-								</td>
-								<td>
-									<a href="#">{$SITE_URL}</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_CURRENCY','Install')}
-								</td>
-								<td>
-									{$INFORMATION['currency_name']}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="config-table input-table">
-						<thead>
-							<tr>
-								<th colspan="2">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									{\App\Language::translate('First Name','Install')}
-								</td>
-								<td>
-									{$INFORMATION['firstname']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('Last Name','Install')}
-								</td>
-								<td>
-									{$INFORMATION['lastname']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_USERNAME','Install')}
-								</td>
-								<td>
-									{$INFORMATION['user_name']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_EMAIL','Install')}
-								</td><td>
-									{$INFORMATION['admin_email']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_TIME_ZONE','Install')}
-								</td>
-								<td>
-									{$INFORMATION['timezone']}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									{\App\Language::translate('LBL_DATE_FORMAT','Install')}
-								</td>
-								<td>
-									{$INFORMATION['dateformat']}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="row">
-						<div class="col-md-12">
+					<hr>
+					<div>
+						<div class="float-right">
 							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled"{else} onclick="window.history.back()"{/if} />
-								{if $DB_CONNECTION_INFO['flag'] eq true}
-									<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step6"/>
+								<button type="button" class="btn btn-default" id="recheck">
+									<span class="fas fa-redo-alt m-1"></span>
+									{App\Language::translate('LBL_RECHECK', 'Install')}
+								</button>
+							</div>
+						</div>
+						{\App\Language::translate('LBL_STEP3_DESCRIPTION','Install')}&nbsp;
+						<a target="_blank" rel="noreferrer noopener"
+						   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"
+						   aria-label="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements">
+							<span class="fas fa-link"></span>
+						</a>
+
+						<div class="offset2">
+							<div>
+								<table class="config-table table u-word-break-all">
+									<thead>
+									<tr>
+										<th colspan="1" scope="col" class="text-left">
+											{App\Language::translate('LBL_LIBRARY', 'Settings:ConfReport')}
+										</th>
+										<th colspan="1" scope="col">
+											{App\Language::translate('LBL_MANDATORY', 'Settings:ConfReport')}
+										</th>
+										<th colspan="1" scope="col">
+											{App\Language::translate('LBL_INSTALLED', 'Settings:ConfReport')}
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$ALL['libraries'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
+											<td>
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											{if isset($ITEM['mandatory'])}
+											<td>
+												{if $ITEM['mandatory']}
+													{App\Language::translate('LBL_MANDATORY', 'Settings:ConfReport')}
+												{else}
+													{App\Language::translate('LBL_OPTIONAL', 'Settings:ConfReport')}
+												{/if}
+											</td>
+											<td>
+												{else}
+											<td colspan="2" class="u-word-break-keep-all">
+												{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+											</td>
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<br>
+								<table class="config-table table u-word-break-all">
+									<caption
+											class="sr-only">{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</caption>
+									<thead>
+									<tr>
+										<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$ALL['security'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
+											<td class="bg-light text-left u-word-break-keep-all">
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											<td>
+												{if isset($ITEM['recommended'])}
+													{App\Language::translate($ITEM['recommended'], 'Settings:ConfReport')}
+												{else}
+													-
+												{/if}
+											</td>
+											<td>
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+											</td>
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<br>
+								<table class="config-table table u-word-break-all">
+									<caption
+											class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
+									<thead>
+									<tr>
+										<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$ALL['stability'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
+											<td>
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											<td>
+												{if isset($ITEM['recommended'])}
+													{App\Language::translate($ITEM['recommended'], 'Settings:ConfReport')}
+												{else}
+													-
+												{/if}
+											</td>
+											<td colspan="2">
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+											</td>
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								{if !empty($ALL['database'])}
+									<br>
+									<table class="config-table table u-word-break-all">
+										<caption
+												class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
+										<thead>
+										<tr>
+											<th>{App\Language::translate('LBL_PARAMETER', 'Install')}</th>
+											<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+											<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+										</tr>
+										</thead>
+										<tbody>
+										{foreach from=$ALL['database'] key=KEY item=ITEM}
+											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+												data-js="length">
+												<td>
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												{if isset($ITEM['recommended'])}
+													<td>
+														{$ITEM['recommended']}
+													</td>
+													<td>
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+													</td>
+												{else}
+													<td colspan="2">
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+													</td>
+												{/if}
+											</tr>
+										{/foreach}
+										</tbody>
+									</table>
+								{/if}
+								<br>
+								<table class="config-table table u-word-break-all">
+									<caption class="sr-only">
+										{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'Settings:ConfReport')}
+									</caption>
+									<thead>
+									<tr>
+										<th colspan="1" scope="col" class="text-left">
+											{App\Language::translate('LBL_PARAMETER', 'Settings:ConfReport')}
+										</th>
+										<th colspan="1" scope="col">
+											{App\Language::translate('LBL_RECOMMENDED', 'Settings:ConfReport')}
+										</th>
+										<th colspan="1" scope="col">
+											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$ALL['performance'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
+											<td>
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											<td>
+												{if isset($ITEM['recommended'])}
+													{App\Language::translate($ITEM['recommended'], 'Settings:ConfReport')}
+												{else}
+													-
+												{/if}
+											</td>
+											<td>
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+											</td>
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<br>
+								<table class="config-table table u-word-break-all">
+									<caption class="sr-only">
+										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'Settings:ConfReport')}
+									</caption>
+									<thead>
+									<tr>
+										<th colspan="1" scope="col" class="text-left">
+											{App\Language::translate('LBL_PUBLIC_DIR', 'Settings:ConfReport')}
+										</th>
+										<th colspan="1" scope="col">
+											{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'Settings:ConfReport')}
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
+											<td>
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											<td colspan="2">
+												{if $ITEM.status}
+													{App\Language::translate('LBL_YES', 'Settings:ConfReport')}
+												{else}
+													{App\Language::translate('LBL_NO', 'Settings:ConfReport')}
+												{/if}
+											</td>
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<br>
+								<table class="config-table table u-word-break-all">
+									<caption class="sr-only">
+										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'Settings:ConfReport')}
+									</caption>
+									<thead>
+									<tr>
+										<th colspan="1" scope="col" class="text-left">
+											{App\Language::translate('LBL_PARAMETER', 'Settings:ConfReport')}
+										</th>
+										<th colspan="1" scope="col">
+											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$ALL['environment'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+											data-js="length">
+											<td>
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											<td>
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+											</td>
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="offset2">
+							<div>
+								{if !empty($ALL['writableFilesAndFolders'])}
+									<table class="config-table table u-word-break-all">
+										<thead>
+										<tr class="blockHeader">
+											<th colspan="1" class="mediumWidthType">
+												<span>{App\Language::translate('LBL_PATH', 'Settings:ConfReport')}</span>
+											</th>
+											<th colspan="1" class="mediumWidthType">
+												<span>{App\Language::translate('LBL_PERMISSION', 'Settings:ConfReport')}</span>
+											</th>
+										</tr>
+										</thead>
+										<tbody>
+										{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
+											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
+												data-js="length">
+												<td>
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												<td>
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings:ConfReport')}{/if}
+												</td>
+											</tr>
+										{/foreach}
+										</tbody>
+									</table>
 								{/if}
 							</div>
 						</div>
 					</div>
-				</div>
+					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
+						<div class="text-center w-100">
+							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
+							   role="button">
+								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
+								{App\Language::translate('LBL_BACK', 'Install')}
+							</a>
+							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary">
+								{App\Language::translate('LBL_NEXT', 'Install')}
+								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
-		</div>
-	</form>
+		</main>
+	</div>
+	<!-- /tpl-install-tpl-Step5 -->
 {/strip}

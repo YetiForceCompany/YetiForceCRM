@@ -8,8 +8,9 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
+class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -18,45 +19,30 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Checking permissions
+	 * Checking permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!Users_Record_Model::getCurrentUserModel()->isAdminUser()) {
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 
 	public function updateFieldPinnedStatus(\App\Request $request)
 	{
-		$fieldId = $request->get('fieldid');
+		$fieldId = $request->getInteger('fieldid');
 		$menuItemModel = Settings_Vtiger_MenuItem_Model::getInstanceById($fieldId);
-
-		$pin = $request->get('pin');
-		if ($pin == 'true') {
+		if ($request->getBoolean('pin')) {
 			$menuItemModel->markPinned();
 		} else {
 			$menuItemModel->unMarkPinned();
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult(['SUCCESS' => 'OK']);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

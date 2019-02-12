@@ -11,17 +11,16 @@
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Purifier::decodeHtml($value);
+		return \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value));
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
@@ -29,54 +28,82 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
-		if ($this->getFieldModel()->getUIType() === 300) {
-			$value = $request->getForHtml($requestFieldName, '');
-		} else {
-			$value = $request->get($requestFieldName, '');
-		}
+		$value = $request->getForHtml($requestFieldName, '');
 		$this->validate($value);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!is_string($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		//Check for HTML tags
-		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength && strlen($value) > $maximumLength) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return \App\Utils\Completions::encode(parent::getEditViewDisplayValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$uiType = $this->getFieldModel()->get('uitype');
 		if (is_int($length)) {
-			$value = \vtlib\Functions::textLength($value, $length);
+			$value = \App\TextParser::htmlTruncate($value, $length);
 		}
-		if ($uiType === 300) {
-			return App\Purifier::purifyHtml($value);
+		if ($rawText) {
+			$value = \App\Purifier::purifyHtml($value);
 		} else {
-			return nl2br(\App\Purifier::encodeHtml($value));
+			$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 		}
+		return nl2br($value);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Text.tpl';
+		return 'Edit/Field/Text.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }

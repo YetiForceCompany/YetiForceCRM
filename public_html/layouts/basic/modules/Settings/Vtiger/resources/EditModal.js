@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 	getForm: function () {
 		if (this.formElement == false) {
@@ -18,15 +20,15 @@ Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 			e.preventDefault();
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
-				app.saveAjax('', formData, {record: container.find('[name="record"]').val()}).then(function (data) {
+				app.saveAjax('', formData, {record: container.find('[name="record"]').val()}).done(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						var moduleClassName = "Settings_" + app.getModuleName() + "_List_Js";
-						if (typeof window[moduleClassName] == 'undefined') {
+						if (typeof window[moduleClassName] === "undefined") {
 							moduleClassName = "Settings_Vtiger_List_Js";
 						}
 						var instance = new window[moduleClassName]();
-						instance.getListViewRecords().then(function () {
+						instance.getListViewRecords().done(function () {
 							instance.updatePagination();
 						});
 					} else {
@@ -41,7 +43,7 @@ Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 jQuery(document).ready(function (e) {
 	setTimeout(function () {
 		var moduleClassName = "Settings_" + app.getModuleName() + "_EditModal_Js";
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = "Settings_Vtiger_EditModal_Js";
 		}
 		var instance = new window[moduleClassName]();

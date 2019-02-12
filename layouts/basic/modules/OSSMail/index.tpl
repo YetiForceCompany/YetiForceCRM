@@ -3,7 +3,7 @@
 	var height = window.innerHeight;
 	$(document).ready(function () {
 		var v = 83;
-		if ($('.infoUser').length) {
+		if ($('.js-footer__user-info').length) {
 			v = 100;
 		}
 		$('#roundcube_interface').css('height', height - v)

@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 
 /**
- * Mass Edit Record Structure Model
+ * Mass Edit Record Structure Model.
  */
 class Products_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStructure_Model
 {

@@ -1,16 +1,13 @@
 <?php
 
 /**
- * 
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -42,13 +39,14 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->createQuery();
 		if ($request->getByType('showtype') === 'common') {
-			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => App\User::getCurrentUserId()])->distinct('crmid');
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => App\User::getCurrentUserId()])->distinct('crmid');
 			$query->andWhere(['in', 'vtiger_crmentity.smownerid', $subQuery]);
 		} else {
 			$query->andWhere(['vtiger_crmentity.smownerid' => App\User::getCurrentUserId()]);
 		}
 		$query->orderBy('vtiger_assets.dateinservice');
 		$query->limit($limit);
+
 		return $query->all();
 	}
 }

@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger pagination view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Vtiger pagination view class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,7 +30,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		if (!$parentId || !\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
@@ -69,20 +68,23 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
-		$totalCount = (int) $request->get('totalCount');
+		$totalCount = $request->getInteger('totalCount');
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+			$operator = 's';
 			if (!$request->isEmpty('operator', true)) {
-				$listViewModel->set('operator', $request->getByType('operator', 1));
+				$operator = $request->getByType('operator');
+				$listViewModel->set('operator', $operator);
 			}
 			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-				$listViewModel->set('search_key', $request->getByType('search_key', 1));
-				$listViewModel->set('search_value', $request->get('search_value'));
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$listViewModel->set('search_key', $searchKey);
+				$listViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
 			}
 			if ($request->has('entityState')) {
 				$listViewModel->set('entityState', $request->getByType('entityState'));
 			}
-			$searchParmams = $request->get('search_params');
+			$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 			if (!empty($searchParmams) && is_array($searchParmams)) {
 				$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 				$listViewModel->set('search_params', $transformedSearchParams);
@@ -91,9 +93,8 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', $totalCount);
-			if ($totalCount === $pageNumber * $pagingModel->getPageLimit()) {
-				$pagingModel->set('nextPageExists', false);
-			}
+			$pagingModel->calculatePageRange($totalCount);
+			$pagingModel->set('nextPageExists', ($totalCount > $pageNumber * $pagingModel->getPageLimit()));
 		} else {
 			$totalCount = false;
 		}

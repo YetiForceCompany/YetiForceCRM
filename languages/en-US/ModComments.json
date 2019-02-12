@@ -1,0 +1,23 @@
+{
+  "php": {
+    "SINGLE_ModComments": "Comment",
+    "LBL_RECORDS_LIST": "Comments list",
+    "LBL_MODCOMMENTS_INFORMATION": "Comments",
+    "LBL_OTHER_INFORMATION": "Other information",
+    "LBL_ADDING_COMMENT": "Add comment",
+    "LBL_WRITE_YOUR_COMMENT_HERE": "Enter comments here",
+    "Comment": "Comment",
+    "Creator": "Creator",
+    "Related To Comments": "Related to",
+    "ReasonToEdit": "Reason to edit",
+    "UserId": "UserId",
+    "Customer": "Customer",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Added a comment to the ticket",
+    "LBL_NEW_COMMENT_FOR_TICKET": "A comment was added to the ticket",
+    "LBL_NOTICE_WELCOME": "Welcome to platform",
+    "LBL_NOTICE_CREATED": "It was created by",
+    "LBL_COMMENTS_0": "Current record",
+    "LBL_COMMENTS_SEARCH": "Search",
+    "LBL_ALL_RECORDS": "Related records"
+  }
+}

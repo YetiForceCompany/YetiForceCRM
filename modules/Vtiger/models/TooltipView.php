@@ -11,12 +11,13 @@
 
 class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 {
-
 	protected $fields = false;
 
 	/**
-	 * Function to set the module instance
+	 * Function to set the module instance.
+	 *
 	 * @param Vtiger_Module_Model $moduleInstance - module model
+	 *
 	 * @return \self
 	 */
 	public function setModule($moduleInstance)
@@ -30,7 +31,8 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 	}
 
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -49,14 +51,15 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 				}
 			}
 		}
-
 		return $this->structuredValues;
 	}
 
 	/**
-	 * Function to get the instance
+	 * Function to get the instance.
+	 *
 	 * @param string $moduleName - module name
-	 * @param string $recordId - record id
+	 * @param string $recordId   - record id
+	 *
 	 * @return \self
 	 */
 	public static function getInstance($moduleName, $recordId)
@@ -64,6 +67,7 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
 		$instance = new $modelClassName();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+
 		return $instance->setModule($recordModel->getModule())->setRecord($recordModel);
 	}
 }

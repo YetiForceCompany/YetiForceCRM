@@ -1,0 +1,29 @@
+{
+  "php": {
+    "ActivityRegister": "Activity Register",
+    "SINGLE_ActivityRegister": "Activity Register",
+    "LBL_BASIC_INFORMATION": "Basic Information",
+    "FL_SUBJECT": "Subject",
+    "FL_PARENT_ACTIVITY": "Parent activity",
+    "FL_STATUS": "Status",
+    "PLL_DRAFT": "Draft",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Waiting for acceptance",
+    "PLL_IN_REALIZATION": "In realization",
+    "PLL_COMPLETED": "Completed",
+    "PLL_CANCELLED": "Cancelled",
+    "FL_DATA_SET": "Data set",
+    "PLL_ENTRUSTMENT": "Entrustment",
+    "PLL_SHARING": "Sharing",
+    "PLL_TRANSFER": "Transfer",
+    "PLL_ENTRUSTMENT_ACCEPTANCE": "Entrustment acceptance",
+    "PLL_INTERNAL": "Internal",
+    "FL_START_DATE": "Start date",
+    "FL_END_DATE": "End date",
+    "LBL_DATES": "Activity dates",
+    "LBL_DESCRIPTION": "Description",
+    "FL_DESCRIPTION": "Description",
+    "FL_COMMENTS": "Comments",
+    "LBL_COMMENTS": "Comments",
+    "FL_ACTIVITY_TYPE": "Activity type"
+  }
+}

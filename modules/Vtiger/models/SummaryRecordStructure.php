@@ -9,13 +9,13 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Summary View Record Structure Model
+ * Vtiger Summary View Record Structure Model.
  */
 class Vtiger_SummaryRecordStructure_Model extends Vtiger_DetailRecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()

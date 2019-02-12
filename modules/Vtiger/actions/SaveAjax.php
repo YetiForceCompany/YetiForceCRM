@@ -11,9 +11,9 @@
 
 class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 {
-
 	/**
-	 * Function process
+	 * Function process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -26,9 +26,14 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				continue;
 			}
 			$recordFieldValue = $recordModel->get($fieldName);
+			$prevDisplayValue = false;
+			if (($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName)) !== false) {
+				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
+			}
 			$result[$fieldName] = [
 				'value' => \App\Purifier::encodeHtml($recordFieldValue),
-				'display_value' => $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel)
+				'display_value' => $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel),
+				'prev_display_value' => $prevDisplayValue
 			];
 		}
 		$result['_recordLabel'] = $recordModel->getName();
@@ -43,8 +48,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
+	 * Function to get the record model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
@@ -65,9 +72,11 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	}
 
 	/**
-	 * Replenishment of related fields
+	 * Replenishment of related fields.
+	 *
 	 * @param \Vtiger_Record_Model $recordModel
-	 * @param string $fieldName
+	 * @param string               $fieldName
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
 	public function setRelatedFieldsInHierarchy(Vtiger_Record_Model $recordModel, $fieldName)

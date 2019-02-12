@@ -11,9 +11,8 @@
 
 class Users_MassSave_Action extends Vtiger_MassSave_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +23,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -42,8 +41,10 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
+	 * Function to get the record model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
 	public function getRecordModelsFromRequest(\App\Request $request)
@@ -52,20 +53,9 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordIds = self::getRecordsListFromRequest($request);
 		if (empty($recordIds) && $request->getRaw('selected_ids') === 'all') {
-			$db = PearDatabase::getInstance();
-			$sql = "SELECT `id` FROM `vtiger_users`";
-			$result = $db->query($sql, true);
-			$uNum = $db->numRows($result);
-
-			if ($uNum > 0) {
-				$recordIds = [];
-				for ($i = 0; $i < $uNum; $i++) {
-					$recordIds[] = $db->queryResult($result, $i, 'id');
-				}
-			}
+			$recordIds = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->column();
 		}
 		$recordModels = [];
-
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);

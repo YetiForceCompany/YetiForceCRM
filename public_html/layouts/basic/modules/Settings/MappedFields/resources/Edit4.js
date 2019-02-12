@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 	step4Container: false,
 	advanceFilterInstance: false,
@@ -25,7 +27,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#mf_step4');
 		}
 		if (container.is('#mf_step4')) {
@@ -49,7 +51,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 		saveData.record = formData.record;
 		saveData.step = 4;
 		saveData = jQuery.extend({}, saveData);
-		app.saveAjax('step1', saveData).then(function (data) {
+		app.saveAjax('step1', saveData).done(function (data) {
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
 
@@ -80,6 +82,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
-		app.showSelectizeElementView(container.find('.selectize'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 	}
 });

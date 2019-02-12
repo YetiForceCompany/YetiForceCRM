@@ -1,17 +1,18 @@
 <?php
 
 /**
- * OSSMail execute actions action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSMail execute actions action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
+class OSSMail_ExecuteActions_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -22,10 +23,10 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 		}
 		$params = $request->getArray('params');
 		if (isset($params['newModule']) && !\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (isset($params['crmid']) && !\App\Privilege::isPermitted(\App\Record::getType($params['crmid']), 'DetailView', $params['crmid'])) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -37,7 +38,7 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 
 		if ($mode === 'addRelated') {
 			if (!\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$data = $instance->addRelated($params);
 		} elseif ($mode === 'removeRelated') {

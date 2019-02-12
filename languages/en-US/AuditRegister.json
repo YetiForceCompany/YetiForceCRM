@@ -1,0 +1,23 @@
+{
+  "php": {
+    "AuditRegister": "Audit Register",
+    "SINGLE_AuditRegister": "Audit Register",
+    "LBL_BASIC_INFORMATION": "Basic Information",
+    "FL_NAME": "Name",
+    "FL_LOCATION_REGISTER": "Location register",
+    "FL_DATASETREGISTER": "Data set register",
+    "PLL_DRAFT": "Draft",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Waiting for acceptance",
+    "PLL_IN_REALIZATION": "In realization",
+    "PLL_COMPLETED": "Completed",
+    "PLL_CANCELLED": "Cancelled",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Type",
+    "PLL_INTERNAL": "Internal",
+    "PLL_EXTERNAL": "External",
+    "LBL_DESCRIPTION": "Description",
+    "FL_DESCRIPTION": "Description",
+    "FL_COMMENTS": "Comments",
+    "LBL_COMMENTS": "Comments"
+  }
+}

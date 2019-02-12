@@ -1,0 +1,20 @@
+{
+  "php": {
+    "Announcements": "Announcements",
+    "SINGLE_Announcements": "Announcement",
+    "LBL_ANNOUNCEMENTS_INFORMATION": "Basic information",
+    "LBL_SUBJECT": "Subject",
+    "LBL_NUMBER": "Number",
+    "FL_STATUS": "Status",
+    "FL_INTERVAL": "Reminder time",
+    "FL_IS_MANDATORY": "Obligatory to accept",
+    "PLL_DRAFT": "Draft",
+    "PLL_FOR_ACCEPTANCE": "For approval",
+    "PLL_PUBLISHED": "Published",
+    "PLL_ARCHIVES": "Archived",
+    "LBL_REMIND_ME_LATER": "Remind me later",
+    "LBL_MARK_AS_READ": "Mark as read",
+    "LBL_ACCEPT_ANNOUNCEMENT": "Was accepted?",
+    "LBL_DATE": "Read on"
+  }
+}

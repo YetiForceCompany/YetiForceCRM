@@ -10,11 +10,10 @@
 
 class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$transferRecordId = $request->get('transfer_record');
+		$recordId = $request->getInteger('record');
+		$transferRecordId = $request->getInteger('transfer_record');
 
 		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
 		$members = $recordModel->getMembers();

@@ -11,9 +11,10 @@
 
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -23,27 +24,26 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			if ((int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if (!$currentUserModel->isAdminUser() && (int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
+
 			return;
 		}
 
@@ -63,10 +63,18 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if ($fieldName === 'language') {
 				$displayValue = \App\Language::getLanguageLabel($fieldValue);
 			}
-			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
+			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === ' ')) {
 				$displayValue = \App\Language::translate('LBL_SPACE', 'Users');
 			}
-			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
+			$prevDisplayValue = false;
+			if (($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName)) !== false) {
+				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
+			}
+			$result[$fieldName] = [
+				'value' => $fieldValue,
+				'display_value' => $displayValue,
+				'prev_display_value' => $prevDisplayValue
+			];
 		}
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
@@ -78,7 +86,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
@@ -88,12 +96,13 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if ($fieldName === 'is_admin' && (!$currentUserModel->isAdminUser() || !$request->get('value'))) {
 			$recordModel->set($fieldName, 'off');
 			$recordModel->set('is_owner', 0);
-		} else if ($fieldName === 'is_admin' && $currentUserModel->isAdminUser()) {
+		} elseif ($fieldName === 'is_admin' && $currentUserModel->isAdminUser()) {
 			$recordModel->set($fieldName, 'on');
 			$recordModel->set('is_owner', 1);
 		}
 		return $recordModel;
 	}
+
 	/*
 	 * To restore a user
 	 * @param \App\Request Object
@@ -108,8 +117,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel->set('status', 'Active');
 		$recordModel->save();
 
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", [0, $record]);
+		App\Db::getInstance()->createCommand()->update('vtiger_users', ['deleted' => 0], ['id' => $record])->execute();
 
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
@@ -132,7 +140,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$entity = $recordModel->getEntity();
 			$entity->createAccessKey();
 
-			require("user_privileges/user_privileges_$recordId.php");
+			require "user_privileges/user_privileges_$recordId.php";
 			$newAccessKey = $user_info['accesskey'];
 			if ($newAccessKey != $oldAccessKey) {
 				$response->setResult(['message' => \App\Language::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey]);

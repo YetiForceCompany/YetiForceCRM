@@ -6,13 +6,14 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
-Users_Detail_Js("Users_PreferenceDetail_Js",{},{
-    
+Users_Detail_Js("Users_PreferenceDetail_Js", {}, {
+
 	/**
 	 * register Events for my preference
 	 */
-	registerEvents : function(){
+	registerEvents: function () {
 		this._super();
 		Users_Edit_Js.registerChangeEventForCurrencySeparator();
 	}

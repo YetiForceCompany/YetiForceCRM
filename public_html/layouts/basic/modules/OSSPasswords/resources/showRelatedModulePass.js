@@ -1,8 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 // show/hide password
-$('.show_pass').click(function (e) {
+'use strict';
+
+$('.show_pass').on('click', function (e) {
 	var id = $(this).attr('id').substr(4);
-	showRelatedListPassword(id, '');
+	showRelatedListPassword(id);
 	return false;
 });
 
@@ -30,25 +32,23 @@ function showRelatedListPassword(record) {
 				'enabled': true
 			}
 		});
-		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						// show password
-						element.html(response['password']);
-						// change button title to 'Hide Password'
-						btn.on('show.bs.popover', function () {
-							this.dataset.content = hidePassText;
-						})
-						// change icon
-						iconElement.removeClass('adminIcon-passwords-encryption');
-						iconElement.addClass('glyphicon-lock');
-						// show copy to clipboard button
-						copybtn.removeClass('hide');
-					}
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				// show password
+				element.html(response['password']);
+				// change button title to 'Hide Password'
+				btn.on('show.bs.popover', function () {
+					this.dataset.content = hidePassText;
+				})
+				// change icon
+				iconElement.removeClass('adminIcon-passwords-encryption');
+				iconElement.addClass('fas fa-lock');
+				// show copy to clipboard button
+				copybtn.removeClass('d-none');
+			}
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	}
 	// if password is not hashed, hide it
 	else {
@@ -60,13 +60,14 @@ function showRelatedListPassword(record) {
 		})
 		app.showPopoverElementView(element);
 		// change icon
-		iconElement.removeClass('glyphicon-lock');
+		iconElement.removeClass('fas fa-lock');
 		iconElement.addClass('adminIcon-passwords-encryption');
 		// hide copy to clipboard button
-		copybtn.addClass('hide');
+		copybtn.addClass('d-none');
 	}
 }
-new Clipboard('.copy_pass', {
+
+new ClipboardJS('.copy_pass', {
 	text: function (trigger) {
 		Vtiger_Helper_Js.showPnotify({
 			text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),

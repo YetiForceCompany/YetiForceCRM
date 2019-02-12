@@ -1,6 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class('Settings_Widgets_Index_Js', {
-}, {
+'use strict';
+
+jQuery.Class('Settings_Widgets_Index_Js', {}, {
 	getTabId: function () {
 		return $(".WidgetsManage [name='tabid']").val();
 	},
@@ -12,19 +13,18 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		var tabId = thisInstance.getTabId();
 		var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
 		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=" + type + "&tabId=" + tabId, function (wizardContainer) {
-			app.showPopoverElementView(wizardContainer.find('.HelpInfoPopover'));
-			app.showBtnSwitch(wizardContainer.find('.switchBtn'));
-			if (type == 'RelatedModule') {
+			app.showPopoverElementView(wizardContainer.find('.js-help-info'));
+			if (type === 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").change(function () {
+				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
 					thisInstance.changeRelatedModule();
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var save = true;
 				if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
@@ -92,13 +92,11 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		params['view'] = 'Index';
 		params['parent'] = 'Settings';
 		params['source'] = $("input[name='tabid']").val();
-		AppConnector.request(params).then(
-				function (data) {
-					var container = jQuery('div.contentsDiv').html(data);
-					thisInstance.registerEvents(container);
-					Indicator.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			var container = jQuery('div.contentsDiv').html(data);
+			thisInstance.registerEvents(container);
+			Indicator.progressIndicator({'mode': 'hide'});
+		});
 	},
 	registerSaveEvent: function (mode, data) {
 		var resp = '';
@@ -116,21 +114,14 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			params.async = true;
 		}
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-				},
-				function (data, err) {
-
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+		});
 	},
 	loadFilters: function (contener) {
 		var types = ['filter', 'checkbox', 'switchHeader'];
@@ -142,7 +133,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			filterField.empty();
 			filterField.append($('<option/>', {value: '-', text: app.vtranslate('None')}));
 			if (filters[relatedmodule] !== undefined) {
-				filterField.closest('.form-group').removeClass('hide');
+				filterField.closest('.form-group').removeClass('d-none');
 				$.each(filters[relatedmodule], function (index, value) {
 					if (typeof value === 'object') {
 						value = value.label;
@@ -153,36 +144,36 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 					}
 					filterField.append($('<option/>', option));
 				});
-				app.showSelect2ElementView(filterField);
+				App.Fields.Picklist.showSelect2ElementView(filterField);
 			} else {
-				filterField.closest('.form-group').addClass('hide');
+				filterField.closest('.form-group').addClass('d-none');
 			}
 		}
 	},
 	relatedModuleFields: function (container) {
-		var relatedModule = container.find("select[name='relatedmodule']").val();
-		var relatedfields = container.find("select[name='relatedfields']");
+		const relatedModule = parseInt(container.find("select[name='relatedmodule']").val());
+		const relatedfields = container.find("select[name='relatedfields']");
 		relatedfields.find('optgroup').each(function (index, optgroup) {
 			optgroup = $(optgroup);
-			if (relatedModule != optgroup.data('module')) {
-				optgroup.addClass("hide");
-				optgroup.attr("disabled", "disabled");
+			if (relatedModule !== optgroup.data('module')) {
+				optgroup.addClass("d-none");
+				optgroup.prop("disabled", "disabled");
 			} else {
-				optgroup.removeClass('hide');
-				optgroup.removeAttr("disabled");
+				optgroup.removeClass('d-none');
+				optgroup.prop("disabled", false);
 			}
 			optgroup.find('option').each(function (index, option) {
-			option = $(option);
-			if (relatedModule != option.data('module')) {
-				option.addClass("hide");
-				option.attr("disabled", "disabled");
-			} else {
-				option.removeClass('hide');
-				option.removeAttr("disabled");
-			}
+				option = $(option);
+				if (relatedModule !== option.data('module')) {
+					option.addClass("d-none");
+					option.prop("disabled", "disabled");
+				} else {
+					option.removeClass('d-none');
+					option.prop('disabled', false);
+				}
+			});
 		});
-		});
-		relatedfields.trigger('chosen:updated');
+		relatedfields.trigger('change:select2');
 	},
 
 	changeRelatedModule: function (e) {
@@ -193,22 +184,22 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 	registerEvents: function (container) {
 		var thisInstance = this;
 		this.loadWidgets();
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.WidgetsManage');
 		}
-		app.showSelect2ElementView(container.find('.select2'));
-		$(".WidgetsManage select[name='ModulesList']").change(function (e) {
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
+		container.find("select.js-module__list").on('change', function (e) {
 			var target = $(e.currentTarget);
 			$("input[name='tabid']").val(target.val());
 			thisInstance.reloadWidgets();
 		});
-		$('.WidgetsManage .addWidget').click(function (e) {
+		container.find('.js-widget__add').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
-			var module = $(".WidgetsManage select[name='ModulesList']").val();
+			var module = $(".WidgetsManage select.js-module__list").val();
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod=" + module, function (wizardContainer) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var form = jQuery('form', wizardContainer);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var type = form.find('[name="type"]').val();
 					thisInstance.createStep2(type);
@@ -216,23 +207,22 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 
 			});
 		});
-		$('.WidgetsManage .editWidget').click(function (e) {
+		container.find('.js-widget__edit').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
 				jQuery('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
-				app.showBtnSwitch(wizardContainer.find('.switchBtn'));
-				app.showPopoverElementView(wizardContainer.find('.HelpInfoPopover'));
+				app.showPopoverElementView(wizardContainer.find('.js-help-info'));
 				if (thisInstance.getType() == 'RelatedModule') {
 					thisInstance.loadFilters(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
-					wizardContainer.find("select[name='relatedmodule']").change(function () {
+					wizardContainer.find("select[name='relatedmodule']").on('change', function () {
 						thisInstance.changeRelatedModule();
 						thisInstance.relatedModuleFields(wizardContainer);
 					});
 				}
 				var form = jQuery('form', wizardContainer);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var progress = $.progressIndicator({
 						'message': app.vtranslate('Loading data'),
@@ -251,7 +241,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				});
 			});
 		});
-		$('.WidgetsManage .removeWidget').click(function (e) {
+		container.find('.js-widget__remove').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			thisInstance.registerSaveEvent('removeWidget', {

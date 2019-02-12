@@ -10,5 +10,4 @@
 
 class Services_RelationAjax_Action extends Products_RelationAjax_Action
 {
-	
 }

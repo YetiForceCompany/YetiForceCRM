@@ -1,0 +1,217 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.paginationDiv {
+	.listViewBasicAction.dropdown-menu {
+		width: 35%;
+	}
+}
+
+.paginationDiv .pageInfo {
+	border: 1px solid #ddd;
+	color: $blue;
+	float: right;
+	margin-left: 5px;
+	margin-bottom: 0;
+	list-style: none;
+	padding: 8px 5px;
+}
+
+.paginationDiv .pageNumbersText {
+	white-space: nowrap;
+}
+
+.pageNumber.active.disabled a {
+	background-color: $blue;
+	border-color: $blue;
+	color: #fff;
+}
+
+.listViewEntries .listViewEntriesCheckBox,
+.listViewEntriesTable .entryCheckBox {
+	margin: 0;
+	vertical-align: middle;
+	width: 16px;
+	height: 16px;
+}
+
+.listViewTopMenuDiv {
+	.listViewActionsDiv {
+		> [class*="col"] > * {
+			@extend .mb-2;
+		}
+
+		> [class*="col"] > .btn-group {
+			@extend .d-inline-block;
+			@extend .align-baseline;
+		}
+
+		.paginationDiv .pagination {
+			@extend .mb-0;
+		}
+	}
+}
+
+.customFilterMainSpan .select2-container {
+	width: 100% !important;
+}
+
+@include media-breakpoint-up(lg) {
+	.customFilterMainSpan {
+		max-width: 400px;
+	}
+}
+
+.nav-tabs .active {
+	background-color: $light !important;
+}
+
+.listViewAll .leftRecordActions {
+	border-left: 5px solid #ddd;
+}
+
+.o-filter-actions {
+	display: none;
+}
+
+.select2-results__option--highlighted {
+	.o-filter-actions {
+		display: block !important;
+	}
+}
+
+//USERS
+.c-list__user-img {
+	width: auto;
+	height: calculate-rem(40px);
+}
+
+.table-bordered {
+	border-radius: 1px;
+}
+
+.table th {
+	background-color: $light;
+	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+}
+
+.equalSplit td {
+	&:nth-child(odd) {
+		width: 20%;
+	}
+
+	&:nth-child(even) {
+		width: 30%;
+	}
+}
+
+td.fieldValue {
+	input, .input-group {
+		margin-bottom: 0;
+	}
+}
+
+.listViewHeaders a {
+	color: #444;
+}
+
+.listViewEntriesDiv {
+	position: relative;
+
+	.listViewHeaders th {
+		background-color: $light;
+		background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+		background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+		border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+		border-bottom: 1px solid #ddd;
+		border-top: 1px solid #ddd !important;
+	}
+
+	.c-tab--border-active.listViewHeaders th {
+		border-top: 1px solid transparent !important;
+	}
+
+	td {
+		overflow: visible;
+		position: relative;
+	}
+}
+
+.listViewEntriesTable {
+	.listViewHeaders a.listViewHeaderValues {
+		color: #444;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.listViewEntries td > a {
+		color: inherit !important;
+	}
+}
+
+.activityEntries .summaryViewEntries a {
+	color: inherit !important;
+}
+
+.listViewEntriesTable {
+	.listViewEntries {
+		.unreviewed .badge {
+			margin-left: 4px;
+		}
+
+		.c-badge__icon {
+			padding: 6px;
+			text-align: center;
+			vertical-align: middle;
+		}
+	}
+
+	td.listViewEntryValue {
+		vertical-align: middle;
+		cursor: pointer;
+		overflow: visible;
+		padding: 5px;
+	}
+}
+
+.listViewEntries td {
+	vertical-align: middle;
+	cursor: pointer;
+	overflow: visible;
+	padding: 5px;
+}
+
+.listViewEntriesTable td.listViewEntryValue:hover .actionImages, .listViewEntries td:hover .actionImages, .listViewEntriesTable td.listViewEntryValue:hover .actions, .listViewEntries td:hover .actions {
+	opacity: 1;
+
+	/*for IE*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+}
+
+#selectAllMsgDiv, #deSelectAllMsgDiv {
+	display: none;
+	background-color: #fafad2;
+	text-align: center;
+
+	div {
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+}

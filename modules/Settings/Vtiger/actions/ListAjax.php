@@ -8,9 +8,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
+class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -18,7 +17,8 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 	}
 
 	/**
-	 * Function returns the number of records for the current filter
+	 * Function returns the number of records for the current filter.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRecordsCount(\App\Request $request)
@@ -48,7 +48,6 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 		if (!empty($sourceModule)) {
 			$listViewModel->set('sourceModule', $sourceModule);
 		}
-
 		return $listViewModel->getListViewCount();
 	}
 

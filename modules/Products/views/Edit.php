@@ -9,26 +9,45 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Products_Edit_View extends Vtiger_Edit_View
+class Products_Edit_View extends Vtiger_Edit_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$baseCurrenctDetails = $this->record->getBaseCurrencyDetails();
+		$currencyName = 'curname' . $baseCurrenctDetails['currencyid'];
+		$priceDetails = $this->record->getPriceDetails();
+		if ($request->isEmpty('record', true)) {
+			foreach ($priceDetails as $key => $currencyDetails) {
+				if ($currencyDetails['curname'] === $currencyName) {
+					$baseCurrencyConversionRate = $currencyDetails['conversionrate'];
+					break;
+				}
+			}
+			foreach ($priceDetails as $key => $currencyDetails) {
+				if ($currencyDetails['curname'] === $currencyName) {
+					$currencyDetails['conversionrate'] = 1;
+					$currencyDetails['is_basecurrency'] = 1;
+				} else {
+					$currencyDetails['conversionrate'] = $currencyDetails['conversionrate'] / $baseCurrencyConversionRate;
+					$currencyDetails['is_basecurrency'] = 0;
+				}
+				$priceDetails[$key] = $currencyDetails;
+			}
+		}
+		$request->getBoolean('history');
 		$viewer = $this->getViewer($request);
-		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
+		$viewer->assign('PRICE_DETAILS', $priceDetails);
+		$viewer->assign('BASE_CURRENCY_NAME', $currencyName);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
-		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
-
+		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['currency_symbol']);
 		parent::process($request);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDuplicate()
 	{
@@ -44,21 +63,5 @@ Class Products_Edit_View extends Vtiger_Edit_View
 				}
 			}
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-
-		$jsFileNames = [
-			'libraries.jquery.multiplefileupload.jquery_MultiFile'
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }

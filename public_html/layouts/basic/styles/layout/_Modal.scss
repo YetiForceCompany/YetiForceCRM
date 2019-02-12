@@ -1,0 +1,100 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.modal-backdrop {
+	z-index: 1032;
+}
+
+@include media-breakpoint-up(md) {
+	.modal-full {
+		max-width: 72%;
+	}
+}
+
+.modal-fullscreen {
+	top: 21px;
+	right: 32px;
+	left: 0;
+	max-width: calc(100% - 50px);
+	width: calc(100% - 50px);
+	margin-left: 50px;
+	margin-right: 0;
+	min-height: calc(100% - 80px); // if not - nested modals will be cutted
+}
+
+@media only screen and (max-width: 768px) {
+	.modal-fullscreen {
+		margin-left: 8px !important;
+		max-width: calc(100% - 17px) !important;
+		width: calc(100% - 17px) !important;
+		top: 42px !important;
+	}
+}
+
+.modal-blg {
+	max-width: 90%;
+}
+
+.modal-md {
+	max-width: 600px;
+}
+
+.c-modal--custom-animation {
+	&.modal.fade {
+		opacity: 1;
+
+		.modal-dialog {
+			-webkit-transform: translate(0);
+			-moz-transform: translate(0);
+			transform: translate(0);
+		}
+	}
+}
+
+@include media-breakpoint-up(lg) {
+	.modal-dialog.c-modal--fit-lg {
+		width: fit-content;
+
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	.modal-header,
+	.modal-body,
+	.modal-footer {
+		padding: 0.5rem;
+	}
+
+	.modal {
+		padding: 0;
+	}
+}
+
+@each $breakpoint, $max in $grid-breakpoints {
+	@if $max > map-get($grid-breakpoints, sm) and $max < map-get($grid-breakpoints, xxl) {
+		@media (min-width: $max) {
+			@if $breakpoint != xxl {
+				.c-modal-xl {
+					max-width: calc(#{map-get($grid-breakpoints, $breakpoint)} - 5vw);
+				}
+
+				.c-modal-xxl {
+					max-width: calc(#{map-get($grid-breakpoints, $breakpoint)} - 2vw);
+				}
+			}
+		}
+	}
+}
+
+@include media-breakpoint-up(xxl) {
+	.c-modal-xl {
+		max-width: 80vw;
+	}
+
+	.c-modal-xxl {
+		max-width: 90vw;
+	}
+}
+
+.clonedPopupUi.modal {
+	top: $h-header;
+}

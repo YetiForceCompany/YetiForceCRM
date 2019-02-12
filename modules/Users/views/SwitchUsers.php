@@ -1,16 +1,14 @@
 <?php
 
 /**
- * @package YetiForce.Modal
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -20,15 +18,15 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
+		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog"><div class="modal-content">';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -39,8 +37,8 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 		if (App\Session::has('baseUserId') && App\Session::get('baseUserId') !== '') {
 			$baseUserId = App\Session::get('baseUserId');
 		}
-		unset($users[$baseUserId]);
-		unset($users[$userId]);
+		unset($users[$baseUserId], $users[$userId]);
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SWITCH_USERS', $users);
 		$viewer->assign('MODULE_NAME', $moduleName);

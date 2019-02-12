@@ -5,8 +5,10 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce Sp. z o.o. 
+ * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
+'use strict';
+
 Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -22,6 +24,13 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		}
 	}
 }, {
+	/**
+	 *Overwrites base function to avoid trimming and validate white spaces
+	 * @return fieldValue
+	 * */
+	getFieldValue: function () {
+		return this.getElement().val();
+	},
 	/**
 	 * Function to validate the email field data
 	 */
@@ -49,13 +58,14 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		var field = this.getElement();
 		var fieldData = field.data();
 		var fieldInfo = fieldData.fieldinfo;
-		if (fieldInfo && fieldInfo.restrictedDomains && fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) != -1) {
+		if (fieldInfo && fieldInfo.restrictedDomains && fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) !== -1) {
 			this.setError(app.vtranslate('JS_EMAIL_RESTRICTED_DOMAINS'));
 			return false;
 		}
 		return true;
 	}
 });
+
 Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 	/**
 	 * Function to validate the phone field data
@@ -83,17 +93,21 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 			var group = field.closest('.input-group');
 			var phoneCountryList = group.find('.phoneCountryList');
 			field.attr('readonly', true);
+			let moduleName = form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName();
+			if (moduleName === 'LayoutEditor') {
+				moduleName = $('#selectedModuleName').val();
+			}
 			AppConnector.request({
 				async: false,
 				data: {
-					module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
+					module: moduleName,
 					action: 'Fields',
 					mode: 'verifyPhoneNumber',
 					fieldName: fieldInfo.name,
 					phoneNumber: fieldValue,
 					phoneCountry: phoneCountryList.val(),
 				}
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.result.isValidNumber == false) {
 					thisInstance.setError(data.result.message);
 					result = false;
@@ -101,15 +115,16 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					field.val(data.result.number);
 					field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
 					if (phoneCountryList.val() != data.result.country) {
-						phoneCountryList.val(data.result.country).change().trigger("chosen:updated");
+						phoneCountryList.val(data.result.country).trigger('change');
 					}
 				}
 				field.attr('readonly', false);
-			});
+			})
 		}
 		return result;
 	}
 });
+
 Vtiger_Base_Validator_Js("Vtiger_UserName_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -144,6 +159,96 @@ Vtiger_Base_Validator_Js("Vtiger_UserName_Validator_Js", {
 	}
 });
 
+Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
+	/**
+	 *Function which invokes field validation
+	 *@param accepts field element as parameter
+	 * @return error if validation fails true on success
+	 */
+	invokeValidation: function (field, rules, i, options) {
+		var integerInstance = new Vtiger_Integer_Validator_Js();
+		integerInstance.setElement(field);
+		var response = integerInstance.validate();
+		if (response != true) {
+			return integerInstance.getError();
+		}
+	}
+}, {
+	/**
+	 * Function to validate the Integre field data
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validate: function () {
+		let fieldValue = this.getFieldValue(),
+			groupSeperator = CONFIG.currencyGroupingSeparator,
+			integerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']+)$', 'g'),
+			decimalIntegerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']?).\\d+$', 'g');
+		if ((!fieldValue.match(integerRegex))) {
+			if (!fieldValue.match(decimalIntegerRegex)) {
+				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_INTEGER_VALUE");
+				this.setError(errorInfo);
+				return false;
+			}
+		}
+		let fieldInfo = this.getElement().data().fieldinfo;
+		if (!fieldInfo || !fieldInfo.maximumlength) {
+			return true;
+		}
+		let ranges = fieldInfo.maximumlength.split(',');
+		if (ranges.length === 2) {
+			if (fieldValue > parseFloat(ranges[1]) || fieldValue < parseFloat(ranges[0])) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		} else {
+			if (fieldValue > parseFloat(ranges[0]) || fieldValue < 0) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		}
+		return true;
+	}
+});
+
+Vtiger_Integer_Validator_Js("Vtiger_Double_Validator_Js", {
+	/**
+	 *Function which invokes field validation
+	 *@param accepts field element as parameter
+	 * @return error if validation fails true on success
+	 */
+	invokeValidation: function (field, rules, i, options) {
+		var doubleValidator = new Vtiger_Double_Validator_Js();
+		doubleValidator.setElement(field);
+		var response = doubleValidator.validate();
+		if (response != true) {
+			return doubleValidator.getError();
+		}
+	}
+}, {
+	/**
+	 * Function to validate the Decimal field data
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validate: function () {
+		var response = this._super();
+		if (response == false) {
+			var fieldValue = this.getFieldValue();
+			var doubleRegex = /(^[-+]?\d+)\.\d+$/;
+			if (!fieldValue.match(doubleRegex)) {
+				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_DECIMAL_VALUE");
+				this.setError(errorInfo);
+				return false;
+			}
+			return true;
+		}
+		return response;
+	}
+});
+
 Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -166,53 +271,42 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
+		var response = this._super();
+		if (response !== true) {
+			return response;
+		}
 		var fieldValue = this.getFieldValue();
 		var negativeRegex = /(^[-]+\d+)$/;
-		parseFieldValue = app.parseNumberToFloat(this.getFieldValue())
+		var parseFieldValue = App.Fields.Double.formatToDb(this.getFieldValue())
 		if (isNaN(parseFieldValue) || fieldValue < 0 || fieldValue.match(negativeRegex)) {
 			var errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 			this.setError(errorInfo);
 			return false;
 		}
-		return true;
-	}
-});
-
-Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
-	/**
-	 *Function which invokes field validation
-	 *@param accepts field element as parameter
-	 * @return error if validation fails true on success
-	 */
-	invokeValidation: function (field, rules, i, options) {
-		var integerInstance = new Vtiger_Integer_Validator_Js();
-		integerInstance.setElement(field);
-		var response = integerInstance.validate();
-		if (response != true) {
-			return integerInstance.getError();
-		}
-	}
-}, {
-	/**
-	 * Function to validate the Integre field data
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var fieldValue = this.getFieldValue();
-		var integerRegex = /(^[-+]?\d+)$/;
-		var decimalIntegerRegex = /(^[-+]?\d?).\d+$/;
-		if ((!fieldValue.match(integerRegex))) {
-			if (!fieldValue.match(decimalIntegerRegex)) {
-				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_INTEGER_VALUE");
-				this.setError(errorInfo);
-				return false;
-			} else {
-				return true;
-			}
+		var maximumLength = null;
+		if (this.getElement().data().fieldinfo) {
+			maximumLength = this.getElement().data().fieldinfo.maximumlength;
 		} else {
+			maximumLength = this.getElement().data('maximumlength');
+		}
+		if (!maximumLength) {
 			return true;
 		}
+		let ranges = maximumLength.split(',');
+		if (ranges.length === 2) {
+			if (fieldValue > parseFloat(ranges[1]) || fieldValue < parseFloat(ranges[0])) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		} else {
+			if (fieldValue > parseFloat(ranges[0]) || fieldValue < 0) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		}
+		return true;
 	}
 });
 
@@ -237,15 +331,13 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_Percentage_Validator_Js", {
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function () {
-		var response = this._super();
+	validate() {
+		const response = this._super();
 		if (response != true) {
 			return response;
 		} else {
-			var fieldValue = this.getFieldValue();
-			if (fieldValue > 100) {
-				var errorInfo = app.vtranslate('JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100');
-				this.setError(errorInfo);
+			if (App.Fields.Double.formatToDb(this.getFieldValue()) > 100) {
+				this.setError(app.vtranslate('JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100'));
 				return false;
 			}
 			return true;
@@ -263,10 +355,8 @@ Vtiger_Base_Validator_Js('Vtiger_Url_Validator_Js', {}, {
 		var fieldValue = this.getFieldValue();
 		var regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
 		var result = regexp.test(fieldValue);
-		if (!result)
-		{
-			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0 || fieldValue.indexOf('ftp://') === 0 || fieldValue.indexOf('ftps://') === 0 || fieldValue.indexOf('telnet://') === 0 || fieldValue.indexOf('www.') === 0)
-			{
+		if (!result) {
+			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0 || fieldValue.indexOf('ftp://') === 0 || fieldValue.indexOf('ftps://') === 0 || fieldValue.indexOf('telnet://') === 0 || fieldValue.indexOf('smb://') === 0 || fieldValue.indexOf('www.') === 0) {
 				result = true;
 			}
 		}
@@ -343,7 +433,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmails_Validator_Js", {
 
 });
 
-Vtiger_PositiveNumber_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
+Vtiger_Double_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
@@ -372,7 +462,7 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
 			return response;
 		} else {
 			var fieldValue = this.getFieldValue();
-			if (fieldValue == 0) {
+			if (fieldValue <= 0) {
 				var errorInfo = app.vtranslate('JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO');
 				this.setError(errorInfo);
 				return false;
@@ -399,23 +489,23 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_WholeNumber_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Positive Numbers and whole Number
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
+	 * @return boolean true if validation is successful or false if validation error occurs
 	 */
 	validate: function () {
-		var response = this._super();
-		if (response != true) {
+		let response = this._super();
+		if (response !== true) {
 			return response;
 		}
-		var field = this.getElement();
-		var fieldValue = this.getFieldValue();
-		var fieldData = field.data();
-		var fieldInfo = fieldData.fieldinfo;
-		if ((fieldValue % 1) != 0) {
+		let field = this.getElement(),
+			fieldValue = this.getFieldValue(),
+			fieldData = field.data(),
+			fieldInfo = fieldData.fieldinfo,
+			errorInfo;
+		if ((fieldValue % 1) !== 0) {
 			if (!jQuery.isEmptyObject(fieldInfo)) {
-				var errorInfo = app.vtranslate('INVALID_NUMBER_OF') + " " + fieldInfo.label;
+				errorInfo = app.vtranslate('INVALID_NUMBER_OF') + " " + fieldInfo.label;
 			} else {
-				var errorInfo = app.vtranslate('INVALID_NUMBER');
+				errorInfo = app.vtranslate('INVALID_NUMBER');
 			}
 			this.setError(errorInfo);
 			return false;
@@ -545,7 +635,7 @@ Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js", {
 		var field = this.getElement();
 		var fieldInfo = field.data('fieldinfo');
 		var fieldLabel;
-		if (typeof fieldInfo == "undefined") {
+		if (typeof fieldInfo === "undefined") {
 			fieldLabel = jQuery(field).attr('name');
 		} else {
 			fieldLabel = fieldInfo.label;
@@ -605,11 +695,11 @@ Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_
 			var dependentField = dependentFieldList[i];
 			var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 			if (dependentFieldInContext.length > 0) {
-				if (typeof dependentFieldInContext.data('dateFormat') == 'undefined' && fieldDateTime) {
+				if (typeof dependentFieldInContext.data('dateFormat') === "undefined" && fieldDateTime) {
 					fieldDateTime += ' ' + dependentFieldInContext.val();
 					fieldDateTimeInstance[j] = Vtiger_Helper_Js.getDateInstance(fieldDateTime, dateFormat);
 					j++;
-				} else if (typeof dependentFieldInContext.data('dateFormat') != 'undefined') {
+				} else if (typeof dependentFieldInContext.data('dateFormat') !== "undefined") {
 					var dateFormat = dependentFieldInContext.data('dateFormat');
 					fieldDateTime = dependentFieldInContext.val();
 				}
@@ -732,27 +822,27 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
-		var response = this._super();
+		let response = this._super();
 		if (response != true) {
 			return response;
 		}
-		var field = this.getElement();
-		var fieldValue = this.getFieldValue();
-		var fieldData = field.data();
+		let fieldData = this.getElement().data();
+		let decimalSeparator = fieldData.decimalSeparator ? fieldData.decimalSeparator : CONFIG.currencyDecimalSeparator;
+		let groupSeparator = fieldData.groupSeparator ? fieldData.groupSeparator : CONFIG.currencyGroupingSeparator;
 
-		var strippedValue = fieldValue.replace(fieldData.decimalSeparator, '');
-		var spacePattern = /\s/;
-		if (spacePattern.test(fieldData.decimalSeparator) || spacePattern.test(fieldData.groupSeparator))
+		let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
+		let spacePattern = /\s/;
+		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
 			strippedValue = strippedValue.replace(/ /g, '');
-		var errorInfo;
+		let errorInfo;
 
-		if (fieldData.groupSeparator === "$") {
-			fieldData.groupSeparator = "\\$";
+		if (groupSeparator === "$") {
+			groupSeparator = "\\$";
 		}
-		if (fieldData.groupSeparator === ".") {
-			fieldData.groupSeparator = "\\.";
+		if (groupSeparator === ".") {
+			groupSeparator = "\\.";
 		}
-		var regex = new RegExp(fieldData.groupSeparator, 'g');
+		let regex = new RegExp(groupSeparator, 'g');
 		strippedValue = strippedValue.replace(regex, '');
 		//Note: Need to review if we should allow only positive values in currencies
 		/*if(strippedValue < 0){
@@ -770,65 +860,29 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 			this.setError(errorInfo);
 			return false;
 		}
+		const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
+		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
+			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+			this.setError(errorInfo);
+			return false;
+		}
 		return true;
 	}
 });
-Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
+Vtiger_Currency_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 	/**
 	 *Function which invokes field validation
-	 *@param accepts field element as parameter
+	 * @param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation: function (field, rules, i, options) {
-		var instance = new Vtiger_NumberUserFormat_Validator_Js();
+		let instance = new Vtiger_Currency_Validator_Js();
 		instance.setElement(field);
-		var response = instance.validate();
-		if (response != true) {
+		if (instance.validate() !== true) {
 			return instance.getError();
 		}
 	}
 
-}, {
-	/**
-	 * Function to validate the Positive Numbers
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var response = this._super();
-		if (response != true) {
-			return response;
-		}
-		var fieldValue = this.getFieldValue();
-		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
-		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
-		fieldValue = fieldValue.split(groupSeparator).join("");
-
-		var spacePattern = /\s/;
-		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
-			fieldValue = fieldValue.replace(/ /g, '');
-
-		var strippedValue = fieldValue.replace(decimalSeparator, '.');
-		var errorInfo;
-
-		if (isNaN(strippedValue)) {
-			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-			this.setError(errorInfo);
-			return false;
-		}
-		if (strippedValue < 0) {
-			errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
-			this.setError(errorInfo);
-			return false;
-		}
-		strippedValue = parseFloat(strippedValue);
-		if (strippedValue != strippedValue.toString()) {
-			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-			this.setError(errorInfo);
-			return false;
-		}
-		return true;
-	}
 });
 
 Vtiger_Base_Validator_Js("Vtiger_ReferenceField_Validator_Js", {}, {
@@ -842,35 +896,12 @@ Vtiger_Base_Validator_Js("Vtiger_ReferenceField_Validator_Js", {}, {
 		var parentElement = field.closest('.fieldValue');
 		var referenceField = parentElement.find('.sourceField');
 		var referenceFieldValue = referenceField.val();
-		var fieldInfo = referenceField.data().fieldinfo;
 		if (referenceFieldValue == "") {
 			var errorInfo = app.vtranslate('JS_REQUIRED_FIELD');
 			this.setError(errorInfo);
 			return false;
 		}
 		return true;
-	}
-});
-
-Vtiger_Integer_Validator_Js("Vtiger_Double_Validator_Js", {}, {
-	/**
-	 * Function to validate the Decimal field data
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var response = this._super();
-		if (response == false) {
-			var fieldValue = this.getFieldValue();
-			var doubleRegex = /(^[-+]?\d+)\.\d+$/;
-			if (!fieldValue.match(doubleRegex)) {
-				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_DECIMAL_VALUE");
-				this.setError(errorInfo);
-				return false;
-			}
-			return true;
-		}
-		return response;
 	}
 });
 
@@ -902,7 +933,17 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		var fieldDateFormat = fieldData.dateFormat;
 		var fieldValue = this.getFieldValue();
 		try {
-			Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+			if (fieldData.calendarType === 'range') {
+				fieldValue = fieldValue.split(',');
+				if (fieldValue.length !== 2) {
+					throw new Error();
+				}
+			} else {
+				fieldValue = [fieldValue];
+			}
+			for (let key in fieldValue) {
+				Vtiger_Helper_Js.getDateInstance(fieldValue[key], fieldDateFormat);
+			}
 		} catch (err) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_DATE");
 			this.setError(errorInfo);
@@ -911,7 +952,7 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		return true;
 	}
 });
-
+Vtiger_Date_Validator_Js("Vtiger_Datetime_Validator_Js", {}, {});
 Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	/**
 	 * Function which invokes field validation
@@ -936,13 +977,102 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
-		var fieldValue = this.getFieldValue();
-		var time = fieldValue.replace(fieldValue.match(/[AP]M/i), '');
-		var timeValue = time.split(":");
-		if (isNaN(timeValue[0]) && isNaN(timeValue[1])) {
+		let format = CONFIG.hourFormat;
+		if (this.field.data('format') && [12, 24].indexOf(this.field.data('format')) != -1) {
+			format = this.field.data('format');
+		}
+		let regexp = '';
+		switch (format) {
+			case 12:
+				regexp = new RegExp('^([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)$');
+				break;
+			default:
+				regexp = new RegExp('^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])$');
+				break;
+		}
+		if (!regexp.test(this.getFieldValue())) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TIME");
 			this.setError(errorInfo);
 			return false;
+		}
+		return true;
+	}
+});
+
+Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
+	/**
+	 * Function which invokes field validation
+	 * @param {jQuery} field - accepts field element as parameter
+	 * @return string|true - error text if validation fails, true on success
+	 */
+	invokeValidation(field, rules, i, options) {
+		let validatorInstance = new Vtiger_Twitter_Validator_Js();
+		validatorInstance.setElement(field);
+		let result = validatorInstance.validate();
+		if (result == true) {
+			return result;
+		} else {
+			return validatorInstance.getError();
+		}
+	}
+
+}, {
+	/**
+	 * Function to validate the Twwiter Account
+	 * @return bool true if validation is successfull
+	 */
+	validate() {
+		let fieldValue = this.getFieldValue();
+		if (!fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g)) {
+			this.setError(app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT"));
+			return false;
+		}
+		return true;
+	}
+});
+
+Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
+	/**
+	 * Function which invokes field validation
+	 * @param {jQuery} field - accepts field element as parameter
+	 * @return string|true - error text if validation fails, true on success
+	 */
+	invokeValidation(field) {
+		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
+		validatorInstance.setElement(field);
+		let result = validatorInstance.validate();
+		if (result == true) {
+			return result;
+		} else {
+			return validatorInstance.getError();
+		}
+	}
+}, {
+	/**
+	 * Function to validate the Multi email. Check if the email address is duplicated.
+	 * @return bool true if validation is successfull
+	 */
+	validate() {
+		let fieldValue = this.getFieldValue();
+		if (fieldValue === '') {
+			return true;
+		}
+		if (this.validateValue(fieldValue) === false) {
+			return false;
+		}
+		let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
+		let arrayLength = allFields.length;
+		for (let i = 0; i < arrayLength; ++i) {
+			let inputField = $(allFields[i]).find('input.js-email').eq(0);
+			if (inputField.val() === '') {
+				continue;
+			}
+			let inputClass1 = $(allFields[i]).closest("div[class*=js-multi-email-row-]").eq(0).attr('class');
+			let inputClass2 = $(this.field).closest("div[class*=js-multi-email-row-]").eq(0).attr('class');
+			if (inputClass1 !== inputClass2 && inputField.val() === fieldValue) {
+				this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
+				return false;
+			}
 		}
 		return true;
 	}
@@ -953,22 +1083,24 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 
 Vtiger_greaterThanDependentField_Validator_Js("Calendar_greaterThanDependentField_Validator_Js", {}, {
 	getDateTimeInstance: function (field) {
-		var form = field.closest('form');
-		if (field.attr('name') == 'date_start') {
-			var timeField = form.find('[name="time_start"]');
-			var timeFieldValue = timeField.val();
-		} else if (field.attr('name') == 'due_date') {
-			var timeField = form.find('[name="time_end"]');
+		let form = field.closest('form'),
+			timeField,
+			timeFieldValue;
+		if (field.attr('name') === 'date_start') {
+			timeField = form.find('[name="time_start"]');
+			timeFieldValue = timeField.val();
+		} else if (field.attr('name') === 'due_date') {
+			timeField = form.find('[name="time_end"]');
 			if (timeField.length > 0) {
-				var timeFieldValue = timeField.val();
+				timeFieldValue = timeField.val();
 			} else {
 				//Max value for the day
 				timeFieldValue = '11:59 PM';
 			}
 		}
 
-		var dateFieldValue = field.val() + " " + timeFieldValue;
-		var dateFormat = field.data('dateFormat');
+		let dateFieldValue = field.val() + " " + timeFieldValue,
+			dateFormat = field.data('dateFormat');
 		return Vtiger_Helper_Js.getDateInstance(dateFieldValue, dateFormat);
 	}
 
@@ -1133,7 +1265,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js
 	validate: function () {
 		var field = this.getElement();
 		var fieldValue = field.val();
-		var alphaNumericRegex = /^[\/a-z\\0-9{} _-]*$/i;
+		var alphaNumericRegex = /^[\/a-z\\0-9{}: _-]*$/i;
 		if (!fieldValue.match(alphaNumericRegex)) {
 			var errorInfo = app.vtranslate("JS_CONTAINS_ILLEGAL_CHARACTERS");
 			this.setError(errorInfo);
@@ -1160,22 +1292,21 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Positive Numbers
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
+	 * @return  boolean true if validation is successful false if validation error occurs
 	 */
 	validate: function () {
-		var response = this._super();
-		if (response != true) {
+		let response = this._super();
+		if (response !== true) {
 			return response;
 		}
-		var field = this.getElement();
-		var fieldValue = field.val();
-		if (field.inputmask("hasMaskedValue")) {
-			var unMaskedValue = field.inputmask('unmaskedvalue');
-			var getmetadata = field.inputmask("getmetadata");
-			var maskLength = (getmetadata.match(/9/g) || []).length + (getmetadata.match(/A/g) || []).length + (getmetadata.match(/'*'/g) || []).length;
-			if (unMaskedValue.length != 0 && maskLength > unMaskedValue.length) {
-				var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+		let field = this.getElement(),
+			errorInfo;
+		if (field.attr('data-inputmask')) {
+			let unMaskedValue = field.inputmask('unmaskedvalue'),
+				getMetaData = field.inputmask("getmetadata"),
+				maskLength = (getMetaData.match(/9/g) || []).length + (getMetaData.match(/A/g) || []).length + (getMetaData.match(/'*'/g) || []).length;
+			if (unMaskedValue.length !== 0 && maskLength > unMaskedValue.length) {
+				errorInfo = app.vtranslate("JS_INVALID_LENGTH");
 				this.setError(errorInfo);
 				window.inputMaskValidation = true;
 				return false;
@@ -1184,7 +1315,7 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 			}
 		}
 		if (window.inputMaskValidation) {
-			var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+			errorInfo = app.vtranslate("JS_INVALID_LENGTH");
 			this.setError(errorInfo);
 			return false;
 		}
@@ -1213,6 +1344,80 @@ Vtiger_Base_Validator_Js("Vtiger_Textparser_Validator_Js", {
 		if (!regex.test(fieldValue)) {
 			var errorInfo = app.vtranslate('JS_INVALID_LENGTH');
 			this.setError(errorInfo);
+			return false;
+		}
+		return true;
+	}
+});
+
+Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
+	invokeValidation: function (field, rules, i, options) {
+		var instance = new Vtiger_YetiForceCompanyName_Validator_Js();
+		instance.setElement(field);
+		var response = instance.validate();
+		if (response != true) {
+			return instance.getError();
+		}
+	}
+
+}, {
+	validate: function () {
+		let response = this._super();
+		if (response != true) {
+			return response;
+		}
+		const field = this.getElement();
+		const fieldValue = field.val();
+		if (fieldValue.toLowerCase().indexOf('yetiforce') >= 0) {
+			this.setError(app.vtranslate('JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED'));
+			return false;
+		}
+		return true;
+	}
+});
+Vtiger_Base_Validator_Js("Vtiger_MultiImage_Validator_Js", {
+	invokeValidation(field, rules, i, options) {
+		const instance = new Vtiger_MultiImage_Validator_Js();
+		instance.setElement(field);
+		if (instance.validate() != true) {
+			return instance.getError();
+		}
+	}
+}, {
+	validate() {
+		let response = this._super();
+		if (response != true) {
+			return response;
+		}
+		const field = this.getElement();
+		const fieldValue = field.val();
+		if (field.data('fieldinfo').mandatory && JSON.parse(fieldValue).length === 0) {
+			this.setError(app.vtranslate('JS_REQUIRED_FIELD'));
+			return false;
+		}
+		return true;
+	}
+});
+Vtiger_Base_Validator_Js("Vtiger_MaxSizeInByte_Validator_Js", {
+	invokeValidation(field, rules, i, options) {
+		const instance = new Vtiger_MaxSizeInByte_Validator_Js();
+		instance.setElement(field);
+		if (instance.validate() != true) {
+			return instance.getError();
+		}
+	}
+}, {
+	validate() {
+		let response = this._super();
+		if (response != true) {
+			return response;
+		}
+		const field = this.getElement();
+		const fieldValue = field.val();
+		if (field.data('fieldinfo').maximumlength && new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength) {
+			this.setError(
+				app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength
+			);
 			return false;
 		}
 		return true;

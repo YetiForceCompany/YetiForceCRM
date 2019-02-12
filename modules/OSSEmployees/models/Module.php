@@ -1,19 +1,19 @@
 <?php
 
 /**
- * OSSEmployees module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * OSSEmployees module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
@@ -28,18 +28,17 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 		if ($begin > $end) {
 			return 0;
 		} else {
-			$no_days = 0;
+			$noDays = 0;
 			$weekends = 0;
 			while ($begin <= $end) {
-				$no_days++; // no of days in the given interval
-				$what_day = date("N", $begin);
-				if ($what_day > 5) { // 6 and 7 are weekend days
-					$weekends++;
-				};
+				++$noDays; // no of days in the given interval
+				$whatDay = date('N', $begin);
+				if ($whatDay > 5) { // 6 and 7 are weekend days
+					++$weekends;
+				}
 				$begin += 86400; // +1 day
-			};
-			$working_days = $no_days - $weekends;
-			return $working_days;
+			}
+			return $noDays - $weekends;
 		}
 	}
 
@@ -49,9 +48,8 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 		$colors = ['#4bb2c5', '#EAA228', '#c5b47f'];
 		foreach ($chartData as $key => $value) {
 			$result[$key] = $colors[$i];
-			$i++;
+			++$i;
 		}
-
 		return $result;
 	}
 }

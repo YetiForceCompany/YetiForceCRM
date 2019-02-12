@@ -1,134 +1,135 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
-
+/**
+ * Project module model class.
+ *
+ * @package   Module
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class Project_Module_Model extends Vtiger_Module_Model
 {
-
-	public function getGanttProject($id)
+	/**
+	 * Calculate estimated work time.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return float
+	 */
+	public static function calculateEstimatedWorkTime(int $id, float $estimatedWorkTime = 0): float
 	{
-		$branches = $this->getGanttMileston($id);
-		$response = ['data' => [], 'links' => []];
-		if ($branches) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
-			$project['id'] = $id;
-			$project['text'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
-			$project['priority'] = $recordModel->get('projectpriority');
-			$project['priority_label'] = \App\Language::translate($recordModel->get('projectpriority'), $this->getName());
-			$project['type'] = 'project';
-			$project['module'] = $this->getName();
-			$project['open'] = true;
-			$project['progress'] = $branches['progress'];
-			$response['data'][] = $project;
-			$response['data'] = array_merge($response['data'], $branches['data']);
-			$response['links'] = array_merge($response['links'], $branches['links']);
-		}
-		return $response;
-	}
-
-	public function getGanttMileston($id)
-	{
-		$response = ['data' => [], 'links' => []];
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectMilestone');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'projectmilestoneid' => 'projectmilestoneid',
-			'projectid' => 'projectid',
-			'projectmilestonename' => 'projectmilestonename',
-			'projectmilestonedate' => 'projectmilestonedate',
-			'projectmilestone_progress' => 'projectmilestone_progress'
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		$milestoneTime = 0;
 		$progressInHours = 0;
-		while ($row = $dataReader->read()) {
-			$projectmilestone = [];
-			$link = [];
-			$link['id'] = $row['id'];
-			$link['target'] = $row['id'];
-			$link['type'] = 1;
-			$link['source'] = $row['projectid'];
-			$projectmilestone['id'] = $row['id'];
-			$projectmilestone['text'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
-			$projectmilestone['parent'] = $row['projectid'];
-			$projectmilestone['module'] = 'ProjectMilestone';
-			if ($row['projectmilestonedate']) {
-				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
-				$projectmilestone['start_date'] = date('d-m-Y', $endDate);
-			}
-			$projectmilestone['progress'] = (int) $row['projectmilestone_progress'] / 100;
-			$projectmilestone['priority'] = $row['projectmilestone_priority'];
-			$projectmilestone['priority_label'] = \App\Language::translate($row['projectmilestone_priority'], 'ProjectMilestone');
-			$projectmilestone['open'] = true;
-			$projectmilestone['type'] = 'milestone';
-			$projecttask = $this->getGanttTask($row['id']);
-			$response['data'][] = $projectmilestone;
-			$response['links'][] = $link;
-			$response['data'] = array_merge($response['data'], $projecttask['data']);
-			$response['links'] = array_merge($response['links'], $projecttask['links']);
-			$milestoneTime += $projecttask['task_time'];
-			$progressInHours += $projecttask['task_time'] * $projectmilestone['progress'];
+		foreach (static::getChildren($id) as $child) {
+			$estimatedWorkTime += static::calculateEstimatedWorkTime($child['id']);
 		}
-		if ($milestoneTime) {
-			$response['progress'] = round($progressInHours / $milestoneTime, 1);
-		}
-		return $response;
+		static::calculateProgressOfMilestones($id, $estimatedWorkTime, $progressInHours);
+		return $estimatedWorkTime;
 	}
 
-	public function getGanttTask($id)
+	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return int[]
+	 */
+	protected static function getChildren(int $id): array
 	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'id' => 'id',
-			'projectid' => 'projectid',
-			'projecttaskname' => 'projecttaskname',
-			'parentid' => 'parentid',
-			'projectmilestoneid' => 'projectmilestoneid',
-			'projecttaskprogress' => 'projecttaskprogress',
-			'projecttaskpriority' => 'projecttaskpriority',
-			'startdate' => 'startdate',
-			'targetenddate' => 'targetenddate'
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		$response = ['data' => [], 'links' => []];
-		$taskTime = 0;
+		return (new \App\Db\Query())
+			->select(['id' => 'vtiger_project.projectid', 'vtiger_project.progress'])
+			->from('vtiger_project')
+			->innerJoin('vtiger_crmentity', 'vtiger_project.projectid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_project.parentid' => $id])->all();
+	}
+
+	/**
+	 * Calculate the progress of milestones.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 * @param float $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	protected static function calculateProgressOfMilestones(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$dataReader = (new \App\Db\Query())
+			->select([
+				'id' => 'vtiger_projectmilestone.projectmilestoneid',
+				'projectmilestonename' => 'vtiger_projectmilestone.projectmilestonename',
+				'projectmilestone_progress' => 'vtiger_projectmilestone.projectmilestone_progress',
+			])
+			->from('vtiger_projectmilestone')
+			->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_projectmilestone.projectid' => $id])
+			->andWhere(['or', ['vtiger_projectmilestone.parentid' => 0], ['vtiger_projectmilestone.parentid' => null]])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$projecttask = [];
-			$link = [];
-			$link['id'] = $row['id'];
-			$link['target'] = $row['id'];
-			$projecttask['id'] = $row['id'];
-			$projecttask['text'] = \App\Purifier::encodeHtml($row['projecttaskname']);
-			if ($row['parentid']) {
-				$link['type'] = 0;
-				$link['source'] = $row['parentid'];
-				$projecttask['parent'] = $row['parentid'];
-			} else {
-				$link['type'] = 2;
-				$link['source'] = $row['projectmilestoneid'];
-				$projecttask['parent'] = $row['projectmilestoneid'];
-			}
-			settype($row['projecttaskprogress'], "integer");
-			$projecttask['progress'] = $row['projecttaskprogress'] / 100;
-			$projecttask['priority'] = $row['projecttaskpriority'];
-			$projecttask['priority_label'] = \App\Language::translate($row['projecttaskpriority'], 'ProjectTask');
-			$projecttask['start_date'] = date('d-m-Y', strtotime($row['startdate']));
-			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
-			$projecttask['end_date'] = date('d-m-Y', $endDate);
-			$projecttask['open'] = true;
-			$projecttask['type'] = 'task';
-			$projecttask['module'] = 'ProjectTask';
-			$taskTime += $row['estimated_work_time'];
-			$response['data'][] = $projecttask;
-			$response['links'][] = $link;
+			$milestoneEstimatedWorkTime = ProjectMilestone_Module_Model::calculateEstimatedWorkTime($row['id']);
+			$estimatedWorkTime += $milestoneEstimatedWorkTime;
+			$progressInHours += ($milestoneEstimatedWorkTime * (float) $row['projectmilestone_progress']) / 100;
 		}
-		$response['task_time'] = $taskTime;
-		return $response;
+		$dataReader->close();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = parent::getSideBarLinks($linkParams);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_VIEW_GANTT',
+			'linkurl' => 'index.php?module=Project&view=Gantt',
+			'linkicon' => 'fas fa-briefcase',
+		]);
+		return $links;
+	}
+
+	/**
+	 * Update progress in project.
+	 *
+	 * @param int      $id
+	 * @param float    $estimatedWorkTime
+	 * @param float    $progressInHours
+	 * @param int|null $callerId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function updateProgress(int $id, float $estimatedWorkTime = 0, float $progressInHours = 0, ?int $callerId = null): array
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($id);
+		foreach (static::getChildren($id) as $child) {
+			if ($callerId !== $child['id']) {
+				$childEstimatedWorkTime = static::calculateEstimatedWorkTime($child['id']);
+				$estimatedWorkTime += $childEstimatedWorkTime;
+				$progressInHours += ($childEstimatedWorkTime * $child['progress'] / 100);
+			}
+		}
+		static::calculateProgressOfMilestones($id, $estimatedWorkTime, $progressInHours);
+		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
+		$recordModel->set('progress', $projectProgress);
+		$recordModel->save();
+		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $callerId) {
+			static::updateProgress(
+				$recordModel->get('parentid'),
+				$estimatedWorkTime,
+				$progressInHours,
+				$id
+			);
+		}
+		return [
+			'estimatedWorkTime' => $estimatedWorkTime,
+			'projectProgress' => $projectProgress
+		];
 	}
 }

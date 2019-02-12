@@ -1,0 +1,428 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//-------- general --------//
+
+//-------- select2 --------//
+.select2-selection {
+	padding-top: 0.2rem;
+
+	@extend .border;
+	@extend .text-left;
+
+	.o-filter-actions {
+		display: inline-block;
+	}
+}
+
+// readonly fix
+select[readonly].select2-hidden-accessible + .select2-container {
+	pointer-events: none;
+	touch-action: none;
+
+	.select2-selection {
+		background: #eee;
+		box-shadow: none;
+	}
+
+	.select2-selection__arrow,
+	.select2-selection__clear {
+		display: none;
+	}
+}
+
+.select2-selection--single {
+	padding: 0.375rem 1.125rem 0.375rem 0.75rem;
+
+	@at-root .input-group > .input-group-prepend #{&} {
+		border-right: unset !important;
+		border-radius: 0.25rem 0 0 0.25rem !important;
+	}
+	// Border correction for select2 sm
+	@at-root .input-group-sm #{&} {
+		border-top-right-radius: 0.25rem !important;
+		border-bottom-right-radius: 0.25rem !important;
+	}
+}
+
+.select2-selection__rendered {
+	line-height: 1.5;
+}
+
+.select2-search:only-child {
+	width: 100% !important;
+
+	.select2-search__field {
+		width: 100% !important;
+	}
+}
+
+.select2-selection__arrow {
+	@extend .mt-1;
+}
+
+.select2-container--bootstrap4 {
+	ul.select2-selection__rendered {
+		@extend .py-2;
+		@extend .px-1;
+
+		li.select2-selection__choice {
+			@extend .p-1;
+			@extend .my-auto;
+		}
+	}
+
+	.select2-results__option, .select2-results__option .select2-results__option {
+		@extend .p-1;
+
+		font-size: inherit;
+	}
+}
+
+.select2-container--bootstrap {
+	.select2-results > .select2-results__options {
+		max-height: 400px;
+	}
+
+	.select2-results__group {
+		font-size: calculate-rem(16px) !important;
+		background: #e1f0fd;
+	}
+
+	.select2-results__option[aria-label=""] > .select2-results__group {
+		background: inherit;
+	}
+
+	.select2-results__option[aria-selected="true"] .c-option-template--state-icons {
+		opacity: 0.5;
+	}
+}
+
+.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
+.listViewPageDiv .select2noactive {
+	height: calculate-rem(38px) !important;
+}
+
+.input-group > .select2-container--bootstrap {
+	width: 1% !important;
+}
+
+/* select2 selected option display bug fix after use hide class on options */
+.addRelationContainer span.select2-selection__rendered {
+	display: block !important;
+}
+
+header {
+	.o-global-search__input .select2-selection.select2-selection--single {
+		height: $h-menu-items !important;
+
+		.select2-selection__rendered {
+			margin-top: calculate-rem(2px);
+		}
+	}
+
+	.select2WithButtonWidth {
+		width: calc(100% - #{$w-icon-button});
+	}
+
+	.c-header__btn__container .select2-selection {
+		height: $h-menu-items;
+		font-size: 0.875rem;
+
+		&:hover {
+			background: $dark !important;
+
+			.select2-selection__rendered {
+				color: $white !important;
+			}
+		}
+	}
+}
+
+#select2-mail-select-results {
+	font-size: 0.875rem;
+}
+
+.select2HeaderWidth {
+	.select2-selection {
+		height: 2.5rem !important;
+	}
+}
+
+.fieldUiHolder {
+	width: 25%;
+
+	.select2-container--bootstrap4 {
+		width: 100% !important;
+	}
+}
+
+//theme selection
+.select2-selection__rendered.u-hover-bold {
+	padding: 6px !important;
+	border-radius: 0.25rem
+}
+
+.select2-selection__rendered[title=Twilight] {
+	@extend .u-bg-twilight;
+}
+
+.select2-selection__rendered[title=Modern] {
+	@extend .u-bg-modern;
+}
+
+.select2-selection[aria-labelledby^="select2-theme"] {
+	@extend .p-0;
+}
+
+.customFilterMainSpan {
+	width: 100%;
+	cursor: pointer;
+
+	.select2-container {
+		width: 95% !important;
+	}
+}
+
+.conditionRow .select2-container--bootstrap4 {
+	display: inline-block;
+	vertical-align: middle;
+
+	@extend .w-25;
+	@extend .mr-sm-2;
+}
+
+//-------- leaflet --------//
+.leaflet-popup-content {
+	width: 62px;
+}
+
+.awesome-marker {
+	.fas {
+		margin-top: 11px;
+	}
+}
+
+//--- list ---//
+
+.openStreetMapModalBody {
+	@extend %input-groupSelect2;
+}
+
+.bootbox-close-button {
+	@extend .order-2;
+}
+
+//-------- daterangepicker --------//
+
+.daterangepicker {
+	&.show-calendar {
+		@extend .p-0;
+	}
+
+	.left, .right {
+		@extend .mb-0;
+	}
+
+	.ranges {
+		li {
+			margin-bottom: 0.45rem;
+		}
+
+		li:last-child {
+			@extend .mb-0;
+		}
+	}
+}
+
+.recordEditView {
+	.daterangepicker {
+		.ranges {
+			float: none !important;
+			text-align: center !important;
+		}
+	}
+}
+
+//-------- jQuery UI --------//
+.ui-autocomplete {
+	padding: 0 !important;
+
+	a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
+		font-weight: inherit !important;
+	}
+}
+
+ul.ui-autocomplete {
+	div.ui-menu-item-wrapper {
+		@extend .u-text-ellipsis;
+	}
+}
+
+.sortTableUl {
+	list-style-type: none;
+	float: left;
+	min-height: 1px;
+	padding: 0;
+}
+
+//fix placholder width when table's elements are hidden
+.ui-sortable-placeholder td[colspan="0"] {
+	display: none;
+}
+
+//-------- ckeditor --------//
+
+.cke_screen_reader_only {
+	height: 0 !important;
+}
+
+#pdf_step2 .cke {
+	border: 0px;
+}
+
+.cke_autocomplete_panel {
+	width: 300px !important;
+}
+
+//-------- js-tree --------//
+
+.jstree-proton {
+	font-family: $font-family-base !important;
+}
+
+.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
+	li > a {
+		display: flex;
+		align-items: center;
+		height: calculate-rem(22px);
+		overflow: hidden;
+		padding-left: 1em;
+	}
+}
+
+//-------- perfectscrollbar --------//
+
+.leftPanel .ps-scrollbar-y-rail {
+	display: none !important;
+}
+
+.c-scrollbar-x--small {
+	.ps__rail-x:hover > .ps__thumb-x, .ps__rail-x:focus > .ps__thumb-x, .ps__rail-x.ps--clicking .ps__thumb-x {
+		height: 6px;
+	}
+
+	.ps__rail-x {
+		height: 10px
+	}
+}
+
+//-------- gridstack --------//
+
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+	left: 0.25rem !important;
+	right: 0.25rem !important;
+}
+
+@include media-breakpoint-down(xs) {
+	.grid-stack > .grid-stack-item > .grid-stack-item-content {
+		left: 0 !important;
+		right: 0 !important;
+	}
+
+	.ui-draggable-handle {
+		-ms-touch-action: manipulation !important;
+		touch-action: manipulation !important;
+	}
+
+	.grid-stack > .grid-stack-item > .grid-stack-item-content {
+		width: 100% !important;
+	}
+
+	.grid-stack.grid-stack-one-column-mode > .grid-stack-item {
+		margin-bottom: 0.5rem !important;
+	}
+}
+
+//-------- footable --------//
+.profilesEditView {
+	.footable-toggle {
+		@extend .float-left;
+	}
+}
+
+//-------- datatable --------//
+
+.dataTables_wrapper {
+	.custom-select {
+		//removed additional arrows
+		background: unset;
+	}
+}
+
+//-------- leaflet --------//
+
+.leaflet-popup-content {
+	width: auto;
+}
+
+//-------- floatThead --------//
+
+.ps__rail-x, .ps__rail-y {
+	z-index: 2000; //overflow floatThead in list
+}
+
+.dropdown-menu.show {
+	z-index: 3000; //overflow floatThead and ps scrollbar in list
+}
+
+.listViewPageDiv {
+	& > .floatThead-wrapper {
+		overflow: hidden; //prevent fixed thead from overflowing table
+
+		& > .floatThead-container {
+			overflow: hidden !important;
+		}
+	}
+}
+
+.js-fixed-thead {
+	tfoot td {
+		border-top: unset !important; //floatThead added this to table, causing additional border
+	}
+}
+
+//-------- flag-icon --------//
+
+.flag-icon {
+	box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.35);
+	background-size: cover;
+	width: 1.3em;
+	margin-left: 2px;
+}
+
+//-------- tribute.js --------//
+//styles based on bootstrap dropdown
+.tribute-container {
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: .25rem;
+	min-width: 10rem;
+
+	ul {
+		color: #212529;
+		background-color: #fff;
+		background-clip: padding-box;
+	}
+
+	li.highlight,
+	li:hover {
+		background: #f8f9fa;
+	}
+}
+
+//-------- font-awesome --------//
+
+.btn-sm {
+	.fa-xs {
+		vertical-align: calculate-rem(1px);
+	}
+}

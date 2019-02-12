@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Settings TreesManager ListView model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings TreesManager ListView model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -48,7 +49,6 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$listQuery->where(['module' => \App\Module::getModuleId($sourceModule)]);
 		}
 
-
 		if ($module->isPagingSupported()) {
 			$listQuery->limit($pageLimit + 1)->offset($startIndex);
 		}
@@ -71,11 +71,39 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 		if ($module->isPagingSupported()) {
 			$pagingModel->calculatePageRange($dataReader->count());
 			if ($dataReader->count() > $pageLimit) {
+				array_pop($listViewRecordModels);
 				$pagingModel->set('nextPageExists', true);
 			} else {
 				$pagingModel->set('nextPageExists', false);
 			}
 		}
+		$dataReader->close();
+
 		return $listViewRecordModels;
+	}
+
+	/**
+	 * Function which will get the list view count.
+	 *
+	 * @return int
+	 */
+	public function getListViewCount()
+	{
+		return $this->loadListViewCondition()->count();
+	}
+
+	/**
+	 * Load list view conditions.
+	 *
+	 * @return object
+	 */
+	public function loadListViewCondition()
+	{
+		$listQuery = $this->getBasicListQuery();
+		$sourceModule = $this->get('sourceModule');
+		if (!empty($sourceModule)) {
+			$listQuery->where(['module' => \App\Module::getModuleId($sourceModule)]);
+		}
+		return $listQuery;
 	}
 }

@@ -11,9 +11,8 @@
 
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,11 +23,11 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$searchValue = $request->get('search_value');
+		$searchValue = $request->getByType('search_value', 'Text');
 		$searchModule = $request->getByType('search_module');
 		$parentRecordId = $request->getInteger('parent_id');
 		$parentModuleName = $request->getByType('parent_module');
@@ -37,12 +36,12 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
 		$result = [];
 		if (is_array($records)) {
-			foreach ($records as $moduleName => $recordModels) {
+			foreach ($records as $recordModels) {
 				foreach ($recordModels as $recordModel) {
 					$result[] = [
 						'label' => App\Purifier::decodeHtml($recordModel->getName()),
 						'value' => App\Purifier::decodeHtml($recordModel->getName()),
-						'id' => $recordModel->getId()
+						'id' => $recordModel->getId(),
 					];
 				}
 			}

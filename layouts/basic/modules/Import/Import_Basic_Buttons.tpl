@@ -19,4 +19,4 @@
 		{else}
 			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=List'"
 		{/if}
->{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+		>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>

@@ -6,34 +6,17 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
-	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
-	<div class="bodyContents">
-		<div class="mainContainer">
-			<div class="contentsDiv col-md-12 marginLeftZero dashboardContainer">
-				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
-				<div class="dashboardViewContainer">
-					{if count($DASHBOARD_TYPES) > 1}
-						<ul class="nav nav-tabs massEditTabs selectDashboard">
-							{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-								<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-									<a data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
-								</li>
-							{/foreach}
-						</ul>
-					{/if}
-					<div class="col-xs-12 paddingLRZero">
-						{if count($MODULES_WITH_WIDGET) > 1}
-							<ul class="nav nav-tabs massEditTabs selectDashboradView">
-								{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
-									<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
-								{/foreach}
-							</ul>
-						{/if}
-					</div>
-					{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-					<div class="col-xs-12 paddingLRZero">
+<!-- tpl-Home-dashboards-DashBoardPreProcess -->
+{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
+<div class="bodyContents">
+	<div class="mainContainer">
+		<div class="contentsDiv mx-md-0 dashboardContainer">
+			{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
+			<div class="dashboardViewContainer">
+				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardPreProcessAjax.tpl', $MODULE_NAME)}
+<!-- /tpl-Home-dashboards-DashBoardPreProcess -->
 {/strip}

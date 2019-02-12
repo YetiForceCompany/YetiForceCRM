@@ -10,7 +10,6 @@
 
 class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,9 +18,9 @@ class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Act
 
 	public function checkCyclicDependency(\App\Request $request)
 	{
-		$module = $request->getByType('sourceModule', 2);
-		$sourceField = $request->get('sourcefield');
-		$targetField = $request->get('targetfield');
+		$module = $request->getByType('sourceModule', 'Alnum');
+		$sourceField = $request->getByType('sourcefield', 'Alnum');
+		$targetField = $request->getByType('targetfield', 'Alnum');
 		$result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
 		$response = new Vtiger_Response();
 		$response->setResult(['result' => $result]);

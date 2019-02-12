@@ -11,9 +11,8 @@
 
 class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -24,22 +23,39 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength) {
+			$rangeValues = explode(',', $maximumLength);
+			if (($rangeValues[1] ?? $rangeValues[0]) < $value || (isset($rangeValues[1]) ? $rangeValues[0] : 0) > $value) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			}
+		}
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param <Object> $value
+	 *
 	 * @return <Object>
 	 */
 	public function getReferenceModule($value)
@@ -56,7 +72,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -70,9 +86,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		}
 		$name = \App\Record::getLabel($value);
 		if (is_int($length)) {
-			$name = \vtlib\Functions::textLength($name, $length);
+			$name = \App\TextParser::textTruncate($name, $length);
 		} elseif ($length !== true) {
-			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+			$name = App\TextParser::textTruncate($name, \AppConfig::main('href_max_length'));
 		}
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $name;
@@ -80,12 +96,11 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
-		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
-		return $linkValue;
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -97,26 +112,42 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
 		$fieldModel = $this->getFieldModel();
 		$fieldName = $fieldModel->getName();
 		if ($fieldName === 'modifiedby') {
-			return 'uitypes/OwnerFieldSearchView.tpl';
+			return 'List/Field/Owner.tpl';
 		}
 		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			return 'uitypes/ReferenceSearchView.tpl';
+			return 'List/Field/Reference.tpl';
 		}
 		return parent::getListSearchTemplateName();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Reference.tpl';
+		return 'Edit/Field/Reference.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['bigint', 'integer', 'smallint'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 }

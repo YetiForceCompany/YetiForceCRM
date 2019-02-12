@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings HideBlocks module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Settings HideBlocks module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public $baseTable = 'vtiger_blocks_hide';
 	public $baseIndex = 'id';
 	public $nameFields = ['name'];
@@ -17,7 +16,8 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 	public $views = ['Detail', 'Edit'];
 
 	/**
-	 * Function to get Create view url
+	 * Function to get Create view url.
+	 *
 	 * @return string Url
 	 */
 	public function getCreateRecordUrl()
@@ -26,7 +26,8 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get List view url
+	 * Function to get List view url.
+	 *
 	 * @return string Url
 	 */
 	public function getListViewUrl()
@@ -35,7 +36,8 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get list of Blocks
+	 * Function to get list of Blocks.
+	 *
 	 * @return array list of Block models Settings_HideBlocks_Module_Model
 	 */
 	public function getBlocks()
@@ -45,26 +47,28 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getViews()
 	{
-		$views = [];
+		$viewsArray = [];
 		foreach ($this->views as $view) {
-			$views[$view] = 'LBL_VIEW_' . strtoupper($view);
+			$viewsArray[$view] = 'LBL_VIEW_' . strtoupper($view);
 		}
-		return $views;
+		return $viewsArray;
 	}
 
 	public function getAllBlock()
 	{
 		$dataReader = (new \App\Db\Query())->from('vtiger_blocks')
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_blocks.tabid')
-				->orderBy(['vtiger_blocks.tabid' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->query();
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_blocks.tabid')
+			->orderBy(['vtiger_blocks.tabid' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
 			$module = $row['name'];
 			$rows[$module][$row['blockid']] = [
 				'module' => $module,
-				'blocklabel' => $row['blocklabel']
+				'blocklabel' => $row['blocklabel'],
 			];
 		}
+		$dataReader->close();
+
 		return $rows;
 	}
 }

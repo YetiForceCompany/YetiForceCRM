@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Record Class for OSSSoldServices
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Record Class for OSSSoldServices.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 {
-
 	public function updateRenewal()
 	{
 		$value = $this->getRenewalValue();
@@ -42,18 +41,18 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 		}
 		if ($dateRenewable > time()) {
 			if ($methodExist) {
-				return $classFunction['class']::$classFunction['method']($this, 'PLL_PLANNED');
+				return \call_user_func_array("{$classFunction['class']}::{$classFunction['method']}", [$this, 'PLL_PLANNED']);
 			}
 			return 'PLL_PLANNED';
 		}
 		if (strtotime('+' . $renewalTime, $dateInService) < time()) {
 			if ($methodExist) {
-				return $classFunction['class']::$classFunction['method']($this, 'PLL_NOT_RENEWED_VERIFICATION');
+				return \call_user_func_array("{$classFunction['class']}::{$classFunction['method']}", [$this, 'PLL_NOT_RENEWED_VERIFICATION']);
 			}
 			return 'PLL_NOT_RENEWED_VERIFICATION';
 		}
 		if ($methodExist) {
-			return $classFunction['class']::$classFunction['method']($this, 'PLL_WAITING_FOR_RENEWAL');
+			return \call_user_func_array("{$classFunction['class']}::{$classFunction['method']}", [$this, 'PLL_WAITING_FOR_RENEWAL']);
 		}
 		return 'PLL_WAITING_FOR_RENEWAL';
 	}

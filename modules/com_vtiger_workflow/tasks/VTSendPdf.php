@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Email PDF Template Task Class
- * @package YetiForce.WorkflowTask
- * @copyright YetiForce Sp. z o.o.
+ * Email PDF Template Task Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class VTSendPdf extends VTTask
 {
-
 	/** @var bool Sending email takes more time, this should be handled via queue all the time. */
 	public $executeImmediately = true;
 
 	/**
-	 * Get field names
+	 * Get field names.
+	 *
 	 * @return string[]
 	 */
 	public function getFieldNames()
@@ -23,7 +23,8 @@ class VTSendPdf extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
@@ -56,6 +57,7 @@ class VTSendPdf extends VTTask
 			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
 				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
+
 				return false;
 			}
 			if (!$templateRecord->isEmpty('filename')) {

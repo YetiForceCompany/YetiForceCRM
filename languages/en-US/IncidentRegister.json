@@ -1,0 +1,33 @@
+{
+  "php": {
+    "IncidentRegister": "Incident Register",
+    "SINGLE_IncidentRegister": "Incident Register",
+    "LBL_BASIC_INFORMATION": "Basic Information",
+    "FL_NAME": "Name",
+    "FL_LOCATION_REGISTER": "Location register",
+    "FL_DATASETREGISTER": "Data set register",
+    "PLL_DRAFT": "Draft",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Waiting for acceptance",
+    "PLL_IN_REALIZATION": "In realization",
+    "PLL_COMPLETED": "Completed",
+    "PLL_CANCELLED": "Cancelled",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Type",
+    "PLL_INTERNAL": "Internal",
+    "PLL_EXTERNAL": "External",
+    "LBL_INCIDENT_DATES": "Incident dates",
+    "FL_INCIDENT_DATE": "Incident date",
+    "FL_INCIDENT_DISCOVERY": "Incident discovery date",
+    "FL_INCIDENT_REPORT_DATE": " Incident report date",
+    "FL_INCIDENT_PUBLICATION_DATE": "Incident publication date",
+    "FL_PEOPLE_NUMBER": "Number of people",
+    "LBL_BREACH_CIRCUMSTANCES": "Breach circumstances",
+    "FL_BREACH_CIRCUMSTANCES": "Breach circumstances",
+    "LBL_NATURE_OF_BREACH": "Nature of breach",
+    "FL_NATURE_OF_BREACH": "Nature of breach",
+    "LBL_POSSIBLE_CONSEQUENCES": "Possible consequences",
+    "FL_POSSIBLE_CONSEQUENCES": "Possible consequences",
+    "LBL_SECURITY_MEASURES": "Applied security measures",
+    "FL_SECURITY_MEASURES": "Applied security measures"
+  }
+}

@@ -11,9 +11,9 @@
 
 class Accounts_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function returns the details of Accounts Hierarchy
+	 * Function returns the details of Accounts Hierarchy.
+	 *
 	 * @return <Array>
 	 */
 	public function getAccountHierarchy()
@@ -29,34 +29,15 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Accounts');
 				$recordModel->setId($accountId);
-				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
+				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
 			}
 		}
 		return $hierarchy;
 	}
 
 	/**
-	 * Function returns the url for create event
-	 * @return string
-	 */
-	public function getCreateEventUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function returns the url for create todo
-	 * @retun string
-	 */
-	public function getCreateTaskUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
 	 * Function to get List of Fields which are related from Accounts to Inventory Record.
+	 *
 	 * @return <array>
 	 */
 	public function getInventoryMappingFields()

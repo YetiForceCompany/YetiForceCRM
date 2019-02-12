@@ -2,7 +2,6 @@
 
 class Vendors_DetailView_Model extends Vtiger_DetailView_Model
 {
-
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();

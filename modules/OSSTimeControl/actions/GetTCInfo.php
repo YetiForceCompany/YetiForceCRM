@@ -1,16 +1,15 @@
 <?php
 
 /**
- * OSSTimeControl GetTCInfo action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSTimeControl GetTCInfo action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
+class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -25,12 +24,12 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 
 		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -52,7 +51,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 				} else {
 					$sourceData['account_label'] = \App\Record::getLabel($sourceData['parent_id']);
 				}
-			} else if ($sourceModule === 'Project') {
+			} elseif ($sourceModule === 'Project') {
 				$ifExist = (new \App\Db\Query())->from('vtiger_account')->where(['accountid' => $sourceData['linktoaccountscontacts']])->exists();
 				if ($ifExist) {
 					$sourceData['account_label'] = \App\Record::getLabel($sourceData['linktoaccountscontacts']);

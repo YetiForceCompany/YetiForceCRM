@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 /**
- * Helper methods to work with ShortURLs
+ * Helper methods to work with ShortURLs.
  */
 class Vtiger_ShortURL_Helper
 {
@@ -22,23 +22,25 @@ class Vtiger_ShortURL_Helper
 	 * 			'key1' => 'value1',
 	 * 			'key2' => 'value2'
 	 * 		)
-	 * 	));
+	 * 	))
 	 */
 
 	public static function generateURL(array $options)
 	{
 		$site_URL = AppConfig::main('site_URL');
-		if (!isset($options['onetime']))
+		if (!isset($options['onetime'])) {
 			$options['onetime'] = 0;
+		}
 		$uid = self::generate($options);
-		return rtrim($site_URL, '/') . "/shorturl.php?id=" . $uid;
+
+		return rtrim($site_URL, '/') . '/shorturl.php?id=' . $uid;
 	}
 
 	public static function generate(array $options)
 	{
 		$db = PearDatabase::getInstance();
 
-		$uid = uniqid("", true);
+		$uid = uniqid('', true);
 
 		$handlerPath = $options['handler_path'];
 		$handlerClass = $options['handler_class'];
@@ -46,20 +48,24 @@ class Vtiger_ShortURL_Helper
 		$handlerData = $options['handler_data'];
 
 		if (empty($handlerPath) || empty($handlerClass) || empty($handlerFn)) {
-			throw new Exception("Invalid options for generate");
+			throw new \App\Exceptions\AppException('Invalid options for generate');
 		}
 
-		$sql = "INSERT INTO vtiger_shorturls(uid, handler_path, handler_class, handler_function, handler_data, onetime) VALUES (?,?,?,?,?,?)";
+		$sql = 'INSERT INTO vtiger_shorturls(uid, handler_path, handler_class, handler_function, handler_data, onetime) VALUES (?,?,?,?,?,?)';
 		$params = [$uid, $handlerPath, $handlerClass, $handlerFn, json_encode($handlerData), $options['onetime']];
 
 		$db->pquery($sql, $params);
+
 		return $uid;
 	}
 
 	public static function handle($uid)
 	{
+		if (!$uid) {
+			echo 'No uid';
+			return false;
+		}
 		$db = PearDatabase::getInstance();
-
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', [$uid]);
 		if ($rs && $db->numRows($rs)) {
 			$record = $db->fetchArray($rs);
@@ -74,8 +80,9 @@ class Vtiger_ShortURL_Helper
 			$handler = new $handlerClass();
 
 			// Delete onetime URL
-			if ($record['onetime'])
+			if ($record['onetime']) {
 				$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', [$record['id']]);
+			}
 			call_user_func([$handler, $handlerFn], $handlerData);
 		} else {
 			echo '<h3>Link you have used is invalid or has expired. .</h3>';
@@ -83,17 +90,19 @@ class Vtiger_ShortURL_Helper
 	}
 
 	/**
-	 * Function will send tracker image of 1X1 pixel transparent Image
+	 * Function will send tracker image of 1X1 pixel transparent Image.
 	 */
 	public static function sendTrackerImage()
 	{
-		header('Content-Type: image/png');
+		header('content-type: image/png');
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
 	}
 
 	/**
-	 * Return object instance
+	 * Return object instance.
+	 *
 	 * @param int $id
+	 *
 	 * @return Vtiger_ShortURL_Helper
 	 */
 	public static function getInstance($id)

@@ -10,10 +10,8 @@
 
 class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
-
 		$sourceModule = $request->getByType('source_module', 2);
 		$pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
 		if (empty($sourceModule)) {
@@ -31,7 +29,6 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 			$selectedPickListFieldModel = reset($pickListFields);
 
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($selectedPickListFieldModel->getName());
-
 
 			$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 			$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $selectedPickListFieldModel);
@@ -57,15 +54,9 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.$moduleName.resources.$moduleName",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		]));
 	}
 }

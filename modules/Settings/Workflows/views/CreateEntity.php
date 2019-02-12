@@ -11,9 +11,9 @@
 
 class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Main process
+	 * Main process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

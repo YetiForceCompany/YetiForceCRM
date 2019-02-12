@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Advanced Filter Class
- * @package YetiForce.Helpers
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Advanced Filter Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_AdvancedFilter_Helper
 {
-
 	public static function getMetaVariables()
 	{
 		return [
@@ -27,7 +26,8 @@ class Vtiger_AdvancedFilter_Helper
 	}
 
 	/**
-	 * Function to get all the supported advanced filter operations
+	 * Function to get all the supported advanced filter operations.
+	 *
 	 * @return <Array>
 	 */
 	public static function getAdvancedFilterOptions()
@@ -71,7 +71,8 @@ class Vtiger_AdvancedFilter_Helper
 	}
 
 	/**
-	 * Function to get the advanced filter option names by Field type
+	 * Function to get the advanced filter option names by Field type.
+	 *
 	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
@@ -91,7 +92,7 @@ class Vtiger_AdvancedFilter_Helper
 			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'],
 			'time' => ['is', 'is not', 'has changed', 'is not empty'],
 			'date' => ['is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
-				'days ago', 'days later', 'is not empty'],
+				'days ago', 'days later', 'is not empty', ],
 			'boolean' => ['is', 'is not', 'has changed'],
 			'reference' => ['has changed', 'is empty', 'is not empty'],
 			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
@@ -111,11 +112,12 @@ class Vtiger_AdvancedFilter_Helper
 	{
 		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
 			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
-			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')"];
+			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')", ];
 	}
 
 	/**
-	 * Functions transforms workflow filter to advanced filter
+	 * Functions transforms workflow filter to advanced filter.
+	 *
 	 * @return <Array>
 	 */
 	public static function transformToAdvancedFilterCondition($conditions = false)
@@ -124,18 +126,19 @@ class Vtiger_AdvancedFilter_Helper
 		$firstGroup = [];
 		$secondGroup = [];
 		if (!empty($conditions)) {
-			foreach ($conditions as $index => $info) {
+			foreach ($conditions as $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
 				} else {
 					$secondGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
 				}
 			}
 		}
 		$transformedConditions[1] = ['columns' => $firstGroup];
 		$transformedConditions[2] = ['columns' => $secondGroup];
+
 		return $transformedConditions;
 	}
 
@@ -147,13 +150,13 @@ class Vtiger_AdvancedFilter_Helper
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0'];
+						'joincondition' => '', 'groupid' => '0', ];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']];
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $column['groupid'], ];
 					}
 				}
 			}
@@ -173,5 +176,4 @@ class Vtiger_AdvancedFilter_Helper
 	}
 
 	protected static $recordStructure = false;
-
 }

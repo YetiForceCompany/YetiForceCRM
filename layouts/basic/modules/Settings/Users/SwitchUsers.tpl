@@ -3,9 +3,9 @@
 	<input type="hidden" id="suCount" value="{count($SWITCH_USERS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
-	<div class="widget_header row">
+	<div class="tpl-Settings-Users-SwitchUsers widget_header row">
 		<div class="col-md-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<span style="font-size:12px;color: black;">{\App\Language::translate('LBL_SWITCH_USERS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
@@ -15,9 +15,9 @@
 			<table class="switchUsersTable table table-bordered">
 				<thead>
 					<tr class="listViewHeaders">
-						<th class="col-md-3">{\App\Language::translate('LBL_SU_BASE_ACCESS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-8">{\App\Language::translate('LBL_SU_AVAILABLE_ACCESS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-1">{\App\Language::translate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
+						<th class="u-w-37per">{\App\Language::translate('LBL_SU_BASE_ACCESS', $QUALIFIED_MODULE)}</th>
+						<th class="w-50">{\App\Language::translate('LBL_SU_AVAILABLE_ACCESS', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -29,11 +29,11 @@
 		</div>
 		<br />
 		<div class="row">
-			<button class="btn btn-info addItem"><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn btn-success saveItems"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-info addItem"><span class="fa fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn btn-success saveItems"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<br />
-		<table class="table table-bordered cloneItem hide">
+		<table class="table table-bordered cloneItem d-none">
 			{assign var="SUSERS" value=[]}
 			{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=false}
 		</table>

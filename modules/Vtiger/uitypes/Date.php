@@ -11,9 +11,8 @@
 
 class Vtiger_Date_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -23,12 +22,26 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return '';
 	}
 
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		if ($operator === 'bw') {
+			$values = explode(',', $value);
+			foreach ($values as &$val) {
+				$this->validate($val, true);
+				$val = $this->getDBValue($val);
+			}
+			return implode(',', $values);
+		}
+		$this->validate($value, true);
+		return $this->getDBValue($value);
+	}
+
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -36,14 +49,14 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		} else {
 			list($y, $m, $d) = explode('-', $value);
 		}
-		if (!checkdate($m, $d, $y)) {
+		if (!is_numeric($m) || !is_numeric($d) || !is_numeric($y) || !checkdate($m, $d, $y)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -60,8 +73,10 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function converts the date to database format
+	 * Function converts the date to database format.
+	 *
 	 * @param string $value
+	 *
 	 * @return string
 	 */
 	public static function getDBInsertedValue($value)
@@ -70,7 +85,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -85,7 +100,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 
 			//Special Condition for field 'support_end_date' in Contacts Module
 			if ($fieldName === 'support_end_date' && $moduleName === 'Contacts') {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+1 year")));
+				$value = DateTimeField::convertToUserFormat(date('Y-m-d', strtotime('+1 year')));
 			} elseif ($fieldName === 'support_start_date' && $moduleName === 'Contacts') {
 				$value = DateTimeField::convertToUserFormat(date('Y-m-d'));
 			}
@@ -96,18 +111,98 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/DateFieldSearchView.tpl';
+		return 'List/Field/Date.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Date.tpl';
+		return 'Edit/Field/Date.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDefaultEditTemplateName()
+	{
+		return 'Edit/DefaultField/Date.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return null;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setDefaultValueFromRequest(\App\Request $request)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		$value = $request->getByType($fieldName, 'Text');
+		if (!\App\TextParser::isVaribleToParse($value)) {
+			$this->validate($value, true);
+			$value = $this->getDBValue($value);
+		}
+		$this->getFieldModel()->set('defaultvalue', $value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDefaultValue()
+	{
+		$defaultValue = $this->getFieldModel()->get('defaultvalue');
+		if ($defaultValue && \App\TextParser::isVaribleToParse($defaultValue)) {
+			$textParser = \App\TextParser::getInstance($this->getFieldModel()->getModuleName());
+			$textParser->setContent($defaultValue)->parse();
+			$defaultValue = $textParser->getContent();
+		}
+		return $defaultValue;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'] + array_keys(App\CustomView::DATE_FILTER_CONDITIONS);
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if ($operator === 'bw') {
+			return 'ConditionBuilder/DateRange.tpl';
+		} else {
+			return 'ConditionBuilder/Date.tpl';
+		}
+	}
+
+	/**
+	 * Generate valid sample value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return false|string
+	 */
+	public function getSampleValue()
+	{
+		return date('Y-m-d', random_int(strtotime('-1 month'), strtotime('+1 month')));
 	}
 }

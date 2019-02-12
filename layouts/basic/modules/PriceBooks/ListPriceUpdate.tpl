@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="listPriceUpdateContainer">
+	<div class="tpl-PriceBooks-ListPriceUpdate" id="listPriceUpdateContainer">
 		<div class="modal-header">
-			<button class="btn btn-warning pull-right" data-dismiss="modal" class="pull-right">
-				<span class="glyphicon glyphicon-remove alignMiddle"></span>
+			<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_LIST_PRICE', $MODULE)}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
 			</button>
-			<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_LIST_PRICE', $MODULE)}</h3>
 		</div>	
 		<form class="form-horizontal" id="listPriceUpdate" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}" />
@@ -30,7 +30,7 @@
 						   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' />
 				</div>
 			</div>
-			{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 		</form>	
 	</div>
 {/strip}	

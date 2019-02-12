@@ -11,7 +11,6 @@
 
 class ModTracker
 {
-
 	/**
 	 * Constant variables which indicates the status of the changed record.
 	 */
@@ -25,25 +24,74 @@ class ModTracker
 	public static $DISPLAYED = 7;
 	public static $ARCHIVED = 8;
 	public static $DELETED = 9;
+	public static $TRANSFER_EDIT = 10;
+	public static $TRANSFER_DELETE = 11;
+	public static $TRANSFER_UNLINK = 12;
+	public static $TRANSFER_LINK = 13;
+
+	/**
+	 * Icon actions.
+	 *
+	 * @var array
+	 */
+	public static $iconActions = [
+		0 => 'fas fa-edit',
+		1 => 'fas fa-trash-alt',
+		2 => 'fas fa-plus',
+		3 => 'fas fa-undo-alt',
+		4 => 'fas fa-link',
+		5 => 'fas fa-unlink',
+		6 => 'fas fa-exchange-alt',
+		7 => 'fas fa-th-list',
+		8 => 'fas fa-archive',
+		9 => 'fas fa-eraser',
+		10 => 'fas fa-edit',
+		11 => 'fas fa-trash-alt',
+		12 => 'fas fa-unlink',
+		13 => 'fas fa-link',
+	];
+
+	/**
+	 * Colors actions.
+	 *
+	 * @var array
+	 */
+	public static $colorsActions = [
+		0 => '#9c27b0',
+		1 => '#ab0505',
+		2 => '#607d8b',
+		3 => '#009405',
+		4 => '#009cb9',
+		5 => '#de9100',
+		6 => '#e2e3e5',
+		7 => '#65a9ff',
+		8 => '#0032a2',
+		9 => '#000',
+	];
 
 	public static function getAllActionsTypes()
 	{
 		return [
 			static::$UPDATED => 'LBL_AT_UPDATE',
-			static::$DELETED => 'LBL_AT_DELETE',
 			static::$TRASH => 'LBL_AT_TRASH',
 			static::$CREATED => 'LBL_AT_CREATE',
+			static::$ACTIVE => 'LBL_AT_ACTIVE',
 			static::$LINK => 'LBL_AT_LINK',
 			static::$UNLINK => 'LBL_AT_UNLINK',
 			static::$CONVERTTOACCOUNT => 'LBL_AT_CONVERTTOACCOUNT',
 			static::$DISPLAYED => 'LBL_AT_DISPLAY',
-			static::$ACTIVE => 'LBL_AT_ACTIVE',
 			static::$ARCHIVED => 'LBL_AT_ARCHIVED',
+			static::$DELETED => 'LBL_AT_DELETE',
+			static::$TRANSFER_EDIT => 'LBL_AT_TRANSFER_EDIT',
+			static::$TRANSFER_DELETE => 'LBL_AT_TRANSFER_DELETE',
+			static::$TRANSFER_UNLINK => 'LBL_AT_TRANSFER_UNLINK',
+			static::$TRANSFER_LINK => 'LBL_AT_TRANSFER_LINK',
 		];
 	}
 
 	/**
 	 * Invoked when special actions are performed on the module.
+	 *
 	 * @param string Module name
 	 * @param string Event Type
 	 */
@@ -55,23 +103,23 @@ class ModTracker
 				'name' => 'ModTracker',
 				'iconpath' => 'adminIcon-modules-track-chanegs',
 				'description' => 'LBL_MODTRACKER_DESCRIPTION',
-				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker'
+				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker',
 			]);
-		} else if ($eventType === 'module.disabled') {
+		} elseif ($eventType === 'module.disabled') {
 			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
-		} else if ($eventType === 'module.enabled') {
+		} elseif ($eventType === 'module.enabled') {
 			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
 		}
 	}
 
 	/**
-	 * function gives an array of module names for which modtracking is enabled
+	 * function gives an array of module names for which modtracking is enabled.
 	 */
 	public function getModTrackerEnabledModules()
 	{
 		$rows = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->all();
 		foreach ($rows as &$row) {
-			if ($row['visible'] === 1) {
+			if ((int) $row['visible'] === 1) {
 				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, App\Cache::LONG);
 				$modules[] = \App\Module::getModuleName($row['tabid']);
 			} else {
@@ -83,7 +131,8 @@ class ModTracker
 
 	/**
 	 * Invoked to disable tracking for the module.
-	 * @param Integer $tabid
+	 *
+	 * @param int $tabid
 	 */
 	public function disableTrackingForModule($tabid)
 	{
@@ -105,7 +154,8 @@ class ModTracker
 
 	/**
 	 * Invoked to enable tracking for the module.
-	 * @param Integer $tabid
+	 *
+	 * @param int $tabid
 	 */
 	public function enableTrackingForModule($tabid)
 	{
@@ -124,7 +174,8 @@ class ModTracker
 
 	/**
 	 * Invoked to check if tracking is enabled or disabled for the module.
-	 * @param String $moduleName
+	 *
+	 * @param string $moduleName
 	 */
 	public static function isTrackingEnabledForModule($moduleName)
 	{
@@ -136,11 +187,13 @@ class ModTracker
 			->where(['vtiger_modtracker_tabs.visible' => 1, 'vtiger_modtracker_tabs.tabid' => $tabId])
 			->exists();
 		App\Cache::save('isTrackingEnabledForModule', $tabId, $isExists, App\Cache::LONG);
+
 		return $isExists;
 	}
 
 	/**
 	 * Invoked to check if the module is present in the table or not.
+	 *
 	 * @param int $tabId
 	 */
 	public static function isModulePresent($tabId)
@@ -149,6 +202,7 @@ class ModTracker
 			$row = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->where(['tabid' => $tabId])->one();
 			if ($row) {
 				App\Cache::save('isTrackingEnabledForModule', $tabId, (bool) $row['visible'], App\Cache::LONG);
+
 				return true;
 			} else {
 				return false;
@@ -159,152 +213,22 @@ class ModTracker
 
 	/**
 	 * Invoked to check if ModTracker links are enabled for the module.
-	 * @param Integer $tabid
+	 *
+	 * @param int $tabid
 	 */
 	public static function isModtrackerLinkPresent($tabid)
 	{
 		return (new \App\Db\Query())->from('vtiger_links')
-				->where(['linktype' => 'DETAIL_VIEW_ADDITIONAL', 'linklabel' => 'View History', 'tabid' => $tabid])
-				->exists();
+			->where(['linktype' => 'DETAIL_VIEW_ADDITIONAL', 'linklabel' => 'View History', 'tabid' => $tabid])
+			->exists();
 	}
 
 	/**
-	 * Get the list of changed record after $mtime
-	 * @param <type> $mtime
-	 * @param <type> $user
-	 * @param <type> $limit
-	 */
-	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
-	{
-		$adb = PearDatabase::getInstance();
-		$datetime = date('Y-m-d H:i:s', $mtime);
-
-		$accessibleModules = $this->getModTrackerEnabledModules();
-
-		if (empty($accessibleModules))
-			throw new Exception('Modtracker not enabled for any modules');
-
-		$query = sprintf('SELECT id, module, modifiedtime, vtiger_crmentity.crmid, smownerid, vtiger_modtracker_basic.status
-                FROM vtiger_modtracker_basic
-                INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-                    && vtiger_modtracker_basic.changedon = vtiger_crmentity.modifiedtime
-                WHERE id > ? && changedon >= ? && module IN (%s)
-                ORDER BY id', generateQuestionMarks($accessibleModules));
-
-		$params = [$uniqueId, $datetime];
-		foreach ($accessibleModules as $entityModule) {
-			$params[] = $entityModule;
-		}
-
-		if ($limit !== false)
-			$query .= " LIMIT $limit";
-
-		$result = $adb->pquery($query, $params);
-
-		$modTime = [];
-		$rows = $adb->numRows($result);
-
-		for ($i = 0; $i < $rows; $i++) {
-			$status = $adb->queryResult($result, $i, 'status');
-
-			$record['uniqueid'] = $adb->queryResult($result, $i, 'id');
-			$record['modifiedtime'] = $adb->queryResult($result, $i, 'modifiedtime');
-			$record['module'] = $adb->queryResult($result, $i, 'module');
-			$record['crmid'] = $adb->queryResult($result, $i, 'crmid');
-			$record['assigneduserid'] = $adb->queryResult($result, $i, 'smownerid');
-
-			if ($status == ModTracker::$DELETED) {
-				$deletedRecords[] = $record;
-			} elseif ($status == ModTracker::$CREATED) {
-				$createdRecords[] = $record;
-			} elseif ($status == ModTracker::$UPDATED) {
-				$updatedRecords[] = $record;
-			}
-
-			$modTime[] = $record['modifiedtime'];
-			$uniqueIds[] = $record['uniqueid'];
-		}
-
-		if (!empty($uniqueIds))
-			$maxUniqueId = max($uniqueIds);
-
-		if (empty($maxUniqueId)) {
-			$maxUniqueId = $uniqueId;
-		}
-
-		if (!empty($modTime)) {
-			$maxModifiedTime = max($modTime);
-		}
-		if (!$maxModifiedTime) {
-			$maxModifiedTime = $datetime;
-		}
-
-		$output['created'] = $createdRecords;
-		$output['updated'] = $updatedRecords;
-		$output['deleted'] = $deletedRecords;
-
-		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? && changedon >= ? && module
-            IN(%s)', generateQuestionMarks($accessibleModules));
-
-		$param = [$maxUniqueId, $maxModifiedTime];
-		foreach ($accessibleModules as $entityModule) {
-			$param[] = $entityModule;
-		}
-
-		$result = $adb->pquery($moreQuery, $param);
-
-		if ($adb->numRows($result) > 0) {
-			$output['more'] = true;
-		} else {
-			$output['more'] = false;
-		}
-
-		$output['uniqueid'] = $maxUniqueId;
-
-		if (!$maxModifiedTime) {
-			$modifiedtime = $mtime;
-		} else {
-			$modifiedtime = strtotime($maxModifiedTime);
-		}
-		if (is_string($modifiedtime)) {
-			$modifiedtime = intval($modifiedtime);
-		}
-		$output['lastModifiedTime'] = $modifiedtime;
-
-		return $output;
-	}
-
-	public static function getRecordFieldChanges($crmid, $time, $decodeHTML = false)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$date = date('Y-m-d H:i:s', $time);
-
-		$fieldResult = $adb->pquery('SELECT * FROM vtiger_modtracker_detail
-                        INNER JOIN vtiger_modtracker_basic ON vtiger_modtracker_basic.id = vtiger_modtracker_detail.id
-                        WHERE crmid = ? && changedon >= ?', [$crmid, $date]);
-		$countFieldResult = $adb->numRows($fieldResult);
-		for ($i = 0; $i < $countFieldResult; $i++) {
-			$fieldName = $adb->queryResult($fieldResult, $i, 'fieldname');
-			if ($fieldName == 'record_id' || $fieldName == 'record_module' ||
-				$fieldName == 'createdtime')
-				continue;
-
-			$field['postvalue'] = $adb->queryResult($fieldResult, $i, 'postvalue');
-			$field['prevalue'] = $adb->queryResult($fieldResult, $i, 'prevalue');
-			if ($decodeHTML) {
-				$field['postvalue'] = App\Purifier::decodeHtml($field['postvalue']);
-				$field['prevalue'] = App\Purifier::decodeHtml($field['prevalue']);
-			}
-			$fields[$fieldName] = $field;
-		}
-		return $fields;
-	}
-
-	/**
-	 * This function checks access to the view
+	 * This function checks access to the view.
+	 *
 	 * @param \vtlib\LinkData $linkData
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function isViewPermitted(\vtlib\LinkData $linkData)
 	{
@@ -349,11 +273,12 @@ class ModTracker
 	}
 
 	/**
-	 * Function is executed when adding related record
+	 * Function is executed when adding related record.
+	 *
 	 * @param string $sourceModule
-	 * @param int $sourceId
+	 * @param int    $sourceId
 	 * @param string $targetModule
-	 * @param int $targetId
+	 * @param int    $targetId
 	 */
 	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
@@ -364,15 +289,33 @@ class ModTracker
 	}
 
 	/**
-	 * Function is executed when removing related record
+	 * Function is executed when removing related record.
+	 *
 	 * @param string $sourceModule
-	 * @param int $sourceId
+	 * @param int    $sourceId
 	 * @param string $targetModule
-	 * @param int $targetId
+	 * @param int    $targetId
 	 */
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
+		if (in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
+		}
+	}
+
+	/**
+	 * Transfer relation.
+	 *
+	 * @param string $sourceModule
+	 * @param int    $sourceId
+	 * @param string $targetModule
+	 * @param int    $targetId
+	 * @param int    $process
+	 */
+	public static function transferRelation(string $sourceModule, int $sourceId, string $targetModule, int $targetId, int $process)
+	{
+		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $process);
 		if (in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
 		}

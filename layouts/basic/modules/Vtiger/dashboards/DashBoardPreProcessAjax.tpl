@@ -1,23 +1,30 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-xs-12 paddingLRZero">
-		{if count($DASHBOARD_TYPES) > 1}
-			<ul class="nav nav-tabs massEditTabs selectDashboard">
-				{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-					<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-						<a data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
+	<div class="tpl-Base-dashboards-DashBoardPreProcessAjax mt-2 mb-2">
+		<ul class="nav nav-tabs massEditTabs selectDashboard{if count($DASHBOARD_TYPES) === 1} d-none{/if} ml-sm-2">
+			{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
+				<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}" data-js="data-id">
+					<a class="nav-link {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active {/if}"
+					   href="#"
+					   data-toggle="tab">
+						<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>
+					</a>
+				</li>
+			{/foreach}
+		</ul>
+		{if count($MODULES_WITH_WIDGET) > 1}
+			<ul class="nav nav-inverted-tabs massEditTabs selectDashboradView ml-sm-2">
+				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
+					<li class="nav-item" data-module="{$MODULE_WIDGET}">
+						<a class="nav-link pt-1 pb-1 {if $MODULE_NAME eq $MODULE_WIDGET} active {/if}"
+						   href="#"
+						   data-toggle="tab">
+							<span class="userIcon-{$MODULE_WIDGET} mx-1"></span>
+							{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}
+						</a>
 					</li>
 				{/foreach}
 			</ul>
 		{/if}
-		{if count($MODULES_WITH_WIDGET) > 1 && ($MODULE_NAME eq 'Home' || $SRC_MODULE_NAME eq 'Home')}
-			<ul class="nav nav-tabs massEditTabs selectDashboradView">
-				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
-					<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
-				{/foreach}
-			</ul>
-		{/if}
 	</div>
-	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-	<div class="col-xs-12 paddingLRZero">
 {/strip}

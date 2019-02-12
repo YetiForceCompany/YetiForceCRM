@@ -1,20 +1,17 @@
 <?php
 
 /**
- * Settings menu index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Settings menu index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$roleId = $request->get('roleid');
-		if (empty($roleId))
-			$roleId = 0;
+		$roleId = !$request->isEmpty('roleid', 'Alnum') ? $request->getByType('roleid', 'Alnum') : 0;
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
 		$rolesContainMenu = $settingsModel->getRolesContainMenu();
 		$viewer = $this->getViewer($request);
@@ -28,32 +25,24 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
-			'~libraries/jquery/jstree/jstree.min.js',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/jstree/dist/jstree.js',
+		]));
 	}
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-		$cssFileNames = [
-			'~libraries/jquery/jstree/themes/default/style.css',
-			"modules.Settings.$moduleName.Index",
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-		return $headerCssInstances;
+		return array_merge($this->checkAndConvertCssStyles([
+			'~libraries/jstree/dist/themes/default/style.css',
+			'modules.Settings.' . $request->getModule() . '.Index',
+		]), parent::getHeaderCss($request));
 	}
 }

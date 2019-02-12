@@ -5,12 +5,11 @@
 * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 * See the License for the specific language governing rights and limitations under the License.
 * The Original Code is YetiForce.
-* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
 <script type="text/javascript">
-
 	Vtiger_Widget_Js('Vtiger_Graf_Widget_Js',{}, {
 		postLoadWidget: function () {
 			this._super();
@@ -87,7 +86,7 @@
 		<tbody>
 			<tr>
 				<td class="col-md-8">
-					<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+					<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></h5>
 				</td>
 				<td class="col-md-2">
 					<div>
@@ -137,10 +136,10 @@
 			</tr>
 		</tbody>
 	</table>
-	{*	<div class="row filterContainer hide" style="position:absolute;z-index:100001">
+	{*	<div class="row filterContainer d-none" style="position:absolute;z-index:100001">
 	<div class="row">
 	<span class="col-md-5">
-	<span class="pull-right">
+	<span class="float-right">
 	{\App\Language::translate('Expected Close Date', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}
 	</span>
 	</span>

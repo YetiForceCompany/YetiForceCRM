@@ -11,9 +11,8 @@
 
 class Users_List_View extends Settings_Vtiger_List_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,22 +23,18 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
 			'modules.Users.resources.List',
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		]));
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -49,7 +44,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function to initialize the required data in smarty to display the List View Contents
+	 * Function to initialize the required data in smarty to display the List View Contents.
 	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
@@ -64,12 +59,12 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
@@ -87,21 +82,24 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
-
-		$searchKey = $request->getByType('search_key', 2);
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator');
-		if (!empty($operator)) {
+		$operator = '';
+		if (!$request->isEmpty('operator', true)) {
+			$operator = $request->getByType('operator');
 			$this->listViewModel->set('operator', $operator);
 		}
 		$viewer->assign('OPERATOR', $operator);
-		if ('status' != $searchKey)
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-		if (!empty($searchKey) && !empty($searchValue)) {
-			$this->listViewModel->set('search_key', $searchKey);
-			$this->listViewModel->set('search_value', $searchValue);
+		if (!$request->isEmpty('search_key', true)) {
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
+			if (!empty($searchKey) && !empty($searchValue)) {
+				$this->listViewModel->set('search_key', $searchKey);
+				$this->listViewModel->set('search_value', $searchValue);
+				if ('status' != $searchKey) {
+					$viewer->assign('ALPHABET_VALUE', $searchValue);
+				}
+			}
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -111,9 +109,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
-				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
@@ -147,20 +145,21 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if (!$this->listViewCount) {
-				$this->listViewCount = $this->listViewModel->getListViewCount();
-			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
-			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') && empty($this->listViewCount)) {
+			$this->listViewCount = $this->listViewModel->getListViewCount();
 		}
+		if (!isset($this->listViewCount)) {
+			$this->listViewCount = 0;
+		}
+		$pagingModel->set('totalCount', (int) $this->listViewCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
+		$viewer->assign('LISTVIEW_COUNT', (int) $this->listViewCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('VIEW_MODEL', $this->listViewModel);
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -168,7 +167,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function returns the number of records for the current filter
+	 * Function returns the number of records for the current filter.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRecordsCount(\App\Request $request)
@@ -189,7 +189,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function to get listView count
+	 * Function to get listView count.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getListViewCount(\App\Request $request)
@@ -199,10 +200,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($cvId)) {
 			$cvId = '0';
 		}
-
 		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$searchParmams = $request->get('search_params');
+		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 
@@ -218,12 +218,12 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
-
 		return $listViewModel->getListViewCount();
 	}
 
 	/**
-	 * Function to get the page count for list
+	 * Function to get the page count for list.
+	 *
 	 * @return total number of pages
 	 */
 	public function getPageCount(\App\Request $request)

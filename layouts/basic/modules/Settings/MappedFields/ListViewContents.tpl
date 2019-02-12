@@ -12,16 +12,16 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="listViewEntriesDiv overflowXAuto">
+	<div class="tpl-Settings-MappedFields-ListViewContents listViewEntriesDiv u-overflow-scroll-xsm-down overflowXAuto">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="1%" class="{$WIDTHTYPE}"></th>
 						{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues u-cursor-pointer js-listview_header" data-js="click" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
@@ -39,7 +39,7 @@
 								&nbsp;{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td><td nowrap class="{$WIDTHTYPE} tdActions">
-									<div class="pull-right actions">
+									<div class="float-right actions">
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
@@ -49,11 +49,13 @@
 															if (event.stopPropagation){ldelim}
 																		event.stopPropagation();{rdelim} else{ldelim}
 																					event.cancelBubble = true;{rdelim}
-																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
+																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->getClassName()}">
 														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
 												{else}
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle {$RECORD_LINK->get('class')}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												<button class="{$RECORD_LINK->getClassName()}">
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												</button>
 												{/if}
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;

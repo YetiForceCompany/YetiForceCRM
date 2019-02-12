@@ -8,12 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
+class HelpDesk_ConvertFAQ_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -36,9 +37,9 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
 			$answer = $faqRecordModel->get('faq_answer');
 			if ($answer) {
 				$faqRecordModel->save();
-				header("Location: " . $faqRecordModel->getDetailViewUrl());
+				header('location: ' . $faqRecordModel->getDetailViewUrl());
 			} else {
-				header("Location: " . $faqRecordModel->getEditViewUrl() . "&parentId=$recordId&parentModule=$moduleName");
+				header('location: ' . $faqRecordModel->getEditViewUrl() . "&parentId=$recordId&parentModule=$moduleName");
 			}
 		}
 	}

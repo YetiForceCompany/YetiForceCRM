@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	container: false,
 	mapInstance: false,
@@ -12,13 +14,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	cacheLayerMarkers: {},
 	indirectPointLayer: {},
 	setSelectedParams: function (params) {
+		delete params['view'];
 		this.selectedParams = params;
 	},
 	registerMap: function (startCoordinate, startZoom) {
 		var myMap = L.map('mapid').setView(startCoordinate, startZoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" rel="noreferrer noopener">OpenStreetMap</a>'
 
 		}).addTo(myMap);
 		this.mapInstance = myMap;
@@ -29,13 +32,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var markerArray = [];
 		var container = this.container;
 		var map = this.mapInstance;
-
-		if (typeof response.result.coordinates != 'undefined') {
+		if (typeof response.result.coordinates !== "undefined") {
 			var markers = L.markerClusterGroup({
 				maxClusterRadius: 10
 			});
 			var coordinates = response.result.coordinates;
-			map.removeLayer(this.layerMarkers);
+			if (typeof this.layerMarkers !== 'boolean') {
+				map.removeLayer(this.layerMarkers);
+			}
 			var records = [];
 			coordinates.forEach(function (e) {
 				markerArray.push([e.lat, e.lon]);
@@ -55,14 +59,16 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			this.layerMarkers = markers;
 			map.addLayer(markers);
 		}
-		map.removeLayer(this.polygonLayer);
-		if (typeof response.result.coordinatesCeneter != 'undefined') {
-			if (typeof response.result.coordinatesCeneter.error == 'undefined') {
-				var radius = container.find('.radius').val();
+		if (typeof this.polygonLayer !== 'boolean') {
+			map.removeLayer(this.polygonLayer);
+		}
+		if (typeof response.result.coordinatesCeneter !== "undefined") {
+			if (typeof response.result.coordinatesCeneter.error === "undefined") {
+				var radius = container.find('.js-radius').val();
 				markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
 				var popup = '<span class="description">' + container.find('.searchValue').val() + '</span><br /><input type=hidden class="coordinates" data-lon="' + response.result.coordinatesCeneter.lon + '" data-lat="' + response.result.coordinatesCeneter.lat + '">';
-				popup += '<button class="btn btn-success btn-xs startTrack marginRight10"><span class="fa fa-truck"></span></button>';
-				popup += '<button class="btn btn-danger btn-xs endTrack"><span class="fa fa-flag-checkered"></span></button>';
+				popup += '<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>';
+				popup += '<button class="btn btn-danger btn-sm p-1 endTrack"><span class="fas fa-flag-checkered"></span></button>';
 				var marker = L.marker([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], {
 					icon: L.AwesomeMarkers.icon({
 						icon: 'search',
@@ -86,15 +92,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: response.result.coordinatesCeneter.error,
 					type: 'error',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 			}
 		}
-		if (typeof response.result.cache != 'undefined') {
+		if (typeof response.result.cache !== "undefined") {
 			var cache = response.result.cache;
 			Object.keys(cache).forEach(function (key) {
-				if (typeof thisInstance.cacheLayerMarkers[key] != 'undefined') {
+				if (typeof thisInstance.cacheLayerMarkers[key] !== "undefined") {
 					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
 				}
 				var markersCache = L.markerClusterGroup({
@@ -122,7 +127,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		}
 
 		var footer = this.container.find('.modal-footer');
-		if (typeof response.result.legend != 'undefined') {
+		if (typeof response.result.legend !== "undefined") {
 			var html = '';
 			var legend = response.result.legend;
 			legend.forEach(function (e) {
@@ -141,7 +146,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var endAddress = container.find('.end').val();
 		var startAddress = container.find('.start').val();
 		if (endAddress.length > 0 && startAddress.length > 0) {
-			container.find('.calculateTrack').removeClass('hide');
+			container.find('.calculateTrack').removeClass('d-none');
 		}
 	},
 	registerCacheEvents: function (container) {
@@ -156,7 +161,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					srcModule: app.getModuleName(),
 					cache: [moduleName],
 				};
-				AppConnector.request(params).then(function (response) {
+				AppConnector.request(params).done(function (response) {
 					thisInstance.setMarkersByResponse(response);
 				});
 			} else {
@@ -172,16 +177,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				recordIds: JSON.stringify(thisInstance.recordsIds),
 				srcModule: app.getModuleName()
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success',
-					animation: 'show'
 				});
 				var countRecords = container.find('.countRecords' + app.getModuleName());
 				countRecords.html(response.result);
-				countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('hide');
+				countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('d-none');
 			});
 		});
 		container.find('.deleteClipBoard').on('click', function (e) {
@@ -193,17 +196,15 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				mode: 'delete',
 				srcModule: moduleName
 			};
-			AppConnector.request(params).then(function (response) {
-				var params = {
+			AppConnector.request(params).done(function (response) {
+				Vtiger_Helper_Js.showMessage({
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success',
-					animation: 'show'
-				};
-				Vtiger_Helper_Js.showMessage(params);
+				});
 				var countRecords = container.find('.countRecords' + moduleName);
 				countRecords.html('');
-				currentTarget.addClass('hide');
+				currentTarget.addClass('d-none');
 				countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').prop('checked', false);
 				countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').trigger('change');
 			});
@@ -217,20 +218,17 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				mode: 'addAllRecords',
 				srcModule: moduleName
 			};
-			AppConnector.request(params).then(function (response) {
-				var params = {
-					title: app.vtranslate('JS_LBL_PERMISSION'),
-					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+			AppConnector.request(params).done(function (response) {
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_MESSAGE_DOWNLOADED_ADDRESS_DATA'),
 					type: 'success',
-					animation: 'show'
-				};
-				Vtiger_Helper_Js.showMessage(params);
+				});
 				container.find('.countRecords' + moduleName).html(response.result.count);
 				var moduleContainer = currentTarget.closest('.cacheModuleContainer');
 				moduleContainer.find('.showRecordsFromCache').prop('checked', true);
 				moduleContainer.find('.showRecordsFromCache').trigger('change');
 				if (response.result.count != '0')
-					moduleContainer.find('.deleteClipBoard').removeClass('hide');
+					moduleContainer.find('.deleteClipBoard').removeClass('d-none');
 			});
 		});
 	},
@@ -262,7 +260,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				mode: 'addRecord',
 				record: crmId,
 				srcModuleName: searchModule.val()
-			}).then(function (response) {
+			}).done(function (response) {
 				addButton.data('crmId', '');
 				if (response.result.length == 1) {
 					var marker = L.marker([response.result[0].lat, response.result[0].lon], {
@@ -281,7 +279,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 						title: app.vtranslate('JS_LBL_PERMISSION'),
 						text: response.result,
 						type: 'error',
-						animation: 'show'
 					});
 				}
 				searchValue.val('');
@@ -308,9 +305,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			},
 			_renderItem: function (ul, item) {
 				return $("<li>")
-						.data("item.autocomplete", item)
-						.append($("<a></a>").html(item.label))
-						.appendTo(ul);
+					.data("item.autocomplete", item)
+					.append($("<a></a>").html(item.label))
+					.appendTo(ul);
 			},
 		});
 		searchValue.ivAutocomplete({
@@ -325,7 +322,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					mode: 'showSearchResults',
 					value: searchValue.val(),
 					html: false,
-				}).then(function (responseAjax) {
+				}).done(function (responseAjax) {
 					responseAjax = JSON.parse(responseAjax);
 					var reponseDataList = responseAjax.result;
 					if (reponseDataList.length <= 0) {
@@ -367,11 +364,11 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				srcModule: app.getModuleName(),
 				groupBy: container.find('.fieldsToGroup').val(),
 				searchValue: container.find('.searchValue').val(),
-				radius: container.find('.radius').val(),
+				radius: container.find('.js-radius').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
-			AppConnector.request(params).then(function (response) {
+			params = $.extend(thisInstance.selectedParams, params);
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
 			});
@@ -395,7 +392,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					}).bindPopup(e.label);
 					layer.addLayer(marker);
 				});
-				
+
 				Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
 					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
 					var cacheLayer = L.markerClusterGroup({
@@ -403,7 +400,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					});
 					thisInstance.cacheMarkers[key].forEach(function (e) {
 						var marker = L.marker([e.lat, e.lon], {
-								icon: L.AwesomeMarkers.icon({
+							icon: L.AwesomeMarkers.icon({
 								icon: 'home',
 								markerColor: 'orange',
 								prefix: 'fa',
@@ -434,7 +431,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					var markerArray = [];
 					thisInstance.cacheMarkers[key].forEach(function (e) {
 						var marker = L.marker([e.lat, e.lon], {
-								icon: L.AwesomeMarkers.icon({
+							icon: L.AwesomeMarkers.icon({
 								icon: 'home',
 								markerColor: 'orange',
 								prefix: 'fa',
@@ -464,19 +461,21 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				searchValue: container.find('.searchValue').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			var radiusValue = container.find('.radius').val();
-			if(radiusValue !== '' && parseInt(radiusValue)) {
+			var radiusValue = container.find('.js-radius').val();
+			if (radiusValue !== '' && parseInt(radiusValue)) {
 				params['radius'] = radiusValue;
 			}
-			$.extend(params, thisInstance.selectedParams);
-			AppConnector.request(params).then(function (response) {
+			params = $.extend(thisInstance.selectedParams, params);
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
 			});
 		});
 		var startIconLayer = false;
 		container.on('click', '.startTrack', function (e) {
-			map.removeLayer(startIconLayer);
+			if (startIconLayer) {
+				map.removeLayer(startIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			description = containerPopup.find('.description').html();
@@ -499,7 +498,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var endIconLayer = false;
 		container.on('click', '.endTrack', function (e) {
-			map.removeLayer(endIconLayer);
+			if (endIconLayer) {
+				map.removeLayer(endIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			description = containerPopup.find('.description').html();
@@ -529,10 +530,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var indirect = template.clone();
 			template.before(indirect);
 			indirect.removeClass('indirectTemplate');
-			indirect.removeClass('hide');
+			indirect.removeClass('d-none');
 			var coordinates = containerPopup.find('.coordinates');
 			description = description.replace(/\<br\>/gi, ", ");
-			if (typeof thisInstance.indirectPointLayer[description] != 'undefined') {
+			if (typeof thisInstance.indirectPointLayer[description] !== "undefined") {
 				map.removeLayer(thisInstance.indirectPointLayer[description]);
 			}
 			var indirectField = indirect.find('.indirect');
@@ -559,7 +560,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('.indirectContainer');
 			var previousElement = container.prev();
-			if(!previousElement.hasClass('startContainer')) {
+			if (!previousElement.hasClass('startContainer')) {
 				previousElement.before(container);
 			}
 		});
@@ -567,12 +568,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('.indirectContainer');
 			var nextElement = container.next();
-			if(!nextElement.hasClass('indirectTemplate')) {
+			if (!nextElement.hasClass('indirectTemplate')) {
 				nextElement.after(container);
-			}	
+			}
 		});
 		container.on('click', '.searchInRadius', function (e) {
-			map.removeLayer(endIconLayer);
+			if (endIconLayer) {
+				map.removeLayer(endIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			var coordinates = containerPopup.find('.coordinates');
@@ -591,8 +594,8 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				lon: coordinates.data('lon'),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
-			AppConnector.request(params).then(function (response) {
+			params = $.extend(thisInstance.selectedParams, params);
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
 			});
@@ -600,7 +603,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		container.find('.calculateTrack').on('click', function () {
 			var indirectLon = [];
 			var indirectLat = [];
-			container.find('.indirectContainer:not(.hide) input.indirect').each(function () {
+			container.find('.indirectContainer:not(.d-none) input.indirect').each(function () {
 				var currentTarget = $(this);
 				indirectLat.push(currentTarget.data('lat'));
 				indirectLon.push(currentTarget.data('lon'));
@@ -626,24 +629,26 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					tlat: endElement.data('lat')
 				}
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				map.removeLayer(thisInstance.routeLayer);
-				var route = L.geoJson(response.result);
+				if (thisInstance.routeLayer) {
+					map.removeLayer(thisInstance.routeLayer);
+				}
+				var route = L.geoJson(response.result.geoJson);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
-				container.find('.descriptionContainer').removeClass('hide');
+				container.find('.descriptionContainer').removeClass('d-none');
 				container.find('.descriptionContent .instruction').html(response.result.properties.description);
-				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.result.properties.distance));
-				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.result.properties.traveltime / 60));
+				container.find('.descriptionContent .distance').html(App.Fields.Double.formatToDisplay(response.result.properties.distance));
+				container.find('.descriptionContent .travelTime').html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
 			});
 		});
-		container.find('.setView').on('click', function (e) {
+		container.on('click', '.setView', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var inputInstance = currentTarget.closest('.input-group').find('.end,.start');
+			var inputInstance = currentTarget.closest('.input-group').find('.end,.start,.indirect');
 			var lat = inputInstance.data('lat');
 			var lon = inputInstance.data('lon');
-			if (!(typeof lat == 'undefined' && typeof lon == 'undefined')) {
+			if (!(typeof lat === "undefined" && typeof lon === "undefined")) {
 				map.setView(new L.LatLng(lat, lon), 14);
 			}
 		});
@@ -670,9 +675,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			action: 'GetMarkers',
 			srcModule: app.getModuleName(),
 		};
-		$.extend(params, this.selectedParams);
+		params = $.extend(this.selectedParams, params);
 		thisInstance.registerBasicModal();
-		AppConnector.request(params).then(function (response) {
+		AppConnector.request(params).done(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			thisInstance.setMarkersByResponse(response);
 
@@ -684,16 +689,25 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		coordinates = JSON.parse(coordinates);
 		var startCoordinate = [0, 0];
 		var startZoom = 2;
+		var $map = container.find('#mapid');
 		if (coordinates.length) {
 			startCoordinate = coordinates[0];
 			startZoom = 6;
 		}
-		if($('.mainBody').length){
-			$('#mapid').height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
-		}else{
-			$('#mapid').height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
+		if ($('.mainBody').length) {
+			if ($('.mainBody').height() < 1000) {
+				$map.height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25));
+			} else {
+				$map.height(1000);
+			}
+		} else {
+			if ($('.bodyContents').height() < 1000) {
+				$map.height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25));
+			} else {
+				$map.height(1000);
+			}
 		}
-		
+
 		var myMap = this.registerMap(startCoordinate, startZoom);
 		var markers = L.markerClusterGroup({
 			maxClusterRadius: 10

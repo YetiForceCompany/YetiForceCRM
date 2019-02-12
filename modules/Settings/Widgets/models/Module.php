@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Settings Widgets Module Model class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Settings Widgets Module Model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get widgets
-	 * @param integer|string $module
+	 * Function to get widgets.
+	 *
+	 * @param int|string $module
+	 *
 	 * @return array
 	 */
 	public static function getWidgets($module = false)
@@ -27,18 +28,21 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$query->where(['tabid' => $module]);
 		}
 		$dataReader = $query->orderBy(['tabid' => SORT_ASC, 'sequence' => SORT_ASC])
-				->createCommand()->query();
+			->createCommand()->query();
 		$widgets = [1 => [], 2 => [], 3 => []];
 		while ($row = $dataReader->read()) {
 			$row['data'] = \App\Json::decode($row['data']);
 			$widgets[$row['wcol']][$row['id']] = $row;
 		}
+		$dataReader->close();
 		App\Cache::save('ModuleWidgets', $module, $widgets);
+
 		return $widgets;
 	}
 
 	/**
-	 * Return list of modules which have summary view
+	 * Return list of modules which have summary view.
+	 *
 	 * @return array
 	 */
 	public function getModulesList()
@@ -54,8 +58,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Return available sizes of widgets
-	 * @return integer[]
+	 * Return available sizes of widgets.
+	 *
+	 * @return int[]
 	 */
 	public function getSize()
 	{
@@ -63,8 +68,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get types
-	 * @param integer $module
+	 * Function to get types.
+	 *
+	 * @param int $module
+	 *
 	 * @return array
 	 */
 	public function getType($module = false)
@@ -75,7 +82,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
-			$action = str_replace('.php', "", $ff);
+			$action = str_replace('.php', '', $ff);
 			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
 				$folderFiles[$action] = $action;
 				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
@@ -90,8 +97,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Return available columns of widgets
-	 * @return integer[]
+	 * Return available columns of widgets.
+	 *
+	 * @return int[]
 	 */
 	public function getColumns()
 	{
@@ -99,22 +107,26 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get related modules for module
-	 * @param integer $tabid
+	 * Function to get related modules for module.
+	 *
+	 * @param int $tabid
+	 *
 	 * @return array
 	 */
 	public function getRelatedModule($tabid)
 	{
 		return (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'vtiger_tab.name'])
-				->from('vtiger_relatedlists')
-				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_relatedlists.related_tabid')
-				->where(['and', ['vtiger_relatedlists.tabid' => $tabid], ['<>', 'vtiger_relatedlists.related_tabid', '0']])
-				->indexBy('relation_id')->all();
+			->from('vtiger_relatedlists')
+			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_relatedlists.related_tabid')
+			->where(['and', ['vtiger_relatedlists.tabid' => $tabid], ['<>', 'vtiger_relatedlists.related_tabid', '0']])
+			->indexBy('relation_id')->all();
 	}
 
 	/**
-	 * Function to get filters
+	 * Function to get filters.
+	 *
 	 * @param array $modules
+	 *
 	 * @return array
 	 */
 	public function getFiletrs($modules)
@@ -123,13 +135,14 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
-						->from('vtiger_field')
-						->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
-						->createCommand()->query();
+				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
+					->from('vtiger_field')
+					->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 				}
+				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
 			}
 		}
@@ -137,8 +150,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get checkboxes
+	 * Function to get checkboxes.
+	 *
 	 * @param array $modules
+	 *
 	 * @return array
 	 */
 	public function getCheckboxs($modules)
@@ -147,14 +162,15 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
-						->from('vtiger_field')
-						->where(['tabid' => $value['related_tabid'], 'uitype' => [56]])
-						->andWhere(['<>', 'columnname', 'was_read'])
-						->createCommand()->query();
+				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
+					->from('vtiger_field')
+					->where(['tabid' => $value['related_tabid'], 'uitype' => [56]])
+					->andWhere(['<>', 'columnname', 'was_read'])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 				}
+				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
 			}
 		}
@@ -162,9 +178,11 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Return list of fields for module and uitypes
-	 * @param integer $tabid
-	 * @param integer[]|boolean $uitype
+	 * Return list of fields for module and uitypes.
+	 *
+	 * @param int        $tabid
+	 * @param int[]|bool $uitype
+	 *
 	 * @return array
 	 */
 	public function getFields($tabid, $uitype = false)
@@ -182,11 +200,14 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 			$fieldsList[$tabid][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 		}
+		$dataReader->close();
+
 		return ['labels' => $fieldlabel, 'table' => $fieldsList];
 	}
 
 	/**
-	 * Save widget
+	 * Save widget.
+	 *
 	 * @param array $params
 	 */
 	public static function saveWidget($params)
@@ -194,7 +215,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
-		$wid = $data['wid'];
+		$wid = $data['wid'] ?? '';
 		$widgetName = 'Vtiger_' . $data['type'] . '_Widget';
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
@@ -212,34 +233,31 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				$data['FastEdit'] = $FastEdit;
 			}
 		}
-		unset($data['filter_selected']);
-		unset($data['wid']);
-		$nomargin = isset($data['nomargin']) ? $data['nomargin'] : 0;
-		unset($data['nomargin']);
+		unset($data['filter_selected'], $data['wid']);
+
 		$serializeData = \App\Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$db->createCommand()->update('vtiger_widgets', [
 				'label' => $label,
-				'nomargin' => $nomargin,
 				'data' => $serializeData,
-				], ['id' => $wid])->execute();
+			], ['id' => $wid])->execute();
 		} else {
 			$db->createCommand()->insert('vtiger_widgets', [
 				'tabid' => $tabid,
 				'type' => $type,
 				'label' => $label,
-				'nomargin' => $nomargin,
 				'sequence' => $sequence,
-				'data' => $serializeData
+				'data' => $serializeData,
 			])->execute();
 		}
 		\App\Cache::delete('ModuleWidgets', $tabid);
 	}
 
 	/**
-	 * Remove widget
-	 * @param integer $wid
+	 * Remove widget.
+	 *
+	 * @param int $wid
 	 */
 	public static function removeWidget($wid)
 	{
@@ -248,8 +266,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Return information about widget
-	 * @param integer $wid
+	 * Return information about widget.
+	 *
+	 * @param int $wid
+	 *
 	 * @return type
 	 */
 	public function getWidgetInfo($wid)
@@ -258,13 +278,16 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			->where(['id' => $wid])
 			->one();
 		$resultrow['data'] = \App\Json::decode($resultrow['data']);
+
 		return $resultrow;
 	}
 
 	/**
-	 * Function to get last sequence number
-	 * @param integer $tabid
-	 * @return integer
+	 * Function to get last sequence number.
+	 *
+	 * @param int $tabid
+	 *
+	 * @return int
 	 */
 	public static function getLastSequence($tabid)
 	{
@@ -272,7 +295,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Update sequence number
+	 * Update sequence number.
+	 *
 	 * @param array $params
 	 */
 	public static function updateSequence($params)
@@ -289,27 +313,33 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Return available fields with WYSIWYG
-	 * @param integer $tabid
+	 * Return available fields with WYSIWYG.
+	 *
+	 * @param int    $tabid
 	 * @param string $module
+	 *
 	 * @return array
 	 */
 	public function getWYSIWYGFields($tabid, $module)
 	{
 		$field = [];
 		$dataReader = (new \App\Db\Query())->select(['fieldlabel', 'fieldname'])
-				->from('vtiger_field')
-				->where(['tabid' => $tabid, 'uitype' => 300])
-				->createCommand()->query();
+			->from('vtiger_field')
+			->where(['tabid' => $tabid, 'uitype' => 300])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
 		}
+		$dataReader->close();
+
 		return $field;
 	}
 
 	/**
-	 * Function to get switch buttons for widget
-	 * @param integer $index
+	 * Function to get switch buttons for widget.
+	 *
+	 * @param int $index
+	 *
 	 * @return array
 	 */
 	public static function getHeaderSwitch($index = [])
@@ -319,9 +349,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				[
 					'type' => 1,
 					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
-					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']]
-				]
-			]
+					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']],
+				],
+			],
 		];
 		if (empty($index)) {
 			return $data;
@@ -333,8 +363,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get buttons which visible in header widget 
-	 * @param integer $moduleId Number id module
+	 * Function to get buttons which visible in header widget.
+	 *
+	 * @param int $moduleId Number id module
+	 *
 	 * @return Vtiger_Link_Model[]
 	 */
 	public static function getHeaderButtons($moduleId)
@@ -345,8 +377,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$linkList[] = [
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'glyphicon glyphicon-plus',
-				'linkclass' => 'btn-sm btn-primary'
+				'linkicon' => 'adminIcon-document-templates',
+				'linkclass' => 'btn-light btn-sm',
 			];
 		}
 		$buttons = [];

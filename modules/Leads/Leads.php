@@ -15,18 +15,17 @@
 
 class Leads extends CRMEntity
 {
-
-	public $table_name = "vtiger_leaddetails";
+	public $table_name = 'vtiger_leaddetails';
 	public $table_index = 'leadid';
 	public $tab_name = ['vtiger_crmentity', 'vtiger_leaddetails', 'vtiger_leadsubdetails', 'vtiger_leadaddress', 'vtiger_leadscf', 'vtiger_entity_stats'];
 	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_leaddetails' => 'leadid', 'vtiger_leadsubdetails' => 'leadsubscriptionid', 'vtiger_leadaddress' => 'leadaddressid', 'vtiger_leadscf' => 'leadid', 'vtiger_entity_stats' => 'crmid'];
-	public $entity_table = "vtiger_crmentity";
+	public $entity_table = 'vtiger_crmentity';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = ['vtiger_leadscf', 'leadid'];
-	//construct this from database;
+	//construct this from database
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = ['smcreatorid', 'smownerid', 'contactid', 'crmid'];
@@ -36,14 +35,14 @@ class Leads extends CRMEntity
 		'Phone' => ['leadaddress' => 'phone'],
 		'Website' => ['leadsubdetails' => 'website'],
 		'Email' => ['leaddetails' => 'email'],
-		'Assigned To' => ['crmentity' => 'smownerid']
+		'Assigned To' => ['crmentity' => 'smownerid'],
 	];
 	public $list_fields_name = [
 		'Company' => 'company',
 		'Phone' => 'phone',
 		'Website' => 'website',
 		'Email' => 'email',
-		'Assigned To' => 'assigned_user_id'
+		'Assigned To' => 'assigned_user_id',
 	];
 
 	/**
@@ -52,74 +51,28 @@ class Leads extends CRMEntity
 	public $relationFields = ['company', 'phone', 'website', 'email', 'assigned_user_id'];
 	public $list_link_field = 'company';
 	public $search_fields = [
-		'Company' => ['leaddetails' => 'company']
+		'Company' => ['leaddetails' => 'company'],
 	];
 	public $search_fields_name = [
-		'Company' => 'company'
+		'Company' => 'company',
 	];
-	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = ['leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation'];
+	public $emailTemplate_defaultFields = ['leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	// For Alphabetical search
 	public $def_basicsearch_col = 'company';
 
-	/** Function to export the lead records in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Leads Query.
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Leads", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-	      			FROM " . $this->entity_table . "
-				INNER JOIN vtiger_leaddetails
-					ON vtiger_crmentity.crmid=vtiger_leaddetails.leadid
-				LEFT JOIN vtiger_leadsubdetails
-					ON vtiger_leaddetails.leadid = vtiger_leadsubdetails.leadsubscriptionid
-				LEFT JOIN vtiger_leadaddress
-					ON vtiger_leaddetails.leadid=vtiger_leadaddress.leadaddressid
-				LEFT JOIN vtiger_leadscf
-					ON vtiger_leadscf.leadid=vtiger_leaddetails.leadid
-	                        LEFT JOIN vtiger_groups
-                        	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users
-					ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'
-				";
-
-		$query .= $this->getNonAdminAccessControlQuery('Leads', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted =0";
-
-		if ($where != '')
-			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
-		else
-			$query .= sprintf(' where %s', $where_auto);
-
-		\App\Log::trace("Exiting create_export_query method ...");
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param String This module name
-	 * @param Array List of Entity Id's from which related records need to be transfered
-	 * @param Integer Id of the the Record to which the related records are to be moved
+	 *
+	 * @param string This module name
+	 * @param array List of Entity Id's from which related records need to be transfered
+	 * @param int Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
@@ -128,16 +81,16 @@ class Leads extends CRMEntity
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
-			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records'];
+			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records', ];
 
 		$tbl_field_arr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
-			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid'];
+			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid', ];
 
 		$entity_tbl_field_arr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
-			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid'];
+			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid', ];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
@@ -145,7 +98,7 @@ class Leads extends CRMEntity
 					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; $i++) {
+					for ($i = 0; $i < $res_cnt; ++$i) {
 						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
 						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
@@ -153,56 +106,14 @@ class Leads extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 
 	/**
-	 * Function to get the secondary query part of a report
-	 * @param string $module
-	 * @param string $secmodule
-	 * @param ReportRunQueryPlanner $queryPlanner
-	 * @return string
-	 */
-	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
-	{
-		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_leaddetails', ['vtiger_crmentityLeads', 'vtiger_leadaddress', 'vtiger_leadsubdetails', 'vtiger_leadscf', 'vtiger_email_trackLeads']);
-		$matrix->setDependency('vtiger_crmentityLeads', ['vtiger_groupsLeads', 'vtiger_usersLeads', 'vtiger_lastModifiedByLeads']);
-
-		if (!$queryPlanner->requireTable('vtiger_leaddetails', $matrix)) {
-			return '';
-		}
-		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_leaddetails', 'leadid', $queryPlanner);
-		if ($queryPlanner->requireTable('vtiger_crmentityLeads', $matrix)) {
-			$query .= ' left join vtiger_crmentity as vtiger_crmentityLeads on vtiger_crmentityLeads.crmid = vtiger_leaddetails.leadid and vtiger_crmentityLeads.deleted=0';
-		}
-		if ($queryPlanner->requireTable('vtiger_leadaddress')) {
-			$query .= ' left join vtiger_leadaddress on vtiger_leaddetails.leadid = vtiger_leadaddress.leadaddressid';
-		}
-		if ($queryPlanner->requireTable('vtiger_leadsubdetails')) {
-			$query .= ' left join vtiger_leadsubdetails on vtiger_leadsubdetails.leadsubscriptionid = vtiger_leaddetails.leadid';
-		}
-		if ($queryPlanner->requireTable('vtiger_leadscf')) {
-			$query .= ' left join vtiger_leadscf on vtiger_leadscf.leadid = vtiger_leaddetails.leadid';
-		}
-		if ($queryPlanner->requireTable('vtiger_groupsLeads')) {
-			$query .= ' left join vtiger_groups as vtiger_groupsLeads on vtiger_groupsLeads.groupid = vtiger_crmentityLeads.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_usersLeads')) {
-			$query .= ' left join vtiger_users as vtiger_usersLeads on vtiger_usersLeads.id = vtiger_crmentityLeads.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_lastModifiedByLeads')) {
-			$query .= ' left join vtiger_users as vtiger_lastModifiedByLeads on vtiger_lastModifiedByLeads.id = vtiger_crmentityLeads.modifiedby ';
-		}
-		if ($queryPlanner->requireTable('vtiger_createdbyLeads')) {
-			$query .= ' left join vtiger_users as vtiger_createdbyLeads on vtiger_createdbyLeads.id = vtiger_crmentityLeads.smcreatorid ';
-		}
-		return $query;
-	}
-
-	/**
-	 * Function to get the relation tables for related modules
-	 * @param boolean|string $secModule secondary module name
+	 * Function to get the relation tables for related modules.
+	 *
+	 * @param bool|string $secModule secondary module name
+	 *
 	 * @return array with table names and fieldnames storing relations between module and this module
 	 */
 	public function setRelationTables($secModule = false)
@@ -212,7 +123,7 @@ class Leads extends CRMEntity
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_leaddetails' => 'leadid'],
 			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_leaddetails' => 'leadid'],
 			'Services' => ['vtiger_crmentityrel' => ['crmid', 'relcrmid'], 'vtiger_leaddetails' => 'leadid'],
-			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_leaddetails' => 'leadid']
+			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_leaddetails' => 'leadid'],
 		];
 		if ($secModule === false) {
 			return $relTables;
@@ -223,9 +134,9 @@ class Leads extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-
-		if (empty($return_module) || empty($return_id))
+		if (empty($return_module) || empty($return_id)) {
 			return;
+		}
 
 		if ($return_module === 'Campaigns') {
 			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
@@ -238,8 +149,9 @@ class Leads extends CRMEntity
 
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
-		if (!is_array($withCrmids))
+		if (!is_array($withCrmids)) {
 			$withCrmids = [$withCrmids];
+		}
 		foreach ($withCrmids as $withCrmid) {
 			if ($withModule === 'Products') {
 				App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
@@ -247,13 +159,13 @@ class Leads extends CRMEntity
 					'productid' => $withCrmid,
 					'setype' => $module,
 					'rel_created_user' => App\User::getCurrentUserId(),
-					'rel_created_time' => date('Y-m-d H:i:s')
+					'rel_created_time' => date('Y-m-d H:i:s'),
 				])->execute();
 			} elseif ($withModule === 'Campaigns') {
 				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
-					'campaignrelstatusid' => 0
+					'campaignrelstatusid' => 0,
 				])->execute();
 			} else {
 				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);

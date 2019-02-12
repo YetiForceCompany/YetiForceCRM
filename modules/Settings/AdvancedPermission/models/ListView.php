@@ -1,9 +1,9 @@
 <?php
 
 /**
- * ListView Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * ListView Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
@@ -23,14 +23,14 @@ class Settings_AdvancedPermission_ListView_Model extends Settings_Vtiger_ListVie
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkicon' => ''
+				'linkicon' => 'btn-light',
 			];
 		}
 		$basicLinks[] = [
 			'linktype' => 'LISTVIEWBASIC',
 			'linklabel' => 'LBL_RECALCULATE_PERMISSION_BTN',
 			'linkurl' => 'javascript:app.showModalWindow(null, \'index.php?module=AdvancedPermission&parent=Settings&view=RecalculatePermission\')',
-			'linkicon' => 'glyphicon glyphicon-cog',
+			'linkicon' => 'fas fa-cog',
 		];
 
 		return $basicLinks;

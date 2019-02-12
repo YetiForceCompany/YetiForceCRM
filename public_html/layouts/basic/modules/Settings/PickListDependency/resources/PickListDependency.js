@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 jQuery.Class('Settings_PickListDependency_Js', {
 	//holds the picklist dependency instance
 	pickListDependencyInstance: false,
@@ -16,11 +18,9 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		event.stopPropagation();
 		var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 		instance.updatedSourceValues = [];
-		instance.showEditView(instance.listViewForModule).then(
-				function (data) {
-					instance.registerAddViewEvents();
-				}
-		);
+		instance.showEditView(instance.listViewForModule).done(function (data) {
+			instance.registerAddViewEvents();
+		});
 	},
 	/**
 	 * This function used to trigger Edit picklist dependency
@@ -29,15 +29,13 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		event.stopPropagation();
 		var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 		instance.updatedSourceValues = [];
-		instance.showEditView(module, sourceField, targetField).then(
-				function (data) {
-					var form = jQuery('#pickListDependencyForm');
-					form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
-					var element = form.find('.dependencyMapping');
-					app.showHorizontalScrollBar(element);
-					instance.registerDependencyGraphEvents();
-					instance.registerSubmitEvent();
-				}
+		instance.showEditView(module, sourceField, targetField).done(
+			function (data) {
+				var form = jQuery('#pickListDependencyForm');
+				form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
+				instance.registerDependencyGraphEvents();
+				instance.registerSubmitEvent();
+			}
 		);
 	},
 	/**
@@ -50,21 +48,14 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 
 		var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					instance.deleteDependency(module, sourceField, targetField).then(
-							function (data) {
-								var params = {};
-								params.text = app.vtranslate('JS_DEPENDENCY_DELETED_SUEESSFULLY');
-								Settings_Vtiger_Index_Js.showMessage(params);
-								currentTrEle.fadeOut('slow').remove();
-							}
-					);
-				},
-				function (error, err) {
-
-				}
-		);
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			instance.deleteDependency(module, sourceField, targetField).done(function (data) {
+				var params = {};
+				params.text = app.vtranslate('JS_DEPENDENCY_DELETED_SUEESSFULLY');
+				Settings_Vtiger_Index_Js.showMessage(params);
+				currentTrEle.fadeOut('slow').remove();
+			});
+		});
 	}
 
 }, {
@@ -102,20 +93,17 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		params['sourcefield'] = sourceField;
 		params['targetfield'] = targetField;
 
-		AppConnector.requestPjax(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var container = jQuery('.contentsDiv');
-					container.html(data);
-					//register all select2 Elements
-					app.showSelect2ElementView(container.find('select.select2'), {dropdownCss: {'z-index': 0}});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
-		);
+		AppConnector.requestPjax(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			var container = jQuery('.contentsDiv');
+			container.html(data);
+			//register all select2 Elements
+			App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'), {dropdownCss: {'z-index': 0}});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 	/**
@@ -125,12 +113,10 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		form.find('[name="sourceModule"]').on('change', function () {
 			var forModule = form.find('[name="sourceModule"]').val();
-			thisInstance.showEditView(forModule).then(
-					function (data) {
-						thisInstance.registerAddViewEvents();
-					}
-			);
-		})
+			thisInstance.showEditView(forModule).done(function (data) {
+				thisInstance.registerAddViewEvents();
+			});
+		});
 	},
 	/**
 	 * Register change event for picklist fields in add/edit picklist dependency
@@ -139,7 +125,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		form.find('[name="sourceField"],[name="targetField"]').on('change', function () {
 			thisInstance.checkValuesForDependencyGraph(form);
-		})
+		});
 	},
 	/**
 	 * Function used to check the selected picklist fields are valid before showing dependency graph
@@ -154,10 +140,10 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var targetFieldValue = targetField.val();
 		var dependencyGraph = jQuery('#dependencyGraph');
 		if (sourceFieldValue != '' && targetFieldValue != '') {
-			var result = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
-			form.find('.errorMessage').addClass('hide');
+			var resultMessage = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
+			form.find('.errorMessage').addClass('d-none');
 			if (sourceFieldValue == targetFieldValue) {
-				select2TargetField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+				select2TargetField.validationEngine('showPrompt', resultMessage, 'error', 'topLeft', true);
 				dependencyGraph.html('');
 			} else {
 				select2SourceField.validationEngine('hide');
@@ -169,26 +155,23 @@ jQuery.Class('Settings_PickListDependency_Js', {
 						'enabled': true
 					}
 				});
-				thisInstance.checkCyclicDependency(sourceModule, sourceFieldValue, targetFieldValue).then(
-						function (data) {
-							var result = data['result'];
-							if (!result['result']) {
-								thisInstance.addNewDependencyPickList(sourceModule, sourceFieldValue, targetFieldValue);
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							} else {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								form.find('.errorMessage').removeClass('hide');
-								form.find('.cancelAddView').removeClass('hide');
-								dependencyGraph.html('');
-							}
-						},
-						function (error, err) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						}
-				);
+				thisInstance.checkCyclicDependency(sourceModule, sourceFieldValue, targetFieldValue).done(function (data) {
+					var result = data['result'];
+					if (!result['result']) {
+						thisInstance.addNewDependencyPickList(sourceModule, sourceFieldValue, targetFieldValue);
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					} else {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						form.find('.errorMessage').removeClass('d-none');
+						form.find('.cancelAddView').removeClass('d-none');
+						dependencyGraph.html('');
+					}
+				}).fail(function (error, err) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
 			}
 		} else {
-			form.find('.errorMessage').addClass('hide');
+			form.find('.errorMessage').addClass('d-none');
 			var result = app.vtranslate('JS_SELECT_SOME_VALUE');
 			if (sourceFieldValue == '') {
 				select2SourceField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
@@ -200,8 +183,8 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	/**
 	 * Function used to check the cyclic dependency of the selected picklist fields
 	 * @params: sourceModule - selected module
-	 *			sourceFieldValue - source picklist value
-	 *			targetFieldValue - target picklist value
+	 *            sourceFieldValue - source picklist value
+	 *            targetFieldValue - target picklist value
 	 */
 	checkCyclicDependency: function (sourceModule, sourceFieldValue, targetFieldValue) {
 		var aDeferred = jQuery.Deferred();
@@ -214,50 +197,43 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		params['sourcefield'] = sourceFieldValue;
 		params['targetfield'] = targetFieldValue;
 
-		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				}, function (error, err) {
-			aDeferred.reject();
-		}
+		AppConnector.request(params).done(
+			function (data) {
+				aDeferred.resolve(data);
+			}, function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
 	/**
 	 * Function used to show the new picklist dependency graph
 	 * @params: sourceModule - selected module
-	 *			sourceFieldValue - source picklist value
-	 *			targetFieldValue - target picklist value
+	 *            sourceFieldValue - source picklist value
+	 *            targetFieldValue - target picklist value
 	 */
 	addNewDependencyPickList: function (sourceModule, sourceFieldValue, targetFieldValue) {
 		var thisInstance = this;
+		var dependencyGraph = $('#dependencyGraph');
 		thisInstance.updatedSourceValues = [];
-		var params = {};
-		params['mode'] = 'getDependencyGraph';
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['view'] = 'IndexAjax';
-		params['sourceModule'] = sourceModule;
-		params['sourcefield'] = sourceFieldValue;
-		params['targetfield'] = targetFieldValue;
-		AppConnector.request(params).then(
-				function (data) {
-					var dependencyGraph = jQuery('#dependencyGraph');
-					dependencyGraph.html(data).css({'padding': '10px', 'border': '1px solid #ddd', 'background': '#fff'});
-
-					var element = dependencyGraph.find('.dependencyMapping');
-					app.showHorizontalScrollBar(element);
-					thisInstance.registerDependencyGraphEvents();
-				}, function (error, err) {
-
-		}
-		);
+		AppConnector.request({
+			mode: 'getDependencyGraph',
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'IndexAjax',
+			sourceModule: sourceModule,
+			sourcefield: sourceFieldValue,
+			targetfield: targetFieldValue
+		}).done(function (data) {
+			dependencyGraph.html(data).css({'padding': '10px', 'border': '1px solid #ddd', 'background': '#fff'});
+			thisInstance.registerDependencyGraphEvents();
+		});
 	},
 	/**
 	 * This function will delete the pickList Dependency
 	 * @params: module - selected module
-	 *			sourceField - source picklist value
-	 *			targetField - target picklist value
+	 *            sourceField - source picklist value
+	 *            targetField - target picklist value
 	 */
 	deleteDependency: function (module, sourceField, targetField) {
 		var aDeferred = jQuery.Deferred();
@@ -268,12 +244,11 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		params['sourceModule'] = module;
 		params['sourcefield'] = sourceField;
 		params['targetfield'] = targetField;
-		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				}, function (error, err) {
-			aDeferred.reject();
-		}
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (error, err) {
+				aDeferred.reject(error, err);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -283,8 +258,8 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	registerCancelAddView: function (form) {
 		var thisInstance = this;
 		var cancelDiv = form.find('.cancelAddView');
-		cancelDiv.removeClass('hide');
-		cancelDiv.find('.cancelLink').click(function () {
+		cancelDiv.removeClass('d-none');
+		cancelDiv.find('.cancelLink').on('click', function () {
 			thisInstance.loadListViewContents(thisInstance.listViewForModule);
 		})
 	},
@@ -306,7 +281,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var form = jQuery('#pickListDependencyForm');
 		var dependencyGraph = jQuery('#dependencyGraph');
-		form.find('.cancelAddView').addClass('hide');
+		form.find('.cancelAddView').addClass('d-none');
 		thisInstance.registerTargetFieldsClickEvent(dependencyGraph);
 		thisInstance.registerTargetFieldsUnmarkAll(dependencyGraph);
 		thisInstance.registerSelectSourceValuesClick(dependencyGraph);
@@ -329,7 +304,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		//Register click event for cancel link
 		var cancelDependencyLink = form.find('.cancelDependency');
-		cancelDependencyLink.click(function () {
+		cancelDependencyLink.on('click', function () {
 			thisInstance.loadListViewContents(thisInstance.listViewForModule);
 		})
 	},
@@ -346,9 +321,9 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				thisInstance.updatedSourceValues.push(sourceValue);
 			}
 			if (currentTarget.hasClass('selectedCell')) {
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon-ok').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell');
 			} else {
-				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="glyphicon glyphicon-ok pull-left"></i>');
+				currentTarget.addClass('selectedCell').removeClass('unselectedCell');
 			}
 		});
 	},
@@ -362,7 +337,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				if (jQuery.inArray(sourceValue, thisInstance.updatedSourceValues) == -1) {
 					thisInstance.updatedSourceValues.push(sourceValue);
 				}
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon-ok').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell');
 			});
 		});
 	},
@@ -375,8 +350,9 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var sourceValuesArray = thisInstance.updatedSourceValues;
 		var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 		for (var key in sourceValuesArray) {
+			let encodedSourceValue;
 			if (typeof sourceValuesArray[key] == 'string') {
-				var encodedSourceValue = sourceValuesArray[key].replace(/"/g, '\\"');
+				encodedSourceValue = sourceValuesArray[key].replace(/"/g, '\\"');
 			} else {
 				encodedSourceValue = sourceValuesArray[key];
 			}
@@ -397,12 +373,12 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	 */
 	registerSelectSourceValuesClick: function (dependencyGraph) {
 		var thisInstance = this;
-		dependencyGraph.find('button.sourceValues').click(function () {
+		dependencyGraph.find('button.sourceValues').on('click', function () {
 			var selectSourceValues = dependencyGraph.find('.modalCloneCopy');
 			var clonedContainer = selectSourceValues.clone(true, true).removeClass('modalCloneCopy');
 			var callBackFunction = function (data) {
-				data.find('.sourcePicklistValuesModal').removeClass('hide');
-				data.find('[name="saveButton"]').click(function (e) {
+				data.find('.sourcePicklistValuesModal').removeClass('d-none');
+				data.find('[name="saveButton"]').on('click', function (e) {
 					thisInstance.selectedSourceValues = [];
 					var sourceValues = data.find('.sourceValue');
 					jQuery.each(sourceValues, function (index, ele) {
@@ -432,14 +408,14 @@ jQuery.Class('Settings_PickListDependency_Js', {
 					callBackFunction(data);
 				}
 			}, {'width': '1000px'});
-		})
+		});
 	},
 	/**
 	 * Function used to load mapping for selected picklist fields
 	 */
 	loadMappingForSelectedValues: function (dependencyGraph) {
 		var thisInstance = this;
-		var allSourcePickListValues = jQuery.parseJSON(dependencyGraph.find('.allSourceValues').val());
+		var allSourcePickListValues = JSON.parse(dependencyGraph.find('.allSourceValues').val());
 		var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 		for (var key in allSourcePickListValues) {
 			if (typeof allSourcePickListValues[key] == 'string') {
@@ -454,7 +430,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				mappingCells.show();
 			}
 		}
-		dependencyGraph.find('.dependencyMapping').mCustomScrollbar("update");
 	},
 	/**
 	 * This function will save the picklist dependency details
@@ -472,20 +447,17 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		data['parent'] = app.getParentModuleName();
 		data['action'] = 'SaveAjax';
 		data['mapping'] = JSON.stringify(thisInstance.valueMapping);
-		AppConnector.request(data).then(
-				function (data) {
-					if (data['success']) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						var params = {};
-						params.text = app.vtranslate('JS_PICKLIST_DEPENDENCY_SAVED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						thisInstance.loadListViewContents(thisInstance.listViewForModule);
-					}
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(data).done(function (data) {
+			if (data['success']) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var params = {};
+				params.text = app.vtranslate('JS_PICKLIST_DEPENDENCY_SAVED');
+				Settings_Vtiger_Index_Js.showMessage(params);
+				thisInstance.loadListViewContents(thisInstance.listViewForModule);
+			}
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * This function will load the listView contents after Add/Edit picklist dependency
@@ -504,17 +476,15 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		params['view'] = 'List';
 		params['formodule'] = forModule;
 
-		AppConnector.requestPjax(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					//replace the new list view contents
-					jQuery('.contentsDiv').html(data);
-					app.changeSelectElementView(jQuery('.contentsDiv').find('.pickListSupportedModules'));
-					thisInstance.registerListViewEvents();
-				}, function (error, err) {
+		AppConnector.requestPjax(params).done(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-		}
-		);
+			//replace the new list view contents
+			jQuery('.contentsDiv').html(data);
+			App.Fields.Picklist.changeSelectElementView(jQuery('.contentsDiv').find('.pickListSupportedModules'));
+			thisInstance.registerListViewEvents();
+		}).fail(function (error, err) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * trigger the display type event to show the width
@@ -545,7 +515,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var form = jQuery('#pickListDependencyForm');
 		var dependencyGraph = jQuery('#dependencyGraph');
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			e.preventDefault();
 			try {
 				thisInstance.updateValueMapping(dependencyGraph);
@@ -571,8 +541,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var form = jQuery('#pickListDependencyForm');
 		if (form.length > 0) {
-			var element = form.find('.dependencyMapping');
-			app.showHorizontalScrollBar(element);
 			if (form.find('.editDependency').val() == "true") {
 				form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
 				thisInstance.registerDependencyGraphEvents();

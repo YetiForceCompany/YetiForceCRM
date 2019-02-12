@@ -1,0 +1,15 @@
+{
+  "php": {
+    "LBL_TWITTER": "Twitter",
+    "LBL_TWITTER_DESC": "Twitter integration",
+    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiving records - number of days",
+    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Social Cron is not enabled, it is necessary for proper archiving.",
+    "LBL_SOCIAL_MEDIA_CRON2_WARNING": "Cron must be enabled to retrieve messages from social media",
+    "LBL_TWITTER_API_KEY": "Twitter API key",
+    "LBL_TWITTER_API_SECRET": "Twitter API secret",
+    "LBL_TWITTER_INSTRUCTION": "Developer account on Twitter is required to configure Twitter API. Add a new application, go to application's details and find \"Keys and tokens\" tab where API keys are located. Provide them below.",
+    "LBL_TYPE_OF_LOG": "Log type",
+    "LBL_SOCIAL_MEDIA_TYPE": "Type",
+    "LBL_MESSAGE": "Message"
+  }
+}

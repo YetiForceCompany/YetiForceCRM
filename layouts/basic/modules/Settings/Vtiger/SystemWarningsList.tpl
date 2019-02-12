@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<table class="table table-bordered table-condensed">
+	<table class="table table-bordered table-sm">
 		<thead>
 			<tr>
 				<th>{App\Language::translate('LBL_WARNINGS_TITLE', $MODULE)}</th>
@@ -14,13 +14,13 @@
 			{foreach from=$WARNINGS_LIST item=ITEM}
 				<tr data-id="{get_class($ITEM)}" data-status="{$ITEM->getStatus()}">
 					<td>{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</td>
-					<td class="text-center {if $ITEM->getStatus() == 0}danger{elseif $ITEM->getStatus() == 1}success{/if}">
+					<td class="text-center {if $ITEM->getStatus() == 0}bg-danger{elseif $ITEM->getStatus() == 1}bg-success{/if}">
 						{if $ITEM->getStatus() == 0}
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							<span class="fas fa-times"></span>
 						{elseif $ITEM->getStatus() == 1}
-							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<span class="fas fa-check"></span>
 						{elseif $ITEM->getStatus() == 2}
-							<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+							<span class="fas fa-minus"></span>
 						{/if}&nbsp;
 					</td>
 					<td data-order="{$ITEM->getPriority()}" class="text-center">{$ITEM->getPriority()}</td>
@@ -31,7 +31,7 @@
 					</td>
 					<td class="text-center">
 						{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
-							<button class="btn btn-warning btn-xs setIgnore popoverTooltip" data-placement="top" data-content="
+							<button class="btn btn-warning btn-sm setIgnore js-popover-tooltip" data-js="popover" data-placement="top" data-content="
 									{if $ITEM->getStatus() == 2}
 										{App\Language::translate('BTN_REMOVE_IGNORE','Settings:SystemWarnings')}
 									{else}
@@ -39,28 +39,30 @@
 									{/if}
 									">
 								{if $ITEM->getStatus() == 2}
-									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+									<span class="fas fa-plus-circle"></span>
 								{else}
-									<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+									<span class="fas fa-minus-circle"></span>
 								{/if}
-							</button>&nbsp;&nbsp;
+							</button>
 						{/if}
 						{if $ITEM->getLink()}
-							<a class="btn btn-success btn-xs {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
-								<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-							</a>&nbsp;&nbsp;
+							<a class="ml-1 btn btn-success btn-sm {if isset($ITEM->linkTitle)}js-popover-tooltip{/if}" data-js="popover" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank" rel="noreferrer noopener">
+								<span class="fas fa-link"></span>
+							</a>
 						{/if}
 						{if $ITEM->getDescription()}
-							<button class="btn btn-primary btn-xs showDescription">
-								<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+							<button class="ml-1 btn btn-primary btn-sm showDescription">
+								<span class="fas fa-info-circle"></span>
 							</button>
-							<span class="hide showDescriptionContent">
+							<span class="d-none showDescriptionContent">
 								<div class="modal fade">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<h4 class="modal-title" id="myModalLabel">{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</h4>
+												<h5 class="modal-title">{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
 											</div>
 											<div class="modal-body">
 												{$ITEM->getDescription()}

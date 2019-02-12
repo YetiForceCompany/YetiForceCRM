@@ -10,12 +10,12 @@
 
 class Services_Module_Model extends Products_Module_Model
 {
-
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
@@ -28,7 +28,7 @@ class Services_Module_Model extends Products_Module_Model
 					->select(['productid'])
 					->from('vtiger_pricebookproductrel')
 					->where(['pricebookid' => $record]);
-				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
+				$condition[] = ['not in', 'vtiger_service.serviceid', $subQuery];
 			}
 			$queryGenerator->addNativeCondition($condition);
 		}

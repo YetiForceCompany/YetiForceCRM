@@ -11,7 +11,6 @@
 
 class Products extends CRMEntity
 {
-
 	public $table_name = 'vtiger_products';
 	public $table_index = 'productid';
 	public $column_fields = [];
@@ -28,28 +27,25 @@ class Products extends CRMEntity
 		'Part Number' => ['products' => 'productcode'],
 		'Commission Rate' => ['products' => 'commissionrate'],
 		'Qty/Unit' => ['products' => 'qty_per_unit'],
-		'Unit Price' => ['products' => 'unit_price']
+		'Unit Price' => ['products' => 'unit_price'],
 	];
 	public $list_fields_name = [
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
 		'Commission Rate' => 'commissionrate',
 		'Qty/Unit' => 'qty_per_unit',
-		'Unit Price' => 'unit_price'
+		'Unit Price' => 'unit_price',
 	];
 	public $list_link_field = 'productname';
 	public $search_fields = [
 		'Product Name' => ['products' => 'productname'],
 		'Part Number' => ['products' => 'productcode'],
-		'Unit Price' => ['products' => 'unit_price']
+		'Unit Price' => ['products' => 'unit_price'],
 	];
 	public $search_fields_name = [
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
-		'Unit Price' => 'unit_price'
-	];
-	public $required_fields = [
-		'productname' => 1
+		'Unit Price' => 'unit_price',
 	];
 
 	/** @var string[] List of fields in the RelationListView */
@@ -64,49 +60,12 @@ class Products extends CRMEntity
 	// Josh added for importing and exporting -added in patch2
 	public $unit_price;
 
-	/** 	function used to get the export query for product
-	 * 	@param reference $where - reference of the where variable which will be added with the query
-	 * 	@return string $query - return the query which will give the list of products to export
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Products", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list FROM " . $this->table_name . "
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_products.productid
-			LEFT JOIN vtiger_productcf
-				ON vtiger_products.productid = vtiger_productcf.productid
-			LEFT JOIN vtiger_vendor
-				ON vtiger_vendor.vendorid = vtiger_products.vendor_id";
-
-		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
-		$query .= $this->getNonAdminAccessControlQuery('Products', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
-
-		if ($where != '')
-			$query .= " WHERE ($where) && $where_auto";
-		else
-			$query .= " WHERE $where_auto";
-
-		\App\Log::trace("Exiting create_export_query method ...");
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param String This module name
-	 * @param Array List of Entity Id's from which related records need to be transfered
-	 * @param Integer Id of the the Record to which the related records are to be moved
+	 *
+	 * @param string This module name
+	 * @param array List of Entity Id's from which related records need to be transfered
+	 * @param int Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
@@ -114,21 +73,21 @@ class Products extends CRMEntity
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = ["HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
-			"PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
-			"Accounts" => "vtiger_seproductsrel", "Contacts" => "vtiger_seproductsrel",
-			"Documents" => "vtiger_senotesrel", 'Assets' => 'vtiger_assets',];
+		$rel_table_arr = ['HelpDesk' => 'vtiger_troubletickets', 'Products' => 'vtiger_seproductsrel', 'Attachments' => 'vtiger_seattachmentsrel',
+			'PriceBooks' => 'vtiger_pricebookproductrel', 'Leads' => 'vtiger_seproductsrel',
+			'Accounts' => 'vtiger_seproductsrel', 'Contacts' => 'vtiger_seproductsrel',
+			'Documents' => 'vtiger_senotesrel', 'Assets' => 'vtiger_assets', ];
 
-		$tbl_field_arr = ["vtiger_troubletickets" => "ticketid", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "attachmentsid",
-			"vtiger_inventoryproductrel" => "id", "vtiger_pricebookproductrel" => "pricebookid", "vtiger_seproductsrel" => "crmid",
-			"vtiger_senotesrel" => "notesid", 'vtiger_assets' => 'assetsid'];
+		$tbl_field_arr = ['vtiger_troubletickets' => 'ticketid', 'vtiger_seproductsrel' => 'crmid', 'vtiger_seattachmentsrel' => 'attachmentsid',
+			'vtiger_inventoryproductrel' => 'id', 'vtiger_pricebookproductrel' => 'pricebookid', 'vtiger_seproductsrel' => 'crmid',
+			'vtiger_senotesrel' => 'notesid', 'vtiger_assets' => 'assetsid', ];
 
-		$entity_tbl_field_arr = ["vtiger_troubletickets" => "product_id", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "crmid",
-			"vtiger_inventoryproductrel" => "productid", "vtiger_pricebookproductrel" => "productid", "vtiger_seproductsrel" => "productid",
-			"vtiger_senotesrel" => "crmid", 'vtiger_assets' => 'product'];
+		$entity_tbl_field_arr = ['vtiger_troubletickets' => 'product_id', 'vtiger_seproductsrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
+			'vtiger_inventoryproductrel' => 'productid', 'vtiger_pricebookproductrel' => 'productid', 'vtiger_seproductsrel' => 'productid',
+			'vtiger_senotesrel' => 'crmid', 'vtiger_assets' => 'product', ];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
@@ -136,76 +95,22 @@ class Products extends CRMEntity
 					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; $i++) {
+					for ($i = 0; $i < $res_cnt; ++$i) {
 						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
 						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
 				}
 			}
 		}
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 
 	/**
-	 * Function to get the secondary query part of a report
-	 * @param string $module
-	 * @param string $secmodule
-	 * @param ReportRunQueryPlanner $queryPlanner
-	 * @return string
-	 */
-	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
-	{
-		$current_user = vglobal('current_user');
-		$matrix = $queryplanner->newDependencyMatrix();
-
-		$matrix->setDependency('vtiger_crmentityProducts', ['vtiger_groupsProducts', 'vtiger_usersProducts', 'vtiger_lastModifiedByProducts']);
-		$matrix->setDependency('vtiger_products', ['innerProduct', 'vtiger_crmentityProducts', 'vtiger_productcf', 'vtiger_vendorRelProducts']);
-		//query planner Support  added
-		if (!$queryplanner->requireTable('vtiger_products', $matrix)) {
-			return '';
-		}
-		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_products', 'productid', $queryplanner);
-		if ($queryplanner->requireTable('innerProduct')) {
-			$query .= ' LEFT JOIN (
-				    SELECT vtiger_products.productid,
-						    (CASE WHEN (vtiger_products.currency_id = 1 ) THEN vtiger_products.unit_price
-							    ELSE (vtiger_products.unit_price / vtiger_currency_info.conversion_rate) END
-						    ) AS actual_unit_price
-				    FROM vtiger_products
-				    LEFT JOIN vtiger_currency_info ON vtiger_products.currency_id = vtiger_currency_info.id
-				    LEFT JOIN vtiger_productcurrencyrel ON vtiger_products.productid = vtiger_productcurrencyrel.productid
-				    && vtiger_productcurrencyrel.currencyid = ' . $current_user->currency_id . '
-			    ) AS innerProduct ON innerProduct.productid = vtiger_products.productid';
-		}
-		if ($queryplanner->requireTable('vtiger_crmentityProducts')) {
-			$query .= ' left join vtiger_crmentity as vtiger_crmentityProducts on vtiger_crmentityProducts.crmid=vtiger_products.productid and vtiger_crmentityProducts.deleted=0';
-		}
-		if ($queryplanner->requireTable('vtiger_productcf')) {
-			$query .= ' left join vtiger_productcf on vtiger_products.productid = vtiger_productcf.productid';
-		}
-		if ($queryplanner->requireTable('vtiger_groupsProducts')) {
-			$query .= ' left join vtiger_groups as vtiger_groupsProducts on vtiger_groupsProducts.groupid = vtiger_crmentityProducts.smownerid';
-		}
-		if ($queryplanner->requireTable('vtiger_usersProducts')) {
-			$query .= ' left join vtiger_users as vtiger_usersProducts on vtiger_usersProducts.id = vtiger_crmentityProducts.smownerid';
-		}
-		if ($queryplanner->requireTable('vtiger_vendorRelProducts')) {
-			$query .= ' left join vtiger_vendor as vtiger_vendorRelProducts on vtiger_vendorRelProducts.vendorid = vtiger_products.vendor_id';
-		}
-		if ($queryplanner->requireTable('vtiger_lastModifiedByProducts')) {
-			$query .= ' left join vtiger_users as vtiger_lastModifiedByProducts on vtiger_lastModifiedByProducts.id = vtiger_crmentityProducts.modifiedby ';
-		}
-		if ($queryplanner->requireTable('vtiger_createdbyProducts')) {
-			$query .= ' left join vtiger_users as vtiger_createdbyProducts on vtiger_createdbyProducts.id = vtiger_crmentityProducts.smcreatorid ';
-		}
-		return $query;
-	}
-	/*
-	 * Function to get the relation tables for related modules
+	 * Function to get the relation tables for related modules.
+	 *
 	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
+	 *                     returns the array with table names and fieldnames storing relations between module and this module
 	 */
-
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
@@ -223,44 +128,40 @@ class Products extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	public function deleteProduct2ProductRelation($record, $return_id, $is_parent)
-	{
-		$adb = PearDatabase::getInstance();
-		if ($is_parent == 0) {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, [$record, $return_id]);
-		} else {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, [$return_id, $record]);
-		}
-	}
-
 	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId)) {
 			return;
-		if ($return_module === 'Leads' || $return_module === 'Accounts') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
-		} elseif ($return_module == 'Vendors') {
-			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
-			$this->db->pquery($sql, [null, $id]);
+		}
+		if ($returnModule === 'Leads' || $returnModule === 'Accounts') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $returnId])->execute();
+		} elseif ($returnModule === 'Vendors') {
+			App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => null], ['productid' => $id])->execute();
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
 	{
-		if (!is_array($withCrmIds))
+		if (!is_array($withCrmIds)) {
 			$withCrmIds = [$withCrmIds];
+		}
 		foreach ($withCrmIds as $withCrmId) {
-			if (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
-				if ($withModule === 'Products') {
-					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
-						continue;
-					}
+			if ($withModule === 'PriceBooks') {
+				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $withCrmId, 'productid' => $crmid])->exists()) {
+					continue;
+				}
+				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $withCrmId,
+					'productid' => $crmid,
+					'listprice' => 0,
+					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
+				])->execute();
+			} elseif (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
+				if ($withModule === 'Products' && (new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
+					continue;
 				}
 				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
 				if (!$isExists) {
@@ -269,7 +170,7 @@ class Products extends CRMEntity
 						'productid' => $crmid,
 						'setype' => $withModule,
 						'rel_created_user' => App\User::getCurrentUserId(),
-						'rel_created_time' => date('Y-m-d H:i:s')
+						'rel_created_time' => date('Y-m-d H:i:s'),
 					])->execute();
 				}
 			} else {

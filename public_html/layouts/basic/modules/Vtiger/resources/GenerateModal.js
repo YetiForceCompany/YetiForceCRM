@@ -1,9 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	registerGenetateButton: function (container) {
 		var thisInstance = this;
-		container.find('button.genetateButton').on('click', function (e) {
+		container.find('button.js-genetate-button').on('click', function (e) {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				position: 'html',
@@ -27,36 +28,34 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 					method: method.val()
 				};
 				params.dataType = 'json';
-				AppConnector.request(params).then(
-						function (data) {
-							var response = data['result'];
-							if (data['success']) {
-								var records = response.ok;
-								thisInstance.summary(container, response);
-								document.progressLoader.progressIndicator({'mode': 'hide'});
-								if (method.val() == 1) {
-									for (var i in records) {
-										var win = window.open(actionUrl + records[i], '_blank');
-									}
-								}
+				AppConnector.request(params).done(function (data) {
+					var response = data['result'];
+					if (data['success']) {
+						var records = response.ok;
+						thisInstance.summary(container, response);
+						document.progressLoader.progressIndicator({'mode': 'hide'});
+						if (method.val() == 1) {
+							for (var i in records) {
+								window.open(actionUrl + records[i], '_blank');
 							}
-						},
-						function (data, err) {
-							app.errorLog(data, err);
 						}
-				);
+					}
+				}).fail(function (data, err) {
+					app.errorLog(data, err);
+				});
 			}
 		});
 	},
 	summary: function (container, data) {
 		container.find('.modal-title').text(app.vtranslate('JS_SUMMARY'));
-		container.find('.modal-body').html('<div>' + app.vtranslate('JS_SELECTED_RECORDS') + ': <strong>' + data.all + '</strong></div>\n\
-									<div>' + app.vtranslate('JS_SUCCESSFULLY_PERFORMED_ACTION_FOR') + ': <strong>' + data.ok.length + '</strong></div>\n\
-									<div>' + app.vtranslate('JS_ACTION_FAILED_FOR') + ': <strong>' + data.fail.length + '</strong></div>');
+		container.find('.modal-body').html('<div>' + app.vtranslate('JS_SELECTED_RECORDS') +
+			': <strong>' + data.all + '</strong></div><div>' +
+			app.vtranslate('JS_SUCCESSFULLY_PERFORMED_ACTION_FOR') + ': <strong>' +
+			data.ok.length + '</strong></div><div>' + app.vtranslate('JS_ACTION_FAILED_FOR') +
+			': <strong>' + data.fail.length + '</strong></div>');
 	},
 	registerEvents: function () {
 		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.popoverTooltip'));
 		this.registerGenetateButton(container);
 	}
 

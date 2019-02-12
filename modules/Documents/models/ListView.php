@@ -11,53 +11,55 @@
 
 class Documents_ListView_Model extends Vtiger_ListView_Model
 {
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
 		$advancedLinks = [];
 
 		if ($moduleModel->isPermitted('Export')) {
+			$exportUrl = $this->getModule()->getExportUrl();
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkurl' => "javascript:Vtiger_List_Js.triggerExportAction('$exportUrl')",
+				'linkicon' => 'fas fa-upload',
 			];
 		}
 
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if ($moduleModel->isPermitted('ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF')
+					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List', 'type' => 'modal'],
+					'linkclass' => 'js-mass-action',
+					'linkicon' => 'fas fa-file-pdf',
+					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}
 
-		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => 'glyphicon glyphicon-save-file',
+				'linkurl' => "javascript:Vtiger_List_Js.triggerQuickExportToExcel('$moduleName')",
+				'linkicon' => 'fas fa-file-excel',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
-			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			$templates = $mfModel->getActiveTemplatesForModule($moduleName, 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
+					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords();',
 				];
 			}
 		}
@@ -65,13 +67,16 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
 
 		$linkTypes = ['LISTVIEWMASSACTION'];
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
@@ -82,32 +87,32 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkurl' => "javascript:Vtiger_List_Js.triggerMassEdit('index.php?module=$moduleName&view=MassActionAjax&mode=showMassEditForm');",
+				'linkicon' => 'fas fa-edit',
 			];
 		}
 		if ($moduleModel->isPermitted('MassMoveDocuments')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
-				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
-				'linkicon' => 'glyphicon glyphicon-folder-open'
+				'linkurl' => "javascript:Documents_List_Js.massMove('index.php?module=$moduleName&view=MoveDocuments');",
+				'linkicon' => 'fas fa-folder-open',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-user'
+				'linkurl' => "javascript:Vtiger_List_Js.triggerTransferOwnership('index.php?module=$moduleName&view=MassActionAjax&mode=transferOwnership')",
+				'linkicon' => 'fas fa-user',
 			];
 		}
 		if ($moduleModel->isPermitted('CreateView')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'glyphicon glyphicon-plus'
+				'linkurl' => "javascript:Vtiger_Index_Js.massAddDocuments('index.php?module=$moduleName&view=MassAddDocuments')",
+				'linkicon' => 'adminIcon-document-templates',
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -115,9 +120,9 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'dataUrl' => "index.php?module=$moduleName&action=MassState&state=Active&sourceView=List",
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -125,9 +130,9 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'dataUrl' => "index.php?module=$moduleName'&action=MassState&state=Archived&sourceView=List",
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-archive',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -135,9 +140,9 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'dataUrl' => "index.php?module=$moduleName&action=MassState&state=Trash&sourceView=List",
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -145,9 +150,9 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'dataUrl' => "index.php?module=$moduleName&action=MassDelete&sourceView=List",
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-eraser',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

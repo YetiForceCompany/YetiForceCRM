@@ -1,17 +1,16 @@
 <?php
 /**
- * Settings SharingAccess action model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings SharingAccess action model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
- * Sharing Access Action Model Class
+ * Sharing Access Action Model Class.
  */
 class Settings_SharingAccess_Action_Model extends \App\Base
 {
-
 	public static $nonConfigurableActions = ['Hide Details', 'Hide Details and Add Events', 'Show Details', 'Show Details and Add Events'];
 
 	public function getId()
@@ -32,13 +31,15 @@ class Settings_SharingAccess_Action_Model extends \App\Base
 	public function isModuleEnabled($module)
 	{
 		return (new \App\Db\Query())->from('vtiger_org_share_action2tab')
-				->where(['tabid' => $module->getId(), 'share_action_id' => $this->getId()])
-				->exists();
+			->where(['tabid' => $module->getId(), 'share_action_id' => $this->getId()])
+			->exists();
 	}
 
 	/**
-	 * Function to get instance of class
-	 * @param integer|string $value
+	 * Function to get instance of class.
+	 *
+	 * @param int|string $value
+	 *
 	 * @return \self
 	 */
 	public static function getInstance($value)
@@ -57,8 +58,10 @@ class Settings_SharingAccess_Action_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all action
-	 * @param boolean $configurable
+	 * Function to get all action.
+	 *
+	 * @param bool $configurable
+	 *
 	 * @return \self[]
 	 */
 	public static function getAll($configurable = true)
@@ -74,6 +77,8 @@ class Settings_SharingAccess_Action_Model extends \App\Base
 			$actionModel->setData($row);
 			$actionModels[] = $actionModel;
 		}
+		$dataReader->close();
+
 		return $actionModels;
 	}
 }

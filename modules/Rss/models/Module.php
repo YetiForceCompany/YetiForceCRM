@@ -10,10 +10,11 @@
 
 class Rss_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get the Quick Links for the module
+	 * Function to get the Quick Links for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams)
@@ -23,34 +24,30 @@ class Rss_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_ADD_FEED_SOURCE',
 				'linkurl' => $this->getDefaultUrl(),
-				'linkicon' => 'fa fa-rss',
+				'linkicon' => 'fas fa-rss',
 		]);
 		$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_RSS_FEED_SOURCES',
 				'linkurl' => 'module=' . $this->getName() . '&view=ViewTypes&mode=getRssWidget',
-				'linkicon' => ''
+				'linkicon' => '',
 		]);
+
 		return $links;
 	}
 
 	/**
-	 * Function to get rss sources list
+	 * Function to get rss sources list.
 	 */
 	public function getRssSources()
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'Select *from vtiger_rss';
-		$result = $db->pquery($sql, []);
-		$noOfRows = $db->numRows($result);
-
-		$records = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->queryResultRowData($result, $i);
+		$dataReader = (new \App\Db\Query())->from('vtiger_rss')->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$row['id'] = $row['rssid'];
 			$records[$row['id']] = $this->getRecordFromArray($row);
 		}
+		$dataReader->close();
+
 		return $records;
 	}
 }

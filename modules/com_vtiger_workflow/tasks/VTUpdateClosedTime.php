@@ -1,14 +1,13 @@
 <?php
 
 /**
- * VTUpdateClosedTime class
- * @package YetiForce.Workflow
- * @copyright YetiForce Sp. z o.o.
+ * VTUpdateClosedTime class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class VTUpdateClosedTime extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -17,7 +16,8 @@ class VTUpdateClosedTime extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)

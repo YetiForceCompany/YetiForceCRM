@@ -11,34 +11,27 @@
 
 class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Base module tools
-	 * @var string[]
+	 * @var string[] Base module tools.
 	 */
-	public static $baseModuleTools = ['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
+	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
-		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
-		'QuickExportToExcel', 'ExportPdf',
-		'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
-		'WatchingModule', 'RemoveRelation', 'ReviewingUpdates'];
+		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord'];
 
 	/**
-	 * Base module tools exceptions
-	 * @var array
+	 * @var array Base module tools exceptions.
 	 */
 	public static $baseModuleToolsExceptions = [
-		'Documents' => ['notAllowed' => ['Import', 'DuplicatesHandling']],
-		'Calendar' => ['notAllowed' => ['DuplicatesHandling']],
-		'Faq' => ['notAllowed' => ['Import', 'Export', 'DuplicatesHandling']],
-		'Events' => ['notAllowed' => 'all'],
-		'PBXManager' => ['notAllowed' => 'all'],
+		'Documents' => ['notAllowed' => ['Import']],
+		'Faq' => ['notAllowed' => ['Import', 'Export']],
 		'OSSMailView' => ['notAllowed' => 'all'],
 		'CallHistory' => ['allowed' => ['QuickExportToExcel']],
 	];
 
 	/**
-	 * Get module base tools exceptions parse to ids
+	 * Get module base tools exceptions parse to ids.
+	 *
 	 * @return array
 	 */
 	public static function getBaseModuleToolsExceptions()
@@ -65,11 +58,11 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	{
 		return ['ModTracker', 'Portal', 'Users', 'Integration',
 			'ConfigEditor', 'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip',
-			'Home'];
+			'Home', ];
 	}
 
 	/**
-	 * Function to get the url of new module import
+	 * Function to get the url of new module import.
 	 */
 	public static function getNewModuleImportUrl()
 	{
@@ -77,7 +70,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url of new module import
+	 * Function to get the url of new module import.
 	 */
 	public static function getUserModuleImportUrl()
 	{
@@ -85,7 +78,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to disable a module
+	 * Function to disable a module.
+	 *
 	 * @param type $moduleName - name of the module
 	 */
 	public function disableModule($moduleName)
@@ -95,7 +89,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to enable the module
+	 * Function to enable the module.
+	 *
 	 * @param type $moduleName -- name of the module
 	 */
 	public function enableModule($moduleName)
@@ -105,17 +100,26 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to check module name
+	 * Function to check module name.
+	 *
 	 * @param string $name
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
-	public static function checkModuleName($name)
+	public static function checkModuleName($name): bool
 	{
-		return (bool) ($name === 'Settings' || preg_match('/[^A-Za-z]/i', $name));
+		return
+			preg_match('/Settings/i', $name) ||
+			preg_match('/Api/i', $name) ||
+			preg_match('/Vtiger/i', $name) ||
+			preg_match('/CustomView/i', $name) ||
+			preg_match('/PickList/i', $name) ||
+			preg_match('/[^A-Za-z]/i', $name);
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for all the modules
+	 * Static Function to get the instance of Vtiger Module Model for all the modules.
+	 *
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
@@ -124,13 +128,15 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function which will get count of modules
-	 * @param boolean $onlyActive - if true get count of only active modules else all the modules
+	 * Function which will get count of modules.
+	 *
+	 * @param bool $onlyActive - if true get count of only active modules else all the modules
+	 *
 	 * @return <integer> number of modules
 	 */
 	public static function getModulesCount($onlyActive = false)
 	{
-		$query = (new \App\Db\Query)->from('vtiger_tab');
+		$query = (new \App\Db\Query())->from('vtiger_tab');
 		if ($onlyActive) {
 			$nonVisibleModules = self::getNonVisibleModulesList();
 			$query->where(['and', ['presence' => 0], ['NOT IN', 'name', $nonVisibleModules]]);
@@ -139,25 +145,29 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function that returns all those modules that support Module Sequence Numbering
+	 * Function that returns all those modules that support Module Sequence Numbering.
+	 *
 	 * @return <Array of Vtiger_Module_Model>
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{
-		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$subQuery = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'name'])
-				->from('vtiger_tab')
-				->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
-				->createCommand()->query();
+			->from('vtiger_tab')
+			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
+			->createCommand()->query();
 		$moduleModels = [];
 		while ($row = $dataReader->read()) {
 			$moduleModels[$row['name']] = self::getInstanceFromArray($row);
 		}
+		$dataReader->close();
+
 		return $moduleModels;
 	}
 
 	/**
-	 * Function to get restricted modules list
+	 * Function to get restricted modules list.
+	 *
 	 * @return array List module names
 	 */
 	public static function getActionsRestrictedModulesList()
@@ -191,6 +201,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field1->column = $field1->name;
 		$field1->columntype = 'string(255)';
 		$field1->typeofdata = 'V~M';
+		$field1->maximumlength = '255';
 		$block->addField($field1);
 
 		$module->setEntityIdentifier($field1);
@@ -204,6 +215,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->uitype = 4;
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
+		$field2->maximumlength = '32';
 		$block->addField($field2);
 
 		$field3 = new vtlib\Field();
@@ -213,6 +225,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field3->column = 'smownerid';
 		$field3->uitype = 53;
 		$field3->typeofdata = 'V~M';
+		$field3->maximumlength = '65535';
 		$block->addField($field3);
 
 		$field4 = new vtlib\Field();
@@ -245,6 +258,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
 		$field6->masseditable = 0;
+		$field6->maximumlength = '65535';
 		$block->addField($field6);
 
 		// Create default custom filter (mandatory)
@@ -267,17 +281,20 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		\App\Fields\RecordNumber::setNumber($module->id, 'N', 1);
+		\App\Fields\RecordNumber::getInstance($module->id)->set('prefix', 'N')->set('cur_id', 1)->save();
+
+		if ($module->type === 1) {
+			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
+		}
 	}
 
 	public static function toAlphaNumeric($value)
 	{
-		return preg_replace("/[^a-zA-Z0-9_]/", '', $value);
+		return preg_replace('/[^a-zA-Z0-9_]/', '', $value);
 	}
 
 	public static function getUploadDirectory()
 	{
-		$uploadDir = 'cache/vtlib';
-		return $uploadDir;
+		return 'cache/vtlib';
 	}
 }

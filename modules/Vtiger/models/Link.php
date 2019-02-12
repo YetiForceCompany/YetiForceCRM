@@ -10,19 +10,21 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Link Model Class
+ * Vtiger Link Model Class.
  */
 class Vtiger_Link_Model extends vtlib\Link
 {
-
 	// Class variable to store the child links
 	protected $childlinks = [];
 
 	/**
-	 * Function to get the value of a given property
+	 * Function to get the value of a given property.
+	 *
 	 * @param string $propertyName
-	 * @return <Object>
+	 *
 	 * @throws Exception
+	 *
+	 * @return <Object>
 	 */
 	public function get($propertyName)
 	{
@@ -32,20 +34,24 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to set the value of a given property
-	 * @param string $propertyName
+	 * Function to set the value of a given property.
+	 *
+	 * @param string   $propertyName
 	 * @param <Object> $propertyValue
+	 *
 	 * @return Vtiger_Link_Model instance
 	 */
 	public function set($propertyName, $propertyValue)
 	{
 		$this->$propertyName = $propertyValue;
+
 		return $this;
 	}
 
 	/**
-	 * Function to check whether link is active
-	 * @return boolean
+	 * Function to check whether link is active.
+	 *
+	 * @return bool
 	 */
 	public function isActive()
 	{
@@ -53,7 +59,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link url
+	 * Function to get the link url.
+	 *
 	 * @return string
 	 */
 	public function getUrl()
@@ -62,7 +69,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link label
+	 * Function to get the link label.
+	 *
 	 * @return string
 	 */
 	public function getLabel()
@@ -71,7 +79,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link type
+	 * Function to get the link type.
+	 *
 	 * @return string
 	 */
 	public function getType()
@@ -80,7 +89,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link icon name
+	 * Function to get the link icon name.
+	 *
 	 * @return string
 	 */
 	public function getIcon()
@@ -89,17 +99,19 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link glyphicon name
+	 * Function to get the link header icon name.
+	 *
 	 * @return string
 	 */
-	public function getGlyphiconIcon()
+	public function getHeaderIcon()
 	{
-		return $this->glyphicon;
+		return $this->icon;
 	}
 
 	/**
-	 * Function to check whether link has icon or not
-	 * @return boolean true/false
+	 * Function to check whether link has icon or not.
+	 *
+	 * @return bool true/false
 	 */
 	public function isIconExists()
 	{
@@ -111,9 +123,10 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to retrieve the icon path for the link icon
+	 * Function to retrieve the icon path for the link icon.
+	 *
 	 * @return <String/Boolean> - returns image path if icon exits
-	 *                              else returns false;
+	 *                          else returns false;
 	 */
 	public function getIconPath()
 	{
@@ -124,7 +137,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the Class Name
+	 * Function to get the Class Name.
+	 *
 	 * @return <class name>
 	 */
 	public function getClassName()
@@ -133,7 +147,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the grup Class Name
+	 * Function to get the grup Class Name.
+	 *
 	 * @return <class name>
 	 */
 	public function getGrupClassName()
@@ -142,7 +157,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link id
+	 * Function to get the link id.
+	 *
 	 * @return <Number>
 	 */
 	public function getId()
@@ -151,13 +167,15 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to Add link to the child link list
+	 * Function to Add link to the child link list.
+	 *
 	 * @param Vtiger_Link_Model $link - link model
 	 * @result Vtiger_Link_Model - current Instance;
 	 */
-	public function addChildLink(Vtiger_Link_Model $link)
+	public function addChildLink(self $link)
 	{
 		$this->childlinks[] = $link;
+
 		return $this;
 	}
 
@@ -167,7 +185,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get all the child links
+	 * Function to get all the child links.
+	 *
 	 * @result <array> - list of Vtiger_Link_Model instances
 	 */
 	public function getChildLinks()
@@ -177,8 +196,9 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to check whether the link model has any child links
-	 * @return boolean true/false
+	 * Function to check whether the link model has any child links.
+	 *
+	 * @return bool true/false
 	 */
 	public function hasChild()
 	{
@@ -195,7 +215,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Convert to native link
+	 * Convert to native link.
+	 *
 	 * @return string
 	 */
 	public function convertToNativeLink()
@@ -207,8 +228,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		//Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
 			//To convert single quotes and double quotes
-			$url = \App\Purifier::encodeHtml($url);
-			return $url;
+			return \App\Purifier::encodeHtml($url);
 		}
 		$module = $parent = false;
 		$sourceModule = false;
@@ -226,11 +246,9 @@ class Vtiger_Link_Model extends vtlib\Link
 				$module = $value;
 			}
 
-			if (strcmp($key, 'action') === 0) {
-				if (strpos($value, 'View')) {
-					$value = str_replace('View', '', $value);
-					$key = 'view';
-				}
+			if (strcmp($key, 'action') === 0 && strpos($value, 'View')) {
+				$value = str_replace('View', '', $value);
+				$key = 'view';
 			}
 			if (strcmp($key, 'return_module') === 0) {
 				$key = 'sourceModule';
@@ -266,7 +284,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			if ($relationModel && $relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
-				foreach ($fieldList as $fieldName => $fieldModel) {
+				foreach ($fieldList as $fieldModel) {
 					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
 						if (in_array($sourceModuleModel->get('name'), $referenceList)) {
@@ -281,15 +299,15 @@ class Vtiger_Link_Model extends vtlib\Link
 			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 
-		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		$url = \App\Purifier::encodeHtml($url);
-		return $url;
+		return \App\Purifier::encodeHtml(implode('&', $parametersParts));
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Link Model from the given array of key-value mapping
+	 * Function to get the instance of Vtiger Link Model from the given array of key-value mapping.
+	 *
 	 * @param array $valueMap
+	 *
 	 * @return Vtiger_Link_Model instance
 	 */
 	public static function getInstanceFromValues($valueMap)
@@ -303,13 +321,14 @@ class Vtiger_Link_Model extends vtlib\Link
 				$linkModel->$property = $value;
 			}
 		}
-
 		return $linkModel;
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Link Model from a given vtlib\Link object
+	 * Function to get the instance of Vtiger Link Model from a given vtlib\Link object.
+	 *
 	 * @param vtlib\Link $linkObj
+	 *
 	 * @return Vtiger_Link_Model instance
 	 */
 	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)
@@ -335,7 +354,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$filePath2 = str_replace('_layoutName_', \App\Layout::getActiveLayout(), $linkModel->linkurl);
 			if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filePath1)) {
 				$linkModel->linkurl = $filePath1;
-			} else if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filePath2)) {
+			} elseif (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filePath2)) {
 				$linkModel->linkurl = $filePath2;
 			}
 		}
@@ -343,13 +362,15 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get all the Vtiger Link Models for a module of the given list of link types
-	 * @param <Number> $tabid
-	 * @param <Array> $type
-	 * @param <Array> $parameters
-	 * @return <Array> - List of Vtiger_Link_Model instances
+	 * Function to get all the Vtiger Link Models for a module of the given list of link types.
+	 *
+	 * @param int        $tabid
+	 * @param string[]   $type
+	 * @param bool|array $parameters
+	 *
+	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	public static function getAllByType($tabid, $type = false, $parameters = false)
+	public static function getAllByType($tabid, $type = [], $parameters = false)
 	{
 		$links = Vtiger_Cache::get('links-' . $tabid, $type);
 		if (!$links) {
@@ -357,10 +378,15 @@ class Vtiger_Link_Model extends vtlib\Link
 			Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 		$linkModels = [];
+		if (!empty($type)) {
+			foreach ($type as $element) {
+				$linkModels[$element] = [];
+			}
+		}
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if (($type === false || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
+				if ((empty($type) || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}
@@ -369,7 +395,8 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the relatedModuleName
+	 * Function to get the relatedModuleName.
+	 *
 	 * @return string
 	 */
 	public function getRelatedModuleName($defaultModuleName = false)
@@ -378,7 +405,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (empty($this->relatedModuleName)) {
 			$queryParams = vtlib\Functions::getQueryParams($this->get('linkurl'));
 			if (isset($queryParams['module'])) {
-				$this->relatedModuleName = $relatedModuleName = $queryParams['parent'] ? $queryParams['parent'] . ':' . $queryParams['module'] : $queryParams['module'];
+				$this->relatedModuleName = $relatedModuleName = isset($queryParams['parent']) ? $queryParams['parent'] . ':' . $queryParams['module'] : $queryParams['module'];
 			}
 		} else {
 			$relatedModuleName = $this->relatedModuleName;

@@ -10,24 +10,28 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="formActionsPanel">
-	<button class="btn btn-primary saveAndComplete" type="button">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
-		<strong>{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</strong>
-	</button> 
-	<button class="btn btn-success" type="submit">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
-		<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
-	</button>&nbsp;&nbsp;
-	<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-		<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
-		<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
-	{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-		{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
-		&nbsp;&nbsp;
-	{/foreach}
-</div>
-</form>
-</div>
-</div>
+	<div class="tpl-EditViewActions c-form__action-panel d-flex justify-content-center">
+		<div class="btn-group-toggle mr-1" data-toggle="buttons">
+			<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
+				<strong>
+					<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
+					<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
+					<input type="checkbox" checked
+						   autocomplete="off">{\App\Language::translate('LBL_MARK_AS_HELD', $MODULE)}</strong>
+			</label>
+		</div>
+		<button class="btn btn-success mr-1" type="submit">
+			<span class="fas fa-check mr-1"></span>
+			<strong class="d-none d-sm-inline-block">{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+		</button>
+		<button class="btn btn-danger mr-1" type="reset" onclick="javascript:window.history.back();">
+			<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+		</button>
+		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
+		{/foreach}
+	</div>
+	</form>
+	</div>
+	</div>
 {/strip}

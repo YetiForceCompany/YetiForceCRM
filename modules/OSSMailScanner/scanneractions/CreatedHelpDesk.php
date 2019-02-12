@@ -1,21 +1,22 @@
 <?php
 /**
- * Mail scanner action creating HelpDesk
- * @package YetiForce.MailScanner
- * @copyright YetiForce Sp. z o.o.
+ * Mail scanner action creating HelpDesk.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Mail scanner action creating HelpDesk
+ * Mail scanner action creating HelpDesk.
  */
 class OSSMailScanner_CreatedHelpDesk_ScannerAction
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param OSSMail_Mail_Model $mail
+	 *
 	 * @return string
 	 */
 	public function process(OSSMail_Mail_Model $mail)
@@ -42,8 +43,10 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 	}
 
 	/**
-	 * Tworzenie zgłoszenia z maila
+	 * Tworzenie zgłoszenia z maila.
+	 *
 	 * @param OSSMail_Mail_Model $mail
+	 *
 	 * @return int
 	 */
 	public function add(OSSMail_Mail_Model $mail)
@@ -84,8 +87,10 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			while ($documentId = $dataReader->readColumn(0)) {
 				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();
 			}
+			$dataReader->close();
 		}
 		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('udate_formated'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
+
 		return $id;
 	}
 }

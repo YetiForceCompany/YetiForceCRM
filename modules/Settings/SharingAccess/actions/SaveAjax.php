@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Settings SharingAccess SaveAjax action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Settings SharingAccess SaveAjax action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
+class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-
 	public function process(\App\Request $request)
 	{
-		$modulePermissions = $request->get('permissions');
+		$modulePermissions = $request->getArray('permissions', 'Integer');
 		$modulePermissions[4] = $modulePermissions[6];
 
 		$postValues = [];

@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 	/**
@@ -23,7 +24,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
-		jQuery('.related', detailContainer).on('click', 'li', function (e, urlAttributes) {
+		jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (e, urlAttributes) {
 			var tabElement = jQuery(e.currentTarget);
 			if (!tabElement.hasClass('dropdown')) {
 				var element = jQuery('<div></div>');
@@ -35,38 +36,35 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 					}
 				});
 				var url = tabElement.data('url');
-				if (typeof urlAttributes != 'undefined') {
+				if (typeof urlAttributes !== "undefined") {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
-				thisInstance.loadContents(url, urlAttributes).then(
-						function (data) {
-							thisInstance.deSelectAllrelatedTabs();
-							thisInstance.markTabAsSelected(tabElement);
-							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
-							Vtiger_Helper_Js.showHorizontalTopScrollBar();
-							thisInstance.registerHelpInfo();
-							app.registerModal(detailContentsHolder);
-							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
-							element.progressIndicator({'mode': 'hide'});
-							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
-							if (emailEnabledModule) {
-								var listInstance = new Campaigns_List_Js();
-								listInstance.registerEvents();
-							}
-							if (typeof callBack == 'function') {
-								callBack(data);
-							}
-							//Summary tab is clicked
-							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-								thisInstance.loadWidgets();
-							}
-							thisInstance.registerBasicEvents();
-						},
-						function () {
-							element.progressIndicator({'mode': 'hide'});
+				thisInstance.loadContents(url, urlAttributes).done(	function (data) {
+						thisInstance.deSelectAllrelatedTabs();
+						thisInstance.markTabAsSelected(tabElement);
+						Vtiger_Helper_Js.showHorizontalTopScrollBar();
+						thisInstance.registerHelpInfo();
+						app.registerModal(detailContentsHolder);
+						app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
+						element.progressIndicator({'mode': 'hide'});
+						var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
+						if (emailEnabledModule) {
+							var listInstance = new Campaigns_List_Js();
+							listInstance.registerEvents();
 						}
-				);
+						if (typeof callBack == 'function') {
+							callBack(data);
+						}
+						//Summary tab is clicked
+						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+							thisInstance.loadWidgets();
+						}
+						thisInstance.registerBasicEvents();
+					}
+				).fail(function (error) {
+					element.progressIndicator({'mode': 'hide'});
+				});
 			}
 		});
 	},

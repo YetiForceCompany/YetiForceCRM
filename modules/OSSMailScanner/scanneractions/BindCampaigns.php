@@ -1,39 +1,43 @@
 <?php
 /**
- * Mail scanner action bind Campaigns
- * @package YetiForce.MailScanner
- * @copyright YetiForce Sp. z o.o.
+ * Mail scanner action bind Campaigns.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Mail scanner action bind Campaigns
+ * Mail scanner action bind Campaigns.
  */
 class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
-
 	/**
-	 * Module name
+	 * Module name.
+	 *
 	 * @var string
 	 */
 	public $moduleName = 'Campaigns';
 
 	/**
-	 * Table name
+	 * Table name.
+	 *
 	 * @var string
 	 */
 	public $tableName = 'vtiger_campaign';
 
 	/**
-	 * Table column
+	 * Table column.
+	 *
 	 * @var string
 	 */
 	public $tableColumn = 'campaign_no';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param OSSMail_Mail_Model $mail
+	 *
 	 * @return array
 	 */
 	public function process(OSSMail_Mail_Model $mail)

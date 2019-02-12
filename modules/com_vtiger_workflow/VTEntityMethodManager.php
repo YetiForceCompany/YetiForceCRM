@@ -9,13 +9,13 @@
  * **************************************************************************** */
 
 /**
- * Class VTEntityMethodManager
+ * Class VTEntityMethodManager.
  */
 class VTEntityMethodManager
 {
-
 	/**
-	 * Add entity method
+	 * Add entity method.
+	 *
 	 * @param string $moduleName
 	 * @param string $methodName
 	 * @param string $functionPath
@@ -24,60 +24,49 @@ class VTEntityMethodManager
 	public function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
 	{
 		$db = \App\Db::getInstance();
-		$id = $db->getUniqueId("com_vtiger_workflowtasks_entitymethod");
+		$id = $db->getUniqueId('com_vtiger_workflowtasks_entitymethod');
 		$db->createCommand()
 			->insert('com_vtiger_workflowtasks_entitymethod', [
 				'workflowtasks_entitymethod_id' => $id,
 				'module_name' => $moduleName,
 				'function_path' => $functionPath,
 				'function_name' => $functionName,
-				'method_name' => $methodName
+				'method_name' => $methodName,
 			])->execute();
 	}
 
 	/**
-	 * Execute method
+	 * Execute method.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
-	 * @param string $methodName
+	 * @param string              $methodName
 	 */
 	public function executeMethod(Vtiger_Record_Model $recordModel, $methodName)
 	{
-		$moduleName = $recordModel->getModuleName();
-		$data = (new \App\Db\Query())->select(['function_path', 'function_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName, 'method_name' => $methodName])->one();
+		$data = (new \App\Db\Query())->select(['function_path', 'function_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $recordModel->getModuleName(), 'method_name' => $methodName])->one();
 		if ($data) {
-			$functionPath = $data['function_path'];
-			$functionName = $data['function_name'];
-			require_once($functionPath);
-			$functionName($recordModel);
+			require_once $data['function_path'];
+			call_user_func("{$data['function_name']}::$methodName", $recordModel);
 		}
 	}
 
 	/**
-	 * Get methods for module
+	 * Get methods for module.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return array
 	 */
 	public function methodsForModule($moduleName)
 	{
 		return (new \App\Db\Query())->select(['method_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName])->column();
 	}
-	/*
-	  private function methodExists($object, $methodName){
-	  $className = get_class($object);
-	  $class = new ReflectionClass($className);
-	  $methods = $class->getMethods();
-	  foreach($methods as $method){
-	  if($method->getName()==$methodName){
-	  return true;
-	  }
-	  }
-	  return false;
-	  } */
 
 	/**
-	 * Function to remove workflowtasks entity method
+	 * Function to remove workflowtasks entity method.
+	 *
 	 * @param string $moduleName Module Name
-	 * @param string $methodName Entity Method Name.
+	 * @param string $methodName Entity Method Name
 	 */
 	public function removeEntityMethod($moduleName, $methodName)
 	{

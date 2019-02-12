@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
+class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -35,7 +35,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$records = $request->getArray('records');
+		$records = $request->getArray('records', 'Integer');
 		$moduleName = $request->getModule();
 		$template = $request->getInteger('template');
 		$targetModuleName = $request->getByType('target');
@@ -44,7 +44,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 		if (!empty($template)) {
 			$templateRecord = Vtiger_MappedFields_Model::getInstanceById($template);
 			foreach ($records as $recordId) {
-				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && $templateRecord->checkFiltersForRecord(intval($recordId))) {
+				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && $templateRecord->checkFiltersForRecord((int) $recordId)) {
 					if ($method == 0) {
 						$recordModel = Vtiger_Record_Model::getCleanInstance($targetModuleName);
 						$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);

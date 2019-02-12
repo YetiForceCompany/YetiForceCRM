@@ -11,33 +11,37 @@
 
 class Import_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Import table prefix
+	 * Import table prefix.
+	 *
 	 * @var string
 	 */
 	const IMPORT_TABLE_PREFIX = 'u_yf_import_';
 
 	/**
-	 * Auto marge state
+	 * Auto marge state.
+	 *
 	 * @var int
 	 */
 	const AUTO_MERGE_NONE = 0;
 	const AUTO_MERGE_IGNORE = 1;
 	const AUTO_MERGE_OVERWRITE = 2;
 	const AUTO_MERGE_MERGEFIELDS = 3;
+	const AUTO_MERGE_EXISTINGISPRIORITY = 4;
 
 	/**
-	 * Components name
+	 * Components name.
+	 *
 	 * @var array
 	 */
 	public static $componentReader = [
 		'csv' => 'CSVReader',
 		'vcf' => 'VCardReader',
 		'ics' => 'ICSReader',
+		'ical' => 'ICSReader',
 		'default' => 'FileReader',
 		'xml' => 'XmlReader',
-		'zip' => 'ZipReader'
+		'zip' => 'ZipReader',
 	];
 	public static $supportedFileEncoding = [
 		'UTF-8' => 'UTF-8',
@@ -54,16 +58,18 @@ class Import_Module_Model extends Vtiger_Module_Model
 	];
 	public static $supportedDelimiters = [',' => 'comma', ';' => 'semicolon'];
 	public static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
-	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf', 'xml', 'zip'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
+	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf', 'xml', 'zip'], 'Calendar' => ['csv', 'ical', 'ics', 'xml'], 'Default' => ['csv', 'xml', 'zip']];
 	public $importModule;
 	public $importModuleModel;
 
 	/**
-	 * Function returns supported extensions
+	 * Function returns supported extensions.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return array
 	 */
-	public static function getSupportedFileExtensions($moduleName = null)
+	public static function getSupportedFileExtensions(?string $moduleName = null)
 	{
 		if (!$moduleName) {
 			return self::$supportedFileExtensions;
@@ -79,15 +85,16 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns supported extensions
+	 * Function returns supported extensions.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return string
 	 */
 	public static function getSupportedFileExtensionsDescription($moduleName)
 	{
 		$supportedFileTypes = self::getSupportedFileExtensions($moduleName);
 		$description = [];
-
 		foreach ($supportedFileTypes as $fileType) {
 			$description[] = '.' . strtoupper($fileType);
 		}
@@ -95,7 +102,8 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns supported extensions
+	 * Function returns supported extensions.
+	 *
 	 * @return type
 	 */
 	public static function getSupportedFileEncoding()
@@ -104,7 +112,8 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get supported delimiters
+	 * Get supported delimiters.
+	 *
 	 * @return type
 	 */
 	public static function getSupportedDelimiters()
@@ -117,12 +126,16 @@ class Import_Module_Model extends Vtiger_Module_Model
 		return [
 			self::AUTO_MERGE_IGNORE => 'Skip',
 			self::AUTO_MERGE_OVERWRITE => 'Overwrite',
-			self::AUTO_MERGE_MERGEFIELDS => 'Merge'];
+			self::AUTO_MERGE_MERGEFIELDS => 'Merge',
+			self::AUTO_MERGE_EXISTINGISPRIORITY => 'LBL_FILL_EMPTY'
+		];
 	}
 
 	/**
-	 * Function returns list of templates to import
+	 * Function returns list of templates to import.
+	 *
 	 * @param type $moduleName
+	 *
 	 * @return array
 	 */
 	public static function getListTplForXmlType($moduleName)
@@ -144,12 +157,14 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get file reader
+	 * Get file reader.
+	 *
 	 * @param \App\Request $request
-	 * @param Users_Record_Model $user
+	 * @param \App\User    $user
+	 *
 	 * @return \Import_FileReader_Reader
 	 */
-	public static function getFileReader(\App\Request $request, Users_Record_Model $user)
+	public static function getFileReader(\App\Request $request, \App\User $user)
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
@@ -160,7 +175,8 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function that returns all the fields for the module
+	 * Function that returns all the fields for the module.
+	 *
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
@@ -183,18 +199,22 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Set import module name
+	 * Set import module name.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return $this
 	 */
 	public function setImportModule($moduleName)
 	{
 		$this->importModule = $moduleName;
+
 		return $this;
 	}
 
 	/**
-	 * Function returns module name where import takes place
+	 * Function returns module name where import takes place.
+	 *
 	 * @return string
 	 */
 	public function getImportModule()
@@ -203,7 +223,8 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns instance of the module where import takes place
+	 * Function returns instance of the module where import takes place.
+	 *
 	 * @return Vtiger_Module_Model
 	 */
 	public function getImportModuleModel()
@@ -215,8 +236,10 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns name of the table to import
+	 * Function returns name of the table to import.
+	 *
 	 * @param mixed $user
+	 *
 	 * @return string
 	 */
 	public static function getDbTableName($user)
@@ -233,8 +256,10 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns name of the table to import for data from advanced block
+	 * Function returns name of the table to import for data from advanced block.
+	 *
 	 * @param mixed $user
+	 *
 	 * @return string
 	 */
 	public static function getInventoryDbTableName($user)
@@ -243,9 +268,11 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function checks if import is blocked for user
+	 * Function checks if import is blocked for user.
+	 *
 	 * @param mixed $user
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function isUserImportBlocked($user)
 	{
@@ -257,7 +284,8 @@ class Import_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function clears data related to import of records by user
+	 * Function clears data related to import of records by user.
+	 *
 	 * @param mixed $user
 	 */
 	public static function clearUserImportInfo($user)
@@ -265,7 +293,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 		$db = \App\Db::getInstance();
 		$tables = [self::getInventoryDbTableName($user), self::getDbTableName($user)];
 		foreach ($tables as $table) {
-			if (!empty($db->getTableSchema($table))) {
+			if (!empty($db->getTableSchema($table, true))) {
 				$db->createCommand()->dropTable($table)->execute();
 			}
 		}

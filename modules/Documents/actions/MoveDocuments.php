@@ -11,9 +11,8 @@
 
 class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -23,7 +22,7 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{

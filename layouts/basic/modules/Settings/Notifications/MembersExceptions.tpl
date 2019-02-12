@@ -5,14 +5,15 @@
 		<input type="hidden" id="member" name="member" value={$MEMBER} />
 		<input type="hidden" id="mode" name="mode" value="exceptions" />
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 class="modal-title">{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}</h3>
-			<div class="clearfix"></div>
+			<h5 class="modal-title">{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
-				<div class="col-xs-12">
-					<label class="control-label">
+				<div class="col-12">
+					<label class="col-form-label">
 						{\App\Language::translate('LBL_SELECT_USER', $QUALIFIED_MODULE)}
 					</label>
 					<select id="exceptions" class="select2 form-control"  multiple="true" name="exceptions[]">
@@ -23,6 +24,6 @@
 				</div>
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
 {/strip}

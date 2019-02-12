@@ -10,11 +10,10 @@
 
 class Settings_Profiles_Delete_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$transferRecordId = $request->get('transfer_record');
+		$recordId = $request->getInteger('record');
+		$transferRecordId = $request->getInteger('transfer_record');
 
 		$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
 		$transferToProfile = Settings_Profiles_Record_Model::getInstanceById($transferRecordId);
@@ -27,10 +26,5 @@ class Settings_Profiles_Delete_Action extends Settings_Vtiger_Basic_Action
 
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

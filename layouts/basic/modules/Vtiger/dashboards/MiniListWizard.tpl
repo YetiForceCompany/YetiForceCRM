@@ -10,66 +10,78 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-Dashboards-MiniListWizard -->
 	{if $WIZARD_STEP eq 'step1'}
 		<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}</h3>
+						<h5 class="modal-title" id="massEditHeader">
+							<span class="fas fa-filter mr-1"></span>
+							{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE_NAME, $MODULE_NAME)}
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
-							<input type="hidden" name="module" value="{$MODULE}" />
-							<input type="hidden" name="action" value="MassSave" />
-
+							<input type="hidden" name="module" value="{$MODULE_NAME}"/>
+							<input type="hidden" name="action" value="MassSave"/>
 							<table class="table table-bordered">
 								<tbody>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
-										<td class="fieldValue">
-											<input type="text" class="form-control" name="widgetTitle" value="">
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_SELECT_MODULE')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="module">
-												<option></option>
-												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
-													<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
-												{/foreach}
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FILTER')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="filterid">
-												<option></option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_EDIT_FIELDS')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="fields" size="2" multiple="true">
-												<option></option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FILTER')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="filter_fields">
-												<option></option>
-											</select>
-										</td>
-									</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
+									<td class="fieldValue position-relative">
+										<input type="text" class="form-control" name="widgetTitle" value=""
+											   data-validation-engine="validate[required]">
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_SELECT_MODULE')}</td>
+									<td class="fieldValue">
+										<select class="form-control select2" name="module">
+											<option></option>
+											{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
+												<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+											{/foreach}
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_FILTER')}</td>
+									<td class="fieldValue">
+										<select class="form-control" name="filterid">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_FIELDS')}</td>
+									<td class="fieldValue">
+										<select class="form-control" name="fields" size="2" multiple="true"
+												data-validation-engine="validate[required]">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="fieldLabel alignMiddle textAlignCenter"
+										nowrap>{App\Language::translate('LBL_FILTER_FIELD')}</td>
+									<td class="fieldValue">
+										<select class="form-control" name="filter_fields">
+											<option></option>
+										</select>
+									</td>
+								</tr>
 								</tbody>
 							</table>
 						</div>
-						{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE_NAME) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL' MODULE=$MODULE_NAME}
 					</form>
 				</div>
 			</div>
@@ -89,13 +101,13 @@
 		<div>
 			<select class="form-control" name="fields" size="2" multiple="true">
 				<option></option>
-				{foreach from=$QUERY_GENERATOR->getListViewFields() item=FIELD key=FIELD_NAME}
+				{foreach from=$LIST_VIEW_FIELDS item=FIELD key=FIELD_NAME}
 					<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 				{/foreach}
 			</select>
 			<select class="form-control" name="filter_fields">
 				<option></option>
-				{foreach from=$QUERY_GENERATOR->getModuleModel()->getFieldsByBlocks() item=FIELDS key=BLOCK_NAME}
+				{foreach from=$FIELDS_BY_BLOCK item=FIELDS key=BLOCK_NAME}
 					<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 						{foreach from=$FIELDS item=FIELD}
 							{if $FIELD->isActiveSearchView()}
@@ -107,4 +119,5 @@
 			</select>
 		</div>
 	{/if}
+	<!-- /tpl-Base-Dashboards-MiniListWizard -->
 {/strip}

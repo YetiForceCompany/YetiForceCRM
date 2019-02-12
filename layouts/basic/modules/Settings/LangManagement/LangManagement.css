@@ -8,8 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 #edit_lang .table.table-condensed td{
-padding: 4px 10px;
+	padding: 4px 10px;
 }
 #edit_lang .empty_value{
-border-color: #FF0500;
+	border-color: #FF0500;
 }

@@ -1,21 +1,22 @@
 <?php
 
 /**
- * Wdiget to show new accounts
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Wdiget to show new accounts.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Function to get the newest accounts
-	 * @param string $moduleName
-	 * @param integer|array $user
-	 * @param array $time
+	 * Function to get the newest accounts.
+	 *
+	 * @param string              $moduleName
+	 * @param int|array           $user
+	 * @param array               $time
 	 * @param Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return array
 	 */
 	private function getAccounts($moduleName, $user, $time, Vtiger_Paging_Model $pagingModel)
@@ -33,19 +34,30 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['assigned_user_id']);
 			$newAccounts[$row['id']] = $row;
 		}
+		$dataReader->close();
+
 		return $newAccounts;
 	}
 
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$user = $request->getByType('owner', 2);
-		$time = $request->getArray('time');
+		$time = $request->getByType('time', 'DateRangeUserFormat');
 		if (empty($time)) {
-			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
-			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
+			$time['start'] = App\Fields\Date::formatToDisplay('now');
+			$time['end'] = App\Fields\Date::formatToDisplay('now');
+		} else {
+			foreach ($time as &$timeValue) {
+				$timeValue = App\Fields\Date::formatToDisplay($timeValue);
+			}
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
@@ -69,7 +81,6 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('OWNER', $user);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);

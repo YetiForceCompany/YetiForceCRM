@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Create Key
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * Create Key.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_View
 {
-
 	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
@@ -20,9 +19,8 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($request->getInteger('record'));
 			$accountId = $recordModel->get('accounts_id');
 			if ($recordModel && !empty($accountId)) {
 				$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($accountId));
@@ -43,11 +41,8 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 
 	public function getModalScripts(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$scripts = [
-			"modules.Settings.$moduleName.resources.Edit",
-		];
-		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
-		return $scriptInstances;
+		return $this->checkAndConvertJsScripts([
+			"modules.Settings.{$request->getModule()}.resources.Edit",
+		]);
 	}
 }

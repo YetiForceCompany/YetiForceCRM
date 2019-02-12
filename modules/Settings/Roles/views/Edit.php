@@ -8,21 +8,25 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Roles_Edit_View extends Settings_Roles_Index_View
+class Settings_Roles_Edit_View extends Settings_Roles_Index_View
 {
-
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
-		$parentRoleId = $request->get('parent_roleid');
+		$record = $request->getByType('record', 'Alnum');
 		$roleDirectlyRelated = false;
 
 		if (!empty($record)) {
 			$recordModel = Settings_Roles_Record_Model::getInstanceById($record);
 		} else {
+			$parentRoleId = $request->getByType('parent_roleid', 'Alnum');
 			$recordModel = new Settings_Roles_Record_Model();
 			$recordModel->setParent(Settings_Roles_Record_Model::getInstanceById($parentRoleId));
 			$roleDirectlyRelated = true;
@@ -39,8 +43,7 @@ Class Settings_Roles_Edit_View extends Settings_Roles_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('TYPE', $request->get('type'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('TYPE', $request->getByType('type', 'Alnum'));
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

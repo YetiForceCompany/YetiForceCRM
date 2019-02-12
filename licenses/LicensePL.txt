@@ -2,30 +2,23 @@ Licencja YetiForce Public License v3
 Licencja otwarta na zasadach licencji MIT
 Copyright (c) 2017 YetiForce Sp. z o.o.
 
-Gwarantuje się, bez opłat, że każda osoba, która wejdzie w posiadanie kopii tego Oprogramowania i związanych z nim plików dokumentacji (dalej „Oprogramowanie”) może wprowadzać do obrotu Oprogramowanie bez żadnych ograniczeń, 
-w tym bez ograniczeń prawa do użytkowania, kopiowania, modyfikowania, łączenia, publikowania, dystrybuowania, sublicencjonowania i/lub sprzedaży kopii Oprogramowania a także zezwalania osobie, 
-której Oprogramowanie zostało dostarczone czynienia tego samego, z zastrzeżeniem następujących warunków:
+Gwarantuje się, bez opłat, że każda osoba, która wejdzie w posiadanie kopii tego Oprogramowania i związanych z nim plików dokumentacji (dalej „Oprogramowanie”) może wprowadzać do obrotu Oprogramowanie bez żadnych ograniczeń, w tym bez ograniczeń prawa do użytkowania, kopiowania, modyfikowania, łączenia, publikowania, dystrybuowania, sublicencjonowania i/lub sprzedaży kopii Oprogramowania a także zezwalania osobie, której Oprogramowanie zostało dostarczone czynienia tego samego, z zastrzeżeniem następujących warunków:
 
-Powyższa nota zastrzegająca prawa autorskie oraz niniejsza nota zezwalająca muszą zostać włączone do wszystkich kopii lub istotnych części Oprogramowania. 
-Włączenie może mieć postać linku do treści licencji zgodnie z Załącznikiem A.
+Powyższa nota zastrzegająca prawa autorskie oraz niniejsza nota zezwalająca muszą zostać włączone do wszystkich kopii lub istotnych części Oprogramowania. Włączenie może mieć postać linku do treści licencji zgodnie z Załącznikiem A.
 
 Oprogramowanie używane przez ponad 14 dni musi zostać zarejestrowane za pomocą wbudowanego formularza. 
 Jeżeli rejestracja nie jest możliwa, dalsze korzystanie z Oprogramowania wymaga rejestracji za pośrednictwem wiadomości email (registration@yetiforce.com), zgodnie z Załącznikiem B. 
 Potwierdzeniem rejestracji Oprogramowania jest poprawnie przesłany formularz rejestracji (wprowadzenie go do systemu komunikacji elektronicznej), który zawiera pełne i prawdziwe dane rejestrowe. 
 Obowiązkowi rejestracji podlega każda firma (rejestracja nie dotyczy pracowników tych firm ani osób prywatnych), która korzysta, konfiguruje lub modyfikuje Oprogramowanie, niezależnie czy czyni to dla siebie czy na zlecenie innych podmiotów.
 
-Dane wykorzystane przy rejestracji muszą być prawdziwe. Wszystkie przekazane informacje rejestrowe, w tym nazwa firmy,
-mogą być wykorzystane przez YetiForce Sp. z o.o. do celów marketingowych (tj. przygotowanie statystyk, publikacja na stronie www). 
+Dane wykorzystane przy rejestracji muszą być prawdziwe. Wszystkie przekazane informacje rejestrowe, w tym nazwa firmy, mogą być wykorzystane przez YetiForce Sp. z o.o. do celów marketingowych (tj. przygotowanie statystyk, publikacja na stronie www). 
 YetiForce Sp. z o.o. nie sprzedaje i nie przekazuje tych danych innym podmiotom oraz gwarantuje ich poufność.  
 
 Korzystając z Oprogramowania nie można usuwać ani zmieniać treści stopki systemu, w tym odesłań do strony www i social media YetiForce Sp. z o.o. 
 Stopkę można dostosować kolorystycznie o ile zmienił się szablon systemu, pod warunkiem utrzymania czytelności. 
 Stopka systemu może zostać usunięta za uprzednią pisemną zgodą YetiForce Sp. z o.o.
 
-OPROGRAMOWANIE JEST DOSTARCZONE TAKIM, JAKIE JEST, BEZ JAKIEJKOLWIEK GWARANCJI, WYRAŹNEJ LUB DOROZUMIANEJ, 
-NIE WYŁĄCZAJĄC GWARANCJI PRZYDATNOŚCI HANDLOWEJ LUB PRZYDATNOŚCI DO OKREŚLONYCH CELÓW A TAKŻE BRAKU WAD PRAWNYCH. 
-W ŻADNYM PRZYPADKU TWÓRCA LUB POSIADACZ PRAW AUTORSKICH NIE MOŻE PONOSIĆ ODPOWIEDZIALNOŚCI Z TYTUŁU ROSZCZEŃ LUB WYRZĄDZONEJ SZKODY A TAKŻE ŻADNEJ INNEJ ODPOWIEDZIALNOŚCI CZY TO WYNIKAJĄCEJ Z UMOWY, 
-DELIKTU, CZY JAKIEJKOLWIEK INNEJ PODSTAWY POWSTAŁEJ W ZWIĄZKU Z OPROGRAMOWANIEM LUB UŻYTKOWANIEM GO LUB WPROWADZANIEM GO DO OBROTU.
+OPROGRAMOWANIE JEST DOSTARCZONE TAKIM, JAKIE JEST, BEZ JAKIEJKOLWIEK GWARANCJI, WYRAŹNEJ LUB DOROZUMIANEJ, NIE WYŁĄCZAJĄC GWARANCJI PRZYDATNOŚCI HANDLOWEJ LUB PRZYDATNOŚCI DO OKREŚLONYCH CELÓW A TAKŻE BRAKU WAD PRAWNYCH. W ŻADNYM PRZYPADKU TWÓRCA LUB POSIADACZ PRAW AUTORSKICH NIE MOŻE PONOSIĆ ODPOWIEDZIALNOŚCI Z TYTUŁU ROSZCZEŃ LUB WYRZĄDZONEJ SZKODY A TAKŻE ŻADNEJ INNEJ ODPOWIEDZIALNOŚCI CZY TO WYNIKAJĄCEJ Z UMOWY, DELIKTU, CZY JAKIEJKOLWIEK INNEJ PODSTAWY POWSTAŁEJ W ZWIĄZKU Z OPROGRAMOWANIEM LUB UŻYTKOWANIEM GO LUB WPROWADZANIEM GO DO OBROTU.
 
 
 Załącznik A

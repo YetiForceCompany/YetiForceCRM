@@ -1,18 +1,17 @@
 <?php
 
 /**
- * Save notification
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Save notification.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
-
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -23,14 +22,15 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 	}
 
 	/**
-	 * Function adds/removes members
+	 * Function adds/removes members.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function addOrRemoveMembers(\App\Request $request)
 	{
-		$module = $request->get('srcModule');
-		$members = $request->get('members');
-		$state = $request->get('isToAdd') ? 1 : 0;
+		$module = $request->getInteger('srcModule');
+		$members = $request->getArray('members', 'Text');
+		$state = $request->getBoolean('isToAdd') ? 1 : 0;
 		if (!empty($members)) {
 			if (!is_array($members)) {
 				$members = [$members];
@@ -47,14 +47,15 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 	}
 
 	/**
-	 * Function sets lock status
+	 * Function sets lock status.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function lock(\App\Request $request)
 	{
-		$module = $request->get('srcModule');
-		$members = $request->get('members');
-		$lock = $request->get('lock');
+		$module = $request->getInteger('srcModule');
+		$members = $request->getArray('members', 'Text');
+		$lock = $request->getBoolean('lock') ? 1 : 0;
 		if (!empty($members)) {
 			if (!is_array($members)) {
 				$members = [$members];
@@ -71,14 +72,15 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 	}
 
 	/**
-	 * Function sets exceptions for users
+	 * Function sets exceptions for users.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function exceptions(\App\Request $request)
 	{
-		$module = $request->get('srcModule');
-		$member = $request->get('member');
-		$exceptions = $request->get('exceptions');
+		$module = $request->getInteger('srcModule');
+		$member = $request->getByType('member', 'Text');
+		$exceptions = $request->getArray('exceptions', 'Integer');
 		if (!empty($member)) {
 			$watchdogModel = Vtiger_Watchdog_Model::getInstance($module);
 			$watchdogModel->exceptions($exceptions, $member);

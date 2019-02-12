@@ -6,8 +6,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
-var AppConnector = {
+AppConnector = {
 
 	/**
 	 * Sends a pjax request (push state +ajax)
@@ -36,66 +37,68 @@ var AppConnector = {
 	},
 
 	_request: function (params, pjaxMode, rawData) {
-		var aDeferred = jQuery.Deferred();
-		if (typeof rawData == 'undefined') {
+		const aDeferred = jQuery.Deferred();
+		if (typeof rawData === "undefined") {
 			rawData = false;
 		}
-		if (typeof pjaxMode == 'undefined') {
+		if (typeof pjaxMode === "undefined") {
 			pjaxMode = false;
 		}
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
-		var fullUrl = '';
+		let fullUrl = '',
+			index,
+			callerParams;
 		//caller has send only data
-		if (typeof params.data == 'undefined' || rawData) {
-			if (typeof params == 'string') {
-				var callerParams = fullUrl = params;
-				var index = callerParams.indexOf('?');
+		if (typeof params.data === "undefined" || rawData) {
+			if (typeof params === 'string') {
+				callerParams = fullUrl = params;
+				index = callerParams.indexOf('?');
 				if (index !== -1) {
-					var subStr = callerParams.substr(0, index + 1);//need to replace only "index.php?" or "?"
+					let subStr = callerParams.substr(0, index + 1);//need to replace only "index.php?" or "?"
 					callerParams = callerParams.replace(subStr, '');
 				}
 			} else {
-				callerParams = jQuery.extend({}, params);
+				callerParams = $.extend({}, params);
 			}
 			params = {};
 			params.data = callerParams;
 		}
 		//Make the request as post by default
-		if (typeof params.type == 'undefined' || rawData)
+		if (typeof params.type === "undefined" || rawData)
 			params.type = 'POST';
-		if (typeof params.jsonp == 'undefined' || rawData)
+		if (typeof params.jsonp === "undefined" || rawData)
 			params.jsonp = false;
 
 		//By default we expect json from the server
-		if (typeof params.dataType == 'undefined' || rawData) {
-			var data = params.data;
+		if (typeof params.dataType === "undefined" || rawData) {
+			let data = params.data;
 			//view will return html
 			params.dataType = 'json';
 			if (data.hasOwnProperty('view')) {
 				params.dataType = 'html';
-			} else if (typeof data == 'string' && data.indexOf('&view=') !== -1) {
+			} else if (typeof data === 'string' && data.indexOf('&view=') !== -1) {
 				params.dataType = 'html';
 			}
-			if (typeof params.url != 'undefined' && params.url.indexOf('&view=') !== -1) {
+			if (typeof params.url !== "undefined" && params.url.indexOf('&view=') !== -1) {
 				params.dataType = 'html';
 			}
 		}
 		//If url contains params then seperate them and make them as data
-		if (typeof params.url != 'undefined' && params.url.indexOf('?') !== -1) {
+		if (typeof params.url !== "undefined" && params.url.indexOf('?') !== -1) {
 			fullUrl = params.url;
-			var urlSplit = params.url.split('?');
-			var queryString = urlSplit[1];
+			let urlSplit = params.url.split('?'),
+				queryString = urlSplit[1];
 			params.url = urlSplit[0];
-			var queryParameters = queryString.split('&');
-			for (var index = 0; index < queryParameters.length; index++) {
-				var queryParam = queryParameters[index];
-				var queryParamComponents = queryParam.split('=');
+			let queryParameters = queryString.split('&');
+			for (index = 0; index < queryParameters.length; index++) {
+				let queryParam = queryParameters[index],
+					queryParamComponents = queryParam.split('=');
 				params.data[queryParamComponents[0]] = queryParamComponents[1];
 			}
 		}
-		if (typeof params.url == 'undefined' || params.url.length <= 0) {
+		if (typeof params.url === "undefined" || params.url.length <= 0) {
 			params.url = 'index.php';
 		}
 		params.success = function (data, status, jqXHR) {
@@ -110,19 +113,38 @@ var AppConnector = {
 			}
 			aDeferred.resolve(data);
 		};
-		params.error = function (jqXHR, textStatus, errorThrown, yyyy, uuu) {
-			app.errorLog(jqXHR, textStatus, errorThrown);
-			aDeferred.reject(textStatus, errorThrown);
+		params.error = function (jqXHR, textStatus, errorThrown) {
+			let action = jqXHR.getResponseHeader('yf-action');
+			if (action === 'logout') {
+				window.location.href = 'index.php';
+			}
+			if (CONFIG.debug) {
+				if (jqXHR.status === 406) {
+					let sep = "-".repeat(150);
+					console.warn("%cYetiForce debug mode!!!", "color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;");
+					console.error('Error: ' + errorThrown, '\n' + sep + '\nTrace:\n' + sep + '\n' + (jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''), '\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t'));
+				} else {
+					app.errorLog(jqXHR, textStatus, errorThrown);
+				}
+			}
+			aDeferred.reject(textStatus, errorThrown, jqXHR);
 		};
 		jQuery.ajax(params);
 		if (pjaxMode) {
+			if (typeof params.data.historyUrl !== 'undefined') {
+				fullUrl = params.data.historyUrl;
+			}
 			if (fullUrl === '') {
 				fullUrl = 'index.php?' + $.param(params.data);
 			} else if (fullUrl.indexOf('index.php?') === -1) {
 				fullUrl = 'index.php?' + fullUrl;
 			}
 			if (history.pushState && fullUrl !== '') {
-				window.history.replaceState("text", "Title", fullUrl);
+				const currentHref = window.location.href;
+				if (!history.state) {
+					history.replaceState(currentHref, "title 1", currentHref);
+				}
+				history.pushState(fullUrl, "title 2", fullUrl);
 			}
 		}
 		return aDeferred.promise();
@@ -130,10 +152,10 @@ var AppConnector = {
 
 	requestForm: function (url, params) {
 		var newEle = '<form action=' + url + ' method="POST">';
-		if (typeof csrfMagicName !== 'undefined') {
+		if (typeof csrfMagicName !== "undefined") {
 			newEle += '<input type="hidden" name="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 		}
-		if (typeof params !== 'undefined') {
+		if (typeof params !== "undefined") {
 			jQuery.each(params, function (index, value) {
 				newEle += '<input type="hidden" name="' + index + '"  value=\'' + value + '\'>';
 			});

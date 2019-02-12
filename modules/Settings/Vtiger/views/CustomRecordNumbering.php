@@ -10,9 +10,9 @@
 
 class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Page title
+	 * Page title.
+	 *
 	 * @var type
 	 */
 	protected $pageTitle = 'LBL_CUSTOMIZE_RECORD_NUMBERING';
@@ -32,25 +32,23 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
+		$viewer->assign('PICKLISTS', $defaultModuleModel->getFieldsByType(['picklist']));
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.CustomRecordNumbering',
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		]));
 	}
 }

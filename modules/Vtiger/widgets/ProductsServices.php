@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger ProductsServices widget class
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger ProductsServices widget class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_ProductsServices_Widget extends Vtiger_Basic_Widget
 {
-
 	public $allowedModules = ['Accounts'];
 
 	public function getUrl()
@@ -20,6 +19,7 @@ class Vtiger_ProductsServices_Widget extends Vtiger_Basic_Widget
 	{
 		$this->Config['url'] = $this->getUrl();
 		$this->Config['tpl'] = 'ProductsServicesBasic.tpl';
+
 		return $this->Config;
 	}
 

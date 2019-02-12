@@ -1,10 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 	/*
-	 * Shows or hides block informing about supported currencies by presently chosen bank
+	 * Shows or hides block informing about supported currencies by presently select bank
 	 */
-	registerTestButton: function (container) {
-		container.find('.testSpeed').on('click', function () {
+	registerButtons: function (container) {
+		container.find('.js-test-speed').on('click', function () {
 			var progress = jQuery.progressIndicator({
 				message: app.vtranslate('JS_SPEED_TEST_START'),
 				position: 'html',
@@ -16,22 +18,40 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 				parent: 'Settings',
 				module: 'ConfReport',
 				view: 'Speed'
-			}).then(function (response) {
-				app.showModalWindow(response, function (data) {
-					
-				});
+			}).done(function (response) {
+				app.showModalWindow(response);
 				progress.progressIndicator({mode: 'hide'});
-			}, function (data, err) {
+			}).fail(function (data, err) {
 				progress.progressIndicator({mode: 'hide'});
-			})
+			});
+		});
+		container.find('.js-check-php').on('click', function () {
+			AppConnector.request({
+				parent: 'Settings',
+				module: 'ConfReport',
+				action: 'Check'
+			}).done(function (response) {
+				if(response.success){
+					Vtiger_Helper_Js.showPnotify({
+						title: response.result.title,
+						text: response.result.text,
+						type: 'info'
+					});
+				}
 
+			});
+		});
+		container.find('#download-image').on('click', (e) => {
+			app.htmlToImage(container).then((img) => {
+				$(`<a href="${img}" download="yetiforce_settings.png"></a>`).get(0).click();
+			});
 		});
 	},
 	/**
 	 * Register events
 	 */
 	registerEvents: function () {
-		var container = jQuery('.contentsDiv');
-		this.registerTestButton(container);
+		let container = $('.contentsDiv');
+		this.registerButtons(container);
 	}
 });

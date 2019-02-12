@@ -10,41 +10,33 @@
 
 class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
-
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-
-		$recordId = $request->get('record');
-		if (!$recordId) {
+		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$qualifiedModuleName = $request->getModule(false);
-
-		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
-
+		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule(false));
 		$fieldsList = $recordModel->getModule()->getEditableFieldsList();
 		foreach ($fieldsList as $fieldName) {
-			$fieldValue = $request->get($fieldName);
+			$fieldValue = $request->getByType($fieldName, 'Alnum');
 			if (isset($fieldValue)) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
 		}
-
 		$recordModel->save();
-
 		$response = new Vtiger_Response();
 		$response->setResult([true]);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

@@ -11,7 +11,6 @@
 
 class Import_VCardReader_Reader extends Import_FileReader_Reader
 {
-
 	protected $vCardPattern = '/BEGIN:VCARD.*?END:VCARD/si';
 	protected $skipLabels = ['BEGIN', 'END', 'VERSION'];
 	public static $fileContents = null;
@@ -29,11 +28,10 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		if (empty(self::$fileContents)) {
 			self::$fileContents = file_get_contents($filePath);
 		}
-		$fileContents = self::$fileContents;
 
 		$data = null;
 		$matches = [];
-		preg_match_all($this->vCardPattern, $fileContents, $matches);
+		preg_match_all($this->vCardPattern, self::$fileContents, $matches);
 
 		$row = $matches[0][0];
 		$fieldValueMappings = explode("\r\n", $row);
@@ -49,7 +47,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 	}
 
 	/**
-	 * Function creates tables for import in database
+	 * Function creates tables for import in database.
 	 */
 	public function read()
 	{
@@ -63,10 +61,9 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		if (empty(self::$fileContents)) {
 			self::$fileContents = file_get_contents($filePath);
 		}
-		$fileContents = self::$fileContents;
 
 		$matches = [];
-		preg_match_all($this->vCardPattern, $fileContents, $matches);
+		preg_match_all($this->vCardPattern, self::$fileContents, $matches);
 		$countMatches = count($matches[0]);
 		for ($i = 0; $i < $countMatches; ++$i) {
 			$row = $matches[0][$i];
@@ -88,14 +85,14 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 				if ($this->request->get('file_encoding') !== $defaultCharset) {
 					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 				}
-				if (!empty($fieldValue))
+				if (!empty($fieldValue)) {
 					$allValuesEmpty = false;
+				}
 			}
-			if ($allValuesEmpty)
+			if ($allValuesEmpty) {
 				continue;
-			$fieldNames = array_keys($mappedData);
-			$fieldValues = array_values($mappedData);
-			$this->addRecordToDB($fieldNames, $fieldValues);
+			}
+			$this->addRecordToDB($mappedData);
 		}
 	}
 }

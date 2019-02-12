@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Notifications parser class
- * @package YetiForce.TextParser
- * @copyright YetiForce Sp. z o.o.
+ * Notifications parser class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Notification_Notifications_TextParser extends \App\TextParser\Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_NOTIFICATIONS';
 
@@ -17,7 +16,8 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 	public $type = 'mail';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -35,12 +35,12 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 				foreach ($entries[$typeId] as $notification) {
 					$title = preg_replace_callback(
 						$pattern, function ($matches) {
-						return \AppConfig::main('site_URL') . $matches[0];
-					}, $notification->getTitle());
+							return \AppConfig::main('site_URL') . $matches[0];
+						}, $notification->getTitle());
 					$massage = preg_replace_callback(
 						$pattern, function ($matches) {
-						return \AppConfig::main('site_URL') . $matches[0];
-					}, $notification->getMessage());
+							return \AppConfig::main('site_URL') . $matches[0];
+						}, $notification->getMessage());
 					$html .= "<li>$title<br />$massage</li>";
 				}
 				$html .= '</ul><br />';

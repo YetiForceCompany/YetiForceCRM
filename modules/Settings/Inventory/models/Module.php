@@ -1,14 +1,12 @@
 <?php
 
 /**
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_Module_Model extends \App\Base
 {
-
 	public static function getCleanInstance()
 	{
 		return new self();
@@ -19,6 +17,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 		$picklists['aggregation'] = ['LBL_CANNOT_BE_COMBINED', 'LBL_IN_TOTAL', 'LBL_CASCADE'];
 		$picklists['discounts'] = ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL'];
 		$picklists['taxs'] = ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL', 'LBL_REGIONAL'];
+
 		return $picklists[$type];
 	}
 
@@ -31,7 +30,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 
 	public static function getConfig($type, $name = false)
 	{
-		\App\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
+		\App\Log::trace('Start ' . __METHOD__ . ' | Type: ' . print_r($type, true) . ' | Name: ' . print_r($name, true));
 		$tableName = self::getTableNameFromType($type);
 		$query = (new \App\Db\Query())->from($tableName);
 		if ($name && !is_array($name)) {
@@ -45,15 +44,19 @@ class Settings_Inventory_Module_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$output[$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		\App\Log::trace('End ' . __METHOD__);
+
 		return $output;
 	}
 
 	/**
-	 * Function saves configuration data to database
+	 * Function saves configuration data to database.
+	 *
 	 * @param string $type
-	 * @param array $param
-	 * @return boolean
+	 * @param array  $param
+	 *
+	 * @return bool
 	 */
 	public function setConfig($type, $param)
 	{
@@ -64,6 +67,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 			->execute();
 		\App\Cache::delete('Inventory', $type);
 		\App\Log::trace('End ' . __METHOD__);
+
 		return true;
 	}
 }

@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Brute force model class
- * @package YetiForce.Settings.Module
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author YetiForce.com
+ * Brute force model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    YetiForce.com
  */
 class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	const UNBLOCKED = 0;
 	const BLOCKED = 1;
 	const UNBLOCKED_BY_USER = 2;
@@ -18,19 +17,22 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	private $blockedId;
 
 	/**
-	 * Function includes class instances
+	 * Function includes class instances.
+	 *
 	 * @return Settings_BruteForce_Module_Model
 	 */
 	public static function getCleanInstance()
 	{
 		$instance = new self();
 		$instance->setData(self::getBruteForceSettings());
+
 		return $instance;
 	}
 
 	/**
-	 * Function verifies if module is active
-	 * @return boolean
+	 * Function verifies if module is active.
+	 *
+	 * @return bool
 	 */
 	public function isActive()
 	{
@@ -38,7 +40,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns module configuration
+	 * Function returns module configuration.
+	 *
 	 * @return array
 	 */
 	public static function getBruteForceSettings()
@@ -48,11 +51,13 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$row = (new App\Db\Query())->from('a_#__bruteforce')->one();
 		App\Cache::save('BruteForce', 'Settings', $row, App\Cache::LONG);
+
 		return $row;
 	}
 
 	/**
-	 * Function gets unsuccessful login attempts data of blocked users
+	 * Function gets unsuccessful login attempts data of blocked users.
+	 *
 	 * @return array
 	 */
 	public function getBlockedIp()
@@ -67,12 +72,15 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			->andWhere(['>=', 'time', $blockDate->format('Y-m-d H:i:s')])
 			->andWhere(['blocked' => self::BLOCKED])
 			->andWhere(['>=', 'attempts', $this->get('attempsnumber')]);
+
 		return $query->createCommand()->queryAll();
 	}
 
 	/**
-	 * Functions gets data from login history
+	 * Functions gets data from login history.
+	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 */
 	public function getLoginHistoryData($data)
@@ -85,17 +93,19 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$historyData = $query->createCommand()->queryAllByGroup(2);
 		$users = array_keys($historyData);
 		$browsers = [];
-		foreach ($historyData as $userName => $browsersUserName) {
+		foreach ($historyData as $browsersUserName) {
 			$browsers = array_merge($browsers, $browsersUserName);
 		}
 		$data['usersName'] = implode(', ', $users);
 		$data['browsers'] = implode(', ', array_unique($browsers));
+
 		return $data;
 	}
 
 	/**
-	 * Function verifies if user is blocked
-	 * @return boolean
+	 * Function verifies if user is blocked.
+	 *
+	 * @return bool
 	 */
 	public function isBlockedIp()
 	{
@@ -113,25 +123,26 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			->andWhere(['ip' => $ip])
 			->andWhere(['blocked' => self::BLOCKED])
 			->scalar();
+
 		return $this->isBlocked = (!empty($this->blockedId));
 	}
 
 	/**
-	 * Function increases the number of unsuccessful login attempts
+	 * Function increases the number of unsuccessful login attempts.
 	 */
 	public function incAttempts()
 	{
 		if (!empty($this->blockedId)) {
 			\App\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
-					'attempts' => new \yii\db\Expression('attempts + 1')
-					], ['id' => $this->blockedId])
+					'attempts' => new \yii\db\Expression('attempts + 1'),
+				], ['id' => $this->blockedId])
 				->execute();
 		}
 	}
 
 	/**
-	 * Function updates unsuccessful login attempts
+	 * Function updates unsuccessful login attempts.
 	 */
 	public function updateBlockedIp()
 	{
@@ -143,11 +154,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$ip = \App\RequestUtil::getRemoteIP(true);
 
 		$bfData = (new \App\Db\Query())
-				->select(['id', 'attempts'])
-				->from('a_#__bruteforce_blocked')
-				->where(['>=', 'time', $checkData])
-				->andWhere(['blocked' => self::UNBLOCKED])
-				->andWhere(['ip' => $ip])->one();
+			->select(['id', 'attempts'])
+			->from('a_#__bruteforce_blocked')
+			->where(['>=', 'time', $checkData])
+			->andWhere(['blocked' => self::UNBLOCKED])
+			->andWhere(['ip' => $ip])->one();
 		if (!$bfData) {
 			$this->setBlockedIp($ip);
 		} else {
@@ -157,7 +168,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 				->update('a_#__bruteforce_blocked', [
 					'attempts' => $attempts,
 					'blocked' => $blocked,
-					], ['id' => $bfData['id']])
+				], ['id' => $bfData['id']])
 				->execute();
 			$this->isBlocked = $blocked === self::BLOCKED;
 			$this->blockedId = $bfData['id'];
@@ -167,8 +178,10 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function adds unsuccessful login attempt to database 
+	 * Function adds unsuccessful login attempt to database.
+	 *
 	 * @param string $ip - User IP
+	 *
 	 * @return int - Created records ID
 	 */
 	private function setBlockedIp($ip)
@@ -181,12 +194,14 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			'blocked' => self::UNBLOCKED,
 		])->execute();
 		$this->isBlocked = false;
+
 		return $this->blockedId = $db->getLastInsertID('a_#__bruteforce_blocked_id_seq');
 	}
 
 	/**
-	 * Function removes redundant entries from database
-	 * @param string $ip - User IP
+	 * Function removes redundant entries from database.
+	 *
+	 * @param string $ip   - User IP
 	 * @param string $data - Cut-off date of users block condition
 	 */
 	private function clearBlockedByIp($ip, $data)
@@ -195,26 +210,27 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
 			['blocked' => self::UNBLOCKED],
-			['ip' => $ip]])->execute();
+			['ip' => $ip], ])->execute();
 	}
 
 	/**
-	 * Function unblocks user
+	 * Function unblocks user.
+	 *
 	 * @param int $id - Record ID
 	 */
 	public static function unBlock($id)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		return \App\Db::getInstance('admin')->createCommand()
-				->update('a_#__bruteforce_blocked', [
-					'blocked' => self::UNBLOCKED_BY_USER,
-					'userid' => $currentUser->getRealId()
-					], ['id' => $id])
-				->execute();
+			->update('a_#__bruteforce_blocked', [
+				'blocked' => self::UNBLOCKED_BY_USER,
+				'userid' => \App\User::getCurrentUserRealId(),
+			], ['id' => $id])
+			->execute();
 	}
 
 	/**
-	 * Function returns a list of users who are administrators
+	 * Function returns a list of users who are administrators.
+	 *
 	 * @return array - List of users
 	 */
 	public static function getAdminUsers()
@@ -223,7 +239,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function updates module configuration 
+	 * Function updates module configuration.
+	 *
 	 * @param array $data - Configuration data
 	 */
 	public static function updateConfig($data)
@@ -246,7 +263,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns table of users selected for notifications
+	 * Function returns table of users selected for notifications.
+	 *
 	 * @return array - ID list of users
 	 */
 	public static function getUsersForNotifications()
@@ -255,7 +273,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function sends notifications
+	 * Function sends notifications.
 	 */
 	public function sendNotificationEmail()
 	{
@@ -264,6 +282,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			$usersId = self::getUsersForNotifications();
 			if (count($usersId) === 0) {
 				\App\Log::trace('End ' . __METHOD__ . ' - No brute force users found to send email');
+
 				return false;
 			}
 			$emails = [];
@@ -273,7 +292,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			\App\Mailer::sendFromTemplate([
 				'template' => 'BruteForceSecurityRiskHasBeenDetected',
-				'moduleName' => 'Contacts',
+				'moduleName' => 'Users',
 				'to' => $emails,
 			]);
 		}

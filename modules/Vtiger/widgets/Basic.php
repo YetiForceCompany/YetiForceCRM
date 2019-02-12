@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger basic widget class
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger basic widget class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Basic_Widget
 {
-
 	public $Module = false;
 	public $Record = false;
 	public $Config = [];
@@ -22,7 +21,7 @@ class Vtiger_Basic_Widget
 		$this->Record = $Record;
 		$this->Config = $widget;
 		$this->Config['tpl'] = 'Basic.tpl';
-		$this->Data = isset($widget['data']) ? $widget['data'] : [];
+		$this->Data = $widget['data'] ?? [];
 		$this->moduleModel = $moduleModel;
 	}
 

@@ -11,7 +11,9 @@
 
 class Project_DetailView_Model extends Vtiger_DetailView_Model
 {
-
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewLinks($linkParams)
 	{
 		$recordModel = $this->getRecord();
@@ -23,8 +25,9 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'Add Project Task',
 				'linkurl' => 'index.php?module=ProjectTask&action=EditView&projectid=' . $recordId . '&return_module=Project&return_action=DetailView&return_id=' . $recordId,
-				'linkicon' => 'glyphicon glyphicon-tasks',
+				'linkicon' => 'fas fa-tasks',
 				'linkhint' => 'Add Project Task',
+				'linkclass' => 'btn-outline-dark btn-sm'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
 		}
@@ -33,8 +36,9 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'Add Note',
 				'linkurl' => 'index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=' . $recordId . '&parent_id=' . $recordId,
-				'linkicon' => 'glyphicon glyphicon-file',
+				'linkicon' => 'fas fa-file',
 				'linkhint' => 'Add Note',
+				'linkclass' => 'btn-outline-dark btn-sm'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
 		}
@@ -42,7 +46,8 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 	}
 
 	/**
-	 * Function to get the detail view related links
+	 * Function to get the detail view related links.
+	 *
 	 * @return <array> - list of links parameters
 	 */
 	public function getDetailViewRelatedLinks()
@@ -58,17 +63,17 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'Charts'
+				'related' => 'Charts',
 			];
 		}
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('Gantt') && \App\Module::isModuleActive('ProjectTask') && \App\Module::isModuleActive('ProjectMilestone')) {
+		if (\App\Module::isModuleActive('ProjectTask') && \App\Module::isModuleActive('ProjectMilestone')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => \App\Language::translate('LBL_GANTT', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showGantt',
 				'linkicon' => '',
 				'linkKey' => 'LBL_GANTT',
-				'related' => 'Gantt'
+				'related' => 'Gantt',
 			];
 		}
 		return $relatedLinks;

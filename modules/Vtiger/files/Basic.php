@@ -1,37 +1,44 @@
 <?php
 /**
- * Basic class to handle files
- * @package YetiForce.Files
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Basic class to handle files.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Basic class to handle files
+ * Basic class to handle files.
  */
 abstract class Vtiger_Basic_File
 {
-
 	/**
-	 * Storage name
-	 * @var string 
+	 * Storage name.
+	 *
+	 * @var string
 	 */
 	public $storageName = '';
+	/**
+	 * File type.
+	 *
+	 * @var string
+	 */
+	public $fileType = '';
 
 	/**
-	 * Checking permission in get method
+	 * Checking permission in get method.
+	 *
 	 * @param \App\Request $request
-	 * @return boolean
+	 *
 	 * @throws \App\Exceptions\NoPermitted
+	 *
+	 * @return bool
 	 */
 	public function getCheckPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		$field = $request->getInteger('field');
-		if ($record) {
-			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
+		if (!$request->isEmpty('record')) {
+			$moduleName = $request->getModule();
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record')) || !\App\Field::getFieldPermission($moduleName, $request->getByType('field', 2))) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		} else {
@@ -41,18 +48,20 @@ abstract class Vtiger_Basic_File
 	}
 
 	/**
-	 * Checking permission in post method
+	 * Checking permission in post method.
+	 *
 	 * @param \App\Request $request
-	 * @return boolean
+	 *
 	 * @throws \App\Exceptions\NoPermitted
+	 *
+	 * @return bool
 	 */
 	public function postCheckPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
-		$field = $request->getByType('field', 1);
-		if (!empty($record)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$field = $request->getByType('field', 'Alnum');
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
@@ -65,47 +74,21 @@ abstract class Vtiger_Basic_File
 	}
 
 	/**
-	 * Get and save files
+	 * Get and save files.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function post(\App\Request $request)
 	{
-		$attach = [];
-		$files = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
-		foreach ($files as $key => $file) {
-			foreach ($file as $key => $fileData) {
-				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
-				if ($result) {
-					$attach[] = ['id' => $result, 'name' => $fileData['name']];
-				}
-			}
-		}
+		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->fileType, $this->storageName);
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
-				'field' => $request->get('field'),
+				'field' => $request->getByType('field', 'Alnum'),
 				'module' => $request->getModule(),
-				'attach' => $attach
+				'attach' => $attach,
 			]);
 			$response->emit();
 		}
-	}
-
-	/**
-	 * Get storage name
-	 * @return string
-	 */
-	public function getStorageName()
-	{
-		return $this->storageName;
-	}
-
-	/**
-	 * Get file type
-	 * @return string
-	 */
-	public function getFileType()
-	{
-		return $this->fileType;
 	}
 }

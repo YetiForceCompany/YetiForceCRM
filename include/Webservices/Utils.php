@@ -9,22 +9,30 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once('include/database/PearDatabase.php');
-require_once("modules/Users/Users.php");
-require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/utils.php';
-require_once 'include/utils/UserInfoUtil.php';
+require_once 'include/database/PearDatabase.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/WebServiceError.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'include/Webservices/Utils.php';
 require_once 'include/utils/VtlibUtils.php';
 
 class WebservicesUtils
 {
-
 	/**
-	 * Function used to get the lead related Notes and Attachments with other entities Account, Contact and Potential
-	 * @param integer $id - leadid
-	 * @param integer $relatedId -  related entity id (accountid / contactid)
+	 * Function used to get the lead related Notes and Attachments with other entities Account, Contact and Potential.
+	 *
+	 * @param int $id        - leadid
+	 * @param int $relatedId -  related entity id (accountid / contactid)
 	 */
-	public static function vtws_getRelatedNotesAttachments($id, $relatedId)
+	public static function vtwsGetRelatedNotesAttachments($id, $relatedId)
 	{
 		$adb = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
@@ -53,15 +61,15 @@ class WebservicesUtils
 	 * Function used to save the lead related products with other entities Account, Contact and Potential
 	 * $leadid - leadid
 	 * $relatedid - related entity id (accountid/contactid/potentialid)
-	 * $setype - related module(Accounts/Contacts)
+	 * $setype - related module(Accounts/Contacts).
 	 */
-	public static function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
+	public static function vtwsSaveLeadRelatedProducts($leadId, $relatedId, $setype)
 	{
 		$db = \App\Db::getInstance();
 		$dataReader = (new \App\Db\Query())->select(['productid'])
-				->from('vtiger_seproductsrel')
-				->where(['crmid' => $leadId])
-				->createCommand()->query();
+			->from('vtiger_seproductsrel')
+			->where(['crmid' => $leadId])
+			->createCommand()->query();
 		if ($dataReader->count() === 0) {
 			return false;
 		}
@@ -71,12 +79,14 @@ class WebservicesUtils
 					'productid' => $productId,
 					'setype' => $setype,
 					'rel_created_user' => \App\User::getCurrentUserId(),
-					'rel_created_time' => date('Y-m-d H:i:s')
+					'rel_created_time' => date('Y-m-d H:i:s'),
 				])->execute();
 			if ($resultNew === 0) {
 				return false;
 			}
 		}
+		$dataReader->close();
+
 		return true;
 	}
 
@@ -84,13 +94,13 @@ class WebservicesUtils
 	 * Function used to save the lead related services with other entities Account, Contact and Potential
 	 * $leadid - leadid
 	 * $relatedid - related entity id (accountid/contactid/potentialid)
-	 * $setype - related module(Accounts/Contacts)
+	 * $setype - related module(Accounts/Contacts).
 	 */
-	public static function vtws_saveLeadRelations($leadId, $relatedId, $setype)
+	public static function vtwsSaveLeadRelations($leadId, $relatedId, $setype)
 	{
 		$db = \App\Db::getInstance();
 		$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
-				->createCommand()->query();
+			->createCommand()->query();
 		if ($dataReader->count() === 0) {
 			return false;
 		}
@@ -99,14 +109,15 @@ class WebservicesUtils
 					'crmid' => $relatedId,
 					'module' => $setype,
 					'relcrmid' => $row['relcrmid'],
-					'relmodule' => $row['relmodule']
+					'relmodule' => $row['relmodule'],
 				])->execute();
 			if ($resultNew === 0) {
 				return false;
 			}
 		}
+		$dataReader->close();
 		$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
-				->createCommand()->query();
+			->createCommand()->query();
 		if ($dataReader->count() === 0) {
 			return false;
 		}
@@ -115,22 +126,26 @@ class WebservicesUtils
 					'crmid' => $relatedId,
 					'module' => $setype,
 					'relcrmid' => $row['crmid'],
-					'relmodule' => $row['module']
+					'relmodule' => $row['module'],
 				])->execute();
 			if ($resultNew === 0) {
 				return false;
 			}
 		}
+		$dataReader->close();
+
 		return true;
 	}
 
 	/**
-	 * vtws_getFieldfromFieldId
-	 * @param int $fieldId
+	 * vtwsGetFieldfromFieldId.
+	 *
+	 * @param int                 $fieldId
 	 * @param Vtiger_Module_Model $moduleModel
+	 *
 	 * @return null|Vtiger_Field_Model
 	 */
-	public static function vtws_getFieldfromFieldId($fieldId, Vtiger_Module_Model $moduleModel)
+	public static function vtwsGetFieldfromFieldId($fieldId, Vtiger_Module_Model $moduleModel)
 	{
 		foreach ($moduleModel->getFields() as $field) {
 			if ($fieldId == $field->getId()) {
@@ -141,17 +156,17 @@ class WebservicesUtils
 	}
 
 	/**
-	 * Function used to get the lead related activities with other entities Account and Contact
-	 * @param integer $leadId - lead entity id
-	 * @param integer $accountId - related account id
-	 * @param integer $contactId -  related contact id
-	 * @param integer $relatedId - related entity id to which the records need to be transferred
+	 * Function used to get the lead related activities with other entities Account and Contact.
+	 *
+	 * @param int $leadId    - lead entity id
+	 * @param int $accountId - related account id
+	 * @param int $contactId -  related contact id
+	 * @param int $relatedId - related entity id to which the records need to be transferred
 	 */
-	public static function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
+	public static function vtwsGetRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	{
-
 		if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
-			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Activities/Emails");
+			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, 'Failed to move related Activities/Emails');
 		}
 		$db = \App\Db::getInstance();
 		if (!empty($accountId)) {
@@ -164,16 +179,18 @@ class WebservicesUtils
 	}
 
 	/**
-	 * Function used to save the lead related Campaigns with Contact
+	 * Function used to save the lead related Campaigns with Contact.
+	 *
 	 * @param $leadid - leadid
 	 * @param $relatedid - related entity id (contactid/accountid)
-	 * @return Boolean true on success, false otherwise.
+	 *
+	 * @return bool true on success, false otherwise
 	 */
-	public static function vtws_saveLeadRelatedCampaigns($leadId, $relatedId)
+	public static function vtwsSaveLeadRelatedCampaigns($leadId, $relatedId)
 	{
 		$db = \App\Db::getInstance();
 		$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
-				'crmid' => $relatedId
+				'crmid' => $relatedId,
 				], ['crmid' => $leadId]
 			)->execute();
 		if ($rowCount == 0) {
@@ -183,31 +200,32 @@ class WebservicesUtils
 	}
 
 	/**
-	 * Function used to transfer all the lead related records to given Entity(Contact/Account) record
+	 * Function used to transfer all the lead related records to given Entity(Contact/Account) record.
+	 *
 	 * @param $leadid - leadid
 	 * @param $relatedid - related entity id (contactid/accountid)
 	 * @param $setype - related module(Accounts/Contacts)
 	 */
-	public static function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
+	public static function vtwsTransferLeadRelatedRecords($leadId, $relatedId, $seType)
 	{
-
 		if (empty($leadId) || empty($relatedId) || empty($seType)) {
-			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Records");
+			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, 'Failed to move related Records');
 		}
-		static::vtws_getRelatedNotesAttachments($leadId, $relatedId);
-		static::vtws_saveLeadRelatedProducts($leadId, $relatedId, $seType);
-		static::vtws_saveLeadRelations($leadId, $relatedId, $seType);
-		static::vtws_saveLeadRelatedCampaigns($leadId, $relatedId);
-		static::vtws_transferComments($leadId, $relatedId);
-		static::vtws_transferRelatedRecords($leadId, $relatedId);
+		static::vtwsGetRelatedNotesAttachments($leadId, $relatedId);
+		static::vtwsSaveLeadRelatedProducts($leadId, $relatedId, $seType);
+		static::vtwsSaveLeadRelations($leadId, $relatedId, $seType);
+		static::vtwsSaveLeadRelatedCampaigns($leadId, $relatedId);
+		static::vtwsTransferComments($leadId, $relatedId);
+		static::vtwsTransferRelatedRecords($leadId, $relatedId);
 	}
 
 	/**
-	 * The function transfers the comments
+	 * The function transfers the comments.
+	 *
 	 * @param int $sourceRecordId
 	 * @param int $destinationRecordId
 	 */
-	public static function vtws_transferComments($sourceRecordId, $destinationRecordId)
+	public static function vtwsTransferComments($sourceRecordId, $destinationRecordId)
 	{
 		if (\App\Module::isModuleActive('ModComments')) {
 			CRMEntity::getInstance('ModComments');
@@ -216,15 +234,14 @@ class WebservicesUtils
 	}
 
 	/**
-	 * The function transfers related records
+	 * The function transfers related records.
+	 *
 	 * @param int $sourceRecordId
 	 * @param int $destinationRecordId
 	 */
-	public static function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
+	public static function vtwsTransferRelatedRecords($sourceRecordId, $destinationRecordId)
 	{
 		$db = \App\Db::getInstance();
-		//PBXManager
-		$db->createCommand()->update('vtiger_pbxmanager', ['customer' => $destinationRecordId], ['customer' => $sourceRecordId])->execute();
 		//OSSPasswords
 		$db->createCommand()->update('vtiger_osspasswords', ['linkto' => $destinationRecordId], ['linkto' => $sourceRecordId])->execute();
 		//Contacts

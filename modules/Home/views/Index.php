@@ -10,9 +10,8 @@
 
 class Home_Index_View extends Vtiger_Index_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{

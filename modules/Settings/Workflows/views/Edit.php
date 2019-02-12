@@ -10,7 +10,6 @@
 
 class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -25,27 +24,24 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
-
-		$recordId = $request->get('record');
-		$viewer->assign('RECORDID', $recordId);
+		$recordId = !$request->isEmpty('record') ? $request->getInteger('record') : '';
 		if ($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 			$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		}
+		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('RECORD_MODE', $request->getMode());
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
 	public function step1(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$weekDays = ['Sunday' => 0, 'Monday' => 1, 'Tuesday' => 2, 'Wednesday' => 3, 'Thursday' => 4, 'Friday' => 5, 'Saturday' => 6];
-
-		$recordId = $request->get('record');
-		if ($recordId) {
+		if (!$request->isEmpty('record')) {
+			$recordId = $request->getInteger('record');
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODULE_MODEL', $workflowModel->getModule());
@@ -66,24 +62,19 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
 		$admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
-		$viewer->assign('WEEK_START_ID', $weekDays[$currentUser->get('dayoftheweek')]);
+		$viewer->assign('WEEK_START_ID', $weekDays[\App\User::getCurrentUserModel()->getDetail('dayoftheweek')]);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
 	public function step2(\App\Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-
-		if ($recordId) {
-			$workFlowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+		if (!$request->isEmpty('record')) {
+			$workFlowModel = Settings_Workflows_Record_Model::getInstance($request->getInteger('record'));
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
@@ -91,16 +82,14 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
-
 		$requestData = $request->getAll();
 		foreach ($requestData as $name => $value) {
-			if ($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') {
-				if (is_string($value)) { // need to save these as json data
-					$value = [$value];
-				}
+			if (($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') && is_string($value)) { // need to save these as json data
+				$value = [$value];
 			}
-			if ($name == 'summary')
+			if ($name == 'summary') {
 				$value = htmlspecialchars($value);
+			}
 			$workFlowModel->set($name, $value);
 		}
 		//Added to support advance filters
@@ -120,7 +109,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		if ($workFlowModel->isFilterSavedInNew()) {
 			$viewer->assign('ADVANCE_CRITERIA', $workFlowModel->transformToAdvancedFilterCondition());
 		} else {
-			$viewer->assign('ADVANCE_CRITERIA', "");
+			$viewer->assign('ADVANCE_CRITERIA', '');
 		}
 
 		$viewer->assign('IS_FILTER_SAVED_NEW', $workFlowModel->isFilterSavedInNew());
@@ -135,19 +124,15 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-
+		$recordId = !$request->isEmpty('record') ? $request->getInteger('record') : '';
 		if ($recordId) {
 			$workFlowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->getByType('module_name', 2);
-			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
-
 		$moduleModel = $workFlowModel->getModule();
 		$viewer->assign('TASK_TYPES', Settings_Workflows_TaskType_Model::getAllForModule($moduleModel));
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
@@ -156,29 +141,22 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
 		$viewer->assign('TASK_LIST', $workFlowModel->getTasks());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			'libraries.jquery.clipboardjs.clipboard',
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-			'~libraries/jquery/ckeditor/ckeditor.js',
-			'modules.Vtiger.resources.CkEditor',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+			'~vendor/ckeditor/ckeditor/ckeditor.js',
+			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
+		]));
 	}
 }

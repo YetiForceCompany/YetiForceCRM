@@ -10,7 +10,6 @@
 
 class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -22,7 +21,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 		switch ($request->getByType('step', 2)) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
-				//Since comments is not treated as seperate module 
+				//Since comments is not treated as seperate module
 				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);
 				break;
@@ -33,6 +32,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				}
 				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
+				$viewer->assign('SELECTED_MODULE', $selectedModule);
 				break;
 			case 'step3':
 				$selectedModule = $request->getByType('selectedModule', 2);
@@ -41,8 +41,12 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				}
 				$queryGenerator = new \App\QueryGenerator($selectedModule);
 				$queryGenerator->initForCustomViewById($request->getInteger('filterid'));
+				$viewer->assign('FIELDS_BY_BLOCK', $queryGenerator->getModuleModel()->getFieldsByBlocks());
+				$viewer->assign('LIST_VIEW_FIELDS', $queryGenerator->getListViewFields());
 				$viewer->assign('QUERY_GENERATOR', $queryGenerator);
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
+				break;
+			default:
 				break;
 		}
 		$viewer->view('dashboards/MiniListWizard.tpl', $moduleName);

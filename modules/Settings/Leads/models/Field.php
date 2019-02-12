@@ -10,9 +10,9 @@
 
 class Settings_Leads_Field_Model extends Vtiger_Field_Model
 {
-
 	/**
-	 * Function to get field data type
+	 * Function to get field data type.
+	 *
 	 * @return string data type
 	 */
 	public function getFieldDataType()
@@ -25,11 +25,16 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 		if (!$fieldDataType) {
 			$fieldDataType = parent::getFieldDataType();
 			switch ($fieldDataType) {
-				case 'text' : $fieldDataType = 'textArea';
+				case 'text':
+					$fieldDataType = 'textArea';
 					break;
-				case 'boolean' : $fieldDataType = 'checkBox';
+				case 'boolean':
+					$fieldDataType = 'checkBox';
 					break;
-				case 'multipicklist' : $fieldDataType = 'multiSelectCombo';
+				case 'multipicklist':
+					$fieldDataType = 'multiSelectCombo';
+					break;
+				default:
 					break;
 			}
 		}
@@ -37,7 +42,8 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get clean instance
+	 * Function to get clean instance.
+	 *
 	 * @return <Settings_Leads_Field_Model>
 	 */
 	public static function getCleanInstance()
@@ -46,9 +52,11 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get instance
+	 * Function to get instance.
+	 *
 	 * @param <String/Integer> $value
-	 * @param string $module
+	 * @param string           $module
+	 *
 	 * @return <Settings_Leads_Field_Model> field model
 	 */
 	public static function getInstance($value, $module = false)

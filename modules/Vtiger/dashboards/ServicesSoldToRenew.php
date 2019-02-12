@@ -1,15 +1,14 @@
 <?php
 
 /**
- * ServicesSoldToRenew Dashboard Class
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * ServicesSoldToRenew Dashboard Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Dashboard
 {
-
 	public function setData($data)
 	{
 		if (empty($data['orderby'])) {
@@ -34,8 +33,11 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 		return 'osssoldservices_renew';
 	}
 
-	public function getConditions()
+	/**
+	 * (@inheritdoc}.
+	 */
+	public function getConditions(): array
 	{
-		return ['ssservicesstatus' => 'PLL_ACCEPTED', 'osssoldservices_renew' => 'PLL_WAITING_FOR_RENEWAL'];
+		return [['ssservicesstatus', 'e', 'PLL_ACCEPTED'], ['osssoldservices_renew', 'e', 'PLL_WAITING_FOR_RENEWAL']];
 	}
 }

@@ -1,14 +1,13 @@
 <?php
 
 /**
- * OSSTimeControl record model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * OSSTimeControl record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
+class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
-
 	const RECALCULATE_STATUS = 'Accepted';
 
 	public static $referenceFieldsToTime = ['link', 'process', 'subprocess'];
@@ -27,14 +26,6 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public static function setSumTime($data)
-	{
-		$start = strtotime(DateTimeField::convertToDBFormat($data->get('date_start')) . ' ' . $data->get('time_start'));
-		$end = strtotime(DateTimeField::convertToDBFormat($data->get('due_date')) . ' ' . $data->get('time_end'));
-		$time = round(abs($end - $start) / 3600, 2);
-		\App\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['sum_time' => $time], ['osstimecontrolid' => $data->getId()])->execute();
-	}
-
 	public function getDuplicateRecordUrl()
 	{
 		$module = $this->getModule();
@@ -45,5 +36,28 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 
 		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true&date_start='
 			. $currDate . '&due_date=' . $currDate . '&time_start=' . $time . '&time_end=' . $time;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function changeState($state)
+	{
+		parent::changeState($state);
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Trash':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+			default:
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['deleted' => $stateId], ['osstimecontrolid' => $this->getId()])->execute();
 	}
 }

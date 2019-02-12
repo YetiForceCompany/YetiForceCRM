@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Widget show estimated value by status
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * Widget show estimated value by status.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Function to get search params in address listview
-	 * @param int $owner number id of user
+	 * Function to get search params in address listview.
+	 *
+	 * @param int    $owner  number id of user
 	 * @param string $status
+	 *
 	 * @return string
 	 */
 	public function getSearchParams($owner, $status)
@@ -21,49 +22,70 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		$listSearchParams = [];
 		$conditions = [];
 		if (!empty($owner)) {
-			$conditions [] = ['assigned_user_id', 'e', $owner];
+			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		if (!empty($status)) {
-			$conditions [] = ['ssalesprocesses_status', 'e', $status];
+			$conditions[] = ['ssalesprocesses_status', 'e', $status];
 		}
 		$listSearchParams[] = $conditions;
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
-	 * Function to get data to chart
+	 * Function to get data to chart.
+	 *
 	 * @param int $owner
+	 *
 	 * @return <Array>
 	 */
 	private function getEstimatedValue($owner = false)
 	{
 		$moduleName = 'SSalesProcesses';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$query = (new \App\Db\Query())->select('SUM(u_#__ssalesprocesses.estimated) AS estimated, u_#__ssalesprocesses.ssalesprocesses_status')
-			->from('u_yf_ssalesprocesses')
-			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
-			->where(['and', ['<>', 'ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['ssalesprocesses_status' => null]]]);
+		$query = (new \App\Db\Query())->select([
+			'estimated' => new \yii\db\Expression('SUM(u_#__ssalesprocesses.estimated)'),
+			'u_#__ssalesprocesses.ssalesprocesses_status',
+			'vtiger_ssalesprocesses_status.ssalesprocesses_statusid',
+		])
+		->from('u_yf_ssalesprocesses')
+		->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
+		->innerJoin('vtiger_ssalesprocesses_status', 'u_#__ssalesprocesses.ssalesprocesses_status = vtiger_ssalesprocesses_status.ssalesprocesses_status')
+		->where(['and', ['<>', 'u_#__ssalesprocesses.ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['u_#__ssalesprocesses.ssalesprocesses_status' => null]]])
+		->orderBy(['vtiger_ssalesprocesses_status.sortorderid' => SORT_DESC]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($owner)) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
-		$query->groupBy('u_#__ssalesprocesses.ssalesprocesses_status');
+		$query->groupBy(['u_#__ssalesprocesses.ssalesprocesses_status', 'vtiger_ssalesprocesses_status.ssalesprocesses_statusid']);
 		$dataReader = $query->createCommand()->query();
-		$data = [];
-		$i = 1;
-		$currencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
+		$currencyInfo = \App\Fields\Currency::getDefault();
+		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'names' => [], // names for link generation
+					'links' => [], // links generated in proccess method
+				],
+			],
+			'show_chart' => false,
+		];
 		while ($row = $dataReader->read()) {
-			$data [] = [
-				\App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
-				$i++,
-				$moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status'])
-			];
+			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
+			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['ssalesprocesses_statusid']];
+			$chartData['datasets'][0]['links'][] = $moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status']);
+			$chartData['labels'][] = \App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'];
 		}
-		return $data;
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
+		$dataReader->close();
+		return $chartData;
 	}
 
 	/**
-	 * Main function
+	 * Main function.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -73,12 +95,14 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner'))
+		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
-		else
+		} else {
 			$owner = $request->getByType('owner', 2);
-		if ($owner == 'all')
+		}
+		if ($owner == 'all') {
 			$owner = '';
+		}
 		$data = $this->getEstimatedValue($owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Browsing history
- * @package YetiForce.Helpers
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Michał Lorencik <m.lorencik@yetiforce.com>
+ * Browsing history.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Michał Lorencik <m.lorencik@yetiforce.com>
  */
 class Vtiger_BrowsingHistory_Helper
 {
-
 	/**
-	 * Get browsing history
+	 * Get browsing history.
+	 *
 	 * @return array
 	 */
 	public static function getHistory()
@@ -58,7 +58,8 @@ class Vtiger_BrowsingHistory_Helper
 	}
 
 	/**
-	 * Save step in browsing history
+	 * Save step in browsing history.
+	 *
 	 * @param string $title
 	 */
 	public static function saveHistory($title)
@@ -66,31 +67,28 @@ class Vtiger_BrowsingHistory_Helper
 		if (empty(App\User::getCurrentUserId())) {
 			return false;
 		}
-
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
-		parse_str(parse_url($url, PHP_URL_QUERY), $urlQuery);
-
+		parse_str(parse_url(\App\Purifier::decodeHtml($url), PHP_URL_QUERY), $urlQuery);
 		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
-
-		if (!empty($urlQuery['module']) && !empty($urlQuery['view'])) {
-			if (in_array($urlQuery['view'], $validViews)) {
-				if (!empty($urlQuery['record'])) {
-					$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
-				}
-
-				\App\Db::getInstance()->createCommand()
-					->insert('u_#__browsinghistory', [
-						'userid' => App\User::getCurrentUserId(),
-						'date' => date('Y-m-d H:i:s'),
-						'title' => $title,
-						'url' => $url
-					])->execute();
+		if (!empty($urlQuery['module']) && !empty($urlQuery['view']) && in_array($urlQuery['view'], $validViews)) {
+			if (!empty($urlQuery['record'])) {
+				$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
 			}
+			if (mb_strlen($title) > 255) {
+				$title = \App\TextParser::textTruncate($title, 255, false);
+			}
+			\App\Db::getInstance()->createCommand()
+				->insert('u_#__browsinghistory', [
+					'userid' => App\User::getCurrentUserId(),
+					'date' => date('Y-m-d H:i:s'),
+					'title' => $title,
+					'url' => $url,
+				])->execute();
 		}
 	}
 
 	/**
-	 * Clear browsing history for user
+	 * Clear browsing history for user.
 	 */
 	public static function deleteHistory()
 	{

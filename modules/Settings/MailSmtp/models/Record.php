@@ -1,17 +1,17 @@
 <?php
 
 /**
- * MailSmtp record model class
- * @package YetiForce.Settings.Record
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * MailSmtp record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return int Id
 	 */
 	public function getId()
@@ -20,7 +20,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Name
+	 * Function to get the Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -29,16 +30,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Delete Action Url
-	 * @return string URL
-	 */
-	public function getDeleteActionUrl()
-	{
-		return 'index.php?module=MailSmtp&parent=Settings&action=DeleteAjax&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get the Detail Url
+	 * Function to get the Detail Url.
+	 *
 	 * @return string URL
 	 */
 	public function getDetailViewUrl()
@@ -47,7 +40,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Edit View Url
+	 * Function to get the Edit View Url.
+	 *
 	 * @return string URL
 	 */
 	public function getEditViewUrl()
@@ -56,7 +50,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Save Ajax 
+	 * Function to get the Save Ajax.
+	 *
 	 * @return string URL
 	 */
 	public function getSaveAjaxActionUrl()
@@ -65,7 +60,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return array - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
@@ -76,16 +72,16 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
-				'linkclass' => 'btn btn-xs btn-info'
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-xs btn-info',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn btn-xs btn-danger'
-			]
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-xs btn-danger text-white',
+			],
 		];
 		foreach ($recordLinks as &$recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
@@ -94,8 +90,10 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $key
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($key)
@@ -111,24 +109,24 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'password':
 			case 'smtp_password':
-				$passLength = strlen($value);
-				$value = '';
-				for ($i = 0; $i < $passLength; $i++) {
-					$value .= '*';
-				}
+				$value = str_repeat('*', strlen($value));
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
 					$value = \App\Mailer::$statuses[$value];
 				}
 				break;
+			default:
+				break;
 		}
 		return $value;
 	}
 
 	/**
-	 * Function to get the Display Value, for the checbox field type with given DB Insert Value
+	 * Function to get the Display Value, for the checbox field type with given DB Insert Value.
+	 *
 	 * @param int $value
+	 *
 	 * @return string
 	 */
 	public function getDisplayCheckboxValue($value)
@@ -142,7 +140,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to delete the current Record Model
+	 * Function to delete the current Record Model.
 	 */
 	public function delete()
 	{
@@ -152,9 +150,11 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance of advanced permission record model
+	 * Function to get the instance of advanced permission record model.
+	 *
 	 * @param int $id
-	 * @return \self instance, if exists.
+	 *
+	 * @return \self instance, if exists
 	 */
 	public static function getInstanceById($id)
 	{
@@ -168,7 +168,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the clean instance
+	 * Function to get the clean instance.
+	 *
 	 * @return \self
 	 */
 	public static function getCleanInstance()
@@ -176,11 +177,12 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:MailSmtp');
 		$instance = new self();
 		$instance->module = $moduleInstance;
+
 		return $instance;
 	}
 
 	/**
-	 * Function to save
+	 * Function to save.
 	 */
 	public function save()
 	{

@@ -10,10 +10,10 @@
 
 class Documents_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Functions tells if the module supports workflow
-	 * @return boolean
+	 * Functions tells if the module supports workflow.
+	 *
+	 * @return bool
 	 */
 	public function isWorkflowSupported()
 	{
@@ -21,8 +21,9 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to check whether the module is summary view supported
-	 * @return boolean - true/false
+	 * Function to check whether the module is summary view supported.
+	 *
+	 * @return bool - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -30,34 +31,33 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$queryGenerator->addNativeCondition(['and',
 			['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
-			['vtiger_notes.filestatus' => 1]
+			['vtiger_notes.filestatus' => 1],
 		]);
 	}
 
 	/**
-	 * Function to get popup view fields
-	 * @param string|boolean $sourceModule
-	 * @return string[]
+	 * {@inheritdoc}
 	 */
-	public function getPopupViewFieldsList($sourceModule = false)
+	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
-		$popupFields = parent::getPopupViewFieldsList($sourceModule);
-		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
-		foreach ($reqPopUpFields as &$fieldName) {
-			if (!isset($popupFields[$fieldName])) {
+		$popupFields = parent::getModalRecordsListFields($queryGenerator, $sourceModule);
+		$headerFields = $queryGenerator->getListViewFields();
+		foreach (['filestatus', 'filesize', 'filelocationtype'] as $fieldName) {
+			if (!isset($headerFields[$fieldName])) {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
 				if ($fieldModel->getPermissions()) {
-					$popupFields[$fieldName] = $fieldName;
+					$queryGenerator->setField($fieldName);
 				}
 			}
 		}
@@ -65,42 +65,42 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Alphabet Search Field
+	 * Function to get Alphabet Search Field.
 	 */
 	public function getAlphabetSearchField()
 	{
 		return 'notes_title';
 	}
 
+	/**
+	 * Function to get Settings links.
+	 *
+	 * @return <Array>
+	 */
 	public function getSettingLinks()
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
-
-
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
-
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
-				'linkicon' => $editWorkflowsImagePath
+				'linkicon' => 'adminIcon-triggers',
 			];
 		}
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_EDIT_FIELDS',
 			'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
-			'linkicon' => $layoutEditorImagePath
+			'linkicon' => 'adminIcon-modules-fields',
 		];
 
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
 			'linkurl' => 'index.php?parent=Settings&module=Picklist&source_module=' . $this->getName(),
-			'linkicon' => ''
+			'linkicon' => 'adminIcon-fields-picklists',
 		];
 
 		if ($this->hasSequenceNumberField()) {
@@ -108,15 +108,15 @@ class Documents_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_MODULE_SEQUENCE_NUMBERING',
 				'linkurl' => 'index.php?parent=Settings&module=Vtiger&view=CustomRecordNumbering&sourceModule=' . $this->getName(),
-				'linkicon' => ''
+				'linkicon' => 'fas fa-exchange-alt',
 			];
 		}
-
 		return $settingsLinks;
 	}
 
 	/**
-	 * Added function that returns the folders in a Document
+	 * Added function that returns the folders in a Document.
+	 *
 	 * @return array
 	 */
 	public function getAllFolders()
@@ -125,10 +125,11 @@ class Documents_Module_Model extends Vtiger_Module_Model
 			->from('vtiger_field')
 			->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes'])
 			->scalar();
+
 		return (new \App\Db\Query())
-				->select(['tree', 'name'])
-				->from('vtiger_trees_templates_data')
-				->where(['templateid' => $templateId])
-				->createCommand()->queryAllByGroup();
+			->select(['tree', 'name'])
+			->from('vtiger_trees_templates_data')
+			->where(['templateid' => $templateId])
+			->createCommand()->queryAllByGroup();
 	}
 }

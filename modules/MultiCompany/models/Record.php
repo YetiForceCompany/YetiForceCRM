@@ -1,17 +1,19 @@
 <?php
 
 /**
- * Record Class for MultiCompany
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Record Class for MultiCompany.
+ *
+ * @package   Model
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class MultiCompany_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function returns the details of IStorages Hierarchy
+	 * Function returns the details of IStorages Hierarchy.
+	 *
 	 * @return array
 	 */
 	public function getHierarchy()
@@ -26,9 +28,20 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('MultiCompany');
 				$recordModel->setId($id);
-				$hierarchy['entries'][$id][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
+				$hierarchy['entries'][$id][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
 			}
 		}
 		return $hierarchy;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function save()
+	{
+		parent::save();
+		if ($this->getPreviousValue('logo')) {
+			\App\UserPrivilegesFile::reloadByMultiCompany($this->getId());
+		}
 	}
 }

@@ -1,32 +1,34 @@
 <?php
 /**
- * Ideas CRMEntity class
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Ideas CRMEntity class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 /**
- * Class Ideas
+ * Class Ideas.
  */
 class Ideas extends Vtiger_CRMEntity
 {
-
 	/**
-	 * Table name
+	 * Table name.
+	 *
 	 * @var string
 	 */
 	public $table_name = 'vtiger_ideas';
 
 	/**
-	 * Table index
+	 * Table index.
+	 *
 	 * @var string
 	 */
 	public $table_index = 'ideasid';
 
 	/**
-	 * Column fields
+	 * Column fields.
+	 *
 	 * @var array
 	 */
 	public $column_fields = [];
@@ -47,25 +49,26 @@ class Ideas extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ideas' => 'ideasid',
-		'vtiger_ideascf' => 'ideasid'];
+		'vtiger_ideascf' => 'ideasid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => ['ideas', 'ideas_no'],
 		'LBL_SUBJECT' => ['ideas', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid']
+		'Assigned To' => ['crmentity', 'smownerid'],
 	];
 
 	/**
-	 * List fields name
+	 * List fields name.
+	 *
 	 * @var array
 	 */
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_NO' => 'ideas_no',
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
@@ -79,7 +82,7 @@ class Ideas extends Vtiger_CRMEntity
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => ['ideas', 'ideas_no'],
 		'LBL_SUBJECT' => ['ideas', 'subject'],
@@ -87,11 +90,12 @@ class Ideas extends Vtiger_CRMEntity
 	];
 
 	/**
-	 * Search fields name
+	 * Search fields name.
+	 *
 	 * @var array
 	 */
 	public $search_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_NO' => 'ideas_no',
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
@@ -110,21 +114,21 @@ class Ideas extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String $moduleName Module name
-	 * @param String $eventType Event Type
+	 *
+	 * @param string $moduleName Module name
+	 * @param string $eventType  Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-
-			$ModuleInstance = CRMEntity::getInstance('Ideas');
-			\App\Fields\RecordNumber::setNumber($moduleName, 'ID', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'ID')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Ideas'])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
-				if (class_exists('ModComments'))
+				if (class_exists('ModComments')) {
 					ModComments::addWidgetTo(['Ideas']);
+				}
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		}

@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Mail record model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * Mail record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return int Id
 	 */
 	public function getId()
@@ -20,7 +20,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Name
+	 * Function to get the Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -29,16 +30,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Delete Action Url
-	 * @return string URL
-	 */
-	public function getDeleteActionUrl()
-	{
-		return 'index.php?module=Mail&parent=Settings&action=DeleteAjax&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get the Acceptance Action Url
+	 * Function to get the Acceptance Action Url.
+	 *
 	 * @return string URL
 	 */
 	public function getAcceptanceActionUrl()
@@ -47,18 +40,22 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Detail Url
+	 * Function to get the Detail Url.
+	 *
 	 * @return string URL
 	 */
 	public function getDetailViewUrl()
 	{
 		$menu = Settings_Vtiger_MenuItem_Model::getInstance('LBL_EMAILS_TO_SEND');
+
 		return 'index.php?module=Mail&parent=Settings&view=Detail&record=' . $this->getId() . '&fieldid=' . $menu->get('fieldid');
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $key
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($key)
@@ -100,20 +97,22 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 							$name = 'LBL_FILE';
 						}
 						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record={$this->getId()}&selectedFile=$fileCounter";
-						$value .= "<a href=\"$actionPath\" title=\"$path\">$name</a>, ";
-						$fileCounter++;
+						$value .= '<form action="' . $actionPath . '" method="POST"><button class="btn btn-sm btn-outline-secondary" title="' . $name . '" data-selected-file="' . $fileCounter . '">' . $name . '</button></form>';
+						++$fileCounter;
 					}
-
-					$value = rtrim($value, ', ');
 				}
+				break;
+			default:
 				break;
 		}
 		return $value;
 	}
 
 	/**
-	 * Function to get the display value for emails
+	 * Function to get the display value for emails.
+	 *
 	 * @param array $emails
+	 *
 	 * @return string
 	 */
 	public function getDisplayValueForEmail($emails)
@@ -134,7 +133,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to delete the current Record Model
+	 * Function to delete the current Record Model.
 	 */
 	public function delete()
 	{
@@ -144,7 +143,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return array - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
@@ -155,17 +155,17 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACCEPTANCE_RECORD',
 				'linkurl' => '#',
-				'linkicon' => 'glyphicon glyphicon-ok',
-				'linkclass' => 'btn btn-xs btn-success acceptanceRecord'
+				'linkicon' => 'fas fa-check',
+				'linkclass' => 'btn btn-xs btn-success acceptanceRecord',
 			];
 		}
 
 		$recordLinks[] = [
 			'linktype' => 'LISTVIEWRECORD',
 			'linklabel' => 'LBL_DELETE_RECORD',
-			'linkurl' => $this->getDeleteActionUrl(),
-			'linkicon' => 'glyphicon glyphicon-trash',
-			'linkclass' => 'btn btn-xs btn-danger'
+			'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
+			'linkicon' => 'fas fa-trash-alt',
+			'linkclass' => 'btn btn-xs btn-danger text-white',
 		];
 
 		foreach ($recordLinks as &$recordLink) {
@@ -175,9 +175,11 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance of advanced permission record model
+	 * Function to get the instance of advanced permission record model.
+	 *
 	 * @param int $id
-	 * @return \self instance, if exists.
+	 *
+	 * @return \self instance, if exists
 	 */
 	public static function getInstance($id)
 	{

@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings ModTracker list view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings ModTracker list view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ModTracker_List_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

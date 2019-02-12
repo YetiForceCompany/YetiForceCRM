@@ -8,18 +8,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
+class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 {
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
+	use App\Controller\ClearProcess;
 
 	public function process(\App\Request $request)
 	{
@@ -33,20 +24,21 @@ Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
+
 		return $viewer->view('EditViewContents.tpl', $qualifiedModuleName, true);
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getScripts(\App\Request $request)
 	{
-		$jsFileNames = [
+		return $this->checkAndConvertJsScripts([
 			'modules.Settings.Profiles.resources.Profiles',
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $jsScriptInstances;
+		]);
 	}
 }

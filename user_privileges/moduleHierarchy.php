@@ -1,4 +1,5 @@
 <?php
+
 return [
 	'modulesHierarchy' => [
 		'Accounts' => ['level' => 0],
@@ -16,7 +17,7 @@ return [
 		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
 		'ProjectTask' => ['level' => 2, 'parentModule' => 'Project'],
 		'ProjectMilestone' => ['level' => 2, 'parentModule' => 'Project'],
-		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
+		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'Campaigns'],
 		'SRequirementsCards' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SCalculations' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
@@ -54,7 +55,8 @@ return [
 		],
 		'SSingleOrders' => [
 			'accountid' => ['Accounts' => ['company' => ['accountname']]],
-			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
+			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],
+			'squotesid' => ['SQuotes' => ['accountid' => ['accountid']]]
 		],
 		'SRecurringOrders' => [
 			'accountid' => ['Accounts' => ['company' => ['accountname']]],
@@ -74,9 +76,13 @@ return [
 		],
 		'Assets' => [
 			'contactid' => ['Contacts' => ['parent_id' => ['parent_id']]],
+		],
+		'FCorectingInvoice' => [
+			'finvoiceid' => ['FInvoice' => ['accountid' => ['accountid']]]
 		]
 	],
 	'modulesMap1M' => [// Base => Parent
+		'OSSEmployees' => ['MultiCompany'],
 		'Contacts' => ['Accounts'],
 		'HelpDesk' => ['Accounts', 'Vendors'],
 		'SSalesProcesses' => ['Accounts'],

@@ -1,15 +1,13 @@
 <?php
 /**
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class SRecurringOrders extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'u_yf_srecurringorders';
 	public $table_index = 'srecurringordersid';
 
@@ -33,19 +31,19 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		'u_yf_srecurringorderscf' => 'srecurringordersid',
 		'u_yf_recurring_info' => 'srecurringordersid',
 		'u_yf_srecurringorders_address' => 'srecurringordersaddressid',
-		'vtiger_entity_stats' => 'crmid'];
+		'vtiger_entity_stats' => 'crmid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => ['srecurringorders', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid']
+		'Assigned To' => ['crmentity', 'smownerid'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -53,18 +51,18 @@ class SRecurringOrders extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => ['srecurringorders', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
 	public $search_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -82,22 +80,21 @@ class SRecurringOrders extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 *
+	 * @param string Module name
+	 * @param string Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType === 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SRecurringOrders');
-			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRecurringOrders']);
-
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'S-RO')->set('cur_id', 1)->save();
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
-				if (class_exists('ModComments'))
+				if (class_exists('ModComments')) {
 					ModComments::addWidgetTo(['SRecurringOrders']);
+				}
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		}

@@ -11,15 +11,16 @@
 
 class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Edit fields 
-	 * @var string[] 
+	 * Edit fields.
+	 *
+	 * @var string[]
 	 */
 	private $editFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS', 'api_key' => 'FL_API_KEY'];
 
 	/**
-	 * Function to get Id of this record instance
+	 * Function to get Id of this record instance.
+	 *
 	 * @return <Integer> Id
 	 */
 	public function getId()
@@ -28,7 +29,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Name of this record instance
+	 * Function to get Name of this record instance.
+	 *
 	 * @return string Name
 	 */
 	public function getName()
@@ -37,7 +39,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get module of this record instance
+	 * Function to get module of this record instance.
+	 *
 	 * @return Settings_SMSNotifier_Module_Model $moduleModel
 	 */
 	public function getModule()
@@ -46,28 +49,34 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to set module instance to this record instance
+	 * Function to set module instance to this record instance.
+	 *
 	 * @param Settings_SMSNotifier_Module_Model $moduleModel
+	 *
 	 * @return Settings_SMSNotifier_Record_Model this record
 	 */
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;
+
 		return $this;
 	}
 
 	/**
-	 * Function to get Edit view url
+	 * Function to get Edit view url.
+	 *
 	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
 		$moduleModel = $this->getModule();
+
 		return $moduleModel->getCreateRecordUrl() . '&record=' . $this->getId();
 	}
 
 	/**
-	 * Function to get record links
+	 * Function to get record links.
+	 *
 	 * @return <Array> list of link models <Vtiger_Link_Model>
 	 */
 	public function getRecordLinks()
@@ -78,44 +87,43 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-sm btn-primary',
-				'modalView' => true
+				'modalView' => true,
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn btn-sm btn-danger'
-			]
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-sm btn-danger',
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
 	/**
-	 * Function to getDisplay value of every field
+	 * Function to getDisplay value of every field.
+	 *
 	 * @param string $name field name
+	 *
 	 * @return mixed
 	 */
 	public function getDisplayValue($name)
 	{
-		switch ($name) {
-			case 'isactive':
-				return empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
-			default:
-				break;
+		if ($name === 'isactive') {
+			return empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
 		}
 		return $this->get($name);
 	}
 
 	/**
-	 * Function to save the record
-	 * @return boolean
+	 * Function to save the record.
+	 *
+	 * @return bool
 	 */
 	public function save()
 	{
@@ -123,6 +131,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 		$success = false;
 		if (!$this->changes) {
 			return $success;
+		}
+		if (isset($this->changes['api_key'])) {
+			$this->changes['api_key'] = App\Encryption::getInstance()->encrypt($this->changes['api_key']);
 		}
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getBaseIndex();
@@ -135,11 +146,13 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			$success = $db->createCommand()->update($table, $this->changes, [$index => (int) $this->getId()])->execute();
 		}
 		$this->clearCache($this->getId());
+
 		return $success;
 	}
 
 	/**
-	 * Clear cache
+	 * Clear cache.
+	 *
 	 * @param int $id
 	 */
 	public function clearCache($id)
@@ -151,23 +164,27 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to set the value for a given key
+	 * Function to set the value for a given key.
+	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
 	 */
 	public function set($key, $value)
 	{
-		if ($key !== $this->getModule()->getBaseIndex() && $this->value[$key] !== $value) {
+		if ($key !== $this->getModule()->getBaseIndex() && ($this->value[$key] ?? null) !== $value) {
 			$this->changes[$key] = $value;
 		}
 		$this->value[$key] = $value;
+
 		return $this;
 	}
 
 	/**
-	 * Function to get the instance, given id
-	 * @param int $id
+	 * Function to get the instance, given id.
+	 *
+	 * @param int    $id
 	 * @param string $moduleName
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceById($id, $moduleName)
@@ -181,28 +198,35 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->getModule()->getBaseTable())
 			->where([$instance->getModule()->getBaseIndex() => $id])
 			->one(App\Db::getInstance('admin'));
+		$data['api_key'] = App\Encryption::getInstance()->decrypt($data['api_key']);
 		$instance->setData($data);
 		$instance->isNew = false;
 		\App\Cache::staticSave($cacheName, $id, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get clean record instance by using moduleName
+	 * Function to get clean record instance by using moduleName.
+	 *
 	 * @param string $qualifiedModuleName
+	 *
 	 * @return \self
 	 */
-	static public function getCleanInstance($qualifiedModuleName)
+	public static function getCleanInstance($qualifiedModuleName)
 	{
 		$recordModel = new self();
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$recordModel->isNew = true;
+
 		return $recordModel->setModule($moduleModel);
 	}
 
 	/**
-	 * Function determines fields available in edition view
+	 * Function determines fields available in edition view.
+	 *
 	 * @param string $name
+	 *
 	 * @return \Settings_Vtiger_Field_Model
 	 */
 	public function getFieldInstanceByName($name)
@@ -229,7 +253,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function determines fields available in edition view
+	 * Function determines fields available in edition view.
+	 *
 	 * @return string[]
 	 */
 	public function getEditFields()
@@ -238,8 +263,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function removes record
-	 * @return boolean
+	 * Function removes record.
+	 *
+	 * @return bool
 	 */
 	public function delete()
 	{
@@ -255,9 +281,11 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get instance of provider model
+	 * Function to get instance of provider model.
+	 *
 	 * @param string $providerName
-	 * @return boolean|\SMSNotifier_Basic_Provider
+	 *
+	 * @return bool|\SMSNotifier_Basic_Provider
 	 */
 	public function getProviderInstance()
 	{

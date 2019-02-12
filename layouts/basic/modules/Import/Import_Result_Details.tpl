@@ -9,46 +9,53 @@
 *
 ********************************************************************************/
 -->*}
-
-<table cellpadding="5" cellspacing="0" align="center" width="100%" class="dvtSelectedCell thickBorder importContents">
-	<tr>
-		<td>{\App\Language::translate('LBL_TOTAL_RECORDS_IMPORTED', $MODULE)}</td>
-		<td width="10%">:</td>
-		<td width="30%">{$IMPORT_RESULT.IMPORTED} / {$IMPORT_RESULT.TOTAL}</td>
-	</tr>
-	<tr>
-		<td>{\App\Language::translate('LBL_NUMBER_OF_RECORDS_CREATED', $MODULE)}</td>
-		<td width="10%">:</td>
-		<td width="30%">{$IMPORT_RESULT.CREATED}</td>
-	</tr>
-	<tr>
-		<td>{\App\Language::translate('LBL_NUMBER_OF_RECORDS_UPDATED', $MODULE)}</td>
-		<td width="10%">:</td>
-		<td width="30%">{$IMPORT_RESULT.UPDATED}</td>
-	</tr>
-	<tr>
-		<td>{\App\Language::translate('LBL_NUMBER_OF_RECORDS_SKIPPED', $MODULE)}</td>
-		<td width="10%">:</td>
-		<td width="30%">{$IMPORT_RESULT.SKIPPED}
-			{if $IMPORT_RESULT['SKIPPED'] neq '0'}
-				&nbsp;&nbsp;<a class="cursorPointer" 
-							   onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=skipped&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'skipped', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">
-					{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
+{strip}
+	<table class="tpl-Import-Import_Result_Details w-100 dvtSelectedCell thickBorder importContents">
+		<tr>
+			<td class="pl-3">{\App\Language::translate('LBL_TOTAL_RECORDS_IMPORTED', $MODULE_NAME)}</td>
+			<td class="u-w-10per">:</td>
+			<td class="pr-3 u-w-30per">{$IMPORT_RESULT.IMPORTED} / {$IMPORT_RESULT.TOTAL}</td>
+		</tr>
+		<tr>
+			<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_CREATED', $MODULE_NAME)}</td>
+			<td class="u-w-10per">:</td>
+			<td class="pr-3 u-w-30per">{$IMPORT_RESULT.CREATED}</td>
+		</tr>
+		<tr>
+			<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_UPDATED', $MODULE_NAME)}</td>
+			<td class="u-w-10per">:</td>
+			<td class="pr-3 u-w-30per">{$IMPORT_RESULT.UPDATED}</td>
+		</tr>
+		<tr>
+			<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_SKIPPED', $MODULE_NAME)}</td>
+			<td class="u-w-10per">:</td>
+			<td class="pr-3 u-w-30per">
+				<span class="{if $IMPORT_RESULT['FAILED'] neq '0'} mr-2 {/if}">{$IMPORT_RESULT.SKIPPED}</span>
+				{if $IMPORT_RESULT['SKIPPED'] neq '0'}
+					<a class="u-cursor-pointer js-open-list-in-modal" data-js="click" data-module-name="{$MODULE_NAME}"
+					   data-type="skipped" data-for-user="{$OWNER_ID}"
+					   data-for-module="{$FOR_MODULE}"> {\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}</a>
 				{/if}
-		</td>
-	</tr>
-	<tr>
-		<td>{\App\Language::translate('LBL_NUMBER_OF_RECORDS_MERGED', $MODULE)}</td>
-		<td width="10%">:</td>
-		<td width="10%">{$IMPORT_RESULT.MERGED}</td>
-	</tr>
-	<tr>
-		<td>{\App\Language::translate('LBL_TOTAL_RECORDS_FAILED', $MODULE)}</td>
-		<td width="10%">:</td>
-		<td width="30%">{$IMPORT_RESULT.FAILED} / {$IMPORT_RESULT.TOTAL}
-			{if $IMPORT_RESULT['FAILED'] neq '0'}
-				&nbsp;&nbsp;<a class="cursorPointer" onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=failed&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'failed', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
-			{/if}
-		</td>
-	</tr>
-</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl-3">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_MERGED', $MODULE_NAME)}</td>
+			<td class="u-w-10per">:</td>
+			<td class="pr-3 u-w-30per">{$IMPORT_RESULT.MERGED}</td>
+		</tr>
+		<tr>
+			<td class="pl-3">{\App\Language::translate('LBL_TOTAL_RECORDS_FAILED', $MODULE_NAME)}</td>
+			<td>:</td>
+			<td class="pr-3 u-w-30per">
+				<span class="{if $IMPORT_RESULT['FAILED'] neq '0'} mr-2 {/if}">
+					{$IMPORT_RESULT.FAILED}/ {$IMPORT_RESULT.TOTAL}
+				</span>
+				{if $IMPORT_RESULT['FAILED'] neq '0'}
+					<a class="u-cursor-pointer js-open-list-in-modal" data-js="click" data-module-name="{$MODULE_NAME}"
+					   data-type="failed" data-for-user="{$OWNER_ID}"
+					   data-for-module="{$FOR_MODULE}"> {\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}</a>
+				{/if}
+			</td>
+		</tr>
+	</table>
+{/strip}

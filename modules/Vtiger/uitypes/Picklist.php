@@ -11,9 +11,23 @@
 
 class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -21,31 +35,72 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
+		$dispalyValue = \App\Language::translate($value, $moduleName);
 		if (is_int($length)) {
-			$dispalyValue = \vtlib\Functions::textLength($dispalyValue, $length);
+			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
 		}
 		if ($rawText) {
 			return $dispalyValue;
 		}
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
 		$value = App\Colors::sanitizeValue($value);
+
 		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/PickListFieldSearchView.tpl';
+		return 'List/Field/PickList.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Picklist.tpl';
+		return 'Edit/Field/Picklist.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEditable()
+	{
+		$moduleName = $this->getFieldModel()->getModuleName();
+		if (!isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName])) {
+			\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
+		}
+		return !isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName][$this->getFieldModel()->getFieldName()]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderTypes()
+	{
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
 	}
 }

@@ -1,42 +1,58 @@
 <?php
 
 /**
- * Quick detail modal view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Quick detail modal view class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
+class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 {
+	/**
+	 * Modal size.
+	 *
+	 * @var string
+	 */
+	public $modalSize = 'modal-lg modalRightSiteBar';
+	/**
+	 * Show modal header.
+	 *
+	 * @var bool
+	 */
+	public $showHeader = false;
+	/**
+	 * Show modal footer.
+	 *
+	 * @var bool
+	 */
+	public $showFooter = false;
 
 	/**
-	 * Checking permissions
+	 * Checking permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-	}
-
-	public function getSize(\App\Request $request)
-	{
-		return 'modalRightSiteBar';
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
-		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		$recordModel = $detailModel->getRecord();
@@ -66,7 +82,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 				} elseif ($widget['type'] === 'Summary') {
 					$request->set('isReadOnly', 'true');
 					$widgets[] = [
-						'content' => $detailView->showModuleSummaryView($request)
+						'content' => $detailView->showModuleSummaryView($request),
 					];
 				}
 			}
@@ -75,7 +91,6 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGETS', $widgets);
-		$viewer->view('QuickDetailModal.tpl', $moduleName);
-		$this->postProcess($request);
+		$viewer->view('Modals/QuickDetailModal.tpl', $moduleName);
 	}
 }

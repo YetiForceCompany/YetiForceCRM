@@ -10,7 +10,6 @@
 
 class Portal_List_View extends Vtiger_Index_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
@@ -34,14 +33,14 @@ class Portal_List_View extends Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchValue = $request->get('search_value');
+		$searchValue = $request->getForSql('search_value');
 
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 
 		if (empty($pageNumber)) {
@@ -87,16 +86,9 @@ class Portal_List_View extends Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
-			"modules.$moduleName.resources.List",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+			'modules.' . $request->getModule() . '.resources.List',
+		]));
 	}
 }

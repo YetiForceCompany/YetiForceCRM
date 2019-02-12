@@ -1,17 +1,18 @@
 <?php
 
 /**
- * List records action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * List records action class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_List_Action extends Vtiger_Mass_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -20,7 +21,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -30,20 +31,10 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
-	/**
-	 * Function for calculating values for a list of records
+	 * Function for calculating values for a list of records.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
@@ -59,12 +50,10 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 			throw new \App\Exceptions\Security('LBL_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		switch ($request->getByType('calculateType')) {
-			case 'sum':
-				$value = $queryGenerator->createQuery()->sum($columnName);
-				break;
-			default:
-				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
+		if ($request->getByType('calculateType') === 'sum') {
+			$value = $queryGenerator->createQuery()->sum($columnName);
+		} else {
+			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));

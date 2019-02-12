@@ -11,9 +11,9 @@
 
 class Home_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function returns the default view for the Home module
+	 * Function returns the default view for the Home module.
+	 *
 	 * @return string
 	 */
 	public function getDefaultViewName()
@@ -22,15 +22,17 @@ class Home_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns latest comments across CRM
+	 * Function returns latest comments across CRM.
+	 *
 	 * @param \Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return \Vtiger_Record_Model[]
 	 */
 	public function getComments($pagingModel)
 	{
 		$query = new \App\Db\Query();
 		$query->select(['*', 'createdtime' => 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
-				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype'])
+			'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
 			->from('vtiger_modcomments')
 			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
@@ -49,13 +51,16 @@ class Home_Module_Model extends Vtiger_Module_Model
 				$comments[$time] = $commentModel;
 			}
 		}
+		$dataReader->close();
+
 		return $comments;
 	}
 
 	/**
-	 * Function returns part of the query to  fetch only  activity
+	 * Function returns part of the query to  fetch only  activity.
+	 *
 	 * @param \App\Db\Query $query
-	 * @param string $type
+	 * @param string        $type
 	 */
 	public function getActivityQuery(\App\Db\Query $query, $type)
 	{
@@ -65,11 +70,13 @@ class Home_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns the Calendar Events for the module
-	 * @param string $mode - upcoming/overdue mode
+	 * Function returns the Calendar Events for the module.
+	 *
+	 * @param string              $mode        - upcoming/overdue mode
 	 * @param Vtiger_Paging_Model $pagingModel - $pagingModel
-	 * @param string $user - all/userid
-	 * @param string $recordId - record id
+	 * @param string              $user        - all/userid
+	 * @param string              $recordId    - record id
+	 *
 	 * @return array
 	 */
 	public function getCalendarActivities($mode, Vtiger_Paging_Model $pagingModel, $user, $recordId = false, $paramsMore = [])
@@ -92,7 +99,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
-		$query->select('vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*')
+		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
@@ -111,10 +118,12 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
-
+		if (isset($paramsMore['activitytype'])) {
+			$query->andWhere(['vtiger_activity.activitytype' => $paramsMore['activitytype']]);
+		}
 		if ($user !== 'all' && !empty($user)) {
-			settype($user, 'int');
-			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_yf_crmentity_showners')->innerJoin('vtiger_activity', 'u_yf_crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
+			$user = (int) $user;
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_activity', 'u_#__crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
 			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $user], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
 
@@ -127,26 +136,24 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
 			$model->setId($row['crmid']);
-			if ($row['parent_id']) {
-				if (\App\Record::isExists($row['parent_id'])) {
-					$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
-					if ($record->getModuleName() === 'Accounts') {
-						$model->set('contractor', $record);
-					} else if ($record->getModuleName() === 'Project') {
-						if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));
-							$model->set('contractor', $recordContractor);
-						}
-					} else if ($record->getModuleName() === 'ServiceContracts') {
-						if (\App\Record::isExists($record->get('sc_realted_to'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('sc_realted_to'));
-							$model->set('contractor', $recordContractor);
-						}
-					} else if ($record->getModuleName() === 'HelpDesk') {
-						if (\App\Record::isExists($record->get('parent_id'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
-							$model->set('contractor', $recordContractor);
-						}
+			if (!empty($row['parent_id']) && \App\Record::isExists($row['parent_id'])) {
+				$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
+				if ($record->getModuleName() === 'Accounts') {
+					$model->set('contractor', $record);
+				} elseif ($record->getModuleName() === 'Project') {
+					if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
+						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));
+						$model->set('contractor', $recordContractor);
+					}
+				} elseif ($record->getModuleName() === 'ServiceContracts') {
+					if (\App\Record::isExists($record->get('sc_realted_to'))) {
+						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('sc_realted_to'));
+						$model->set('contractor', $recordContractor);
+					}
+				} elseif ($record->getModuleName() === 'HelpDesk') {
+					if (\App\Record::isExists($record->get('parent_id'))) {
+						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
+						$model->set('contractor', $recordContractor);
 					}
 				}
 			}
@@ -159,15 +166,19 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
+
 		return $activities;
 	}
 
 	/**
-	 * Function returns the Calendar Events for the module
-	 * @param string $mode - upcoming/overdue mode
+	 * Function returns the Calendar Events for the module.
+	 *
+	 * @param string                $mode        - upcoming/overdue mode
 	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
-	 * @param string $user - all/userid
-	 * @param string $recordId - record id
+	 * @param string                $user        - all/userid
+	 * @param string                $recordId    - record id
+	 *
 	 * @return <Array>
 	 */
 	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
@@ -204,12 +215,10 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model = Vtiger_Record_Model::getCleanInstance('ProjectTask');
 			$model->setData($row);
 			$model->setId($row['crmid']);
-			if ($row['projectid']) {
-				if (\App\Record::isExists($row['projectid'])) {
-					$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
-					if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . \App\Record::getType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
-					}
+			if ($row['projectid'] && \App\Record::isExists($row['projectid'])) {
+				$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
+				if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
+					$model->set('account', '<a href="index.php?module=' . \App\Record::getType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 				}
 			}
 			$projecttasks[] = $model;
@@ -221,14 +230,17 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
 
 		return $projecttasks;
 	}
 
 	/**
-	 * Function returns comments and recent activities across module
+	 * Function returns comments and recent activities across module.
+	 *
 	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param string $type - comments, updates or all
+	 * @param string                $type        - comments, updates or all
+	 *
 	 * @return <Array>
 	 */
 	public function getHistory($pagingModel, $type = false)
@@ -251,7 +263,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		//updateActivityQuery api is used to update a query to fetch a only activity
 		if ($type == 'updates' || $type == 'all') {
 			$query = new \App\Db\Query();
-			$query->select('vtiger_modtracker_basic.*')
+			$query->select(['vtiger_modtracker_basic.*'])
 				->from('vtiger_modtracker_basic')
 				->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid')
 				->where(['vtiger_crmentity.deleted' => 0]);
@@ -272,6 +284,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 					$activites[$time] = $modTrackerRecorModel;
 				}
 			}
+			$dataReader->close();
 		}
 		$history = array_merge($activites, $comments);
 
@@ -282,6 +295,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 		if (!empty($history)) {
 			array_multisort($dateTime, SORT_DESC, SORT_STRING, $history);
+
 			return $history;
 		}
 		return false;

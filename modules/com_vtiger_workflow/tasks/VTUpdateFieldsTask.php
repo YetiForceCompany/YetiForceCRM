@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 class VTUpdateFieldsTask extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -21,11 +20,14 @@ class VTUpdateFieldsTask extends VTTask
 	}
 
 	/**
-	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $rawRecordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($rawRecordModel)
 	{
+		$recordModel = clone $rawRecordModel;
+		$recordModel->clearChanges();
 		$moduleModel = $recordModel->getModule();
 		$moduleFields = $moduleModel->getFields();
 		$fieldValueMapping = [];
@@ -80,14 +82,15 @@ class VTUpdateFieldsTask extends VTTask
 
 	/**
 	 * Function to calculate Product Unit Price.
-	 * Product Unit Price value converted with based product currency
+	 * Product Unit Price value converted with based product currency.
+	 *
 	 * @param type $fieldValue
 	 */
 	public function calculateProductUnitPrice($fieldValue)
 	{
-		$currency_details = vtlib\Functions::getAllCurrency(false);
+		$currency_details = \App\Fields\Currency::getAll(false);
 		$amountOfElements = count($currency_details);
-		for ($i = 0; $i < $amountOfElements; $i++) {
+		for ($i = 0; $i < $amountOfElements; ++$i) {
 			$curid = $currency_details[$i]['curid'];
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;

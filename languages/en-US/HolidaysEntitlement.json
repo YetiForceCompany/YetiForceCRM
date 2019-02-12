@@ -1,0 +1,12 @@
+{
+  "php": {
+    "HolidaysEntitlement": "Annual holiday entitlement",
+    "SINGLE_HolidaysEntitlement": "Annual holiday entitlement",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Custom Information",
+    "LBL_CUSTOM_INFORMATION": "System Information",
+    "LBL_YEAR": "Year",
+    "LBL_DAYS": "Number of holidays",
+    "LBL_EMPLOYEE": "Employee",
+    "LBL_NUMBER": "Number"
+  }
+}

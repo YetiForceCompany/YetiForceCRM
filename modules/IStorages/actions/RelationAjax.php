@@ -1,15 +1,14 @@
 <?php
 
 /**
- * RelationAjax Class for IStorages
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * RelationAjax Class for IStorages.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -17,7 +16,8 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	}
 
 	/**
-	 * Number of hierarchy entries for a given record
+	 * Number of hierarchy entries for a given record.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getHierarchyCount(\App\Request $request)

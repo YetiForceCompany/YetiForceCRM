@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_Detail_Js("OSSMailView_Detail_Js", {
 	printMail: function () {
 		var subject = $('#subject').val();
@@ -21,7 +23,6 @@ Vtiger_Detail_Js("OSSMailView_Detail_Js", {
 }, {
 	registerEvents: function () {
 		this._super();
-		var container = jQuery('div.detailViewToolbar');
-		Vtiger_Index_Js.registerMailButtons(container);
+		Vtiger_Index_Js.registerMailButtons($('.detailViewContainer .js-btn-toolbar'));
 	}
 });

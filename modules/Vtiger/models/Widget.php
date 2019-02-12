@@ -10,71 +10,76 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Widget Model Class
+ * Vtiger Widget Model Class.
  */
 class Vtiger_Widget_Model extends \App\Base
 {
-
 	public function getWidth()
 	{
-		$size = \App\Json::decode(html_entity_decode($this->get('size')));
-		$width = $size['width'];
-		$this->set('width', $width);
-
-		if (empty($width)) {
-			$this->set('width', '4');
+		$defaultSize = 4;
+		$size = $this->get('size');
+		if ($size) {
+			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
+			if (isset($size[App\Session::get('fingerprint')])) {
+				return (int) $size[App\Session::get('fingerprint')]['width'];
+			}
+			return (int) ($size['width']);
 		}
-		return $this->get('width');
+		return $defaultSize;
 	}
 
 	public function getHeight()
 	{
-		//Special case for History widget
-		$size = \App\Json::decode(html_entity_decode($this->get('size')));
-		$height = $size['height'];
-		$this->set('height', $height);
-
-		if (empty($height)) {
-			$this->set('height', '1');
+		$defaultSize = 4;
+		$size = $this->get('size');
+		if ($size) {
+			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
+			if (isset($size[App\Session::get('fingerprint')])) {
+				return (int) $size[App\Session::get('fingerprint')]['height'];
+			}
+			return (int) ($size['height']);
 		}
-		return $this->get('height');
-	}
-
-	public function getPositionCol($default = 0)
-	{
-		$position = $this->get('position');
-		if ($position) {
-			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-			return intval($position['col']);
-		}
-		return $default;
-	}
-
-	public function getPositionRow($default = 0)
-	{
-		$position = $this->get('position');
-		if ($position) {
-			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-			return intval($position['row']);
-		}
-		return $default;
+		return $defaultSize;
 	}
 
 	/**
-	 * Function to get the url of the widget
+	 * Function to get the position of the widget.
+	 *
+	 * @param int    $defaultPosition
+	 * @param string $coordinate
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return int
+	 */
+	public function getPosition(int $position, string $coordinate)
+	{
+		if ($positionData = $this->get('position')) {
+			$positionData = \App\Json::decode(App\Purifier::decodeHtml($positionData));
+			if (isset($positionData[App\Session::get('fingerprint')])) {
+				$position = (int) $positionData[App\Session::get('fingerprint')][$coordinate];
+			}
+			if (isset($positionData[$coordinate])) {
+				$position = (int) ($positionData[$coordinate]);
+			}
+		}
+		return $position;
+	}
+
+	/**
+	 * Function to get the url of the widget.
+	 *
 	 * @return string
 	 */
 	public function getUrl()
 	{
 		$url = App\Purifier::decodeHtml($this->get('linkurl')) . '&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
-		$url .= '&widgetid=' . $widgetid . '&active=' . $this->get('active');
-
-		return $url;
+		return $url . '&widgetid=' . $widgetid . '&active=' . $this->get('active');
 	}
 
 	/**
-	 *  Function to get the Title of the widget
+	 *  Function to get the Title of the widget.
 	 */
 	public function getTitle()
 	{
@@ -99,14 +104,17 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Widget Model from the given array of key-value mapping
+	 * Function to get the instance of Vtiger Widget Model from the given array of key-value mapping.
+	 *
 	 * @param <Array> $valueMap
+	 *
 	 * @return Vtiger_Widget_Model instance
 	 */
 	public static function getInstanceFromValues($valueMap)
 	{
 		$self = new self();
 		$self->setData($valueMap);
+
 		return $self;
 	}
 
@@ -125,20 +133,48 @@ class Vtiger_Widget_Model extends \App\Base
 
 	public static function updateWidgetPosition($position, $linkId, $widgetId, $userId)
 	{
-		if (!$linkId && !$widgetId)
+		if (!$linkId && !$widgetId) {
 			return;
+		}
 		if ($linkId) {
 			$where = ['userid' => $userId, 'linkid' => $linkId];
-		} else if ($widgetId) {
+		} elseif ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		\App\Db::getInstance()->createCommand()->update(('vtiger_module_dashboard_widgets'), ['position' => $position], $where)->execute();
+		$currentPosition = App\Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$currentPosition[App\Session::get('fingerprint')] = App\Json::decode($position);
+		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)->execute();
 	}
 
 	/**
-	 * Get widget instance by id
+	 * Update widget size.
+	 *
+	 * @param string $size
+	 * @param int    $linkId
+	 * @param int    $widgetId
+	 * @param int    $userId
+	 */
+	public static function updateWidgetSize($size, $linkId, $widgetId, $userId)
+	{
+		if (!$linkId && !$widgetId) {
+			return;
+		}
+		if ($linkId) {
+			$where = ['userid' => $userId, 'linkid' => $linkId];
+		} elseif ($widgetId) {
+			$where = ['userid' => $userId, 'id' => $widgetId];
+		}
+		$currentSize = App\Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$currentSize[App\Session::get('fingerprint')] = App\Json::decode($size);
+		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['size' => App\Json::encode($currentSize)], $where)->execute();
+	}
+
+	/**
+	 * Get widget instance by id.
+	 *
 	 * @param int $widgetId
 	 * @param int $userId
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceWithWidgetId($widgetId, $userId)
@@ -150,18 +186,18 @@ class Vtiger_Widget_Model extends \App\Base
 		$self = new self();
 		if ($row) {
 			if ($row['linklabel'] === 'Mini List') {
-				if (!$row['isdefault']) {
+				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
-				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$minilistWidget = self::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
-			} else if ($row['linklabel'] === 'ChartFilter') {
-				if (!$row['isdefault']) {
+			} elseif ($row['linklabel'] === 'ChartFilter') {
+				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardChartFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
-				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$chartFilterWidget = self::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
 				$row['title'] = $chartFilterWidgetModel->getTitle();
@@ -172,7 +208,7 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Function to show a widget from the Users Dashboard
+	 * Function to show a widget from the Users Dashboard.
 	 */
 	public function show()
 	{
@@ -185,7 +221,8 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Function to remove the widget from the Users Dashboard
+	 * Function to remove the widget from the Users Dashboard.
+	 *
 	 * @param string $action
 	 */
 	public function remove($action = 'hide')
@@ -194,7 +231,7 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($action == 'delete') {
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
 				->execute();
-		} else if ($action == 'hide') {
+		} elseif ($action == 'hide') {
 			$db->createCommand()->update('vtiger_module_dashboard_widgets', ['active' => 0], ['id' => $this->get('id')])
 				->execute();
 			$this->set('active', 0);
@@ -202,12 +239,13 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns URL that will remove a widget for a User
+	 * Function returns URL that will remove a widget for a User.
+	 *
 	 * @return string
 	 */
 	public function getDeleteUrl()
 	{
-		$url = 'index.php?module=' . App\Module::getModuleName($this->get('module')) . '&action=RemoveWidget&linkid=' . $this->get('linkid');
+		$url = 'index.php?module=' . App\Module::getModuleName($this->get('module')) . '&action=Widget&mode=remove&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
 		if ($widgetid) {
 			$url .= '&widgetid=' . $widgetid;
@@ -216,7 +254,8 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Function to check the Widget is Default widget or not
+	 * Function to check the Widget is Default widget or not.
+	 *
 	 * @return <boolean> true/false
 	 */
 	public function isDefault()
@@ -228,8 +267,9 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Process the UI Widget requested
-	 * @param vtlib\Link $widgetLink
+	 * Process the UI Widget requested.
+	 *
+	 * @param vtlib\Link             $widgetLink
 	 * @param Current Smarty Context $context
 	 */
 	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
@@ -241,7 +281,7 @@ class Vtiger_Widget_Model extends \App\Base
 				include_once $widgetControllerClassFile;
 			}
 			if (class_exists($widgetControllerClass)) {
-				$widgetControllerInstance = new $widgetControllerClass;
+				$widgetControllerInstance = new $widgetControllerClass();
 				$widgetInstance = $widgetControllerInstance->getWidget($widgetLink);
 				if ($widgetInstance) {
 					return $widgetInstance->process($recordModel);
@@ -250,14 +290,18 @@ class Vtiger_Widget_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Remove widget from list in dashboard. Removing is possible only for widgets from filters.
+	 *
+	 * @param int $id
+	 */
 	public static function removeWidgetFromList($id)
 	{
-		$db = PearDatabase::getInstance();
-		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
-		$result = $db->pquery($query, [$id]);
-		$templateId = $db->getSingleValue($result);
-		if ($templateId)
-			$db->delete('vtiger_module_dashboard', 'id = ?', [$templateId]);
-		$db->delete('vtiger_module_dashboard_widgets', 'id = ?', [$id]);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$templateId = (new App\Db\Query())->select(['templateid'])->from('vtiger_module_dashboard_widgets')->where(['id' => $id])->scalar();
+		if ($templateId) {
+			$dbCommand->delete('vtiger_module_dashboard', ['id' => $templateId])->execute();
+		}
+		$dbCommand->delete('vtiger_module_dashboard_widgets', ['id' => $id])->execute();
 	}
 }

@@ -11,32 +11,34 @@
 
 class HelpDesk_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function to get URL for Convert FAQ
+	 * Function to get URL for Convert FAQ.
+	 *
 	 * @return string
 	 */
 	public function getConvertFAQUrl()
 	{
-		return "index.php?module=" . $this->getModuleName() . "&action=ConvertFAQ&record=" . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&action=ConvertFAQ&record=' . $this->getId();
 	}
 
 	/**
-	 * Function to get Comments List of this Record
+	 * Function to get Comments List of this Record.
+	 *
 	 * @return string
 	 */
 	public function getCommentsList()
 	{
 		return (new \App\Db\Query())
-				->select(['comments' => 'commentcontent'])
-				->from('vtiger_modcomments')
-				->where(['related_to' => $this->getId()])->column();
+			->select(['comments' => 'commentcontent'])
+			->from('vtiger_modcomments')
+			->where(['related_to' => $this->getId()])->column();
 	}
 
 	/**
-	 * Update ticket range time field
+	 * Update ticket range time field.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool $updateFieldImmediately
+	 * @param bool                $updateFieldImmediately
 	 */
 	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
 	{
@@ -48,7 +50,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_troubletickets', [
 					'response_time' => $currentDate,
-					], ['ticketid' => $recordModel->getId()])
+				], ['ticketid' => $recordModel->getId()])
 				->execute();
 		}
 		$closedTime = $recordModel->get('closedtime');
@@ -63,20 +65,22 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Get active service contracts
+	 * Get active service contracts.
+	 *
 	 * @return array
 	 */
 	public function getActiveServiceContracts()
 	{
 		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
-			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')]);
+			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')])
+			->orderBy(['due_date' => SORT_ASC]);
 		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
 		return $query->all();
 	}
 
 	/**
-	 * Function to save record
+	 * Function to save record.
 	 */
 	public function saveToDb()
 	{

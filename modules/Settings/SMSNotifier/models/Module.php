@@ -11,19 +11,18 @@
 
 class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public $baseTable = 'a_#__smsnotifier_servers';
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public $baseIndex = 'id';
 
 	/**
-	 * @var string[] 
+	 * @var string[]
 	 */
 	public $nameFields = [];
 
@@ -33,12 +32,13 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	public $listFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS'];
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public $name = 'SMSNotifier';
 
 	/**
-	 * Function to get Create view url
+	 * Function to get Create view url.
+	 *
 	 * @return string Url
 	 */
 	public function getCreateRecordUrl()
@@ -47,21 +47,23 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get List view url
+	 * Function to get List view url.
+	 *
 	 * @return string Url
 	 */
 	public function getListViewUrl()
 	{
-		return "index.php?module=" . $this->getName() . "&parent=" . $this->getParentName() . "&view=List";
+		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=List';
 	}
 
 	/**
-	 * Function to get list of all providers
+	 * Function to get list of all providers.
+	 *
 	 * @return mixed
 	 */
 	public function getAllProviders()
 	{
-		if (!$this->allProviders) {
+		if (empty($this->allProviders)) {
 			$this->allProviders = SMSNotifier_Module_Model::getProviders();
 		}
 		return $this->allProviders;

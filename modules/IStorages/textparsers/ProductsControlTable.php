@@ -1,15 +1,14 @@
 <?php
 
 /**
- * IStorages storage products table parser class
- * @package YetiForce.TextParser
- * @copyright YetiForce Sp. z o.o.
+ * IStorages storage products table parser class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class IStorages_ProductsControlTable_TextParser extends \App\TextParser\Base
+class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_PRODUCTS_CONTROL_TABLE';
 
@@ -17,7 +16,8 @@ class IStorages_ProductsControlTable_TextParser extends \App\TextParser\Base
 	public $type = 'pdf';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()

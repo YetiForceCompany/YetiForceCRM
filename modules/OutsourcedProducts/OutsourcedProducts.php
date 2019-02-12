@@ -1,15 +1,14 @@
 <?php
 /**
- * OutsourcedProducts CRMEntity class
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * OutsourcedProducts CRMEntity class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class OutsourcedProducts extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'vtiger_outsourcedproducts';
 	public $table_index = 'outsourcedproductsid';
 	public $column_fields = [];
@@ -34,13 +33,13 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_outsourcedproducts' => 'outsourcedproductsid',
-		'vtiger_outsourcedproductscf' => 'outsourcedproductsid'];
+		'vtiger_outsourcedproductscf' => 'outsourcedproductsid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Product Name' => ['outsourcedproducts' => 'productname'],
 		'Category' => ['outsourcedproducts' => 'pscategory'],
@@ -50,7 +49,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Status' => ['outsourcedproducts' => 'oproductstatus'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
 		'Sub Category' => 'pssubcategory',
@@ -86,8 +85,6 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public $popup_fields = ['productname'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'productname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['productname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'productname'];
@@ -99,13 +96,12 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 *
+	 * @param string Module name
+	 * @param string Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
-
 		if ($eventType === 'module.postinstall') {
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Mark the module as Standard module
@@ -116,15 +112,16 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			\App\Fields\RecordNumber::setNumber($moduleName, 'UP', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'UP')->set('cur_id', 1)->save();
 		}
 	}
 
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param string $module This module name
-	 * @param array $transferEntityIds List of Entity Id's from which related records need to be transfered
-	 * @param integer $entityId Id of the the Record to which the related records are to be moved
+	 *
+	 * @param string $module            This module name
+	 * @param array  $transferEntityIds List of Entity Id's from which related records need to be transfered
+	 * @param int    $entityId          Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
@@ -138,7 +135,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relModule => $relTable) {
+			foreach ($relTableArr as $relTable) {
 				$idField = $tblFieldArr[$relTable];
 				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
@@ -148,6 +145,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 				while ($idFieldValue = $dataReader->readColumn(0)) {
 					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Action to get data of tree
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Action to get data of tree.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class KnowledgeBase_DataTreeAjax_Action extends Vtiger_Action_Controller
+class KnowledgeBase_DataTreeAjax_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +23,7 @@ class KnowledgeBase_DataTreeAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{

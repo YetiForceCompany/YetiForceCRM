@@ -1,0 +1,36 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@charset 'UTF-8';
+//-------- global variables --------//
+@import '_Functions';
+@import '_Variables';
+//-------- external --------//
+@import '../../../libraries/bootstrap/scss/bootstrap';
+@import '../../../libraries/select2-theme-bootstrap4/src/select2-bootstrap.scss';
+@import '../../../libraries/sass-material-colors/sass/_sass-material-colors-classes.scss';
+@import '../../../libraries/flag-icon-css/sass/flag-icon.scss';
+//-------- libraries' modifications --------//
+@import 'libraries/_Libraries';
+@import 'libraries/_Bootstrap';
+@import 'libraries/_FullCalendar';
+//-------- base --------//
+@import '_Style';
+//-------- components --------//
+@import 'components/_Utilities';
+@import 'components/_Global';
+@import 'components/_Buttons';
+@import 'components/_Checkbox';
+@import 'components/_Chat';
+@import 'components/_ConditionBuilder';
+//-------- layout --------//
+@import 'layout/_Base';
+@import 'layout/_Header';
+@import 'layout/_Nav';
+@import 'layout/_Footer';
+@import 'layout/_Modal';
+//-------- pages --------//
+@import 'pages/_Dashboard';
+@import 'pages/_Edit';
+@import 'pages/_Calendar';
+@import 'pages/_Detail';
+@import 'pages/_List';
+@import 'pages/_ListPreview';

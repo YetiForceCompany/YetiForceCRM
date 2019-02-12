@@ -1,27 +1,20 @@
 <?php
 
 /**
- * OSSPasswords calendar action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSPasswords calendar action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
+class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('getEvent');
+		$this->exposeMethod('getEvents');
 		$this->exposeMethod('updateEvent');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function checkPermission(\App\Request $request)
@@ -32,14 +25,14 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function getEvent(\App\Request $request)
+	public function getEvents(\App\Request $request)
 	{
 		$record = OSSTimeControl_Calendar_Model::getInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 'Integer'));
+		$record->set('types', $request->getArray('types', 'Text'));
 		if ($request->has('start') && $request->has('end')) {
-			$record->set('start', $request->getByType('start', 'Date'));
-			$record->set('end', $request->getByType('end', 'Date'));
+			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
+			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
 		}
 		$entity = $record->getEntity();
 

@@ -11,38 +11,69 @@
 
 class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$allSkins = Vtiger_Theme::getAllSkins();
 		if (!isset($allSkins[$value])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
 		$value = ucfirst($value);
-		return "<div style='width:99%; background-color:$skinColor;' title='$value'>&nbsp;</div>";
+
+		return "<div style='width: 24px; height: 24px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Theme.tpl';
+		return 'Edit/Field/Theme.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Theme.tpl';
 	}
 }

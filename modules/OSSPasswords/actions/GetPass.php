@@ -1,14 +1,13 @@
 <?php
 
 /**
- * OSSPasswords GetPass action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSPasswords GetPass action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
+class OSSPasswords_GetPass_Action extends \App\Controller\Action
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -22,7 +21,7 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 		if ($record) {
 			$recordPermission = \App\Privilege::isPermitted($moduleName, 'DetailView', $record);
 			if (!$recordPermission) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}

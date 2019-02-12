@@ -1,14 +1,12 @@
 <?php
 
 /**
- * @package YetiForce.ModalView
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		echo '<div class="generateMappingModal modal fade"><div class="modal-dialog"><div class="modal-content">';

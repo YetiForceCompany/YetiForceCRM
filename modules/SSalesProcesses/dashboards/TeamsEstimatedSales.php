@@ -1,34 +1,37 @@
 <?php
 
 /**
- * Widget show estimated value sale
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Widget show estimated value sale.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Function to get search params in address listview
-	 * @param int $owner number id of user
-	 * @param string $status
+	 * Function to get search params in address listview.
+	 *
+	 * @param int   $owner number id of user
+	 * @param array $time
+	 *
 	 * @return string
 	 */
-	public function getSearchParams($row, $time)
+	public function getSearchParams($owner, $time)
 	{
-		$listSearchParams = [[['estimated_date', 'bw', $time]]];
-		if (isset($row['assigned_user_id'])) {
-			$listSearchParams[0][] = ['assigned_user_id', 'e', $row['assigned_user_id']];
+		$listSearchParams = [[['estimated_date', 'bw', implode(',', $time)]]];
+		if (isset($owner)) {
+			$listSearchParams[0][] = ['assigned_user_id', 'e', $owner];
 		}
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
-	 * Parse data
+	 * Parse data.
+	 *
 	 * @param array $data
 	 * @param array $previousData
+	 *
 	 * @return array
 	 */
 	public function parseData($data, $previousData)
@@ -47,9 +50,11 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	}
 
 	/**
-	 * Function to get data to chart
-	 * @param string $time
+	 * Function to get data to chart.
+	 *
+	 * @param string      $time
 	 * @param string|bool $compare
+	 *
 	 * @return array
 	 */
 	public function getEstimatedValue($time, $compare = false)
@@ -68,17 +73,20 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$i = -1;
 		while ($row = $dataReader->read()) {
 			$i = $compare ? $row['assigned_user_id'] : $i + 1;
-			$data [$i] = [
+			$data[$i] = [
 				$row['estimated'],
 				\App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				$listView . $this->getSearchParams($row, $time)
+				$listView . $this->getSearchParams($row['assigned_user_id'], $time),
 			];
 		}
+		$dataReader->close();
+
 		return $data;
 	}
 
 	/**
-	 * Main function
+	 * Main function.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -90,26 +98,26 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$compare = $request->getBoolean('compare');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
-			$time = ['start' => ''];
+			$time = [0 => ''];
 			$date = new \DateTime();
-			$time['end'] = $date->format('Y-m-d');
+			$time[1] = $date->format('Y-m-d');
 			$date->modify('-30 days');
-			$time['start'] = $date->format('Y-m-d');
-			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
-			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
+			$time[0] = $date->format('Y-m-d');
+			$time[0] = \App\Fields\Date::formatToDisplay($time[0]);
+			$time[1] = \App\Fields\Date::formatToDisplay($time[1]);
 		}
 		$timeSting = implode(',', $time);
 
 		$data = $this->getEstimatedValue($timeSting, $compare);
 		if ($compare) {
-			$start = new \DateTime(\DateTimeField::convertToDBFormat($time['start']));
+			$start = new \DateTime(\DateTimeField::convertToDBFormat($time[0]));
 			$endPeriod = clone $start;
-			$end = new \DateTime(\DateTimeField::convertToDBFormat($time['end']));
-			$interval = (int) $start->diff($end)->format("%r%a");
-			if ($time['start'] !== $time['end']) {
-				$interval++;
+			$end = new \DateTime(\DateTimeField::convertToDBFormat($time[1]));
+			$interval = (int) $start->diff($end)->format('%r%a');
+			if ($time[0] !== $time[1]) {
+				++$interval;
 			}
-			$endPeriod->modify("-1 days");
+			$endPeriod->modify('-1 days');
 			$start->modify("-{$interval} days");
 			$previousTime = \App\Fields\Date::formatToDisplay($start->format('Y-m-d')) . ',' . \App\Fields\Date::formatToDisplay($endPeriod->format('Y-m-d'));
 			$previousData = $this->getEstimatedValue($previousTime, $compare);

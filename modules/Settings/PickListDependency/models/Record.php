@@ -12,14 +12,14 @@ Vtiger_Loader::includeOnce('~~modules/PickList/DependentPickListUtils.php');
 
 class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	private $mapping = false;
 	private $sourcePickListValues = false;
 	private $targetPickListValues = false;
 	private $nonMappedSourcePickListValues = false;
 
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return number
 	 */
 	public function getId()
@@ -40,25 +40,27 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$editLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, '$soureModule', '$sourceField', '$targetField')",
 			'linklabel' => 'LBL_EDIT',
-			'linkicon' => 'glyphicon glyphicon-pencil'
+			'linkicon' => 'fas fa-edit',
+			'linkclass' => 'btn btn-sm btn-info',
 		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 
 		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
-			'linkicon' => 'glyphicon glyphicon-trash'
+			'linkicon' => 'fas fa-trash-alt',
+			'linkclass' => 'btn btn-sm btn-danger',
 		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
+
 		return [$editLinkInstance, $deleteLinkInstance];
 	}
 
 	public function getAllPickListFields()
 	{
-
 		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 
-		$query = (new \App\Db\Query)->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
+		$query = (new \App\Db\Query())->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
 			->where(['displaytype' => 1, 'vtiger_field.tabid' => $tabId, 'vtiger_field.uitype' => [15, 16], 'vtiger_field.presence' => [0, 2]])
 			->andWhere(['not', ['vtiger_field.block' => null]])
 			->andWhere(['<>', 'vtiger_field.block', 0]);
@@ -67,6 +69,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		while ($row = $dataReader->read()) {
 			$fieldlist[$row['fieldname']] = $row['fieldlabel'];
 		}
+		$dataReader->close();
+
 		return $fieldlist;
 	}
 
@@ -103,12 +107,12 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	public function getNonMappedSourcePickListValues()
 	{
 		if (empty($this->nonMappedSourcePickListValues)) {
-			$sourcePickListValues = $this->getSourcePickListValues();
+			$pickListValues = $this->getSourcePickListValues();
 			$dependencyMapping = $this->getPickListDependency();
 			foreach ($dependencyMapping as $mappingDetails) {
-				unset($sourcePickListValues[$mappingDetails['sourcevalue']]);
+				unset($pickListValues[$mappingDetails['sourcevalue']]);
 			}
-			$this->nonMappedSourcePickListValues = $sourcePickListValues;
+			$this->nonMappedSourcePickListValues = $pickListValues;
 		}
 		return $this->nonMappedSourcePickListValues;
 	}
@@ -120,12 +124,14 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$dependencyMap['targetfield'] = $this->get('targetfield');
 		$dependencyMap['valuemapping'] = $mapping;
 		Vtiger_DependencyPicklist::savePickListDependencies($this->get('sourceModule'), $dependencyMap);
+
 		return true;
 	}
 
 	public function delete()
 	{
 		Vtiger_DependencyPicklist::deletePickListDependencies($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
+
 		return true;
 	}
 
@@ -134,9 +140,9 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 		$fieldNames = [$this->get('sourcefield'), $this->get('targetfield')];
 		$dataReader = (new App\Db\Query())->select(['fieldlabel', 'fieldname'])
-				->from('vtiger_field')
-				->where(['fieldname' => $fieldNames, 'tabid' => $tabId])
-				->createCommand()->query();
+			->from('vtiger_field')
+			->where(['fieldname' => $fieldNames, 'tabid' => $tabId])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
 			if ($fieldName === $this->get('sourcefield')) {
@@ -145,6 +151,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				$this->set('targetlabel', $row['fieldlabel']);
 			}
 		}
+		$dataReader->close();
 	}
 
 	public function getSourceFieldLabel()
@@ -171,6 +178,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$self->set('sourceModule', $module)
 			->set('sourcefield', $sourceField)
 			->set('targetfield', $targetField);
+
 		return $self;
 	}
 }

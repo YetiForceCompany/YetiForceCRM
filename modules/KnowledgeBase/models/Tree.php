@@ -1,26 +1,27 @@
 <?php
 /**
- * Model of tree
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Model of tree.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
- * Class tree model for module knowledge base
+ * Class tree model for module knowledge base.
  */
 class KnowledgeBase_Tree_Model extends \App\Base
 {
-
 	/**
-	 * Last id in tree
+	 * Last id in tree.
+	 *
 	 * @var int
 	 */
 	private $lastIdinTree;
 
 	/**
-	 * Get module name
+	 * Get module name.
+	 *
 	 * @return string
 	 */
 	public function getModuleName()
@@ -29,7 +30,8 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	}
 
 	/**
-	 * Get folders
+	 * Get folders.
+	 *
 	 * @return array
 	 */
 	public function getFolders()
@@ -39,7 +41,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $this->getTemplate()])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
-			$pieces = explode('::', $row['parenttrre']);
+			$pieces = explode('::', $row['parentTree']);
 			end($pieces);
 			$parent = (int) ltrim(prev($pieces), 'T');
 			$tree = [
@@ -47,7 +49,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				'type' => 'folder',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \App\Language::translate($row['name'], $this->getModuleName())
+				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
@@ -57,12 +59,15 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				$lastId = $treeID;
 			}
 		}
+		$dataReader->close();
 		$this->lastIdinTree = $lastId;
+
 		return $folders;
 	}
 
 	/**
-	 * Get template
+	 * Get template.
+	 *
 	 * @return array
 	 */
 	public function getTemplate()
@@ -71,7 +76,8 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	}
 
 	/**
-	 * Get tree field
+	 * Get tree field.
+	 *
 	 * @return array
 	 */
 	public function getTreeField()
@@ -81,22 +87,26 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		}
 		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])->one();
 		$this->set('fieldTemp', $fieldTemp);
+
 		return $fieldTemp;
 	}
 
 	/**
-	 * Get all records
+	 * Get all records.
+	 *
 	 * @return array
 	 */
 	public function getAllRecords()
 	{
 		$queryGenerator = new App\QueryGenerator($this->getModuleName());
 		$queryGenerator->setFields(['id', 'category', 'knowledgebase_view', 'subject']);
+
 		return $queryGenerator->createQuery()->all();
 	}
 
 	/**
-	 * Get documents
+	 * Get documents.
+	 *
 	 * @return array
 	 */
 	public function getDocuments()
@@ -104,7 +114,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		$records = $this->getAllRecords();
 		$fieldName = $this->getTreeField()['fieldname'];
 		foreach ($records as &$item) {
-			$this->lastIdinTree++;
+			++$this->lastIdinTree;
 			$parent = (int) ltrim($item[$fieldName], 'T');
 			$tree[] = [
 				'id' => $this->lastIdinTree,
@@ -112,22 +122,25 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				'record_id' => $item['id'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item['subject'],
-				'icon' => 'glyphicon glyphicon-file'
+				'icon' => 'fas fa-file',
 			];
-		};
+		}
 		return $tree;
 	}
 
 	/**
-	 * Get instance
+	 * Get instance.
+	 *
 	 * @param KnowledgeBase_Module_Model $moduleModel
+	 *
 	 * @return \self
 	 */
-	static public function getInstance($moduleModel)
+	public static function getInstance($moduleModel)
 	{
 		$model = new self();
 		$moduleName = $moduleModel->get('name');
 		$model->set('module', $moduleModel)->set('moduleName', $moduleName);
+
 		return $model;
 	}
 }

@@ -10,23 +10,19 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<br />
-	<center>
-		<footer class="noprint">
-			<div class="vtFooter">
-				<p>
-					{\App\Language::translate('POWEREDBY')} {$YETIFORCE_VERSION} &nbsp;
-					&copy; 2004 - {date('Y')}&nbsp;&nbsp;
-					<a href="http://yetiforce.com" target="_blank" rel="noreferrer">yetiforce.com</a>
-					&nbsp;|&nbsp;
-					<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{\App\Language::translate('LBL_READ_LICENSE')}</a>
-				</p>
-			</div>
-		</footer>
-	</center>
+	<!-- tpl-install-tpl-InstallPostProcess -->
+	<br>
+	<footer class="noprint text-center fixed-bottom c-footer">
+		<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
+							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved.
+								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger','open source project')}
+							</span>
+			<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+		</p>
+	</footer>
 	{include file='JSResources.tpl'}
-</div>
-</div>
-</body>
-</html>
+	</div>
+	</body>
+	</html>
+	<!-- /tpl-install-tpl-InstallPostProcess -->
 {/strip}

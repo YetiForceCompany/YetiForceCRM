@@ -1,18 +1,16 @@
 <?php
 
 /**
- * Widget to display RSS
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Widget to display RSS.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 {
-
-	public function process(\App\Request $request, $widget = NULL)
+	public function process(\App\Request $request, $widget = null)
 	{
-		Vtiger_Loader::includeOnce('~libraries/RSSFeeds/Feed.php');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -40,7 +38,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 						'link' => $item->link,
 						'date' => $date,
 						'fullTitle' => $item->title,
-						'source' => $rss
+						'source' => $rss,
 					];
 				}
 			}

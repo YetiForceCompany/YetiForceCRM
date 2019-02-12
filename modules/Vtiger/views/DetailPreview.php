@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Detail preview view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Detail preview view class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcessTplName(\App\Request $request)
 	{
@@ -19,7 +18,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	protected function showBodyHeader()
 	{
@@ -27,7 +26,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	protected function showFooter()
 	{
@@ -35,7 +34,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	protected function showBreadCrumbLine()
 	{
@@ -43,18 +42,19 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailModel = new $handlerClass();
+
 		return $detailModel->getHeaderCss($request);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -63,11 +63,15 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 		$detailModel = new $handlerClass();
 		$scripts = $detailModel->getFooterScripts($request);
 		unset($scripts['modules.Vtiger.resources.DetailPreview']);
+
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
-				'~libraries/splitjs/split.js',
-				'modules.Vtiger.resources.Detail',
-				'modules.Vtiger.resources.DetailPreview',
-				"modules.$moduleName.resources.DetailPreview"
+			'~libraries/split.js/dist/split.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
+			'modules.Vtiger.resources.Detail',
+			"modules.$moduleName.resources.Detail",
+			'modules.Vtiger.resources.DetailPreview',
+			"modules.$moduleName.resources.DetailPreview",
 		]));
 	}
 }

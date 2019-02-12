@@ -1,18 +1,18 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Web service response class 
- * @package YetiForce.Webservice
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Web service response class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Response
 {
-
-	protected static $acceptableHeaders = ['X-API-KEY', 'X-ENCRYPTED', 'X-TOKEN'];
-	static protected $instance = false;
+	protected static $acceptableHeaders = ['x-api-key', 'x-encrypted', 'x-token'];
+	protected static $instance = false;
 	protected $body;
 	protected $headers = [];
 	protected $status = 200;
@@ -42,7 +42,7 @@ class Response
 
 	private function requestStatus()
 	{
-		$status = [
+		$statusCodes = [
 			200 => 'OK',
 			401 => 'Unauthorized',
 			403 => 'Forbidden',
@@ -50,7 +50,8 @@ class Response
 			405 => 'Method Not Allowed',
 			500 => 'Internal Server Error',
 		];
-		return ($status[$this->status]) ? $status[$this->status] : $status[500];
+
+		return ($statusCodes[$this->status]) ? $statusCodes[$this->status] : $statusCodes[500];
 	}
 
 	public function send()
@@ -60,28 +61,28 @@ class Response
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
-		header('Access-Control-Allow-Origin: *');
-		header('Access-Control-Allow-Methods: *');
-		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
-		header("Content-Type: $requestContentType");
-		header('HTTP/1.1 ' . $this->status . ' ' . $this->requestStatus());
-		header('Encrypted: ' . $encryptDataTransfer);
+		header('access-control-allow-origin: *');
+		header('access-control-allow-methods: *');
+		header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
+		header("content-type: $requestContentType");
+		header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
+		header('encrypted: ' . $encryptDataTransfer);
 		foreach ($this->headers as $key => $header) {
-			header($key . ': ' . $header);
+			header(\strtolower($key) . ': ' . $header);
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
-				header("Content-Disposition: attachment; filename=\"api.json\"");
+				header('content-disposition: attachment; filename="api.json"');
 				$response = $this->encryptData($this->body);
 			} else {
 				if (strpos($requestContentType, 'text/html') !== false) {
-					header("Content-Disposition: attachment; filename=\"api.html\"");
+					header('content-disposition: attachment; filename="api.html"');
 					$response = $this->encodeHtml($this->body);
-				} else if (strpos($requestContentType, 'application/xml') !== false) {
-					header("Content-Disposition: attachment; filename=\"api.xml\"");
+				} elseif (strpos($requestContentType, 'application/xml') !== false) {
+					header('content-disposition: attachment; filename="api.xml"');
 					$response = $this->encodeXml($this->body);
 				} else {
-					header("Content-Disposition: attachment; filename=\"api.json\"");
+					header('content-disposition: attachment; filename="api.json"');
 					$response = $this->encodeJson($this->body);
 				}
 			}
@@ -92,14 +93,15 @@ class Response
 
 	public function encryptData($data)
 	{
-		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('publicKey'));
+		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
+
 		return $encrypted;
 	}
 
 	public function debugResponse()
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
-			$log = "-------------  Response  -----  " . date('Y-m-d H:i:s') . "  ------\n";
+			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
 			$log .= 'Headers: ' . PHP_EOL;
 			foreach ($this->headers as $key => $header) {
@@ -115,10 +117,9 @@ class Response
 	{
 		$htmlResponse = "<table border='1'>";
 		foreach ($responseData as $key => $value) {
-			$htmlResponse .= "<tr><td>$key</td><td>" . (is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . "</td></tr>";
+			$htmlResponse .= "<tr><td>$key</td><td>" . (is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
 		}
-		$htmlResponse .= "</table>";
-		return $htmlResponse;
+		return $htmlResponse . '</table>';
 	}
 
 	public function encodeJson($responseData)
@@ -130,10 +131,11 @@ class Response
 	{
 		$xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
 		$this->toXml($responseData, $xml);
+
 		return $xml->asXML();
 	}
 
-	public function toXml($data, &$xmlData)
+	public function toXml($data, \SimpleXMLElement &$xmlData)
 	{
 		foreach ($data as $key => $value) {
 			if (is_numeric($key)) {

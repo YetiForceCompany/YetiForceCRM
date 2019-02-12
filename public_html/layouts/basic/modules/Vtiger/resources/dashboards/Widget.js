@@ -7,24 +7,25 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
-	getInstance: function (container, widgetName, moduleName) {
-		if (typeof moduleName == 'undefined') {
+	getInstance: function getInstance(container, widgetClassName, moduleName) {
+		if (typeof moduleName === "undefined") {
 			moduleName = app.getModuleName();
 		}
-		var widgetClassName = widgetName.toCamelCase();
-		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
-		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
-		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
-		var basicClass = Vtiger_Widget_Js;
-		var instance;
-		if (typeof moduleClass != 'undefined') {
+		const moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
+		const fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
+		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
+		const basicClass = YetiForce_Widget_Js;
+		let instance;
+		if (typeof moduleClass !== "undefined") {
 			instance = new moduleClass(container, false, widgetClassName);
-		} else if (typeof fallbackClass != 'undefined') {
+		} else if (typeof fallbackClass !== "undefined") {
 			instance = new fallbackClass(container, false, widgetClassName);
-		} else if (typeof yetiClass != 'undefined') {
+		} else if (typeof yetiClass !== "undefined") {
 			instance = new yetiClass(container, false, widgetClassName);
 		} else {
 			instance = new basicClass(container, false, widgetClassName);
@@ -37,65 +38,1248 @@ jQuery.Class('Vtiger_Widget_Js', {
 	chartInstance: false,
 	chartData: [],
 	paramCache: false,
-	init: function (container, reload, widgetClassName) {
-		this.setContainer(jQuery(container));
+	init: function init(container, reload, widgetClassName) {
+		container = $(container);
+		this.setContainer(container);
 		this.registerWidgetPostLoadEvent(container);
 		if (!reload) {
 			this.registerWidgetPostRefreshEvent(container);
 		}
 		this.registerCache(container);
 	},
-	getContainer: function () {
+	areColorsFromDividingField() {
+		return !!Number(this.getContainer().find('[name="colorsFromDividingField"]').val());
+	},
+	getSourceChartType() {
+		return this.getContainer().find('[name="typeChart"]').val();
+	},
+	isMultiFilter() {
+		if (typeof this.filterIds !== "undefined") {
+			return this.filterIds.length > 1;
+		}
+		return false;
+	},
+	/**
+	 * Get widget data
+	 * @returns {*}
+	 */
+	getWidgetData() {
+		if (typeof this.widgetData !== 'undefined') {
+			return this.widgetData;
+		}
+		let widgetDataEl = this.getContainer().find('.widgetData');
+		if (widgetDataEl.length) {
+			return this.widgetData = JSON.parse(widgetDataEl.val());
+		}
+		return false;
+	},
+	/**
+	 * Predefined functions that will replace options function type
+	 * @type {Object}
+	 */
+	globalChartFunctions: {
+		/**
+		 * Functions for x or y axes scales xAxes:[{here}]
+		 */
+		scales: {
+			formatAxesLabels: function formatAxesLabels(value, index, values) {
+				if (String(value).length > 0 && !isNaN(Number(value))) {
+					return App.Fields.Double.formatToDisplay(value);
+				}
+				return value;
+			},
+		},
+		/**
+		 * Functions for datalabels
+		 */
+		datalabels: {
+			display(context) {
+				const meta = context.chart.getDatasetMeta(context.datasetIndex);
+				return meta.hidden !== true;
+			},
+			formatter: function datalabelsFormatter(value, context) {
+				if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+					return App.Fields.Double.formatToDisplay(value, 0);
+				}
+				if (
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== "undefined" &&
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== "undefined"
+				) {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+				}
+				if (String(value).length > 0 && isNaN(Number(value))) {
+					return App.Fields.Double.formatToDisplay(value);
+				}
+				return value;
+			}
+		},
+		/**
+		 * Tooltips functions
+		 */
+		tooltips: {
+			label: function tooltipLabelCallback(tooltipItem, data) {
+				// get already formatted data if exists
+				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== "undefined" && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== "undefined") {
+					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+				}
+				// if there is no formatted data so try to format it
+				if (String(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).length > 0 && !isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+					if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+						return App.Fields.Double.formatToDisplay(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index], 0);
+					}
+					return App.Fields.Double.formatToDisplay(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+				}
+				// return raw data at idex
+				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+			},
+			title: function tooltipTitleCallback(tooltipItems, data) {
+				const tooltipItem = tooltipItems[0];
+				// get already formatted title if exists
+				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== "undefined" && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== "undefined") {
+					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+				}
+				// if there is no formatted title so try to format it
+				if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
+					if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+						return App.Fields.Double.formatToDisplay(data.labels[tooltipItem.index], 0);
+					}
+					return App.Fields.Double.formatToDisplay(data.labels[tooltipItem.index]);
+				}
+				// return label at index
+				return data.labels[tooltipItem.index];
+			}
+		},
+
+		legend: {
+			onClick(e, legendItem) {
+				let type = this.chartInstance.config.type;
+				if (typeof Chart.defaults[type] !== "undefined") {
+					return Chart.defaults[type].legend.onClick.apply(this.chartInstance, [e, legendItem]);
+				}
+				return Chart.defaults.global.legend.onClick.apply(this.chartInstance, [e, legendItem]);
+			},
+			generateLabels(chart) {
+				let type = chart.config.type;
+				let labels;
+				if (typeof Chart.defaults[type] !== "undefined") {
+					labels = Chart.defaults[type].legend.labels.generateLabels(chart);
+				} else {
+					labels = Chart.defaults.global.legend.labels.generateLabels(chart);
+				}
+				if (this.areColorsFromDividingField() || this.isMultiFilter()) {
+					chart.config.options.legend.labels.boxWidth = 12;
+					labels.forEach((label, index) => {
+						label.fillStyle = 'rgba(0,0,0,0)';
+						label.strokeStyle = 'rgba(0,0,0,0.15)';
+					});
+				}
+				return labels;
+			},
+			display() {
+				if (this.isMultiFilter() || this.areColorsFromDividingField()) {
+					return true;
+				}
+				return false;
+			}
+		},
+
+		/**
+		 * plugins
+		 */
+		plugins: {
+			/**
+			 * If datalabels doesn't fit - hide them individually
+			 * @param  {Chart} chart chart instance
+			 * @return {undefined}
+			 */
+			hideVerticalBarDatalabelsIfNeeded: function (chart) {
+				let getDatasetsMeta = function (chart) {
+					const datasets = [];
+					const data = chart.data;
+					if (typeof data !== "undefined" && typeof data.datasets !== "undefined" && Array.isArray(data.datasets)) {
+						for (let i = 0, len = data.datasets.length; i < len; i++) {
+							const meta = chart.getDatasetMeta(i);
+							if (typeof meta.data !== "undefined" && Array.isArray(meta.data)) {
+								datasets.push(meta);
+							}
+						}
+					}
+					return datasets;
+				};
+				let datasetsMeta = getDatasetsMeta(chart);
+				let datasets = chart.data.datasets;
+				for (let i = 0, len = datasets.length; i < len; i++) {
+					const dataset = datasets[i];
+					const meta = datasetsMeta[i];
+					if (meta.hidden) {
+						continue;
+					}
+					const metaData = meta.data;
+					if (typeof dataset._models === "undefined") {
+						dataset._models = {};
+					}
+					if (typeof dataset.datalabels === "undefined") {
+						dataset.datalabels = {};
+					}
+					if (typeof dataset.datalabels.display === "undefined") {
+						dataset.datalabels.display = true;
+					}
+					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+						const dataItem = metaData[iItem];
+						if (typeof dataItem.$datalabels !== "undefined" && typeof dataItem.$datalabels._model !== "undefined") {
+							let model = dataItem.$datalabels._model;
+							if (model !== null && typeof model !== "undefined") {
+								dataset._models[iItem] = model;
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== "undefined") {
+								model = dataset._models[iItem];
+							} else {
+								return false;
+							}
+							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+							const barHeight = dataItem.height();
+							let threshold = 10;
+							if (typeof chart.config.options.verticalBarLabelsThreshold !== 'undefined') {
+								threshold = chart.config.options.verticalBarLabelsThreshold;
+							}
+							if (dataItem._view.width + threshold < labelWidth || barHeight + threshold < labelHeight) {
+								dataItem.$datalabels._model = null;
+							} else {
+								dataItem.$datalabels._model = model;
+							}
+						}
+					}
+				}
+			},
+			/**
+			 * If datalabels doesn't fit - hide them individually
+			 * @param  {Chart} chart  Chart instance
+			 * @return {undefined}
+			 */
+			hideHorizontalBarDatalabelsIfNeeded: function hideHorizontalBarDatalabelsIfNeeded(chart) {
+				let getDatasetsMeta = function (chart) {
+					const datasets = [];
+					const data = chart.data;
+					if (typeof data !== "undefined" && typeof data.datasets !== "undefined" && Array.isArray(data.datasets)) {
+						for (let i = 0, len = data.datasets.length; i < len; i++) {
+							const meta = chart.getDatasetMeta(i);
+							if (typeof meta.data !== "undefined" && Array.isArray(meta.data)) {
+								datasets.push(meta);
+							}
+						}
+					}
+					return datasets;
+				};
+				let datasetsMeta = getDatasetsMeta(chart);
+				let datasets = chart.data.datasets;
+				for (let i = 0, len = datasets.length; i < len; i++) {
+					const dataset = datasets[i];
+					const meta = datasetsMeta[i];
+					if (meta.hidden) {
+						continue;
+					}
+					const metaData = meta.data;
+					if (typeof dataset._models === "undefined") {
+						dataset._models = {};
+					}
+					if (typeof dataset.datalabels === "undefined") {
+						dataset.datalabels = {};
+					}
+					if (typeof dataset.datalabels.display === "undefined") {
+						dataset.datalabels.display = true;
+					}
+					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+						const dataItem = metaData[iItem];
+						if (typeof dataItem.$datalabels !== "undefined" && typeof dataItem.$datalabels._model !== "undefined") {
+							let model = dataItem.$datalabels._model;
+							if (model !== null && typeof model !== "undefined") {
+								dataset._models[iItem] = model;
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== "undefined") {
+								model = dataset._models[iItem];
+							} else {
+								return false;
+							}
+							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+							const barWidth = dataItem.width;
+							let threshold = 10;
+							if (typeof chart.config.options.horizontalBarLabelsThreshold !== 'undefined') {
+								threshold = chart.config.options.horizontalBarLabelsThreshold;
+							}
+							if (dataItem._view.height + threshold < labelHeight || barWidth + threshold < labelWidth) {
+								dataItem.$datalabels._model = null;
+							} else {
+								dataItem.$datalabels._model = model;
+							}
+						}
+					}
+				}
+			},
+			/**
+			 * Fix to long axis labels
+			 * @param  {Chart}  chart    Chart instance
+			 * @return {Boolean}       [description]
+			 */
+			fixXAxisLabels: function fixXAxisLabels(chart) {
+				let shortenXTicks = function shortenXTicks(data, options) {
+					if (typeof options.scales === "undefined") {
+						options.scales = {};
+					}
+					if (typeof options.scales.xAxes === "undefined") {
+						options.scales.xAxes = [{}];
+					}
+					options.scales.xAxes.forEach((axis) => {
+						if (typeof axis.ticks === "undefined") {
+							axis.ticks = {};
+						}
+						axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+							if (value.length > 13) {
+								return value.substr(0, 10) + '...';
+							}
+							return value;
+						};
+					});
+					return options;
+				};
+				let rotateXLabels90 = function rotateXLabels90(data, options) {
+					if (typeof options.scales === "undefined") {
+						options.scales = {};
+					}
+					if (typeof options.scales.xAxes === "undefined") {
+						options.scales.xAxes = [{}];
+					}
+					options.scales.xAxes.forEach((axis) => {
+						if (typeof axis.ticks === "undefined") {
+							axis.ticks = {};
+						}
+						axis.ticks.minRotation = 90;
+					});
+					return options;
+				};
+
+				chart.data.datasets.forEach((dataset, index) => {
+					if (dataset._updated) {
+						return false;
+					}
+					for (let prop in dataset._meta) {
+						if (dataset._meta.hasOwnProperty(prop)) {
+							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+								const metaDataItem = dataset._meta[prop].data[i];
+								const label = metaDataItem._xScale.ticks[i];
+								const ctx = metaDataItem._xScale.ctx;
+								let categoryWidth = metaDataItem._xScale.width / dataset._meta[prop].data.length;
+								if (typeof metaDataItem._xScale.options.categoryPercentage !== "undefined") {
+									// if it is bar chart there is category percentage option that we should use
+									categoryWidth *= metaDataItem._xScale.options.categoryPercentage;
+								}
+								const fullWidth = ctx.measureText(label).width;
+								if (categoryWidth < fullWidth) {
+									const shortened = label.substr(0, 10) + "...";
+									const shortenedWidth = ctx.measureText(shortened).width;
+									if (categoryWidth < shortenedWidth) {
+										chart.options = rotateXLabels90(chart.data, chart.options);
+										chart.options = shortenXTicks(chart.data, chart.options);
+									} else {
+										chart.options = shortenXTicks(chart.data, chart.options);
+									}
+									if (!dataset._updated) {
+										dataset._updated = true;
+										chart.update();
+										// recalculate positions for smooth animation (for all datasets)
+										chart.data.datasets.forEach((dataset, index) => {
+											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+												metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+												metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+												metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+											});
+										});
+										break;
+									}
+								}
+							}
+							dataset._updated = true;
+						}
+					}
+				});
+			},
+			/**
+			 * Fix too long axis labels  - try to shorten and rotate
+			 * @param  {Chart}  chart    Chart instance
+			 * @return {Boolean}
+			 */
+			fixYAxisLabels: function fixYAxisLabels(chart) {
+				let shortenYTicks = function shortenYTicks(data, options) {
+					if (typeof options.scales === "undefined") {
+						options.scales = {};
+					}
+					if (typeof options.scales.yAxes === "undefined") {
+						options.scales.yAxes = [{}];
+					}
+					options.scales.yAxes.forEach((axis) => {
+						if (typeof axis.ticks === "undefined") {
+							axis.ticks = {};
+						}
+						axis.ticks.callback = function yAxisTickCallback(value, index, values) {
+							if (value.length > 13) {
+								return value.substr(0, 10) + '...';
+							}
+							return value;
+						}
+					});
+					return options;
+				};
+				chart.data.datasets.forEach((dataset, index) => {
+					if (dataset._updated) {
+						return false;
+					}
+					for (let prop in dataset._meta) {
+						if (dataset._meta.hasOwnProperty(prop)) {
+							// we have meta
+							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+								const metaDataItem = dataset._meta[prop].data[i];
+								const label = metaDataItem._view.label;
+								if (label.length > 13) {
+									chart.options = shortenYTicks(chart.data, chart.options);
+									if (!dataset._updated) {
+										dataset._updated = true;
+										chart.update();
+										// recalculate positions for smooth animation (for all datasets)
+										chart.data.datasets.forEach((dataset, index) => {
+											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+												if (typeof metaDataItem._xScale !== "undefined") {
+													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+													metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+												}
+											});
+										});
+										break;
+									}
+								}
+							}
+							dataset._updated = true;
+						}
+					}
+				});
+			},
+		}
+	},
+	/**
+	 * Get function from global functions from replacement string
+	 * @param  {String} replacementStr replacement string from getFunctionReplacementString method
+	 * @return {Function}
+	 */
+	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
+		let assignResult = false;
+		if (replacementStr.substr(replacementStr.length - 2) === '()') {
+			replacementStr = replacementStr.substr(0, replacementStr.length - 2);
+			assignResult = true;
+		}
+		const splitted = replacementStr.split(':');
+		if (splitted.length !== 2) {
+			app.errorLog(new Error("Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'"));
+		}
+		let finalFunction = splitted[1].split('.').reduce((previous, current) => {
+			return previous[current];
+		}, this.globalChartFunctions);
+		if (typeof finalFunction !== 'function') {
+			app.errorLog(new Error("Global function does not exists: " + splitted[1]));
+		}
+		if (!assignResult) {
+			return finalFunction.bind(this);
+		}
+		return finalFunction.call(this);
+	},
+	/**
+	 * Should options property be replaced by function?
+	 * @param  {String}  str
+	 * @return {Boolean}
+	 */
+	isReplacementString: function isReplacementString(str) {
+		if (typeof str !== 'string') {
+			return false;
+		}
+		return str.substr(0, 9) === 'function:';
+	},
+	/**
+	 * Recursively parse options and replace function replacement strings to functions
+	 * @param  {Object} options
+	 * @param  {bool} afterInit are we parsing chart after it was mounted ?
+	 * @return {Object} options with replaced string functions
+	 */
+	parseOptionsObject: function parseOptionsObject(options, original, afterInit = false) {
+		let result = {};
+		for (let propertyName in options) {
+			let value = options[propertyName];
+			if (afterInit) {
+				if (propertyName.substr(0, 1) === '_') {
+					result[propertyName] = value;
+				} else if (Array.isArray(value)) {
+					result[propertyName] = this.parseOptionsArray(value, original, afterInit);
+				} else if (typeof value === 'object' && value !== null) {
+					result[propertyName] = this.parseOptionsObject(value, original, afterInit);
+				} else {
+					result[propertyName] = value;
+				}
+			} else {
+				if (propertyName.substr(0, 1) === '_') {
+					result[propertyName] = value;
+				} else if (this.isReplacementString(value)) {
+					result[propertyName] = this.getFunctionFromReplacementString(value, afterInit, original);
+				} else if (Array.isArray(value)) {
+					result[propertyName] = this.parseOptionsArray(value, original, afterInit);
+				} else if (typeof value === 'object' && value !== null) {
+					result[propertyName] = this.parseOptionsObject(value, original, afterInit);
+				} else {
+					result[propertyName] = value;
+				}
+			}
+		}
+		return result;
+	},
+	/**
+	 * Recursively parse options in array form and replace function replacement string with functions
+	 * @param  {Array} arr
+	 * @param  {bool} afterInit are we after chart js was mounted?
+	 * @return {Array}
+	 */
+	parseOptionsArray: function parseOptionsArray(arr, original, afterInit = false) {
+		return arr.map((item, index) => {
+			if (this.isReplacementString(item)) {
+				return this.getFunctionFromReplacementString(value);
+			} else if (Array.isArray(item)) {
+				return this.parseOptionsArray(item, original, afterInit);
+			} else if (typeof item === 'object' && item !== null) {
+				return this.parseOptionsObject(item, original, afterInit);
+			}
+			return item;
+		});
+	},
+	/**
+	 * Recursively parse options object and replace function replacement strings with global functions
+	 * @param  {Object} options
+	 * @param  {bool} afterInit - is chartjs loaded ?
+	 * @return {Object}
+	 */
+	parseOptions: function parseOptions(options, original, afterInit = false) {
+		if (Array.isArray(options)) {
+			return this.parseOptionsArray(options, original, afterInit);
+		} else if (typeof options === 'object' && options !== null) {
+			return this.parseOptionsObject(options, original, afterInit);
+		}
+		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
+	},
+	/**
+	 * Remove 'Divided' from chart sub type
+	 * for example 'barDivided' => 'bar'
+	 *
+	 * @param {String} chartSubType
+	 * @return {String}
+	 */
+	removeStackedFromName(chartSubType) {
+		const dividedPos = chartSubType.indexOf('Stacked');
+		if (dividedPos > 0) {
+			return chartSubType.substr(0, dividedPos);
+		}
+		return chartSubType;
+	},
+	/**
+	 * Get global charts default configuration - may be loaded from database in the future
+	 * We can modify something basing on chartData received from server (some custom options etc.)
+	 *
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @param  {String} chartSubType 'bar','pie' etc..
+	 * @return {Object}
+	 */
+	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartSubType, chartData) {
+		const options = {
+			bar: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels',
+				}, {
+					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+				}],
+			},
+			barStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels',
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels',
+				}, {
+					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+				}],
+			},
+			horizontalBar: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels'
+				}, {
+					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
+				}],
+			},
+			horizontalBarStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels'
+				}, {
+					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
+				}],
+			},
+			line: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			lineStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			linePlain: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					lineTension: 0,
+					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			linePlainStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: 'function:legend.display()'
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					lineTension: 0,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			pie: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true,
+						labels: {
+							generateLabels: 'function:legend.generateLabels',
+						}
+					},
+					cutoutPercentage: 0,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [],
+			},
+			doughnut: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true,
+						onClick: 'function:legend.onClick',
+						labels: {
+							generateLabels: 'function:legend.generateLabels',
+						}
+					},
+					cutoutPercentage: 50,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
+					},
+				},
+				plugins: [],
+			},
+			funnel: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					sort: 'desc',
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						yAxes: [{
+							display: true,
+							beginAtZero: true,
+							ticks: {
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+					},
+				},
+				dataset: {
+					datalabels: {
+						display: false
+					}
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels',
+				}],
+			},
+		};
+		if (typeof options[chartSubType] !== "undefined") {
+			return options[chartSubType];
+		}
+		// if divided and standard chart types are equal
+		const notStackedChartSubType = this.removeStackedFromName(chartSubType);
+		if (typeof options[notStackedChartSubType] !== "undefined") {
+			return options[notStackedChartSubType];
+		}
+		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
+	},
+	/**
+	 * Get default chart basic options for specified chart subtype
+	 *
+	 * @param  {String} chartSubType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultBasicOptions: function getDefaultBasicOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).basic;
+	},
+	/**
+	 * Get default dataset options for specified chart subtype
+	 *
+	 * @param  {String} chartSubType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultDatasetOptions: function getDefaultDatasetOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).dataset;
+	},
+	/**
+	 * Get default plugins for specified chart subtype
+	 *
+	 * @param  {String} chartSubType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultPlugins: function getDefaultPlugins(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).plugins;
+	},
+	getContainer: function getContainer() {
 		return this.container;
 	},
-	setContainer: function (element) {
+	setContainer: function setContainer(element) {
 		this.container = element;
 		return this;
 	},
-	isEmptyData: function () {
-		var container = this.getContainer();
-		return (container.find('.noDataMsg').length > 0) ? true : false;
+	isEmptyData: function isEmptyData() {
+		return this.getContainer().find('.widgetData').length === 0 || this.getContainer().find('.noDataMsg').length > 0;
 	},
-	getUserDateFormat: function () {
-		return jQuery('#userDateFormat').val();
+	getUserDateFormat: function getUserDateFormat() {
+		return CONFIG.dateFormat;
 	},
-	getPlotContainer: function (useCache) {
-		if (typeof useCache == 'undefined') {
+	getChartContainer: function getChartContainer(useCache) {
+		if (typeof useCache === "undefined") {
 			useCache = false;
 		}
-		if (this.plotContainer == false || !useCache) {
-			var container = this.getContainer();
-			this.plotContainer = container.find('.widgetChartContainer');
+		if (this.plotContainer === false || !useCache) {
+			this.plotContainer = this.getContainer().find('.widgetChartContainer').find('canvas').get(0);
 		}
 		return this.plotContainer;
 	},
-	registerRecordsCount: function () {
+	registerRecordsCount: function registerRecordsCount() {
 		var thisInstance = this;
 		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
 		recordsCountBtn.on('click', function () {
 			var url = recordsCountBtn.data('url');
-			AppConnector.request(url).then(function (response) {
+			AppConnector.request(url).done(function (response) {
 				recordsCountBtn.find('.count').html(response.result.totalCount);
-				recordsCountBtn.find('span:not(.count)').addClass('hide');
-				recordsCountBtn.find('a').removeClass('hide');
+				recordsCountBtn.find('.fas').addClass('d-none')
+					.attr('aria-hidden', true);
+				recordsCountBtn.find('a').removeClass('d-none')
+					.attr('aria-hidden', false);
 			});
 		});
 	},
-	loadScrollbar: function () {
-		var widget = this.getPlotContainer(false).closest('.dashboardWidget');
-		var content = widget.find('.dashboardWidgetContent');
-		var footer = widget.find('.dashboardWidgetFooter');
-		var header = widget.find('.dashboardWidgetHeader');
-		var headerHeight = header.outerHeight();
-		var adjustedHeight = widget.height() - headerHeight;
+	loadScrollbar: function loadScrollbar() {
+		const container = $(this.getChartContainer(false));
+		if (typeof container === "undefined") { // if there is no data
+			return false;
+		}
+		const widget = container.closest('.dashboardWidget');
+		const content = widget.find('.dashboardWidgetContent');
+		const footer = widget.find('.dashboardWidgetFooter');
+		let adjustedHeight = widget.innerHeight() - widget.find('.dashboardWidgetHeader').outerHeight();
 		if (footer.length) {
 			adjustedHeight -= footer.outerHeight();
 		}
+		if (!content.length) {
+			return;
+		}
 		content.css('height', adjustedHeight + 'px');
-		content.css('overflow', 'auto');
-		content.perfectScrollbar();
+		content.css('max-height', adjustedHeight + 'px');
+		if (typeof this.scrollbar !== 'undefined') {
+			this.scrollbar.update();
+		} else {
+			this.scrollbar = app.showNewScrollbar(content, {
+				wheelPropagation: true
+			});
+		}
 	},
-	restrictContentDrag: function () {
+	restrictContentDrag: function restrictContentDrag() {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
 			var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
@@ -106,44 +1290,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 			e.stopPropagation();
 		});
 	},
-	convertToDateRangePicketFormat: function (userDateFormat) {
-		switch (userDateFormat) {
-			case 'yyyy-mm-dd':
-				return 'yyyy-MM-dd';
-			case 'mm-dd-yyyy':
-				return 'MM-dd-yyyy';
-			case 'dd-mm-yyyy':
-				return 'dd-MM-yyyy';
-			case 'yyyy.mm.dd':
-				return 'yyyy.MM.dd';
-			case 'mm.dd.yyyy':
-				return 'MM.dd.yyyy';
-			case 'dd.mm.yyyy':
-				return 'dd.MM.yyyy';
-			case 'yyyy/mm/dd':
-				return 'yyyy/MM/dd';
-			case 'mm/dd/yyyy':
-				return 'MM/dd/yyyy';
-			case 'dd/mm/yyyy':
-				return 'dd/MM/yyyy';
-		}
-	},
-	generateData: function () {
+	/**
+	 * Get data from JSON encoded input value
+	 *
+	 * @return {object} data from request
+	 */
+	generateData: function generateData() {
 		var thisInstance = this;
-		var container = thisInstance.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			chartData.push(data[index]);
-			thisInstance.chartData[data[index].id] = data[index];
+		var jData = thisInstance.getContainer().find('.widgetData').val();
+		if (typeof jData === "undefined") {
+			return thisInstance.chartData = jData;
 		}
-		return {'chartData': chartData};
+		thisInstance.chartData = JSON.parse(jData);
+		return thisInstance.chartData;
 	},
-	loadChart: function () {
-
-	},
-	positionNoDataMsg: function () {
+	positionNoDataMsg: function positionNoDataMsg() {
 		var container = this.getContainer();
 		var widgetContentsContainer = container.find('.dashboardWidgetContent');
 		var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
@@ -153,11 +1314,59 @@ jQuery.Class('Vtiger_Widget_Js', {
 			'of': widgetContentsContainer
 		});
 	},
+	/**
+	 * Print html content as image
+	 * @param {jQuery} element
+	 */
+	printHtml(element) {
+		let widget = element.closest('.dashboardWidget'),
+			title = widget.find('.dashboardTitle').prop('title'),
+			printContainer = widget.find('.js-print__container').get(0),
+			imgEl = $('<img style="width:100%">');
+		imgEl.get(0).onload = () => {
+			let width = $(printContainer).outerWidth();
+			let height = $(printContainer).outerHeight();
+			if (width < 600) {
+				width = 600;
+			}
+			if (height < 400) {
+				height = 400;
+			}
+			this.printImage(imgEl.get(0), title, width, height);
+		};
+		app.htmlToImage(printContainer, (imageBase64) => {
+			imgEl.get(0).src = imageBase64;
+		});
+	},
+	/**
+	 * Download html content as image
+	 * @param {jQuery} element
+	 */
+	downloadHtmlAsImage(element) {
+		let widget = element.closest('.dashboardWidget'),
+			title = widget.find('.dashboardTitle').prop('title');
+		app.htmlToImage(widget.find('.js-print__container').get(0), (imageBase64) => {
+			let anchor = document.createElement('a');
+			anchor.setAttribute('href', imageBase64);
+			anchor.setAttribute('download', title + '.png');
+			anchor.click();
+		});
+	},
+	/**
+	 * register print image fields (html2canvas)
+	 */
+	registerPrintAndDownload() {
+		$('.js-print--download', this.getContainer()).on('click', (e) => {
+			this.downloadHtmlAsImage($(e.target));
+		});
+		$('.js-print', this.getContainer()).on('click', (e) => {
+			this.printHtml($(e.target));
+		});
+	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
-	postLoadWidget: function () {
-		this.loadScrollbar();
+	postLoadWidget: function postLoadWidget() {
 		if (!this.isEmptyData()) {
-			this.loadChart();
+			this.loadChart(this.options);
 		} else {
 			this.positionNoDataMsg();
 		}
@@ -165,117 +1374,116 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
-		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
-		app.showPopoverElementView(this.getContainer().find('.popoverTooltip'));
+		this.registerContentAutoResize();
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
-		this.registerUserList();
 		this.registerHeaderButtons();
+		this.registerPrintAndDownload();
+		this.loadScrollbar();
 	},
-	postRefreshWidget: function () {
+	postRefreshWidget: function postRefreshWidget() {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
-			this.loadChart();
+			this.loadChart(this.options);
 		} else {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
 		this.registerLoadMore();
 	},
-	setSortingButton: function (currentElement) {
+	setSortingButton: function setSortingButton(currentElement) {
 		if (currentElement.length) {
-			var container = this.getContainer();
-			var drefresh = container.find('a[name="drefresh"]');
-			var url = drefresh.data('url');
+			let container = this.getContainer(),
+				drefresh = container.find('a[name="drefresh"]'),
+				url = drefresh.data('url');
 			url = url.replace('&sortorder=desc', '');
 			url = url.replace('&sortorder=asc', '');
 			url += '&sortorder=';
-			var sort = currentElement.data('sort');
-			var sortorder = 'desc';
-			var icon = 'glyphicon-sort-by-attributes-alt';
+			let sort = currentElement.data('sort'),
+				sortorder = 'desc',
+				icon = 'fa-sort-amount-down',
+				iconBase = 'fa-sort-amount-up';
 			if (sort == 'desc') {
 				sortorder = 'asc';
-				icon = 'glyphicon-sort-by-attributes';
+				icon = 'fa-sort-amount-up';
+				iconBase = 'fa-sort-amount-down';
 			}
 			currentElement.data('sort', sortorder);
 			currentElement.attr('title', currentElement.data(sortorder));
 			currentElement.attr('alt', currentElement.data(sortorder));
 			url += sortorder;
-			var glyphicon = currentElement.find('.glyphicon');
-			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
+			currentElement.find('.fas').removeClass(iconBase).addClass(icon);
 			drefresh.data('url', url);
 		}
 	},
-	registerUserList: function () {
-		var container = this.getContainer();
-		var header = container.find('.dashboardWidgetHeader');
-		var ownersFilter = header.find('.ownersFilter')
-		if (ownersFilter.length) {
-			var owners = container.find('.widgetOwners').val();
-			if (owners) {
-				var select = ownersFilter.find('select');
-				$.each(jQuery.parseJSON(owners), function (key, value) {
-					select.append($('<option>', {value: key}).text(value));
-				});
-			}
-		}
+	getChartImage() {
+		const base64Image = this.chartInstance.toBase64Image();
+		const image = new Image();
+		image.src = base64Image;
+		return image;
 	},
-	registerHeaderButtons: function () {
-		var container = this.getContainer();
-		var header = container.find('.dashboardWidgetHeader');
-		var downloadWidget = header.find('.downloadWidget');
-		var printWidget = header.find('.printWidget');
-		printWidget.click(function (e) {
-			var imgEl = $(this.chartInstance.jqplotToImageElem());
-			var print = window.open('', 'PRINT', 'height=400,width=600');
-			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
-			print.document.write('</head><body >');
-			print.document.write($('<div>').append(imgEl.clone()).html());
-			print.document.write('</body></html>');
-			print.document.close(); // necessary for IE >= 10
-			print.focus(); // necessary for IE >= 10*/
-			setTimeout(function () {
-				print.print();
-				print.close();
-			}, 1000);
+	printImage(imgEl, title, width, height) {
+		const print = window.open('', 'PRINT', 'height=' + height + ',width=' + width);
+		print.document.write('<html><head><title>' + title + '</title>');
+		print.document.write('</head><body >');
+		print.document.write($('<div>').append(imgEl).html());
+		print.document.write('</body></html>');
+		print.document.close(); // necessary for IE >= 10
+		print.focus(); // necessary for IE >= 10
+		setTimeout(function () {
+			print.print();
+			print.close();
+		}, 1000);
+	},
+	registerHeaderButtons: function registerHeaderButtons() {
+		const container = this.getContainer();
+		const header = container.find('.dashboardWidgetHeader');
+		const downloadWidget = header.find('.downloadWidget');
+		const printWidget = header.find('.printWidget');
+		printWidget.on('click', (e) => {
+			const imgEl = this.getChartImage();
+			this.printImage(imgEl, header.find('.dashboardTitle').text(), 600, 400);
 		});
-		downloadWidget.click({chart: $(this)}, function (e) {
-			var imgEl = $(this.chartInstance.jqplotToImageElem());
-			var a = $("<a>")
-					.attr("href", imgEl.attr('src'))
-					.attr("download", header.find('.dashboardTitle').text() + ".png")
-					.appendTo(container);
+		downloadWidget.on('click', (e) => {
+			const imgEl = $(this.getChartImage());
+			const a = $("<a>")
+				.attr("href", imgEl.attr('src'))
+				.attr("download", header.find('.js-widget__header__title').text() + ".png")
+				.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+		});
 	},
-	registerChangeSorting: function () {
+	registerChangeSorting: function registerChangeSorting() {
 		var thisInstance = this;
 		var container = this.getContainer();
 		thisInstance.setSortingButton(container.find('.changeRecordSort'));
-		container.find('.changeRecordSort').click(function (e) {
+		container.find('.changeRecordSort').on('click', function (e) {
 			var drefresh = container.find('a[name="drefresh"]');
 			thisInstance.setSortingButton(jQuery(e.currentTarget));
 			drefresh.click();
 		});
 	},
-	registerWidgetSwitch: function () {
+	registerWidgetSwitch: function registerWidgetSwitch() {
 		var thisInstance = this;
-		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .switchBtnReload');
+		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .js-switch--calculations');
 		thisInstance.setUrlSwitch(switchButtons);
-		switchButtons.on('switchChange.bootstrapSwitch', function (e, state) {
-			var currentElement = jQuery(e.currentTarget);
+		switchButtons.on('change', (e) => {
+			var currentElement = $(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
-			thisInstance.setUrlSwitch(currentElement).then(function (data) {
+			thisInstance.setUrlSwitch(currentElement).done(function (data) {
 				if (data) {
 					drefresh.click();
 				}
 			});
 		});
 	},
-	setUrlSwitch: function (switchButtons) {
+	setUrlSwitch: function setUrlSwitch(switchButtons) {
 		var aDeferred = jQuery.Deferred();
 		switchButtons.each(function (index, e) {
 			var currentElement = jQuery(e);
@@ -283,17 +1491,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
 			var urlparams = currentElement.data('urlparams');
-			if (urlparams != '') {
-				var onval = currentElement.data('on-val');
-				var offval = currentElement.data('off-val');
-
-				url = url.replace('&' + urlparams + '=' + onval, '');
-				url = url.replace('&' + urlparams + '=' + offval, '');
-				url += '&' + urlparams + '=';
-				if (currentElement.prop('checked'))
-					url += onval;
-				else
-					url += offval;
+			if (urlparams !== '') {
+				var switchUrl = currentElement.data('url-value');
+				url = url.replace('&' + urlparams + '=' + switchUrl, '');
+				url += '&' + urlparams + '=' + switchUrl;
 				drefresh.data('url', url);
 				aDeferred.resolve(true);
 			} else {
@@ -302,176 +1503,209 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 		return aDeferred.promise();
 	},
-	getFilterData: function () {
+	getFilterData: function getFilterData() {
 		return {};
 	},
-	refreshWidget: function () {
-		var thisInstance = this;
-		var parent = this.getContainer();
-		var element = parent.find('a[name="drefresh"]');
-		var url = element.data('url');
-
-		var contentContainer = parent.find('.dashboardWidgetContent');
-		var params = url;
-		var widgetFilters = parent.find('.widgetFilter');
+	/**
+	 * Refresh widget
+	 * @returns {undefined}
+	 */
+	refreshWidget: function refreshWidget() {
+		let thisInstance = this;
+		let parent = this.getContainer();
+		let element = parent.find('a[name="drefresh"]');
+		let url = element.data('url');
+		let contentContainer = parent.find('.dashboardWidgetContent');
+		let params = url;
+		let widgetFilters = parent.find('.widgetFilter');
 		if (widgetFilters.length > 0) {
 			params = {};
 			params.url = url;
 			params.data = {};
-			widgetFilters.each(function (index, domElement) {
-				var widgetFilter = jQuery(domElement);
-				if (widgetFilter.is('.dateRange')) {
-					var dateRangeVal = widgetFilter.val();
-					//If not value exists for date field then dont send the value
-					if (dateRangeVal.length <= 0) {
-						return true;
-					}
-					var name = widgetFilter.attr('name');
-					var dateRangeValComponents = dateRangeVal.split(',');
-					params.data[name] = {};
-					params.data[name].start = dateRangeValComponents[0];
-					params.data[name].end = dateRangeValComponents[1];
+			widgetFilters.each((index, domElement) => {
+				let widgetFilter = $(domElement);
+				let filterName = widgetFilter.attr('name');
+				if ('checkbox' === widgetFilter.attr('type')) {
+					params.data[filterName] = widgetFilter.is(':checked');
 				} else {
-					var filterType = widgetFilter.attr('type');
-					var filterName = widgetFilter.attr('name');
-					if ('checkbox' == filterType) {
-						var filterValue = widgetFilter.is(':checked');
-						params.data[filterName] = filterValue;
-					} else {
-						var filterValue = widgetFilter.val();
-						params.data[filterName] = filterValue;
-					}
+					params.data[filterName] = widgetFilter.val();
 				}
 			});
 		}
-		var widgetFilterByField = parent.find('.widgetFilterByField');
-		if (widgetFilterByField.length) {
-			var searchParams = [];
-			widgetFilterByField.find('.listSearchContributor').each(function (index, domElement) {
-				var searchInfo = [];
-				var searchContributorElement = jQuery(domElement);
-				var fieldInfo = searchContributorElement.data('fieldinfo');
-				var fieldName = searchContributorElement.attr('name');
-				var searchValue = searchContributorElement.val();
 
-				if (typeof searchValue == "object") {
+		let additionalWidgetFilters = parent.find('.js-chartFilter__additional-filter-field');
+		if (additionalWidgetFilters.length > 0) {
+			params = {};
+			params.url = url;
+			params.data = {};
+			additionalWidgetFilters.each((index, domElement) => {
+				let widgetFilter = jQuery(domElement);
+				let filterName = widgetFilter.attr('name');
+				let arr = false;
+				if (filterName.substr(-2) === '[]') {
+					arr = true;
+					filterName = filterName.substr(0, filterName.length - 2);
+					if (!Array.isArray(params.data[filterName])) {
+						params.data[filterName] = [];
+					}
+				}
+				if ('checkbox' === widgetFilter.attr('type')) {
+					if (arr) {
+						params.data[filterName].push(widgetFilter.is(':checked'));
+					} else {
+						params.data[filterName] = widgetFilter.is(':checked');
+					}
+				} else {
+					if (arr) {
+						params.data[filterName].push(widgetFilter.val());
+					} else {
+						params.data[filterName] = widgetFilter.val();
+					}
+
+				}
+			});
+		}
+		let refreshContainer = parent.find('.dashboardWidgetContent');
+		let refreshContainerFooter = parent.find('.dashboardWidgetFooter');
+		refreshContainer.html('');
+		refreshContainerFooter.html('');
+		refreshContainer.progressIndicator();
+		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length || parent.find('.listSearchContributor'))) {
+			thisInstance.setFilterToCache(params.url ? params.url : params, params.data ? params.data : {});
+		}
+		AppConnector.request(params).done((data) => {
+			data = $(data);
+			let footer = data.filter('.widgetFooterContent');
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
+			if (footer.length) {
+				footer = footer.clone(true, true);
+				refreshContainerFooter.html(footer);
+				data.each(function (n, e) {
+					if (jQuery(this).hasClass('widgetFooterContent')) {
+						data.splice(n, 1);
+					}
+				})
+			}
+			contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
+		}).fail(() => {
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
+		});
+	},
+	registerFilter: function registerFilter() {
+		const container = this.getContainer();
+		const search = container.find('.listSearchContributor');
+		const refreshBtn = container.find('a[name="drefresh"]');
+		const originalUrl = refreshBtn.data('url');
+		const selects = container.find('.select2noactive');
+		search.css('width', '100%');
+		search.parent().addClass('w-100');
+		search.each((index, element) => {
+			const fieldInfo = $(element).data('fieldinfo');
+			$(element).attr('placeholder', fieldInfo.label).data('placeholder', fieldInfo.label);
+		});
+		App.Fields.Picklist.changeSelectElementView(selects, 'select2', {containerCssClass: 'form-control'});
+		App.Fields.Date.register(container);
+		App.Fields.Date.registerRange(container);
+		search.on('change apply.daterangepicker', (e) => {
+			let searchParams = [];
+			container.find('.listSearchContributor').each((index, domElement) => {
+				let searchInfo = [];
+				const searchContributorElement = $(domElement);
+				const fieldInfo = searchContributorElement.data('fieldinfo');
+				const fieldName = searchContributorElement.attr('name');
+				let searchValue = searchContributorElement.val();
+				if (typeof searchValue === "object") {
 					if (searchValue == null) {
 						searchValue = "";
 					} else {
-						searchValue = searchValue.join(',');
+						searchValue = searchValue.join('##');
 					}
 				}
 				searchValue = searchValue.trim();
 				if (searchValue.length <= 0) {
+					//continue
 					return true;
 				}
-				var searchOperator = 'a';
+				let searchOperator = 'a';
 				if (fieldInfo.hasOwnProperty("searchOperator")) {
 					searchOperator = fieldInfo.searchOperator;
 				} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'multiReferenceValue']) >= 0) {
 					searchOperator = 'e';
-				} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+				} else if (fieldInfo.type === "date" || fieldInfo.type === "datetime") {
 					searchOperator = 'bw';
-				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
+				} else if (fieldInfo.type === 'multipicklist' || fieldInfo.type === 'categoryMultipicklist') {
 					searchOperator = 'c';
 				}
 				searchInfo.push(fieldName);
 				searchInfo.push(searchOperator);
 				searchInfo.push(searchValue);
-				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
-					var searchInSubcategories = parent.find('.searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
-					searchInfo.push(searchInSubcategories);
+				if (fieldInfo.type === 'tree' || fieldInfo.type === 'categoryMultipicklist') {
+					searchInfo.push($('.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked'));
 				}
 				searchParams.push(searchInfo);
 			});
-			if (searchParams.length) {
-				params.data.search_params = new Array(searchParams);
-			}
-		}
+			let url = originalUrl + '&search_params=' + JSON.stringify([searchParams]);
+			refreshBtn.data('url', url);
+			refreshBtn.trigger('click');
+		});
 
-		var filterData = this.getFilterData();
-		if (!jQuery.isEmptyObject(filterData)) {
-			if (typeof params == 'string') {
-				url = params;
-				params = {};
-				params.url = url;
-				params.data = {};
-			}
-			params.data = jQuery.extend(params.data, this.getFilterData());
-		}
-		var refreshContainer = parent.find('.dashboardWidgetContent');
-		var refreshContainerFooter = parent.find('.dashboardWidgetFooter');
-		refreshContainer.html('');
-		refreshContainerFooter.html('');
-		refreshContainer.progressIndicator();
-
-		if (this.paramCache && widgetFilters.length > 0) {
-			thisInstance.setFilterToCache(params.url, params.data);
-		}
-		AppConnector.request(params).then(
-				function (data) {
-					var data = jQuery(data);
-					var footer = data.filter('.widgetFooterContent');
-					refreshContainer.progressIndicator({'mode': 'hide'});
-					if (footer.length) {
-						footer = footer.clone(true, true);
-						refreshContainerFooter.html(footer);
-						data.each(function (n, e) {
-							if (jQuery(this).hasClass('widgetFooterContent')) {
-								data.splice(n, 1);
-							}
-						})
-					}
-					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-				},
-				function () {
-					refreshContainer.progressIndicator({'mode': 'hide'});
-				}
-		);
 	},
-	registerFilter: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		var dateRangeElement = container.find('input.dateRangeField');
-		if (dateRangeElement.length <= 0) {
-			return;
-		}
-		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
-		app.registerDateRangePickerFields(dateRangeElement, {opens: "auto"});
-		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
+	registerFilterChangeEvent: function registerFilterChangeEvent() {
+		let container = this.getContainer();
+		container.on('change', '.widgetFilter', (e) => {
 			container.find('a[name="drefresh"]').trigger('click');
 		});
-	},
-	registerFilterChangeEvent: function () {
-		var container = this.getContainer();
-		container.on('change', '.widgetFilter', function (e) {
-			var widgetContainer = jQuery(e.currentTarget).closest('li');
-			widgetContainer.find('a[name="drefresh"]').trigger('click');
-		});
 		if (container.find('.widgetFilterByField').length) {
-			app.showSelect2ElementView(container.find('.select2noactive'));
-			this.getContainer().on('change', '.widgetFilterByField .form-control', function (e) {
-				var widgetContainer = jQuery(e.currentTarget).closest('li');
-				widgetContainer.find('a[name="drefresh"]').trigger('click');
+			App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
+			this.getContainer().on('change', '.widgetFilterByField .form-control', (e) => {
+				container.find('a[name="drefresh"]').trigger('click');
 			});
 		}
 	},
-	registerWidgetPostLoadEvent: function (container) {
+	registerWidgetPostLoadEvent: function registerWidgetPostLoadEvent(container) {
 		var thisInstance = this;
-		container.on(Vtiger_Widget_Js.widgetPostLoadEvent, function (e) {
+		container.on(YetiForce_Widget_Js.widgetPostLoadEvent, function (e) {
 			thisInstance.postLoadWidget();
 		})
 	},
-	registerWidgetPostRefreshEvent: function (container) {
+	registerWidgetPostRefreshEvent: function registerWidgetPostRefreshEvent(container) {
 		var thisInstance = this;
-		container.off(Vtiger_Widget_Js.widgetPostRefereshEvent);
-		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function (e) {
+		container.off(YetiForce_Widget_Js.widgetPostRefereshEvent);
+		container.on(YetiForce_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
 	},
-	registerSectionClick: function () {
+	registerSectionClick: function registerSectionClick() {
+		const thisInstance = this;
+		let pointer = false;
+		$(thisInstance.chartInstance.canvas).on('click', function (e) {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== "undefined") {
+				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
+			}
+		}).on('mousemove', function (e) {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== "undefined") {
+				if (!pointer) {
+					$(this).css('cursor', 'pointer');
+					pointer = true;
+				}
+			} else {
+				if (pointer) {
+					$(this).css('cursor', 'auto');
+					pointer = false;
+				}
+			}
+		}).on('mouseout', function () {
+			if (pointer) {
+				$(this).css('cursor', 'auto');
+				pointer = false;
+			}
+		});
 	},
-	registerLoadMore: function () {
+	registerLoadMore: function registerLoadMore() {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
@@ -481,7 +1715,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			element.hide();
 			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
 			jQuery(parent).find('.slimScrollDiv').css('overflow', 'visible');
-
 			var user = parent.find('.owner').val();
 			var type = parent.find("[name='type']").val();
 			var url = element.data('url') + '&content=true&owner=' + user;
@@ -492,14 +1725,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 				url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');
 			}
 			contentContainer.progressIndicator();
-			AppConnector.request(url).then(function (data) {
-				contentContainer.progressIndicator({'mode': 'hide'});
+			AppConnector.request(url).done(function (data) {
+				contentContainer.progressIndicator({
+					'mode': 'hide'
+				});
 				jQuery(parent).find('.dashboardWidgetContent').append(data);
 				element.parent().remove();
 			});
 		});
 	},
-	setFilterToCache: function (url, data) {
+	setFilterToCache: function setFilterToCache(url, data) {
 		var paramCache = url;
 		var container = this.getContainer();
 		paramCache = paramCache.replace('&content=', '&notcontent=');
@@ -509,890 +1744,417 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			paramCache += '&' + i + '=' + data[i];
 		}
-		var userId = app.getMainParams('current_user_id');
+		var userId = CONFIG.userId;
 		var name = container.data('name');
 		app.cacheSet(name + userId, paramCache);
 	},
-	registerCache: function (container) {
+	registerCache: function registerCache(container) {
 		if (container.data('cache') == 1) {
 			this.paramCache = true;
 		}
-	}
-});
-Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		this.registerLoadMore();
 	},
-	postRefreshWidget: function () {
-		this._super();
-		this.registerLoadMore();
+	/**
+	 * Auto resize charts when widget was resized
+	 */
+	registerContentAutoResize() {
+		this.getContainer().closest('.grid-stack').on('gsresizestop', (event, elem) => {
+			this.loadScrollbar();
+		});
 	},
-	registerLoadMore: function () {
-		var thisInstance = this;
-		var parent = thisInstance.getContainer();
-		var contentContainer = parent.find('.dashboardWidgetContent');
-
-		var loadMoreHandler = contentContainer.find('.load-more');
-		loadMoreHandler.click(function () {
-			var parent = thisInstance.getContainer();
-			var element = parent.find('a[name="drefresh"]');
-			var url = element.data('url');
-			var params = url;
-
-			var widgetFilters = parent.find('.widgetFilter');
-			if (widgetFilters.length > 0) {
-				params = {url: url, data: {}};
-				widgetFilters.each(function (index, domElement) {
-					var widgetFilter = jQuery(domElement);
-					var filterName = widgetFilter.attr('name');
-					var filterValue = widgetFilter.val();
-					params.data[filterName] = filterValue;
+	/**
+	 * Load and display chart into the view
+	 *
+	 * @return {Chart} chartInstance
+	 */
+	loadChart: function loadChart() {
+		if (typeof this.chartData === "undefined" || typeof this.getChartContainer() === "undefined") {
+			return false;
+		}
+		this.getWidgetData();// load widget data for label formatters
+		const type = this.getType();
+		let data = this.generateData();
+		data.datasets = this.loadDatasetOptions(data);
+		const options = this.parseOptions(this.loadBasicOptions(data));
+		const plugins = this.parseOptions(this.loadPlugins(data));
+		data = this.parseOptions(data);
+		const chart = this.chartInstance = new Chart(
+			this.getChartContainer().getContext("2d"), {
+				type,
+				data,
+				options,
+				plugins
+			}
+		);
+		// parse chart one more time after it was mounted - some options need to have chart loaded
+		data.datasets = data.datasets.map((dataset, index) => {
+			dataset.datasetIndex = index;
+			return this.parseOptions(dataset, dataset, true);
+		});
+		return chart;
+	},
+	/**
+	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
+	 *
+	 * @param {Object} e
+	 * @param {array} additionalFields if element from event have additional
+	 * array in dataset like links for data then additionalFields will look like ['links']
+	 * @returns {object} {label,value,...additionalFields}
+	 */
+	getDataFromEvent: function getDataFromEvent(e, additionalFields) {
+		let chart = this.chartInstance;
+		const elements = chart.getElementAtEvent(e);
+		if (elements.length === 0) {
+			return false;
+		}
+		const element = elements[0];
+		const dataIndex = element._index;
+		const datasetIndex = element._datasetIndex;
+		const eventData = {
+			label: chart.data.labels[dataIndex],
+			value: chart.data.datasets[0].data[dataIndex],
+		};
+		if (typeof additionalFields !== "undefined" && Array.isArray(additionalFields)) {
+			additionalFields.forEach((fieldName) => {
+				if (typeof chart.data.datasets[datasetIndex][fieldName] !== "undefined" && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== "undefined") {
+					eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
+				}
+			});
+		}
+		return eventData;
+	},
+	/**
+	 * Get default chart options for current chart subtype
+	 * basic and tooltip options share the same space
+	 *
+	 * @param  {Object} chartData
+	 * @return {Object} merged options
+	 */
+	loadBasicOptions: function loadBasicOptions(chartData) {
+		this.formatTooltipTitles(chartData);
+		this.formatTooltipLabels(chartData);
+		return this.mergeOptions(
+			this.getBasicOptions(chartData),
+			this.getDefaultBasicOptions(this.getSubType(), chartData));
+	},
+	/**
+	 * Apply default dataset options (usually datalabels configuration)
+	 *
+	 * @param {object} chartData from request
+	 * @returns {object} chartData
+	 */
+	loadDatasetOptions: function loadDatasetOptions(chartData) {
+		return chartData.datasets.map((dataset, index) => {
+			let result = this.mergeOptions(
+				dataset,
+				this.getDatasetOptions(chartData),
+				this.getDefaultDatasetOptions(this.getSubType(), chartData)
+			);
+			return result;
+		});
+	},
+	/**
+	 * Load plugins from configuration
+	 * @param  {Object} chartData from the request
+	 * @return {Object}
+	 */
+	loadPlugins: function loadPlugins(chartData) {
+		return this.mergeOptionsArray(
+			this.getPlugins(chartData),
+			this.getDefaultPlugins(this.getSubType(), chartData)
+		);
+	},
+	/**
+	 * Format tooltip titles to user number format and push this modification to titlesFormatted
+	 * it is better to parse tooltips at initialization phase than
+	 * in tooltip callback which is called after hover
+	 *
+	 * @param {object} data - data from request
+	 * @returns {undefined}
+	 */
+	formatTooltipTitles: function formatTooltipTitles(data) {
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.titlesFormatted === "undefined") {
+				dataset.titlesFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let defaultLabel = data.labels[index];
+					if (String(defaultLabel).length > 0 && !isNaN(Number(defaultLabel))) {
+						if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+							defaultLabel = App.Fields.Double.formatToDisplay(defaultLabel, 0);
+						} else {
+							defaultLabel = App.Fields.Double.formatToDisplay(defaultLabel);
+						}
+					}
+					if (typeof dataset.label !== "undefined") {
+						let label = dataset.label;
+						if (String(label).length > 0 && !isNaN(Number(label))) {
+							if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+								label = App.Fields.Double.formatToDisplay(label, 0);
+							} else {
+								label = App.Fields.Double.formatToDisplay(label);
+							}
+						}
+						defaultLabel += ' (' + label + ')';
+					}
+					dataset.titlesFormatted.push(defaultLabel);
 				});
 			}
-
-			var filterData = thisInstance.getFilterData();
-			if (!jQuery.isEmptyObject(filterData)) {
-				if (typeof params == 'string') {
-					params = {url: url, data: {}};
-				}
-				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
-			}
-
-			// Next page.
-			params.data['page'] = loadMoreHandler.data('nextpage');
-
-			var refreshContainer = parent.find('.dashboardWidgetContent');
-			refreshContainer.progressIndicator();
-			AppConnector.request(params).then(function (data) {
-				refreshContainer.progressIndicator({'mode': 'hide'});
-				loadMoreHandler.replaceWith(data);
-				thisInstance.registerLoadMore();
-			}, function () {
-				refreshContainer.progressIndicator({'mode': 'hide'});
-			});
-		});
-	}
-
-});
-Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
-	chartfilterInstance: false,
-	init: function (container, reload, widgetClassName) {
-		this.setContainer(jQuery(container));
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
-		this.registerRecordsCount();
-	},
-});
-Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		var container = this.getContainer();
-		container.on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css('cursor', 'pointer');
-		});
-		container.on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css('cursor', 'auto');
 		});
 	},
-	loadChart: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		if (dataInfo.length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.FunnelRenderer,
-					rendererOptions: {
-						sectionMargin: 0,
-						widthRatio: 0.1,
-						showDataLabels: true,
-						dataLabelThreshold: 0,
-						dataLabels: 'value',
-						highlightMouseDown: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e',
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	}
-});
-Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	/**
-	 * Function which will give chart related Data
+	 * Format tooltip titles to user number format and push this modification to titlesFormatted
+	 * it is better to parse tooltips at initialization phase than
+	 * in tooltip callback which is called after hover
+	 *
+	 * @param {object} data - data from request
+	 * @returns {undefined}
 	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.PieRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						sliceMargin: 2,
-						dataLabels: 'value'
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedPieLegendRenderer,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		return data;
-	},
-	loadChart: function () {
-		var data = this.generateData();
-		var series = [];
-		$.each(data['divided'], function (index, value) {
-			series[index] = {label: value};
-		});
-		if (data['chartData'].length > 0) {
-			console.log(data);
-			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
-				stackSeries: true,
-				captureRightClick: true,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						highlightMouseOver: true,
-						varyBarColor: true
-					},
-					pointLabels: {show: true}
-				},
-				series: series,
-				axes: {
-					xaxis: {
-						renderer: $.jqplot.CategoryAxisRenderer,
-						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-						ticks: data['group'],
-						tickOptions: {
-							angle: -65,
+	formatTooltipLabels: function formatTooltipTitles(data) {
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.dataFormatted === "undefined") {
+				dataset.dataFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let dataFormatted = dataItem;
+					if (String(dataItem).length > 0 && !isNaN(Number(dataItem))) {
+						if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+							dataFormatted = App.Fields.Double.formatToDisplay(dataItem, 0);
+						} else {
+							dataFormatted = App.Fields.Double.formatToDisplay(dataItem);
 						}
 					}
-				},
-				legend: {
-					show: true,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var data = this.generateData();
-		var links = data['links'];
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
-			var url = links[seriesIndex][pointIndex];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		for (var index in data) {
-			var row = data[index];
-			row[0] = parseInt(row[0]);
-			xLabels.push(app.getDecodedValue(row[1]))
-			chartData.push(row[0]);
-			if (parseInt(row[0]) > yMaxValue) {
-				yMaxValue = parseInt(row[0]);
-			}
-		}
-		// yMaxValue Should be 25% more than Maximum Value
-		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels};
-	},
-	loadChart: function () {
-		var isColored = false;
-		var container = this.getContainer();
-		var isColoredInput = container.find('.color');
-		if (isColoredInput.length) {
-			isColored = isColoredInput.val() == 0 ? false : true;
-		}
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				animate: !$.jqplot.use_excanvas,
-				seriesColors: (data['colors']) ? data['colors'] : false,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value',
-						barDirection: 'vertical',
-						varyBarColor: isColored
-					},
-					pointLabels: {show: true, edgeTolerance: -15}
-				},
-				axes: {
-					xaxis: {
-						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-						renderer: jQuery.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							angle: -45,
-							labelPosition: 'auto'
-						}
-					},
-					yaxis: {
-						min: 0,
-						max: data['yMaxValue'],
-						tickOptions: {
-							formatString: '%d'
-						},
-						pad: 1.2
-					}
-				},
-				legend: {
-					show: (data['data_labels']) ? true : false,
-					location: (data['location']) ? data['location'] : 'e',
-					placement: (data['placement']) ? data['placement'] : 'outside',
-					showLabels: (data['data_labels']) ? true : false,
-					showSwatch: (data['data_labels']) ? true : false,
-					labels: data['data_labels']
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
-	loadChart: function () {
-		var isColored = false;
-		var container = this.getContainer();
-		var isColoredInput = container.find('.color');
-		if (isColoredInput.length) {
-			isColored = isColoredInput.val() == 0 ? false : true;
-		}
-		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			title: data['title'],
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				showDataLabels: true,
-				pointLabels: {show: true, location: 'e', edgeTolerance: -15},
-				shadowAngle: 135,
-				rendererOptions: {
-					barDirection: 'horizontal',
-					varyBarColor: isColored
-				}
-			},
-			axes: {
-				yaxis: {
-					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-					ticks: data['labels'],
-					tickOptions: {
-						angle: -45
-					}
-				}
-			},
-			legend: {
-				show: false,
-				location: 'e',
-				placement: 'outside',
-				showSwatch: true,
-				showLabels: true,
-				labels: data['data_labels']
+					dataset.dataFormatted.push(dataFormatted);
+				});
 			}
 		});
-	}
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				legend: {
-					show: false,
-					labels: data['labels'],
-					location: 'ne',
-					showSwatch: true,
-					showLabels: true,
-					placement: 'outside'
-				},
-				seriesDefaults: {
-					pointLabels: {
-						show: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 1,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
-	}
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Lineplain_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				axesDefaults: {
-					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-				},
-				seriesDefaults: {
-					rendererOptions: {
-						smooth: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 0,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
-	}
-});
-Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
+	},
 	/**
-	 * Function which will give char related Data like data , x labels and legend labels as map
+	 * Same as mergeOptionsObject but in array ;)
+	 * @param  {Array} to
+	 * @param  {Array} fromArray
+	 * @return {Array}
 	 */
-	getCharRelatedData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var users = [];
-		var stages = [];
-		var count = [];
-		for (var i = 0; i < data.length; i++) {
-			if ($.inArray(data[i].last_name, users) == -1) {
-				users.push(data[i].last_name);
-			}
-			if ($.inArray(data[i].sales_stage, stages) == -1) {
-				stages.push(data[i].sales_stage);
-			}
+	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
+		if (typeof to !== "undefined") {
+			return to;
 		}
-
-		for (var j in stages) {
-			var salesStageCount = [];
-			for (i in users) {
-				var salesCount = 0;
-				for (var k in data) {
-					var userData = data[k];
-					if (userData.sales_stage == stages[j] && userData.last_name == users[i]) {
-						salesCount = parseInt(userData.count);
-						break;
+		to = [];
+		let result = fromArray.map((from, index) => {
+			if (Array.isArray(from) && !to.hasOwnProperty(key)) {
+				return this.mergeOptionsArray(to[index], from);
+			}
+			if (typeof from === 'object' && from !== null && (typeof to[index] === "undefined" || (typeof to[index] === 'object' && to[index] !== null))) {
+				return this.mergeOptionsObject(to[index], from);
+			}
+			return to[index];
+		}).filter((item) => typeof item !== "undefined");
+		return result;
+	},
+	/**
+	 * Merge options object and do not override existing properties
+	 * @param  {Object} to   object to extend
+	 * @param  {Object} from copy properties from this object
+	 * @return {Object}      mixed properties
+	 */
+	mergeOptionsObject: function mergeOptionsObject(to, from) {
+		if (typeof to === "undefined") {
+			to = {};
+		}
+		for (let key in from) {
+			if (from.hasOwnProperty(key)) {
+				if (Array.isArray(from[key])) {
+					if (!to.hasOwnProperty(key)) {
+						to[key] = this.mergeOptionsArray(undefined, from[key]);
+					}
+				} else if (typeof from[key] === 'object' && from[key] !== null && (!to.hasOwnProperty(key) || (typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))) {
+					// if property is an object - merge recursively
+					to[key] = this.mergeOptionsObject(to[key], from[key]);
+				} else {
+					if (!to.hasOwnProperty(key)) {
+						to[key] = from[key];
 					}
 				}
-				salesStageCount.push(salesCount);
 			}
-			count.push(salesStageCount);
 		}
+		return to;
+	},
+	/**
+	 * Merge two objects with options and do not override existing properties
+	 *
+	 * @param  {Object} to
+	 * @param  {Array|arguments} fromArray
+	 * @return {object}
+	 */
+	mergeOptions: function mergeOptions(to = {}, ...fromArray) {
+		for (let i = 0, len = fromArray.length; i < len; i++) {
+			if (typeof fromArray[i] !== 'object' || Array.isArray(fromArray[i])) {
+				app.errorLog(new Error('Options argument should be an object! Chart subType: ' + this.getSubType() + ' [' + fromArray[i].toString() + ']'));
+
+			} else {
+				to = this.mergeOptionsObject(to, fromArray[i]);
+			}
+		}
+		return to;
+	},
+	/**
+	 * Placeholder for individual chart type options
+	 * If you want to customize default options this is the right place - override this method in your class
+	 *
+	 * @param {object} chartData
+	 * @returns {object} chart options
+	 */
+	getBasicOptions: function getBasicOptions(chartData) {
 		return {
-			'data': count,
-			'ticks': users,
-			'labels': stages
-		}
-	},
-	loadChart: function () {
-		var chartRelatedData = this.getCharRelatedData();
-		var chartData = chartRelatedData.data;
-		var ticks = chartRelatedData.ticks;
-		var labels = chartRelatedData.labels;
-		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
-		this.getPlotContainer(false).jqplot(chartData, {
-			stackSeries: true,
-			captureRightClick: true,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: {
-					// Put a 30 pixel margin between bars.
-					barMargin: 10,
-					// Highlight bars when mouse button pressed.
-					// Disables default highlighting on mouse over.
-					highlightMouseDown: true,
-					highlightMouseOver: true
-				},
-				pointLabels: {show: true, hideZeros: true}
-			},
-			axes: {
-				xaxis: {
-					renderer: $.jqplot.CategoryAxisRenderer,
-					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-					tickOptions: {
-						angle: -45,
-						pt2px: 4.0
-					},
-					ticks: ticks
-				},
-				yaxis: {
-					// Don't pad out the bottom of the data range.  By default,
-					// axes scaled as if data extended 10% above and below the
-					// actual range to prevent data points right on grid boundaries.
-					// Don't want to do that here.
-					padMin: 0,
-					min: 0
-				}
-			},
-			legend: {
-				show: true,
-				location: 'e',
-				renderer: $.jqplot.EnhancedLegendRenderer,
-				placement: 'outside',
-				labels: labels
-			}
-		});
-	}
-});
-
-// NOTE Widget-class name camel-case convention
-Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
-	postLoadWidget: function () {
-		app.hideModalWindow();
-		this.restrictContentDrag();
-		this.registerFilterChangeEvent();
-		this.registerRecordsCount();
-	},
-	postRefreshWidget: function () {
-		this.registerRecordsCount();
-	}
-});
-Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
-	loadChart: function () {
-		var container = this.getContainer();
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		var chartClass = window["Report_" + chartClassName + "_Js"];
-		var instance = false;
-		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container, true);
-			instance.loadChart();
-		}
-	}
-});
-
-/* Notebook Widget */
-Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
-}, {
-	// Override widget specific functions.
-	postLoadWidget: function () {
-		this.reinitNotebookView();
-	},
-	reinitNotebookView: function () {
-		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {'height': '200px'});
-		jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
-			self.editNotebookContent();
-		});
-		jQuery('.dashboard_notebookWidget_save', this.container).click(function () {
-			self.saveNotebookContent();
-		});
-	},
-	editNotebookContent: function () {
-		jQuery('.dashboard_notebookWidget_text', this.container).show();
-		jQuery('.dashboard_notebookWidget_view', this.container).hide();
-		$('body').on('click', function (e) {
-			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
-				$('.dashboard_notebookWidget_save').trigger('click');
-			}
-		});
-	},
-	saveNotebookContent: function () {
-		$('body').off('click');
-		var self = this;
-		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-
-		var url = this.container.data('url');
-		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-
-		var refreshContainer = this.container.find('.dashboardWidgetContent');
-		refreshContainer.progressIndicator();
-		AppConnector.request(params).then(function (data) {
-			refreshContainer.progressIndicator({'mode': 'hide'});
-			jQuery('.dashboardWidgetContent', self.container).html(data);
-			self.reinitNotebookView();
-		});
-	}
-});
-
-Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		return {'chartData': [[[data['result'], data['all']]]], 'yMaxValue': data['maxValue'], 'labels': ''};
-	},
-	loadChart: function () {
-		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: jQuery.jqplot.BarRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value',
-					barDirection: 'horizontal'
-				},
-			},
-			axes: {
-				xaxis: {
-					min: 0,
-					max: data['yMaxValue'],
-				},
-				yaxis: {
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-				}
-			}
-		});
-	}
-});
-
-Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
-	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
-			series: {
-				pie: {
-					show: true,
-					label: {
-						formatter: thisInstance.getLabelFormat
-					}
-				}
-			},
-			legend: {
-				show: false
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-		});
-	},
-	getLabelFormat: function (label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
-	},
-	registerSectionClick: function () {
-		var thisInstance = this;
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				if (item.series.links)
-					window.location.href = item.series.links;
-			}
-		});
-	}
-});
-
-Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	generateData: function () {
-		var thisInstance = this;
-		var container = thisInstance.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data['chart']) {
-			chartData.push(data['chart'][index]);
-			thisInstance.chartData[data['chart'][index].id] = data['chart'][index];
-		}
-
-		return {'chartData': chartData, 'ticks': data['ticks'], 'links': data['links'], 'legend': data['legend'], 'valueLabels': data['valueLabels'] ? data['valueLabels'] : {}};
-	},
-	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		var options = {
-			xaxis: {
-				minTickSize: 1,
-				ticks: chartData['ticks']
-			},
-			yaxis: {
-				min: 0,
-				tickDecimals: 0
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.9,
-					dataLabels: false,
-					align: "center",
-					lineWidth: 0
-				},
-				valueLabels: chartData['valueLabels'],
-				stack: true
-			},
+			responsive: true,
+			maintainAspectRatio: false,
 		};
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
-	getLabelFormat: function (label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
+	/**
+	 * Placeholder for individual chart type dataset options
+	 *
+	 * @param  {object} chartData
+	 * @return {Object} datalabels configurations
+	 */
+	getDatasetOptions: function getDatasetOptions(chartData) {
+		return {};
 	},
-	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.dataIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
-		});
+	/**
+	 * Placeholder for individual chart type plugins
+	 * You can add custom plugins for individual charts by overriding this method
+	 * see: http://www.chartjs.org/docs/latest/developers/plugins.html
+	 *
+	 * @param {object} chartData
+	 * @returns {Array|undefined} plugins
+	 */
+	getPlugins: function getPlugins(chartData) {
+		// do not return anything - undefined
+	},
+	/**
+	 * Get chart type
+	 * We don't wan't to override loadChart method (good practice)
+	 * so we can extend some chart type and change its type only to show data in different manner.
+	 * Get type is used to set up Chartjs chart type.
+	 *
+	 * @param {object} chartData
+	 * @returns {string}
+	 */
+	getType: function getType(chartData) {
+		return 'bar';
+	},
+	/**
+	 * Get sub type of a chart.
+	 * For example 'bar' is main type and barDivided is a subset of bar with little different options.
+	 * By default we are using standard type.
+	 * GetSubType is used to get properties - it does not set up Chartjs chart type per se (getType is used for this purpose)
+	 *
+	 * @param {object}  chartData
+	 * @returns {string}
+	 */
+	getSubType: function getSubType(chartData) {
+		return this.getType();
 	}
 });
-YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
-	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		var options = {
-			xaxis: {
-				minTickSize: 1,
-				ticks: chartData['ticks']
-			},
-			yaxis: {
-				min: 0,
-				tickDecimals: 0
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.9,
-					dataLabels: false,
-					align: "center",
-					lineWidth: 0
-				},
-				valueLabels: chartData['valueLabels'],
-				stack: true
-			},
-			legend: {
-				show: true,
-				sorted: 'reverse'
-			},
-		};
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
+	getType: function getType() {
+		return 'bar';
 	},
 });
-Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_BarStacked_Widget_Js', {}, {
+	getSubType() {
+		return 'barStacked';
+	}
+});
+YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
+	getType: function () {
+		return 'horizontalBar';
+	},
+});
+YetiForce_Horizontal_Widget_Js('YetiForce_HorizontalStacked_Widget_Js', {}, {
+	getType: function () {
+		return 'horizontalBar';
+	},
+	getSubType() {
+		return 'horizontalBarStacked';
+	}
+});
+YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
+	getType: function getType() {
+		return 'funnel';
+	},
+});
+YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
+	getType: function getType() {
+		return 'pie';
+	},
+});
+YetiForce_Pie_Widget_Js('YetiForce_PieDivided_Widget_Js', {}, {
+	getSubType() {
+		return 'pieDivided';
+	}
+});
+YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
+	getType: function getType() {
+		return 'doughnut';
+	},
+});
+YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_BarDivided_Widget_Js', {}, {
+	getType: function getType() {
+		return 'bar';
+	},
+	getSubType: function getSubType() {
+		return 'barDivided';
+	}
+});
+YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
+	getType: function getType() {
+		return 'line';
+	},
+});
+YetiForce_Line_Widget_Js('YetiForce_LineStacked_Widget_Js', {}, {
+	getType() {
+		return 'line';
+	},
+	getSubType() {
+		return 'lineStacked';
+	}
+});
+YetiForce_Line_Widget_Js('YetiForce_LinePlain_Widget_Js', {}, {
+	getSubType: function getSubType() {
+		return 'linePlain';
+	}
+});
+YetiForce_LineStacked_Widget_Js('YetiForce_LinePlainStacked_Widget_Js', {}, {
+	getSubType() {
+		return 'linePlainStacked';
+	}
+});
+YetiForce_Bar_Widget_Js('YetiForce_TicketsByStatus_Widget_Js', {}, {
+	getBasicOptions: function () {
+		return {
+			legend: {
+				display: true
+			},
+			scales: {
+				xAxes: [{
+					stacked: true
+				}],
+				yAxes: [{
+					stacked: true
+				}]
+			}
+		};
+	}
+});
+YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
-	weekDaysArray: {
-		Sunday: 0,
-		Monday: 1,
-		Tuesday: 2,
-		Wednesday: 3,
-		Thursday: 4,
-		Friday: 5,
-		Saturday: 6
-	},
+
 	registerCalendar: function () {
 		var thisInstance = this;
 		var userDefaultActivityView = 'month';
 		var container = thisInstance.getContainer();
 		//Default time format
-		var userDefaultTimeFormat = jQuery('#time_format').val();
+		var userDefaultTimeFormat = CONFIG.hourFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H(:mm)';
 		} else {
@@ -1400,19 +2162,18 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		}
 
 		//Default first day of the week
-		var defaultFirstDay = jQuery('#start_day').val();
-		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
-
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
+		var defaultFirstHour = app.getMainParams('startHour');
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
-
 		var defaultDate = app.getMainParams('defaultDate');
 		if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 			defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 		}
-
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+		});
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: ' ',
@@ -1434,17 +2195,21 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')
+			],
 			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')],
+				app.vtranslate('JS_DEC')
+			],
 			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
 				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')],
+				app.vtranslate('JS_SATURDAY')
+			],
 			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
 				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
+				app.vtranslate('JS_SAT')
+			],
 			buttonText: {
 				today: app.vtranslate('JS_TODAY'),
 				month: app.vtranslate('JS_MONTH'),
@@ -1452,42 +2217,56 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				day: app.vtranslate('JS_DAY')
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE')
+			eventLimitText: app.vtranslate('JS_MORE'),
+			eventRender: function (event, element, view) {
+				element = '<div class="cell-calendar">';
+				for (var key in event.event) {
+					element += '<a class="" href="javascript:;"' +
+						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per">' + event.event[key].count + '</span>' +
+						'</a>\n';
+				}
+				element += '</div>';
+				return element;
+			}
 		});
-
-		thisInstance.getCalendarView().find("td.fc-day-number")
-				.mouseenter(function () {
-					jQuery('<span class="plus pull-left glyphicon glyphicon-plus"></span>')
-							.prependTo($(this))
-				}).mouseleave(function () {
+		thisInstance.getCalendarView().find("td.fc-day-top")
+			.on('mouseenter', function () {
+				jQuery('<span class="plus pull-left fas fa-plus"></span>')
+					.prependTo($(this))
+			}).on('mouseleave', function () {
 			$(this).find(".plus").remove();
 		});
-
-		thisInstance.getCalendarView().find("td.fc-day-number").click(function () {
-			var date = $(this).data('date');
-			var params = {noCache: true};
-			params.data = {date_start: date, due_date: date};
+		let formatDate = CONFIG.dateFormat.toUpperCase();
+		thisInstance.getCalendarView().find("td.fc-day-top").on('click', function () {
+			let date = moment($(this).data('date')).format(formatDate);
+			let params = {
+				noCache: true,
+				data: {
+					date_start: date,
+					due_date: date
+				}
+			};
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
 			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
-		var switchBtn = container.find('.switchBtn');
-		app.showBtnSwitch(switchBtn);
-
-		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
-			if (state)
+		var switchBtn = container.find('.js-switch--calendar');
+		switchBtn.on('change', (e) => {
+			const currentTarget = $(e.currentTarget);
+			if (typeof currentTarget.data('on-text') !== 'undefined')
 				container.find('.widgetFilterSwitch').val('current');
-			else
+			else if (typeof currentTarget.data('off-text') !== 'undefined')
 				container.find('.widgetFilterSwitch').val('history');
-			thisInstance.refreshWidget();
+			this.refreshWidget();
 		})
 	},
 	loadCalendarData: function (allEvents) {
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var formatDate = app.getMainParams('userDateFormat').toUpperCase();
+		var formatDate = CONFIG.dateFormat.toUpperCase();
 		var start_date = view.start.format(formatDate);
 		var end_date = view.end.format(formatDate);
 		var parent = thisInstance.getContainer();
@@ -1514,11 +2293,14 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (this.paramCache) {
 			var drefresh = this.getContainer().find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			var paramCache = {owner: user, customFilter: customFilter, start: start_date};
+			var paramCache = {
+				owner: user,
+				customFilter: customFilter,
+				start: start_date
+			};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
-
-		AppConnector.request(params).then(function (events) {
+		AppConnector.request(params).done(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
 			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;
 			for (var i in events.result) {
@@ -1526,9 +2308,9 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-					events.result
-					);
-			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
+				events.result
+			);
+			thisInstance.getCalendarView().find(".cell-calendar a").on('click', function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
@@ -1552,7 +2334,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
-			this.calendarView = this.getContainer().find('#calendarview');
+			this.calendarView = this.getContainer().find('.js-calendar__container');
 		}
 		return this.calendarView;
 	},
@@ -1566,10 +2348,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	registerChangeView: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
-		container.find('.fc-toolbar').addClass('hide');
+		container.find('.fc-toolbar').addClass('d-none');
 		var month = container.find('.fc-toolbar h2').text();
 		if (month) {
-			var headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>' + month + '</h3>');
+			container.find('.headerCalendar').removeClass('d-none').find('.month').append('<h3>' + month + '</h3>');
 			var button = container.find('.headerCalendar button');
 			button.each(function () {
 				var tag = jQuery(this).data('type');
@@ -1586,17 +2368,18 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerFilterChangeEvent();
-
 	},
 	refreshWidget: function () {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
 		thisInstance.loadCalendarData();
-		refreshContainer.progressIndicator({'mode': 'hide'});
+		refreshContainer.progressIndicator({
+			'mode': 'hide'
+		});
 	},
 });
-Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -1615,7 +2398,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 				return;
 			}
 			var url = jQuery(this).data('url');
-			if (typeof url != 'undefined') {
+			if (typeof url !== "undefined") {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};
@@ -1624,31 +2407,37 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			}
 		})
 	},
+
 	registerListViewButton: function () {
-		var thisInstance = this;
-		var container = thisInstance.getContainer();
+		const thisInstance = this,
+			container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
-			if (container.data('name') == 'OverdueActivities') {
-				var status = 'PLL_OVERDUE';
+			let status;
+			let activitiesStatus = container.data('name');
+			if (activitiesStatus === 'OverdueActivities') {
+				status = 'PLL_OVERDUE';
+			} else if (activitiesStatus === 'CalendarActivities') {
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED';
 			} else {
-				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED##PLL_OVERDUE';
 			}
-			var url = 'index.php?module=Calendar&view=List&viewname=All';
+			let url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
-			var owner = container.find('.widgetFilter.owner option:selected');
-			if (owner.val() != 'all') {
+			let owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() !== 'all') {
 				url += '["assigned_user_id","e","' + owner.val() + '"],';
 			}
-			url += '["activitystatus","e","' + status + '"]]]';
+			url += '["activitystatus","e","' + encodeURIComponent(status) + '"]]]';
 			window.location.href = url;
 		});
 	}
 });
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
-Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
+YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedUpcomingCalendarTasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedOverDueCalendarTasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_OverdueActivities_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_ProductsSoldToRenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -1667,7 +2456,7 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 				return;
 			}
 			var url = jQuery(this).data('url');
-			if (typeof url != 'undefined') {
+			if (typeof url !== "undefined") {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};
@@ -1679,7 +2468,7 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	registerListViewButton: function () {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
-		container.find('.goToListView').on('click', function () {
+		container.on('click', '.goToListView', function () {
 			var url = jQuery(this).data('url');
 			var orderBy = container.find('.orderby');
 			var sortOrder = container.find('.changeRecordSort');
@@ -1693,252 +2482,111 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
-	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		var options = {
-			xaxis: {
-				minTickSize: 1,
-				ticks: chartData['ticks']
-			},
-			yaxis: {
-				min: 0,
-				tickDecimals: 0
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.8,
-					dataLabels: false,
-					align: "center",
-					lineWidth: 0,
-				},
-				stack: true
-			},
+YetiForce_ProductsSoldToRenew_Widget_Js('YetiForce_ServicesSoldToRenew_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_AllTimeControl_Widget_Js', {}, {
+	getBasicOptions: function getBasicOptions() {
+		return {
 			legend: {
-				show: true,
-				labelFormatter: function (label, series) {
-					return('<b>' + label + '</b>: ' + chartData['legend'][label] + ' h');
-				}
-			}
-		};
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
-	}
-});
-YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
-	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.seriesIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
-		});
-	}
-});
-Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var colorData = [];
-		var urlData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.name, row.count];
-			chartData.push(rowData);
-			colorData.push(row.color);
-			urlData.push(row.url);
-		}
-
-		return {'chartData': chartData, color: colorData, url: urlData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.PieRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value'
-					}
-				},
-				seriesColors: chartData['color'],
-				legend: {
-					show: true,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var chartData = this.generateData();
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = chartData['url'][pointIndex];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		var color = [];
-		for (var index in data) {
-			var row = data[index];
-			row[0] = parseInt(row[0]);
-			xLabels.push(app.getDecodedValue(row[1]))
-			chartData.push([app.getDecodedValue(row[1]), row[0]]);
-			if (parseInt(row[0]) > yMaxValue) {
-				yMaxValue = parseInt(row[0]);
-			}
-			color.push(row[3]);
-		}
-		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels, 'colors': color};
-	},
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				animate: !$.jqplot.use_excanvas,
-				seriesColors: data['colors'],
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value',
-						barDirection: 'vertical',
-						varyBarColor: true
-					},
-					pointLabels: {show: true, edgeTolerance: -15}
-				},
-				axes: {
-					xaxis: {
-						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-						renderer: jQuery.jqplot.CategoryAxisRenderer,
-
-						tickOptions: {
-							angle: -45,
-							labelPosition: 'auto'
+				display: true
+			},
+			scales: {
+				yAxes: [{
+					stacked: true,
+					ticks: {
+						callback: function formatYAxisTick(value, index, values) {
+							return app.formatToHourText(value, 'short', false, false);
 						}
+					}
+				}],
+				xAxes: [{
+					stacked: true,
+					ticks: {
+						minRotation: 0
+					}
+				}]
+			},
+			tooltips: {
+				callbacks: {
+					label: function (tooltipItem, data) {
+						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.formatToHourText(tooltipItem.yLabel);
 					},
-					yaxis: {
-						min: 0,
-						max: data['yMaxValue'],
-						tickOptions: {
-							formatString: '%d'
-						},
-						pad: 1.2
+					title: function (tooltipItems, data) {
+						return data.fullLabels[tooltipItems[0].index];
 					}
-				},
-				legend: {
-					show: false,
 				}
-			});
+			},
 		}
 	},
-});
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
-	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.seriesIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
-		});
-	}
-});
-Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
-	generateData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		return dataInfo;
-	},
-	loadChart: function () {
-		var dataInfo = this.generateData();
-		if (dataInfo.length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.FunnelRenderer,
-					rendererOptions: {
-						sectionMargin: 0,
-						widthRatio: 0.3,
-						showDataLabels: true,
-						dataLabelThreshold: 0,
-						dataLabels: 'label',
-						highlightMouseDown: true
-					}
-				},
-				legend: {
-					show: false,
-					location: 'e',
+	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
+		return {
+			datalabels: {
+				formatter: function datalabelsFormatter(value, context) {
+					return app.formatToHourText(value);
 				}
-			});
-		}
+			},
+		};
+	},
+});
+YetiForce_Bar_Widget_Js('YetiForce_LeadsBySource_Widget_Js', {}, {});
+YetiForce_Pie_Widget_Js('YetiForce_ClosedTicketsByPriority_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_ClosedTicketsByUser_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_OpenTickets_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_AccountsByIndustry_Widget_Js', {}, {});
+YetiForce_Funnel_Widget_Js('YetiForce_EstimatedvalueByStatus_Widget_Js', {}, {
+	getBasicOptions: function getBasicOptions() {
+		return {
+			sort: 'data-desc'
+		};
+	},
+	getPlugins: function getPlugins() {
+		return [];
 	}
 });
-Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_NotificationsBySender_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_NotificationsByRecipient_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 	generateChartData: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [[], [], [], []];
-		var yMaxValue = 0;
+		const thisInstance = this,
+			container = this.getContainer(),
+			jData = container.find('.widgetData').val(),
+			data = JSON.parse(jData);
+		let chartData = [
+				[],
+				[],
+				[],
+				[]
+			],
+			yMaxValue,
+			index,
+			parseData;
 		if (data.hasOwnProperty('compare')) {
-			for (var index in data) {
-				var parseData = thisInstance.parseChartData(data[index], chartData);
+			for (index in data) {
+				parseData = thisInstance.parseChartData(data[index], chartData);
 				chartData[0].push(parseData[0]);
 				chartData[3].push(parseData[3]);
-				chartData = [chartData[0], parseData[1], parseData[2], chartData[3], ['#CC6600', '#208CB3']];
+				chartData = [chartData[0], parseData[1], parseData[2], chartData[3],
+					['#CC6600', '#208CB3']
+				];
 			}
 		} else {
-			var parseData = thisInstance.parseChartData(data, chartData);
-			chartData = [[parseData[0]], parseData[1], parseData[2], [parseData[3]], ['#208CB3']];
+			parseData = thisInstance.parseChartData(data, chartData);
+			chartData = [
+				[parseData[0]], parseData[1], parseData[2],
+				[parseData[3]],
+				['#208CB3']
+			];
 		}
-		var yMaxValue = chartData[1];
+		yMaxValue = chartData[1];
 		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': chartData[0], 'yMaxValue': yMaxValue, 'labels': chartData[2], data_labels: chartData[3], placement: 'inside', location: 'n', colors: chartData[4]};
+		return {
+			'chartData': chartData[0],
+			'yMaxValue': yMaxValue,
+			'labels': chartData[2],
+			data_labels: chartData[3],
+			placement: 'inside',
+			location: 'n',
+			colors: chartData[4]
+		};
 	},
 	parseChartData: function (data, chartDataGlobal) {
 		var chartData = [];
@@ -1957,20 +2605,316 @@ Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 		return [chartData, chartDataGlobal[1], xLabels, '&nbsp; \u03A3 ' + sum + '&nbsp;'];
 	},
 	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		var compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		const container = this.getContainer(),
+			data = container.find('.widgetData').val(),
+			dataInfo = JSON.parse(data),
+			compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		let url;
 		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			if (seriesIndex) {
-				var url = dataInfo['compare'][pointIndex][2];
+				url = dataInfo['compare'][pointIndex][2];
 			} else if (compare) {
-				var url = dataInfo[0][pointIndex][2];
+				url = dataInfo[0][pointIndex][2];
 			} else {
-				var url = dataInfo[pointIndex][2];
+				url = dataInfo[pointIndex][2];
 			}
 			window.location.href = url;
 		});
 	}
 });
-YetiForce_Teamsestimatedsales_Widget_Js('YetiForce_Actualsalesofteam_Widget_Js', {}, {});
+YetiForce_TeamsEstimatedSales_Widget_Js('YetiForce_ActualSalesOfTeam_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	registerLoadMore: function () {
+		var thisInstance = this;
+		var parent = thisInstance.getContainer();
+		var contentContainer = parent.find('.dashboardWidgetContent');
+		var loadMoreHandler = contentContainer.find('.load-more');
+		loadMoreHandler.on('click', function () {
+			var parent = thisInstance.getContainer();
+			var element = parent.find('a[name="drefresh"]');
+			var url = element.data('url');
+			var params = url;
+			var widgetFilters = parent.find('.widgetFilter');
+			if (widgetFilters.length > 0) {
+				params = {
+					url: url,
+					data: {}
+				};
+				widgetFilters.each(function (index, domElement) {
+					var widgetFilter = jQuery(domElement);
+					var filterName = widgetFilter.attr('name');
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
+				});
+			}
+
+			var filterData = thisInstance.getFilterData();
+			if (!jQuery.isEmptyObject(filterData)) {
+				if (typeof params == 'string') {
+					params = {
+						url: url,
+						data: {}
+					};
+				}
+				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
+			}
+
+			// Next page.
+			params.data['page'] = loadMoreHandler.data('nextpage');
+			var refreshContainer = parent.find('.dashboardWidgetContent');
+			refreshContainer.progressIndicator();
+			AppConnector.request(params).done(function (data) {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				loadMoreHandler.replaceWith(data);
+				thisInstance.registerLoadMore();
+			}).fail(function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			});
+		});
+	}
+
+});
+YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
+	postLoadWidget: function () {
+		app.hideModalWindow();
+		this.restrictContentDrag();
+		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function () {
+		this.registerRecordsCount();
+	}
+});
+YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
+	// Override widget specific functions.
+	postLoadWidget: function () {
+		this.registerNotebookEvents();
+	},
+	registerNotebookEvents: function () {
+		this.container.on('click', '.dashboard_notebookWidget_edit', () => {
+			this.editNotebookContent();
+		});
+		this.container.on('click', '.dashboard_notebookWidget_save', () => {
+			this.saveNotebookContent();
+		});
+	},
+	editNotebookContent: function () {
+		$('.dashboard_notebookWidget_text', this.container).show();
+		$('.dashboard_notebookWidget_view', this.container).hide();
+	},
+	saveNotebookContent: function () {
+		let textarea = $('.dashboard_notebookWidget_textarea', this.container),
+			url = this.container.data('url'),
+			params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val()),
+			refreshContainer = this.container.find('.dashboardWidgetContent');
+		refreshContainer.progressIndicator();
+		AppConnector.request(params).done((data) => {
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
+			$('.dashboardWidgetContent', this.container).html(data);
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_KpiBar_Widget_Js', {}, {
+	generateChartData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = [];
+		var yMaxValue = 0;
+		return {
+			'chartData': [
+				[
+					[data['result'], data['all']]
+				]
+			],
+			'yMaxValue': data['maxValue'],
+			'labels': ''
+		};
+	},
+	loadChart: function () {
+		var data = this.generateChartData();
+		this.getChartContainer(false).jqplot(data['chartData'], {
+			animate: !$.jqplot.use_excanvas,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					showDataLabels: true,
+					dataLabels: 'value',
+					barDirection: 'horizontal'
+				},
+			},
+			axes: {
+				xaxis: {
+					min: 0,
+					max: data['yMaxValue'],
+				},
+				yaxis: {
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+				}
+			}
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
+	chartfilterInstance: false,
+	init: function (container, reload, widgetClassName) {
+		this.setContainer(jQuery(container));
+		let chartClassName = container.find('[name="typeChart"]').val();
+		const stacked = !!Number(container.find('[name="stacked"]').val());
+		if (stacked) {
+			chartClassName += 'Stacked';
+		}
+		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
+		if (this.chartfilterInstance) {
+			const filterIdsStr = container.find('[name="filterIds"]').val();
+			if (filterIdsStr) {
+				this.chartfilterInstance.filterIds = JSON.parse(filterIdsStr);
+			}
+		}
+		this.registerRecordsCount();
+		this.registerCache(container);
+	},
+});
+YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
+	multifilterControlsView: false,
+	multifilterContentView: false,
+	multifilterSettingsView: false,
+	registerMultifilter() {
+		let selectValue = app.cacheGet('multifilterSelectValue', null),
+			multifilterSettings = this.getMultifilterSettings();
+		if (null != selectValue && this.paramCache) {
+			multifilterSettings.find('.js-select').val(selectValue).trigger('change.select2');
+		}
+		this.loadMultifilterData(true);
+		multifilterSettings.find('.js-select').on('select2:select', () => {
+			this.loadMultifilterData(true);
+			if (this.paramCache) {
+				app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			}
+		});
+		multifilterSettings.find('.js-select').on('select2:unselect', () => {
+			this.loadMultifilterData(false);
+			if (this.paramCache) {
+				app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			}
+		});
+		this.registerShowHideModuleSettings();
+	},
+	loadMultifilterData(select = true) {
+		const self = this;
+		let widgetId = self.getMultifilterControls().attr('data-widgetid'),
+			multifilterIds = self.getMultifilterSettings().find('.js-select option:selected'),
+			params = [];
+		if (!select) {
+			self.getMultifilterContent().html('');
+		}
+		multifilterIds.each(function () {
+			let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
+			let thisInstance = $(this);
+			if (0 < existFilter.length) {
+				return true;
+			}
+			params = {
+				module: thisInstance.data('module'),
+				modulename: thisInstance.data('module'),
+				view: 'ShowWidget',
+				name: 'Multifilter',
+				content: true,
+				widget: true,
+				widgetid: widgetId,
+				filterid: thisInstance.val()
+			};
+			self.loadListData(params);
+		});
+	},
+	loadListData(params) {
+		const self = this;
+		let aDeferred = jQuery.Deferred(),
+			multiFilterContent = self.getMultifilterContent();
+		AppConnector.request(params).done(function (data) {
+			if (self.getMultifilterSettings().find('option[value="' + params.filterid + '"]').is(':selected') && !multiFilterContent.find('.detailViewTable[data-id="' + params.filterid + '"]').length) {
+				self.registerRecordsCount(multiFilterContent.append(data).children("div:last-child"));
+				self.registerShowHideBlocks();
+				aDeferred.resolve();
+			}
+		}).fail(function (error) {
+			aDeferred.reject();
+		});
+		return aDeferred.promise();
+	},
+	registerShowHideModuleSettings() {
+		this.getMultifilterControls().find('.js-widget-settings').on('click', () => {
+			this.getMultifilterSettings().toggleClass('d-none');
+		});
+	},
+	registerShowHideBlocks() {
+		let detailContentsHolder = this.getMultifilterContent();
+		detailContentsHolder.find('.blockHeader').off("click");
+		detailContentsHolder.find('.blockHeader').click(function () {
+			let currentTarget = $(this).find('.js-block-toggle').not('.d-none'),
+				closestBlock = currentTarget.closest('.js-toggle-panel'),
+				bodyContents = closestBlock.find('.blockContent'),
+				data = currentTarget.data();
+			let hideHandler = function () {
+				bodyContents.addClass('d-none');
+			};
+			let showHandler = function () {
+				bodyContents.removeClass('d-none');
+			};
+			if ('show' == data.mode) {
+				hideHandler();
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="hide"]').removeClass('d-none');
+			} else {
+				showHandler();
+				currentTarget.addClass('d-none');
+				closestBlock.find("[data-mode='show']").removeClass('d-none');
+			}
+		});
+	},
+	registerRecordsCount(container) {
+		let url = container.data('url');
+		AppConnector.request(url).done(function (data) {
+			container.find('.js-count').html(data.result.totalCount);
+		});
+	},
+	getMultifilterControls() {
+		if (this.multifilterControlsView == false) {
+			this.multifilterControlsView = this.getContainer().find('.js-multifilterControls');
+		}
+		return this.multifilterControlsView;
+	},
+	getMultifilterContent() {
+		if (this.multifilterContentView == false) {
+			this.multifilterContentView = this.getContainer().find('.js-multifilterContent');
+		}
+		return this.multifilterContentView;
+	},
+	getMultifilterSettings() {
+		if (this.multifilterSettingsView == false) {
+			this.multifilterSettingsView = this.getContainer().find('.js-settings-widget');
+		}
+		return this.multifilterSettingsView;
+	},
+	postLoadWidget() {
+		this.registerMultifilter();
+	},
+	refreshWidget() {
+		this.loadMultifilterData(false);
+	},
+});

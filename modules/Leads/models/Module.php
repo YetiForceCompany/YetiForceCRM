@@ -11,46 +11,11 @@
 
 class Leads_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function returns deleted records condition
-	 */
-	public function getDeletedRecordCondition()
-	{
-		return 'vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0';
-	}
-
-	/**
-	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
-	 */
-	public function getRecentRecords($limit = 10)
-	{
-		$db = PearDatabase::getInstance();
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$deletedCondition = $this->getDeletedRecordCondition();
-		$query = 'SELECT * FROM vtiger_crmentity ' .
-			' INNER JOIN vtiger_leaddetails ON
-                vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = [$this->get('name'), $currentUserModel->id, $limit];
-		$result = $db->pquery($query, $params);
-		$noOfRows = $db->numRows($result);
-
-		$recentRecords = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->queryResultRowData($result, $i);
-			$row['id'] = $row['crmid'];
-			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
-		}
-		return $recentRecords;
-	}
-
-	/**
-	 * Function returns the Number of Leads created per week
+	 * Function returns the Number of Leads created per week.
+	 *
 	 * @param type $data
+	 *
 	 * @return <Array>
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
@@ -78,55 +43,19 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 		$response = [];
 		while ($row = $db->getRow($result)) {
-			$response[$i][0] = $row['count'];
-			$response[$i][1] = $row['time'];
+			$response[] = [
+				$row['count'],
+				$row['time']
+			];
 		}
 		return $response;
 	}
 
 	/**
-	 * Function returns Leads grouped by Status
-	 * @param type $data
-	 * @return array
-	 */
-	public function getLeadsByStatusConverted($owner, $dateFilter)
-	{
-		$module = $this->getName();
-		$query = new \App\Db\Query();
-		$query->select([
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadstatusvalue' => 'vtiger_leadstatus.leadstatus'])
-			->from('vtiger_leaddetails')
-			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
-			->where(['deleted' => 0]);
-		if (!empty($owner)) {
-			$query->andWhere(['smownerid' => $owner]);
-		}
-		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
-		}
-		\App\PrivilegeQuery::getConditions($query, $module);
-		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
-		$dataReader = $query->createCommand()->query();
-		$i = 0;
-		$response = [];
-		while ($row = $dataReader->read()) {
-			$response[$i][0] = $row['count'];
-			$leadStatusVal = $row['leadstatusvalue'];
-			if ($leadStatusVal == '') {
-				$leadStatusVal = 'LBL_BLANK';
-			}
-			$response[$i][1] = \App\Language::translate($leadStatusVal, $module);
-			$response[$i][2] = $leadStatusVal;
-			$i++;
-		}
-		return $response;
-	}
-
-	/**
-	 * Function to get Converted Information for selected records
+	 * Function to get Converted Information for selected records.
+	 *
 	 * @param array $recordIdsList
+	 *
 	 * @return array converted Info
 	 */
 	public static function getConvertedInfo($recordIdsList = [])
@@ -134,33 +63,36 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$convertedInfo = [];
 		if ($recordIdsList) {
 			$convertedInfo = (new App\Db\Query())->select(['leadid', 'converted'])
-					->from('vtiger_leaddetails')
-					->where(['leadid' => $recordIdsList])
-					->createCommand()->queryAllByGroup(0);
+				->from('vtiger_leaddetails')
+				->where(['leadid' => $recordIdsList])
+				->createCommand()->queryAllByGroup(0);
 		}
 		return $convertedInfo;
 	}
 
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if (!empty($record) && in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			switch ($sourceModule) {
-				case 'Campaigns' :
+				case 'Campaigns':
 					$tableName = 'vtiger_campaign_records';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
-				case 'Products' :
+				case 'Products':
 					$tableName = 'vtiger_seproductsrel';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'productid';
+					break;
+				default:
 					break;
 			}
 
@@ -181,45 +113,62 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function getDefaultSearchField()
+	/**
+	 * Function to search accounts.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 *
+	 * @return bool
+	 */
+	public function searchAccountsToConvert(Vtiger_Record_Model $recordModel)
 	{
-		return "company";
-	}
-
-	public function searchAccountsToConvert($recordModel)
-	{
-
 		\App\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
-			$params = [];
-			$db = PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
-			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
-				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "
-				. "INNER JOIN `vtiger_accountaddress` ON vtiger_accountaddress.accountaddressid=vtiger_account.accountid "
-				. "INNER JOIN `vtiger_accountscf` ON vtiger_accountscf.accountid=vtiger_account.accountid "
-				. "WHERE vtiger_crmentity.deleted=0";
-			foreach ($mappingFields as $fields) {
-				$sql .= ' && `' . current($fields) . '` = ?';
-				$params[] = $recordModel->get(key($fields));
+			$query = (new App\Db\Query())->select(['vtiger_account.accountid'])
+				->from('vtiger_account')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_account.accountid')
+				->where(['vtiger_crmentity.deleted' => 0]);
+			$joinTable = ['vtiger_account', 'vtiger_crmentity'];
+			$moduleModel = Vtiger_Module_Model::getInstance('Accounts');
+			$focus = $moduleModel->getEntityInstance();
+			foreach ($mappingFields as $leadFieldName => $accountFieldName) {
+				$fieldModel = $moduleModel->getField($accountFieldName);
+				if (!$fieldModel) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
+				$tableName = $fieldModel->get('table');
+				if (!in_array($tableName, $joinTable)) {
+					$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
+					$joinTable[] = $tableName;
+				}
+				$query->andWhere(["{$tableName}.{$fieldModel->getColumnName()}" => $recordModel->get($leadFieldName)]);
 			}
-			$result = $db->pquery($sql, $params);
-			$num = $db->numRows($result);
-			if ($num > 1) {
+			$query->limit(2);
+			$dataReader = $query->createCommand()->query();
+			$numberRows = $dataReader->count();
+			if ($numberRows > 1) {
+				$dataReader->close();
 				\App\Log::trace('End ' . __METHOD__);
+
 				return false;
-			} elseif ($num == 1) {
+			} elseif ($numberRows === 1) {
 				\App\Log::trace('End ' . __METHOD__);
-				return (int) $db->queryResult($result, 0, 'accountid');
+
+				return (int) $dataReader->readColumn(0);
 			}
 		}
 		\App\Log::trace('End ' . __METHOD__);
+
 		return true;
 	}
 
 	/**
-	 * Function that returns status that allow to convert Lead
+	 * Function that returns status that allow to convert Lead.
+	 *
 	 * @return <Array> array of statuses
 	 */
 	public static function getConversionAvaibleStatuses()
@@ -230,8 +179,10 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function that checks if lead record can be converted
+	 * Function that checks if lead record can be converted.
+	 *
 	 * @param string $status - lead status
+	 *
 	 * @return <boolean> if or not allowed to convert
 	 */
 	public static function checkIfAllowedToConvert($status)

@@ -11,7 +11,6 @@
 
 class ModTracker_Relation_Model extends Vtiger_Record_Model
 {
-
 	public function getValue()
 	{
 		return $this->getLinkedRecord()->getName();
@@ -28,8 +27,9 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function return link to record
-	 * @return boolean|\Vtiger_Record_Model
+	 * Function return link to record.
+	 *
+	 * @return bool|\Vtiger_Record_Model
 	 */
 	public function getLinkedRecord()
 	{
@@ -42,14 +42,16 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			$recordInstance->setId($row['crmid']);
+
 			return $recordInstance;
 		}
 		return false;
 	}
 
 	/**
-	 * Function adds records to task queue that updates reviewing changes in records
-	 * @param array $data - List of records to update
+	 * Function adds records to task queue that updates reviewing changes in records.
+	 *
+	 * @param array  $data   - List of records to update
 	 * @param string $module - Module name
 	 */
 	public static function reviewChangesQueue($data, $module)
@@ -62,14 +64,15 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 			'userid' => $currentUserModel->getRealId(),
 			'tabid' => \App\Module::getModuleId($module),
 			'data' => \App\Json::encode($data),
-			'time' => date('Y-m-d H:i:s')
+			'time' => date('Y-m-d H:i:s'),
 		])->execute();
 	}
 
 	/**
-	 * Function marks forwarded records as reviewed
+	 * Function marks forwarded records as reviewed.
+	 *
 	 * @param array $recordsList - List of records to update
-	 * @param integer $userId - User id
+	 * @param int   $userId      - User id
 	 */
 	public static function reviewChanges($recordsList, $userId = false)
 	{

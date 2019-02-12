@@ -10,26 +10,23 @@
 
 class Import_Map_Model extends \App\Base
 {
-
 	public static $tableName = 'vtiger_import_maps';
 	public $map;
-	public $user;
 
-	public function __construct($map, $user)
+	public function __construct($map)
 	{
 		$this->map = $map;
-		$this->user = $user;
 	}
 
-	public static function getInstanceFromDb($row, $user)
+	public static function getInstanceFromDb($row)
 	{
 		$map = [];
 		foreach ($row as $key => $value) {
 			if ($key == 'content') {
 				$content = [];
-				$pairs = explode("&", $value);
+				$pairs = explode('&', $value);
 				foreach ($pairs as $pair) {
-					list($mappedName, $sequence) = explode("=", $pair);
+					list($mappedName, $sequence) = explode('=', $pair);
 					$mappedName = str_replace('/eq/', '=', $mappedName);
 					$mappedName = str_replace('/amp/', '&', $mappedName);
 					$content["$mappedName"] = $sequence;
@@ -39,7 +36,7 @@ class Import_Map_Model extends \App\Base
 				$map[$key] = $value;
 			}
 		}
-		return new Import_Map_Model($map, $user);
+		return new self($map);
 	}
 
 	public static function markAsDeleted($mapId)
@@ -52,8 +49,7 @@ class Import_Map_Model extends \App\Base
 
 	public function getId()
 	{
-		$map = $this->map;
-		return $map['id'];
+		return $this->map['id'];
 	}
 
 	public function getAllValues()
@@ -63,14 +59,14 @@ class Import_Map_Model extends \App\Base
 
 	public function getValue($key)
 	{
-		$map = $this->map;
-		return $map[$key];
+		return $this->map[$key];
 	}
 
 	public function getStringifiedContent()
 	{
-		if (empty($this->map['content']))
+		if (empty($this->map['content'])) {
 			return;
+		}
 		$content = $this->map['content'];
 		$keyValueStrings = [];
 		foreach ($content as $key => $value) {
@@ -78,42 +74,33 @@ class Import_Map_Model extends \App\Base
 			$key = str_replace('&', '/amp/', $key);
 			$keyValueStrings[] = $key . '=' . $value;
 		}
-		$stringifiedContent = implode('&', $keyValueStrings);
-		return $stringifiedContent;
+		return implode('&', $keyValueStrings);
 	}
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-
-		$map = $this->getAllValues();
-		$map['content'] = "" . $db->getEmptyBlob() . "";
-		$map['date_entered'] = date('Y-m-d H:i:s');
-		$columnNames = array_keys($map);
-		$columnValues = array_values($map);
-		if (count($map) > 0) {
-			$sql = 'INSERT INTO ' . self::$tableName . ' (' . implode(',', $columnNames) . ') VALUES (' . generateQuestionMarks($columnValues) . ')';
-			$db->pquery($sql, [$columnValues]);
-
-			$table = self::$tableName;
-			$column = 'content';
-			$val = $this->getStringifiedContent();
-			$where = 'name=' . $db->sqlEscapeString($this->getValue('name')) . ' && module=' . $db->sqlEscapeString($this->getValue('module'));
-			$db->updateBlob($table, $column, $val, $where);
+		$values = $this->getAllValues();
+		$values['content'] = null;
+		$values['date_entered'] = date('Y-m-d H:i:s');
+		if (count($values) > 0) {
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->insert(self::$tableName, $values)->execute();
+			$dbCommand->update(self::$tableName, ['content' => $this->getStringifiedContent()], ['name' => $this->getValue('name'), 'module' => $this->getValue('module')])->execute();
 		}
 	}
 
 	public static function getAllByModule($moduleName)
 	{
-		$current_user = vglobal('current_user');
 		$dataReader = (new App\Db\Query())->from(self::$tableName)
-				->where(['deleted' => 0, 'module' => $moduleName])
-				->createCommand()->query();
+			->where(['deleted' => 0, 'module' => $moduleName])
+			->createCommand()->query();
 		$savedMaps = [];
 		while ($row = $dataReader->read()) {
-			$importMap = Import_Map_Model::getInstanceFromDb($row, $current_user);
+			$importMap = self::getInstanceFromDb($row);
 			$savedMaps[$importMap->getId()] = $importMap;
 		}
+		$dataReader->close();
+
 		return $savedMaps;
 	}
 }

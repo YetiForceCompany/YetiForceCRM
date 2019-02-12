@@ -11,18 +11,17 @@
 
 class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('relatedRecord', true) && !\App\Privilege::isPermitted($request->getByType('relatedModule', 2), 'DetailView', $request->getInteger('relatedRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -34,7 +33,8 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	}
 
 	/**
-	 * Function to add relations using related module viewid
+	 * Function to add relations using related module viewid.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function addRelationsFromRelatedModuleViewId(\App\Request $request)
@@ -46,6 +46,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$viewId = $request->getByType('viewId', 2);
+		$response = new Vtiger_Response();
 		if ($viewId) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
@@ -57,35 +58,39 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 				while ($row = $dataReader->read()) {
 					$relatedRecordIdsList[] = $row['id'];
 				}
+				$dataReader->close();
 				if (empty($relatedRecordIdsList)) {
-					$response = new Vtiger_Response();
-					$response->setResult([false]);
-					$response->emit();
+					$response->setResult(false);
 				} else {
 					foreach ($relatedRecordIdsList as $relatedRecordId) {
 						$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 					}
+					$response->setResult(true);
 				}
+			} else {
+				$response->setResult(false);
 			}
+		} else {
+			$response->setResult(false);
 		}
+		$response->emit();
 	}
 
 	/**
-	 * Function to update Relation status
+	 * Function to update Relation status.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateStatus(\App\Request $request)
 	{
 		$relatedModuleName = $request->getByType('relatedModule', 2);
-		$status = $request->get('status');
+		$status = !$request->isEmpty('status') ? $request->getInteger('status') : '';
 		$response = new Vtiger_Response();
 		if ($status && $status < 5) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			$relationModel->updateStatus($request->getInteger('sourceRecord'), [$request->getInteger('relatedRecord') => $status]);
-
 			$response->setResult([true]);
 		} else {
 			$response->setError(false);

@@ -1,17 +1,17 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Web service exception class 
- * @package YetiForce.Webservice
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Web service exception class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Exception extends \Exception
 {
-
-	public function __construct($message, $code = 200, Exception $previous = null)
+	public function __construct($message, $code = 200, self $previous = null)
 	{
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);
@@ -30,8 +30,8 @@ class Exception extends \Exception
 			'status' => 0,
 			'error' => [
 				'message' => $message,
-				'code' => $code
-			]
+				'code' => $code,
+			],
 		];
 		if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
@@ -46,7 +46,7 @@ class Exception extends \Exception
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
 			$request = \App\Request::init();
-			$error .= "code: {$this->getCode()} | message: {$this->getMessage()}\n";
+			$error = "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
 			$error .= '============ Headers: ' . PHP_EOL;

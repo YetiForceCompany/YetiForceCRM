@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Settings SharingAccess IndexAjax action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Settings SharingAccess IndexAjax action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
+class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -17,39 +18,25 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$this->exposeMethod('deleteRule');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	public function saveRule(\App\Request $request)
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('save');
-		$forModule = $request->get('for_module');
-		$ruleId = $request->get('record');
-
+		$forModule = $request->getByType('for_module', 2);
 		\App\Privilege::setUpdater($forModule);
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		if (empty($ruleId)) {
+		if ($request->isEmpty('record')) {
 			$ruleModel = new Settings_SharingAccess_Rule_Model();
 			$ruleModel->setModuleFromInstance($moduleModel);
 		} else {
-			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
+			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $request->getInteger('record'));
 		}
-
 		$prevValues['permission'] = $ruleModel->getPermission();
-		$newValues['permission'] = $request->get('permission');
+		$newValues['permission'] = $request->getInteger('permission');
 		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $newValues);
-
-		$ruleModel->set('source_id', $request->get('source_id'));
-		$ruleModel->set('target_id', $request->get('target_id'));
-		$ruleModel->set('permission', (int) $request->get('permission'));
-
+		$ruleModel->set('source_id', $request->getByType('source_id', 'Text'));
+		$ruleModel->set('target_id', $request->getByType('target_id', 'Text'));
+		$ruleModel->set('permission', $request->getInteger('permission'));
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
@@ -64,8 +51,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('delete');
-		$forModule = $request->get('for_module');
-		$ruleId = $request->get('record');
+		$forModule = $request->getByType('for_module', 2);
+		$ruleId = $request->getInteger('record');
 
 		\App\Privilege::setUpdater(\App\Module::getModuleName($forModule));
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
@@ -79,10 +66,5 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 			$response->setError('Deleting Sharing Access Rule failed');
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

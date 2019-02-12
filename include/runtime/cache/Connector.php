@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once dirname(__FILE__) . '/Connectors.php';
+include_once __DIR__ . '/Connectors.php';
 
 class Vtiger_Cache_Connector
 {
-
 	protected $connection;
 
 	protected function __construct()
@@ -24,8 +23,9 @@ class Vtiger_Cache_Connector
 
 	protected function cacheKey($ns, $key)
 	{
-		if (is_array($key))
+		if (is_array($key)) {
 			$key = implode('-', $key);
+		}
 		return $ns . '-' . $key;
 	}
 
@@ -51,8 +51,8 @@ class Vtiger_Cache_Connector
 
 	public static function getInstance()
 	{
-		static $singleton = NULL;
-		if ($singleton === NULL) {
+		static $singleton = null;
+		if ($singleton === null) {
 			$singleton = new self();
 		}
 		return $singleton;

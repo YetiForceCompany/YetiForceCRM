@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_INVOICE": "Invoice",
+    "LBL_INVOICE_NUMBER": "VAT invoice number",
+    "LBL_TO_FINVOICE_NUMBER": "To VAT invoice number",
+    "LBL_INVOICE_PROFORMA": "Pro-forma invoice",
+    "LBL_RECIPIENT": "Recipient",
+    "LBL_ORDER": "Order",
+    "LBL_SUBMIT_ORDER": "Person authorized to submit order",
+    "LBL_TO_PAY": "Total",
+    "LBL_TO_PAY_WORD": "Total (in words)",
+    "LBL_DEALER": "Seller",
+    "LBL_BUYER": "Purchaser",
+    "LBL_AUTHORIZED_TO_RECEIVE": "Person authorized to receive",
+    "LBL_AUTHORIZED_TO_BE_ISSUED": "Person authorized to issue",
+    "LBL_SALES_QUOTE_FOR": "Quote for",
+    "LBL_DATE_EXECUTION": "Date of completion",
+    "LBL_STAGE": "Issued by",
+    "LBL_VALID_UNTIL": "Valid until",
+    "LBL_QUOTE_NUMBER": "Quote number",
+    "LBL_DETAILS": "Details",
+    "LBL_COMMENTS": "Comments",
+    "LBL_FIRST_NAME": "First name",
+    "LBL_LAST_NAME": "Last name",
+    "LBL_PHONE": "Phone",
+    "LBL_EMAIL": "E-mail",
+    "LBL_VATID": "Vat ID",
+    "LBL_SALE_DATE": "Sale date",
+    "LBL_PAYMENT_METHOD": "Payment method",
+    "LBL_PLACE_DATE": "Place, date"
+  }
+}

@@ -11,7 +11,9 @@
 
 class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		//Do not allow ajax edit of existing comments
@@ -24,9 +26,11 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$request->set('assigned_user_id', App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
@@ -37,7 +41,6 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result['id'] = $recordModel->getId();
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
-
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);

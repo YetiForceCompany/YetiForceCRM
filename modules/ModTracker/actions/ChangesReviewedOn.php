@@ -1,35 +1,38 @@
 <?php
 
 /**
- * ChangesReviewedOn Class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * ChangesReviewedOn Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
+class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($request->has('record')) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			if (!$recordModel->isViewable() || !$recordModel->getModule()->isTrackingEnabled()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} elseif ($sourceModule) {
 			$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			if (!$moduleModel || !$moduleModel->isTrackingEnabled()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -45,6 +48,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
+
 			return;
 		}
 		$record = $request->getInteger('record');
@@ -57,7 +61,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 
 	public function getUnreviewed(\App\Request $request)
 	{
-		$records = $request->getArray('recordsId');
+		$records = $request->getArray('recordsId', 'Integer');
 		foreach ($records as $key => $record) {
 			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $record)) {
 				unset($records[$key]);
@@ -70,7 +74,8 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function marks forwarded records as reviewed
+	 * Function marks forwarded records as reviewed.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function reviewChanges(\App\Request $request)
@@ -81,7 +86,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$result = false;
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		if (is_array($recordsList) && count($recordsList) > AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
-			$params = $request->get('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params'] : ['selected_ids'];
+			$params = $request->getRaw('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params', 'entityState'] : ['selected_ids'];
 			foreach ($params as $variable) {
 				if ($request->has($variable)) {
 					$data[$variable] = $request->get($variable);
@@ -101,10 +106,5 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		return $request->validateWriteAccess();
 	}
 }

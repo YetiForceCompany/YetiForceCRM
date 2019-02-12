@@ -1,19 +1,18 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 	changeRecordState: function (recordId, state) {
 		var aDeferred = jQuery.Deferred();
 		var message = app.vtranslate('JS_STATE_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					app.saveAjax('save', {active: state}, {record: recordId}).then(function (respons) {
-						var listInstance = Settings_AutomaticAssignment_List_Js.getInstance();
-						listInstance.getListViewRecords();
-					});
-				},
-				function (error, err) {
-					app.errorLog(error, err);
-				}
-		);
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			app.saveAjax('save', {active: state}, {record: recordId}).done(function (respons) {
+				var listInstance = Settings_AutomaticAssignment_List_Js.getInstance();
+				listInstance.getListViewRecords();
+			});
+		}).fail(function (error, err) {
+			app.errorLog(error, err);
+		});
 		return aDeferred.promise();
 	},
 }, {
@@ -34,11 +33,9 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 			jQuery('#recordsCount').val('');
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
-			thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
-			);
+			thisInstance.getListViewRecords(params).done(function (data) {
+				thisInstance.updatePagination();
+			});
 		});
 	},
 	getContainer: function () {
@@ -59,31 +56,29 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 			});
 			var element = jQuery(e.currentTarget);
 			var getFieldsUrl = url + '&tabid=' + element.val();
-			AppConnector.request(getFieldsUrl).then(
-					function (fields) {
-						data.find('.fieldList').html(fields);
-						app.showSelect2ElementView(data.find('.fieldList select'));
-						submitButton.removeClass('hide');
-						progress.progressIndicator({'mode': 'hide'});
-					},
-					function (textStatus, errorThrown) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.errorLog(textStatus, errorThrown);
-					}
+			AppConnector.request(getFieldsUrl).done(function (fields) {
+					data.find('.fieldList').html(fields);
+					App.Fields.Picklist.showSelect2ElementView(data.find('.fieldList select'));
+					submitButton.removeClass('d-none');
+					progress.progressIndicator({'mode': 'hide'});
+				}).fail(function (textStatus, errorThrown) {
+					progress.progressIndicator({'mode': 'hide'});
+					app.errorLog(textStatus, errorThrown);
+				}
 			);
 		})
 		form.on('submit', function (e) {
 			e.preventDefault();
 			var params = form.serializeFormData();
-			app.saveAjax('save', params).then(function (respons) {
-				var id = respons.result;
+			app.saveAjax('save', params).done(function (response) {
+				var id = response.result;
 				if (id) {
 					var url = form.attr('action');
 					url = url + '&record=' + id;
 					window.location.href = url;
 				}
 			});
-		})
+		});
 	},
 	registerEvents: function () {
 		var thisInstance = this;

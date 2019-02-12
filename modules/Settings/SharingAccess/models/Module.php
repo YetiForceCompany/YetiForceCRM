@@ -1,26 +1,25 @@
 <?php
 /**
- * Settings SharingAccess module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings SharingAccess module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
- * Sharng Access Vtiger Module Model Class
+ * Sharng Access Vtiger Module Model Class.
  */
 class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Constants for mapping module's Sharing Access permissions editable
+	 * Constants for mapping module's Sharing Access permissions editable.
 	 */
 	const EDITABLE = 0;
 	const READONLY = 1;
 	const HIDDEN = 2;
 
 	/**
-	 * Constants used for mapping module's Sharing Access Permission
+	 * Constants used for mapping module's Sharing Access Permission.
 	 */
 	const SHARING_ACCESS_READ_ONLY = 0;
 	const SHARING_ACCESS_READ_CREATE = 1;
@@ -33,30 +32,33 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function checks if the sharing access for the module is enabled or not
-	 * @return boolean
+	 * Function checks if the sharing access for the module is enabled or not.
+	 *
+	 * @return bool
 	 */
 	public function isSharingEditable()
 	{
-		return ($this->get('editstatus') == self::EDITABLE);
+		return $this->get('editstatus') == self::EDITABLE;
 	}
 
 	/**
-	 * Function checks if the module is Private
-	 * @return Boolean
+	 * Function checks if the module is Private.
+	 *
+	 * @return bool
 	 */
 	public function isPrivate()
 	{
-		return ((int) $this->get('permission') == self::SHARING_ACCESS_PRIVATE);
+		return (int) $this->get('permission') == self::SHARING_ACCESS_PRIVATE;
 	}
 
 	/**
-	 * Function checks if the module is Public
-	 * @return Boolean
+	 * Function checks if the module is Public.
+	 *
+	 * @return bool
 	 */
 	public function isPublic()
 	{
-		return ($this->get('editstatus') == self::SHARING_ACCESS_PUBLIC);
+		return $this->get('editstatus') == self::SHARING_ACCESS_PUBLIC;
 	}
 
 	public function getRulesListUrl()
@@ -80,7 +82,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Save permission
+	 * Save permission.
 	 */
 	public function save()
 	{
@@ -90,7 +92,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name
+	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
+	 *
 	 * @param mixed id or name of the module
 	 */
 	public static function getInstance($value)
@@ -114,7 +117,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for all the modules
+	 * Static Function to get the instance of Vtiger Module Model for all the modules.
+	 *
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getAll($editable = false, $restrictedModulesList = [], $isEntityType = false)
@@ -129,17 +133,20 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 		$query->orderBy(['vtiger_def_org_share.tabid' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$instance = new Settings_SharingAccess_Module_Model();
+			$instance = new self();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
 			$instance->set('editstatus', $row['editstatus']);
 			$moduleModels[$row['tabid']] = $instance;
 		}
+		$dataReader->close();
+
 		return $moduleModels;
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for all the modules
+	 * Static Function to get the instance of Vtiger Module Model for all the modules.
+	 *
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getDependentModules()
@@ -151,7 +158,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function recalculate the sharing rules
+	 * Function recalculate the sharing rules.
 	 */
 	public static function recalculateSharingRules()
 	{

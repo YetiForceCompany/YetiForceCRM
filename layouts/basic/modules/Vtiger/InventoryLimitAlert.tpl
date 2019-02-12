@@ -4,8 +4,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">{\App\Language::translate('LBL_LIMIT_TITLE', $MODULE)}</h4>
+					<h5 class="modal-title">{\App\Language::translate('LBL_LIMIT_TITLE', $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<div class="row">

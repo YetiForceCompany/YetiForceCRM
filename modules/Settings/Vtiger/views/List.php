@@ -11,20 +11,15 @@
 
 class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 {
-
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
 	/**
-	 * List view model instance
+	 * List view model instance.
+	 *
 	 * @var Settings_Vtiger_ListView_Model
 	 */
 	public $listViewModel;
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -47,8 +42,9 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 * @param \App\Request $request
+	 * Function to initialize the required data in smarty to display the List View Contents.
+	 *
+	 * @param \App\Request  $request
 	 * @param Vtiger_Viewer $viewer
 	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
@@ -57,16 +53,16 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchParams = $request->get('searchParams');
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
+		$searchParams = $request->getArray('searchParams', 'Text');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 'Alnum');
+		$searchValue = $request->getByType('search_value', 'Text');
 
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder === 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
@@ -75,44 +71,44 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		if (!$this->listViewModel) {
 			$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		}
-		$listViewModel = $this->listViewModel;
+		$model = $this->listViewModel;
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 
 		if (!empty($searchKey) && !empty($searchValue)) {
-			$listViewModel->set('search_key', $searchKey);
-			$listViewModel->set('search_value', $searchValue);
+			$model->set('search_key', $searchKey);
+			$model->set('search_value', $searchValue);
 		}
 		if (!empty($searchParams)) {
-			$listViewModel->set('searchParams', $searchParams);
+			$model->set('searchParams', $searchParams);
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
 
 		if (!empty($orderBy)) {
-			$listViewModel->set('orderby', $orderBy);
-			$listViewModel->set('sortorder', $sortOrder);
+			$model->set('orderby', $orderBy);
+			$model->set('sortorder', $sortOrder);
 		}
 		if (!$request->isEmpty('sourceModule')) {
 			$sourceModule = $request->getByType('sourceModule', 2);
-			$listViewModel->set('sourceModule', $sourceModule);
+			$model->set('sourceModule', $sourceModule);
 		}
 		if (!$request->isEmpty('formodule')) {
 			$sourceModule = $request->getByType('formodule', 1);
-			$listViewModel->set('formodule', $sourceModule);
+			$model->set('formodule', $sourceModule);
 		}
 		if (!$this->listViewHeaders) {
-			$this->listViewHeaders = $listViewModel->getListViewHeaders();
+			$this->listViewHeaders = $model->getListViewHeaders();
 		}
 		if (!$this->listViewEntries) {
-			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
+			$this->listViewEntries = $model->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
 		if (!isset($this->listViewLinks)) {
-			$this->listViewLinks = $listViewModel->getListViewLinks();
+			$this->listViewLinks = $model->getListViewLinks();
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
-		$viewer->assign('MODULE_MODEL', $listViewModel->getModule());
+		$viewer->assign('MODULE_MODEL', $model->getModule());
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -127,7 +123,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		if (!isset($this->listViewCount)) {
-			$this->listViewCount = $listViewModel->getListViewCount();
+			$this->listViewCount = $model->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
 		$pagingModel->set('totalCount', (int) $totalCount);
@@ -140,26 +136,22 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
 			'modules.Settings.Vtiger.resources.List',
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Vtiger.resources.$moduleName",
 			'modules.Vtiger.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch"
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+			"modules.$moduleName.resources.ListSearch",
+		]));
 	}
 }

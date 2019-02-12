@@ -11,15 +11,19 @@
 
 class Vtiger_Block_Model extends vtlib\Block
 {
-
 	public $fields = false;
 
+	/**
+	 * Get fields.
+	 *
+	 * @return Vtiger_Field_Model[]|false
+	 */
 	public function getFields()
 	{
 		if (empty($this->fields)) {
 			$moduleFields = Vtiger_Field_Model::getAllForModule($this->module);
 			$this->fields = [];
-			// if block does not contains any fields 
+			// if block does not contains any fields
 			if (!isset($moduleFields[$this->id])) {
 				$moduleFields[$this->id] = [];
 			}
@@ -33,12 +37,15 @@ class Vtiger_Block_Model extends vtlib\Block
 	public function setFields($fieldModelList)
 	{
 		$this->fields = $fieldModelList;
+
 		return $this;
 	}
 
 	/**
-	 * Function to get the value of a given property
+	 * Function to get the value of a given property.
+	 *
 	 * @param string $propertyName
+	 *
 	 * @return <Object>
 	 */
 	public function get($propertyName)
@@ -62,7 +69,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Update block
+	 * Update block.
 	 */
 	public function __update()
 	{
@@ -72,10 +79,12 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Function to check whether the current block is hide
+	 * Function to check whether the current block is hide.
+	 *
 	 * @param Vtiger_Record_Model $record
-	 * @param string $view
-	 * @return boolean
+	 * @param string              $view
+	 *
+	 * @return bool
 	 */
 	public function isHideBlock($record, $view)
 	{
@@ -98,31 +107,47 @@ class Vtiger_Block_Model extends vtlib\Block
 			}
 		}
 		\App\Cache::staticSave(__METHOD__, $key, !$showBlock);
+
 		return !$showBlock;
 	}
 
 	/**
-	 * Function which indicates whether the block is shown or hidden
-	 * @return : <boolean>
+	 * Function which indicates whether the block is shown or hidden.
+	 *
+	 * @return bool
 	 */
 	public function isHidden()
 	{
-		if ($this->get('display_status') == '0') {
+		if (0 === (int) $this->get('display_status')) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Function to get the in active fields for the block
+	 * Function which indicates whether the block is dynamic show.
+	 *
+	 * @return bool
+	 */
+	public function isDynamic()
+	{
+		if (2 === (int) $this->get('display_status')) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Function to get the in active fields for the block.
+	 *
 	 * @param type $raw - true to send field in model format or false to send in array format
+	 *
 	 * @return type - arrays
 	 */
 	public function getInActiveFields($raw = true)
 	{
 		$inActiveFields = [];
-		$fields = $this->getFields();
-		foreach ($fields as $fieldName => $fieldModel) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if (!$fieldModel->isActiveField()) {
 				if ($raw) {
 					$inActiveFields[$fieldName] = $fieldModel;
@@ -137,8 +162,10 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Function to retrieve block instances for a module
+	 * Function to retrieve block instances for a module.
+	 *
 	 * @param <type> $moduleModel - module instance
+	 *
 	 * @return <array> - list of Vtiger_Block_Model
 	 */
 	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
@@ -161,14 +188,14 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$blockInstance = parent::getInstance($value, $moduleInstance);
-		$blockModel = self::getInstanceFromBlockObject($blockInstance);
-		return $blockModel;
+		return self::getInstanceFromBlockObject(parent::getInstance($value, $moduleInstance));
 	}
 
 	/**
-	 * Function to retrieve block instance from vtlib\Block object
+	 * Function to retrieve block instance from vtlib\Block object.
+	 *
 	 * @param vtlib\Block $blockObject - vtlib block object
+	 *
 	 * @return Vtiger_Block_Model
 	 */
 	public static function getInstanceFromBlockObject(vtlib\Block $blockObject)
@@ -183,8 +210,9 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Update sequence number of blocks
-	 * @param integer[] $sequenceList
+	 * Update sequence number of blocks.
+	 *
+	 * @param int[] $sequenceList
 	 */
 	public static function updateSequenceNumber($sequenceList)
 	{
@@ -199,19 +227,22 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Check if fields are in block
-	 * @param integer $blockId
-	 * @return boolean
+	 * Check if fields are in block.
+	 *
+	 * @param int $blockId
+	 *
+	 * @return bool
 	 */
 	public static function checkFieldsExists($blockId)
 	{
 		return (new App\Db\Query())->from('vtiger_field')
-				->where(['block' => $blockId])
-				->exists();
+			->where(['block' => $blockId])
+			->exists();
 	}
 
 	/**
-	 * Function to push all blocks down after sequence number
+	 * Function to push all blocks down after sequence number.
+	 *
 	 * @param int $fromSequence
 	 * @param int $sourceModuleTabId
 	 */
@@ -223,23 +254,27 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Function to get number sequence of blocks
-	 * @param integer $moduleTabId
+	 * Function to get number sequence of blocks.
+	 *
+	 * @param int $moduleTabId
+	 *
 	 * @return array
 	 */
 	public static function getAllBlockSequenceList($moduleTabId)
 	{
 		return (new App\Db\Query())->select(['blockid', 'sequence'])
-				->from('vtiger_blocks')
-				->where(['tabid' => $moduleTabId])
-				->createCommand()->queryAllByGroup(0);
+			->from('vtiger_blocks')
+			->where(['tabid' => $moduleTabId])
+			->createCommand()->queryAllByGroup(0);
 	}
 
 	/**
-	 * Function to check whether duplicate exist or not
+	 * Function to check whether duplicate exist or not.
+	 *
 	 * @param string $blockLabel
 	 * @param number ModuleId
-	 * @return boolean true/false
+	 *
+	 * @return bool true/false
 	 */
 	public static function checkDuplicate($blockLabel, $tabId)
 	{

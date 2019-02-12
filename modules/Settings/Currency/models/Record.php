@@ -6,14 +6,21 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 {
+	/**
+	 * Changes value.
+	 *
+	 * @var array
+	 */
+	protected $changes = [];
 
 	/**
-	 * Return currency id
+	 * Return currency id.
+	 *
 	 * @return int|null
 	 */
 	public function getId()
@@ -22,7 +29,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return currency name
+	 * Return currency name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -31,7 +39,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if currency is base
+	 * Check if currency is base.
+	 *
 	 * @return bool
 	 */
 	public function isBaseCurrency()
@@ -40,35 +49,45 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return record actions links
+	 * Return record actions links.
+	 *
 	 * @return array
 	 */
 	public function getRecordLinks()
 	{
+		$links = $recordLinks = [];
 		if ($this->isBaseCurrency()) {
 			//NO Edit and delete link for base currency
 			return [];
+		} else {
+			$recordLinks[] = [
+				'linkurl' => "javascript:Settings_Currency_Js.triggerDefault(event, '" . $this->getId() . "')",
+				'linklabel' => 'LBL_SET_AS_DEFAULT',
+				'linkclass' => 'btn-warning btn-sm',
+				'linkicon' => 'fas fa-redo-alt',
+			];
 		}
-		$editLink = [
+		$recordLinks[] = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
 			'linkclass' => 'btn-info btn-sm',
-			'linkicon' => 'glyphicon glyphicon-pencil'
+			'linkicon' => 'fas fa-edit',
 		];
-		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
-
-		$deleteLink = [
+		$recordLinks[] = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkclass' => 'btn-sm btn-danger',
-			'linkicon' => 'glyphicon glyphicon-trash'
+			'linkicon' => 'fas fa-trash-alt',
 		];
-		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
-		return [$editLinkInstance, $deleteLinkInstance];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
 	}
 
 	/**
-	 * return delete state of record
+	 * return delete state of record.
+	 *
 	 * @return int
 	 */
 	public function getDeleteStatus()
@@ -81,7 +100,21 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Populate changes to database
+	 * {@inheritdoc}
+	 */
+	public function set($key, $value)
+	{
+		if (null !== $this->getId() && $this->value[$key] !== $value) {
+			$this->changes[$key] = $this->get($key);
+		}
+		$this->value[$key] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Populate changes to database.
+	 *
 	 * @return int
 	 */
 	public function save()
@@ -95,9 +128,13 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				'currency_code' => $this->get('currency_code'),
 				'currency_status' => $this->get('currency_status'),
 				'currency_symbol' => $this->get('currency_symbol'),
-				'conversion_rate' => $this->get('conversion_rate'),
-				'deleted' => $this->getDeleteStatus()
-				], ['id' => $id])->execute();
+				'conversion_rate' => $this->isBaseCurrency() ? 1 : $this->get('conversion_rate'),
+				'defaultid' => $this->get('defaultid'),
+				'deleted' => $this->getDeleteStatus(),
+			], ['id' => $id])->execute();
+			if (isset($this->changes['defaultid'])) {
+				$db->createCommand()->update($tableName, ['defaultid' => 0], ['and', ['defaultid' => -11], ['not', ['id' => $id]]])->execute();
+			}
 		} else {
 			$db->createCommand()
 				->insert($tableName, [
@@ -107,25 +144,29 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 					'currency_symbol' => $this->get('currency_symbol'),
 					'conversion_rate' => $this->get('conversion_rate'),
 					'defaultid' => 0,
-					'deleted' => 0
+					'deleted' => 0,
 				])->execute();
 			$id = $db->getLastInsertID('vtiger_currency_info_id_seq');
 		}
 		self::clearCache();
+
 		return $id;
 	}
 
 	/**
-	 * Function clears cache
+	 * Function clears cache.
 	 */
 	public static function clearCache()
 	{
 		\App\Cache::delete('Currency', 'List');
+		\App\Cache::delete('AllCurrency', 'All');
 	}
 
 	/**
-	 * Returns instance of self
+	 * Returns instance of self.
+	 *
 	 * @param int $id
+	 *
 	 * @return \self
 	 */
 	public static function getInstance($id)
@@ -140,14 +181,16 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
+			return $instance;
 		}
-		return $instance;
 	}
 
 	/**
-	 * Return all non mapped currences
+	 * Return all non mapped currences.
+	 *
 	 * @param array $includedIds
-	 * @return  \Settings_Currency_Record_Model[]
+	 *
+	 * @return \Settings_Currency_Record_Model[]
 	 */
 	public static function getAllNonMapped($includedIds = [])
 	{
@@ -169,13 +212,17 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			$modelInstance->setData($row);
 			$currencyModelList[$row['currencyid']] = $modelInstance;
 		}
+		$dataReader->close();
+
 		return $currencyModelList;
 	}
 
 	/**
-	 * Return currences
+	 * Return currences.
+	 *
 	 * @param array $excludedIds
-	 * @return  \Settings_Currency_Record_Model[]
+	 *
+	 * @return \Settings_Currency_Record_Model[]
 	 */
 	public static function getAll($excludedIds = [])
 	{
@@ -187,8 +234,10 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		$instanceList = [];
 		while ($row = $dataReader->read()) {
-			$instanceList[$row['id']] = new Settings_Currency_Record_Model($row);
+			$instanceList[$row['id']] = new self($row);
 		}
+		$dataReader->close();
+
 		return $instanceList;
 	}
 }

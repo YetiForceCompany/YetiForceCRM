@@ -8,19 +8,17 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-/*
- * Settings Menu Model Class
- */
+// Settings Menu Model Class
 
 class Settings_Vtiger_Menu_Model extends \App\Base
 {
-
 	protected static $menusTable = 'vtiger_settings_blocks';
 	protected static $menuId = 'blockid';
 	protected static $casheMenu = false;
 
 	/**
-	 * Function to get the Id of the Menu Model
+	 * Function to get the Id of the Menu Model.
+	 *
 	 * @return int - Menu Id
 	 */
 	public function getId()
@@ -29,7 +27,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the menu label
+	 * Function to get the menu label.
+	 *
 	 * @return string - Menu Label
 	 */
 	public function getLabel()
@@ -38,7 +37,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the menu type
+	 * Function to get the menu type.
+	 *
 	 * @return string - Menu Label
 	 */
 	public function getType()
@@ -47,19 +47,18 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the url to get to the Settings Menu Block
+	 * Function to get the url to get to the Settings Menu Block.
+	 *
 	 * @return string - Menu Item landing url
 	 */
 	public function getUrl()
 	{
-		$url = $this->get('linkto');
-		$url = App\Purifier::decodeHtml($url);
-		$url .= '&block=' . $this->getId();
-		return $url;
+		return App\Purifier::decodeHtml($this->get('linkto')) . '&block=' . $this->getId();
 	}
 
 	/**
-	 * Function to get the url to list the items of the Menu
+	 * Function to get the url to list the items of the Menu.
+	 *
 	 * @return string - List url
 	 */
 	public function getListUrl()
@@ -68,7 +67,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all the menu items of the current menu
+	 * Function to get all the menu items of the current menu.
+	 *
 	 * @return array - List of Settings_Vtiger_MenuItem_Model instances
 	 */
 	public function getItems()
@@ -77,7 +77,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Static function to get the list of all the Settings Menus
+	 * Static function to get the list of all the Settings Menus.
+	 *
 	 * @return array - List of Settings_Vtiger_Menu_Model instances
 	 */
 	public static function getAll()
@@ -86,20 +87,24 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 			return self::$casheMenu;
 		}
 		$dataReader = (new App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]])
-				->orderBy(['sequence' => SORT_ASC])
-				->createCommand()->query();
+			->orderBy(['sequence' => SORT_ASC])
+			->createCommand()->query();
 		$menuModels = [];
 		while ($row = $dataReader->read()) {
 			$blockId = $row[self::$menuId];
-			$menuModels[$blockId] = Settings_Vtiger_Menu_Model::getInstanceFromArray($row);
+			$menuModels[$blockId] = self::getInstanceFromArray($row);
 		}
+		$dataReader->close();
 		self::$casheMenu = $menuModels;
+
 		return $menuModels;
 	}
 
 	/**
-	 * Static Function to get the instance of Settings Menu model with the given value map array
+	 * Static Function to get the instance of Settings Menu model with the given value map array.
+	 *
 	 * @param array $valueMap
+	 *
 	 * @return <Settings_Vtiger_Menu_Model> instance
 	 */
 	public static function getInstanceFromArray($valueMap)
@@ -108,14 +113,17 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Array with instances, kay as number id element of menu
+	 * Array with instances, kay as number id element of menu.
+	 *
 	 * @var array
 	 */
 	public static $cacheInstance = false;
 
 	/**
-	 * Static Function to get the instance of Settings Menu model for given menu id
+	 * Static Function to get the instance of Settings Menu model for given menu id.
+	 *
 	 * @param int $id - Menu Id
+	 *
 	 * @return Settings_Vtiger_Menu_Model instance
 	 */
 	public static function getInstanceById($id)
@@ -125,17 +133,21 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 		}
 		$rowData = (new App\Db\Query())->from(self::$menusTable)->where([self::$menuId => $id])->one();
 		if ($rowData) {
-			$instance = Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
+			$instance = self::getInstanceFromArray($rowData);
 			self::$cacheInstance[$id] = $instance;
+
 			return $instance;
 		}
 		self::$cacheInstance[$id] = false;
+
 		return false;
 	}
 
 	/**
-	 * Static Function to get the instance of Settings Menu model for the given menu name
+	 * Static Function to get the instance of Settings Menu model for the given menu name.
+	 *
 	 * @param string $name - Menu Name
+	 *
 	 * @return <Settings_Vtiger_Menu_Model> instance
 	 */
 	public static function getInstance($name)
@@ -146,13 +158,14 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 			->limit(1)
 			->one();
 		if ($rowData) {
-			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
+			return self::getInstanceFromArray($rowData);
 		}
 		return false;
 	}
 
 	/**
-	 * Function returns menu items for the current menu
+	 * Function returns menu items for the current menu.
+	 *
 	 * @return <Settings_Vtiger_MenuItem_Model>
 	 */
 	public function getMenuItems()

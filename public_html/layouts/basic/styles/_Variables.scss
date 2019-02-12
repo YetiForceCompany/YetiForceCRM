@@ -1,0 +1,70 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@import '../../../libraries/sass-material-colors/sass/_sass-material-colors.scss';
+@import "../../../libraries/bootstrap/scss/_functions";
+@import '../../../libraries/bootstrap/scss/_mixins';
+
+//-------- override libraries' variables --------//
+//bootstrap
+$link-color: #006cdf;
+$secondary: #5e666c;
+$blue: #337ab7;
+$pagination-color: $link-color;
+$grid-breakpoints: (
+		xs: 0,
+		xsm: 400px,
+		sm: 576px,
+		md: 768px,
+		lg: 992px,
+		xl: 1200px,
+		xxl:1300px,
+		xxxl:1800px
+);
+
+//flag-icons
+$flag-icon-css-path: '../../../libraries/flag-icon-css/flags/';
+
+//-------- sizes --------//
+$w-icon-button: calculate-rem(42px);
+
+$h-footer: calculate-rem(32px);
+$h-user-info: calculate-rem(16px);
+$h-footer-limited: calculate-rem(16px);
+$h-footer-user-info: calc(#{$h-footer} + #{$h-user-info});
+$h-footer-user-info-mobile: $h-footer;
+$h-input-text: calculate-rem(24px);
+$h-menu-items: calculate-rem(34px);
+$h-modal-logo: calculate-rem(120px);
+$h-btn-sm: calculate-rem(31px);
+$h-header: calculate-rem(50px);
+$h-breadcrumb: calculate-rem(54px);
+$h-dashboard-tabs: calculate-rem(58px);
+$w-header-search: 500px;
+$h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));
+$h-main-viewport-limited-footer: calc(100vh - (#{$h-footer-limited} + #{$h-header}));
+
+$h-date-list: calculate-rem(95px);
+$h-filter-tabs: calculate-rem(43px);
+$p-bs4-button: 0.375rem 0.75rem;
+
+$font-size-small: 0.8rem;
+$font-size-header-button: calculate-rem(17px);
+
+//-------- colors --------//
+$bg-navbar: #4a5364;
+$color-navbar: #fff;
+
+$bg-menu: $bg-navbar;
+$color-menu: #f8f9fa;
+$bg-sub-menu: #202c40;
+$color-indigo-dark: material-color('indigo', '600');
+$color-grey-light: material-color('grey', '300');
+
+//-------- related tabs --------//
+$bg-rtabs: #f1f1f1;
+$bg-rtabs-active: #404952;
+$border-color-rtabs: $bg-rtabs-active;
+$color-rtabs-active: #fff;
+
+//-------- progress bar --------//
+$progress-bg--active: material-color('deep-orange', '500');
+$progress-bg--inactive: material-color('blue-grey', '200');

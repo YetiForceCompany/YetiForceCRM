@@ -10,10 +10,10 @@
 		{if isset($UPLOAD)}
 			{if $UPLOAD eq true}
 				<p class="bgMessage bgOK">
-					<i class="glyphicon glyphicon-ok-sign"></i> {\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
+					<i class="fas fa-check-circle"></i> {\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
 				{foreach from=$MESSAGES['error'] item=msg}
-					<p class="bgMessage bgWARNING"><i class="glyphicon glyphicon-info-sign"></i> {$msg}</p>
+					<p class="bgMessage bgWARNING"><i class="fas fa-info-circle"></i> {$msg}</p>
 				{/foreach}
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
@@ -27,7 +27,7 @@
 				<input type="hidden" name="view" value="Import" />
 				<input type="hidden" name="upload" value="true" />
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_TRIGGER_XML', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<br />
-				<div class="pull-right">
+				<div class="float-right">
 					<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_UPLOAD_TRIGGER', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 					<a href="{Settings_Workflows_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 				</div>

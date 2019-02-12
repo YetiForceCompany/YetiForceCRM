@@ -1,14 +1,14 @@
 <?php
 
 /**
- * VTUpdateWorkTime Class
- * @package YetiForce.Workflow
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * VTUpdateWorkTime Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class VTUpdateWorkTime extends VTTask
 {
-
+	public static $workflowIdsAlreadyDone = [];
 	public $executeImmediately = false;
 
 	public function getFieldNames()
@@ -17,15 +17,12 @@ class VTUpdateWorkTime extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
 	{
-		if (!vglobal('workflowIdsAlreadyDone')) {
-			vglobal('workflowIdsAlreadyDone', []);
-		}
-		$globalIds = vglobal('workflowIdsAlreadyDone');
 		$referenceName = OSSTimeControl_Record_Model::$referenceFieldsToTime;
 		$referenceIds = [];
 		foreach ($referenceName as $name) {
@@ -46,21 +43,22 @@ class VTUpdateWorkTime extends VTTask
 				}
 			}
 		}
-		$referenceIds = array_diff_key($referenceIds, array_flip($globalIds));
+		$referenceIds = array_diff_key($referenceIds, array_flip(static::$workflowIdsAlreadyDone));
 		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
-			if (((int) $metaData['delete']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {
+			if (((int) $metaData['deleted']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {
 				OSSTimeControl_Record_Model::recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
-				$globalIds[] = $referenceId;
+				static::$workflowIdsAlreadyDone[] = $referenceId;
 			}
 		}
-		vglobal('workflowIdsAlreadyDone', $globalIds);
 	}
 
 	/**
-	 * Function to get contents of this task
+	 * Function to get contents of this task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
+	 *
 	 * @return <String> contents
 	 */
 	public function getContents($recordModel)

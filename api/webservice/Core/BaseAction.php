@@ -1,16 +1,16 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Base action class
- * @package YetiForce.WebserviceAction
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Base action class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseAction
 {
-
 	/** @var array Permitted modules */
 	public $allowedMethod;
 
@@ -27,17 +27,13 @@ class BaseAction
 		}
 		$this->checkPermission();
 		$this->checkPermissionToModule();
-		/*
-		  $acceptableUrl = $this->controller->app['acceptable_url'];
-		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
-		  throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
-		  }
-		 */
+
 		return true;
 	}
 
 	/**
-	 * Check permission to module
+	 * Check permission to module.
+	 *
 	 * @throws \Api\Core\Exception
 	 */
 	public function checkPermissionToModule()
@@ -48,13 +44,15 @@ class BaseAction
 	}
 
 	/**
-	 * Check permission to method
-	 * @return boolean
+	 * Check permission to method.
+	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return bool
 	 */
 	public function checkPermission()
 	{
-		if (empty($this->controller->headers['X-TOKEN'])) {
+		if (empty($this->controller->headers['x-token'])) {
 			throw new \Api\Core\Exception('No sent token', 401);
 		}
 		$apiType = strtolower($this->controller->app['type']);
@@ -63,7 +61,7 @@ class BaseAction
 		$db = \App\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", 'sessionLanguage' => "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
-			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
+			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
 			->one($db);
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
@@ -71,26 +69,25 @@ class BaseAction
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
-		$currentUser = (new \Users())->retrieveCurrentUserInfoFromFile($this->session->get('user_id'));
-		vglobal('current_user', $currentUser);
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
 	}
 
 	/**
-	 * Pre process function
+	 * Pre process function.
 	 */
 	public function preProcess()
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\App\Language::setLanguage($language);
+			\App\Language::setTemporaryLanguage($language);
 		}
 	}
 
 	/**
-	 * Get current language
+	 * Get current language.
+	 *
 	 * @return string
 	 */
 	public function getLanguage()
@@ -106,7 +103,8 @@ class BaseAction
 	}
 
 	/**
-	 * Get permission type
+	 * Get permission type.
+	 *
 	 * @return int
 	 */
 	public function getPermissionType()
@@ -115,7 +113,8 @@ class BaseAction
 	}
 
 	/**
-	 * Get crmid for portal user
+	 * Get crmid for portal user.
+	 *
 	 * @return int
 	 */
 	public function getUserCrmId()
@@ -124,24 +123,22 @@ class BaseAction
 	}
 
 	/**
-	 * Get parent record
+	 * Get parent record.
+	 *
 	 * @return int
 	 */
 	public function getParentCrmId()
 	{
-		if ($this->controller) {
-			if ($parentId = $this->controller->request->getHeader('X-PARENT-ID')) {
-				settype($parentId, 'int');
-				$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
-				$hierarchy->session = $this->session;
-				$hierarchy->findId = $parentId;
-				$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
-				$records = $hierarchy->get();
-				if (isset($records[$parentId])) {
-					return $parentId;
-				} else {
-					throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
-				}
+		if ($this->controller && $parentId = (int) $this->controller->request->getHeader('x-parent-id')) {
+			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
+			$hierarchy->session = $this->session;
+			$hierarchy->findId = $parentId;
+			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
+			$records = $hierarchy->get();
+			if (isset($records[$parentId])) {
+				return $parentId;
+			} else {
+				throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 			}
 		}
 		return \App\Record::getParentRecord($this->getUserCrmId());

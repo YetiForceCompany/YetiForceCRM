@@ -1,35 +1,46 @@
 <?php
 
 /**
- * Basic TreeView View Class
- * @package YetiForce.TreeView
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Basic TreeView View Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
 {
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!Vtiger_TreeView_Model::getInstance($request->getModule())->isActive()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
 
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-		$pageTitle = \App\Language::translate($treeViewModel->getName(), $moduleName);
-		return $pageTitle;
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
+		return \App\Language::translate($treeViewModel->getName(), $moduleName);
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
-		$viewer->assign('SELECTABLE_CATEGORY', 0);
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
@@ -50,24 +61,26 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$branches = $request->get('branches');
-		$filter = $request->getByType('filter', 2);
-		if (empty($branches)) {
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$filter = $request->has('filter') ? $request->getByType('filter', 'Alnum') : \App\CustomView::getInstance($moduleName)->getViewId();
+		$viewer->assign('VIEWID', $filter);
+
+		if ($request->isEmpty('branches', true)) {
 			return;
 		}
-
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-
+		$branches = $request->getArray('branches', 'Text');
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
+		$field = $treeViewModel->getTreeField();
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
-		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
-
+		$listViewModel->getQueryGenerator()->addCondition($field['fieldname'], implode('##', $branches), 'e');
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		if (count($listEntries) === 0) {
 			return;
@@ -82,30 +95,23 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$parentScriptInstances = parent::getFooterScripts($request);
-
-		$scripts = [
-			'~libraries/jquery/jstree/jstree.js',
-			'~libraries/jquery/jstree/jstree.category.js',
-			'~libraries/jquery/jstree/jstree.checkbox.js',
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
-		];
-		$viewInstances = $this->checkAndConvertJsScripts($scripts);
-		$scriptInstances = array_merge($parentScriptInstances, $viewInstances);
-		return $scriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/jstree/dist/jstree.js',
+			'~layouts/resources/libraries/jstree.category.js',
+			'~layouts/resources/libraries/jstree.checkbox.js',
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
+		]));
 	}
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$parentCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~libraries/jquery/jstree/themes/proton/style.css',
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
-		];
-		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$cssInstances = array_merge($parentCssInstances, $modalInstances);
-		return $cssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
+		]));
 	}
 }

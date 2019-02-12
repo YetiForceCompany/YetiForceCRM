@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Record Class for IStorages
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Record Class for IStorages.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class IStorages_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function returns the details of IStorages Hierarchy
+	 * Function returns the details of IStorages Hierarchy.
+	 *
 	 * @return <Array>
 	 */
 	public function getHierarchy()
@@ -26,14 +26,14 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('IStorages');
 				$recordModel->setId($storageId);
-				$hierarchy['entries'][$storageId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
+				$hierarchy['entries'][$storageId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
 			}
 		}
 		return $hierarchy;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{

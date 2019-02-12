@@ -1,29 +1,31 @@
 <?php
 
 /**
- * Automatic Assignment Record Model Class
- * @package YetiForce.Settings.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Automatic Assignment Record Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Raw data
-	 * @var type 
+	 * Raw data.
+	 *
+	 * @var array
 	 */
 	private $rawData = [];
 
 	/**
-	 * Variable determines the possibility of creating value duplicates
-	 * @var type 
+	 * Variable determines the possibility of creating value duplicates.
+	 *
+	 * @var bool
 	 */
 	public $checkDuplicate = false;
 
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return int Role Id
 	 */
 	public function getId()
@@ -32,7 +34,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get the Role Name
+	 * Function to get the Role Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -41,7 +44,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get Module instance
+	 * Function to get Module instance.
+	 *
 	 * @return Settings_AutomaticAssignment_Module_Model
 	 */
 	public function getModule()
@@ -50,7 +54,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Source module name
+	 * Source module name.
+	 *
 	 * @return string
 	 */
 	public function getSourceModuleName()
@@ -59,8 +64,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Set module Instance
+	 * Set module Instance.
+	 *
 	 * @param Settings_AutomaticAssignment_Module_Model $moduleModel
+	 *
 	 * @return Settings_AutomaticAssignment_Module_Model
 	 */
 	public function setModule($moduleModel)
@@ -69,7 +76,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get table name
+	 * Function to get table name.
+	 *
 	 * @return string
 	 */
 	public function getTable()
@@ -78,7 +86,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get table primary key
+	 * Function to get table primary key.
+	 *
 	 * @return string
 	 */
 	public function getTableIndex()
@@ -87,7 +96,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get raw data
+	 * Function to get raw data.
+	 *
 	 * @return array
 	 */
 	public function getRawData()
@@ -96,7 +106,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function determines fields available in edition view
+	 * Function determines fields available in edition view.
+	 *
 	 * @return string[]
 	 */
 	public function getEditFields()
@@ -105,7 +116,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function declare fields to edit
+	 * Function declare fields to edit.
+	 *
 	 * @return string[]
 	 */
 	public function getEditableFields()
@@ -114,8 +126,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function returns field instances for given name
+	 * Function returns field instances for given name.
+	 *
 	 * @param string $name
+	 *
 	 * @return Vtiger_Field_Model
 	 */
 	public function getFieldInstanceByName($name)
@@ -136,7 +150,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get the Edit View Url
+	 * Function to get the Edit View Url.
+	 *
 	 * @return string
 	 */
 	public function getEditViewUrl()
@@ -145,7 +160,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function returns url of selected tab in edition view
+	 * Function returns url of selected tab in edition view.
+	 *
 	 * @return string
 	 */
 	public function getEditViewTabUrl($tab)
@@ -154,7 +170,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function changes the type of a given role
+	 * Function changes the type of a given role.
+	 *
 	 * @param string $member
 	 */
 	public function changeRoleType($member)
@@ -166,9 +183,9 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES;
 		}
 		$roles = explode(',', $this->get('roles'));
-		foreach ($roles as &$role) {
+		foreach ($roles as $key => $role) {
 			if ($role === $member) {
-				$role = implode(':', $memberArr);
+				$roles[$key] = implode(':', $memberArr);
 				break;
 			}
 		}
@@ -177,7 +194,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function removes given value from record
+	 * Function removes given value from record.
+	 *
 	 * @param string $name
 	 * @param string $value
 	 */
@@ -193,8 +211,9 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function removes record
-	 * @return boolean
+	 * Function removes record.
+	 *
+	 * @return bool
 	 */
 	public function delete()
 	{
@@ -207,8 +226,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function properly formats data for given field
+	 * Function properly formats data for given field.
+	 *
 	 * @param string $key
+	 *
 	 * @return int|array
 	 */
 	public function getEditValue($key)
@@ -226,8 +247,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 						$rows[$index]['id'] = $val;
 					}
 				}
+
 				return $rows;
-				break;
 			case 'tabid':
 				$value = (int) $value;
 				break;
@@ -242,8 +263,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 						$rows[$index]['id'] = $val;
 					}
 				}
+
 				return $rows;
-				break;
 			default:
 				break;
 		}
@@ -251,9 +272,11 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function formats data for saving
+	 * Function formats data for saving.
+	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return int|string
 	 */
 	private function getValueToSave($key, $value)
@@ -266,7 +289,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				if ($this->checkDuplicate) {
 					$newVal = [];
 					$oldVal = [];
-					foreach ($value as $i => $val) {
+					foreach ($value as $val) {
 						if (strpos($val, ':') !== false) {
 							$valArr = explode(':', $val);
 							$newVal[$valArr[1]] = $val;
@@ -276,7 +299,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					}
 					if (isset($this->rawData[$key])) {
 						$oldValue = array_filter(explode(',', $this->rawData[$key]));
-						foreach ($oldValue as $i => $val) {
+						foreach ($oldValue as $val) {
 							if (strpos($val, ':') !== false) {
 								$valArr = explode(':', $val);
 								$oldVal[$valArr[1]] = $val;
@@ -316,8 +339,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function transforms Advance filter to workflow conditions
+	 * Function transforms Advance filter to workflow conditions.
+	 *
 	 * @param array $condition
+	 *
 	 * @return array
 	 */
 	public function transformAdvanceFilter($conditions)
@@ -332,8 +357,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$conditionResult[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $index === 1 ? 0 : 1];
+							'value' => $column['value'], 'valuetype' => $column['valuetype'] ?? '', 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $index === 1 ? 0 : 1, ];
 					}
 				}
 			}
@@ -342,7 +367,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to save
+	 * Function to save.
 	 */
 	public function save()
 	{
@@ -351,7 +376,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$fieldsToEdit = $this->getEditableFields();
 		foreach ($this->getData() as $key => $value) {
 			if (!in_array($key, $fieldsToEdit)) {
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 			}
 			$params[$key] = $this->getValueToSave($key, $value);
 		}
@@ -368,7 +393,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
@@ -379,31 +405,32 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
 				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
-				'linkicon' => 'glyphicon glyphicon-transfer'
+				'linkicon' => 'fas fa-exchange-alt',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-edit',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash'
-			]
+				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.deleteById(' . $this->getId() . ')',
+				'linkicon' => 'fas fa-trash-alt',
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
 	/**
-	 * Function to get the instance, given id
+	 * Function to get the instance, given id.
+	 *
 	 * @param int $id
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceById($id)
@@ -420,11 +447,13 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$instance->setData($data);
 		$instance->rawData = $data;
 		\App\Cache::staticSave($cacheName, $id, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get the clean instance
+	 * Function to get the clean instance.
+	 *
 	 * @return \self
 	 */
 	public static function getCleanInstance()
@@ -438,12 +467,15 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$instance = new self();
 		$instance->module = $moduleInstance;
 		\App\Cache::staticSave($cacheName, $key, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $name
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($name)
@@ -451,6 +483,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		switch ($name) {
 			case 'field':
 				$fieldInstance = $this->getFieldInstanceByName('value');
+
 				return $fieldInstance->get('label');
 			case 'tabid':
 				return \App\Module::getModuleName($this->get($name));
@@ -465,8 +498,9 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function checks if record is active
-	 * @return boolean
+	 * Function checks if record is active.
+	 *
+	 * @return bool
 	 */
 	public function isActive()
 	{
@@ -474,7 +508,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * List of  available users
+	 * List of  available users.
+	 *
 	 * @return int[]
 	 */
 	public function getUsers()
@@ -503,8 +538,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Limit list of users to users with proper permissions
+	 * Limit list of users to users with proper permissions.
+	 *
 	 * @param int[] $users
+	 *
 	 * @return int[]
 	 */
 	public function filterUsers($users)
@@ -519,9 +556,11 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function supports custom user conditions
+	 * Function supports custom user conditions.
+	 *
 	 * @param \App\User $userModel
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	private function getCustomConditions($userModel)
 	{
@@ -550,7 +589,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function returns ID of the user who has the lowest number of records
+	 * Function returns ID of the user who has the lowest number of records.
+	 *
 	 * @return int
 	 */
 	public function getAssignUser()
@@ -560,11 +600,13 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			return $this->getDefaultOwner();
 		}
 		asort($users);
+
 		return key($users);
 	}
 
 	/**
-	 * Default owner
+	 * Default owner.
+	 *
 	 * @return int
 	 */
 	public function getDefaultOwner()
@@ -577,7 +619,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * Function returns table of available users
+	 * Function returns table of available users.
+	 *
 	 * @return int[]
 	 */
 	public function getAvailableUsers()
@@ -618,6 +661,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				} else {
 					unset($this->availableUsers[$userId]);
 				}
+				$dataReader->close();
 			}
 		} else {
 			$dataReader = $query->createCommand()->query();
@@ -627,14 +671,17 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					$this->availableUsers[$userId] = $row['c'];
 				}
 			}
+			$dataReader->close();
 		}
 		return $this->availableUsers;
 	}
 
 	/**
-	 * Function defines whether given tab in edit view should be refreshed after saving
+	 * Function defines whether given tab in edit view should be refreshed after saving.
+	 *
 	 * @param string $name
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function isRefreshTab($name)
 	{

@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 	//It stores the Account Hierarchy response data
@@ -21,18 +22,18 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		if (!(jQuery.isEmptyObject(thisInstance.accountHierarchyResponseCache))) {
 			aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
 		} else {
-			AppConnector.request(params).then(
-					function (data) {
-						//store it in the cache, so that we dont do multiple request
-						thisInstance.accountHierarchyResponseCache = data;
-						aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
-					}
+			AppConnector.request(params).done(
+				function (data) {
+					//store it in the cache, so that we dont do multiple request
+					thisInstance.accountHierarchyResponseCache = data;
+					aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
+				}
 			);
 		}
 		return aDeferred.promise();
 	},
-	registerButtons: function (contaienr) {
-		contaienr.find('.toChangeBtn').on('click', function (e) {
+	registerButtons: function (container) {
+		container.find('.toChangeBtn').on('click', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var fieldname = currentTarget.data('fieldname');
 			var params = {
@@ -42,24 +43,23 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 				module: app.getModuleName(),
 				action: 'SaveAjax'
 			};
-			AppConnector.request(params).then(
-					function (data) {
-						if(currentTarget.hasClass('btn-warning')){
-							currentTarget.removeClass('btn-warning');
-							currentTarget.addClass('btn-success');
-						} else {
-							currentTarget.addClass('btn-warning');
-							currentTarget.removeClass('btn-success');
-						}
-						currentTarget.html(data.result[fieldname].display_value);
-						var params = {
-							title: app.vtranslate('JS_LBL_PERMISSION'),
-							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							type: 'success',
-							animation: 'show'
-						};
-						Vtiger_Helper_Js.showMessage(params);
+			AppConnector.request(params).done(
+				function (data) {
+					if (currentTarget.hasClass('btn-warning')) {
+						currentTarget.removeClass('btn-warning');
+						currentTarget.addClass('btn-success');
+					} else {
+						currentTarget.addClass('btn-warning');
+						currentTarget.removeClass('btn-success');
 					}
+					currentTarget.html(data.result[fieldname].display_value);
+					var params = {
+						title: app.vtranslate('JS_LBL_PERMISSION'),
+						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+						type: 'success',
+					};
+					Vtiger_Helper_Js.showMessage(params);
+				}
 			);
 		});
 	},
@@ -87,7 +87,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 				record: app.getRecordId(),
 				mode: 'getHierarchyCount',
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				if (response.success) {
 					$('.detailViewTitle .hierarchy .badge').html(response.result);
 				}
@@ -98,8 +98,8 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		var thisInstance = this;
 		var hierarchyButton = $('.detailViewTitle');
 		var url = "index.php?module=Accounts&view=AccountHierarchy&record=" + app.getRecordId();
-		hierarchyButton.on('click', '.detailViewIcon, .recordLabelValue', function (e) {
-			thisInstance.getAccountHierarchyResponseData(url).then(function (data) {
+		hierarchyButton.on('click', '.js-detail__icon, .recordLabelValue', function (e) {
+			thisInstance.getAccountHierarchyResponseData(url).done(function (data) {
 				thisInstance.displayAccountHierarchyResponseData(data);
 			});
 		});

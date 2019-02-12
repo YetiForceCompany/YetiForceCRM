@@ -10,12 +10,17 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="modelContainer modal fade" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
+	<div class="modelContainer modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close vtButton" data-dismiss="modal">×</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
+					<h5 class="modal-title">
+						<span class="fas fa-trash-alt mr-1"></span>
+						{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -24,10 +29,10 @@
 					<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 
 					<div class="modal-body">
-						<div class="form-group">
+						<div class="form-group row">
 							<div class="col-md-6 col-sm-6">{\App\Language::translate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-6 col-sm-6">
-								<select id="transfer_record form-control" name="transfer_record" class="chzn-select form-control">
+								<select id="transfer_record form-control" name="transfer_record" class="select2 form-control">
 									<optgroup label="{\App\Language::translate('LBL_PROFILES', $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}
@@ -41,13 +46,11 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class=" pull-right cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
-						</div>
-						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
+						<button class="btn btn-success" type="submit"><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
+						<button class="cancelLink btn btn-danger" data-dismiss="modal" type="reset"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>
 				</form>
+			</div>				
 		</div>				
 	</div>				
-</div>				
 {/strip}

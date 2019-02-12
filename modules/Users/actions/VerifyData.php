@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Verify user data action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Verify user data action class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_VerifyData_Action extends Vtiger_Action_Controller
+class Users_VerifyData_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -24,7 +25,8 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -50,10 +52,8 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 				$checkUserName = true;
 			}
 		}
-		if ($checkUserName) {
-			if ($checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $userId)) {
-				$message = $checkUserName;
-			}
+		if ($checkUserName && $checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $userId)) {
+			$message = $checkUserName;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['message' => $message]);

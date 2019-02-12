@@ -9,33 +9,13 @@
  * *********************************************************************************** */
 
 /**
- * Class contacts record model
+ * Class contacts record model.
  */
 class Contacts_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function returns the url for create event
-	 * @return string
-	 */
-	public function getCreateEventUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function returns the url for create todo
-	 * @return string
-	 */
-	public function getCreateTaskUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function to get List of Fields which are related from Contacts to Inventory Record
+	 * Function to get List of Fields which are related from Contacts to Inventory Record.
+	 *
 	 * @return array
 	 */
 	public function getInventoryMappingFields()
@@ -66,39 +46,8 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Get image details
-	 * @return array image details List
-	 */
-	public function getImageDetails()
-	{
-		$imageDetails = [];
-		$recordId = $this->getId();
-
-		if ($recordId) {
-			$result = (new App\Db\Query())->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $recordId])->one();
-
-
-			$imageId = $result['attachmentsid'];
-			$imagePath = $result['path'];
-			$imageName = $result['name'];
-
-			//\App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
-			$imageOriginalName = App\Purifier::decodeHtml($imageName);
-
-			if (!empty($imageName)) {
-				$imageDetails[] = [
-					'id' => $imageId,
-					'orgname' => $imageOriginalName,
-					'path' => $imagePath . $imageId,
-					'name' => $imageName
-				];
-			}
-		}
-		return $imageDetails;
-	}
-
-	/**
-	 * The function decide about mandatory save record
+	 * The function decide about mandatory save record.
+	 *
 	 * @return bool
 	 */
 	public function isMandatorySave()
@@ -107,61 +56,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save data to database
-	 */
-	public function saveToDb()
-	{
-		parent::saveToDb();
-		$this->insertAttachment();
-	}
-
-	/**
-	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 */
-	public function insertAttachment()
-	{
-		$module = \App\Request::_get('module');
-		$id = $this->getId();
-		$db = App\Db::getInstance();
-		$fileSaved = false;
-		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
-		$oldAttachmentid = (new App\Db\Query())->select(['vtiger_crmentity.crmid'])->from('vtiger_seattachmentsrel')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_seattachmentsrel.attachmentsid')
-				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
-		if ($_FILES) {
-			foreach ($_FILES as $fileindex => $files) {
-				if (empty($files['tmp_name'])) {
-					continue;
-				}
-				$fileInstance = \App\Fields\File::loadFromRequest($files);
-				if ($fileInstance->validate('image')) {
-					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
-					$fileSaved = $this->uploadAndSaveFile($files);
-				}
-			}
-		}
-		//Inserting image information of record into base table
-		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => \App\Purifier::decodeHtml($this->ext['attachmentsName'])], ['contactid' => $id])
-			->execute();
-		//This is to handle the delete image for contacts
-		if ($module === 'Contacts' && $fileSaved) {
-			if ($oldAttachmentid) {
-				$setype = (new App\Db\Query())->select(['setype'])
-					->from('vtiger_crmentity')
-					->where(['crmid' => $oldAttachmentid])
-					->scalar();
-				if ($setype === 'Contacts Image') {
-					$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $oldAttachmentid])->execute();
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $oldAttachmentid])->execute();
-				}
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
-	}
-
-	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function delete()
 	{
@@ -169,12 +64,12 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 		\App\Db::getInstance()->createCommand()->update('vtiger_customerdetails', [
 			'portal' => 0,
 			'support_start_date' => null,
-			'support_end_date' => null
+			'support_end_date' => null,
 			], ['customerid' => $this->getId()])->execute();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
@@ -185,9 +80,9 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 						'linklabel' => 'LBL_SEND_EMAIL',
 						'linkhref' => true,
 						'linkurl' => OSSMail_Module_Model::getComposeUrl($this->getModuleName(), $this->getId(), 'Detail', 'new'),
-						'linkicon' => 'glyphicon glyphicon-envelope',
+						'linkicon' => 'fas fa-envelope',
 						'linkclass' => 'btn-xs btn-default',
-						'linktarget' => "_blank"
+						'linktarget' => '_blank',
 				]);
 			} else {
 				$urldata = OSSMail_Module_Model::getExternalUrl($this->getModuleName(), $this->getId(), 'Detail', 'new');
@@ -196,13 +91,37 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 							'linklabel' => 'LBL_CREATEMAIL',
 							'linkhref' => true,
 							'linkurl' => $urldata,
-							'linkicon' => 'glyphicon glyphicon-envelope',
+							'linkicon' => 'fas fa-envelope',
 							'linkclass' => 'btn-xs btn-default',
-							'relatedModuleName' => 'OSSMailView'
+							'relatedModuleName' => 'OSSMailView',
 					]);
 				}
 			}
 		}
 		return $links;
+	}
+
+	/**
+	 * Function returns the details of IStorages Hierarchy.
+	 *
+	 * @return array
+	 */
+	public function getHierarchy()
+	{
+		$focus = CRMEntity::getInstance($this->getModuleName());
+		$hierarchy = $focus->getHierarchy($this->getId());
+		foreach ($hierarchy['entries'] as $competitionId => $data) {
+			preg_match('/<a href="+/', $data[0], $matches);
+			if (!empty($matches)) {
+				preg_match('/[.\s]+/', $data[0], $dashes);
+				preg_match("/<a(.*)>(.*)<\/a>/i", $data[0], $name);
+
+				$recordModel = Vtiger_Record_Model::getCleanInstance($this->getModuleName());
+				$recordModel->setId($competitionId);
+				$hierarchy['entries'][$competitionId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] .
+					'</a>';
+			}
+		}
+		return $hierarchy;
 	}
 }

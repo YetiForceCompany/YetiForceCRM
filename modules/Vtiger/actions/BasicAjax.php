@@ -8,12 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
+class Vtiger_BasicAjax_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -27,15 +28,15 @@ class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$searchModuleModel = Vtiger_Module_Model::getInstance($request->getByType('search_module'));
-		$records = $searchModuleModel->searchRecord($request->get('search_value'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
+		$records = $searchModuleModel->searchRecord($request->getByType('search_value', 'Text'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
 		$result = [];
 		if (is_array($records)) {
-			foreach ($records as $moduleName => $recordModels) {
+			foreach ($records as $recordModels) {
 				foreach ($recordModels as $recordModel) {
 					$result[] = [
 						'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),
 						'value' => App\Purifier::decodeHtml($recordModel->getName()),
-						'id' => $recordModel->getId()
+						'id' => $recordModel->getId(),
 					];
 				}
 			}

@@ -1,18 +1,16 @@
 <?php
 /**
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class SSalesProcesses extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'u_yf_ssalesprocesses';
 	public $table_index = 'ssalesprocessesid';
-	protected $lockFields = ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']];
+	protected $lockFields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -31,19 +29,19 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_ssalesprocesses' => 'ssalesprocessesid',
 		'u_yf_ssalesprocessescf' => 'ssalesprocessesid',
-		'vtiger_entity_stats' => 'crmid'];
+		'vtiger_entity_stats' => 'crmid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => ['ssalesprocesses', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid']
+		'Assigned To' => ['crmentity', 'smownerid'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -56,13 +54,13 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => ['ssalesprocesses', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
 	public $search_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -80,34 +78,35 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 *
+	 * @param string Module name
+	 * @param string Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'S-SP', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSalesProcesses']);
-
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'S-SP')->set('cur_id', 1)->save();
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
-				if (class_exists('ModComments'))
+				if (class_exists('ModComments')) {
 					ModComments::addWidgetTo(['SSalesProcesses']);
+				}
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		}
 	}
 
 	/**
-	 * Function to get sales hierarchy of the given Sale
-	 * @param integer $id - ssalesprocessesid
-	 * returns Sales hierarchy in array format
+	 * Function to get sales hierarchy of the given Sale.
+	 *
+	 * @param int $id - ssalesprocessesid
+	 *                returns Sales hierarchy in array format
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
-		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
+		\App\Log::trace('Entering getHierarchy(' . $id . ') method ...');
 		$listviewHeader = [];
 		$listviewEntries = [];
 		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
@@ -126,20 +125,21 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		$salesProcessesList = [$baseId => $salesProcessesList[$baseId]];
 		$salesProcessesList[$baseId] = $this->getChildSales($baseId, $salesProcessesList[$baseId], $salesProcessesList[$baseId]['depth']);
 		$this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+
 		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
 	}
 
 	/**
-	 * Function to create array of all the sales in the hierarchy
-	 * @param integer $id - Id of the record highest in hierarchy
+	 * Function to create array of all the sales in the hierarchy.
+	 *
+	 * @param int   $id                     - Id of the record highest in hierarchy
 	 * @param array $salesProcessesInfoBase
-	 * @param integer $salesProcessesId - ssalesprocessesid
+	 * @param int   $salesProcessesId       - ssalesprocessesid
 	 * @param array $listviewEntries
-	 * returns All the parent sales of the given Sale in array format
+	 *                                      returns All the parent sales of the given Sale in array format
 	 */
 	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
-
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
 
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
@@ -154,23 +154,21 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
 				$data = \App\Purifier::encodeHtml($salesProcessesInfoBase[$colname]);
-				if ($getRawData === false) {
-					if ($colname == 'subject') {
-						if ($salesProcessesId != $id) {
-							if ($getLinks) {
-								if ($hasRecordViewAccess) {
-									$data = '<a href="index.php?module=SSalesProcesses&action=DetailView&record=' . $salesProcessesId . '">' . $data . '</a>';
-								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
-								}
+				if ($getRawData === false && $colname == 'subject') {
+					if ($salesProcessesId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=SSalesProcesses&action=DetailView&record=' . $salesProcessesId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
 						}
-						// - to show the hierarchy of the Sales
-						$salesProcessesDepth = str_repeat(" .. ", $salesProcessesInfoBase['depth']);
-						$data = $salesProcessesDepth . $data;
+					} else {
+						$data = '<strong>' . $data . '</strong>';
 					}
+					// - to show the hierarchy of the Sales
+					$salesProcessesDepth = str_repeat(' .. ', $salesProcessesInfoBase['depth']);
+					$data = $salesProcessesDepth . $data;
 				}
 				$salesProcessesInfoData[] = $data;
 			}
@@ -179,20 +177,22 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		$listviewEntries[$salesProcessesId] = $salesProcessesInfoData;
 
 		foreach ($salesProcessesInfoBase as $accId => $salesProcessesInfo) {
-			if (is_array($salesProcessesInfo) && intval($accId)) {
+			if (is_array($salesProcessesInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $salesProcessesInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
 
 		\App\Log::trace('Exiting getHierarchyData method ...');
+
 		return $listviewEntries;
 	}
 
 	/**
-	 * Function to Recursively get all the upper sales of a given Sales
-	 * @param integer $id - ssalesprocessesid
+	 * Function to Recursively get all the upper sales of a given Sales.
+	 *
+	 * @param int   $id                    - ssalesprocessesid
 	 * @param array $parentSSalesProcesses - Array of all the parent sales
-	 * returns All the parent Sales of the given ssalesprocessesid in array format
+	 *                                     returns All the parent Sales of the given ssalesprocessesid in array format
 	 */
 	public function getParentSales($id, &$parentSSalesProcesses, &$encounteredSalesProcesses, $depthBase = 0)
 	{
@@ -200,14 +200,15 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 		if ($depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParentSales method ... - exceeded maximum depth of hierarchy');
+
 			return $parentSSalesProcesses;
 		}
 
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
-				'u_#__ssalesprocesses.*',
-				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name")
-			])->from('u_#__ssalesprocesses')
+			'u_#__ssalesprocesses.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('u_#__ssalesprocesses')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
@@ -246,33 +247,36 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			$parentSSalesProcesses[$id] = $parentSSalesProcessesInfo;
 		}
 		\App\Log::trace('Exiting getParentSales method ...');
+
 		return $parentSSalesProcesses;
 	}
 
 	/**
-	 * Function to Recursively get all the child sales of a given Sale
-	 * @param integer $id - ssalesprocessesid
+	 * Function to Recursively get all the child sales of a given Sale.
+	 *
+	 * @param int   $id                  - ssalesprocessesid
 	 * @param array $childSalesProcesses - Array of all the child sales
-	 * @param integer $depthBase - Depth at which the particular sales has to be placed in the hierarchy
-	 * returns All the child sales of the given ssalesprocessesid in array format
+	 * @param int   $depthBase           - Depth at which the particular sales has to be placed in the hierarchy
+	 *                                   returns All the child sales of the given ssalesprocessesid in array format
 	 */
 	public function getChildSales($id, &$childSalesProcesses, $depthBase)
 	{
 		\App\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
 		if (empty($id) || $depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
+
 			return $childSalesProcesses;
 		}
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
-					'u_#__ssalesprocesses.*',
-					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name")
-				])->from('u_#__ssalesprocesses')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
-				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-				->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-				->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
-				->createCommand()->query();
+			'u_#__ssalesprocesses.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('u_#__ssalesprocesses')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
+			->createCommand()->query();
 		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -295,9 +299,11 @@ class SSalesProcesses extends Vtiger_CRMEntity
 				$childSalesProcesses[$childAccId] = $childSalesProcessesInfo;
 				$this->getChildSales($childAccId, $childSalesProcesses[$childAccId], $depth);
 			}
+			$dataReader->close();
 		}
 
 		\App\Log::trace('Exiting getChildSales method ...');
+
 		return $childSalesProcesses;
 	}
 }

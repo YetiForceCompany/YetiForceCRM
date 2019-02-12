@@ -10,7 +10,6 @@
 
 class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('save');
@@ -87,12 +86,14 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		if ($checkIfFieldsExists) {
 			$response->setError('502', \App\Language::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
 			$response->emit();
+
 			return;
 		}
 		$blockInstance = Vtiger_Block_Model::getInstance($blockId);
 		if (!$blockInstance->isCustomized()) {
 			$response->setError('502', \App\Language::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
 			$response->emit();
+
 			return;
 		}
 		try {
@@ -102,10 +103,5 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

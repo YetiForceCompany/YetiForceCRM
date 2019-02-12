@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings ModuleManager CreateModule view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings ModuleManager CreateModule view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class Settings_ModuleManager_CreateModule_View extends Settings_Vtiger_Index_View
+class Settings_ModuleManager_CreateModule_View extends Settings_Vtiger_Index_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);

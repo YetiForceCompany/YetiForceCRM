@@ -10,36 +10,35 @@
 
 class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, "$mode")) {
 			$this->$mode($request);
-			return;
 		}
 	}
 
 	/**
-	 * Function adds PriceBooks-Products Relation
-	 * @param type $request
+	 * Function adds PriceBooks-Products Relation.
+	 *
+	 * @param \App\Request $request
 	 */
 	public function addListPrice(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relInfos = $request->get('relinfo');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('related_module'));
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('related_module', 2));
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		foreach ($relInfos as $relInfo) {
-			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
-			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
-		}
+		$status = $relationModel->addListPrice($sourceRecordId, $request->getInteger('record'), $request->getByType('price', 'NumberInUserFormat'));
+		$response = new Vtiger_Response();
+		$response->setResult((bool) $status);
+		$response->emit();
 	}
+
 	/*
 	 * Function to add relation for specified source record id and related record id list
 	 * @param <array> $request
@@ -49,18 +48,17 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->getByType('related_module');
+		$relatedModule = $request->getByType('related_module', 2);
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
-		$relatedRecordIdList = $request->get('related_record_list');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		foreach ($relatedRecordIdList as $relatedRecordId) {
+		foreach ($request->getArray('related_record_list', 'Integer') as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
 				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 			}
@@ -71,7 +69,8 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	}
 
 	/**
-	 * Function to delete the relation for specified source record id and related record id list
+	 * Function to delete the relation for specified source record id and related record id list.
+	 *
 	 * @param <array> $request
 	 */
 	public function deleteRelation(\App\Request $request)
@@ -79,9 +78,9 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module');
-		$relatedRecordIdList = $request->get('related_record_list');
+		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);

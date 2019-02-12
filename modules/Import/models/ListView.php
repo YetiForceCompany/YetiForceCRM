@@ -9,14 +9,15 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger ListView Model Class
+ * Vtiger ListView Model Class.
  */
 class Import_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list of listview links for the module
+	 * Function to get the list of listview links for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return false - no List View Links needed on Import pages
 	 */
 	public function getListViewLinks($linkParams)
@@ -25,8 +26,10 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return false - no List View Links needed on Import pages
 	 */
 	public function getListViewMassActions($linkParams)
@@ -35,9 +38,11 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
@@ -64,11 +69,13 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
 		}
 		unset($rows);
+
 		return $listViewRecordModels;
 	}
 
 	/**
-	 * ListView count
+	 * ListView count.
+	 *
 	 * @return int
 	 */
 	public function getListViewCount()
@@ -76,13 +83,16 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$this->loadListViewCondition();
 		$query = $this->getQueryGenerator()->createQuery();
 		$query = $this->addLastImportedRecordConditions($query);
+
 		return $query->count();
 	}
 
 	/**
-	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
+	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view.
+	 *
 	 * @param string $moduleName - Module Name
-	 * @param int $viewId - Custom View Id
+	 * @param int    $viewId     - Custom View Id
+	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
@@ -92,12 +102,15 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		$queryGenerator->initForDefaultCustomView(true);
+
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
 	/**
-	 * Function adds conditions to query
+	 * Function adds conditions to query.
+	 *
 	 * @param \App\Db\Query $query
+	 *
 	 * @return \App\Db\Query
 	 */
 	public function addLastImportedRecordConditions($query)
@@ -107,6 +120,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$userDBTableName = Import_Module_Model::getDbTableName($user);
 		$query->innerJoin($userDBTableName, $moduleModel->basetable . '.' . $moduleModel->basetableid . " = $userDBTableName.recordid");
 		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [Import_Data_Action::IMPORT_RECORD_FAILED, Import_Data_Action::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);
+
 		return $query;
 	}
 }

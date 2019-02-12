@@ -1,0 +1,91 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//additinal btn colors
+.btn-default {
+	@include button-variant(#ddd, #ddd);
+}
+
+.btn-outline-default {
+	@include button-outline-variant(#ced4da, #000, #f6f6f6);
+}
+
+@include media-breakpoint-down(sm) {
+	.c-btn-block-sm-down,
+	.c-btn-block-sm-down .btn {
+		width: 100% !important;
+
+	}
+}
+
+@include media-breakpoint-down(md) {
+	.c-btn-block-md-down {
+		width: 100% !important;
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	.c-btn-block-xs-down {
+		width: 100% !important;
+	}
+}
+
+.c-btn-checkbox {
+	.c-btn-checkbox--checked {
+		display: none;
+	}
+
+	&.active {
+		.c-btn-checkbox--unchecked {
+			display: none;
+		}
+
+		.c-btn-checkbox--checked {
+			display: inline-block;
+		}
+	}
+}
+
+.c-btn-outline-done {
+	@include button-outline-variant($color-indigo-dark);
+}
+
+.c-btn-done {
+	@include button-variant($color-indigo-dark, $color-indigo-dark);
+}
+
+.c-btn-light-green {
+	@include button-variant(material-color('light-green', '500'), material-color('light-green', '500'));
+	color: $white;
+}
+
+.c-btn-link {
+	@at-root .detailViewTitle #{&} {
+		height: max-content;
+	}
+
+	@include media-breakpoint-down(sm) {
+		&--responsive {
+			width: 100%;
+			margin-bottom: 0.25rem !important;
+
+			.btn {
+				width: 100%;
+				border-radius: 0.25rem !important;
+				white-space: normal;
+			}
+		}
+	}
+}
+
+.input-group {
+	> {
+		.input-group-append,
+		.input-group-prepend {
+			> {
+				.btn-light {
+					border-color: #dee2e6;
+				}
+			}
+		}
+	}
+}

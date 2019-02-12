@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<li class="newCustomFieldCopy hide">
+	<li class="newCustomFieldCopy d-none">
 		<div class="marginLeftZero border1px" data-field-id="" data-sequence="">
 			<div class="row padding1per">
 				<span class="col-md-2">&nbsp;
@@ -23,17 +23,17 @@
 				<div class="col-md-10 marginLeftZero fieldContainer">
 					<span class="fieldLabel"></span>
 					<input type="hidden" value="" id="relatedFieldValue" />
-					<span class="pull-right actions">
-						<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue">
-							<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+					<span class="float-right actions">
+						<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue">
+							<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 						</button>
 						{if $IS_SORTABLE}
-							<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
-								<span class="glyphicon glyphicon-pencil" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+							<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
+								<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 							</button>
 						{/if}
-						<button type="button" class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="">
-							<span class="glyphicon glyphicon-trash" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+						<button type="button" class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="">
+							<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 						</button>
 					</span>
 				</div>

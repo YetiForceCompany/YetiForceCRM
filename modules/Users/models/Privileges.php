@@ -10,13 +10,13 @@
  * *********************************************************************************** */
 
 /**
- * User Privileges Model Class
+ * User Privileges Model Class.
  */
 class Users_Privileges_Model extends Users_Record_Model
 {
-
 	/**
-	 * Function to get the Display Name for the record
+	 * Function to get the Display Name for the record.
+	 *
 	 * @return string - Entity Display Name for the record
 	 */
 	public function getName()
@@ -30,43 +30,49 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to get the Global Read Permission for the user
+	 * Function to get the Global Read Permission for the user.
+	 *
 	 * @return <Number> 0/1
 	 */
 	protected function getGlobalReadPermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
+
 		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW];
 	}
 
 	/**
-	 * Function to get the Global Write Permission for the user
+	 * Function to get the Global Write Permission for the user.
+	 *
 	 * @return <Number> 0/1
 	 */
 	protected function getGlobalWritePermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
+
 		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT];
 	}
 
 	/**
-	 * Function to check if the user has Global Read Permission
-	 * @return boolean true/false
+	 * Function to check if the user has Global Read Permission.
+	 *
+	 * @return bool true/false
 	 */
 	public function hasGlobalReadPermission()
 	{
-		return ($this->isAdminUser() ||
+		return $this->isAdminUser() ||
 			$this->getGlobalReadPermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
-			$this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+			$this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
 	}
 
 	/**
-	 * Function to check if the user has Global Write Permission
-	 * @return boolean true/false
+	 * Function to check if the user has Global Write Permission.
+	 *
+	 * @return bool true/false
 	 */
 	public function hasGlobalWritePermission()
 	{
-		return ($this->isAdminUser() || $this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+		return $this->isAdminUser() || $this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
 	}
 
 	public function hasGlobalPermission($actionId)
@@ -81,22 +87,26 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to check whether the user has access to a given module by tabid
+	 * Function to check whether the user has access to a given module by tabid.
+	 *
 	 * @param int $mixed
-	 * @return boolean true/false
+	 *
+	 * @return bool true/false
 	 */
 	public function hasModulePermission($mixed)
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return !empty($moduleModel) && $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()] === 0));
+		return !empty($moduleModel) && $moduleModel->isActive() && ($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()]) && $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
 	/**
-	 * Function to check whether the user has access to the specified action/operation on a given module by tabid
-	 * @param <Number> $tabId
+	 * Function to check whether the user has access to the specified action/operation on a given module by tabid.
+	 *
+	 * @param <Number>        $tabId
 	 * @param <String/Number> $action
-	 * @return boolean true/false
+	 *
+	 * @return bool true/false
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
@@ -105,14 +115,19 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
+		if ((is_numeric($mixed) && 3 === $mixed) || 'Home' === $mixed) {
+			$mixed = 1;
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
+		return $moduleModel->isActive() && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE)));
 	}
 
 	/**
-	 * Static Function to get the instance of the User Privileges model from the given list of key-value array
+	 * Static Function to get the instance of the User Privileges model from the given list of key-value array.
+	 *
 	 * @param <Array> $valueMap
-	 * @return Users_Privilege_Model object
+	 *
+	 * @return \Users_Privileges_Model object
 	 */
 	public static function getInstance($valueMap)
 	{
@@ -121,20 +136,24 @@ class Users_Privileges_Model extends Users_Record_Model
 			$instance->$key = $value;
 		}
 		$instance->setData($valueMap);
+
 		return $instance;
 	}
 
 	protected static $userPrivilegesModelCache = [];
 
 	/**
-	 * Static Function to get the instance of the User Privileges model, given the User id
+	 * Static Function to get the instance of the User Privileges model, given the User id.
+	 *
 	 * @param <Number> $userId
-	 * @return Users_Privilege_Model object
+	 *
+	 * @return \Users_Privileges_Model object
 	 */
 	public static function getInstanceById($userId, $module = null)
 	{
-		if (empty($userId))
+		if (empty($userId)) {
 			return null;
+		}
 
 		if (isset(self::$userPrivilegesModelCache[$userId])) {
 			return self::$userPrivilegesModelCache[$userId];
@@ -145,36 +164,18 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$instance = self::getInstance($valueMap);
 		self::$userPrivilegesModelCache[$userId] = $instance;
+
 		return $instance;
 	}
 
 	/**
-	 * Static function to get the User Privileges Model for the current user
-	 * @return Users_Privilege_Model object
+	 * Static function to get the User Privileges Model for the current user.
+	 *
+	 * @return \Users_Privileges_Model object
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
 		return self::getInstanceById(App\User::getCurrentUserId());
-	}
-
-	/**
-	 * Gets the last access to the registry
-	 * @return string
-	 */
-	public static function getLastPermittedAccessLog()
-	{
-		return vglobal('isPermittedLog');
-	}
-
-	/**
-	 * Function returns non admin access control check query
-	 * @param string $module
-	 * @return string
-	 */
-	public static function getNonAdminAccessControlQuery($module)
-	{
-		$currentUser = vglobal('current_user');
-		return getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
 	protected static $lockEditCache = [];
@@ -188,6 +189,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$return = false;
 		if (empty($recordId)) {
 			self::$lockEditCache[$moduleName . $recordId] = $return;
+
 			return $return;
 		}
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
@@ -201,21 +203,28 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		}
 		self::$lockEditCache[$moduleName . $recordId] = $return;
+
 		return $return;
 	}
 
-	public static function clearLockEditCache($cacheName = false)
+	/**
+	 * Clear LockEdit Cache.
+	 *
+	 * @param string $cacheName
+	 */
+	public static function clearLockEditCache(string $cacheName = '')
 	{
-		if ($cacheName) {
+		if ($cacheName && isset(self::$lockEditCache[$cacheName])) {
 			unset(self::$lockEditCache[$cacheName]);
-		} else {
+		} elseif (!$cacheName) {
 			self::$lockEditCache = [];
 		}
 	}
 
 	/**
-	 * Clear user cache
-	 * @param int|boolean $userId
+	 * Clear user cache.
+	 *
+	 * @param int|bool $userId
 	 */
 	public static function clearCache($userId = false)
 	{
@@ -228,9 +237,10 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to set Shared Owner
+	 * Function to set Shared Owner.
+	 *
 	 * @param int|array|string $userIds
-	 * @param int $record
+	 * @param int              $record
 	 */
 	public static function setSharedOwner($userIds, $record)
 	{
@@ -254,6 +264,7 @@ class Users_Privileges_Model extends Users_Record_Model
 					'userid' => $userId,
 				])->execute();
 			}
+			\App\Cache::delete('SharedOwnerFieldValue', $record);
 		}
 	}
 
@@ -263,52 +274,60 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to get set Shared Owner Recursively
+	 * Function to get set Shared Owner Recursively.
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
-
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$modulesSchema = [];
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
 			'Contacts' => ['key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'],
 			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaign_records', 'relfield' => 'crmid'],
 			'Project' => ['key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'],
-			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id']
+			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id'],
 		];
 		$modulesSchema['Project'] = [
 			'ProjectMilestone' => ['key' => 'projectmilestoneid', 'table' => 'vtiger_projectmilestone', 'relfield' => 'projectid'],
-			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid']
+			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid'],
 		];
 		$modulesSchema['HelpDesk'] = [
-			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'link']
+			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'link'],
 		];
-		$sql = '';
-		$params = [];
-		$array = [];
+		$data = [];
+		$query = null;
 		foreach ($modulesSchema[$moduleName] as $key => $module) {
-			$sql .= " UNION SELECT " . $module['key'] . " AS id , '" . $key . "' AS module FROM " . $module['table'] . " WHERE " . $module['relfield'] . " = ?";
-			$params[] = $recordId;
-		}
-		if ($sql != '' && $params) {
-			$result = $db->pquery(substr($sql, 6), $params);
-			while ($row = $db->getRow($result)) {
-				$array = array_merge($array, self::getSharedRecordsRecursively($row['id'], $row['module']));
-				$array[$row['module']][] = $row['id'];
+			$subQuery = (new \App\Db\Query())->select(['id' => $module['key'], 'module' => new yii\db\Expression($db->quoteValue($key))])
+				->from($module['table'])
+				->where([$module['relfield'] => $recordId]);
+			if ($query) {
+				$query->union($subQuery);
+			} else {
+				$query = $subQuery;
 			}
 		}
+		if ($query) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$data = array_merge($data, self::getSharedRecordsRecursively($row['id'], $row['module']));
+				$data[$row['module']][] = $row['id'];
+			}
+			$dataReader->close();
+		}
 		\App\Log::trace('Exiting getSharedRecordsRecursively()');
-		return $array;
+
+		return $data;
 	}
 
 	/**
-	 * Get parent record id
-	 * @param int $record
+	 * Get parent record id.
+	 *
+	 * @param int         $record
 	 * @param string|bool $moduleName
-	 * @param int $type
-	 * @param type $actionid
+	 * @param int         $type
+	 * @param type        $actionid
+	 *
 	 * @return int|bool
 	 */
 	public static function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
@@ -319,16 +338,11 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$userModel = App\User::getCurrentUserModel();
 		$currentUserId = $userModel->getId();
-		$currentUserGroups = $userModel->get('groups');
-		settype($currentUserGroups, 'array');
+		$currentUserGroups = (array) $userModel->get('groups');
 		if (!$moduleName) {
 			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
 		}
-		if ($moduleName == 'Events') {
-			$moduleName = 'Calendar';
-		}
-
 		$parentRecord = false;
 		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
 			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -340,7 +354,6 @@ class Users_Privileges_Model extends Users_Record_Model
 					$value = $recordModel->get($fieldName);
 					if (!empty($value) && \App\Record::isExists($value)) {
 						$parentRecord = $value;
-						continue;
 					}
 				}
 			}
@@ -351,11 +364,13 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
-		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
-			$db = PearDatabase::getInstance();
+		} elseif (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
 			$role = $userModel->getRoleInstance();
-			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
-			while ($row = $db->getRow($result)) {
+			$dataReader = (new \App\Db\Query())->select(['relcrmid', 'crmid'])
+				->from('vtiger_crmentityrel')
+				->where(['or', ['crmid' => $record], ['relcrmid' => $record]])
+				->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
@@ -368,15 +383,15 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
 								break;
 							case 2:
-								$permission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 							case 3:
-								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+								break;
+							default:
 								break;
 						}
 					}
@@ -384,21 +399,20 @@ class Users_Privileges_Model extends Users_Record_Model
 				if ($relatedPermission) {
 					$parentRecord = $id;
 					break;
-				} else if ($type == 2) {
+				} elseif ($type == 2) {
 					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type, $actionid);
 					if ($rparentRecord) {
 						$parentRecord = $rparentRecord;
 					}
 				}
 			}
-		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
-			$db = PearDatabase::getInstance();
+			$dataReader->close();
+		} elseif ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
 			$role = $userModel->getRoleInstance();
-			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
-			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);
-			$result = $db->pquery($query, [$record]);
-			while ($row = $db->getRow($result)) {
-				$id = $row['crmid'];
+			$dataReader = (new \App\Db\Query())->select(['crmid' => $relationInfo['rel']])->from($relationInfo['table'])
+				->where([$relationInfo['base'] => $record])
+				->createCommand()->query();
+			while ($id = $dataReader->readColumn(0)) {
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
@@ -409,15 +423,15 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
 								break;
 							case 2:
-								$permission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 							case 3:
-								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+								break;
+							default:
 								break;
 						}
 					}
@@ -425,25 +439,29 @@ class Users_Privileges_Model extends Users_Record_Model
 				if ($relatedPermission) {
 					$parentRecord = $id;
 					break;
-				} else if ($type == 2) {
+				} elseif ($type == 2) {
 					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type, $actionid);
 					if ($rparentRecord) {
 						$parentRecord = $rparentRecord;
 					}
 				}
 			}
+			$dataReader->close();
 		}
 		\App\Cache::staticSave('PrivilegesParentRecord', $cacheKey, $parentRecord);
+
 		return $parentRecord;
 	}
 
 	/**
-	 * Get profiles ids
+	 * Get profiles ids.
+	 *
 	 * @return array
 	 */
 	public function getProfiles()
 	{
 		\App\Log::trace('Get profile list');
+
 		return $this->get('profiles');
 	}
 }

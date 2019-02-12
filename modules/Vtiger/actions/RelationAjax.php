@@ -9,11 +9,13 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
+class Vtiger_RelationAjax_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod,
+		App\Controller\ClearProcess;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -29,65 +31,37 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$request->isEmpty('record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 403);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 403);
 		}
 		if (!$request->isEmpty('src_record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 403);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 403);
 		}
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true) && $request->getByType('relatedModule', 2) !== 'ProductsAndServices' && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+		if (!$request->isEmpty('relatedModule', true) && $request->getByType('relatedModule', 2) !== 'ProductsAndServices') {
+			if ($request->getByType('relatedModule', 2) === 'ModTracker') {
+				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+				}
+			} elseif (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+			}
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function preProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
-	/**
-	 * Get query for records list from request
+	 * Get query for records list from request.
+	 *
 	 * @param \App\Request $request
-	 * @return \App\QueryGenerator|boolean
+	 *
+	 * @return \App\QueryGenerator|bool
 	 */
 	public static function getQuery(\App\Request $request)
 	{
@@ -96,21 +70,25 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$queryGenerator = new App\QueryGenerator($request->getByType('relatedModule', 2));
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
+
 			return $queryGenerator;
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 2), $request->get('tab_label'));
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $request->getByType('tab_label', 'Text'));
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
+		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$relationListView->set('operator', $request->getByType('operator'));
+			$operator = $request->getByType('operator');
+			$relationListView->set('operator', $operator);
 		}
 		if (!$request->isEmpty('search_key', true)) {
-			$relationListView->set('search_key', $request->getByType('search_key'));
-			$relationListView->set('search_value', $request->get('search_value'));
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$relationListView->set('search_key', $searchKey);
+			$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator));
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -125,8 +103,10 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Get records list from request
+	 * Get records list from request.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array
 	 */
 	public static function getRecordsListFromRequest(\App\Request $request)
@@ -136,12 +116,15 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
+
 		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
 	}
 
 	/**
-	 * Function to add relation for specified source record id and related record id list
+	 * Function to add relation for specified source record id and related record id list.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function addRelation(\App\Request $request)
@@ -152,17 +135,15 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
-		$relatedRecordIdList = $request->get('related_record_list');
-
+		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		if (!is_array($relatedRecordIdList)) {
-			$relatedRecordIdList = [$relatedRecordIdList];
-		}
-		foreach ($relatedRecordIdList as $relatedRecordId) {
+		foreach ($request->getArray('related_record_list', 'Integer') as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
-				$relationModel->addRelation($sourceRecordId, (int) $relatedRecordId);
+				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -171,8 +152,10 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function to delete the relation for specified source record id and related record id list
+	 * Function to delete the relation for specified source record id and related record id list.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function deleteRelation(\App\Request $request)
@@ -180,18 +163,16 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module', 2);
-		$relatedRecordIdList = $request->get('related_record_list');
-
-		//Setting related module as current module to delete the relation
-		vglobal('currentModule', $relatedModule);
-
+		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		$result = false;
-		foreach ($relatedRecordIdList as $relatedRecordId) {
-			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
-				$result = $relationModel->deleteRelation($sourceRecordId, (int) $relatedRecordId);
+		if ($relationModel->privilegeToDelete()) {
+			foreach ($relatedRecordIdList as $relatedRecordId) {
+				if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
+					$result = $relationModel->deleteRelation($sourceRecordId, (int) $relatedRecordId);
+				}
 			}
 		}
 		$response = new Vtiger_Response();
@@ -200,7 +181,8 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * This function removes the relationship associated with the module
+	 * This function removes the relationship associated with the module.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function massDeleteRelation(\App\Request $request)
@@ -214,14 +196,17 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$excludedIds = $request->getArray('excluded_ids', 'Integer');
 		if ('all' === $request->getRaw('selected_ids')) {
+			$operator = 's';
 			if (!$request->isEmpty('operator', true)) {
-				$relationListView->set('operator', $request->getByType('operator', 1));
+				$operator = $request->getByType('operator');
+				$relationListView->set('operator', $operator);
 			}
 			if (!$request->isEmpty('search_key', true)) {
-				$relationListView->set('search_key', $request->getByType('search_key', 1));
-				$relationListView->set('search_value', $request->get('search_value'));
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$relationListView->set('search_key', $searchKey);
+				$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator));
 			}
-			$searchParmams = $request->get('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -229,7 +214,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -244,12 +229,12 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Export relations to excel
+	 * Export relations to excel.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function exportToExcel(\App\Request $request)
 	{
-		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
@@ -261,14 +246,17 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			if ($request->has('entityState')) {
 				$relationListView->set('entityState', $request->getByType('entityState'));
 			}
+			$operator = 's';
 			if (!$request->isEmpty('operator', true)) {
-				$relationListView->set('operator', $request->getByType('operator', 1));
+				$operator = $request->getByType('operator');
+				$relationListView->set('operator', $operator);
 			}
 			if (!$request->isEmpty('search_key', true)) {
-				$relationListView->set('search_key', $request->getByType('search_key', 1));
-				$relationListView->set('search_value', $request->get('search_value'));
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$relationListView->set('search_key', $searchKey);
+				$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator));
 			}
-			$searchParmams = $request->get('search_params');
+			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
@@ -276,22 +264,22 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
 		}
-		$workbook = new PHPExcel();
+		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$header_styles = [
-			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
-			'font' => ['bold' => true]
+			'fill' => ['type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+			'font' => ['bold' => true],
 		];
 		$row = 1;
 		$col = 0;
 		$headers = $relationListView->getHeaders();
 		foreach ($headers as $fieldsModel) {
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $relatedModuleName)), PHPExcel_Cell_DataType::TYPE_STRING);
-			$col++;
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $relatedModuleName)), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+			++$col;
 		}
-		$row++;
+		++$row;
 		foreach ($rows as $id) {
 			if (!in_array($id, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $id)) {
 				$col = 0;
@@ -308,27 +296,27 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 						case 25:
 						case 7:
 							if ($fieldsModel->getFieldName() === 'sum_time') {
-								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 							} else {
-								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							}
 							break;
 						case 71:
 						case 72:
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							break;
 						case 6://datetimes
 						case 23:
 						case 70:
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
 							break;
 						default:
-							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), PHPExcel_Cell_DataType::TYPE_STRING);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 					}
-					$col++;
+					++$col;
 				}
-				$row++;
+				++$row;
 			}
 		}
 		//having written out all the data lets have a go at getting the columns to auto-size
@@ -338,20 +326,20 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$cell = $worksheet->getCellByColumnAndRow($col, $row);
 			$worksheet->getStyleByColumnAndRow($col, $row)->applyFromArray($header_styles);
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
-			$col++;
+			++$col;
 		}
-		$tmpDir = vglobal('tmp_dir');
+		$tmpDir = \AppConfig::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($tempFileName);
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-			header('Pragma: public');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('pragma: public');
+			header('cache-control: must-revalidate, post-check=0, pre-check=0');
 		}
-		header('Content-Type: application/x-msexcel');
-		header('Content-Length: ' . filesize($tempFileName));
+		header('content-type: application/x-msexcel');
+		header('content-length: ' . filesize($tempFileName));
 		$filename = \App\Language::translate($relatedModuleName, $relatedModuleName) . '.xls';
-		header("Content-Disposition: attachment; filename=\"$filename\"");
+		header("content-disposition: attachment; filename=\"$filename\"");
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
 		fclose($fp);
@@ -359,8 +347,10 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function to update the relation for specified source record id and related record id list
+	 * Function to update the relation for specified source record id and related record id list.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 * @throws \App\Exceptions\NoPermitted
 	 */
@@ -369,16 +359,13 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module', 2);
-		$recordsToRemove = $request->get('recordsToRemove');
-		$recordsToAdd = $request->get('recordsToAdd');
-		$categoryToAdd = $request->get('categoryToAdd');
-		$categoryToRemove = $request->get('categoryToRemove');
-		vglobal('currentModule', $sourceModule);
-
+		$recordsToRemove = $request->getArray('recordsToRemove', 'Integer');
+		$recordsToAdd = $request->getArray('recordsToAdd', 'Integer');
+		$categoryToAdd = $request->getArray('categoryToAdd', 'Alnum');
+		$categoryToRemove = $request->getArray('categoryToRemove', 'Alnum');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-
 		if (!empty($recordsToAdd)) {
 			foreach ($recordsToAdd as $relatedRecordId) {
 				if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
@@ -395,15 +382,15 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-		if (!empty($categoryToAdd)) {
+		if (!empty($categoryToAdd) && $relationModel->isTreeRelation()) {
 			foreach ($categoryToAdd as $category) {
-				$relationModel->addRelTree($sourceRecordId, $category);
+				$relationModel->addRelationTree($sourceRecordId, $category);
 			}
 		}
-		if (!empty($categoryToRemove)) {
-			if ($relationModel->privilegeToDelete()) {
+		if (!empty($categoryToRemove) && $relationModel->isTreeRelation()) {
+			if ($relationModel->privilegeToTreeDelete()) {
 				foreach ($categoryToRemove as $category) {
-					$relationModel->deleteRelTree($sourceRecordId, $category);
+					$relationModel->deleteRelationTree($sourceRecordId, $category);
 				}
 			} else {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -415,7 +402,8 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function to get the page count for reltedlist
+	 * Function to get the page count for reltedlist.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRelatedListPageCount(\App\Request $request)
@@ -424,9 +412,9 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$label = $request->get('tab_label');
+		$label = $request->getByType('tab_label', 'Text');
 		$totalCount = 0;
 		$pageCount = 0;
 		if ($relatedModuleName === 'ModComments') {
@@ -491,8 +479,10 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function for calculating values for a list of related records
+	 * Function for calculating values for a list of related records.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
@@ -508,12 +498,10 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			throw new \App\Exceptions\Security('ERR_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		switch ($request->getByType('calculateType')) {
-			case 'sum':
-				$value = $queryGenerator->createQuery()->sum($columnName);
-				break;
-			default:
-				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
+		if ($request->getByType('calculateType') === 'sum') {
+			$value = $queryGenerator->createQuery()->sum($columnName);
+		} else {
+			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));

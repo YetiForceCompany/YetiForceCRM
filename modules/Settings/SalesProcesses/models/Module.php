@@ -1,27 +1,28 @@
 <?php
 
 /**
- * Settings SalesProcesses module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Settings SalesProcesses module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_SalesProcesses_Module_Model extends \App\Base
 {
-
 	/**
-	 * Return clean instance of self
+	 * Return clean instance of self.
+	 *
 	 * @return \self
 	 */
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-		return $instance;
+		return new self();
 	}
 
 	/**
-	 * Return sales processess configuration array
+	 * Return sales processess configuration array.
+	 *
 	 * @param string $type
+	 *
 	 * @return array
 	 */
 	public static function getConfig($type = false)
@@ -30,6 +31,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
+
 			return $cache;
 		}
 
@@ -58,13 +60,16 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 		}
 		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
+
 		return $config;
 	}
 
 	/**
-	 * Set sales processess config variable
+	 * Set sales processess config variable.
+	 *
 	 * @param array $param
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function setConfig($param)
 	{
@@ -77,11 +82,13 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 			->update('yetiforce_proc_sales', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
 			->execute();
 		\App\Log::trace('End ' . __METHOD__);
+
 		return true;
 	}
 
 	/**
-	 * Checks if products are set to be narrowed to only those related to Opportunity
+	 * Checks if products are set to be narrowed to only those related to Opportunity.
+	 *
 	 * @return - true or false
 	 */
 	public static function checkRelatedToPotentialsLimit($moduleName)
@@ -98,12 +105,14 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Checks if limit can be applied to this module
+	 * Checks if limit can be applied to this module.
+	 *
 	 * @return - true or false
 	 */
 	public static function isLimitForModule($moduleName)
 	{
 		$validModules = ['SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders'];
+
 		return in_array($moduleName, $validModules);
 	}
 }

@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Time control list parser class
- * @package YetiForce.TextParser
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Time control list parser class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSTimeControl_List_TextParser extends \App\TextParser\Base
+class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_TIME_CONTROL_LIST';
 
@@ -20,7 +19,8 @@ class OSSTimeControl_List_TextParser extends \App\TextParser\Base
 	protected $columnNames = ['name', 'link', 'time_start', 'time_end', 'sum_time'];
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -50,7 +50,7 @@ class OSSTimeControl_List_TextParser extends \App\TextParser\Base
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
-			foreach ($this->columnNames as $key => $column) {
+			foreach ($this->columnNames as $column) {
 				$fieldModel = $fields[$column];
 				$class = '';
 				if (in_array($column, ['time_start', 'time_end', 'due_date', 'date_start', 'sum_time'])) {
@@ -64,18 +64,16 @@ class OSSTimeControl_List_TextParser extends \App\TextParser\Base
 			$html .= '</tr>';
 		}
 		$html .= '</tbody><tfoot><tr>';
-		foreach ($this->columnNames as $key => $column) {
+		foreach ($this->columnNames as $column) {
 			$class = $content = '';
 			if ($column == 'sum_time') {
-				$time = vtlib\Functions::decimalTimeFormat($summary['sum_time']);
-				$content = '<strong>' . $time['short'] . '</strong>';
+				$content = '<strong>' . \App\Fields\Time::formatToHourText($summary['sum_time'], 'short') . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {
 				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
 		}
-		$html .= '</tr></tfoot></table>';
-		return $html;
+		return $html . '</tr></tfoot></table>';
 	}
 }

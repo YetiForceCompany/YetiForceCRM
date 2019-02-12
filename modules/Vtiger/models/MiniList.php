@@ -11,7 +11,6 @@
 
 class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 {
-
 	protected $widgetModel;
 	protected $extraData;
 	protected $queryGenerator;
@@ -20,7 +19,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	protected $targetModuleModel;
 
 	/**
-	 * Search condition
+	 * Search condition.
+	 *
 	 * @var array
 	 */
 	protected $searchParams = [];
@@ -35,12 +35,13 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
-			throw new Exception("Invalid data");
+			throw new \App\Exceptions\AppException('Invalid data');
 		}
 	}
 
 	/**
-	 * Set search condition
+	 * Set search condition.
+	 *
 	 * @param array $searchParams
 	 */
 	public function setSearchParams($searchParams)
@@ -56,8 +57,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getTargetFields()
 	{
 		$fields = $this->extraData['fields'];
-		if (!in_array('id', $fields))
+		if (!in_array('id', $fields)) {
 			$fields[] = 'id';
+		}
 		return $fields;
 	}
 
@@ -75,7 +77,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
 			$this->queryGenerator->setFields($this->getTargetFields());
-			$this->listviewHeaders = $this->listviewRecords = NULL;
+			$this->listviewHeaders = $this->listviewRecords = null;
 		}
 	}
 
@@ -84,13 +86,12 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = PearDatabase::getInstance();
 			$suffix = '';
-			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', [$this->widgetModel->get('filterid')]);
-			if ($db->numRows($customviewrs)) {
-				$customview = $db->fetchArray($customviewrs);
-				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
+			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
+			if ($viewName) {
+				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 			}
+
 			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
 		return $title;
@@ -124,7 +125,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		if (!$user) {
 			$user = App\User::getCurrentUserId();
-		} else if ($user === 'all') {
+		} elseif ($user === 'all') {
 			$user = '';
 		}
 
@@ -133,17 +134,16 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
 			}
 			if (!empty($this->searchParams)) {
-				$searchParams = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
-				$this->queryGenerator->parseAdvFilter($searchParams);
+				$searchParamsCondition = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
+				$this->queryGenerator->parseAdvFilter($searchParamsCondition);
 			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-			$filterId = $this->widgetModel->get('filterid');
-			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
-			if (!empty($filterModel->get('sort'))) {
+			$filterModel = CustomView_Record_Model::getInstanceById($this->widgetModel->get('filterid'));
+			if ($filterModel && !empty($filterModel->get('sort'))) {
 				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
 				$this->queryGenerator->setOrder($orderby, $sort);
-			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
+			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
 			$query = $this->queryGenerator->createQuery();
@@ -158,8 +158,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get total count URL
+	 * Get total count URL.
+	 *
 	 * @param mixed $user
+	 *
 	 * @return string
 	 */
 	public function getTotalCountURL($user = false)
@@ -184,8 +186,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get list view URL
+	 * Get list view URL.
+	 *
 	 * @param mixed $user
+	 *
 	 * @return string
 	 */
 	public function getListViewURL($user = false)

@@ -11,7 +11,6 @@
 
 class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -22,7 +21,7 @@ class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
-		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
+		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['currency_symbol']);
 
 		parent::process($request);
 	}

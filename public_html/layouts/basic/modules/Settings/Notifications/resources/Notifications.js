@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class('Settings_Notifications_List_Js', {}, {
 	registerSave: function (container, id) {
 		var thisInstance = this;
@@ -19,7 +21,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 					id: id
 				};
 				var progress = jQuery.progressIndicator();
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					progress.progressIndicator({'mode': 'hide'});
 					app.hideModalWindow();
 					thisInstance.showTable();
@@ -33,10 +35,10 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			var progress = jQuery.progressIndicator();
 			app.showModalWindow(null, "index.php?module=Notifications&parent=Settings&view=CreateNotification", function (container) {
 				progress.progressIndicator({'mode': 'hide'});
-				thisInstance.registerSave(container,0);
+				thisInstance.registerSave(container, 0);
 			});
 		});
-		$('[name="roleMenu"]').on('change', function(){
+		$('[name="roleMenu"]').on('change', function () {
 			thisInstance.showTable();
 		});
 	},
@@ -50,7 +52,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			roleId: $('[name="roleMenu"]').val(),
 		};
 		var progress = jQuery.progressIndicator();
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			container.html(data);
 			thisInstance.registerTableEvents(container);
@@ -64,7 +66,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			app.showModalWindow(null, currentTarget.data('url'), function (container) {
 				progress.progressIndicator({'mode': 'hide'});
 				var trRow = currentTarget.closest('tr');
-				thisInstance.registerSave(container,trRow.data('id'));
+				thisInstance.registerSave(container, trRow.data('id'));
 			});
 
 		});
@@ -72,23 +74,19 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			var removeButton = jQuery(e.currentTarget);
 			var currentTrElement = removeButton.closest('tr');
 			var message = app.vtranslate('JS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var params = {
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						action: 'Delete',
-						id: currentTrElement.data('id')
-					};
-					var progress = jQuery.progressIndicator();
-					AppConnector.request(params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						thisInstance.showTable();
-					});
-				},
-				function (error, err) {
-				}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				var params = {
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					action: 'Delete',
+					id: currentTrElement.data('id')
+				};
+				var progress = jQuery.progressIndicator();
+				AppConnector.request(params).done(function (data) {
+					progress.progressIndicator({'mode': 'hide'});
+					thisInstance.showTable();
+				});
+			});
 		});
 	},
 	registerEvents: function () {

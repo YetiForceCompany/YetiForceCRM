@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings dav module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Settings dav module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public function getAllKeys()
 	{
 		return API_DAV_Model::getAllUser();
@@ -24,78 +23,88 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 			'addressbook' => (new App\Db\Query())->select(['addressbookid', 'num' => new yii\db\Expression('COUNT(id)')])
 				->from('dav_cards')
 				->groupBy('addressbookid')
-				->createCommand()->queryAllByGroup()
+				->createCommand()->queryAllByGroup(),
 		];
 	}
 
-	public function addKey($params)
+	/**
+	 * Function to add key.
+	 *
+	 * @param string[] $type
+	 * @param int      $userID
+	 *
+	 * @return int
+	 */
+	public function addKey($type, $userID)
 	{
 		$query = new App\Db\Query();
-		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
-		$userID = $params['user'];
-		$query->select('id')
+		$query->select(['id'])
 			->from('dav_users')
 			->where(['userid' => $userID]);
 		if ($query->exists()) {
 			return 1;
 		}
 		$keyLength = 10;
-		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
+		$key = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $keyLength);
 		$userModel = Users_Record_Model::getInstanceById($userID, 'Users');
 		$digesta1 = md5($userModel->get('user_name') . ':YetiDAV:' . $key);
 		$db = App\Db::getInstance();
 		$result = $db->createCommand()->insert('dav_users', [
-				'username' => $userModel->get('user_name'),
-				'digesta1' => $digesta1,
-				'key' => $key,
-				'userid' => $userID
-			])->execute();
-		if (!$result)
+			'username' => $userModel->get('user_name'),
+			'digesta1' => $digesta1,
+			'key' => App\Encryption::getInstance()->encrypt($key),
+			'userid' => $userID,
+		])->execute();
+		if (!$result) {
 			return 0;
+		}
 		$displayname = $userModel->getName();
 		$db->createCommand()->insert('dav_principals', [
 			'uri' => 'principals/' . $userModel->get('user_name'),
 			'email' => $userModel->get('email1'),
 			'displayname' => $displayname,
-			'userid' => $userID
+			'userid' => $userID,
 		])->execute();
+		$pdo = $db->getMasterPdo();
+		if (in_array('CalDav', $type)) {
+			$calendarBackend = new App\Dav\CalDavBackendPdo($pdo);
+			$calendarBackend->createCalendar('principals/' . $userModel->get('user_name'), API_CalDAV_Model::CALENDAR_NAME, [
+				'{DAV:}displayname' => API_CalDAV_Model::CALENDAR_NAME,
+			]);
+			$db->createCommand()->update('vtiger_activity', ['dav_status' => 1])->execute();
+		}
 		if (in_array('CardDav', $type)) {
-			$db->createCommand()->insert('dav_addressbooks', [
-				'principaluri' => 'principals/' . $userModel->get('user_name'),
-				'displayname' => API_CardDAV_Model::ADDRESSBOOK_NAME,
-				'uri' => API_CardDAV_Model::ADDRESSBOOK_NAME,
-				'description' => ''
-			])->execute();
+			$cardDavBackend = new App\Dav\CardDavBackendPdo($pdo);
+			$cardDavBackend->createAddressBook('principals/' . $userModel->get('user_name'), API_CardDAV_Model::ADDRESSBOOK_NAME, [
+				'{DAV:}displayname' => API_CardDAV_Model::ADDRESSBOOK_NAME,
+			]);
 			$db->createCommand()->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
 			$db->createCommand()->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
-		if (in_array('CalDav', $type)) {
-			$db->createCommand()->insert('dav_calendars', [
-				'principaluri' => 'principals/' . $userModel->get('user_name'),
-				'displayname' => API_CalDAV_Model::CALENDAR_NAME,
-				'uri' => API_CalDAV_Model::CALENDAR_NAME,
-				'components' => API_CalDAV_Model::COMPONENTS
-			])->execute();
-			$db->createCommand()->update('vtiger_activity', ['dav_status' => 1])->execute();
-		}
 		if (in_array('WebDav', $type)) {
-			$this->createUserDirectory($params);
+			$this->createUserDirectory($userID);
 		}
 		return $key;
 	}
 
-	public function deleteKey($params)
+	/**
+	 * Function to delete key.
+	 *
+	 * @param int $userId
+	 */
+	public function deleteKey($userId)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', [$params['user']]);
-		$db = App\Db::getInstance();
-		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
-		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();
-
-		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
-		$user_name = $user->get('user_name');
-		$davStorageDir = vglobal('davStorageDir');
-		vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
+		$uri = (new \App\Db\Query())->select(['uri'])->from('dav_principals')->where(['userid' => $userId]);
+		$calendarId = (new \App\Db\Query())->select(['calendarid'])->from('dav_calendarinstances')->where(['principaluri' => $uri]);
+		$dbCommand = App\Db::getInstance()->createCommand();
+		$dbCommand->delete('dav_calendars', ['id' => $calendarId])->execute();
+		$dbCommand->delete('dav_calendarinstances', ['principaluri' => $uri])->execute();
+		$dbCommand->delete('dav_addressbooks', ['principaluri' => $uri])->execute();
+		$dbCommand->delete('dav_users', ['userid' => $userId])->execute();
+		$dbCommand->delete('dav_principals', ['userid' => $userId])->execute();
+		$userName = App\User::getUserModel($userId)->getDetail('user_name');
+		$davStorageDir = AppConfig::main('davStorageDir');
+		vtlib\Functions::recurseDelete($davStorageDir . '/' . $userName);
 	}
 
 	public function getTypes()
@@ -103,12 +112,13 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		return ['CalDav', 'CardDav', 'WebDav'];
 	}
 
-	public function createUserDirectory($params)
+	/**
+	 * Create directory for WebDav.
+	 *
+	 * @param int $userId
+	 */
+	public function createUserDirectory($userId)
 	{
-		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
-		$user_name = $user->get('user_name');
-		$path = '/' . $user_name . '/';
-		$davStorageDir = vglobal('davStorageDir');
-		@mkdir($davStorageDir . $path);
+		@mkdir(AppConfig::main('davStorageDir') . '/' . App\User::getUserModel($userId)->getDetail('user_name') . '/', 0777, true);
 	}
 }

@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Sharing privileges handler
- * @package YetiForce.Handler
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Sharing privileges handler.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_SharingPrivileges_Handler
 {
-
 	/**
-	 * EntityAfterSave function
+	 * EntityAfterSave function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -29,7 +29,7 @@ class Vtiger_SharingPrivileges_Handler
 				return false;
 			}
 			$db = \App\Db::getInstance();
-			foreach ($recordsByModule as &$records) {
+			foreach ($recordsByModule as $records) {
 				$db->createCommand()->delete('u_#__crmentity_showners', ['userid' => $removeUser, 'crmid' => $records])->execute();
 				if ($addUser) {
 					$usersExist = [];
@@ -38,15 +38,19 @@ class Vtiger_SharingPrivileges_Handler
 					while ($row = $dataReader->read()) {
 						$usersExist[$row['crmid']][$row['userid']] = true;
 					}
-					foreach ($records as &$record) {
+					$dataReader->close();
+					foreach ($records as $record) {
 						if (!isset($usersExist[$record][$addUser])) {
 							$db->createCommand()
 								->insert('u_#__crmentity_showners', [
 									'crmid' => $record,
-									'userid' => $addUser
+									'userid' => $addUser,
 								])->execute();
 						}
 					}
+				}
+				foreach ($records as $record) {
+					\App\Cache::delete('SharedOwnerFieldValue', $record);
 				}
 			}
 		}

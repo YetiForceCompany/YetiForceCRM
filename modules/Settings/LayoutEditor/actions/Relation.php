@@ -11,7 +11,6 @@
 
 class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('changeStatusRelation');
@@ -71,23 +70,26 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 
 	public function addRelation(\App\Request $request)
 	{
-		$source = $request->get('source');
-		$target = $request->get('target');
-		$label = $request->get('label');
-		$type = $request->get('type');
-		$actions = is_array($request->get('actions')) ? $request->get('actions') : [$request->get('actions')];
-
-		$module = vtlib\Module::getInstance($source);
-		$moduleInstance = vtlib\Module::getInstance($target);
-		$module->setRelatedList($moduleInstance, $label, $actions, $type);
-
+		$source = $request->getByType('source', 'Alnum');
+		$target = $request->getByType('target', 'Alnum');
+		$label = $request->getByType('label', 'Text');
+		$type = $request->getByType('type', 'Standard');
 		$response = new Vtiger_Response();
+
+		if ($type === 'getAttachments' && $target !== 'Documents') {
+			$response->setError(\App\Language::translate('LBL_WRONG_RELATION', 'Settings::LayoutEditor'));
+		} else {
+			$module = vtlib\Module::getInstance($source);
+			$moduleInstance = vtlib\Module::getInstance($target);
+			$module->setRelatedList($moduleInstance, $label, $request->getArray('actions', 'Standard'), $type);
+			$response->setResult(['success' => true]);
+		}
 		$response->emit();
 	}
 
 	public function removeRelation(\App\Request $request)
 	{
-		$relationId = $request->get('relationId');
+		$relationId = $request->getInteger('relationId');
 		$response = new Vtiger_Response();
 		try {
 			Vtiger_Relation_Model::removeRelationById($relationId);
@@ -99,7 +101,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 	}
 
 	/**
-	 * Update related view type mode
+	 * Update related view type mode.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateRelatedViewType(\App\Request $request)
@@ -126,10 +129,5 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

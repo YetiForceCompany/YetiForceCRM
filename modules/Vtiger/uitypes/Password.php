@@ -10,24 +10,23 @@
 
 class Vtiger_Password_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$res = Settings_Password_Record_Model::checkPassword($value);
 		if ($res !== false) {
 			throw new \App\Exceptions\Security($res, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function convertToSave($value, Vtiger_Record_Model $recordModel)
 	{
@@ -35,10 +34,10 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Password.tpl';
+		return 'Edit/Field/Password.tpl';
 	}
 }

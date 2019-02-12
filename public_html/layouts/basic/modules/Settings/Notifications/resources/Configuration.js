@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 	container: false,
 	/**
@@ -13,18 +15,15 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 			params['parent'] = app.getParentModuleName();
 			params['view'] = app.getViewName();
 			params['srcModule'] = jQuery(e.currentTarget).val();
-			AppConnector.requestPjax(params).then(
-					function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						container.html(data);
-						app.changeSelectElementView(container);
-						thisInstance.registerEvents();
-					},
-					function (textStatus, errorThrown) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.errorLog(textStatus, errorThrown);
-					}
-			);
+			AppConnector.requestPjax(params).done(function (data) {
+				progress.progressIndicator({'mode': 'hide'});
+				container.html(data);
+				App.Fields.Picklist.changeSelectElementView(container);
+				thisInstance.registerEvents();
+			}).fail(function (textStatus, errorThrown) {
+				progress.progressIndicator({'mode': 'hide'});
+				app.errorLog(textStatus, errorThrown);
+			});
 		});
 	},
 	progress: function () {
@@ -37,7 +36,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 	},
 	registerButtonEvents: function (container) {
 		var thisInstance = this;
-		container.find('.delete,.lock').on('click', function (e) {
+		container.find('.wrapperTrash, .wrapperLock').on('click', '.fas', function (e) {
 			var progress = thisInstance.progress();
 			var element = jQuery(e.currentTarget);
 			var mode = element.data('mode');
@@ -49,41 +48,42 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 			if (mode === 'lock') {
 				params.lock = dataElement.data('lock') === 0 ? 1 : 0;
 			}
-			app.saveAjax(mode, null, params).then(function (data) {
+			app.saveAjax(mode, null, params).done(function (data) {
 				progress.progressIndicator({'mode': 'hide'});
 				thisInstance.refreshView();
 			});
 		});
-		container.find('.addUser,.exceptions').on('click', function (e) {
-			e.stopPropagation();
-			e.preventDefault();
-			var reload = true;
-			var element = jQuery(e.currentTarget);
-			var url =
+		container.find('.addUser, .wrapperExceptions').on('click', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+				var reload = true;
+				var element = jQuery(e.currentTarget);
+				var url =
 					'index.php?module=' + app.getModuleName() +
 					'&parent=' + app.getParentModuleName() +
 					'&srcModule=' + container.find('#supportedModule').val() +
 					'&view=Members';
-			if (element.hasClass('exceptions')) {
-				url += '&mode=' + element.data('mode') + '&member=' + element.closest('tr').data('value');
-				reload = false
-			}
-			app.showModalWindow(null, url, function (data) {
-				var form = data.find('form');
-				form.on('submit', function (e) {
-					e.preventDefault();
-					var progress = thisInstance.progress();
-					var params = form.serializeFormData();
-					app.saveAjax(params.mode, null, params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-						if (reload) {
-							thisInstance.refreshView();
-						}
+				if (element.hasClass('wrapperExceptions')) {
+					url += '&mode=' + element.data('mode') + '&member=' + element.closest('tr').data('value');
+					reload = false;
+				}
+				app.showModalWindow(null, url, function (data) {
+					var form = data.find('form');
+					form.on('submit', function (e) {
+						e.preventDefault();
+						var progress = thisInstance.progress();
+						var params = form.serializeFormData();
+						app.saveAjax(params.mode, null, params).done(function (data) {
+							progress.progressIndicator({'mode': 'hide'});
+							app.hideModalWindow();
+							if (reload) {
+								thisInstance.refreshView();
+							}
+						});
 					});
 				});
-			});
-		});
+			}
+		);
 	},
 	refreshView: function () {
 		this.getContainer().find('#supportedModule').trigger('change');

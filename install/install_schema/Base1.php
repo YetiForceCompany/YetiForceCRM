@@ -1,16 +1,16 @@
 <?php
+
 namespace Importers;
 
 /**
- * Class that imports base database
- * @package YetiForce.Install
+ * Class that imports base database.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base1 extends \App\Db\Importers\Base
 {
-
 	public $dbType = 'base';
 
 	public function scheme()
@@ -195,6 +195,40 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
+			'dav_calendarinstances' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'calendarid' => $this->integer(10)->unsigned()->notNull(),
+					'principaluri' => $this->stringType(100),
+					'access' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'displayname' => $this->stringType(100),
+					'uri' => $this->stringType(200),
+					'description' => $this->text(),
+					'calendarorder' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+					'calendarcolor' => $this->stringType(10),
+					'timezone' => $this->text(),
+					'transparent' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'share_href' => $this->stringType(100),
+					'share_displayname' => $this->stringType(100),
+					'share_invitestatus' => $this->smallInteger(1)->notNull()->defaultValue(2),
+				],
+				'columns_mysql' => [
+					'principaluri' => $this->varbinary(100),
+					'access' => $this->tinyInteger(1)->notNull()->defaultValue(1),
+					'uri' => $this->varbinary(200),
+					'calendarcolor' => $this->varbinary(10),
+					'transparent' => $this->tinyInteger(1)->notNull()->defaultValue(0),
+					'share_href' => $this->varbinary(100),
+					'share_invitestatus' => $this->tinyInteger(1)->notNull()->defaultValue(2),
+				],
+				'index' => [
+					['principaluri', ['principaluri', 'uri'], true],
+					['calendarid', ['calendarid', 'principaluri'], true],
+					['calendarid_2', ['calendarid', 'share_href'], true],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8mb4'
+			],
 			'dav_calendarobjects' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
@@ -225,29 +259,14 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_calendars' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
-					'principaluri' => $this->stringType(100),
-					'displayname' => $this->stringType(100),
-					'uri' => $this->stringType(200),
 					'synctoken' => $this->integer(10)->unsigned()->notNull()->defaultValue(1),
-					'description' => $this->text(),
-					'calendarorder' => $this->integer(10)->unsigned()->notNull()->defaultValue(0),
-					'calendarcolor' => $this->stringType(10),
-					'timezone' => $this->text(),
 					'components' => $this->stringType(21),
-					'transparent' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'principaluri' => $this->varbinary(100),
-					'uri' => $this->varbinary(200),
-					'calendarcolor' => $this->varbinary(10),
 					'components' => $this->varbinary(21),
-					'transparent' => $this->tinyInteger(1)->notNull()->defaultValue(0),
-				],
-				'index' => [
-					['principaluri', ['principaluri', 'uri'], true],
 				],
 				'engine' => 'InnoDB',
-				'charset' => 'utf8mb4'
+				'charset' => 'utf8'
 			],
 			'dav_calendarsubscriptions' => [
 				'columns' => [
@@ -659,6 +678,38 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__activityregister' => [
+				'columns' => [
+					'activityregisterid' => $this->integer(10)->notNull(),
+					'subject' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'activityregister_status' => $this->stringType()->defaultValue(''),
+					'datasetregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'start_date' => $this->date(),
+					'end_date' => $this->date(),
+					'activity_type' => $this->text(),
+					'parent_id' => $this->integer(10),
+				],
+				'index' => [
+					['u_yf_activityregister_datasetregisterid_idx', 'datasetregisterid'],
+					['u_yf_activityregister_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['activityregister_pk', 'activityregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__activityregistercf' => [
+				'columns' => [
+					'activityregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['activityregistercf_pk', 'activityregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__announcement' => [
 				'columns' => [
 					'announcementid' => $this->integer(10)->notNull(),
@@ -708,16 +759,32 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__attachments' => [
+			'u_#__auditregister' => [
 				'columns' => [
-					'attachmentid' => $this->primaryKey(10),
-					'name' => $this->stringType()->notNull(),
-					'type' => $this->stringType(100),
-					'path' => $this->text()->notNull(),
-					'status' => $this->smallInteger(1)->defaultValue(0),
-					'fieldid' => $this->integer(10),
-					'crmid' => $this->integer(10),
-					'createdtime' => $this->dateTime(),
+					'auditregisterid' => $this->integer(10)->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'locationregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'datasetregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'auditregister_status' => $this->stringType()->defaultValue(''),
+					'auditregister_type' => $this->stringType()->defaultValue(''),
+				],
+				'index' => [
+					['u_yf_auditregister_locationregisterid_idx', 'locationregisterid'],
+					['u_yf_auditregister_datasetregisterid_idx', 'datasetregisterid'],
+				],
+				'primaryKeys' => [
+					['auditregister_pk', 'auditregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__auditregistercf' => [
+				'columns' => [
+					'auditregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['auditregistercf_pk', 'auditregisterid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -913,6 +980,10 @@ class Base1 extends \App\Db\Importers\Base
 					'crmid' => $this->integer(10)->unsigned()->notNull(),
 					'label' => $this->stringType(),
 				],
+				'index' => [
+					['crmentity_label', 'label'],
+					['crmentity_label_fulltext', 'label'],
+				],
 				'primaryKeys' => [
 					['crmentity_label_pk', 'crmid']
 				],
@@ -953,8 +1024,8 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->text(),
 				],
 				'index' => [
-					['searchlabel', 'searchlabel'],
-					['searchlabel_2', ['searchlabel', 'setype']],
+					['crmentity_searchlabel_setype', ['searchlabel', 'setype']],
+					['crmentity_searchlabel_fulltext', 'searchlabel'],
 				],
 				'primaryKeys' => [
 					['crmentity_search_label_pk', 'crmid']
@@ -984,6 +1055,47 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__datasetregister' => [
+				'columns' => [
+					'datasetregisterid' => $this->integer(10)->notNull(),
+					'subject' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'datasetregister_status' => $this->stringType()->defaultValue(''),
+					'legal_basis' => $this->text(),
+					'scope_data' => $this->text(),
+					'registered_dpo' => $this->smallInteger(1)->defaultValue(0),
+					'data_submitted' => $this->smallInteger(1)->defaultValue(0),
+					'internal_register' => $this->smallInteger(1)->defaultValue(0),
+					'data_set_shared' => $this->smallInteger(1)->defaultValue(0),
+					'added_to_register' => $this->date(),
+					'removed_from_register' => $this->date(),
+					'parent_id' => $this->integer(10)->notNull(),
+				],
+				'columns_mysql' => [
+					'registered_dpo' => $this->tinyInteger(1)->defaultValue(0),
+					'data_submitted' => $this->tinyInteger(1)->defaultValue(0),
+					'internal_register' => $this->tinyInteger(1)->defaultValue(0),
+					'data_set_shared' => $this->tinyInteger(1)->defaultValue(0),
+				],
+				'index' => [
+					['u_yf_datasetregister_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['datasetregister_pk', 'datasetregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__datasetregistercf' => [
+				'columns' => [
+					'datasetregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['datasetregistercf_pk', 'datasetregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__documents_emailtemplates' => [
 				'columns' => [
 					'crmid' => $this->integer(10),
@@ -1006,10 +1118,7 @@ class Base1 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 					'content' => $this->text(),
 					'sys_name' => $this->stringType(50),
-					'email_template_priority' => $this->smallInteger(1)->defaultValue(1),
-				],
-				'columns_mysql' => [
-					'email_template_priority' => $this->tinyInteger(1)->defaultValue(1),
+					'email_template_priority' => $this->stringType(1)->defaultValue(1),
 				],
 				'index' => [
 					['sys_name', 'sys_name'],
@@ -1101,17 +1210,6 @@ class Base1 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(50),
 					'localnumbera' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
-					'addresslevel1c' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
-					'buildingnumberc' => $this->stringType(),
-					'localnumberc' => $this->stringType(),
-					'poboxc' => $this->stringType(),
 				],
 				'primaryKeys' => [
 					['fcorectinginvoice_address_pk', 'fcorectinginvoiceaddressid']
@@ -1213,6 +1311,28 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__file_upload_temp' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'name' => $this->stringType()->notNull(),
+					'type' => $this->stringType(100),
+					'path' => $this->text()->notNull(),
+					'status' => $this->smallInteger(1)->defaultValue(0),
+					'fieldname' => $this->stringType(50),
+					'crmid' => $this->integer(10),
+					'createdtime' => $this->dateTime(),
+					'key' => $this->stringType(100),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->defaultValue(0),
+				],
+				'index' => [
+					['key', 'key', true],
+					['crmid', 'crmid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__finvoice' => [
 				'columns' => [
 					'finvoiceid' => $this->integer(10)->notNull(),
@@ -1252,17 +1372,6 @@ class Base1 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(50),
 					'localnumbera' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
-					'addresslevel1c' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
-					'buildingnumberc' => $this->stringType(),
-					'localnumberc' => $this->stringType(),
-					'poboxc' => $this->stringType(),
 				],
 				'primaryKeys' => [
 					['finvoice_address_pk', 'finvoiceaddressid']
@@ -1383,17 +1492,6 @@ class Base1 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(50),
 					'localnumbera' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
-					'addresslevel1c' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
-					'buildingnumberc' => $this->stringType(),
-					'localnumberc' => $this->stringType(),
-					'poboxc' => $this->stringType(),
 				],
 				'primaryKeys' => [
 					['finvoicecost_address_pk', 'finvoicecostaddressid']
@@ -1494,17 +1592,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__finvoiceproforma_address' => [
 				'columns' => [
 					'finvoiceproformaaddressid' => $this->integer(10)->notNull(),
-					'addresslevel1a' => $this->stringType(),
-					'addresslevel2a' => $this->stringType(),
-					'addresslevel3a' => $this->stringType(),
-					'addresslevel4a' => $this->stringType(),
-					'addresslevel5a' => $this->stringType(),
-					'addresslevel6a' => $this->stringType(),
-					'addresslevel7a' => $this->stringType(),
-					'addresslevel8a' => $this->stringType(),
-					'buildingnumbera' => $this->stringType(50),
-					'localnumbera' => $this->stringType(50),
-					'poboxa' => $this->stringType(50),
 					'addresslevel1c' => $this->stringType(),
 					'addresslevel2c' => $this->stringType(),
 					'addresslevel3c' => $this->stringType(),
@@ -1605,7 +1692,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__github' => [
 				'columns' => [
 					'github_id' => $this->primaryKey(10),
-					'client_id' => $this->stringType(20),
 					'token' => $this->stringType(100),
 					'username' => $this->stringType(32),
 				],
@@ -2144,6 +2230,45 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__incidentregister' => [
+				'columns' => [
+					'incidentregisterid' => $this->integer(10)->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'locationregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'datasetregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'incidentregister_status' => $this->stringType()->defaultValue(''),
+					'incidentregister_type' => $this->stringType()->defaultValue(''),
+					'incident_date' => $this->date(),
+					'discovery_date' => $this->date(),
+					'incident_report_date' => $this->date(),
+					'incident_publication_date' => $this->date(),
+					'peoplne_number' => $this->integer(9)->defaultValue(0),
+					'breach_circumstances' => $this->text(),
+					'breach_nature' => $this->text(),
+					'possible_consequences' => $this->text(),
+					'security_measures' => $this->text(),
+				],
+				'index' => [
+					['u_yf_incidentregister_locationregisterid_idx', 'locationregisterid'],
+					['u_yf_incidentregister_datasetregisterid_idx', 'datasetregisterid'],
+				],
+				'primaryKeys' => [
+					['incidentregister_pk', 'incidentregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__incidentregistercf' => [
+				'columns' => [
+					'incidentregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['incidentregistercf_pk', 'incidentregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__ipreorder' => [
 				'columns' => [
 					'ipreorderid' => $this->integer(10)->notNull(),
@@ -2531,6 +2656,45 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__locationregister' => [
+				'columns' => [
+					'locationregisterid' => $this->integer(10)->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'parent_id' => $this->integer()->unsigned()->defaultValue(0),
+					'locationregister_status' => $this->stringType()->defaultValue(''),
+					'security_type' => $this->text(),
+					'building_number' => $this->stringType(10)->defaultValue(''),
+					'street' => $this->stringType()->defaultValue(''),
+					'district' => $this->stringType()->defaultValue(''),
+					'township' => $this->stringType()->defaultValue(''),
+					'state' => $this->stringType()->defaultValue(''),
+					'pobox' => $this->stringType(100)->defaultValue(''),
+					'local_number' => $this->stringType(20)->defaultValue(''),
+					'post_code' => $this->stringType(20)->defaultValue(''),
+					'city' => $this->stringType(150)->defaultValue(''),
+					'county' => $this->stringType(150)->defaultValue(''),
+					'country' => $this->stringType(150)->defaultValue(''),
+				],
+				'index' => [
+					['u_yf_locationregister_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['locationregister_pk', 'locationregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__locationregistercf' => [
+				'columns' => [
+					'locationregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['locationregistercf_pk', 'locationregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__mail_address_book' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
@@ -2572,6 +2736,57 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__multicompany' => [
+				'columns' => [
+					'multicompanyid' => $this->integer()->notNull(),
+					'company_name' => $this->stringType(),
+					'parent_id' => $this->integer(10),
+					'number' => $this->stringType(32),
+					'mulcomp_status' => $this->stringType(),
+					'email1' => $this->stringType(100),
+					'email2' => $this->stringType(100),
+					'phone' => $this->stringType(30),
+					'phone_extra' => $this->stringType(100),
+					'mobile' => $this->stringType(30),
+					'mobile_extra' => $this->stringType(100),
+					'fax' => $this->stringType(30),
+					'fax_extra' => $this->stringType(100),
+					'vat' => $this->stringType(),
+					'companyid1' => $this->stringType(),
+					'companyid2' => $this->stringType(),
+					'buildingnumbera' => $this->stringType(50),
+					'localnumbera' => $this->stringType(50),
+					'addresslevel8a' => $this->stringType(),
+					'addresslevel7a' => $this->stringType(),
+					'addresslevel6a' => $this->stringType(),
+					'addresslevel5a' => $this->stringType(),
+					'addresslevel4a' => $this->stringType(),
+					'addresslevel3a' => $this->stringType(),
+					'addresslevel2a' => $this->stringType(),
+					'addresslevel1a' => $this->stringType(),
+					'poboxa' => $this->stringType(50),
+				],
+				'index' => [
+					['multicompany_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['multicompany_pk', 'multicompanyid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__multicompanycf' => [
+				'columns' => [
+					'multicompanyid' => $this->integer()->notNull(),
+					'public_notes' => $this->text(),
+					'internal_notes' => $this->text(),
+				],
+				'primaryKeys' => [
+					['multicompanycf_pk', 'multicompanyid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__notification' => [
 				'columns' => [
 					'notificationid' => $this->integer(10)->notNull(),
@@ -2582,11 +2797,13 @@ class Base1 extends \App\Db\Importers\Base
 					'link' => $this->integer(10),
 					'process' => $this->integer(10),
 					'subprocess' => $this->integer(10),
+					'linkextend' => $this->integer(10),
 				],
 				'index' => [
 					['link', 'link'],
 					['process', 'process'],
 					['subprocess', 'subprocess'],
+					['linkextend', 'linkextend'],
 				],
 				'primaryKeys' => [
 					['notification_pk', 'notificationid']
@@ -2943,27 +3160,16 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'squotesaddressid' => $this->integer(10)->notNull(),
 					'addresslevel1a' => $this->stringType(),
-					'addresslevel1c' => $this->stringType(),
 					'addresslevel2a' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
 					'addresslevel3a' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
 					'addresslevel4a' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
 					'addresslevel5a' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
 					'addresslevel6a' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
 					'addresslevel7a' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
-					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 					['squotes_address_pk', 'squotesaddressid']
@@ -3085,27 +3291,16 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'srecurringordersaddressid' => $this->integer(10)->notNull(),
 					'addresslevel1a' => $this->stringType(),
-					'addresslevel1c' => $this->stringType(),
 					'addresslevel2a' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
 					'addresslevel3a' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
 					'addresslevel4a' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
 					'addresslevel5a' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
 					'addresslevel6a' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
 					'addresslevel7a' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
-					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 					['srecurringorders_address_pk', 'srecurringordersaddressid']
@@ -3117,21 +3312,27 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer(10),
 					'seq' => $this->integer(10),
-					'name' => $this->integer(10)->notNull()->defaultValue(0),
-					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
+					'name' => $this->integer(10)->defaultValue(0),
+					'qty' => $this->decimal('25,3')->defaultValue(0),
 					'discount' => $this->decimal('28,8')->defaultValue(0),
 					'discountparam' => $this->stringType(),
 					'marginp' => $this->decimal('28,8')->defaultValue(0),
 					'margin' => $this->decimal('28,8')->defaultValue(0),
-					'tax' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'taxparam' => $this->stringType()->notNull(),
+					'tax' => $this->decimal('28,8')->defaultValue(0),
+					'taxparam' => $this->stringType(),
 					'comment1' => $this->text(),
+					'price' => $this->decimal('28,8')->defaultValue(0),
+					'total' => $this->decimal('28,8')->defaultValue(0),
+					'net' => $this->decimal('28,8')->defaultValue(0),
+					'purchase' => $this->decimal('28,8')->defaultValue(0),
+					'gross' => $this->decimal('28,8')->defaultValue(0),
+					'discountmode' => $this->smallInteger(1)->defaultValue(0),
+					'taxmode' => $this->smallInteger(1)->defaultValue(0),
+					'currency' => $this->integer(),
+					'currencyparam' => $this->stringType(1024),
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
-				],
-				'columns_mysql' => [
-					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
 					['id', 'id'],
@@ -3353,27 +3554,16 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'ssingleordersaddressid' => $this->integer(10)->notNull(),
 					'addresslevel1a' => $this->stringType(),
-					'addresslevel1c' => $this->stringType(),
 					'addresslevel2a' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
 					'addresslevel3a' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
 					'addresslevel4a' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
 					'addresslevel5a' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
 					'addresslevel6a' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
 					'addresslevel7a' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
-					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 					['ssingleorders_address_pk', 'ssingleordersaddressid']
@@ -3385,32 +3575,27 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer(10),
 					'seq' => $this->integer(10),
-					'name' => $this->integer(10)->notNull()->defaultValue(0),
-					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
+					'name' => $this->integer(10)->defaultValue(0),
+					'qty' => $this->decimal('25,3')->defaultValue(0),
 					'discount' => $this->decimal('28,8')->defaultValue(0),
 					'discountparam' => $this->stringType(),
 					'marginp' => $this->decimal('28,8')->defaultValue(0),
 					'margin' => $this->decimal('28,8')->defaultValue(0),
-					'tax' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'taxparam' => $this->stringType()->notNull(),
+					'tax' => $this->decimal('28,8')->defaultValue(0),
+					'taxparam' => $this->stringType(),
 					'comment1' => $this->text(),
-					'price' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'total' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'net' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'purchase' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'gross' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'discountmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'taxmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'currency' => $this->integer(10),
+					'price' => $this->decimal('28,8')->defaultValue(0),
+					'total' => $this->decimal('28,8')->defaultValue(0),
+					'net' => $this->decimal('28,8')->defaultValue(0),
+					'purchase' => $this->decimal('28,8')->defaultValue(0),
+					'gross' => $this->decimal('28,8')->defaultValue(0),
+					'discountmode' => $this->smallInteger(1)->defaultValue(0),
+					'taxmode' => $this->smallInteger(1)->defaultValue(0),
+					'currency' => $this->integer(),
 					'currencyparam' => $this->stringType(1024),
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
-				],
-				'columns_mysql' => [
-					'discountmode' => $this->tinyInteger(1)->notNull()->defaultValue(0),
-					'taxmode' => $this->tinyInteger(1)->notNull()->defaultValue(0),
-					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
 					['id', 'id'],
@@ -3636,9 +3821,13 @@ class Base1 extends \App\Db\Importers\Base
 			['roundcube_user_id_fk_searches', 'roundcube_searches', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
 			['roundcube_users_autologin_ibfk_1', 'roundcube_users_autologin', 'rcuser_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
 			['u_#__activity_invitation_ibfk_1', 'u_#__activity_invitation', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__activityregisteractivityregisterid', 'u_#__activityregister', 'activityregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__activityregistercfactivityregisterid', 'u_#__activityregistercf', 'activityregisterid', 'u_#__activityregister', 'activityregisterid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__announcement', 'u_#__announcement', 'announcementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['u_#__announcement_mark_ibfk_1', 'u_#__announcement_mark', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__announcementcf', 'u_#__announcementcf', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__auditregisterauditregisterid', 'u_#__auditregister', 'auditregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__auditregistercfauditregisterid', 'u_#__auditregistercf', 'auditregisterid', 'u_#__auditregister', 'auditregisterid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cfixedassetscfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cfixedassetscfcfixedassetsid', 'u_#__cfixedassetscf', 'cfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cinternalticketscinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
@@ -3650,6 +3839,8 @@ class Base1 extends \App\Db\Importers\Base
 			['fk_1_u_#__competitioncf', 'u_#__competitioncf', 'competitionid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
 			['u_#__crmentity_last_changes_ibfk_1', 'u_#__crmentity_last_changes', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_u_#__crmentity_showners', 'u_#__crmentity_showners', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__datasetregisterdatasetregisterid', 'u_#__datasetregister', 'datasetregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__datasetregistercfdatasetregisterid', 'u_#__datasetregistercf', 'datasetregisterid', 'u_#__datasetregister', 'datasetregisterid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__documents_emailtemplates', 'u_#__documents_emailtemplates', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_2_u_#__documents_emailtemplates', 'u_#__documents_emailtemplates', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_emailtemplatesemailtemplatesid', 'u_#__emailtemplates', 'emailtemplatesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
@@ -3690,6 +3881,8 @@ class Base1 extends \App\Db\Importers\Base
 			['u_#__iidn_ibfk_1', 'u_#__iidn', 'iidnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__iidn_inventory', 'u_#__iidn_inventory', 'id', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
 			['u_#__iidncf_ibfk_1', 'u_#__iidncf', 'iidnid', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__incidentregisterincidentregisterid', 'u_#__incidentregister', 'incidentregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__incidentregistercfincidentregisterid', 'u_#__incidentregistercf', 'incidentregisterid', 'u_#__incidentregister', 'incidentregisterid', 'CASCADE', 'RESTRICT'],
 			['u_#__ipreorder_ibfk_1', 'u_#__ipreorder', 'ipreorderid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__ipreorder_inventory', 'u_#__ipreorder_inventory', 'id', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
 			['u_#__ipreordercf_ibfk_1', 'u_#__ipreordercf', 'ipreorderid', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
@@ -3708,7 +3901,11 @@ class Base1 extends \App\Db\Importers\Base
 			['u_#__istrncf_ibfk_1', 'u_#__istrncf', 'istrnid', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_knowledgebase', 'u_#__knowledgebase', 'knowledgebaseid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_knowledgebasecf', 'u_#__knowledgebasecf', 'knowledgebaseid', 'u_#__knowledgebase', 'knowledgebaseid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__locationregisterlocationregisterid', 'u_#__locationregister', 'locationregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__locationregistercflocationregisterid', 'u_#__locationregistercf', 'locationregisterid', 'u_#__locationregister', 'locationregisterid', 'CASCADE', 'RESTRICT'],
 			['u_#__mail_address_book_ibfk_1', 'u_#__mail_address_book', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__multicompanymulticompanyid', 'u_#__multicompany', 'multicompanyid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__multicompanycfmulticompanyid', 'u_#__multicompanycf', 'multicompanyid', 'u_#__multicompany', 'multicompanyid', 'CASCADE', 'RESTRICT'],
 			['fk_1_notification', 'u_#__notification', 'notificationid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__partners', 'u_#__partners', 'partnersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['u_#__partners_address_ibfk_1', 'u_#__partners_address', 'partneraddressid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
@@ -3758,16 +3955,16 @@ class Base1 extends \App\Db\Importers\Base
 					[5, 'VTUpdateFieldsTask', 'Update Fields', 'VTUpdateFieldsTask', 'modules/com_vtiger_workflow/tasks/VTUpdateFieldsTask.php', 'com_vtiger_workflow/taskforms/VTUpdateFieldsTask.tpl', '{"include":[],"exclude":[]}', ''],
 					[6, 'VTCreateEntityTask', 'Create Entity', 'VTCreateEntityTask', 'modules/com_vtiger_workflow/tasks/VTCreateEntityTask.php', 'com_vtiger_workflow/taskforms/VTCreateEntityTask.tpl', '{"include":[],"exclude":[]}', ''],
 					[7, 'VTSMSTask', 'SMS Task', 'VTSMSTask', 'modules/com_vtiger_workflow/tasks/VTSMSTask.php', 'com_vtiger_workflow/taskforms/VTSMSTask.tpl', '{"include":[],"exclude":[]}', 'SMSNotifier'],
-					[8, 'VTEmailTemplateTask', 'Email Template Task', 'VTEmailTemplateTask', 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php', 'com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl', '{"include":[],"exclude":[]}', NULL],
-					[9, 'VTSendPdf', 'Send Pdf', 'VTSendPdf', 'modules/com_vtiger_workflow/tasks/VTSendPdf.php', 'com_vtiger_workflow/taskforms/VTSendPdf.tpl', '{"include":[],"exclude":[]}', NULL],
-					[10, 'VTUpdateClosedTime', 'Update Closed Time', 'VTUpdateClosedTime', 'modules/com_vtiger_workflow/tasks/VTUpdateClosedTime.php', 'com_vtiger_workflow/taskforms/VTUpdateClosedTime.tpl', '{"include":[],"exclude":[]}', NULL],
-					[11, 'VTSendNotificationTask', 'Send Notification', 'VTSendNotificationTask', 'modules/com_vtiger_workflow/tasks/VTSendNotificationTask.php', 'com_vtiger_workflow/taskforms/VTSendNotificationTask.tpl', '{"include":["Calendar","Events"],"exclude":[]}', NULL],
-					[12, 'VTAddressBookTask', 'Create Address Book', 'VTAddressBookTask', 'modules/com_vtiger_workflow/tasks/VTAddressBookTask.php', 'com_vtiger_workflow/taskforms/VTAddressBookTask.tpl', '{"include":["Contacts","OSSEmployees","Accounts","Leads","Vendors"],"exclude":[]}', NULL],
-					[13, 'VTUpdateCalendarDates', 'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY', 'VTUpdateCalendarDates', 'modules/com_vtiger_workflow/tasks/VTUpdateCalendarDates.php', 'com_vtiger_workflow/taskforms/VTUpdateCalendarDates.tpl', '{"include":["Accounts","Contacts","Leads","OSSEmployees","Vendors","Campaigns","HelpDesk","Project","ServiceContracts"],"exclude":["Calendar","FAQ","Events"]}', NULL],
-					[14, 'VTUpdateWorkTime', 'LBL_UPDATE_WORK_TIME_AUTOMATICALLY', 'VTUpdateWorkTime', 'modules/com_vtiger_workflow/tasks/VTUpdateWorkTime.php', 'com_vtiger_workflow/taskforms/VTUpdateWorkTime.tpl', '{"include":["OSSTimeControl"],"exclude":[]}', NULL],
+					[8, 'VTEmailTemplateTask', 'Email Template Task', 'VTEmailTemplateTask', 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php', 'com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl', '{"include":[],"exclude":[]}', null],
+					[9, 'VTSendPdf', 'Send Pdf', 'VTSendPdf', 'modules/com_vtiger_workflow/tasks/VTSendPdf.php', 'com_vtiger_workflow/taskforms/VTSendPdf.tpl', '{"include":[],"exclude":[]}', null],
+					[10, 'VTUpdateClosedTime', 'Update Closed Time', 'VTUpdateClosedTime', 'modules/com_vtiger_workflow/tasks/VTUpdateClosedTime.php', 'com_vtiger_workflow/taskforms/VTUpdateClosedTime.tpl', '{"include":[],"exclude":[]}', null],
+					[11, 'VTSendNotificationTask', 'Send Notification', 'VTSendNotificationTask', 'modules/com_vtiger_workflow/tasks/VTSendNotificationTask.php', 'com_vtiger_workflow/taskforms/VTSendNotificationTask.tpl', '{"include":["Calendar","Events"],"exclude":[]}', null],
+					[12, 'VTAddressBookTask', 'Create Address Book', 'VTAddressBookTask', 'modules/com_vtiger_workflow/tasks/VTAddressBookTask.php', 'com_vtiger_workflow/taskforms/VTAddressBookTask.tpl', '{"include":["Contacts","OSSEmployees","Accounts","Leads","Vendors"],"exclude":[]}', null],
+					[13, 'VTUpdateCalendarDates', 'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY', 'VTUpdateCalendarDates', 'modules/com_vtiger_workflow/tasks/VTUpdateCalendarDates.php', 'com_vtiger_workflow/taskforms/VTUpdateCalendarDates.tpl', '{"include":["Accounts","Contacts","Leads","OSSEmployees","Vendors","Campaigns","HelpDesk","Project","ServiceContracts"],"exclude":["Calendar","FAQ","Events"]}', null],
+					[14, 'VTUpdateWorkTime', 'LBL_UPDATE_WORK_TIME_AUTOMATICALLY', 'VTUpdateWorkTime', 'modules/com_vtiger_workflow/tasks/VTUpdateWorkTime.php', 'com_vtiger_workflow/taskforms/VTUpdateWorkTime.tpl', '{"include":["OSSTimeControl"],"exclude":[]}', null],
 					[15, 'VTUpdateRelatedFieldTask', 'LBL_UPDATE_RELATED_FIELD', 'VTUpdateRelatedFieldTask', 'modules/com_vtiger_workflow/tasks/VTUpdateRelatedFieldTask.php', 'com_vtiger_workflow/taskforms/VTUpdateRelatedFieldTask.tpl', '{"include":[],"exclude":[]}', ''],
-					[16, 'VTWatchdog', 'LBL_NOTIFICATIONS', 'VTWatchdog', 'modules/com_vtiger_workflow/tasks/VTWatchdog.php', 'com_vtiger_workflow/taskforms/VTWatchdog.tpl', '{"include":[],"exclude":[]}', NULL],
-					[17, 'VTAutoAssign', 'LBL_AUTO_ASSIGN', 'VTAutoAssign', 'modules/com_vtiger_workflow/tasks/VTAutoAssign.php', 'com_vtiger_workflow/taskforms/VTAutoAssign.tpl', '{"include":[],"exclude":[]}', NULL],
+					[16, 'VTWatchdog', 'LBL_NOTIFICATIONS', 'VTWatchdog', 'modules/com_vtiger_workflow/tasks/VTWatchdog.php', 'com_vtiger_workflow/taskforms/VTWatchdog.tpl', '{"include":[],"exclude":[]}', null],
+					[17, 'VTAutoAssign', 'LBL_AUTO_ASSIGN', 'VTAutoAssign', 'modules/com_vtiger_workflow/tasks/VTAutoAssign.php', 'com_vtiger_workflow/taskforms/VTAutoAssign.tpl', '{"include":[],"exclude":[]}', null],
 				]
 			],
 			'com_vtiger_workflow_tasktypes_seq' => [
@@ -3779,29 +3976,29 @@ class Base1 extends \App\Db\Importers\Base
 			'com_vtiger_workflows' => [
 				'columns' => ['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew', 'schtypeid', 'schdayofmonth', 'schdayofweek', 'schannualdates', 'schtime', 'nexttrigger_time'],
 				'values' => [
-					[13, 'Events', 'Workflow for Events when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[14, 'Calendar', 'Workflow for Calendar Todos when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[25, 'HelpDesk', 'Ticket change: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[26, 'HelpDesk', 'Ticket change: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[27, 'HelpDesk', 'Ticket change: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[28, 'HelpDesk', 'Ticket Closed: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[29, 'HelpDesk', 'Ticket Closed: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[30, 'HelpDesk', 'Ticket Closed: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[31, 'HelpDesk', 'Ticket Creation: Send Email to Record Owner', '[]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[33, 'HelpDesk', 'Ticket Creation: Send Email to Record Account', '[{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[53, 'Contacts', 'Send Customer Login Details', '[{"fieldname":"emailoptout","operation":"is","value":"1","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[54, 'HelpDesk', 'Update Closed Time', '[{"fieldname":"ticketstatus","operation":"is","value":"Rejected","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 2, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[55, 'Contacts', 'Generate mail address book', '[]', 3, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[57, 'ModComments', 'New comment added to ticket - Owner', '[{"fieldname":"customer","operation":"is not empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[58, 'ModComments', 'New comment added to ticket - account', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[59, 'ModComments', 'New comment added to ticket - contact', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[63, 'SQuoteEnquiries', 'Block edition', '[{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[64, 'SRequirementsCards', 'Block edition', '[{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[65, 'SCalculations', 'Block edition', '[{"fieldname":"scalculations_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"scalculations_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[66, 'SQuotes', 'Block edition', '[{"fieldname":"squotes_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squotes_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[67, 'SSingleOrders', 'Block edition', '[{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[68, 'SRecurringOrders', 'Block edition', '[{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_UNREALIZED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_REALIZED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[69, 'OSSTimeControl', 'LBL_UPDATE_WORK_TIME', '[]', 7, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
+					[13, 'Events', 'Workflow for Events when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, null, null, null, null, null, null],
+					[14, 'Calendar', 'Workflow for Calendar Todos when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, null, null, null, null, null, null],
+					[25, 'HelpDesk', 'Ticket change: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[26, 'HelpDesk', 'Ticket change: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[27, 'HelpDesk', 'Ticket change: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[28, 'HelpDesk', 'Ticket Closed: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[29, 'HelpDesk', 'Ticket Closed: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[30, 'HelpDesk', 'Ticket Closed: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[31, 'HelpDesk', 'Ticket Creation: Send Email to Record Owner', '[]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[33, 'HelpDesk', 'Ticket Creation: Send Email to Record Account', '[{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[53, 'Contacts', 'Send Customer Login Details', '[{"fieldname":"emailoptout","operation":"is","value":"1","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[54, 'HelpDesk', 'Update Closed Time', '[{"fieldname":"ticketstatus","operation":"is","value":"Rejected","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 2, null, 'basic', 6, null, null, null, null, null, null],
+					[55, 'Contacts', 'Generate mail address book', '[]', 3, null, 'basic', 6, null, null, null, null, null, null],
+					[57, 'ModComments', 'New comment added to ticket - Owner', '[{"fieldname":"customer","operation":"is not empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[58, 'ModComments', 'New comment added to ticket - account', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[59, 'ModComments', 'New comment added to ticket - contact', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[63, 'SQuoteEnquiries', 'Block edition', '[{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[64, 'SRequirementsCards', 'Block edition', '[{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[65, 'SCalculations', 'Block edition', '[{"fieldname":"scalculations_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"scalculations_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[66, 'SQuotes', 'Block edition', '[{"fieldname":"squotes_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squotes_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[67, 'SSingleOrders', 'Block edition', '[{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[68, 'SRecurringOrders', 'Block edition', '[{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_UNREALIZED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_REALIZED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[69, 'OSSTimeControl', 'LBL_UPDATE_WORK_TIME', '[]', 7, null, 'basic', 6, null, null, null, null, null, null],
 				]
 			],
 			'com_vtiger_workflowtasks' => [
@@ -3818,22 +4015,22 @@ class Base1 extends \App\Db\Importers\Base
 					[121, 54, 'Update Closed Time', 'O:18:"VTUpdateClosedTime":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"54";s:7:"summary";s:18:"Update Closed Time";s:6:"active";b:0;s:7:"trigger";N;s:2:"id";i:121;}'],
 					[122, 13, 'Send invitations', 'O:22:"VTSendNotificationTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"13";s:7:"summary";s:16:"Send invitations";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"45";s:2:"id";i:122;}'],
 					[123, 55, 'Generate mail address book', 'O:17:"VTAddressBookTask":7:{s:18:"executeImmediately";b:0;s:10:"workflowId";s:2:"55";s:7:"summary";s:26:"Generate mail address book";s:6:"active";b:1;s:7:"trigger";N;s:4:"test";s:0:"";s:2:"id";i:123;}'],
-					[133, 26, 'Notify Contact On Ticket Change', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"26";s:7:"summary";s:31:"Notify Contact On Ticket Change";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:28:"HelpDeskChangeNotifyContacts";s:2:"id";i:133;}'],
-					[134, 29, 'Notify contacts about closing of ticket.', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"29";s:7:"summary";s:40:"Notify contacts about closing of ticket.";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:28:"HelpDeskClosedNotifyContacts";s:2:"id";i:134;}'],
-					[135, 59, 'Notify Contact On New comment added to ticket', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:59;s:7:"summary";s:45:"Notify Contact On New comment added to ticket";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:26:"HelpDeskNewCommentContacts";s:2:"id";i:135;}'],
-					[136, 58, 'Notify Account On New comment added to ticket', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:58;s:7:"summary";s:45:"Notify Account On New comment added to ticket";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:25:"HelpDeskNewCommentAccount";s:2:"id";i:136;}'],
-					[137, 57, 'Notify Owner On new comment added to ticket from portal', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:57;s:7:"summary";s:55:"Notify Owner On new comment added to ticket from portal";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:23:"HelpDeskNewCommentOwner";s:2:"id";i:137;}'],
+					[133, 26, 'Notify Contact On Ticket Change', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"26";s:7:"summary";s:31:"Notify Contact On Ticket Change";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:28:"helpDeskChangeNotifyContacts";s:2:"id";i:133;}'],
+					[134, 29, 'Notify contacts about closing of ticket.', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"29";s:7:"summary";s:40:"Notify contacts about closing of ticket.";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:28:"helpDeskClosedNotifyContacts";s:2:"id";i:134;}'],
+					[135, 59, 'Notify Contact On New comment added to ticket', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:59;s:7:"summary";s:45:"Notify Contact On New comment added to ticket";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:26:"helpDeskNewCommentContacts";s:2:"id";i:135;}'],
+					[136, 58, 'Notify Account On New comment added to ticket', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:58;s:7:"summary";s:45:"Notify Account On New comment added to ticket";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:25:"helpDeskNewCommentAccount";s:2:"id";i:136;}'],
+					[137, 57, 'Notify Owner On new comment added to ticket from portal', 'O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:57;s:7:"summary";s:55:"Notify Owner On new comment added to ticket from portal";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:23:"helpDeskNewCommentOwner";s:2:"id";i:137;}'],
 					[138, 69, 'Update working time', 'O:16:"VTUpdateWorkTime":6:{s:18:"executeImmediately";b:0;s:10:"workflowId";i:69;s:7:"summary";s:19:"Update working time";s:6:"active";b:1;s:7:"trigger";N;s:2:"id";i:138;}'],
 				]
 			],
 			'com_vtiger_workflowtasks_entitymethod' => [
 				'columns' => ['workflowtasks_entitymethod_id', 'module_name', 'method_name', 'function_path', 'function_name'],
 				'values' => [
-					[8, 'ModComments', 'HelpDeskNewCommentAccount', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskNewCommentAccount'],
-					[9, 'ModComments', 'HelpDeskNewCommentContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskNewCommentContacts'],
-					[15, 'HelpDesk', 'HelpDeskChangeNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskChangeNotifyContacts'],
-					[16, 'HelpDesk', 'HelpDeskClosedNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskClosedNotifyContacts'],
-					[17, 'ModComments', 'HelpDeskNewCommentOwner', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskNewCommentOwner'],
+					[8, 'ModComments', 'helpDeskNewCommentAccount', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[9, 'ModComments', 'helpDeskNewCommentContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[15, 'HelpDesk', 'helpDeskChangeNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[16, 'HelpDesk', 'helpDeskClosedNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[17, 'ModComments', 'helpDeskNewCommentOwner', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
 				]
 			],
 			'com_vtiger_workflowtasks_entitymethod_seq' => [
@@ -3908,7 +4105,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[36, 'Notify Account On Ticket Change', 'N2', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_COPY_BILLING_ADDRESS)$  $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -3954,7 +4151,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[37, 'Notify Contact On Ticket Closed', 'N3', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4038,7 +4235,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[39, 'Notify Contact On Ticket Create', 'N5', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4114,7 +4311,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[41, 'Notify Contact On Ticket Change', 'N7', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4196,7 +4393,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[43, 'Notify Owner On Ticket Create', 'N9', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4233,7 +4430,7 @@ class Base1 extends \App\Db\Importers\Base
 			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[44, 'Customer Portal Login Details', 'N10', 'PLL_RECORD', 'Contacts', 'Customer Portal Login Details', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4245,14 +4442,14 @@ Created for your account in the customer portal, below sending data access<br />
 						Login: $(record : email)$<br />
 						Password:
 						</td>
-			
+
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
 			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[45, 'Send invitations', 'N11', 'PLL_RECORD', 'Events', '$(record : activitytype)$ $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(record : subject)$</span></h3>
 			</td>
@@ -4285,7 +4482,7 @@ Created for your account in the customer portal, below sending data access<br />
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|Location)$</i></div>
 						</td>
-						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><span><span>$(record : location)$</span><span> (<a href="https://maps.google.pl/maps?q=$(record%20:%20location)$">mapa</a>)</span></span></td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><span><span>$(record : location)$</span><span> (<a href="https://maps.google.pl/maps?q=$(record%20:%20location)$" rel="noreferrer noopener">mapa</a>)</span></span></td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|Status)$</i></div>
 						</td>
@@ -4306,7 +4503,7 @@ Created for your account in the customer portal, below sending data access<br />
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[46, 'Send Notification Email to Record Owner', 'N12', 'PLL_RECORD', 'Calendar', 'Task : $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>Activity Notification Details</span></h3>
 			</td>
@@ -4356,7 +4553,7 @@ Created for your account in the customer portal, below sending data access<br />
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[93, 'Activity Reminder Notification', 'N13', 'PLL_RECORD', 'Calendar', 'Reminder:  $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>This is a reminder notification for the Activity</span></h3>
 			</td>
@@ -4611,8 +4808,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, '', 7],
 					[11, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, '', 7],
 					[12, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, '', 7],
-					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
-					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
+					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 7],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 7],
 				]
 			],
 			'u_#__fcorectinginvoice_invmap' => [
@@ -4629,16 +4826,16 @@ Created for your account in the customer portal, below sending data access<br />
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 7],
 					[3, 'discount', 'LBL_DISCOUNT', 'Discount', 0, '0', 6, 1, 0, '{}', 7],
 					[4, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 11, 2, 0, '{}', 0],
-					[5, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, NULL, 7],
-					[6, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 13, 0, 0, NULL, 7],
-					[7, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 14, 0, 0, NULL, 7],
-					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 7],
-					[9, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, NULL, 7],
-					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 7],
-					[12, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, NULL, 7],
-					[13, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 7],
-					[14, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
-					[15, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
+					[5, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, null, 7],
+					[6, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 13, 0, 0, null, 7],
+					[7, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 14, 0, 0, null, 7],
+					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 7],
+					[9, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, null, 7],
+					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, null, 7],
+					[12, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, null, 7],
+					[13, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 7],
+					[14, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 7],
+					[15, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 7],
 				]
 			],
 			'u_#__finvoice_invmap' => [
@@ -4682,8 +4879,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, '{}', 10],
 					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, '{}', 10],
 					[12, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 12, 2, 0, '{}', 0],
-					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__finvoiceproforma_invmap' => [
@@ -4694,9 +4891,9 @@ Created for your account in the customer portal, below sending data access<br />
 				]
 			],
 			'u_#__github' => [
-				'columns' => ['github_id', 'client_id', 'token', 'username'],
+				'columns' => ['github_id', 'token', 'username'],
 				'values' => [
-					[1, '', '', ''],
+					[1, '', ''],
 				]
 			],
 			'u_#__igdn_invfield' => [
@@ -4707,10 +4904,10 @@ Created for your account in the customer portal, below sending data access<br />
 					[3, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[4, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[5, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
-					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
+					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__igdn_invmap' => [
@@ -4751,10 +4948,10 @@ Created for your account in the customer portal, below sending data access<br />
 					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[9, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[10, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[11, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[12, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
-					[13, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[11, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[12, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
+					[13, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__igin_invmap' => [
@@ -4773,10 +4970,10 @@ Created for your account in the customer portal, below sending data access<br />
 					[3, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[4, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[5, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
-					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
+					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__igrn_invmap' => [
@@ -4815,12 +5012,12 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 1, 1, 0, '{"modules":"Products","limit":" "}', 29],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 5, 1, 0, '{}', 15],
 					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[4, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[5, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
+					[4, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[5, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
 					[6, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[7, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
-					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__iidn_invmap' => [
@@ -4842,7 +5039,7 @@ Created for your account in the customer portal, below sending data access<br />
 					[7, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[8, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, '{}', 12],
 					[9, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, '{}', 15],
-					[10, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[10, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__ipreorder_invmap' => [
@@ -4864,7 +5061,7 @@ Created for your account in the customer portal, below sending data access<br />
 					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, '', 5],
 					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, '', 12],
 					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, '', 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__istdn_invmap' => [
@@ -4886,7 +5083,7 @@ Created for your account in the customer portal, below sending data access<br />
 					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, '', 5],
 					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, '', 12],
 					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, '', 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__istrn_invmap' => [
@@ -4909,13 +5106,13 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 40],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 10],
 					[4, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
-					[5, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 10],
-					[6, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 10],
-					[7, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 6, 1, 0, NULL, 10],
-					[8, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 7, 1, 0, NULL, 10],
-					[9, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 8, 1, 0, NULL, 10],
-					[10, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[11, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[5, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 10],
+					[6, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 10],
+					[7, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 6, 1, 0, null, 10],
+					[8, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 7, 1, 0, null, 10],
+					[9, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 8, 1, 0, null, 10],
+					[10, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[11, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__scalculations_invmap' => [
@@ -4931,8 +5128,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 50],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 30],
 					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
-					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__squoteenquiries_invmap' => [
@@ -4951,17 +5148,17 @@ Created for your account in the customer portal, below sending data access<br />
 					[4, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 9, 1, 0, '{}', 10],
 					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 10, 1, 0, '{}', 6],
 					[6, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 6, 2, 0, '{}', 0],
-					[7, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 6],
-					[8, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 6],
-					[9, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, NULL, 6],
-					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, NULL, 6],
-					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, NULL, 6],
-					[12, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 10, 0, 0, NULL, 1],
-					[13, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 11, 0, 0, NULL, 1],
-					[14, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, NULL, 1],
-					[15, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 6],
-					[16, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 6],
-					[17, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 6],
+					[7, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 6],
+					[8, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 6],
+					[9, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, null, 6],
+					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, null, 6],
+					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, null, 6],
+					[12, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 10, 0, 0, null, 1],
+					[13, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 11, 0, 0, null, 1],
+					[14, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, null, 1],
+					[15, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, null, 6],
+					[16, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 6],
+					[17, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 6],
 				]
 			],
 			'u_#__squotes_invmap' => [
@@ -4981,8 +5178,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 6, 1, 0, '{}', 10],
 					[6, 'tax', 'LBL_TAX', 'Tax', 0, '0', 7, 1, 0, '{}', 10],
 					[7, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 7, 2, 0, '{}', 0],
-					[8, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[8, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__srecurringorders_invmap' => [
@@ -4998,8 +5195,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 50],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 30],
 					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
-					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__srequirementscards_invmap' => [
@@ -5019,16 +5216,16 @@ Created for your account in the customer portal, below sending data access<br />
 					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 10, 1, 0, '{}', 7],
 					[6, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, '{}', 7],
 					[7, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 7, 2, 0, '{}', 0],
-					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 7],
-					[9, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 7],
-					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 7],
-					[11, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, NULL, 7],
-					[12, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, NULL, 7],
-					[13, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 11, 0, 0, NULL, 1],
-					[14, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 12, 0, 0, NULL, 1],
-					[15, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 13, 0, 0, NULL, 1],
-					[16, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
-					[17, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
+					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 7],
+					[9, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 7],
+					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, null, 7],
+					[11, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, null, 7],
+					[12, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, null, 7],
+					[13, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 11, 0, 0, null, 1],
+					[14, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 12, 0, 0, null, 1],
+					[15, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 13, 0, 0, null, 1],
+					[16, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 7],
+					[17, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 7],
 				]
 			],
 			'u_#__ssingleorders_invmap' => [

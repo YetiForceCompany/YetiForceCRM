@@ -1,14 +1,15 @@
 <?php
 
 /**
- * Advanced permission save action model class
- * @package YetiForce.Settings.Action
- * @copyright YetiForce Sp. z o.o.
+ * Advanced permission save action model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -17,52 +18,41 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		$this->exposeMethod('step2');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
-	}
-
 	/**
-	 * Save first step
+	 * Save first step.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function step1(\App\Request $request)
 	{
 		if ($request->isEmpty('record') === false) {
-			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
+			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
 		} else {
 			$recordModel = new Settings_AdvancedPermission_Record_Model();
 		}
-		$recordModel->set('name', $request->get('name'));
-		$recordModel->set('tabid', $request->get('tabid'));
-		$recordModel->set('action', $request->get('actions'));
-		$recordModel->set('status', $request->get('status'));
-		$recordModel->set('members', $request->get('members'));
-		$recordModel->set('priority', $request->get('priority'));
+		$recordModel->set('name', $request->getByType('name', 'Text'));
+		$recordModel->set('tabid', $request->getInteger('tabid'));
+		$recordModel->set('action', $request->getInteger('actions'));
+		$recordModel->set('status', $request->getInteger('status'));
+		$recordModel->set('members', $request->getArray('members', 'Text'));
+		$recordModel->set('priority', $request->getInteger('priority'));
 		$recordModel->save();
 
-		header("Location: {$recordModel->getEditViewUrl(2)}");
+		header("location: {$recordModel->getEditViewUrl(2)}");
 	}
 
 	/**
-	 * Save second step
+	 * Save second step.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function step2(\App\Request $request)
 	{
-		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
-		$conditions = Vtiger_AdvancedFilter_Helper::transformToSave($request->get('conditions'));
+		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
+		$conditions = Vtiger_AdvancedFilter_Helper::transformToSave($request->getArray('conditions', 'Text'));
 		$recordModel->set('conditions', $conditions);
 		$recordModel->save();
 
-		header("Location: {$recordModel->getDetailViewUrl()}");
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
+		header("location: {$recordModel->getDetailViewUrl()}");
 	}
 }

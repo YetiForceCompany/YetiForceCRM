@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 	step3Container: false,
 	advanceFilterInstance: false,
@@ -25,7 +27,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#mf_step3');
 		}
 		if (container.is('#mf_step3')) {
@@ -59,24 +61,25 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 
 		var saveData = form.serializeFormData();
 		saveData['step'] = 3;
-		app.saveAjax('step1', saveData).then(function (data) {
+		delete saveData['__vtrftk'];
+		delete saveData['module'];
+		delete saveData['view'];
+		delete saveData['mode'];
+		delete saveData['parent'];
+		app.saveAjax('step1', saveData).done(function (data) {
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
-				AppConnector.request(formData).then(
-						function (data) {
-							form.hide();
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
-							})
-							aDeferred.resolve(data);
-						},
-						function (error, err) {
-							app.errorLog(error, err);
-						}
-				);
+				AppConnector.request(formData).done(function (data) {
+					form.hide();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					})
+					aDeferred.resolve(data);
+				}).fail(function (error, err) {
+					app.errorLog(error, err);
+				});
 			}
-		}
-		);
+		});
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
@@ -96,6 +99,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('#advanceFilterContainer', container));
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 	}
 });

@@ -1,0 +1,37 @@
+{
+  "php": {
+    "LBL_AUTOMATIC_ASSIGNMENT": "Auto assign records",
+    "AutomaticAssignment": "Auto assign records",
+    "LBL_AUTOMATICASSIGNMENT_DESCRIPTION": " ",
+    "FL_FIELD": "Field name",
+    "FL_MODULE": "Module",
+    "FL_VALUE": "Value",
+    "FL_ROLES": "Roles",
+    "FL_SMOWNERS": "Record owner",
+    "FL_ASSIGN": "Default settings",
+    "FL_CONDITIONS": "Record search conditions",
+    "FL_MODE": "Mode",
+    "LBL_CREATE_RECORD": "Create record",
+    "BTN_NEXT": "Next",
+    "BTN_CLOSE": "Close",
+    "BTN_ADD": "Add",
+    "LBL_CHANGE_ROLE_TYPE": "Change role type",
+    "LBL_CHANGE_RECORD_STATE": "Change record state",
+    "BTN_SAVE": "Save",
+    "LBL_INCLUDE_USERS_RECORD_LIMIT": "Include user's record limit",
+    "LBL_SET_DEFAULT_USER": "Set default user",
+    "LBL_DEACTIVATE_SYSTEM_MODE": "Deactivate system mode",
+    "LBL_SYSTEM": "System",
+    "LBL_NOTE": "Note!",
+    "LBL_VALUE_INFO": "The following field sets the value for the selected module field.",
+    "LBL_ROLES_INFO": "The list of pre-assigned users is created from the below roles.",
+    "LBL_SMOWNERS_INFO": "The list of pre-assigned users is created from the below users, groups. This user list is created only if there are no users selected from roles.",
+    "LBL_ASSIGN_INFO": "Set default Assigned To. The value set here will be assigned to the record when the user, who was assigned, can not be found.",
+    "LBL_CONDITIONS_INFO": "Set record search conditions. In order to select one user from the available user list, the system counts the number of records assigned to the user in the module. The user with the lowest number of records is assigned to the record.",
+    "LBL_ROLEID_INFO": "Set one of the following modes: SYSTEM - user by such mechanisms as workflows tasks and handlers; NON-SYSTEM –  allows to assign a record manually by the user."
+  },
+  "js": {
+    "JS_STATE_CONFIRMATION": "Are you sure you want to change record state?",
+    "JS_SAVE_SUCCESS": "Changes saved successfully"
+  }
+}

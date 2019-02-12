@@ -11,25 +11,24 @@
 
 class Users_PreferenceDetail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
 			return true;
 		} else {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -38,7 +37,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcessTplName(\App\Request $request)
 	{
@@ -46,7 +45,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function showModuleBasicView(\App\Request $request)
 	{
@@ -54,7 +53,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	protected function preProcessDisplay(\App\Request $request)
 	{
@@ -63,7 +62,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -73,12 +72,11 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		return parent::process($request);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -90,9 +88,10 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 			'modules.Vtiger.resources.Detail',
 			'modules.Users.resources.Detail',
 			'modules.' . $moduleName . '.resources.PreferenceDetail',
-			'modules.' . $moduleName . '.resources.PreferenceEdit'
+			'modules.' . $moduleName . '.resources.PreferenceEdit',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+
 		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}
 }

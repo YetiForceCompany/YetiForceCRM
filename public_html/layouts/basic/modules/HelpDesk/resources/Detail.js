@@ -1,16 +1,18 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 	setAccountsReference: function () {
-		var params = {module: "Accounts", view: "Popup", src_module: "HelpDesk", src_record: app.getRecordId()};
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		popupInstance.show(params, function (data) {
-			var responseData = JSON.parse(data);
-			$.each(responseData, function (key, element) {
-				var instance = Vtiger_Detail_Js.getInstance();
-				instance.saveFieldValues({
+		app.showRecordsList({
+			module: "Accounts",
+			src_module: "HelpDesk",
+			src_record: app.getRecordId()
+		}, (modal, instance) => {
+			instance.setSelectEvent((responseData) => {
+				Vtiger_Detail_Js.getInstance().saveFieldValues({
 					field: "parent_id",
-					value: key
-				}).then(function (response) {
+					value: responseData.id
+				}).done(function (response) {
 					location.reload();
 				});
 			});
@@ -25,7 +27,7 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 				setRelatedFields: true,
 				field: "servicecontractsid",
 				value: element.data('id')
-			}).then(function (response) {
+			}).done(function (response) {
 				location.reload();
 			});
 		});

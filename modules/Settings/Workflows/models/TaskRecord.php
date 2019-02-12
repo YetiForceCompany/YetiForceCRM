@@ -11,21 +11,20 @@
 require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 
-/*
- * Workflow Task Record Model Class
- */
+// Workflow Task Record Model Class
 
 class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Task status active
+	 * Task status active.
+	 *
 	 * @var int
 	 */
 	const TASK_STATUS_ACTIVE = 1;
 
 	/**
-	 * Return task record id
+	 * Return task record id.
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -34,7 +33,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return task record name
+	 * Return task record name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -43,7 +43,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if task is active
+	 * Check if task is active.
+	 *
 	 * @return bool
 	 */
 	public function isActive()
@@ -52,7 +53,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return task object
+	 * Return task object.
+	 *
 	 * @return VTTask
 	 */
 	public function getTaskObject()
@@ -61,18 +63,22 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Set task object
+	 * Set task object.
+	 *
 	 * @param VTTask $task
+	 *
 	 * @return $this
 	 */
 	public function setTaskObject($task)
 	{
 		$this->task_object = $task;
+
 		return $this;
 	}
 
 	/**
-	 * Return task manager object
+	 * Return task manager object.
+	 *
 	 * @return VTTaskManager
 	 */
 	public function getTaskManager()
@@ -81,7 +87,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Set task manager object
+	 * Set task manager object.
+	 *
 	 * @param VTTaskManager $tm
 	 */
 	public function setTaskManager($tm)
@@ -90,7 +97,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return edit view url
+	 * Return edit view url.
+	 *
 	 * @return string
 	 */
 	public function getEditViewUrl()
@@ -99,7 +107,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return delete action url
+	 * Return delete action url.
+	 *
 	 * @return string
 	 */
 	public function getDeleteActionUrl()
@@ -108,7 +117,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * return change status url
+	 * return change status url.
+	 *
 	 * @return string
 	 */
 	public function getChangeStatusUrl()
@@ -117,7 +127,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return workflow object
+	 * Return workflow object.
+	 *
 	 * @return Workflow
 	 */
 	public function getWorkflow()
@@ -126,23 +137,27 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Set workflow from instance
+	 * Set workflow from instance.
+	 *
 	 * @param object $workflowModel
+	 *
 	 * @return $this
 	 */
 	public function setWorkflowFromInstance($workflowModel)
 	{
 		$this->workflow = $workflowModel;
+
 		return $this;
 	}
 
 	/**
-	 * Return task type
+	 * Return task type.
+	 *
 	 * @return Settings_Workflows_TaskType_Model
 	 */
 	public function getTaskType()
 	{
-		if (!$this->task_type) {
+		if (empty($this->task_type)) {
 			$taskObject = $this->getTaskObject();
 			if (!empty($taskObject)) {
 				$taskClass = get_class($taskObject);
@@ -153,9 +168,11 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return all tasks for workflow
+	 * Return all tasks for workflow.
+	 *
 	 * @param Workflow $workflowModel
-	 * @param bool $active
+	 * @param bool     $active
+	 *
 	 * @return VTTask[]
 	 */
 	public static function getAllForWorkflow($workflowModel, $active = false)
@@ -172,9 +189,11 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return instance
-	 * @param int $taskId
+	 * Return instance.
+	 *
+	 * @param int      $taskId
 	 * @param Workflow $workflowModel
+	 *
 	 * @return VTTask
 	 */
 	public static function getInstance($taskId, $workflowModel = null)
@@ -188,39 +207,48 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return clean instance
+	 * Return clean instance.
+	 *
 	 * @param object $workflowModel
 	 * @param string $taskName
+	 *
 	 * @return VTTask
 	 */
 	public static function getCleanInstance($workflowModel, $taskName)
 	{
 		$tm = new VTTaskManager();
 		$task = $tm->createTask($taskName, $workflowModel->getId());
+
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 	}
 
 	/**
-	 *
-	 * @param VTTask $task
-	 * @param Workflow $workflowModel
+	 * @param VTTask        $task
+	 * @param Workflow      $workflowModel
 	 * @param VTTaskManager $tm
+	 *
 	 * @return VTTask
 	 */
 	public static function getInstanceFromTaskObject($task, $workflowModel, $tm)
 	{
-		$taskId = $task->id;
+		if (isset($task->id)) {
+			$taskId = $task->id;
+		} else {
+			$taskId = false;
+		}
+
 		$summary = $task->summary;
 		$status = $task->active;
 
 		$taskModel = new self();
 		$taskModel->setTaskManager($tm);
+
 		return $taskModel->set('task_id', $taskId)->set('summary', $summary)->set('status', $status)
-				->setTaskObject($task)->setWorkflowFromInstance($workflowModel);
+			->setTaskObject($task)->setWorkflowFromInstance($workflowModel);
 	}
 
 	/**
-	 * Function deletes workflow task
+	 * Function deletes workflow task.
 	 */
 	public function delete()
 	{
@@ -228,7 +256,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function saves workflow task
+	 * Function saves workflow task.
 	 */
 	public function save()
 	{

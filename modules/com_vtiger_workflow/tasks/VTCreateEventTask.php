@@ -7,13 +7,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/Webservices/Utils.php');
-require_once("include/Webservices/WebServiceError.php");
-require_once("modules/Users/Users.php");
+require_once 'include/Webservices/Utils.php';
+require_once 'include/Webservices/WebServiceError.php';
+require_once 'modules/Users/Users.php';
 
 class VTCreateEventTask extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -21,20 +20,12 @@ class VTCreateEventTask extends VTTask
 		return ['eventType', 'eventName', 'description', 'sendNotification',
 			'startTime', 'startDays', 'startDirection', 'startDatefield',
 			'endTime', 'endDays', 'endDirection', 'endDatefield',
-			'status', 'priority', 'assigned_user_id'];
-	}
-
-	public function getAdmin()
-	{
-		$user = Users::getActiveAdminUser();
-		$currentUser = vglobal('current_user');
-		$this->originalUser = $currentUser;
-		$currentUser = $user;
-		return $user;
+			'status', 'priority', 'assigned_user_id', ];
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
@@ -43,9 +34,8 @@ class VTCreateEventTask extends VTTask
 			return;
 		}
 		$userId = $recordModel->get('assigned_user_id');
-		$adminUser = $this->getAdmin();
 		if ($userId === null) {
-			$userId = $adminUser;
+			$userId = Users::getActiveAdminUser();
 		}
 		$moduleName = $recordModel->getModuleName();
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
@@ -53,11 +43,11 @@ class VTCreateEventTask extends VTTask
 
 		if ($this->assigned_user_id === 'currentUser') {
 			$userId = \App\User::getCurrentUserId();
-		} else if ($this->assigned_user_id === 'triggerUser') {
+		} elseif ($this->assigned_user_id === 'triggerUser') {
 			$userId = $recordModel->executeUser;
-		} else if ($this->assigned_user_id === 'copyParentOwner') {
+		} elseif ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
-		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
+		} elseif (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = (new App\Db\Query())->from('vtiger_users')
 				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
 				->exists();
@@ -84,7 +74,7 @@ class VTCreateEventTask extends VTTask
 			'date_start' => $startDate,
 			'time_end' => self::convertToDBFormat($this->endTime),
 			'due_date' => $endDate,
-			'duration_hours' => 0
+			'duration_hours' => 0,
 		];
 		$id = $recordModel->getId();
 		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
@@ -105,11 +95,11 @@ class VTCreateEventTask extends VTTask
 				}
 			}
 		}
-		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
-		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 	}
 
 	private function calculateDate($recordModel, $days, $direction, $datefield)
@@ -123,14 +113,15 @@ class VTCreateEventTask extends VTTask
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
-		$date = strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
+		return strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
 			(strtolower($direction) == 'before' ? -1 : 1));
-		return $date;
 	}
 
 	/**
-	 * To convert time_start & time_end values to db format
+	 * To convert time_start & time_end values to db format.
+	 *
 	 * @param type $timeStr
+	 *
 	 * @return time
 	 */
 	public static function convertToDBFormat($timeStr)
@@ -138,6 +129,7 @@ class VTCreateEventTask extends VTTask
 		$date = new DateTime();
 		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
 		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
+
 		return $dbInsertDateTime->format('H:i:s');
 	}
 

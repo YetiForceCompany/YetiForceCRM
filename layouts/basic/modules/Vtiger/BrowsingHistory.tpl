@@ -1,27 +1,27 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<ul class="dropdown-menu pull-right historyList" role="menu">
-	{foreach item=HISTORY from=$BROWSING_HISTORY}
-		{if isset($HISTORY['viewToday'])}
-			<li class="item selectorHistory">{\App\Language::translate('LBL_TODAY')}</li>
-		{elseif isset($HISTORY['viewYesterday'])}
-			<li class="item selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</li>
-		{elseif isset($HISTORY['viewOlder'])}
-			<li class="item selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</li>
-		{/if}
-		<li class="item">
-			<a href="{$HISTORY['url']}">
+	<div class="tpl-Base-BrowsingHistory dropdown-menu historyList js-scrollbar" aria-labelledby="showHistoryBtn"
+		 role="list" data-js="perfectscrollbar">
+		{foreach item=HISTORY from=$BROWSING_HISTORY}
+			{if isset($HISTORY['viewToday'])}
+				<h6 class="dropdown-header selectorHistory">{\App\Language::translate('LBL_TODAY')}</h6>
+			{elseif isset($HISTORY['viewYesterday'])}
+				<h6 class="dropdown-header selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</h6>
+			{elseif isset($HISTORY['viewOlder'])}
+				<h6 class="dropdown-header selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</h6>
+			{/if}
+			<a class="item dropdown-item" href="{$HISTORY['url']}" role="listitem">
 				{if $HISTORY['hour']}
-					<span class="historyHour">{$HISTORY['date']}</span> 
+					<span class="historyHour">{$HISTORY['date']}</span>
 				{else}
 					{$HISTORY['date']}
-				{/if} 
-				{" | "} 
+				{/if}
+				{" | "}
 				{$HISTORY['title']}
 			</a>
-		</li>
-	{/foreach}
-	<li class="divider"></li>
-	<li><a class="clearHistory" href="#" onclick="app.clearBrowsingHistory();">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a></li>
-</ul>
+		{/foreach}
+		<div class="dropdown-divider"></div>
+		<a class="dropdown-item js-clear-history" data-js="click" href="#"
+		   role="listitem">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a>
+	</div>
 {/strip}

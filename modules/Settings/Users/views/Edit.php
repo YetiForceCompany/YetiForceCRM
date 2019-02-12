@@ -11,23 +11,22 @@
 
 class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
+			if ($this->record->get('status') !== 'Active') {
 				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
 		} elseif ($request->isEmpty('record')) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
+		if (($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
@@ -35,7 +34,7 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -46,7 +45,8 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 	}
 
 	/**
-	 * Pre process settings
+	 * Pre process settings.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function preProcessSettings(\App\Request $request)
@@ -54,8 +54,8 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->get('block');
-		$fieldId = $request->get('fieldid');
+		$selectedMenuId = $request->getInteger('block', '');
+		$fieldId = $request->getInteger('fieldid', '');
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
@@ -72,24 +72,19 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
-			'modules.Settings.Vtiger.resources.Index'
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Settings.Vtiger.resources.Index',
+		]));
 	}
 }

@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Email Template Task Class
- * @package YetiForce.Workflow
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Email Template Task Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class VTEmailTemplateTask extends VTTask
 {
-
 	/** @var bool Sending email takes more time, this should be handled via queue all the time. */
 	public $executeImmediately = true;
 
 	/**
-	 * Get field names
+	 * Get field names.
+	 *
 	 * @return string[]
 	 */
 	public function getFieldNames()
@@ -23,7 +23,8 @@ class VTEmailTemplateTask extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)

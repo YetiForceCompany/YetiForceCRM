@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 
 	step2Container: false,
@@ -37,7 +39,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#workflow_step2');
 		}
 		if (container.is('#workflow_step2')) {
@@ -70,34 +72,29 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 				'enabled': true
 			}
 		});
-		AppConnector.request(formData).then(
-				function (data) {
-					form.hide();
-					if (data.result) {
-						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WORKFLOW_SAVED_SUCCESSFULLY')});
-						var workflowRecordElement = jQuery('[name="record"]', form);
-						if (workflowRecordElement.val() == '') {
-							workflowRecordElement.val(data.result.id);
-						}
-						var params = {
-							module: app.getModuleName(),
-							parent: app.getParentModuleName(),
-							view: 'Edit',
-							mode: 'step3',
-							record: data.result.id
-						}
-						AppConnector.request(params).then(function (data) {
-							aDeferred.resolve(data);
-						});
-					}
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-				},
-				function (error, err) {
-
+		AppConnector.request(formData).done(function (data) {
+			form.hide();
+			if (data.result) {
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WORKFLOW_SAVED_SUCCESSFULLY')});
+				var workflowRecordElement = jQuery('[name="record"]', form);
+				if (workflowRecordElement.val() == '') {
+					workflowRecordElement.val(data.result.id);
 				}
-		);
+				var params = {
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					view: 'Edit',
+					mode: 'step3',
+					record: data.result.id
+				}
+				AppConnector.request(params).done(function (data) {
+					aDeferred.resolve(data);
+				});
+			}
+			progressIndicatorElement.progressIndicator({
+				'mode': 'hide'
+			});
+		});
 		return aDeferred.promise();
 	},
 
@@ -139,7 +136,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 				}
 			}
 		});
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', container));
 		this.getPopUp();
 		if (jQuery('[name="filtersavedinnew"]', container).val() == '5') {

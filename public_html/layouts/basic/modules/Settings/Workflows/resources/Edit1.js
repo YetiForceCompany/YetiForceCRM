@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 
 	init: function () {
@@ -33,7 +35,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#workflow_step1');
 		}
 		if (container.is('#workflow_step1')) {
@@ -53,18 +55,13 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 				'enabled': true
 			}
 		});
-		AppConnector.request(formData).then(
-				function (data) {
-					form.hide();
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-					aDeferred.resolve(data);
-				},
-				function (error, err) {
-
-				}
-		);
+		AppConnector.request(formData).done(function (data) {
+			form.hide();
+			progressIndicatorElement.progressIndicator({
+				'mode': 'hide'
+			})
+			aDeferred.resolve(data);
+		});
 		return aDeferred.promise();
 	},
 
@@ -77,17 +74,17 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 			var element = jQuery(e.currentTarget);
 			var scheduleBoxContainer = jQuery('#scheduleBox');
 			if (element.is(':checked') && element.val() == '6') {	//for scheduled workflows
-				scheduleBoxContainer.removeClass('hide');
+				scheduleBoxContainer.removeClass('d-none');
 			} else {
-				scheduleBoxContainer.addClass('hide');
+				scheduleBoxContainer.addClass('d-none');
 			}
 		});
 		app.registerEventForClockPicker($('.clockPicker'));
-		app.registerEventForDatePickerFields('#scheduleByDate', true);
+		App.Fields.Date.register('#scheduleByDate', true);
 
-		jQuery('#annualDates').chosen();
-		jQuery('#schdayofweek').chosen();
-		jQuery('#schdayofmonth').chosen();
+		App.Fields.Picklist.showSelect2ElementView($('#annualDates'));
+		App.Fields.Picklist.showSelect2ElementView($('#schdayofweek'));
+		App.Fields.Picklist.showSelect2ElementView($('#schdayofmonth'));
 
 		var currentYear = new Date().getFullYear();
 		var weekStartId = jQuery('#weekStartDay').data('value');
@@ -120,11 +117,11 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 				html += '<option selected value=' + formated + '>' + formated + '</option>';
 			}
 			annualDatesEle.append(html);
-			annualDatesEle.trigger("chosen:updated");
+			annualDatesEle.trigger("select2:updated");
 		});
 		var annualDatesEle = jQuery('#annualDates');
 		thisInstance.updateAnnualDates(annualDatesEle);
-		annualDatesEle.trigger("chosen:updated");
+		annualDatesEle.trigger("select2:updated");
 	},
 	updateAnnualDates: function (annualDatesEle) {
 		annualDatesEle.html('');
@@ -165,43 +162,43 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 	},
 
 	hideScheduledTime: function () {
-		jQuery('#scheduledTime').addClass('hide');
+		jQuery('#scheduledTime').addClass('d-none');
 	},
 
 	showScheduledTime: function () {
-		jQuery('#scheduledTime').removeClass('hide');
+		jQuery('#scheduledTime').removeClass('d-none');
 	},
 
 	hideScheduledWeekList: function () {
-		jQuery('#scheduledWeekDay').addClass('hide');
+		jQuery('#scheduledWeekDay').addClass('d-none');
 	},
 
 	showScheduledWeekList: function () {
-		jQuery('#scheduledWeekDay').removeClass('hide');
+		jQuery('#scheduledWeekDay').removeClass('d-none');
 	},
 
 	hideScheduledMonthByDateList: function () {
-		jQuery('#scheduleMonthByDates').addClass('hide');
+		jQuery('#scheduleMonthByDates').addClass('d-none');
 	},
 
 	showScheduledMonthByDateList: function () {
-		jQuery('#scheduleMonthByDates').removeClass('hide');
+		jQuery('#scheduleMonthByDates').removeClass('d-none');
 	},
 
 	hideScheduledSpecificDate: function () {
-		jQuery('#scheduleByDate').addClass('hide');
+		jQuery('#scheduleByDate').addClass('d-none');
 	},
 
 	showScheduledSpecificDate: function () {
-		jQuery('#scheduleByDate').removeClass('hide');
+		jQuery('#scheduleByDate').removeClass('d-none');
 	},
 
 	hideScheduledAnually: function () {
-		jQuery('#scheduleAnually').addClass('hide');
+		jQuery('#scheduleAnually').addClass('d-none');
 	},
 
 	showScheduledAnually: function () {
-		jQuery('#scheduleAnually').removeClass('hide');
+		jQuery('#scheduleAnually').removeClass('d-none');
 	},
 
 	registerEvents: function () {

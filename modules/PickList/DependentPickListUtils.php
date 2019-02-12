@@ -8,50 +8,60 @@
  * All Rights Reserved.
  * ******************************************************************************* */
 
-require_once 'include/utils/utils.php';
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 require_once 'modules/PickList/PickListUtils.php';
 
 class Vtiger_DependencyPicklist
 {
-
+	/**
+	 * Returns information about dependent picklists.
+	 *
+	 * @param string $module
+	 *
+	 * @return array
+	 */
 	public static function getDependentPicklistFields($module = '')
 	{
-		$adb = PearDatabase::getInstance();
-
-		if (empty($module)) {
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', []);
-		} else {
-			$tabId = \App\Module::getModuleId($module);
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', [$tabId]);
+		$query = (new \App\Db\Query())->select(['sourcefield', 'targetfield', 'tabid'])
+			->from('vtiger_picklist_dependency');
+		if (!empty($module)) {
+			$query->where(['tabid' => \App\Module::getModuleId($module)]);
 		}
-		$noofrows = $adb->numRows($result);
-
+		$dataReader = $query->distinct()->createCommand()->query();
 		$dependentPicklists = [];
-		if ($noofrows > 0) {
-			for ($i = 0; $i < $noofrows; ++$i) {
-				$fieldTabId = $adb->queryResult($result, $i, 'tabid');
-				$sourceField = $adb->queryResult($result, $i, 'sourcefield');
-				$targetField = $adb->queryResult($result, $i, 'targetfield');
-
-				if (\vtlib\Functions::getModuleFieldId($fieldTabId, $sourceField) === false || \vtlib\Functions::getModuleFieldId($fieldTabId, $targetField) === false) {
-					continue;
-				}
-
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', [$sourceField]);
-				$sourceFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
-
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', [$targetField]);
-				$targetFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
-				$forModule = \App\Module::getModuleName($fieldTabId);
-				$dependentPicklists[] = [
-					'sourcefield' => $sourceField,
-					'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $forModule),
-					'targetfield' => $targetField,
-					'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $forModule),
-					'module' => $forModule
-				];
+		while ($row = $dataReader->read()) {
+			$sourceField = $row['sourcefield'];
+			$targetField = $row['targetfield'];
+			$moduleModel = Vtiger_Module_Model::getInstance($row['tabid']);
+			$sourceFieldModel = Vtiger_Field_Model::getInstance($sourceField, $moduleModel);
+			$targetFieldModel = Vtiger_Field_Model::getInstance($targetField, $moduleModel);
+			if (!$sourceFieldModel || !$targetFieldModel) {
+				continue;
 			}
+			$sourceFieldLabel = $sourceFieldModel->getFieldLabel();
+			$targetFieldLabel = $targetFieldModel->getFieldLabel();
+			$moduleName = $moduleModel->getName();
+			$dependentPicklists[] = [
+				'sourcefield' => $sourceField,
+				'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $moduleName),
+				'targetfield' => $targetField,
+				'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $moduleName),
+				'module' => $moduleName,
+			];
 		}
+		$dataReader->close();
+
 		return $dependentPicklists;
 	}
 
@@ -61,7 +71,6 @@ class Vtiger_DependencyPicklist
 		$tabId = \App\Module::getModuleId($module);
 		$sourceField = $dependencyMap['sourcefield'];
 		$targetField = $dependencyMap['targetfield'];
-
 		$valueMapping = $dependencyMap['valuemapping'];
 		$countValueMapping = count($valueMapping);
 		for ($i = 0; $i < $countValueMapping; ++$i) {
@@ -69,14 +78,12 @@ class Vtiger_DependencyPicklist
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
 			$serializedTargetValues = \App\Json::encode($targetValues);
-
-			$optionalsourcefield = $mapping['optionalsourcefield'];
-			$optionalsourcevalues = $mapping['optionalsourcevalues'];
-
+			$optionalsourcefield = $mapping['optionalsourcefield'] ?? '';
+			$optionalsourcevalues = $mapping['optionalsourcevalues'] ?? '';
 			if (!empty($optionalsourcefield)) {
 				$criteria = [];
-				$criteria["fieldname"] = $optionalsourcefield;
-				$criteria["fieldvalues"] = $optionalsourcevalues;
+				$criteria['fieldname'] = $optionalsourcefield;
+				$criteria['fieldvalues'] = $optionalsourcevalues;
 				$serializedCriteria = \App\Json::encode($criteria);
 			} else {
 				$serializedCriteria = null;
@@ -90,7 +97,7 @@ class Vtiger_DependencyPicklist
 				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 					'targetvalues' => $serializedTargetValues,
 					'criteria' => $serializedCriteria,
-					], ['id' => $dependencyId])->execute();
+				], ['id' => $dependencyId])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_picklist_dependency', [
 					'id' => $db->getUniqueID('vtiger_picklist_dependency'),
@@ -103,6 +110,8 @@ class Vtiger_DependencyPicklist
 				])->execute();
 			}
 		}
+		\App\Cache::delete('picklistDependencyFields', $module);
+		\App\Cache::delete('getPicklistDependencyDatasource', $module);
 	}
 
 	public static function deletePickListDependencies($module, $sourceField, $targetField)
@@ -110,8 +119,10 @@ class Vtiger_DependencyPicklist
 		App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
 			'tabid' => \App\Module::getModuleId($module),
 			'sourcefield' => $sourceField,
-			'targetfield' => $targetField
+			'targetfield' => $targetField,
 		])->execute();
+		\App\Cache::delete('picklistDependencyFields', $module);
+		\App\Cache::delete('getPicklistDependencyDatasource', $module);
 	}
 
 	public static function getPickListDependency($module, $sourceField, $targetField)
@@ -119,21 +130,24 @@ class Vtiger_DependencyPicklist
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
 		$dataReader = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
-				->createCommand()->query();
+			->createCommand()->query();
 		$valueMapping = [];
 		while ($row = $dataReader->read()) {
 			$valueMapping[] = [
 				'sourcevalue' => $row['sourcevalue'],
-				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues']))
+				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues'])),
 			];
 		}
+		$dataReader->close();
 		$dependencyMap['valuemapping'] = $valueMapping;
+
 		return $dependencyMap;
 	}
 
 	public static function getJSPicklistDependencyDatasource($module)
 	{
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);
+
 		return \App\Json::encode($picklistDependencyDatasource);
 	}
 
@@ -141,28 +155,7 @@ class Vtiger_DependencyPicklist
 	{
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
 		return (new App\Db\Query())->from('vtiger_picklist_dependency')
-				->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
-				->exists();
-	}
-
-	public static function getDependentPickListModules()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$query = 'SELECT distinct vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name as tabname FROM vtiger_field
-						INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-						INNER JOIN vtiger_picklist ON vtiger_picklist.name = vtiger_field.fieldname
-					WHERE uitype IN (15,16)
-						AND vtiger_field.tabid != 29
-						AND vtiger_field.displaytype = 1
-						AND vtiger_field.presence in (0,2)
-					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
-		// END
-		$result = $adb->pquery($query, []);
-		while ($row = $adb->fetchArray($result)) {
-			$modules[$row['tablabel']] = $row['tabname'];
-		}
-		ksort($modules);
-		return $modules;
+			->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+			->exists();
 	}
 }

@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Notification Record Model
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Notification Record Model.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Notification_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function create message contents
+	 * Function create message contents.
+	 *
 	 * @return int
 	 */
 	public static function getNumberOfEntries()
@@ -22,13 +22,16 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			->where(['vtiger_crmentity.smownerid' => Users_Record_Model::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 			->count();
 		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
+
 		return $count > $max ? $max : $count;
 	}
 
 	/**
-	 * Function returns notifications list
-	 * @param int $limit
+	 * Function returns notifications list.
+	 *
+	 * @param int   $limit
 	 * @param array $conditions
+	 *
 	 * @return Vtiger_Record_Model[]
 	 */
 	public function getEntries($limit = false, $conditions = false)
@@ -51,17 +54,21 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			$recordModel->setData($row);
 			$entries[$row['id']] = $recordModel;
 		}
+		$dataReader->close();
+
 		return $entries;
 	}
 
 	/**
-	 * Function gets notifications to be sent
-	 * @param int $userId
-	 * @param array $modules
+	 * Function gets notifications to be sent.
+	 *
+	 * @param int    $userId
+	 * @param array  $modules
 	 * @param string $startDate
 	 * @param string $endDate
-	 * @param boolean $isExists
-	 * @return array|boolean
+	 * @param bool   $isExists
+	 *
+	 * @return array|bool
 	 */
 	public static function getEmailSendEntries($userId, $modules, $startDate, $endDate, $isExists = false)
 	{
@@ -86,16 +93,20 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			$recordModel->setData($row);
 			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
+		$dataReader->close();
+
 		return $entries;
 	}
 
 	/**
-	 * Function to get types of notification
+	 * Function to get types of notification.
+	 *
 	 * @return array
 	 */
 	public function getTypes()
 	{
 		$fieldModel = Vtiger_Field_Model::getInstance('notification_type', Vtiger_Module_Model::getInstance('Notification'));
+
 		return $fieldModel->getPicklistValues();
 	}
 }

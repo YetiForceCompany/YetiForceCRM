@@ -9,13 +9,14 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
+abstract class Vtiger_Mass_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Get query for records list from request
+	 * Get query for records list from request.
+	 *
 	 * @param \App\Request $request
-	 * @return \App\QueryGenerator|boolean
+	 *
+	 * @return \App\QueryGenerator|bool
 	 */
 	public static function getQuery(\App\Request $request)
 	{
@@ -34,20 +35,26 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			$queryGenerator = new App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
+			$queryGenerator->setStateCondition($request->getByType('entityState'));
 			return $queryGenerator;
 		}
 		if (!$request->isEmpty('operator')) {
-			$customViewModel->set('operator', $request->getByType('operator'));
-			$customViewModel->set('search_key', $request->getByType('search_key'));
-			$customViewModel->set('search_value', $request->get('search_value'));
+			$operator = $request->getByType('operator');
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$customViewModel->set('operator', $operator);
+			$customViewModel->set('search_key', $searchKey);
+			$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
 		}
-		$customViewModel->set('search_params', $request->get('search_params'));
-		return $customViewModel->getRecordsListQuery($request->get('excluded_ids'), $moduleName);
+		$customViewModel->set('search_params', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
+		$customViewModel->set('entityState', $request->getByType('entityState'));
+		return $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', 2), $moduleName);
 	}
 
 	/**
-	 * Get records list from request
+	 * Get records list from request.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array
 	 */
 	public static function getRecordsListFromRequest(\App\Request $request)
@@ -57,14 +64,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
-		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
+		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
 	}
 }

@@ -1,54 +1,53 @@
 <?php
 /**
- * Settings users module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Settings users module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
- * Settings users module model class
+ * Settings users module model class.
  */
 class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	/**
-	 * Get instance
+	 * Get instance.
+	 *
 	 * @param string $name
+	 *
 	 * @return \self
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$instance = new self();
-		return $instance;
+		return new self();
 	}
 
 	/**
-	 * Get config
+	 * Get config.
+	 *
 	 * @param string $type
+	 *
 	 * @return array
 	 */
 	public static function getConfig($type)
 	{
-		$query = (new App\Db\Query())->from('yetiforce_auth')->where(['type' => $type]);
+		$query = (new \App\Db\Query())->from('yetiforce_auth')->where(['type' => $type]);
 		$config = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$param = $row['param'];
-			$value = $row['value'];
-			if ($param == 'users') {
-				$config[$param] = $value == '' ? [] : explode(',', $value);
-			} else {
-				$config[$param] = $value;
-			}
+			$config[$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		return $config;
 	}
 
 	/**
-	 * Set config type, parameter value pair
+	 * Set config type, parameter value pair.
+	 *
 	 * @param array $param
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function setConfig($param)
 	{
@@ -59,11 +58,13 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		App\Db::getInstance()->createCommand()
 			->update('yetiforce_auth', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
 			->execute();
+
 		return true;
 	}
 
 	/**
-	 * Save configuration about switching between users
+	 * Save configuration about switching between users.
+	 *
 	 * @param array $data
 	 */
 	public function saveSwitchUsers($data)
@@ -71,7 +72,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		$map = $switchUsers = $switchUsersRaw = [];
 		if (!empty($data) && count($data)) {
 			foreach ($data as $row) {
-				$switchUsersRaw [$row['user']] = $row['access'];
+				$switchUsersRaw[$row['user']] = $row['access'];
 				$accessList = [];
 				if (count($row['access'])) {
 					foreach ($row['access'] as $access) {
@@ -79,7 +80,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					}
 				}
 				foreach ($this->getUserID($row['user']) as $user) {
-					$map[$user] = array_merge(isset($map[$user]) ? $map[$user] : [], $accessList);
+					$map[$user] = array_merge($map[$user] ?? [], $accessList);
 				}
 			}
 		}
@@ -99,29 +100,34 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Returns the list of users to switch
+	 * Returns the list of users to switch.
+	 *
 	 * @return array
 	 */
 	public function getSwitchUsers()
 	{
-		require('user_privileges/switchUsers.php');
+		require 'user_privileges/switchUsers.php';
+
 		return $switchUsersRaw;
 	}
 
 	/**
-	 * Users id
+	 * Users id.
+	 *
 	 * @var array
 	 */
 	public static $usersID = [];
 
 	/**
-	 * Get user id
+	 * Get user id.
+	 *
 	 * @param string $data
+	 *
 	 * @return int
 	 */
 	public function getUserID($data)
 	{
-		if (key_exists($data, self::$usersID)) {
+		if (array_key_exists($data, self::$usersID)) {
 			return self::$usersID[$data];
 		}
 		if (substr($data, 0, 1) === 'H') {
@@ -134,39 +140,43 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			$return = [(int) $data];
 		}
 		self::$usersID[$data] = $return;
+
 		return $return;
 	}
 
 	/**
-	 * Users array
+	 * Users array.
+	 *
 	 * @var array
 	 */
 	public static $users = [];
 
 	/**
-	 * Get user name by id
+	 * Get user name by id.
+	 *
 	 * @param int $id
+	 *
 	 * @return string
 	 */
 	public function getUserName($id)
 	{
-		if (key_exists($id, self::$users)) {
+		if (array_key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
 		$entityData = \App\Module::getEntityInfo('Users');
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
+		$userPrivileges = App\User::getPrivilegesFile($id);
 		$colums = [];
-		foreach ($entityData['fieldnameArr'] as &$fieldname) {
-			$colums[] = $currentUser->column_fields[$fieldname];
+		foreach ($entityData['fieldnameArr'] as $fieldname) {
+			$colums[] = $userPrivileges['user_info'][$fieldname];
 		}
 		$name = implode(' ', $colums);
 		self::$users[$id] = $name;
+
 		return $name;
 	}
 
 	/**
-	 * Refresh list users to switch
+	 * Refresh list users to switch.
 	 */
 	public function refreshSwitchUsers()
 	{
@@ -181,18 +191,18 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					}
 				}
 				foreach ($this->getUserID($key) as $user) {
-					$map[$user] = array_merge(isset($map[$user]) ? $map[$user] : [], $accessList);
+					$map[$user] = array_merge($map[$user] ?? [], $accessList);
 				}
 			}
 		}
 		foreach ($map as $user => $accessList) {
 			$usersForSort = [];
-			$usersForSort [$user] = $this->getUserName($user);
+			$usersForSort[$user] = $this->getUserName($user);
 			foreach ($accessList as $ID) {
 				$usersForSort[$ID] = $this->getUserName($ID);
 			}
 			asort($usersForSort);
-			$switchUsers [$user] = $usersForSort;
+			$switchUsers[$user] = $usersForSort;
 		}
 		$content = '<?php' . PHP_EOL .
 			'$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
@@ -201,17 +211,20 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get locks
+	 * Function to get locks.
+	 *
 	 * @return array
 	 */
 	public function getLocks()
 	{
-		include('user_privileges/locks.php');
+		include 'user_privileges/locks.php';
+
 		return $locksRaw;
 	}
 
 	/**
-	 * Return type of locks
+	 * Return type of locks.
+	 *
 	 * @return string[]
 	 */
 	public function getLocksTypes()
@@ -222,12 +235,13 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			'paste' => 'LBL_LOCK_PASTE',
 			'contextmenu' => 'LBL_LOCK_RIGHT_MENU',
 			'selectstart' => 'LBL_LOCK_SELECT_TEXT',
-			'drag' => 'LBL_LOCK_DRAG'
+			'drag' => 'LBL_LOCK_DRAG',
 		];
 	}
 
 	/**
-	 * Function to save locks for users
+	 * Function to save locks for users.
+	 *
 	 * @param array $data
 	 */
 	public function saveLocks($data)
@@ -239,7 +253,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				if (empty($row['locks'])) {
 					continue;
 				}
-				if (key_exists($row['user'], $toSave)) {
+				if (array_key_exists($row['user'], $toSave)) {
 					$toSave[$row['user']] = array_merge($toSave[$row['user']], $row['locks']);
 				} else {
 					$toSave[$row['user']] = $row['locks'];
@@ -248,7 +262,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			foreach ($toSave as $user => &$locks) {
 				$locks = array_unique($locks);
 				foreach ($this->getUserID($user) as $userID) {
-					$map[$userID] = array_merge(isset($map[$userID]) ? $map[$userID] : [], $locks);
+					$map[$userID] = array_merge($map[$userID] ?? [], $locks);
 				}
 			}
 		}
@@ -266,7 +280,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
 				}
 				$name = $name->getName();
-				if ($oldValues[$id]) {
+				if (!empty($oldValues[$id])) {
 					$prev[$name] = implode(',', $oldValues[$id]);
 				} else {
 					$prev[$name] = '';
@@ -287,7 +301,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
-				if ($newValues[$id]) {
+				if (!empty($newValues[$id])) {
 					$post[$name] = implode(',', $newValues[$id]);
 				} else {
 					$post[$name] = '';

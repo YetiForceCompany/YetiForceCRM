@@ -1,17 +1,16 @@
 <?php
 
 /**
- * UIType Taxes Field Class
- * @package YetiForce.Fieldsss
- * @copyright YetiForce Sp. z o.o.
+ * UIType Taxes Field Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -22,12 +21,31 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
+		}
+		if (!$isUserFormat) {
+			$value = explode(',', $value);
 		}
 		if (!is_array($value)) {
 			$value = [$value];
@@ -37,11 +55,11 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $id, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -55,7 +73,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -83,36 +101,52 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				$display[$tax] = $taxs[$tax];
 			}
 		}
-
 		return $display;
 	}
 
 	/**
-	 * Function to get all the available picklist values for the current field
+	 * Function to get all the available picklist values for the current field.
+	 *
 	 * @return array List of picklist values if the field
 	 */
 	public function getPicklistValues()
 	{
 		$taxes = Vtiger_Inventory_Model::getGlobalTaxes();
 		foreach ($taxes as $key => $tax) {
-			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
+			$taxes[$key] = $tax['name'] . ' - ' . App\Fields\Double::formatToDisplay($tax['value']) . '%';
 		}
 		return $taxes;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/MultiSelectFieldSearchView.tpl';
+		return 'List/Field/MultiPicklist.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Taxes.tpl';
+		return 'Edit/Field/Taxes.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
 	}
 }

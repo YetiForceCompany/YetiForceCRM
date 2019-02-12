@@ -1,18 +1,18 @@
 <?php
 /**
- * GlobalPermissions test class
- * @package YetiForce.Test
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * GlobalPermissions test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+
 namespace Tests\Settings;
 
 class GlobalPermissions extends \Tests\Base
 {
-
 	/**
-	 * Testing permission changes
+	 * Testing permission changes.
 	 */
 	public function testChangeGlobalPermission()
 	{
@@ -24,11 +24,11 @@ class GlobalPermissions extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileID, 'globalactionid' => $globalactionid])->all();
 
 		$this->assertCount(1, $row);
-		$this->assertEquals($row[0]['globalactionpermission'], $checked);
+		$this->assertSame($row[0]['globalactionpermission'], $checked);
 	}
 
 	/**
-	 * Testing permission changes back
+	 * Testing permission changes back.
 	 */
 	public function testChangeBackGlobalPermission()
 	{
@@ -40,6 +40,6 @@ class GlobalPermissions extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileID, 'globalactionid' => $globalactionid])->all();
 
 		$this->assertCount(1, $row);
-		$this->assertEquals($row[0]['globalactionpermission'], $checked);
+		$this->assertSame($row[0]['globalactionpermission'], $checked);
 	}
 }

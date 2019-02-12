@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger RelatedModule widget class
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Vtiger RelatedModule widget class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 {
-
 	public function getUrl()
 	{
 		$moduleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
@@ -18,7 +17,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 		}
 		$fields = [];
 		if (!empty($this->Data['relatedfields'])) {
-			foreach ($this->Data['relatedfields'] as $field) {
+			foreach ((array) $this->Data['relatedfields'] as $field) {
 				list(, $fieldName) = explode('::', $field);
 				$fields[] = $fieldName;
 			}
@@ -37,32 +36,29 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
+			$isInventory = $model->isInventory();
+			$this->Config['isInventory'] = $isInventory;
 			if ($this->Data['action'] == 1) {
 				$createPermission = $model->isPermitted('CreateView');
 				$this->Config['action'] = ($createPermission === true) ? 1 : 0;
-				$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
-			}
-			if (isset($this->Data['showAll'])) {
-				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
+				if ($isInventory) {
+					$this->Config['actionURL'] = "{$model->getCreateRecordUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}&relationOperation=true";
+				} else {
+					$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
+				}
 			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
 				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
-				if ($switchHeaderData) {
-					switch ($switchHeaderData['type']) {
-						case 1:
-							$whereConditionOff = [];
-							foreach ($switchHeaderData['value'] as $name => $value) {
-								$whereCondition[] = [$name, 'n', implode('##', $value)];
-								$whereConditionOff[] = [$name, 'e', implode('##', $value)];
-							}
-							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
-							$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
-							$this->Config['switchHeader']['off'] = \App\Json::encode($whereConditionOff);
-							$whereCondition = [$whereCondition];
-							break;
-						default:
-							break;
+				if ($switchHeaderData && $switchHeaderData['type'] === 1) {
+					$whereConditionOff = [];
+					foreach ($switchHeaderData['value'] as $name => $value) {
+						$whereCondition[] = [$name, 'n', implode('##', $value)];
+						$whereConditionOff[] = [$name, 'e', implode('##', $value)];
 					}
+					$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
+					$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
+					$this->Config['switchHeader']['off'] = \App\Json::encode($whereConditionOff);
+					$whereCondition = [$whereCondition];
 				}
 			}
 			$this->Config['buttonHeader'] = Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);

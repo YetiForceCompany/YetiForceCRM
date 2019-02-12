@@ -1,25 +1,26 @@
 <?php
 
 /**
- * Record Model
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Record Model.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Edit fields 
-	 * @var string[] 
+	 * Edit fields.
+	 *
+	 * @var string[]
 	 */
 	private $editFields = ['Portal' => [
-			'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER']
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
 	];
 
 	/**
-	 * Record ID
+	 * Record ID.
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -28,7 +29,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Record name
+	 * Record name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -37,7 +39,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Module instance
+	 * Function to get Module instance.
+	 *
 	 * @return Settings_WebserviceUsers_Module_Model
 	 */
 	public function getModule()
@@ -49,18 +52,22 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to set Module instance
+	 * Function to set Module instance.
+	 *
 	 * @param Settings_WebserviceUsers_Module_Model $moduleModel
+	 *
 	 * @return $this
 	 */
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;
+
 		return $this;
 	}
 
 	/**
-	 * Function determines fields available in edition view
+	 * Function determines fields available in edition view.
+	 *
 	 * @return string[]
 	 */
 	public function getEditFields()
@@ -69,7 +76,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function determines fields available in edition view
+	 * Function determines fields available in edition view.
+	 *
 	 * @return string[]
 	 */
 	public function getFieldInstanceByName($name)
@@ -119,9 +127,11 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance, given id
-	 * @param int $id
+	 * Function to get the instance, given id.
+	 *
+	 * @param int    $id
 	 * @param string $type
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceById($id, $type)
@@ -135,14 +145,18 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->getModule()->getBaseTable())
 			->where([$instance->getModule()->getTableIndex() => $id])
 			->one(App\Db::getInstance('webservice'));
+		$data['password_t'] = App\Encryption::getInstance()->decrypt($data['password_t']);
 		$instance->setData($data);
 		\App\Cache::staticSave($cacheName, $id, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get the clean instance
+	 * Function to get the clean instance.
+	 *
 	 * @param string $type
+	 *
 	 * @return \self
 	 */
 	public static function getCleanInstance($type)
@@ -151,13 +165,16 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleInstance->typeApi = $type;
 		$instance = new self();
 		$instance->module = $moduleInstance;
+
 		return $instance;
 	}
 
 	/**
-	 * Function to save
+	 * Function to save.
+	 *
 	 * @param array $data
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function save($data)
 	{
@@ -175,7 +192,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (empty($this->getId())) {
 			$seccess = $db->createCommand()->insert($table, $data)->execute();
 			if ($seccess) {
-				$this->set('id', $db->getLastInsertID("$table_$index_seq"));
+				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
 			}
 		} else {
 			$seccess = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
@@ -184,9 +201,11 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function formats data for saving
+	 * Function formats data for saving.
+	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return int|string
 	 */
 	private function getValueToSave($key, $value)
@@ -199,6 +218,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'user_id':
 				$value = (int) $value;
 				break;
+			case 'password_t':
+				$value = App\Encryption::getInstance()->encrypt($value);
+				break;
 			default:
 				break;
 		}
@@ -206,8 +228,10 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $name
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($name)
@@ -215,6 +239,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($name) {
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($this->get($name));
+
 				return $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
 			case 'crmid':
 				return $this->get($name) ? \App\Record::getLabel($this->get($name)) : '';
@@ -223,10 +248,11 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'user_id':
 				return \App\Fields\Owner::getLabel($this->get($name));
 			case 'language':
-				return \App\Language::getAll()[$this->get($name)];
+				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
-				return \vtlib\Functions::textLength($label);
+
+				return \App\TextParser::textTruncate($label);
 			default:
 				break;
 		}
@@ -234,7 +260,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
@@ -243,30 +270,38 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'FL_PASSWORD',
+				'linkicon' => 'fas fa-copy',
+				'linkclass' => 'btn btn-sm btn-primary clipboard',
+				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password_t')))]
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-sm btn-primary',
-				'modalView' => true
+				'modalView' => true,
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_WebserviceUsers_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn btn-sm btn-danger'
-			]
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-sm btn-danger',
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
 	/**
-	 * Type field values
+	 * Type field values.
+	 *
 	 * @param type $value
+	 *
 	 * @return string
 	 */
 	public function getTypeValues($value = false)
@@ -275,7 +310,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			1 => 'PLL_USER_PERMISSIONS',
 			2 => 'PLL_ACCOUNTS_RELATED_RECORDS',
 			3 => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
-			4 => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY'
+			4 => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',
 		];
 		if ($value) {
 			return $data[$value];
@@ -284,8 +319,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function removes record
-	 * @return boolean
+	 * Function removes record.
+	 *
+	 * @return bool
 	 */
 	public function delete()
 	{

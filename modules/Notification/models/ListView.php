@@ -1,18 +1,19 @@
 <?php
 
 /**
- * ListView model for Notification module
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * ListView model for Notification module.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the Quick Links for the List view of the module
+	 * Function to get the Quick Links for the List view of the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
 	public function getHederLinks($linkParams)
@@ -25,8 +26,8 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_NOTIFICATION_SETTINGS',
 				'linkurl' => 'index.php?module=Notification&view=NotificationConfig',
-				'linkicon' => 'glyphicon glyphicon-cog',
-				'modalView' => true
+				'linkicon' => 'fas fa-cog',
+				'modalView' => true,
 			];
 		}
 		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
@@ -34,7 +35,7 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'glyphicon glyphicon-send'
+				'linkicon' => 'fas fa-paper-plane',
 			];
 		}
 		foreach ($headerLinks as $headerLink) {

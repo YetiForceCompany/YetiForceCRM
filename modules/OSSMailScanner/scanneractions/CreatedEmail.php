@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Mail scanner action creating mail
- * @package YetiForce.MailScanner
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Mail scanner action creating mail.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param OSSMail_Mail_Model $mail
+	 *
 	 * @return int
 	 */
 	public function process(OSSMail_Mail_Model $mail)
@@ -41,7 +42,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('cc_email', \App\Purifier::purify($mail->get('ccaddress')));
 			$record->set('bcc_email', \App\Purifier::purify($mail->get('bccaddress')));
 			$record->set('fromaddress', \App\Purifier::purify($mail->get('from')));
-			$record->set('orginal_mail', \App\Purifier::purifyHtml($mail->get('clean'), false));
+			$record->set('orginal_mail', \App\Purifier::purifyHtml($mail->get('clean')));
 			$record->set('uid', \App\Purifier::purify($mail->get('message_id')))->set('rc_user', $account['user_id']);
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
@@ -59,54 +60,58 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				$attachments = $mail->saveAttachments();
 				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
 					'date' => $mail->get('udate_formated'),
-					'cid' => $mail->getUniqueId()
-					], ['ossmailviewid' => $id]
+					'cid' => $mail->getUniqueId(),
+				], ['ossmailviewid' => $id]
 				)->execute();
+
 				return ['mailViewId' => $id, 'attachments' => $attachments];
-			} else {
-				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
-					'id' => $mail->get('id')
-					], ['ossmailviewid' => $mailId]
-				)->execute();
-				return ['mailViewId' => $mailId];
 			}
+		} else {
+			App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
+				'id' => $mail->get('id'),
+			], ['ossmailviewid' => $mail->getMailCrmId()]
+			)->execute();
+
+			return ['mailViewId' => $mail->getMailCrmId()];
 		}
 		return false;
 	}
 
 	/**
-	 * Treatment mail content with all images and unnecessary trash
+	 * Treatment mail content with all images and unnecessary trash.
+	 *
 	 * @param OSSMail_Mail_Model $mail
+	 *
 	 * @return string
 	 */
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
 		$attachments = $mail->get('attachments');
-		if (count($html) < 2) {
+		if (count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
-				if ((substr($attachment['filename'], -5) === '.html') || ( substr($attachment['filename'], -4) === '.txt')) {
+				if ((substr($attachment['filename'], -5) === '.html') || (substr($attachment['filename'], -4) === '.txt')) {
 					$html .= $attachment['attachment'] . '<hr />';
 					unset($attachments[$key]);
 				}
 			}
 		}
+		$encoding = mb_detect_encoding($html);
+		if ($encoding && $encoding !== 'UTF-8') {
+			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
+		}
 		$html = preg_replace(
-			array(':<(head|style|script).+?</\1>:is', # remove <head>, <styleand <scriptsections
-			':<!\[[^]<]+\]>:', # remove <![if !mso]and friends
-			':<!DOCTYPE[^>]+>:', # remove <!DOCTYPE ... >
-			':<\?[^>]+>:', # remove <?xml version="1.0" ... >
-			'~</?html[^>]*>~', # remove html tags
-			'~</?body[^>]*>~', # remove body tags
-			'~</?o:[^>]*>~', # remove mso tags
-			'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i', # remove class attributes
-			), array('', '', '', '', '', '', '', ''), $html);
+			[':<(head|style|script).+?</\1>:is', // remove <head>, <styleand <scriptsections
+				':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
+				':<!DOCTYPE[^>]+>:', // remove <!DOCTYPE ... >
+				':<\?[^>]+>:', // remove <?xml version="1.0" ... >
+				'~</?html[^>]*>~', // remove html tags
+				'~</?body[^>]*>~', // remove body tags
+				'~</?o:[^>]*>~', // remove mso tags
+				'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i'// remove class attributes
+			], ['', '', '', '', '', '', '', ''], $html);
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
-		/*
-		 * Alternative when coding problems
-		 * $doc->loadHTML(mb_convert_encoding($mail->get('body'), 'HTML-ENTITIES', 'UTF-8'));
-		 */
 		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
@@ -115,14 +120,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'assigned_user_id' => $mail->getAccountOwner(),
 			'modifiedby' => $mail->getAccountOwner(),
 			'createdtime' => $mail->get('udate_formated'),
-			'modifiedtime' => $mail->get('udate_formated')
+			'modifiedtime' => $mail->get('udate_formated'),
 		];
 
 		$files = [];
 		foreach ($doc->getElementsByTagName('img') as $img) {
 			$src = trim($img->getAttribute('src'), '\'');
 			if (substr($src, 0, 5) === 'data:') {
-				if ($ids = App\Fields\File::saveFromString($src, $params)) {
+				if (($fileInstance = \App\Fields\File::saveFromString($src)) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
@@ -139,7 +144,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				$src = substr($src, 4);
 				if (isset($attachments[$src])) {
 					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename']);
-					if ($fileInstance->validate() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
+					if ($fileInstance && $fileInstance->validate() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
 						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 						if (!$img->hasAttribute('alt')) {
 							$img->setAttribute('alt', $attachments[$src]['filename']);
@@ -154,6 +159,10 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 		}
 		$mail->set('files', $files);
 		$mail->set('attachments', $attachments);
-		return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $doc->saveHTML()), false);
+		$previousValue = libxml_use_internal_errors(true);
+		$html = $doc->saveHTML();
+		libxml_clear_errors();
+		libxml_use_internal_errors($previousValue);
+		return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $html));
 	}
 }

@@ -1,14 +1,13 @@
 <?php
 
 /**
- * OSSPasswords SaveAjax action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * OSSPasswords SaveAjax action class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
@@ -28,7 +27,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 		// force updateing password
 		if ($isPassword) {
-			$recordId = $request->get('record');
+			$recordId = $request->getInteger('record');
 			$properPassword = $isPassword ? $request->get('value') : '**********';
 
 			\App\Log::trace('recordid: ' . $recordId . ' properpass:' . $properPassword);
@@ -43,7 +42,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 					$properPassword = $db->queryResult($result, 0, 'pass');
 				} else {  // encryption mode is off
 					\App\Log::trace('Get plain text password.');
-					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
+					$sql = 'SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;';
 					$result = $db->pquery($sql, [$recordId], true);
 					$properPassword = $db->queryResult($result, 0, 'pass');
 					\App\Log::trace('Plain text pass: ' . $properPassword);
@@ -58,16 +57,21 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		// apply encryption if encryption mode is on
 		if ($isPassword && $config) {
 			\App\Log::trace('Encrypt new password: ' . $properPassword);
-			$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;";
-			$result = $db->pquery($sql, [$properPassword, $config['key'], $recordId], true);
-		}
-		// encrypt password added thrue related module
-		else if ($isRelatedPassword && $config) {
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_osspasswords', [
+					'password' => new \yii\db\Expression('AES_ENCRYPT(:properPass,:configKey)', [':properPass' => $properPassword, ':configKey' => $config['key']])
+				], ['osspasswordsid' => $recordId])
+				->execute();
+		} // encrypt password added thrue related module
+		elseif ($isRelatedPassword && $config) {
 			$record = $recordModel->getId();
 			$properPassword = $request->get('password');
 			\App\Log::trace('Encrypt new related module password: ' . $properPassword);
-			$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;";
-			$result = $db->pquery($sql, [$properPassword, $config['key'], $record], true);
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_osspasswords', [
+					'password' => new \yii\db\Expression('AES_ENCRYPT(:properPass,:configKey)', [':properPass' => $properPassword, ':configKey' => $config['key']])
+				], ['osspasswordsid' => $record])
+				->execute();
 		}
 
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -91,9 +95,10 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if ($request->get('field') === 'firstname' && in_array($request->getModule(), ['Contacts', 'Leads'])) {
 			$salutationType = $recordModel->getDisplayValue('salutationtype');
 			$firstNameDetails = $result['firstname'];
-			$firstNameDetails['display_value'] = $salutationType . " " . $firstNameDetails['display_value'];
-			if ($salutationType != '--None--')
+			$firstNameDetails['display_value'] = $salutationType . ' ' . $firstNameDetails['display_value'];
+			if ($salutationType != '--None--') {
 				$result['firstname'] = $firstNameDetails;
+			}
 		}
 
 		$result['_recordLabel'] = $recordModel->getName();

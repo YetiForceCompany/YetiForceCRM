@@ -7,17 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to import language into vtiger CRM
- * @package vtlib
+ * Provides API to import language into vtiger CRM.
  */
 class LanguageImport extends LanguageExport
 {
-
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -31,35 +30,32 @@ class LanguageImport extends LanguageExport
 	}
 
 	/**
-	 * Initialize Import
-	 * @access private
+	 * Initialize Import.
 	 */
 	public function initImport($zipfile, $overwrite = true)
 	{
-		$this->__initSchema();
-
-		$name = $this->getModuleNameFromZip($zipfile);
-		return $name;
+		return $this->getModuleNameFromZip($zipfile);
 	}
 
 	/**
-	 * Import Module from zip file
-	 * @param String Zip file name
-	 * @param Boolean True for overwriting existing module
+	 * Import Module from zip file.
+	 *
+	 * @param string Zip file name
+	 * @param bool True for overwriting existing module
 	 */
 	public function import($zipfile, $overwrite = false)
 	{
-		$this->initImport($zipfile, $overwrite);
-
-		// Call module import function
-		$this->importLanguage($zipfile);
+		if ($this->initImport($zipfile, $overwrite)) {
+			$this->importLanguage($zipfile);
+		}
 	}
 
 	/**
-	 * Update Module from zip file
-	 * @param Object Instance of Language (to keep Module update API consistent)
-	 * @param String Zip file name
-	 * @param Boolean True for overwriting existing module
+	 * Update Module from zip file.
+	 *
+	 * @param object Instance of Language (to keep Module update API consistent)
+	 * @param string Zip file name
+	 * @param bool True for overwriting existing module
 	 */
 	public function update($instance, $zipfile, $overwrite = true)
 	{
@@ -67,80 +63,25 @@ class LanguageImport extends LanguageExport
 	}
 
 	/**
-	 * Import Module
-	 * @access private
+	 * Import Module.
+	 *
+	 * @param string $zipfile
 	 */
-	public function importLanguage($zipfile)
+	public function importLanguage(string $zipfile)
 	{
-		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;
-		$label = $this->_modulexml->label;
+		$label = $this->_modulexml->name;
+		\App\Log::trace("Importing $label [$prefix] ... STARTED", __METHOD__);
 
-		self::log("Importing $label [$prefix] ... STARTED");
-		if (strpos($prefix, '/') !== false) {
-			\App\Log::error("Importing $label ... Wrong prefix - [$prefix]");
-			return;
-		}
-		$vtiger6format = false;
-		$zip = new \App\Zip($zipfile);
-		for ($i = 0; $i < $zip->numFiles; $i++) {
-			$fileName = $zip->getNameIndex($i);
-			if ($zip->isdir($fileName)) {
-				continue;
-			}
-			if (strpos($fileName, '/') === false) {
-				continue;
-			}
-			$targetdir = substr($fileName, 0, strripos($fileName, '/'));
-			$targetfile = basename($fileName);
-			$prefixparts = explode('_', $prefix);
-			$dounzip = false;
-			if (is_dir($targetdir)) {
-				// Case handling for jscalendar
-				if (stripos($targetdir, 'jscalendar/lang') === 0 && stripos($targetfile, "calendar-" . $prefixparts[0] . ".js") === 0) {
-
-					if (file_exists("$targetdir/calendar-en.js")) {
-						$dounzip = true;
-					}
-				} else if (preg_match("/$prefix.lang.js/", $targetfile)) {// Handle javascript language file
-					$corelangfile = "$targetdir/en_us.lang.js";
-					if (file_exists($corelangfile)) {
-						$dounzip = true;
-					}
-				}
-				// Handle php language file
-				else if (preg_match("/$prefix.lang.php/", $targetfile)) {
-					$corelangfile = "$targetdir/en_us.lang.php";
-					if (file_exists($corelangfile)) {
-						$dounzip = true;
-					}
-				}
-				// vtiger6 format
-				else if (in_array($targetdir, ['modules', 'modules' . DIRECTORY_SEPARATOR . 'Settings', 'modules' . DIRECTORY_SEPARATOR . 'Other'])) {
-					$vtiger6format = true;
-					$dounzip = true;
-				}
-			}
-			if ($dounzip) {
-				// vtiger6 format
-				if ($vtiger6format) {
-					$targetdir = "languages/$prefix/" . str_replace('modules', '', $targetdir);
-					@mkdir($targetdir, 0777, true);
-				}
-				if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
-					self::log("Copying file $fileName ... DONE");
-				} else {
-					self::log("Copying file $fileName ... FAILED");
-				}
-			} else {
-				self::log("Copying file $fileName ... SKIPPED");
-			}
-		}
-		if ($zip) {
-			$zip->close();
-		}
-		self::register($prefix, $label, $name);
-		self::log("Importing $label [$prefix] ... DONE");
-		return;
+		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['json']]);
+		$languages = 'languages/' . $prefix;
+		$custom = 'custom/' . $languages;
+		$zip->unzip([
+			$custom => $custom,
+			$languages => $languages,
+		]);
+		self::register($prefix, $label);
+		\App\Cache::clear();
+		\App\Log::trace("Importing $label [$prefix] ... DONE", __METHOD__);
 	}
 }

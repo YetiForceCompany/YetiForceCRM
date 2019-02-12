@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'DejaVu Sans';
+    font-style: normal;
+    font-weight: 100;
+    src: local('DejaVu Sans'), url('DejaVuSans-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'DejaVu Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('DejaVu Sans'), url('DejaVuSans.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'DejaVu Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('DejaVu Sans'), url('DejaVuSans-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'DejaVu Sans';
+    font-style: italic;
+    font-weight: 700;
+    src: local('DejaVu Sans'), url('DejaVuSans-BoldOblique.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'DejaVu Sans';
+    font-style: italic;
+    font-weight: 400;
+    src: local('DejaVu Sans'), url('DejaVuSans-Oblique.woff') format('woff');
+}
+
+* {
+    font-family: 'DejaVu Sans';
+}

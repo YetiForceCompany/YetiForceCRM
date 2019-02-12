@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="securityIndexPage">
-		<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+	<div class="securityIndexPage table-responsive">
+		<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 			<thead>
 				<tr class="blockHeader">
 					<th colspan="3" class="mediumWidthType">
@@ -22,12 +22,12 @@
 			</thead>
 			<tbody>
 				{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-					<tr {if $item.status}class="danger"{/if}>
+					<tr {if !empty($item.status)}class="table-danger"{/if}>
 						<td>
 							<label>{$key}</label>
-							{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+							{if !empty($item.help) && !empty($item.status)}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
 						</td>
-						<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+						<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 						<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
 					</tr>
 				{/foreach}
@@ -35,7 +35,7 @@
 		</table>
 		{if $SENSIOLABS}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">
@@ -63,7 +63,7 @@
 							<tr>
 								<td><label>{$LIB_NAME} ({$LIB['version']})</label></td>
 								<td><label>{$ADVISORIE['title']}</label></td>
-								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
+								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
 								<td><label>{$ADVISORIE['cve']}</label></td>
 							</tr>
 						{/foreach}
@@ -74,7 +74,7 @@
 		{assign var="ACCESS_FOR_ADMIN" value=App\Log::getLogs('access_for_admin', 'oneDay')}
 		{if $ACCESS_FOR_ADMIN}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="3" class="mediumWidthType">
@@ -107,7 +107,7 @@
 		{assign var="ACCESS_FOR_RECORD" value=App\Log::getLogs('access_to_record', 'oneDay')}
 		{if $ACCESS_FOR_RECORD}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">
@@ -122,7 +122,7 @@
 							<span>{App\Language::translate('LBL_USER')}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_RECORD_ID')}</span>
+							<span>{App\Language::translate('LBL_RECORD_ID','Other.TextParser')}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
 							<span>{App\Language::translate('LBL_MODULE_NAME')}</span>
@@ -144,7 +144,7 @@
 		{assign var="ACCESS_FOR_API" value=App\Log::getLogs('access_for_api', 'oneDay')}
 		{if $ACCESS_FOR_API}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="3" class="mediumWidthType">
@@ -177,7 +177,7 @@
 		{assign var="ACCESS_FOR_USER" value=App\Log::getLogs('access_for_user', 'oneDay')}
 		{if $ACCESS_FOR_USER}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">

@@ -8,24 +8,23 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
 namespace vtlib;
 
-include_once('vtlib/Vtiger/Utils/StringTemplate.php');
+include_once 'vtlib/Vtiger/Utils/StringTemplate.php';
 
 /**
- * Provides API to handle custom links
- * @package vtlib
+ * Provides API to handle custom links.
  */
 class Link
 {
-
 	public $tabid;
 	public $linkid;
 	public $linktype;
 	public $linklabel;
 	public $linkurl;
 	public $linkicon;
-	public $glyphicon;
+	public $icon;
 	public $sequence;
 	public $status = false;
 	public $handler_path;
@@ -65,13 +64,14 @@ class Link
 	public static $__cacheSchemaChanges = [];
 
 	/**
-	 * Add link given module
-	 * @param Integer Module ID
-	 * @param String Link Type (like DETAIL_VIEW_BASIC). Useful for grouping based on pages.
-	 * @param String Label to display
-	 * @param String HREF value or URL to use for the link
-	 * @param String ICON to use on the display
-	 * @param Integer Order or sequence of displaying the link
+	 * Add link given module.
+	 *
+	 * @param int Module ID
+	 * @param string Link Type (like DETAIL_VIEW_BASIC). Useful for grouping based on pages
+	 * @param string Label to display
+	 * @param string HREF value or URL to use for the link
+	 * @param string ICON to use on the display
+	 * @param int Order or sequence of displaying the link
 	 */
 	public static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null)
 	{
@@ -88,7 +88,7 @@ class Link
 				'linklabel' => $label,
 				'linkurl' => $url,
 				'linkicon' => $iconpath,
-				'sequence' => intval($sequence),
+				'sequence' => (int) $sequence,
 			];
 			if (!empty($handlerInfo)) {
 				$params['handler_path'] = $handlerInfo['path'];
@@ -99,16 +99,17 @@ class Link
 				$params['params'] = $linkParams;
 			}
 			$db->createCommand()->insert('vtiger_links', $params)->execute();
-			self::log("Adding Link ($type - $label) ... DONE");
+			\App\Log::trace("Adding Link ($type - $label) ... DONE");
 		}
 	}
 
 	/**
-	 * Delete link of the module
-	 * @param Integer Module ID
-	 * @param String Link Type (like DETAIL_VIEW_BASIC). Useful for grouping based on pages.
-	 * @param String Display label
-	 * @param String URL of link to lookup while deleting
+	 * Delete link of the module.
+	 *
+	 * @param int Module ID
+	 * @param string Link Type (like DETAIL_VIEW_BASIC). Useful for grouping based on pages
+	 * @param string Display label
+	 * @param string URL of link to lookup while deleting
 	 */
 	public static function deleteLink($tabid, $type, $label, $url = false)
 	{
@@ -118,32 +119,34 @@ class Link
 				'tabid' => $tabid,
 				'linktype' => $type,
 				'linklabel' => $label,
-				'linkurl' => $url
+				'linkurl' => $url,
 			])->execute();
-			self::log("Deleting Link ($type - $label - $url) ... DONE");
+			\App\Log::trace("Deleting Link ($type - $label - $url) ... DONE");
 		} else {
 			$db->createCommand()->delete('vtiger_links', [
 				'tabid' => $tabid,
 				'linktype' => $type,
 				'linklabel' => $label,
 			])->execute();
-			self::log("Deleting Link ($type - $label) ... DONE");
+			\App\Log::trace("Deleting Link ($type - $label) ... DONE");
 		}
 	}
 
 	/**
-	 * Delete all links related to module
-	 * @param Integer Module ID.
+	 * Delete all links related to module.
+	 *
+	 * @param int Module ID
 	 */
 	public static function deleteAll($tabid)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_links', ['tabid' => $tabid])->execute();
-		self::log("Deleting Links ... DONE");
+		\App\Log::trace('Deleting Links ... DONE');
 	}
 
 	/**
-	 * Get all the links related to module
-	 * @param Integer Module ID.
+	 * Get all the links related to module.
+	 *
+	 * @param int Module ID
 	 */
 	public static function getAll($tabid)
 	{
@@ -151,21 +154,21 @@ class Link
 	}
 
 	/**
-	 * Get all the link related to module based on type
-	 * @param Integer Module ID
+	 * Get all the link related to module based on type.
+	 *
+	 * @param int Module ID
 	 * @param mixed String or List of types to select
 	 * @param Map Key-Value pair to use for formating the link url
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		if (\App\Cache::has('AllLinks', 'ByType')) {
 			$rows = \App\Cache::get('AllLinks', 'ByType');
 		} else {
 			$linksFromDb = (new \App\Db\Query())->from('vtiger_links')->all();
 			$rows = [];
 			foreach ($linksFromDb as $row) {
-				$rows [$row['tabid']] [$row['linktype']] [] = $row;
+				$rows[$row['tabid']][$row['linktype']][] = $row;
 			}
 			\App\Cache::save('AllLinks', 'ByType', $rows);
 		}
@@ -176,9 +179,9 @@ class Link
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$permittedTabIdList = getPermittedModuleIdList();
+					$permittedTabIdList = \vtlib\Deprecated::getPermittedModuleIdList();
 					if (!empty($permittedTabIdList)) {
-						$permittedTabIdList [] = 0;  // Added to support one link for all modules
+						$permittedTabIdList[] = 0;  // Added to support one link for all modules
 						foreach ($permittedTabIdList as $moduleId) {
 							foreach ($type as $typ) {
 								if (isset($rows[$moduleId][$typ])) {
@@ -235,14 +238,16 @@ class Link
 
 		$strtemplate = new \Vtiger_StringTemplate();
 		if ($parameters) {
-			foreach ($parameters as $key => $value)
+			foreach ($parameters as $key => $value) {
 				$strtemplate->assign($key, $value);
+			}
 		}
 
 		$instances = [];
 		if ($multitype) {
-			foreach ($type as $t)
+			foreach ($type as $t) {
 				$instances[$t] = [];
+			}
 		}
 		foreach ($links as $row) {
 			$instance = new self();
@@ -250,10 +255,10 @@ class Link
 			if (!empty($row['handler_path']) && \vtlib\Deprecated::isFileAccessible($row['handler_path'])) {
 				\vtlib\Deprecated::checkFileAccessForInclusion($row['handler_path']);
 				require_once $row['handler_path'];
-				$linkData = new LinkData($instance, vglobal('current_user'));
+				$linkData = new LinkData($instance);
 				$ignore = call_user_func([$row['handler_class'], $row['handler']], $linkData);
 				if (!$ignore) {
-					self::log('Ignoring Link ... ' . var_export($row, true));
+					\App\Log::trace('Ignoring Link ... ' . var_export($row, true));
 					continue;
 				}
 			}
@@ -276,8 +281,8 @@ class Link
 	public static function getAllForExport($tabid)
 	{
 		$dataReader = (new \App\Db\Query())->from('vtiger_links')
-				->where(['tabid' => $tabid])
-				->createCommand()->query();
+			->where(['tabid' => $tabid])
+			->createCommand()->query();
 		$links = [];
 		while ($row = $dataReader->read()) {
 			$instance = new self();
@@ -288,24 +293,20 @@ class Link
 	}
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
+	 * Link data.
+	 *
+	 * @param int $linkId
+	 *
+	 * @return array
 	 */
-	public static function log($message, $delimit = true)
+	public static function getLinkData($linkId)
 	{
-		Utils::log($message, $delimit);
-	}
+		if (\App\Cache::has('Link', $linkId)) {
+			return \App\Cache::get('Link', $linkId);
+		}
+		$linkData = (new \App\Db\Query())->from('vtiger_links')->where(['linkid' => $linkId])->one();
+		\App\Cache::save('Link', $linkId, $linkData);
 
-	/**
-	 * Checks whether the user is admin or not
-	 * @param vtlib\LinkData $linkData
-	 * @return Boolean
-	 */
-	public static function isAdmin(LinkData $linkData)
-	{
-		$user = $linkData->getUser();
-		return $user->is_admin == 'on' || $user->column_fields['is_admin'] == 'on';
+		return $linkData;
 	}
 }

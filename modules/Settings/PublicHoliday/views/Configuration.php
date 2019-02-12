@@ -1,19 +1,22 @@
 <?php
 
 /**
- * Settings PublicHoliday configuration view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings PublicHoliday configuration view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_View
 {
-
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
-		$date = $request->get('date');
+		$date = $request->getArray('date', 'DateInUserFormat');
 		if (!$date) {
 			$startDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 			$startDate = new DateTimeField($startDate);
@@ -27,7 +30,6 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 		$holidays = Settings_PublicHoliday_Module_Model::getHolidays($date);
 		$viewer->assign('DATE', implode(',', $date));
 		$viewer->assign('HOLIDAYS', $holidays);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->view('Configuration.tpl', $request->getModule(false));
 	}

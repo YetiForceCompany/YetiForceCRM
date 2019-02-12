@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings calendar UserColors view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings calendar UserColors view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -23,27 +22,27 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 		$viewer->view('UserColors.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.UserColors",
-			'~libraries/jquery/colorpicker/js/colorpicker.js'
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+				'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
+		]));
 	}
 }

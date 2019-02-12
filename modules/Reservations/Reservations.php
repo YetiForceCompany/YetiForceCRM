@@ -1,15 +1,14 @@
 <?php
 /**
- * Reservations CRMEntity class
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Reservations CRMEntity class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class Reservations extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'vtiger_reservations';
 	public $table_index = 'reservationsid';
 	public $column_fields = [];
@@ -33,20 +32,20 @@ class Reservations extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_reservations' => 'reservationsid',
-		'vtiger_reservationscf' => 'reservationsid'];
+		'vtiger_reservationscf' => 'reservationsid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'No.' => ['reservations', 'reservations_no'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'Created Time' => ['crmentity', 'createdtime'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'No.' => 'reservations_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
@@ -75,8 +74,6 @@ class Reservations extends Vtiger_CRMEntity
 	public $def_basicsearch_col = 'name';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'name';
-	// Required Information for enabling Import feature
-	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
@@ -87,14 +84,14 @@ class Reservations extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
+	 *
 	 * @param string $moduleName Module name
-	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $eventType  Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('Reservations');
-			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'RES')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Reservations'])->execute();
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$targetModule = vtlib\Module::getInstance('Accounts');

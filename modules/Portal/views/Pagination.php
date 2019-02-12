@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Portal pagination view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Portal pagination view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Portal_Pagination_View extends Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -23,14 +22,14 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$searchValue = $request->get('search_value');
+		$searchValue = $request->getForSql('search_value');
 
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 
 		if (empty($pageNumber)) {

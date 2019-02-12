@@ -9,18 +9,18 @@
  * *********************************************************************************** */
 
 /**
- * Roles Record Model Class
+ * Roles Record Model Class.
  */
 class Settings_Groups_Member_Model extends \App\Base
 {
-
 	const MEMBER_TYPE_USERS = 'Users';
 	const MEMBER_TYPE_GROUPS = 'Groups';
 	const MEMBER_TYPE_ROLES = 'Roles';
 	const MEMBER_TYPE_ROLE_AND_SUBORDINATES = 'RoleAndSubordinates';
 
 	/**
-	 * Function to get the Qualified Id of the Group Member
+	 * Function to get the Qualified Id of the Group Member.
+	 *
 	 * @return <Number> Id
 	 */
 	public function getId()
@@ -52,7 +52,8 @@ class Settings_Groups_Member_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Group Name
+	 * Function to get the Group Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -61,7 +62,8 @@ class Settings_Groups_Member_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Group Name
+	 * Function to get the Group Name.
+	 *
 	 * @return string
 	 */
 	public function getQualifiedName()
@@ -97,6 +99,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('userId', $userId);
 			}
+			$dataReader->close();
 		}
 
 		if ($type == self::MEMBER_TYPE_GROUPS) {
@@ -111,6 +114,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('groupId', $row['groupid']);
 			}
+			$dataReader->close();
 		}
 
 		if ($type == self::MEMBER_TYPE_ROLES) {
@@ -125,6 +129,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('roleId', $row['roleid']);
 			}
+			$dataReader->close();
 		}
 
 		if ($type == self::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
@@ -139,43 +144,49 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('roleId', $row['roleid']);
 			}
+			$dataReader->close();
 		}
-
 		return $members;
 	}
 
 	/**
 	 * Function to get Detail View Url of this member
-	 * return string url
+	 * return string url.
 	 */
 	public function getDetailViewUrl()
 	{
 		list($type, $recordId) = self::getIdComponentsFromQualifiedId($this->getId());
 		switch ($type) {
-			case 'Users' : $recordModel = Users_Record_Model::getCleanInstance($type);
+			case 'Users':
+				$recordModel = Users_Record_Model::getCleanInstance($type);
 				$recordModel->setId($recordId);
+
 				return $recordModel->getDetailViewUrl();
-
-
-			case 'RoleAndSubordinates' :
-			case 'Roles' : $recordModel = new Settings_Roles_Record_Model();
+			case 'RoleAndSubordinates':
+			case 'Roles':
+				$recordModel = new Settings_Roles_Record_Model();
 				$recordModel->set('roleid', $recordId);
-				return $recordModel->getEditViewUrl();
 
-			case 'Groups' : $recordModel = new Settings_Groups_Record_Model();
+				return $recordModel->getEditViewUrl();
+			case 'Groups':
+				$recordModel = new Settings_Groups_Record_Model();
 				$recordModel->setId($recordId);
+
 				return $recordModel->getDetailViewUrl();
+			default:
+				break;
 		}
 	}
 
 	/**
-	 * Function to get all the groups
+	 * Function to get all the groups.
+	 *
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */
 	public static function getAllByGroup($groupModel)
 	{
 		$members = [];
-		if(!empty($groupModel->getId())) {
+		if (!empty($groupModel->getId())) {
 			$members[self::MEMBER_TYPE_USERS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_USERS);
 			$members[self::MEMBER_TYPE_GROUPS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_GROUPS);
 			$members[self::MEMBER_TYPE_ROLES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLES);
@@ -185,7 +196,8 @@ class Settings_Groups_Member_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all the groups
+	 * Function to get all the groups.
+	 *
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */
 	public static function getAll($onlyActive = true)
@@ -216,7 +228,6 @@ class Settings_Groups_Member_Model extends \App\Base
 			$member = new self();
 			$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES][$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $roleModel->getName());
 		}
-
 		return $members;
 	}
 }

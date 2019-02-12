@@ -1,0 +1,106 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.mainBody {
+	position: absolute;
+	top: $h-header;
+	bottom: $h-footer;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.user-info--active .mainBody {
+	bottom: $h-footer-user-info;
+}
+
+.limited-footer--active .mainBody {
+	bottom: $h-footer-limited;
+}
+
+.user-info--active.limited-footer--active .mainBody {
+	bottom: $h-footer;
+}
+
+@include media-breakpoint-down(sm) {
+	.mainBody {
+		bottom: $h-footer-limited;
+	}
+
+	.user-info--active .mainBody {
+		bottom: $h-footer;
+	}
+}
+
+.contentsDiv, .centerPanel {
+	@extend .mx-2;
+}
+
+.massEditTable {
+	th + th, td + td, th + td, td + th {
+		border-left: 0;
+	}
+}
+
+.massEditContent {
+	border-top: 3px solid #404952;
+}
+
+.o-base-container {
+	.basePanel {
+		position: relative;
+		margin: 0 0 0 230px;
+		padding: 0;
+		left: 0;
+		z-index: 1030;
+		background: $white;
+		min-height: 100%;
+	}
+
+	.c-header {
+		left: 230px;
+	}
+
+	&:not(.c-menu--open) {
+		.basePanel {
+			margin-left: 50px;
+		}
+
+		.c-header {
+			left: 50px;
+		}
+
+		.c-menu__container.js-expand + .c-header,
+		.c-menu__container:hover + .c-header {
+			left: 230px;
+
+			~ .basePanel {
+				left: 180px;
+			}
+		}
+	}
+}
+
+.c-header.open, .c-footer.open {
+	left: 210px;
+	-webkit-transition: left ease-in-out 0.3s;
+	transition: left ease-in-out 0.3s;
+}
+
+@media only screen and (max-width: 768px) {
+	.o-base-container {
+		.basePanel {
+			margin: 0 !important;
+		}
+
+		.c-header {
+			left: 0 !important;
+		}
+
+		.c-menu__container.js-expand + .c-header {
+			left: 230px !important;
+
+			~ .basePanel {
+				left: 230px !important;
+			}
+		}
+	}
+}

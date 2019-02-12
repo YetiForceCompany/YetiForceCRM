@@ -1,23 +1,22 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-Vtiger_TreeRecords_Js("Products_TreeRecords_Js",{},{
+'use strict';
+
+Vtiger_TreeRecords_Js("Products_TreeRecords_Js", {}, {
 	getRecordsParams: function (container) {
-		var thisInstance = this;
-		var selectedFilter = container.find('#moduleFilter').val();
-		var selected = [];
-		$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
-			if(value.original.isrecord){
+		let selected = [], category = [];
+		$.each(this.treeInstance.jstree("get_selected", true), function (index, value) {
+			if (value.original.isrecord) {
 				selected.push(value.text);
+			} else {
+				category.push(value.original.record_id);
 			}
 		});
-		var params = {
+		return {
 			module: app.getModuleName(),
 			view: app.getViewName(),
 			branches: selected,
-			filter: selectedFilter
+			filter: container.find('#moduleFilter').val(),
+			category: category
 		};
-		if(app.getMainParams('isActiveCategory') == '1'){
-			params.category = thisInstance.treeInstance.jstree("getCategory");
-		}
-		return params;
 	},
 });

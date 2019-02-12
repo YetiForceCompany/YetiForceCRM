@@ -8,30 +8,25 @@
 * Contributor(s): YetiForce.com
 ************************************************************************************}
 {strip}
+	<!-- tpl-Base-dashboards-Minilist -->
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
 	<div class="dashboardWidgetHeader">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
-			</div>
-			<div class="col-md-4">
-				<div class="box pull-right">
-					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
-				</div>
-			</div>
+		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
-		<hr class="widgetHr" />
-		<div class="row" >
-			<div class="col-sm-6">
+		<hr class="widgetHr"/>
+		<div class="row no-gutters">
+			<div class="col-ceq-xsm-6">
 				{if $FILTER_FIELD}
 					<div class="widgetFilterByField">
-						{include file=\App\Layout::getTemplatePath($FILTER_FIELD->getUITypeModel()->getListSearchTemplateName(), $BASE_MODULE) MODULE=$BASE_MODULE FIELD_MODEL=$FILTER_FIELD SEARCH_INFO=[] USER_MODEL=$USER_MODEL}
+						{include file=\App\Layout::getTemplatePath($FILTER_FIELD->getUITypeModel()->getListSearchTemplateName(), $BASE_MODULE) MODULE=$BASE_MODULE FIELD_MODEL=$FILTER_FIELD SEARCH_INFO=[] USER_MODEL=$USER_MODEL CLASS_SIZE='input-group-sm'}
 					</div>
 				{/if}
 			</div>
-			<div class="col-sm-6 pull-right">
+			<div class="col-ceq-xsm-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>
@@ -42,4 +37,5 @@
 	<div class="dashboardWidgetFooter">
 		{include file=\App\Layout::getTemplatePath('dashboards/MiniListFooter.tpl', $MODULE_NAME)}
 	</div>
+	<!-- /tpl-Base-dashboards-Minilist -->
 {/strip}

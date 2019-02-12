@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 	formElement: false,
 	registerButtonsEvent: function () {
@@ -41,43 +43,46 @@ jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 			target.append('<optgroup label="' + values.blockLabel + '">' + targetOption + '</optgroup>');
 		}
 		source.remove();
-		app.showSelect2ElementView(container.find('.select2'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 	},
+	/**
+	 * Saves permission for filter
+	 * @param {jQuery.Event} e
+	 */
 	setDefaultPreferences: function (e) {
 		var thisInstance = this;
 		var container = this.getForm();
-		var progressIndicatorElement = jQuery.progressIndicator({
-			'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-			'position': this.getForm(),
-			'blockInfo': {
-				'enabled': true
+		var progressIndicatorElement = $.progressIndicator({
+			message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+			position: this.getForm(),
+			blockInfo: {
+				enabled: true
 			}
 		});
-		var currentTarget = jQuery(e.currentTarget);
+		var currentTarget = $(e.currentTarget);
 		var sourceClass = currentTarget.data('source');
 		var params = {
-			'tabid': container.find('#sourceModule').val(),
-			'user': container.find('.' + sourceClass).val(),
-			'cvid': container.find('#cvid').val(),
-			'action': currentTarget.data('action')
-		}
-		app.saveAjax('setFilterPermissions', params, {type: container.find('#type').val()}).then(
-				function (data) {
-					if (data.success) {
-						if (data.result.success) {
-							thisInstance.move(currentTarget);
-							thisInstance.registerDisabledButtons();
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
-						} else {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'error'});
-						}
-					} else {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					}
+			tabid: container.find('#sourceModule').val(),
+			user: container.find('.' + sourceClass).val(),
+			cvid: container.find('#cvid').val(),
+			operator: currentTarget.data('operator'),
+			type: container.find('#type').val()
+		};
+		app.saveAjax('setFilterPermissions', {}, params).done(function (data) {
+			if (data.success) {
+				if (data.result.success) {
+					thisInstance.move(currentTarget);
+					thisInstance.registerDisabledButtons();
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
+				} else {
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'error'});
 				}
-		);
+			} else {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+			}
+		});
 	},
 	getForm: function () {
 		if (this.formElement == false) {

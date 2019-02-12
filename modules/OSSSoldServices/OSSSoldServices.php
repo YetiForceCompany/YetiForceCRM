@@ -1,15 +1,14 @@
 <?php
 /**
- * OSSSoldServices CRMEntity class
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
+ * OSSSoldServices CRMEntity class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class OSSSoldServices extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'vtiger_osssoldservices';
 	public $table_index = 'osssoldservicesid';
 	public $column_fields = [];
@@ -34,13 +33,13 @@ class OSSSoldServices extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_osssoldservices' => 'osssoldservicesid',
-		'vtiger_osssoldservicescf' => 'osssoldservicesid'];
+		'vtiger_osssoldservicescf' => 'osssoldservicesid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Product Name' => ['ossoutsourcedservices' => 'productname'],
 		'Category' => ['ossoutsourcedservices' => 'pscategory'],
@@ -50,7 +49,7 @@ class OSSSoldServices extends Vtiger_CRMEntity
 		'LBL_ssservicesstatus' => ['ossoutsourcedservices' => 'ssservicesstatus'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
 		'Assigned To' => 'assigned_user_id',
@@ -87,8 +86,6 @@ class OSSSoldServices extends Vtiger_CRMEntity
 	public $def_basicsearch_col = 'productname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'productname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['productname' => 1];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
@@ -99,13 +96,14 @@ class OSSSoldServices extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 *
+	 * @param string Module name
+	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function moduleHandler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($modulename, 'US', '1');
+			\App\Fields\RecordNumber::getInstance($modulename)->set('prefix', 'US')->set('cur_id', 1)->save();
 		}
 	}
 }

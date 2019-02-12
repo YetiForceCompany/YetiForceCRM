@@ -3,14 +3,16 @@
 	<div class="modal-dialog">
 		<div class="modal-content">	
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="AddTranslation" class="modal-title">{\App\Language::translate('LBL_ADD_Translate',$QUALIFIED_MODULE)}</h3>
+				<h5 id="AddTranslation" class="modal-title">{\App\Language::translate('LBL_ADD_Translate',$QUALIFIED_MODULE)}</h5>
+				<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal AddTranslationForm">	
 					<input type="hidden" name="langs" value="" />
 					<div class="form-group">
-						<label for="translation_type" class="col-sm-4 control-label">{\App\Language::translate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label>
+						<label for="translation_type" class="col-sm-4 col-form-label">{\App\Language::translate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label>
 						<div class="col-sm-8">
 							<select name="type" class="form-control" id="translation_type">
 								<option value="php">{\App\Language::translate('LBL_LangPHP', $QUALIFIED_MODULE)}</option>
@@ -19,7 +21,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="variable" class="col-sm-4 control-label">{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}:</label>
+						<label for="variable" class="col-sm-4 col-form-label">{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}:</label>
 						<div class="col-sm-8">
 							<input id="variable" name="variable" class="form-control" type="text" placeholder="{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}" />
 						</div>
@@ -30,7 +32,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary">{\App\Language::translate('LBL_AddLanguage', $QUALIFIED_MODULE)}</button>
-				<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" type="button">{\App\Language::translate('LBL_Cancel', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" type="button">{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 	</div>

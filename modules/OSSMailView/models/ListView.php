@@ -1,14 +1,13 @@
 <?php
 
 /**
- * OSSMailView ListView model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * OSSMailView ListView model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 {
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
@@ -20,7 +19,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_CREATEMAIL',
 				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=Compose'",
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 			];
 		}
@@ -37,13 +36,13 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_BindMails',
 				'linkurl' => 'javascript:OSSMailView_List_Js.bindMails("index.php?module=' . $moduleModel->get('name') . '&action=BindMails")',
-				'linkicon' => 'glyphicon glyphicon-repeat'
+				'linkicon' => 'fas fa-redo-alt',
 			];
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_ChangeType',
 				'linkurl' => 'javascript:OSSMailView_List_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-edit',
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -52,8 +51,8 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_ACTIVATE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -62,8 +61,8 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_ARCHIVE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-archive',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -72,8 +71,8 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -82,8 +81,8 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'linkclass' => 'js-mass-record-event',
+				'linkicon' => 'fas fa-eraser',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

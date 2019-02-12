@@ -9,13 +9,13 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger QuickCreate Record Structure Model
+ * Vtiger QuickCreate Record Structure Model.
  */
 class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -33,12 +33,12 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			$recordModelFieldValue = $recordModel->get($fieldName);
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
-			} else if ($fieldName == 'activitystatus') {
+			} elseif ($fieldName == 'activitystatus') {
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 				$fieldValue = $defaulteventstatus;
 				$fieldModel->set('fieldvalue', $fieldValue);
-			} else if ($fieldName == 'activitytype') {
+			} elseif ($fieldName == 'activitytype') {
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 				$fieldValue = $defaultactivitytype;
@@ -52,6 +52,7 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			$values[$fieldName] = $fieldModel;
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

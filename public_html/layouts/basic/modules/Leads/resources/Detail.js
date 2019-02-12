@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Detail_Js("Leads_Detail_Js", {
 	//cache will store the convert lead data(Model)
@@ -24,16 +25,16 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		instance.convertLeadForm = false;
 		instance.convertLeadModules = false;
 		if (jQuery.isEmptyObject(Leads_Detail_Js.cache)) {
-			AppConnector.request(convertLeadUrl).then(
-					function (data) {
-						if (data) {
-							Leads_Detail_Js.cache = data;
-							instance.displayConvertLeadModel(data, buttonElement);
-						}
-					},
-					function (error, err) {
-
+			AppConnector.request(convertLeadUrl).done(
+				function (data) {
+					if (data) {
+						Leads_Detail_Js.cache = data;
+						instance.displayConvertLeadModel(data, buttonElement);
 					}
+				},
+				function (error, err) {
+
+				}
 			);
 		} else {
 			instance.displayConvertLeadModel(Leads_Detail_Js.cache, buttonElement);
@@ -127,13 +128,13 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		}
 	},
 	/*
-	 * function to check which module is selected 
+	 * function to check which module is selected
 	 * to disable or enable all the elements with in the block
 	 */
 	checkingModuleSelection: function (element) {
 		var instance = this;
 		var module = jQuery(element).val();
-		var moduleBlock = jQuery(element).closest('.accordion-group').find('#' + module + '_FieldInfo');
+		var moduleBlock = jQuery(element).closest('.convertLeadModules').find('#' + module + '_FieldInfo');
 		if (jQuery(element).is(':checked')) {
 			instance.removeDisableAttr(moduleBlock);
 		} else {
@@ -153,15 +154,22 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 	registerConvertLeadEvents: function () {
 		var container = this.getConvertLeadContainer();
 		var instance = this;
-
-		//Trigger Event to change the icon while shown and hidden the accordion body 
-		container.on('hidden.bs.collapse', '.accordion-body', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-		}).on('shown.bs.collapse', '.accordion-body', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-		});
+		//Trigger Event to change the icon while shown and hidden the accordion body
+		container
+			.on('hide.bs.collapse', '.js-collapse ', function (e) {
+				$(e.currentTarget)
+					.closest('.convertLeadModules')
+					.find('.fas')
+					.removeClass('fa-chevron-up')
+					.addClass('fa-chevron-down');
+			})
+			.on('show.bs.collapse', '.js-collapse ', function (e) {
+				$(e.currentTarget)
+					.closest('.convertLeadModules')
+					.find('.fas')
+					.removeClass('fa-chevron-down')
+					.addClass('fa-chevron-up');
+			});
 
 		//Trigger Event on click of Transfer related records modules
 		container.on('click', '.transferModule', function (e) {
@@ -175,11 +183,11 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			}
 		});
 
-		//Trigger Event on click of the Modules selection to convert the lead 
+		//Trigger Event on click of the Modules selection to convert the lead
 		container.on('click', '.convertLeadModuleSelection', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var currentModuleName = currentTarget.val();
-			var moduleBlock = currentTarget.closest('.accordion-group').find('#' + currentModuleName + '_FieldInfo');
+			var moduleBlock = currentTarget.closest('.convertLeadModules').find('#' + currentModuleName + '_FieldInfo');
 			var currentTransferModuleElement = jQuery('#transfer' + currentModuleName);
 			var otherTransferModuleElement = jQuery('input[name="transferModule"]').not(currentTransferModuleElement);
 			var otherTransferModuleValue = jQuery(otherTransferModuleElement).val();
@@ -211,7 +219,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 
 		formElement.on('jqv.form.validating', function (e) {
 			var jQv = jQuery(e.currentTarget).data('jqv');
-			//Remove the earlier validated fields from history so that it wont count disabled fields 
+			//Remove the earlier validated fields from history so that it wont count disabled fields
 			jQv.InvalidFields = [];
 		});
 
@@ -225,7 +233,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			var invalidFields = formElement.data('jqv').InvalidFields;
 			if (invalidFields.length > 0) {
 				var fieldElement = invalidFields[0];
-				var moduleBlock = jQuery(fieldElement).closest('div.accordion-body');
+				var moduleBlock = jQuery(fieldElement).closest('.js-collapse');
 				moduleBlock.collapse('show');
 				e.preventDefault();
 				return;
@@ -241,7 +249,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			var organizationElement = accountModel.length;
 			if (organizationElement != '0') {
 				if (jQuery.inArray('Accounts', moduleArray) == -1) {
-					alert(app.vtranslate('JS_SELECT_ORGANIZATION'));
+					app.showAlert(app.vtranslate('JS_SELECT_ORGANIZATION'));
 					e.preventDefault();
 				}
 			}
@@ -281,7 +289,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		var recordId = this.getRecordId();
 
 		var data = {};
-		if (typeof fieldDetailList != 'undefined') {
+		if (typeof fieldDetailList !== "undefined") {
 			data = fieldDetailList;
 		}
 
@@ -289,18 +297,18 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		data['module'] = app.getModuleName();
 		data['action'] = 'SaveAjax';
 
-		AppConnector.request(data).then(
-				function (reponseData) {
-					aDeferred.resolve(reponseData);
-				}
+		AppConnector.request(data).done(
+			function (reponseData) {
+				aDeferred.resolve(reponseData);
+			}
 		);
-		if (fieldDetailList.field == 'leadstatus') {
+		if (fieldDetailList && fieldDetailList.field == 'leadstatus') {
 			var btn = jQuery('.btn-convertLead');
 			var status = JSON.parse(jQuery('#conversion_available_status').val());
 			if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
-				btn.removeClass("hide");
+				btn.removeClass("d-none");
 			} else {
-				btn.addClass("hide");
+				btn.addClass("d-none");
 			}
 		}
 		return aDeferred.promise();
@@ -321,7 +329,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 					var oldvalue = contextElem.val();
 					contextElem.find('option[value="' + oldvalue + '"]').removeAttr("selected");
 					contextElem.find('option[value="' + ajaxnewValue + '"]').attr("selected", "selected");
-					contextElem.trigger("chosen:updated");
+					contextElem.trigger('change');
 				} else {
 					contextElem.attr("value", ajaxnewValue);
 				}

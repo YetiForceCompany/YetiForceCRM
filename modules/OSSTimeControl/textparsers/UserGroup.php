@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Time control user group parser class
- * @package YetiForce.TextParser
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Time control user group parser class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
+class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_TIME_CONTROL_USER_GROUP';
 
@@ -17,7 +16,8 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 	public $type = 'pdf';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -31,20 +31,18 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 			'.summary {border-top: 1px solid grey;}' .
 			'</style>';
 		$html .= '<table class="table"><thead><tr>';
-		$html .= '<th>Nazwa użytkownika</th>';
-		$html .= '<th class="center">Dział</th>';
-		$html .= '<th class="center">Czas pracy</th>';
+		$html .= '<th>' . \App\Language::translate('User Name', 'Users') . '</th>';
+		$html .= '<th class="center">' . \App\Language::translate('Role', 'Users') . '</th>';
+		$html .= '<th class="center">' . \App\Language::translate('OSSTimeControl', 'OSSTimeControl') . '</th>';
 		$html .= '</tr></thead><tbody>';
 		foreach ($this->getUserList() as $user => $data) {
 			$html .= '<tr>';
 			$html .= '<td>' . $user . '</td>';
 			$html .= '<td class="center">' . $data['role'] . '</td>';
-			$time = vtlib\Functions::decimalTimeFormat($data['time']);
-			$html .= '<td class="center">' . $time['short'] . '</td>';
+			$html .= '<td class="center">' . \App\Fields\Time::formatToHourText($data['time'], 'short') . '</td>';
 			$html .= '</tr>';
 		}
-		$html .= '</tbody></table>';
-		return $html;
+		return $html . '</tbody></table>';
 	}
 
 	protected function getUserList()
@@ -57,7 +55,7 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 		foreach ($ids as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
-			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
+			$time = ($users[$user]['time'] ?? 0) + $recordModel->get('sum_time');
 			$users[$user] = [
 				'time' => $time,
 				'role' => \App\Language::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),

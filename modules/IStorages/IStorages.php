@@ -1,16 +1,15 @@
 <?php
 /**
- * IStorages CRMEntity Class
- * @package YetiForce.CRMEntity
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * IStorages CRMEntity Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class IStorages extends Vtiger_CRMEntity
 {
-
 	public $table_name = 'u_yf_istorages';
 	public $table_index = 'istorageid';
 
@@ -31,19 +30,19 @@ class IStorages extends Vtiger_CRMEntity
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_istorages' => 'istorageid',
 		'u_yf_istoragescf' => 'istorageid',
-		'u_yf_istorages_address' => 'istorageaddressid'];
+		'u_yf_istorages_address' => 'istorageaddressid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview)
+	 * Mandatory for Listing (Related listview).
 	 */
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'subject' => ['istorages', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid']
+		'Assigned To' => ['crmentity', 'smownerid'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'FL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -56,13 +55,13 @@ class IStorages extends Vtiger_CRMEntity
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'subject' => ['istorages', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
 	public $search_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	];
@@ -79,13 +78,14 @@ class IStorages extends Vtiger_CRMEntity
 	public $default_sort_order = 'ASC';
 
 	/**
-	 * Function to get storages hierarchy of the given Storage
-	 * @param integer $id - istorageid
-	 * returns Storage hierarchy in array format
+	 * Function to get storages hierarchy of the given Storage.
+	 *
+	 * @param int $id - istorageid
+	 *                returns Storage hierarchy in array format
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
-		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
+		\App\Log::trace('Entering getHierarchy(' . $id . ') method ...');
 
 		$listviewHeader = [];
 		$listviewEntries = [];
@@ -110,24 +110,24 @@ class IStorages extends Vtiger_CRMEntity
 
 		// Get the iStorages hierarchy (list of child iStorages) based on the current iStorage
 		$iStoragesList[$baseId] = $this->getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
-
+		$this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 		// Create array of all the iStorages in the hierarchy
-		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
-
 		$iStorageHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
 		\App\Log::trace('Exiting getHierarchy method ...');
+
 		return $iStorageHierarchy;
 	}
 
 	/**
-	 * Function to create array of all the storages in the hierarchy
-	 * @param integer $id - Id of the record highest in hierarchy
+	 * Function to create array of all the storages in the hierarchy.
+	 *
+	 * @param int   $id               - Id of the record highest in hierarchy
 	 * @param array $iStorageInfoBase
-	 * @param integer $iStorageId - istorageid
+	 * @param int   $iStorageId       - istorageid
 	 * @param array $listviewEntries
-	 * returns All the parent storages of the given Storage in array format
+	 *                                returns All the parent storages of the given Storage in array format
 	 */
-	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, $listviewEntries, $getRawData = false, $getLinks = true)
+	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
 
@@ -138,27 +138,25 @@ class IStorages extends Vtiger_CRMEntity
 			$listColumns = $this->list_fields_name;
 		}
 
-		foreach ($listColumns as $fieldname => $colname) {
+		foreach ($listColumns as $colname) {
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
 				$data = \App\Purifier::encodeHtml($iStorageInfoBase[$colname]);
-				if ($getRawData === false) {
-					if ($colname == 'subject') {
-						if ($iStorageId != $id) {
-							if ($getLinks) {
-								if ($hasRecordViewAccess) {
-									$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
-								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
-								}
+				if ($getRawData === false && $colname == 'subject') {
+					if ($iStorageId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
 						}
-						// - to show the hierarchy of the Storages
-						$iStorageDepth = str_repeat(" .. ", $iStorageInfoBase['depth']);
-						$data = $iStorageDepth . $data;
+					} else {
+						$data = '<strong>' . $data . '</strong>';
 					}
+					// - to show the hierarchy of the Storages
+					$iStorageDepth = str_repeat(' .. ', $iStorageInfoBase['depth']);
+					$data = $iStorageDepth . $data;
 				}
 				$iStorageInfoData[] = $data;
 			}
@@ -167,20 +165,22 @@ class IStorages extends Vtiger_CRMEntity
 		$listviewEntries[$iStorageId] = $iStorageInfoData;
 
 		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
-			if (is_array($iStorageInfo) && intval($accId)) {
+			if (is_array($iStorageInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
 
 		\App\Log::trace('Exiting getHierarchyData method ...');
+
 		return $listviewEntries;
 	}
 
 	/**
-	 * Function to Recursively get all the upper storages of a given Storage
-	 * @param integer $id - istorageid
+	 * Function to Recursively get all the upper storages of a given Storage.
+	 *
+	 * @param int   $id              - istorageid
 	 * @param array $parentIStorages - Array of all the parent storages
-	 * returns All the parent Storages of the given istorageid in array format
+	 *                               returns All the parent Storages of the given istorageid in array format
 	 */
 	public function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
 	{
@@ -190,11 +190,11 @@ class IStorages extends Vtiger_CRMEntity
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
+
 			return $parentIStorages;
 		}
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = 'SELECT u_yf_istorages.*, u_yf_istorages_address.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM u_yf_istorages' .
@@ -228,7 +228,7 @@ class IStorages extends Vtiger_CRMEntity
 				$listColumns = $this->list_fields_name;
 			}
 
-			foreach ($listColumns as $fieldname => $columnname) {
+			foreach ($listColumns as $columnname) {
 				if ($columnname == 'assigned_user_id') {
 					$parentIStorageInfo[$columnname] = $row['user_name'];
 				} else {
@@ -239,15 +239,17 @@ class IStorages extends Vtiger_CRMEntity
 			$parentIStorages[$id] = $parentIStorageInfo;
 		}
 		\App\Log::trace('Exiting __getIStorafAccounts method ...');
+
 		return $parentIStorages;
 	}
 
 	/**
-	 * Function to Recursively get all the child storages of a given Storage
-	 * @param integer $id - istorageid
+	 * Function to Recursively get all the child storages of a given Storage.
+	 *
+	 * @param int   $id             - istorageid
 	 * @param array $childIStorages - Array of all the child storages
-	 * @param integer $depth - Depth at which the particular storage has to be placed in the hierarchy
-	 * returns All the child storages of the given istorageid in array format
+	 * @param int   $depth          - Depth at which the particular storage has to be placed in the hierarchy
+	 *                              returns All the child storages of the given istorageid in array format
 	 */
 	public function getChildIStorages($id, &$childIStorages, $depthBase)
 	{
@@ -257,12 +259,12 @@ class IStorages extends Vtiger_CRMEntity
 
 		if (empty($id) || $depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
+
 			return $childIStorages;
 		}
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = "SELECT u_yf_istorages.*, u_yf_istorages_address.*," .
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$query = 'SELECT u_yf_istorages.*, u_yf_istorages_address.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM u_yf_istorages' .
 			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = u_yf_istorages.istorageid' .
@@ -285,7 +287,7 @@ class IStorages extends Vtiger_CRMEntity
 				$childIStorageInfo = [];
 				$childIStorageInfo['depth'] = $depth;
 
-				foreach ($listColumns as $fieldname => $columnname) {
+				foreach ($listColumns as $columnname) {
 					if ($columnname == 'assigned_user_id') {
 						$childIStorageInfo[$columnname] = $row['user_name'];
 					} else {
@@ -299,6 +301,7 @@ class IStorages extends Vtiger_CRMEntity
 		}
 
 		\App\Log::trace('Exiting getChildIStorages method ...');
+
 		return $childIStorages;
 	}
 }

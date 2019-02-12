@@ -10,18 +10,20 @@
  * *********************************************************************************** */
 Vtiger_Loader::includeOnce('~include/Webservices/ConvertLead.php');
 
-class Leads_SaveConvertLead_View extends Vtiger_View_Controller
+class Leads_SaveConvertLead_View extends \App\Controller\View
 {
-
 	/**
-	 * Record model instance
-	 * @var Vtiger_Record_Model 
+	 * Record model instance.
+	 *
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record = false;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
@@ -36,7 +38,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 		$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		if (!$this->record->isEditable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!Leads_Module_Model::checkIfAllowedToConvert($this->record->get('leadstatus'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -45,18 +47,17 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		
 	}
 
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
-		$modules = $request->get('modules');
+		$modules = $request->getArray('modules', 'Alnum');
 		$assignId = $request->getInteger('assigned_user_id');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$entityValues = [];
-		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
+		$entityValues['transferRelatedRecordsTo'] = $request->getByType('transferModule', 'Alnum');
 		$entityValues['assignedTo'] = $assignId;
 		$entityValues['leadId'] = $recordId;
 		$createAlways = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'create_always');
@@ -86,7 +87,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			if (!$results) {
 				$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
 				if ($currentUser->isAdminUser()) {
-					$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
+					$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="fas fa-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
 				throw new \App\Exceptions\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
@@ -96,7 +97,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			throw new \App\Exceptions\AppException($e->getMessage());
 		}
 		try {
-			$result = \WebservicesConvertLead::vtws_convertlead($entityValues, $currentUser);
+			$result = \WebservicesConvertLead::vtwsConvertlead($entityValues, $currentUser);
 		} catch (Exception $e) {
 			$this->showError($request, $e);
 			throw new \App\Exceptions\AppException($e->getMessage());
@@ -108,7 +109,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 
 		if (!empty($accountId)) {
 			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
-			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
+			header("location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {
 			$this->showError($request);
 			throw new \App\Exceptions\AppException('Error');
@@ -116,10 +117,11 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 	}
 
 	/**
-	 * This function shows an error
+	 * This function shows an error.
+	 *
 	 * @param \App\Request $request
-	 * @param boolean $exception
-	 * @param string $message
+	 * @param bool         $exception
+	 * @param string       $message
 	 */
 	public function showError(\App\Request $request, $exception = false, $message = '')
 	{

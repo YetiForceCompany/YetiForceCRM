@@ -9,11 +9,18 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Vtiger_Detail_View.
+ *
+ * @package View
+ */
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Record model instance
+	 * Record model instance.
+	 *
 	 * @var Vtiger_DetailView_Model
 	 */
 	public $record = false;
@@ -21,7 +28,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public $defaultMode = false;
 
 	/**
-	 * Page title
+	 * Page title.
+	 *
 	 * @var type
 	 */
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
@@ -37,29 +45,36 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRecentComments');
 		$this->exposeMethod('showRelatedList');
 		$this->exposeMethod('showChildComments');
+		$this->exposeMethod('showParentComments');
 		$this->exposeMethod('showAllComments');
 		$this->exposeMethod('showThreadComments');
+		$this->exposeMethod('showSearchComments');
 		$this->exposeMethod('getActivities');
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
+		$this->exposeMethod('showSocialMedia');
+		$this->exposeMethod('showInventoryDetails');
+		$this->exposeMethod('showChat');
 	}
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
 		if (!$this->record->getRecord()->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -79,14 +94,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$moduleModel = $this->record->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$selectedTabLabel = $request->get('tab_label');
-		$requestMode = $request->getByType('requestMode', 1);
+		$selectedTabLabel = $request->getByType('tab_label', 'Text');
+		$requestMode = $request->getByType('requestMode');
 		$mode = $request->getMode();
 		if (empty($selectedTabLabel) && !empty($requestMode)) {
 			if ($requestMode == 'full') {
@@ -140,7 +155,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function preProcessTplName(\App\Request $request)
 	{
-		return 'DetailViewPreProcess.tpl';
+		return 'Detail/PreProcess.tpl';
 	}
 
 	public function process(\App\Request $request)
@@ -150,70 +165,74 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
 		$defaultMode = $this->defaultMode;
-		if ($defaultMode == 'showDetailViewByMode') {
+		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
+			$this->record->getWidgets();
+			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
-		} else if ($defaultMode === false) {
+		} elseif (false === $defaultMode) {
 			$defaultMode = 'showDetailViewByMode';
 		}
 		echo $this->$defaultMode($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
-		$viewer->view('DetailViewPostProcess.tpl', $moduleName);
+		$viewer->view('Detail/PostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}
 
 	/**
-	 * Function to get the list of Css models to be included
+	 * Function to get the list of Css models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_CssScript_Model[]
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/leaflet/leaflet.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
+			'~libraries/leaflet/dist/leaflet.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.Default.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.css',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
 		];
+
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/splitjs/split.js',
+			'~libraries/split.js/dist/split.js',
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
-			'~libraries/leaflet/leaflet.js',
-			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
-			"modules.OpenStreetMap.resources.Map",
+			'~libraries/leaflet/dist/leaflet.js',
+			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
+			'modules.OpenStreetMap.resources.Map'
 		];
+
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	public function showDetailViewByMode(\App\Request$request)
+	public function showDetailViewByMode(\App\Request $request)
 	{
 		if ($request->getByType('requestMode', 1) === 'full') {
 			return $this->showModuleDetailView($request);
@@ -222,8 +241,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function shows the entire detail for the record
+	 * Function shows the entire detail for the record.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <type>
 	 */
 	public function showModuleDetailView(\App\Request $request)
@@ -247,7 +268,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
-		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+
+		return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 	}
 
 	public function showModuleSummaryView(\App\Request $request)
@@ -266,15 +288,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
-		if (is_callable($moduleName . "_Record_Model", 'getStructure')) {
+		if (is_callable($moduleName . '_Record_Model', 'getStructure')) {
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		}
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		return $viewer->view('ModuleSummaryBlockView.tpl', $moduleName, true);
+
+		return $viewer->view('Detail/Widget/GeneralInfo.tpl', $moduleName, true);
 	}
 
 	/**
-	 * Function shows basic detail for the record
+	 * Function shows basic detail for the record.
+	 *
 	 * @param <type> $request
 	 */
 	public function showModuleBasicView(\App\Request $request)
@@ -284,7 +308,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordModel = $this->record->getRecord();
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
@@ -303,30 +327,36 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('VIEW_MODEL', $this->record);
+		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		} else {
-			return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+			return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 		}
 	}
 
 	/**
-	 * Function returns recent changes made on the record
+	 * Function returns recent changes made on the record.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRecentActivities(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted('ModTracker')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
+			return false;
+		}
+		include_once 'modules/ModTracker/ModTracker.php';
 		$type = 'changes';
 		$parentRecordId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = $request->getInteger('limit');
-		$whereCondition = $request->get('whereCondition');
-		$moduleName = $request->getModule();
-
+		$whereCondition = $request->getArray('whereCondition', 'Standard');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -350,11 +380,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pagingModel->set('nextPageExists', true);
 		}
 		if ($type === 'changes') {
-			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+			$newChange = $request->has('newChange') ? $request->getBoolean('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = false;
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -376,15 +408,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function returns latest comments
+	 * Function returns latest comments.
+	 *
 	 * @param \App\Request $request
-	 * @return string
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return string
 	 */
 	public function showRecentComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
@@ -398,27 +433,33 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-
-		$recentComments = ModComments_Record_Model::getRecentComments($parentId, $pagingModel);
-		$pagingModel->calculatePageRange(count($recentComments));
+		$hierarchyValue = $this->getHierarchyValue($request);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
+		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
 		$viewer = $this->getViewer($request);
-		$viewer->assign('COMMENTS', $recentComments);
+		$viewer->assign('PARENT_RECORD', $parentId);
+		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
+		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('CURRENT_COMMENT', null);
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
 
 	/**
-	 * Function returns related records
+	 * Function returns related records.
+	 *
 	 * @param \App\Request $request
-	 * @return string
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return string
 	 */
 	public function showRelatedList(\App\Request $request)
 	{
@@ -426,63 +467,98 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$targetControllerClass = null;
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		// Added to support related list view from the related module, rather than the base module.
-		if (!$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName, false)) {
-			// If any module wants to have same view for all the relation, then invoke this.
-			if (!$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'InRelation', $relatedModuleName, false)) {
-				// Default related list
-				$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'RelatedList', $moduleName);
-			}
+		if (!($targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName, false)) && !($targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'InRelation', $relatedModuleName, false))) {
+			// Default related list
+			$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'RelatedList', $moduleName);
 		}
 		if ($targetControllerClass) {
 			$targetController = new $targetControllerClass();
+
 			return $targetController->process($request);
 		}
 	}
 
 	/**
-	 * Function sends the child comments for a comment
+	 * Function sends the child comments for a comment.
+	 *
 	 * @param \App\Request $request
-	 * @return mixed
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
 	 */
 	public function showChildComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentCommentId = $request->getInteger('commentid');
 		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
+		$viewer->assign('CHILD_COMMENTS', true);
+		$viewer->assign('NO_COMMENT_FORM', true);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('CURRENT_COMMENT', null);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
 
 	/**
-	 * Function send all the comments in thead
+	 * Function sends the parent comment for a comment.
+	 *
 	 * @param \App\Request $request
-	 * @return mixed
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function showParentComments(\App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$parentCommentModel = Vtiger_Record_Model::getInstanceById($request->getInteger('commentid'));
+		$parentThreadComments = $parentCommentModel->getParentComments();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PARENT_COMMENTS', $parentThreadComments);
+		$viewer->assign('SHOW_CHILD_COMMENTS', true);
+		$viewer->assign('NO_COMMENT_FORM', true);
+		$viewer->assign('CURRENTUSER', $currentUserModel);
+		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('CURRENT_COMMENT', null);
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
+	}
+
+	/**
+	 * Function send all the comments in thead.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
 	 */
 	public function showThreadComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $moduleName);
 		$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 
 		$viewer = $this->getViewer($request);
@@ -490,47 +566,41 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+
 		return $viewer->view('ShowThreadComments.tpl', $moduleName, true);
 	}
 
 	/**
-	 * Function sends all the comments for a parent(Accounts, Contacts etc)
+	 * Function sends all the comments for a parent(Accounts, Contacts etc).
+	 *
 	 * @param \App\Request $request
-	 * @return mixed
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
 	 */
 	public function showAllComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
-		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
-		}
 		$moduleName = $request->getModule();
+		$hierarchy = $this->getHierarchy($request);
+		$hierarchyValue = $this->getHierarchyValue($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $moduleName, $hierarchy);
 		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 		}
-		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
-		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
-		if ($level > 0) {
-			unset($hierarchyList[1]);
-			if ($level > 1) {
-				unset($hierarchyList[2]);
-			}
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
-		$viewer->assign('HIERARCHY', $hierarchy);
-		$viewer->assign('HIERARCHY_LIST', $hierarchyList);
+		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
+		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
@@ -540,9 +610,107 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get Ajax is enabled or not
+	 * Function send all the comments with search value.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function showSearchComments(\App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
+		$isWidget = false;
+		if (!$request->isEmpty('is_widget', true)) {
+			$isWidget = $request->getBoolean('is_widget');
+		}
+		if ($request->isEmpty('search_key', true)) {
+			return $this->showAllComments($request);
+		} else {
+			$searchValue = $request->getByType('search_key', 'Text');
+			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $moduleName, $searchValue, $isWidget, $this->getHierarchy($request));
+		}
+		$viewer = $this->getViewer($request);
+		if (!empty($parentCommentModels)) {
+			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+			$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+			$viewer->assign('CURRENTUSER', $currentUserModel);
+			$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
+			$viewer->assign('CURRENT_COMMENT', false);
+			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+			$viewer->assign('NO_COMMENT_FORM', true);
+			$viewer->assign('MODULE', $moduleName);
+			if ($isWidget === false) {
+				$viewer->assign('SHOW_CHILD_COMMENTS', true);
+			} else {
+				$viewer->assign('BUTTON_SHOW_PARENT', true);
+			}
+			return $viewer->view('CommentsList.tpl', $moduleName, true);
+		} else {
+			return $viewer->view('NoComments.tpl', $moduleName, true);
+		}
+	}
+
+	/**
+	 * Returns value source to display comments.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return mixed
+	 */
+	private function getHierarchyValue(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$hierarchyValue = $request->getExploded('hierarchy', ',', 'Standard');
+		$cacheName = 'DEFAULT_SOURCE_COMMENTS_' . $moduleName;
+		if (empty($hierarchyValue)) {
+			if (App\Session::has($cacheName)) {
+				$hierarchyValue = App\Session::get($cacheName);
+			} else {
+				$hierarchyValue = AppConfig::module('ModComments', 'DEFAULT_SOURCE');
+			}
+		} else {
+			App\Session::set($cacheName, $hierarchyValue);
+		}
+		return $hierarchyValue;
+	}
+
+	/**
+	 * Get comments hierarchy.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return array
+	 */
+	public function getHierarchy(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$hierarchy = [];
+		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+		$hierarchyValue = $this->getHierarchyValue($request);
+		if (0 === $level) {
+			$hierarchy = in_array('related', $hierarchyValue) ? [1, 2] : [];
+		} elseif (1 === $level) {
+			$hierarchy = in_array('related', $hierarchyValue) ? [2] : [];
+		}
+		if (in_array('current', $hierarchyValue)) {
+			$hierarchy[] = $level;
+		}
+		return $hierarchy;
+	}
+
+	/**
+	 * Function to get Ajax is enabled or not.
+	 *
 	 * @param Vtiger_Record_Model record model
-	 * @return boolean true/false
+	 *
+	 * @return bool true/false
 	 */
 	public function isAjaxEnabled($recordModel)
 	{
@@ -550,16 +718,19 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get activities
+	 * Function to get activities.
+	 *
 	 * @param \App\Request $request
-	 * @return <List of activity models>
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return <List of activity models>
 	 */
 	public function getActivities(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission('Calendar')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -595,43 +766,46 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('ACTIVITIES', $relatedActivities);
 		$viewer->assign('DATA_TYPE', $type);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+
 		return $viewer->view('RelatedActivities.tpl', $moduleName, true);
 	}
 
 	/**
-	 * Function returns related records based on related moduleName
+	 * Function returns related records based on related moduleName.
+	 *
 	 * @param \App\Request $request
-	 * @return <type>
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return string
 	 */
 	public function showRelatedRecords(\App\Request $request)
 	{
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
-		$limit = (int) $request->get('limit');
-		$searchParams = $request->get('search_params');
+		$limit = 10;
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$columns = $request->get('col');
+		$columns = 0;
 		$moduleName = $request->getModule();
+		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 		$totalCount = $request->getInteger('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		if ($limit) {
-			$pagingModel->set('limit', $limit);
-		} else {
-			$pagingModel->set('limit', 10);
+		if (!$request->isEmpty('limit', true)) {
+			$limit = $request->getInteger('limit');
 		}
+		$pagingModel->set('limit', $limit);
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (is_numeric($relatedModuleName)) {
 			$relatedModuleName = \App\Module::getModuleName($relatedModuleName);
@@ -645,7 +819,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
@@ -664,24 +838,39 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
-		if ($request->has('fields')) {
-			$relationListView->setFields($request->getExploded('fields'));
+		$viewer = $this->getViewer($request);
+		$viewType = !$request->isEmpty('viewType') ? $request->getByType('viewType') : '';
+		if ('ListWithSummary' === $viewType) {
+			$header = $relationListView->getHeaders();
+			if ($summaryHeaders = $relationListView->getRelatedModuleModel()->getSummaryViewFieldsList()) {
+				$relationListView->setFields(array_keys($summaryHeaders));
+				$summaryHeaders = $relationListView->getHeaders();
+			}
+			$viewer->assign('RELATED_SUMMARY_HEADERS', $summaryHeaders);
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+				$header = $relationListView->getHeaders();
+				$relationListView->setFields(array_keys(array_merge($summaryHeaders, $header)));
+			}
+		} else {
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+			}
+			$header = $relationListView->getHeaders();
 		}
 		$models = $relationListView->getEntries($pagingModel);
-		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
-		if ($columns) {
+
+		if ($request->has('col')) {
+			$columns = $request->getInteger('col');
 			$header = array_splice($header, 0, $columns);
 		}
-		$viewer = $this->getViewer($request);
+		$viewer->assign('TYPE_VIEW', $viewType);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
-		if (!$request->isEmpty('viewType')) {
-			$viewer->assign('TYPE_VIEW', $request->getByType('viewType'));
-		}
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
@@ -695,10 +884,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		$viewer->assign('VIEW_MODEL', $relationListView);
@@ -714,9 +904,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
+		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, true);
 	}
 
@@ -726,7 +918,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
@@ -746,6 +938,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SHOW_COMMENT', (bool) $relationModel->get('relation_comment'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, true);
 	}
 
@@ -763,7 +956,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
@@ -775,14 +967,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
+		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false));
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 
 	/**
-	 * Show recent relation
+	 * Show recent relation.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string
 	 */
 	public function showRecentRelation(\App\Request $request)
@@ -812,13 +1008,24 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('NO_MORE', $request->getBoolean('noMore'));
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		$viewer->assign('IS_FULLSCREEN', $request->getBoolean('isFullscreen'));
+
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 
-	public function showOpenStreetMap($request)
+	/**
+	 * Show open street map.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showOpenStreetMap(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -828,5 +1035,73 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show social media.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showSocialMedia(\App\Request $request)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+		if (!Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show chat for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showChat(\App\Request $request)
+	{
+		return (new Chat_Entries_View())->getForRecord($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		return \App\Language::translate($moduleName, $moduleName) . ' ' . $this->record->getRecord()->getDisplayName();
+	}
+
+	/**
+	 * Show inventory details from record for specified module.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	public function showInventoryDetails(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('VIEW', 'Detail');
+		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
 }

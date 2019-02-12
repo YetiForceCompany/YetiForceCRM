@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
-jQuery.Class('Settings_WidgetsManagement_Js', {
-}, {
+jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	widgetWithFilterUsers: [],
 	setWidgetWithFilterUsers: function () {
 		var thisInstance = this;
@@ -33,94 +33,75 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	 * Function to create the array of block roles list
 	 */
 	getAuthorization: function () {
-		var thisInstance = this;
-		var authorization = [];
-		continer = jQuery('#moduleBlocks');
-		continer.find('.editFieldsTable').each(function () {
+		let authorization = [],
+			container = jQuery('#moduleBlocks');
+		container.find('.editFieldsTable').each(function () {
 			authorization.push(jQuery(this).data('code'));
 		});
 		return authorization;
 	},
 	getAllFieldsInBlock: function (continer) {
-		var thisInstance = this;
 		var fields = [];
 		continer.find('.blockFieldsList .editFieldsWidget').each(function () {
 			fields.push(jQuery(this).data('linkid').toString());
 		});
 		return fields;
 	},
-	getCurrentDashboardId: function () {
-		return $('.selectDashboard li.active').data('id');
+	getCurrentDashboardId() {
+		return $('.selectDashboard li a.active').parent().data('id');
 	},
-	registerAddedDashboard: function () {
-		var thisInstance = this;
-		$('.addDashboard').on('click', function () {
-			var data = {
+	registerAddedDashboard() {
+		const thisInstance = this;
+		$('.addDashboard').on('click', () => {
+			app.showModalWindow({
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType',
-				sendByAjaxCb: function () {
-					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home').then(
-							function (data) {
-								contentsDiv.html(data);
-								thisInstance.registerEvents();
-							}
-					);
+				sendByAjaxCb: () => {
+					let contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home').done((data) => {
+						thisInstance.updateContentsDiv(contentsDiv, data);
+					});
 				},
-			};
-			app.showModalWindow(data);
+			});
 		});
 	},
-	registerSelectDashboard: function () {
-		var thisInstance = this;
-		$('.selectDashboard li').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
-			var dashboardId = currentTarget.data('id');
-			var contentsDiv = $('.contentsDiv');
-			thisInstance.getModuleLayoutEditor('Home', dashboardId).then(
-					function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
-					}
-			);
+	registerSelectDashboard() {
+		const thisInstance = this;
+		$('.selectDashboard li').on('click', (e) => {
+			let contentsDiv = $('.contentsDiv');
+			thisInstance.getModuleLayoutEditor($('#selectedModuleName').val(), $(e.currentTarget).data('id')).done((data) => {
+				thisInstance.updateContentsDiv(contentsDiv, data);
+			});
 		});
 	},
-	registerDashboardAction: function () {
-		var thisInstance = this;
-		$('.editDashboard').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
+	registerDashboardAction() {
+		const thisInstance = this;
+		$('.editDashboard').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
 			e.stopPropagation();
-			var data = {
+			app.showModalWindow({
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType&dashboardId=' + currentTarget.closest('li').data('id'),
-				sendByAjaxCb: function () {
-					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).then(
-							function (data) {
-								contentsDiv.html(data);
-								thisInstance.registerEvents();
-							}
-					);
+				sendByAjaxCb: () => {
+					let contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done((data) => {
+						thisInstance.updateContentsDiv(contentsDiv, data);
+					});
 				},
-			};
-			app.showModalWindow(data);
+			});
 		});
-		$('.deleteDashboard').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
+		$('.deleteDashboard').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
 			e.stopPropagation();
-			var params = {
+			AppConnector.request({
 				parent: 'Settings',
 				module: app.getModuleName(),
 				action: 'Dashboard',
 				mode: 'delete',
 				dashboardId: currentTarget.closest('li').data('id')
-			};
-			AppConnector.request(params).then(function () {
-				var contentsDiv = $('.contentsDiv');
-				thisInstance.getModuleLayoutEditor('Home', 1).then(
-						function (data) {
-							contentsDiv.html(data);
-							thisInstance.registerEvents();
-						}
-				);
+			}).done(() => {
+				let contentsDiv = $('.contentsDiv');
+				thisInstance.getModuleLayoutEditor('Home', 1).done((data) => {
+					thisInstance.updateContentsDiv(contentsDiv, data);
+				});
 			});
 		});
 	},
@@ -130,7 +111,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	registerAddBlockDashBoard: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.find('.addBlockDashBoard').click(function (e) {
+		contents.find('.addBlockDashBoard').on('click', function (e) {
 			var addBlockContainer = contents.find('.addBlockDashBoardModal').clone(true, true);
 			var inUseAuthorization = thisInstance.getAuthorization();
 			addBlockContainer.find('select.authorized option').each(function () {
@@ -140,35 +121,33 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 
 			var callBackFunction = function (data) {
 				//register all select2 Elements
-				app.changeSelectElementView(data.find('select'));
-
+				App.Fields.Picklist.changeSelectElementView(data.find('select'));
 				var form = data.find('.addBlockDashBoardForm');
-				var params = app.validationEngineOptions;
 				var block = form.find('[name="authorized"]');
-				form.validationEngine(params);
-				form.submit(function (e) {
+				form.validationEngine(app.validationEngineOptions);
+				form.on('submit', function (e) {
 					if (form.validationEngine('validate')) {
 						var paramsForm = form.serializeFormData();
 						paramsForm['action'] = 'addBlock';
-						var paramsBlock = [];
-						paramsBlock['authorized'] = block.val();
-						paramsBlock['label'] = block.find(':selected').text();
-						thisInstance.save(paramsForm, 'save').then(
-								function (data) {
-									var params = {};
-									var response = data.result;
-									if (response['success']) {
-										paramsBlock['id'] = response['id'];
-										thisInstance.displayNewCustomBlock(paramsBlock);
-										app.hideModalWindow();
-										params['text'] = app.vtranslate('JS_BLOCK_ADDED');
-									} else {
-										params['text'] = response['message'];
-										params['type'] = 'error';
-									}
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}
-						);
+						var paramsBlock = {
+							authorized: block.val(),
+							label: block.find(':selected').text()
+						};
+						thisInstance.save(paramsForm, 'save').done(function (data) {
+							var params = {};
+							var response = data.result;
+							if (response['success']) {
+								paramsBlock['id'] = response['id'];
+								thisInstance.displayNewCustomBlock(paramsBlock);
+								app.hideModalWindow();
+								params['text'] = app.vtranslate('JS_BLOCK_ADDED');
+							} else {
+								params['text'] = response['message'];
+								params['type'] = 'error';
+							}
+							Settings_Vtiger_Index_Js.showMessage(params);
+							window.location.reload();
+						});
 					}
 					e.preventDefault();
 				})
@@ -181,8 +160,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		});
 	},
 	save: function (form, mode) {
-
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -199,26 +176,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 
-		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 	displayNewCustomBlock: function (result) {
-		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
 		newBlockCloneCopy.data('block-id', result['id']).find('.blockLabel span').append(jQuery('<strong>' + result['label'] + '</strong>'));
-		newBlockCloneCopy.find('.addCustomField').removeClass('hide').show();
+		newBlockCloneCopy.find('.addCustomField').removeClass('d-none').show();
 		newBlockCloneCopy.find('.specialWidget').data('block-id', result['id']);
-		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('newCustomBlockCopy hide').addClass('editFieldsTable block_' + result['id']).data('code', result['authorized']));
+		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('newCustomBlockCopy d-none').addClass('editFieldsTable block_' + result['id']).data('code', result['authorized']));
 	},
 	/*
 	 * Function to add clickoutside event on the element - By using outside events plugin
@@ -231,7 +204,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	registerAddCustomFieldEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.find('.addCustomField').click(function (e) {
+		contents.find('.addCustomField').on('click', function (e) {
 			var continer = jQuery(e.currentTarget).closest('.editFieldsTable');
 			var blockId = continer.data('block-id');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
@@ -244,7 +217,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			});
 			var name = selectWidgets.find(':first-child').data('name');
 			if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled').show();
+				addFieldContainer.find('.widgetFilter').removeClass('d-none').find('select').removeAttr('disabled').show();
 				var restrictFilter = thisInstance.restrictFilter[name];
 				if (restrictFilter) {
 					for (var i in restrictFilter) {
@@ -253,12 +226,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				}
 			}
 			if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
-				addFieldContainer.find('.widgetFilterDate').removeClass('hide').find('select').removeAttr('disabled').show();
+				addFieldContainer.find('.widgetFilterDate').removeClass('d-none').find('select').removeAttr('disabled').show();
 			}
 
 			var callBackFunction = function (data) {
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 				data.find('select.widgets').on('change', function () {
 					data.find('.widgetFilter').remove();
 					data.find('.widgetFilterDate').remove();
@@ -269,90 +242,89 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					data.find('.modal-body').append(elementsToFilterDate);
 					var name = jQuery(this).find(':selected').data('name');
 					if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-						elementsToFilter.removeClass('hide').find('select').prop('disabled', false);
+						elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
 						var restrictFilter = thisInstance.restrictFilter[name];
 						if (restrictFilter) {
 							for (var i in restrictFilter) {
 								addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 							}
 						}
-						app.showSelect2ElementView(elementsToFilter.find('select'));
+						App.Fields.Picklist.showSelect2ElementView(elementsToFilter.find('select'));
 					} else {
-						elementsToFilter.addClass('hide').find('select').prop('disabled', true);
+						elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
 					}
 					if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
-						elementsToFilterDate.removeClass('hide').find('select').prop('disabled', false);
-						app.showSelect2ElementView(elementsToFilterDate.find('select'));
+						elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
+						App.Fields.Picklist.showSelect2ElementView(elementsToFilterDate.find('select'));
 					} else {
-						elementsToFilterDate.addClass('hide').find('select').prop('disabled', true);
+						elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
 					}
 				});
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
 				var widgets = form.find('[name="widgets"]');
-				var params = app.validationEngineOptions;
-				params.onValidationComplete = function (form, valid) {
-					if (valid) {
-						if (widgets.val()) {
-							var saveButton = form.find(':submit');
-							saveButton.attr('disabled', 'disabled');
-							var field = form.find('[name="widgets"]');
+				form.validationEngine($.extend(true, {
+					onValidationComplete: function (form, valid) {
+						if (valid) {
+							if (widgets.val()) {
+								let saveButton = form.find(':submit'),
+									field = form.find('[name="widgets"]');
+								saveButton.attr('disabled', 'disabled');
 
-							paramsForm = form.serializeFormData();
-							paramsForm['action'] = 'addWidget';
-							paramsForm['blockid'] = blockId;
-							paramsForm['linkid'] = field.val();
-							paramsForm['label'] = field.find(':selected').text();
-							paramsForm['name'] = field.find(':selected').data('name');
-							paramsForm['height'] = form.find('[name="height"]').val();
-							paramsForm['width'] = form.find('[name="width"]').val();
-							if (form.find('[name="isdefault"]').prop("checked"))
-								paramsForm['isdefault'] = 1;
-							if (form.find('[name="cache"]').prop("checked"))
-								paramsForm['cache'] = 1;
-							if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined') {
-								var result = app.vtranslate('JS_FIELD_EMPTY');
-								form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
-								saveButton.removeAttr('disabled');
-								e.preventDefault();
-								return false;
-							}
-							thisInstance.save(paramsForm, 'save').then(
-									function (data) {
-										var result = data['result'];
-										var params = {};
-										if (data['success']) {
-											app.hideModalWindow();
-											paramsForm['id'] = result['id']
-											paramsForm['status'] = result['status']
-											params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-											Settings_Vtiger_Index_Js.showMessage(params);
-											thisInstance.showCustomField(paramsForm);
+								let paramsForm = form.serializeFormData();
+								paramsForm['action'] = 'addWidget';
+								paramsForm['blockid'] = blockId;
+								paramsForm['linkid'] = field.val();
+								paramsForm['label'] = field.find(':selected').text();
+								paramsForm['name'] = field.find(':selected').data('name');
+								paramsForm['height'] = form.find('[name="height"]').val();
+								paramsForm['width'] = form.find('[name="width"]').val();
+								if (form.find('[name="isdefault"]').prop("checked"))
+									paramsForm['isdefault'] = 1;
+								if (form.find('[name="cache"]').prop("checked"))
+									paramsForm['cache'] = 1;
+								if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
+									form.find('select[name="owners_all"]')
+										.prev('div')
+										.validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'bottomLeft', true);
+									saveButton.removeAttr('disabled');
+									e.preventDefault();
+									return false;
+								}
+								thisInstance.save(paramsForm, 'save').done(function (data) {
+									let result = data['result'],
+										params = {};
+									if (data['success']) {
+										app.hideModalWindow();
+										paramsForm['id'] = result['id']
+										paramsForm['status'] = result['status']
+										params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+										Settings_Vtiger_Index_Js.showMessage(params);
+										thisInstance.showCustomField(paramsForm);
+									} else {
+										let message = data['error']['message'],
+											errorField;
+										if (data['error']['code'] != 513) {
+											errorField = form.find('[name="fieldName"]');
 										} else {
-											var message = data['error']['message'];
-											if (data['error']['code'] != 513) {
-												var errorField = form.find('[name="fieldName"]');
-											} else {
-												var errorField = form.find('[name="fieldLabel"]');
-											}
-											errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-											saveButton.removeAttr('disabled');
+											errorField = form.find('[name="fieldLabel"]');
 										}
+										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+										saveButton.removeAttr('disabled');
 									}
-							);
-						} else {
-							var result = app.vtranslate('JS_FIELD_EMPTY');
-							widgets.prev('div').validationEngine('showPrompt', result, 'error', 'topLeft', true);
-							e.preventDefault();
-							return;
+								});
+							} else {
+								widgets.prev('div').validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'topLeft', true);
+								e.preventDefault();
+								return;
+							}
 						}
+						//To prevent form submit
+						return false;
 					}
-					//To prevent form submit
-					return false;
-				}
-				form.validationEngine(params);
-			}
+				}, app.validationEngineOptions));
+			};
 			app.showModalWindow(addFieldContainer, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
@@ -368,7 +340,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var contents = jQuery('#layoutDashBoards');
 		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
+		var fieldContainer = fieldCopy.find('.js-custom-field');
 		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		if (result['title']) {
@@ -378,8 +350,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		}
 		if (!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
-		if (typeof result['default_owner'] != 'undefined')
-			fieldContainer.find('.widgetFilterAll').removeClass('hide').show();
+		if (typeof result['default_owner'] !== "undefined")
+			fieldContainer.find('.widgetFilterAll').removeClass('d-none').show();
 
 		var block = relatedBlock.find('.blockFieldsList');
 		var sortable1 = block.find('ul[name=sortable1]');
@@ -389,9 +361,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 
 		// Deciding where to add the new field
 		if (length1 > length2) {
-			sortable2.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
+			sortable2.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
 		} else {
-			sortable1.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
+			sortable1.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
 		}
 		var form = fieldCopy.find('form.fieldDetailsForm');
 		thisInstance.setFieldDetails(result, form);
@@ -400,10 +372,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	 * Function to set the field info for edit field actions
 	 */
 	setFieldDetails: function (result, form) {
-		var thisInstance = this;
-		//add field label to the field details
-		form.find('.modal-header').html(jQuery('<strong>' + result['label'] + '</strong><div class="pull-right"><a href="javascript:void(0)" class="cancel">X</a></div>'));
-
+		form.find('.modal-header').html($('<h5 class="modal-title">' + result['label'] + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'));
 		if (result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
@@ -435,156 +404,137 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			}
 		}
 	},
-	registerEditFieldDetailsClick: function () {
-		var thisInstance = this;
-		contents = jQuery('#layoutDashBoards');
-		contents.find('.editFieldDetails').click(function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var fieldRow = currentTarget.closest('div.editFieldsWidget');
+	registerEditFieldDetailsClick: function (contents = null) {
+		const thisInstance = this;
+		if (!contents) {
+			contents = jQuery('#layoutDashBoards');
+		}
+		contents.find('.editFieldDetails').on('click', function (e) {
+			const currentTarget = $(e.currentTarget);
+			const fieldRow = currentTarget.closest('div.editFieldsWidget');
 			fieldRow.removeClass('opacity');
-			var basicDropDown = fieldRow.find('.basicFieldOperations');
-			var dropDownContainer = currentTarget.closest('.btn-group');
+			const basicDropDown = fieldRow.find('.basicFieldOperations');
+			const dropDownContainer = currentTarget.closest('.btn-group');
 			dropDownContainer.find('.dropdown-menu').remove();
-			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations hide').addClass('dropdown-menu');
+			const dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
 			dropDownContainer.append(dropDown);
-			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
-			var params = app.getvalidationEngineOptions(true);
-			params.binded = false;
-			params.onValidationComplete = function (form, valid) {
-				if (valid) {
-					if (form == undefined) {
-						return true;
+			const dropDownMenu = dropDownContainer.find('.dropdown-menu');
+			dropDownContainer.dropdown('dispose').dropdown('toggle');
+			dropDownMenu.find('form').validationEngine($.extend(true, {
+				binded: false,
+				onValidationComplete: function (form, valid) {
+					if (valid) {
+						if (form === undefined) {
+							return true;
+						}
+						let paramsForm = form.serializeFormData();
+						if (form.find('[name="isdefault"]').prop("checked"))
+							paramsForm['isdefault'] = 1;
+						if (form.find('[name="cache"]').prop("checked"))
+							paramsForm['cache'] = 1;
+						let id = form.find('.saveFieldDetails').data('field-id');
+						paramsForm['action'] = 'saveDetails';
+						paramsForm['id'] = id;
+						if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
+							let params = {};
+							params['type'] = 'error';
+							params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
+							Settings_Vtiger_Index_Js.showMessage(params);
+							e.preventDefault();
+							return false;
+						}
+						thisInstance.save(paramsForm, 'save');
+						thisInstance.registerSaveFieldDetailsEvent(form);
 					}
-					var paramsForm = form.serializeFormData();
-					if (form.find('[name="isdefault"]').prop("checked"))
-						paramsForm['isdefault'] = 1;
-					if (form.find('[name="cache"]').prop("checked"))
-						paramsForm['cache'] = 1;
-					var id = form.find('.saveFieldDetails').data('field-id');
-					paramsForm['action'] = 'saveDetails';
-					paramsForm['id'] = id;
-					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined') {
-						var params = {};
-						params['type'] = 'error';
-						params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						e.preventDefault();
-						return false;
-					}
-					thisInstance.save(paramsForm, 'save');
-					thisInstance.registerSaveFieldDetailsEvent(form);
+					return false;
 				}
-				return false;
-			};
-			dropDownMenu.find('form').validationEngine(params);
-			//handled registration of selectize for select element
-			var selectElements = basicDropDown.find('select[name="owners_all"]');
+			}, app.getvalidationEngineOptions(true)));
+			let selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
-				var users = dropDownMenu.find('select[name="owners_all"]');
-				app.showSelectizeElementView(users);
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
 			}
 			selectElements = basicDropDown.find('select[name="default_date"]');
 			if (selectElements.length > 0) {
-				var users = dropDownMenu.find('select[name="default_date"]');
-				app.showSelect2ElementView(users);
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="default_date"]'));
 			}
-
+			selectElements = basicDropDown.find('select[name="customMultiFilter"]');
+			if (selectElements.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="customMultiFilter"]'));
+			}
+			selectElements = basicDropDown.find('select[name="defaultFilter"]');
+			if (selectElements.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="defaultFilter"]'));
+			}
 			thisInstance.avoidDropDownClick(dropDownContainer);
-
 			dropDownMenu.on('change', ':checkbox', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				if (currentTarget.attr('readonly') == 'readonly') {
-					var status = jQuery(e.currentTarget).is(':checked');
+				let currentTarget = jQuery(e.currentTarget);
+				if (currentTarget.attr('readonly') === 'readonly') {
+					let status = jQuery(e.currentTarget).is(':checked');
 					if (!status) {
-						jQuery(e.currentTarget).attr('checked', 'checked')
+						$(e.currentTarget).attr('checked', 'checked')
 					} else {
-						jQuery(e.currentTarget).removeAttr('checked');
+						$(e.currentTarget).removeAttr('checked');
 					}
 					e.preventDefault();
 				}
 			});
-
-			//added for drop down position change
-			var offset = currentTarget.offset(),
-					height = currentTarget.outerHeight(),
-					dropHeight = dropDown.outerHeight(),
-					viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-					dropTop = offset.top + height,
-					enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
-			if (!enoughRoomBelow) {
-				dropDown.addClass('bottom-up');
-			} else {
-				dropDown.removeClass('bottom-up');
-			}
-
-			var callbackFunction = function () {
+			const callbackFunction = function () {
 				fieldRow.addClass('opacity');
 				dropDown.remove();
-			}
+			};
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-
-			jQuery('.cancel').click(function () {
-				callbackFunction();
-			});
+			$('.cancel,.close').on('click', callbackFunction);
 		});
 	},
 	/**
 	 * Function to register the click event for save button after edit field details
 	 */
 	registerSaveFieldDetailsEvent: function (form) {
-		var thisInstance = this;
-		var submitButtton = form.find('.saveFieldDetails');
-		var fieldId = submitButtton.data('field-id');
-		var block = submitButtton.closest('.editFieldsTable');
-		var blockId = block.data('block-id');
+		let submitButtton = form.find('.saveFieldDetails'),
+			fieldRow = submitButtton.closest('.editFieldsWidget'),
+			dropDownMenu = form.closest('.dropdown-menu');
 		//close the drop down
 		submitButtton.closest('.btn-group').removeClass('open');
 		//adding class opacity to fieldRow - to give opacity to the actions of the fields
-		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
-		var dropDownMenu = form.closest('.dropdown-menu');
-		app.destroySelectizeElement(form)
 		form.find('select').each(function () {
-			var selectedvalue = jQuery(this).val();
-			jQuery(this).find('option').removeAttr('selected');
-			if (typeof (jQuery(this).attr('multiple')) == 'undefined') {
-				var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
-				jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+			let selectedValue = $(this).val(),
+				encodedSelectedValue;
+			$(this).find('option').removeAttr('selected');
+			if (typeof ($(this).attr('multiple')) === "undefined") {
+				encodedSelectedValue = selectedValue.replace(/"/g, '\\"');
+				$(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 			} else {
-				for (var i = 0; i < selectedvalue.length; i++) {
-					var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
-					jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+				for (let i = 0; i < selectedValue.length; i++) {
+					encodedSelectedValue = selectedValue[i].replace(/"/g, '\\"');
+					$(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 				}
 			}
 		});
-		var basicContents = form.closest('.editFieldsWidget').find('.basicFieldOperations');
-		basicContents.html(form);
+		form.closest('.editFieldsWidget').find('.basicFieldOperations').html(form);
 		dropDownMenu.remove();
 	},
 	/**
-	 * Function to register click event for drop-downs in fields list 
+	 * Function to register click event for drop-downs in fields list
 	 */
 	avoidDropDownClick: function (dropDownContainer) {
-		dropDownContainer.find('.dropdown-menu').click(function (e) {
+		dropDownContainer.find('.dropdown-menu').on('click', function (e) {
 			e.stopPropagation();
 		});
 	},
 	registerSpecialWidget: function () {
 		var thisInstance = this;
 		var container = jQuery('#layoutDashBoards');
-		container.find('.addNotebook').click(function (e) {
+		container.find('.addNotebook').on('click', function (e) {
 			thisInstance.addNoteBookWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addCharts').click(function (e) {
-			thisInstance.addChartWidget($(e.currentTarget));
-		});
-		container.find('.addMiniList').click(function (e) {
+		container.find('.addMiniList').on('click', function (e) {
 			thisInstance.addMiniListWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addChartFilter').click(function (e) {
+		container.find('.addChartFilter').on('click', function (e) {
 			thisInstance.addChartFilterWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addRss').click(function (e) {
+		container.find('.addRss').on('click', function (e) {
 			thisInstance.addRssWidget($(e.currentTarget), jQuery(this).data('url'));
 		});
 	},
@@ -602,7 +552,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var newRow = container.find('.newChannel').clone();
 					var formContainer = container.find('.formContainer');
 					formContainer.append(newRow);
-					newRow.removeClass('hide');
+					newRow.removeClass('d-none');
 					newRow.removeClass('newChannel');
 					newRow.find('input').removeAttr('disabled');
 					newRow.find('.removeChannel').on('click', function (e) {
@@ -623,11 +573,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						})
 						var paramsForm = form.serializeFormData();
 						paramsForm.data = JSON.stringify({channels: channels});
-						thisInstance.save(paramsForm, 'save').then(
-								function (data) {
-									paramsForm.label = paramsForm.title;
-									thisInstance.saveAfterInfo(data, paramsForm)
-								}
+						thisInstance.save(paramsForm, 'save').done(
+							function (data) {
+								paramsForm.label = paramsForm.title;
+								thisInstance.saveAfterInfo(data, paramsForm)
+							}
 						);
 					}
 					e.preventDefault();
@@ -656,7 +606,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var form = jQuery('form', wizardContainer);
 			var chartType = jQuery('select[name="chartType"]', wizardContainer);
 			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-			var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
+			var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
 			});
 			var step1 = jQuery('.step1', wizardContainer);
@@ -670,15 +620,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var currentTarget = $(e.currentTarget);
 				var value = currentTarget.val();
 				if (value == 'Barchat' || value == 'Horizontal') {
-					form.find('.isColorContainer').removeClass('hide');
+					form.find('.isColorContainer').removeClass('d-none');
 				} else {
-					form.find('.isColorContainer').addClass('hide');
+					form.find('.isColorContainer').addClass('d-none');
 				}
 				if (wizardContainer.find('#widgetStep').val() == 4) {
 					wizardContainer.find('.step3 .groupField').trigger('change');
 				}
 			});
-			moduleNameSelect2.change(function () {
+			moduleNameSelect2.on('change', function () {
 				if (!moduleNameSelect2.val())
 					return;
 				footer.hide();
@@ -688,18 +638,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					module: 'Home',
 					view: 'ChartFilter',
 					step: 'step2',
+					chartType: chartType.val(),
 					selectedModule: moduleNameSelect2.val()
-				}).then(function (step2Response) {
+				}).done(function (step2Response) {
 					step1.after(step2Response);
 					wizardContainer.find('#widgetStep').val(2);
-					var step2 = wizardContainer.find('.step2');
-					app.showSelect2ElementView(step2.find('select'));
+					const step2 = wizardContainer.find('.step2');
 					footer.hide();
-					var filterid = step2.find('.filterId');
-					var valueTypeSelect = step2.find('.valueType');
-					step2.find('.filterId, .valueType').change(function () {
-						if (!filterid.val() || !valueTypeSelect.val())
-							return;
+					const filtersIdElement = step2.find('.filtersId');
+					const valueTypeElement = step2.find('.valueType');
+					App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
+					App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
+					step2.find('.filtersId, .valueType').on('change', function () {
 						wizardContainer.find('.step3').remove();
 						wizardContainer.find('.step4').remove();
 						AppConnector.request({
@@ -707,15 +657,16 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 							view: 'ChartFilter',
 							step: 'step3',
 							selectedModule: moduleNameSelect2.val(),
-							filterid: filterid.val(),
-							valueType: valueTypeSelect.val()
-						}).then(function (step3Response) {
+							chartType: chartType.val(),
+							filtersId: filtersIdElement.val(),
+							valueType: valueTypeElement.val(),
+						}).done(function (step3Response) {
 							step2.last().after(step3Response);
 							wizardContainer.find('#widgetStep').val(3);
 							var step3 = wizardContainer.find('.step3');
-							app.showSelect2ElementView(step3.find('select'));
+							App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
 							footer.hide();
-							step3.find('.groupField').change(function () {
+							step3.find('.groupField').on('change', function () {
 								wizardContainer.find('.step4').remove();
 								var groupField = $(this);
 								if (!groupField.val())
@@ -726,53 +677,54 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 									view: 'ChartFilter',
 									step: 'step4',
 									selectedModule: moduleNameSelect2.val(),
-									filterid: filterid.val(),
+									filtersId: filtersIdElement.val(),
 									groupField: groupField.val(),
 									chartType: chartType.val()
-								}).then(function (step4Response) {
+								}).done(function (step4Response) {
 									step3.last().after(step4Response);
 									wizardContainer.find('#widgetStep').val(4);
 									var step4 = wizardContainer.find('.step4');
-									app.showSelect2ElementView(step4.find('select'));
+									App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
 								});
 							});
 						});
 					});
-				})
+				});
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
-				var selectedModule = moduleNameSelect2.val();
-				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				var selectedFilterId = form.find('.filterId').val();
-				var selectedFilterLabel = form.find('.filterId').find(':selected').text();
-				var selectedFieldLabel = form.find('.groupField').find(':selected').text();
-				var isColorValue = 0;
-				var isColor = form.find('.isColor');
-				if (!isColor.hasClass('hide') && isColor.is(':checked')) {
-					isColorValue = 1;
-				}
-				var data = {
+				const selectedModule = moduleNameSelect2.val();
+				const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+				const selectedFilterId = form.find('.filtersId').val();
+				const selectedFieldLabel = form.find('.groupField').find(':selected').text();
+				const data = {
 					module: selectedModule,
 					groupField: form.find('.groupField').val(),
 					chartType: chartType.val(),
-					color: isColorValue
 				};
 				form.find('.saveParam').each(function (index, element) {
 					element = $(element);
-					data[element.attr('name')] = element.val();
+					if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+						data[element.attr('name')] = element.val();
+					}
 				});
-				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, data, form);
+				finializeAddChart(selectedModuleLabel, selectedFilterId, null, selectedFieldLabel, data, form);
 			});
 		});
 
 		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
-			var paramsForm = {};
+			let paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');
 			paramsForm['linkid'] = element.data('linkid');
-			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel + ' - ' + fieldLabel;
+			paramsForm['label'] = moduleNameLabel;
+			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
+				paramsForm['label'] += ' - ' + filterLabel;
+			}
+			if (typeof fieldLabel !== 'undefined' && fieldLabel !== null && fieldLabel !== '') {
+				paramsForm['label'] += ' - ' + fieldLabel;
+			}
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
 			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
@@ -783,81 +735,70 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['owners_all'] = ["mine", "all", "users", "groups"];
 			paramsForm['default_owner'] = 'mine';
 
-			thisInstance.save(paramsForm, 'save').then(
-					function (data) {
-						var result = data['result'];
-						var params = {};
-						if (data['success']) {
-							app.hideModalWindow();
-							paramsForm['id'] = result['id'];
-							paramsForm['status'] = result['status'];
-							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-							thisInstance.showCustomField(paramsForm);
-						} else {
-							var message = data['error']['message'];
-							if (data['error']['code'] != 513) {
-								var errorField = form.find('[name="fieldName"]');
-							} else {
-								var errorField = form.find('[name="fieldLabel"]');
-							}
-							errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-						}
+			thisInstance.save(paramsForm, 'save').done(function (data) {
+				let result = data['result'],
+					params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+					thisInstance.showCustomField(paramsForm);
+				} else {
+					let message = data['error']['message'],
+						errorField;
+					if (data['error']['code'] != 513) {
+						errorField = form.find('[name="fieldName"]');
+					} else {
+						errorField = form.find('[name="fieldLabel"]');
 					}
-			);
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				}
+			});
 		}
-	},
-
-	addChartWidget: function (element) {
-		app.showModalWindow(null, "index.php?parent=Settings&module=WidgetsManagement&view=AddChart", function (wizardContainer) {
-			wizardContainer.find('[name="blockid"]').val(element.data('block-id'));
-			wizardContainer.find('[name="linkId"]').val(element.data('linkid'));
-		});
 	},
 	addNoteBookWidget: function (element, url) {
 		var thisInstance = this;
 		element = jQuery(element);
-
 		app.showModalWindow(null, "index.php?module=Home&view=AddNotePad", function (wizardContainer) {
 			var form = jQuery('form', wizardContainer);
-			var params = app.validationEngineOptions;
-			params.onValidationComplete = function (form, valid) {
-				if (valid) {
-					//To prevent multiple click on save
-					jQuery("[name='saveButton']", wizardContainer).attr('disabled', 'disabled');
-					var notePadName = form.find('[name="notePadName"]').val();
-					var notePadContent = form.find('[name="notePadContent"]').val();
-					var isDefault = 0;
-					var linkId = element.data('linkid');
-					var blockId = element.data('block-id');
-					var noteBookParams = {
-						'module': jQuery('#selectedModuleName').val(),
-						'action': 'NoteBook',
-						'mode': 'noteBookCreate',
-						'notePadName': notePadName,
-						'notePadContent': notePadContent,
-						'blockid': blockId,
-						'linkId': linkId,
-						'isdefault': isDefault,
-						'width': 4,
-						'height': 3
+			form.validationEngine($.extend(true, {
+				onValidationComplete: function (form, valid) {
+					if (valid) {
+						//To prevent multiple click on save
+						jQuery("[name='saveButton']", wizardContainer).attr('disabled', 'disabled');
+						var notePadName = form.find('[name="notePadName"]').val();
+						var notePadContent = form.find('[name="notePadContent"]').val();
+						var isDefault = 0;
+						var linkId = element.data('linkid');
+						var blockId = element.data('block-id');
+						var noteBookParams = {
+							'module': jQuery('#selectedModuleName').val(),
+							'action': 'NoteBook',
+							'mode': 'noteBookCreate',
+							'notePadName': notePadName,
+							'notePadContent': notePadContent,
+							'blockid': blockId,
+							'linkId': linkId,
+							'isdefault': isDefault,
+							'width': 4,
+							'height': 3
+						}
+						AppConnector.request(noteBookParams).done(function (data) {
+							if (data.result.success) {
+								var widgetId = data.result.widgetId;
+								app.hideModalWindow();
+								noteBookParams['id'] = widgetId;
+								noteBookParams['label'] = notePadName;
+								Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WIDGET_ADDED')});
+								thisInstance.showCustomField(noteBookParams);
+							}
+						})
 					}
-					AppConnector.request(noteBookParams).then(
-							function (data) {
-								if (data.result.success) {
-									var widgetId = data.result.widgetId;
-									app.hideModalWindow();
-									noteBookParams['id'] = widgetId;
-									noteBookParams['label'] = notePadName;
-									params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									thisInstance.showCustomField(noteBookParams);
-								}
-							})
+					return false;
 				}
-				return false;
-			}
-			form.validationEngine(params);
+			}, app.validationEngineOptions));
 		});
 	},
 	addMiniListWidget: function (element, url) {
@@ -875,18 +816,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
 			var filterFieldsSelectDOM = jQuery('select[name="filter_fields"]', wizardContainer);
 
-			var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
+			var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
 			});
-			var filteridSelect2 = app.showSelect2ElementView(filteridSelectDOM, {
+			var filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
 			});
-			var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
+			var fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 				closeOnSelect: true,
 				maximumSelectionLength: 6
 			});
-			var filterFieldsSelect2 = app.showSelect2ElementView(filterFieldsSelectDOM, {
+			var filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
 			});
 			var footer = jQuery('.modal-footer', wizardContainer);
@@ -896,7 +837,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			filterFieldsSelectDOM.closest('tr').hide();
 			footer.hide();
 
-			moduleNameSelect2.change(function () {
+			moduleNameSelect2.on('change', function () {
 				if (!moduleNameSelect2.val())
 					return;
 
@@ -905,14 +846,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					view: 'MiniListWizard',
 					step: 'step2',
 					selectedModule: moduleNameSelect2.val()
-				}).then(function (res) {
+				}).done(function (res) {
 					filteridSelectDOM.empty().html(res).trigger('change');
 					filteridSelect2.closest('tr').show();
 					fieldsSelectDOM.closest('tr').hide();
 					filterFieldsSelectDOM.closest('tr').hide();
-				})
+				});
 			});
-			filteridSelect2.change(function () {
+			filteridSelect2.on('change', function () {
 				if (!filteridSelect2.val())
 					return;
 				footer.hide();
@@ -924,8 +865,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					step: 'step3',
 					selectedModule: moduleNameSelect2.val(),
 					filterid: filteridSelect2.val()
-				}).then(function (res) {
-					var res = jQuery(res);
+				}).done(function (res) {
+					res = $(res);
 					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
 					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 					fieldsSelect2.closest('tr').show();
@@ -934,40 +875,33 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 				});
 			});
-			fieldsSelect2.change(function () {
+			fieldsSelect2.on('change', function () {
 				if (!fieldsSelect2.val()) {
 					footer.hide();
 				} else {
 					footer.show();
 				}
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
-				var selectedModule = moduleNameSelect2.val();
-				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				var selectedFilterId = filteridSelect2.val();
-				var selectedFilterLabel = filteridSelect2.find(':selected').text();
-				var selectedFields = [];
+				let selectedFields = [];
 				fieldsSelect2.select2('data').map(function (obj) {
 					selectedFields.push(obj.id);
 				});
-				var data = {
-					module: selectedModule
-				}
-				if (typeof selectedFields != 'object') {
-					selectedFields = [selectedFields];
-				}
+				let data = {
+					module: moduleNameSelect2.val()
+				};
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();
-				var paramsForm = {
+				let paramsForm = {
 					data: JSON.stringify(data),
 					action: 'addWidget',
 					blockid: element.data('block-id'),
 					title: form.find('[name="widgetTitle"]').val(),
 					linkid: element.data('linkid'),
-					label: selectedModuleLabel + ' - ' + selectedFilterLabel,
+					label: moduleNameSelect2.find(':selected').text() + ' - ' + filteridSelect2.find(':selected').text(),
 					name: 'Mini List',
-					filterid: selectedFilterId,
+					filterid: filteridSelect2.val(),
 					isdefault: 0,
 					cache: 0,
 					height: 4,
@@ -975,9 +909,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					owners_all: ["mine", "all", "users", "groups"],
 					default_owner: 'mine'
 				};
-				thisInstance.save(paramsForm, 'save').then(function (data) {
-					var result = data['result'];
-					var params = {};
+				thisInstance.save(paramsForm, 'save').done(function (data) {
+					let result = data['result'],
+						params = {};
 					if (data['success']) {
 						app.hideModalWindow();
 						paramsForm['id'] = result['id'];
@@ -986,11 +920,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						Settings_Vtiger_Index_Js.showMessage(params);
 						thisInstance.showCustomField(paramsForm);
 					} else {
-						var message = data['error']['message'];
-						if (data['error']['code'] != 513) {
-							var errorField = form.find('[name="fieldName"]');
+						let message = data['error']['message'],
+							errorField;
+						if (data['error']['code'] !== 513) {
+							errorField = form.find('[name="fieldName"]');
 						} else {
-							var errorField = form.find('[name="fieldLabel"]');
+							errorField = form.find('[name="fieldLabel"]');
 						}
 						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 					}
@@ -1003,37 +938,28 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	 */
 	registerDeleteCustomFieldEvent: function (contents) {
 		var thisInstance = this;
-		if (typeof contents == 'undefined') {
+		if (typeof contents === "undefined") {
 			contents = jQuery('#layoutDashBoards');
 		}
-		contents.find('a.deleteCustomField').click(function (e) {
+		contents.find('a.deleteCustomField').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldId = currentTarget.data('field-id');
 			var paramsForm = {}
 			paramsForm['action'] = 'removeWidget';
 			paramsForm['id'] = fieldId;
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						thisInstance.save(paramsForm, 'delete').then(
-								function (data) {
-									var field = currentTarget.closest('div.editFieldsWidget');
-									var blockId = field.data('block-id');
-									field.parent().fadeOut('slow').remove();
-									var block = jQuery('#block_' + blockId);
-									thisInstance.reArrangeBlockFields(block);
-									var params = {};
-									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}, function (error, err) {
-
-						}
-						);
-					},
-					function (error, err) {
-
-					}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				thisInstance.save(paramsForm, 'delete').done(function (data) {
+					var field = currentTarget.closest('div.editFieldsWidget');
+					var blockId = field.data('block-id');
+					field.parent().fadeOut('slow').remove();
+					var block = jQuery('#block_' + blockId);
+					thisInstance.reArrangeBlockFields(block);
+					var params = {};
+					params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				});
+			});
 		});
 	},
 	/**
@@ -1058,8 +984,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		var table = contents.find('.editFieldsTable');
-		contents.on('click', '.deleteCustomBlock', function (e) {
+		contents.on('click', '.js-delete-custom-block-btn', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('block-id');
@@ -1067,23 +992,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsFrom['blockid'] = blockId;
 			paramsFrom['action'] = 'removeBlock';
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						thisInstance.save(paramsFrom, 'delete').then(
-								function (data) {
-									thisInstance.removeDeletedBlock(blockId, 'delete');
-									var params = {};
-									params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}, function (error, err) {
-
-						}
-						);
-					},
-					function (error, err) {
-
-					}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				thisInstance.save(paramsFrom, 'delete').done(function (data) {
+					thisInstance.removeDeletedBlock(blockId, 'delete');
+					var params = {};
+					params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				});
+			});
 		});
 	},
 	/**
@@ -1097,30 +1013,31 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	/**
 	 * Function to register the change event for layout editor modules list
 	 */
-	registerModulesChangeEvent: function () {
-		var thisInstance = this;
-		var container = jQuery('#widgetsManagementEditorContainer');
-		var contentsDiv = container.closest('.contentsDiv');
-
-		app.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'));
-
-		container.on('change', '[name="widgetsManagementEditorModules"]', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var selectedModule = currentTarget.val();
-			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).then(
-					function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
-					}
-			);
+	registerModulesChangeEvent() {
+		const thisInstance = this;
+		let container = $('#widgetsManagementEditorContainer');
+		let contentsDiv = container.closest('.contentsDiv');
+		App.Fields.Picklist.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'));
+		container.on('change', '[name="widgetsManagementEditorModules"]', (e) => {
+			thisInstance.getModuleLayoutEditor($(e.currentTarget).val(), thisInstance.getCurrentDashboardId()).done((data) => {
+				thisInstance.updateContentsDiv(contentsDiv, data);
+			});
 		});
-
+	},
+	/**
+	 * Update contents div and register events.
+	 * @param {jQuery} contentsDiv
+	 * @param {HTMLElement} data
+	 */
+	updateContentsDiv(contentsDiv, data) {
+		contentsDiv.html(data);
+		App.Fields.Picklist.showSelect2ElementView(contentsDiv.find('.select2'));
+		this.registerEvents();
 	},
 	/**
 	 * Function to get the respective module layout editor through pjax
 	 */
 	getModuleLayoutEditor: function (selectedModule, selectedDashboard) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -1135,16 +1052,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		params['view'] = 'Configuration';
 		params['sourceModule'] = selectedModule;
 		params['dashboardId'] = selectedDashboard;
-		AppConnector.requestPjax(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject();
-				}
-		);
+		AppConnector.requestPjax(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	/**
@@ -1174,3 +1088,4 @@ jQuery(document).ready(function () {
 	var instance = new Settings_WidgetsManagement_Js();
 	instance.registerEvents();
 })
+

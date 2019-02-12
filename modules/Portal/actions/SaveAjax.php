@@ -11,12 +11,11 @@
 
 class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -24,8 +23,8 @@ class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		$module = $request->getModule();
 		$recordId = $request->isEmpty('record') ? null : $request->getInteger('record');
-		$bookmarkName = $request->get('bookmarkName');
-		$bookmarkUrl = $request->get('bookmarkUrl');
+		$bookmarkName = $request->getByType('bookmarkName', 'Text');
+		$bookmarkUrl = $request->getByType('bookmarkUrl', 'Text');
 
 		Portal_Module_Model::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
 

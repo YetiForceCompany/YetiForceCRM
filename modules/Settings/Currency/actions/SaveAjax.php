@@ -6,28 +6,59 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('setDefault');
+		$this->exposeMethod('save');
+	}
+
+	/**
+	 * Set default currency.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function setDefault(\App\Request $request)
+	{
+		$recordModel = Settings_Currency_Record_Model::getInstance($request->getInteger('record'));
+		$recordModel->set('defaultid', -11);
+		$recordModel->save();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Save currency.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws Exception
+	 */
+	public function save(\App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			//get instance from currency name, Aleady deleted and adding again same currency case
-			$recordModel = Settings_Currency_Record_Model::getInstance($request->get('currency_name'));
+			$recordModel = Settings_Currency_Record_Model::getInstance($request->getByType('currency_name', 'Text'));
 			if (empty($recordModel)) {
 				$recordModel = new Settings_Currency_Record_Model();
 			}
 		} else {
 			$recordModel = Settings_Currency_Record_Model::getInstance($request->getInteger('record'));
 		}
-		$recordModel->set('currency_name', $request->get('currency_name'));
+		$recordModel->set('currency_name', $request->getByType('currency_name', 'Text'));
 		$recordModel->set('currency_status', $request->getByType('currency_status'));
-		$recordModel->set('currency_symbol', $request->get('currency_symbol'));
+		$recordModel->set('currency_symbol', $request->getByType('currency_symbol', 'Text'));
 		$recordModel->set('currency_code', $request->getByType('currency_code'));
 		$recordModel->set('conversion_rate', $request->getByType('conversion_rate', 'NumberInUserFormat'));
 		//To make sure we are saving record as non deleted. This is useful if we are adding deleted currency
@@ -37,7 +68,7 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if ($request->getByType('currency_status') === 'Inactive' && !$request->isEmpty('record')) {
 				$transforCurrencyToId = $request->getInteger('transform_to_id');
 				if (empty($transforCurrencyToId)) {
-					throw new Exception('Transfer currency id cannot be empty');
+					throw new \App\Exceptions\AppException('Transfer currency id cannot be empty');
 				}
 			}
 			$id = $recordModel->save();
@@ -47,13 +78,5 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

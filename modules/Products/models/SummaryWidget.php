@@ -1,30 +1,28 @@
 <?php
 
 /**
- * Products SummaryWidget model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Products SummaryWidget model class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Products_SummaryWidget_Model
 {
-
 	const MODULES = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 	const CATEGORY_MODULES = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
 
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-		return $instance;
+		return new self();
 	}
 
 	public function getProductsServices(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$fromModule = $request->get('fromModule');
+		$fromModule = $request->getByType('fromModule', 'Text');
 		$record = $request->getInteger('record');
 		$mod = $request->getByType('mod', 1);
 		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!in_array($mod, self::MODULES)) {
 			throw new \App\Exceptions\AppException('Not supported Module');
@@ -52,8 +50,10 @@ class Products_SummaryWidget_Model
 	}
 
 	/**
-	 * Get related modules record counts
+	 * Get related modules record counts.
+	 *
 	 * @param Vtiger_Record_Model $parentRecordModel
+	 *
 	 * @return type
 	 */
 	public static function getModulesAndCount(Vtiger_Record_Model $parentRecordModel)

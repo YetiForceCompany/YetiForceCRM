@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Forgot password action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Forgot password action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_ForgotPassword_Action extends Vtiger_Action_Controller
+class Users_ForgotPassword_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function loginRequired()
 	{
@@ -19,7 +18,7 @@ class Users_ForgotPassword_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -27,29 +26,30 @@ class Users_ForgotPassword_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userName = $request->get('user_name');
-		$email = $request->get('emailId');
+		$userName = $request->getByType('user_name', 'Text');
+		$email = $request->getByType('emailId', 'Text');
 		$moduleModel = Users_Module_Model::getInstance($moduleName);
 		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
 			$bruteForceInstance->incAttempts();
 			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
-			header('Location: index.php?module=Users&view=Login');
+			header('location: index.php?module=Users&view=Login');
+
 			return false;
 		}
 		$isExists = (new \App\Db\Query())->from('vtiger_users')->where(['status' => 'Active', 'deleted' => 0, 'email1' => $email])->andWhere(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->exists();
 		if ($isExists) {
 			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = Users_Record_Model::getInstanceByName($userName);
-			vglobal('current_user', $userRecordModel->getEntity());
 			\App\User::setCurrentUserId($userRecordModel->getId());
-			\App\User::getCurrentUserModel();
 
+			$userRecordModel->set('changeUserPassword', true);
+			$userRecordModel->set('force_password_change', 0);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->save();
 			\App\Mailer::sendFromTemplate([
@@ -72,6 +72,6 @@ class Users_ForgotPassword_Action extends Vtiger_Action_Controller
 			}
 			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
 		}
-		header("Location: index.php?module=Users&view=Login");
+		header('location: index.php?module=Users&view=Login');
 	}
 }

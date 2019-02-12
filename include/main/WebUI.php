@@ -8,10 +8,19 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
-require_once 'include/utils/utils.php';
+require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 require_once 'include/Loader.php';
 Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
 App\Debuger::init();
@@ -23,54 +32,47 @@ App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
-
 	/**
-	 * Base user instance
-	 * @var Users 
-	 */
-	protected $userModel;
-
-	/**
-	 * User privileges model instance
-	 * @var Users_Privileges_Model 
+	 * User privileges model instance.
+	 *
+	 * @var Users_Privileges_Model
 	 */
 	protected $userPrivilegesModel;
 
 	/**
-	 * Function to check if the User has logged in
+	 * Function to check if the User has logged in.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\Unauthorized
 	 */
 	protected function checkLogin(\App\Request $request)
 	{
 		if (!$this->hasLogin()) {
 			$returnUrl = $request->getServer('QUERY_STRING');
-			if ($returnUrl && !$_SESSION['return_params']) {
+			if ($returnUrl && !\App\Session::has('return_params')) {
 				//Take the url that user would like to redirect after they have successfully logged in.
-				$returnUrl = urlencode($returnUrl);
-				App\Session::set('return_params', $returnUrl);
+				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 			}
 			if (!$request->isAjax()) {
-				header('Location: index.php');
+				header('location: index.php');
 			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 		}
 	}
 
 	/**
-	 * Function to get the instance of the logged in User
+	 * Function to get the instance of the logged in User.
+	 *
 	 * @return Users object
 	 */
 	public function getLogin()
 	{
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
-			$userid = App\Session::get('authenticated_user_id');
-			if ($userid && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
-				$this->userModel = CRMEntity::getInstance('Users');
-				$this->userModel->retrieveCurrentUserInfoFromFile($userid);
-				vglobal('current_user', $this->userModel);
-				\App\User::getCurrentUserModel();
+			$userId = App\Session::get('authenticated_user_id');
+			if ($userId && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
+				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}
 		}
@@ -78,20 +80,22 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws Exception
 	 * @throws \App\Exceptions\AppException
 	 */
 	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
-				header('Location: ' . AppConfig::main('site_URL'), true, 301);
+				header('location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
 		try {
@@ -99,34 +103,20 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password
 			if (AppConfig::main('csrfProtection') && $request->getMode() !== 'reset' && $request->getByType('action', 1) !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
-				require_once('config/csrf_config.php');
-				require_once('libraries/csrf-magic/csrf-magic.php');
+				require_once 'config/csrf_config.php';
+				\CsrfMagic\Csrf::init();
 			}
 			// common utils api called, depend on this variable right now
-			$currentUser = $this->getLogin();
-			$currentLanguage = \App\Language::getLanguage();
-			vglobal('current_language', $currentLanguage);
+			$this->getLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
-			if ($currentUser) {
-				if ($qualifiedModuleName) {
-					$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
-					if (isset($moduleLanguageStrings['languageStrings'])) {
-						vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
-					}
-				}
-				$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
-				if (isset($moduleLanguageStrings['languageStrings'])) {
-					vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
-				}
-			}
 			$view = $request->getByType('view', 2);
 			$action = $request->getByType('action', 2);
 			$response = false;
 			if (empty($moduleName)) {
 				if ($this->hasLogin()) {
 					$defaultModule = AppConfig::main('default_module');
-					if (!empty($defaultModule) && $defaultModule !== 'Home') {
+					if (!empty($defaultModule) && $defaultModule !== 'Home' && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
@@ -149,18 +139,20 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (!empty($action)) {
 				$componentType = 'Action';
 				$componentName = $action;
+				\App\Config::setJsEnv('action', $action);
 			} else {
 				$componentType = 'View';
 				if (empty($view)) {
 					$view = 'Index';
 				}
 				$componentName = $view;
+				\App\Config::setJsEnv('view', $view);
 			}
-
-			\App\Config::$processName = $componentName;
-			\App\Config::$processType = $componentType;
-			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($this->userModel)) {
-				header('Location: ' . AppConfig::main('site_URL'), true);
+			\App\Process::$processName = $componentName;
+			\App\Process::$processType = $componentType;
+			\App\Config::setJsEnv('module', $moduleName);
+			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
+				header('location: ' . AppConfig::main('site_URL'), true);
 			}
 
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
@@ -169,16 +161,17 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-
-			vglobal('currentModule', $moduleName);
 			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired()) {
 				$this->checkLogin($request);
 			}
+			if ($handler->isSessionExtend()) {
+				\App\Session::set('last_activity', \App\Process::$startTime);
+			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
-				header('Location:index.php?module=Home&view=DashBoard');
+				header('location: index.php?module=Home&view=DashBoard');
 			}
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
 			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
@@ -189,22 +182,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$this->triggerPreProcess($handler, $request);
 			$response = $handler->process($request);
 			$this->triggerPostProcess($handler, $request);
-		} catch (Exception $e) {
-			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-			$tpl = 'OperationNotPermitted.tpl';
+		} catch (Throwable $e) {
+			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+			$messageHeader = 'LBL_ERROR';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
-				$tpl = 'NoPermissionsForRecord.tpl';
-			} elseif ($e instanceof \App\Exceptions\Security || $e instanceof \App\Exceptions\Security) {
-				$tpl = 'BadRequest.tpl';
+				$messageHeader = 'LBL_PERMISSION_DENIED';
+			} elseif ($e instanceof \App\Exceptions\Security) {
+				$messageHeader = 'LBL_BAD_REQUEST';
+			} elseif ($e instanceof \yii\db\Exception) {
+				$messageHeader = 'LBL_ERROR';
 			}
-			\vtlib\Functions::throwNewException($e, false, $tpl);
+			\vtlib\Functions::throwNewException($e, false, $messageHeader);
 			if (!$request->isAjax()) {
 				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;
 				}
 				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs()) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}
@@ -222,24 +217,28 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	}
 
 	/**
-	 * Trigger check permission
-	 * @param Vtiger_Action_Controller $handler
-	 * @param \App\Request $request
-	 * @return boolean
+	 * Trigger check permission.
+	 *
+	 * @param \App\Controller\Base $handler
+	 * @param \App\Request         $request
+	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\NoPermitted
+	 *
+	 * @return bool
 	 */
-	protected function triggerCheckPermission(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerCheckPermission(\App\Controller\Base $handler, \App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (empty($moduleModel)) {
-			\App\Log::error("HandlerModule: $moduleName", 'Loader');
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
+			\App\Log::error('HandlerModule: ' . $moduleName, 'Loader');
+			throw new \App\Exceptions\AppException('ERR_MODULE_DOES_NOT_EXIST||' . $moduleName, 405);
 		}
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {
 			$handler->checkPermission($request);
+
 			return true;
 		}
 		\App\Log::error("No permissions to the module: $moduleName", 'NoPermitted');
@@ -247,12 +246,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	}
 
 	/**
-	 * Trigger pre process
-	 * @param Vtiger_Action_Controller $handler
-	 * @param \App\Request $request
-	 * @return boolean
+	 * Trigger pre process.
+	 *
+	 * @param \App\Controller\Base $handler
+	 * @param \App\Request         $request
+	 *
+	 * @return bool
 	 */
-	protected function triggerPreProcess(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerPreProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
@@ -262,21 +263,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	}
 
 	/**
-	 * Trigger post process
-	 * @param Vtiger_Action_Controller $handler
-	 * @param \App\Request $request
-	 * @return boolean
+	 * Trigger post process.
+	 *
+	 * @param \App\Controller\Base $handler
+	 * @param \App\Request         $request
+	 *
+	 * @return bool
 	 */
-	protected function triggerPostProcess(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerPostProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
+			$handler->postProcessAjax($request);
 			return true;
 		}
 		$handler->postProcess($request);
 	}
 
 	/**
-	 * Content Security Policy token
+	 * Content Security Policy token.
 	 */
 	public function cspInitToken()
 	{

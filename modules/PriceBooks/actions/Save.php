@@ -10,10 +10,11 @@
 
 class PriceBooks_Save_Action extends Vtiger_Save_Action
 {
-
 	/**
-	 * Function to save record
+	 * Function to save record.
+	 *
 	 * @param \App\Request $request - values of the record
+	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
 	public function saveRecord(\App\Request $request)

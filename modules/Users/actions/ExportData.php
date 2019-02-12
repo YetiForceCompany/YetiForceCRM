@@ -2,9 +2,8 @@
 
 class Users_ExportData_Action extends Vtiger_ExportData_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{

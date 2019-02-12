@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Reservations time UIType class
- * @package YetiForce.Uitype
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Reservations time UIType class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Time_UIType extends Vtiger_Time_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -27,21 +26,19 @@ class Reservations_Time_UIType extends Vtiger_Time_UIType
 	}
 
 	/**
-	 * Function to get the calendar event call duration value in hour format
+	 * Function to get the calendar event call duration value in hour format.
+	 *
 	 * @param type $fieldName
 	 * @param type $value
+	 *
 	 * @return <Vtiger_Time_UIType> - getTimeValue
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
 		$date = new DateTime($value);
-
 		if ($fieldName === 'time_end' && empty($value)) {
-			$date->modify("+15 minutes");
+			$date->modify('+15 minutes');
 		}
-
-		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
-		$value = $dateTimeField->getDisplayTime();
-		return $value;
+		return (new DateTimeField($date->format('Y-m-d H:i:s')))->getDisplayTime();
 	}
 }

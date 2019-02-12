@@ -1,14 +1,17 @@
 <?php
 
 /**
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	use \App\Controller\ExposeMethod;
 
+	/**
+	 * Settings_Inventory_SaveAjax_Action constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -17,38 +20,52 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveConfig');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$id = $request->get('id');
 		$type = $request->getByType('view', 1);
-		if (empty($id)) {
+		if ($request->isEmpty('id')) {
 			$recordModel = new Settings_Inventory_Record_Model();
 		} else {
-			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
+			$recordModel = Settings_Inventory_Record_Model::getInstanceById($request->getInteger('id'), $type);
 		}
-		$fields = $request->getAll();
-		foreach ($fields as $fieldName => $fieldValue) {
-			if ($request->has($fieldName) && !in_array($fieldName, ['module', 'parent', 'view', '__vtrftk', 'action'])) {
-				$recordModel->set($fieldName, $fieldValue);
+		$fields = ['name', 'status', 'value', 'default'];
+		foreach ($fields as $fieldName) {
+			if ($request->has($fieldName)) {
+				switch ($fieldName) {
+					case 'default':
+					case 'status':
+						$recordModel->set($fieldName, (int) $request->getBoolean($fieldName));
+						break;
+					case 'name':
+						$recordModel->set($fieldName, $request->getByType($fieldName, 'Text'));
+						break;
+					case 'value':
+						$value = $request->getByType($fieldName, 'NumberInUserFormat');
+						if ('Taxes' === $type && ($value < 0 || $value > 100)) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||value||{$value}", 406);
+						}
+						$recordModel->set($fieldName, $value);
+						break;
+					default:
+						break;
+				}
 			}
 		}
-		if ($type === 'Discounts') {
-			$recordModel->set('value', CurrencyField::convertToDBFormat($recordModel->get('value')));
-		}
 		$recordModel->setType($type);
-
 		$response = new Vtiger_Response();
 		try {
 			$id = $recordModel->save();
 			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
-			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
-		} catch (Exception $e) {
+			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => \App\User::getCurrentUserModel()->getDetail('rowheight')], $recordModel->getData()));
+		} catch (Throwable $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
@@ -57,9 +74,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function checkDuplicateName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$id = $request->get('id');
-		$name = $request->get('name');
-		$type = $request->getByType('view', 1);
+		$id = !$request->isEmpty('id') ? $request->getInteger('id') : '';
+		$name = $request->getByType('name', 'Text');
+		$type = $request->getByType('view', 'Standard');
 
 		$exists = Settings_Inventory_Record_Model::checkDuplicate($name, $id, $type);
 
@@ -77,7 +94,10 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function deleteInventory(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'id' => 'Integer',
+			'view' => 'Standard'
+		]);
 		$id = $params['id'];
 		$type = $params['view'];
 
@@ -97,9 +117,14 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function saveConfig(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = $request->getMultiDimensionArray('param', [
+			'view' => 'Standard',
+			'param' => [
+				'value' => 'Text',
+				'param' => 'Standard'
+			]
+		]);
 		$type = $params['view'];
-
 		$recordModel = Settings_Inventory_Module_Model::getCleanInstance();
 		$status = $recordModel->setConfig($type, $params['param']);
 
@@ -112,10 +137,5 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

@@ -1,0 +1,90 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//table
+.table thead th,
+.table-bordered thead td {
+	border-bottom-width: 1px;
+}
+
+.btn-xs {
+	@include button-size($btn-padding-y-sm /1.25, $btn-padding-x-sm /1.25, $font-size-sm/1.25, $btn-line-height-sm/1.25, $btn-border-radius-sm/1.25);
+}
+
+//Switch button
+label.btn[class*=btn-outline-] {
+	&:not(.active) {
+		background: $white;
+
+		&:hover {
+			background: $gray-200;
+			color: $gray-600;
+		}
+	}
+}
+
+.dropdown-menu {
+	max-height: calc(100vh - 100px);
+	max-width: calc(100vh - 100px);
+	overflow: auto;
+
+	@at-root .listViewEntries .actions #{&} {
+		overflow: unset;
+	}
+
+	&.historyList {
+		@include media-breakpoint-up(md) {
+			left: auto;
+			right: 9px;
+		}
+	}
+
+}
+
+.dropdown-item {
+	cursor: pointer;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	@at-root .historyList #{&} {
+		min-width: 500px;
+		max-width: calc(100vh - 100px);
+	}
+
+	&:hover {
+		border-top: 1px solid $color-grey-light;
+		border-bottom: 1px solid $color-grey-light;
+	}
+}
+
+//btn-group with flex-column on mobile styles correction
+@include media-breakpoint-down(xs) {
+	.btn-group.flex-column {
+		& > .btn {
+			margin-left: 0 !important;
+		}
+
+		& > .btn:first-child {
+			-webkit-border-radius: 0.25rem 0.25rem 0 0 !important;
+			-moz-border-radius: 0.25rem 0.25rem 0 0 !important;
+			border-radius: 0.25rem 0.25rem 0 0 !important;
+		}
+
+		& > .btn:last-child {
+			-webkit-border-radius: 0 0 0.25rem 0.25rem !important;
+			-moz-border-radius: 0 0 0.25rem 0.25rem !important;
+			border-radius: 0 0 0.25rem 0.25rem !important;
+		}
+	}
+}
+
+// buttons with class border has the same border color as input
+.border.btn {
+	border-color: #ced4da !important;
+}
+
+.input-group.input-group-sm {
+	min-width: calculate-rem(65px);
+}

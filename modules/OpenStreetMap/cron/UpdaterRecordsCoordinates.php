@@ -7,15 +7,16 @@
  */
 $db = App\Db::getInstance();
 $dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
-		->limit(AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
-		->createCommand()->query();
+	->limit(AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+	->createCommand()->query();
+$coordinatesConnector = \App\Map\Coordinates::getInstance();
 while ($row = $dataReader->read()) {
 	$typeAddress = $row['type'];
 	$recordId = $row['crmid'];
-	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-	$coordinates = $coordinatesModel->getCoordinates(\App\Json::decode($row['address']));
-	if ($coordinates === false)
+	$coordinates = $coordinatesConnector->getCoordinates(\App\Json::decode($row['address']));
+	if ($coordinates === false) {
 		break;
+	}
 	if (empty($coordinates)) {
 		$db->createCommand()
 			->delete('u_#__openstreetmap_record_updater', ['crmid' => $recordId, 'type' => $typeAddress])
@@ -39,9 +40,10 @@ while ($row = $dataReader->read()) {
 				'type' => $typeAddress,
 				'crmid' => $recordId,
 				'lat' => $coordinates['lat'],
-				'lon' => $coordinates['lon']
+				'lon' => $coordinates['lon'],
 			])->execute();
 			$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['type' => $typeAddress, 'crmid' => $recordId])->execute();
 		}
 	}
 }
+$dataReader->close();

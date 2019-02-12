@@ -7,31 +7,30 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides few utility functions
- * @package vtlib
+ * Provides few utility functions.
  */
 class Utils
 {
-
-	protected static $logFileName = 'module.log';
-
 	/**
-	 * Check if given value is a number or not
+	 * Check if given value is a number or not.
+	 *
 	 * @param mixed String or Integer
 	 */
 	public static function isNumber($value)
 	{
-		return is_numeric($value) ? intval($value) == $value : false;
+		return is_numeric($value) ? (int) $value == $value : false;
 	}
 
 	/**
-	 * Implode the prefix and suffix as string for given number of times
-	 * @param String prefix to use
-	 * @param Integer Number of times
-	 * @param String suffix to use (optional)
+	 * Implode the prefix and suffix as string for given number of times.
+	 *
+	 * @param string prefix to use
+	 * @param int Number of times
+	 * @param string suffix to use (optional)
 	 */
 	public static function implodestr($prefix, $count, $suffix = false)
 	{
@@ -46,9 +45,10 @@ class Utils
 	}
 
 	/**
-	 * Function to check the file access is made within web root directory as well as is safe for php inclusion
-	 * @param String File path to check
-	 * @param Boolean False to avoid die() if check fails
+	 * Function to check the file access is made within web root directory as well as is safe for php inclusion.
+	 *
+	 * @param string File path to check
+	 * @param bool False to avoid die() if check fails
 	 */
 	public static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
 	{
@@ -71,6 +71,7 @@ class Utils
 				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 			}
+
 			return false;
 		}
 		return true;
@@ -78,15 +79,16 @@ class Utils
 
 	/**
 	 * Function to check the file access is made within web root directory.
-	 * @param String File path to check
-	 * @param Boolean False to avoid die() if check fails
+	 *
+	 * @param string File path to check
+	 * @param bool False to avoid die() if check fails
 	 */
 	public static function checkFileAccess($filepath, $dieOnFail = true)
 	{
 		// Set the base directory to compare with
 		$use_root_directory = \AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
+			$use_root_directory = realpath(__DIR__ . '/../../.');
 		}
 
 		$realfilepath = realpath($filepath);
@@ -104,36 +106,16 @@ class Utils
 				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 			}
+
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * Log the debug message
-	 * @param String Log message
-	 * @param Boolean true to append end-of-line, false otherwise
-	 */
-	public static function log($message, $delimit = true)
-	{
-		$utilsLog = vglobal('tiger_Utils_Log');
-
-		\App\Log::trace($message);
-		if (!isset($utilsLog) || $utilsLog === false)
-			return;
-
-		echo $message;
-		if ($delimit) {
-			if (isset($_REQUEST))
-				echo "<br />";
-			else
-				echo "\n";
-		}
-	}
-
-	/**
-	 * Check if table is present in database
-	 * @param String tablename to check
+	 * Check if table is present in database.
+	 *
+	 * @param string tablename to check
 	 */
 	public static function checkTable($tableName)
 	{
@@ -141,10 +123,11 @@ class Utils
 	}
 
 	/**
-	 * Create table (supressing failure)
-	 * @param String tablename to create
-	 * @param String table creation criteria like '(columnname columntype, ....)'
-	 * @param String Optional suffix to add during table creation
+	 * Create table (supressing failure).
+	 *
+	 * @param string tablename to create
+	 * @param string table creation criteria like '(columnname columntype, ....)'
+	 * @param string Optional suffix to add during table creation
 	 * <br />
 	 * will be appended to CREATE TABLE $tablename SQL
 	 */
@@ -154,13 +137,12 @@ class Utils
 
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
-		$sql = "CREATE TABLE " . $adb->quote($tablename, false) . ' ' . $criteria;
+		$sql = 'CREATE TABLE ' . $adb->quote($tablename, false) . ' ' . $criteria;
 		if ($suffixTableMeta !== false) {
 			if ($suffixTableMeta === true) {
 				if ($adb->isMySQL()) {
 					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
 				} else {
-
 				}
 			}
 			$sql .= $suffixTableMeta;
@@ -170,10 +152,11 @@ class Utils
 	}
 
 	/**
-	 * Add column to existing table
-	 * @param string $tableName to alter
-	 * @param string $columnName to add
-	 * @param array|string $criteria ([\yii\db\Schema::TYPE_STRING, 1024] | string(1024))
+	 * Add column to existing table.
+	 *
+	 * @param string       $tableName  to alter
+	 * @param string       $columnName to add
+	 * @param array|string $criteria   ([\yii\db\Schema::TYPE_STRING, 1024] | string(1024))
 	 */
 	public static function addColumn($tableName, $columnName, $criteria)
 	{
@@ -188,16 +171,18 @@ class Utils
 	}
 
 	/**
-	 * Get SQL query
-	 * @param String SQL query statement
+	 * Get SQL query.
+	 *
+	 * @param string SQL query statement
 	 */
 	public static function executeQuery($sqlquery, $supressdie = false)
 	{
 		$adb = \PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 
-		if ($supressdie)
+		if ($supressdie) {
 			$adb->dieOnError = false;
+		}
 
 		$adb->pquery($sqlquery, []);
 
@@ -205,22 +190,22 @@ class Utils
 	}
 
 	/**
-	 * Get CREATE SQL for given table
-	 * @param String tablename for which CREATE SQL is requried
+	 * Get CREATE SQL for given table.
+	 *
+	 * @param string tablename for which CREATE SQL is requried
 	 */
 	public static function createTableSql($tablename)
 	{
 		$adb = \PearDatabase::getInstance();
-
 		$result = $adb->query("SHOW CREATE TABLE $tablename");
 		$createTable = $adb->fetchArray($result);
-		$sql = \App\Purifier::decodeHtml($createTable['Create Table']);
-		return $sql;
+		return \App\Purifier::decodeHtml($createTable['Create Table']);
 	}
 
 	/**
-	 * Check if the given SQL is a CREATE statement
-	 * @param String SQL String
+	 * Check if the given SQL is a CREATE statement.
+	 *
+	 * @param string SQL String
 	 */
 	public static function isCreateSql($sql)
 	{
@@ -231,8 +216,9 @@ class Utils
 	}
 
 	/**
-	 * Check if the given SQL is destructive (DELETE's DATA)
-	 * @param String SQL String
+	 * Check if the given SQL is destructive (DELETE's DATA).
+	 *
+	 * @param string SQL String
 	 */
 	public static function isDestructiveSql($sql)
 	{
@@ -240,46 +226,5 @@ class Utils
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * funtion to log the exception messge to module.log file
-	 * @global type $site_URL
-	 * @param string $module name of the log file and It should be a alphanumeric string
-	 * @param <Exception>/string $exception Massage show in the log ,It should be a string or Exception object
-	 * @param <array> $extra extra massages need to be displayed
-	 * @param <boolean> $backtrace flag to enable or disable backtrace in log
-	 * @param <boolean> $request flag to enable or disable request in log
-	 */
-	public static function moduleLog($module, $mixed, $extra = [])
-	{
-		if (ALLOW_MODULE_LOGGING) {
-			$date = date('Y-m-d H:i:s');
-			$log = [\AppConfig::main('site_URL'), $module, $date];
-			if ($mixed instanceof \Exception) {
-				array_push($log, $mixed->getMessage());
-				array_push($log, $mixed->getTraceAsString());
-			} else {
-				array_push($log, $mixed);
-				array_push($log, "");
-			}
-			if (isset($_REQUEST)) {
-				array_push($log, json_encode($_REQUEST));
-			} else {
-				array_push($log, "");
-			};
-
-			if ($extra) {
-				if (is_array($extra))
-					$extra = json_encode($extra);
-				array_push($log, $extra);
-			} else {
-				array_push($log, "");
-			}
-			$fileName = self::$logFileName;
-			$fp = fopen("cache/logs/$fileName", 'a+');
-			fputcsv($fp, $log);
-			fclose($fp);
-		}
 	}
 }

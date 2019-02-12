@@ -1,24 +1,48 @@
 <?php
 
 /**
- * Api CalDAV Handler Class
- * @package YetiForce.Handler
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Api CalDAV Handler Class.
+ *
+ * @package   Handler
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class API_CalDAV_Handler
 {
-
 	/**
-	 * EntityAfterSave handler function
+	 * EntityAfterSave handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isNew()) {
-			\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['dav_status' => 1], ['activityid' => $recordModel->getId()])->execute();
+			$this->entityChangeState($eventHandler);
 		}
+	}
+
+	/**
+	 * EntityAfterDelete handler function.
+	 *
+	 * @param \App\EventHandler $eventHandler
+	 */
+	public function entityAfterDelete(\App\EventHandler $eventHandler)
+	{
+		\App\Integrations\Dav\Calendar::deleteByCrmId($eventHandler->getRecordModel()->getId());
+	}
+
+	/**
+	 * EntityChangeState handler function.
+	 *
+	 * @param \App\EventHandler $eventHandler
+	 */
+	public function entityChangeState(\App\EventHandler $eventHandler)
+	{
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_activity', ['dav_status' => 1], ['activityid' => $eventHandler->getRecordModel()->getId()])
+			->execute();
 	}
 }

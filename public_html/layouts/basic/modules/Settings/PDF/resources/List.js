@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	getListContainer: function () {
 		return jQuery('#listViewContainer');
@@ -19,11 +21,9 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			jQuery('#recordsCount').val('');
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text('');
-			thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
-			);
+			thisInstance.getListViewRecords(params).done(function (data) {
+				thisInstance.updatePagination();
+			});
 		});
 	},
 	/*
@@ -32,7 +32,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	registerRowClickEvent: function () {
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click', '.listViewEntries', function (e) {
-			var editUrl = jQuery(e.currentTarget).find('.glyphicon-pencil').closest('a').attr('href');
+			var editUrl = jQuery(e.currentTarget).find('.fas').closest('a').attr('href');
 			window.location.href = editUrl;
 		});
 	},
@@ -56,7 +56,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			if (selectedModule.length) {
 				url += '&source_module=' + selectedModule;
 			}
-			window.location.href = url ;
+			window.location.href = url;
 		});
 	},
 	registerImportTemplate: function (container) {
@@ -73,7 +73,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			e.stopPropagation();
 			e.preventDefault();
 			var templateId = jQuery(this).closest('tr').data('id');
-			Settings_PDF_List_Js.deleteById(templateId).then(function () {
+			Settings_PDF_List_Js.deleteById(templateId).done(function () {
 				thisInstance.registerTemplateDelete(container);
 			});
 		});
@@ -84,7 +84,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	getListViewRecords: function (urlParams) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-		this._super(urlParams).then(function (data) {
+		this._super(urlParams).done(function (data) {
 			thisInstance.registerTemplateDelete();
 			aDeferred.resolve(data);
 		});

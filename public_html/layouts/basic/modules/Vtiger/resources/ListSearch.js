@@ -1,21 +1,28 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("YetiForce_ListSearch_Js", {
-	getInstance: function (container, noEvents, reletedInstance) {
-		var module = app.getModuleName();
-		var moduleClassName = module + '_ListSearch_Js';
-		var basicClassName = 'YetiForce_ListSearch_Js';
-		if (typeof window[moduleClassName] != 'undefined') {
-			var instance = new window[moduleClassName](container, noEvents, reletedInstance);
-		} else {
-			var instance = new window[basicClassName](container, noEvents, reletedInstance);
+	getInstance: function (container, noEvents, reletedInstance, moduleName) {
+		if (typeof moduleName === "undefined") {
+			moduleName = app.getModuleName();
 		}
+		let moduleClassName = module + '_ListSearch_Js',
+			instance;
+		if (typeof window[moduleClassName] !== "undefined") {
+			instance = new window[moduleClassName](container, noEvents, reletedInstance);
+		} else {
+			instance = new window['YetiForce_ListSearch_Js'](container, noEvents, reletedInstance);
+		}
+		instance.moduleName = moduleName;
 		return instance;
 	}
 }, {
+	moduleName: false,
 	container: false,
 	reletedInstance: false,
+	viewName: false,
 	init: function (container, noEvents, reletedInstance) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.bodyContents');
 		}
 		this.setContainer(container);
@@ -29,6 +36,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	},
 	getContainer: function () {
 		return this.container;
+	},
+	setViewName: function (viewName) {
+		this.viewName = viewName;
 	},
 	/**
 	 * Function  to initialize the advance filter
@@ -58,32 +68,34 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		});
 	},
 	registerListViewSelect: function () {
-		var listInstance = this;
-		var listViewContainer = this.getContainer();
-		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
-			var select = $(domElement);
+		let self = this,
+			listViewContainer = this.getContainer();
+		listViewContainer.find('.listViewEntriesTable .select2noactive').each((index, domElement) => {
+			let select = $(domElement);
 			if (!select.data('select2')) {
-				app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+				App.Fields.Picklist.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 			}
 		});
-
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
-			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
-				listInstance.triggerListSearch();
+			listViewContainer.find('.listViewEntriesTable select').on('change', () => {
+				this.triggerListSearch();
 			});
-			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', function (e) {
-				listInstance.triggerListSearch();
+			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {
+				this.triggerListSearch();
 			});
 			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
-				var prevVal = $(this).data('prevVal');
-				var value = $(this).val();
+				let prevVal = $(this).data('prevVal'),
+					value = $(this).val();
 				if (prevVal != value) {
-					listInstance.triggerListSearch();
+					self.triggerListSearch();
 				}
 			});
-			listViewContainer.find('.clockPicker').on('change', function () {
-				listInstance.triggerListSearch();
-			})
+			app.event.off('Clockpicker.changed');
+			app.event.on('Clockpicker.changed', (e, inputEl) => {
+				if (listViewContainer.find(inputEl).length) {
+					self.triggerListSearch();
+				}
+			});
 		}
 	},
 	resetPagination: function () {
@@ -102,7 +114,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
 	registerDateListSearch: function (container) {
-		app.registerDateRangePickerFields(this.getContainer().find('.dateRangeField'));
+		App.Fields.Date.registerRange(this.getContainer().find('.dateRangeField'));
 	},
 	registerTimeListSearch: function () {
 		app.registerEventForClockPicker();
@@ -143,7 +155,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
 		var thisInstance = this;
 		var params = {};
-		params['module'] = app.getModuleName();
+		params['module'] = thisInstance.moduleName;
 		params['parent'] = app.getParentModuleName()
 		params['view'] = 'Pagination';
 		params['page'] = 1;
@@ -152,10 +164,10 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		params['search_value'] = alphabet
 		params['operator'] = 's';
 
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			jQuery('.paginationDiv').html(data);
 			var instance = thisInstance.getInstanceView();
-			if (instance && instance != undefined && jQuery.isFunction(instance.registerPageNavigationEvents)) {
+			if (instance && jQuery.isFunction(instance.registerPageNavigationEvents)) {
 				instance.registerPageNavigationEvents();
 			}
 		});
@@ -170,7 +182,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var fieldInfo = searchContributorElement.data('fieldinfo');
 			var fieldName = searchContributorElement.attr('name');
 			var searchValue = searchContributorElement.val();
-
 			if (typeof searchValue == "object") {
 				if (searchValue == null) {
 					searchValue = "";
@@ -194,7 +205,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
 				searchOperator = 'c';
 			}
-			searchInfo.push(fieldName);
+			let sourceFieldName = searchContributorElement.data('sourceFieldName');
+			if (sourceFieldName) {
+				searchInfo.push(fieldName + ':' + searchContributorElement.data('moduleName') + ':' + sourceFieldName);
+			} else {
+				searchInfo.push(fieldName);
+			}
 			searchInfo.push(searchOperator);
 			searchInfo.push(searchValue);
 			if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
@@ -211,7 +227,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				if (url.charAt(lengthUrl - 1) === '#') {
 					url = url.substr(0, lengthUrl - 1);
 				}
-				url = jQuery.parseJSON(decodeURIComponent(url));
+				url = JSON.parse(decodeURIComponent(url));
 				$.each(url[0], function (index, value) {
 					var exist = false;
 					$.each(searchParams, function (index, searchParam) {
@@ -219,19 +235,28 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 							exist = true;
 						}
 					});
-					valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
+					if (value[0].indexOf(':') === -1) {
+						valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
+					} else {
+						let fieldRelation = value[0].split(':');
+						valueInSearch = listViewTable.find('.listSearchContributor[name="' + fieldRelation[0] + '"][data-module-name="' + fieldRelation[1] + '"][data-source-field-name="' + fieldRelation[2] + '"]').val();
+					}
 					if (exist == false && valueInSearch != '' && valueInSearch !== null) {
 						searchParams.push(value);
 					}
 				});
 			}
 		}
-		return new Array(searchParams);
+		return [searchParams];
 	},
 	getInstanceByView: function () {
-		var viewName = app.getViewName();
+		var viewName = this.viewName ? this.viewName : app.getViewName();
 		var instance = false;
-		if (this.reletedInstance) {
+		if (viewName === 'RecordsList') {
+			instance = this.reletedInstance;
+			instance.reloadFunctionName = 'loadRecordList';
+			instance.execute = ['updatePagination'];
+		} else if (this.reletedInstance) {
 			instance = this.reletedInstance;
 			instance.reloadFunctionName = 'loadRelatedList';
 		} else if (viewName === 'Detail') {
@@ -239,6 +264,10 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			instance.reloadFunctionName = 'loadRelatedList';
 		} else if (viewName == 'List') {
 			instance = new Vtiger_List_Js();
+			instance.reloadFunctionName = 'getListViewRecords';
+			instance.execute = ['updatePagination'];
+		} else if (viewName == 'ListPreview') {
+			instance = window.pageController;
 			instance.reloadFunctionName = 'getListViewRecords';
 			instance.execute = ['updatePagination'];
 		}
@@ -253,7 +282,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		if (instance) {
 			var funcName = instance.reloadFunctionName;
 			if (jQuery.isFunction(instance[funcName])) {
-				instance[funcName](params).then(function () {
+				instance[funcName](params).done(function () {
 					thisInstance.resetPagination();
 					thisInstance.executeFunctions(instance);
 				});
@@ -261,7 +290,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		}
 	},
 	executeFunctions: function (instance) {
-		var thisInstance = this;
 		if (instance.execute) {
 			var func = instance.execute;
 			for (var i in func) {
@@ -280,7 +308,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		this.registerListSearch();
 		this.getContainer().find('select.select2').each(function (i, obj) {
 			if (!$(obj).data('select2')) {
-				app.showSelect2ElementView($(obj));
+				App.Fields.Picklist.showSelect2ElementView($(obj));
 			}
 		});
 	},

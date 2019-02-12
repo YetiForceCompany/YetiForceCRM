@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_Detail_Js("SSalesProcesses_Detail_Js", {}, {
 	//It stores the IStorages Hierarchy response data
 	hierarchyResponseCache: {},
@@ -13,13 +15,13 @@ Vtiger_Detail_Js("SSalesProcesses_Detail_Js", {}, {
 		if (!(jQuery.isEmptyObject(thisInstance.hierarchyResponseCache))) {
 			aDeferred.resolve(thisInstance.hierarchyResponseCache);
 		} else {
-			AppConnector.request(params).then(
-					function (data) {
-						//store it in the cache, so that we dont do multiple request
-						thisInstance.hierarchyResponseCache = data;
-						aDeferred.resolve(thisInstance.hierarchyResponseCache);
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				//store it in the cache, so that we dont do multiple request
+				thisInstance.hierarchyResponseCache = data;
+				aDeferred.resolve(thisInstance.hierarchyResponseCache);
+			}).fail(function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			});
 		}
 		return aDeferred.promise();
 	},
@@ -49,9 +51,9 @@ Vtiger_Detail_Js("SSalesProcesses_Detail_Js", {}, {
 				record: app.getRecordId(),
 				mode: 'getHierarchyCount',
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				if (response.success) {
-					$('.detailViewTitle .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+					$('.detailViewTitle .hierarchy .badge').html(response.result);
 				}
 			});
 		}
@@ -64,8 +66,8 @@ Vtiger_Detail_Js("SSalesProcesses_Detail_Js", {}, {
 			view: 'Hierarchy',
 			record: app.getRecordId(),
 		};
-		hierarchyButton.on('click', '.detailViewIcon', function (e) {
-			thisInstance.getHierarchyResponseData(params).then(function (data) {
+		hierarchyButton.on('click', '.js-detail__icon', function (e) {
+			thisInstance.getHierarchyResponseData(params).done(function (data) {
 				thisInstance.displayHierarchyResponseData(data);
 			});
 		});

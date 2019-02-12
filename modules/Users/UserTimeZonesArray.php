@@ -15,7 +15,6 @@
 
 class UserTimeZones
 {
-
 	public static function getTimeZones()
 	{
 		return [
@@ -114,7 +113,7 @@ class UserTimeZones
 			'Asia/Kamchatka',
 			'Pacific/Auckland',
 			'Asia/Magadan',
-			'Pacific/Tongatapu'
+			'Pacific/Tongatapu',
 		];
 	}
 }

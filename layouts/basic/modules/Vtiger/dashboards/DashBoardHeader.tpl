@@ -10,12 +10,15 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<div class="widget_header row">
-		<div class="col-xs-9 col-sm-4 col-md-6">
-			<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
-			</div>
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-		</div>
+	<div class="row">
+		<nav class="widget_header col-12 px-3 d-flex align-items-center flex-column flex-sm-row" aria-label="{\App\Language::translate("LBL_BREADCRUMB")}">
+			{if {$MODULE} neq 'Home'}
+				<div class="listViewMassActions px-2">
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}
+				</div>
+			{/if}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
+		</nav>
 	</div>
 {/strip}

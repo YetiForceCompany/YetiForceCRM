@@ -11,9 +11,8 @@
 
 class Contacts_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{

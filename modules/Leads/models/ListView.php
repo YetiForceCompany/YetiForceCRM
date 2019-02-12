@@ -11,10 +11,11 @@
 
 class Leads_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param array $linkParams
+	 *
 	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
@@ -29,7 +30,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail();',
-				'linkicon' => 'glyphicon glyphicon-envelope'
+				'linkicon' => 'fas fa-envelope',
 			];
 		}
 
@@ -38,7 +39,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-envelope'
+				'linkicon' => 'fas fa-envelope',
 			];
 		}
 

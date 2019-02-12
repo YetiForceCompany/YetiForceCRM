@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Users_Logout_Action extends Vtiger_Action_Controller
+class Users_Logout_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -20,7 +19,7 @@ class Users_Logout_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -29,6 +28,7 @@ class Users_Logout_Action extends Vtiger_Action_Controller
 		if (AppConfig::main('session_regenerate_id')) {
 			App\Session::regenerateId(true); // to overcome session id reuse.
 		}
+		OSSMail_Logout_Model::logoutCurrentUser();
 		App\Session::destroy();
 
 		//Track the logout History
@@ -36,6 +36,14 @@ class Users_Logout_Action extends Vtiger_Action_Controller
 		$moduleModel = Users_Module_Model::getInstance($moduleName);
 		$moduleModel->saveLogoutHistory();
 		//End
-		header('Location: index.php');
+		header('location: index.php');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
 	}
 }

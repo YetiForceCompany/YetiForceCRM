@@ -7,15 +7,17 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_RelatedList_Js", {
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		var moduleClassName = app.getModuleName() + "_RelatedList_Js";
-		var fallbackClassName = Vtiger_RelatedList_Js;
-		if (typeof window[moduleClassName] != 'undefined') {
-			var instance = new window[moduleClassName]();
+		let moduleClassName = app.getModuleName() + "_RelatedList_Js",
+			fallbackClassName = Vtiger_RelatedList_Js,
+			instance;
+		if (typeof window[moduleClassName] !== "undefined") {
+			instance = new window[moduleClassName]();
 		} else {
-			var instance = new fallbackClassName();
+			instance = new fallbackClassName();
 		}
 		instance.parentRecordId = parentId;
 		instance.parentModuleName = parentModule;
@@ -44,7 +46,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			if (listViewInstance.getListSearchInstance()) {
 				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
 					postData['search_value'] = searchValue;
 					postData['operator'] = 's';
@@ -57,7 +59,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			};
 			if (type === 'sendByForm') {
 				var form = $('<form method="POST" action="' + massActionUrl + '">');
-				if (typeof csrfMagicName !== 'undefined') {
+				if (typeof csrfMagicName !== "undefined") {
 					form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
 				}
 				$.each(postData, function (k, v) {
@@ -67,26 +69,23 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				form.submit();
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			} else {
-				AppConnector.request(actionParams).then(
-						function (responseData) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							if (responseData && responseData.result !== null) {
-								if (responseData.result.notify) {
-									Vtiger_Helper_Js.showMessage(responseData.result.notify);
-								}
-								if (responseData.result.reloadList) {
-									Vtiger_Detail_Js.reloadRelatedList();
-								}
-								if (responseData.result.procesStop) {
-									progressIndicatorElement.progressIndicator({'mode': 'hide'});
-									return false;
-								}
-							}
-						},
-						function (error, err) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				AppConnector.request(actionParams).done(function (responseData) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					if (responseData && responseData.result !== null) {
+						if (responseData.result.notify) {
+							Vtiger_Helper_Js.showMessage(responseData.result.notify);
 						}
-				);
+						if (responseData.result.reloadList) {
+							Vtiger_Detail_Js.reloadRelatedList();
+						}
+						if (responseData.result.procesStop) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							return false;
+						}
+					}
+				}).fail(function (error, err) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
 			}
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -157,25 +156,19 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (container.find('.entityState').length) {
 			params['entityState'] = container.find('.entityState').val();
 		}
-		if (this.moduleName == 'Calendar') {
-			if (this.content.find('.switchBtn').is(':checked'))
-				params['time'] = 'current';
-			else
-				params['time'] = 'history';
-		}
 		if (this.listSearchInstance) {
 			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
 		}
-		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+		if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 			params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
 			params['search_value'] = searchValue;
 			params['operator'] = 's';
 		}
 		if (this.moduleName == 'Calendar') {
-			var switchBtn = container.find('.switchBtn');
+			var switchBtn = container.find('.js-switch--calendar');
 			if (switchBtn.length) {
-				params.time = switchBtn.prop('checked') ? 'current' : 'history';
+				params.time = switchBtn.first().prop('checked') ? 'current' : 'history';
 			}
 		}
 		return params;
@@ -183,7 +176,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	loadRelatedList: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		if (typeof thisInstance.moduleName == "undefined" || thisInstance.moduleName.length <= 0) {
+		if (typeof thisInstance.moduleName === "undefined" || thisInstance.moduleName.length <= 0) {
 			var currentInstance = Vtiger_Detail_Js.getInstance();
 			currentInstance.loadWidgets();
 			return aDeferred.promise();
@@ -196,24 +189,26 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 		var completeParams = this.getCompleteParams();
 		var activeTabsReference = thisInstance.relatedTabsContainer.find('li.active').data('reference');
-		AppConnector.request($.extend(completeParams, params)).then(function (responseData) {
+		AppConnector.request($.extend(completeParams, params)).done(function (responseData) {
 			var currentInstance = Vtiger_Detail_Js.getInstance();
 			currentInstance.loadWidgets();
-			if (activeTabsReference != 'ProductsAndServices') {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			if (activeTabsReference !== 'ProductsAndServices') {
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				thisInstance.content.html(responseData);
-				progressInstance.progressIndicator({'mode': 'hide'});
-				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
-				if (thisInstance.listSearchInstance) {
-					thisInstance.listSearchInstance.registerBasicEvents();
-				}
+				thisInstance.registerListEvents();
 			}
 			aDeferred.resolve(responseData);
-		}, function (textStatus, errorThrown) {
+		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
+			progressInstance.progressIndicator({'mode': 'hide'});
 		});
 		return aDeferred.promise();
 	},
@@ -224,28 +219,31 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			elements.attr('class', widthType);
 		}
 	},
-	showSelectRelationPopup: function (extendParams) {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var mainParams = this.getPopupParams();
-		$.extend(mainParams, extendParams);
-		popupInstance.show(mainParams, function (responseString) {
-			var responseData = JSON.parse(responseString);
-			thisInstance.addRelations(Object.keys(responseData)).then(function (data) {
-				var detail = Vtiger_Detail_Js.getInstance();
-				thisInstance.loadRelatedList().then(function (data) {
-					aDeferred.resolve(data);
-					detail.registerRelatedModulesRecordCount();
+	showSelectRelation: function (extendParams) {
+		let params = $.extend(this.getRecordsListParams(), extendParams);
+		app.showRecordsList(params, (modal, instance) => {
+			instance.setSelectEvent((responseData) => {
+				this.addRelations(Object.keys(responseData)).done(() => {
+					app.event.trigger("RelatedListView.AfterSelectRelation", responseData, this, instance, params);
+					let detail = Vtiger_Detail_Js.getInstance();
+					this.loadRelatedList().done(function () {
+						detail.registerRelatedModulesRecordCount();
+					});
+					if (this.getSelectedTabElement().data('link-key') === 'LBL_RECORD_SUMMARY') {
+						detail.loadWidgets();
+						detail.registerRelatedModulesRecordCount();
+					}
 				});
-				var selectedTab = thisInstance.getSelectedTabElement();
-				if (selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY') {
-					detail.loadWidgets();
-					detail.registerRelatedModulesRecordCount();
-				}
 			});
 		});
-		return aDeferred.promise();
+	},
+	getRecordsListParams: function () {
+		return {
+			module: this.moduleName,
+			src_module: this.parentModuleName,
+			src_record: this.parentRecordId,
+			multi_select: true
+		};
 	},
 	addRelations: function (idList) {
 		var aDeferred = jQuery.Deferred();
@@ -256,36 +254,51 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			related_module: this.moduleName,
 			src_record: this.parentRecordId,
 			related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
-		}).then(function (responseData) {
+		}).done(function (responseData) {
 			aDeferred.resolve(responseData);
-		}, function (textStatus, errorThrown) {
+		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
 	},
-	getPopupParams: function () {
-		return {
-			module: this.moduleName,
-			src_module: this.parentModuleName,
-			src_record: this.parentRecordId,
-			multi_select: true
-		};
-	},
-	deleteRelation: function (relatedIdList) {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			module: this.parentModuleName,
-			action: 'RelationAjax',
-			mode: 'deleteRelation',
-			related_module: this.moduleName,
-			src_record: this.parentRecordId,
-			related_record_list: JSON.stringify(relatedIdList)
-		}).then(function (responseData) {
-			aDeferred.resolve(responseData);
-		}, function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
+	deleteRelation(target) {
+		let params = {};
+		if (target.data('url')) {
+			params = target.data('url');
+		} else {
+			let id = target.data('id') ? target.data('id') : element.closest('tr').data('id');
+			params = {
+				module: this.parentModuleName,
+				action: 'RelationAjax',
+				mode: 'deleteRelation',
+				related_module: this.moduleName,
+				src_record: this.parentRecordId,
+				related_record_list: JSON.stringify([id])
+			};
+		}
+		let progressInstance = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
+		AppConnector.request(params).done(response => {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			if (response.result) {
+				let widget = target.closest('.widgetContentBlock');
+				const detail = Vtiger_Detail_Js.getInstance();
+				if (widget.length) {
+					detail.loadWidget(widget);
+					let updatesWidget = this.getContentHolder().find("[data-type='Updates']");
+					if (updatesWidget.length > 0) {
+						detail.loadWidget(updatesWidget);
+					}
+				} else {
+					this.loadRelatedList();
+				}
+				detail.registerRelatedModulesRecordCount();
+			} else {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+			}
+		}).fail(function (err, errThrow) {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 		});
-		return aDeferred.promise();
 	},
 	/**
 	 * Function to handle Sort
@@ -293,15 +306,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	sortHandler: function (headerElement) {
 		var aDeferred = jQuery.Deferred();
 		var sortOrderVal = headerElement.data('nextsortorderval');
-		if (typeof sortOrderVal === 'undefined') {
+		if (typeof sortOrderVal === "undefined") {
 			return;
 		}
 		this.loadRelatedList({
 			orderby: headerElement.data('fieldname'),
 			sortorder: sortOrderVal,
-		}).then(function (data) {
+		}).done(function (data) {
 			aDeferred.resolve(data);
-		}, function (textStatus, errorThrown) {
+		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
@@ -319,10 +332,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var nextPage = parseInt(pageNumber) + 1;
 			this.loadRelatedList({
 				page: nextPage
-			}).then(function (data) {
+			}).done(function (data) {
 				thisInstance.setCurrentPageNumber(nextPage);
 				aDeferred.resolve(data);
-			}, function (textStatus, errorThrown) {
+			}).fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		}
@@ -332,18 +345,17 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 * Function to handle next page navigation
 	 */
 	previousPageHandler: function () {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var pageNumber = this.getCurrentPageNum();
+		const thisInstance = this,
+			aDeferred = jQuery.Deferred();
+		let pageNumber = this.getCurrentPageNum();
 		if (pageNumber > 1) {
-			var previousPage = parseInt(pageNumber) - 1;
+			let previousPage = parseInt(pageNumber) - 1;
 			this.loadRelatedList({
 				page: previousPage
-			}).then(function (data) {
+			}).done(function (data) {
 				thisInstance.setCurrentPageNumber(previousPage);
 				aDeferred.resolve(data);
-			}, function (textStatus, errorThrown) {
+			}).fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		}
@@ -353,15 +365,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 * Function to handle select page jump in related list
 	 */
 	selectPageHandler: function (pageNumber) {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		const thisInstance = this,
+			aDeferred = jQuery.Deferred();
 		this.loadRelatedList({
 			page: pageNumber,
-		}).then(function (data) {
+		}).done(function (data) {
 			thisInstance.setCurrentPageNumber(pageNumber);
 			aDeferred.resolve(data);
-		}, function (textStatus, errorThrown) {
+		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
@@ -375,7 +386,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (e.which == 13) {
 			var element = jQuery(e.currentTarget);
 			var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-			if (typeof response != "undefined") {
+			if (typeof response !== "undefined") {
 				element.validationEngine('showPrompt', response, '', "topLeft", true);
 				e.preventDefault();
 			} else {
@@ -401,10 +412,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					}
 					this.loadRelatedList({
 						page: jumpToPage
-					}).then(function (data) {
+					}).done(function (data) {
 						thisInstance.setCurrentPageNumber(jumpToPage);
 						aDeferred.resolve(data);
-					}, function (textStatus, errorThrown) {
+					}).fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
 					});
 				} else {
@@ -432,13 +443,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 
 		var preQuickCreateSave = function (data) {
 			var index, queryParam, queryParamComponents;
+			let queryParameters = [];
 
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
-			if (typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?') !== -1) {
+			if (typeof fullFormUrl !== "undefined" && fullFormUrl.indexOf('?') !== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
-				var queryParameters = queryString.split('&');
+				queryParameters = queryString.split('&');
 				for (index = 0; index < queryParameters.length; index++) {
 					queryParam = queryParameters[index];
 					queryParamComponents = queryParam.split('=');
@@ -451,7 +463,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
-			if (typeof relatedField != "undefined") {
+			if (typeof relatedField !== "undefined") {
 				var field = data.find('[name="' + relatedField + '"]');
 				//If their is no element with the relatedField name,we are adding hidden element with
 				//name as relatedField name,for saving of record with relation to parent record
@@ -466,19 +478,18 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					jQuery('<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />').appendTo(data);
 				}
 			}
-			if (typeof callback !== 'undefined') {
+			if (typeof callback !== "undefined") {
 				callback();
 			}
 		}
 		var postQuickCreateSave = function (data) {
-			thisInstance.loadRelatedList().then(
-					function (data) {
-						aDeferred.resolve(data);
-					})
+			thisInstance.loadRelatedList().done(function (data) {
+				aDeferred.resolve(data);
+			})
 		}
 
 		//If url contains params then seperate them and make them as relatedParams
-		if (typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?') !== -1) {
+		if (typeof fullFormUrl !== "undefined" && fullFormUrl.indexOf('?') !== -1) {
 			var urlSplit = fullFormUrl.split('?');
 			var queryString = urlSplit[1];
 			var queryParameters = queryString.split('&');
@@ -511,14 +522,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				mode: "getRelatedListPageCount",
 				record: this.getParentId(),
 				relatedModule: this.moduleName,
-			}).then(function (data) {
+			}).done(function (data) {
 				var pageCount = data['result']['page'];
 				var numberOfRecords = data['result']['numberOfRecords'];
 				totalCountElem.val(numberOfRecords);
 				element.text(pageCount);
 				element.progressIndicator({'mode': 'hide'});
 				aDeferred.resolve();
-			}, function (error, err) {
+			}).fail(function (error, err) {
 				aDeferred.reject(false);
 			});
 		} else {
@@ -537,10 +548,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				relcrmid: relcrmId,
 				relatedModule: this.moduleName,
 				actionMode: state ? 'delete' : 'add',
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.result)
 					aDeferred.resolve(true);
-			}, function (error, err) {
+			}).fail(function (error, err) {
 				aDeferred.reject(false);
 			});
 		} else {
@@ -549,7 +560,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		return aDeferred.promise();
 	},
 	updatePreview: function (url) {
-		var frame = this.content.find('#listPreviewframe');
+		var frame = this.content.find('.listPreviewframe');
 		this.frameProgress = $.progressIndicator({
 			position: 'html',
 			message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -582,14 +593,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			module: 'ModTracker',
 			sourceModule: this.moduleName,
 			recordsId: ids
-		}).then(function (appData) {
+		}).done(function (appData) {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.a > 0) {
-					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
+					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a).parent().removeClass('d-none');
 				}
 				if (value.m > 0) {
-					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m).parent().removeClass('d-none');
 				}
 			});
 		});
@@ -607,40 +618,44 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerRowsEvent: function () {
 		var thisInstance = this;
-		if (this.relatedView == 'List') {
-			this.content.find('.listViewEntries').click(function (e) {
-				var target = $(e.target);
-				if (target.is('td')) {
+		if (this.relatedView === 'List' || this.relatedView === 'Detail') {
+			this.content.find('.listViewEntries').on('click', function (e) {
+				if ($(e.target).is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
-						top.document.location.href = target.closest('tr').data('recordurl');
+						if ($(e.target).closest('tr').data('recordurl')) {
+							top.document.location.href = $(e.target).closest('tr').data('recordurl');
+						}
 					} else {
-						document.location.href = target.closest('tr').data('recordurl');
+						if ($(e.target).closest('tr').data('recordurl')) {
+							document.location.href = $(e.target).closest('tr').data('recordurl');
+						}
 					}
 				}
 			});
-			this.content.find('.showInventoryRow').click(function (e) {
+			this.content.find('.showInventoryRow').on('click', function (e) {
 				var target = $(this);
 				var row = target.closest('tr');
 				var inventoryRow = row.next();
 				if (inventoryRow.hasClass('listViewInventoryEntries')) {
-					inventoryRow.toggleClass('hide');
+					inventoryRow.toggleClass('d-none');
 				}
 			});
-		} else if (this.relatedView == 'ListPreview') {
-			this.content.find('.listViewEntries').click(function (e) {
-				if ($(e.target).closest('div').hasClass('actions'))
+		} else if (this.relatedView === 'ListPreview') {
+			this.content.find('.listViewEntries').on('click', function (e) {
+				let target = $(e.target);
+				if (target.closest('div').hasClass('actions'))
 					return;
-				if ($(e.target).is('button') || $(e.target).parent().is('button'))
+				if (target.is('button') || target.parent().is('button'))
 					return;
-				if ($(e.target).closest('a').hasClass('noLinkBtn'))
+				if (target.closest('a').hasClass('noLinkBtn'))
 					return;
 				if ($(e.target, $(e.currentTarget)).is('td:first-child'))
 					return;
-				if ($(e.target).is('input[type="checkbox"]'))
+				if (target.is('input[type="checkbox"]'))
 					return;
-				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target))
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), target[0]))
 					return;
-				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target))
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), target[0]))
 					return;
 				var recordUrl = $(this).data('recordurl');
 				thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
@@ -668,7 +683,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 			app.hidePopover(button);
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				if (response.success) {
 					calculateValue.html(response.result);
 				} else {
@@ -681,10 +696,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var contentHeight = this.content.find('#listPreview,#recordsListPreview');
-		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
-		this.content.find('#listPreviewframe').load(function () {
-			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+		var contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
+		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
+		this.content.find('.listPreviewframe').on('load', function () {
+			if (thisInstance.frameProgress) {
+				thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+			}
 			contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 		});
 		this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
@@ -729,7 +746,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			if (relatedContent.find('.entityState').length) {
 				params['entityState'] = relatedContent.find('.entityState').val();
 			}
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				relatedContent.find('.paginationDiv').html(response);
 			});
 		});
@@ -740,83 +757,74 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.content.on('click', '.relatedListHeaderValues', function (e) {
 			thisInstance.sortHandler($(this));
 		});
-		this.content.on('click', 'a.favorites', function (e) {
+		this.content.find('a.favorites').on('click', function (e) {
 			var progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
 			var element = $(this);
 			var row = element.closest('tr');
-			thisInstance.favoritesRelation(row.data('id'), element.data('state')).then(function (response) {
+			thisInstance.favoritesRelation(row.data('id'), element.data('state')).done(function (response) {
 				if (response) {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
-					element.find('.glyphicon').each(function () {
-						if (jQuery(this).hasClass('hide')) {
-							jQuery(this).removeClass('hide');
-						} else {
-							jQuery(this).addClass('hide');
-						}
-					})
+					if (state) {
+						element.find('.far').addClass('d-none');
+						element.find('.fas').removeClass('d-none');
+					} else {
+						element.find('.fas').addClass('d-none');
+						element.find('.far').removeClass('d-none');
+					}
 					progressInstance.progressIndicator({'mode': 'hide'});
 					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 					if (state) {
 						text = app.vtranslate('JS_ADDED_TO_FAVORITES');
 					}
-					Vtiger_Helper_Js.showPnotify({text: text, type: 'success', animation: 'show'});
+					Vtiger_Helper_Js.showPnotify({text: text, type: 'success'});
 				}
 			});
 		});
-		this.content.on('click', '[name="addButton"]', function (e) {
-			var element = $(this);
-			if (element.hasClass('quickCreateSupported') != true) {
-				window.location.href = element.data('url');
+		this.content.find('[name="addButton"]').on('click', function (e) {
+			const element = $(this);
+			if (element.hasClass('quickCreateSupported') !== true) {
+				app.openUrl(element.data('url'));
 				return;
 			}
 			thisInstance.addRelatedRecord(element);
-		})
-		this.content.on('click', 'button.selectRelation', function (e) {
-			var restrictionsField = $(this).data('rf');
-			var params = {};
+		});
+		this.content.find('button.selectRelation').on('click', function (e) {
+			let restrictionsField = $(this).data('rf');
+			let params = {};
 			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 				params = {
 					search_key: restrictionsField.key,
 					search_value: restrictionsField.name
 				};
 			}
-			thisInstance.showSelectRelationPopup(params);
+			thisInstance.showSelectRelation(params);
 		});
-		this.content.on('click', 'button.relationDelete', function (e) {
+		this.content.find('button.relationDelete').on('click', function (e) {
 			e.stopImmediatePropagation();
-			var element = $(this);
-			Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_DELETE_CONFIRMATION')}).then(function (e) {
-				var row = element.closest('tr');
-				thisInstance.deleteRelation([row.data('id')]).then(function (response) {
-					if (response.result) {
-						var widget = element.closest('.widgetContentBlock');
-						var detail = Vtiger_Detail_Js.getInstance();
-						if (widget.length) {
-							detail.loadWidget(widget);
-							var updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
-							if (updatesWidget.length > 0) {
-								detail.loadWidget(updatesWidget);
-							}
-						} else {
-							thisInstance.loadRelatedList();
-						}
-						detail.registerRelatedModulesRecordCount();
-					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
-					}
-				});
+			let target = $(e.currentTarget);
+			let params = {};
+			if (target.data('confirm')) {
+				params.message = target.data('confirm');
+				params.title = target.html() + ' ' + target.data('content');
+			} else if (target.data('content')) {
+				params.message = target.data('content');
+			} else {
+				params.message = app.vtranslate('JS_DELETE_CONFIRMATION');
+			}
+			Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
+				thisInstance.deleteRelation(target);
 			});
 		});
-		this.content.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
+		this.content.find('.js-switch--calendar').on('change', function (e) {
 			thisInstance.loadRelatedList();
 		});
-		this.content.on('click', '.relatedViewGroup a', function (e) {
+		this.content.find('.relatedViewGroup a').on('click', function (e) {
 			var element = $(this);
 			thisInstance.relatedView = element.data('view');
 			relatedContent.find('.pagination').data('totalCount', 0);
@@ -825,208 +833,302 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPostLoadEvents: function () {
 		var thisInstance = this;
-		app.showBtnSwitch(this.content.find('.switchBtn'));
-		app.showPopoverElementView(this.content.find('.popoverTooltip'));
 		this.registerRowsEvent();
-		if (this.relatedView == 'ListPreview') {
+		this.registerListScroll();
+		if (this.relatedView === 'ListPreview') {
 			this.registerPreviewEvent();
+			if (!this.content.find('.gutter').length) {
+				if (!this.content.find('.js-list-preview').length)
+					return;
+				this.getDomParams(this.content);
+				this.toggleSplit(this.content);
+				this.registerListPreviewEvents(this.content);
+			}
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
-		if (!this.content.find('.gutter').length) {
-			thisInstance.updateSplit(this.content);
-			thisInstance.registerListPreviewScroll(this.content);
+	},
+	getSecondColMinWidth: function (container) {
+		let maxWidth = 0,
+			thisWidth;
+		container.find('.js-list__row').each(function (i) {
+			thisWidth = $(this).find('.js-list__field').first().width();
+			if (i === 0) {
+				maxWidth = thisWidth;
+			} else {
+				thisWidth > maxWidth ? maxWidth = thisWidth : maxWidth;
+			}
+		});
+		return maxWidth;
+	},
+	getDomParams: function (container) {
+		this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
+		this.listColumnSecondWidth = this.getSecondColMinWidth(container);
+		this.windowW = $(window).width();
+		this.mainBody = container.closest('.mainBody');
+		this.windowMinWidth = (15 / this.windowW) * 100;
+		this.windowMaxWidth = 100 - this.minWidth;
+		this.sideBlocks = container.find('.js-side-block');
+		this.sideBlockLeft = this.sideBlocks.first();
+		this.sideBlockRight = this.sideBlocks.last();
+		this.list = container.find('.js-list-preview');
+		this.preview = container.find('.js-detail-preview');
+		this.rotatedText = container.find('.u-rotate-90');
+		this.footerH = $('.js-footer').outerHeight();
+		this.headerH = $('.js-header').outerHeight();
+	},
+	getDefaultSplitSizes: function () {
+		let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
+		return [thWidth, 100 - thWidth];
+	},
+	getSplitSizes() {
+		const cachedParams = app.moduleCacheGet('userRelatedSplitSet');
+		if (cachedParams !== undefined) {
+			return cachedParams;
+		} else {
+			return this.getDefaultSplitSizes();
 		}
 	},
-	updateListPreviewSize: function (currentElement) {
-		var fixedList = $('.fixedListInitial, .fixedListContent');
-		var vtFooter = $('.vtFooter').height();
-		if ($(window).width() > 993) {
-			var height = $(window).height() - (vtFooter + currentElement.offset().top + 2);
-			fixedList.css('max-height', height);
+	registerListPreviewEvents: function (container) {
+		var listPreview = container.find('.js-detail-preview');
+		var mainBody = container.closest('.mainBody');
+		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		app.showNewScrollbarLeft(this.list);
+		mainBody.scrollTop(0); // reset scroll to set correct start position
+		let listOffsetTop = this.list.offset().top - this.headerH;
+		let initialH = this.sideBlocks.height();
+		let mainViewPortHeightCss = {height: mainBody.height()};
+		let mainViewPortWidthCss = {width: mainBody.height()};
+		this.gutter.addClass('js-fixed-scroll');
+		let fixedElements = container.find('.js-fixed-scroll');
+		if (!mainBody.length) {
+			mainBody = $(top.document).find('.mainBody');
+			this.headerH = $(top.document).find('.js-header').outerHeight();
+			let iframe = $(top.document).find('.js-detail-preview');
+			listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
+			mainViewPortHeightCss = {height: mainBody.height()};
+			mainViewPortWidthCss = {width: mainBody.height()};
 		}
+		this.list.on('click', '.listViewEntries', () => {
+			if (this.split.getSizes()[1] < 10) {
+				const defaultGutterPosition = this.getDefaultSplitSizes();
+				this.split.setSizes(defaultGutterPosition);
+				listPreview.show();
+				this.sideBlockRight.removeClass('d-block');
+				app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
+			}
+		});
+		if (this.list.parents('.blockContent').length) {
+			return;
+		}
+		mainBody.on('scroll', () => {
+			if (mainBody.scrollTop() >= listOffsetTop) {
+				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
+				this.sideBlocks.css({top: mainBody.scrollTop() - listOffsetTop + 56})
+				fixedElements.css(mainViewPortHeightCss);
+				this.rotatedText.css(mainViewPortHeightCss);
+				this.rotatedText.css(mainViewPortWidthCss);
+			} else {
+				fixedElements.css({top: 'initial'});
+				fixedElements.css({height: initialH + mainBody.scrollTop()})
+				this.rotatedText.css({
+					width: initialH + mainBody.scrollTop(),
+					height: initialH + mainBody.scrollTop(),
+				});
+			}
+		});
 	},
-	registerListPreviewScroll: function (container) {
-		if (container.find('.fixedListInitial').length) {
-			var thisInstance = this;
-			var fixedList = container.find('.fixedListInitial');
-			var listPreview = container.find('#listPreview');
-			var mainBody = container.closest('.mainBody');
-			var wrappedPanels = container.find('.wrappedPanel');
-			var listViewEntriesDiv = container.find('.listViewEntriesDiv');
-			var commActHeight = $('.commonActionsContainer').height();
-			var paddingTop = 6;
-			var offset = fixedList.offset().top - commActHeight - paddingTop;
-			fixedList.find('.fixedListContent').perfectScrollbar();
-			listViewEntriesDiv.perfectScrollbar();
-			$(window).resize(function () {
-				thisInstance.updateListPreviewSize(fixedList);
-				if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
-					container.find('.gutter').css('left', listPreview.offset().left - 8);
-				}
-			});
-			mainBody.scroll(function () {
-				var gutter = container.find('.gutter');
-				var gutterHeight = {height: $(window).height() - (gutter.offset().top + 33)};
-				gutter.css(gutterHeight);
-				wrappedPanels.css(gutterHeight);
-				if ($(this).scrollTop() >= (fixedList.offset().top + commActHeight - paddingTop)) {
-					if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
-						fixedList.css('top', $(this).scrollTop() - offset);
-						if ($(window).width() > 993) {
-							wrappedPanels.addClass('wrappedPanelOnScroll');
-							gutter.addClass('gutterOnScroll');
-							gutter.css('left', listPreview.offset().left - 8);
-							gutter.on('mousedown', function () {
-								$(this).on('mousemove', function (e) {
-									$(this).css('left', listPreview.offset().left - 8);
-								});
-							});
-						}
-					}
+
+	/**
+	 * Registers split's events.
+	 * @param {jQuery} container - current container for reference.
+	 * @param {Split} split - a split object.
+	 */
+	registerSplitEvents: function (container, split) {
+		var rightSplitMaxWidth = (400 / this.windowW) * 100;
+		var minWindowWidth = (23 / this.windowW) * 100;
+		var maxWindowWidth = 100 - minWindowWidth;
+		var listPreview = container.find('.js-detail-preview');
+		this.gutter.on("dblclick", () => {
+			let gutterRelatedMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
+			if (isNaN(this.split.getSizes()[0])) {
+				this.split.setSizes(gutterRelatedMidPosition);
+			}
+			if (split.getSizes()[0] < 7) {
+				this.gutter.removeClass('js-gutter-corr-left');
+				this.sideBlockLeft.removeClass('d-block');
+				this.list.removeClass('u-hide-underneath');
+				if (gutterRelatedMidPosition[0] > 11) {
+					split.setSizes(gutterRelatedMidPosition);
 				} else {
-					fixedList.css('top', 'initial');
-					if ($(window).width() > 993) {
-						var gutter = container.find('.gutter');
-						wrappedPanels.removeClass('wrappedPanelOnScroll');
-						gutter.removeClass('gutterOnScroll');
-						gutter.css('left', 0);
-						gutter.off('mousedown');
-						gutter.off('mousemove');
-					}
+					split.setSizes(this.getDefaultSplitSizes());
 				}
-				thisInstance.updateListPreviewSize(fixedList);
-			});
-			thisInstance.updateListPreviewSize(fixedList);
-		}
+			} else if (split.getSizes()[1] < 20) {
+				if (gutterRelatedMidPosition[1] > rightSplitMaxWidth + 1) {
+					split.setSizes(gutterRelatedMidPosition);
+				} else {
+					split.setSizes(this.getDefaultSplitSizes());
+				}
+				this.gutter.removeClass('js-gutter-corr-right');
+				this.sideBlockRight.removeClass('d-block');
+				listPreview.show();
+			} else if (split.getSizes()[0] > 7 && split.getSizes()[0] < 50) {
+				split.setSizes([minWindowWidth, maxWindowWidth]);
+				this.gutter.addClass('js-gutter-corr-left');
+				this.sideBlockLeft.addClass('d-block');
+				this.list.addClass('u-hide-underneath');
+			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
+				split.setSizes([maxWindowWidth, minWindowWidth]);
+				this.gutter.addClass('js-gutter-corr-right');
+				this.sideBlockRight.addClass('d-block');
+				listPreview.hide();
+				//this.list.width(this.list.width() - 10);
+			}
+			app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
+		});
+		this.sideBlockLeft.on("click", () => {
+			let gutterRelatedMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
+			if (gutterRelatedMidPosition[0] > 11) {
+				split.setSizes(gutterRelatedMidPosition);
+			} else {
+				split.setSizes(this.getDefaultSplitSizes());
+			}
+			this.gutter.removeClass('js-gutter-corr-left');
+			this.sideBlockLeft.removeClass('d-block');
+			this.list.removeClass('u-hide-underneath');
+			app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
+		});
+		this.sideBlockRight.on("click", () => {
+			let gutterRelatedMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
+			if (gutterRelatedMidPosition[1] > rightSplitMaxWidth + 1) {
+				split.setSizes(gutterRelatedMidPosition);
+			} else {
+				split.setSizes(this.getDefaultSplitSizes());
+			}
+			this.gutter.removeClass('js-gutter-corr-right');
+			this.sideBlockRight.removeClass('d-block');
+			listPreview.show();
+			app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
+		});
 	},
-	registerSplit: function (container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel) {
-		if ($(window).width() > 993 && container.find('.fixedListInitial').length) {
-			var relatedHeader = container.find('.relatedHeader');
-			var split = Split(['.fixedListInitial', '#listPreview'], {
-				sizes: [25, 75],
-				minSize: 10,
-				gutterSize: 8,
-				snapOffset: 100,
-				onDrag: function () {
-					var rightWidth = (400 / $(window).width()) * 100;
-					if (split.getSizes()[1] < rightWidth) {
-						split.collapse(1);
-					}
-					if (split.getSizes()[0] < 5) {
-						wrappedPanelLeft.addClass('wrappedPanelLeft');
-					} else {
-						wrappedPanelLeft.removeClass('wrappedPanelLeft');
-					}
-					if (split.getSizes()[1] < 10) {
-						wrappedPanelRight.addClass('wrappedPanelRight');
-						fixedList.width(fixedList.width() - 10);
-					} else {
-						wrappedPanelRight.removeClass('wrappedPanelRight');
-					}
-					wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
-				}
-			});
-			wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
-			var gutter = container.find('.gutter');
-			var leftWidth = (15 / $(window).width()) * 100;
-			var rightWidth = 100 - leftWidth;
-			gutter.on("dblclick", function () {
-				if (split.getSizes()[0] < 25) {
-					split.setSizes([25, 75]);
-					wrappedPanelLeft.removeClass('wrappedPanelLeft');
-				} else if (split.getSizes()[1] < 25) {
-					split.setSizes([75, 25]);
-					wrappedPanelRight.removeClass('wrappedPanelRight');
-					gutter.css('right', 'initial');
-					fixedList.css('padding-right', '10px');
-				} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
-					split.setSizes([leftWidth, rightWidth]);
-					wrappedPanelLeft.addClass('wrappedPanelLeft');
-				} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
+	registerSplit: function (container) {
+		var rightSplitMaxWidth = (400 / this.windowW) * 100;
+		const splitSizes = this.getSplitSizes();
+		app.moduleCacheSet('gutterRelatedMidPosition', splitSizes);
+		var split = Split([this.list[0], this.preview[0]], {
+			sizes: splitSizes,
+			minSize: 10,
+			gutterSize: 24,
+			snapOffset: 100,
+			onDrag: () => {
+				if (split.getSizes()[1] < rightSplitMaxWidth) {
 					split.collapse(1);
-					wrappedPanelRight.addClass('wrappedPanelRight');
-					fixedList.width(fixedList.width() - 10);
 				}
-			});
-			wrappedPanelLeft.on("dblclick", function () {
-				split.setSizes([25, 75]);
-				wrappedPanelLeft.removeClass('wrappedPanelLeft');
-			});
-			wrappedPanelRight.on("dblclick", function () {
-				split.setSizes([75, 25]);
-				wrappedPanelRight.removeClass('wrappedPanelRight');
-				gutter.css('right', 'initial');
-				fixedList.css('padding-right', '10px');
-			});
-			return split;
-		}
-	},
-	updateSplit: function (container) {
-		if (container.find('.fixedListInitial').length) {
-			var thisInstance = this;
-			var fixedList = container.find('.fixedListInitial');
-			var commactHeight = container.closest('.commonActionsContainer').height();
-			var listPreview = container.find('#listPreview');
-			var splitsArray = [];
-			var mainBody = container.closest('.mainBody');
-			var wrappedPanel = container.find('.wrappedPanel');
-			var wrappedPanelLeft = container.find(wrappedPanel[0]);
-			var wrappedPanelRight = container.find(wrappedPanel[1]);
-			var split = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel);
-			var rotatedText = container.find('.rotatedText');
-			rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
-			rotatedText.css({
-				width: wrappedPanelLeft.height(),
-				height: wrappedPanelLeft.height()
-			});
-			splitsArray.push(split);
-			$(window).resize(function () {
-				if ($(window).width() < 993) {
-					if (container.find('.gutter').length) {
-						splitsArray[splitsArray.length - 1].destroy();
-						wrappedPanelRight.removeClass('wrappedPanelRight');
-						wrappedPanelLeft.removeClass('wrappedPanelLeft');
-					}
+				if (split.getSizes()[0] < 7) {
+					this.sideBlockLeft.addClass('d-block');
+					this.list.addClass('u-hide-underneath');
 				} else {
-					if (container.find('.gutter').length !== 1) {
-						var newSplit = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel);
-						var gutter = container.find('.gutter');
-						if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
-							gutter.addClass('gutterOnScroll');
-							gutter.css('left', listPreview.offset().left - 8);
-							gutter.on('mousedown', function () {
-								$(this).on('mousemove', function (e) {
-									$(this).css('left', listPreview.offset().left - 8);
-								});
-							});
-						}
-						splitsArray.push(newSplit);
-					}
-					if (container.find('.gutter').length !== 1) {
-						var currentSplit = splitsArray[splitsArray.length - 1];
-						var minWidth = (15 / $(window).width()) * 100;
-						var maxWidth = 100 - minWidth;
-						if (currentSplit !== undefined) {
-							if (currentSplit.getSizes()[0] < minWidth + 5) {
-								currentSplit.setSizes([minWidth, maxWidth]);
-							} else if (currentSplit.getSizes()[1] < minWidth + 5) {
-								currentSplit.setSizes([maxWidth, minWidth]);
-							}
-						}
-					}
+					this.gutter.removeClass('js-gutter-corr-left');
+					this.sideBlockLeft.removeClass('d-block');
+					this.list.removeClass('u-hide-underneath');
 				}
+				if (split.getSizes()[1] < 10) {
+					this.sideBlockRight.addClass('d-block');
+					this.preview.hide();
+					this.list.width(this.list.width() - 10);
+				} else {
+					this.gutter.removeClass('js-gutter-corr-right');
+					this.sideBlockRight.removeClass('d-block');
+					this.preview.show();
+				}
+				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
+					app.moduleCacheSet('gutterRelatedMidPosition', split.getSizes());
+				}
+				app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
+			}
+		});
+		this.gutter = container.find('.gutter');
+		if (splitSizes[0] < 10) {
+			this.gutter.addClass('js-gutter-corr-left');
+			this.sideBlockLeft.addClass('d-block');
+			this.list.addClass('u-hide-underneath');
+		} else if (splitSizes[1] < rightSplitMaxWidth) {
+			this.gutter.addClass('js-gutter-corr-right');
+			this.sideBlockRight.addClass('d-block');
+			this.preview.hide();
+		}
+		var mainWindowHeightCss = {height: $(window).height() - this.list.offset().top - this.footerH};
+		if (!container.closest('.mainBody').length) {
+			let mainBody = $(top.document).find('.mainBody').height();
+			let iframe = $(top.document).find('.js-detail-preview');
+			mainWindowHeightCss = {height: mainBody - this.list.offset().top - iframe.offset().top + 50};
+		}
+		if (!this.list.parents('.blockContent').length) {
+			this.gutter.css(mainWindowHeightCss);
+			this.list.css(mainWindowHeightCss);
+			this.sideBlocks.css(mainWindowHeightCss);
+			this.rotatedText.css({
+				width: this.sideBlockLeft.height(),
+				height: this.sideBlockLeft.height()
 			});
+		}
+		this.registerSplitEvents(container, split);
+		return split;
+	},
+	toggleSplit: function (container) {
+		var commactHeight = container.closest('.commonActionsContainer').height();
+		var splitsArray = [];
+		this.split = this.registerSplit(container);
+		splitsArray.push(this.split);
+		$(window).on('resize', () => {
+			if ($(window).width() < 993) {
+				if (container.find('.gutter').length) {
+					splitsArray[splitsArray.length - 1].destroy();
+					this.sideBlockRight.removeClass('d-block');
+					this.sideBlockLeft.removeClass('d-block');
+				}
+			} else {
+				if (container.find('.gutter').length !== 1) {
+					this.split = this.registerSplit(container);
+					var gutter = container.find('.gutter');
+					if (this.mainBody.scrollTop() >= (this.list.offset().top + commactHeight)) {
+						gutter.addClass('gutterOnScroll');
+						gutter.css('left', this.preview.offset().left - 8);
+						gutter.on('mousedown', function () {
+							$(this).on('mousemove', function (e) {
+								$(this).css('left', this.preview.offset().left - 8);
+							});
+						});
+					}
+					splitsArray.push(this.split);
+				}
+				var currentSplit = splitsArray[splitsArray.length - 1];
+				var minWidth = (15 / $(window).width()) * 100;
+				var maxWidth = 100 - minWidth;
+				if (typeof currentSplit === "undefined")
+					return;
+				if (currentSplit.getSizes()[0] < minWidth + 5) {
+					currentSplit.setSizes([minWidth, maxWidth]);
+				} else if (currentSplit.getSizes()[1] < minWidth + 5) {
+					currentSplit.setSizes([maxWidth, minWidth]);
+				}
+			}
+		});
+	},
+	registerListScroll: function () {
+		let container = $('.listViewEntriesDiv');
+		if (this.relatedView !== 'ListPreview') {
+			container.each((index, element) => {
+				app.showNewScrollbarTopBottomRight($(element));
+			})
 		}
 	},
 	registerRelatedEvents: function () {
-		var relatedContainer = this.getRelatedContainer();
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
 		this.registerPaginationEvents();
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
-		this.registerListPreviewScroll(relatedContainer);
 	},
 })

@@ -10,17 +10,17 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Paging Model Class
+ * Vtiger Paging Model Class.
  */
 class Vtiger_Paging_Model extends \App\Base
 {
-
 	const DEFAULT_PAGE = 1;
 	const PAGE_LIMIT = 20;
 	const PAGE_MAX_LIMIT = 9999999;
 
 	/**
-	 * Function to get the current page number
+	 * Function to get the current page number.
+	 *
 	 * @return <Number>
 	 */
 	public function getCurrentPage()
@@ -33,7 +33,8 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Next page number
+	 * Function to get the Next page number.
+	 *
 	 * @return <Number>
 	 */
 	public function getNextPage()
@@ -46,14 +47,15 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the limit on the number of records per page
+	 * Function to get the limit on the number of records per page.
+	 *
 	 * @return <Number>
 	 */
 	public function getPageLimit()
 	{
 		$pageLimit = $this->get('limit');
 		if (empty($pageLimit)) {
-			$pageLimit = vglobal('list_max_entries_per_page');
+			$pageLimit = \AppConfig::main('list_max_entries_per_page');
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}
@@ -67,40 +69,46 @@ class Vtiger_Paging_Model extends \App\Base
 	{
 		$currentPage = $this->getCurrentPage();
 		$pageLimit = $this->getPageLimit();
+
 		return ($currentPage - 1) * $pageLimit;
 	}
 
 	/**
-	 * Retrieves start sequence number of records in the page
+	 * Retrieves start sequence number of records in the page.
+	 *
 	 * @return <Integer>
 	 */
 	public function getRecordStartRange()
 	{
 		if ($this->has('range')) {
 			$rangeInfo = $this->getRecordRange();
+
 			return $rangeInfo['start'];
 		}
 		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1);
 	}
 
 	/**
-	 * Retrieves end sequence number of records in the page
+	 * Retrieves end sequence number of records in the page.
+	 *
 	 * @return <Integer>
 	 */
 	public function getRecordEndRange()
 	{
 		if ($this->has('range')) {
 			$rangeInfo = $this->getRecordRange();
+
 			return $rangeInfo['end'];
 		}
 		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1) + (int) $this->get('noOfEntries');
 	}
 
 	/**
-	 * Retrieves start and end sequence number of records in the page
+	 * Retrieves start and end sequence number of records in the page.
+	 *
 	 * @return <array> - array of values
-	 * 						- start key which gives start sequence number
-	 * 						- end key which gives end sequence number
+	 *                 - start key which gives start sequence number
+	 *                 - end key which gives end sequence number
 	 */
 	public function getRecordRange()
 	{
@@ -108,8 +116,9 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * Function to specify if previous page exists
-	 * @return boolean - true/false
+	 * Function to specify if previous page exists.
+	 *
+	 * @return bool - true/false
 	 */
 	public function isPrevPageExists()
 	{
@@ -120,8 +129,9 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * Function to specify if next page exists
-	 * @return boolean - true/false
+	 * Function to specify if next page exists.
+	 *
+	 * @return bool - true/false
 	 */
 	public function isNextPageExists()
 	{
@@ -135,8 +145,10 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * calculates page range
+	 * calculates page range.
+	 *
 	 * @param int $recordCount
+	 *
 	 * @return Vtiger_Paging_Model
 	 */
 	public function calculatePageRange($recordCount)
@@ -171,7 +183,8 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * Function to return info about the number of pages
+	 * Function to return info about the number of pages.
+	 *
 	 * @return <int> - Number of pages
 	 */
 	public function getPageCount()
@@ -190,7 +203,8 @@ class Vtiger_Paging_Model extends \App\Base
 	}
 
 	/**
-	 * Function to return the page number where pagination begins
+	 * Function to return the page number where pagination begins.
+	 *
 	 * @return <int> - number of page
 	 */
 	public function getStartPagingFrom()
@@ -199,11 +213,12 @@ class Vtiger_Paging_Model extends \App\Base
 		$totalCount = $this->get('totalCount');
 		$startPaginFrom = $pageNumber - 2;
 
-		if ($pageNumber == $totalCount && 1 != $pageNumber)
+		if ($pageNumber == $totalCount && 1 != $pageNumber) {
 			$startPaginFrom = $pageNumber - 4;
-		if ($startPaginFrom <= 0 || 1 == $pageNumber)
+		}
+		if ($startPaginFrom <= 0 || 1 == $pageNumber) {
 			$startPaginFrom = 1;
-
+		}
 		return $startPaginFrom;
 	}
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * Address book cron file
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
+ * Address book cron file.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -21,12 +21,12 @@ $processOrder = ['OSSEmployees', 'Contacts'];
 $table = OSSMail_AddressBook_Model::TABLE;
 $last = OSSMail_AddressBook_Model::getLastRecord();
 $rows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
-		->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
-		->where(['like', 'task', 'VTAddressBookTask'])
-		->indexBy('module_name')->all();
+	->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
+	->where(['like', 'task', 'VTAddressBookTask'])
+	->indexBy('module_name')->all();
 $workflows = [];
 foreach ($processOrder as $processModule) {
-	if ($rows[$processModule]) {
+	if (isset($rows[$processModule])) {
 		$workflows[] = $rows[$processModule];
 		unset($rows[$processModule]);
 	}
@@ -88,14 +88,15 @@ foreach ($workflows as $row) {
 				$dbCommand->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users])->execute();
 			}
 		}
-		$i['rows'][$moduleName] ++;
-		$l++;
+		++$i['rows'][$moduleName];
+		++$l;
 		if ($limit == $l) {
 			OSSMail_AddressBook_Model::saveLastRecord($record, $moduleName);
 			$break = true;
 			break;
 		}
 	}
+	$dataReaderRows->close();
 	if (!$break && $last !== false) {
 		OSSMail_AddressBook_Model::clearLastRecord();
 	}

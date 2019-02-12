@@ -10,5 +10,4 @@
 
 class Services_SaveAjax_Action extends Products_SaveAjax_Action
 {
-	
 }

@@ -1,16 +1,15 @@
 <?php
 /**
- * VTAddressBookTask class
- * @package YetiForce.Workflow
- * @copyright YetiForce Sp. z o.o.
+ * VTAddressBookTask class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once('modules/Users/Users.php');
+require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
+require_once 'modules/Users/Users.php';
 
 class VTAddressBookTask extends VTTask
 {
-
 	public $executeImmediately = false;
 
 	public function getFieldNames()
@@ -19,7 +18,8 @@ class VTAddressBookTask extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
@@ -52,13 +52,16 @@ class VTAddressBookTask extends VTTask
 	}
 
 	/**
-	 * Function to get contents of this task
+	 * Function to get contents of this task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
+	 *
 	 * @return bool
 	 */
 	public function getContents($recordModel)
 	{
 		$this->contents = true;
+
 		return $this->contents;
 	}
 }

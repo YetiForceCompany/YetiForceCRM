@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings search SaveAjax action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Settings search SaveAjax action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Search_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,7 +18,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function save(\App\Request $request)
 	{
-		$params = $request->get('params');
+		$params = $request->getArray('params', 'Alnum');
 		$success = Settings_Search_Module_Model::save($params);
 		$message = 'LBL_SAVE_CHANGES_LABLE';
 		if ($params['name'] === 'turn_off') {
@@ -28,27 +27,27 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => $success,
-			'message' => \App\Language::translate($message, $request->getModule(false))
+			'message' => \App\Language::translate($message, $request->getModule(false)),
 		]);
 		$response->emit();
 	}
 
 	public function updateLabels(\App\Request $request)
 	{
-		$params = $request->get('params');
+		$params = $request->getArray('params', 'Integer');
 		Settings_Search_Module_Model::updateLabels($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \App\Language::translate('Update has been completed', $request->getModule(false))
+			'message' => \App\Language::translate('Update has been completed', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
 
 	public function saveSequenceNumber(\App\Request $request)
 	{
-		$updatedFieldsList = $request->get('updatedFields');
-		//This will update the modules sequence 
+		$updatedFieldsList = $request->getArray('updatedFields', 'Integer');
+		//This will update the modules sequence
 		Settings_Search_Module_Model::updateSequenceNumber($updatedFieldsList);
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);

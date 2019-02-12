@@ -10,14 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row main-container">
+	<div class="main-container">
 		<div class="inner-container">
-			<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
-			<form class="form-horizontal" name="step2" method="post" action="Install.php">
-				<input type="hidden" name="mode" value="mStep1" />
-				<input type="hidden" name="lang" value="{$LANG}" />
+			<h2 class="h4">{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
+			<form class="" name="step2" method="post" action="Install.php">
+				<input type="hidden" name="mode" value="mStep1">
+				<input type="hidden" name="lang" value="{$LANG}">
 				<div class="row">
-					<div class="span12">
+					<div class="col-12">
 						<div class="license">
 							<div class="lic-scroll">
 								{include file="licenses/License.html"}
@@ -26,10 +26,10 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="span12">
+					<div class="col-12">
 						<div class="button-container">
-							<input name="back" type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_DISAGREE', 'Install')}" />
-							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_I_AGREE', 'Install')}" />
+							<input name="back" type="button" class="btn btn-sm btn-danger" value="{\App\Language::translate('LBL_DISAGREE', 'Install')}">
+							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_I_AGREE', 'Install')}">
 						</div>
 					</div>
 				</div>

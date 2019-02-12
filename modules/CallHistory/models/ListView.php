@@ -1,16 +1,15 @@
 <?php
 
 /**
- * CallHistory ListView model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * CallHistory ListView model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class CallHistory_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Overrided to remove add button 
+	 * Overrided to remove add button.
 	 */
 	public function getBasicLinks()
 	{
@@ -18,7 +17,7 @@ class CallHistory_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Overrided to remove Mass Edit Option 
+	 * Overrided to remove Mass Edit Option.
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -26,7 +25,8 @@ class CallHistory_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to give advance links of a module
+	 * Function to give advance links of a module.
+	 *
 	 * @return array of advanced links
 	 */
 	public function getAdvancedLinks()

@@ -12,31 +12,34 @@ require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 /**
- * Class settings workflows module model
+ * Class settings workflows module model.
  */
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	/**
-	 * Base table name
+	 * Base table name.
+	 *
 	 * @var string
 	 */
 	public $baseTable = 'com_vtiger_workflows';
 
 	/**
-	 * Base table index column name
+	 * Base table index column name.
+	 *
 	 * @var string
 	 */
 	public $baseIndex = 'workflow_id';
 
 	/**
-	 * Fields visible on list view array
+	 * Fields visible on list view array.
+	 *
 	 * @var array
 	 */
 	public $listFields = ['summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS'];
 
 	/**
-	 * All fields list
+	 * All fields list.
+	 *
 	 * @var array
 	 */
 	public static $allFields = [
@@ -52,17 +55,19 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'schdayofweek',
 		'schannualdates',
 		'schtime',
-		'nexttrigger_time'
+		'nexttrigger_time',
 	];
 
 	/**
-	 * Module name
+	 * Module name.
+	 *
 	 * @var string
 	 */
 	public $name = 'Workflows';
 
 	/**
-	 * Workflow triggers list
+	 * Workflow triggers list.
+	 *
 	 * @var array
 	 */
 	public static $triggerTypes = [
@@ -79,7 +84,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	];
 
 	/**
-	 * Function to get the url for default view of the module
+	 * Function to get the url for default view of the module.
+	 *
 	 * @return string - url
 	 */
 	public static function getDefaultUrl()
@@ -88,7 +94,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url for create view of the module
+	 * Function to get the url for create view of the module.
+	 *
 	 * @return string - url
 	 */
 	public static function getCreateViewUrl()
@@ -97,7 +104,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get create new record url
+	 * Get create new record url.
+	 *
 	 * @return string
 	 */
 	public static function getCreateRecordUrl()
@@ -106,7 +114,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Returns url for import view
+	 * Returns url for import view.
+	 *
 	 * @return string url
 	 */
 	public static function getImportViewUrl()
@@ -115,7 +124,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get supported modules list
+	 * Get supported modules list.
+	 *
 	 * @return array
 	 */
 	public static function getSupportedModules()
@@ -131,7 +141,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get supported triggers list
+	 * Get supported triggers list.
+	 *
 	 * @return array
 	 */
 	public static function getTriggerTypes()
@@ -140,17 +151,20 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get expressions list
+	 * Get expressions list.
+	 *
 	 * @return array
 	 */
 	public static function getExpressions()
 	{
 		$mem = new VTExpressionsManager();
+
 		return $mem->expressionFunctions();
 	}
 
 	/**
-	 * Get fields list
+	 * Get fields list.
+	 *
 	 * @return array
 	 */
 	public function getListFields()
@@ -172,7 +186,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Delete all worklflows associated with module
+	 * Delete all worklflows associated with module.
+	 *
 	 * @param vtlib\ModuleBasic $moduleInstance
 	 */
 	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
@@ -181,8 +196,10 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Imports workflow template xml file
+	 * Imports workflow template xml file.
+	 *
 	 * @param array $data
+	 *
 	 * @return int workflow id
 	 */
 	public function importWorkflow(array $data)
@@ -192,7 +209,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$dbCommand->insert($this->getBaseTable(), $data['fields'])->execute();
 		$workflowId = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		$messages = ['id' => $workflowId];
-		if ($data['workflow_methods']) {
+		if (!empty($data['workflow_methods'])) {
 			foreach ($data['workflow_methods'] as $method) {
 				$this->importTaskMethod($method, $messages);
 			}
@@ -202,45 +219,49 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
 				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
 				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
+				include_once 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php';
 				$taskObject = unserialize($task['task']);
-				$taskObject->workflowId = intval($workflowId);
-				$taskObject->id = intval($taskId);
+				$taskObject->workflowId = (int) $workflowId;
+				$taskObject->id = (int) $taskId;
 				$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
-				$dbCommand->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
 			}
 		}
-
 		return $messages;
 	}
 
 	/**
-	 * Returns infor for exporting of task method
+	 * Returns infor for exporting of task method.
+	 *
 	 * @param int $methodName name of method
+	 *
 	 * @return array task method data
 	 */
 	public static function exportTaskMethod($methodName)
 	{
 		$method = (new \App\Db\Query())->select(['workflowtasks_entitymethod_id', 'module_name', 'method_name', 'function_path', 'function_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['method_name' => $methodName])->one();
 		$method['script_content'] = base64_encode(file_get_contents($method['function_path']));
+
 		return $method;
 	}
 
 	/**
-	 * Function that creates task method
-	 * @param array $method array containing method data
+	 * Function that creates task method.
+	 *
+	 * @param array $method   array containing method data
 	 * @param array $messages array containing returned error messages
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
+		$moduleName = $this->getName(true);
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = \App\Language::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+				$messages['error'][] = \App\Language::translateArgs('LBL_FAILED_TO_SAVE_SCRIPT', $moduleName, basename($method['function_path'], $method['function_path']));
 			}
 		} else {
 			require_once $method['function_path'];
 			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = \App\Language::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+				$messages['error'][] = \App\Language::translateArgs('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $moduleName, $method['function_name'], $method['function_path']);
 			}
 		}
 		$num = (new \App\Db\Query())->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $method['module_name'], 'method_name' => $method['method_name'], 'function_path' => $method['function_path'], 'function_name' => $method['function_name']])->count();

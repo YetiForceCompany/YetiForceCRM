@@ -9,13 +9,13 @@
  * *********************************************************************************** */
 
 /**
- * Mass Edit Record Structure Model
+ * Mass Edit Record Structure Model.
  */
 class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -23,7 +23,6 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
@@ -34,13 +33,12 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable() && $fieldModel->isMassEditable()) {
-						if ($fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
-							if ($recordExists) {
-								$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-							}
-							$values[$blockLabel][$fieldName] = $fieldModel;
+					if ($fieldModel->isEditable() && $fieldModel->isMassEditable() && $fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
+						if ($recordExists) {
+							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						}
+						$fieldModel->set('typeofdata', str_replace('~M', '~O', $fieldModel->get('typeofdata')));
+						$values[$blockLabel][$fieldName] = $fieldModel;
 					}
 				}
 			}
@@ -48,6 +46,7 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 		$this->structuredValues = $values;
 		return $values;
 	}
+
 	/*
 	 * Function that return Field Restricted are not
 	 * 	@params Field Model

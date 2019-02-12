@@ -7,12 +7,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
 
-if (typeof (ImportJs) == 'undefined') {
+if (typeof (ImportJs) === "undefined") {
 	/*
 	 * Namespaced javascript class for Import
 	 */
-	ImportJs = {
+	var ImportJs = {
 		toogleMergeConfiguration: function () {
 			var mergeChecked = jQuery('#auto_merge').is(':checked');
 			var duplicateMergeConfiguration = jQuery('#duplicates_merge_configuration');
@@ -31,29 +32,29 @@ if (typeof (ImportJs) == 'undefined') {
 			}
 		},
 		handleFileTypeChange: function () {
-			var fileType = jQuery('#type').val();
-			var delimiterContainer = jQuery('#delimiter_container');
-			var hasHeaderContainer = jQuery('#has_header_container');
-			var xmlTpl = jQuery('#xml_tpl');
-			var extension = jQuery('#zipExtension');
+			var fileType = jQuery('.js-type').val();
+			var delimiterContainer = jQuery('.js-delimiter-container');
+			var hasHeaderContainer = jQuery('.js-has-header-container');
+			var xmlTpl = jQuery('.js-xml-tpl');
+			var extension = jQuery('.js-zip-extension');
 
-			switch(fileType) {
+			switch (fileType) {
 				case 'xml':
-					delimiterContainer.hide();
-					hasHeaderContainer.hide();
-					xmlTpl.removeClass('hide');
-					extension.addClass('hide');
+					delimiterContainer.addClass('d-none');
+					hasHeaderContainer.addClass('d-none');
+					xmlTpl.removeClass('d-none');
+					extension.addClass('d-none');
 					break;
 				case 'zip':
-					delimiterContainer.hide();
-					hasHeaderContainer.hide();
-					extension.removeClass('hide');
+					delimiterContainer.addClass('d-none');
+					hasHeaderContainer.addClass('d-none');
+					extension.removeClass('d-none');
 					break;
 				default:
-					delimiterContainer.show();
-					hasHeaderContainer.show();
-					extension.addClass('hide');
-					xmlTpl.addClass('hide');
+					delimiterContainer.removeClass('d-none');
+					hasHeaderContainer.removeClass('d-none');
+					extension.addClass('d-none');
+					xmlTpl.addClass('d-none');
 			}
 		},
 		uploadAndParse: function () {
@@ -63,10 +64,9 @@ if (typeof (ImportJs) == 'undefined') {
 				return false;
 			return true;
 		},
-		registerImportClickEvent: function () {
-			jQuery('#importButton').on('click', function (e) {
-				var result = ImportJs.sanitizeAndSubmit();
-				return result;
+		registerImportClickEvent() {
+			$('#importButton').removeAttr('disabled').on('click', function (e) {
+				return ImportJs.sanitizeAndSubmit();
 			});
 		},
 		validateFilePath: function () {
@@ -82,7 +82,7 @@ if (typeof (ImportJs) == 'undefined') {
 				importFile.focus();
 				return false;
 			}
-			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip")) {
+			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip|ics|ical")) {
 				return false;
 			}
 			if (!ImportJs.uploadFileSize("import_file")) {
@@ -97,7 +97,6 @@ if (typeof (ImportJs) == 'undefined') {
 				var fileParts = filePath.toLowerCase().split('.');
 				var fileType = fileParts[fileParts.length - 1];
 				var validExtensions = allowedExtensions.toLowerCase().split('|');
-
 				if (validExtensions.indexOf(fileType) < 0) {
 					var errorMessage = app.vtranslate('JS_SELECT_FILE_EXTENSION') + '\n' + validExtensions;
 					var params = {
@@ -128,8 +127,8 @@ if (typeof (ImportJs) == 'undefined') {
 			return true;
 		},
 		validateMergeCriteria: function () {
-			$mergeChecked = jQuery('#auto_merge').is(':checked');
-			if ($mergeChecked) {
+			var mergeChecked = jQuery('#auto_merge').is(':checked');
+			if (mergeChecked) {
 				var selectedOptions = jQuery('#selected_merge_fields option');
 				if (selectedOptions.length == 0) {
 					var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
@@ -147,14 +146,14 @@ if (typeof (ImportJs) == 'undefined') {
 		convertOptionsToJSONArray: function (objName, targetObjName) {
 			var obj = jQuery(objName);
 			var arr = [];
-			if (typeof (obj) != 'undefined' && obj[0] != '') {
-				for (i = 0; i < obj[0].length; ++i) {
+			if (typeof (obj) !== "undefined" && obj[0] != '') {
+				for (var i = 0; i < obj[0].length; ++i) {
 					arr.push(obj[0].options[i].value);
 				}
 			}
-			if (targetObjName != 'undefined') {
+			if (targetObjName !== "undefined") {
 				var targetObj = $(targetObjName);
-				if (typeof (targetObj) != 'undefined')
+				if (typeof (targetObj) !== "undefined")
 					targetObj.val(JSON.stringify(arr));
 			}
 			return arr;
@@ -164,14 +163,14 @@ if (typeof (ImportJs) == 'undefined') {
 			var srcObj = jQuery(source);
 			var destObj = jQuery(destination);
 
-			if (typeof (srcObj) == 'undefined' || typeof (destObj) == 'undefined')
+			if (typeof (srcObj) === "undefined" || typeof (destObj) === "undefined")
 				return;
 
-			for (i = 0; i < srcObj[0].length; i++) {
+			for (var i = 0; i < srcObj[0].length; i++) {
 				if (srcObj[0].options[i].selected == true) {
 					var rowFound = false;
 					var existingObj = null;
-					for (j = 0; j < destObj[0].length; j++) {
+					for (var j = 0; j < destObj[0].length; j++) {
 						if (destObj[0].options[j].value == srcObj[0].options[i].value) {
 							rowFound = true;
 							existingObj = destObj[0].options[j];
@@ -185,7 +184,6 @@ if (typeof (ImportJs) == 'undefined') {
 						opt.text(srcObj[0].options[i].text);
 						jQuery(destObj[0]).append(opt);
 						srcObj[0].options[i].selected = false;
-						rowFound = false;
 					} else {
 						if (existingObj != null)
 							existingObj.selected = true;
@@ -195,10 +193,10 @@ if (typeof (ImportJs) == 'undefined') {
 		},
 		removeSelectedOptions: function (objName) {
 			var obj = jQuery(objName);
-			if (obj == null || typeof (obj) == 'undefined')
+			if (!obj.length) {
 				return;
-
-			for (i = obj[0].options.length - 1; i >= 0; i--) {
+			}
+			for (var i = obj[0].options.length - 1; i >= 0; i--) {
 				if (obj[0].options[i].selected == true) {
 					obj[0].options[i] = null;
 				}
@@ -233,14 +231,14 @@ if (typeof (ImportJs) == 'undefined') {
 				}
 				if (selectedFieldName != '') {
 					var stopImmediately;
-					if(selectElement.hasClass('inventory')){
+					if (selectElement.hasClass('inventory')) {
 						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, inventoryMappedFields, selectedFieldElement);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
 					} else {
 						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
 						mappedFields[selectedFieldName] = rowId - 1;
 					}
-					if(stopImmediately){
+					if (stopImmediately) {
 						return false;
 					}
 					if (defaultValue != '') {
@@ -250,7 +248,6 @@ if (typeof (ImportJs) == 'undefined') {
 			}
 
 			var mandatoryFields = JSON.parse(jQuery('#mandatory_fields').val());
-			var moduleName = app.getModuleName();
 			var missingMandatoryFields = [];
 			for (var mandatoryFieldName in mandatoryFields) {
 				if (mandatoryFieldName in mappedFields) {
@@ -273,7 +270,7 @@ if (typeof (ImportJs) == 'undefined') {
 			jQuery('#default_values').val(JSON.stringify(mappedDefaultValues));
 			return true;
 		},
-		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement){
+		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement) {
 			if (selectedFieldName in mappedFields) {
 				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + " " + selectedFieldElement.data('label');
 				var params = {
@@ -353,12 +350,12 @@ if (typeof (ImportJs) == 'undefined') {
 				} else if (rowId in mapping) {
 					mappedFields.val($rowId);
 				}
-				mappedFields.trigger('chosen:updated');
+				mappedFields.trigger('change');
 				ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 			});
 		},
 		deleteMap: function (module) {
-			if (confirm(app.vtranslate('LBL_DELETE_CONFIRMATION'))) {
+			let callback = function () {
 				var selectedMapElement = jQuery('#saved_maps option:selected');
 				var mapId = selectedMapElement.attr('id');
 				var status = jQuery('#status');
@@ -370,22 +367,20 @@ if (typeof (ImportJs) == 'undefined') {
 					"mapid": mapId
 				};
 
-				AppConnector.request(postData).then(
-						function (data) {
-							jQuery('#savedMapsContainer').html(data);
-							status.hide();
-							var parent = jQuery("#saved_maps");
-							app.changeSelectElementView(parent);
-						},
-						function (error, err) {
-
-						}
-				);
-			}
+				AppConnector.request(postData).done(function (data) {
+					jQuery('#savedMapsContainer').html(data);
+					status.hide();
+					var parent = jQuery("#saved_maps");
+					App.Fields.Picklist.changeSelectElementView(parent);
+				}).fail(function (error, err) {
+					console.error(error)
+				});
+			};
+			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
 		},
 		loadDefaultValueWidget: function (rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);
-			if (typeof affectedRow == 'undefined' || affectedRow == null)
+			if (typeof affectedRow === "undefined" || affectedRow == null)
 				return;
 			var selectedFieldElement = jQuery('[name=mapped_fields]', affectedRow).get(0);
 			var selectedFieldName = jQuery(selectedFieldElement).val();
@@ -412,12 +407,37 @@ if (typeof (ImportJs) == 'undefined') {
 		},
 		submitAction: function () {
 			var form = jQuery('[name="importAdvanced"]');
-			form.on('submit',function(){
-				var progressIndicatorElement = jQuery.progressIndicator({
+			form.on('submit', function () {
+				$.progressIndicator({
 					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 					'position': 'html',
 					'blockInfo': {
 						'enabled': true
+					}
+				});
+			});
+		},
+		openListInModal: function () {
+			$('.js-open-list-in-modal').on('click', function () {
+				let element = $(this),
+					moduleName = element.data('module-name'),
+					type = '',
+					forUser = element.data('for-user'),
+					forModule = element.data('for-module');
+				if ($(this).attr('data-type') !== '') {
+					type = '&type=' + element.data('type');
+				}
+				app.showModalWindow(null, 'index.php?module=' + moduleName + '&view=List&mode=getImportDetails' + type + '&start=1&foruser=' + forUser + '&forModule=' + forModule, function (data) {
+					let container = data.find('.listViewEntriesDiv'),
+						containerH = container.height(),
+						containerOffsetTop = container.offset().top,
+						footerH = $('.js-footer').height(),
+						windowH = $(window).height();
+					if ($(window).width() > app.breakpoints.sm) {
+						if ((containerH + containerOffsetTop + footerH) > windowH) {
+							container.height(windowH - (containerOffsetTop + footerH));
+						}
+						app.showNewScrollbarTopBottomRight(container);
 					}
 				});
 			});
@@ -426,9 +446,10 @@ if (typeof (ImportJs) == 'undefined') {
 
 	jQuery(document).ready(function () {
 		ImportJs.toogleMergeConfiguration();
+		ImportJs.openListInModal();
 		ImportJs.submitAction();
 		ImportJs.loadDefaultValueWidgetForMappedFields();
 		ImportJs.registerImportClickEvent();
-		app.registerEventForDatePickerFields(jQuery('.contentsDiv'));
+		App.Fields.Date.register(jQuery('.contentsDiv'));
 	});
 }

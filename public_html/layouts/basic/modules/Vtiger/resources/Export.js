@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Vtiger_Export_Js", {}, {
 	exportForm: false,
 	getForm: function () {
@@ -13,9 +15,9 @@ jQuery.Class("Vtiger_Export_Js", {}, {
 		form.find('#exportType').on('change', function (e) {
 			if (xmlTpl.length) {
 				if (jQuery(this).val() == 'xml') {
-					xmlTpl.removeClass('hide');
+					xmlTpl.removeClass('d-none');
 				} else {
-					xmlTpl.addClass('hide');
+					xmlTpl.addClass('d-none');
 				}
 			}
 		});

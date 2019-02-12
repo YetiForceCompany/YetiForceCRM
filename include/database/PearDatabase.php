@@ -12,28 +12,26 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once 'include/runtime/Globals.php';
 
 class PearDatabase
 {
-
-	protected $database = null;
+	protected $database;
 	protected $stmt = false;
 	public $dieOnError = false;
-	static private $dbCache = false;
-	protected $dbType = null;
-	protected $dbHostName = null;
-	protected $dbName = null;
-	protected $userName = null;
-	protected $userPassword = null;
-	protected $port = null;
+	private static $dbCache = false;
+	protected $dbType;
+	protected $dbHostName;
+	protected $dbName;
+	protected $userName;
+	protected $userPassword;
+	protected $port;
 	// If you want to avoid executing PreparedStatement, set this to true
 	// PreparedStatement will be converted to normal SQL statement for execution
 	protected $avoidPreparedSql = false;
 
 	/**
 	 * Performance tunning parameters (can be configured through performance.prefs.php)
-	 * See the constructor for initialization
+	 * See the constructor for initialization.
 	 */
 	protected $isdb_default_utf8_charset = false;
 	protected $hasActiveTransaction = false;
@@ -53,7 +51,7 @@ class PearDatabase
 	];
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
@@ -64,29 +62,20 @@ class PearDatabase
 	}
 
 	/**
-	 * Manage instance usage of this class
+	 * Manage instance usage of this class.
 	 */
-	public static function &getInstance($type = 'base')
+	public static function &getInstance()
 	{
 		if (self::$dbCache !== false) {
 			return self::$dbCache;
 		}
-		$config = AppConfig::main('dbconfig');
-		if ($config === false) {
-			include('config/config.inc.php');
-			if (file_exists('config/config_override.php')) {
-				include 'config/config_override.php';
-			}
-			$config = $dbconfig;
-		}
-		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
-
+		$db = new self(\Config\Db::$db_type, \Config\Db::$db_server, \Config\Db::$db_name, \Config\Db::$db_username, \Config\Db::$db_password, \Config\Db::$db_port);
 		if ($db->database === null) {
 			\App\Log::error('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');
+
 			return false;
 		} else {
-			vglobal('adb', $db);
 			self::$dbCache = $db;
 		}
 		return $db;
@@ -101,7 +90,7 @@ class PearDatabase
 		$options = [
 			PDO::ATTR_EMULATE_PREPARES => false,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_TIMEOUT => 5
+			PDO::ATTR_TIMEOUT => 5,
 		];
 		// Create a new PDO instanace
 		try {
@@ -130,7 +119,6 @@ class PearDatabase
 	public function setDBCache()
 	{
 		self::$dbCache = $this;
-		vglobal('adb', $this);
 	}
 
 	public function getDatabaseName()
@@ -159,19 +147,20 @@ class PearDatabase
 				'query' => $query,
 				'params' => $params,
 			];
-			vtlib\Functions::throwNewException($message, true, 'DatabaseException.tpl');
+			vtlib\Functions::throwNewException($message, true, 'LBL_SQL_ERROR');
 		}
 	}
 
 	public function errorMsg()
 	{
 		$error = $this->database->errorInfo();
+
 		return $error[2];
 	}
 
 	public function isMySQL()
 	{
-		return (stripos($this->dbType, 'mysql') === 0);
+		return stripos($this->dbType, 'mysql') === 0;
 	}
 
 	public function isOracle()
@@ -203,6 +192,7 @@ class PearDatabase
 		} else {
 			$this->autoCommit = false;
 			$this->hasActiveTransaction = $this->database->beginTransaction();
+
 			return $this->hasActiveTransaction;
 		}
 	}
@@ -230,6 +220,7 @@ class PearDatabase
 			$result = $this->database->rollback();
 			$this->autoCommit = false;
 			$this->transCnt -= 1;
+
 			return $result;
 		}
 		return false;
@@ -241,6 +232,7 @@ class PearDatabase
 			return $result->rowCount();
 		}
 		App\Log::warning('No rowCount function');
+
 		return 0;
 	}
 
@@ -309,6 +301,7 @@ class PearDatabase
 		}
 		return $this->stmt;
 	}
+
 	/* Prepared statement Execution
 	 * @param $sql -- Prepared sql statement
 	 * @param $params -- Parameters for the prepared statement
@@ -343,6 +336,7 @@ class PearDatabase
 	public function prepare($query)
 	{
 		$this->stmt = $this->database->prepare($query);
+
 		return $this->stmt;
 	}
 
@@ -373,16 +367,18 @@ class PearDatabase
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\App\Exceptions\AppException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error('Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
 		return $this->stmt;
 	}
 
 	/**
-	 * A function to insert data into the database
+	 * A function to insert data into the database.
+	 *
 	 * @param string $table Table name
-	 * @param array $data Query data
+	 * @param array  $data  Query data
+	 *
 	 * @return array Row count and last insert id
 	 */
 	public function insert($table, array $data)
@@ -390,10 +386,12 @@ class PearDatabase
 		if (!$table) {
 			\App\Log::error('Missing table name');
 			$this->checkError('Missing table name');
+
 			return false;
-		} else if (!is_array($data)) {
+		} elseif (!is_array($data)) {
 			\App\Log::error('Missing data, data must be an array');
 			$this->checkError('Missing table name');
+
 			return false;
 		}
 		$columns = '';
@@ -402,14 +400,17 @@ class PearDatabase
 		}
 		$insert = 'INSERT INTO ' . $this->quote($table, false) . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 		$this->pquery($insert, $data);
+
 		return ['rowCount' => $this->stmt->rowCount(), 'id' => $this->database->lastInsertId()];
 	}
 
 	/**
-	 * A function to remove data from the database
-	 * @param string $table Table name
-	 * @param string $where Conditions
-	 * @param array $params Query data
+	 * A function to remove data from the database.
+	 *
+	 * @param string $table  Table name
+	 * @param string $where  Conditions
+	 * @param array  $params Query data
+	 *
 	 * @return int Number of deleted records
 	 */
 	public function delete($table, $where = '', array $params = [])
@@ -417,10 +418,12 @@ class PearDatabase
 		if (!$table) {
 			\App\Log::error('Missing table name');
 			$this->checkError('Missing table name');
+
 			return false;
 		}
-		if ($where != '')
+		if ($where != '') {
 			$where = sprintf('WHERE %s', $where);
+		}
 		if (count($params) === 0) {
 			$this->query(sprintf('DELETE FROM %s %s', $table, $where));
 		} else {
@@ -430,11 +433,13 @@ class PearDatabase
 	}
 
 	/**
-	 * A function to update data in the database
-	 * @param string $table Table name
-	 * @param array $columns Columns to update
-	 * @param string $where Conditions
-	 * @param array $params Query data
+	 * A function to update data in the database.
+	 *
+	 * @param string $table   Table name
+	 * @param array  $columns Columns to update
+	 * @param string $where   Conditions
+	 * @param array  $params  Query data
+	 *
 	 * @return int Number of updated records
 	 */
 	public function update($table, array $columns, $where = false, array $params = [])
@@ -449,6 +454,7 @@ class PearDatabase
 			$query .= sprintf(' WHERE %s', $where);
 		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
+
 		return $this->stmt->rowCount();
 	}
 
@@ -487,9 +493,8 @@ class PearDatabase
 	 * The case of all the field names is converted to lower case.
 	 * as with the other methods.
 	 *
-	 * @param &$result The query result to fetch from.
-	 * @param $row The row number to fetch. It's default value is 0
-	 *
+	 * @param &$result The query result to fetch from
+	 * @param $row     The row number to fetch. It's default value is 0
 	 */
 	public function rawQueryResultRowData(&$result, $row = 0)
 	{
@@ -507,14 +512,16 @@ class PearDatabase
 	 * Flatten the composite array into single value.
 	 * Example:
 	 * $input = array(10, 20, array(30, 40), array('key1' => '50', 'key2'=>array(60), 70));
-	 * returns array(10, 20, 30, 40, 50, 60, 70);
+	 * returns array(10, 20, 30, 40, 50, 60, 70);.
 	 */
 	public function flattenArray($input, $output = null)
 	{
-		if (empty($input))
+		if (empty($input)) {
 			return null;
-		if (empty($output))
+		}
+		if (empty($output)) {
 			$output = [];
+		}
 		foreach ($input as $value) {
 			if (is_array($value)) {
 				$output = $this->flattenArray($value, $output);
@@ -527,9 +534,9 @@ class PearDatabase
 
 	public function getColumnNames($tablename)
 	{
-		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
+		$query = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
-		foreach ($stmt as $col) {
+		foreach ($query as $col) {
 			$columns[] = $col->Field;
 		}
 		return $columns;
@@ -537,15 +544,15 @@ class PearDatabase
 
 	public function getColumnsMeta($tablename)
 	{
-		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
+		$query = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
-		foreach ($stmt as $col) {
+		foreach ($query as $col) {
 			if (strpos($col->Type, '(') !== false) {
-				$showType = explode("(", $col->Type); //PREG_SPLIT IS BETTER
+				$showType = explode('(', $col->Type); //PREG_SPLIT IS BETTER
 			}
 			$type = $showType[0];
-			$vals = explode(")", $showType[1]);
-			if (is_integer((int) $vals[0])) {
+			$vals = explode(')', $showType[1]);
+			if (is_int((int) $vals[0])) {
 				$maxLength = $vals[0];
 			} elseif (strpos($vals[0], ',') !== false) {
 				$vs = explode(',', $vals[0]);
@@ -557,10 +564,10 @@ class PearDatabase
 			}
 			$column = new stdClass();
 			$column->name = $col->Field;
-			$column->notNull = $col->Null == 'NO' ? true : false;
-			$column->primaryKey = $col->Key == 'PRI' ? true : false;
-			$column->uniqueKey = $col->Key == 'UNI' ? true : false;
-			$column->hasDefault = $col->Default === null ? false : true;
+			$column->notNull = ($col->null == 'NO');
+			$column->primaryKey = ($col->Key == 'PRI');
+			$column->uniqueKey = ($col->Key == 'UNI');
+			$column->hasDefault = !($col->Default === null);
 			if ($column->hasDefault) {
 				$column->default = $col->Default;
 			}
@@ -573,8 +580,7 @@ class PearDatabase
 
 	public function updateBlob($table, $column, $val, $where)
 	{
-		$success = $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
-		return $success;
+		return $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
 	}
 
 	public function getEmptyBlob()
@@ -585,8 +591,7 @@ class PearDatabase
 	public function fetchByAssoc(&$result, $rowNum = -1)
 	{
 		if (isset($result) && $rowNum < 0) {
-			$row = $this->getRow($result);
-			return $row;
+			return $this->getRow($result);
 		}
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->rawQueryResultRowData($result, $rowNum);
@@ -598,8 +603,9 @@ class PearDatabase
 	public function sqlEscapeString($str, $type = false)
 	{
 		if ($type) {
-			$search = ["\\", "\0", "\n", "\r", "\x1a", "'", '"'];
-			$replace = ["\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"'];
+			$search = ['\\', "\0", "\n", "\r", "\x1a", "'", '"'];
+			$replace = ['\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"'];
+
 			return str_replace($search, $replace, $str);
 		} else {
 			return $this->database->quote($str);
@@ -629,7 +635,7 @@ class PearDatabase
 			return $tablePresent;
 		}
 
-		$dieOnError = $this->dieOnError;
+		$tmpDieOnError = $this->dieOnError;
 		$this->dieOnError = false;
 
 		$tablename = $this->sqlEscapeString($tableName);
@@ -638,21 +644,21 @@ class PearDatabase
 		if (empty($tableCheck) || $this->getRowCount($tableCheck) === 0) {
 			$tablePresent = 0;
 		}
-		$this->dieOnError = $dieOnError;
+		$this->dieOnError = $tmpDieOnError;
 		Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
+
 		return $tablePresent;
 	}
 
 	// Function to get the last insert id based on the type of database
 	public function getLastInsertID()
 	{
-		$lastInsertID = $this->database->lastInsertId();
-		return $lastInsertID;
+		return $this->database->lastInsertId();
 	}
 
 	public function formatDate($datetime, $strip_quotes = false)
 	{
-		/* remove single quotes to use the date as parameter for Prepared statement */
+		// remove single quotes to use the date as parameter for Prepared statement
 		if ($strip_quotes === true) {
 			return trim($datetime, "'");
 		}
@@ -662,8 +668,7 @@ class PearDatabase
 	public function getOne($sql, $dieOnError = false, $msg = '')
 	{
 		$result = $this->query($sql, $dieOnError, $msg);
-		$val = $this->getSingleValue($result);
-		return $val;
+		return $this->getSingleValue($result);
 	}
 
 	public function getFieldsDefinition(PDOStatement $result)
@@ -697,16 +702,14 @@ class PearDatabase
 	}
 
 	/**
-	 * Function to generate question marks for a given list of items
+	 * Function to generate question marks for a given list of items.
 	 */
 	public function generateQuestionMarks($items)
 	{
 		// array_map will call the function specified in the first parameter for every element of the list in second parameter
-		if (is_array($items)) {
-			return implode(',', array_map('_questionify', $items));
-		} else {
-			return implode(',', array_map('_questionify', explode(',', $items)));
-		}
+		return implode(',', array_map(function ($a) {
+			return '?';
+		}, is_array($items) ? $items : explode(',', $items)));
 	}
 
 	public function concat($columns, $space = '" "')
@@ -732,25 +735,28 @@ class PearDatabase
 			\App\Log::error('sqlExprDatalist: empty arrays not allowed');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
-		foreach ($array as $key => $val)
+		$l = '';
+		foreach ($array as $val) {
 			$l .= ($l ? ',' : '') . $this->quote($val);
+		}
 		return ' ( ' . $l . ' ) ';
 	}
 
 	public function getAffectedRowCount(PDOStatement $result)
 	{
-		$rows = $result->rowCount();
-		return $rows;
+		return $result->rowCount();
 	}
 
 	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '')
 	{
 		$result = $this->pquery($sql, $params, $dieOnError, $msg);
 
-		if ($this->getRowCount($result) == 1)
+		if ($this->getRowCount($result) == 1) {
 			return $result;
+		}
 		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
+
 		return '';
 	}
 
@@ -761,6 +767,7 @@ class PearDatabase
 		$column->name = $meta['name'];
 		$column->type = $this->types[$meta['pdo_type']];
 		$column->max_length = $meta['len'];
+
 		return $column;
 	}
 
@@ -768,7 +775,7 @@ class PearDatabase
 	{
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
-			return intval($input);
+			return (int) $input;
 		}
 
 		if (is_null($input)) {
@@ -780,14 +787,15 @@ class PearDatabase
 			'integer' => PDO::PARAM_INT,
 		];
 
-		$type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
+		$type = $map[$type] ?? PDO::PARAM_STR;
 		if ($quote) {
 			return strtr($this->database->quote($input, $type), [self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE]);
 		} else {
 			return self::DEFAULT_QUOTE . $input . self::DEFAULT_QUOTE;
 		}
 	}
-	/* SQLTime logging */
+
+	// SQLTime logging
 
 	protected $logSqlTimeID = false;
 	protected $logSqlTimeGroup = 1;
@@ -797,27 +805,28 @@ class PearDatabase
 		if (!AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
-		$db = PearDatabase::getInstance('log');
+		$db = self::getInstance('log');
 		$now = date('Y-m-d H:i:s');
 		$group = $this->logSqlTimeGroup;
 		$logTable = 'l_yf_sqltime';
 		$logQuery = 'INSERT INTO ' . $logTable . '(`id`, `type`, `qtime`, `content`, `date`, `group`) VALUES (?,?,?,?,?,?)';
 
 		if ($this->logSqlTimeID === false) {
-			$stmt = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
-			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
+			$query = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
+			$this->logSqlTimeID = (int) $this->getSingleValue($query) + 1;
 
 			$type = PHP_SAPI;
 			$data = '';
 			if (isset($_SERVER['REQUEST_METHOD'])) {
 				$uri = $_SERVER['REQUEST_URI'];
 				$qmarkIndex = strpos($_SERVER['REQUEST_URI'], '?');
-				if ($qmarkIndex !== false)
+				if ($qmarkIndex !== false) {
 					$uri = substr($uri, 0, $qmarkIndex);
+				}
 				$data = $uri . '?' . http_build_query($_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST);
 			}
-			$stmt = $db->database->prepare($logQuery);
-			$stmt->execute([$this->logSqlTimeID, $type, NULL, $data, $now, $group]);
+			$query = $db->database->prepare($logQuery);
+			$query->execute([$this->logSqlTimeID, $type, null, $data, $now, $group]);
 		}
 
 		$type = 'SQL';
@@ -826,8 +835,8 @@ class PearDatabase
 			$data .= '[' . implode(',', $params) . ']';
 		}
 		$qtime = round(($endat - $startat) * 1000) / 1000;
-		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, $qtime, $data, $now, $group]);
+		$query = $db->database->prepare($logQuery);
+		$query->execute([$this->logSqlTimeID, $type, $qtime, $data, $now, $group]);
 
 		$type = 'CALLERS';
 		$data = [];
@@ -848,16 +857,18 @@ class PearDatabase
 					}
 					$args = rtrim($args, ',');
 				}
-				if (!empty($callerfunc))
+				if (!empty($callerfunc)) {
 					$callerfunc = " ($callerfunc)";
-				if (!empty($args))
+				}
+				if (!empty($args)) {
 					$callerfunc .= "[$args] ";
+				}
 			}
 			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
-		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now, $group]);
-		$this->logSqlTimeGroup++;
+		$query = $db->database->prepare($logQuery);
+		$query->execute([$this->logSqlTimeID, $type, null, implode(PHP_EOL, $data), $now, $group]);
+		++$this->logSqlTimeGroup;
 	}
 
 	public static function whereEquals($val)

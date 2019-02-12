@@ -11,13 +11,12 @@
 
 class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		parent::validate($value, $isUserFormat);
@@ -25,11 +24,11 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 		if (\App\Language::getLanguageLabel($value) === false) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -37,11 +36,20 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	}
 
 	/**
-	 * Function to get all the available picklist values for the current field
+	 * Function to get all the available picklist values for the current field.
+	 *
 	 * @return array List of picklist values if the field
 	 */
 	public function getPicklistValues()
 	{
 		return \App\Language::getAll();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
 	}
 }

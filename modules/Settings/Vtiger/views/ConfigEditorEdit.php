@@ -10,9 +10,9 @@
 
 class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Page title
+	 * Page title.
+	 *
 	 * @var type
 	 */
 	protected $pageTitle = 'LBL_CONFIG_EDITOR';
@@ -28,21 +28,16 @@ class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.ConfigEditor"
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			"modules.Settings.{$request->getModule()}.resources.ConfigEditor",
+		]));
 	}
 }

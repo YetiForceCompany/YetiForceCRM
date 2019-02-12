@@ -1,12 +1,10 @@
 <?php
 /**
- * 
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-require_once('include/main/WebUI.php');
+require_once 'include/main/WebUI.php';
 \App\Log::trace('Start CRON:' . __FILE__);
 
 $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();

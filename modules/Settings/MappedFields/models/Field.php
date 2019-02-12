@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Field Class for MappedFields Settings
- * @package YetiForce.Field
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Field Class for MappedFields Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 {
-
 	public $inventoryField = false;
 
 	/**
-	 * Function to get field uitype
+	 * Function to get field uitype.
+	 *
 	 * @return string uitype
 	 */
 	public function getUIType()
@@ -25,14 +25,15 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get field data type
+	 * Function to get field data type.
+	 *
 	 * @return string data type
 	 */
 	public function getFieldDataType()
 	{
-		if (!$this->fieldDataType && $this->get('typeofdata') == 'INVENTORY') {
+		if (empty($this->fieldDataType) && $this->get('typeofdata') == 'INVENTORY') {
 			$this->fieldDataType = 'inventory';
-		} elseif (!$this->fieldDataType) {
+		} elseif (empty($this->fieldDataType)) {
 			$this->fieldDataType = parent::getFieldDataType();
 		}
 		if ($this->fieldDataType == 'salutation') {
@@ -42,7 +43,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get the field type
+	 * Function to get the field type.
+	 *
 	 * @return string type of the field
 	 */
 	public function getFieldType()
@@ -54,7 +56,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get clean instance
+	 * Function to get clean instance.
+	 *
 	 * @return <Settings_MappedFields_Field_Model>
 	 */
 	public static function getCleanInstance()
@@ -63,7 +66,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get Field instance from array
+	 * Function to get Field instance from array.
+	 *
 	 * @return <Settings_MappedFields_Field_Model>
 	 */
 	public static function fromArray($row = [])
@@ -76,8 +80,10 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get field instance from WebserviceFieldObject
+	 * Function to get field instance from WebserviceFieldObject.
+	 *
 	 * @param Vtiger_Field_Model $fieldModel
+	 *
 	 * @return Settings_MappedFields_Field_Model
 	 */
 	public static function getInstanceFromWebserviceFieldObject($fieldModel)
@@ -98,13 +104,15 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['fieldparams'] = $fieldModel->getFieldParams();
 
 		$instance = self::fromArray($row);
-		$instance->fieldModel == $fieldModel;
+		$instance->fieldModel = $fieldModel;
+
 		return $instance;
 	}
 
 	/**
-	 * Function to check if the current field is mandatory or not
-	 * @return boolean - true/false
+	 * Function to check if the current field is mandatory or not.
+	 *
+	 * @return bool - true/false
 	 */
 	public function isMandatory()
 	{
@@ -115,7 +123,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get field label
+	 * Function to get field label.
+	 *
 	 * @return string label
 	 */
 	public function getFieldLabelKey()
@@ -124,7 +133,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get field instance from InventoryFieldObject
+	 * Function to get field instance from InventoryFieldObject.
+	 *
 	 * @return <Settings_MappedFields_Field_Model>
 	 */
 	public static function getInstanceFromInventoryFieldObject($inventoryField)
@@ -139,15 +149,18 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['typeofdata'] = 'INVENTORY';
 
 		$instance = self::fromArray($row);
-		$instance->inventoryField == $inventoryField;
+		$instance->inventoryField = $inventoryField;
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get instance
+	 * Function to get instance.
+	 *
 	 * @param <String/Integer> $value
-	 * @param string $module
-	 * @param string $type
+	 * @param string           $module
+	 * @param string           $type
+	 *
 	 * @return <Settings_MappedFields_Field_Model> field model
 	 */
 	public static function getInstance($value, $module = false, $type = '')
@@ -161,9 +174,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 				}
 				break;
 			case 'INVENTORY':
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($module->getName());
-				$inventoryFields = $inventoryFieldModel->getFields();
-				return self::getInstanceFromInventoryFieldObject($inventoryFields[$value]);
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($module->getName());
+				return self::getInstanceFromInventoryFieldObject($inventoryModel->getField($value));
 			default:
 				$fieldModel = parent::getInstance($value, $module);
 				break;

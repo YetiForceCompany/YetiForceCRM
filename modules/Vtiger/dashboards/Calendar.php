@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger calendar dashboard class
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger calendar dashboard class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -20,16 +19,17 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->getInteger('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner'))
+		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
-		else
+		} else {
 			$owner = $request->getByType('owner', 2);
+		}
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
-		$defaultDate = $data['start'] ? $data['start'] : date('Y-m-d');
+		$defaultDate = !empty($data['start']) ? $data['start'] : date('Y-m-d');
 		$owner = $owner ? $owner : 'all';
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');

@@ -11,12 +11,13 @@
 
 class Contacts_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function returns query for module record's search
-	 * @param string $searchValue - part of record name (label column of crmentity table)
-	 * @param integer $parentId - parent record id
+	 * Function returns query for module record's search.
+	 *
+	 * @param string $searchValue  - part of record name (label column of crmentity table)
+	 * @param int    $parentId     - parent record id
 	 * @param string $parentModule - parent module name
+	 *
 	 * @return App\Db\Query - query
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
@@ -26,44 +27,50 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 			->where(['and', ['like', 'u_#__crmentity_search_label.userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'u_#__crmentity_search_label.searchlabel', $searchValue]]);
 		if ($parentId && $parentModule == 'Accounts') {
 			return $query->innerJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = u_#__crmentity_search_label.crmid')
-					->andWhere(['vtiger_contactdetails.parentid' => $parentId]);
-		} else if ($parentId && $parentModule == 'Campaigns') {
+				->andWhere(['vtiger_contactdetails.parentid' => $parentId]);
+		} elseif ($parentId && $parentModule == 'Campaigns') {
 			return $query->innerJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = u_#__crmentity_search_label.crmid')
-					->innerJoin('vtiger_campaign_records', 'vtiger_campaign_records.crmid = vtiger_contactdetails.contactid')
-					->andWhere(['vtiger_campaign_records.campaignid' => $parentId]);
-		} else if ($parentId && $parentModule == 'Vendors') {
+				->innerJoin('vtiger_campaign_records', 'vtiger_campaign_records.crmid = vtiger_contactdetails.contactid')
+				->andWhere(['vtiger_campaign_records.campaignid' => $parentId]);
+		} elseif ($parentId && $parentModule == 'Vendors') {
 			return $query->innerJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = u_#__crmentity_search_label.crmid')
-					->innerJoin('vtiger_vendorcontactrel', 'vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid')
-					->andWhere(['vtiger_vendorcontactrel.vendorid' => $parentId]);
+				->innerJoin('vtiger_vendorcontactrel', 'vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid')
+				->andWhere(['vtiger_vendorcontactrel.vendorid' => $parentId]);
 		}
 		return parent::getSearchRecordsQuery($parentId, $parentModule);
 	}
 
 	/**
-	 * Function to get list view query for popup window
-	 * @param string $sourceModule Parent module
-	 * @param string $field parent fieldname
-	 * @param string $record parent id
+	 * Function to get list view query for popup window.
+	 *
+	 * @param string              $sourceModule   Parent module
+	 * @param string              $field          parent fieldname
+	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
+		if ($sourceModule === 'SRecurringOrders' && $record) {
+			$queryGenerator->addJoin(['INNER JOIN', 'u_#__srecurringorders', 'u_#__srecurringorders.accountid = vtiger_contactdetails.parentid AND u_#__srecurringorders.srecurringordersid = :records', [':records' => $record]]);
+		}
 		if (in_array($sourceModule, ['Campaigns', 'Vendors', 'Products', 'Services']) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
-				case 'Campaigns' :
+				case 'Campaigns':
 					$tableName = 'vtiger_campaign_records';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
-				case 'Vendors' :
+				case 'Vendors':
 					$tableName = 'vtiger_vendorcontactrel';
 					$fieldName = 'contactid';
 					$relatedFieldName = 'vendorid';
 					break;
-				case 'Products' :
+				case 'Products':
 					$tableName = 'vtiger_seproductsrel';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'productid';
+					break;
+				default:
 					break;
 			}
 			if ($sourceModule === 'Services') {
@@ -84,10 +91,5 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 			}
 			$queryGenerator->addNativeCondition($condition);
 		}
-	}
-
-	public function getDefaultSearchField()
-	{
-		return "lastname";
 	}
 }

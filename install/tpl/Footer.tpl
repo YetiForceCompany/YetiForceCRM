@@ -10,19 +10,21 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}" />
+	<!-- tpl-install-tpl-Footer -->
+	<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}">
 	{if !$MAIN_PRODUCT_WHITELABEL}
-		<footer class="noprint">
-			<div class="vtFooter">
+		<footer class="noprint fixed-bottom">
+			<div class="vtFooter pb-5 pb-sm-0">
 				<p>
-					{\App\Language::translate('LBL_FOOTER_CONTENT')}
+					{\App\Language::translate('LBL_FOOTER_CONTENT', 'Install')}
 				</p>
 			</div>
 		</footer>
 	{/if}
 	{* javascript files *}
 	{include file='JSResources.tpl'}
-</div>
-</body>
-</html>
+	</div>
+	</body>
+	</html>
+	<!-- /tpl-install-tpl-Footer -->
 {/strip}
