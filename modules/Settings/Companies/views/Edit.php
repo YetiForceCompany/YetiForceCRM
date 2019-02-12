@@ -10,10 +10,11 @@
  */
 class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	/**
 	 * Process function.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
 	public function process(\App\Request $request)
