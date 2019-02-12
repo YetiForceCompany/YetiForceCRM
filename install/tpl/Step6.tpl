@@ -84,9 +84,9 @@
 								<label class="col-sm-2 col-form-label"
 									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Settings:Companies')}</label>
 								<div class="col-sm-10">
-									<input id="company-companysize" type="text" name="company_companysize"
+									<input id="company-companysize" type="number" name="company_companysize"
 										   class="form-control"
-										   data-validation-engine="validate[required, maxSize[99999999999999999999],funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+										   data-validation-engine="validate[required,max[16777215]]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "website"}
