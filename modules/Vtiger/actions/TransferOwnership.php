@@ -29,10 +29,9 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		$module = $request->getModule();
 		$transferOwnerId = $request->getInteger('transferOwnerId');
 		$record = $request->getInteger('record');
-		$relatedModules = $request->getByType('related_modules', 'Alnum');
+		$relatedModules = $request->getByType('related_modules', 'Text');
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
-
 		if (empty($record)) {
 			$recordIds = $this->getBaseModuleRecordIds($request);
 		} else {
