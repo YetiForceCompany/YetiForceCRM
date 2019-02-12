@@ -272,7 +272,7 @@ class Completions
 		} else {
 			$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $userId);
 			$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
-			$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&parent=Settings&view=Detail&record={$userId}" : '#';
+			$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$userId}" : '#';
 			$html = "<a class=\"js-completions__tag $popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$userId\" data-js=\"click\">" .
 				\App\User::getUserModel($userId)->getName() .
 				'</a>';

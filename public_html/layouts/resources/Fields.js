@@ -695,6 +695,7 @@ App.Fields = {
 			 */
 			registerTagClick(inputDiv) {
 				inputDiv.closest('.js-completions__container').find('.js-completions__messages').on('click', '.js-completions__tag', (e) => {
+					e.preventDefault();
 					inputDiv.append($(e.target).clone());
 				});
 			}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-RecordPopover">
+	<div class="tpl-Users-RecordPopover">
 		<h5 class="c-popover--link__header px-2 pt-1 bg-light">
 			{if $RECORD->getDisplayValue('imagename')}
 				<span class="u-w-fit mr-1">{$RECORD->getDisplayValue('imagename')}</span>
