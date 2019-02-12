@@ -8,7 +8,6 @@
 		 stopOnError="true"
 		 stopOnFailure="true"
 		 stopOnIncomplete="true"
-		 printerClass="YtResultPrinter"
 		 printerFile="printer.php"
 		 bootstrap="bootstrap.php"
 		 timeoutForLargeTests="1000">
