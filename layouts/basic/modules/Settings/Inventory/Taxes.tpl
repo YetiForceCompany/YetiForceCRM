@@ -34,7 +34,7 @@
 							<td class="textAlignCenter {$WIDTHTYPE}">
 								<input type="checkbox" data-field-name="status"
 									   class="status js-update-field my-2"
-									   {if !$RECORD->getStatus()}checked{/if} />
+									   {if !$RECORD->getStatus()}checked="checked"{/if} />
 							</td>
 							<td class="textAlignCenter {$WIDTHTYPE}">
 								<div class="float-right w-50 d-flex justify-content-between mr-2">

@@ -36,19 +36,26 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$recordModel = Settings_Inventory_Record_Model::getInstanceById($request->getInteger('id'), $type);
 		}
-		$fields = $request->getAll();
-		foreach ($fields as $fieldName => $fieldValue) {
-			if ($request->has($fieldName) && !in_array($fieldName, ['module', 'parent', 'view', '__vtrftk', 'action'])) {
-				if ('Taxes' === $type && 'value' === $fieldName) {
-					$val = (float) $request->getByType('value', 'NumberInUserFormat');
-					if ($val < 0 || $val > 100) {
-						throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||value||{$val}", 406);
-					}
-					$recordModel->set($fieldName, $val);
-				} elseif ($fieldName === 'value') {
-					$recordModel->set($fieldName, $request->getByType('value', 'NumberInUserFormat'));
-				} else {
-					$recordModel->set($fieldName, $fieldValue);
+		$fields = ['name', 'status', 'value', 'default'];
+		foreach ($fields as $fieldName) {
+			if ($request->has($fieldName)) {
+				switch ($fieldName) {
+					case 'default':
+					case 'status':
+						$recordModel->set($fieldName, (int) $request->getBoolean($fieldName));
+						break;
+					case 'name':
+						$recordModel->set($fieldName, $request->getByType($fieldName, 'Text'));
+						break;
+					case 'value':
+						$value = $request->getByType($fieldName, 'NumberInUserFormat');
+						if ('Taxes' === $type && ($value < 0 || $value > 100)) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||value||{$value}", 406);
+						}
+						$recordModel->set($fieldName, $value);
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -58,7 +65,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$id = $recordModel->save();
 			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
 			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => \App\User::getCurrentUserModel()->getDetail('rowheight')], $recordModel->getData()));
-		} catch (Exception $e) {
+		} catch (Throwable $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
