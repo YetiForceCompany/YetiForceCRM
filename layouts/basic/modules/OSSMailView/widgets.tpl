@@ -38,7 +38,7 @@
 										'linkicon' => 'fas fa-eraser',
 										'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
 										'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-									'linkclass' => 'btn-sm btn-black relationDelete entityStateBtn'
+									'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
 									])}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
 									{/if}

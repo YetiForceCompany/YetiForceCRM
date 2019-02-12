@@ -230,7 +230,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'),
 				],
 				'linkicon' => 'fas fa-eraser',
-				'linkclass' => 'btn-black btn-sm',
+				'linkclass' => 'btn-dark btn-sm',
 			]);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
