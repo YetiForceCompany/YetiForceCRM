@@ -667,7 +667,7 @@ App.Fields = {
 					this.registerCompletionsButtons();
 				}
 				if (App.emoji === undefined) {
-					fetch('../../vendor/ckeditor/ckeditor/plugins/emoji/emoji.json')
+					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
 						.then(response => response.json())
 						.then(response => {
 							App.emoji = response;
