@@ -581,8 +581,13 @@ class ConfReport
 	private static function validateVersion(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (!empty($row[$sapi]) && version_compare($row[$sapi], str_replace('x', 0, $row['recommended']), '<')) {
-			$row['status'] = false;
+		$phpVersions = explode(',', $row['recommended']);
+		$row['status'] = false;
+		foreach ($phpVersions as $phpVersion) {
+			if (!empty($row[$sapi]) && version_compare($row[$sapi], str_replace('x', 0, trim($phpVersion)), '>=')) {
+				$row['status'] = true;
+				break;
+			}
 		}
 		return $row;
 	}

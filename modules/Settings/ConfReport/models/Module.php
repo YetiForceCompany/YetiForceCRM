@@ -696,8 +696,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function validatePhp($row, $isCli)
 	{
-		if (version_compare($row['current'], str_replace('x', 0, $row['recommended']), '<')) {
+		$phpVersions = explode(',', $row['recommended']);
+		foreach ($phpVersions as $phpVersion) {
 			$row['incorrect'] = true;
+			if (version_compare($row['current'], str_replace('x', 0, trim($phpVersion)), '>=')) {
+				$row['incorrect'] = false;
+			}
 		}
 		return $row;
 	}
