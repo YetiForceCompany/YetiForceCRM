@@ -3,7 +3,7 @@
 	<div class="tpl-Settings-YetiForce-DownloadLanguageModal modal-body p-0">
 		<table class="table mb-0 mx-auto">
 			{assign var="INDEX" value=0}
-			{if $LANGUAGES}
+			{if \App\RequestUtil::isNetConnection()}
 				<thead>
 				<tr>
 					<th class="text-center border-top-0">{App\Language::translate('LBL_LANG', $QUALIFIED_MODULE)}</th>
