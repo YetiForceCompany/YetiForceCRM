@@ -7,18 +7,25 @@ jQuery.Class('Settings_YetiForce_RegistrationOnlineModal_Js', {
 	 */
 	registerNewsletter() {
 		const form = $('[data-view="RegistrationOnlineModal"]').find('form');
+		form.find('[id$="email]"]').each(function () {
+			if ($(this).val()) {
+				let inputsContainer = $(this).closest('.js-card-body');
+				inputsContainer.find('[id$="newsletter]"]').prop('checked', true);
+				inputsContainer.find('.js-newsletter-content').removeClass('d-none');
+			}
+		});
 		form.find('[id$="newsletter]"]').on('click', (e) => {
 			let inputsContainer = $(e.target).closest('.js-card-body');
-			if (inputsContainer.find('.newsletterContent').hasClass('d-none')) {
+			if (inputsContainer.find('.js-newsletter-content').hasClass('d-none')) {
 				inputsContainer.find('[id$="firstname]"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="lastname]"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="email]"]').attr('data-validation-engine', 'validate[required,custom[email]]');
-				inputsContainer.find('.newsletterContent').removeClass('d-none');
+				inputsContainer.find('.js-newsletter-content').removeClass('d-none');
 			} else {
 				inputsContainer.find('[id$="firstname]"]').removeAttr('data-validation-engine');
 				inputsContainer.find('[id$="lastname]"]').removeAttr('data-validation-engine');
 				inputsContainer.find('[id$="email]"]').removeAttr('data-validation-engine');
-				inputsContainer.find('.newsletterContent').addClass('d-none');
+				inputsContainer.find('.js-newsletter-content').addClass('d-none');
 			}
 		});
 	},
