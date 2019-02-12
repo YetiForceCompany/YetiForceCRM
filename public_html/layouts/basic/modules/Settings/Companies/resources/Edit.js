@@ -8,7 +8,6 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 	registerNewsletter() {
 		const form = $('[name="EditCompanies"]');
 		form.find('[id$="newsletter"]').on('click', (e) => {
-			console.log('click');
 			let inputsContainer = $(e.target).closest('.js-card-body');
 			if (inputsContainer.find('.newsletterContent').hasClass('d-none')) {
 				inputsContainer.find('[id$="firstname"]').attr('data-validation-engine', 'validate[required]');

@@ -123,4 +123,20 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return static::$formFields;
 	}
+
+	/**
+	 * Names of fields.
+	 *
+	 * @return array
+	 */
+	public function getNameFields()
+	{
+		$columnNames = self::getColumnNames();
+		unset($columnNames[array_search('id', $columnNames)]);
+		$editFields = array_keys(self::$formFields);
+		usort($columnNames, function ($a, $b) use ($editFields) {
+			return array_search($a, $editFields) < array_search($b, $editFields) ? -1 : 1;
+		});
+		return $columnNames;
+	}
 }

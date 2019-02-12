@@ -85,19 +85,13 @@ class Register
 	 */
 	private function getData(): array
 	{
-		$companies = \App\Company::getAll();
-		foreach ($companies as &$row) {
-			if (\file_exists(\Settings_Companies_Record_Model::$logoPath . $row['id'])) {
-				$row['logo'] = \App\Fields\File::getImageBaseData(\Settings_Companies_Record_Model::$logoPath . $row['id']);
-			}
-		}
 		return [
 			'version' => \App\Version::get(),
 			'language' => \App\Language::getLanguage(),
 			'timezone' => date_default_timezone_get(),
 			'insKey' => static::getInstanceKey(),
 			'crmKey' => static::getCrmKey(),
-			'companies' => $companies,
+			'companies' => \App\Company::getAll(),
 		];
 	}
 
