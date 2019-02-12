@@ -1925,16 +1925,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var form = this.getForm();
 		app.showPopoverElementView(form.find('.js-help-info'));
 	},
-	registerRelatedModulesRecordCount: function (tabContainer) {
-		var counter = [];
-		var moreList = $('.related .nav .dropdown-menu');
-		var relationContainer = tabContainer;
+	/**
+	 * Register related modules record cound
+	 * @param {jQuery} tabContainer
+	 */
+	registerRelatedModulesRecordCount(tabContainer) {
+		const moreList = $('.related .nav .dropdown-menu');
+		let relationContainer = tabContainer;
 		if (!relationContainer || (typeof relationContainer.length === "undefined")) {
 			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink, .related .nav .dropdown-menu > .relatedNav');
 		}
-		relationContainer.each(function (n, item) {
+		relationContainer.each((n, item) => {
 			item = $(item);
-			if (item.data('count') == '1') {
+			if (item.data('count') === 1 && !Array.isArray(item.data('reference'))) {
 				AppConnector.request({
 					module: app.getModuleName(),
 					action: 'RelationAjax',
@@ -1942,7 +1945,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					relatedModule: item.data('reference'),
 					mode: 'getRelatedListPageCount',
 					tab_label: item.data('label-key'),
-				}).done(function (response) {
+				}).done((response) => {
 					if (response.success) {
 						if (response.result.numberOfRecords === 0) {
 							response.result.numberOfRecords = '';
