@@ -85,6 +85,17 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function get($key)
+	{
+		if ($key === 'newsletter' && !empty(parent::get('email'))) {
+			return 1;
+		}
+		return parent::get($key);
+	}
+
+	/**
 	 * Function to get Module instance.
 	 *
 	 * @return Settings_Companies_Module_Model
