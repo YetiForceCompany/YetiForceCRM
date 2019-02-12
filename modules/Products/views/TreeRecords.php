@@ -16,7 +16,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$viewer = $this->getViewer($request);
 		$filter = $request->has('filter') ? $request->getByType('filter', 'Alnum') : \App\CustomView::getInstance($baseModuleName)->getViewId();
 		$viewer->assign('VIEWID', $filter);
-		if ($request->isEmpty('branches', true) || $request->isEmpty('category', true)) {
+		if ($request->isEmpty('branches', true) && $request->isEmpty('category', true)) {
 			return;
 		}
 		$branches = $request->getArray('branches', 'Text');
