@@ -44,4 +44,39 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$exportModel->sendHttpHeader();
 		$exportModel->exportData();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public static function getQuery(\App\Request $request)
+	{
+		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
+		$moduleName = $request->getByType('source_module', 'Alnum');
+		if (!empty($cvId) && $cvId === 'undefined' && $moduleName !== 'Users') {
+			$sourceModule = $request->getByType('sourceModule', 2);
+			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
+		}
+		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		if (!$customViewModel) {
+			return false;
+		}
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
+			$queryGenerator = new App\QueryGenerator($moduleName);
+			$queryGenerator->setFields(['id']);
+			$queryGenerator->addCondition('id', $selectedIds, 'e');
+			$queryGenerator->setStateCondition($request->getByType('entityState'));
+			return $queryGenerator;
+		}
+		if (!$request->isEmpty('operator')) {
+			$operator = $request->getByType('operator');
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$customViewModel->set('operator', $operator);
+			$customViewModel->set('search_key', $searchKey);
+			$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
+		}
+		$customViewModel->set('search_params', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
+		$customViewModel->set('entityState', $request->getByType('entityState'));
+		return $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', 2), $moduleName);
+	}
 }
