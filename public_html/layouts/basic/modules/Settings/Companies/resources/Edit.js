@@ -9,8 +9,7 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 		const form = $('[name="EditCompanies"]');
 		form.find('[id$="newsletter"]').on('click', (e) => {
 			let inputsContainer = $(e.target).closest('.js-card-body');
-			let newsletter = inputsContainer.find('[id$="newsletter"]');
-			if (newsletter.prop('checked')) {
+			if ($(e.target).prop('checked')) {
 				inputsContainer.find('[id$="firstname"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="lastname"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="email"]').attr('data-validation-engine', 'validate[required,custom[email]]');
