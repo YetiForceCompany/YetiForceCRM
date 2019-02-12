@@ -64,7 +64,7 @@
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_NAME === 'newsletter'}
 								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
-									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $COMPANIES_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $COMPANIES_MODULE)}</a>"))}">
+									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $MODULE_TRANSLATION,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $MODULE_TRANSLATION)}</a>"))}">
 									<span class="fas fa-info-circle"></span>
 								</div>
 							{/if}

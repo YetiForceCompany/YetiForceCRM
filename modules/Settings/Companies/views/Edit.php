@@ -29,7 +29,6 @@ class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('COMPANIES_MODULE', $qualifiedModuleName);
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
