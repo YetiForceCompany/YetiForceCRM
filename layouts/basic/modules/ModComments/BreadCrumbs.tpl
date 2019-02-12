@@ -20,7 +20,7 @@
 				{assign var="BREADCRUMBS_TEXT" value="`$BREADCRUMBS_TEXT` / `$BREADCRUMBS_ITEM`"}
 			{/foreach}
 			<ol class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0 js-popover-tooltip--ellipsis-icon"
-				data-content="{\App\Purifier::encodeHTML($BREADCRUMBS_TEXT)}"
+				data-content="{$BREADCRUMBS_TEXT}"
 				data-toggle="popover"
 				data-js="popover | mouseenter">
 				<li class="breadcrumb-item">
@@ -39,7 +39,7 @@
 					{elseif $item@last}
 						<li class="breadcrumb-item active js-text-content u-text-ellipsis"
 							aria-current="page">
-							{$item['name']}
+								{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($item['name'])))}
 						</li>
 						<li class="js-popover-icon d-none mr-1" data-js="class: d-none">
 							<span class="fas fa-info-circle fa-sm"></span>
