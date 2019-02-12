@@ -117,8 +117,10 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			}
 			if ($request->has($fieldName)) {
 				//var_dump($fieldName, $fieldModel->getId(), $fieldModel->getUIType(), $fieldModel->getFieldDataType());
-				var_dump('########################', $fieldModel->uitypeModel, $fieldModel->getUITypeModel());
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
+				//var_dump('########################', $fieldModel->uitypeModel, $fieldModel->getUITypeModel());
+				$obj = $fieldModel->getUITypeModel();
+				var_dump('########################', get_class($obj));
+				$obj->setValueFromRequest($request, $this->record);
 			}
 		}
 		if ($request->has('inventory') && $this->record->getModule()->isInventory()) {

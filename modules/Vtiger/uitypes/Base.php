@@ -283,7 +283,7 @@ class Vtiger_Base_UIType extends \App\Base
 			var_dump('[3] ********************', $fallBackClassName);
 		}
 		$instance->set('field', $fieldModel);
-
+		var_dump('[4] ********************', get_class($fallBackClassName));
 		return $instance;
 	}
 
