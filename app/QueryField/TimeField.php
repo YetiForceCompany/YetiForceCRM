@@ -28,7 +28,7 @@ class TimeField extends BaseField
 	 */
 	public function getValue()
 	{
-		return (new \DateTimeField(\DateTimeField::convertToUserFormat(date('Y-m-d')) . ' ' . $this->value))->getDBInsertTimeValue();
+		return \App\Fields\Time::formatToDB($this->value);
 	}
 
 	/**
