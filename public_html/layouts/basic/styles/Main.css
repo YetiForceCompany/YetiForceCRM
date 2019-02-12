@@ -17625,7 +17625,9 @@ ul.tweets li {
 
 .c-btn-collapsible {
   overflow: hidden;
+  white-space: nowrap;
   max-width: 2.5rem;
+  white-space: nowrap;
   -webkit-transition: all 275ms ease;
   -moz-transition: all 275ms ease;
   -ms-transition: all 275ms ease;
