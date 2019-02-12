@@ -3,13 +3,13 @@
 	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body" data-js="container">
 		<div class="card-body">
 			{if !empty($COMPANY_ID)}
-				{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)}
+				{assign var="RECORD" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)}
 			{else}
-				{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getCleanInstance()}
+				{assign var="RECORD" value=Settings_Companies_Record_Model::getCleanInstance()}
 			{/if}
-			{assign var="SOURCE_MODULE" value=$RECORD_MODEL->set('SOURCE_MODULE',$MODULE_NAME)}
+			{assign var="SOURCE_MODULE" value=$RECORD->set('SOURCE_MODULE',$MODULE_NAME)}
 			{assign var="MODULE_TRANSLATION" value="Settings::Companies"}
-			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
+			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD->getModule()->getFormFields()}
 				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false}
 					{continue}
 				{/if}
@@ -23,25 +23,25 @@
 						</label>
 						<div class="col-lg-8">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
-								<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===1} active{/if}"
+								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===1} active{/if}"
 									   for="option1">
 									<input value="1" type="radio" name="type" id="option1"
 										   data-validation-engine="validate[required]"
-										   autocomplete="off"{if $RECORD_MODEL->get('type')==1} checked{/if}>
+										   autocomplete="off"{if $RECORD->get('type')==1} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_TARGET_USER',$MODULE_TRANSLATION)}
 								</label>
-								<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===2} active{/if}"
+								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===2} active{/if}"
 									   for="option2">
 									<input value="2" type="radio" name="type" id="option2"
 										   data-validation-engine="validate[required]"
-										   autocomplete="off"{if $RECORD_MODEL->get('type')==2} checked{/if}>
+										   autocomplete="off"{if $RECORD->get('type')==2} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$MODULE_TRANSLATION)}
 								</label>
-								<label class="btn btn-sm btn-outline-primary{if $RECORD_MODEL->get('type')===3} active{/if}"
+								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===3} active{/if}"
 									   for="option3">
 									<input value="3" type="radio" name="type" id="option3"
 										   data-validation-engine="validate[required]"
-										   autocomplete="off"{if $RECORD_MODEL->get('type')==3} checked{/if}>
+										   autocomplete="off"{if $RECORD->get('type')==3} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_PROVIDER',$MODULE_TRANSLATION)}
 								</label>
 							</div>
@@ -50,7 +50,7 @@
 				{elseif $FIELD_NAME === 'logo'}
 					<div class="form-group row">
 						<div class="col-lg-4 col-form-label text-left text-lg-right">
-							<b>{$RECORD_MODEL->getDisplayValue($FIELD_NAME)}</b>
+							<b>{$RECORD->getDisplayValue($FIELD_NAME)}</b>
 						</div>
 						<div class="col-lg-8 d-flex">
 							<div class="u-h-fit my-auto">
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 				{else}
-					{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
+					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_NAME === 'newsletter'}

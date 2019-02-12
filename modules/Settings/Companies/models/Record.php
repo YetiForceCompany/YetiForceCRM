@@ -87,7 +87,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getModule()
 	{
-		if (!$this->module) {
+		if (!isset($this->module)) {
 			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:Companies');
 		}
 		return $this->module;
@@ -338,6 +338,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				unset($params['validator']);
 				break;
 			case 'website':
+				$params['uitype'] = 17;
 				unset($params['validator']);
 				break;
 			case 'firstname':
