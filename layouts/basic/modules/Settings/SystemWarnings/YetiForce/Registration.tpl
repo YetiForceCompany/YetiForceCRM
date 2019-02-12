@@ -4,7 +4,7 @@
 	<h6 class="h3">
 		{App\Language::translate('LBL_REGISTRATION','Settings:SystemWarnings')}
 	</h6>
-	<p>{App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR')}</p>
+	<p>{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, "<a href=\"index.php?module=Companies&parent=Settings&view=List&displayModal=online\">{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>")}</p>
 	<form class="validateForm" method="post" action="index.php">
 		<div class="float-right mr-2">
 			<a href="index.php?module=Companies&parent=Settings&view=List&displayModal=online" target="_blank"
