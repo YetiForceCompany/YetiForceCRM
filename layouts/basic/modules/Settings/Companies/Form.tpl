@@ -3,10 +3,11 @@
 	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body" data-js="container">
 		<div class="card-body">
 			{if !empty($COMPANY_ID)}
-				{assign var="RECORD" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)}
+				{assign var="RECORD" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)->set('source',$MODULE_NAME)}
 			{else}
-				{assign var="RECORD" value=Settings_Companies_Record_Model::getCleanInstance()}
+				{assign var="RECORD" value=Settings_Companies_Record_Model::getCleanInstance()->set('source',$MODULE_NAME)}
 			{/if}
+
 			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD->getModule()->getFormFields()}
 				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false}
 					{continue}

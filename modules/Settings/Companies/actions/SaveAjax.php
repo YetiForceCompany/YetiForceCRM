@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -39,9 +40,8 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				if ($request->has($fieldName)) {
 					$uiTypeModel = $recordModel->getFieldInstanceByName($fieldName)->getUITypeModel();
 					$value = $request->getByType($fieldName, 'Text');
-					if ($uiTypeModel->validate($value)) {
-						$recordModel->set($fieldName, $uiTypeModel->getDBValue($value));
-					}
+					$uiTypeModel->validate($value, true);
+					$recordModel->set($fieldName, $uiTypeModel->getDBValue($value));
 				}
 			}
 			$recordModel->saveCompanyLogos();
