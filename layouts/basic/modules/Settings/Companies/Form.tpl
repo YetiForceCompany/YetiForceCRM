@@ -78,7 +78,8 @@
 					</div>
 				{/if}
 				{if $FIELD_NAME === 'newsletter'}
-					<div class="js-newsletter-content d-none" data-js="class:d-none">
+					<div class="js-newsletter-content {if empty($RECORD->get($FIELD_NAME))}d-none{/if}"
+						 data-js="class:d-none">
 				{elseif $FIELD_NAME === 'email'}
 					</div>
 				{/if}
