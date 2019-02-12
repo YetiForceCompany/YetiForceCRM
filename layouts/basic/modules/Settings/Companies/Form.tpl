@@ -78,8 +78,8 @@
 					</div>
 				{/if}
 				{if $FIELD_NAME === 'newsletter'}
-					<div class="newsletterContent d-none" data-js="class:d-none">
-						{elseif $FIELD_NAME === 'email'}
+					<div class="js-newsletter-content d-none" data-js="class:d-none">
+				{elseif $FIELD_NAME === 'email'}
 					</div>
 				{/if}
 			{/foreach}

@@ -7,6 +7,13 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 	 */
 	registerNewsletter() {
 		const form = $('[name="EditCompanies"]');
+		form.find('[id$="email"]').each(function () {
+			if ($(this).val()) {
+				let inputsContainer = $(this).closest('.js-card-body');
+				inputsContainer.find('[id$="newsletter"]').prop('checked', true);
+				inputsContainer.find('.js-newsletter-content').removeClass('d-none');
+			}
+		});
 		form.find('[id$="newsletter"]').on('click', (e) => {
 			let inputsContainer = $(e.target).closest('.js-card-body');
 			let newsletter = inputsContainer.find('[id$="newsletter"]');
@@ -14,12 +21,12 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 				inputsContainer.find('[id$="firstname"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="lastname"]').attr('data-validation-engine', 'validate[required]');
 				inputsContainer.find('[id$="email"]').attr('data-validation-engine', 'validate[required,custom[email]]');
-				inputsContainer.find('.newsletterContent').removeClass('d-none');
+				inputsContainer.find('.js-newsletter-content').removeClass('d-none');
 			} else {
 				inputsContainer.find('[id$="firstname"]').removeAttr('data-validation-engine').val('');
 				inputsContainer.find('[id$="lastname"]').removeAttr('data-validation-engine').val('');
 				inputsContainer.find('[id$="email"]').removeAttr('data-validation-engine').val('');
-				inputsContainer.find('.newsletterContent').addClass('d-none');
+				inputsContainer.find('.js-newsletter-content').addClass('d-none');
 			}
 		});
 	},
