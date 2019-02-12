@@ -12,7 +12,7 @@
 {strip}
 	<div class='widget_header row '>
 		<div class="col-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
     <div>
@@ -27,7 +27,8 @@
             <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
             <input type="hidden" name="operator" value="{$OPERATOR}" />
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-            <input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
+            <input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
+			<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
 
             <div class="col-md-8">
 				<div class="p-3 card bg-light exportContents ml-0 my-2">

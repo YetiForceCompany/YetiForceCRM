@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 /**
@@ -14,21 +15,21 @@
 class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
 	/**
-	 * Function to get the values in stuctured format.
+	 * Function to get the fields in the header.
 	 *
-	 * @return array values in structure array('block'=>array(fieldinfo));
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
 	 */
 	public function getFieldInHeader()
 	{
 		$moduleModel = $this->getModule();
-		$recordModel = $this->getRecord();
 		$fieldsInHeader = [];
-		foreach ($moduleModel->getFields() as $fieldModel) {
-			if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView()) {
-				$fieldsInHeader[$fieldModel->get('label')] = [
-					'value' => $recordModel->getDisplayValue($fieldModel->getName()),
-					'class' => $fieldModel->get('header_field'),
-				];
+		$recordModel = $this->getRecord();
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView() && $recordModel) {
+				$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+				$fieldsInHeader[$fieldModel->getHeaderValue('type')][$fieldModel->getName()] = $fieldModel;
 			}
 		}
 		return $fieldsInHeader;

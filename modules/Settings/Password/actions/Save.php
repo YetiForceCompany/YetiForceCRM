@@ -4,7 +4,7 @@
  * Settings Password save action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 {
@@ -28,8 +28,12 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	public function pass(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$type = $request->getByType('type', 2);
-		$vale = $request->get('vale');
+		$type = $request->getByType('type', 'Alnum');
+		if (in_array($type, ['min_length', 'max_length', 'change_time', 'lock_time'])) {
+			$vale = $request->getInteger('vale');
+		} else {
+			$vale = $request->getBoolean('vale') ? 'true' : 'false';
+		}
 		if (Settings_Password_Record_Model::validation($type, $vale)) {
 			Settings_Password_Record_Model::setPassDetail($type, $vale);
 			$resp = \App\Language::translate('LBL_SAVE_OK', $moduleName);
@@ -58,9 +62,19 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		if ($method && strlen($password) !== App\Encryption::getLengthVector($method)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
-		(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => App\Json::encode([$method, $password])]))->save();
+		\AppConfig::set('securityKeys', 'encryptionMethod', $method);
+		$instance = new App\Encryption();
+		$instance->set('method', $method);
+		$instance->set('vector', $password);
+		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
 		$response = new Vtiger_Response();
-		$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
+		$encryption = $instance->encrypt('test');
+		if (empty($encryption) || $encryption === 'test') {
+			$response->setResult(App\Language::translate('LBL_NO_REGISTER_ENCRYPTION', $request->getModule(false)));
+		} else {
+			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password]]))->save();
+			$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
+		}
 		$response->emit();
 	}
 }

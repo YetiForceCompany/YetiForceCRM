@@ -4,10 +4,11 @@
  * Basic PDF Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radoslaw Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Vtiger_PDF_Model extends \App\Base
 {
@@ -53,7 +54,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [0 => 'PLL_TEXT', 1 => 'PLL_IMAGE'];
 	}
 
 	/**
@@ -264,7 +265,6 @@ class Vtiger_PDF_Model extends \App\Base
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
 		Vtiger_Cache::set('PDFModel', $recordId, $pdf);
-
 		return $pdf;
 	}
 
@@ -294,8 +294,8 @@ class Vtiger_PDF_Model extends \App\Base
 		\App\Db::getInstance()->createCommand()
 			->update(self::$baseTable, [
 				'conditions' => '',
-				], [self::$baseIndex => $this->getId()])
-				->execute();
+			], [self::$baseIndex => $this->getId()])
+			->execute();
 	}
 
 	/**
@@ -386,6 +386,9 @@ class Vtiger_PDF_Model extends \App\Base
 		$parameters = [];
 		$parameters['page_format'] = $this->get('page_format');
 		$parameters['page_orientation'] = $this->get('page_orientation');
+		$parameters['header_height'] = $this->get('header_height');
+		$parameters['footer_height'] = $this->get('footer_height');
+
 		// margins
 		if ($this->get('margin_chkbox') == 0) {
 			$parameters['margin-top'] = $this->get('margin_top');
@@ -400,23 +403,12 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 
 		// metadata
-		if ($this->get('metatags_status') == 0) {
+		$parameters['creator'] = 'YetiForce CRM';
+		if ($this->get('metatags_status') == 1) {
 			$parameters['title'] = $this->get('meta_title');
 			$parameters['author'] = $this->get('meta_author');
-			$parameters['creator'] = $this->get('meta_creator');
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
-		} else {
-			$companyDetails = App\Company::getInstanceById()->getData();
-			$parameters['title'] = $this->get('primary_name');
-			$parameters['author'] = $companyDetails['organizationname'];
-			$parameters['creator'] = $companyDetails['organizationname'];
-			$parameters['subject'] = $this->get('secondary_name');
-
-			// preparing keywords
-			unset($companyDetails['id'], $companyDetails['logo'], $companyDetails['logoname']);
-
-			$parameters['keywords'] = implode(', ', $companyDetails);
 		}
 		return $parameters;
 	}
@@ -428,77 +420,52 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getFormat()
 	{
-		$format = $this->get('page_format');
+		return $this->get('page_format');
+	}
+
+	/**
+	 * Get page orientation.
+	 *
+	 * @return string
+	 */
+	public function getOrientation()
+	{
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
-			$format .= '-L';
+			return 'L';
 		} else {
-			$format .= '-P';
+			return 'P';
 		}
-		return $format;
 	}
 
 	/**
 	 * Get header content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - header content
 	 */
-	public function getHeader($raw = false)
+	public function getHeader()
 	{
-		if ($raw) {
-			return $this->get('header_content');
-		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($this->get('header_content'))->parse()->getContent();
+		return $this->get('header_content');
 	}
 
 	/**
 	 * Get body content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - body content
 	 */
-	public function getFooter($raw = false)
+	public function getFooter()
 	{
-		if ($raw) {
-			return $this->get('footer_content');
-		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($this->get('footer_content'))->parse()->getContent();
+		return $this->get('footer_content');
 	}
 
 	/**
 	 * Get body content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - body content
 	 */
-	public function getBody($raw = false)
+	public function getBody()
 	{
-		if ($raw) {
-			return $this->get('body_content');
-		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($this->get('body_content'))->parse()->getContent();
+		return $this->get('body_content');
 	}
 
 	/**
@@ -512,9 +479,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
-		$pdf = new $handlerClass();
-		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\YetiForcePDF())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**
@@ -524,7 +489,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function attachToEmail($salt)
 	{
-		header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $salt);
+		header('location: index.php?module=OSSMail&view=Compose&pdf_path=' . $salt);
 	}
 
 	/**
@@ -540,7 +505,7 @@ class Vtiger_PDF_Model extends \App\Base
 		$zip = new ZipArchive();
 
 		mt_srand(time());
-		$postfix = time() . '_' . mt_rand(0, 1000);
+		$postfix = time() . '_' . random_int(0, 1000);
 		$zipPath = 'storage/';
 		$zipName = "pdfZipFile_{$postfix}.zip";
 		$fileName = $zipPath . $zipName;
@@ -556,23 +521,21 @@ class Vtiger_PDF_Model extends \App\Base
 			$zip->addFile($file, basename($file));
 		}
 		$zip->close();
-
-		// delete added pdf files
-		foreach ($fileNames as $file) {
-			unlink($file);
-		}
 		$mimeType = \App\Fields\File::getMimeContentType($fileName);
 		$size = filesize($fileName);
 		$name = basename($fileName);
 
-		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-		header("Content-Type: $mimeType");
-		header('Content-Disposition: attachment; filename="' . $name . '";');
-		header('Accept-Ranges: bytes');
-		header('Content-Length: ' . $size);
+		header('expires: Sat, 26 Jul 1997 05:00:00 GMT');
+		header("content-type: $mimeType");
+		header('content-disposition: attachment; filename="' . $name . '";');
+		header('accept-ranges: bytes');
+		header('content-length: ' . $size);
 
-		echo readfile($fileName);
+		readfile($fileName);
 		// delete temporary zip file and saved pdf files
 		unlink($fileName);
+		foreach ($fileNames as $file) {
+			unlink($file);
+		}
 	}
 }

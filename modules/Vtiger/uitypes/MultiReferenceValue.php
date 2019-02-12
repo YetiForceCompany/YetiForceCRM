@@ -4,9 +4,9 @@
  * UIType MultiReferenceValue Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 {
@@ -81,10 +81,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
 		$queryGenerator->setFields([$fieldInfo['fieldname']]);
-
-		$values = $queryGenerator->createQuery()->distinct()->indexBy($fieldInfo['column'])->column();
+		$values = $queryGenerator->createQuery()->distinct()->indexBy($fieldInfo['column'] ?? null)->column();
 		$this->set('picklistValues', $values);
-
 		return $values;
 	}
 
@@ -126,7 +124,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 305])->andWhere(['<>', 'presence', 1])
 			->andWhere(['like', 'fieldparams', '{"module":"' . $moduelName . '"%', false])->distinct()->column();
-		App\Cache::get('getMultiReferenceModules', $moduelName, $moduleIds, App\Cache::LONG);
+		App\Cache::save('getMultiReferenceModules', $moduelName, $moduleIds, App\Cache::LONG);
 
 		return $moduleIds;
 	}
@@ -189,7 +187,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$currentValue .= $values['relatedValue'] . self::COMMA;
 		App\Db::getInstance()->createCommand()->update($this->getFieldModel()->get('table'), [
 			$this->getFieldModel()->get('column') => $currentValue,
-			], [$entity->tab_name_index[$this->getFieldModel()->get('table')] => $sourceRecord]
+		], [$entity->tab_name_index[$this->getFieldModel()->get('table')] => $sourceRecord]
 		)->execute();
 	}
 
@@ -204,7 +202,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$field = $this->getFieldModel();
 		$params = $field->getFieldParams();
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
-
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$targetModel->getRelationQuery();
@@ -215,13 +212,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		$queryGenerator->setFields([$fieldInfo['fieldname']]);
 		$query = $queryGenerator->createQuery(true);
-		$values = $query->distinct()->indexBy($fieldInfo['column'])->column();
+		$values = $query->distinct()->column();
 		if ($values) {
 			$values = self::COMMA . implode(self::COMMA, $values) . self::COMMA;
 		}
-		App\Db::getInstance()->createCommand()->update($field->get('table'), [
+		\App\Db::getInstance()->createCommand()->update($field->get('table'), [
 			$field->get('column') => $values,
-			], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
+		], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
 		)->execute();
 	}
 
@@ -251,5 +248,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
 	}
 }

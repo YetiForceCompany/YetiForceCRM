@@ -6,7 +6,7 @@ namespace App;
  * Privilege File basic class.
  *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeFile
 {
@@ -61,12 +61,14 @@ class PrivilegeFile
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieveEntityInfo($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
-		$exclusionEncodeHtml = ['currency_symbol', 'date_format', 'currency_id', 'currency_decimal_separator', 'currency_grouping_separator'];
+
+		$exclusionEncodeHtml = ['currency_symbol', 'date_format', 'currency_id', 'currency_decimal_separator', 'currency_grouping_separator', 'othereventduration', 'imagename'];
 		foreach ($userInstance->column_fields as $field => $value) {
 			if (!\in_array($field, $exclusionEncodeHtml)) {
 				$userInstance->column_fields[$field] = is_numeric($value) ? $value : \App\Purifier::encodeHtml($value);
 			}
 		}
+
 		$displayName = '';
 		foreach (Module::getEntityInfo('Users')['fieldnameArr'] as $field) {
 			$displayName .= ' ' . $userInstance->column_fields[$field];
@@ -75,9 +77,14 @@ class PrivilegeFile
 		$user['details'] = $userInstance->column_fields;
 		$user['displayName'] = trim($displayName);
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
-		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
+		$user['groups'] = PrivilegeUtil::getAllGroupsByUser($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
+		$user['roleName'] = $userRoleInfo['rolename'];
+		$multiCompany = MultiCompany::getCompanyByUser($userId);
+		$user['multiCompanyId'] = $multiCompany['multicompanyid'];
+		$user['multiCompanyLogo'] = $multiCompany['logo'] ?? '';
+		$user['multiCompanyLogoUrl'] = $multiCompany['logo'] ? "file.php?module=MultiCompany&action=Logo&record={$userId}&key={$multiCompany['logo']['key']}" : '';
 		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);
 	}
 }

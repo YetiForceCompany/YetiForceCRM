@@ -48,10 +48,7 @@
 				</button>
 				<button class="btn unmarkAll btn-light" type="button">
 					<strong>
-						<div class="fa-layers fa-fw mr-2">
-							<span class="far fa-square" data-fa-transform="grow-6"></span>
-							<span class="fas fa-times" data-fa-transform="shrink-3"></span>
-						</div>
+						<span class="far fa-times-circle mr-2"></span>
 						{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}
 					</strong>
 				</button>
@@ -62,7 +59,7 @@
 		{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
 		{assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
 		{foreach item=MAPPING from=$MAPPED_VALUES}
-			{assign var=value value=array_push($MAPPED_SOURCE_PICKLIST_VALUES, $MAPPING['sourcevalue'])}
+			{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
 			{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
 		{/foreach}
 		<input type="hidden" class="allSourceValues"
@@ -103,8 +100,10 @@
 					{foreach key=TARGET_INDEX item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
 						<tr>
 							{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-								{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)]}
-
+								{assign var=PURIFIER_TMP_VAL value=\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}
+								{if !empty($MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL])}
+									{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL]}
+								{/if}
 								{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 								{assign var=IS_SELECTED value=false}
 

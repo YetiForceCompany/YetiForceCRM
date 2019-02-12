@@ -6,8 +6,8 @@ namespace App;
  * Email parser class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class EmailParser extends TextParser
 {
@@ -29,8 +29,8 @@ class EmailParser extends TextParser
 	 */
 	protected function useValue($fieldModel, $moduleName)
 	{
-		if ($this->emailoptout && isset(static::$permissionToSend[$moduleName])) {
-			$checkFieldName = static::$permissionToSend[$moduleName];
+		if ($this->emailoptout && isset(self::$permissionToSend[$moduleName])) {
+			$checkFieldName = self::$permissionToSend[$moduleName];
 			$permissionFieldModel = $this->recordModel->getModule()->getField($checkFieldName);
 
 			return ($permissionFieldModel && $permissionFieldModel->isActiveField() && $this->recordModel->has($checkFieldName)) ? (bool) $this->recordModel->get($checkFieldName) : true;

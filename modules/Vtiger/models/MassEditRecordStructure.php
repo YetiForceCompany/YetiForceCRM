@@ -33,14 +33,12 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable() && $fieldModel->isMassEditable()) {
-						if ($fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
-							if ($recordExists) {
-								$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-							}
-							$fieldModel->set('typeofdata', str_replace('~M', '~O', $fieldModel->get('typeofdata')));
-							$values[$blockLabel][$fieldName] = $fieldModel;
+					if ($fieldModel->isEditable() && $fieldModel->isMassEditable() && $fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
+						if ($recordExists) {
+							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						}
+						$fieldModel->set('typeofdata', str_replace('~M', '~O', $fieldModel->get('typeofdata')));
+						$values[$blockLabel][$fieldName] = $fieldModel;
 					}
 				}
 			}

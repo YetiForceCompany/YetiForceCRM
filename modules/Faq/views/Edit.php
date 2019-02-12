@@ -16,13 +16,9 @@ class Faq_Edit_View extends Vtiger_Edit_View
 	 */
 	public function process(\App\Request $request)
 	{
-		if ($request->isEmpty('record')) {
-			$parentId = $request->get('parentId');
-			$parentModule = $request->get('parentModule');
-			if ($parentId && $parentModule === 'HelpDesk') {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $parentModule);
-				$this->record = Faq_Record_Model::getInstanceFromHelpDesk($parentRecordModel);
-			}
+		if ($request->isEmpty('record') && !$request->isEmpty('parentId') && !$request->isEmpty('parentModule', 'Alnum') && ($parentModule = $request->getByType('parentModule', 'Alnum')) === 'HelpDesk') {
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('parentId'), $parentModule);
+			$this->record = Faq_Record_Model::getInstanceFromHelpDesk($parentRecordModel);
 		}
 		parent::process($request);
 	}

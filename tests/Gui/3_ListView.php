@@ -17,9 +17,6 @@ class Gui_ListView extends \Tests\GuiBase
 	public function testList()
 	{
 		foreach (vtlib\Functions::getAllModules() as $module) {
-			if ($module['name'] === 'Events') {
-				continue;
-			}
 			$this->url("index.php?module={$module['name']}&view=List");
 			$this->logs = $module['name'];
 			$this->assertSame($module['name'], $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));

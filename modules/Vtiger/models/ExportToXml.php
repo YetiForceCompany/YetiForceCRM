@@ -4,8 +4,8 @@
  * ExportToXml Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
@@ -16,12 +16,23 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	protected $index;
 	protected $inventoryFields;
 
-	public function exportData(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function initializeFromRequest(\App\Request $request)
 	{
-		if ($request->get('xmlExportType')) {
-			$this->tplName = $request->get('xmlExportType');
+		parent::initializeFromRequest($request);
+		if ($request->has('xmlExportType')) {
+			$this->tplName = $request->getByType('xmlExportType', 'Text');
 		}
-		$query = $this->getExportQuery($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function exportData()
+	{
+		$query = $this->getExportQuery();
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));
 		$entries = $query->all();
 		$entriesInventory = [];
@@ -37,7 +48,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if ($this->tplName) {
 				$this->createXmlFromTemplate($data, $data);
 			} else {
-				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key]);
+				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key] ?? []);
 			}
 		}
 		if (1 < count($entries)) {
@@ -57,10 +68,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	public function getEntriesInventory($recordData)
 	{
 		$entries = [];
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
-		$this->inventoryFields = $inventoryFieldModel->getFields();
-		$table = $inventoryFieldModel->getTableName('data');
-		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy('seq', SORT_ASC)->createCommand()->query();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
+		$this->inventoryFields = $inventoryModel->getFields();
+		$table = $inventoryModel->getDataTableName();
+		$dataReader = (new \App\Db\Query())->from($table)->where(['crmid' => $recordData['id']])->orderBy(['seq' => SORT_ASC])->createCommand()->query();
 		while ($inventoryRow = $dataReader->read()) {
 			$entries[] = $inventoryRow;
 		}
@@ -71,9 +82,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
-		$field = $this->inventoryFields[$columnName];
-		if (!empty($field)) {
-			if (in_array($field->getName(), ['Name', 'Reference'])) {
+		if ($field = $this->inventoryFields[$columnName] ?? false) {
+			if (in_array($field->getType(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -86,26 +96,22 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				} else {
 					$value = '';
 				}
-			} elseif ($field->getName() === 'Currency') {
+			} elseif ($field->getType() === 'Currency') {
 				$value = $field->getDisplayValue($value);
 			} else {
 				$value;
 			}
 		} elseif (in_array($columnName, ['taxparam', 'discountparam', 'currencyparam'])) {
-			switch ($columnName) {
-				case 'currencyparam':
-					$field = $this->inventoryFields['currency'];
-					$valueData = $field->getCurrencyParam([], $value);
-					$valueNewData = [];
-					foreach ($valueData as $currencyId => &$data) {
-						$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
-						$data['value'] = $currencyName;
-						$valueNewData[$currencyName] = $data;
-					}
-					$value = \App\Json::encode($valueNewData);
-					break;
-				default:
-					break;
+			if ($columnName === 'currencyparam') {
+				$field = $this->inventoryFields['currency'];
+				$valueData = $field->getCurrencyParam([], $value);
+				$valueNewData = [];
+				foreach ($valueData as $currencyId => &$data) {
+					$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
+					$data['value'] = $currencyName;
+					$valueNewData[$currencyName] = $data;
+				}
+				$value = \App\Json::encode($valueNewData);
 			}
 		}
 		return html_entity_decode($value);
@@ -113,11 +119,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function outputFile($fileName)
 	{
-		header("Content-Disposition:attachment;filename=$fileName.xml");
-		header('Content-Type:text/csv;charset=UTF-8');
-		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: post-check=0, pre-check=0', false);
+		header("content-disposition: attachment;filename=$fileName.xml");
+		header('content-type: text/csv;charset=UTF-8');
+		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('cache-control: post-check=0, pre-check=0', false);
 
 		readfile($this->tmpXmlPath);
 		unlink($this->tmpXmlPath);
@@ -139,11 +145,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		$zip->close();
 
-		header("Content-Disposition:attachment;filename=$fileName.zip");
-		header('Content-Type:application/zip');
-		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: post-check=0, pre-check=0', false);
+		header("content-disposition: attachment;filename=$fileName.zip");
+		header('content-type: application/zip');
+		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('cache-control: post-check=0, pre-check=0', false);
 		readfile($zipName);
 		unlink($zipName);
 		array_map('unlink', $this->xmlList);
@@ -166,7 +172,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if ($this->isCData($fieldName)) {
 				$xml->writeCData($entries[$fieldName]);
 			} else {
-				$xml->text($entries[$fieldModel->get('column')]);
+				$xml->text($entries[$fieldName]);
 			}
 			$xml->endElement();
 		}
@@ -174,12 +180,12 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			$customColumns = [];
 			$xml->startElement('INVENTORY_ITEMS');
 			foreach ($entriesInventory as $inventory) {
-				unset($inventory['id']);
+				unset($inventory['id'], $inventory['crmid']);
+
 				$xml->startElement('INVENTORY_ITEM');
 				foreach ($inventory as $columnName => $value) {
 					$xml->startElement($columnName);
-					$fieldModel = $this->inventoryFields[$columnName];
-					if ($fieldModel) {
+					if ($fieldModel = ($this->inventoryFields[$columnName] ?? false)) {
 						$xml->writeAttribute('label', \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
 						if (!in_array($columnName, $customColumns)) {
 							foreach ($fieldModel->getCustomColumn() as $key => $dataType) {
@@ -207,8 +213,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		if ($customColumns) {
 			return array_key_exists($name, $customColumns);
 		}
-		$fieldModel = $this->moduleFieldInstances[$name];
-		if ($fieldModel && $fieldModel->getFieldDataType() === 'text') {
+		if (($fieldModel = $this->moduleFieldInstances[$name] ?? false) && $fieldModel->getFieldDataType() === 'text') {
 			return true;
 		}
 		return false;

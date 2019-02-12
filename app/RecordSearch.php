@@ -6,8 +6,8 @@ namespace App;
  * Record search basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordSearch
 {
@@ -15,7 +15,6 @@ class RecordSearch
 	public $moduleName;
 	public $limit;
 	public $userId;
-	public $useCache = true;
 	public $entityName = true;
 	public $table = 'searchLabel'; //searchLabel, label
 	public $operator = 'Contain'; // Contain, Begin, End, FulltextBegin, FulltextWord
@@ -43,19 +42,11 @@ class RecordSearch
 	 */
 	public function search()
 	{
-		$cacheKey = "$this->searchValue,$this->limit," . (is_array($this->moduleName) ? implode(',', $this->moduleName) : $this->moduleName);
-		if ($this->useCache && Cache::has('RecordSearch', $cacheKey)) {
-			return Cache::get('RecordSearch', $cacheKey);
-		}
 		$query = $this->getQuery();
 		if ($this->limit) {
 			$query->limit($this->limit);
 		}
-		$crmIds = $this->limit === 1 ? $query->one() : $query->all();
-		if ($this->useCache) {
-			Cache::save('RecordSearch', $cacheKey, $crmIds, Cache::LONG);
-		}
-		return $crmIds;
+		return $this->limit === 1 ? $query->one() : $query->all();
 	}
 
 	/**
@@ -66,10 +57,13 @@ class RecordSearch
 	public function getQuery()
 	{
 		switch ($this->table) {
-			case 'searchLabel': return $this->getSearchLabelQuery();
-			case 'label': return $this->getLabelQuery();
+			case 'searchLabel':
+				return $this->getSearchLabelQuery();
+			case 'label':
+				return $this->getLabelQuery();
+			default:
+				return false;
 		}
-		return false;
 	}
 
 	/**
@@ -118,10 +112,14 @@ class RecordSearch
 				}
 				break;
 			case 'FulltextBegin':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
+				$query->addOrderBy('matcher');
 				break;
 			case 'FulltextWord':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
+				$query->addOrderBy('matcher');
 				break;
 		}
 		return $query->andWhere($where);
@@ -151,10 +149,14 @@ class RecordSearch
 				$where[] = ['like', 'cl.label', $this->searchValue];
 				break;
 			case 'FulltextBegin':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
+				$query->addOrderBy('matcher');
 				break;
 			case 'FulltextWord':
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
+				$query->addOrderBy('matcher');
 				break;
 		}
 		if ($this->checkPermissions) {

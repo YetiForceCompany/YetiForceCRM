@@ -15,16 +15,16 @@
 class Vtiger_Record_Model extends \App\Base
 {
 	protected $module = false;
-	protected $inventoryData;
-	protected $inventoryDataExist = false;
-	protected $inventoryRawData;
+	private $inventoryData;
 	protected $privileges = [];
 	protected $fullForm = true;
 	protected $changes = [];
+	private $changesInventory = [];
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
+	protected $dataForSave = [];
 
 	/**
 	 * Function to get the id of the record.
@@ -112,12 +112,35 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getPreviousValue($key = false)
+	public function getPreviousValue($key = '')
 	{
-		if (!$key) {
-			return $this->changes;
+		return $key ? ($this->changes[$key] ?? false) : $this->changes;
+	}
+
+	/**
+	 * Gets previous values by inventory.
+	 *
+	 * @param int|string|null $key
+	 *
+	 * @return array|bool
+	 */
+	public function getPreviousInventoryItems($key = null)
+	{
+		return $key !== null ? ($this->changesInventory[$key] ?? false) : $this->changesInventory;
+	}
+
+	/**
+	 * Gets previous values.
+	 *
+	 * @return array
+	 */
+	public function getChanges()
+	{
+		$changes = $this->getPreviousValue();
+		if ($this->getModule()->isInventory() && ($prevInv = $this->getPreviousInventoryItems())) {
+			$changes['inventory'] = $prevInv;
 		}
-		return isset($this->changes[$key]) ? $this->changes[$key] : false;
+		return $changes;
 	}
 
 	/**
@@ -248,9 +271,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDetailViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
 	}
 
 	/**
@@ -260,9 +281,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getFullDetailViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getDetailViewName() . '&record=' . $this->getId() . '&mode=showDetailViewByMode&requestMode=full';
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId() . '&mode=showDetailViewByMode&requestMode=full';
 	}
 
 	/**
@@ -272,9 +291,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEditViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
 	}
 
 	/**
@@ -304,9 +321,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDeleteUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&action=' . $module->getDeleteActionName() . '&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&action=' . $this->getModule()->getDeleteActionName() . '&record=' . $this->getId();
 	}
 
 	/**
@@ -373,16 +388,23 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to get the display value in ListView.
 	 *
-	 * @param string $fieldName
-	 * @param bool   $rawText
+	 * @param string|Vtiger_Field_Model $field
+	 * @param bool                      $rawText
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return mixed
 	 */
-	public function getListViewDisplayValue($fieldName, $rawText = false)
+	public function getListViewDisplayValue($field, $rawText = false)
 	{
-		return $this->getModule()->getFieldByName($fieldName)->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $this->getId(), $this, $rawText);
+		if ($field instanceof Vtiger_Field_Model) {
+			if (!empty($field->get('source_field_name')) && isset($this->ext[$field->get('source_field_name')][$field->getModuleName()])) {
+				return $this->ext[$field->get('source_field_name')][$field->getModuleName()]->getListViewDisplayValue($field, $rawText);
+			}
+		} else {
+			$field = $this->getModule()->getFieldByName($field);
+		}
+		return $field->getUITypeModel()->getListViewDisplayValue($this->get($field->getFieldName()), $this->getId(), $this, $rawText);
 	}
 
 	/**
@@ -419,9 +441,6 @@ class Vtiger_Record_Model extends \App\Base
 	public function save()
 	{
 		$moduleModel = $this->getModule();
-		if ($moduleModel->isInventory()) {
-			$this->initInventoryData();
-		}
 		$moduleName = $moduleModel->get('name');
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);
@@ -440,20 +459,11 @@ class Vtiger_Record_Model extends \App\Base
 					$this->validate();
 				}
 				$this->saveToDb();
-				if (method_exists($this, 'afterSaveToDb')) {
-					$this->afterSaveToDb();
-				}
 			}
 			$recordId = $this->getId();
 			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
-			if ($moduleModel->isInventory()) {
-				$this->saveInventoryData($moduleName);
-			}
-			if (\App\Request::_get('createmode') === 'link') {
-				// vtlib customization: Hook provide to enable generic module relation.
-				if (\App\Request::_has('return_module') && \App\Request::_has('return_id')) {
-					vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
-				}
+			if (\App\Request::_get('createmode') === 'link' && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
+				vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_getInteger('return_id'), $moduleName, $recordId);
 			}
 			$transaction->commit();
 		} catch (\Exception $e) {
@@ -466,6 +476,7 @@ class Vtiger_Record_Model extends \App\Base
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
+		\App\Cache::staticDelete('UnlockFields', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
@@ -488,6 +499,9 @@ class Vtiger_Record_Model extends \App\Base
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
+		if ($this->getModule()->isInventory()) {
+			$this->saveInventoryData();
+		}
 	}
 
 	/**
@@ -501,7 +515,7 @@ class Vtiger_Record_Model extends \App\Base
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
 		if (!$this->isNew()) {
-			$saveFields = array_intersect($saveFields, array_keys($this->changes));
+			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), array_keys($moduleModel->getFieldsByUiType(4))));
 		} else {
 			$entityModel = $this->getEntity();
 			$forSave[$entityModel->table_name] = [];
@@ -536,7 +550,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEntityDataForSave()
 	{
-		$row = [];
+		$row = $this->dataForSave;
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
@@ -549,7 +563,6 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-
 		return ['vtiger_crmentity' => $row];
 	}
 
@@ -686,6 +699,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordSearch->operator = $operator;
 		}
 		$rows = $recordSearch->search();
+
 		$ids = $matchingRecords = $leadIdsList = [];
 		foreach ($rows as $row) {
 			$ids[] = $row['crmid'];
@@ -730,27 +744,44 @@ class Vtiger_Record_Model extends \App\Base
 		return $this->privileges['isCreateable'];
 	}
 
+	/**
+	 * Function check if record is editable.
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return bool
+	 */
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {
-			$moduleName = $this->getModuleName();
-			$recordId = $this->getId();
-
-			$isPermitted = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
-			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $this);
-			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
+			$this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false && empty($this->getUnlockFields());
 		}
 		return $this->privileges['isEditable'];
 	}
 
 	/**
+	 * Function to check permission.
+	 *
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function isPermitted(string $action)
+	{
+		if (!isset($this->privileges[$action])) {
+			$this->privileges[$action] = \App\Privilege::isPermitted($this->getModuleName(), $action, $this->getId());
+		}
+		return $this->privileges[$action];
+	}
+
+	/**
 	 * The function decide about mandatory save record.
 	 *
-	 * @return type
+	 * @return bool
 	 */
 	public function isMandatorySave()
 	{
-		if ($this->getModule()->isInventory()) {
+		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
 			return true;
 		}
 		return false;
@@ -761,17 +792,19 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function checkLockFields()
+
+	/**
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function isLockByFields()
 	{
-		if (!isset($this->privileges['isNoLockByField'])) {
-			$isNoLock = true;
+		if (!isset($this->privileges['isLockByFields'])) {
+			$isLock = false;
 			$moduleName = $this->getModuleName();
 			$recordId = $this->getId();
 			$focus = $this->getEntity();
-			if (!$focus) {
-				$focus = CRMEntity::getInstance($moduleName);
-				$this->setEntity($focus);
-			}
 			$lockFields = $focus->getLockFields();
 			if ($lockFields) {
 				$loadData = false;
@@ -786,21 +819,55 @@ class Vtiger_Record_Model extends \App\Base
 					$this->setEntity($focus);
 				}
 				foreach ($lockFields as $fieldName => $values) {
+					if (!$this->has($fieldName) && isset($focus->column_fields[$fieldName])) {
+						parent::set($fieldName, $focus->column_fields[$fieldName]);
+					}
 					foreach ($values as $value) {
-						if ($this->get($fieldName) == $value) {
-							$isNoLock = false;
-							break 2;
-						}
-						if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
-							$isNoLock = false;
+						if ($this->get($fieldName) === $value) {
+							$isLock = true;
 							break 2;
 						}
 					}
 				}
 			}
-			$this->privileges['isNoLockByField'] = $isNoLock;
+			$this->privileges['isLockByFields'] = $isLock;
 		}
-		return $this->privileges['isNoLockByField'];
+		return $this->privileges['isLockByFields'];
+	}
+
+	/**
+	 * Function check if record is to unlock.
+	 *
+	 * @return bool
+	 */
+	public function isUnlockByFields()
+	{
+		if (!isset($this->privileges['Unlock'])) {
+			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord') &&
+				Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false && !$this->isLockByFields() && !empty($this->getUnlockFields());
+		}
+		return $this->privileges['Unlock'];
+	}
+
+	/**
+	 * Gets unlock fields.
+	 *
+	 * @return array
+	 */
+	public function getUnlockFields()
+	{
+		$cacheName = 'UnlockFields';
+		if (\App\Cache::staticHas($cacheName, $this->getId())) {
+			return \App\Cache::staticGet($cacheName, $this->getId());
+		}
+		$lockFields = \App\Fields\Picklist::getCloseStates($this->getModule()->getId());
+		foreach ($lockFields as $fieldName => $values) {
+			if (!in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
+				unset($lockFields[$fieldName]);
+			}
+		}
+		\App\Cache::staticSave($cacheName, $this->getId(), $lockFields);
+		return $lockFields;
 	}
 
 	/**
@@ -862,9 +929,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDuplicateRecordUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
 	}
 
 	/**
@@ -966,16 +1031,15 @@ class Vtiger_Record_Model extends \App\Base
 				foreach ($commonFields as $fieldName) {
 					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
 						if ($fieldName === 'shownerid') {
-							$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $parentRecordModel->getModule());
-							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getSharedOwners($parentRecordModel->getId()));
+							$parentRecordModel->set($fieldName, \App\Fields\SharedOwner::getById($parentRecordModel->getId()));
 						}
 						$this->set($fieldName, $parentRecordModel->get($fieldName));
 					}
 				}
 			}
 			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($parentRecordModel->getModuleName());
-				$inventoryFields = $inventoryFieldModel->getFields();
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($parentRecordModel->getModuleName());
+				$inventoryFields = $inventoryModel->getFields();
 				$sourceInv = $parentRecordModel->getInventoryData();
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
@@ -984,7 +1048,7 @@ class Vtiger_Record_Model extends \App\Base
 					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {
 						$this->set($mapp['target']->getName(), $parentRecordModel->get($mapp['source']->getName()));
 					}
-				} elseif ($mapp['type'] == 'INVENTORY' && is_array($sourceInv)) {
+				} elseif ($mapp['type'] == 'INVENTORY' && $sourceInv) {
 					foreach ($sourceInv as $key => $base) {
 						$newInvData[$key][$mapp['target']->getName()] = $base[$mapp['source']->getName()];
 						$fieldInventoryModel = $inventoryFields ? $inventoryFields[$mapp['source']->getName()] : [];
@@ -999,8 +1063,7 @@ class Vtiger_Record_Model extends \App\Base
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
 					if ($mapp['source']->getName() === 'shownerid' && empty($parentMapName)) {
-						$fieldInstance = Vtiger_Field_Model::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
-						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getSharedOwners($parentRecordModel->getId()));
+						$parentRecordModel->set($mapp['source']->getName(), \App\Fields\SharedOwner::getById($parentRecordModel->getId()));
 					}
 					$value = $parentRecordModel->get($mapp['source']->getName());
 					if (!$value) {
@@ -1010,61 +1073,46 @@ class Vtiger_Record_Model extends \App\Base
 				}
 			}
 			if ($newInvData) {
-				$this->inventoryData = $newInvData;
+				$this->initInventoryData($newInvData, false);
 			}
 		}
 	}
 
 	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
-		$module = CRMEntity::getInstance($parentModuleName);
+		$moduleInstance = CRMEntity::getInstance($parentModuleName);
 
-		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
-	}
-
-	/**
-	 * Set inventory data.
-	 *
-	 * @param array $data
-	 */
-	public function setInventoryData($data)
-	{
-		$this->inventoryData = $data;
-	}
-
-	/**
-	 * Set inventory raw data.
-	 *
-	 * @param array $data
-	 */
-	public function setInventoryRawData($data)
-	{
-		$this->inventoryRawData = $data;
+		return $moduleInstance->fieldsToGenerate[$moduleName] ? $moduleInstance->fieldsToGenerate[$moduleName] : [];
 	}
 
 	/**
 	 * Save the inventory data.
 	 *
-	 * @param string $moduleName
-	 *
-	 * @return bool
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
 	 */
-	public function saveInventoryData($moduleName)
+	public function saveInventoryData()
 	{
-		if (!$this->inventoryDataExist) {
-			return false;
-		}
 		\App\Log::trace('Start ' . __METHOD__);
-		$db = App\Db::getInstance();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
 		$inventoryData = $this->getInventoryData();
-		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
-		if (is_array($inventoryData)) {
-			foreach ($inventoryData as $insertData) {
-				$insertData['id'] = $this->getId();
-				$db->createCommand()->insert($table, $insertData)->execute();
+		$prevValue = $this->getPreviousInventoryItems();
+		if (($this->isNew() && $inventoryData) || (!$this->isNew() && $prevValue)) {
+			$db = App\Db::getInstance();
+			$dbCommand = $db->createCommand();
+			$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+			$tableName = $inventory->getDataTableName();
+			if ($prevValue && ($ids = array_column($prevValue, 'id'))) {
+				$dbCommand->delete($tableName, ['id' => $ids])->execute();
+			}
+			foreach ($inventoryData as $key => $item) {
+				if (isset($item['id'])) {
+					$dbCommand->update($tableName, $item, ['id' => $item['id']])->execute();
+				} else {
+					$item['crmid'] = $this->getId();
+					$dbCommand->insert($tableName, $item)->execute();
+					$item['id'] = $db->getLastInsertID("{$tableName}_id_seq");
+					$this->inventoryData[$key] = $item;
+				}
 			}
 		}
 		\App\Log::trace('End ' . __METHOD__);
@@ -1092,87 +1140,115 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Loading the inventory data.
 	 *
-	 * @return array inventory data
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array Inventory data
 	 */
 	public function getInventoryData()
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		if (!isset($this->inventoryData)) {
-			$module = $this->getModuleName();
-			$record = $this->getId();
-			if (empty($record)) {
-				$record = $this->get('record_id');
-			}
-			if (empty($record)) {
-				return [];
-			}
-			$this->inventoryData = self::getInventoryDataById($record, $module);
+		if (!isset($this->inventoryData) && $this->getId()) {
+			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->getId(), $this->getModuleName());
+		} else {
+			$this->inventoryData = $this->inventoryData ?? [];
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
 	}
 
 	/**
-	 * Function to get data of inventory for record.
+	 * Gets inventory item.
 	 *
-	 * @param int    $id
-	 * @param string $moduleName
+	 * @param int|string $key
 	 *
-	 * @return array
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
 	 */
-	public static function getInventoryDataById($id, $moduleName)
+	public function getInventoryItem($key)
 	{
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$fields = $inventory->getFields();
-		$query = (new \App\Db\Query())->from($inventory->getTableName())->where(['id' => $id]);
-		if (isset($fields['seq'])) {
-			$query->orderBy(['seq' => SORT_ASC]);
-		}
-		return $query->all();
+		return $this->getInventoryData()[$key] ?? null;
 	}
 
 	/**
-	 * Save the inventory data.
+	 * Initialization of inventory data.
+	 *
+	 * @param array     $items
+	 * @param bool|null $userFormat
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\Security
 	 */
-	public function initInventoryData()
+	public function initInventoryData(array $items, bool $userFormat = true)
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		$inventory = Vtiger_InventoryField_Model::getInstance($this->getModuleName());
-		$fields = $inventory->getFields();
-		$summaryFields = $inventory->getSummaryFields();
-		$inventoryData = [];
-		if (isset($this->inventoryRawData)) {
-			$request = $this->inventoryRawData;
-		} else {
-			$request = App\Request::init();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		$fields = $inventoryModel->getFields();
+		$this->getInventoryData();
+		$requiredField = $inventoryModel->getField('name');
+		if (!$this->isNew()) {
+			$newKeys = array_column($items, 'id', 'id');
+			foreach ($this->inventoryData as $key => $item) {
+				if (!isset($newKeys[$key])) {
+					$this->changesInventory[$key] = $item;
+					unset($this->inventoryData[$key]);
+				}
+			}
 		}
-		if ($request->has('inventoryItemsNo')) {
-			$seq = [];
-			$numRow = $request->getInteger('inventoryItemsNo');
-			for ($i = 1; $i <= $numRow; ++$i) {
-				$seq[$request->getInteger('seq' . $i)] = $i;
+		$i = 0;
+		foreach ($items as $key => $item) {
+			if (empty($item['id']) && $requiredField && !$requiredField->isRequired() && !isset($item[$requiredField->getColumnName()])) {
+				continue;
 			}
-			ksort($seq);
-			foreach ($seq as $i) {
-				if (!$request->has('name' . $i)) {
-					continue;
-				}
-				$insertData = [];
-				foreach ($fields as $field) {
-					$field->getValueFromRequest($insertData, $request, $i);
-				}
-				$inventoryData[] = $insertData;
+			$item['id'] = empty($item['id']) ? '#' . $i++ : (int) $item['id'];
+			foreach ($fields as $field) {
+				$field->setValueToRecord($this, $item, $userFormat);
 			}
-			foreach ($summaryFields as $fieldName) {
+		}
+		if ($this->isNew() || $this->getPreviousInventoryItems()) {
+			foreach ($inventoryModel->getSummaryFields() as $fieldName) {
 				if ($this->has('sum_' . $fieldName)) {
-					$value = $fields[$fieldName]->getSummaryValuesFromData($inventoryData);
+					$value = $fields[$fieldName]->getSummaryValuesFromData($this->getInventoryData());
 					$this->set('sum_' . $fieldName, $value);
 				}
 			}
-			$this->inventoryData = $inventoryData;
-			$this->inventoryDataExist = true;
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * Initialization of inventory data from request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\Security
+	 */
+	public function initInventoryDataFromRequest(\App\Request $request)
+	{
+		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
+		$this->initInventoryData($request->getMultiDimensionArray('inventory', ['id' => \App\Purifier::INTEGER] + $inventory->getPurifyTemplate()));
+	}
+
+	/**
+	 * Sets inventory item part.
+	 *
+	 * @param mixed  $itemId
+	 * @param string $name
+	 * @param mixed  $value
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function setInventoryItemPart($itemId, string $name, $value)
+	{
+		if (!$this->isNew()) {
+			if (is_numeric($itemId) && ($prevValue = ($this->getInventoryData()[$itemId][$name] ?? false)) != $value) {
+				$this->changesInventory[$itemId][$name] = $prevValue;
+			} elseif (!is_numeric($itemId)) {
+				$this->changesInventory[$itemId] = [];
+			}
+		}
+		$this->inventoryData[$itemId][$name] = $value;
 	}
 
 	/**
@@ -1180,14 +1256,10 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function clearPrivilegesCache()
 	{
-		$privilegesName = ['isEditable', 'isCreateable', 'isViewable', 'isNoLockByField'];
-		foreach ($privilegesName as $name) {
-			if (!empty($name) && isset($this->privileges[$name])) {
-				unset($this->privileges[$name]);
-			}
-		}
+		$this->privileges = [];
 		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
 		\vtlib\Functions::clearCacheMetaDataRecord($this->getId());
+		\App\Cache::staticDelete('UnlockFields', $this->getId());
 	}
 
 	/**
@@ -1334,7 +1406,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkicon' => 'fas fa-eraser',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-				'linkclass' => 'btn-sm btn-black recordEvent',
+				'linkclass' => 'btn-sm btn-dark recordEvent',
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
@@ -1392,13 +1464,40 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
-		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
-			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_DELETE',
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
-				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-			]);
+		if ($relationModel->privilegeToDelete()) {
+			if ($this->privilegeToMoveToTrash()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_REMOVE_RELATION',
+					'linkicon' => 'fas fa-unlink',
+					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+					'linkdata' => [
+						'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+						'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
+						'id' => $this->getId()
+					]
+				]);
+			}
+			if ($this->privilegeToMoveToTrash()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
+					'linkicon' => 'fas fa-trash-alt',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+					'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
+				]);
+			}
+			if ($this->privilegeToDelete()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'linkicon' => 'fas fa-eraser',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
+				]);
+			}
 		}
 		return $links;
 	}
@@ -1410,7 +1509,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isCanAssignToHimself()
 	{
-		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
+		return $this->isPermitted('AssignToYourself') && \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
 			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
@@ -1421,7 +1520,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function autoAssignRecord()
 	{
-		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
+		if ($this->isPermitted('AutoAssignRecord') && \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
 			$userModel = \App\User::getCurrentUserModel();
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
@@ -1441,13 +1540,18 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getValueByField($fieldName)
+	public function getValueByField(string $fieldName)
 	{
 		if (!$this->has($fieldName)) {
-			$fieldModel = $this->getModule()->getFieldByName($fieldName);
-			$idName = $this->getEntity()->tab_name_index[$fieldModel->getTableName()];
-			$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
-			$this->set($fieldModel->getName(), $value);
+			$focus = $this->getEntity();
+			if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] !== '') {
+				$value = $focus->column_fields[$fieldName];
+			} else {
+				$fieldModel = $this->getModule()->getFieldByName($fieldName);
+				$idName = $focus->tab_name_index[$fieldModel->getTableName()];
+				$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
+			}
+			parent::set($fieldName, $value);
 		}
 		return $this->get($fieldName);
 	}
@@ -1481,6 +1585,8 @@ class Vtiger_Record_Model extends \App\Base
 					break;
 				case 'Archived':
 					$stateId = 2;
+					break;
+				default:
 					break;
 			}
 			$dbCommand = $db->createCommand();
@@ -1531,13 +1637,21 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$image = [];
 		if (!$this->isEmpty('imagename') && $this->get('imagename') !== '[]' && $this->get('imagename') !== '""') {
-			$image = array_shift(\App\Json::decode($this->get('imagename')));
+			$image = \App\Json::decode($this->get('imagename'));
+			if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
+				\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
+				return [];
+			}
 			$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
 		} else {
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
 				if (!$this->isEmpty($fieldModel->getName()) && $this->get($fieldModel->getName()) !== '[]' && $this->get($fieldModel->getName()) !== '""') {
-					$image = array_shift(\App\Json::decode($this->get($fieldModel->getName())));
+					$image = \App\Json::decode($this->get($fieldModel->getName()));
+					if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
+						\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
+						return [];
+					}
 					$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 					$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field={$fieldModel->getName()}&record={$this->getId()}&key={$image['key']}";
 					break;

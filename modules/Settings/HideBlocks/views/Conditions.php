@@ -4,7 +4,7 @@
  * Settings HideBlocks conditions view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 {
@@ -17,7 +17,7 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	{
 		$recordId = $request->getInteger('record');
 		$blockId = $request->getInteger('blockid');
-		$views = $request->get('views');
+		$views = $request->getArray('views', 'Standard');
 		$qualifiedModuleName = $request->getModule(false);
 		$mode = '';
 		$viewer = $this->getViewer($request);
@@ -61,7 +61,7 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SOURCE_MODULE', $moduleModel->get('name'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCKID', $blockId);
-		$viewer->assign('ENABLED', $request->get('enabled'));
+		$viewer->assign('ENABLED', $request->getBoolean('enabled'));
 		$viewer->assign('VIEWS', $views);
 		$viewer->view('Conditions.tpl', $qualifiedModuleName);
 	}
@@ -75,26 +75,20 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.Settings.$moduleName.resources.Conditions",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	public function transformToAdvancedFilterCondition($conditions)
 	{
 		$conditions = \App\Json::decode($conditions);
+		$firstGroup = $secondGroup = [];
 		$transformedConditions = [];
 		if (!empty($conditions)) {
-			foreach ($conditions as $index => $info) {
+			foreach ($conditions as $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];

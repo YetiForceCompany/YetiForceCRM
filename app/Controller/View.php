@@ -1,13 +1,18 @@
 <?php
-
-namespace App\Controller;
-
 /**
  * Abstract view controller class.
+ *
+ * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Class View.
  */
 abstract class View extends Base
 {
@@ -103,11 +108,11 @@ abstract class View extends Base
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
 		}
 		if (isset($this->pageTitle)) {
-			$pageTitle = \App\Language::translate($this->pageTitle, $qualifiedModuleName);
+			$title = \App\Language::translate($this->pageTitle, $qualifiedModuleName);
 		} else {
-			$pageTitle = $this->getBreadcrumbTitle($request);
+			$title = $this->getBreadcrumbTitle($request);
 		}
-		return $prefix . $pageTitle;
+		return $prefix . $title;
 	}
 
 	/**
@@ -137,31 +142,29 @@ abstract class View extends Base
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$pageTitle = $this->getPageTitle($request);
+		$view = $this->getViewer($request);
+		$title = $this->getPageTitle($request);
 		$this->loadJsConfig($request);
 		if (\AppConfig::performance('BROWSING_HISTORY_WORKING')) {
-			\Vtiger_BrowsingHistory_Helper::saveHistory($pageTitle);
+			\Vtiger_BrowsingHistory_Helper::saveHistory($title);
 		}
-		$viewer->assign('PAGETITLE', $pageTitle);
-		$viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
-		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
-		$viewer->assign('STYLES', $this->getHeaderCss($request));
-		$viewer->assign('SKIN_PATH', \Vtiger_Theme::getCurrentUserThemePath());
-		$viewer->assign('LAYOUT_PATH', \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()));
-		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$viewer->assign('LANGUAGE', \App\Language::getLanguage());
-		$viewer->assign('HTMLLANG', \App\Language::getShortLanguageName());
-		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-		$viewer->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
-		$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('VIEW', $request->getByType('view', 1));
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
-		$companyDetails = \App\Company::getInstanceById();
-		$viewer->assign('COMPANY_DETAILS', $companyDetails);
-		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));
+		$view->assign('PAGETITLE', $title);
+		$view->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
+		$view->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
+		$view->assign('STYLES', $this->getHeaderCss($request));
+		$view->assign('SKIN_PATH', \Vtiger_Theme::getCurrentUserThemePath());
+		$view->assign('LAYOUT_PATH', \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()));
+		$view->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
+		$view->assign('LANGUAGE', \App\Language::getLanguage());
+		$view->assign('HTMLLANG', \App\Language::getShortLanguageName());
+		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
+		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
+		$view->assign('MODULE', $moduleName);
+		$view->assign('VIEW', $request->getByType('view', 1));
+		$view->assign('MODULE_NAME', $moduleName);
+		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -196,21 +199,13 @@ abstract class View extends Base
 	 */
 	public function postProcess(\App\Request $request, $display = true)
 	{
-		$viewer = $this->getViewer($request);
+		$view = $this->getViewer($request);
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		$viewer->assign('SHOW_FOOTER', $this->showFooter());
-		$viewer->view('Footer.tpl');
+		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
+		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+		$view->assign('SHOW_FOOTER', $this->showFooter() && \App\YetiForce\Register::getStatus() !== 8);
+		$view->view('Footer.tpl');
 	}
-
-	/**
-	 * Retrieves css styles that need to loaded in the page.
-	 *
-	 * @param \App\Request $request - request model
-	 *
-	 * @return <array> - array of Vtiger_CssScript_Model
-	 */
 
 	/**
 	 * Get header css files that need to loaded in the page.
@@ -225,9 +220,7 @@ abstract class View extends Base
 			'~layouts/resources/icons/userIcons.css',
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
-			'~libraries/fontawesome-web/css/fontawesome-all.css',
-			'~libraries/chosen-js/chosen.css',
-			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -237,8 +230,10 @@ abstract class View extends Base
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
-			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
+			'~libraries/clockpicker/dist/bootstrap4-clockpicker.css',
 			'~libraries/animate.css/animate.css',
+			'~libraries/tributejs/dist/tribute.css',
+			'~libraries/emojipanel/dist/emojipanel.css',
 			'~layouts/resources/colors/calendar.css',
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
@@ -259,10 +254,6 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/@fortawesome/fontawesome/index.js',
-			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
-			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
-			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
 		]);
 	}
 
@@ -277,11 +268,9 @@ abstract class View extends Base
 	{
 		$jsFileNames = [
 			'~libraries/block-ui/jquery.blockUI.js',
-			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
 			'~libraries/jquery.class.js/jquery.class.js',
-			'~libraries/jstorage/jstorage.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
 			'~libraries/pnotify/dist/iife/PNotify.js',
@@ -289,6 +278,7 @@ abstract class View extends Base
 			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
 			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
 			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
+			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
@@ -304,21 +294,33 @@ abstract class View extends Base
 			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
 			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',
+			'~vendor/ckeditor/ckeditor/ckeditor.js',
+			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
+			'~libraries/tributejs/dist/tribute.js',
+			'~libraries/emojipanel/dist/emojipanel.js',
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
+			'~libraries/floatthead/dist/jquery.floatThead.js',
+			'~libraries/store/dist/store.legacy.min.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
+			'~layouts/resources/Tools.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
+		if (\App\Privilege::isPermitted('OSSMail')) {
+			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
+		}
+		if (\App\Privilege::isPermitted('Chat')) {
+			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
+		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(\Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
 			$fileName = '~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 		$jsFileNames[] = $fileName;
-
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
@@ -352,17 +354,16 @@ abstract class View extends Base
 			if (is_file($completeFilePath)) {
 				$jsScript->set('base', $completeFilePath);
 				if (strpos($jsFileName, '~') === 0) {
-					$filePath = $prefix . ltrim(ltrim($jsFileName, '~'), '/');
+					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
-					$filePath = $prefix . str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
+					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
 				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-				continue;
+				\App\Cache::save('ConvertJsScripts', $jsFileName, $prefix . $filePath, \App\Cache::LONG);
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $prefix . $filePath);
 			} else {
 				$preLayoutPath = '';
 				if (strpos($jsFileName, '~') === 0) {
@@ -417,7 +418,6 @@ abstract class View extends Base
 					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
 					\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-					continue;
 				}
 			}
 		}
@@ -463,7 +463,6 @@ abstract class View extends Base
 				}
 				\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
 				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-				continue;
 			} else {
 				$preLayoutPath = '';
 				if (strpos($cssFileName, '~') === 0) {
@@ -516,7 +515,6 @@ abstract class View extends Base
 					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
 					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
 					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-					continue;
 				}
 			}
 		}
@@ -549,6 +547,7 @@ abstract class View extends Base
 		$userModel = \App\User::getCurrentUserModel();
 		foreach ([
 					 'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
+					 'siteUrl' => \App\Layout::getPublicUrl('', true),
 					 'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
 					 'langPrefix' => \App\Language::getLanguage(),
 					 'langKey' => \App\Language::getShortLanguageName(),
@@ -560,6 +559,7 @@ abstract class View extends Base
 					 'endHour' => $userModel->getDetail('end_hour'),
 					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
 					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+					 'eventLimit' => \AppConfig::module('Calendar', 'EVENT_LIMIT'),
 					 'timeZone' => $userModel->getDetail('time_zone'),
 					 'currencyId' => $userModel->getDetail('currency_id'),
 					 'currencyName' => $userModel->getDetail('currency_name'),
@@ -577,8 +577,11 @@ abstract class View extends Base
 					 'globalSearchAutocompleteActive' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
 					 'globalSearchAutocompleteMinLength' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
 					 'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+					 'globalSearchDefaultOperator' => \AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
 					 'sounds' => \AppConfig::sounds(),
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+					 'recordPopoverDelay' => \AppConfig::performance('RECORD_POPOVER_DELAY'),
+					 'searchShowOwnerOnlyInList' => \AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),

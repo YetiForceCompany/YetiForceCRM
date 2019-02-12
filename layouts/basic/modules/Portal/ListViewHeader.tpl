@@ -12,7 +12,7 @@
 {strip}
 <div class='widget_header row mb-2'>
 	<div class="col-12">
-		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 	</div>
 </div>
 <div class="listViewPageDiv" id="portalListViewPage">

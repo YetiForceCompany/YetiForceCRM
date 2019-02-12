@@ -62,21 +62,25 @@ class Import_Main_View extends \App\Controller\View
 		}
 	}
 
-	public function triggerImport($batchImport = false)
+	/**
+	 * Trigger import.
+	 *
+	 * @param bool $batchImport
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function triggerImport(bool $batchImport = false)
 	{
-		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
+		$moduleName = $this->request->getModule();
+		$importInfo = Import_Queue_Action::getImportInfo($moduleName, $this->user);
 		$importDataController = new Import_Data_Action($importInfo, $this->user);
-		if (!$batchImport) {
-			if (!$importDataController->initializeImport()) {
-				Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
-			}
+		if (!$batchImport && !$importDataController->initializeImport()) {
+			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+			throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
 		}
-
 		$importDataController->importData();
 		Import_Queue_Action::updateStatus($importInfo['id'], Import_Queue_Action::$IMPORT_STATUS_HALTED);
-		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
-
+		$importInfo = Import_Queue_Action::getImportInfo($moduleName, $this->user);
 		self::showImportStatus($importInfo, $this->user);
 	}
 
@@ -101,7 +105,6 @@ class Import_Main_View extends \App\Controller\View
 		} else {
 			$continueImport = false;
 		}
-
 		$importStatusCount = $importDataController->getImportStatusCount();
 		$totalRecords = $importStatusCount['TOTAL'];
 		if ($totalRecords > ($importStatusCount['IMPORTED'] + $importStatusCount['FAILED'])) {
@@ -116,15 +119,12 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$moduleName = $importInfo['module'];
 		$importId = $importInfo['id'];
-
 		$viewer = new Vtiger_Viewer();
-
 		$viewer->assign('FOR_MODULE', $moduleName);
-		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('IMPORT_ID', $importId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
 		$viewer->assign('CONTINUE_IMPORT', $continueImport);
-
 		$viewer->view('ImportStatus.tpl', 'Import');
 	}
 
@@ -132,7 +132,7 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('FOR_MODULE', $importInfo['module']);
-		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('OWNER_ID', $importInfo['user_id']);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
@@ -193,7 +193,6 @@ class Import_Main_View extends \App\Controller\View
 		$fileReader->deleteFile();
 		if ($fileReader->getStatus() === 'success') {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
-
 			return true;
 		} else {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .

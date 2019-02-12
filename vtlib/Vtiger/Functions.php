@@ -13,58 +13,6 @@ namespace vtlib;
 
 class Functions
 {
-	protected static function getCurrencyInfo($currencyid)
-	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
-		} else {
-			$currencyInfo = self::getAllCurrency();
-		}
-		return $currencyInfo[$currencyid];
-	}
-
-	public static function getAllCurrency($onlyActive = false)
-	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
-		} else {
-			$currencyInfo = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
-			\App\Cache::save('AllCurrency', 'All', $currencyInfo);
-		}
-		if ($onlyActive) {
-			$currencies = [];
-			foreach ($currencyInfo as $currencyId => $currency) {
-				if ($currency['currency_status'] === 'Active') {
-					$currencies[$currencyId] = $currency;
-				}
-			}
-
-			return $currencies;
-		} else {
-			return $currencyInfo;
-		}
-	}
-
-	public static function getCurrencyName($currencyid, $show_symbol = true)
-	{
-		$currencyInfo = self::getCurrencyInfo($currencyid);
-		if ($show_symbol) {
-			return sprintf('%s : %s', \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
-		}
-		return $currencyInfo['currency_name'];
-	}
-
-	public static function getCurrencySymbolandRate($currencyid)
-	{
-		$currencyInfo = self::getCurrencyInfo($currencyid);
-		$currencyRateSymbol = [
-			'rate' => $currencyInfo['conversion_rate'],
-			'symbol' => $currencyInfo['currency_symbol'],
-		];
-
-		return $currencyRateSymbol;
-	}
-
 	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
 	{
 		if (\App\Cache::has('moduleTabs', 'all')) {
@@ -96,16 +44,16 @@ class Functions
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if ($isEntityType && $module['isentitytype'] === 0) {
+			if ($isEntityType && (int) $module['isentitytype'] === 0) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && $module['presence'] !== $presence) {
+			if ($presence !== false && (int) $module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && $module['coloractive'] !== 1) {
+			if ($colorActive !== false && (int) $module['coloractive'] !== 1) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && $module['ownedby'] !== $ownedby) {
+			if ($ownedby !== false && (int) $module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -143,33 +91,6 @@ class Functions
 			return \App\Cache::get('moduleTabByName', $name);
 		}
 		return $id ? \App\Cache::get('moduleTabById', $id) : null;
-	}
-
-	/**
-	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname).
-	 *
-	 * @param string $mixed - the module name
-	 *
-	 * @return string $fieldsname - the entity field name for the module
-	 */
-	public static function getEntityModuleSQLColumnString($mixed)
-	{
-		$data = [];
-		$info = \App\Module::getEntityInfo($mixed);
-		if ($info) {
-			$data['tablename'] = $info['tablename'];
-			$fieldnames = $info['fieldname'];
-			if (strpos(',', $fieldnames) !== false) {
-				$fieldnames = sprintf('concat(%s)', implode(",' ',", $info['fieldnameArr']));
-			}
-			$data['fieldname'] = $fieldnames;
-			$colums = [];
-			foreach ($info['fieldnameArr'] as $fieldname) {
-				$colums[] = $info['tablename'] . '.' . $fieldname;
-			}
-			$data['colums'] = implode(',', $colums);
-		}
-		return $data;
 	}
 
 	// MODULE RECORD
@@ -251,7 +172,7 @@ class Functions
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
-				->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
+				->where(['tabid' => \App\Module::getModuleId($module)])
 				->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {
@@ -280,10 +201,8 @@ class Functions
 	{
 		$field = \App\Field::getFieldInfo($mixed, $moduleId);
 
-		if ($field) {
-			if ($onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
-				$field = null;
-			}
+		if ($field && $onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
+			$field = null;
 		}
 		return $field ? $field['fieldid'] : false;
 	}
@@ -315,9 +234,7 @@ class Functions
 	{
 		$str = preg_replace("/(\r\n)/", '\\r\\n', $str);
 		$str = preg_replace("/'/", ' ', $str);
-		$str = preg_replace('/"/', ' ', $str);
-
-		return $str;
+		return preg_replace('/"/', ' ', $str);
 	}
 
 	public static function suppressHTMLTags($string)
@@ -325,12 +242,12 @@ class Functions
 		return preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
 	}
 
-	/** 	Function used to retrieve a single field value from database
-	 * 	@param string $tableName - tablename from which we will retrieve the field value
-	 * 	@param string $fieldName - fieldname to which we want to get the value from database
-	 * 	@param string $idName	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
-	 * 	@param int    $id	 - entity id
-	 * 	return mixed $fieldval  - field value of the needed fieldname from database will be returned
+	/**    Function used to retrieve a single field value from database
+	 * @param string $tableName - tablename from which we will retrieve the field value
+	 * @param string $fieldName - fieldname to which we want to get the value from database
+	 * @param string $idName    - idname which is the name of the entity id in the table like, inoviceid, etc.,
+	 * @param int    $id        - entity id
+	 *                          return mixed $fieldval  - field value of the needed fieldname from database will be returned
 	 */
 	public static function getSingleFieldValue($tableName, $fieldName, $idName, $id)
 	{
@@ -343,19 +260,19 @@ class Functions
 	 * *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
 	 * *            if the  field is not matched with the $new_field_details array.
 	 * *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
-	 * *	       typeofdata will return, else the same typeofdata will return.
+	 * *           typeofdata will return, else the same typeofdata will return.
 	 * *
 	 * *     EXAMPLE: If you have a field entry like this:
 	 * *
-	 * * 		fieldlabel         | typeofdata | tablename            | columnname       |
-	 * *	        -------------------+------------+----------------------+------------------+
-	 * *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
+	 * *        fieldlabel         | typeofdata | tablename            | columnname       |
+	 * *            -------------------+------------+----------------------+------------------+
+	 * *        Potential Name     | I~O        | vtiger_quotes        | potentialid      |
 	 * *
 	 * *     Then put an entry in $new_field_details  like this:
 	 * *
-	 * *				"vtiger_quotes:potentialid"=>"V",
+	 * *                "vtiger_quotes:potentialid"=>"V",
 	 * *
-	 * *	Now in customview and report's advance filter this field's criteria will be show like string.
+	 * *    Now in customview and report's advance filter this field's criteria will be show like string.
 	 * *
 	 * */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
@@ -489,7 +406,7 @@ class Functions
 		return $array;
 	}
 
-	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
+	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
 		$message = is_object($e) ? $e->getMessage() : $e;
 		if (!is_array($message)) {
@@ -500,43 +417,56 @@ class Functions
 				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 		}
-		if (\App\Config::$requestMode === 'API') {
-			throw new \APIException($message, 401);
+		if (\App\Process::$requestMode === 'API') {
+			throw new \App\Exceptions\ApiException($message, 401);
 		}
 		if (\App\Request::_isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
+			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {
-				$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
+				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
 				$response->setError('error', $message, $trace);
 			}
 			$response->emit();
 		} else {
-			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view($tpl, 'Vtiger');
+			if (php_sapi_name() !== 'cli') {
+				$viewer = new \Vtiger_Viewer();
+				$viewer->assign('MESSAGE', $message);
+				$viewer->assign('MESSAGE_EXPANDED', is_array($message));
+				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
+				$viewer->view('ExceptionError.tpl', 'Vtiger');
+			} else {
+				echo $message . \PHP_EOL;
+			}
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
 			if (is_object($message)) {
 				throw new $message();
 			} elseif (is_array($message)) {
-				throw new \Exception($message['message']);
+				throw new \App\Exceptions\AppException($message['message']);
 			} else {
-				throw new \Exception($message);
+				throw new \App\Exceptions\AppException($message);
 			}
 		}
 	}
 
-	public static function getHtmlOrPlainText($content)
+	/**
+	 * Get html rr plain text.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function getHtmlOrPlainText(string $content)
 	{
-		if ($content !== strip_tags($content)) {
+		if (substr($content, 0, 1) === '<' && substr($content, -1) === '>') {
 			$content = \App\Purifier::decodeHtml($content);
 		} else {
 			$content = nl2br($content);
@@ -607,6 +537,7 @@ class Functions
 		if (is_numeric($str)) {
 			return (float) $str;
 		}
+		$bytes = 0;
 		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
 			$bytes = (float) ($regs[1]);
 			switch (strtolower($regs[2])) {
@@ -621,6 +552,8 @@ class Functions
 				case 'k':
 				case 'kb':
 					$bytes *= 1024;
+					break;
+				default:
 					break;
 			}
 		}
@@ -669,40 +602,10 @@ class Functions
 			case 'css':
 				$return = \AppConfig::developer('MINIMIZE_CSS');
 				break;
+			default:
+				break;
 		}
 		return $return;
-	}
-
-	public static function getInitials($name)
-	{
-		$initial = '';
-		foreach (explode(' ', $name) as $word) {
-			$initial .= strtoupper($word[0]);
-		}
-		return $initial;
-	}
-
-	public static function getDiskSpace($dir = '')
-	{
-		if ($dir == '') {
-			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		}
-		$total = disk_total_space($dir);
-		$free = disk_free_space($dir);
-		$used = $total - $free;
-
-		return ['total' => $total, 'free' => $free, 'used' => $used];
-	}
-
-	public static function getDefaultCurrencyInfo()
-	{
-		$allCurrencies = self::getAllCurrency(true);
-		foreach ($allCurrencies as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
-				return $currency;
-			}
-		}
-		return false;
 	}
 
 	/*
@@ -804,9 +707,7 @@ class Functions
 		// Replace non-alphanumeric characters with our delimiter
 		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
 		// Remove delimiter from ends
-		$str = trim($str, $delimiter);
-
-		return $str;
+		return trim($str, $delimiter);
 	}
 
 	/*
@@ -822,7 +723,7 @@ class Functions
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
 		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
+		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
 
 		if (empty($date)) {

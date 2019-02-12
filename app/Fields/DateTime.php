@@ -3,8 +3,8 @@
  * Tools for datetime class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -46,9 +46,7 @@ class DateTime
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x === false) {
-					continue;
-				} else {
+				if ($x !== false) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
@@ -94,8 +92,25 @@ class DateTime
 				return '<span title="' . static::formatToDay($dateTime) . '">' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '</span>';
 			case 'PLL_FULL_AND_DAY':
 				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . static::formatToDay($dateTime) . '</span>';
+			default:
+				break;
 		}
 		return '-';
+	}
+
+	/**
+	 * Crop date if today and only return the hour.
+	 *
+	 * @param string $dateTime Date time
+	 *
+	 * @return string
+	 */
+	public static function formatToShort(string $dateTime)
+	{
+		if ((new \DateTime($dateTime))->format('Y-m-d') === date('Y-m-d')) {
+			return \App\Fields\Time::formatToDisplay($dateTime);
+		}
+		return static::formatToDisplay($dateTime);
 	}
 
 	/**
@@ -108,28 +123,20 @@ class DateTime
 	 */
 	public static function formatToDay($dateTime, $allday = false)
 	{
-		$dateTimeInUserFormat = explode(' ', static::formatToDisplay($dateTime));
-		if (count($dateTimeInUserFormat) === 3) {
-			list($dateInUserFormat, $timeInUserFormat, $seconds) = $dateTimeInUserFormat;
-		} else {
-			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
-			$seconds = '';
-		}
-		$formatedDate = $dateInUserFormat;
+		[$formatedDate, $timeInUserFormat] = explode(' ', static::formatToDisplay($dateTime));
 		$dateDay = Date::getDayFromDate($dateTime, false, true);
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
-			if (count($timeInUserFormat) === 3) {
-				list($hours, $minutes, $seconds) = $timeInUserFormat;
+			if (\count($timeInUserFormat) === 3) {
+				[$hours, $minutes, $seconds] = $timeInUserFormat;
 			} else {
-				list($hours, $minutes) = $timeInUserFormat;
+				[$hours, $minutes] = $timeInUserFormat;
 				$seconds = '';
 			}
 			$displayTime = $hours . ':' . $minutes . ' ' . $seconds;
 			$formatedDate .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 		}
-		$formatedDate .= " ($dateDay)";
-		return $formatedDate;
+		return $formatedDate . " ($dateDay)";
 	}
 
 	/**

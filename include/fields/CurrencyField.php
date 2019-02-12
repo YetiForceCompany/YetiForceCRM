@@ -115,11 +115,11 @@ class CurrencyField
 		} else {
 			$this->currencyId = self::getDBCurrencyId();
 		}
-		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($this->currencyId);
-		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
-		$this->conversionRate = $currencyRateAndSymbol['rate'];
+		$currencyData = \App\Fields\Currency::getById($this->currencyId);
+		$this->currencySymbol = $currencyData['currency_symbol'];
+		$this->conversionRate = $currencyData['conversion_rate'];
 		$this->currencySymbolPlacement = $user->getDetail('currency_symbol_placement');
-		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && (string) $user->getDetail('no_of_currency_decimals') !== '0') ? 2 : (int) $user->getDetail('no_of_currency_decimals');
+		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && (int) $user->getDetail('no_of_currency_decimals') !== 0) ? 2 : (int) $user->getDetail('no_of_currency_decimals');
 	}
 
 	public function getCurrencySymbol()
@@ -135,7 +135,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return string - Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public static function convertToUserFormat($value, $user = null, $skipConversion = false, $skipFormatting = false)
 	{
@@ -173,7 +173,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public function getDisplayValue($user = null, $skipConversion = false, $skipFormatting = false)
 	{
@@ -181,17 +181,17 @@ class CurrencyField
 			$user = \App\User::getCurrentUserModel();
 		}
 		$this->initialize($user);
-		$value = $this->value;
-		if (empty($value)) {
-			$value = 0;
+		$displayValue = $this->value;
+		if (empty($displayValue)) {
+			$displayValue = 0;
 		}
 		if ($skipConversion === false) {
-			$value = self::convertFromDollar($value, $this->conversionRate);
+			$displayValue = self::convertFromDollar($displayValue, $this->conversionRate);
 		}
 		if ($skipFormatting === false) {
-			$value = $this->formatCurrencyValue($value);
+			$displayValue = $this->formatCurrencyValue($displayValue);
 		}
-		return $this->currencyDecimalFormat($value, $user);
+		return $this->currencyDecimalFormat($displayValue, $user);
 	}
 
 	/**
@@ -200,7 +200,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public function getDisplayValueWithSymbol($user = null, $skipConversion = false)
 	{
@@ -215,7 +215,7 @@ class CurrencyField
 	 * @param string $currencySymbol
 	 * @param string $currencySymbolPlacement
 	 *
-	 * @return Currency value appended with the currency symbol
+	 * @return string Currency value appended with the currency symbol
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')
 	{
@@ -238,20 +238,20 @@ class CurrencyField
 	 *
 	 * @param Number $value
 	 *
-	 * @return Formatted Currency
+	 * @return bool|string Formatted Currency
 	 */
 	private function formatCurrencyValue($value)
 	{
 		$currencyPattern = $this->currencyFormat;
-		$currencySeparator = $this->currencySeparator;
-		$decimalSeparator = $this->decimalSeparator;
+		$curSeparator = $this->currencySeparator;
+		$decSeparator = $this->decimalSeparator;
 		$currencyDecimalPlaces = $this->numberOfDecimal;
 		$value = number_format($value, $currencyDecimalPlaces, '.', '');
-		if (empty($currencySeparator)) {
-			$currencySeparator = ' ';
+		if (empty($curSeparator)) {
+			$curSeparator = ' ';
 		}
-		if (empty($decimalSeparator)) {
-			$decimalSeparator = ' ';
+		if (empty($decSeparator)) {
+			$decSeparator = ' ';
 		}
 
 		if ($value < 0) {
@@ -263,7 +263,7 @@ class CurrencyField
 
 		if ($currencyPattern == $this->CURRENCY_PATTERN_PLAIN) {
 			// Replace '.' with Decimal Separator
-			$number = str_replace('.', $decimalSeparator, $value);
+			$number = str_replace('.', $decSeparator, $value);
 
 			return $sign . $number;
 		}
@@ -279,12 +279,12 @@ class CurrencyField
 			$wholeNumberLastPart = substr($wholeNumber, -3);
 			// Re-create the whole number with user's configured currency separator
 			if (!empty($wholeNumberFirstPart)) {
-				$numericParts[0] = $wholeNumberFirstPart . $currencySeparator . $wholeNumberLastPart;
+				$numericParts[0] = $wholeNumberFirstPart . $curSeparator . $wholeNumberLastPart;
 			} else {
 				$numericParts[0] = $wholeNumberLastPart;
 			}
 			// Re-create the currency value combining the whole number and the decimal part using Decimal separator
-			$number = implode($decimalSeparator, $numericParts);
+			$number = implode($decSeparator, $numericParts);
 
 			return $sign . $number;
 		}
@@ -317,7 +317,7 @@ class CurrencyField
 			// Split the whole number into chunks of 3 digits
 			$wholeNumberParts = str_split($wholeNumber, 3);
 			// Re-create the whole number with user's configured currency separator
-			$numericParts[0] = $wholeNumber = implode($currencySeparator, $wholeNumberParts);
+			$numericParts[0] = $wholeNumber = implode($curSeparator, $wholeNumberParts);
 			if ($wholeNumber != 0) {
 				$numericParts[0] = ltrim($wholeNumber, '0');
 			} else {
@@ -330,7 +330,7 @@ class CurrencyField
 			}
 
 			// Re-create the currency value combining the whole number and the decimal part using Decimal separator
-			$number = implode($decimalSeparator, $numericParts);
+			$number = implode($decSeparator, $numericParts);
 
 			return $sign . $number;
 		}
@@ -369,15 +369,14 @@ class CurrencyField
 				$wholeNumberFirstPart = str_pad($wholeNumberFirstPart, $numberLength + $gapsToBeFilled, '0', STR_PAD_LEFT);
 				// Split the first part of tne number into chunks of 2 digits
 				$wholeNumberFirstPartElements = str_split($wholeNumberFirstPart, 2);
-				$wholeNumberFirstPart = ltrim(implode($currencySeparator, $wholeNumberFirstPartElements), '0');
-				$wholeNumberFirstPart = implode($currencySeparator, $wholeNumberFirstPartElements);
+				$wholeNumberFirstPart = implode($curSeparator, $wholeNumberFirstPartElements);
 				if ($wholeNumberFirstPart != 0) {
 					$wholeNumberFirstPart = ltrim($wholeNumberFirstPart, '0');
 				} else {
 					$wholeNumberFirstPart = 0;
 				}
 				// Re-create the whole number with user's configured currency separator
-				$numericParts[0] = $wholeNumberFirstPart . $currencySeparator . $wholeNumberLastPart;
+				$numericParts[0] = $wholeNumberFirstPart . $curSeparator . $wholeNumberLastPart;
 			} else {
 				$numericParts[0] = $wholeNumberLastPart;
 			}
@@ -388,7 +387,7 @@ class CurrencyField
 			}
 
 			// Re-create the currency value combining the whole number and the decimal part using Decimal separator
-			$number = implode($decimalSeparator, $numericParts);
+			$number = implode($decSeparator, $numericParts);
 			return $sign . $number;
 		}
 		return $value;
@@ -408,21 +407,21 @@ class CurrencyField
 			$user = \App\User::getCurrentUserModel();
 		}
 		$this->initialize($user);
-		$currencySeparator = $this->currencySeparator;
-		$decimalSeparator = $this->decimalSeparator;
-		if (empty($currencySeparator)) {
-			$currencySeparator = ' ';
+		$curSeparator = $this->currencySeparator;
+		$decSeparator = $this->decimalSeparator;
+		if (empty($curSeparator)) {
+			$curSeparator = ' ';
 		}
-		if (empty($decimalSeparator)) {
-			$decimalSeparator = ' ';
+		if (empty($decSeparator)) {
+			$decSeparator = ' ';
 		}
-		$value = str_replace($currencySeparator, '', $this->value);
-		$value = str_replace($decimalSeparator, '.', $value);
-		$value = (float) preg_replace('/[^0-9\.-]/', '', $value);
+		$dbValue = str_replace($curSeparator, '', $this->value);
+		$dbValue = str_replace($decSeparator, '.', $dbValue);
+		$dbValue = (float) preg_replace('/[^0-9\.-]/', '', $dbValue);
 		if ($skipConversion === false) {
-			$value = self::convertToDollar($value, $this->conversionRate);
+			$dbValue = self::convertToDollar($dbValue, $this->conversionRate);
 		}
-		return $value;
+		return $dbValue;
 	}
 
 	/**
@@ -450,7 +449,7 @@ class CurrencyField
 	 */
 	public static function getDBCurrencyId()
 	{
-		$id = (new \App\Db\Query())->select('id')->from('vtiger_currency_info')->where(['<', 'defaultid', 0])->scalar();
+		$id = (new \App\Db\Query())->select(['id'])->from('vtiger_currency_info')->where(['<', 'defaultid', 0])->scalar();
 		if ($id) {
 			return $id;
 		}
@@ -472,15 +471,6 @@ class CurrencyField
 		return round($amount * $conversionRate, $currencyField->maxNumberOfDecimals);
 	}
 
-	/** This function returns the amount converted from master currency.
-	 * param $amount - amount to be converted.
-	 * param $crate - conversion rate.
-	 */
-	public static function convertFromMasterCurrency($amount, $conversionRate)
-	{
-		return $amount * $conversionRate;
-	}
-
 	public function currencyDecimalFormat($value, $user = null)
 	{
 		if (!$user) {
@@ -494,15 +484,16 @@ class CurrencyField
 				 */
 				$value = rtrim($value, '0');
 			}
-			$decimalSeparator = $user->getDetail('currency_decimal_separator');
-			$fieldValue = explode(App\Purifier::decodeHtml($decimalSeparator), $value);
-			if (strlen($fieldValue[1]) <= 1) {
-				if (strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];
-				} elseif (!strlen($fieldValue[1])) {
-					return $value = $fieldValue[0];
+			$decSeparator = $user->getDetail('currency_decimal_separator');
+			$fieldValue = explode(App\Purifier::decodeHtml($decSeparator), $value);
+			$valueField = $fieldValue[0];
+			if (0 === (int) $valueField || !isset($fieldValue[1]) || strlen($fieldValue[1]) <= 1) {
+				if (isset($fieldValue[1]) && strlen($fieldValue[1]) == 1) {
+					return $value = $valueField . $decSeparator . $fieldValue[1];
+				} elseif (!isset($fieldValue[1])) {
+					return $value = $valueField;
 				} else {
-					return $value = $fieldValue[0] . $decimalSeparator;
+					return $value = $valueField;
 				}
 			} else {
 				return preg_replace('/(?<=\\.[0-9])[0]+$/', '', $value);

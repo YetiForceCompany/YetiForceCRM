@@ -23,17 +23,12 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		var thisInstance = this;
 		if (thisInstance.treeInstance == false) {
 			thisInstance.treeInstance = container.find("#treePopupContents");
-			var plugins = [
-				"search"
-			];
-			if (thisInstance.isActiveCategory()) {
-				plugins.push("category");
-			}
+			let plugins = ['search', 'category'];
 			if (thisInstance.getRelationType() == '2') {
-				plugins.push("checkbox");
+				plugins.push('checkbox');
 			}
 			if (thisInstance.getRelationType() == '1') {
-				plugins.push("edit");
+				plugins.push('edit');
 			}
 			thisInstance.treeInstance.jstree($.extend(true, {
 				core: {
@@ -49,9 +44,6 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				plugins: plugins
 			}, thisInstance.treeInstance.data('params')));
 		}
-	},
-	isActiveCategory: function () {
-		return this.getModalContainer().find('#isActiveCategory').val() == '1';
 	},
 	getRelationType: function () {
 		return this.getModalContainer().find('#relationType').val();
@@ -73,46 +65,39 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		});
 	},
 	registerSaveRecords: function (container) {
-		var thisInstance = this;
-		var ord = [], ocd = [];
+		const thisInstance = this;
+		let ord = [], ocd = [];
 		$.each(thisInstance.getRecords(), function (index, value) {
-			if (value.state && value.state.selected && value.type == "record") {
+			if (value.state && value.state.selected && value.attr === 'record') {
 				ord.push(value.record_id);
 			}
-			if (value.category && value.category.checked) {
+			if (value.category && value.category.checked && value.attr !== "record") {
 				ocd.push(value.record_id);
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function (e) {
-			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [],
-				categoryToRemove = []
-			var saveButton = $(this);
+			let recordsToAdd = [], categoryToAdd = [],
+				recordsToRemove = Object.assign([], ord), categoryToRemove = Object.assign([], ocd);
+			let saveButton = $(this);
 			saveButton.attr('disabled', 'disabled');
-			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
-				if (jQuery.inArray(value.original.record_id, ord) == -1 && value.original.type == "record") {
-					recordsToAdd.push(value.original.record_id);
-				}
-				rSelected.push(value.original.record_id);
-			});
-			$.each(ord, function (index, value) {
-				if (jQuery.inArray(value, rSelected) == -1) {
-					recordsToRemove.push(value);
-				}
-			});
-			if (thisInstance.isActiveCategory()) {
-				cSelected = thisInstance.treeInstance.jstree("getCategory");
-				$.each(cSelected, function (index, value) {
-					if (jQuery.inArray(value, ocd) == -1) {
+			let cSelected = thisInstance.treeInstance.jstree('getCategory', true);
+			$.each(cSelected, function (index, treeElement) {
+				let value = treeElement.record_id;
+				if (treeElement.attr === 'record') {
+					if (jQuery.inArray(value, recordsToRemove) == -1) {
+						recordsToAdd.push(value);
+					} else {
+						recordsToRemove.splice(recordsToRemove.indexOf(value), 1);
+					}
+				} else if (treeElement.attr !== 'record') {
+					if (jQuery.inArray(value, categoryToRemove) == -1) {
 						categoryToAdd.push(value);
+					} else {
+						categoryToRemove.splice(categoryToRemove.indexOf(value), 1);
 					}
-				});
-				$.each(ocd, function (index, value) {
-					if (jQuery.inArray(value, cSelected) == -1) {
-						categoryToRemove.push(value);
-					}
-				});
-			}
-			var params = {
+				}
+			});
+			let params = {
 				module: thisInstance.windowParent.app.getModuleName(),
 				action: 'RelationAjax',
 				mode: 'updateRelation',

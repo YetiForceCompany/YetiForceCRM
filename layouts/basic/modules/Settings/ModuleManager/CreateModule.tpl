@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-{strip}	
-	<div class="modal addKeyContainer fade" tabindex="-1">
+{strip}
+	<div class="tpl-Settings-ModuleManager-CreateModule modal addKeyContainer fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
@@ -12,34 +12,58 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group row">
-							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}</label>
+							<label class="col-sm-4 col-form-label text-right"><span
+										class="text-danger">*</span>{\App\Language::translate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}
+							</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="module_name form-control" data-validation-engine="validate[required]" name="module_name" placeholder="HelpDesk" required="true">
+								<input type="text" class="module_name form-control"
+									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField], funcCall[Settings_Module_Manager_Js.validateModuleName]]"
+									   name="module_name"
+									   placeholder="HelpDesk" required="true">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTER_MODULE_LABEL', $QUALIFIED_MODULE)}</label>
+							<label class="col-sm-4 col-form-label text-right"><span
+										class="text-danger">*</span>{\App\Language::translate('LBL_ENTER_MODULE_LABEL', $QUALIFIED_MODULE)}
+							</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="module_name form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="module_label" placeholder="Help Desk" required="true">
+								<input type="text" class="module_name form-control"
+									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"
+									   name="module_label" placeholder="Help Desk" required="true">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTITY_FIELDNAME', $QUALIFIED_MODULE)}</label>
+							<label class="col-sm-4 col-form-label text-right"><span
+										class="text-danger">*</span>{\App\Language::translate('LBL_ENTITY_FIELDNAME', $QUALIFIED_MODULE)}
+							</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="entityfieldname form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="entityfieldname" placeholder="{\App\Language::translate('LBL_SAMPLE_FIELD_NAME', $QUALIFIED_MODULE)}" required="true">
+								<input type="text" class="entityfieldname form-control"
+									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"
+									   name="entityfieldname"
+									   placeholder="{\App\Language::translate('LBL_SAMPLE_FIELD_NAME', $QUALIFIED_MODULE)}"
+									   required="true">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTITY_FIELDLABEL', $QUALIFIED_MODULE)}</label>
+							<label class="col-sm-4 col-form-label text-right"><span
+										class="text-danger">*</span>{\App\Language::translate('LBL_ENTITY_FIELDLABEL', $QUALIFIED_MODULE)}
+							</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="entityfieldlabel form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"name="entityfieldlabel" placeholder="{\App\Language::translate('LBL_SAMPLE_LABEL', $QUALIFIED_MODULE)}" required="true">
+								<input type="text" class="entityfieldlabel form-control"
+									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"
+									   name="entityfieldlabel"
+									   placeholder="{\App\Language::translate('LBL_SAMPLE_LABEL', $QUALIFIED_MODULE)}"
+									   required="true">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label text-right">{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</label>
 							<div class="col-sm-6 controls">
-								<select class="select2 form-control" title="{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype">
-									<option value="0" selected>{\App\Language::translate('LBL_BASE_MODULE', $QUALIFIED_MODULE)}</option>
+								<select class="select2 form-control"
+										title="{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}"
+										name="entitytype">
+									<option value="0"
+											selected>{\App\Language::translate('LBL_BASE_MODULE', $QUALIFIED_MODULE)}</option>
 									<option value="1">{\App\Language::translate('LBL_INVENTORY_MODULE', $QUALIFIED_MODULE)}</option>
 								</select>
 							</div>

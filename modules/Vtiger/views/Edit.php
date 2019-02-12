@@ -71,14 +71,14 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
+		$recordId = $request->getInteger('record');
+		if (!empty($recordId) && $request->getBoolean('isDuplicate') === true) {
 			$viewer->assign('MODE', 'duplicate');
 			$viewer->assign('RECORD_ID', '');
 			$this->getDuplicate();
-		} elseif (!empty($record)) {
+		} elseif (!empty($recordId)) {
 			$viewer->assign('MODE', 'edit');
-			$viewer->assign('RECORD_ID', $record);
+			$viewer->assign('RECORD_ID', $recordId);
 		} else {
 			$referenceId = $request->getInteger('reference_id');
 			if ($referenceId) {
@@ -88,8 +88,8 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('MODE', '');
 			$viewer->assign('RECORD_ID', '');
 		}
-		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $record);
-		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $record];
+		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $recordId);
+		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
 		$detailViewLinks = $editModel->getEditViewLinks($editViewLinkParams);
 		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
 
@@ -100,6 +100,9 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			if ($fieldModel->isWritable()) {
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
+		}
+		if ($moduleModel->isInventory() && !$request->isEmpty('inventory')) {
+			$this->record->initInventoryDataFromRequest($request);
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->record, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
@@ -126,10 +129,21 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
+		if ($editViewLayout = (1 === $moduleModel->getModuleType() && \AppConfig::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
+			$recordStructureRight = [];
+			foreach ($moduleModel->getFieldsByType('text') as $field) {
+				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {
+					$recordStructureRight[$field->getBlockName()] = $recordStructure[$field->getBlockName()];
+					unset($recordStructure[$field->getBlockName()]);
+				}
+			}
+			$viewer->assign('RECORD_STRUCTURE_RIGHT', $recordStructureRight);
+		}
+		$viewer->assign('EDIT_VIEW_LAYOUT', $editViewLayout);
+		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		$viewer->assign('RECORD', $this->record);

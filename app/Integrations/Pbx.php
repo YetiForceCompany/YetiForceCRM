@@ -6,8 +6,8 @@ namespace App\Integrations;
  * Pbx main class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Pbx extends \App\Base
 {
@@ -39,27 +39,6 @@ class Pbx extends \App\Base
 			}
 		}
 		return $connectors;
-	}
-
-	/**
-	 * Get connector instance.
-	 *
-	 * @param string $name
-	 *
-	 * @return bool|\App\Integrations\className
-	 */
-	public static function getConnectorInstance($name)
-	{
-		$className = '\App\Integrations\Pbx\\' . $name;
-		if (isset(static::$connectors[$className])) {
-			return static::$connectors[$className];
-		}
-		if (!class_exists($className)) {
-			\App\Log::warning('Not found Pbx class');
-		} else {
-			return static::$connectors[$className] = new $className();
-		}
-		return false;
 	}
 
 	/**
@@ -108,17 +87,38 @@ class Pbx extends \App\Base
 	public function performCall($targetPhone)
 	{
 		if ($this->isEmpty('sourcePhone')) {
-			throw new \Exception('No user phone number');
+			throw new \App\Exceptions\AppException('No user phone number');
 		}
 		if (empty($targetPhone)) {
-			throw new \Exception('No target phone number');
+			throw new \App\Exceptions\AppException('No target phone number');
 		}
 		$this->set('targetPhone', $targetPhone);
 		$connector = static::getConnectorInstance($this->get('type'));
 		if (empty($connector)) {
-			throw new \Exception('No PBX connector found');
+			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
 		$connector->performCall($this);
+	}
+
+	/**
+	 * Get connector instance.
+	 *
+	 * @param string $name
+	 *
+	 * @return bool|\App\Integrations\className
+	 */
+	public static function getConnectorInstance($name)
+	{
+		$className = '\App\Integrations\Pbx\\' . $name;
+		if (isset(static::$connectors[$className])) {
+			return static::$connectors[$className];
+		}
+		if (!class_exists($className)) {
+			\App\Log::warning('Not found Pbx class');
+		} else {
+			return static::$connectors[$className] = new $className();
+		}
+		return false;
 	}
 
 	/**

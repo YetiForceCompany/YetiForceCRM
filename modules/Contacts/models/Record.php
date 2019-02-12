@@ -14,30 +14,6 @@
 class Contacts_Record_Model extends Vtiger_Record_Model
 {
 	/**
-	 * Function returns the url for create event.
-	 *
-	 * @return string
-	 */
-	public function getCreateEventUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-
-		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function returns the url for create todo.
-	 *
-	 * @return string
-	 */
-	public function getCreateTaskUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-
-		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
 	 * Function to get List of Fields which are related from Contacts to Inventory Record.
 	 *
 	 * @return array
@@ -123,5 +99,29 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $links;
+	}
+
+	/**
+	 * Function returns the details of IStorages Hierarchy.
+	 *
+	 * @return array
+	 */
+	public function getHierarchy()
+	{
+		$focus = CRMEntity::getInstance($this->getModuleName());
+		$hierarchy = $focus->getHierarchy($this->getId());
+		foreach ($hierarchy['entries'] as $competitionId => $data) {
+			preg_match('/<a href="+/', $data[0], $matches);
+			if (!empty($matches)) {
+				preg_match('/[.\s]+/', $data[0], $dashes);
+				preg_match("/<a(.*)>(.*)<\/a>/i", $data[0], $name);
+
+				$recordModel = Vtiger_Record_Model::getCleanInstance($this->getModuleName());
+				$recordModel->setId($competitionId);
+				$hierarchy['entries'][$competitionId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] .
+					'</a>';
+			}
+		}
+		return $hierarchy;
 	}
 }

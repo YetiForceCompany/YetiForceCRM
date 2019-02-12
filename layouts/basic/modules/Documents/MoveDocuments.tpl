@@ -32,7 +32,7 @@
 						<div class="row verticalBottomSpacing">
 							<span class="col-md-4">{\App\Language::translate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
 							<span class="col-md-8 row">
-								<select class="chzn-select col-md-11 form-control" name="folderid">
+								<select class="select2 col-md-11 form-control" name="folderid">
 									<optgroup label="{\App\Language::translate('LBL_FOLDERS', $MODULE)}">
 										{foreach item=FOLDERNAME from=$FOLDERS key=FOLDERID}
 											<option value="{$FOLDERID}">{$FOLDERNAME}</option>

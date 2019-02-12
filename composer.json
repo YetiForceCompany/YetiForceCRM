@@ -13,7 +13,6 @@
     "System CRM"
   ],
   "homepage": "https://yetiforce.com/",
-  "type": "project",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
     "wiki": "https://yetiforce.com/en/documentation.html",
@@ -31,14 +30,14 @@
     "ext-imap": "*",
     "ext-openssl": "*",
     "ext-mbstring": "*",
-	"ext-iconv": "*",
-	"ext-intl": "*",
+    "ext-iconv": "*",
+    "ext-intl": "*",
     "ext-spl": "*",
     "ext-json": "*",
     "ext-dom": "*",
     "ext-zlib": "*",
     "ext-pdo": "*",
-	"ext-pdo_mysql": "*",
+    "ext-pdo_mysql": "*",
     "ext-curl": "*",
     "ext-gd": "*",
     "ext-pcre": "*",
@@ -46,28 +45,36 @@
     "ext-soap": "*",
     "ext-zip": "*",
     "ext-xml": "*",
+    "composer/ca-bundle": "^1.1",
     "sabre/dav": "3.2.2",
     "rmccue/requests": "v1.7.0",
-    "smarty/smarty": "3.1.31",
-    "phpmailer/phpmailer": "v6.0.5",
+    "smarty/smarty": "^v3.1.33",
+    "phpmailer/phpmailer": "^v6.0.6",
     "ezyang/htmlpurifier": "v4.10.0",
     "simshaun/recurr": "v3.0.5",
-    "sensiolabs/security-checker": "^v4.1.8",
+    "sensiolabs/security-checker": "^v5.0.1",
     "giggsey/libphonenumber-for-php": "^8.8.11",
     "dg/rss-php": "^1.2",
     "phpoffice/phpspreadsheet": "^1.3.1",
     "sonata-project/google-authenticator": "^2.1.0",
     "milon/barcode": "^5.3",
     "ckeditor/ckeditor": "^4.9.2",
-    "kzykhys/php-csv-parser": "^1.4.1",
+    "parsecsv/php-parsecsv": "^1.1.0",
+    "guzzlehttp/guzzle": "^6.3.3",
+    "nette/php-generator": "^3.2.1",
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
-    "yetiforce/yii2": "^2.0.15.2",
-    "yetiforce/icalendar": "^1.0.1"
+    "yetiforce/yii2": "2.0.15.3",
+    "yetiforce/yetiforcepdf": "0.1.9"
   },
   "require-dev": {
     "facebook/webdriver": "^1.6.0",
-    "phpunit/phpunit": "7.*"
+    "phpunit/phpunit": "7.*",
+    "seld/jsonlint": "*"
+  },
+  "suggest": {
+    "ext-apcu": "Cache meta data in apcu to improve system performance",
+    "ext-opcache": "Improve system performance"
   },
   "archive": {
     "exclude": [
@@ -88,6 +95,7 @@
       "includes\\": "include/",
       "App\\": "app/",
       "Api\\": "api/webservice/",
+      "Config\\": "config/",
       "Cron\\": "cron/",
       "Tests\\": "tests/",
       "Exception\\": "include/exceptions/"

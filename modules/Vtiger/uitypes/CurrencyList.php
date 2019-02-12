@@ -16,7 +16,7 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -76,5 +76,13 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['integer', 'smallint'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
 	}
 }

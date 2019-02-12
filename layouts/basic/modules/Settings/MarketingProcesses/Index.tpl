@@ -3,8 +3,7 @@
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
 	<div class="widget_header row">
 		<div class="col-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-			{\App\Language::translate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
@@ -134,7 +133,7 @@
 						<td><label>{\App\Language::translate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="w-50">
 							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance('Leads')->getAccessibleGroups()}
-							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
+							<select class="select2 configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >
 										{$OWNER_NAME}
@@ -146,7 +145,7 @@
 					<tr>
 						<td><label>{\App\Language::translate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="w-50">
-							<select class="chzn-select configField" multiple data-type="lead" name="status">
+							<select class="select2 configField" multiple data-type="lead" name="status">
 								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
@@ -156,7 +155,7 @@
 					<tr>
 						<td><label>{\App\Language::translate('LBL_LEAD_CONVERT_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="w-50">
-							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
+							<select class="select2 configField" multiple data-type="lead" name="convert_status">
 								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}

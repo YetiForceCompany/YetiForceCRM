@@ -1,11 +1,18 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{if !isset($CURRENT_USER_ID)}
+		{assign var="CURRENT_USER_ID" value=$USER_MODEL->getId()}
+	{/if}
 	<div class="tpl-List-Field-SharedOwner picklistSearchField">
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
-		{assign var=SEARCH_VALUES value=explode('##',$SEARCH_INFO['searchValue'])}
+		{if isset($SEARCH_INFO['searchValue'])}
+			{assign var=SEARCH_VALUES value=explode('##', $SEARCH_INFO['searchValue'])}
+		{else}
+			{assign var=SEARCH_VALUES value=[]}
+		{/if}
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
-		{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+		{if !empty($VIEWID) && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID)}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
@@ -14,7 +21,11 @@
 			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
 		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
-				name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'
+				name="{$ASSIGNED_USER_ID}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
+				{if !empty($FIELD_MODEL->get('source_field_name'))}
+					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+					data-module-name="{$FIELD_MODEL->getModuleName()}"
+				{/if}
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 				{/if}>

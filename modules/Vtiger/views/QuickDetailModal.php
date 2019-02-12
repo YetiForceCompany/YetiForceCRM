@@ -4,11 +4,31 @@
  * Quick detail modal view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
+class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 {
+	/**
+	 * Modal size.
+	 *
+	 * @var string
+	 */
+	public $modalSize = 'modal-lg modalRightSiteBar';
+	/**
+	 * Show modal header.
+	 *
+	 * @var bool
+	 */
+	public $showHeader = false;
+	/**
+	 * Show modal footer.
+	 *
+	 * @var bool
+	 */
+	public $showFooter = false;
+
 	/**
 	 * Checking permissions.
 	 *
@@ -26,11 +46,6 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function getSize(\App\Request $request)
-	{
-		return 'modal-lg modalRightSiteBar';
-	}
-
 	/**
 	 * Process.
 	 *
@@ -38,7 +53,6 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		$recordModel = $detailModel->getRecord();
@@ -77,7 +91,6 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGETS', $widgets);
-		$viewer->view('QuickDetailModal.tpl', $moduleName);
-		$this->postProcess($request);
+		$viewer->view('Modals/QuickDetailModal.tpl', $moduleName);
 	}
 }

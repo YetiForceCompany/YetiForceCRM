@@ -132,11 +132,16 @@ class DateTimeField
 			$formatToConvert = str_replace(['/', '.'], ['-', '-'], $format);
 			$dateToConvert = str_replace($separator, '-', $date);
 			switch ($formatToConvert) {
-				case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $dateToConvert, 3);
+				case 'dd-mm-yyyy':
+					list($d, $m, $y) = explode('-', $dateToConvert, 3);
 					break;
-				case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $dateToConvert, 3);
+				case 'mm-dd-yyyy':
+					list($m, $d, $y) = explode('-', $dateToConvert, 3);
 					break;
-				case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $dateToConvert, 3);
+				case 'yyyy-mm-dd':
+					list($y, $m, $d) = explode('-', $dateToConvert, 3);
+					break;
+				default:
 					break;
 			}
 			$dbDate = $y . '-' . $m . '-' . $d;
@@ -186,23 +191,34 @@ class DateTimeField
 		list($y, $m, $d) = array_pad(explode($separator, $date[0]), 3, null);
 
 		switch ($format) {
-			case 'dd-mm-yyyy': $date[0] = $d . '-' . $m . '-' . $y;
+			case 'dd-mm-yyyy':
+				$date[0] = $d . '-' . $m . '-' . $y;
 				break;
-			case 'mm-dd-yyyy': $date[0] = $m . '-' . $d . '-' . $y;
+			case 'mm-dd-yyyy':
+				$date[0] = $m . '-' . $d . '-' . $y;
 				break;
-			case 'yyyy-mm-dd': $date[0] = $y . '-' . $m . '-' . $d;
+			case 'yyyy-mm-dd':
+				$date[0] = $y . '-' . $m . '-' . $d;
 				break;
-			case 'dd.mm.yyyy': $date[0] = $d . '.' . $m . '.' . $y;
+			case 'dd.mm.yyyy':
+				$date[0] = $d . '.' . $m . '.' . $y;
 				break;
-			case 'mm.dd.yyyy': $date[0] = $m . '.' . $d . '.' . $y;
+			case 'mm.dd.yyyy':
+				$date[0] = $m . '.' . $d . '.' . $y;
 				break;
-			case 'yyyy.mm.dd': $date[0] = $y . '.' . $m . '.' . $d;
+			case 'yyyy.mm.dd':
+				$date[0] = $y . '.' . $m . '.' . $d;
 				break;
-			case 'dd/mm/yyyy': $date[0] = $d . '/' . $m . '/' . $y;
+			case 'dd/mm/yyyy':
+				$date[0] = $d . '/' . $m . '/' . $y;
 				break;
-			case 'mm/dd/yyyy': $date[0] = $m . '/' . $d . '/' . $y;
+			case 'mm/dd/yyyy':
+				$date[0] = $m . '/' . $d . '/' . $y;
 				break;
-			case 'yyyy/mm/dd': $date[0] = $y . '/' . $m . '/' . $d;
+			case 'yyyy/mm/dd':
+				$date[0] = $y . '/' . $m . '/' . $d;
+				break;
+			default:
 				break;
 		}
 
@@ -226,7 +242,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : AppConfig::main('default_timezone');
+		$timeZone = is_object($user) ? $user->time_zone : AppConfig::main('default_timezone');
 		$return = self::convertTimeZone($value, App\Fields\DateTime::getTimeZone(), $timeZone);
 		\App\Log::trace('End ' . __METHOD__);
 		return $return;
@@ -261,10 +277,6 @@ class DateTimeField
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 		if ($time == '24:00') {
 			$time = '00:00';
-		}
-		$format = \App\User::getCurrentUserModel()->getDetail('date_format');
-		if (empty($format)) {
-			$format = 'yyyy-mm-dd';
 		}
 		$time = str_replace('.', '-', $time);
 		$time = str_replace('/', '-', $time);
@@ -302,8 +314,7 @@ class DateTimeField
 			$date = self::convertToUserTimeZone($this->datetime, $user);
 			$date_value = $date->format('Y-m-d');
 		}
-		$display_date = self::convertToUserFormat($date_value, $user);
-		return $display_date;
+		return self::convertToUserFormat($date_value);
 	}
 
 	public function getDisplayTime($user = null)

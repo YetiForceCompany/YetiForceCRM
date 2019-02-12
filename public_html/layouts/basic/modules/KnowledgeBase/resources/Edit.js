@@ -6,21 +6,10 @@ Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
 		const customConfig = {};
 		if (noteContentElement.is(':visible')) {
 			noteContentElement.removeAttr('data-validation-engine');
-			customConfig.filebrowserImageUploadUrl = "index.php?module=KnowledgeBase&action=ImageUploadAjax";
 			customConfig.extraAllowedContent = true;
 			customConfig.removeFormatAttributes = '';
 			customConfig.removeFormatTags = '';
 			new App.Fields.Text.Editor(noteContentElement, customConfig);
-			CKEDITOR.on('dialogDefinition', function (ev) {
-				var dialogName = ev.data.name;
-				var dialogDefinition = ev.data.definition;
-				if (dialogName === 'image') {
-					dialogDefinition.onShow = function () {
-						const form = $('iframe.cke_dialog_ui_input_file').contents().find('form');
-						form.append('<input type="hidden" name="' + csrfMagicName + '" value="' + csrfMagicToken + '">');
-					};
-				}
-			});
 		}
 	},
 	registerEvents: function () {

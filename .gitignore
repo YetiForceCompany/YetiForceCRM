@@ -8,18 +8,23 @@
 
 # dependencies YETIFORCE
 /public_html/modules/OSSMail/roundcube/
-
+/dev_tools/
 /_private
 /public_html/_private
 /public_html/layouts/basic/styles/.sass-cache
+/public_html/logo.jpg
+/public_html/layouts/resources/fonts/*.txt
+/public_html/layouts/resources/fonts/*.ttf
 
 /layouts/basic/modules/Settings/TestData
-
+/languages/*
+!/languages/en-US
 /modules/TestData
 /modules/Settings/TestData
 
 /user_privileges/cron.php
 /user_privileges/owners_colors.php
+/user_privileges/registration.php
 
 /cache/addressBook/mails_1.php
 /cache/addressBook/mails_5.php
@@ -29,6 +34,17 @@
 /user_privileges/user_privileges_5.php
 /user_privileges/user_privileges_6.php
 /user_privileges/user_privileges_7.php
+
+/config/*
+!/config/username_blacklist.php
+!/config/csrf_config.php
+!/config/mimetypes.php
+!/config/ConfigTemplates.php
+!/config/version.php
+!/config/Security.php
+!/config/Performance.php
+!/config/Debug.php
+!/config/Components/ConfigTemplates.php
 
 # dependencies COMPOSER
 /vendor

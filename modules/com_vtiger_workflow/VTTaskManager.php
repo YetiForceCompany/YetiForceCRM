@@ -25,12 +25,15 @@ class VTTaskManager
 	 *
 	 * @return The id of the task
 	 */
-	public function saveTask($task)
+	public function saveTask(VTTask $task)
 	{
 		$db = App\Db::getInstance();
-		if (is_numeric($task->id)) {
+		if (!empty($task->id) && is_numeric($task->id)) {
 			//How do I check whether a member exists in php?
 			$taskId = $task->id;
+			if (isset($task->email) && !is_array($task->email)) {
+				$task->email = [$task->email];
+			}
 			$db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
 
 			return $taskId;
@@ -97,6 +100,8 @@ class VTTaskManager
 	 * Return tasks for workflow.
 	 *
 	 * @param int $workflowId
+	 *
+	 * @return array
 	 */
 	public function getTasksForWorkflow($workflowId)
 	{
@@ -115,8 +120,7 @@ class VTTaskManager
 			$task->id = $row['task_id'];
 			$tasks[] = $task;
 		}
-		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
-
+		\App\Cache::staticSave('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
 	}
 

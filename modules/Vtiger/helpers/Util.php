@@ -222,58 +222,6 @@ class Vtiger_Util_Helper
 		return $time;
 	}
 
-	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
-	{
-		if (empty($searchParams)) {
-			return [];
-		}
-		$advFilterConditionFormat = [];
-		$glueOrder = ['and', 'or'];
-		$groupIterator = 0;
-		foreach ($searchParams as &$groupInfo) {
-			if (empty($groupInfo)) {
-				continue;
-			}
-			$groupColumnsInfo = [];
-			foreach ($groupInfo as &$fieldSearchInfo) {
-				list($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
-				if ($field->getFieldDataType() === 'tree' && $specialOption) {
-					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
-				}
-				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($field->getFieldDataType() === 'currency') {
-					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
-				}
-				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
-					$dateValues = explode(',', $fieldValue);
-					//Indicate whether it is fist date in the between condition
-					$isFirstDate = true;
-					foreach ($dateValues as $key => $dateValue) {
-						$dateTimeCompoenents = explode(' ', $dateValue);
-						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate) {
-								$dateTimeCompoenents[1] = '00:00:00';
-							} else {
-								$dateTimeCompoenents[1] = '23:59:59';
-							}
-						}
-						$dateValue = implode(' ', $dateTimeCompoenents);
-						$dateValues[$key] = $dateValue;
-						$isFirstDate = false;
-					}
-					$fieldValue = implode(',', $dateValues);
-				}
-				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
-			}
-			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
-			++$groupIterator;
-		}
-		return $advFilterConditionFormat;
-	}
-
 	public static function getAllSkins()
 	{
 		return [
@@ -291,47 +239,5 @@ class Vtiger_Util_Helper
 			return true;
 		}
 		return false;
-	}
-
-	/*
-	 * Function used to get default value based on data type
-	 * @param $dataType - data type of field
-	 * @return returns default value for data type if match case found
-	 * else returns empty string
-	 */
-
-	public function getDefaultMandatoryValue($dataType)
-	{
-		switch ($dataType) {
-			case 'date':
-				$dateObject = new DateTime();
-				$value = DateTimeField::convertToUserFormat($dateObject->format('Y-m-d'));
-				break;
-			case 'time':
-				$value = '00:00:00';
-				break;
-			case 'boolean':
-				$value = false;
-				break;
-			case 'email':
-				$value = '??@??.??';
-				break;
-			case 'url':
-				$value = '???.??';
-				break;
-			case 'integer':
-				$value = 0;
-				break;
-			case 'double':
-				$value = 00.00;
-				break;
-			case 'currency':
-				$value = 0.00;
-				break;
-			default:
-				$value = '?????';
-				break;
-		}
-		return $value;
 	}
 }

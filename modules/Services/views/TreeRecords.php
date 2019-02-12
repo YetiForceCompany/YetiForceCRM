@@ -4,8 +4,8 @@
  * Services TreeView View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Services_TreeRecords_View extends Products_TreeRecords_View
 {
@@ -17,13 +17,8 @@ class Services_TreeRecords_View extends Products_TreeRecords_View
 		$modulePopUpFile = 'modules.' . $moduleName . '.resources.Edit';
 		unset($headerScriptInstances[$modulePopUpFile]);
 
-		$jsFileNames = [
-			'modules.Products.resources.Edit',
-		];
-		$jsFileNames[] = $modulePopUpFile;
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
+			'modules.Products.resources.Edit', $modulePopUpFile
+		]));
 	}
 }

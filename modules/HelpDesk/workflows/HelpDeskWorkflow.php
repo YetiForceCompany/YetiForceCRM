@@ -4,7 +4,7 @@
  * HelpDeskWorkflow.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class HelpDeskWorkflow
 {
@@ -124,33 +124,33 @@ class HelpDeskWorkflow
 	{
 		\App\Log::trace('Entering helpDeskNewCommentOwner');
 		$relatedToId = $recordModel->get('related_to');
-		$mails = [];
 		$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
 		if ($result) {
+			$mails = [];
 			$smownerId = $result;
 			$ownerType = \App\Fields\Owner::getType($smownerId);
 			if ($ownerType === 'Users') {
 				$user = App\User::getUserModel($smownerId);
-				if ($user->getDetail('emailoptout') == 1) {
+				if ((int) $user->getDetail('emailoptout') === 1) {
 					$mails[] = $user->getDetail('email1');
 				}
 			} else {
 				$groupUsers = \App\PrivilegeUtil::getUsersByGroup($smownerId);
 				foreach ($groupUsers as $userId) {
 					$user = App\User::getUserModel($userId);
-					if ($user->getDetail('emailoptout') == 1) {
+					if ((int) $user->getDetail('emailoptout') === 1) {
 						$mails[] = $user->getDetail('email1');
 					}
 				}
 			}
-		}
-		if (count($mails) > 0) {
-			\App\Mailer::sendFromTemplate([
-				'template' => 'NewCommentAddedToTicketOwner',
-				'moduleName' => 'ModComments',
-				'recordId' => $recordModel->getId(),
-				'to' => $mails,
-			]);
+			if ($mails) {
+				\App\Mailer::sendFromTemplate([
+					'template' => 'NewCommentAddedToTicketOwner',
+					'moduleName' => 'ModComments',
+					'recordId' => $recordModel->getId(),
+					'to' => $mails,
+				]);
+			}
 		}
 		\App\Log::trace('helpDeskNewCommentOwner');
 	}

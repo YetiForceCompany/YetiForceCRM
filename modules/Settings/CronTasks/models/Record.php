@@ -93,7 +93,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Detect if the task was started and never finished.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function hadTimedout()
@@ -109,10 +109,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($maxExecutionTime > $iniMaxExecutionTime) {
 			$maxExecutionTime = $iniMaxExecutionTime;
 		}
-		if ($lastEnd < $lastStart && $this->isRunning()) {
-			if (time() > ($lastStart + $maxExecutionTime)) {
-				return true;
-			}
+		if ($lastEnd < $lastStart && $this->isRunning() && time() > ($lastStart + $maxExecutionTime)) {
+			return true;
 		}
 		return false;
 	}
@@ -139,15 +137,12 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Get Time taken to complete task.
-	 * 
+	 *
 	 * @return int seconds
 	 */
 	public function getTimeDiff()
 	{
-		$lastStart = (int) ($this->get('laststart'));
-		$lastEnd = (int) ($this->get('lastend'));
-		$timeDiff = $lastEnd - $lastStart;
-		return $timeDiff;
+		return (int) ($this->get('lastend')) - (int) ($this->get('laststart'));
 	}
 
 	/**
@@ -216,6 +211,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'duration':
 				$fieldValue = $this->getDuration();
+				break;
+			default:
 				break;
 		}
 		return $fieldValue;

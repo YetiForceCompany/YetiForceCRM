@@ -162,7 +162,6 @@ class Link
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		if (\App\Cache::has('AllLinks', 'ByType')) {
 			$rows = \App\Cache::get('AllLinks', 'ByType');
 		} else {
@@ -291,18 +290,6 @@ class Link
 			$links[] = $instance;
 		}
 		return $links;
-	}
-
-	/**
-	 * Checks whether the user is admin or not.
-	 *
-	 * @param vtlib\LinkData $linkData
-	 *
-	 * @return bool
-	 */
-	public static function isAdmin(LinkData $linkData)
-	{
-		return \App\User::getCurrentUserModel()->isAdmin();
 	}
 
 	/**

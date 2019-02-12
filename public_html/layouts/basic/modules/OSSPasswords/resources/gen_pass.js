@@ -64,9 +64,8 @@ PasswordHelper = {
 		}
 	},
 	showPassword(record) {
-		var passVal = document.getElementById("OSSPasswords_editView_fieldName_password").value;
-		var showPassText = app.vtranslate('LBL_ShowPassword');
-		var hidePassText = app.vtranslate('LBL_HidePassword');
+		let showPassText = app.vtranslate('LBL_ShowPassword');
+		let hidePassText = app.vtranslate('LBL_HidePassword');
 
 		if ($('#show-btn').text() == showPassText) {
 			var params = {
@@ -98,7 +97,6 @@ PasswordHelper = {
 		}
 	},
 	showDetailsPassword(record) {
-		var passVal = document.getElementById("detailPassword").innerHTML;
 		var showPassText = app.vtranslate('LBL_ShowPassword');
 		var hidePassText = app.vtranslate('LBL_HidePassword');
 
@@ -127,7 +125,6 @@ PasswordHelper = {
 		}
 	},
 	showPasswordQuickEdit(record) {
-		var showPassText = app.vtranslate('LBL_ShowPassword');
 		var hidePassText = app.vtranslate('LBL_HidePassword');
 
 		var params = {

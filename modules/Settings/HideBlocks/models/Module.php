@@ -4,7 +4,7 @@
  * Settings HideBlocks module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -47,11 +47,11 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getViews()
 	{
-		$views = [];
+		$viewsArray = [];
 		foreach ($this->views as $view) {
-			$views[$view] = 'LBL_VIEW_' . strtoupper($view);
+			$viewsArray[$view] = 'LBL_VIEW_' . strtoupper($view);
 		}
-		return $views;
+		return $viewsArray;
 	}
 
 	public function getAllBlock()

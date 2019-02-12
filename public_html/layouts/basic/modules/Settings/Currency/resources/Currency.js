@@ -213,7 +213,6 @@ jQuery.Class('Settings_Currency_Js', {
 	 * This function will load the listView contents after Add/Edit currency
 	 */
 	loadListViewContents: function () {
-		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {

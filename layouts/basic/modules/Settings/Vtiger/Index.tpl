@@ -45,7 +45,8 @@
 													</button>
 												{/if}
 												{if $ITEM->getLink()}
-													<a class="btn btn-success ml-1" href="{$ITEM->getLink()}" target="_blank">
+													<a class="btn btn-success ml-1" href="{$ITEM->getLink()}" target="_blank"
+													   rel="noreferrer noopener">
 														<span class="fas fa-link mr-1"></span>
 														{$ITEM->linkTitle}
 													</a>

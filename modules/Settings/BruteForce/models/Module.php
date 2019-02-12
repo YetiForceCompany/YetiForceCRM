@@ -4,8 +4,8 @@
  * Brute force model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author YetiForce.com
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    YetiForce.com
  */
 class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -93,7 +93,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$historyData = $query->createCommand()->queryAllByGroup(2);
 		$users = array_keys($historyData);
 		$browsers = [];
-		foreach ($historyData as $userName => $browsersUserName) {
+		foreach ($historyData as $browsersUserName) {
 			$browsers = array_merge($browsers, $browsersUserName);
 		}
 		$data['usersName'] = implode(', ', $users);
@@ -136,8 +136,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			\App\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'attempts' => new \yii\db\Expression('attempts + 1'),
-					], ['id' => $this->blockedId])
-					->execute();
+				], ['id' => $this->blockedId])
+				->execute();
 		}
 	}
 
@@ -168,8 +168,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 				->update('a_#__bruteforce_blocked', [
 					'attempts' => $attempts,
 					'blocked' => $blocked,
-					], ['id' => $bfData['id']])
-					->execute();
+				], ['id' => $bfData['id']])
+				->execute();
 			$this->isBlocked = $blocked === self::BLOCKED;
 			$this->blockedId = $bfData['id'];
 		}
@@ -222,10 +222,10 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return \App\Db::getInstance('admin')->createCommand()
 			->update('a_#__bruteforce_blocked', [
-					'blocked' => self::UNBLOCKED_BY_USER,
-					'userid' => \App\User::getCurrentUserRealId(),
-					], ['id' => $id])
-					->execute();
+				'blocked' => self::UNBLOCKED_BY_USER,
+				'userid' => \App\User::getCurrentUserRealId(),
+			], ['id' => $id])
+			->execute();
 	}
 
 	/**

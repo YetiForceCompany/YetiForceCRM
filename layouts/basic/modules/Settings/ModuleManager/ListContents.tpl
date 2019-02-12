@@ -13,7 +13,7 @@
 	<div class="" id="moduleManagerContents">
 		<div class="widget_header row mb-2">
 			<div class="col-md-7 d-flex align-items-center">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="col-md-5">
 				<span class="btn-toolbar float-lg-right mt-1">

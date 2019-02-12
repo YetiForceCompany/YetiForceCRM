@@ -7,7 +7,6 @@ $.Class("Base_TwoFactorAuthenticationModal_JS", {}, {
 	 * @param data
 	 */
 	registerSubmitFrom(data) {
-		let thisInstance = this;
 		data.find('button[name=saveButton]').prop("disabled", true);
 		data.find('input[name=user_code]').on('keyup', (e) => {
 			if (e.keyCode !== 13) {

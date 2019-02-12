@@ -4,7 +4,7 @@
  * Settings menu record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -31,7 +31,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function getAll($roleId)
 	{
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
-		$query = (new \App\Db\Query())->select('yetiforce_menu.*, vtiger_tab.name')->from('yetiforce_menu')
+		$query = (new \App\Db\Query())->select(['yetiforce_menu.*', 'vtiger_tab.name'])->from('yetiforce_menu')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 		$menu = [];
@@ -50,9 +50,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	public static function getInstanceById($id)
@@ -112,9 +110,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$sqlCol .= $key . ',';
 				switch ($key) {
-					case 'role': $role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
+					case 'role':
+						$role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
 						break;
-					case 'type': $item = $settingsModel->getMenuTypeKey($item);
+					case 'type':
+						$item = $settingsModel->getMenuTypeKey($item);
+						break;
+					default:
 						break;
 				}
 				$params[] = $item;
@@ -164,7 +166,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				continue;
 			}
 			$recordModel = self::getInstanceById($id);
-			$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
+			$query = (new \App\Db\Query())->select(['id'])->from('yetiforce_menu')->where(['parentid' => $id]);
 			$dataReader = $query->createCommand()->query();
 			while ($childId = $dataReader->readColumn(0)) {
 				$this->removeMenu($childId);
@@ -249,9 +251,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= var_export($key, true) . '=>' . var_export($item, true) . ',';
 			}
 		}
-		$content = trim($content, ',') . '],';
-
-		return $content;
+		return trim($content, ',') . '],';
 	}
 
 	public function createParentList($menu)
@@ -332,40 +332,25 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function copyMenu($fromRole, $toRole)
 	{
 		$db = \App\Db::getInstance();
-		$nextId = $db->getUniqueID('yetiforce_menu', 'id', false);
-
-		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $fromRole]);
-		$dataReader = $query->createCommand()->query();
-		$rows = $dataReader->readAll();
-
-		if ($rows) {
-			foreach ($rows as &$row) {
-				$oldAndNewIds[$row['id']] = $nextId;
-				$nextId += 1;
-			}
-			foreach ($rows as &$row) {
-				if (array_key_exists($row['parentid'], $oldAndNewIds)) {
-					$parentId = $oldAndNewIds[$row['parentid']];
-				} else {
-					$parentId = 0;
+		$menuData = (new \App\Db\Query())->from('yetiforce_menu')
+			->where(['role' => $fromRole])
+			->orderBy(['parentid' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->queryAllByGroup(1);
+		if ($menuData) {
+			$related = [];
+			foreach ($menuData as $menuId => $menuItem) {
+				if (isset($related[$menuId])) {
+					$diff = array_diff_key($menuData, $related);
+					$menuId = key($diff);
+					$menuItem = current($diff);
 				}
-
-				$params = [
-					'role' => $toRole,
-					'parentid' => $parentId,
-					'type' => $row['type'],
-					'sequence' => $row['sequence'],
-					'module' => $row['module'],
-					'label' => $row['label'],
-					'newwindow' => $row['newwindow'],
-					'dataurl' => $row['dataurl'],
-					'showicon' => $row['showicon'],
-					'icon' => $row['icon'],
-					'sizeicon' => $row['sizeicon'],
-					'hotkey' => $row['hotkey'],
-					'filters' => $row['filters'],
-				];
-				$db->createCommand()->insert('yetiforce_menu', $params)->execute();
+				if ($menuItem['parentid'] && !isset($related[$menuItem['parentid']])) {
+					$menuId = $menuItem['parentid'];
+					$menuItem = $menuData[$menuId];
+				}
+				$menuItem['role'] = $toRole;
+				$menuItem['parentid'] = $related[$menuItem['parentid']] ?? $menuItem['parentid'];
+				$db->createCommand()->insert('yetiforce_menu', $menuItem)->execute();
+				$related[$menuId] = $db->getLastInsertID('yetiforce_menu_id_seq');
 			}
 			$this->generateFileMenu($toRole);
 		}

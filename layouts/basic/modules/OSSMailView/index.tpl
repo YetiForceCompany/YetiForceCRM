@@ -3,7 +3,7 @@
 	<div class="clearfix">
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<form class="js-form" data-js="validationEngine">

@@ -78,8 +78,8 @@ class Vtiger_DependencyPicklist
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
 			$serializedTargetValues = \App\Json::encode($targetValues);
-			$optionalsourcefield = $mapping['optionalsourcefield'];
-			$optionalsourcevalues = $mapping['optionalsourcevalues'];
+			$optionalsourcefield = $mapping['optionalsourcefield'] ?? '';
+			$optionalsourcevalues = $mapping['optionalsourcevalues'] ?? '';
 			if (!empty($optionalsourcefield)) {
 				$criteria = [];
 				$criteria['fieldname'] = $optionalsourcefield;
@@ -97,7 +97,7 @@ class Vtiger_DependencyPicklist
 				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 					'targetvalues' => $serializedTargetValues,
 					'criteria' => $serializedCriteria,
-					], ['id' => $dependencyId])->execute();
+				], ['id' => $dependencyId])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_picklist_dependency', [
 					'id' => $db->getUniqueID('vtiger_picklist_dependency'),

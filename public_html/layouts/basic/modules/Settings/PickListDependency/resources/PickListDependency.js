@@ -33,7 +33,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 			function (data) {
 				var form = jQuery('#pickListDependencyForm');
 				form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
-				var element = form.find('.dependencyMapping');
 				instance.registerDependencyGraphEvents();
 				instance.registerSubmitEvent();
 			}
@@ -542,7 +541,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var form = jQuery('#pickListDependencyForm');
 		if (form.length > 0) {
-			var element = form.find('.dependencyMapping');
 			if (form.find('.editDependency').val() == "true") {
 				form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
 				thisInstance.registerDependencyGraphEvents();

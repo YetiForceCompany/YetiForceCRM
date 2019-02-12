@@ -6,8 +6,8 @@ namespace App\SystemWarnings;
  * System warnings template abstract class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class Template
 {
@@ -75,16 +75,18 @@ abstract class Template
 		if (!$returnText) {
 			return $this->status;
 		}
-		$status = 2;
+		$error = '';
 		switch ($this->status) {
 			case 1:
-				$status = 'OK';
+				$error = 'OK';
 				break;
 			case 2:
-				$status = 'Bład';
+				$error = 'Error';
+				break;
+			default:
 				break;
 		}
-		return $status;
+		return $error;
 	}
 
 	/**
@@ -107,14 +109,17 @@ abstract class Template
 		return $this->link;
 	}
 
-	/**
-	 * Updates the warning folder.
-	 *
-	 * @return string
-	 */
-	public function setFolder($folder)
+	public function getTpl()
 	{
-		return $this->folder = $folder;
+		if (!$this->tpl || is_string($this->tpl)) {
+			return $this->tpl;
+		}
+		$refClass = new \ReflectionClass($this);
+		$className = $refClass->getShortName();
+		$path = \App\Layout::getTemplatePath("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
+		$this->tpl = $path;
+
+		return $path;
 	}
 
 	/**
@@ -130,17 +135,14 @@ abstract class Template
 		return $this->folder;
 	}
 
-	public function getTpl()
+	/**
+	 * Updates the warning folder.
+	 *
+	 * @return string
+	 */
+	public function setFolder($folder)
 	{
-		if (!$this->tpl || is_string($this->tpl)) {
-			return $this->tpl;
-		}
-		$refClass = new \ReflectionClass($this);
-		$className = $refClass->getShortName();
-		$path = \App\Layout::getTemplatePath("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
-		$this->tpl = $path;
-
-		return $path;
+		return $this->folder = $folder;
 	}
 
 	/**
@@ -152,16 +154,16 @@ abstract class Template
 	 */
 	public function update($params)
 	{
-		$status = $params === '2' ? 0 : 2;
+		$statusValue = $params === '2' ? 0 : 2;
 		$refClass = new \ReflectionClass($this);
 		$filePath = $refClass->getFileName();
 		$fileContent = file_get_contents($filePath);
-		if (strpos($fileContent, 'protected $status ') !== false) {
-			$pattern = '/\$status = ([^;]+)/';
-			$replacement = '$status = ' . $status;
+		if (strpos($fileContent, 'protected $statusValue ') !== false) {
+			$pattern = '/\$statusValue = ([^;]+)/';
+			$replacement = '$statusValue = ' . $statusValue;
 			$fileContent = preg_replace($pattern, $replacement, $fileContent);
 		} else {
-			$replacement = '{' . PHP_EOL . '	protected $status = ' . $status . ';';
+			$replacement = '{' . PHP_EOL . '	protected $statusValue = ' . $statusValue . ';';
 			$fileContent = preg_replace('/{/', $replacement, $fileContent, 1);
 		}
 		file_put_contents($filePath, $fileContent);

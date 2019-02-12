@@ -6,8 +6,8 @@ namespace Api;
  * Base class to handle communication via web services.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Controller
 {
@@ -47,15 +47,15 @@ class Controller
 	 */
 	public static function getInstance()
 	{
-		if (isset(static::$instance)) {
-			return static::$instance;
+		if (isset(self::$instance)) {
+			return self::$instance;
 		}
-		return static::$instance = new self();
+		return self::$instance = new self();
 	}
 
 	public static function getAction()
 	{
-		return static::$action;
+		return self::$action;
 	}
 
 	public function preProcess()
@@ -68,7 +68,7 @@ class Controller
 		}
 		$this->app = Core\Auth::init($this);
 		$this->headers = $this->request->getHeaders();
-		if ($this->headers['X-API-KEY'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
+		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}
 		if (empty($this->request->get('action'))) {
@@ -82,7 +82,7 @@ class Controller
 		$handlerClass = $this->getModuleClassName();
 		$this->request->getData();
 		$this->debugRequest();
-		static::$action = $handler = new $handlerClass();
+		self::$action = $handler = new $handlerClass();
 		$handler->controller = $this;
 		if ($handler->checkAction()) {
 			$handler->preProcess();
@@ -105,19 +105,19 @@ class Controller
 	private function getModuleClassName()
 	{
 		$type = $this->app['type'];
-		$action = $this->request->get('action');
+		$actionName = $this->request->get('action');
 		$module = $this->request->get('module');
 		if ($module) {
-			$className = "Api\\$type\\$module\\$action";
+			$className = "Api\\$type\\$module\\$actionName";
 			if (class_exists($className)) {
 				return $className;
 			}
-			$className = "Api\\$type\\BaseModule\\$action";
+			$className = "Api\\$type\\BaseModule\\$actionName";
 			if (class_exists($className)) {
 				return $className;
 			}
 		}
-		$className = "Api\\$type\\BaseAction\\$action";
+		$className = "Api\\$type\\BaseAction\\$actionName";
 		if (!$module && class_exists($className)) {
 			return $className;
 		}
@@ -139,16 +139,10 @@ class Controller
 		}
 	}
 
-	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline)
 	{
-		switch ($errno) {
-			case E_ERROR:
-			case E_WARNING:
-			case E_CORE_ERROR:
-			case E_COMPILE_ERROR:
-			case E_USER_ERROR:
-				$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-				throw new Core\Exception($msg);
+		if (\in_array($errno, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
+			throw new Core\Exception($errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline);
 		}
 	}
 }

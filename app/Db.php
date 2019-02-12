@@ -6,8 +6,8 @@ namespace App;
  * Database connection class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Db extends \yii\db\Connection
 {
@@ -94,31 +94,28 @@ class Db extends \yii\db\Connection
 	 */
 	public static function getInstance($type = 'base')
 	{
-		if (isset(static::$cache[$type])) {
-			return static::$cache[$type];
+		if (isset(self::$cache[$type])) {
+			return self::$cache[$type];
 		}
-		$db = new self(static::getConfig($type));
+		$db = new self(self::getConfig($type));
 		$db->dbType = $type;
-		static::$cache[$type] = $db;
+		self::$cache[$type] = $db;
 		return $db;
 	}
 
 	/**
 	 * Load database connection configuration.
 	 *
-	 * @param array $type
+	 * @param string $type
 	 *
 	 * @return array with database configuration
 	 */
-	public static function getConfig($type, $reload = false)
+	public static function getConfig(string $type)
 	{
-		if (!static::$config || $reload) {
-			static::$config = require 'config/config.db.php';
+		if (!isset(self::$config[$type])) {
+			self::$config[$type] = Config::db($type) ?? Config::db('base');
 		}
-		if (isset(static::$config[$type])) {
-			return static::$config[$type];
-		}
-		return static::$config['base'];
+		return self::$config[$type];
 	}
 
 	/**
@@ -129,7 +126,7 @@ class Db extends \yii\db\Connection
 	 */
 	public static function setConfig($config, $type = 'base')
 	{
-		static::$config[$type] = $config;
+		self::$config[$type] = $config;
 	}
 
 	/**
@@ -174,7 +171,7 @@ class Db extends \yii\db\Connection
 	{
 		if (\App\Debuger::isDebugBar() && !\App\Debuger::getDebugBar()->hasCollector('pdo')) {
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
-			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbType));
+			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null));
 
 			return $pdo;
 		}
@@ -253,13 +250,11 @@ class Db extends \yii\db\Connection
 		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$keys = [];
-		switch ($this->getDriverName()) {
-			case 'mysql':
-				$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
-				while ($row = $dataReader->read()) {
-					$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
-				}
-				break;
+		if ($this->getDriverName() === 'mysql') {
+			$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
+			while ($row = $dataReader->read()) {
+				$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
+			}
 		}
 		Cache::save('getTableKeys', $tableName, $keys, Cache::LONG);
 		return $keys;
@@ -278,11 +273,9 @@ class Db extends \yii\db\Connection
 			return Cache::get('getPrimaryKey', $tableName);
 		}
 		$key = [];
-		switch ($this->getDriverName()) {
-			case 'mysql':
-				$tableKeys = $this->getTableKeys($tableName);
-				$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
-				break;
+		if ($this->getDriverName() === 'mysql') {
+			$tableKeys = $this->getTableKeys($tableName);
+			$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
 		}
 		Cache::save('getPrimaryKey', $tableName, $key, Cache::LONG);
 		return $key;

@@ -75,7 +75,7 @@ class Vtiger_StringTemplate
 	/**
 	 * Merge the given file with variable values assigned.
 	 *
-	 * @param $instring input string template
+	 * @param $instring    input string template
 	 * @param $avoidLookup should be true if only verbatim file copy needs to be done
 	 * @returns merged contents
 	 */
@@ -116,8 +116,6 @@ class Vtiger_StringTemplate
 		// If / is not already escaped as \/ do it now
 		$value = preg_replace('/\//', '\\/', $value);
 		// If $ is not already escaped as \$ do it now
-		$value = preg_replace('/(?<!\\\)\$/', '\\\\$', $value);
-
-		return $value;
+		return preg_replace('/(?<!\\\)\$/', '\\\\$', $value);
 	}
 }

@@ -18,7 +18,7 @@ class Settings_Currency_DeleteAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$transforCurrencyToId = $request->getInteger('transform_to_id');
 		if (empty($transforCurrencyToId)) {
-			throw new Exception('Transfer currency id cannot be empty');
+			throw new \App\Exceptions\AppException('Transfer currency id cannot be empty');
 		}
 		Settings_Currency_Module_Model::delete($request->getInteger('record'));
 		$response->setResult(['success' => 'true']);

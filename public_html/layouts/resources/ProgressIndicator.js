@@ -132,16 +132,17 @@
 				thisInstance.blockedElement = thisInstance.elementToBlock;
 				if (thisInstance.isPageBlockMode()) {
 					$.blockUI({
-						'message': thisInstance.container,
-						'overlayCSS': thisInstance.blockOverlayCSS,
-						'css': thisInstance.blockCss
+						message: thisInstance.container,
+						overlayCSS: thisInstance.blockOverlayCSS,
+						css: thisInstance.blockCss,
+						onBlock: thisInstance.options.blockInfo.onBlock
 					});
 				} else {
 					thisInstance.elementToBlock.block({
-						'message': thisInstance.container,
-						'overlayCSS': thisInstance.blockOverlayCSS,
-						'css': thisInstance.blockCss
-					})
+						message: thisInstance.container,
+						overlayCSS: thisInstance.blockOverlayCSS,
+						css: thisInstance.blockCss
+					});
 				}
 			}
 
@@ -165,17 +166,18 @@
 	}
 
 	$.fn.progressIndicator = function (options) {
-		var element = this;
+		let element = this;
 		if (this.length <= 0) {
 			element = jQuery('body');
 		}
 		return element.each(function (index, element) {
-			var jQueryObject = $(element);
+			let jQueryObject = $(element),
+				progressIndicatorInstance;
 			if (typeof jQueryObject.data('progressIndicator') !== "undefined") {
-				var progressIndicatorInstance = jQueryObject.data('progressIndicator');
+				progressIndicatorInstance = jQueryObject.data('progressIndicator');
 
 			} else {
-				var progressIndicatorInstance = new ProgressIndicatorHelper();
+				progressIndicatorInstance = new ProgressIndicatorHelper();
 				jQueryObject.data('progressIndicator', progressIndicatorInstance);
 			}
 			progressIndicatorInstance.init(jQueryObject, options).initActions();

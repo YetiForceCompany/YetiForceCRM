@@ -59,11 +59,9 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$dataReader = $query->createCommand()->query();
 		$pickListValues = [];
 		while ($row = $dataReader->read()) {
-			if ($intersectionMode) {
-				//not equal if specify that the picklistvalue is not present for all the roles
-				if ((int) $row['rolecount'] !== count($roleIdList)) {
-					continue;
-				}
+			//second not equal if specify that the picklistvalue is not present for all the roles
+			if ($intersectionMode && (int) $row['rolecount'] !== count($roleIdList)) {
+				continue;
 			}
 			//Need to decode the picklist values twice which are saved from old ui
 			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
@@ -118,17 +116,17 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	public function validate($value, $id = false)
 	{
 		if (preg_match('/[\<\>\"\#\,]/', $value)) {
-			throw new Exception(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
+			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
 		}
-		if (strlen($value) > $this->get('maximumlength')) {
-			throw new Exception(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
+		if ($this->get('maximumlength') && strlen($value) > $this->get('maximumlength')) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 		}
 		$picklistValues = \App\Fields\Picklist::getValuesName($this->getName());
 		if ($id) {
 			unset($picklistValues[$id]);
 		}
 		if (in_array(strtolower($value), array_map('strtolower', $picklistValues))) {
-			throw new Exception(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $value), 513);
+			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $value), 513);
 		}
 	}
 }

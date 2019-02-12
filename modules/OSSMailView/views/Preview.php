@@ -4,7 +4,7 @@
  * OSSMailView preview view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Preview_View extends Vtiger_Index_View
 {
@@ -62,11 +62,8 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 
 	public function getModalScripts(\App\Request $request)
 	{
-		$scripts = [
+		return $this->checkAndConvertJsScripts([
 			'~layouts/basic/modules/OSSMailView/resources/preview.js',
-		];
-		$modalScripts = $this->checkAndConvertJsScripts($scripts);
-
-		return $modalScripts;
+		]);
 	}
 }

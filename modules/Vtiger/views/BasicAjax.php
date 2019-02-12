@@ -12,7 +12,7 @@
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
 	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+		App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -20,15 +20,14 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
 		$this->exposeMethod('performPhoneCall');
+		$this->exposeMethod('getDashBoardPredefinedWidgets');
 	}
 
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			if ($request->isEmpty('parent', true) || $request->getByType('parent', 2) !== 'Settings' || !$currentUserPrivilegesModel->isAdminUser()) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-			}
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule()) && ($request->isEmpty('parent', true) || $request->getByType('parent', 2) !== 'Settings' || !$currentUserPrivilegesModel->isAdminUser())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-' && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -44,6 +43,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
+		if (!\App\User::getCurrentUserModel()->getRoleInstance()->get('globalsearchadv')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-') {
@@ -53,7 +55,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$moduleName = 'Home';
 		}
 		$saveFilterPermitted = true;
-		if (in_array($moduleName, ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'])) {
+		if (in_array($moduleName, ['ModComments', 'RSS', 'Portal', 'Integration', 'DashBoard'])) {
 			$saveFilterPermitted = false;
 		}
 		//See if it is an excluded module, If so search in home module
@@ -100,26 +102,28 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$advFilterList = $request->get('advfilterlist');
+		$advFilterList = $request->getByType('advfilterlist', 'Text');
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
 		if (is_array($advFilterList) && $advFilterList) {
+			if (!\App\User::getCurrentUserModel()->getRoleInstance()->get('globalsearchadv')) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
 			$isAdvanceSearch = true;
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->parseAdvFilter($advFilterList);
-			$query = $queryGenerator->createQuery();
-			$rows = $query->limit(100)->all();
-			foreach ($rows as &$row) {
-				$recordId = current($row);
+			$query = $queryGenerator->createQuery()->limit(AppConfig::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
+			$dataReader = $query->createCommand()->query();
+			while ($recordId = $dataReader->readColumn()) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 				$recordModel->set('permitted', true);
 				$matchingRecords[$moduleName][$recordId] = $recordModel;
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
-			$searchKey = $request->get('value');
+			$searchKey = $request->getByType('value', 'Text');
 			$limit = false;
 			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
 				$limit = $request->getInteger('limit');
@@ -186,12 +190,30 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$pbx = App\Integrations\Pbx::getDefaultInstance();
 		$pbx->loadUserPhone();
 		try {
-			$pbx->performCall($request->get('phoneNumber'));
+			$pbx->performCall($request->getByType('phoneNumber', 'Phone'));
 			$response = new Vtiger_Response();
 			$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
 			$response->emit();
 		} catch (Exception $exc) {
 			\App\Log::error('Error while telephone connections: ' . $exc->getMessage(), 'PBX');
 		}
+	}
+
+	/**
+	 * Return button of predefined widgets.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getDashBoardPredefinedWidgets(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel->set('dashboardId', $request->getInteger('dashboardId'));
+		$dashBoardModel->verifyDashboard($moduleName);
+		$widgets = $dashBoardModel->getDashboards(0);
+		$viewer->assign('WIDGETS', $widgets);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->view('dashboards/DashBoardWidgetsList.tpl', $moduleName);
 	}
 }

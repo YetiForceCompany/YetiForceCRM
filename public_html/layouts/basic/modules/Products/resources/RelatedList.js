@@ -9,6 +9,7 @@ Vtiger_RelatedList_Js("Products_RelatedList_Js", {}, {
 		element.on('change', function (e) {
 			e.stopPropagation();
 			let element = $(this);
+			element.formatNumber();
 			if (!element.validationEngine('validate')) {
 				AppConnector.request({
 					module: thisInstance.parentModuleName,

@@ -102,7 +102,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 	public function moduleHandler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($modulename, 'UO', '1');
+			\App\Fields\RecordNumber::getInstance($modulename)->set('prefix', 'UO')->set('cur_id', 1)->save();
 		}
 	}
 }

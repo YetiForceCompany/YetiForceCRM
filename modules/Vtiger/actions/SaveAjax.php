@@ -26,9 +26,14 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				continue;
 			}
 			$recordFieldValue = $recordModel->get($fieldName);
+			$prevDisplayValue = false;
+			if (($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName)) !== false) {
+				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
+			}
 			$result[$fieldName] = [
 				'value' => \App\Purifier::encodeHtml($recordFieldValue),
 				'display_value' => $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel),
+				'prev_display_value' => $prevDisplayValue
 			];
 		}
 		$result['_recordLabel'] = $recordModel->getName();

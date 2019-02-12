@@ -19,12 +19,9 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = [
+		return $this->checkAndConvertCssStyles([
 			//Place your widget specific css files here
-		];
-		$headerCssScriptInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return $headerCssScriptInstances;
+		]);
 	}
 
 	public function getSearchParams($stage, $assignedto, $dates)
@@ -78,10 +75,6 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		//Include special script and css needed for this widget
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('CURRENTUSER', $currentUserId);
-		if ($request->has('content')) {
-			$viewer->view('dashboards/CampaignsWidget.tpl', $moduleName);
-		} else {
-			$viewer->view('dashboards/CampaignsWidget.tpl', $moduleName);
-		}
+		$viewer->view('dashboards/CampaignsWidget.tpl', $moduleName);
 	}
 }

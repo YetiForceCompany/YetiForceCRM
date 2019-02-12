@@ -23,7 +23,6 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 	makeFieldsListSortable: function () {
 		var thisInstance = this;
 		var contents = jQuery('#quickCreateEditorContainer').find('.contents');
-		var table = contents.find('.editFieldsTable');
 		jQuery('#quickCreateEditorContainer .contents .editFieldsTable').each(function () {
 			jQuery(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
 				'containment': '#moduleBlocks',
@@ -32,7 +31,6 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 				'cursor': 'move',
 				'connectWith': jQuery(this).find('.connectedSortable'),
 				'update': function (e, ui) {
-					var currentField = ui['item'];
 					thisInstance.showSaveFieldSequenceButton();
 					// rearrange the older block fields
 					if (ui.sender) {
@@ -207,7 +205,6 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 	 * Function to get the respective module layout editor through pjax
 	 */
 	getModuleQuickCreateEditor: function (selectedModule) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',

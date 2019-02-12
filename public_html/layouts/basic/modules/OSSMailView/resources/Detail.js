@@ -23,7 +23,6 @@ Vtiger_Detail_Js("OSSMailView_Detail_Js", {
 }, {
 	registerEvents: function () {
 		this._super();
-		var container = jQuery('div.detailViewToolbar');
-		Vtiger_Index_Js.registerMailButtons(container);
+		Vtiger_Index_Js.registerMailButtons($('.detailViewContainer .js-btn-toolbar'));
 	}
 });

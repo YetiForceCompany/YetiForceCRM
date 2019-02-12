@@ -82,7 +82,7 @@ if (typeof (ImportJs) === "undefined") {
 				importFile.focus();
 				return false;
 			}
-			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip")) {
+			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip|ics|ical")) {
 				return false;
 			}
 			if (!ImportJs.uploadFileSize("import_file")) {
@@ -97,7 +97,6 @@ if (typeof (ImportJs) === "undefined") {
 				var fileParts = filePath.toLowerCase().split('.');
 				var fileType = fileParts[fileParts.length - 1];
 				var validExtensions = allowedExtensions.toLowerCase().split('|');
-
 				if (validExtensions.indexOf(fileType) < 0) {
 					var errorMessage = app.vtranslate('JS_SELECT_FILE_EXTENSION') + '\n' + validExtensions;
 					var params = {
@@ -185,7 +184,6 @@ if (typeof (ImportJs) === "undefined") {
 						opt.text(srcObj[0].options[i].text);
 						jQuery(destObj[0]).append(opt);
 						srcObj[0].options[i].selected = false;
-						rowFound = false;
 					} else {
 						if (existingObj != null)
 							existingObj.selected = true;
@@ -195,9 +193,9 @@ if (typeof (ImportJs) === "undefined") {
 		},
 		removeSelectedOptions: function (objName) {
 			var obj = jQuery(objName);
-			if (obj == null || typeof (obj) === "undefined")
+			if (!obj.length) {
 				return;
-
+			}
 			for (var i = obj[0].options.length - 1; i >= 0; i--) {
 				if (obj[0].options[i].selected == true) {
 					obj[0].options[i] = null;
@@ -250,7 +248,6 @@ if (typeof (ImportJs) === "undefined") {
 			}
 
 			var mandatoryFields = JSON.parse(jQuery('#mandatory_fields').val());
-			var moduleName = app.getModuleName();
 			var missingMandatoryFields = [];
 			for (var mandatoryFieldName in mandatoryFields) {
 				if (mandatoryFieldName in mappedFields) {
@@ -353,12 +350,12 @@ if (typeof (ImportJs) === "undefined") {
 				} else if (rowId in mapping) {
 					mappedFields.val($rowId);
 				}
-				mappedFields.trigger('chosen:updated');
+				mappedFields.trigger('change');
 				ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 			});
 		},
 		deleteMap: function (module) {
-			if (confirm(app.vtranslate('LBL_DELETE_CONFIRMATION'))) {
+			let callback = function () {
 				var selectedMapElement = jQuery('#saved_maps option:selected');
 				var mapId = selectedMapElement.attr('id');
 				var status = jQuery('#status');
@@ -378,7 +375,8 @@ if (typeof (ImportJs) === "undefined") {
 				}).fail(function (error, err) {
 					console.error(error)
 				});
-			}
+			};
+			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
 		},
 		loadDefaultValueWidget: function (rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);
@@ -410,7 +408,7 @@ if (typeof (ImportJs) === "undefined") {
 		submitAction: function () {
 			var form = jQuery('[name="importAdvanced"]');
 			form.on('submit', function () {
-				var progressIndicatorElement = jQuery.progressIndicator({
+				$.progressIndicator({
 					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 					'position': 'html',
 					'blockInfo': {

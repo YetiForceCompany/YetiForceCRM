@@ -29,6 +29,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
+				'linkclass' => 'btn-outline-dark btn-sm',
 				'linkicon' => 'fas fa-user',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
@@ -36,6 +37,9 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		return $linkModelList;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
@@ -111,6 +115,22 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_MAP',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showOpenStreetMap',
 				'linkicon' => '',
+			];
+		}
+		if (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_SOCIAL_MEDIA',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showSocialMedia',
+				'linkicon' => 'fa-twitter',
+			];
+		}
+		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && \App\Module::isModuleActive('Chat')) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_CHAT',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showChat',
+				'linkicon' => 'fas fa-comments',
 			];
 		}
 		foreach ($parentModuleModel->getRelations() as $relation) {

@@ -6,8 +6,8 @@ namespace Api\Core;
  * Web service exception class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Exception extends \Exception
 {
@@ -46,7 +46,7 @@ class Exception extends \Exception
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
 			$request = \App\Request::init();
-			$error .= "code: {$this->getCode()} | message: {$this->getMessage()}\n";
+			$error = "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
 			$error .= '============ Headers: ' . PHP_EOL;

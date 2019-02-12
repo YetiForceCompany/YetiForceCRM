@@ -1,20 +1,22 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-inventoryfields-EditViewUnitPrice -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
-		<input name="{$FIELD->getColumnName()}{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" type="text" 
+		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" type="text"
 			   data-maximumlength="{$FIELD->getRangeValues()}"
-			   data-validation-engine="validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]" 
+			   data-validation-engine="validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]"
 			   class="unitPrice smallInputBox form-control form-control-sm" list-info="" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
 			<div class="input-group-append">
-				<span class="input-group-text js-price-book-modal u-cursor-pointer js-popover-tooltip" data-js="popover|click" data-content="{\App\Language::translate('PriceBooks',$MODULE)}">
-					<span class="userIcon-PriceBooks"  data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}"/></span>
+				<button class="btn btn-light js-price-book-modal js-popover-tooltip" data-js="popover|click" data-content="{\App\Language::translate('PriceBooks',$MODULE)}" type="button">
+					<span class="userIcon-PriceBooks" data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}"/>
+				</button>
 				</span>
 			</div>
 		{/if}
-
 	</div>
+	<!-- /tpl-Base-inventoryfields-EditViewUnitPrice -->
 {/strip}

@@ -86,7 +86,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Function to get the list view entries.
 	 *
-	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
+	 * @param Vtiger_Paging_Model $pagingModel , $status (Active or Inactive User). Default false
 	 *
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
@@ -99,20 +99,15 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$fields[] = 'imagename';
 		$fields[] = 'authy_secret_totp';
 		$queryGenerator->setFields($fields);
-		$searchParams = $this->get('search_params');
-		if (empty($searchParams)) {
-			$searchParams = [];
-		} else {
-			foreach ($searchParams as &$params) {
-				foreach ($params as &$param) {
-					if (strpos($param['columnname'], 'is_admin') !== false) {
-						$param['value'] = $param['value'] == '0' ? 'off' : 'on';
-					}
+		$searchParams = $this->getArray('search_params');
+		foreach ($searchParams as &$params) {
+			foreach ($params as &$param) {
+				if ($param['field_name'] === 'is_admin') {
+					$param['value'] = $param['value'] == '0' ? 'off' : 'on';
 				}
 			}
 		}
 		$this->set('search_params', $searchParams);
-
 		return parent::getListViewEntries($pagingModel);
 	}
 
@@ -132,15 +127,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 			$headerFieldModels[$fieldName] = $fieldsModel;
 		}
 		return $headerFieldModels;
-	}
-
-	public function getListViewCount()
-	{
-		$searchParams = $this->get('search_params');
-		if (is_array($searchParams) && count($searchParams[0]['columns']) < 1) {
-			$this->set('search_params', []);
-		}
-		return parent::getListViewCount();
 	}
 
 	/*

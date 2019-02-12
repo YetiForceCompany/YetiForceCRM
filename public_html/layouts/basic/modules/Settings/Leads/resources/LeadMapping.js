@@ -122,8 +122,8 @@ jQuery.Class("Settings_LeadMapping_Js", {
 				contactFieldsSelectElement.prepend('<option data-type="' + noneValue + '" label="' + noneValue + '" value="0" selected>' + noneValue + '</option>');
 			}
 
-			accountFieldsSelectElement.trigger("chosen:updated").trigger('change', false);
-			contactFieldsSelectElement.trigger("chosen:updated").trigger('change', false);
+			accountFieldsSelectElement.trigger('change');
+			contactFieldsSelectElement.trigger('change');
 
 		})
 	},
@@ -186,14 +186,12 @@ jQuery.Class("Settings_LeadMapping_Js", {
 					notifyParams = {
 						title: app.vtranslate('JS_INVALID_MAPPING'),
 						text: data.result,
-						type: 'error',
-						width: '25%'
+						type: 'error'
 					};
 				} else {
 					notifyParams = {
 						title: app.vtranslate('JS_MAPPING_SAVED_SUCCESSFULLY'),
-						type: 'info',
-						width: '25%'
+						type: 'info'
 					};
 				}
 				Vtiger_Helper_Js.showPnotify(notifyParams);
@@ -243,7 +241,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 
 			if (selectElement.hasClass('accountsFields')) {
 				existingIdElement = jQuery('select.accountsFields.select2[selectedid="' + selectedOptionId + '"]')
-			} else if (selectElement.hasClass('contactFields')) {
+			} else {
 				existingIdElement = jQuery('select.contactFields.select2[selectedid="' + selectedOptionId + '"]')
 			}
 
@@ -253,17 +251,10 @@ jQuery.Class("Settings_LeadMapping_Js", {
 
 			if (duplicateOption) {
 				var selectedFieldId = selectElement.attr('selectedid');
-				var previousSelectedValue;
 				if (selectedFieldId == "false") {
-					previousSelectedValue = selectElement.find('option[label="None"]').text();
 					selectElement.attr('selectedId', "false");
 				} else if (selectedFieldId != "false") {
-					previousSelectedValue = selectElement.find('option[value="' + selectedFieldId + '"]').text();
 					selectElement.attr('selectedId', selectedFieldId);
-				}
-				var params = {
-					'id': previousSelectedValue,
-					'text': previousSelectedValue
 				}
 				var warningMessage = selectedValue + " " + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
 				var notificationParams = {
@@ -272,7 +263,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 				};
 				Settings_Vtiger_Index_Js.showMessage(notificationParams);
 				selectElement.val(0).trigger('change');
-			} else if (duplicateOption == false) {
+			} else {
 				selectElement.attr('selectedId', selectedOptionId);
 			}
 		});

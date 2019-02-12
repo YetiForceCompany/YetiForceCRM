@@ -107,14 +107,6 @@ class ProjectTask extends CRMEntity
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projecttaskname', 'projectid', 'assigned_user_id'];
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string $moduleName Module name
@@ -133,8 +125,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PT')->set('cur_id', 1)->save();
 		} elseif ($eventType === 'module.postupdate') {
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -143,8 +134,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PT')->set('cur_id', 1)->save();
 		}
 	}
 }

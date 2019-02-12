@@ -3,7 +3,7 @@
  * HolidaysEntitlement class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -172,8 +172,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
-			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'HE')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'HolidaysEntitlement'])->execute();
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');

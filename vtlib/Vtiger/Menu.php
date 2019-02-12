@@ -35,23 +35,13 @@ class Menu
 	}
 
 	/**
-	 * Get instance of menu by label.
-	 *
-	 * @param string Menu label
-	 */
-	public static function getInstance($value)
-	{
-		return false;
-	}
-
-	/**
 	 * Delete all menus associated with module.
 	 *
 	 * @param ModuleBasic $moduleInstance
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
-		$id = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
+		$id = (new \App\Db\Query())->select(['id'])->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
 		if ($id) {
 			\App\Db::getInstance()->createCommand()->delete('yetiforce_menu', ['module' => $moduleInstance->id])->execute();
 			$menuRecordModel = new \Settings_Menu_Record_Model();

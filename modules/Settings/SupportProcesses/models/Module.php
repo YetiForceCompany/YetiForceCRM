@@ -4,15 +4,13 @@
  * Settings SupportProcesses module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/**
@@ -41,7 +39,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		if (self::$ticketStatusNotModify) {
 			return self::$ticketStatusNotModify;
 		}
-		$ticketStatus = (new App\Db\Query())->select('ticket_status_indicate_closing')
+		$ticketStatus = (new App\Db\Query())->select(['ticket_status_indicate_closing'])
 			->from('vtiger_support_processes')
 			->scalar();
 		$return = [];
@@ -63,12 +61,12 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		\App\Log::trace('Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...');
 		\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 			'ticket_status_indicate_closing' => '',
-			], ['id' => 1])->execute();
+		], ['id' => 1])->execute();
 		if (!empty($data['val'])) {
-			$data = implode(',', $data['val']);
+			$data = implode(',', is_array($data['val']) ? $data['val'] : [$data['val']]);
 			\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 				'ticket_status_indicate_closing' => $data,
-				], ['id' => 1])->execute();
+			], ['id' => 1])->execute();
 		}
 		\App\Log::trace('Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...');
 

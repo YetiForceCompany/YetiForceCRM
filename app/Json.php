@@ -6,8 +6,8 @@ namespace App;
  * Json class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Json
 {
@@ -61,5 +61,46 @@ class Json
 			return json_encode($valueToEncode, $options);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
+	}
+
+	/**
+	 * Determine whether a variable is empty.
+	 *
+	 * @param string|null $value
+	 *
+	 * @return bool
+	 */
+	public static function isEmpty(?string $value)
+	{
+		return empty($value) || $value === '[]' || $value === '""';
+	}
+
+	/**
+	 * Read json file to array.
+	 *
+	 * @param string $path
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function read(string $path)
+	{
+		return static::decode(file_get_contents($path), true) ?? [];
+	}
+
+	/**
+	 * Save json file from array.
+	 *
+	 * @param string $path
+	 * @param array  $data
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool|int
+	 */
+	public static function save(string $path, array $data)
+	{
+		return \file_put_contents($path, static::encode($data));
 	}
 }

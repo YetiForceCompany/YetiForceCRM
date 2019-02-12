@@ -87,7 +87,7 @@ class Products extends CRMEntity
 			'vtiger_senotesrel' => 'crmid', 'vtiger_assets' => 'product', ];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
@@ -160,10 +160,8 @@ class Products extends CRMEntity
 					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
 				])->execute();
 			} elseif (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
-				if ($withModule === 'Products') {
-					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
-						continue;
-					}
+				if ($withModule === 'Products' && (new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
+					continue;
 				}
 				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
 				if (!$isExists) {

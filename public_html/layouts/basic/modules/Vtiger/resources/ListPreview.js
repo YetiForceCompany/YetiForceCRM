@@ -61,8 +61,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
-		app.showNewScrollbarLeft(this.list);
+		app.showNewScrollbarTopBottomRight(this.list, {wheelPropagation: false});
+		this.registerFixedThead();
+		mainBody.scrollTop(0); // reset scroll to set correct start position
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -74,14 +75,15 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		let mainViewPortWidthCss = {width: mainBody.height()};
 		this.gutter.addClass('js-fixed-scroll');
 		let fixedElements = container.find('.js-fixed-scroll');
+		let fixedThead = this.list.siblings('.floatThead-container');
 		mainBody.on('scroll', () => {
 			if (mainBody.scrollTop() >= listOffsetTop) {
-				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
+				fixedThead.add(fixedElements).css({top: mainBody.scrollTop() - listOffsetTop});
 				fixedElements.css(mainViewPortHeightCss);
 				this.rotatedText.css(mainViewPortHeightCss);
 				this.rotatedText.css(mainViewPortWidthCss);
 			} else {
-				fixedElements.css({top: 'initial'});
+				fixedThead.add(fixedElements).css({top: 'initial'});
 				fixedElements.css({height: initialH + mainBody.scrollTop()})
 				this.rotatedText.css({
 					width: initialH + mainBody.scrollTop(),
@@ -99,8 +101,20 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 	},
+	registerFixedThead() {
+		let list = this.list;
+		this.listFloatThead = list.find('.js-fixed-thead');
+		this.listFloatThead.floatThead('destroy');
+		this.listFloatThead.floatThead({
+			scrollContainer: function () {
+				return list;
+			}
+		});
+		this.listFloatThead.floatThead('reflow');
+	},
 	getSecondColMinWidth: function (container) {
-		let maxWidth, thisWidth;
+		let maxWidth = 0,
+			thisWidth;
 		container.find('.listViewEntries').each(function (i) {
 			thisWidth = $(this).find('.listViewEntryValue a').first().width();
 			if (i === 0) {
@@ -135,7 +149,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	getSplitSizes: function () {
 		const cachedParams = app.moduleCacheGet('userSplitSet');
-		if (cachedParams !== null) {
+		if (cachedParams !== undefined) {
 			return cachedParams;
 		} else {
 			return this.getDefaultSplitSizes();
@@ -218,8 +232,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 		var splitMinWidth = (25 / $(window).width()) * 100;
 		var splitMaxWidth = 100 - splitMinWidth;
-		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
-		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
 		var listPreview = container.find('.js-detail-preview');
 		const splitSizes = this.getSplitSizes();
 		var split = Split([this.list[0], listPreview[0]], {
@@ -249,6 +261,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
 					app.moduleCacheSet('gutterMidPosition', split.getSizes());
 				}
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			}
 		});
@@ -262,7 +275,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			listPreview.hide();
 			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
-		this.gutter = container.find('.gutter');		
+		this.gutter = container.find('.gutter');
 		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + this.footerH)};
 		this.gutter.css(mainWindowHeightCss);
 		this.list.css(mainWindowHeightCss);
@@ -324,10 +337,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 	},
 	/**
+	 * @inheritDoc
+	 */
+	registerDesktopEvents() {
+	},
+	/**
 	 * Sets initial iframe's height and fills the preview with first record's content.
 	 */
 	registerPreviewEvent: function () {
-		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
 		const container = this.getListViewContentContainer();
 		this.getDomParams(container);

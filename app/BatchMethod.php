@@ -3,8 +3,8 @@
  * Batch method.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -17,7 +17,7 @@ class BatchMethod extends Base
 	/** Enebled */
 	const STATUS_ENABLED = 1;
 
-	/** Running	 */
+	/** Running     */
 	const STATUS_RUNNING = 2;
 
 	/** Halted */
@@ -38,14 +38,20 @@ class BatchMethod extends Base
 	private $previousStatus;
 
 	/**
-	 * Constructor.
+	 * BatchMethod constructor.
 	 *
 	 * @param array $values
+	 * @param bool  $encode
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
-	public function __construct($values = [])
+	public function __construct($values = [], $encode = true)
 	{
 		$values['status'] = $values['status'] ?? static::STATUS_ENABLED;
-		$values['userid'] = $values['userid'] ?? \App\User::getCurrentUserId();
+		$values['userid'] = $values['userid'] ?? User::getCurrentUserId();
+		if ($encode) {
+			$values['params'] = Json::encode($values['params']);
+		}
 		parent::__construct($values);
 		$this->previousStatus = $values['status'];
 	}
@@ -80,8 +86,8 @@ class BatchMethod extends Base
 	{
 		try {
 			$this->setStatus(static::STATUS_RUNNING);
-			if (is_callable($this->get('method'))) {
-				call_user_func_array($this->get('method'), Json::decode($this->get('params')));
+			if (\is_callable($this->get('method'))) {
+				\call_user_func_array($this->get('method'), Json::decode($this->get('params')));
 			} else {
 				throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION||{$this->get('method')}", 406);
 			}
@@ -89,7 +95,7 @@ class BatchMethod extends Base
 		} catch (\Throwable $ex) {
 			Log::error($ex->getMessage());
 			if ($this->previousStatus === static::STATUS_HALTED) {
-				$this->log($ex->getMessage() . $ex->getTraceAsString());
+				$this->log($ex->__toString());
 				$this->delete();
 			} else {
 				$this->setStatus(static::STATUS_HALTED);

@@ -33,7 +33,7 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 	registerRowClickEvent: function () {
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click', '.listViewEntries td:not(.tdActions)', function (e) {
-			var editUrl = jQuery(e.currentTarget).parent().find('.[data-fa-i2svg]').closest('a').attr('href');
+			var editUrl = jQuery(e.currentTarget).parent().find('..fas').closest('a').attr('href');
 			window.location.href = editUrl;
 		});
 	},
@@ -102,33 +102,26 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 			formData.append("imported_xml", file);
 			file = false;
 		}
-		if (formData) {
-			var params = {
-				url: "index.php",
-				type: "POST",
-				data: formData,
-				processData: false,
-				contentType: false
-			};
-			AppConnector.request(params).done(function (data) {
-				aDeferred.resolve(data);
-			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
-		}
+		var params = {
+			url: "index.php",
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false
+		};
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	registerDeleteMap: function () {
-		var thisInstance = this;
-		this.getListContainer().find('.deleteMap').each(function (index) {
-			jQuery(this).on('click', function (e) {
-				e.stopPropagation();
-				e.preventDefault();
-				var templateId = jQuery(this).closest('tr').data('id');
-				Settings_MappedFields_List_Js.deleteById(templateId).done(function () {
-					thisInstance.registerBasic();
-				});
-			});
+		this.getListContainer().on('click', '.deleteMap', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var templateId = $(e.currentTarget).closest('tr').data('id');
+			Settings_MappedFields_List_Js.deleteById(templateId);
 		});
 	},
 	registerBasic: function () {

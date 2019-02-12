@@ -107,12 +107,12 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	public function getNonMappedSourcePickListValues()
 	{
 		if (empty($this->nonMappedSourcePickListValues)) {
-			$sourcePickListValues = $this->getSourcePickListValues();
+			$pickListValues = $this->getSourcePickListValues();
 			$dependencyMapping = $this->getPickListDependency();
 			foreach ($dependencyMapping as $mappingDetails) {
-				unset($sourcePickListValues[$mappingDetails['sourcevalue']]);
+				unset($pickListValues[$mappingDetails['sourcevalue']]);
 			}
-			$this->nonMappedSourcePickListValues = $sourcePickListValues;
+			$this->nonMappedSourcePickListValues = $pickListValues;
 		}
 		return $this->nonMappedSourcePickListValues;
 	}

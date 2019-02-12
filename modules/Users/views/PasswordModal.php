@@ -4,10 +4,10 @@
  * Reset password modal view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_PasswordModal_View extends Vtiger_BasicModal_View
+class Users_PasswordModal_View extends \App\Controller\Modal
 {
 	use \App\Controller\ExposeMethod;
 
@@ -40,8 +40,41 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 					return true;
 				}
 				break;
+			default:
+				break;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$record = $request->getInteger('record');
+		switch ($request->getMode()) {
+			case 'change':
+				$modeTitle = 'LBL_CHANGE_PASSWORD';
+				$this->modalIcon = 'fas fa-key mr-1';
+				break;
+			case 'reset':
+				$modeTitle = 'LBL_RESET_PASSWORD_HEAD';
+				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				break;
+			case 'massReset':
+				$modeTitle = 'LBL_MASS_RESET_PASSWORD_HEAD';
+				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				break;
+			default:
+				break;
+		}
+		$title = \App\Language::translate($modeTitle, $moduleName);
+		if ($record) {
+			$title .= ' - ' . App\Fields\Owner::getUserLabel($record);
+		}
+		$this->pageTitle = $title;
+		parent::preProcessAjax($request);
 	}
 
 	/**
@@ -56,9 +89,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODE_TITLE', 'LBL_RESET_PASSWORD_HEAD');
 		$viewer->assign('RECORD', $request->getInteger('record'));
 		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
-		$this->preProcess($request);
 		$viewer->view('PasswordModal.tpl', $moduleName);
-		$this->postProcess($request);
 	}
 
 	/**
@@ -68,6 +99,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
+		$viewer->assign('WARNING', '');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODE', 'change');
 		$viewer->assign('MODE_TITLE', 'LBL_CHANGE_PASSWORD');
@@ -92,9 +124,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		} else {
 			$viewer->assign('WARNING', \App\Language::translate('LBL_CHANGING_PASSWORD_OF_ANOTHER_USER', 'Users'));
 		}
-		$this->preProcess($request);
 		$viewer->view('PasswordModal.tpl', $moduleName);
-		$this->postProcess($request);
 	}
 
 	/**
@@ -108,11 +138,20 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODE', 'massReset');
 		$viewer->assign('MODE_TITLE', 'LBL_MASS_RESET_PASSWORD_HEAD');
 		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
-		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
-		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-		$viewer->assign('SEARCH_PARAMS', $request->get('search_params'));
-		$this->preProcess($request);
+		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
 		$viewer->view('PasswordModal.tpl', $moduleName);
-		$this->postProcess($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		if (!$request->getBoolean('onlyBody')) {
+			$viewer->view('Modals/PasswordModalFooter.tpl', $request->getModule());
+		}
 	}
 }

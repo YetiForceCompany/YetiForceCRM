@@ -36,7 +36,7 @@ class CRMEntity
 	public $db;
 	public $ownedby;
 
-	/** 	Constructor which will set the column_fields in this object
+	/**    Constructor which will set the column_fields in this object
 	 */
 	public function __construct()
 	{
@@ -46,55 +46,28 @@ class CRMEntity
 
 	public static function getInstance($module)
 	{
-		$modName = $module;
 		if (is_numeric($module)) {
-			$modName = App\Module::getModuleName($module);
-		}
-		if ($module === 'Calendar' || $module === 'Events') {
-			$module = 'Calendar';
-			$modName = 'Activity';
+			$module = App\Module::getModuleName($module);
 		}
 		if (\App\Cache::staticHas('CRMEntity', $module)) {
 			return clone \App\Cache::staticGet('CRMEntity', $module);
 		}
 
 		// File access security check
-		if (!class_exists($modName)) {
-			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
-				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$modName.php");
-				require_once "custom/modules/$module/$modName.php";
+		if (!class_exists($module)) {
+			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
+				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$module.php");
+				require_once "custom/modules/$module/$module.php";
 			} else {
-				\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$modName.php");
-				require_once "modules/$module/$modName.php";
+				\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$module.php");
+				require_once "modules/$module/$module.php";
 			}
 		}
-		$focus = new $modName();
+		$focus = new $module();
 		$focus->moduleName = $module;
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 
 		return $focus;
-	}
-
-	/**
-	 * Save the inventory data.
-	 */
-	public function saveInventoryData($moduleName)
-	{
-		$db = App\Db::getInstance();
-
-		\App\Log::trace('Entering ' . __METHOD__);
-
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
-		$db->createCommand()->delete($table, ['id' => $this->id])->execute();
-		if (is_array($this->inventoryData)) {
-			foreach ($this->inventoryData as $insertData) {
-				$insertData['id'] = $this->id;
-				$db->createCommand()->insert($table, $insertData)->execute();
-			}
-		}
-		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/** Function to delete a record in the specifed table
@@ -144,19 +117,7 @@ class CRMEntity
 		}
 
 		// Lookup module field cache
-		if ($module == 'Calendar' || $module == 'Events') {
-			vtlib\Deprecated::getColumnFields('Calendar');
-			if (VTCacheUtils::lookupFieldInfoModule('Events')) {
-				$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
-			} else {
-				$cachedEventsFields = [];
-			}
-			$cachedCalendarFields = VTCacheUtils::lookupFieldInfoModule('Calendar');
-			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
-			$module = 'Calendar';
-		} else {
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-		}
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
 			$tabid = \App\Module::getModuleId($module);
@@ -210,7 +171,7 @@ class CRMEntity
 			}
 			$resultRow = $query->one();
 			if (empty($resultRow)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
 			} else {
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
@@ -220,8 +181,7 @@ class CRMEntity
 						$fieldvalue = $resultRow[$fieldkey];
 					}
 					if ($fieldInfo['uitype'] === 120) {
-						$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
-						$fieldvalue = $query->column();
+						$fieldvalue = \App\Fields\SharedOwner::getById($record);
 						if (is_array($fieldvalue)) {
 							$fieldvalue = implode(',', $fieldvalue);
 						}
@@ -263,6 +223,9 @@ class CRMEntity
 			case 'getRelatedList':
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
+			case 'getEmails':
+				\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $returnId, 'ossmailviewid' => $id])->execute();
+				break;
 			default:
 				$this->deleteRelatedDependent($id, $returnModule, $returnId);
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
@@ -277,14 +240,16 @@ class CRMEntity
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
 			->createCommand()->query();
-		$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
-		while ($row = $dataReader->read()) {
-			if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
-				$recordModel->set($row['fieldname'], 0);
+		if ($dataReader->count()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
+			while ($row = $dataReader->read()) {
+				if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
+					$recordModel->set($row['fieldname'], 0);
+				}
 			}
+			$recordModel->save();
 		}
 		$dataReader->close();
-		$recordModel->save();
 	}
 
 	/**
@@ -320,56 +285,6 @@ class CRMEntity
 				'crmid' => $withCrmid,
 			],
 		])->execute();
-	}
-
-	public function updateMissingSeqNumber($module)
-	{
-		\App\Log::trace('Entered updateMissingSeqNumber function');
-		\VtlibUtils::vtlibSetupModulevars($module, $this);
-		$tabid = \App\Module::getModuleId($module);
-		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid)) {
-			return;
-		}
-
-		$fieldinfo = (new App\Db\Query())->from('vtiger_field')
-			->where(['tabid' => $tabid, 'uitype' => 4])->one();
-		$returninfo = [];
-
-		if ($fieldinfo) {
-			$fieldTable = $fieldinfo['tablename'];
-			$fieldColumn = $fieldinfo['columnname'];
-			if ($fieldTable === $this->table_name) {
-				$dataReader = (new App\Db\Query())->select(['recordid' => $this->table_index])
-					->from($this->table_name)
-					->where(['or', [$fieldColumn => ''], [$fieldColumn => null]])
-					->createCommand()->query();
-				$totalCount = $dataReader->count();
-				if ($totalCount) {
-					$returninfo['totalrecords'] = $totalCount;
-					$returninfo['updatedrecords'] = 0;
-					$moduleData = \App\Fields\RecordNumber::getNumber($tabid);
-					$sequenceNumber = $moduleData['sequenceNumber'];
-					$prefix = $moduleData['prefix'];
-					$postfix = $moduleData['postfix'];
-					$oldNumber = $sequenceNumber;
-					while ($recordinfo = $dataReader->read()) {
-						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
-						App\Db::getInstance()->createCommand()
-							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
-							->execute();
-						$sequenceNumber += 1;
-						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
-					}
-					$dataReader->close();
-					if ($oldNumber != $sequenceNumber) {
-						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
-					}
-				}
-			} else {
-				\App\Log::error('Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.');
-			}
-		}
-		return $returninfo;
 	}
 
 	/**
@@ -471,7 +386,7 @@ class CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$db = PearDatabase::getInstance();
+		$dbInstance = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -481,23 +396,23 @@ class CRMEntity
 		}
 		foreach ($transferEntityIds as &$transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
-			$relatedRecords = $db->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
+			$relatedRecords = $dbInstance->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
 				' && relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? && module=?)', [$transferId, $module, $entityId, $module]);
-			while ($row = $db->getRow($relatedRecords)) {
+			while ($row = $dbInstance->getRow($relatedRecords)) {
 				$where = 'relcrmid = ? && relmodule = ? && crmid = ? && module = ?';
 				$params = [$row['relcrmid'], $row['relmodule'], $transferId, $module];
-				$db->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
+				$dbInstance->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
 			}
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
-			$parentRecords = $db->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
+			$parentRecords = $dbInstance->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
 				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', [$transferId, $module, $entityId, $module]);
-			while ($row = $db->getRow($parentRecords)) {
+			while ($row = $dbInstance->getRow($parentRecords)) {
 				$where = 'crmid = ? && module = ? && relcrmid = ? && relmodule = ?';
 				$params = [$row['crmid'], $row['module'], $transferId, $module];
-				$db->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
+				$dbInstance->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
 
-			$db->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? && status <> ?', [$transferId, 7]);
+			$dbInstance->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? && status <> ?', [$transferId, 7]);
 			foreach ($relTables as &$relTable) {
 				$idField = current($relTable)[1];
 				$entityIdField = current($relTable)[0];
@@ -505,12 +420,12 @@ class CRMEntity
 				// IN clause to avoid duplicate entries
 				$sql = "SELECT $idField FROM $relTableName WHERE $entityIdField = ? " .
 					" && $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
-				$selResult = $db->pquery($sql, [$transferId, $entityId]);
-				if ($db->getRowCount($selResult) > 0) {
-					while (($idFieldValue = $db->getSingleValue($selResult)) !== false) {
-						$db->update($relTableName, [
+				$selResult = $dbInstance->pquery($sql, [$transferId, $entityId]);
+				if ($dbInstance->getRowCount($selResult) > 0) {
+					while (($idFieldValue = $dbInstance->getSingleValue($selResult)) !== false) {
+						$dbInstance->update($relTableName, [
 							$entityIdField => $entityId,
-							], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
+						], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
 						);
 					}
 				}
@@ -518,9 +433,9 @@ class CRMEntity
 			$fields = App\Field::getRelatedFieldForModule(false, $module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
-				$db->update($field['tablename'], [
+				$dbInstance->update($field['tablename'], [
 					$columnName => $entityId,
-					], "$columnName = ?", [$transferId]
+				], "$columnName = ?", [$transferId]
 				);
 			}
 		}
@@ -649,7 +564,7 @@ class CRMEntity
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$query = '';
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-			count($sharingRuleInfo['GROUP']) > 0)) {
+				count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
 				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .
@@ -722,12 +637,17 @@ class CRMEntity
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
 	}
 
+	/**
+	 * Gets fields to locking record.
+	 *
+	 * @return array
+	 */
 	public function getLockFields()
 	{
 		if (isset($this->lockFields)) {
 			return $this->lockFields;
 		}
-		return false;
+		return [];
 	}
 
 	/**

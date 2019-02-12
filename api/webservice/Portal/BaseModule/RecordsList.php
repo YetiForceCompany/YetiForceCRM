@@ -6,8 +6,8 @@ namespace Api\Portal\BaseModule;
  * Get record list class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordsList extends \Api\Core\BaseAction
 {
@@ -65,20 +65,20 @@ class RecordsList extends \Api\Core\BaseAction
 			$this->getQueryByParentRecord($queryGenerator);
 		}
 		$limit = 1000;
-		if ($requestLimit = $this->controller->request->getHeader('X-ROW-LIMIT')) {
+		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
 		$offset = 0;
-		if ($requestOffset = $this->controller->request->getHeader('X-ROW-OFFSET')) {
+		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$offset = (int) $requestOffset;
 		}
 		$queryGenerator->setLimit($limit);
 		$queryGenerator->setOffset($offset);
-		if ($requestFields = $this->controller->request->getHeader('X-FIELDS')) {
+		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			$queryGenerator->setFields(\App\Json::decode($requestFields));
 			$queryGenerator->setField('id');
 		}
-		if ($conditions = $this->controller->request->getHeader('X-CONDITION')) {
+		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
 				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);

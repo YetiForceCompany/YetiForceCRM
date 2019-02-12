@@ -3,8 +3,8 @@
  * Cron - Send notifications via mail.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'include/main/WebUI.php';
 $notifications = new Cron_Notification();
@@ -101,7 +101,7 @@ class Cron_Notification
 			->where(['vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 			->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
 			->createCommand()->queryAllByGroup(2);
-		foreach ($notifications as $userId => $noticesByUser) {
+		foreach ($notifications as $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, 0, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
 				$notice = Vtiger_Record_Model::getInstanceById($noticeId);

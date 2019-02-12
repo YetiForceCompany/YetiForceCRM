@@ -17,11 +17,53 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return explode('|##|', $value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return implode('|##|', $value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->getArray($requestFieldName, 'Integer');
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$this->validate($value, true);
+		return $this->getDBValue($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
+		}
+		if (!$isUserFormat) {
+			$value = explode('|##|', $value);
 		}
 		if (!is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
@@ -39,8 +81,11 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($value === null && !is_array($value)) {
+		if (empty($value)) {
 			return '';
+		}
+		if (!is_array($value)) {
+			$value = explode('|##|', $value);
 		}
 		foreach ($value as $row) {
 			if (self::getOwnerType($row) === 'User') {
@@ -87,5 +132,21 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiOwner.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Owner.tpl';
 	}
 }

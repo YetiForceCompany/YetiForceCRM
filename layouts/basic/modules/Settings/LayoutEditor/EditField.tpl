@@ -71,10 +71,20 @@
 						<input type="hidden" name="header_field" value="0"/>
 						<input type="checkbox" name="header_field"
 							   id="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
-							   value="btn-default"/>
+							   value="1"/>
 						<label for="header_field">
 							{App\Language::translate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 						</label>
+						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}{if $FIELD_MODEL->getFieldDataType() neq 'picklist'} hide{/if}" data-js="class:zeroOpacity">
+							{assign var=HEADER_FIELD_VALUE value=$FIELD_MODEL->getHeaderValue('class')}
+							{assign var=HEADER_FIELD_TYPE value=$FIELD_MODEL->getHeaderValue('type')}
+							<select name="header_type" class="form-control select2">
+								{foreach key=LABEL item=VALUE from=$FIELD_MODEL->getUITypeModel()->getHeaderTypes()}
+									<option value="{$VALUE}" {if $VALUE == $HEADER_FIELD_TYPE} selected {/if}>{App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
+								{/foreach}
+							</select>
+							<input name="header_class" value="{if $HEADER_FIELD_VALUE}{$HEADER_FIELD_VALUE}{else}badge-info{/if}" type="text" class="hide">
+						</div>
 					</div>
 					<div class="checkbox">
 						<input type="hidden" name="masseditable" value="2"/>
@@ -88,143 +98,27 @@
 					</div>
 
 					<div class="checkbox">
-						<input type="hidden" name="defaultvalue" value=""/>
+						<input type="hidden" name="defaultvalue" value="0"/>
 						<input type="checkbox"
 							   name="defaultvalue"
 							   id="defaultvalue" {if $FIELD_MODEL->hasDefaultValue()} checked {/if} {strip} {/strip}
-								{if $FIELD_MODEL->isDefaultValueOptionDisabled()} readonly="readonly" {/if} value=""/>
+								{if $FIELD_MODEL->isDefaultValueOptionDisabled()} readonly="readonly" {/if} value="1"/>
 						<label for="defaultvalue">
 							{App\Language::translate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}
 						</label>
-						<div class="defaultValueUi {if !$FIELD_MODEL->hasDefaultValue()} zeroOpacity {/if}">
+						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->hasDefaultValue()} zeroOpacity {/if}" data-js="container">
 							{if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
-								<label for="fieldDefaultValue"
-									   class="sr-only">{App\Language::translate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}
-								</label>
-								{if $FIELD_MODEL->getFieldDataType() eq "picklist"}
-									{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-									<select class="col-md-2 select2"
-											name="fieldDefaultValue"
-											id="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-											data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-											data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'>
-										{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-											<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if App\Purifier::decodeHtml($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{App\Language::translate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
-										{/foreach}
-									</select>
-								{elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
-									{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-									{assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
-									<select multiple class="col-md-2 select2"
-											data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-											name="fieldDefaultValue" id="fieldDefaultValue"
-											data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'>
-										{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
-											<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if in_array(\App\Purifier::encodeHtml($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{App\Language::translate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
-										{/foreach}
-									</select>
-								{elseif $FIELD_MODEL->getFieldDataType() eq "boolean"}
-									<div class="checkbox">
-										<input type="hidden" name="fieldDefaultValue" id="fieldDefaultValue" value=""/>
-										<input type="checkbox" name="fieldDefaultValue" id="fieldDefaultValue"
-											   value="1"{strip} {/strip}
-												{if $FIELD_MODEL->get('defaultvalue') eq 1} checked {/if}
-											   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>
-									</div>
-								{elseif $FIELD_MODEL->getFieldDataType() eq "time"}
-									<div class="input-group time">
-										<input type="text" class="form-control-sm form-control clockPicker"
-											   data-format="{$USER_MODEL->get('hour_format')}"
-											   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-											   data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}"
-											   name="fieldDefaultValue" id="fieldDefaultValue"
-											   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>
-										<div class="input-group-append">
-										<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
-											<span class="far fa-clock"></span>
-										</span>
-										</div>
-									</div>
-								{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
-									{assign var=IS_CUSTOM_DEFAULT_VALUE value=\App\TextParser::isVaribleToParse($FIELD_MODEL->get('defaultvalue'))}
-									<div class="input-group date {if $IS_CUSTOM_DEFAULT_VALUE} d-none{/if}">
-										{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-										<input type="text" class="form-control dateField"
-											   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue() || $IS_CUSTOM_DEFAULT_VALUE} disabled="" {/if}
-											   name="fieldDefaultValue" id="fieldDefaultValue" data-toregister="date"
-											   data-date-format="{$USER_MODEL->get('date_format')}"
-											   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
-											   value="{if !$IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}{/if}"/>
-										<div class=" input-group-append">
-										<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
-											<span class="fas fa-calendar-alt"></span>
-										</span>
-										</div>
-										<span class="input-group-btn"
-											  title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">
-										<button class="btn btn-light configButton" type="button"><span
-													class="fas fa-cog"></span></button>
-									</span>
-									</div>
-									<div class="input-group {if !$IS_CUSTOM_DEFAULT_VALUE} d-none{/if}">
-										<input type="text" class="form-control"
-											   name="fieldDefaultValue"
-											   id="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled{/if}
-											   value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}"
-											   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-											   data-fieldinfo="{\App\Purifier::encodeHtml('{"type":"textParser"}')}"/>
-										<span class="input-group-btn">
-										<button class="btn btn-light varibleToParsers" type="button"><span
-													class="fas fa-edit"></span></button>
-										<button class="btn btn-light active configButton" type="button"
-												title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}"><span
-													class="fas fa-cog"></span></button>
-									</span>
-									</div>
-								{elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
-									<div class="input-group">
-										<input type="number"
-											   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-											   class="form-control" name="fieldDefaultValue"
-											   id="fieldDefaultValue" {strip} {/strip}
-											   value="{$FIELD_MODEL->get('defaultvalue')}"
-											   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}' step="any"/>
-										<span class="input-group-addon">%</span>
-									</div>
-								{elseif $FIELD_MODEL->getFieldDataType() eq "currency"}
-									<div class="input-group">
-										<span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
-										<input type="text"
-											   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-											   class="form-control" name="fieldDefaultValue"
-											   id="fieldDefaultValue" {strip} {/strip}
-											   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'
-											   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}"
-											   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
-											   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'/>
-									</div>
-								{else if $FIELD_MODEL->getUIType() eq 19}
-									<textarea class="input-medium"
-											  data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-											  name="fieldDefaultValue" id="fieldDefaultValue"
-											  value="{$FIELD_MODEL->get('defaultvalue')}"
-											  data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'></textarea>
-								{else}
-									<input type="text" class="input-medium form-control"
-										   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}
-										   name="fieldDefaultValue" id="fieldDefaultValue"
-										   value="{$FIELD_MODEL->get('defaultvalue')}"
-										   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>
-								{/if}
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDefaultEditTemplateName(), $FIELD_MODEL->getModuleName())}
 							{/if}
 						</div>
 					</div>
-					{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url','integer','double'])}
+					{if in_array($FIELD_MODEL->getFieldDataType(),['string','currency','url','integer','double'])}
 					<div>
 						<div class="form-group">
 							<label for="fieldMask"><strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong></label>
 							<div class=" input-group">
 								<input type="text" class="form-control" id="fieldMask" name="fieldMask"
+										{if $FIELD_MODEL->get('maximumlength')} data-validation-engine="validate[maxSize[{$FIELD_MODEL->get('maximumlength')}]]{/if}"
 									   value="{$FIELD_MODEL->get('fieldparams')}"/>
 								<div class="input-group-append">
 								<span class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
@@ -243,8 +137,17 @@
 						</div>
 						<div class="form-group">
 							<label for="maxwidthcolumn"><strong>{App\Language::translate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}</strong></label>
-							<input type="text" class="form-control" id="maxwidthcolumn" name="maxwidthcolumn"
-								   value="{$FIELD_MODEL->get('maxwidthcolumn')}"/>
+							<div class=" input-group">
+								<input type="text" class="form-control" id="maxwidthcolumn" name="maxwidthcolumn"
+									   value="{$FIELD_MODEL->get('maxwidthcolumn')}"/>
+								<div class="input-group-append">
+									<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
+										 data-placement="top"
+										 data-content="{App\Language::translate('LBL_MAX_WIDTH_COLUMN_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
+								</div>
+							</div>
 						</div>
 						{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
 							<div class="checkbox">
@@ -261,7 +164,7 @@
 									<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}</strong>
 									{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
 								</label>
-								<div class="defaultValueUi">
+								<div class="js-toggle-hide">
 									<select name="displaytype" class="form-control select2" id="displaytype">
 										{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
 											<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == $FIELD_MODEL->get('displaytype')} selected {/if} >{App\Language::translate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
@@ -270,7 +173,7 @@
 								</div>
 							</div>
 						{/if}
-						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL' MODULE=$QUALIFIED_MODULE}
 				</form>
 			</div>
 		</div>

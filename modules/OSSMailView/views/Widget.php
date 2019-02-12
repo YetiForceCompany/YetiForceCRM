@@ -33,10 +33,10 @@ class OSSMailView_Widget_View extends Vtiger_Edit_View
 		$moduleName = $request->getModule();
 		$srecord = $request->getInteger('srecord');
 		$smodule = $request->getByType('smodule');
-		$type = $request->get('type');
+		$type = $request->getByType('type', 2);
 		$mode = $request->getMode();
 		$record = $request->getInteger('record');
-		$mailFilter = $request->get('mailFilter');
+		$mailFilter = $request->getByType('mailFilter', 1);
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$config = OSSMail_Module_Model::getComposeParameters();
 		if ($request->has('limit')) {

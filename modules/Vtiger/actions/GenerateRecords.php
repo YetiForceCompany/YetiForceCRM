@@ -35,7 +35,7 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 
 	public function process(\App\Request $request)
 	{
-		$records = $request->getArray('records');
+		$records = $request->getArray('records', 'Integer');
 		$moduleName = $request->getModule();
 		$template = $request->getInteger('template');
 		$targetModuleName = $request->getByType('target');

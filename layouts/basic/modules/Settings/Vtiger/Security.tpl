@@ -22,10 +22,10 @@
 			</thead>
 			<tbody>
 				{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-					<tr {if $item.status}class="table-danger"{/if}>
+					<tr {if !empty($item.status)}class="table-danger"{/if}>
 						<td>
 							<label>{$key}</label>
-							{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
+							{if !empty($item.help) && !empty($item.status)}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
 						</td>
 						<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 						<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
@@ -63,7 +63,7 @@
 							<tr>
 								<td><label>{$LIB_NAME} ({$LIB['version']})</label></td>
 								<td><label>{$ADVISORIE['title']}</label></td>
-								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
+								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
 								<td><label>{$ADVISORIE['cve']}</label></td>
 							</tr>
 						{/foreach}

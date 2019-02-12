@@ -38,6 +38,20 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 *
+	 * @param mixed  $value
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$this->validate($value, true);
+		return $this->getDBValue($value);
+	}
+
+	/**
 	 * Set value from request.
 	 *
 	 * @param \App\Request        $request
@@ -50,9 +64,36 @@ class Vtiger_Base_UIType extends \App\Base
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
-		$value = $request->get($requestFieldName, '');
+		$value = $request->getByType($requestFieldName, 'Text');
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * Set default value from request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\Security
+	 */
+	public function setDefaultValueFromRequest(\App\Request $request)
+	{
+		$fieldModel = $this->getFieldModel();
+		$recordModel = Vtiger_Record_Model::getCleanInstance($fieldModel->getModuleName());
+		$this->setValueFromRequest($request, $recordModel);
+		$fieldModel->set('defaultvalue', $recordModel->get($fieldModel->getName()));
+	}
+
+	/**
+	 * Function to get Default Field Value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return mixed
+	 */
+	public function getDefaultValue()
+	{
+		return $this->getFieldModel()->get('defaultvalue');
 	}
 
 	/**
@@ -65,7 +106,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -130,7 +171,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Function to get the list value in display view.
 	 *
 	 * @param mixed                    $value       Field value
-	 * @param int                      $record|bool Record Id
+	 * @param int                      $record      |bool Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
@@ -145,7 +186,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Function to get the related list value in display view.
 	 *
 	 * @param mixed                    $value       Field value
-	 * @param int                      $record|bool Record Id
+	 * @param int                      $record      |bool Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
@@ -272,6 +313,16 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get the default edit view template name for the current UI Type Object.
+	 *
+	 * @return string - Template Name
+	 */
+	public function getDefaultEditTemplateName()
+	{
+		return 'Edit/DefaultField/Base.tpl';
+	}
+
+	/**
 	 * Get field model instance.
 	 *
 	 * @return Vtiger_Field_Model
@@ -307,5 +358,37 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getAllowedColumnTypes()
 	{
 		return ['string', 'text', 'binary'];
+	}
+
+	/**
+	 * Gets header types.
+	 *
+	 * @return string[]
+	 */
+	public function getHeaderTypes()
+	{
+		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
+	}
+
+	/**
+	 * Return allowed operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Base.tpl';
 	}
 }

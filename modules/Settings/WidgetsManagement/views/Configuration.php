@@ -3,8 +3,10 @@
 /**
  * Settings OSSMailView index view class.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Index_View
 {
@@ -23,15 +25,11 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		if (empty($sourceModule)) {
 			$sourceModule = 'Home';
 		}
-
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $request->isEmpty('dashboardId', true) ? Settings_WidgetsManagement_Module_Model::getDefaultDashboard() : $request->getInteger('dashboardId');
 		$viewer = $this->getViewer($request);
 		// get widgets list
 		$widgets = $dashboardModules[$sourceModule];
-		$dashboardStored = $widgetsManagementModel->getDashboardForModule($sourceModule, $currentDashboard);
+		$dashboardStored = $widgetsManagementModel->getDashboardForModule($sourceModule);
 		$defaultValues = $widgetsManagementModel->getDefaultValues();
 		$size = $widgetsManagementModel->getSize();
 		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
@@ -53,7 +51,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));
-		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule]);
+		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule] ?? []);
 		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
 		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
 		$viewer->assign('WIDGETS', $widgets);

@@ -6,9 +6,9 @@ namespace Api\Portal\BaseModule;
  * Get Privileges class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Privileges extends \Api\Core\BaseAction
 {
@@ -32,7 +32,8 @@ class Privileges extends \Api\Core\BaseAction
 			$permission = $actionPermissions['profile_action_permission'][$moduleId] ?? false;
 			if ($permission || $isAdmin) {
 				foreach (\Vtiger_Action_Model::$standardActions as $key => $value) {
-					$privileges[$value] = $isAdmin ? true : isset($permission[$key]) && $permission[$key] === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
+					$privileges[$value] = $isAdmin ||
+						(isset($permission[$key]) && $permission[$key] === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
 				}
 			}
 		}

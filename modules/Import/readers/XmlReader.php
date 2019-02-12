@@ -4,8 +4,8 @@
  * XmlReader Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Import_XmlReader_Reader extends Import_FileReader_Reader
 {
@@ -99,8 +99,8 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 			}
 		}
 		if ($inventoryFieldMapping && $recordsInventoryData) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
-			$inventoryFields = $inventoryFieldModel->getFields();
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
+			$inventoryFields = $inventoryModel->getFields();
 			foreach ($recordsInventoryData as $index => $data) {
 				foreach ($data as $key => $fieldValue) {
 					$fieldName = array_search($key, $inventoryFieldMapping);
@@ -194,13 +194,10 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 			}
 		}
 		$this->inventoryData = ['labels' => array_combine($labels[0], $recordInventoryData[0]), 'tags' => $columnsName[0], 'data' => $recordInventoryData];
-		switch ($keyType) {
-			case 'label':
-				$recordInventoryData = $this->inventoryData['labels'];
-				break;
-			default:
-				$recordInventoryData = $this->inventoryData['data'];
-				break;
+		if ($keyType === 'label') {
+			$recordInventoryData = $this->inventoryData['labels'];
+		} else {
+			$recordInventoryData = $this->inventoryData['data'];
 		}
 		return $recordInventoryData;
 	}

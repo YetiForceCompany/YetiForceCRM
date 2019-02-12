@@ -3,9 +3,9 @@
  * Watchdog Task Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
@@ -28,8 +28,6 @@ class VTWatchdog extends VTTask
 	{
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
-		$users = [];
-
 		switch ($this->recipients) {
 			case 'watchdog':
 				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
@@ -48,6 +46,7 @@ class VTWatchdog extends VTTask
 		if (!empty($this->skipCurrentUser) && ($key = array_search(\App\User::getCurrentUserId(), $users)) !== false) {
 			unset($users[$key]);
 		}
+
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
 		$notification->set('shownerid', implode(',', $users));

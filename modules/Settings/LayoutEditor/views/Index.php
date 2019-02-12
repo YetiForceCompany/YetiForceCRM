@@ -52,7 +52,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 			}
 		}
 
-		foreach ($blockModels as $blockLabel => $blockModel) {
+		foreach ($blockModels as $blockModel) {
 			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
 				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
 				$blockModel->setFields($fieldModelList);
@@ -72,7 +72,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('INVENTORY_MODEL', Vtiger_InventoryField_Model::getInstance($sourceModule));
+		$viewer->assign('INVENTORY_MODEL', Vtiger_Inventory_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
@@ -102,11 +102,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = ['libraries.clipboard.dist.clipboard'];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts(['libraries.clipboard.dist.clipboard']));
 	}
 }

@@ -32,11 +32,17 @@ class Import_Utils_Helper
 		}
 	}
 
-	public function getSupportedFileExtensionsDescription($moduleName)
+	/**
+	 * Get supported file extensions description.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string
+	 */
+	public static function getSupportedFileExtensionsDescription(string $moduleName)
 	{
 		$supportedFileTypes = self::getSupportedFileExtensions($moduleName);
 		$description = [];
-
 		foreach ($supportedFileTypes as $fileType) {
 			$description[] = '.' . strtoupper($fileType);
 		}
@@ -63,12 +69,10 @@ class Import_Utils_Helper
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
 	{
 		$viewer = new Vtiger_Viewer();
-
 		$viewer->assign('ERROR_MESSAGE', $errorMessage);
 		$viewer->assign('ERROR_DETAILS', $errorDetails);
 		$viewer->assign('CUSTOM_ACTIONS', $customActions);
-		$viewer->assign('MODULE', 'Import');
-
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->view('ImportError.tpl', 'Import');
 	}
 

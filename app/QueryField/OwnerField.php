@@ -6,9 +6,9 @@ namespace App\QueryField;
  * Owner Query Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OwnerField extends BaseField
 {
@@ -58,6 +58,17 @@ class OwnerField extends BaseField
 	public function operatorOm()
 	{
 		return [$this->getColumnName() => \App\User::getCurrentUserId()];
+	}
+
+	/**
+	 * Currently logged-in user groups.
+	 *
+	 * @return array
+	 */
+	public function operatorOgr(): array
+	{
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
+		return [$this->getColumnName() => \array_keys($groups)];
 	}
 
 	/**

@@ -24,7 +24,7 @@ Vtiger_Detail_Js("Portal_Detail_Js", {}, {
 	registerDetailViewChangeEvent: function () {
 		jQuery('#bookmarksDropdown').on('change', function () {
 			var selectedBookmark = jQuery('#bookmarksDropdown').val();
-			var progressIndicatorElement = jQuery.progressIndicator({
+			jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true

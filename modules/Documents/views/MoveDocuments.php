@@ -34,13 +34,14 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FOLDERS', $moduleModel->getAllFolders());
-		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
-		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
+		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 'Alnum'));
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 'Alnum'));
+		$viewer->assign('VIEWNAME', $request->getByType('viewname', 'Alnum'));
 
-		$searchKey = $request->getByType('search_key', 2);
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
+		$searchKey = $request->getByType('search_key', 'Alnum');
+
+		$operator = $request->getByType('operator');
+		$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
 		if (!empty($operator)) {
 			$viewer->assign('OPERATOR', $operator);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);

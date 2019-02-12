@@ -16,18 +16,18 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$reminder_value = '';
-		$reminder_time = $this->getEditViewDisplayValue($value, $recordModel);
-		if (!empty($reminder_time[0])) {
-			$reminder_value = $reminder_time[0] . ' ' . \App\Language::translate('LBL_DAYS');
+		$reminderValue = '';
+		$reminderTime = $this->getEditViewDisplayValue($value, $recordModel);
+		if (!empty($reminderTime[0])) {
+			$reminderValue = $reminderTime[0] . ' ' . \App\Language::translate('LBL_DAYS');
 		}
-		if (!empty($reminder_time[1])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[1] . ' ' . \App\Language::translate('LBL_HOURS');
+		if (!empty($reminderTime[1])) {
+			$reminderValue = $reminderValue . ' ' . $reminderTime[1] . ' ' . \App\Language::translate('LBL_HOURS');
 		}
-		if (!empty($reminder_time[2])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . \App\Language::translate('LBL_MINUTES');
+		if (!empty($reminderTime[2])) {
+			$reminderValue = $reminderValue . ' ' . $reminderTime[2] . ' ' . \App\Language::translate('LBL_MINUTES');
 		}
-		return $reminder_value;
+		return $reminderValue;
 	}
 
 	/**
@@ -36,15 +36,55 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if ($value != 0) {
-			$rem_days = floor($value / (24 * 60));
-			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
-			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			$reminder_time = [$rem_days, $rem_hrs, $rem_min];
-
-			return $reminder_time;
+			$days = floor($value / (24 * 60));
+			$hours = floor(($value - $days * 24 * 60) / 60);
+			$minutes = ($value - ($days * 24 * 60)) % 60;
+			return [$days, $hours, $minutes];
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if (empty($value) || isset($this->validate[$value])) {
+			return;
+		}
+		if (($isUserFormat && !in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate[$value] = true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->getBoolean($requestFieldName);
+		$this->validate($value, true);
+		if ($value) {
+			if (!$request->has('remdays') || !$request->has('remhrs') || !$request->has('remmin')) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			}
+			$value = $request->getInteger('remdays') * 24 * 60 + $request->getInteger('remhrs') * 60 + $request->getInteger('remmin');
+		}
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return (int) $value;
 	}
 
 	/**
@@ -61,5 +101,29 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/Reminder.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isActiveSearchView()
+	{
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEditable()
+	{
+		return false;
 	}
 }

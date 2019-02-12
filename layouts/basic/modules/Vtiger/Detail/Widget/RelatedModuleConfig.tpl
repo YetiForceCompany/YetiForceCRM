@@ -4,7 +4,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form class="form-modalAddWidget form-horizontal validateForm">
-					<input type="hidden" name="wid" value="{$WID}"/>
+					{if !empty($WID)}<input type="hidden" name="wid" value="{$WID}" />{/if}
 					<input type="hidden" name="type" value="{$TYPE}"/>
 					<div class="modal-header">
 						<h5 id="massEditHeader" class="modal-title">
@@ -62,7 +62,7 @@
 														data-module="{$RELATED_MODULE['related_tabid']}">
 													{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
 														<option value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"
-																{if $WIDGETINFO['data']['relatedfields'] && in_array($RELATED_MODULE['related_tabid']|cat:'::'|cat:$FIELD_NAME, $WIDGETINFO['data']['relatedfields'])}selected{/if}
+																{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($RELATED_MODULE['related_tabid']|cat:'::'|cat:$FIELD_NAME, $WIDGETINFO['data']['relatedfields'])}selected="selected"{' '}{/if}
 																data-module="{$RELATED_MODULE['related_tabid']}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}</option>
 													{/foreach}
 												</optgroup>
@@ -80,11 +80,11 @@
 								<div class="col-md-7 py-1">
 									<select name="viewtype" class="select2">
 										<option value="List"
-												{if $WIDGETINFO['data']['viewtype'] == 'List'}selected{/if}>{\App\Language::translate('LBL_LIST', $QUALIFIED_MODULE)}</option>
+												{if !empty($WIDGETINFO['data']['viewtype']) && $WIDGETINFO['data']['viewtype'] == 'List'}selected{/if}>{\App\Language::translate('LBL_LIST', $QUALIFIED_MODULE)}</option>
 										<option value="Summary"
-												{if $WIDGETINFO['data']['viewtype'] == 'Summary'}selected{/if}>{\App\Language::translate('LBL_SUMMARY', $QUALIFIED_MODULE)}</option>
+												{if !empty($WIDGETINFO['data']['viewtype']) && $WIDGETINFO['data']['viewtype'] == 'Summary'}selected{/if}>{\App\Language::translate('LBL_SUMMARY', $QUALIFIED_MODULE)}</option>
 										<option value="ListWithSummary"
-												{if $WIDGETINFO['data']['viewtype'] == 'ListWithSummary'}selected{/if}>{\App\Language::translate('LBL_LIST_WITH_SUMMARY', $QUALIFIED_MODULE)}</option>
+												{if !empty($WIDGETINFO['data']['viewtype']) && $WIDGETINFO['data']['viewtype'] == 'ListWithSummary'}selected{/if}>{\App\Language::translate('LBL_LIST_WITH_SUMMARY', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>

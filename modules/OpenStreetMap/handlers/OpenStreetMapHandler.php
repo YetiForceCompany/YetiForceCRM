@@ -33,14 +33,13 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 				}
 			}
 		}
-		foreach (['a', 'b', 'c'] as &$typeAddress) {
+		foreach (\App\Map\Coordinates::TYPE_ADDRES as $typeAddress) {
 			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->isNew() || in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')
 					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])
 					->exists();
-				$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-				$address = $coordinatesModel->getUrlParamsToSearching($recordModel, $typeAddress);
+				$address = \App\Map\Coordinates::getAddressParams($recordModel, $typeAddress);
 				if (!$isCoordinateExists) {
 					App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
 						'crmid' => $recordModel->getId(),

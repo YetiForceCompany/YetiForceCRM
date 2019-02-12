@@ -68,7 +68,7 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if ($request->getByType('currency_status') === 'Inactive' && !$request->isEmpty('record')) {
 				$transforCurrencyToId = $request->getInteger('transform_to_id');
 				if (empty($transforCurrencyToId)) {
-					throw new Exception('Transfer currency id cannot be empty');
+					throw new \App\Exceptions\AppException('Transfer currency id cannot be empty');
 				}
 			}
 			$id = $recordModel->save();

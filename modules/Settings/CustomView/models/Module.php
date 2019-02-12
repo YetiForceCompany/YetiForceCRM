@@ -4,18 +4,19 @@
  * CustomView module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public function getCustomViews($tabId)
 	{
-		$dataReader = (new App\Db\Query())->select('vtiger_customview.*')
+		$dataReader = (new App\Db\Query())->select(['vtiger_customview.*'])
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
 			->where(['vtiger_tab.tabid' => $tabId])
+			->andWhere(['not', ['vtiger_customview.presence' => 2]])
 			->orderBy(['vtiger_customview.sequence' => SORT_ASC])
 			->createCommand()->query();
 		$moduleEntity = [];
@@ -31,12 +32,12 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$query = new App\Db\Query();
 		if ($action == 'default') {
-			$query->select('userid')
+			$query->select(['userid'])
 				->from('vtiger_user_module_preferences')
 				->where(['default_cvid' => $cvId])
 				->orderBy(['userid' => SORT_ASC]);
 		} elseif ($action == 'featured') {
-			$query->select('user')
+			$query->select(['user'])
 				->from('u_#__featured_filter')
 				->where(['cvid' => $cvId])
 				->orderBy(['user' => SORT_ASC]);
@@ -55,7 +56,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
 		if ($action == 'add') {
-			$dataReader = (new App\Db\Query())->select('vtiger_customview.viewname')
+			$dataReader = (new App\Db\Query())->select(['vtiger_customview.viewname'])
 				->from('vtiger_user_module_preferences')
 				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
 				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
@@ -70,22 +71,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			])->execute();
 		} elseif ($action == 'remove') {
 			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
-		}
-		return false;
-	}
-
-	public static function setFeaturedFilterView($cvId, $user, $action)
-	{
-		$db = \App\Db::getInstance();
-		if ($action == 'add') {
-			$db->createCommand()->insert('u_#__featured_filter', [
-				'user' => $user,
-				'cvid' => $cvId,
-			])->execute();
-		} elseif ($action == 'remove') {
-			$db->createCommand()
-				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
-				->execute();
 		}
 		return false;
 	}
@@ -145,7 +130,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getUrlToEdit($module, $record)
 	{
-		return "module=CustomView&view=EditAjax&source_module=$module&record=$record";
+		return "index.php?module=CustomView&view=EditAjax&source_module=$module&record=$record";
 	}
 
 	public function getCreateFilterUrl($module)
@@ -190,7 +175,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $customViewModel->get('entitytype');
 		$curretView = App\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {
-			$sortOrder = explode(',', $params['value']);
+			$sortOrder = array_pad(explode(',', $params['value']), 2, '');
 			App\CustomView::setSorder($moduleName, $sortOrder[1]);
 			App\CustomView::setSortby($moduleName, $sortOrder[0]);
 		}

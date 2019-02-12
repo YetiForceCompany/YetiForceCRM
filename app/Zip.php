@@ -163,16 +163,17 @@ class Zip extends \ZipArchive
 	 */
 	public function validateFile(string $path)
 	{
-		if ($this->checkFilePath($path)) {
+		if (!Fields\File::checkFilePath($path)) {
 			return true;
 		}
+		$validate = false;
 		if ($this->checkFiles && !$this->isDir($path)) {
 			$extension = pathinfo($path, PATHINFO_EXTENSION);
 			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
-				return true;
+				$validate = true;
 			}
 			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
-				return true;
+				$validate = true;
 			}
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
@@ -183,37 +184,10 @@ class Zip extends \ZipArchive
 				'validateAllCodeInjection' => true,
 			]);
 			if (!$fileInstance->validate()) {
-				return true;
+				$validate = true;
 			}
 		}
-		return false;
-	}
-
-	/**
-	 * CheckFilePath.
-	 *
-	 * @param string $path
-	 *
-	 * @return bool
-	 */
-	public function checkFilePath(string $path)
-	{
-		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
-		if ($matches) {
-			return true;
-		}
-		$absolutes = [];
-		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
-			if ('.' == $part) {
-				continue;
-			}
-			if ('..' == $part) {
-				array_pop($absolutes);
-			} else {
-				$absolutes[] = $part;
-			}
-		}
-		return strpos('YetiTemp/' . implode('/', $absolutes), 'YetiTemp/') !== 0;
+		return $validate;
 	}
 
 	/**
@@ -277,17 +251,20 @@ class Zip extends \ZipArchive
 	 *
 	 * @param string $dir
 	 * @param string $localName
+	 * @param bool   $relativePath
 	 */
-	public function addDirectory($dir, $localName = '')
+	public function addDirectory(string $dir, string $localName = '', bool $relativePath = false)
 	{
 		if ($localName) {
 			$localName .= \DIRECTORY_SEPARATOR;
 		}
-		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($dir)), \RecursiveIteratorIterator::LEAVES_ONLY);
-		foreach ($files as $name => $file) {
+		$path = realpath($dir);
+		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::LEAVES_ONLY);
+		$pathToTrim = $relativePath ? $path : ROOT_DIRECTORY;
+		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
+				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath, $pathToTrim));
 			}
 		}
 	}
@@ -301,14 +278,14 @@ class Zip extends \ZipArchive
 	{
 		$fileName = $this->filename;
 		$this->close();
-		header('Cache-Control: private, max-age=120, must-revalidate');
-		header('Pragma: no-cache');
-		header('Expires: 0');
-		header('Content-Type: application/zip');
-		header('Content-Disposition: attachment; filename="' . $name . '.zip";');
-		header('Accept-Ranges: bytes');
-		header('Content-Length: ' . filesize($fileName));
-		echo readfile($fileName);
+		header('cache-control: private, max-age=120, must-revalidate');
+		header('pragma: no-cache');
+		header('expires: 0');
+		header('content-type: application/zip');
+		header('content-disposition: attachment; filename="' . $name . '.zip";');
+		header('accept-ranges: bytes');
+		header('content-length: ' . filesize($fileName));
+		readfile($fileName);
 		unlink($fileName);
 	}
 }

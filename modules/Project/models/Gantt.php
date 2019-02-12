@@ -101,7 +101,7 @@ class Project_Gantt_Model
 		}
 		unset($task);
 		$hasChild = [];
-		foreach ($parents as $childId => $parentsId) {
+		foreach ($parents as $parentsId) {
 			foreach ($parentsId as $parentId) {
 				if (!in_array($parentId, $hasChild)) {
 					$hasChild[] = $parentId;
@@ -128,7 +128,7 @@ class Project_Gantt_Model
 	 */
 	private function calculateDuration($startDateStr, $endDateStr)
 	{
-		return (int) (new DateTime($startDateStr))->diff(new DateTime($endDateStr), true)->format('%a');
+		return ((int) (new DateTime($startDateStr))->diff(new DateTime($endDateStr), true)->format('%a')) * 24 * 60 * 60;
 	}
 
 	/**
@@ -234,6 +234,15 @@ class Project_Gantt_Model
 				if (isset($task['children'])) {
 					unset($task['children']);
 				}
+				if (isset($task['parents'])) {
+					unset($task['parents']);
+				}
+				if (isset($task['depends'])) {
+					unset($task['depends']);
+				}
+				if (!isset($task['progress'])) {
+					$task['progress'] = 100;
+				}
 				$clean[] = $task;
 			}
 		}
@@ -288,13 +297,13 @@ class Project_Gantt_Model
 		}
 		if (empty($node['start_date'])) {
 			$node['start_date'] = date('Y-m-d', $firstDate);
-			$node['start'] = $firstDate * 1000;
+			$node['start'] = date('Y-m-d H:i:s', $firstDate);
 		}
 		// iterate one more time setting up empty dates
 		$this->iterateNodes($node, $firstDate, function (&$child, $firstDate) {
 			if (empty($child['start_date']) || $child['start_date'] === '1970-01-01') {
 				$child['start_date'] = date('Y-m-d', $firstDate);
-				$child['start'] = $firstDate * 1000;
+				$child['start'] = date('Y-m-d H:i:s', $firstDate);
 			}
 			return $firstDate;
 		});
@@ -371,7 +380,7 @@ class Project_Gantt_Model
 			if (!$status['closing']) {
 				$this->activeStatuses['Project'][] = $status;
 			}
-			$colors['Project']['projectstatus'][$value['projectstatus']] = \App\Colors::get($value['color'], $value['projectstatus']);
+			$colors['Project']['projectstatus'][$value['projectstatus']] = \App\Colors::get($value['color'] ?? '', $value['projectstatus']);
 		}
 		$projectMilestone = array_values(App\Fields\Picklist::getValues('projectmilestone_status'));
 		foreach ($projectMilestone as $value) {
@@ -379,7 +388,7 @@ class Project_Gantt_Model
 			if (!$status['closing']) {
 				$this->activeStatuses['ProjectMilestone'][] = $status;
 			}
-			$colors['ProjectMilestone']['projectmilestone_status'][$value['projectmilestone_status']] = \App\Colors::get($value['color'], $value['projectmilestone_status']);
+			$colors['ProjectMilestone']['projectmilestone_status'][$value['projectmilestone_status']] = \App\Colors::get($value['color'] ?? '', $value['projectmilestone_status']);
 		}
 		$projectTask = array_values(App\Fields\Picklist::getValues('projecttaskstatus'));
 		foreach ($projectTask as $value) {
@@ -387,7 +396,7 @@ class Project_Gantt_Model
 			if (!$status['closing']) {
 				$this->activeStatuses['ProjectTask'][] = $status;
 			}
-			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'], $value['projecttaskstatus']);
+			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'] ?? '', $value['projecttaskstatus']);
 		}
 		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
 		if (!empty($configColors)) {
@@ -446,9 +455,10 @@ class Project_Gantt_Model
 		while ($row = $dataReader->read()) {
 			$project = [
 				'id' => $row['id'],
-				'parent' => $row['parentid'],
 				'name' => \App\Purifier::encodeHtml($row['projectname']),
-				'text' => \App\Purifier::encodeHtml($row['projectname']),
+				'label' => \App\Purifier::encodeHtml($row['projectname']),
+				'url' => 'index.php?module=Project&view=Detail&record=' . $row['id'],
+				'parentId' => !empty($row['parentid']) ? $row['parentid'] : null,
 				'priority' => $row['projectpriority'],
 				'priority_label' => \App\Language::translate($row['projectpriority'], 'Project'),
 				'status' => 'STATUS_ACTIVE',
@@ -465,11 +475,17 @@ class Project_Gantt_Model
 				'status_label' => App\Language::translate($row['projectstatus'], 'Project'),
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $id),
+				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
 			];
+			$project['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $project['no'] . '" href="' . $project['url'] . '" target="_blank" rel="noreferrer noopener">' . $project['no'] . '</a>';
+			if (empty($project['parentId'])) {
+				unset($project['parentId']);
+			} else {
+				$project['dependentOn'] = [$project['parentId']];
+			}
 			if (!empty($row['startdate'])) {
 				$project['start_date'] = $row['startdate'];
-				$project['start'] = strtotime($project['start_date']) * 1000;
+				$project['start'] = date('Y-m-d H:i:s', strtotime($row['startdate']));
 			}
 			$project['end_date'] = $row['actualenddate'];
 			if (empty($project['end_date']) && !empty($row['targetenddate'])) {
@@ -477,6 +493,13 @@ class Project_Gantt_Model
 				$project['end_date'] = date('Y-m-d', $endDate);
 				$project['end'] = strtotime($project['end_date']) * 1000;
 			}
+			$project['style'] = [
+				'base' => [
+					'fill' => $project['color'],
+					'border' => $project['color']
+				]
+			];
+			unset($project['color']);
 			$this->tasksById[$row['id']] = $project;
 			$projects[] = $project;
 			if ($id !== [0] && !in_array($row['id'], $id)) {
@@ -502,8 +525,8 @@ class Project_Gantt_Model
 		$projects = $this->getProject(0, $viewName);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
-		$tasks = $this->getGanttTasks($projectIds);
-		$this->tasks = array_merge($projects, $milestones, $tasks);
+		$ganttTasks = $this->getGanttTasks($projectIds);
+		$this->tasks = array_merge($projects, $milestones, $ganttTasks);
 		$this->prepareRecords();
 		$response = [
 			'statusColors' => $this->statusColors,
@@ -512,12 +535,12 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'statuses' => $this->statuses,
-			'activeStatuses' => $this->activeStatuses
+			'activeStatuses' => $this->activeStatuses,
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
-		unset($projectIds, $milestones, $tasks, $projects, $queryGenerator, $rootProjectIds, $projectIdsRows);
+		unset($projectIds, $milestones, $ganttTasks, $projects, $queryGenerator, $rootProjectIds, $projectIdsRows);
 		return $response;
 	}
 
@@ -532,10 +555,19 @@ class Project_Gantt_Model
 	{
 		$this->getStatuses();
 		$projects = $this->getProject($id);
+		$title = '';
+		if (!empty((int) $id)) {
+			foreach ($projects as $project) {
+				if ($project['id'] === $id) {
+					$title = $project['label'];
+				}
+			}
+		}
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
-		$tasks = $this->getGanttTasks($projectIds);
-		$this->tasks = array_merge($projects, $milestones, $tasks);
+		$projectIds = array_merge($projectIds, array_column($milestones, 'id'));
+		$ganttTasks = $this->getGanttTasks($projectIds);
+		$this->tasks = array_merge($projects, $milestones, $ganttTasks);
 		$this->prepareRecords();
 		$response = [
 			'statusColors' => $this->statusColors,
@@ -544,12 +576,13 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'statuses' => $this->statuses,
-			'activeStatuses' => $this->activeStatuses
+			'activeStatuses' => $this->activeStatuses,
+			'title' => $title
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
-		unset($projects, $projectIds, $milestones, $tasks);
+		unset($projects, $projectIds, $milestones, $ganttTasks);
 		return $response;
 	}
 
@@ -568,11 +601,14 @@ class Project_Gantt_Model
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$milestones = [];
 		while ($row = $dataReader->read()) {
+			$row['parentid'] = (int) $row['parentid'];
+			$row['projectid'] = (int) $row['projectid'];
 			$milestone = [
 				'id' => $row['id'],
 				'name' => \App\Purifier::encodeHtml($row['projectmilestonename']),
-				'text' => \App\Purifier::encodeHtml($row['projectmilestonename']),
-				'parent' => $row['parentid'] ? $row['parentid'] : $row['projectid'],
+				'label' => \App\Purifier::encodeHtml($row['projectmilestonename']),
+				'url' => 'index.php?module=ProjectMilestone&view=Detail&record=' . $row['id'],
+				'parentId' => !empty($row['parentid']) ? $row['parentid'] : $row['projectid'],
 				'module' => 'ProjectMilestone',
 				'progress' => (int) $row['projectmilestone_progress'],
 				'priority' => $row['projectmilestone_priority'],
@@ -592,11 +628,27 @@ class Project_Gantt_Model
 				'startIsMilestone' => true,
 				'color' => $row['projectmilestone_status'] ? $this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']] : App\Colors::getRandomColor('projectmilestone_status_' . $row['id']),
 			];
+			$milestone['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $milestone['no'] . '" href="' . $milestone['url'] . '" target="_blank">' . $milestone['no'] . '</a>';
+			if (empty($milestone['parentId'])) {
+				unset($milestone['parentId']);
+			} else {
+				$milestone['dependentOn'] = [$milestone['parentId']];
+			}
 			if ($row['projectmilestonedate']) {
+				$milestone['duration'] = 24 * 60 * 60;
+				$milestone['start'] = date('Y-m-d H:i:s', strtotime($row['projectmilestonedate']));
+				$milestone['start_date'] = date('Y-m-d', strtotime($row['projectmilestonedate']));
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
 				$milestone['end'] = $endDate * 1000;
 				$milestone['end_date'] = date('Y-m-d', $endDate);
 			}
+			$milestone['style'] = [
+				'base' => [
+					'fill' => $milestone['color'],
+					'border' => $milestone['color']
+				]
+			];
+			unset($milestone['color']);
 			$milestones[] = $milestone;
 		}
 		$dataReader->close();
@@ -616,15 +668,20 @@ class Project_Gantt_Model
 		$taskTime = 0;
 		$queryGenerator = new App\QueryGenerator('ProjectTask');
 		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus', 'estimated_work_time', 'assigned_user_id']);
-		$queryGenerator->addNativeCondition(['vtiger_projecttask.projectid' => $projectIds]);
+		$queryGenerator->addNativeCondition([
+			'or',
+			['vtiger_projecttask.projectid' => $projectIds],
+			['vtiger_projecttask.projectmilestoneid' => $projectIds]
+		]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-		$tasks = [];
+		$ganttTasks = [];
 		while ($row = $dataReader->read()) {
 			$task = [
 				'id' => $row['id'],
 				'name' => \App\Purifier::encodeHtml($row['projecttaskname']),
-				'text' => \App\Purifier::encodeHtml($row['projecttaskname']),
-				'parent' => $row['parentid'] ? $row['parentid'] : null,
+				'label' => \App\Purifier::encodeHtml($row['projecttaskname']),
+				'url' => 'index.php?module=ProjectTask&view=Detail&record=' . $row['id'],
+				'parentId' => (int) ($row['parentid'] ?? 0),
 				'canWrite' => false,
 				'canDelete' => false,
 				'cantWriteOnParent' => false,
@@ -637,7 +694,8 @@ class Project_Gantt_Model
 				'status_label' => App\Language::translate($row['projecttaskstatus'], 'ProjectTask'),
 				'color' => $row['projecttaskstatus'] ? $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']] : App\Colors::getRandomColor('projecttaskstatus_' . $row['id']),
 				'start_date' => date('Y-m-d', strtotime($row['startdate'])),
-				'start' => strtotime($row['startdate']) * 1000,
+				'start' => date('Y-m-d H:i:s', strtotime($row['startdate'])),
+				'end_date' => $row['targetenddate'],
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
 				'open' => true,
@@ -645,18 +703,28 @@ class Project_Gantt_Model
 				'module' => 'ProjectTask',
 				'status' => 'STATUS_ACTIVE',
 			];
-			if (empty($task['parent'])) {
-				$task['parent'] = $row['projectmilestoneid'] ? $row['projectmilestoneid'] : $row['projectid'];
+			$task['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $task['no'] . '" href="' . $task['url'] . '" target="_blank">' . $task['no'] . '</a>';
+			if (empty($task['parentId'])) {
+				$parentId = (int) ($row['projectmilestoneid'] ?? $row['projectid']);
+				if ($parentId) {
+					$task['parentId'] = $parentId;
+					$task['dependentOn'] = [$parentId];
+				}
 			}
+			$task['style'] = [
+				'base' => [
+					'fill' => $task['color'],
+					'border' => $task['color']
+				]
+			];
+			unset($task['color']);
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
-			$task['end_date'] = date('Y-m-d', $endDate);
-			$task['end'] = $endDate * 1000;
 			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
 			$taskTime += $row['estimated_work_time'];
-			$tasks[] = $task;
+			$ganttTasks[] = $task;
 		}
 		$dataReader->close();
 		unset($dataReader, $queryGenerator, $taskTime, $endDate);
-		return $tasks;
+		return $ganttTasks;
 	}
 }

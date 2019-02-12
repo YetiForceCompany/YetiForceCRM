@@ -8,8 +8,8 @@ use yii\db\Schema;
  * Base class for database import.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
 {
@@ -145,11 +145,24 @@ class Base
 	/**
 	 * Creates a text column.
 	 *
+	 * @param null|string $length
+	 *
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
 	 */
-	public function text()
+	public function text(?string $length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_TEXT);
+		if ('mysql' === \App\Db::getInstance()->getDriverName()) {
+			if ($length <= 65535) {
+				$columnSchemaBuilder = $this->schema->createColumnSchemaBuilder(Schema::TYPE_TEXT);
+			} elseif ($length <= 16777215) {
+				$columnSchemaBuilder = $this->schema->createColumnSchemaBuilder('MEDIUMTEXT');
+			} elseif ($length > 16777215) {
+				$columnSchemaBuilder = $this->schema->createColumnSchemaBuilder('LONGTEXT');
+			}
+		} else {
+			$columnSchemaBuilder = $this->schema->createColumnSchemaBuilder(Schema::TYPE_TEXT);
+		}
+		return $columnSchemaBuilder;
 	}
 
 	/**

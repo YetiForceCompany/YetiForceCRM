@@ -157,19 +157,24 @@ class Settings_Groups_Member_Model extends \App\Base
 	{
 		list($type, $recordId) = self::getIdComponentsFromQualifiedId($this->getId());
 		switch ($type) {
-			case 'Users': $recordModel = Users_Record_Model::getCleanInstance($type);
+			case 'Users':
+				$recordModel = Users_Record_Model::getCleanInstance($type);
 				$recordModel->setId($recordId);
 
 				return $recordModel->getDetailViewUrl();
 			case 'RoleAndSubordinates':
-			case 'Roles': $recordModel = new Settings_Roles_Record_Model();
+			case 'Roles':
+				$recordModel = new Settings_Roles_Record_Model();
 				$recordModel->set('roleid', $recordId);
 
 				return $recordModel->getEditViewUrl();
-			case 'Groups': $recordModel = new Settings_Groups_Record_Model();
+			case 'Groups':
+				$recordModel = new Settings_Groups_Record_Model();
 				$recordModel->setId($recordId);
 
 				return $recordModel->getDetailViewUrl();
+			default:
+				break;
 		}
 	}
 

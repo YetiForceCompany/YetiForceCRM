@@ -8,9 +8,45 @@ namespace App;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce Sp. z o.o
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Purifier
 {
+	/**
+	 * Purify type date in user format.
+	 */
+	public const DATE_USER_FORMAT = 'DateInUserFormat';
+
+	/**
+	 * Purify type integer.
+	 */
+	public const INTEGER = 'Integer';
+
+	/**
+	 * Purify type text.
+	 */
+	public const TEXT = 'Text';
+
+	/**
+	 * Purify type number.
+	 */
+	public const NUMBER = 'Number';
+
+	/**
+	 * Purify type html.
+	 */
+	public const HTML = 'Html';
+
+	/**
+	 * Purify type boolean.
+	 */
+	public const BOOL = 'Bool';
+
+	/**
+	 * Purify type Alnum.
+	 */
+	public const ALNUM = 'Alnum';
+
 	/**
 	 * Default charset.
 	 *
@@ -31,13 +67,6 @@ class Purifier
 	 * @var \HTMLPurifier|bool
 	 */
 	private static $purifyHtmlInstanceCache = false;
-
-	/**
-	 * Error collection class that enables HTML Purifier to report HTML problems back to the user.
-	 *
-	 * @var bool
-	 */
-	public static $collectErrors = false;
 
 	/**
 	 * Html events attributes.
@@ -128,12 +157,6 @@ class Purifier
 		}
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
-			if (static::$collectErrors) {
-				if (!$config) {
-					$config = static::getHtmlConfig();
-				}
-				echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
-			}
 			static::purifyHtmlEventAttributes($value);
 			if ($loop) {
 				$last = '';
@@ -155,7 +178,7 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes($value)
 	{
-		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value)) {
+		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
@@ -240,12 +263,11 @@ class Purifier
 			$def->addAttribute('tr', 'width', 'Text');
 			$def->addAttribute('tr', 'height', 'Text');
 			$def->addAttribute('tr', 'border', 'Text');
+			$def->addAttribute('a', 'data-id', 'Text');
+			$def->addAttribute('a', 'data-module', 'Text');
 		}
 		$uri = $config->getDefinition('URI');
 		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
-		if (static::$collectErrors) {
-			$config->set('Core.CollectErrors', true);
-		}
 		return $config;
 	}
 
@@ -259,7 +281,7 @@ class Purifier
 	 */
 	public static function purifySql($input, $skipEmpty = true)
 	{
-		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,]+$/', $input)) {
+		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,:]+$/', $input)) {
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'IllegalValue');
@@ -288,52 +310,75 @@ class Purifier
 				$value[$k] = static::purifyByType($v, $type);
 			}
 		} else {
-			$value = false;
+			$value = null;
 			switch ($type) {
 				case 'Standard': // only word
 				case 1:
-					$value = preg_match('/^[\-_a-zA-Z]+$/', $input) ? $input : false;
+					$value = Validator::standard($input) ? $input : null;
 					break;
 				case 'Alnum': // word and int
 				case 2:
-					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : false;
+					$value = Validator::alnum($input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
 						return '';
 					}
-					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
-					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
-						$value = $input;
-					}
+					$value = Validator::dateInUserFormat($input) ? $input : null;
+					break;
+				case 'Time':
+					$value = Validator::time($input) ? $input : null;
+					break;
+				case 'TimeInUserFormat':
+					$value = Validator::timeInUserFormat($input) ? Fields\Time::formatToDB($input) : null;
 					break;
 				case 'DateRangeUserFormat': // date range user format
+					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
 					$v = [];
 					foreach (explode(',', $input) as $i) {
-						list($y, $m, $d) = Fields\Date::explode($i, User::getCurrentUserModel()->getDetail('date_format'));
+						list($y, $m, $d) = Fields\Date::explode($i, $dateFormat);
 						if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 							$v[] = \DateTimeField::convertToDBFormat($i);
 						}
 					}
-					$value = $v;
+					if ($v) {
+						$value = $v;
+					}
 					break;
 				case 'Date': // date in base format yyyy-mm-dd
-					list($y, $m, $d) = Fields\Date::explode($input);
-					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
-						$value = $input;
-					}
+					$value = Validator::date($input) ? $input : null;
+					break;
+				case 'DateTime': // date in base format Y-m-d H:i:s
+					$value = Validator::dateTime($input) ? $input : null;
+					break;
+				case 'DateTimeInUserFormat':
+					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
 				case 'Bool':
-					if (is_bool($input) || strcasecmp('true', (string) $input) === 0) {
+					$value = self::bool($input);
+					break;
+				case 'NumberInUserFormat': // number in user format
+					$input = Fields\Double::formatToDb($rawInput = $input);
+					if (is_numeric($input) && Fields\Double::formatToDisplay($input, false) === Fields\Double::truncateZeros($rawInput)) {
 						$value = $input;
 					}
 					break;
-				case 'NumberInUserFormat': // number in user format
-					$currentUser = User::getCurrentUserModel();
-					$input = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $input);
-					if (is_numeric($input)) {
+				case 'Number':
+					$dbFormat = Fields\Double::formatToDb($input);
+					if (is_numeric($dbFormat) && Fields\Double::formatToDisplay($dbFormat, false) === Fields\Double::truncateZeros($input)) {
 						$value = $input;
 					}
+					break;
+				case 'Double':
+					if (($input = filter_var($input, FILTER_VALIDATE_FLOAT)) !== false) {
+						$value = $input;
+					}
+					break;
+				case 'Phone':
+					$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
+					break;
+				case 'Html':
+					$value = self::purifyHtml($input);
 					break;
 				case 'Integer': // Integer
 					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {
@@ -346,24 +391,42 @@ class Purifier
 					}
 					break;
 				case 'Color': // colors
-					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : false;
+					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : null;
 					break;
 				case 'Year': // 2018 etc
 					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && strlen((string) $input) === 4) {
 						$value = (string) $input;
 					}
 					break;
+				case 'Version':
+					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
+					break;
+				case 'Path':
+					$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
+					break;
 				case 'Text':
 				default:
 					$value = self::purify($input);
 					break;
 			}
-			if ($value === false) {
+			if ($value === null) {
 				\App\Log::error('purifyByType: ' . $input, 'IllegalValue');
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}
 		}
 		return $value;
+	}
+
+	/**
+	 * Function to convert the given value to bool.
+	 *
+	 * @param string|int $value
+	 *
+	 * @return bool|null
+	 */
+	public static function bool($value)
+	{
+		return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 	}
 
 	/**
@@ -392,4 +455,4 @@ class Purifier
 	}
 }
 
-Purifier::$defaultCharset = (string) \AppConfig::main('default_charset', 'UTF-8');
+Purifier::$defaultCharset = (string) \App\Config::main('default_charset', 'UTF-8');

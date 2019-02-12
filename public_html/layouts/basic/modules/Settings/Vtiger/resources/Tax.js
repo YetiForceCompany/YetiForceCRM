@@ -102,26 +102,27 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 	 * Function to add the Tax Details in the list after saving
 	 */
 	addTaxDetails: function (details) {
-		var container = jQuery('#TaxCalculationsContainer');
+		let container = jQuery('#TaxCalculationsContainer'),
+			taxTable;
 
 		//Based on tax type, we will add the tax details row
-		if (details.type == '0') {
-			var taxTable = jQuery('.inventoryTaxTable', container);
+		if (details.type === '0') {
+			taxTable = jQuery('.inventoryTaxTable', container);
 		} else {
-			var taxTable = jQuery('.shippingTaxTable', container);
+			taxTable = jQuery('.shippingTaxTable', container);
 		}
 
-		var trElementForTax =
-			jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' + details.type + '">\n\
-					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><label class="taxLabel">' + details.taxlabel + '</label></td>\n\
-					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><span class="taxPercentage">' + details.percentage + '%</span></td>\n\
-					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><input class="editTaxStatus" type="checkbox" checked>\n\
-						<div class="pull-right actions">\n\
-							<a class="editTax u-cursor-pointer" data-url="' + details._editurl + '">\n\
-								<i class="fas fa-edit alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></i>\n\
-							</a>\n\
-						</div>\n\
-					</td></tr>');
+		let trElementForTax =
+			jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' +
+				details.type + '"><td style="border-left: none;" class="textAlignCenter ' +
+				details.row_type + '"><label class="taxLabel">' + details.taxlabel +
+				'</label></td><td style="border-left: none;" class="textAlignCenter ' +
+				details.row_type + '"><span class="taxPercentage">' + details.percentage +
+				'%</span></td><td style="border-left: none;" class="textAlignCenter ' +
+				details.row_type + '"><input class="editTaxStatus" type="checkbox" checked>' +
+				'<div class="pull-right actions"><a class="editTax u-cursor-pointer" data-url="' +
+				details._editurl + '"><i class="fas fa-edit alignBottom" title="' +
+				app.vtranslate('JS_EDIT') + '"></i></a></div></td></tr>');
 		taxTable.append(trElementForTax);
 	},
 

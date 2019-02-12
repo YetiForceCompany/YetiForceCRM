@@ -6,12 +6,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		if (typeof moduleName === "undefined") {
 			moduleName = app.getModuleName();
 		}
-		var moduleClassName = module + '_ListSearch_Js';
-		var basicClassName = 'YetiForce_ListSearch_Js';
+		let moduleClassName = module + '_ListSearch_Js',
+			instance;
 		if (typeof window[moduleClassName] !== "undefined") {
-			var instance = new window[moduleClassName](container, noEvents, reletedInstance);
+			instance = new window[moduleClassName](container, noEvents, reletedInstance);
 		} else {
-			var instance = new window[basicClassName](container, noEvents, reletedInstance);
+			instance = new window['YetiForce_ListSearch_Js'](container, noEvents, reletedInstance);
 		}
 		instance.moduleName = moduleName;
 		return instance;
@@ -68,31 +68,34 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		});
 	},
 	registerListViewSelect: function () {
-		var listInstance = this;
-		var listViewContainer = this.getContainer();
-		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
-			var select = $(domElement);
+		let self = this,
+			listViewContainer = this.getContainer();
+		listViewContainer.find('.listViewEntriesTable .select2noactive').each((index, domElement) => {
+			let select = $(domElement);
 			if (!select.data('select2')) {
 				App.Fields.Picklist.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 			}
 		});
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
-			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
-				listInstance.triggerListSearch();
+			listViewContainer.find('.listViewEntriesTable select').on('change', () => {
+				this.triggerListSearch();
 			});
-			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', function (e) {
-				listInstance.triggerListSearch();
+			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {
+				this.triggerListSearch();
 			});
 			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
-				var prevVal = $(this).data('prevVal');
-				var value = $(this).val();
+				let prevVal = $(this).data('prevVal'),
+					value = $(this).val();
 				if (prevVal != value) {
-					listInstance.triggerListSearch();
+					self.triggerListSearch();
 				}
 			});
-			listViewContainer.find('.clockPicker').on('change', function () {
-				listInstance.triggerListSearch();
-			})
+			app.event.off('Clockpicker.changed');
+			app.event.on('Clockpicker.changed', (e, inputEl) => {
+				if (listViewContainer.find(inputEl).length) {
+					self.triggerListSearch();
+				}
+			});
 		}
 	},
 	resetPagination: function () {
@@ -164,7 +167,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		AppConnector.request(params).done(function (data) {
 			jQuery('.paginationDiv').html(data);
 			var instance = thisInstance.getInstanceView();
-			if (instance && instance != undefined && jQuery.isFunction(instance.registerPageNavigationEvents)) {
+			if (instance && jQuery.isFunction(instance.registerPageNavigationEvents)) {
 				instance.registerPageNavigationEvents();
 			}
 		});
@@ -202,7 +205,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
 				searchOperator = 'c';
 			}
-			searchInfo.push(fieldName);
+			let sourceFieldName = searchContributorElement.data('sourceFieldName');
+			if (sourceFieldName) {
+				searchInfo.push(fieldName + ':' + searchContributorElement.data('moduleName') + ':' + sourceFieldName);
+			} else {
+				searchInfo.push(fieldName);
+			}
 			searchInfo.push(searchOperator);
 			searchInfo.push(searchValue);
 			if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
@@ -227,7 +235,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 							exist = true;
 						}
 					});
-					valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
+					if (value[0].indexOf(':') === -1) {
+						valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
+					} else {
+						let fieldRelation = value[0].split(':');
+						valueInSearch = listViewTable.find('.listSearchContributor[name="' + fieldRelation[0] + '"][data-module-name="' + fieldRelation[1] + '"][data-source-field-name="' + fieldRelation[2] + '"]').val();
+					}
 					if (exist == false && valueInSearch != '' && valueInSearch !== null) {
 						searchParams.push(value);
 					}
@@ -277,7 +290,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		}
 	},
 	executeFunctions: function (instance) {
-		var thisInstance = this;
 		if (instance.execute) {
 			var func = instance.execute;
 			for (var i in func) {

@@ -8,53 +8,62 @@
 			<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 		</button>
 	</div>
-	<div class="modal-body paddingBottomZero">
+	<div class="modal-body table-responsive">
 		<form id="sortingCustomView">
-			<div class="row">
-				<div class="table-responsive padding10">
-					<div class="col-12">
-						<table class="table table-bordered table-sm modalDataTable">
-							<thead>
-								<tr>
-									<th>
-										<strong>{\App\Language::translate('LBL_MODULES', $MODULE)}</strong>
-										<div class="float-right">
-											{if $CRON_ACTIVE && $IS_PERMITTED}
-												<span title="{\App\Language::translate('LBL_SELECT_ALL')}" class="fa {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg marginTB3 cursorPointer sentNotice"></span>
-											{/if}
-											<span class="float-right marginIcon">
-												<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if} class="selectAllModules" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
+			<table class="table table-bordered table-sm modalDataTable">
+				<thead>
+				<tr>
+					<th>
+						<strong>{\App\Language::translate('LBL_MODULES', $MODULE)}</strong>
+						<div class="d-flex align-items-center u-mt-2px float-right">
+							{if $CRON_ACTIVE && $IS_PERMITTED}
+								<span class="sentNoticeAll u-cursor-pointer d-flex">
+									<span title="{\App\Language::translate('LBL_SELECT_ALL')}"
+									  class="fas {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg marginTB3 cursorPointer"></span>
+								</span>
+							{/if}
+							<span class="d-flex ml-1">
+												<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if}
+													   class="selectAllModules"
+													   title="{\App\Language::translate('LBL_SELECT_ALL')}"/>
 											</span>
-										</div>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{foreach from=$MODULE_LIST key=MODULE_ID item=MODULE_INFO name="modules"}
-									{assign var="INDEX" value=$smarty.foreach.modules.iteration}
-									<tr data-id="{$MODULE_ID}">
-										<td><strong>{\App\Language::translate($MODULE_INFO->getName(), $MODULE_INFO->getName())}</strong>
-											<span class="float-right marginIcon">
-												<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if} name="modules" class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if} value="{$MODULE_ID}" />
-											</span>
-											{if $CRON_ACTIVE && $IS_PERMITTED}
-												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}" class="fa {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg float-right marginTB3 cursorPointer" data-val=""></span>
-											{/if}
-										</td>
-									</tr>
-								{/foreach}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+						</div>
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+				{foreach from=$MODULE_LIST key=MODULE_ID item=MODULE_INFO name="modules"}
+					{assign var="INDEX" value=$smarty.foreach.modules.iteration}
+					<tr data-id="{$MODULE_ID}">
+						<td>
+							<strong>{\App\Language::translate($MODULE_INFO->getName(), $MODULE_INFO->getName())}</strong>
+							<div class="d-flex align-items-center u-mt-2px float-right">
+								{if $CRON_ACTIVE && $IS_PERMITTED}
+									<span class="sentNotice d-flex u-cursor-pointer">
+												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}"
+													  class="fas {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg cursorPointer"
+													  data-val=""></span></span>
+								{/if}
+								<span class="d-flex ml-1">
+									<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if}
+										   name="modules"
+										   class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if}
+										   value="{$MODULE_ID}"/>
+								</span>
+							</div>
+						</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
 		</form>
 	</div>
-	<div class="modal-footer">
+	<div class="modal-footer row">
 		{if $CRON_ACTIVE && \App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
-			<div class="col-md-3 col-sm-4 schedule float-left paddingRightZero">
+			<div class="col-md-6 schedule d-flex flex-nowrap m-0">
 				{assign var="POPOVER_CONTENT" value=\App\Language::translate('LBL_CRON_LAUNCHING_FREQUENCY', $MODULE)|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:\App\Language::translate('LBL_MINUTES')}
-				<select class="select2 form-control" name="frequency" title="{\App\Language::translate('LBL_SCHEDULE', $MODULE)}">
+				<select class="select2 form-control" name="frequency"
+						title="{\App\Language::translate('LBL_SCHEDULE', $MODULE)}">
 					<option value="5" {if $FREQUENCY eq 5} selected{/if}>{\App\Language::translate('PLL_5_MIN',$MODULE)}</option>
 					<OPTION VALUE="15" {if $FREQUENCY EQ '15'} selected{/if}>{\App\Language::translate('PLL_15_MIN',$MODULE)}</OPTION>
 					<option value="30" {if $FREQUENCY eq '30'} selected{/if}>{\App\Language::translate('PLL_30_MIN',$MODULE)}</option>
@@ -63,14 +72,22 @@
 					<option value="720" {if $FREQUENCY eq '720'} selected{/if}>{\App\Language::translate('PLL_12_H',$MODULE)}</option>
 					<option value="1440" {if $FREQUENCY eq '1440'} selected{/if}>{\App\Language::translate('PLL_24_H',$MODULE)}</option>
 				</select>
-			</div>
-			<div class="float-left col-1 paddingLRZero">
-				<a href="#" class="infoPopover float-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fas fa-info-circle"></span></a>
+				<a href="#" class="infoPopover align-self-center ml-1" title="" data-placement="top"
+				   data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}"
+				   data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">
+					<span class="fas fa-info-circle"></span>
+				</a>
 			</div>
 		{/if}
-		<div class="col-md-6 col-sm-6 float-right">
-			<button type="button" name="saveButton" class="btn btn-success">{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</button>
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
+		<div class="col-md-6 d-flex justify-content-end mt-1 m-sm-0">
+			<button type="button" name="saveButton" class="btn btn-success mr-1">
+				<span class="fas fa-check mr-1"></span>
+				{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+			</button>
+			<button type="button" class="btn btn-danger" data-dismiss="modal">
+				<span class="fas fa-times mr-1"></span>
+				{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}
+			</button>
 		</div>
 	</div>
 {/strip}

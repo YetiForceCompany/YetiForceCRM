@@ -4,8 +4,8 @@
  * Record Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -95,9 +95,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue($name)
 	{
-		switch ($name) {
-			case 'default':
-				return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+		if ($name === 'default') {
+			return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
 		return $this->get($name);
 	}
@@ -209,14 +208,12 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
 		foreach ($this->editFields as $name => $params) {
-			switch ($name) {
-				case 'type':
-					$connectors = [];
-					foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
-						$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
-					}
-					$params['picklistValues'] = $connectors;
-					break;
+			if ($name === 'type') {
+				$connectors = [];
+				foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
+					$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
+				}
+				$params['picklistValues'] = $connectors;
 			}
 			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 			$fieldModel->set('fieldvalue', $this->get($name));
@@ -287,11 +284,11 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set($name, $data[$name] ?? null);
 		}
 		$connector = App\Integrations\Pbx::getConnectorInstance($data['type']);
-		$param = [];
+		$params = [];
 		foreach ($connector->configFields as $name => $config) {
-			$param[$name] = $data[$name] ?? null;
+			$params[$name] = $data[$name] ?? null;
 		}
-		$this->param = $param;
-		$this->set('param', \App\Json::encode($param));
+		$this->param = $params;
+		$this->set('param', \App\Json::encode($params));
 	}
 }

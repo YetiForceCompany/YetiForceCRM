@@ -14,59 +14,27 @@
  */
 class Calendar_ListView_Model extends Vtiger_ListView_Model
 {
-	public function getBasicLinks()
-	{
-		$basicLinks = [];
-		$moduleModel = $this->getModule();
-		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission) {
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
-				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'fas fa-plus',
-				'showLabel' => 1,
-			];
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
-				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'fas fa-plus',
-				'showLabel' => 1,
-			];
-		}
-		return $basicLinks;
-	}
-
-	/*
-	 * Function to give advance links of a module
-	 * 	@RETURN array of advanced links
+	/**
+	 * {@inheritdoc}
 	 */
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView') && \App\Privilege::isPermitted($moduleModel->getName(), 'EditView');
 		$advancedLinks = [];
-		$importPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Import');
-		if ($importPermission && $createPermission) {
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('Import')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
-				'linkurl' => 'javascript:Calendar_List_Js.triggerImportAction("' . $moduleModel->getImportUrl() . '")',
-				'linkicon' => 'fas fa-download',
+				'linkurl' => $moduleModel->getImportUrl(),
+				'linkicon' => 'fas fa-download'
 			];
 		}
-
-		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
-		if ($exportPermission) {
+		if ($moduleModel->isPermitted('Export')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Calendar_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'fas fa-upload',
+				'linkicon' => 'fas fa-upload'
 			];
 		}
 		return $advancedLinks;
@@ -99,7 +67,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_ACTIVATE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
@@ -109,7 +77,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_ARCHIVE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-archive',
 			];
 		}
@@ -119,7 +87,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
@@ -129,7 +97,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
-				'linkclass' => 'massRecordEvent',
+				'linkclass' => 'js-mass-record-event',
 				'linkicon' => 'fas fa-eraser',
 			];
 		}

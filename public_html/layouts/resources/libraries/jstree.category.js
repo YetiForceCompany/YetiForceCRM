@@ -9,7 +9,7 @@
 	} else {
 		factory(jQuery, jQuery.jstree);
 	}
-}(function ($, jstree, undefined) {
+}(function ($, jstree) {
 	"use strict";
 
 	if ($.jstree.plugins.category) {
@@ -29,7 +29,6 @@
 			this._data.category.selected = [];
 			this.element.on('model.jstree', $.proxy(function (e, data) {
 				var m = this._model.data,
-					p = m[data.parent],
 					dpc = data.nodes,
 					i, j;
 				for (i = 0, j = dpc.length; i < j; i++) {
@@ -265,8 +264,8 @@
 			}
 		};
 		this.getCategory = function (fullData) {
-			var fullData = typeof fullData !== "undefined" ? true : false;
-			var i, j, selected = [];
+			fullData = typeof fullData !== "undefined";
+			let i, j, selected = [];
 			for (i = 0, j = this._data.category.selected.length; i < j; i++) {
 				if (fullData) {
 					selected.push(this._model.data[this._data.category.selected[i]].original);

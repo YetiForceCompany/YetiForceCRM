@@ -27,20 +27,21 @@ $.Class("Project_Gantt_Js", {}, {
 		if (typeof urlParams === "undefined") {
 			urlParams = {};
 		}
-		const progressIndicatorElement = $.progressIndicator({
-			position: 'html',
-			blockInfo: {
-				'enabled': true
-			}
-		});
 		let defaultParams = this.getDefaultParams();
 		urlParams = $.extend(defaultParams, urlParams);
-		AppConnector.request(urlParams).done(function (data) {
-			progressIndicatorElement.progressIndicator({mode: 'hide'});
-			aDeferred.resolve(data);
-			app.notifyPostAjaxReady();
-		}).fail(function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
+		const progressInstance = jQuery.progressIndicator({
+			blockInfo: {
+				enabled: true,
+				onBlock: () => {
+					AppConnector.request(urlParams).done(function (data) {
+						progressInstance.progressIndicator({mode: 'hide'});
+						aDeferred.resolve(data);
+						app.notifyPostAjaxReady();
+					}).fail(function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					});
+				}
+			},
 		});
 		return aDeferred.promise();
 	},
@@ -49,12 +50,8 @@ $.Class("Project_Gantt_Js", {}, {
 	 */
 	loadGantt(container = '.js-gantt__container', ganttData = false) {
 		container = $(container);
-		let parent = container.parent();
-		let html = container.html();
-		container.remove();
-		container = $(parent).append(html);
 		this.gantt = new Gantt(container);
-		const projectId = parent.find('input[name="projectId"]').val();
+		const projectId = container.parent().find('input[name="projectId"]').val();
 		if (!ganttData) {
 			this.gantt.loadProjectFromAjax({
 				module: 'Project',

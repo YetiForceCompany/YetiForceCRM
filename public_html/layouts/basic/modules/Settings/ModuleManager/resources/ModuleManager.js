@@ -10,67 +10,73 @@
 'use strict';
 
 jQuery.Class('Settings_Module_Manager_Js', {
-	validateField: function (field, rules, i, options) {
-		var specialChars = /[&\<\>\:\'\"\,]/;
+	validateField(field, rules, i, options) {
+		const specialChars = /[&\<\>\:\'\"\,]/;
 		if (specialChars.test(field.val())) {
 			return app.vtranslate('JS_SPECIAL_CHARACTERS_NOT_ALLOWED');
 		}
 		return true;
 	},
-	registerMondalCreateModule: function (data) {
-		data.find('[name="saveButton"]').attr("disabled", true);
-		var form = data.find('form');
+	validateModuleName(field, rules, i, options) {
+		let returnVal = false;
+		const progressIndicatorElement = jQuery.progressIndicator();
+		AppConnector.request({
+			async: false,
+			dataType: 'json',
+			data: {
+				module: app.getModuleName(),
+				action: 'Basic',
+				parent: app.getParentModuleName(),
+				mode: 'checkModuleName',
+				moduleName: field.val()
+			}
+		}).done((data) => {
+			const result = data.result;
+			if (result.success) {
+				returnVal = true;
+			} else {
+				returnVal = result.text;
+			}
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		}).fail((data, error) => {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			returnVal = app.vtranslate('JS_NOT_ALLOWED_VALUE');
+		});
+		return returnVal;
+	},
+	sendForm(form) {
+		const formData = form.serializeFormData();
+		const progress = $.progressIndicator({
+			'message': app.vtranslate('Adding a Key'),
+			'blockInfo': {
+				'enabled': true
+			}
+		});
+		AppConnector.request({
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: 'Basic',
+			mode: 'createModule',
+			formData: formData
+		}).done(function (data) {
+			progress.progressIndicator({'mode': 'hide'});
+			const result = data.result;
+			if (!result.success) {
+				Vtiger_Helper_Js.showPnotify({
+					text: result.text,
+					type: 'error'
+				});
+			} else {
+				window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+			}
+		});
+	},
+	registerModalCreateModule(data) {
+		const form = data.find('form');
 		form.validationEngine(app.validationEngineOptions);
-		var thisInstance = new Settings_Module_Manager_Js();
-		data.find('input').on('change', function (e) {
-			if ($(this).attr("name") == 'module_name') {
-				thisInstance.checkModuleName($(this).val(), data);
-			} else {
-				if ($(this).val() != '') {
-					$(this).attr("check", true);
-				} else {
-					$(this).attr("check", false);
-				}
-			}
-			var status = true;
-			data.find('input[name]').each(function () {
-				if ($(this).attr("check") == 'false' || $(this).attr("check") == undefined) {
-					status = false;
-				}
-			});
-			if (status) {
-				data.find('[name="saveButton"]').attr("disabled", false);
-			} else {
-				data.find('[name="saveButton"]').attr("disabled", true);
-			}
-		})
-		data.find('[name="saveButton"]').on('click', function (e) {
+		data.find('[name="saveButton"]').on('click', (e) => {
 			if (form.validationEngine('validate')) {
-				var formData = form.serializeFormData();
-				var progress = $.progressIndicator({
-					'message': app.vtranslate('Adding a Key'),
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				var params = {}
-				params['module'] = app.getModuleName();
-				params['parent'] = app.getParentModuleName();
-				params['action'] = 'Basic';
-				params['mode'] = 'createModule';
-				params['formData'] = formData;
-				AppConnector.request(params).done(function (data) {
-					var result = data.result;
-					if (!result.success) {
-						Vtiger_Helper_Js.showPnotify({
-							text: result.text,
-							type: 'error'
-						});
-					} else {
-						window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
-					}
-				});
-				progress.progressIndicator({'mode': 'hide'});
+				this.sendForm(form);
 			}
 		});
 	}
@@ -112,35 +118,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		app.showModalWindow(null, "index.php?module=ModuleManager&parent=Settings&view=CreateModule", function (wizardContainer) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			Settings_Module_Manager_Js.registerMondalCreateModule(wizardContainer);
-		});
-	},
-	checkModuleName: function (name, wizardContainer) {
-		var progressIndicatorElement = jQuery.progressIndicator();
-		wizardContainer.find('[name="module_name"]').attr("check", false);
-		var params = {}
-		params.data = {
-			module: app.getModuleName(),
-			action: 'Basic',
-			parent: app.getParentModuleName(),
-			mode: 'checkModuleName',
-			moduleName: name
-		}
-		params.async = false;
-		params.dataType = 'json';
-		AppConnector.request(params).done(function (data) {
-			var result = data.result;
-			if (result.success) {
-				wizardContainer.find('[name="module_name"]').attr("check", true);
-			} else {
-				wizardContainer.find('[name="module_name"]').attr("check", false);
-				Vtiger_Helper_Js.showPnotify({
-					text: result.text,
-					type: 'error'
-				});
-				wizardContainer.find('[name="saveButton"]').attr("disabled", true);
-			}
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
 		});
 	},
 	//This will show the notification message using pnotify

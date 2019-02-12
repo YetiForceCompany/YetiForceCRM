@@ -3,7 +3,7 @@
  * Reservations CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -91,8 +91,7 @@ class Reservations extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('Reservations');
-			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'RES')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Reservations'])->execute();
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$targetModule = vtlib\Module::getInstance('Accounts');

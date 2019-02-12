@@ -19,12 +19,12 @@ class MultiImage {
 			showCarousel: true,
 		};
 		this.detailView = false;
-		this.elements.fileInput = $(element).find('.js-multi-image__file').eq(0);
+		this.elements.fileInput = element.find('.js-multi-image__file').eq(0);
 		if (this.elements.fileInput.length === 0) {
 			this.detailView = true;
 		}
-		this.elements.component = $(element).eq(0);
-		this.elements.form = $(element).closest('form').eq(0);
+		this.elements.component = element.eq(0);
+		this.elements.form = element.closest('form').eq(0);
 		$(this.elements.form).on('submit', this.onFormSubmit);
 		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
 		this.elements.values = this.elements.component.find('.js-multi-image__values').eq(0);
@@ -229,6 +229,9 @@ class MultiImage {
 			}
 			if (typeof fileAttach.key === "undefined") {
 				return this.uploadError(e, data);
+			}
+			if (typeof fileAttach.info !== "undefined" && fileAttach.info) {
+				Vtiger_Helper_Js.showPnotify(fileAttach.info + ` [${fileAttach.name}]`);
 			}
 			const fileInfo = this.getFileInfo(hash);
 			this.addFileInfoProperty(hash, 'key', fileAttach.key);
@@ -547,7 +550,7 @@ class MultiImage {
 		}
 		let deleteBtn = '';
 		if (!this.detailView) {
-			deleteBtn = `<button class="btn btn-sm btn-danger c-btn-collapsible js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-trash-alt"></i> <span>${app.vtranslate('JS_DELETE')}</span></button>`;
+			deleteBtn = `<button class="btn btn-sm btn-danger c-btn-collapsible js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-trash-alt"></i> <span class="c-btn-collapsible__text">${app.vtranslate('JS_DELETE')}</span></button>`;
 		}
 		return $(template).popover({
 			container: thisInstance.elements.component,
@@ -563,8 +566,8 @@ class MultiImage {
 				<div class="text-right popover-footer js-multi-image__popover-actions">
 					${fileSize}
 					${deleteBtn}
-					<button class="btn btn-sm btn-success c-btn-collapsible js-multi-image__popover-btn-download" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-download"></i> <span>${app.vtranslate('JS_DOWNLOAD')}</span></button>
-					<button class="btn btn-sm btn-primary c-btn-collapsible js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-search-plus"></i> <span>${app.vtranslate('JS_ZOOM_IN')}</span></button>
+					<button class="btn btn-sm btn-success c-btn-collapsible js-multi-image__popover-btn-download" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-download"></i> <span class="c-btn-collapsible__text">${app.vtranslate('JS_DOWNLOAD')}</span></button>
+					<button class="btn btn-sm btn-primary c-btn-collapsible js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-search-plus"></i> <span class="c-btn-collapsible__text">${app.vtranslate('JS_ZOOM_IN')}</span></button>
 				</div>
 			</div>`
 		});
@@ -726,10 +729,10 @@ class MultiImage {
 		    </div>`;
 		});
 		template += `<a class="carousel-control-prev c-carousel__prevnext-btn c-carousel__prev-btn" href="#carousel-${hash}" role="button" data-slide="prev" data-js="click">
-		    <span class="fas fa-caret-left fa-2x c-carousel__prev-icon" data-fa-transform="left-1" aria-hidden="true"></span>
+		    <span class="fas fa-caret-left fa-2x c-carousel__prev-icon mr-1" aria-hidden="true"></span>
 		  </a>
 		  <a class="carousel-control-next c-carousel__prevnext-btn c-carousel__next-btn" href="#carousel-${hash}" role="button" data-slide="next" data-js="click">
-		    <span class="fas fa-caret-right fa-2x c-carousel__next-icon" data-fa-transform="right-1" aria-hidden="true"></span>
+		    <span class="fas fa-caret-right fa-2x c-carousel__next-icon ml-1" aria-hidden="true"></span>
 		  </a>
 		</div>`;
 		return template;

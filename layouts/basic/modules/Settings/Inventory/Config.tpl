@@ -4,14 +4,20 @@
 	<div class="" id="inventoryConfig">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="alert alert-info">
-			<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_TAX_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-			<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
-		</div>
+		{if $VIEW eq 'DiscountConfiguration'}
+			<div class="alert alert-info">
+				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_DISCOUNT_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
+				<p>{\App\Language::translateArgs('LBL_ALERT_DISCOUNT_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
+			</div>
+		{elseif $VIEW eq 'TaxConfiguration'}
+			<div class="alert alert-info">
+				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_TAX_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
+				<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
+			</div>
+		{/if}
 		<div class="contents mt-3 form-horizontal">
 			<div class="form-group form-row">
 				{assign var=LABEL_CHECKBOX value='LBL_YES'}

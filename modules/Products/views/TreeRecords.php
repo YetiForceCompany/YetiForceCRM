@@ -4,30 +4,26 @@
  * Products TreeView View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 {
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		parent::preProcess($request);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SELECTABLE_CATEGORY', AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
-	}
-
 	public function process(\App\Request $request)
 	{
-		$branches = $request->getArray('branches');
-		$filter = $request->getByType('filter', 2);
-		$category = $request->getArray('category');
-		if (empty($branches) && empty($category)) {
+		$baseModuleName = 'Accounts';
+		$viewer = $this->getViewer($request);
+		$filter = $request->has('filter') ? $request->getByType('filter', 'Alnum') : \App\CustomView::getInstance($baseModuleName)->getViewId();
+		$viewer->assign('VIEWID', $filter);
+		if ($request->isEmpty('branches', true) && $request->isEmpty('category', true)) {
 			return;
 		}
+		$branches = $request->getArray('branches', 'Text');
+		$category = $request->getArray('category', 'Alnum');
+
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$baseModuleName = 'Accounts';
-
 		$multiReferenceFirld = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($baseModuleName, $moduleName);
 		$multiReferenceFirld = reset($multiReferenceFirld);
 		if (count($multiReferenceFirld) === 0) {
@@ -39,7 +35,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {
-			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
+			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode('##', $branches), 'e');
 		}
 		if (!empty($category)) {
 			$query = (new \App\Db\Query())

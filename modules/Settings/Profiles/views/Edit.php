@@ -14,8 +14,8 @@ class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if ($request->get('record')) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->getInteger('record'));
 			$title = $recordModel->getName();
 		} else {
 			$title = \App\Language::translate('LBL_VIEW_EDIT', $moduleName);
@@ -72,17 +72,9 @@ class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.Edit",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+			'modules.Settings.' . $request->getModule() . '.resources.Edit',
+		]));
 	}
 }

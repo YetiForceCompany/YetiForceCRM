@@ -197,12 +197,9 @@ class Utils
 	public static function createTableSql($tablename)
 	{
 		$adb = \PearDatabase::getInstance();
-
 		$result = $adb->query("SHOW CREATE TABLE $tablename");
 		$createTable = $adb->fetchArray($result);
-		$sql = \App\Purifier::decodeHtml($createTable['Create Table']);
-
-		return $sql;
+		return \App\Purifier::decodeHtml($createTable['Create Table']);
 	}
 
 	/**

@@ -9,7 +9,7 @@
 					</div>
 				</div>
 				<div class="col-md-10">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 			<div class="row">

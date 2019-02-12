@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.
@@ -14,7 +13,10 @@ use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 class Users_Totp_Authmethod
 {
 	/**
-	 *  User authentication mode possible values.
+	 * User authentication mode possible values.
+	 * TOTP_OFF - 2FA TOTP is checking off
+	 * TOTP_OPTIONAL - It is defined by the user
+	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	const ALLOWED_USER_AUTHY_MODE = ['TOTP_OFF', 'TOTP_OPTIONAL', 'TOTP_OBLIGATORY'];
 	/**
@@ -87,14 +89,13 @@ class Users_Totp_Authmethod
 		switch ($type) {
 			case 'HTML':
 				return $qrCodeGenerator->getBarcodeHTML($otpAuthUrl, 'QRCODE');
-				break;
 			case 'SVG':
 				return $qrCodeGenerator->getBarcodeSVG($otpAuthUrl, 'QRCODE');
-				break;
 			case 'PNG':
 				return '<img src="data:image/png;base64,' .
 					$qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE') .
 					'" alt="QR code" />';
+			default:
 				break;
 		}
 		throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST: ' . $type);
@@ -149,12 +150,11 @@ class Users_Totp_Authmethod
 		switch (AppConfig::security('USER_AUTHY_MODE')) {
 			case 'TOTP_OFF':
 				return false;
-				break;
 			case 'TOTP_OPTIONAL':
 				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
-				break;
 			case 'TOTP_OBLIGATORY':
 				return true;
+			default:
 				break;
 		}
 		return false;

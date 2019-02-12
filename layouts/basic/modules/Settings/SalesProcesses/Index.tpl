@@ -3,8 +3,7 @@
 	<div class="" id="salesProcessesContainer">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<ul id="tabs" class="nav nav-tabs mt-1 layoutTabs massEditTabs" data-tabs="tabs">

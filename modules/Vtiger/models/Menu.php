@@ -4,7 +4,7 @@
  * Vtiger menu model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Menu_Model
 {
@@ -17,7 +17,6 @@ class Vtiger_Menu_Model
 	 */
 	public static function getAll($sequenced = false, $restrictedModulesList = [])
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
@@ -56,8 +55,8 @@ class Vtiger_Menu_Model
 			require 'user_privileges/menu_0.php';
 		}
 		$moduleName = $request->getModule();
-		$view = $request->getByType('view', 1);
-		$parent = $request->getByType('parent', 2);
+		$view = $request->getByType('view', 'Alnum');
+		$parent = $request->getByType('parent', 'Alnum');
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
@@ -85,15 +84,15 @@ class Vtiger_Menu_Model
 
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => $pageTitle];
-			} elseif ($view == 'Edit' && $request->get('record') === '') {
+			} elseif ($view == 'Edit' && $request->getRaw('record') === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ($view == '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
-			if ($moduleModel && $request->get('record') != '' && $moduleModel->isEntityModule()) {
-				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
+			if ($moduleModel && !$request->isEmpty('record', true) && $moduleModel->isEntityModule()) {
+				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->getInteger('record'));
 				if ($recordLabel !== '') {
 					$breadcrumbs[] = ['name' => $recordLabel];
 				}
@@ -105,10 +104,9 @@ class Vtiger_Menu_Model
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
-				$fieldId = $request->get('fieldid');
 				$menu = Settings_Vtiger_MenuItem_Model::getAll();
 				foreach ($menu as &$menuModel) {
-					if (empty($fieldId)) {
+					if ($request->isEmpty('fieldid')) {
 						if ($menuModel->getModule() === $moduleName) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
@@ -118,7 +116,7 @@ class Vtiger_Menu_Model
 							break;
 						}
 					} else {
-						if ($fieldId == $menuModel->getId()) {
+						if ($request->getInteger('fieldid') == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
@@ -135,13 +133,13 @@ class Vtiger_Menu_Model
 				} else {
 					if ($pageTitle) {
 						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
-					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
+					} elseif ($view === 'Edit' && $request->getRaw('record') === '' && $request->getRaw('parent_roleid') === '') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
-					if ($request->get('record') != '' && $moduleName === 'Users') {
-						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
+					if ($request->getRaw('record') !== '' && $moduleName === 'Users') {
+						$recordLabel = \App\Fields\Owner::getUserLabel($request->getInteger('record'));
 						if ($recordLabel != '') {
 							$breadcrumbs[] = ['name' => $recordLabel];
 						}
@@ -193,28 +191,28 @@ class Vtiger_Menu_Model
 	 */
 	public static function getMenuIcon($menu, $title = '')
 	{
-		if ($title == '') {
+		if ($title === '' && !empty($menu['label'])) {
 			$title = self::vtranslateMenu($menu['label'], $menu['mod']);
 		}
 		if (is_string($menu)) {
 			$iconName = \Vtiger_Theme::getImagePath($menu);
 			if (file_exists($iconName)) {
-				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
+				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="c-menu__item__icon" />';
 			}
 		}
 		if (!empty($menu['icon'])) {
 			if (strpos($menu['icon'], 'fa-') !== false) {
-				return '<span class="fa-lg fa-fw mr-3 ' . $menu['icon'] . '"></span>';
+				return '<span class="fa-lg fa-fw ' . $menu['icon'] . ' c-menu__item__icon"></span>';
 			} elseif (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false || strpos($menu['icon'], 'AdditionalIcon-') !== false) {
-				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
+				return '<span class="c-menu__item__icon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
 			$icon = \Vtiger_Theme::getImagePath($menu['icon']);
 			if ($icon) {
-				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
+				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="c-menu__item__icon" />';
 			}
 		}
 		if (isset($menu['type']) && $menu['type'] == 'Module') {
-			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
+			return '<span class="c-menu__item__icon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
 	}

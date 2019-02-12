@@ -4,8 +4,8 @@
  * Coordiante model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_Coordinate_Model extends \App\Base
 {
@@ -25,34 +25,12 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	}
 
 	/**
-	 * The function to retrieve data from the server.
-	 *
-	 * @param string $url
-	 *
-	 * @return array|bool
-	 */
-	private function doRequest($url)
-	{
-		try {
-			$response = Requests::get($url);
-			if ($response->success) {
-				return \App\Json::decode($response->body);
-			} else {
-				return false;
-			}
-		} catch (Exception $ex) {
-			\App\Log::warning($ex->getMessage());
-			return false;
-		}
-	}
-
-	/**
 	 * The function return the border coordinates for the point.
 	 *
-	 * @param type $coordinates
-	 * @param type $radius
+	 * @param array $coordinates
+	 * @param int   $radius
 	 *
-	 * @return type
+	 * @return float[]
 	 */
 	private function getMargins($coordinates, $radius)
 	{
@@ -70,29 +48,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get coordinates.
-	 *
-	 * @param array $address params url
-	 *
-	 * @return array
-	 */
-	public function getCoordinates($address)
-	{
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
-		$data = [
-			'format' => 'json',
-			'addressdetails' => 1,
-			'limit' => 1,
-		];
-		if (empty($address)) {
-			return [];
-		}
-		$url .= http_build_query(array_merge($data, $address));
-
-		return $this->doRequest($url);
-	}
-
-	/**
 	 * Function to get coordinates of center point.
 	 *
 	 * @return array
@@ -100,6 +55,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	public function getCoordinatesCenter()
 	{
 		$searchValue = $this->get('searchValue');
+		$coordinatesCenter = [];
 		if (!$this->isEmpty('lat') && !$this->isEmpty('lon')) {
 			$coordinatesCenter = [
 				'lat' => $this->get('lat'),
@@ -107,79 +63,10 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			];
 		}
 		if (!empty($searchValue)) {
-			$coordinatesCenter = $this->getCoordinatesBySearching($searchValue);
+			$coordinatesCenter = \App\Map\Coordinates::getInstance()->getCoordinatesByValue($searchValue);
 		}
 		$this->set('coordinatesCenter', $coordinatesCenter);
-
 		return $coordinatesCenter;
-	}
-
-	/**
-	 * Function to get coordinates from searcher.
-	 *
-	 * @param string $searchValue
-	 *
-	 * @return array
-	 */
-	public function getCoordinatesBySearching($searchValue)
-	{
-		$coordinatesDetails = $this->getCoordinates(['q' => $searchValue]);
-		if ($coordinatesDetails === false) {
-			return [];
-		}
-		$coordinatesDetails = reset($coordinatesDetails);
-		if (empty($coordinatesDetails)) {
-			return ['error' => \App\Language::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
-		} else {
-			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
-		}
-	}
-
-	/**
-	 * Function to get params url.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param string              $type        a,b or c
-	 *
-	 * @return array
-	 */
-	public function getUrlParamsToSearching($recordModel, $type)
-	{
-		return [
-			'state' => $recordModel->get('addresslevel2' . $type),
-			'county' => $recordModel->get('addresslevel3' . $type),
-			'city' => $recordModel->get('addresslevel5' . $type),
-			'street' => $recordModel->get('addresslevel8' . $type) . ' ' . $recordModel->get('buildingnumber' . $type),
-			'country' => $recordModel->get('addresslevel1' . $type),
-		];
-	}
-
-	/**
-	 * Function to get coordinates for record.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return array
-	 */
-	public function getCoordinatesByRecord($recordModel)
-	{
-		$coordinates = [];
-		foreach (['a', 'b', 'c'] as $numAddress) {
-			$address = $this->getUrlParamsToSearching($recordModel, $numAddress);
-			$coordinatesDetails = $this->getCoordinates($address);
-			if ($coordinatesDetails === false) {
-				break;
-			}
-			if (empty($coordinatesDetails)) {
-				continue;
-			}
-			$coordinatesDetails = reset($coordinatesDetails);
-			$coordinates[$numAddress] = [
-				'lat' => $coordinatesDetails['lat'],
-				'lon' => $coordinatesDetails['lon'],
-			];
-		}
-		return $coordinates;
 	}
 
 	/**
@@ -199,7 +86,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
 		$html = '';
-		foreach ($row as $fieldName => $value) {
+		foreach ($row as $value) {
 			if (!empty($value)) {
 				$html .= \App\Purifier::encodeHtml($value) . '<br />';
 			}
@@ -254,12 +141,10 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \App\Language::translate('LBL_START', 'OpenStreetMap') . '</button><br />';
-		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \App\Language::translate('LBL_END', 'OpenStreetMap') . '</button><br />';
+		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \App\Language::translate('LBL_START') . '</button><br />';
+		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \App\Language::translate('LBL_END') . '</button><br />';
 		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br />';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
-
-		return $html;
+		return $html . '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 	}
 
 	public static $colors = [];
@@ -282,7 +167,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		if (isset(self::$colors[$value])) {
 			return self::$colors[$value];
 		}
-		$colors = ['ff0000', 'ff00de', '7000ff', '001eff', '00c2ff', '00ff45', 'ff9b00', '961d5f',
+		$defaultColors = ['ff0000', 'ff00de', '7000ff', '001eff', '00c2ff', '00ff45', 'ff9b00', '961d5f',
 			'FF79E1', 'FF73B9', 'FE67EB', 'E77AFE', 'D97BFD', 'A27AFE', 'FF8A8A', 'FF86E3', 'FF86C2',
 			'FE8BF0', 'EA8DFE', 'DD88FD', 'AD8BFE', 'FF9797', 'FF97E8', 'FF97CB', 'FE98F1', 'ED9EFE',
 			'E29BFD', 'B89AFE', 'FFA8A8', 'FFACEC', 'FFA8D3', 'FEA9F3', 'EFA9FE', 'E7A9FE', 'C4ABFE',
@@ -343,7 +228,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			'EFCDF8', 'DBDBFF', 'D8F0F8', 'E7F3F1', 'FFEAEA', 'FAE7EC', 'FFE3FF', 'F8E9FC', 'EEEEFF',
 			'EFF9FC', 'F2F9F8', 'FFFDFD', 'FEFAFB', 'FFFDFF', 'FFFFFF', 'FDFDFF', 'FAFDFE', 'F7FBFA', ];
 
-		$color = '#' . $colors[$indexColor];
+		$color = '#' . $defaultColors[$indexColor];
 		++$indexColor;
 		self::$colors[$value] = $color;
 
@@ -366,13 +251,8 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
-		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields[] = $groupByField;
-			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
-			if ($fieldModel !== false) {
-				$groupByFieldColumn = $fieldModel->get('column');
-			}
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setFields($fields);
@@ -398,7 +278,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
-					'color' => self::getMarkerColor($row[$groupByFieldColumn]),
+					'color' => self::getMarkerColor(empty($groupByField) ? '' : $row[$groupByField])
 				];
 			}
 		}
@@ -459,7 +339,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		if (!empty($searchValue)) {
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
-		$searchParams = $this->get('search_params');
+		$searchParams = $this->getArray('search_params');
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
@@ -537,10 +417,10 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$coordinates = [];
 		foreach ($modules as $moduleName) {
 			$records = (new App\Db\Query())
-				->select('crmids')
+				->select(['crmids'])
 				->from('u_#__openstreetmap_cache')
 				->where(['user_id' => $userId, 'module_name' => $moduleName])
-				->createCommand($db)->queryColumn(0);
+				->createCommand($db)->queryColumn();
 			if (!empty($records)) {
 				$this->set('srcModuleModel', Vtiger_Module_Model::getInstance($moduleName));
 				$coordinates[$moduleName] = $this->readCoordinatesByRecords($records);

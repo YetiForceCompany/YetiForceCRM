@@ -4,7 +4,7 @@
  * Settings PublicHoliday module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -20,7 +20,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		\App\Log::trace('Entering Settings_PublicHoliday_Module_Model::getHolidays(' . print_r($date, true) . ') method ...');
 
-		$query = (new App\Db\Query())->select('publicholidayid, holidaydate, holidayname, holidaytype')
+		$query = (new App\Db\Query())->select(['publicholidayid', 'holidaydate', 'holidayname', 'holidaytype'])
 			->from('vtiger_publicholiday');
 		$date[0] = DateTimeField::convertToDBFormat($date[0]);
 		$date[1] = DateTimeField::convertToDBFormat($date[1]);
@@ -82,10 +82,10 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Log::trace('Entering Settings_PublicHoliday_Module_Model::save(' . $date . ', ' . $name . ', ' . $type . ') method ...');
 		$saved = App\Db::getInstance()->createCommand()
 			->insert('vtiger_publicholiday', [
-					'holidaydate' => $date,
-					'holidayname' => $name,
-					'holidaytype' => $type,
-				])->execute();
+				'holidaydate' => $date,
+				'holidayname' => $name,
+				'holidaytype' => $type,
+			])->execute();
 		\App\Log::trace('Exiting Settings_PublicHoliday_Module_Model::save() method ...');
 		if ($saved === 1) {
 			return true;
@@ -112,8 +112,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 				'holidaydate' => $date,
 				'holidayname' => $name,
 				'holidaytype' => $type,
-				], ['publicholidayid' => $id])
-				->execute();
+			], ['publicholidayid' => $id])
+			->execute();
 		\App\Log::trace('Exiting Settings_PublicHoliday_Module_Model::edit() method ...');
 		if ($saved === 1) {
 			return true;

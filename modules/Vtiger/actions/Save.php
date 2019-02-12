@@ -43,10 +43,8 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
-		if ($request->getBoolean('_isDuplicateRecord')) {
-			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('_duplicateRecord'))) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if ($request->getBoolean('_isDuplicateRecord') && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('_duplicateRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ($request->getBoolean('relationOperation') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -74,7 +72,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				$loadUrl = $recordModel->getModule()->getDefaultUrl();
 			}
 		}
-		header("Location: $loadUrl");
+		header("location: $loadUrl");
 	}
 
 	/**
@@ -120,6 +118,9 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			if ($request->has($fieldName)) {
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
+		}
+		if ($request->has('inventory') && $this->record->getModule()->isInventory()) {
+			$this->record->initInventoryDataFromRequest($request);
 		}
 		return $this->record;
 	}

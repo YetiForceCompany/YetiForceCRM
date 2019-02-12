@@ -14,6 +14,11 @@ namespace App;
 class Language
 {
 	/**
+	 * Default language code.
+	 */
+	public const DEFAULT_LANG = 'en-US';
+
+	/**
 	 * Allowed types of language variables.
 	 */
 	const LANG_TYPE = ['php', 'js'];
@@ -22,7 +27,12 @@ class Language
 	 * Language files format.
 	 */
 	const FORMAT = 'json';
-
+	/**
+	 * Custom language directory.
+	 *
+	 * @var string
+	 */
+	public static $customDirectory = 'custom';
 	/**
 	 * Current language.
 	 *
@@ -76,7 +86,19 @@ class Language
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
-		return static::$language = empty($language) ? \AppConfig::main('default_language') : strtolower($language);
+		return static::$language = empty($language) ? \AppConfig::main('default_language') : $language;
+	}
+
+	/**
+	 * Get IETF language tag.
+	 *
+	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
+	 *
+	 * @return string
+	 */
+	public static function getLanguageTag($separator = '_')
+	{
+		return str_replace('-', $separator, static::getLanguage());
 	}
 
 	/**
@@ -86,7 +108,7 @@ class Language
 	 */
 	public static function setTemporaryLanguage($language)
 	{
-		static::$temporaryLanguage = strtolower($language);
+		static::$temporaryLanguage = $language;
 	}
 
 	/**
@@ -110,23 +132,7 @@ class Language
 			return static::$shortLanguage;
 		}
 		preg_match('/^[a-z]+/i', static::getLanguage(), $match);
-		return static::$shortLanguage = (empty($match[0])) ? 'en' : $match[0];
-	}
-
-	/**
-	 * Get IETF language tag.
-	 *
-	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
-	 *
-	 * @return string
-	 */
-	public static function getLanguageTag($separator = '-')
-	{
-		$lang = \explode('_', static::getLanguage());
-		if (isset($lang[1])) {
-			$lang[1] = \strtoupper($lang[1]);
-		}
-		return \implode($separator, $lang);
+		return static::$shortLanguage = (empty($match[0])) ? \Locale::getPrimaryLanguage(self::DEFAULT_LANG) : $match[0];
 	}
 
 	/**
@@ -138,7 +144,7 @@ class Language
 	 *
 	 * @return string - translated string
 	 */
-	public static function translate($key, $moduleName = '_Base', $language = false)
+	public static function translate($key, $moduleName = '_Base', $language = false, $encode = true)
 	{
 		if (empty($key)) { // nothing to translate
 			return $key;
@@ -157,19 +163,31 @@ class Language
 		}
 		static::loadLanguageFile($language, $moduleName);
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
-			return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]));
+			if ($encode) {
+				return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]));
+			}
+			return \nl2br(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
 		// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
 		if (strpos($moduleName, 'Settings') === 0) {
 			$base = 'Settings' . DIRECTORY_SEPARATOR . '_Base';
 			static::loadLanguageFile($language, $base);
 			if (isset(static::$languageContainer[$language][$base]['php'][$key])) {
-				return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$base]['php'][$key]));
+				if ($encode) {
+					return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$base]['php'][$key]));
+				}
+				return \nl2br(static::$languageContainer[$language][$base]['php'][$key]);
 			}
 		}
 		static::loadLanguageFile($language);
 		if (isset(static::$languageContainer[$language]['_Base']['php'][$key])) {
-			return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language]['_Base']['php'][$key]));
+			if ($encode) {
+				return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language]['_Base']['php'][$key]));
+			}
+			return \nl2br(static::$languageContainer[$language]['_Base']['php'][$key]);
+		}
+		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
+			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode);
 		}
 		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
 		return $key;
@@ -292,7 +310,7 @@ class Language
 				if (file_exists($langFile)) {
 					static::$languageContainer[$language][$moduleName] = Json::decode(file_get_contents($langFile), true) ?? [];
 				}
-				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . $file;
+				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . static::$customDirectory . $file;
 				if (file_exists($langCustomFile)) {
 					$translation = Json::decode(file_get_contents($langCustomFile), true) ?? [];
 					foreach ($translation as $type => $rows) {
@@ -302,7 +320,7 @@ class Language
 					}
 				}
 				if (!file_exists($langFile) && !file_exists($langCustomFile)) {
-					\App\Log::warning("Language file does not exist, module: $moduleName ,language: $language");
+					\App\Log::info("Language file does not exist, module: $moduleName ,language: $language");
 				}
 				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer[$language][$moduleName], Cache::LONG);
 			}
@@ -582,9 +600,9 @@ class Language
 				}
 
 				return '_5';
+			default:
+				return '';
 		}
-		//Fallback if no language found
-		return '';
 	}
 
 	/**
@@ -596,11 +614,11 @@ class Language
 	 */
 	public static function getLanguageLabel(string $prefix)
 	{
-		return static::getLangInfo($prefix)['label'] ?? null;
+		return static::getLangInfo($prefix)['name'] ?? null;
 	}
 
 	/**
-	 * Function return languanges data.
+	 * Function return languages data.
 	 *
 	 * @param bool $active
 	 * @param bool $allData
@@ -612,7 +630,7 @@ class Language
 		$cacheKey = $active ? 'Active' : 'All';
 		if (Cache::has('getAllLanguages', $cacheKey)) {
 			if (!$allData) {
-				return array_column(Cache::get('getAllLanguages', $cacheKey), 'label', 'prefix');
+				return array_column(Cache::get('getAllLanguages', $cacheKey), 'name', 'prefix');
 			}
 			return Cache::get('getAllLanguages', $cacheKey);
 		}
@@ -630,7 +648,7 @@ class Language
 		Cache::save('getAllLanguages', 'All', $all);
 		Cache::save('getAllLanguages', 'Active', $actives);
 		if (!$allData) {
-			return array_column(Cache::get('getAllLanguages', $cacheKey), 'label', 'prefix');
+			return array_column(Cache::get('getAllLanguages', $cacheKey), 'name', 'prefix');
 		}
 		return Cache::get('getAllLanguages', $cacheKey);
 	}
@@ -672,12 +690,10 @@ class Language
 		} else {
 			$loc = '';
 			array_pop($fileLocation);
-			foreach ($fileLocation as $key => $name) {
+			foreach ($fileLocation as $name) {
 				$loc .= DIRECTORY_SEPARATOR . $name;
-				if (!file_exists(ROOT_DIRECTORY . $loc)) {
-					if (!mkdir(ROOT_DIRECTORY . $loc, 0755)) {
-						throw new Exceptions\AppException('ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES');
-					}
+				if (!file_exists(ROOT_DIRECTORY . $loc) && !mkdir(ROOT_DIRECTORY . $loc, 0755)) {
+					throw new Exceptions\AppException('ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES');
 				}
 			}
 		}
@@ -698,7 +714,9 @@ class Language
 	{
 		$original = explode(';', setlocale(LC_ALL, 0));
 		$defaultCharset = strtolower(\AppConfig::main('default_charset'));
-		setlocale(LC_ALL, static::getLanguageTag('_') . '.' . $defaultCharset, \AppConfig::main('default_language') . '.' . $defaultCharset, 'en_US.' . $defaultCharset, 'en_US.utf8');
+		setlocale(LC_ALL, \Locale::acceptFromHttp(self::getLanguage()) . '.' . $defaultCharset,
+			\Locale::acceptFromHttp(\AppConfig::main('default_language')) . '.' . $defaultCharset, \Locale::acceptFromHttp(self::DEFAULT_LANG) . ".$defaultCharset",
+			\Locale::acceptFromHttp(self::DEFAULT_LANG) . '.utf8');
 		foreach ($original as $localeSetting) {
 			if (strpos($localeSetting, '=') !== false) {
 				list($category, $locale) = explode('=', $localeSetting);
@@ -710,5 +728,29 @@ class Language
 				setlocale(constant($category), $locale);
 			}
 		}
+	}
+
+	/**
+	 * Get display language name.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return string
+	 */
+	public static function getDisplayName(string $prefix)
+	{
+		return \ucfirst(locale_get_region($prefix) === strtoupper(locale_get_primary_language($prefix)) ? locale_get_display_language($prefix, $prefix) : locale_get_display_name($prefix, $prefix));
+	}
+
+	/**
+	 * Get region from language prefix.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return mixed
+	 */
+	public static function getRegion(string $prefix)
+	{
+		return locale_parse($prefix)['region'];
 	}
 }

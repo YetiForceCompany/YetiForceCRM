@@ -2,9 +2,9 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
@@ -25,7 +25,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$query->where(['user_id' => $user]);
 		}
 		if ($onlyMy) {
-			$query->andWhere(['crm_user_id' => \App\User::getCurrentUserId()]);
+			$userModel = \App\User::getCurrentUserModel();
+			$crmUsers = $userModel->getGroups();
+			$crmUsers[] = $userModel->getId();
+			$query->andWhere(['crm_user_id' => $crmUsers]);
 		}
 		if ($password) {
 			$query->andWhere(['<>', 'password', '']);
@@ -47,9 +50,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function loadRoundcubeConfig()
 	{
-		if (!defined('RCUBE_INSTALL_PATH')) {
-			define('RCUBE_INSTALL_PATH', realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'OSSMail' . DIRECTORY_SEPARATOR . 'roundcube'));
-		}
+		$configMail = \App\Config::module('OSSMail');
 		if (!defined('RCMAIL_VERSION') && file_exists(RCUBE_INSTALL_PATH . '/program/include/iniset.php')) {
 			// read rcube version from iniset
 			$iniset = file_get_contents(RCUBE_INSTALL_PATH . '/program/include/iniset.php');
@@ -57,13 +58,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$rcubeVersion = str_replace('-git', '.999', $matches[1]);
 				define('RCMAIL_VERSION', $rcubeVersion);
 			} else {
-				throw new \Exception('Unable to find a Roundcube version');
+				throw new \App\Exceptions\AppException('Unable to find a Roundcube version');
 			}
 		}
 		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
-		include 'config/modules/OSSMail.php';
-
-		return $config;
+		return $configMail + $config;
 	}
 
 	/**
@@ -86,7 +85,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $user
 	 * @param string $password
 	 * @param string $host
-	 * @param string $folder
+	 * @param string $folder     Character encoding UTF7-IMAP
 	 * @param bool   $dieOnError
 	 * @param array  $config
 	 *
@@ -422,7 +421,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$data = $encodedData;
 			}
 		}
-		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? mt_rand() . mt_rand() : null);
+		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? random_int(0, PHP_INT_MAX) . random_int(0, PHP_INT_MAX) : null);
 		if ($attachmentId) {
 			if (empty($params['filename']) && empty($params['name'])) {
 				$fileName = $attachmentId . '.' . strtolower($partStructure->subtype);
@@ -563,29 +562,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$list = imap_list($mbox, $ref, '*');
 			foreach ($list as $mailboxname) {
 				$name = str_replace($ref, '', $mailboxname);
-				$folders[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+				$name = \App\Utils::convertCharacterEncoding($name, 'UTF7-IMAP', 'UTF-8');
+				$folders[$name] = $name;
 			}
 		}
 		return $folders;
-	}
-
-	/**
-	 * Convert string from encoding to encoding.
-	 *
-	 * @param string $value
-	 * @param string $toCharset
-	 * @param string $fromCharset
-	 *
-	 * @return string
-	 */
-	public static function convertCharacterEncoding($value, $toCharset, $fromCharset)
-	{
-		if (function_exists('mb_convert_encoding')) {
-			$value = mb_convert_encoding($value, $toCharset, $fromCharset);
-		} else {
-			$value = iconv($toCharset, $fromCharset, $value);
-		}
-		return $value;
 	}
 
 	/**

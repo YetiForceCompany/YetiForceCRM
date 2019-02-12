@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//--- MIXINS ---//
 @mixin u-transition($settings) {
 	-webkit-transition: $settings;
 	-moz-transition: $settings;
@@ -12,10 +14,55 @@
 	-webkit-box-shadow: $settings;
 	box-shadow: $settings;
 }
+
+@mixin u-column-count($number) {
+	-webkit-column-count: $number;
+	-moz-column-count: $number;
+	column-count: $number;
+}
+
+@mixin u-column-gap($number) {
+	-webkit-column-gap: $number;
+	-moz-column-gap: $number;
+	column-gap: $number;
+}
+
+@mixin u-column-width($number) {
+	-webkit-column-width: $number;
+	-moz-column-width: $number;
+	column-width: $number;
+}
+
 //--- TEXT ---//
 .u-text-small-bold {
 	@extend .small;
 	@extend .font-weight-bold;
+}
+
+.u-font-size-10px {
+	font-size: calculate-rem(10px);
+}
+
+.u-font-size-13px {
+	font-size: calculate-rem(13px);
+}
+
+.u-font-size-14px {
+	font-size: calculate-rem(15px);
+}
+
+.u-font-size-38px {
+	font-size: calculate-rem(38px);
+}
+
+.u-font-size-19px {
+	font-size: calculate-rem(19px);
+}
+
+@for $i from 1 through 9 {
+	.u-font-weight-#{$i*100} {
+		font-weight: #{$i*100} !important;
+	}
 }
 
 .u-text-ellipsis {
@@ -38,13 +85,22 @@
 	}
 }
 
-.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis]{
+.u-text-ellipsis--no-hover,
+.js-popover-tooltip--ellipsis,
+.js-popover-tooltip--ellipsis-icon .js-popover-text,
+.js-popover-tooltip--ellipsis-icon .c-popover-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.u-text-ellipsis--not-active{
+.js-popover--before-positioned {
+	opacity: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.u-text-ellipsis--not-active {
 	width: auto !important;
 	text-overflow: unset !important;
 	visibility: hidden !important;
@@ -60,12 +116,21 @@
 	@extend .font-weight-bold;
 }
 
+.u-hover-opacity:hover {
+	opacity: 0.5;
+	@include u-transition(opacity 275ms ease);
+}
+
 .u-word-break-all {
 	word-break: break-all !important;
 }
 
 .u-word-break {
 	word-break: break-word !important;
+}
+
+.u-word-break-keep-all {
+	word-break: keep-all !important;
 }
 
 .u-font-size-95per {
@@ -77,15 +142,20 @@
 }
 
 .u-font-size-44px {
-	font-size: 44px;
+	font-size: calculate-rem(44px);
 }
+
 //--- MARGIN ---//
+.u-m-5px {
+	margin: 5px;
+}
+
 .u-ml-0 {
 	margin-left: 0 !important;
 }
 
 .u-ml-10px {
-	margin-left: 10px;
+	margin-left: calculate-rem(10px);
 }
 
 .u-mr-0px {
@@ -97,7 +167,11 @@
 }
 
 .u-mr-5px {
-	margin-right: 5px;
+	margin-right: calculate-rem(5px);
+}
+
+.u-mt-2px {
+	margin-top: calculate-rem(2px);
 }
 
 .u-paragraph-m-0 {
@@ -111,7 +185,11 @@
 }
 
 .u-ml-minus-5px {
-	margin-left: -5px;
+	margin-left: calculate-rem(-5px);
+}
+
+.u-mr-minus-8px {
+	margin-right: calculate-rem(-8px);
 }
 
 //--- PADDING ---//
@@ -131,6 +209,27 @@
 }
 
 //--- WIDTH ---//
+// width % breakpoint classes for 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+@for $i from 1 through 10 {
+	@each $breakpoint, $min in $grid-breakpoints {
+		@if $min > 0 {
+			@media (min-width: $min) {
+				.u-min-w-#{$breakpoint}-#{$i*10} {
+					min-width: $i*10% !important;
+				}
+
+				.u-max-w-#{$breakpoint}-#{$i*10} {
+					max-width: $i*10% !important;
+				}
+
+				.u-w-#{$breakpoint}-#{$i*10} {
+					min-width: $i*10% !important;
+				}
+			}
+		}
+	}
+}
+
 .u-w-10per {
 	width: 10%;
 }
@@ -147,6 +246,11 @@
 	width: fit-content !important;
 }
 
+.u-w-max {
+	width: max-content !important;
+	width: -moz-max-content !important;
+}
+
 .u-w-max-320px {
 	max-width: 320px !important;
 }
@@ -161,8 +265,30 @@
 	min-width: 150px !important;
 }
 
+.u-w-3per-250px {
+	width: 3%;
+	min-width: 250px !important;
+}
+
+.u-w-30per-18rem {
+	width: 30% !important;
+	min-width: 18rem;
+}
+
+.u-w-50px {
+	width: 50px;
+}
+
 .u-w-85px {
 	width: 85px;
+}
+
+.u-w-79px {
+	width: 79px;
+}
+
+.u-w-125px {
+	width: 125px;
 }
 
 .u-w-90per {
@@ -170,7 +296,15 @@
 }
 
 .u-min-w-650px {
-	min-width: 650px !important;
+	min-width: calculate-rem(650px) !important;
+}
+
+.u-min-w-300px {
+	min-width: calculate-rem(300px) !important;
+}
+
+.u-w-1em {
+	width: 1em;
 }
 
 @include media-breakpoint-down(sm) {
@@ -184,7 +318,16 @@
 		width: 100%;
 	}
 }
+
+.u-max-w-150px {
+	max-width: 150px;
+}
+
 //--- HEIGHT ---//
+.u-h-50px {
+	height: 50px;
+}
+
 .u-h-600px {
 	height: 600px !important;
 }
@@ -193,7 +336,7 @@
 	height: $h-input-text;
 }
 
-.u-h-120px{
+.u-h-120px {
 	height: $h-modal-logo;
 }
 
@@ -201,12 +344,31 @@
 	height: fit-content !important;
 }
 
-//--- WHITE SPACE ---//
-.u-white-space-nowrap {
-	white-space: nowrap !important;
+.u-h-70vh {
+	height: 70vh !important;
+}
+
+.u-h-1em {
+	height: 1em;
+}
+
+.u-min-h-30per {
+	min-height: 30%;
+}
+
+.u-min-h-85vh {
+	min-height: 85vh;
 }
 
 //--- BORDER ---//
+.u-border-right-10px {
+	border-right: 10px solid
+}
+
+.u-border-left-10px {
+	border-left: 10px solid
+}
+
 @media only screen and (max-width: 990px) {
 	.u-border-bottom-label-md {
 		border-bottom: 1px solid #dee2e6;
@@ -250,8 +412,8 @@
 	z-index: -1;
 }
 
-.u-white-space-n {
-	white-space: normal !important;
+.u-z-index-100 {
+	z-index: 100;
 }
 
 .u-cursor-pointer {
@@ -267,12 +429,26 @@
 	cursor: -webkit-grab;
 }
 
+.u-cursor-scroll-all {
+	* {
+		cursor: all-scroll !important;
+	}
+}
+
 .u-overflow-auto {
 	overflow: auto !important;
 }
 
-@include media-breakpoint-down(xs) {
-	.u-overflow-scroll-xs-down {
+.u-overflow-y-auto {
+	overflow-y: auto !important;
+}
+
+.u-overflow-x-hidden {
+	overflow-x: hidden !important;
+}
+
+@include media-breakpoint-down(xsm) {
+	.u-overflow-scroll-xsm-down {
 		overflow: scroll !important;
 	}
 }
@@ -284,6 +460,9 @@
 }
 
 @include media-breakpoint-down(lg) {
+	.u-overflow-auto-lg-down {
+		overflow: auto !important;
+	}
 	.u-remove-dropdown-icon-down-lg {
 		.dropdown-toggle::after {
 			display: none;
@@ -301,7 +480,8 @@
 }
 
 .u-w-5per {
-	width: 5%;
+	min-width: 5%;
+	max-width: 25%;
 }
 
 .u-disabled {
@@ -313,6 +493,116 @@
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
 }
 
+@each $breakpoint, $max in $grid-breakpoints {
+	@if $max > 0 {
+		@media (max-width: $max) {
+			.display-block-#{$breakpoint} {
+				display: block !important;
+			}
+		}
+	}
+
+}
+
 .u-opacity-muted {
 	opacity: 0.2;
+}
+
+//--- COLUMNS ---///
+.u-columns {
+	&__item {
+		display: inline-block;
+		width: 100%;
+	}
+
+	&-gap-1rem {
+		@include u-column-gap(1rem);
+	}
+
+	&-count-3 {
+		@include u-column-count(3);
+	}
+
+	&-width-36rem {
+		@include u-column-width(36rem);
+	}
+
+	&-width-300px-rem {
+		@include u-column-width(#{calculate-rem(300px)});
+	}
+}
+
+//--- POSITIONS ---//
+.u-position-r-0 {
+	right: 0;
+}
+
+.u-position-r-5px {
+	right: calculate-rem(5px);
+}
+
+.u-position-r-10px {
+	right: calculate-rem(10px);
+}
+
+.u-position-t-10px {
+	top: calculate-rem(10px);
+}
+
+.u-position-t-5px {
+	top: calculate-rem(5px);
+}
+
+.u-position-t-2px {
+	top: calculate-rem(2px);
+}
+
+//--- ALIGN ---//
+
+.u-align-middle-children {
+	* {
+		vertical-align: middle !important;
+	}
+}
+
+.u-table-column__before-block {
+	&--inventory {
+		width: 1%;
+	}
+
+	&:before {
+		content: '';
+		display: block;
+	}
+}
+
+@for $i from 1 through 100 {
+	.u-table-column__vw-#{$i} {
+		&:before {
+			width: #{$i}vw;
+		}
+	}
+}
+
+//--- WHITE SPACE ---//
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		.u-white-space#{$infix}-nowrap {
+			white-space: nowrap !important;
+		}
+		.u-white-space#{$infix}-normal {
+			white-space: normal !important;
+		}
+	}
+}
+
+// --- MIN HEIGHT --- //
+
+@for $i from 1 through 10 {
+	.u-min-height-#{$i}0 {
+		min-height: #{$i}0px;
+	}
 }

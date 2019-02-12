@@ -3,7 +3,6 @@
 
 Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 	registerAcceptanceEvent: function () {
-		var thisInstance = this;
 		var list = jQuery('.listViewEntriesDiv');
 		list.on('click', '.acceptanceRecord', function (e) {
 			var elem = this;
@@ -30,8 +29,6 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			var validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
 				var selectedIds = listInstance.readSelectedIds(true);
-				var excludedIds = listInstance.readExcludedIds(true);
-				var cvId = listInstance.getCurrentCvId();
 				var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
 				Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 					var params = {};

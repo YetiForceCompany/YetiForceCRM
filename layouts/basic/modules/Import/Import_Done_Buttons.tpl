@@ -9,6 +9,11 @@
 *
 ********************************************************************************/
 -->*}
-
-<button class="btn btn-success btn-sm" name="ok"
-		onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import'"><span class="font-weight-bold">{\App\Language::translate('LBL_OK_BUTTON_LABEL', $MODULE)}</span></strong></button>
+{strip}
+	<!-- tpl-Import-Import_Done_Buttons -->
+	<button class="btn btn-success btn-sm" name="ok"
+			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import'">
+		<span class="font-weight-bold">{\App\Language::translate('LBL_OK_BUTTON_LABEL', $MODULE_NAME)}</span>
+	</button>
+	<!-- /tpl-Import-Import_Done_Buttons -->
+{/strip}

@@ -6,9 +6,9 @@ namespace App;
  * Privilege basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Privilege
 {
@@ -50,12 +50,7 @@ class Privilege
 			\App\Log::trace('Exiting isPermitted method ... - ' . ($permission) ? 'YES' : 'NO');
 			return $permission;
 		}
-		//Retreiving the Tabid and Action Id
-		$checkModule = $moduleName;
-		if ($checkModule === 'Events') {
-			$checkModule = 'Calendar';
-		}
-		if (!Module::isModuleActive($checkModule)) {
+		if (!Module::isModuleActive($moduleName)) {
 			static::$isPermittedLevel = 'SEC_MODULE_IS_INACTIVE';
 			\App\Log::trace('Exiting isPermitted method ... - yes');
 			return false;
@@ -78,6 +73,8 @@ class Privilege
 						case 2:
 							static::$isPermittedLevel = 'SEC_RECORD_ARCHIVED';
 							\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ARCHIVED');
+							break;
+						default:
 							break;
 					}
 					return false;
@@ -126,20 +123,16 @@ class Privilege
 			return false;
 		}
 		//Checking for view all permission
-		if ($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
-			if ($actionId == 3 || $actionId == 4) {
-				static::$isPermittedLevel = 'SEC_MODULE_VIEW_ALL_PERMISSION';
-				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_VIEW_ALL_PERMISSION');
-				return true;
-			}
+		if (($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) && ($actionId == 3 || $actionId == 4)) {
+			static::$isPermittedLevel = 'SEC_MODULE_VIEW_ALL_PERMISSION';
+			\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_VIEW_ALL_PERMISSION');
+			return true;
 		}
 		//Checking for edit all permission
-		if ($userPrivileges['profile_global_permission'][2] == 0) {
-			if ($actionId == 3 || $actionId == 4 || $actionId == 0 || $actionId == 1) {
-				static::$isPermittedLevel = 'SEC_MODULE_EDIT_ALL_PERMISSION';
-				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_EDIT_ALL_PERMISSION');
-				return true;
-			}
+		if ($userPrivileges['profile_global_permission'][2] == 0 && ($actionId == 3 || $actionId == 4 || $actionId == 0 || $actionId == 1)) {
+			static::$isPermittedLevel = 'SEC_MODULE_EDIT_ALL_PERMISSION';
+			\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_EDIT_ALL_PERMISSION');
+			return true;
 		}
 		//Checking and returning true if recorid is null
 		if (empty($record)) {
@@ -169,6 +162,8 @@ class Privilege
 					static::$isPermittedLevel = 'SEC_RECORD_ARCHIVED';
 					\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ARCHIVED');
 					break;
+				default:
+					break;
 			}
 			return false;
 		}
@@ -189,7 +184,7 @@ class Privilege
 				}
 			}
 			if (!$isPermittedPrivateRecord) {
-				$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
+				$shownerids = Fields\SharedOwner::getById($record);
 				if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 					$level = 'SEC_PRIVATE_RECORD_SHARED_OWNER';
 					$isPermittedPrivateRecord = true;
@@ -215,7 +210,7 @@ class Privilege
 			}
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-			$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
+			$shownerids = Fields\SharedOwner::getById($record);
 			if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				static::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_SHARED_OWNER');
@@ -224,7 +219,7 @@ class Privilege
 		}
 		//Retreiving the RecordOwnerId
 		$recOwnId = $recordMetaData['smownerid'];
-		$recOwnType = \App\Fields\Owner::getType($recOwnId);
+		$recOwnType = Fields\Owner::getType($recOwnId);
 		if ($recOwnType === 'Users') {
 			//Checking if the Record Owner is the current User
 			if ($userId == $recOwnId) {
@@ -266,7 +261,7 @@ class Privilege
 								$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
 								break;
 							case 1:
-								$relatedPermission = in_array($userId, \Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+								$relatedPermission = in_array($userId, Fields\SharedOwner::getById($parentRecord));
 								break;
 							case 2:
 								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
@@ -275,6 +270,8 @@ class Privilege
 								break;
 							case 3:
 								$relatedPermission = static::isPermitted($recordMetaData['setype'], 'DetailView', $parentRecord);
+								break;
+							default:
 								break;
 						}
 						if ($relatedPermission) {
@@ -310,11 +307,7 @@ class Privilege
 				return true;
 			}
 		} elseif ($othersPermissionId == 1) {
-			if ($actionId == 2) {
-				return false;
-			} else {
-				return true;
-			}
+			return $actionId == 2;
 		} elseif ($othersPermissionId == 2) {
 			return true;
 		} elseif ($othersPermissionId == 3) {
@@ -330,14 +323,13 @@ class Privilege
 		} else {
 			return true;
 		}
-		return false;
 	}
 
 	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record
 	 * @param $moduleName -- Module Name:: Type varchar
-	 * @param $actionId -- Action Id:: Type integer
-	 * @param $recordId -- Record Id:: Type integer
-	 * @param $tabId -- Tab Id:: Type integer
+	 * @param $actionId   -- Action Id:: Type integer
+	 * @param $recordId   -- Record Id:: Type integer
+	 * @param $tabId      -- Tab Id:: Type integer
 	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
 	 */
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
@@ -434,9 +426,9 @@ class Privilege
 
 	/** Function to check if the currently logged in user has Write Access due to Sharing for the specified record
 	 * @param $moduleName -- Module Name:: Type varchar
-	 * @param $actionId -- Action Id:: Type integer
-	 * @param $recordid -- Record Id:: Type integer
-	 * @param $tabId -- Tab Id:: Type integer
+	 * @param $actionId   -- Action Id:: Type integer
+	 * @param $recordid   -- Record Id:: Type integer
+	 * @param $tabId      -- Tab Id:: Type integer
 	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
 	 */
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)

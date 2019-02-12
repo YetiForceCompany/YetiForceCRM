@@ -5,14 +5,14 @@
 			<select class="form-control sufrom {if $SELECT}select2{/if}">
 				<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
-						<option value="{$ROLEID}" {if $ID == $ROLEID}selected{/if}>
+						<option value="{$ROLEID}" {if !empty($ID) && $ID == $ROLEID}selected{/if}>
 							{\App\Language::translate($ROLE->getName(), $QUALIFIED_MODULE)}
 						</option>
 					{/foreach}
 				</optgroup>
 				<optgroup label="{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}">
 					{foreach item=USER key=USERID from=$USERS}
-						<option value="{$USERID}" {if $ID == $USERID}selected{/if}>
+						<option value="{$USERID}" {if !empty($ID) && $ID == $USERID}selected{/if}>
 							{$USER->getName()}
 						</option>
 					{/foreach}
@@ -38,7 +38,8 @@
 			</select>
 		</td>
 		<td class="textAlignCenter">
-			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-sm btn-danger delate">
+			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button"
+					class="btn btn-sm btn-danger delate">
 				<i class="fas fa-trash-alt"></i>
 			</button>
 		</td>

@@ -23,22 +23,20 @@ class Credits
 	 * @var array
 	 */
 	public static $licenses = [
+		'yetiforce/yetiforcepdf' => 'YetiForce Public License v3',
+		'bootstrap-tabdrop' => 'Apache-2.0',
+		'color-convert' => 'MIT',
+		'@fortawesome/fontawesome-free' => 'MIT',
+		'fontawesome-web' => 'MIT',
+		'jquery-ui-touch-punch' => 'MIT',
 		'ckeditor/ckeditor' => 'MPL-1.1+',
 		'block-ui' => 'MIT',
-		'dompurify' => 'Apache-2.0',
-		'html5shiv' => 'MIT',
 		'jquery-slimscroll' => 'MIT',
-		'optimist' => 'MIT',
-		'color-convert' => 'MIT',
-		'humanize' => 'MIT',
-		'microplugin' => 'Apache-2.0',
-		'@fortawesome/fontawesome-free-regular' => 'MIT',
-		'@fortawesome/fontawesome-free-solid' => 'MIT',
-		'@fortawesome/fontawesome-free-brands' => 'MIT',
-		'fontawesome-web' => 'MIT',
-		'svg' => 'MIT',
-		'jquery-timers' => 'WTFPL',
-		'bootstrap-tabdrop' => 'Apache-2.0',
+		'html5shiv' => 'MIT',
+		'jquery-lazy' => 'MIT',
+		'dompurify' => 'Apache-2.0',
+		'nette/php-generator' => 'BSD-3-Clause',
+		'nette/utils' => 'BSD-3-Clause',
 	];
 	/**
 	 * Information about forks CRM.
@@ -68,12 +66,14 @@ class Credits
 					if (!empty($package['version'])) {
 						$libraries[$package['name']]['version'] = $package['version'];
 					}
-					if ($package['license'] && count($package['license']) > 1) {
-						$libraries[$package['name']]['license'] = implode(', ', $package['license']);
-						$libraries[$package['name']]['licenseError'] = true;
-					} else {
-						$libraries[$package['name']]['license'] = $package['license'][0];
-						$libraries[$package['name']]['showLicenseModal'] = self::checkIfLicenseFileExists($package['license'][0]);
+					if (!empty($package['license'])) {
+						if (count($package['license']) > 1) {
+							$libraries[$package['name']]['license'] = implode(', ', $package['license']);
+							$libraries[$package['name']]['licenseError'] = true;
+						} else {
+							$libraries[$package['name']]['license'] = $package['license'][0];
+							$libraries[$package['name']]['showLicenseModal'] = self::checkIfLicenseFileExists($package['license'][0]);
+						}
 					}
 					if (isset(static::$licenses[$package['name']])) {
 						$libraries[$package['name']]['license'] = static::$licenses[$package['name']] . ' [' . $libraries[$package['name']]['license'] . ']';
@@ -111,9 +111,11 @@ class Credits
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
 					$name .= array_shift($tempName);
-					$libraries[$name] = self::getLibraryValues($name, $libraryDir);
-					if (empty($libraries[$name]['homepage'])) {
-						$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+					if (\is_dir($libraryDir . $name)) {
+						$libraries[$name] = self::getLibraryValues($name, $libraryDir);
+						if (empty($libraries[$name]['homepage'])) {
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+						}
 					}
 				}
 			}
@@ -179,7 +181,7 @@ class Credits
 			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
-				$license = $packageFileContent['license'] ?? '';
+				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
 				if ($license) {
 					if (is_array($license)) {
 						if (is_array($license[0]) && isset($license[0]['type'])) {
@@ -254,7 +256,7 @@ class Credits
 	public static function checkIfLicenseFileExists($license)
 	{
 		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'licenses' . DIRECTORY_SEPARATOR . $license . '.txt';
-		return file_exists($filePath) ? true : false;
+		return file_exists($filePath);
 	}
 
 	/**

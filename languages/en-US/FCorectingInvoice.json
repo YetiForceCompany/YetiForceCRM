@@ -1,0 +1,37 @@
+{
+  "php": {
+    "FCorectingInvoice": "Correcting Invoices",
+    "SINGLE_FCorectingInvoice": "Correcting Invoice",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_INVOICE_ADDRESS": "Invoice address",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Delivery address",
+    "FL_SUBJECT": "Subject",
+    "FL_PAYMENT_DATE": "Due date",
+    "FL_SALE_DATE": "Sale date",
+    "FL_FORM_PAYMENT": "Payment method",
+    "FL_BANK_ACCOUNT": "Bank account number",
+    "FL_NUMBER": "Invoice number",
+    "FL_ACCOUNT": "Account",
+    "FL_TOTAL": "Net",
+    "FL_GROSS": "Gross",
+    "FL_STATUS": "Status",
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer",
+    "LBL_YEAR": "Year",
+    "FL_INVOICE": "Invoice",
+    "LBL_COMMENTS": "Comments",
+    "FL_EXTERNAL_COMMENT": "External comment",
+    "FL_INTERNAL_COMMENT": "Internal comment",
+    "LBL_BEFORE_CORRECTION": "Before correction",
+    "LBL_AFTER_CORRECTION": "After correction",
+    "LBL_CHOOSE_INVOICE": "Select invoice to be corrected",
+    "LBL_COPY_FROM_INVOICE": "Copy from initial invoice",
+    "LBL_INVOICE_INFO": "Initial invoice fields - before corrections.",
+    "LBL_AFTER_INVOICE_INFO": "How should final invoice look like after correction.",
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Invoice fields to be corrected. Copy all fields from initial invoice and change values as needed."
+  },
+  "js": {
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Select invoice to be corrected"
+  }
+}

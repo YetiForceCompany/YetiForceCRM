@@ -11,7 +11,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="input-group individualTaxContainer">
-						<input type="text" name="individualTax" class="form-control individualTaxValue" value="0">
+						<input type="text" name="individualTax" class="form-control individualTaxValue js-format-numer" value="0" data-js="focusout">
 						<div class="input-group-append">
 							<span class="input-group-text">%</span>
 						</div>

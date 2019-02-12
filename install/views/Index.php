@@ -40,36 +40,23 @@ class Install_Index_View extends \App\Controller\View
 	public function setLanguage(\App\Request $request)
 	{
 		if (!$request->getByType('lang', 1)) {
-			switch (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) {
-				case 'pl':
-					$request->set('lang', 'pl_pl');
-					break;
-				case 'es':
-					$request->set('lang', 'es_es');
-					break;
-				case 'de':
-					$request->set('lang', 'de_de');
-					break;
-				case 'it':
-					$request->set('lang', 'it_it');
-					break;
-				case 'pt':
-					$request->set('lang', 'pt_br');
-					break;
-				case 'ru':
-					$request->set('lang', 'ru_ru');
-					break;
-				case 'tr':
-					$request->set('lang', 'tr_tr');
-					break;
-				case 'fr':
-					$request->set('lang', 'fr_fr');
-					break;
-				default:
-					$request->set('lang', 'en_us');
-					break;
+			$lang = '';
+			if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+				$languages = Install_Utils_Model::getLanguages();
+				array_walk($languages, function (&$shortCode, $code) {
+					$shortCode = Locale::getPrimaryLanguage($code);
+				});
+				foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $code) {
+					if (isset($languages[$code]) || ($code = array_search(Locale::acceptFromHttp($code), $languages)) !== false) {
+						$lang = $code;
+						break;
+					}
+				}
 			}
-			return $request;
+			if (!$lang) {
+				$lang = \App\Language::DEFAULT_LANG;
+			}
+			$request->set('lang', $lang);
 		}
 		return $request;
 	}
@@ -95,14 +82,13 @@ class Install_Index_View extends \App\Controller\View
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
 
-		$configFileName = 'config/config.inc.php';
-		if ($request->getMode() !== 'step7' && is_file($configFileName) && filesize($configFileName) > 10) {
+		if ($request->getMode() !== 'step7' && \App\Config::main('application_unique_key', false)) {
 			$defaultModule = \AppConfig::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
-			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
+			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
+		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
 		App\Language::setTemporaryLanguage($defaultLanguage);
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
@@ -150,11 +136,12 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step2(\App\Request $request)
 	{
-		if ($_SESSION['default_language'] === 'pl_pl') {
+		if ($_SESSION['default_language'] === 'pl-PL') {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
 		}
+		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
 		$this->viewer->display('Step2.tpl');
 	}
@@ -167,7 +154,7 @@ class Install_Index_View extends \App\Controller\View
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
 		$this->viewer->assign('USERNAME_BLACKLIST', require ROOT_DIRECTORY . '/config/username_blacklist.php');
-		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
+		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_server']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
 		$this->viewer->assign('DB_NAME', $defaultParameters['db_name']);
@@ -182,67 +169,126 @@ class Install_Index_View extends \App\Controller\View
 	public function step4(\App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
-		$requestData = $request->getAll();
-		foreach ($requestData as $name => $value) {
-			$_SESSION['config_file_info'][$name] = $value;
+		$error = false;
+		$dbConnection['flag'] = true;
+		$configFile = new \App\ConfigFile('db');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if ($request->has($name)) {
+				try {
+					$configFile->set($name, $request->getRaw($name));
+					$_SESSION['config_file_info'][$name] = $configFile->get($name);
+				} catch (\Throwable $e) {
+					$_SESSION['config_file_info'][$name] = '';
+					$error = true;
+				}
+			}
 		}
-		$_SESSION['default_language'] = $request->getByType('lang', 1);
-		$_SESSION['timezone'] = $request->get('timezone');
-		$authKey = $_SESSION['config_file_info']['authentication_key'] = sha1(microtime());
-
-		//PHP 5.5+ mysqli is favourable.
-		$dbConnection = Install_Utils_Model::checkDbConnection($request);
-
+		if (!$error) {
+			$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
+			if (!$dbConnection['flag']) {
+				$error = true;
+			}
+		}
+		$configFile = new \App\ConfigFile('main');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if ($request->has($name)) {
+				try {
+					$configFile->set($name, $request->get($name));
+					$_SESSION['config_file_info'][$name] = $configFile->get($name);
+				} catch (\Throwable $e) {
+					$_SESSION['config_file_info'][$name] = '';
+					$error = true;
+				}
+			}
+		}
 		$webRoot = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 		$webRoot .= $_SERVER['REQUEST_URI'];
-
 		$webRoot = str_replace('index.php', '', $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $webRoot;
 		$tabUrl = explode('/', $webRoot);
 		unset($tabUrl[count($tabUrl) - 1], $tabUrl[count($tabUrl) - 1]);
-
 		$webRoot = implode('/', $tabUrl) . '/';
-		$_SESSION['config_file_info']['site_URL'] = $webRoot;
-		$this->viewer->assign('SITE_URL', $webRoot);
-
-		$currencies = Install_Utils_Model::getCurrencyList();
-		$currencyName = $request->get('currency_name');
-		if (isset($currencyName)) {
-			$_SESSION['config_file_info']['currency_code'] = $currencies[$currencyName][0];
-			$_SESSION['config_file_info']['currency_symbol'] = $currencies[$currencyName][1];
+		$name = 'site_URL';
+		try {
+			$configFile->set($name, $webRoot);
+			$_SESSION['config_file_info'][$name] = $configFile->get($name);
+		} catch (\Throwable $e) {
+			$_SESSION['config_file_info'][$name] = '';
+			$error = true;
 		}
+		foreach (['user_name', 'password', 'retype_password', 'firstname', 'lastname', 'admin_email', 'dateformat', 'currency_name'] as $name) {
+			if ($request->has($name)) {
+				switch ($name) {
+					case 'currency_name':
+						$currencies = Install_Utils_Model::getCurrencyList();
+						if (($value = $request->get('currency_name')) && isset($currencies[$value])) {
+							$_SESSION['config_file_info']['currency_code'] = $currencies[$value][0];
+							$_SESSION['config_file_info']['currency_symbol'] = $currencies[$value][1];
+						} else {
+							$value = '';
+						}
+						break;
+					case 'password':
+					case 'retype_password':
+						$value = $request->getRaw($name);
+						break;
+					default:
+						$value = $request->get($name);
+						break;
+				}
+				$_SESSION['config_file_info'][$name] = $value;
+			}
+		}
+		$this->viewer->assign('BREAK_INSTALL', $error);
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
-		$this->viewer->assign('INFORMATION', $requestData);
-		$this->viewer->assign('AUTH_KEY', $authKey);
+		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
+		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
 		$this->viewer->display('Step4.tpl');
 	}
 
 	public function step5(\App\Request $request)
 	{
-		if (isset($_SESSION['config_file_info']['db_hostname'])) {
-			\App\Db::setConfig([
-				'dsn' => $_SESSION['config_file_info']['db_type'] . ':host=' . $_SESSION['config_file_info']['db_hostname'] . ';dbname=' . $_SESSION['config_file_info']['db_name'] . ';port=' . $_SESSION['config_file_info']['db_port'],
-				'host' => $_SESSION['config_file_info']['db_hostname'],
-				'port' => $_SESSION['config_file_info']['db_port'],
-				'username' => $_SESSION['config_file_info']['db_username'],
-				'password' => $_SESSION['config_file_info']['db_password'],
-				'dbName' => $_SESSION['config_file_info']['db_name'],
-				'tablePrefix' => 'yf_',
-				'charset' => 'utf8',
-			]);
-			$this->viewer->assign('DB_CONF', Settings_ConfReport_Module_Model::getDbConf());
+		if ($_SESSION['config_file_info']['db_server'] ?? false) {
+			$success = true;
+			$configFile = new \App\ConfigFile('db');
+			foreach ($configFile->getTemplate() as $name => $data) {
+				try {
+					if (isset($_SESSION['config_file_info'][$name])) {
+						$configFile->set($name, $_SESSION['config_file_info'][$name]);
+					}
+				} catch (\Throwable $e) {
+					$success = false;
+					\App\Log::error($e->__toString());
+					unset($_SESSION['config_file_info'][$name]);
+				}
+			}
+			if ($success) {
+				$configFile->create();
+			}
+		} else {
+			Install_Utils_Model::cleanConfiguration();
 		}
-		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
-		$this->viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf(true));
-		$this->viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(true));
+		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
 		$this->viewer->display('Step5.tpl');
 	}
 
+	/**
+	 * Create configuration file.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \SmartyException
+	 */
 	public function step6(\App\Request $request)
 	{
-		// Create configuration file
-		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
-		$configFile->createConfigFile();
+		$configFile = new \App\ConfigFile('main');
+		foreach ($configFile->getTemplate() as $name => $data) {
+			if (isset($_SESSION['config_file_info'][$name])) {
+				$configFile->set($name, $_SESSION['config_file_info'][$name]);
+			}
+		}
+		$configFile->set('application_unique_key', '');
+		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->display('Step6.tpl');
 	}
@@ -250,29 +296,28 @@ class Install_Index_View extends \App\Controller\View
 	public function step7(\App\Request $request)
 	{
 		set_time_limit(0);
-		$dbconfig = AppConfig::main('dbconfig');
-		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
+		if (\App\Config::main('application_unique_key', false)) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
+				Install_Utils_Model::cleanConfiguration();
 				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model();
-			$initSchema->initialize();
-			$initSchema->setCompanyDetails($request);
-
-			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
-			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
-			$this->viewer->display('Step7.tpl');
+			try {
+				$initSchema->initialize();
+				$initSchema->setCompanyDetails($request);
+			} catch (\Throwable $e) {
+				$_SESSION['installation_success'] = false;
+				\App\Log::error($e->__toString());
+			}
+			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name'] ?? '');
+			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password'] ?? '');
 		}
-	}
-
-	// Helper function as configuration file is still not loaded.
-	protected function retrieveConfiguredAppUniqueKey()
-	{
-		include_once 'config/config.php';
-		return $application_unique_key;
+		if (!($success = $_SESSION['installation_success'] ?? false)) {
+			Install_Utils_Model::cleanConfiguration();
+		}
+		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
+		$this->viewer->display('Step7.tpl');
 	}
 
 	protected function preProcessDisplay(\App\Request $request)
@@ -295,9 +340,11 @@ class Install_Index_View extends \App\Controller\View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~install/tpl/resources/css/style.css',
-			'~install/tpl/resources/css/mkCheckbox.css',
-			'~libraries/fontawesome-web/css/fontawesome-all.css',
+			'~install/tpl/resources/css/mkCheckbox.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 
@@ -324,6 +371,10 @@ class Install_Index_View extends \App\Controller\View
 			return [];
 		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
 		]));
 	}

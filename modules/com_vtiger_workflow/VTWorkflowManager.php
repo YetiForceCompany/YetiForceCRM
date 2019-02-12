@@ -101,7 +101,7 @@ class VTWorkflowManager
 				'summary' => $wf->description,
 				'test' => $wf->test,
 				'execution_condition' => $wf->executionCondition,
-				'defaultworkflow' => $wf->defaultworkflow,
+				'defaultworkflow' => empty($wf->defaultworkflow) ? null : $wf->defaultworkflow,
 				'filtersavedinnew' => $wf->filtersavedinnew,
 				'schtypeid' => $wf->schtypeid,
 				'schtime' => $wf->schtime,
@@ -109,20 +109,21 @@ class VTWorkflowManager
 				'schdayofweek' => $wf->schdayofweek,
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
-				], ['workflow_id' => $wf->id])->execute();
+			], ['workflow_id' => $wf->id])->execute();
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
 			if ($wf->filtersavedinnew === null) {
 				$wf->filtersavedinnew = 5;
 			}
+
 			$db->createCommand()->insert('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
 				'summary' => $wf->description,
 				'test' => $wf->test,
 				'execution_condition' => $wf->executionCondition,
 				'type' => $wf->type,
-				'defaultworkflow' => $wf->defaultworkflow,
+				'defaultworkflow' => empty($wf->defaultworkflow) ? null : $wf->defaultworkflow,
 				'filtersavedinnew' => $wf->filtersavedinnew,
 				'schtypeid' => $wf->schtypeid,
 				'schtime' => $wf->schtime,
@@ -162,6 +163,7 @@ class VTWorkflowManager
 		if ($referenceTime) {
 			$query->andWhere(['or', ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
+
 		return $this->getWorkflowsForResult($query->all());
 	}
 
@@ -246,9 +248,7 @@ class VTWorkflowManager
 	protected function getWorkflowInstance($type = 'basic')
 	{
 		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
-		$workflow = new Workflow();
-
-		return $workflow;
+		return new Workflow();
 	}
 
 	/**
@@ -281,7 +281,7 @@ class VTWorkflowManager
 	public function delete($id)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$subQuery = (new \App\Db\Query())->select('workflow_id')->from('com_vtiger_workflows')->where(['workflow_id' => $id])->andWhere(['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]);
+		$subQuery = (new \App\Db\Query())->select(['workflow_id'])->from('com_vtiger_workflows')->where(['workflow_id' => $id])->andWhere(['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]);
 		$dbCommand->delete('com_vtiger_workflowtasks', ['workflow_id' => $subQuery])->execute();
 		$dbCommand->delete('com_vtiger_workflows', ['and', ['workflow_id' => $id], ['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]])->execute();
 	}

@@ -36,7 +36,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
-		$phoneFieldList = $fields = $request->getArray('fields');
+		$phoneFieldList = $fields = $request->getArray('fields', 2);
 		$fields[] = 'id';
 
 		$queryGenerator->setFields($fields);
@@ -78,34 +78,27 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function getRecordsListQueryFromRequest(\App\Request $request)
 	{
-		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
-		$sourceModule = $request->getByType('source_module', 2);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-
-		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				$queryGenerator = new \App\QueryGenerator($sourceModule);
-				$queryGenerator->addCondition('id', $selectedIds, 'e');
-
-				return $queryGenerator;
-			}
+		$sourceModule = $request->getByType('source_module', 'Alnum');
+		$selectedIds = $request->getArray('selected_ids', 'Alnum');
+		$excludedIds = $request->getArray('excluded_ids', 'Alnum');
+		if (!empty($selectedIds) && !in_array($selectedIds[0], ['all', '"all"']) && count($selectedIds) > 0) {
+			$queryGenerator = new \App\QueryGenerator($sourceModule);
+			$queryGenerator->addCondition('id', $selectedIds, 'e');
+			return $queryGenerator;
 		}
+		$customViewModel = CustomView_Record_Model::getInstanceById($request->getByType('viewname', 'Alnum'));
 
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->getByType('search_key', 2);
-			$searchValue = $request->get('search_value');
-			$operator = $request->getByType('operator', 1);
-			if (!empty($operator)) {
+			if (!$request->isEmpty('operator')) {
+				$operator = $request->getByType('operator');
+				$searchKey = $request->getByType('search_key', 'Alnum');
 				$customViewModel->set('operator', $operator);
 				$customViewModel->set('search_key', $searchKey);
-				$customViewModel->set('search_value', $searchValue);
+				$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $sourceModule, $searchKey, $operator));
 			}
-
-			$customViewModel->set('search_params', $request->get('search_params'));
-
+			$customViewModel->set('search_params', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
+			$customViewModel->set('entityState', $request->getByType('entityState'));
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}
 	}

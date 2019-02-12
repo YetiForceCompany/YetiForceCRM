@@ -40,12 +40,12 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 			++$index;
 		}
 
-		if (\App\Privilege::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && \App\Privilege::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
+		if ($recordModel->isPermitted('ConvertLead') && $recordModel->isEditable()) {
 			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'd-none' : '';
 			$basicActionLink = [
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
-				'linkclass' => 'btn-outline-info btn-convertLead ' . $convert,
+				'linkclass' => 'btn-sm btn-outline-info btn-convertLead ' . $convert,
 				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'fas fa-exchange-alt',

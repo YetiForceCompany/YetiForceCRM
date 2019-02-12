@@ -47,8 +47,8 @@ class Api extends \Tests\Base
 	 * @var array
 	 */
 	private static $requestHeaders = [
-		'Content-Type' => 'application/json',
-		'X-ENCRYPTED' => 0,
+		'content-type' => 'application/json',
+		'x-encrypted' => 0,
 	];
 
 	/**
@@ -85,7 +85,7 @@ class Api extends \Tests\Base
 		$this->assertSame($row['status'], 1);
 		$this->assertSame($row['name'], 'portal');
 		$this->assertSame($row['pass'], 'portal');
-		static::$requestHeaders['X-API-KEY'] = $row['api_key'];
+		static::$requestHeaders['x-api-key'] = $row['api_key'];
 
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
 		$webserviceUsers->save([
@@ -94,7 +94,7 @@ class Api extends \Tests\Base
 			'user_name' => 'demo@yetiforce.com',
 			'password_t' => 'demo',
 			'type' => '1',
-			'language' => 'pl_pl',
+			'language' => 'pl-PL',
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
 			'crmid_display' => '',
@@ -106,7 +106,7 @@ class Api extends \Tests\Base
 		$this->assertSame((int) $row['server_id'], static::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
 		$this->assertSame($row['password_t'], 'demo');
-		$this->assertSame($row['language'], 'pl_pl');
+		$this->assertSame($row['language'], 'pl-PL');
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Api extends \Tests\Base
 		$this->logs = $request->raw;
 		$this->assertSame($response->status, 1, (string) $response->error->message);
 		static::$authUserParams = $response->result;
-		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
+		static::$requestHeaders['x-token'] = static::$authUserParams->token;
 	}
 
 	/**

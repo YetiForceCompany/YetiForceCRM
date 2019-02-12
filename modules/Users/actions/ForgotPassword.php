@@ -31,14 +31,14 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userName = $request->get('user_name');
-		$email = $request->get('emailId');
+		$userName = $request->getByType('user_name', 'Text');
+		$email = $request->getByType('emailId', 'Text');
 		$moduleModel = Users_Module_Model::getInstance($moduleName);
 		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
 			$bruteForceInstance->incAttempts();
 			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
-			header('Location: index.php?module=Users&view=Login');
+			header('location: index.php?module=Users&view=Login');
 
 			return false;
 		}
@@ -72,6 +72,6 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 			}
 			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
 		}
-		header('Location: index.php?module=Users&view=Login');
+		header('location: index.php?module=Users&view=Login');
 	}
 }

@@ -11,7 +11,7 @@ $requiredVendors = [
 ];
 foreach ($requiredVendors as $dir) {
 	if (!file_exists($dir)) {
-		echo "Directory not found: $dir. For more information, visit <a href=\"https://yetiforce.com/en/implementer/installation-updates.html\">https://yetiforce.com/en/implementer/installation-updates.html</a>";
+		echo "Directory not found: $dir. For more information, visit <a href=\"https://yetiforce.com/en/implementer/installation-updates.html\" rel=\"noreferrer noopener\">https://yetiforce.com/en/implementer/installation-updates.html</a>";
 
 		return false;
 	}
@@ -21,13 +21,21 @@ include_once 'include/RequirementsValidation.php';
 require_once 'include/main/WebUI.php';
 require_once 'install/views/Index.php';
 require_once 'install/models/Utils.php';
-require_once 'install/models/ConfigFileUtils.php';
 require_once 'install/models/InitSchema.php';
 
+\App\Config::set('performance', 'recursiveTranslate', true);
 App\Session::init();
+\App\Language::$customDirectory = 'install';
 
 $request = App\Request::init();
+if (!$request->getMode() && \App\Config::main('application_unique_key')) {
+	Install_Utils_Model::cleanConfiguration();
+}
 $install = new Install_Index_View();
-$install->preProcess($request);
+if (!$request->isAjax()) {
+	$install->preProcess($request);
+}
 $install->process($request);
-$install->postProcess($request);
+if (!$request->isAjax()) {
+	$install->postProcess($request);
+}

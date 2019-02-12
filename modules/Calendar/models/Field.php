@@ -15,40 +15,29 @@
 class Calendar_Field_Model extends Vtiger_Field_Model
 {
 	/**
-	 * Function returns special validator for fields.
-	 *
-	 * @return <Array>
+	 * {@inheritdoc}
 	 */
 	public function getValidator()
 	{
 		$validator = [];
-		$fieldName = $this->getName();
-
-		switch ($fieldName) {
-			case 'due_date': $funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['date_start'], ];
-				array_push($validator, $funcName);
-				break;
-			// NOTE: Letting user to add pre or post dated Event.
-			/* case 'date_start' : $funcName = array('name'=>'greaterThanToday');
-			  array_push($validator, $funcName);
-			  break; */
-			default: $validator = parent::getValidator();
-				break;
+		if ($this->getName() === 'due_date') {
+			$funcName = ['name' => 'greaterThanDependentField',
+				'params' => ['date_start'], ];
+			array_push($validator, $funcName);
+		} else {
+			$validator = parent::getValidator();
 		}
 		return $validator;
 	}
 
 	/**
-	 * Function to get the Webservice Field data type.
-	 *
-	 * @return string Data type of the field
+	 * {@inheritdoc}
 	 */
 	public function getFieldDataType()
 	{
 		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
 			return 'datetime';
-		} elseif ($this->get('uitype') == '30') {
+		} elseif ($this->getUIType() === 30) {
 			return 'reminder';
 		}
 		return parent::getFieldDataType();
@@ -86,18 +75,16 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		$fieldName = $this->getName();
-		if ($fieldName == 'time_start' || $fieldName == 'time_end') {
-			return $this->getUITypeModel()->getDisplayTimeDifferenceValue($fieldName, $value);
-		}
-		//Set the start date and end date
 		if (empty($value)) {
+			$fieldName = $this->getName();
 			if ($fieldName === 'date_start') {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
-				$currentUser = Users_Record_Model::getCurrentUserModel();
-				$minutes = $currentUser->get('callduration');
-
+				$userModel = \App\User::getCurrentUserModel();
+				$defaultType = $userModel->getDetail('defaultactivitytype');
+				$typeByDuration = \App\Json::decode($userModel->getDetail('othereventduration'));
+				$typeByDuration = array_column($typeByDuration, 'duration', 'activitytype');
+				$minutes = $typeByDuration[$defaultType] ?? 0;
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
@@ -128,21 +115,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get visibilty permissions of a Field.
-	 *
-	 * @param bool $readOnly
-	 *
-	 * @return bool
-	 */
-	public function getPermissions($readOnly = true)
-	{
-		$calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
-		$events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
-
-		return $calendar || $events;
-	}
-
-	/**
 	 * Function to get the field details.
 	 *
 	 * @return <Array> - array of field values
@@ -152,7 +124,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		parent::getFieldInfo();
 		//Change the default search operator
 		if ($this->get('name') == 'date_start') {
-			$searchParams = \App\Request::_get('search_params');
+			$searchParams = App\Condition::validSearchParams('Calendar', \App\Request::_getArray('search_params'));
 			if (!empty($searchParams)) {
 				foreach ($searchParams[0] as $value) {
 					if ($value[0] == 'date_start') {

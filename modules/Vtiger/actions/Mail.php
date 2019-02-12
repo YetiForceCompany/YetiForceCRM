@@ -4,8 +4,8 @@
  * Mail action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Mail_Action extends \App\Controller\Action
 {
@@ -70,21 +70,21 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			while ($row = $dataReader->read()) {
 				if ($sourceModule === 'Campaigns') {
 					$result = \App\Mailer::sendFromTemplate([
-							'template' => $template,
-							'moduleName' => $sourceModule,
-							'recordId' => $sourceRecord,
-							'to' => $row[$field],
-							'sourceModule' => $moduleName,
-							'sourceRecord' => $row['id'],
+						'template' => $template,
+						'moduleName' => $sourceModule,
+						'recordId' => $sourceRecord,
+						'to' => $row[$field],
+						'sourceModule' => $moduleName,
+						'sourceRecord' => $row['id'],
 					]);
 				} else {
 					$result = \App\Mailer::sendFromTemplate([
-							'template' => $template,
-							'moduleName' => $moduleName,
-							'recordId' => $row['id'],
-							'to' => $row[$field],
-							'sourceModule' => $sourceModule,
-							'sourceRecord' => $sourceRecord,
+						'template' => $template,
+						'moduleName' => $moduleName,
+						'recordId' => $row['id'],
+						'to' => $row[$field],
+						'sourceModule' => $sourceModule,
+						'sourceRecord' => $sourceRecord,
 					]);
 				}
 				if (!$result) {
@@ -115,34 +115,38 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		} else {
 			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->getByType('viewname', 2));
 		}
-		$searchResult = $request->get('searchResult');
-		if (!empty($searchResult)) {
-			$listView->set('searchResult', $searchResult);
+		if (!$request->isEmpty('searchResult', true)) {
+			$listView->set('searchResult', $request->getArray('searchResult', 'Integer'));
 		}
 		$searchKey = $request->getByType('search_key');
-		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator');
+		$searchValue = $request->getByType('search_value', 'Text');
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listView->set('operator', $operator);
 			$listView->set('search_key', $searchKey);
-			$listView->set('search_value', $searchValue);
+			$listView->set('search_value', App\Condition::validSearchValue($searchValue, $listView->getQueryGenerator()->getModule(), $searchKey, $operator));
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = App\Condition::validSearchParams($listView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listView->set('search_params', $transformedSearchParams);
 		}
-		$queryGenerator = $listView->getQueryGenerator();
+		if ($sourceModule) {
+			$queryGenerator = $listView->getRelationQuery(true);
+		} else {
+			$listView->loadListViewCondition();
+			$queryGenerator = $listView->getQueryGenerator();
+		}
 		$moduleModel = $queryGenerator->getModuleModel();
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
 		$queryGenerator->setFields(['id', $request->getByType('field')]);
 		$queryGenerator->addCondition($request->getByType('field'), '', 'ny');
-		$selected = $request->get('selected_ids');
-		if ($selected && $selected !== 'all') {
+		$selected = $request->getArray('selected_ids', 2);
+		if ($selected && $selected[0] !== 'all') {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);
 		}
-		$excluded = $request->get('excluded_ids');
+		$excluded = $request->getArray('excluded_ids', 2);
 		if ($excluded) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}

@@ -166,7 +166,7 @@ var Settings_Picklist_Js = {
 			var pickListVaue = jQuery(e.currentTarget)
 			if (pickListVaue.hasClass('selectedCell')) {
 				pickListVaue.removeClass('selectedCell').addClass('unselectedCell');
-				pickListVaue.find('[data-fa-i2svg]').remove();
+				pickListVaue.find('.fas').remove();
 			} else {
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
 				pickListVaue.prepend('<i class="fas fa-check float-left"></span>');
@@ -235,32 +235,36 @@ var Settings_Picklist_Js = {
 	},
 
 	registerRenameItemEvent: function () {
-		var thisInstance = this;
-		jQuery('#renameItem').on('click', function (e) {
-			var pickListValuesTable = jQuery('#pickListValuesTable');
-			var selectedListItem = jQuery('.selectedListItem', pickListValuesTable);
-			var selectedListItemLength = selectedListItem.length, params;
-			if (selectedListItemLength > 1) {
-				params = {
+		const thisInstance = this;
+		$('#renameItem').on('click', function (e) {
+			var selectedListItem = $('.selectedListItem', $('#pickListValuesTable'));
+			var selectedListItemLength = selectedListItem.length;
+			if (selectedListItemLength < 1) {
+				Vtiger_Helper_Js.showPnotify({
+					title: app.vtranslate('JS_MESSAGE'),
+					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
+					type: 'error'
+				});
+				return false;
+			} else if (selectedListItemLength > 1) {
+				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-				return;
+				});
+				return false;
 			} else {
-				params = {
+				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					source_module: jQuery('#pickListModules').val(),
+					source_module: $('#pickListModules').val(),
 					view: 'IndexAjax',
 					mode: 'showEditView',
-					pickListFieldId: jQuery('#modulePickList').val(),
-					fieldValue: selectedListItem.closest('tr').data('key')
-				}
-				AppConnector.request(params).done(function (data) {
+					pickListFieldId: $('#modulePickList').val(),
+					fieldValueId: selectedListItem.closest('tr').data('key-id')
+				}).done(function (data) {
 					app.showModalWindow(data);
-					var form = jQuery('#renameItemForm');
+					let form = $('#renameItemForm');
 					thisInstance.registerScrollForNonEditablePicklistValues(form);
 					form.validationEngine();
 					Settings_Picklist_Js.registerRenameItemSaveEvent();
@@ -315,13 +319,12 @@ var Settings_Picklist_Js = {
 		jQuery('[name="delete_value[]"]').on("select2:unselect", function (e) {
 			let id = e.params.data.id;
 			let text = e.params.data.text;
-			replaceValueElement.append('<option value="' + id + '">' + text + '</option>');
-			replaceValueElement.trigger('chosen:updated');
+			replaceValueElement.append('<option value="' + id + '">' + text + '</option>').trigger('change');
 		});
 		jQuery('[name="delete_value[]"]').on("select2:select", function (e) {
 			let id = e.params.data.id;
 			jQuery('#replaceValue option[value="' + id + '"]').remove();
-			replaceValueElement.trigger('chosen:updated');
+			replaceValueElement.trigger('change');
 		});
 	},
 
@@ -397,47 +400,51 @@ var Settings_Picklist_Js = {
 	/**
 	 * Remene item
 	 */
-	registerRenameItemSaveEvent: function () {
-		jQuery('#renameItemForm').on('submit', function (e) {
+	registerRenameItemSaveEvent() {
+		$('#renameItemForm').on('submit', (e) => {
 			e.preventDefault();
-			var form = jQuery(e.currentTarget);
-			var validationResult = form.validationEngine('validate');
-			if (validationResult == true) {
-				var oldElem = jQuery('[name="oldValue"]', form);
-				var oldValue = oldElem.val();
-				var id = oldElem.find('option[value="' + oldValue + '"]').data('id');
-				var newValueEle = jQuery('[name="newValue"]', form);
-				var newValue = jQuery.trim(newValueEle.val());
-				var params = jQuery(e.currentTarget).serializeFormData();
-				params.newValue = newValue;
-				params.id = id;
-				var invalidFields = form.data('jqv').InvalidFields;
-				if (invalidFields.length == 0) {
+			let form = $(e.currentTarget);
+			if (form.validationEngine('validate')) {
+				let newValue, oldValue = form.find('[name="oldValue"]').val(),
+					id = form.find('[name="primaryKeyId"]').val(),
+					params = $(e.currentTarget).serializeFormData();
+				if (form.find('[name="newValue"]').length > 0) {
+					newValue = $.trim(form.find('[name="newValue"]').val());
+					params.newValue = newValue;
+				}
+				if (form.data('jqv').InvalidFields.length === 0) {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
 				}
-				AppConnector.request(params).done(function (data) {
+				const progress = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
+				AppConnector.request(params).done((data) => {
+					progress.progressIndicator({'mode': 'hide'});
 					if (typeof data.result !== "undefined") {
 						app.hideModalWindow();
-						var encodedOldValue = oldValue.replace(/"/g, '\\"');
-						var dragImagePath = jQuery('#dragImagePath').val();
-						var renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
-						var renamedElement = jQuery(renamedElement).attr('data-key', newValue).attr('data-key-id', id);
-						jQuery('[data-key="' + encodedOldValue + '"]').replaceWith(renamedElement)
-						var params = {
+						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_MESSAGE'),
 							text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
 							type: 'success'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-
-						//update the new item in the hidden picklist values array
-						var pickListValuesEle = jQuery('[name="pickListValues"]');
-						var pickListValuesArray = JSON.parse(pickListValuesEle.val());
-						pickListValuesArray[id] = newValueEle.val();
-						pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+						});
+						if (newValue !== '') {
+							let encodedOldValue = oldValue.replace(/"/g, '\\"'),
+								dragImagePath = $('#dragImagePath').val(),
+								renamedElement = '<tr class="pickListValue u-cursor-pointer">' +
+									'<td class="u-text-ellipsis"><img class="alignMiddle" src="' +
+									dragImagePath + '" />&nbsp;&nbsp;' + data.result.newValue +
+									'</td></tr>';
+							$('[data-key="' + encodedOldValue + '"]').replaceWith($(renamedElement).attr('data-key', newValue).attr('data-key-id', id));
+							//update the new item in the hidden picklist values array
+							let pickListValuesEle = $('[name="pickListValues"]'),
+								pickListValuesArray = JSON.parse(pickListValuesEle.val());
+							pickListValuesArray[id] = newValue;
+							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+						}
 					} else {
 						form.find('[name="saveButton"]').attr('disabled', false);
 					}
+				}).fail(function (data, err) {
+					app.errorLog(data, err);
+					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
 		});

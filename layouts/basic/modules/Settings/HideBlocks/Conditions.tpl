@@ -3,8 +3,7 @@
 	<div class="tpl-Settings-HideBlocks-Conditions targetFieldsTableContainer">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		{if $MANDATORY_FIELDS}
@@ -27,7 +26,7 @@
 				<input type="hidden" name="enabled" value="{$ENABLED}" />
 				<input type="hidden" name="views" value="{$VIEWS}" />
 				<input type="hidden" name="conditions" class="advanced_filter" value="{$ENABLED}" />
-				<div class="listViewEntriesDiv u-overflow-scroll-xs-down contents-bottomscroll" style="overflow-x: visible !important;">
+				<div class="listViewEntriesDiv u-overflow-scroll-xsm-down contents-bottomscroll" style="overflow-x: visible !important;">
 					<div class="bottomscroll-div">
 						{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 					</div>

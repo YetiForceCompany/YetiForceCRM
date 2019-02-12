@@ -13,6 +13,11 @@ class Vtiger_Block_Model extends vtlib\Block
 {
 	public $fields = false;
 
+	/**
+	 * Get fields.
+	 *
+	 * @return Vtiger_Field_Model[]|false
+	 */
 	public function getFields()
 	{
 		if (empty($this->fields)) {
@@ -109,11 +114,24 @@ class Vtiger_Block_Model extends vtlib\Block
 	/**
 	 * Function which indicates whether the block is shown or hidden.
 	 *
-	 * @return : <boolean>
+	 * @return bool
 	 */
 	public function isHidden()
 	{
-		if ($this->get('display_status') == '0') {
+		if (0 === (int) $this->get('display_status')) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Function which indicates whether the block is dynamic show.
+	 *
+	 * @return bool
+	 */
+	public function isDynamic()
+	{
+		if (2 === (int) $this->get('display_status')) {
 			return true;
 		}
 		return false;
@@ -129,8 +147,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	public function getInActiveFields($raw = true)
 	{
 		$inActiveFields = [];
-		$fields = $this->getFields();
-		foreach ($fields as $fieldName => $fieldModel) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if (!$fieldModel->isActiveField()) {
 				if ($raw) {
 					$inActiveFields[$fieldName] = $fieldModel;
@@ -171,10 +188,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$blockInstance = parent::getInstance($value, $moduleInstance);
-		$blockModel = self::getInstanceFromBlockObject($blockInstance);
-
-		return $blockModel;
+		return self::getInstanceFromBlockObject(parent::getInstance($value, $moduleInstance));
 	}
 
 	/**

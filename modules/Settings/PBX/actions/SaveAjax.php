@@ -21,7 +21,7 @@ class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		} else {
 			$recordModel = Settings_PBX_Record_Model::getCleanInstance();
 		}
-		$recordModel->parseFromRequest($request->getArray('param'));
+		$recordModel->parseFromRequest($request->getArray('param', 'Text'));
 		$result = $recordModel->save();
 
 		$responceToEmit = new Vtiger_Response();

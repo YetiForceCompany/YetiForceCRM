@@ -18,12 +18,15 @@
 		<form class="form-horizontal validateForm" id="editForm">
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 			<div class="modal-header">
-				{if $RECORD_ID}
-					<span class="fa fa-edit u-mr-5px mt-2"></span><h5 class="modal-title">{\App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</h5>
+				{if $RECORD}
+					<span class="fa fa-edit u-mr-5px mt-2"></span>
+					<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</h5>
 				{else}
-					<span class="fa fa-plus u-mr-5px mt-2"></span><h5 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
+					<span class="fa fa-plus u-mr-5px mt-2"></span>
+					<h5 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
 				{/if}
-				<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+				<button type="button" class="close" data-dismiss="modal"
+						title="{\App\Language::translate('LBL_CLOSE')}">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -40,7 +43,7 @@
 							</div>
 						</div>
 					{/foreach}
-					{if $RECORD_ID}
+					{if $RECORD}
 						{foreach from=$RECORD_MODEL->getConnectorFieldsModel() item=FIELD_MODEL key=FIELD_NAME}
 							<div class="form-group form-row">
 								<label class="col-form-label col-md-4 u-text-small-bold text-right">

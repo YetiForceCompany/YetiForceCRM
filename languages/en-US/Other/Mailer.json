@@ -1,0 +1,6 @@
+{
+  "php": {
+    "LBL_CRON_EMAIL_SUBJECT": "Scheduled import has finished",
+    "LBL_CRON_COMPLETED_IMPORT": "Record import summary for the module:"
+  }
+}

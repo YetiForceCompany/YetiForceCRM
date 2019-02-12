@@ -24,7 +24,7 @@ class Roles extends \Tests\Base
 		$recordModel = new \Settings_Roles_Record_Model();
 		$parentRole = \Settings_Roles_Record_Model::getInstanceById('H2');
 		$this->assertNotNull($parentRole);
-		$recordModel->set('change_owner', 1);
+		$recordModel->set('changeowner', 1);
 		$recordModel->set('searchunpriv', ['Contacts']);
 		$recordModel->set('listrelatedrecord', 0);
 		$recordModel->set('editrelatedrecord', 1);
@@ -34,7 +34,7 @@ class Roles extends \Tests\Base
 		$recordModel->set('clendarallorecords', 1);
 		$recordModel->set('auto_assign', 1);
 		$recordModel->set('rolename', 'Test');
-		$recordModel->set('profileIds', [1]);
+		$recordModel->set('profileIds', ['1']);
 		$recordModel->set('allowassignedrecordsto', 1);
 		$recordModel->set('clendarallorecords', 1);
 		$recordModel->set('previewrelatedrecord', 0);
@@ -82,7 +82,7 @@ class Roles extends \Tests\Base
 		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$this->assertNotNull($recordModel);
 
-		$recordModel->set('change_owner', 0);
+		$recordModel->set('changeowner', 0);
 		$recordModel->set('searchunpriv', ['Contacts', 'Accounts']);
 		$recordModel->set('listrelatedrecord', 1);
 		$recordModel->set('editrelatedrecord', 0);
@@ -92,7 +92,6 @@ class Roles extends \Tests\Base
 		$recordModel->set('clendarallorecords', 2);
 		$recordModel->set('auto_assign', 0);
 		$recordModel->set('rolename', 'Test edit');
-		$recordModel->set('profileIds', ['1', '2']);
 		$recordModel->set('allowassignedrecordsto', 4);
 		$recordModel->set('clendarallorecords', 2);
 		$recordModel->set('previewrelatedrecord', 1);

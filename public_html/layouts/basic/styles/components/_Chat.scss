@@ -1,0 +1,148 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.o-chat {
+	li {
+		list-style: none !important;
+	}
+
+	&__img-container {
+		border: 2px solid #d2d6de;
+		width: 50px;
+		height: 50px;
+	}
+
+	$chat-btn-width: calculate-rem(42px);
+
+	&__btn-send {
+		@extend .m-1;
+		height: fit-content;
+		border-radius: 50% !important;
+		width: $chat-btn-width;
+	}
+
+	&__icon-search {
+		position: absolute;
+		top: 18px;
+		right: 10px;
+		border-radius: 50% !important;
+		z-index: 1000;
+		font-size: 15px;
+		color: #6c7591;
+	}
+
+	&__btn-favorite {
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		z-index: 1000;
+		font-size: 15px;
+		color: #6c7591;
+		background: #fafafa !important;
+	}
+
+	&__icon-container {
+		a {
+			color: black !important;
+		}
+	}
+
+	&__form-control {
+		border: 0px;
+
+		&:focus {
+			box-shadow: none;
+			outline: none;
+		}
+	}
+
+	&__message-block {
+		height: calculate-rem(50px);
+		width: calc(100% - #{$chat-btn-width});
+		position: relative;
+		@extend .mt-1;
+	}
+
+	&__user-message {
+		max-width: 150px;
+		color: #797676;
+		font-size: 12px;
+	}
+
+	&__scrollbar {
+		position: relative;
+		overflow: hidden;
+		height: calc(100vh - #{$h-footer} - #{calculate-rem(175px)});
+	}
+
+	&__scrollbar--history {
+		height: calc(100vh - #{$h-footer} - #{calculate-rem(125px)}) !important;
+	}
+
+	&__author-img {
+		width: 44px;
+		height: 46px;
+	}
+
+	&__author-name {
+		vertical-align: top;
+		font-weight: bold;
+	}
+
+	&__triangle {
+		width: 0;
+		height: 0;
+		border-top: 9px solid transparent;
+		border-bottom: 9px solid transparent;
+		color: #e8e8e8;
+	}
+
+	&__name {
+		opacity: 0.5;
+		color: black;
+		background: #e8e8e8;
+	}
+
+	&__item {
+		margin-bottom: 3px;
+		padding: 2px 8px 2px 8px;
+	}
+
+	&__messages {
+		font-size: 13px;
+		background: #e8e8e8;
+		word-break: break-word;
+	}
+
+	&__room {
+		background: #d5d7de;
+		color: #177e96;
+	}
+
+	&__room-hover {
+		.o-chat__pin-favorites {
+			display: none !important;
+		}
+
+		&:hover {
+			background: #d5d7de;
+
+			.o-chat__pin-favorites {
+				display: block !important;
+			}
+		}
+	}
+}
+
+.o-chat__detail {
+	.o-chat__scrollbar {
+		height: calc(100vh - #{calculate-rem(361px)});
+
+	}
+
+	.o-chat__entries-scrollbar {
+		height: calc(100vh - #{calculate-rem(415px)}) !important;
+	}
+}
+
+.o-chat-footer {
+	color: #177e96;
+}

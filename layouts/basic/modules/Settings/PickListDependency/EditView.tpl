@@ -13,7 +13,7 @@
 	<div class="tpl-Settings-PickListDependency-EditView">
 		<div class="widget_header row mb-3">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="contents">
@@ -33,11 +33,7 @@
 							{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 								{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
-									{if $MODULE_MODEL->get('label') eq 'Calendar'}
-										{\App\Language::translate('LBL_TASK', $MODULE_MODEL->get('label'))}
-									{else}
-										{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_NAME)}
-									{/if}
+									{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_NAME)}
 								</option>
 							{/foreach}
 						</select>

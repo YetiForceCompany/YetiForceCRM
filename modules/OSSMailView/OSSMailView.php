@@ -4,7 +4,7 @@
  * OSSMailView CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView extends CRMEntity
 {
@@ -92,7 +92,7 @@ class OSSMailView extends CRMEntity
 	public $mandatory_fields = ['subject', 'from'];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
-	public $default_order_by = '';
+	public $default_order_by = 'date';
 	public $default_sort_order = 'DESC';
 	public $unit_price;
 
@@ -117,7 +117,7 @@ class OSSMailView extends CRMEntity
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
 		if ($eventType === 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'M_')->set('cur_id', 1)->save();
 			$displayLabel = 'OSSMailView';
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $displayLabel])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'widget_limit', 'value' => '10'])->execute();

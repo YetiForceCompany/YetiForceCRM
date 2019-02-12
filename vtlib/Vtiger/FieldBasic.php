@@ -34,7 +34,8 @@ class FieldBasic
 	public $typeofdata = 'V~O';
 	public $displaytype = 1;
 	public $generatedtype = 1;
-	public $readonly = 1;
+	public $readonly = 0;
+	public $visible = 0;
 	public $presence = 2;
 	public $defaultvalue = '';
 	public $maximumlength;
@@ -78,6 +79,7 @@ class FieldBasic
 		$this->quicksequence = (int) $valuemap['quickcreatesequence'];
 		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
+		$this->visible = (int) $valuemap['visible'];
 		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
 	}
 
@@ -158,7 +160,18 @@ class FieldBasic
 		if (!empty($this->columntype)) {
 			Utils::addColumn($this->table, $this->column, $this->columntype);
 			if ($this->uitype === 10) {
-				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
+				$nameIndex = "{$this->table}_{$this->column}_idx";
+				$indexes = $db->getSchema()->getTableIndexes($this->table, true);
+				$isCreateIndex = true;
+				foreach ($indexes as $indexObject) {
+					if ($indexObject->name === $nameIndex) {
+						$isCreateIndex = false;
+						break;
+					}
+				}
+				if ($isCreateIndex) {
+					$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
+				}
 			}
 		}
 		$this->createAdditionalField();
@@ -189,8 +202,10 @@ class FieldBasic
 			'summaryfield' => (int) ($this->summaryfield),
 			'fieldparams' => $this->fieldparams,
 			'masseditable' => $this->masseditable,
+			'visible' => $this->visible,
 		])->execute();
 		Profile::initForField($this);
+		$this->clearCache();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
 	}
 
@@ -214,6 +229,7 @@ class FieldBasic
 
 	public function __update()
 	{
+		$this->clearCache();
 		\App\Log::trace("Updating Field $this->name ... DONE", __METHOD__);
 	}
 
@@ -223,16 +239,26 @@ class FieldBasic
 	public function __delete()
 	{
 		Profile::deleteForField($this);
-		\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
 		if ($this->uitype === 10) {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+			$nameIndex = "{$this->table}_{$this->column}_idx";
+			$indexes = $db->getSchema()->getTableIndexes($this->table, true);
+			foreach ($indexes as $indexObject) {
+				if ($indexObject->name === $nameIndex) {
+					$db->createCommand()->dropIndex($nameIndex, $this->table)->execute();
+					break;
+				}
+			}
 		} elseif ($this->uitype === 11) {
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
 			if ($rowExtra === false) {
 				throw new \App\Exceptions\AppException('Extra field does not exist');
 			}
-			\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
+			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
+		$this->clearCache();
 		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);
 	}
 
@@ -268,7 +294,7 @@ class FieldBasic
 		if ($this->tabid) {
 			return \App\Module::getModuleName($this->tabid);
 		}
-		return $this->block->module->name;
+		return (!empty($this->block) && \is_object($this->block)) ? $this->block->module->name : '';
 	}
 
 	/**
@@ -355,5 +381,14 @@ class FieldBasic
 			return $this->block->label;
 		}
 		return '';
+	}
+
+	/**
+	 * Clear cache.
+	 */
+	protected function clearCache()
+	{
+		\App\Cache::delete('ModuleFields', $this->getModuleId());
+		\App\Cache::staticDelete('module', $this->getModuleName());
 	}
 }

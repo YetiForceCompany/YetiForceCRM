@@ -21,7 +21,10 @@
 				<input type="hidden" name="lang" value="{$LANG}">
 				<div>
 					<div class="inner-container">
-						<p>{\App\Language::translate('LBL_MIGRATION_DESC', 'Install')}</p>
+						<p>
+							<strong>{\App\Language::translate('LBL_ATTENTION', 'Install')}</strong>
+							{\App\Language::translate('LBL_MIGRATION_DESC', 'Install')}
+						</p>
 						<div>
 							<input type="checkbox" id="checkBox1" name="checkBox1" required><div class="chkbox"></div> {\App\Language::translate('LBL_HAVE_BACKUP_DATABASE', 'Install')}</a>
 						</div>

@@ -74,11 +74,11 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	/**
 	 * Aggregates messages from other collectors.
 	 *
-	 * @param MessagesAggregateInterface $messages
+	 * @param MessagesAggregateInterface $messagesAggregate
 	 */
-	public function aggregate(MessagesAggregateInterface $messages)
+	public function aggregate(MessagesAggregateInterface $messagesAggregate)
 	{
-		$this->aggregates[] = $messages;
+		$this->aggregates[] = $messagesAggregate;
 	}
 
 	/**
@@ -102,11 +102,11 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	 */
 	public function collect()
 	{
-		$messages = $this->getMessages();
+		$messagesCollect = $this->getMessages();
 
 		return [
-			'count' => count($messages),
-			'messages' => $messages,
+			'count' => count($messagesCollect),
+			'messages' => $messagesCollect,
 		];
 	}
 
@@ -123,17 +123,17 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	 */
 	public function getWidgets()
 	{
-		$name = $this->getName();
+		$widgetName = $this->getName();
 
 		return [
-			"$name" => [
+			"$widgetName" => [
 				'icon' => 'list-alt',
 				'widget' => 'PhpDebugBar.Widgets.DebugLogsWidget',
-				'map' => "$name.messages",
+				'map' => "$widgetName.messages",
 				'default' => '[]',
 			],
-			"$name:badge" => [
-				'map' => "$name.count",
+			"$widgetName:badge" => [
+				'map' => "$widgetName.count",
 				'default' => 'null',
 			],
 		];

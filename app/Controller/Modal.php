@@ -5,9 +5,12 @@ namespace App\Controller;
 /**
  * Abstract modal controller class.
  *
+ * @package   Controller
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 abstract class Modal extends View
 {
@@ -47,6 +50,18 @@ abstract class Modal extends View
 	 * @var bool
 	 */
 	public $lockExit = false;
+	/**
+	 * Show modal header.
+	 *
+	 * @var bool
+	 */
+	public $showHeader = true;
+	/**
+	 * Show modal footer.
+	 *
+	 * @var bool
+	 */
+	public $showFooter = true;
 
 	/**
 	 * {@inheritdoc}
@@ -67,7 +82,11 @@ abstract class Modal extends View
 		$viewer->assign('MODAL_VIEW', $this);
 		$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		$viewer->assign('MODAL_CSS', $this->getModalCss($request));
-		if (!$request->getBoolean('onlyBody')) {
+		if ($request->getBoolean('onlyBody')) {
+			$this->showHeader = false;
+			$this->showFooter = false;
+		}
+		if ($this->showHeader) {
 			$viewer->view($this->preProcessTplName($request), $moduleName);
 		}
 	}
@@ -89,13 +108,20 @@ abstract class Modal extends View
 	 */
 	public function postProcessAjax(\App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
-		if (!$request->getBoolean('onlyBody')) {
+		if ($this->showFooter()) {
+			$viewer = $this->getViewer($request);
 			$viewer->assign('BTN_SUCCESS', $this->successBtn);
 			$viewer->assign('BTN_DANGER', $this->dangerBtn);
-			$viewer->view('Modals/Footer.tpl', $moduleName);
+			$viewer->view('Modals/Footer.tpl', $request->getModule());
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function showFooter()
+	{
+		return $this->showFooter;
 	}
 
 	/**
@@ -110,7 +136,7 @@ abstract class Modal extends View
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertJsScripts([
 			"modules.Vtiger.resources.$viewName",
-			"modules.{$request->getModule()}.resources.$viewName",
+			"modules.{$request->getModule()}.resources.$viewName"
 		]);
 	}
 

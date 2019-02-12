@@ -57,17 +57,6 @@ class Field extends FieldBasic
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
 		}
-		$specialNameSpacedPicklists = [
-			'opportunity_type' => 'opptypeid',
-			'duration_minutes' => 'minutesid',
-		];
-		// Fix Table ID column names
-		$fieldName = (string) $this->name;
-		if ($db->getTableSchema($picklistTable, true)->getColumn($fieldName . '_id')) {
-			$picklistIdCol = $fieldName . '_id';
-		} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
-			$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
-		}
 		// END
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();
@@ -84,7 +73,7 @@ class Field extends FieldBasic
 			])->execute();
 
 			// Associate picklist values to all the role
-			$query = (new \App\Db\Query())->select('roleid')->from('vtiger_role');
+			$query = (new \App\Db\Query())->select(['roleid'])->from('vtiger_role');
 			$roleIds = $query->column();
 			$insertedData = [];
 			foreach ($roleIds as $value) {
@@ -293,7 +282,7 @@ class Field extends FieldBasic
 
 		foreach ($tree->tree_values->tree_value as $treeValue) {
 			$db->createCommand()->insert('vtiger_trees_templates_data', ['templateid' => $templateId, 'name' => $treeValue->name, 'tree' => $treeValue->tree,
-				'parenttrre' => $treeValue->parenttrre, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state,
+				'parentTree' => $treeValue->parentTree, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state,
 			])->execute();
 		}
 		\App\Log::trace("Add tree template $tree->name ... DONE", __METHOD__);
@@ -333,7 +322,7 @@ class Field extends FieldBasic
 		$query = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleInstance->getId(), 'uitype' => [15, 16, 33]]);
 		$modulePicklists = $query->column();
 		if (!empty($modulePicklists)) {
-			$query = (new \App\Db\Query())->select('fieldname')->from('vtiger_field')->where(['fieldname' => $modulePicklists, 'uitype' => [15, 16, 33]])
+			$query = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldname' => $modulePicklists, 'uitype' => [15, 16, 33]])
 				->andWhere(['<>', 'tabid', $moduleInstance->getId()]);
 			$picklists = $query->column();
 			$modulePicklists = array_diff($modulePicklists, $picklists);
@@ -345,7 +334,7 @@ class Field extends FieldBasic
 			if ($db->isTableExists("vtiger_{$picklistName}_seq")) {
 				$db->createCommand()->dropTable("vtiger_{$picklistName}_seq")->execute();
 			}
-			$picklistId = (new \App\Db\Query())->select('picklistid')->from('vtiger_picklist')->where(['name' => $picklistName])->scalar();
+			$picklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $picklistName])->scalar();
 			$db->createCommand()->delete('vtiger_role2picklist', ['picklistid' => $picklistId])->execute();
 			$db->createCommand()->delete('vtiger_picklist', ['name' => $picklistName])->execute();
 		}

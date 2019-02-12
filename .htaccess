@@ -4,7 +4,7 @@ RedirectMatch 403 (?i).*\.log$
 </IfModule>
 <IfModule mod_autoindex.c>
 	Options -Indexes -MultiViews
-</ifModule>
+</IfModule>
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
@@ -19,7 +19,7 @@ RedirectMatch 403 (?i).*\.log$
 	RewriteRule /.well-known/caldav dav.php/calendars/ [R,L]
 	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 	RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L]
-</ifModule>
+</IfModule>
 <IfModule mod_headers.c>
 	Header unset Server
 	Header unset X-Powered-By

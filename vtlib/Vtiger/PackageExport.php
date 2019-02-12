@@ -130,19 +130,16 @@ class PackageExport
 		$this->moduleInstance = $moduleInstance;
 		$module = $this->moduleInstance->name;
 		$this->__initExport($module);
-
 		// Call module export function
 		$this->exportModule();
 		$this->__finishExport();
-
 		// Export as Zip
 		if (empty($this->zipFileName)) {
 			$this->zipFileName = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
 			$this->zipFileName = $this->_export_tmpdir . '/' . $this->zipFileName;
 		}
-
 		if (file_exists($this->zipFileName)) {
-			throw new \Exception('File already exists: ' . $this->zipFileName);
+			throw new \App\Exceptions\AppException('File already exists: ' . $this->zipFileName);
 		}
 		$zip = \App\Zip::createFile($this->zipFileName);
 		// Add manifest file
@@ -151,23 +148,51 @@ class PackageExport
 		$zip->addDirectory("modules/$module");
 		// Copy Settings/module directory
 		if (is_dir("modules/Settings/$module")) {
-			$zip->addDirectory("modules/Settings/$module", 'settings');
+			$zip->addDirectory(
+				"modules/Settings/{$module}",
+				'settings/modules',
+				true
+			);
 		}
 		// Copy cron files of the module (if any)
-		if (is_dir("cron/modules/$module")) {
-			$zip->addDirectory("cron/modules/$module", 'cron');
+		if (is_dir("cron/modules/{$module}")) {
+			$zip->addDirectory("cron/modules/{$module}", 'cron', true);
 		}
 		//Copy module templates files
-		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module)) {
-			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}")) {
+			$zip->addDirectory(
+				'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}",
+				'templates',
+				true
+			);
 		}
 		//Copy Settings module templates files, if any
-		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module")) {
-			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
+		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}")) {
+			$zip->addDirectory(
+				'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}",
+				'settings/templates',
+				true
+			);
+		}
+		//Copy module public resources files
+		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}/resources")) {
+			$zip->addDirectory(
+				'public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/{$module}/resources",
+				'public_resources',
+				true
+			);
+		}
+		//Copy module public Settings resources files
+		if (is_dir('public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}/resources")) {
+			$zip->addDirectory(
+				'public_html/layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/{$module}/resources",
+				'settings/public_resources',
+				true
+			);
 		}
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
-		foreach ($layoutDirectories as $key => $layoutName) {
+		foreach ($layoutDirectories as $layoutName) {
 			if ($layoutName != 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {
@@ -186,8 +211,8 @@ class PackageExport
 			$zip->addFile('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png", "$module.png");
 		}
 		// Copy config files
-		if (file_exists("config/modules/$module.php")) {
-			$zip->addFile("config/modules/$module.php", "config/$module.php");
+		if (file_exists("config/Modules/$module.php")) {
+			$zip->addFile("config/Modules/$module.php", "config/$module.php");
 		}
 		if ($directDownload) {
 			$zip->download($module);
@@ -492,7 +517,7 @@ class PackageExport
 						$this->openNode('tree_value');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'name'), 'name');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'tree'), 'tree');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'parenttrre'), 'parenttrre');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'parentTree'), 'parentTree');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'depth'), 'depth');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'label'), 'label');
 						$this->outputNode($adb->queryResultRaw($treesData, $i, 'state'), 'state');
@@ -514,18 +539,15 @@ class PackageExport
 	 */
 	public function exportCustomViews(ModuleBasic $moduleInstance)
 	{
-		$db = \PearDatabase::getInstance();
-
-		$customviewres = $db->pquery('SELECT * FROM vtiger_customview WHERE entitytype = ?', [$moduleInstance->name]);
-		if (!$customviewres->rowCount()) {
+		$customViewDataReader = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleInstance->name])
+			->createCommand()->query();
+		if (!$customViewDataReader->count()) {
 			return;
 		}
-
 		$this->openNode('customviews');
-		while ($row = $db->getRow($customviewres)) {
+		while ($row = $customViewDataReader->read()) {
 			$setdefault = ($row['setdefault'] == 1) ? 'true' : 'false';
 			$setmetrics = ($row['setmetrics'] == 1) ? 'true' : 'false';
-
 			$this->openNode('customview');
 			$this->outputNode($row['viewname'], 'viewname');
 			$this->outputNode($setdefault, 'setdefault');
@@ -536,33 +558,22 @@ class PackageExport
 			$this->outputNode($row['sequence'], 'sequence');
 			$this->outputNode('<![CDATA[' . $row['description'] . ']]>', 'description');
 			$this->outputNode($row['sort'], 'sort');
-
 			$this->openNode('fields');
 			$cvid = $row['cvid'];
-			$cvcolumnres = $db->pquery('SELECT * FROM vtiger_cvcolumnlist WHERE cvid=?', [$cvid]);
-			while ($cvRow = $db->getRow($cvcolumnres)) {
-				$cvColumnNames = explode(':', $cvRow['columnname']);
-
+			$cvColumnDataReader = (new \App\Db\Query())->from('vtiger_cvcolumnlist')->where(['cvid' => $cvid])->createCommand()->query();
+			while ($cvRow = $cvColumnDataReader->read()) {
 				$this->openNode('field');
-				$this->outputNode($cvColumnNames[2], 'fieldname');
+				$this->outputNode($cvRow['field_name'], 'fieldname');
+				$this->outputNode($cvRow['module_name'], 'modulename');
+				$this->outputNode($cvRow['source_field_name'], 'sourcefieldname');
 				$this->outputNode($cvRow['columnindex'], 'columnindex');
-
-				$cvcolumnruleres = $db->pquery('SELECT * FROM vtiger_cvadvfilter WHERE cvid=? && columnname=?', [$cvid, $cvRow['columnname']]);
-				if ($cvcolumnruleres->rowCount()) {
-					$this->openNode('rules');
-					while ($rulesRow = $db->getRow($cvcolumnruleres)) {
-						$cvColumnRuleComp = Filter::translateComparator($rulesRow['comparator'], true);
-						$this->openNode('rule');
-						$this->outputNode($rulesRow['columnindex'], 'columnindex');
-						$this->outputNode($cvColumnRuleComp, 'comparator');
-						$this->outputNode($rulesRow['value'], 'value');
-						$this->closeNode('rule');
-					}
-					$this->closeNode('rules');
-				}
 				$this->closeNode('field');
 			}
+			$rules = \App\CustomView::getConditions($cvid);
 			$this->closeNode('fields');
+			if (!empty($rules)) {
+				$this->outputNode('<![CDATA[' . \App\Json::encode($rules) . ']]>', 'rules');
+			}
 			$this->closeNode('customview');
 		}
 		$this->closeNode('customviews');
@@ -764,8 +775,7 @@ class PackageExport
 	public function exportInventory()
 	{
 		$db = \PearDatabase::getInstance();
-		$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
-		$tableName = $inventoryFieldModel->getTableName('fields');
+		$tableName = \Vtiger_Inventory_Model::getInstance($this->moduleInstance->name)->getTableName();
 
 		$result = $db->query(sprintf('SELECT * FROM %s', $tableName));
 		if ($db->getRowCount($result) == 0) {

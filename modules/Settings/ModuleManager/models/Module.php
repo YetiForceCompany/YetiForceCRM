@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord'];
 
 	/**
 	 * @var array Base module tools exceptions.
@@ -25,8 +25,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleToolsExceptions = [
 		'Documents' => ['notAllowed' => ['Import']],
 		'Faq' => ['notAllowed' => ['Import', 'Export']],
-		'Events' => ['notAllowed' => 'all'],
-		'PBXManager' => ['notAllowed' => 'all'],
 		'OSSMailView' => ['notAllowed' => 'all'],
 		'CallHistory' => ['allowed' => ['QuickExportToExcel']],
 	];
@@ -108,9 +106,15 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleName($name)
+	public static function checkModuleName($name): bool
 	{
-		return (bool) (strpos($name, 'Settings') !== false || preg_match('/[^A-Za-z]/i', $name));
+		return
+			preg_match('/Settings/i', $name) ||
+			preg_match('/Api/i', $name) ||
+			preg_match('/Vtiger/i', $name) ||
+			preg_match('/CustomView/i', $name) ||
+			preg_match('/PickList/i', $name) ||
+			preg_match('/[^A-Za-z]/i', $name);
 	}
 
 	/**
@@ -147,7 +151,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{
-		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$subQuery = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'name'])
 			->from('vtiger_tab')
 			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
@@ -197,6 +201,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field1->column = $field1->name;
 		$field1->columntype = 'string(255)';
 		$field1->typeofdata = 'V~M';
+		$field1->maximumlength = '255';
 		$block->addField($field1);
 
 		$module->setEntityIdentifier($field1);
@@ -210,6 +215,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->uitype = 4;
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
+		$field2->maximumlength = '32';
 		$block->addField($field2);
 
 		$field3 = new vtlib\Field();
@@ -219,6 +225,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field3->column = 'smownerid';
 		$field3->uitype = 53;
 		$field3->typeofdata = 'V~M';
+		$field3->maximumlength = '65535';
 		$block->addField($field3);
 
 		$field4 = new vtlib\Field();
@@ -251,6 +258,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
 		$field6->masseditable = 0;
+		$field6->maximumlength = '65535';
 		$block->addField($field6);
 
 		// Create default custom filter (mandatory)
@@ -273,7 +281,11 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		\App\Fields\RecordNumber::setNumber($module->id, 'N', 1);
+		\App\Fields\RecordNumber::getInstance($module->id)->set('prefix', 'N')->set('cur_id', 1)->save();
+
+		if ($module->type === 1) {
+			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
+		}
 	}
 
 	public static function toAlphaNumeric($value)
@@ -283,8 +295,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	public static function getUploadDirectory()
 	{
-		$uploadDir = 'cache/vtlib';
-
-		return $uploadDir;
+		return 'cache/vtlib';
 	}
 }

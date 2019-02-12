@@ -32,10 +32,6 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 		} else {
 			$filename = $fileuri;
 		}
-		// prefix the base lookup folder (relocated file).
-		if (strpos($filename, 'modules') === 0) {
-			$filename = $filename;
-		}
 		return file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filename);
 	}
 
@@ -102,7 +98,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
 		$headerLinks = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
-		foreach ($headerLinks as $headerType => $headerLinks) {
+		foreach ($headerLinks as $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
 				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
 			}
@@ -121,7 +117,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']);
-		foreach ($headerScripts as $headerType => $headerScripts) {
+		foreach ($headerScripts as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
 					if (!IS_PUBLIC_DIR) {
@@ -149,9 +145,12 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 		$cssScriptModel = new Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
-		foreach ($headerCss as $headerType => $cssLinks) {
+		foreach ($headerCss as $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
+					if (!IS_PUBLIC_DIR) {
+						$cssLink->linkurl = 'public_html/' . $cssLink->linkurl;
+					}
 					$headerCssInstances[] = Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
 				}
 			}

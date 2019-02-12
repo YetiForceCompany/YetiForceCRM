@@ -61,8 +61,6 @@ class ModCommentsCore extends CRMEntity
 	];
 	// For Popup window record selection
 	public $popup_fields = ['commentcontent'];
-	// Should contain field labels
-	//var $detailview_links = Array ('Comment');
 	// For Alphabetical search
 	public $def_basicsearch_col = 'commentcontent';
 	// Column value to use on detail view record text display
@@ -79,13 +77,5 @@ class ModCommentsCore extends CRMEntity
 	{
 		$this->column_fields = vtlib\Deprecated::getColumnFields('ModComments');
 		$this->db = PearDatabase::getInstance();
-	}
-
-	/**
-	 * Transform the value while exporting (if required).
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
 	}
 }

@@ -2,12 +2,9 @@
 {strip}
 	<div class="tpl-Settings-BruteForce-Index">
 		<div class="widget_header row">
-			<div class="col-md-12">
+			<div class="col-md-12 mb-2">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
-		</div>
-		<div class="badge badge-info my-2">
-			<a>{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}</a>
 		</div>
 		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 			<li class="nav-item"><a class="nav-link active" href="#settings"

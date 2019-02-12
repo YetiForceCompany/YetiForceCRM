@@ -4,7 +4,7 @@
  * OSSTimeControl TimeControl dashboard class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -41,7 +41,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_timecontrol_type', 'vtiger_osstimecontrol.timecontrol_type = vtiger_timecontrol_type.timecontrol_type')
 			->where(['vtiger_crmentity.setype' => 'OSSTimeControl', 'vtiger_crmentity.smownerid' => $user]);
-		\App\PrivilegeQuery::getConditions($query, 'HelpDesk');
+		\App\PrivilegeQuery::getConditions($query, 'OSSTimeControl');
 		$query->andWhere([
 			'and',
 			['>=', 'vtiger_osstimecontrol.due_date', $date[0]],
@@ -58,10 +58,19 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'days' => []
 		];
 		$dataReader = $query->createCommand()->query();
+		$workingTimeByType = $workingTime = [];
 		while ($row = $dataReader->read()) {
 			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
-			$workingTimeByType[$label] += (float) $row['sum_time'];
-			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['sum_time'];
+			if (isset($workingTimeByType[$label])) {
+				$workingTimeByType[$label] += (float) $row['sum_time'];
+			} else {
+				$workingTimeByType[$label] = (float) $row['sum_time'];
+			}
+			if (isset($workingTime[$row['due_date']][$row['timecontrol_type']])) {
+				$workingTime[$row['due_date']][$row['timecontrol_type']] += (float) $row['sum_time'];
+			} else {
+				$workingTime[$row['due_date']][$row['timecontrol_type']] = (float) $row['sum_time'];
+			}
 			if (!in_array($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
 				// one dataset per type
@@ -87,7 +96,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;
-			foreach ($workingTime as $dueDate => $timeValue) {
+			foreach ($workingTime as $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
 					if ($timeValue[$timeType]) {
 						$value = $timeValue[$timeType];
@@ -127,11 +136,12 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($data['datasets'])) {
 			foreach ($data['datasets'] as &$dataset) {
 				foreach ($dataset['data'] as $index => $dataItem) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($user, $data['days'][$index]);
+					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All&entityState=Active' . $this->getSearchParams($user, $data['days'][$index]);
 				}
 			}
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$viewer->assign('USER_CONDITIONS', null);
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));

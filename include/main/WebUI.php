@@ -50,12 +50,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		if (!$this->hasLogin()) {
 			$returnUrl = $request->getServer('QUERY_STRING');
-			if ($returnUrl && !$_SESSION['return_params']) {
+			if ($returnUrl && !\App\Session::has('return_params')) {
 				//Take the url that user would like to redirect after they have successfully logged in.
-				App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
+				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 			}
 			if (!$request->isAjax()) {
-				header('Location: index.php');
+				header('location: index.php');
 			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 		}
@@ -90,12 +90,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
-				header('Location: ' . AppConfig::main('site_URL'), true, 301);
+				header('location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
 		try {
@@ -116,7 +116,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (empty($moduleName)) {
 				if ($this->hasLogin()) {
 					$defaultModule = AppConfig::main('default_module');
-					if (!empty($defaultModule) && $defaultModule !== 'Home') {
+					if (!empty($defaultModule) && $defaultModule !== 'Home' && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
@@ -148,11 +148,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
 			}
-			\App\Config::$processName = $componentName;
-			\App\Config::$processType = $componentType;
+			\App\Process::$processName = $componentName;
+			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
-				header('Location: ' . AppConfig::main('site_URL'), true);
+				header('location: ' . AppConfig::main('site_URL'), true);
 			}
 
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
@@ -168,10 +168,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$this->checkLogin($request);
 			}
 			if ($handler->isSessionExtend()) {
-				\App\Session::set('last_activity', \App\Config::$startTime);
+				\App\Session::set('last_activity', \App\Process::$startTime);
 			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
-				header('Location:index.php?module=Home&view=DashBoard');
+				header('location: index.php?module=Home&view=DashBoard');
 			}
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
 			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
@@ -182,22 +182,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$this->triggerPreProcess($handler, $request);
 			$response = $handler->process($request);
 			$this->triggerPostProcess($handler, $request);
-		} catch (Exception $e) {
+		} catch (Throwable $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-			$tpl = 'OperationNotPermitted.tpl';
+			$messageHeader = 'LBL_ERROR';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
-				$tpl = 'NoPermissionsForRecord.tpl';
+				$messageHeader = 'LBL_PERMISSION_DENIED';
 			} elseif ($e instanceof \App\Exceptions\Security) {
-				$tpl = 'IllegalValue.tpl';
+				$messageHeader = 'LBL_BAD_REQUEST';
+			} elseif ($e instanceof \yii\db\Exception) {
+				$messageHeader = 'LBL_ERROR';
 			}
-			\vtlib\Functions::throwNewException($e, false, $tpl);
+			\vtlib\Functions::throwNewException($e, false, $messageHeader);
 			if (!$request->isAjax()) {
 				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;
 				}
 				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}
@@ -230,8 +232,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (empty($moduleModel)) {
-			\App\Log::error("HandlerModule: $moduleName", 'Loader');
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
+			\App\Log::error('HandlerModule: ' . $moduleName, 'Loader');
+			throw new \App\Exceptions\AppException('ERR_MODULE_DOES_NOT_EXIST||' . $moduleName, 405);
 		}
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {

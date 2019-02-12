@@ -41,8 +41,12 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 		formData['async'] = false;
 
 		var saveData = form.serializeFormData();
+		delete saveData['__vtrftk'];
+		delete saveData['module'];
+		delete saveData['view'];
+		delete saveData['mode'];
+		delete saveData['parent'];
 		saveData['step'] = 1;
-		saveData['async'] = false;
 		if (this.checkModulesName()) {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',

@@ -17,6 +17,7 @@ $.Class("Vtiger_Edit_Js", {
 	//Event that will triggered before saving the record
 	recordPreSave: 'Vtiger.Record.PreSave',
 	editInstance: false,
+	inventoryController: false,
 	/**
 	 * Function to get Instance by name
 	 * @params moduleName:-- Name of the module to create instance
@@ -25,13 +26,16 @@ $.Class("Vtiger_Edit_Js", {
 		if (typeof moduleName === "undefined") {
 			moduleName = app.getModuleName();
 		}
-		var parentModule = app.getParentModuleName();
-		if (parentModule == 'Settings') {
-			var moduleClassName = parentModule + "_" + moduleName + "_Edit_Js";
+		let parentModule = app.getParentModuleName(),
+			moduleClassName,
+			fallbackClassName,
+			instance;
+		if (parentModule === 'Settings') {
+			moduleClassName = parentModule + "_" + moduleName + "_Edit_Js";
 			if (typeof window[moduleClassName] === "undefined") {
 				moduleClassName = moduleName + "_Edit_Js";
 			}
-			var fallbackClassName = parentModule + "_Vtiger_Edit_Js";
+			fallbackClassName = parentModule + "_Vtiger_Edit_Js";
 			if (typeof window[fallbackClassName] === "undefined") {
 				fallbackClassName = "Vtiger_Edit_Js";
 			}
@@ -40,9 +44,9 @@ $.Class("Vtiger_Edit_Js", {
 			fallbackClassName = "Vtiger_Edit_Js";
 		}
 		if (typeof window[moduleClassName] !== "undefined") {
-			var instance = new window[moduleClassName]();
+			instance = new window[moduleClassName]();
 		} else {
-			var instance = new window[fallbackClassName]();
+			instance = new window[fallbackClassName]();
 		}
 		instance.moduleName = moduleName;
 		return instance;
@@ -147,7 +151,7 @@ $.Class("Vtiger_Edit_Js", {
 		fieldElement.val(id)
 		fieldDisplayElement.val(app.decodeHTML(selectedName)).attr('readonly', true);
 		fieldElement.trigger(Vtiger_Edit_Js.referenceSelectionEvent, {
-			source_module: popupReferenceModule,
+			module: popupReferenceModule,
 			record: id,
 			selectedName: selectedName
 		});
@@ -157,12 +161,12 @@ $.Class("Vtiger_Edit_Js", {
 		}
 		let formElement = container.closest('form');
 		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
-		if (typeof mappingRelatedField != undefined) {
+		if (typeof mappingRelatedField !== 'undefined') {
 			let params = {
-				source_module: popupReferenceModule,
+				module: popupReferenceModule,
 				record: id
 			};
-			this.getRecordDetails(params).done(function (data) {
+			app.getRecordDetails(params).done(function (data) {
 				var response = params.data = data['result']['data'];
 				app.event.trigger("EditView.SelectReference", params, formElement);
 				$.each(mappingRelatedField, function (key, value) {
@@ -171,20 +175,20 @@ $.Class("Vtiger_Edit_Js", {
 						var fieldinfo = mapFieldElement.data('fieldinfo');
 						if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
-								mapFieldElement.val(response[value[0]]).trigger("chosen:updated").change();
+								mapFieldElement.val(response[value[0]]).trigger("change");
 							}
 						} else if (mapFieldElement.length == 0) {
 							$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
 						} else {
 							mapFieldElement.val(response[value[0]]);
 						}
-						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
+						let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 						if (mapFieldDisplayElement.length > 0) {
 							mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
-							if (fieldinfo.type !== 'tree') {
-								var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
+							if (fieldinfo.type === 'reference') {
+								let referenceModulesList = mapFieldElement.closest('.fieldValue').find('.referenceModulesList');
 								if (referenceModulesList.length > 0 && value[1]) {
-									referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+									referenceModulesList.val(value[1]).trigger('change');
 								}
 								thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
 									name: data['result']['displayData'][value[0]],
@@ -307,7 +311,6 @@ $.Class("Vtiger_Edit_Js", {
 				return false;
 			},
 			'change': function (event, ui) {
-				var element = $(this);
 			},
 			'open': function (event, ui) {
 				//To Make the menu come up in the case of quick create
@@ -448,12 +451,12 @@ $.Class("Vtiger_Edit_Js", {
 
 		fieldNameElement.val('');
 		fieldValueContener.find('#' + fieldName + '_display').removeAttr('readonly').val('');
-
+		app.event.trigger('EditView.ClearField', {fieldName: fieldName, referenceModule: referenceModule});
 		var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 		$.each(mappingRelatedField, function (key, value) {
 			var mapFieldElement = formElement.find('[name="' + key + '"]');
 			if (mapFieldElement.is('select')) {
-				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger("chosen:updated").change();
+				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger('change');
 			} else {
 				mapFieldElement.val('');
 			}
@@ -462,7 +465,7 @@ $.Class("Vtiger_Edit_Js", {
 				mapFieldDisplayElement.val('').attr('readonly', false);
 				var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
 				if (referenceModulesList.length > 0 && value[1]) {
-					referenceModulesList.val(referenceModulesList.find("option:first").val()).change().trigger("chosen:updated");
+					referenceModulesList.val(referenceModulesList.find("option:first").val()).trigger('change');
 				}
 			}
 		});
@@ -478,28 +481,7 @@ $.Class("Vtiger_Edit_Js", {
 			if (e.which == 13 && (!currentElement.is('textarea'))) {
 				e.preventDefault();
 			}
-		})
-	},
-	/**
-	 * Function which will give you all details of the selected record
-	 * @params - an Array of values like {'record' : recordId, 'source_module' : searchModule, 'selectedName' : selectedRecordName}
-	 */
-	getRecordDetails: function (params) {
-		var aDeferred = $.Deferred();
-		var url = "index.php?module=" + app.getModuleName() + "&action=GetData&record=" + params['record'] + "&source_module=" + params['source_module'];
-		if (app.getParentModuleName() == 'Settings') {
-			url += '&parent=Settings';
-		}
-		AppConnector.request(url).done(function (data) {
-			if (data['success']) {
-				aDeferred.resolve(data);
-			} else {
-				aDeferred.reject(data['message']);
-			}
-		}).fail(function (error) {
-			aDeferred.reject();
 		});
-		return aDeferred.promise();
 	},
 	registerTimeFields: function (container) {
 		app.registerEventForClockPicker();
@@ -565,7 +547,6 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	registerEventForCopyAddress: function () {
 		var thisInstance = this;
-		var formElement = this.getForm();
 		var account_id = false;
 		var contact_id = false;
 		var lead_id = false;
@@ -622,7 +603,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Accounts"
+						'module': "Accounts"
 					}
 
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
@@ -738,10 +719,8 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	copyAddressDetails: function (from, to, data, container) {
 		var thisInstance = this;
-		var sourceModule = data['source_module'];
-		var noAddress = true;
-		var errorMsg;
-		thisInstance.getRecordDetails(data).done(function (data) {
+		var sourceModule = data.module;
+		app.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.addressFieldsData = response;
 			thisInstance.copyAddress(from, to, true, sourceModule);
@@ -752,43 +731,50 @@ $.Class("Vtiger_Edit_Js", {
 	 * @param strings which accepts value as either odd or even
 	 */
 	copyAddress: function (fromLabel, toLabel, relatedRecord, sourceModule) {
-		let status = false;
-		let thisInstance = this;
-		let formElement = this.getForm();
-		let addressMapping = this.addressFieldsMapping;
-		let BlockIds = this.addressFieldsMappingBlockID;
-
-		let from = BlockIds[fromLabel];
+		const thisInstance = this;
+		let formElement = this.getForm(),
+			status = false,
+			addressMapping = this.addressFieldsMapping,
+			BlockIds = this.addressFieldsMappingBlockID,
+			from = BlockIds[fromLabel];
 		if (relatedRecord === false || sourceModule === false)
 			from = BlockIds[fromLabel];
-		let to = BlockIds[toLabel];
-		for (var key in addressMapping) {
-			var nameElementFrom = addressMapping[key] + from;
-			var nameElementTo = addressMapping[key] + to;
+		let to = BlockIds[toLabel],
+			key,
+			fromElement,
+			fromElementLabel,
+			nameElementFrom,
+			nameElementTo;
+		for (key in addressMapping) {
+			nameElementFrom = addressMapping[key] + from;
+			nameElementTo = addressMapping[key] + to;
 			if (relatedRecord) {
-				var fromElement = thisInstance.addressFieldsData['data'][nameElementFrom];
-				var fromElementLable = thisInstance.addressFieldsData['displayData'][nameElementFrom];
+				fromElement = thisInstance.addressFieldsData['data'][nameElementFrom];
+				fromElementLabel = thisInstance.addressFieldsData['displayData'][nameElementFrom];
 			} else {
-				var fromElement = formElement.find('[name="' + nameElementFrom + '"]').val();
-				var fromElementLable = formElement.find('[name="' + nameElementFrom + '_display"]').val();
+				fromElement = formElement.find('[name="' + nameElementFrom + '"]').val();
+				fromElementLabel = formElement.find('[name="' + nameElementFrom + '_display"]').val();
 			}
-			var toElement = formElement.find('[name="' + nameElementTo + '"]');
-			var toElementLable = formElement.find('[name="' + nameElementTo + '_display"]');
-			if (fromElement != '' && fromElement != '0' && fromElement != undefined) {
+			let toElement = formElement.find('[name="' + nameElementTo + '"]'),
+				toElementLable = formElement.find('[name="' + nameElementTo + '_display"]');
+			if (fromElement !== '' && fromElement !== '0' && fromElement !== undefined) {
 				if (toElementLable.length > 0)
 					toElementLable.attr('readonly', true);
 				status = true;
 				toElement.val(fromElement);
-				toElementLable.val(fromElementLable);
+				toElementLable.val(fromElementLabel);
+				if (toElement.is('[data-select2-id]')) {
+					toElement.trigger('change');
+				}
 			} else {
 				toElement.attr('readonly', false);
 			}
 		}
-		if (status == false) {
+		if (status === false) {
 			let errorMsg;
-			if (sourceModule == "Accounts") {
+			if (sourceModule === "Accounts") {
 				errorMsg = 'JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS';
-			} else if (sourceModule == "Contacts") {
+			} else if (sourceModule === "Contacts") {
 				errorMsg = 'JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS';
 			} else {
 				errorMsg = 'JS_DOES_NOT_HAVE_AN_ADDRESS';
@@ -806,7 +792,7 @@ $.Class("Vtiger_Edit_Js", {
 	},
 	copyAddressDetailsRef: function (data, container) {
 		var thisInstance = this;
-		thisInstance.getRecordDetails(data).done(function (data) {
+		app.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.mapAddressDetails(response, container);
 		}).fail(function (error, err) {
@@ -844,7 +830,6 @@ $.Class("Vtiger_Edit_Js", {
 		}
 	},
 	registerMaskFields: function (container) {
-		var thisInstance = this;
 		container.find("[data-inputmask]").inputmask();
 	},
 	triggerDisplayTypeEvent: function () {
@@ -869,7 +854,6 @@ $.Class("Vtiger_Edit_Js", {
 					}
 				});
 				editViewForm.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
-				var module = $(e.currentTarget).find('[name="module"]').val();
 				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element
 					editViewForm.data('submit', 'true');
@@ -904,68 +888,63 @@ $.Class("Vtiger_Edit_Js", {
 	 * for a module if exist on change of picklist value
 	 */
 	registerEventForPicklistDependencySetup: function (container) {
-		var picklistDependcyElemnt = $('[name="picklistDependency"]', container);
+		let picklistDependcyElemnt = $('[name="picklistDependency"]', container);
 		if (picklistDependcyElemnt.length <= 0) {
 			return;
 		}
-		var picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
+		let picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
 
-		var sourcePicklists = Object.keys(picklistDependencyMapping);
+		let sourcePicklists = Object.keys(picklistDependencyMapping);
 		if (sourcePicklists.length <= 0) {
 			return;
 		}
 
-		var sourcePickListNames = [];
-		for (var i = 0; i < sourcePicklists.length; i++) {
+		let sourcePickListNames = [],
+			i;
+		for (i = 0; i < sourcePicklists.length; i++) {
 			sourcePickListNames.push('[name="' + sourcePicklists[i] + '"]');
 		}
 		sourcePickListNames = sourcePickListNames.join(',');
-		var sourcePickListElements = container.find(sourcePickListNames);
+		let sourcePickListElements = container.find(sourcePickListNames);
 
 		sourcePickListElements.on('change', function (e) {
-			var currentElement = $(e.currentTarget);
-			var sourcePicklistname = currentElement.attr('name');
-
-			var configuredDependencyObject = picklistDependencyMapping[sourcePicklistname];
-			var selectedValue = currentElement.val();
-			var targetObjectForSelectedSourceValue = configuredDependencyObject[selectedValue];
-			var picklistmap = configuredDependencyObject["__DEFAULT__"];
+			let currentElement = $(e.currentTarget),
+				configuredDependencyObject = picklistDependencyMapping[currentElement.attr('name')],
+				targetObjectForSelectedSourceValue = configuredDependencyObject[currentElement.val()],
+				picklistmap = configuredDependencyObject["__DEFAULT__"];
 
 			if (typeof targetObjectForSelectedSourceValue === "undefined") {
 				targetObjectForSelectedSourceValue = picklistmap;
 			}
 			$.each(picklistmap, function (targetPickListName, targetPickListValues) {
-				var targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
+				let targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
 				if (typeof targetPickListMap === "undefined") {
 					targetPickListMap = targetPickListValues;
 				}
-				var targetPickList = $('[name="' + targetPickListName + '"]', container);
+				let targetPickList = $('[name="' + targetPickListName + '"]', container);
 				if (targetPickList.length <= 0) {
 					return;
 				}
 
-				var listOfAvailableOptions = targetPickList.data('availableOptions');
+				let listOfAvailableOptions = targetPickList.data('availableOptions');
 				if (typeof listOfAvailableOptions === "undefined") {
 					listOfAvailableOptions = $('option', targetPickList);
 					targetPickList.data('available-options', listOfAvailableOptions);
 				}
 
-				var targetOptions = new $();
-				var optionSelector = [];
+				let targetOptions = new $(),
+					optionSelector = [];
 				optionSelector.push('');
-				for (var i = 0; i < targetPickListMap.length; i++) {
+				for (i = 0; i < targetPickListMap.length; i++) {
 					optionSelector.push(targetPickListMap[i]);
 				}
 
 				$.each(listOfAvailableOptions, function (i, e) {
-					var picklistValue = $(e).val();
-					if ($.inArray(picklistValue, optionSelector) != -1) {
+					if ($.inArray($(e).val(), optionSelector) !== -1) {
 						targetOptions = targetOptions.add($(e));
 					}
-				})
-				var targetPickListSelectedValue = '';
-				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
+				});
+				targetPickList.html(targetOptions).val(targetOptions.filter('[selected]').val()).trigger('change');
 			})
 		});
 
@@ -1017,7 +996,8 @@ $.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click', '.blockHeader', function (e) {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button')) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			var currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
@@ -1048,24 +1028,27 @@ $.Class("Vtiger_Edit_Js", {
 
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getForm().find('.js-toggle-panel');
-		var module = app.getModuleName();
+		let blocks = this.getForm().find('.js-toggle-panel');
+		let module = app.getModuleName();
 		blocks.each(function (index, block) {
-			var currentBlock = $(block);
-			var headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
-			var bodyContents = currentBlock.find('.blockContent')
-			var blockId = headerAnimationElement.data('id');
-			var cacheKey = module + '.' + blockId;
-			var value = app.cacheGet(cacheKey, null);
-			if (value != null) {
-				if (value == 1) {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='show']").removeClass('d-none');
-					bodyContents.removeClass('d-none');
-				} else {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='hide']").removeClass('d-none');
-					bodyContents.addClass('d-none');
+			let currentBlock = $(block);
+			let dynamicAttr = currentBlock.attr('data-dynamic');
+			if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
+				let headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
+				let bodyContents = currentBlock.find('.blockContent')
+				let blockId = headerAnimationElement.data('id');
+				let cacheKey = module + '.' + blockId;
+				let value = app.cacheGet(cacheKey, null);
+				if (value != null) {
+					if (value == 1) {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='show']").removeClass('d-none');
+						bodyContents.removeClass('d-none');
+					} else {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='hide']").removeClass('d-none');
+						bodyContents.addClass('d-none');
+					}
 				}
 			}
 		});
@@ -1094,7 +1077,12 @@ $.Class("Vtiger_Edit_Js", {
 						} else {
 							response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 						}
-					}).fail(function () {
+					}).fail(function (textStatus, errorThrown, jqXHR) {
+						Vtiger_Helper_Js.showPnotify({
+							text: jqXHR.responseJSON.error.message,
+							type: 'error',
+							animation: 'show'
+						});
 						response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 					});
 				},
@@ -1169,14 +1157,14 @@ $.Class("Vtiger_Edit_Js", {
 		fieldValue.find('.referenceModulesList').removeAttr('required');
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
-		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-		if (typeof mappingRelatedModule[sourceField] !== "undefined" && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== "undefined")
+		const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
+		const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
+		if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
 			return mappingRelatedModule[sourceField][sourceFieldModule];
+		}
 		return [];
 	},
 	registerValidationsFields: function (container) {
-		var thisInstance = this;
 		var params = app.validationEngineOptionsForRecord;
 		container.validationEngine(params);
 	},
@@ -1277,15 +1265,15 @@ $.Class("Vtiger_Edit_Js", {
 		});
 	},
 	registerFocusFirstField: function (container) {
-		var thisInstance = this;
-		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox])').each(function (n, e) {
-			var element = $(e);
+		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker)').each(function (n, e) {
+			let element = $(e);
 			if (!element.prop('readonly') && !element.prop('disabled')) {
 				element = element.get(0);
-				var elemLen = element.value.length;
-
-				element.selectionStart = elemLen;
-				element.selectionEnd = elemLen;
+				if (element.type !== 'number') {
+					let elemLen = element.value.length;
+					element.selectionStart = elemLen;
+					element.selectionEnd = elemLen;
+				}
 				element.focus();
 				return false;
 			}
@@ -1303,6 +1291,15 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	registerMultiImageFields(container) {
 		return App.Fields.MultiImage.register(container);
+	},
+	/**
+	 * Register inventory controller
+	 * @param {jQuery} container
+	 */
+	registerInventoryController(container) {
+		if (typeof Vtiger_Inventory_Js !== "undefined") {
+			this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		}
 	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
@@ -1326,6 +1323,8 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
 		this.registerMultiImageFields(container);
+		App.Fields.MultiEmail.register(container);
+		App.Fields.MultiDependField.register(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();
@@ -1333,6 +1332,7 @@ $.Class("Vtiger_Edit_Js", {
 		if (!statusToProceed) {
 			return;
 		}
+		this.registerInventoryController(editViewForm);
 		this.registerBlockAnimationEvent();
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEventForEditor();

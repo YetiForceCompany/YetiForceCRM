@@ -4,9 +4,9 @@
  * Watching Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Watchdog_Model extends \App\Base
 {
@@ -119,12 +119,10 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public function isWatchingModuleConfig($member)
 	{
-		$isExists = (new \App\Db\Query())
+		return (new \App\Db\Query())
 			->from('u_#__watchdog_module')
 			->where(['member' => $member, 'module' => $this->get('moduleId')])
 			->exists();
-
-		return $isExists;
 	}
 
 	/**
@@ -143,7 +141,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			return (bool) \App\Cache::staticGet('isWatchingRecord', $cacheName);
 		}
 		$return = $this->isWatchingModule();
-		$state = (new \App\Db\Query())->select('state')->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
+		$state = (new \App\Db\Query())->select(['state'])->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
 		$this->set('isRecordExists', false);
 		if ($state !== false) {
 			$this->set('isRecordExists', true);
@@ -206,7 +204,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			->one();
 		$data['modules'] = explode(',', $data['modules']);
 		if ($isName) {
-			foreach ($data['modules'] as $key => &$moduleId) {
+			foreach ($data['modules'] as &$moduleId) {
 				$moduleId = \App\Module::getModuleName($moduleId);
 			}
 		}
@@ -264,9 +262,9 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$moduleId = $this->get('moduleId');
 		if ($state === 1) {
 			return $db->createCommand()->insert('u_#__watchdog_module', [
-					'member' => $member,
-					'module' => $moduleId,
-				])->execute();
+				'member' => $member,
+				'module' => $moduleId,
+			])->execute();
 		} else {
 			return $db->createCommand()->delete('u_#__watchdog_module', ['member' => $member, 'module' => $moduleId])->execute();
 		}
@@ -354,7 +352,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 					->where(['record' => (int) $this->get('record')])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					if ($row['state'] === self::RECORD_ACTIVE) {
+					if ((int) $row['state'] === self::RECORD_ACTIVE) {
 						$users[$row['userid']] = $row['userid'];
 					} else {
 						unset($users[$row['userid']]);
@@ -389,6 +387,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			->from('u_#__watchdog_module')
 			->where(['module' => (int) $this->get('moduleId')]);
 		if ($getData) {
+			$members = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$data = explode(':', $row['member']);
@@ -450,19 +449,19 @@ class Vtiger_Watchdog_Model extends \App\Base
 			} else {
 				$members[$row['module']]['byUsers'] = $users;
 			}
-			$members[$row['module']][$type[0]] = array_fill_keys($users, $row['lock']);
+			$members[$row['module']][$type[0]] = array_fill_keys($users, $row['lock']) + ($members[$row['module']][$type[0]] ?? []);
 		}
 		$cache = [];
 		foreach ($members as $module => $usersByType) {
 			$users = array_unique($usersByType['byUsers']);
 			foreach ($users as $user) {
-				if (isset($usersByType['Users'], $usersByType['Users'][$user])) {
+				if (isset($usersByType['Users'][$user])) {
 					$cache[$module][$user] = $usersByType['Users'][$user];
-				} elseif (isset($usersByType['Groups'], $usersByType['Groups'][$user])) {
+				} elseif (isset($usersByType['Groups'][$user])) {
 					$cache[$module][$user] = $usersByType['Groups'][$user];
-				} elseif (isset($usersByType['Roles'], $usersByType['Roles'][$user])) {
+				} elseif (isset($usersByType['Roles'][$user])) {
 					$cache[$module][$user] = $usersByType['Roles'][$user];
-				} elseif (isset($usersByType['RoleAndSubordinates'], $usersByType['RoleAndSubordinates'][$user])) {
+				} elseif (isset($usersByType['RoleAndSubordinates'][$user])) {
 					$cache[$module][$user] = $usersByType['RoleAndSubordinates'][$user];
 				}
 			}

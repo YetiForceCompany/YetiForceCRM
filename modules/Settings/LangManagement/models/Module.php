@@ -4,8 +4,8 @@
  * LangManagement Module Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author YetiForce.com
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    YetiForce.com
  */
 class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -26,13 +26,11 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$folders[] = 'Settings';
 		}
 		$loc = '';
-		foreach ($folders as $key => $name) {
+		foreach ($folders as $name) {
 			$loc .= DIRECTORY_SEPARATOR . $name;
-			if (!file_exists(ROOT_DIRECTORY . $loc)) {
-				if (!mkdir(ROOT_DIRECTORY . $loc)) {
-					\App\Log::warning("No permissions to create directories: $loc");
-					throw new \App\Exceptions\AppException('No permissions to create directories');
-				}
+			if (!file_exists(ROOT_DIRECTORY . $loc) && !mkdir(ROOT_DIRECTORY . $loc)) {
+				\App\Log::warning("No permissions to create directories: $loc");
+				throw new \App\Exceptions\AppException('No permissions to create directories');
 			}
 		}
 	}
@@ -144,16 +142,18 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (isset(App\Language::getAll(false)[$params['prefix']])) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
-		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
-		$destiny = 'languages/' . $prefix . '/';
+		if (!\App\Validator::languageTag($params['prefix'])) {
+			return ['success' => false, 'data' => 'LBL_NOT_CORRECT_LANGUAGE_TAG'];
+		}
+		$destiny = 'languages/' . $params['prefix'] . '/';
 		mkdir($destiny);
-		vtlib\Functions::recurseCopy('languages/en_us/', $destiny);
+		vtlib\Functions::recurseCopy('languages/' . \App\Language::DEFAULT_LANG, $destiny);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
-			'id' => $db->getUniqueId('vtiger_language'),
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
-			'label' => $params['label'],
+			'name' => $params['label'],
+			'lastupdated' => date('Y-m-d H:i:s')
 		])->execute();
 		\App\Cache::clear();
 
@@ -227,18 +227,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function setAsDefault($prefix)
 	{
-		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $lang . ') method ...');
+		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $prefix . ') method ...');
 		$db = \App\Db::getInstance();
-		$fileName = 'config/config.inc.php';
-		$completeData = file_get_contents($fileName);
-		$updatedFields = 'default_language';
-		$patternString = '$%s = %s;';
-		$pattern = '/\$' . $updatedFields . '[\s]+=([^\n]+);/';
-		$replacement = sprintf($patternString, $updatedFields, App\Utils::varExport(ltrim($prefix, '0')));
-		$fileContent = preg_replace($pattern, $replacement, $completeData);
-		$filePointer = fopen($fileName, 'w');
-		fwrite($filePointer, $fileContent);
-		fclose($filePointer);
+
+		$configFile = new \App\ConfigFile('main');
+		$configFile->set('default_language', $prefix);
+		$configFile->create();
+
 		$dataReader = (new \App\Db\Query())->select(['prefix'])
 			->from('vtiger_language')
 			->where(['isdefault' => 1])
@@ -262,7 +257,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
-		settype($langs, 'array');
+		$langs = (array) $langs;
 		if (!in_array($langBase, $langs)) {
 			$langs[] = $langBase;
 		}

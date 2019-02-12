@@ -4,8 +4,8 @@
  * ServiceContracts CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts extends CRMEntity
 {
@@ -129,7 +129,7 @@ class ServiceContracts extends CRMEntity
 			$helpDeskInstance->setRelatedList($moduleInstance, 'Service Contracts', ['ADD', 'SELECT']);
 
 			// Initialize module sequence for the module
-			\App\Fields\RecordNumber::setNumber($moduleName, 'SERCON', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'SERCON')->set('cur_id', 1)->save();
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Make the picklist value 'Complete' for status as non-editable
 			$dbCommand->update('vtiger_contract_status', ['presence' => 0], ['contract_status' => 'Complete'])->execute();
@@ -347,7 +347,7 @@ class ServiceContracts extends CRMEntity
 		$entity_tbl_field_arr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries

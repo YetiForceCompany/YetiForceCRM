@@ -3,8 +3,8 @@
  * Mail Scanner bind email action.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -273,17 +273,15 @@ class OSSMail_Mail_Model extends \App\Base
 		} elseif (strpos($emails, ',')) {
 			$emails = explode(',', $emails);
 		} else {
-			settype($emails, 'array');
+			$emails = (array) $emails;
 		}
 		if (!empty($emailSearchList)) {
 			foreach ($emailSearchList as $field) {
 				$enableFind = true;
 				$row = explode('=', $field);
 				$moduleName = $row[1];
-				if ($searchModule) {
-					if ($searchModule !== $moduleName) {
-						$enableFind = false;
-					}
+				if ($searchModule && $searchModule !== $moduleName) {
+					$enableFind = false;
 				}
 				if ($enableFind) {
 					foreach ($emails as $email) {
@@ -345,7 +343,7 @@ class OSSMail_Mail_Model extends \App\Base
 				if ($fileInstance && $fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
-					\App\Log::trace('Error downloading the file: ' . $attachment['filename']);
+					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);
 				}
 			}
 		}

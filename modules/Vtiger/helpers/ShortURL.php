@@ -22,7 +22,7 @@ class Vtiger_ShortURL_Helper
 	 * 			'key1' => 'value1',
 	 * 			'key2' => 'value2'
 	 * 		)
-	 * 	));
+	 * 	))
 	 */
 
 	public static function generateURL(array $options)
@@ -48,7 +48,7 @@ class Vtiger_ShortURL_Helper
 		$handlerData = $options['handler_data'];
 
 		if (empty($handlerPath) || empty($handlerClass) || empty($handlerFn)) {
-			throw new Exception('Invalid options for generate');
+			throw new \App\Exceptions\AppException('Invalid options for generate');
 		}
 
 		$sql = 'INSERT INTO vtiger_shorturls(uid, handler_path, handler_class, handler_function, handler_data, onetime) VALUES (?,?,?,?,?,?)';
@@ -61,8 +61,11 @@ class Vtiger_ShortURL_Helper
 
 	public static function handle($uid)
 	{
+		if (!$uid) {
+			echo 'No uid';
+			return false;
+		}
 		$db = PearDatabase::getInstance();
-
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', [$uid]);
 		if ($rs && $db->numRows($rs)) {
 			$record = $db->fetchArray($rs);
@@ -91,7 +94,7 @@ class Vtiger_ShortURL_Helper
 	 */
 	public static function sendTrackerImage()
 	{
-		header('Content-Type: image/png');
+		header('content-type: image/png');
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
 	}
 

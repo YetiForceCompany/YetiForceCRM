@@ -4,8 +4,9 @@
  * Companies SaveAjax action model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -32,37 +33,26 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
-		$exists = $recordModel->isCompanyDuplicated($request);
-		if (!$exists) {
-			$recordModel->setCompaniesNotDefault($request->get('default'));
-			$logoDetails = $recordModel->saveCompanyLogos();
-			$columns = Settings_Companies_Module_Model::getColumnNames();
-			if ($columns) {
-				if ($request->isEmpty('default')) {
-					$columns = array_diff($columns, ['default']);
-				}
-				foreach ($columns as $fieldName) {
-					$fieldValue = $request->getByType($fieldName, 'Text');
-					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
-						if (!empty($logoDetails[$fieldName]['name'])) {
-							$fieldValue = ltrim(basename(' ' . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
-						} else {
-							$fieldValue = $recordModel->get($fieldName);
-						}
-					}
-					if ('default' === $fieldName) {
-						$fieldValue = $request->getBoolean('default');
-					}
-					$recordModel->set($fieldName, $fieldValue);
-				}
-				$recordModel->save();
-			}
-			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
-		} else {
-			$result = ['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
-		}
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		if (!$recordModel->isCompanyDuplicated($request)) {
+			$field = $recordModel->getModule()->getFormFields();
+			foreach (array_keys($field) as $fieldName) {
+				if ($request->has($fieldName)) {
+					$uiTypeModel = $recordModel->getFieldInstanceByName($fieldName)->getUITypeModel();
+					$value = $request->getByType($fieldName, 'Text');
+					$uiTypeModel->validate($value, true);
+					$recordModel->set($fieldName, $uiTypeModel->getDBValue($value));
+				}
+			}
+			$recordModel->saveCompanyLogos();
+			$recordModel->save();
+			$response->setResult([
+				'success' => true,
+				'url' => $recordModel->getDetailViewUrl()
+			]);
+		} else {
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))]);
+		}
 		$response->emit();
 	}
 }

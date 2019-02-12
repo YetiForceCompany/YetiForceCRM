@@ -3,7 +3,7 @@
 
 jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 	/*
-	 * Shows or hides block informing about supported currencies by presently chosen bank
+	 * Shows or hides block informing about supported currencies by presently select bank
 	 */
 	registerButtons: function (container) {
 		container.find('.js-test-speed').on('click', function () {

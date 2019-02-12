@@ -2,8 +2,8 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -23,9 +23,9 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public function remove($moduleName)
 	{
-		$data = self::loadFile($this->get('type'));
-		unset($data[$moduleName]);
-		$content = '<?php' . PHP_EOL . '$map=' . var_export($data, true) . ';';
+		$fileData = self::loadFile($this->get('type'));
+		unset($fileData[$moduleName]);
+		$content = '<?php' . PHP_EOL . '$map=' . var_export($fileData, true) . ';';
 
 		$file = self::$types[$this->get('type')];
 		file_put_contents($file, $content);
@@ -33,12 +33,12 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public function putToFile($moduleName, $userId, $userData)
 	{
-		$data = self::loadFile($this->get('type'));
-		if (!isset($data[$moduleName])) {
-			$data[$moduleName] = [];
+		$fileData = self::loadFile($this->get('type'));
+		if (!isset($fileData[$moduleName])) {
+			$fileData[$moduleName] = [];
 		}
-		$data[$moduleName][$userId] = $userData;
-		$content = '<?php' . PHP_EOL . '$map=' . var_export($data, true) . ';';
+		$fileData[$moduleName][$userId] = $userData;
+		$content = '<?php' . PHP_EOL . '$map=' . var_export($fileData, true) . ';';
 
 		$file = self::$types[$this->get('type')];
 		file_put_contents($file, $content);
@@ -46,9 +46,9 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public static function getRecordAllocationByModule($type, $moduleName)
 	{
-		$data = self::loadFile($type);
+		$fileData = self::loadFile($type);
 
-		return $data[$moduleName] ?? [];
+		return $fileData[$moduleName] ?? [];
 	}
 
 	public static function loadFile($type)

@@ -89,14 +89,6 @@ class Services extends CRMEntity
 	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 *
 	 * @param string This module name
@@ -116,7 +108,7 @@ class Services extends CRMEntity
 		$entity_tbl_field_arr = ['vtiger_inventoryproductrel' => 'productid', 'vtiger_pricebookproductrel' => 'productid', 'vtiger_senotesrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
@@ -182,7 +174,7 @@ class Services extends CRMEntity
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', ['select'], 'getPricebookServices');
 
 			// Initialize module sequence for the module
-			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'SER')->set('cur_id', 1)->save();
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 		} elseif ($eventType === 'module.postupdate') {

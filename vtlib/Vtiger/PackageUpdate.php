@@ -41,7 +41,7 @@ class PackageUpdate extends PackageImport
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
-				'config' => 'config/modules',
+				'config' => 'config/Modules',
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
@@ -106,7 +106,7 @@ class PackageUpdate extends PackageImport
 
 					return false;
 				}
-				$module = $this->initUpdate($moduleInstance, $zipfile, $overwrite);
+				$this->initUpdate($moduleInstance, $zipfile, $overwrite);
 				// Call module update function
 				$this->updateModule($moduleInstance);
 			}
@@ -144,7 +144,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function parseMigration($modulenode)
 	{
-		if (!$this->_migrations) {
+		if (empty($this->_migrations)) {
 			$this->_migrations = [];
 			if (!empty($modulenode->migrations) &&
 				!empty($modulenode->migrations->migration)) {
@@ -372,7 +372,7 @@ class PackageUpdate extends PackageImport
 		foreach ($modulenode->customviews->customview as $customviewnode) {
 			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance->id);
 			if (!$filterInstance) {
-				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
+				$this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
 				$this->updateCustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance);
 			}

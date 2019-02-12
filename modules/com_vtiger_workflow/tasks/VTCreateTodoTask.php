@@ -43,12 +43,12 @@ class VTCreateTodoTask extends VTTask
 			$query = (new App\Db\Query())->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where([
-				'and',
-				['vtiger_crmentity.deleted' => 0],
-				['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
-				['vtiger_activity.activitytype' => 'Task'],
-				['vtiger_activity.subject' => $this->todo],
-			]);
+					'and',
+					['vtiger_crmentity.deleted' => 0],
+					['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
+					['vtiger_activity.activitytype' => 'Task'],
+					['vtiger_activity.subject' => $this->todo],
+				]);
 			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
@@ -120,7 +120,7 @@ class VTCreateTodoTask extends VTTask
 				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			} else {
-				$timeEnd = $adminUser->column_fields['end_hour'];
+				$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->column_fields['end_hour'];
 				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
 				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
@@ -143,7 +143,7 @@ class VTCreateTodoTask extends VTTask
 			'time_start' => $time,
 			'time_end' => $timeEnd,
 			'sendnotification' => ($this->sendNotification != '' && $this->sendNotification != 'N') ?
-			true : false,
+				true : false,
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',

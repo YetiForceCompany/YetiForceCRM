@@ -2,10 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="widget_header row">
 		<div class="col-md-8">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-			{if isset($SELECTED_PAGE)}
-				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-			{/if}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="col-md-4">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right mt-1">

@@ -50,7 +50,7 @@ class Users_Login_Action extends \App\Controller\Action
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($request->getByType('username', 'Text')), 'Blocked IP');
-			header('Location: index.php?module=Users&view=Login');
+			header('location: index.php?module=Users&view=Login');
 			return false;
 		}
 		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
@@ -88,11 +88,11 @@ class Users_Login_Action extends \App\Controller\Action
 	private function redirectUser()
 	{
 		if (isset($_SESSION['return_params'])) {
-			header('Location: index.php?' . $_SESSION['return_params']);
+			header('location: index.php?' . $_SESSION['return_params']);
 		} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
-			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
+			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else {
-			header('Location: index.php');
+			header('location: index.php');
 		}
 	}
 
@@ -107,7 +107,7 @@ class Users_Login_Action extends \App\Controller\Action
 	{
 		$userName = $request->getByType('username', 'Text');
 		$password = $request->getRaw('password');
-		if ($request->getMode('mode') === 'install') {
+		if ($request->getMode() === 'install') {
 			$this->cleanInstallationFiles();
 		}
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
@@ -116,13 +116,13 @@ class Users_Login_Action extends \App\Controller\Action
 			if (\App\Session::get('UserAuthMethod') === 'PASSWORD' && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
-				header('Location: index.php');
+				header('location: index.php');
 				return true;
 			}
 			$this->afterLogin($request);
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
 			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
-				header('Location: index.php?module=Users&view=Login');
+				header('location: index.php?module=Users&view=Login');
 			} else {
 				$this->redirectUser();
 			}
@@ -173,13 +173,9 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function cleanInstallationFiles()
 	{
-		foreach (glob('languages/*/Install.php') as $path) {
-			unlink($path);
-		}
 		\vtlib\Functions::recurseDelete('install');
 		\vtlib\Functions::recurseDelete('public_html/install');
 		\vtlib\Functions::recurseDelete('tests');
-		\vtlib\Functions::recurseDelete('config/config.template.php');
 		\vtlib\Functions::recurseDelete('.github');
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');
@@ -208,6 +204,6 @@ class Users_Login_Action extends \App\Controller\Action
 			}
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
-		header('Location: index.php?module=Users&view=Login');
+		header('location: index.php?module=Users&view=Login');
 	}
 }

@@ -12,13 +12,14 @@
 {strip}
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
-<div class="tpl-PreferenceDetailViewHeader detailViewContainer">
-	<div class="detailViewTitle px-2 marginTop5 d-flex flex-column justify-content-lg-between flex-lg-row" id="prefPageHeader">
+<div class="tpl-Users-PreferenceDetailViewHeader detailViewContainer">
+	<div class="detailViewTitle px-2 marginTop5 d-flex flex-column justify-content-lg-between flex-lg-row"
+		 id="prefPageHeader">
 		<div class="ml-0 d-flex justify-content-center">
-			<div class="logo pl-0 mt-3">
+			<div class="logo pl-0 mt-3 d-flex">
 				{assign var=IMAGE value=$RECORD->getImage()}
 				{if $IMAGE}
-					<img src="{$IMAGE.url}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}"
+					<img src="{$IMAGE.url}" class="mr-2" alt="{$RECORD->getName()}" title="{$RECORD->getName()}"
 						 height="80" align="left">
 					<br/>
 				{else}
@@ -37,18 +38,18 @@
 		</div>
 		<div class="mr-0 pl-1 py-3 mt-2 detailViewButtoncontainer d-flex justify-content-center">
 			<div class="btn-group btn-toolbar flex-md-nowrap u-w-sm-down-100">
-					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' CLASS='c-btn-link--responsive'}
-					{/foreach}
-					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
-						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive btn-group' BTN_CLASS=' btn-outline-dark'}
-					{/if}
+				{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
+					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
+				{/foreach}
+				{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive btn-group' BTN_CLASS=' btn-outline-dark'}
+				{/if}
 			</div>
 		</div>
 	</div>
 	<div class="detailViewInfo px-2 userPreferences w-100">
 		<div class="details w-100">
-			<form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}'
+			<form id="detailView" data-name-fields="{\App\Purifier::encodeHtml(\App\Json::encode($MODULE_MODEL->getNameFields()))}"
 				  method="POST">
 				<div class="contents">
 					{/strip}

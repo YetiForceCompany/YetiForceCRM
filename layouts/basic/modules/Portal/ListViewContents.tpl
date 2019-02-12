@@ -30,7 +30,7 @@
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
-		<div class="listViewEntriesDiv u-overflow-scroll-xs-down">
+		<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
 			<input type="hidden" value="{$COLUMN_NAME}" id="orderBy" />
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<span class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal">
@@ -38,7 +38,7 @@
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</span>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<table class="table table-bordered listViewEntriesTable">
+			<table class="table table-bordered listViewEntriesTable js-fixed-thead" data-js="floatThead">
 				<thead>
 					<tr class="listViewHeaders">
 						<th width="5%">
@@ -72,7 +72,8 @@
 								<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
 							</td>
 							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
-								<a class="urlField u-cursor-pointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" rel="noreferrer" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
+								<a class="urlField u-cursor-pointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank"
+								   rel="noreferrer noopener" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
 							</td>
 							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
 							<td nowrap class="{$WIDTHTYPE}">

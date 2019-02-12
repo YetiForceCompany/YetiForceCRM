@@ -67,8 +67,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->get('block');
-		$fieldId = $request->get('fieldid');
+		$selectedMenuId = $request->getInteger('block', '');
+		$fieldId = $request->getInteger('fieldid', '');
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
@@ -109,7 +109,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
-
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
@@ -125,22 +124,15 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
 		$clientModel = Settings_Github_Client_Model::getInstance();
-		$isAuthor = $request->get('author');
-		$isAuthor = $isAuthor == 'true' ? true : false;
-		$pageNumber = $request->getInteger('page');
-		if (empty($pageNumber)) {
-			$pageNumber = 1;
-		}
-
-		$state = empty($request->get('state')) ? 'open' : $request->get('state');
+		$isAuthor = $request->getBoolean('author');
+		$pageNumber = $request->getInteger('page', 1);
+		$state = $request->isEmpty('state', true) ? 'open' : $request->getByType('state', 'Text');
 		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('totalCount', Settings_Github_Issues_Model::$totalCount);
-
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
 		$viewer->assign('IS_AUTHOR', $isAuthor);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ISSUES_STATE', $state);
@@ -200,11 +192,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	public function getWarningsList(\App\Request $request)
 	{
-		$folder = $request->get('folder');
+		$folder = $request->getArray('folder', 'Text');
 		$active = $request->getBoolean('active');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-
 		$list = \App\SystemWarnings::getWarnings($folder, $active);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('WARNINGS_LIST', $list);
@@ -218,16 +209,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	protected function getSecurityCount()
 	{
-		$count = 0;
-		foreach (Settings_ConfReport_Module_Model::getSecurityConf(false, true) as $value) {
-			++$count;
-		}
-		$count += App\Log::getLogs('access_for_admin', 'oneDay', true);
+		$count = App\Log::getLogs('access_for_admin', 'oneDay', true);
 		$count += App\Log::getLogs('access_to_record', 'oneDay', true);
 		$count += App\Log::getLogs('access_for_api', 'oneDay', true);
-		$count += App\Log::getLogs('access_for_user', 'oneDay', true);
-
-		return $count;
+		return $count + App\Log::getLogs('access_for_user', 'oneDay', true);
 	}
 
 	protected function getMenu()
@@ -240,28 +225,29 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			'modules.Vtiger.resources.Vtiger',
-			'~vendor/ckeditor/ckeditor/ckeditor.js',
-			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
-			'~libraries/jstree/dist/jstree.js',
-			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
-			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
-			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
-			'modules.Settings.Vtiger.resources.Vtiger',
-			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.$moduleName",
-			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index"
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-
-		return array_merge($headerScriptInstances, $jsScriptInstances);
+		$type = \App\Process::$processName;
+		return array_merge(
+			parent::getFooterScripts($request),
+			$this->checkAndConvertJsScripts([
+				'modules.Vtiger.resources.Vtiger',
+				'~vendor/ckeditor/ckeditor/ckeditor.js',
+				'~vendor/ckeditor/ckeditor/adapters/jquery.js',
+				'~libraries/jstree/dist/jstree.js',
+				'~libraries/datatables.net/js/jquery.dataTables.js',
+				'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+				'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+				'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
+				'modules.Settings.Vtiger.resources.Vtiger',
+				'modules.Settings.Vtiger.resources.Edit',
+				'modules.Settings.Vtiger.resources.Index',
+				'modules.Vtiger.resources.List',
+				'modules.Settings.Vtiger.resources.List',
+				"modules.Settings.$moduleName.resources.Index",
+				"modules.Settings.$moduleName.resources.$type",
+				"modules.Settings.$moduleName.resources.$moduleName",
+			])
+		);
 	}
 
 	/**
@@ -269,15 +255,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
+		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return array_merge($cssInstances, $headerCssInstances);
+		]), parent::getHeaderCss($request));
 	}
 
 	public static function getSelectedFieldFromModule($menuModels, $moduleName)

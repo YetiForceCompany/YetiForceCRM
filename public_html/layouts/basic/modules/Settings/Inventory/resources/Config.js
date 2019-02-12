@@ -4,7 +4,6 @@
 jQuery.Class("Settings_Inventory_Config_Js", {}, {
 
 	registerChangeCheckbox: function (content) {
-		var thisInstance = this;
 		content.find('input[type="checkbox"]').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var value = 0;
@@ -21,17 +20,16 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 			app.saveAjax('saveConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 				if (value) {
-					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
+					target.parent().removeClass('btn-light').addClass('btn-success').find('.fas').removeClass('fa-square').addClass('fa-check-square');
 					target.next().html('&nbsp;&nbsp;' + app.vtranslate('JS_YES'));
 				} else {
-					target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
+					target.parent().removeClass('btn-success').addClass('btn-light').find('.fas').removeClass('fa-check-square').addClass('fa-square');
 					target.next().html('&nbsp;&nbsp;' + app.vtranslate('JS_NO'));
 				}
 			});
 		});
 	},
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.find('select').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};

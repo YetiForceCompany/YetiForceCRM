@@ -1,9 +1,6 @@
 echo " -----  Install and setup apache -----"
 phpenv config-add tests/setup/php.ini
 
-sudo apt-get update
-sudo apt-get install apache2 libapache2-mod-fastcgi
-
 echo " -----  configuration php-fpm  -----"
 sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf

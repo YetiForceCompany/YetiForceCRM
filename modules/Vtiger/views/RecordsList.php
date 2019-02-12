@@ -47,7 +47,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$moduleName = $request->getModule($request);
+		$moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
 		$this->initializeContent($request);
 		parent::preProcessAjax($request);
@@ -62,9 +62,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('ONLY_BODY', $request->getBoolean('onlyBody'));
 		if ($request->getMode() === 'getPagination') {
 			$viewer->assign('VIEWNAME', 'recordsList');
-			$viewer->view('Pagination.tpl', $request->getModule($request));
+			$viewer->view('Pagination.tpl', $request->getModule());
 		} else {
-			$viewer->view('Modals/RecordsList.tpl', $request->getModule($request));
+			$viewer->view('Modals/RecordsList.tpl', $request->getModule());
 		}
 	}
 
@@ -111,9 +111,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$filterFields = $request->getArray('filterFields', 'Alnum');
 		$showSwitch = $request->getInteger('showSwitch');
 		//Check whether the request is in multi select mode
-		$multiSelectMode = $request->get('multi_select');
-		if (empty($multiSelectMode)) {
+		if ($request->isEmpty('multi_select', true)) {
 			$multiSelectMode = false;
+		} else {
+			$multiSelectMode = $request->getByType('multi_select');
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -184,12 +185,18 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
 		}
 		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-			$listViewModel->set('search_key', $request->getByType('search_key', 1));
-			$listViewModel->set('search_value', $request->get('search_value'));
-			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-			$viewer->assign('SEARCH_VALUE', $request->get('search_value'));
+			$operator = 's';
+			if (!$request->isEmpty('operator')) {
+				$operator = $request->getByType('operator');
+			}
+			$searchKey = $request->getByType('search_key', 'Alnum');
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator);
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+			$viewer->assign('SEARCH_KEY', $searchKey);
+			$viewer->assign('SEARCH_VALUE', $searchValue);
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = App\Condition::validSearchParams($listViewModel->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -232,8 +239,13 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
 			}
 			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-				$listViewModel->set('search_key', $request->getByType('search_key', 1));
-				$listViewModel->set('search_value', $request->get('search_value'));
+				$operator = 's';
+				if (!$request->isEmpty('operator')) {
+					$operator = $request->getByType('operator');
+				}
+				$searchKey = $request->getByType('search_key', 'Alnum');
+				$listViewModel->set('search_key', $searchKey);
+				$listViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator));
 			}
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
@@ -259,11 +271,11 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 		if ($showSwitch) {
 			$viewer->assign('SWITCH', true)->assign('SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
 		}
+		$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());

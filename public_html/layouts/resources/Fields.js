@@ -18,7 +18,7 @@ App.Fields = {
 		 * @param {boolean} registerForAddon
 		 * @param {object} customParams
 		 */
-		register(parentElement, registerForAddon, customParams,clasName = 'dateField') {
+		register(parentElement, registerForAddon, customParams, clasName = 'dateField') {
 			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
@@ -27,8 +27,8 @@ App.Fields = {
 			if (typeof registerForAddon === "undefined") {
 				registerForAddon = true;
 			}
-			let elements = $('.'+ clasName, parentElement);
-			if (parentElement.hasClass('dateField')) {
+			let elements = $('.' + clasName, parentElement);
+			if (parentElement.hasClass(clasName)) {
 				elements = parentElement;
 			}
 			if (elements.length === 0) {
@@ -39,7 +39,7 @@ App.Fields = {
 				$('.js-date__btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
-					$(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();
+					$(e.currentTarget).closest('.date').find('input.' + clasName).get(0).focus();
 				});
 			}
 			let format = CONFIG.dateFormat;
@@ -56,7 +56,7 @@ App.Fields = {
 					monthsShort: App.Fields.Date.monthsTranslated,
 					today: app.vtranslate('JS_TODAY'),
 					clear: app.vtranslate('JS_CLEAR'),
-					format,
+					format: format,
 					titleFormat: 'MM yyyy', /* Leverages same syntax as 'format' */
 					weekStart: CONFIG.firstDayOfWeekNo
 				};
@@ -65,9 +65,11 @@ App.Fields = {
 				todayBtn: "linked",
 				clearBtn: true,
 				language: CONFIG.langKey,
-				starts: CONFIG.firstDayOfWeekNo,
+				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
+				format: format,
+				enableOnReadonly: false
 			};
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
@@ -112,7 +114,6 @@ App.Fields = {
 				autoUpdateInput: false,
 				autoApply: true,
 				ranges: ranges,
-				opens: "center",
 				locale: {
 					format: format,
 					separator: ",",
@@ -125,23 +126,46 @@ App.Fields = {
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
 					monthNames: App.Fields.Date.fullMonthsTranslated,
-				},
+				}
 			};
 
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
-			$('.js-date__btn').off().on('click', (e) => {
+			parentElement.find('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
 			elements.each((index, element) => {
 				let currentParams = $.extend(true, params, $(element).data('params'));
-				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
-					$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
-					$(this).trigger('change');
-				});
+				$(element).daterangepicker(currentParams)
+					.on('apply.daterangepicker', function (ev, picker) {
+						$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
+						$(this).trigger('change');
+					})
+					.on('show.daterangepicker', (ev, picker) => {
+						this.positionPicker(ev, picker);
+					})
+					.on('showCalendar.daterangepicker', (ev, picker) => {
+						this.positionPicker(ev, picker);
+					});
 			});
 		},
+		positionPicker(ev, picker) {
+			let offset = picker.element.offset();
+			let $window = $(window);
+			if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
+				picker.opens = 'left';
+			} else {
+				picker.opens = 'right';
+			}
+			picker.move();
+			if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
+				picker.drops = 'up';
+			} else {
+				picker.drops = 'down';
+			}
+			picker.move();
+		}
 	},
 	DateTime: {
 		/*
@@ -296,8 +320,21 @@ App.Fields = {
 				} else {
 					elements = $('.js-editor:not([disabled])', parentElement);
 				}
-				if (elements.length !== 0 || typeof elements !== "undefined") {
-					this.loadEditor(elements, params);
+				if (elements.length !== 0 && typeof elements !== "undefined") {
+					this.isModal = elements.closest('.js-modal-container').length;
+					if (this.isModal) {
+						let self = this;
+						this.progressInstance = $.progressIndicator({
+							blockInfo: {
+								enabled: true,
+								onBlock: () => {
+									self.loadEditor(elements, params);
+								}
+							},
+						});
+					} else {
+						this.loadEditor(elements, params);
+					}
 				}
 			}
 
@@ -337,7 +374,8 @@ App.Fields = {
 			 */
 			loadEditor(element, customConfig) {
 				this.setElement(element);
-				const instance = this.getEditorInstanceFromName();
+				const instance = this.getEditorInstanceFromName(),
+					self = this;
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
@@ -345,14 +383,19 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
+					emojiEnabled: false,
+					mentionsEnabled: false,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
 								evt.editor.updateElement();
 							});
+							if (self.isModal) {
+								self.progressInstance.progressIndicator({mode: 'hide'});
+							}
 						}
 					},
-					extraPlugins: 'colorbutton,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -361,7 +404,10 @@ App.Fields = {
 						},
 						{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
 						{name: 'links', items: ['Link', 'Unlink']},
-						{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
+						{
+							name: 'insert',
+							items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
+						},
 						{name: 'tools', items: ['Maximize', 'ShowBlocks']},
 						{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
 						{name: 'document', items: ['Source', 'Print']},
@@ -376,12 +422,12 @@ App.Fields = {
 							name: 'paragraph',
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
-						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
 					],
 					toolbar_Min: [
 						{
 							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
 						},
 						{name: 'colors', items: ['TextColor', 'BGColor']},
 						{name: 'tools', items: ['Maximize']},
@@ -389,18 +435,354 @@ App.Fields = {
 							name: 'paragraph',
 							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
 						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']}
+					],
+					toolbar_Clipboard: [
+						{name: 'document', items: ['Print']},
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						}
 					]
 				};
 				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
+				}
+				config = Object.assign(config, element.data());
+				if (config.emojiEnabled) {
+					let emojiToolbar = {name: 'links', items: ['EmojiPanel']};
+					if (typeof config.toolbar === 'string') {
+						config[`toolbar_${config.toolbar}`].push(emojiToolbar);
+					} else if (Array.isArray(config.toolbar)) {
+						config.toolbar.push(emojiToolbar);
+					}
+					config.extraPlugins = config.extraPlugins + ',emoji'
+					config.outputTemplate = '{id}';
+				}
+				if (config.mentionsEnabled) {
+					config.extraPlugins = config.extraPlugins + ',mentions'
+					config.mentions = this.registerMentions();
 				}
 				if (instance) {
 					CKEDITOR.remove(instance);
 				}
 				element.ckeditor(config);
 			}
+
+			/**
+			 * Register mentions
+			 * @returns {Array}
+			 */
+			registerMentions() {
+				let minSerchTextLength = app.getMainParams('gsMinLength');
+				return [{
+					feed: this.getMentionUsersData.bind(this),
+					itemTemplate: `<li data-id="{id}" class="row no-gutters">
+											<div class="c-img__completion__container">
+												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
+												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+											</div>
+										</li>`,
+					outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
+					minChars: minSerchTextLength
+				},
+					{
+						feed: App.Fields.Text.getMentionData,
+						marker: '#',
+						itemTemplate: `<li data-id="{id}" class="row no-gutters">
+											<div class="col c-circle-icon mr-1">
+												<span class="userIcon-{module}"></span>
+											</div>
+											<div class="col row no-gutters u-overflow-x-hidden">
+												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
+												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
+											</div>
+										</li>`,
+						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
+						minChars: minSerchTextLength
+					}
+				];
+			}
+
+			/**
+			 * Get mention Users data (invoked by ck editor mentions plugin)
+			 * @param {object} opts
+			 * @param {function} callback
+			 */
+			getMentionUsersData(opts, callback) {
+				App.Fields.Text.getMentionData(opts, callback, 'owners');
+			}
 		},
+		/**
+		 * Completions class for contenteditable html element for records, users and emojis. Params can be passed in data-completions- of contenteditable element or as argument. Default params:
+		 * {
+		 		completionsCollection: {
+						records: true,
+						users: true,
+						emojis: true
+					}
+			}
+		 */
+		Completions: class {
+			/**
+			 * Constructor
+			 * @param {jQuery} inputDiv - contenteditable div
+			 * @param params
+			 */
+			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
+				if (typeof inputDiv === "undefined" || inputDiv.length === 0) {
+					return;
+				}
+				let basicParams = {
+					completionsCollection: {
+						records: true,
+						users: true,
+						emojis: true
+					}
+				};
+				this.params = Object.assign(basicParams, inputDiv.data(), params);
+				this.inputDiv = inputDiv;
+				this.collection = [];
+				if (this.params.completionsCollection.records) {
+					this.collection.push(this.registerMentionCollection('#'))
+				}
+				if (this.params.completionsCollection.users) {
+					this.collection.push(this.registerMentionCollection('@', 'owners'))
+				}
+				if (this.params.completionsCollection.emojis) {
+					this.collection.push(this.registerEmojiCollection())
+				}
+				this.register(inputDiv);
+			}
+
+			/**
+			 * Register mention collection for tribute.js
+			 * @param {string} symbol
+			 * @param {string} searchModule
+			 * @returns {{trigger: *, selectTemplate: selectTemplate, values: values, menuItemTemplate: (function(*): string), lookup: string, fillAttr: string}}
+			 */
+			registerMentionCollection(symbol, searchModule = '-') {
+				let self = this;
+				return {
+					trigger: symbol,
+					selectTemplate: function (item) {
+						if (this.range.isContentEditable(this.current.element)) {
+							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${item.original.module}">${item.original.label.split('(')[0].trim()}</a>`;
+						}
+						return symbol + item.original.label;
+					},
+					values: (text, cb) => {
+						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
+							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+						}
+					},
+					menuItemTemplate: function (item) {
+						return self.mentionTemplate({
+							id: item.original.id,
+							module: item.original.module,
+							category: item.original.category,
+							image: item.original.image,
+							label: item.original.label,
+							icon: item.original.icon
+						});
+					},
+					lookup: 'label',
+					fillAttr: 'label',
+				}
+			}
+
+			/**
+			 * Register emoji collection for tribute.js
+			 * @returns {{trigger: string, selectTemplate: selectTemplate, menuItemTemplate: (function(*): string), lookup: string, fillAttr: string, values: Array}}
+			 */
+			registerEmojiCollection() {
+				return {
+					trigger: ':',
+					selectTemplate: function (item) {
+						if (this.range.isContentEditable(this.current.element)) {
+							return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
+						}
+						return item.original.symbol;
+					},
+					menuItemTemplate: function (item) {
+						return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
+					},
+					lookup: 'id',
+					fillAttr: 'keywords',
+					values: (text, cb) => {
+						if (text.length >= 2) {
+							cb(App.emoji);
+						}
+					},
+				}
+			}
+
+			/*
+			 * Mention template
+			 */
+			mentionTemplate(params) {
+				let icon = '';
+				if (params.module !== undefined) {
+					icon = `userIcon-${params.module}`;
+				}
+				if (params.icon !== undefined && params.icon !== '') {
+					icon = params.icon;
+				}
+				let avatar = `<div class="col c-circle-icon mr-1">
+								<span class="${icon}"></span>
+							</div>`;
+				if (params.image !== undefined && params.image !== '') {
+					avatar = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`
+				}
+				return `<div data-id="${params.id}" class="row no-gutters">
+							${avatar}
+							<div class="col row no-gutters u-overflow-x-hidden">
+								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
+								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
+							</div>
+						</div>`
+			}
+
+			/**
+			 * Register
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			register(inputDiv) {
+				const self = this;
+				this.completionsCollection = new Tribute({
+					collection: self.collection,
+					allowSpaces: true,
+					replaceTextSuffix: '',
+				});
+				this.completionsCollection.attach(inputDiv[0]);
+				if (this.params.completionsTextarea !== undefined) {
+					this.registerCompletionsTextArea(inputDiv);
+				}
+				if (this.params.completionsButtons !== undefined) {
+					this.registerCompletionsButtons();
+				}
+				if (App.emoji === undefined) {
+					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
+						.then(response => response.json())
+						.then(response => {
+							App.emoji = response;
+						}).catch(error => console.error('Error:', error));
+				}
+				this.registerTagClick(inputDiv);
+			}
+
+			/**
+			 * Register completons hidden textarea - useful with forms
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			registerCompletionsTextArea(inputDiv) {
+				let textarea = inputDiv.siblings(`[name=${inputDiv.attr('id')}]`);
+				inputDiv.on('focus', function () {
+					textarea.val(inputDiv.html());
+				}).on('blur keyup paste input', function () {
+					textarea.val(inputDiv.html());
+				});
+			}
+
+			/**
+			 * Register tag click
+			 * @param inputDiv
+			 */
+			registerTagClick(inputDiv) {
+				inputDiv.closest('.js-completions__container').find('.js-completions__messages').on('click', '.js-completions__tag', (e) => {
+					e.preventDefault();
+					inputDiv.append($(e.target).clone());
+				});
+			}
+
+			/**
+			 * Register completions buttons
+			 */
+			registerCompletionsButtons() {
+				let completionsContainer = this.inputDiv.parents().eq(3);
+				this.registerEmojiPanel(this.inputDiv, completionsContainer.find('.js-completions__emojis'));
+				completionsContainer.find('.js-completions__users').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
+				});
+				completionsContainer.find('.js-completions__records').on('click', (e) => {
+					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
+				});
+			}
+
+			/**
+			 * Register emojipanel library
+			 * @param {jQuery} inputDiv - contenteditable div
+			 * @param {jQuery} emojisContainer
+			 */
+			registerEmojiPanel(inputDiv, emojisContainer) {
+				new EmojiPanel({
+					container: '.js-completions__emojis',
+					json_url: '/libraries/emojipanel/dist/emojis.json',
+				});
+				emojisContainer.on('click', (e) => {
+					let element = $(e.target);
+					element.toggleClass('active');
+				})
+				emojisContainer.on('click', '.emoji', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(e.currentTarget).data('char') !== undefined) {
+						inputDiv.append(`${$(e.currentTarget).data('char')}`);
+					}
+				});
+				emojisContainer.on('mouseenter', '.emoji', (e) => {
+					if ($(e.currentTarget).data('name') !== undefined) {
+						emojisContainer.find('.emoji-hovered').remove();
+						emojisContainer.find('footer').prepend(`<div class="emoji-hovered">${$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')}</div>`);
+					}
+				});
+				emojisContainer.on('clickoutside', () => {
+					emojisContainer.removeClass('active');
+				});
+			}
+		},
+
+		/**
+		 * Get mention data (invoked by ck editor mentions plugin and tribute.js)
+		 * @param {object} opts
+		 * @param {function} callback
+		 * @param {string} searchModule
+		 */
+		getMentionData(text, callback, searchModule = '-') {
+			let basicSearch = new Vtiger_BasicSearch_Js();
+			basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
+			basicSearch.returnHtml = false;
+			basicSearch.searchModule = searchModule;
+			if (typeof text === 'object') {
+				text = text.query.toLowerCase();
+			}
+			if (searchModule === 'owners') {
+				AppConnector.request({
+					action: 'Search',
+					mode: 'owners',
+					value: text
+				}).done((data) => {
+					callback(data.result);
+				})
+			} else {
+				basicSearch.search(text).done(function (data) {
+					data = JSON.parse(data);
+					let serverDataFormat = data.result,
+						reponseDataList = [];
+					for (let id in serverDataFormat) {
+						let responseData = serverDataFormat[id];
+						reponseDataList.push(responseData);
+					}
+					callback(reponseDataList);
+				});
+			}
+		},
+
 		/**
 		 * Destroy ckEditor
 		 * @param {jQuery} element
@@ -410,6 +792,7 @@ App.Fields = {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
 		},
+
 		/**
 		 * Generate random character
 		 * @returns {string}
@@ -419,14 +802,15 @@ App.Fields = {
 			const rand = Math.floor(Math.random() * chars.length);
 			return chars.substring(rand, rand + 1);
 		},
+
 		/**
 		 * generate random hash
 		 * @returns {string}
 		 */
 		generateRandomHash(prefix = '') {
 			prefix = prefix.toString();
-			const hash = Math.random().toString(36).substr(2, 9) + '-' + Math.random().toString(36).substr(2, 9) + '-' + new Date().valueOf();
-			return prefix ? prefix + '-' + hash : hash;
+			const hash = Math.random().toString(36).substr(2, 10) + Math.random().toString(36).substr(2, 10) + new Date().valueOf() + Math.random().toString(36).substr(2, 6);
+			return prefix ? prefix + hash : hash;
 		}
 	},
 	Picklist: {
@@ -443,30 +827,22 @@ App.Fields = {
 			}
 			if (typeof view === "undefined") {
 				const select2Elements = $('select.select2', parent).toArray();
-				const choosenElements = $('.chzn-select', parent).toArray();
 				select2Elements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'select2', viewParams);
-				});
-				choosenElements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'choosen', viewParams);
 				});
 				return;
 			}
 			//If view is select2, This will convert the ui of select boxes to select2 elements.
-			if (typeof view === 'string') {
-				switch (view) {
-					case 'select2':
-						return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
-					case 'choosen':
-						return App.Fields.Picklist.showChoosenElementView(parent, viewParams);
-				}
+			if (view === 'select2') {
+				return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
+			} else {
 				app.errorLog(new Error(`Unknown select type [${view}]`));
 			}
 		},
 		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
-		showSelect2ElementView: function (selectElement, params) {
+		showSelect2ElementView(selectElement, params) {
 			let self = this;
 			selectElement = $(selectElement);
 			if (typeof params === "undefined") {
@@ -477,6 +853,45 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
+			params = this.registerParams(selectElement, params);
+			selectElement.each(function () {
+				let select = $(this);
+				let htmlBoolParams = select.data('select');
+				if (htmlBoolParams === 'tags') {
+					params.tags = true;
+					params.tokenSeparators = [","]
+				} else {
+					params[htmlBoolParams] = true;
+				}
+				select.select2(params)
+					.on("select2:open", (e) => {
+						if (select.data('unselecting')) {
+							select.removeData('unselecting');
+							setTimeout(function () {
+								select.each(function () {
+									$(this).select2('close');
+								});
+							}, 1);
+						}
+						let instance = $(e.currentTarget).data('select2');
+						instance.$dropdown.css('z-index', 1000002);
+					}).on("select2:unselect", () => {
+					select.data('unselecting', true);
+				});
+				if (typeof self[params.selectCb] === 'function') {
+					self[params.selectCb](select, params);
+				}
+			});
+
+			return selectElement;
+		},
+		/**
+		 * Register params
+		 * @param selectElement
+		 * @param params
+		 * @returns {*}
+		 */
+		registerParams(selectElement, params) {
 			if (typeof params.dropdownParent === 'undefined') {
 				const modalParent = $(selectElement).closest('.modal-body');
 				if (modalParent.length) {
@@ -523,7 +938,6 @@ App.Fields = {
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
 			if (typeof params.maximumSelectionLength !== "undefined" && typeof params.formatSelectionTooBig === "undefined") {
-				var limit = params.maximumSelectionLength;
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function (limit) {
 					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
@@ -540,6 +954,10 @@ App.Fields = {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
+					let actualElement = $(data.element);
+					if (typeof selectElement.data('showAdditionalIcons') !== "undefined" && actualElement.is('option')) {
+						return '<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' + actualElement.text() + '</div></div>';
+					}
 					if (typeof data.name === "undefined") {
 						return data.text;
 					}
@@ -549,6 +967,11 @@ App.Fields = {
 						return '<span>' + data.name + '</span>';
 					}
 				};
+				params.escapeMarkup = function (markup) {
+					return markup;
+				};
+			} else if (typeof this[params.templateResult] === 'function') {
+				params.templateResult = this[params.templateResult];
 			}
 			if (typeof params.templateSelection === "undefined") {
 				params.templateSelection = function (data, container) {
@@ -560,119 +983,138 @@ App.Fields = {
 					}
 					return data.text;
 				};
+			} else if (typeof this[params.templateSelection] === 'function') {
+				params.templateSelection = this[params.templateSelection];
 			}
 			if (selectElement.data('ajaxSearch') === 1) {
-				params.tags = false;
-				params.language.searching = function () {
-					return app.vtranslate('JS_SEARCHING');
-				}
-				params.language.inputTooShort = function (args) {
-					var remainingChars = args.minimum - args.input.length;
-					return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
-				}
-				params.language.errorLoading = function () {
-					return app.vtranslate('JS_NO_RESULTS_FOUND');
-				}
-				params.placeholder = '';
-				params.ajax = {
-					url: selectElement.data('ajaxUrl'),
-					dataType: 'json',
-					delay: 250,
-					method: 'POST',
-					data: function (params) {
-						return {
-							value: params.term, // search term
-							page: params.page
-						};
-					},
-					processResults: function (data, params) {
-						var items = new Array;
-						if (data.success == true) {
-							selectElement.find('option').each(function () {
-								var currentTarget = $(this);
-								items.push({
-									label: currentTarget.html(),
-									value: currentTarget.val(),
-								});
-							});
-							items = items.concat(data.result.items);
-						}
-						return {
-							results: items,
-							pagination: {
-								more: false
-							}
-						};
-					},
-					cache: false
-				};
-				params.escapeMarkup = function (markup) {
-					if (markup !== "undefined")
-						return markup;
-				};
-				var minimumInputLength = 3;
-				if (selectElement.data('minimumInput') !== "undefined") {
-					minimumInputLength = selectElement.data('minimumInput');
-				}
-				params.minimumInputLength = minimumInputLength;
-				params.templateResult = function (data) {
-					if (typeof data.name === "undefined") {
-						return data.text;
-					}
-					if (data.type == 'optgroup') {
-						return '<strong>' + data.name + '</strong>';
-					} else {
-						return '<span>' + data.name + '</span>';
-					}
-				};
-				params.templateSelection = function (data, container) {
-					if (data.text === '') {
-						return data.name;
-					}
-					return data.text;
-				};
+				params = this.registerAjaxParams(selectElement, params);
 			}
-			var selectElementNew = selectElement;
-			selectElement.each(function (e) {
-				var select = $(this);
-				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-					var selectNew = select.clone().addClass('d-none');
-					select.parent().append(selectNew);
-					select.prop('disabled', true);
-				}
-				if (select.hasClass('tags')) {
-					params.tags = true;
-				}
-				select.select2(params)
-					.on("select2:open", function (e) {
-						if (select.data('unselecting')) {
-							select.removeData('unselecting');
-							setTimeout(function (e) {
-								select.each(function () {
-									$(this).select2('close');
-								});
-							}, 1);
-						}
-						var element = $(e.currentTarget);
-						var instance = element.data('select2');
-						instance.$dropdown.css('z-index', 1000002);
-					}).on("select2:unselect", function (e) {
-					select.data('unselecting', true);
-				});
-
-				if (select.hasClass('js-select2-sortable')) {
-					self.registerSelect2Sortable(select, params.sortableCb);
-				}
-			})
-
-			return selectElement;
+			return params;
 		},
 		/**
-		 * Register select2 drag and drop sorting
+		 * Register ajax params
+		 * @param selectElement
+		 * @param params
+		 * @returns {*}
+		 */
+		registerAjaxParams(selectElement, params) {
+			params.tags = false;
+			params.language.searching = function () {
+				return app.vtranslate('JS_SEARCHING');
+			}
+			params.language.inputTooShort = function (args) {
+				var remainingChars = args.minimum - args.input.length;
+				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
+			}
+			params.language.errorLoading = function () {
+				return app.vtranslate('JS_NO_RESULTS_FOUND');
+			}
+			params.placeholder = '';
+			params.ajax = {
+				url: selectElement.data('ajaxUrl'),
+				dataType: 'json',
+				delay: 250,
+				method: 'POST',
+				data: function (params) {
+					return {
+						value: params.term, // search term
+						page: params.page
+					};
+				},
+				processResults: function (data, params) {
+					var items = new Array;
+					if (data.success == true) {
+						selectElement.find('option').each(function () {
+							var currentTarget = $(this);
+							items.push({
+								label: currentTarget.html(),
+								value: currentTarget.val(),
+							});
+						});
+						items = items.concat(data.result.items);
+					}
+					return {
+						results: items,
+						pagination: {
+							more: false
+						}
+					};
+				},
+				cache: false
+			};
+			params.escapeMarkup = function (markup) {
+				if (markup !== "undefined")
+					return markup;
+			};
+			var minimumInputLength = 3;
+			if (selectElement.data('minimumInput') !== "undefined") {
+				minimumInputLength = selectElement.data('minimumInput');
+			}
+			params.minimumInputLength = minimumInputLength;
+			params.templateResult = function (data) {
+				if (typeof data.name === "undefined") {
+					return data.text;
+				}
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+			params.templateSelection = function (data, container) {
+				if (data.text === '') {
+					return data.name;
+				}
+				return data.text;
+			};
+			return params;
+		},
+		/**
+		 * Prepend template with a flag, function is calling by select2
+		 * @param optionData
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		prependDataTemplate(optionData) {
+			let template = optionData.text;
+			if (optionData.id !== undefined && optionData.id !== '') {
+				template = $(optionData.element.dataset.template);
+				if (optionData.element.dataset.state !== undefined) { //check if element has icons with different states
+					if (optionData.element.dataset.state === 'active') {
+						template.find('.js-select-option-event').removeClass(optionData.element.dataset.iconInactive)
+							.addClass(optionData.element.dataset.iconActive)
+					} else {
+						template.find('.js-select-option-event').removeClass(optionData.element.dataset.iconActive)
+							.addClass(optionData.element.dataset.iconInactive)
+					}
+				}
+			}
+			return template;
+		},
+		/**
+		 * Register select sortable
+		 * @param select
+		 * @param params
+		 */
+		registerSelectSortable(select, params) {
+			this.sortSelectOptions(select);
+			this.registerSortEvent(select, params.sortableCb);
+		},
+		/**
+		 * Sort elements (options) in select by data-sort-index
+		 * @param {jQuery} select2 element
+		 */
+		sortSelectOptions(select) {
+			select.find('option[data-sort-index]').sort((a, b) => {
+				return ($(b).data('sort-index')) < ($(a).data('sort-index')) ? 1 : -1;
+			}).appendTo(select);
+		},
+		/**
+		 * Register select drag and drop sorting
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSelect2Sortable(select, cb = () =>{}) {
+		registerSortEvent(select, cb = () => {
+		}) {
 			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
 			ul.sortable({
 				items: 'li:not(.select2-search__field)',
@@ -680,7 +1122,7 @@ App.Fields = {
 				stop: function () {
 					$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
 						let optionTitle = $(this).attr('title');
-						select.find('option').each(function() {
+						select.find('option').each(function () {
 							if ($(this).text() === optionTitle) {
 								select.prepend($(this));
 							}
@@ -691,99 +1133,241 @@ App.Fields = {
 			});
 		},
 		/**
-		 * Replace select with choosen
-		 * @param {jQuery} parent
-		 * @param {object} viewParams
+		 * Register icons events in select2 options
+		 * @param selectElement
 		 */
-		showChoosenElementView(parent, viewParams) {
-			let selectElement = $('.chzn-select', parent);
-			//parent itself is the element
-			if (parent.is('select.chzn-select')) {
-				selectElement = parent;
-			}
-			// generate random ID
-			selectElement.each(function () {
-				if ($(this).prop("id").length === 0) {
-					$(this).attr('id', "sel" + App.Fields.Text.generateRandomChar() + App.Fields.Text.generateRandomChar() + App.Fields.Text.generateRandomChar());
+		registerIconsEvents(selectElement) {
+			selectElement.on('select2:selecting', (event) => {
+				let currentTarget = $(event.params.args.originalEvent.target);
+				if (!currentTarget.hasClass('js-select-option-event') && !currentTarget.is('path')) {
+					return;
 				}
-			});
-			//fix for multiselect error prompt hide when validation is success
-			selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
-				$(e.currentTarget).trigger('focusout');
-			});
-			let params = {
-				no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
-			};
-			const moduleName = app.getModuleName();
-			if (selectElement.filter('[multiple]') && moduleName !== 'Install') {
-				params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-			}
-			if (moduleName !== 'Install') {
-				params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
-			}
-			selectElement.chosen(params);
-			selectElement.each(function () {
-				const select = $(this);
-				// hide selected items in the chosen instance when item is hidden.
-				if (select.hasClass('hideSelected')) {
-					const ns = [];
-					select.find('optgroup,option').each(function (n, e) {
-						if ($(this).hasClass('d-none')) {
-							ns.push(n);
+				event.preventDefault();
+				if (currentTarget.is('path')) { //svg target fix
+					currentTarget = currentTarget.closest('.js-select-option-event');
+				}
+				let currentElementData = $(event.params.args.data.element).data(),
+					optionElement = $(event.params.args.data.element),
+					progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
+				AppConnector.request(currentElementData.url).done((data) => {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					let response = data.result;
+					if (response && response.result) {
+						if (optionElement.attr('data-state') === 'active') {
+							optionElement.attr('data-state', 'inactive');
+							currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
+						} else {
+							optionElement.attr('data-state', 'active');
+							currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
 						}
-					});
-					if (ns.length) {
-						select.next().find('.search-choice-close').each(function (n, e) {
-							if ($.inArray($(this).data('option-array-index'), ns) !== -1) {
-								$(this).closest('li').remove();
-							}
-						})
+						if (response.message) {
+							Vtiger_Helper_Js.showPnotify({text: response.message, type: 'success'});
+						}
+					} else if (response && response.message) {
+						Vtiger_Helper_Js.showPnotify({text: response.message});
 					}
-				}
-				if (select.attr('readonly') === 'readonly') {
-					select.on('chosen:updated', function () {
-						if (select.attr('readonly')) {
-							let selectData = select.data('chosen');
-							select.attr('disabled', 'disabled');
-							if (typeof selectData === 'object') {
-								selectData.search_field_disabled();
-							}
-							if (select.is(':disabled')) {
-								select.attr('disabled', 'disabled');
-							} else {
-								select.removeAttr('disabled');
-							}
-						}
-					});
-					select.trigger('chosen:updated');
-				}
+				}).fail(function () {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				});
 			});
-			// Improve the display of default text (placeholder)
-			return $('.chosen-container-multi .default, .chosen-container').css('width', '100%');
-		},
-		/**
-		 * Function to destroy the chosen element and get back the basic select Element
-		 */
-		destroyChosenElement: function (parent) {
-			if (typeof parent === "undefined") {
-				parent = $('body');
-			}
-			let selectElement = $('.chzn-select', parent);
-			//parent itself is the element
-			if (parent.is('select.chzn-select')) {
-				selectElement = parent;
-			}
-			return selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
-		},
+		}
 	},
 	MultiImage: {
 		currentFileUploads: 0,
-
 		register(container) {
-			$('.js-multi-image', container).toArray().forEach((fileUploadInput) => {
-				new MultiImage(fileUploadInput);
+			$('.js-multi-image', container).each(function () {
+				new MultiImage($(this));
 			});
 		}
+	},
+	MultiEmail: {
+		register(container) {
+			container.find('.js-multi-email').each((index, element) => {
+				const inputElement = element;
+				$(element).find('.js-email').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.parseToJSON($(inputElement));
+					});
+				});
+				$(element).find('.js-add-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.addEmail($(inputElement));
+					});
+				});
+				$(element).find('.js-remove-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
+						App.Fields.MultiEmail.parseToJSON(container);
+					});
+				});
+				$(element).find('input.js-checkbox').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.toggleCheckBox($(e.target));
+						App.Fields.MultiEmail.parseToJSON(container);
+					});
+				});
+			});
+		},
+		/**
+		 * Convert data to json
+		 * @param {jQuery} element
+		 */
+		parseToJSON(element) {
+			let allFields = $(element).find('[class*=js-multi-email-row]');
+			let arr = [];
+			let arrayLength = allFields.length;
+			for (let i = 0; i < arrayLength; ++i) {
+				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
+				if (inputField.val() !== '') {
+					arr.push({
+						e: $(inputField).val(),
+						o: $(checkboxField).is(":checked") ? 1 : 0
+					});
+				}
+			}
+			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
+		},
+		/**
+		 * Invoked after clicking the add button
+		 * @param {jQuery} container
+		 */
+		addEmail(container) {
+			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
+			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
+			newField.removeClass('js-multi-email-row-1');
+			newField.addClass('js-multi-email-row-' + cnt);
+			newField.find('input.js-email').val('');
+			newField.find('input.js-checkbox').removeAttr('checked');
+			newField.find('label.js-label-checkbox').removeClass('active');
+			newField.find('.js-remove-item').eq(0).on('click', (e) => {
+				App.Fields.MultiEmail.removeEmail($(e.target), container);
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.toggleCheckBox($(e.target));
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.find('input.js-email').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
+		},
+		/**
+		 * Invoked after clicking the remove button
+		 * @param {jQuery} container
+		 */
+		removeEmail(element, container) {
+			if (container.find('[class*=js-multi-email-row]').length > 1) {
+				element.closest('[class*=js-multi-email-row]').remove();
+			}
+		},
+		/**
+		 * Toggle checkbox
+		 * @param {jQuery} element
+		 */
+		toggleCheckBox(element) {
+			if ($(element).is(":checked")) {
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-square').addClass('fa-check-square');
+			} else {
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-check-square').addClass('fa-square');
+			}
+		}
+	},
+	MultiDependField: {
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		register(container) {
+			container.find('.js-multi-field').each((index, element) => {
+				const inputElement = $(element);
+				const fields = inputElement.find('.js-multi-field-val').data('fields');
+				inputElement.find('.js-add-item').on('click', (e) => {
+					App.Fields.MultiDependField.addRow(inputElement, fields);
+				});
+				App.Fields.MultiDependField.registerRow(inputElement, fields);
+			});
+		},
+		/**
+		 * Register row
+		 * @param {jQuery} inputElement
+		 * @param {Object} fields
+		 */
+		registerRow(inputElement, fields) {
+			for (let i in fields) {
+				inputElement.find('[name="' + fields[i] + '"]').on('change', (e) => {
+					App.Fields.MultiDependField.parseToJson(inputElement, fields);
+				});
+			}
+			inputElement.find('.js-remove-item').on('click', (e) => {
+				App.Fields.MultiDependField.removeRow($(e.target), inputElement);
+				App.Fields.MultiDependField.parseToJson(inputElement.closest('.js-multi-field'), fields);
+			});
+		},
+		/**
+		 * Invoked after clicking the remove button
+		 * @param {jQuery} element
+		 * @param {jQuery} container
+		 */
+		removeRow(element, container) {
+			if (container.find('.js-multi-field-row').length > 1) {
+				element.closest('.js-multi-field-row').remove();
+			}
+		},
+		/**
+		 * Convert data to json
+		 * @param {jQuery} element
+		 * @param {Object} fields
+		 */
+		parseToJson(element, fields) {
+			let arr = [];
+			let allFields = $(element).find('.js-multi-field-row');
+			let arrayLength = allFields.length;
+			for (let i = 0; i < arrayLength; ++i) {
+				let partData = {},
+					skip = false;
+				for (let k in fields) {
+					partData[fields[k]] = $(allFields[i]).find('[name="' + fields[k] + '"]').val();
+					if (k == 0 && partData[fields[k]] === '') {
+						skip = true;
+						break;
+					}
+				}
+				if (!skip) {
+					arr.push(partData);
+				}
+			}
+			$(element).find('input.js-multi-field-val').val(JSON.stringify(arr));
+		},
+		/**
+		 * Invoked after clicking the add button
+		 * @param {jQuery} container
+		 * @param {Object} fields
+		 */
+		addRow(container, fields) {
+			let newField;
+			let lastField = container.find('.js-multi-field-row').last();
+			let selectFields = lastField.find('select.select2');
+			if (selectFields.length) {
+				selectFields.select2('destroy').removeAttr('data-select2-id').find('option').removeAttr('data-select2-id');
+				newField = lastField.clone(false, false);
+				App.Fields.Picklist.showSelect2ElementView(lastField.find('select.select2'));
+			} else {
+				newField = lastField.clone(false, false);
+			}
+			for (let i in fields) {
+				newField.find('[name="' + fields[i] + '"]').val('');
+			}
+			newField.insertAfter(container.find('.js-multi-field-row').last());
+			App.Fields.Picklist.showSelect2ElementView(newField.find('select.select2'));
+			App.Fields.Date.register(newField);
+			App.Fields.MultiDependField.registerRow(container, fields);
+		},
 	},
 	DependentSelect: {
 		/**
@@ -856,5 +1440,85 @@ App.Fields = {
 		register(container, data) {
 			return new GanttField(container, data);
 		}
+	},
+	Integer: {
+		/**
+		 * Function returns the integer in user specified format.
+		 * @param {number} value
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value) {
+			if (!value) {
+				value = 0;
+			}
+			let groupSeparator = CONFIG.currencyGroupingSeparator;
+			let groupingPattern = CONFIG.currencyGroupingPattern;
+			value = parseFloat(value).toFixed(1);
+			let integer = value.toString().split('.')[0];
+			if (integer.length > 3) {
+				if (groupingPattern === '123,456,789') {
+					integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+				} else if (groupingPattern === '123456,789') {
+					integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+				} else if (groupingPattern === '12,34,56,789') {
+					integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
+				}
+			}
+			return integer;
+		},
+	},
+	Double: {
+		/**
+		 * Function returns the currency in user specified format.
+		 * @param {number} value
+		 * @param {boolean} numberOfDecimal
+		 * @param {int} numberOfDecimal
+		 * @returns {string}
+		 */
+		formatToDisplay(value, fixed = true, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+			if (!value) {
+				value = 0;
+			}
+			value = parseFloat(value);
+			if (fixed) {
+				value = value.toFixed(numberOfDecimal);
+			}
+			let a = value.toString().split('.');
+			let integer = App.Fields.Integer.formatToDisplay(a[0]);
+			let decimal = a[1];
+			if (numberOfDecimal) {
+				if (CONFIG.truncateTrailingZeros) {
+					if (decimal) {
+						let d = '';
+						for (var i = 0; i < decimal.length; i++) {
+							if (decimal[decimal.length - i - 1] !== '0') {
+								d = decimal[decimal.length - i - 1] + d;
+							}
+						}
+						decimal = d;
+					}
+				}
+				if (decimal) {
+					return integer + CONFIG.currencyDecimalSeparator + decimal;
+				}
+			}
+			return integer;
+		},
+		/**
+		 * Function to get value for db format.
+		 * @param {string} value
+		 * @returns {number}
+		 */
+		formatToDb(value) {
+			if (value == undefined || value == '') {
+				value = 0;
+			}
+			value = value.toString();
+			value = value.split(CONFIG.currencyGroupingSeparator).join('');
+			value = value.replace(/\s/g, '').replace(CONFIG.currencyDecimalSeparator, '.');
+			return parseFloat(value);
+		}
 	}
-};
+}
+;

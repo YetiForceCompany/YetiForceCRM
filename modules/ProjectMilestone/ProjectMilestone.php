@@ -89,14 +89,6 @@ class ProjectMilestone extends CRMEntity
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id'];
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string $moduleName Module name
@@ -107,9 +99,9 @@ class ProjectMilestone extends CRMEntity
 		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PM')->set('cur_id', 1)->save();
 		} elseif ($eventType === 'module.postupdate') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PM')->set('cur_id', 1)->save();
 		}
 	}
 }

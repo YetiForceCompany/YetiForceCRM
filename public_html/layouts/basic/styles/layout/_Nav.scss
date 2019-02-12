@@ -15,6 +15,30 @@
 	}
 }
 
+.limited-footer--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer-limited;
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		.c-menu {
+			&__container {
+				bottom: $h-footer;
+			}
+		}
+	}
+}
+
+.user-info--active.limited-footer--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer;
+		}
+	}
+}
+
 .c-menu {
 	&__container {
 		position: fixed;
@@ -45,19 +69,22 @@
 
 	@include media-breakpoint-down(sm) {
 		&__container {
-			bottom: $h-footer-mobile;
+			bottom: $h-footer-limited;
 		}
 	}
 
 	&__item {
+		width: -webkit-fill-available;
+		width: -moz-available;
+
 		a {
 			display: inline-flex;
 			width: 100%;
 			border-radius: 0;
 			vertical-align: text-top;
-			padding: 8px 30px 8px 55px;
+			padding: calculate-rem(8px) calculate-rem(30px) calculate-rem(8px) calculate-rem(55px);
 			word-wrap: break-word;
-			font-size: 15px;
+			font-size: calculate-rem(15px);
 			line-height: 1.2;
 			background: $bg-menu;
 
@@ -65,22 +92,16 @@
 				background: lighten($bg-menu, 5%);
 			}
 
-			&:focus {
-				.c-menu__item__text {
-					white-space: normal;
-				}
-			}
-
 			&.active {
 				background: darken($bg-menu, 10%);
 			}
 
 			&.hasIcon {
-				padding: 8px 30px 8px 12px;
+				padding: calculate-rem(8px) calculate-rem(30px) calculate-rem(8px) calculate-rem(12px);
 			}
 
 			.c-menu__item__text {
-				padding: 2px 0;
+				padding: calculate-rem(2px) 0;
 				position: relative;
 				word-wrap: break-word;
 				white-space: nowrap;
@@ -90,19 +111,19 @@
 			}
 
 			&.hasIcon img {
-				height: 20px;
+				height: calculate-rem(20px);
 			}
 
-			.glyphicon, .fa, &.hasIcon img {
-				margin-right: 12px;
-				font-size: 20px;
-				padding-right: 7px;
-				padding-left: 3px;
+			.fa, &.hasIcon img {
+				margin-right: calculate-rem(12px);
+				font-size: calculate-rem(20px);
+				padding-right: calculate-rem(7px);
+				padding-left: calculate-rem(3px);
 			}
 
 			.fa {
 				position: relative;
-				top: 2px;
+				top: calculate-rem(2px);
 			}
 
 			position: relative;
@@ -110,9 +131,8 @@
 			.toggler {
 				position: absolute;
 				right: 12px;
-				font-size: 10px;
+				font-size: calculate-rem(10px);
 				line-height: 24px;
-
 			}
 
 			&.collapsed {
@@ -125,52 +145,52 @@
 				.fa-plus-circle {
 					display: none;
 				}
+			}
 
-				.c-menu__item__text {
-					white-space: normal;
-				}
+			&:not(.is-submenu-toggler) {
+				padding-right: .8rem !important;
 			}
 		}
 
 		.tpl-menu-SubMenu,
 		.tpl-menu-Profile_submenu {
-			background: $color-menu;
-			color: $bg-menu;
+			background: $bg-sub-menu;
+			color: $color-navbar;
 
 			a {
-				font-size: 14px;
-				color: $bg-menu;
-				background: $color-menu;
+				font-size: calculate-rem(14px);
+				color: $color-navbar;
+				background: $bg-sub-menu;
+				padding: 0.375rem 1.875rem 0.375rem 0.8rem;
 
 				&:hover, &:focus {
-					background: lighten($color-menu, 5%);
+					background: lighten($bg-sub-menu, 5%);
 				}
 
 				&.active {
-					background: darken($color-menu, 5%);
-				}
-
-				&.hasIcon {
-					padding: 6px 12px;
+					background: darken($bg-sub-menu, 5%);
 				}
 			}
 
 			.menuLabel > a {
 				font-weight: 600;
 				text-transform: uppercase;
-				padding: 6px 12px;
+				padding: calculate-rem(6px) calculate-rem(12px);
 			}
 
 			button {
-				background: darken($color-menu, 10%);
+				background: darken($bg-sub-menu, 10%);
+				color: $color-menu;
+				overflow: hidden;
+				text-overflow: ellipsis;
 
 				&:hover, &:focus {
-					color: $color-menu;
-					background: $bg-menu;
+					color: $bg-sub-menu;
+					background: $color-navbar;
 				}
 
 				&.hasIcon {
-					padding: 6px 12px;
+					padding: calculate-rem(6px) calculate-rem(12px);
 				}
 			}
 		}
@@ -181,16 +201,45 @@
 		width: 100%;
 		position: relative;
 
-		.modulesList .menuIcon {
-			padding-right: 18px;
-			font-size: 1.6em;
-			height: 100%;
-			min-width: 42px;
+		.ps {
+			&__rail-y,
+			&__rail-x {
+				background-color: transparent !important;
+			}
+
+			&__rail-y:hover {
+				> .ps__thumb-y {
+					width: calculate-rem(8px);
+				}
+			}
+
+			&__rail-x:hover {
+				> .ps__thumb-x {
+					width: calculate-rem(8px);
+				}
+			}
+		}
+	}
+
+	&__item__icon {
+		padding-right: calculate-rem(18px);
+		font-size: 1.6em;
+		min-width: calculate-rem(42px);
+
+		&--sub {
+			display: none;
+			@at-root .tpl-menu-SubMenu & {
+				display: inline-block;
+				margin-right: 0.4rem;
+				font-size: calculate-rem(10px);
+				margin-top: auto;
+				margin-bottom: auto;
+			}
 		}
 	}
 
 	&__header {
-		height: $h-header-logo;
+		height: $h-header;
 		padding-right: 0;
 		padding-left: 0;
 		background-color: #406a95;
@@ -216,7 +265,7 @@
 
 		> .nav-item {
 			position: relative;
-			margin-right: 2px;
+			margin-right: calculate-rem(2px);
 
 			&:last-child {
 				margin-right: 0;
@@ -234,7 +283,7 @@
 			.iconModule {
 				position: relative;
 				top: -2px;
-				font-size: 17px;
+				font-size: calculate-rem(17px);
 			}
 		}
 
@@ -255,8 +304,8 @@
 			}
 
 			.c-badge--top-right {
-				position:inherit;
-				margin-left:5px;
+				position: inherit;
+				margin-left: calculate-rem(5px);
 			}
 
 			&.show .dropdown-toggle,
@@ -279,7 +328,6 @@
 
 		.dropdown-menu {
 			min-width: 300px;
-			z-index: 1025;
 
 			.nav-item {
 				margin: 0;
@@ -290,6 +338,11 @@
 			.nav-link {
 				border-radius: 0;
 				font-weight: bold;
+			}
+
+			.c-tab__text {
+				display: inline !important;
+				margin-left: 0.25rem;
 			}
 		}
 	}
@@ -315,6 +368,30 @@
 		@extend .small;
 	}
 
+	&--border {
+		border-bottom: 0;
+
+		.nav-link {
+			&:not(.active) {
+				border-color: transparent !important;
+			}
+
+			&.active {
+				border-bottom-color: transparent !important;
+			}
+
+			&.active:after {
+				content: '';
+				width: 100%;
+				right: 0;
+				top: calculate-rem(35px);
+				position: absolute;
+				border: solid 1px;
+				z-index: -1;
+			}
+		}
+	}
+
 	&--gray {
 		background: $bg-rtabs;
 	}
@@ -334,3 +411,32 @@
 	}
 }
 
+.dashboardViewContainer {
+	.nav-inverted-tabs {
+		.nav-item {
+			.nav-link {
+				border: 1px solid #ffffff;
+				border-top: 0;
+				border-radius: 0 0 0.25rem 0.25rem;
+				font-size: 0.85em;
+
+				&:hover {
+					border: 1px solid #dee2e6;
+					border-top: 0;
+				}
+
+				&.active {
+					color: #495057;
+					background: #f8f9fa;
+					border: 1px solid #dee2e6;
+					border-top: 0;
+					border-radius: 0 0 0.25rem 0.25rem;
+
+					&:hover {
+						background: #dee2e6;
+					}
+				}
+			}
+		}
+	}
+}

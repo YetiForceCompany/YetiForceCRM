@@ -4,8 +4,8 @@
  * Auto assign record View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 {
@@ -20,9 +20,8 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 			if ($recordModel && $recordModel->isEditable()) {
 				return true;
 			}
@@ -50,7 +49,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
@@ -74,16 +73,11 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 */
 	public function getModalScripts(\App\Request $request)
 	{
-		$parentScriptInstances = parent::getModalScripts($request);
-		$scripts = [
+		return array_merge($this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
-		];
-		$modalInstances = $this->checkAndConvertJsScripts($scripts);
-		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);
-
-		return $scriptInstances;
+		]), parent::getModalScripts($request));
 	}
 }

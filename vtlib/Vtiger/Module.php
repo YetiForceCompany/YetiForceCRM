@@ -46,19 +46,7 @@ class Module extends ModuleBasic
 		if (empty($label)) {
 			$label = $moduleInstance->name;
 		}
-		$isExists = (new \App\Db\Query())
-			->select('relation_id')
-			->from('vtiger_relatedlists')
-			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
-			->exists();
-		if ($isExists) {
-			\App\Log::trace("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists", __METHOD__);
 
-			return;
-		}
-
-		$sequence = $this->__getNextRelatedListSequence();
-		$presence = 0; // 0 - Enabled, 1 - Disabled
 		// Allow ADD action of other module records (default)
 		if ($actions === false) {
 			$actions = ['ADD'];
@@ -69,6 +57,20 @@ class Module extends ModuleBasic
 			$useactionsText = implode(',', $actions);
 		}
 		$useactionsText = strtoupper($useactionsText);
+
+		$isExists = (new \App\Db\Query())
+			->select(['relation_id'])
+			->from('vtiger_relatedlists')
+			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
+			->exists();
+		if ($isExists) {
+			\App\Log::trace("Setting relation with $moduleInstance->name [$useactionsText] ... Error, the related module already exists", __METHOD__);
+
+			return;
+		}
+
+		$sequence = $this->__getNextRelatedListSequence();
+		$presence = 0; // 0 - Enabled, 1 - Disabled
 
 		$db->createCommand()->insert('vtiger_relatedlists', [
 			'tabid' => $this->id,
@@ -192,7 +194,7 @@ class Module extends ModuleBasic
 						'<entityfieldlabel>' => $entityField->label,
 						'<entitycolumn>' => $entityField->column,
 						'<entityfieldname>' => $entityField->name,
-						 '_ModuleName_' => $this->name,
+						'_ModuleName_' => $this->name,
 						'<_baseTableName_>' => 'u_' . (\App\Db::getInstance()->getConfig('base')['tablePrefix']) . strtolower($this->name),
 					];
 					foreach ($replacevars as $key => $value) {
@@ -202,9 +204,9 @@ class Module extends ModuleBasic
 				}
 			}
 			$languages = \App\Language::getAll(false);
-			$langFile = 'languages/en_us/' . $this->name . '.json';
+			$langFile = 'languages/' . \App\Language::DEFAULT_LANG . '/' . $this->name . '.json';
 			foreach ($languages as $prefix => $language) {
-				if ($prefix !== 'en_us') {
+				if ($prefix !== \App\Language::DEFAULT_LANG) {
 					copy($langFile, 'languages/' . $prefix . '/' . $this->name . '.json');
 				}
 			}
@@ -234,9 +236,6 @@ class Module extends ModuleBasic
 	 */
 	public static function getClassInstance($modulename)
 	{
-		if ($modulename == 'Calendar') {
-			$modulename = 'Activity';
-		}
 		$instance = false;
 		$filepath = "modules/$modulename/$modulename.php";
 		if (Utils::checkFileAccessForInclusion($filepath, false)) {
@@ -256,15 +255,13 @@ class Module extends ModuleBasic
 	{
 		$return = true;
 		$instance = self::getClassInstance((string) $modulename);
-		if ($instance) {
-			if (method_exists($instance, 'moduleHandler')) {
-				\App\Log::trace("Invoking moduleHandler for $eventType ...START", __METHOD__);
-				$fire = $instance->moduleHandler((string) $modulename, (string) $eventType);
-				if ($fire !== null && $fire !== true) {
-					$return = false;
-				}
-				\App\Log::trace("Invoking moduleHandler for $eventType ...DONE", __METHOD__);
+		if ($instance && method_exists($instance, 'moduleHandler')) {
+			\App\Log::trace("Invoking moduleHandler for $eventType ...START", __METHOD__);
+			$fire = $instance->moduleHandler((string) $modulename, (string) $eventType);
+			if ($fire !== null && $fire !== true) {
+				$return = false;
 			}
+			\App\Log::trace("Invoking moduleHandler for $eventType ...DONE", __METHOD__);
 		}
 		return $return;
 	}

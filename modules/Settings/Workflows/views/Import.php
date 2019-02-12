@@ -4,8 +4,8 @@
  * Import View Class for Workflows Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 {
@@ -19,8 +19,8 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 			$xmlName = $_FILES['imported_xml']['name'];
 			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
 			$xmlError = $_FILES['imported_xml']['error'];
-			$extension = end(explode('.', $xmlName));
-
+			$explodeXmlName = explode('.', $xmlName);
+			$extension = end($explodeXmlName);
 			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
 

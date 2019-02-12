@@ -1,17 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="currencyUpdateContainer">
-		<div class="widget_header row">
+		<div class="widget_header row mb-2">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="badge badge-info my-2">
-			{\App\Language::translate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}
-		</div>
 		{if $CURRNUM lt 2}
-			<div class="alert alert-danger" style="margin:10px 15px;">
+			<div class="alert alert-danger  marginTop10 marginBottom10px marginRight15 marginLeft15">
 				<strong>{\App\Language::translate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {\App\Language::translate('MSG_ONE_CURRENCY', $QUALIFIED_MODULE)}
+			</div>
+		{/if}
+		{if !\App\RequestUtil::isNetConnection()}
+			<div class="alert alert-danger marginTop10 marginBottom10px marginRight15 marginLeft15">
+				<strong>{\App\Language::translate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {\App\Language::translate('MSG_NO_NET_CONN', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
 		<form class="form-horizontal" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings">
@@ -26,7 +28,7 @@
 					<td class="fieldValue">
 						<div class="row">
 							<div class="col-md-5">
-								<select name="bank" id="bank" class="chzn-select form-control">
+								<select name="bank" id="bank" class="select2 form-control">
 									{foreach from=$BANK item=key}
 										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
 									{/foreach}
@@ -34,8 +36,18 @@
 							</div>
 							<div class="col-md-7 btn-toolbar justify-content-end">
 								{*<button class="btn btn-success float-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
-								<button class="btn btn-info" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
-								<button class="btn btn-danger ml-1 {if count($UNSUPPORTED_CURRENCIES) eq 0}d-none{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
+								{if count($SUPPORTED_CURRENCIES) gt 0}
+									<button class="btn btn-info"
+											id="supportedCurrencies"
+											title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}"
+											type="button"><span class="fas fa-info-circle"></span></button>
+								{/if}
+								{if count($UNSUPPORTED_CURRENCIES) gt 0}
+									<button class="btn btn-danger ml-1"
+											id="unsupportedCurrencies"
+											title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}"
+											type="button"><span class="fas fa-exclamation-triangle"></span></button>
+								{/if}
 							</div>
 						</div>
 					</td>

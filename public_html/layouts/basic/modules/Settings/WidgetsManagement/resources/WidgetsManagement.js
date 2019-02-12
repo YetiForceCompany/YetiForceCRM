@@ -47,69 +47,60 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		});
 		return fields;
 	},
-	getCurrentDashboardId: function () {
-		return $('.selectDashboard li.active').data('id');
+	getCurrentDashboardId() {
+		return $('.selectDashboard li a.active').parent().data('id');
 	},
-	registerAddedDashboard: function () {
-		var thisInstance = this;
-		$('.addDashboard').on('click', function () {
-			var data = {
+	registerAddedDashboard() {
+		const thisInstance = this;
+		$('.addDashboard').on('click', () => {
+			app.showModalWindow({
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType',
-				sendByAjaxCb: function () {
-					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home').done(function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
+				sendByAjaxCb: () => {
+					let contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home').done((data) => {
+						thisInstance.updateContentsDiv(contentsDiv, data);
 					});
 				},
-			};
-			app.showModalWindow(data);
-		});
-	},
-	registerSelectDashboard: function () {
-		var thisInstance = this;
-		$('.selectDashboard li').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
-			var dashboardId = currentTarget.data('id');
-			var contentsDiv = $('.contentsDiv');
-			thisInstance.getModuleLayoutEditor('Home', dashboardId).done(function (data) {
-				contentsDiv.html(data);
-				thisInstance.registerEvents();
 			});
 		});
 	},
-	registerDashboardAction: function () {
-		var thisInstance = this;
-		$('.editDashboard').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
+	registerSelectDashboard() {
+		const thisInstance = this;
+		$('.selectDashboard li').on('click', (e) => {
+			let contentsDiv = $('.contentsDiv');
+			thisInstance.getModuleLayoutEditor($('#selectedModuleName').val(), $(e.currentTarget).data('id')).done((data) => {
+				thisInstance.updateContentsDiv(contentsDiv, data);
+			});
+		});
+	},
+	registerDashboardAction() {
+		const thisInstance = this;
+		$('.editDashboard').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
 			e.stopPropagation();
-			var data = {
+			app.showModalWindow({
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType&dashboardId=' + currentTarget.closest('li').data('id'),
-				sendByAjaxCb: function () {
-					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done(function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
+				sendByAjaxCb: () => {
+					let contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done((data) => {
+						thisInstance.updateContentsDiv(contentsDiv, data);
 					});
 				},
-			};
-			app.showModalWindow(data);
+			});
 		});
-		$('.deleteDashboard').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
+		$('.deleteDashboard').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
 			e.stopPropagation();
-			var params = {
+			AppConnector.request({
 				parent: 'Settings',
 				module: app.getModuleName(),
 				action: 'Dashboard',
 				mode: 'delete',
 				dashboardId: currentTarget.closest('li').data('id')
-			};
-			AppConnector.request(params).done(function () {
-				var contentsDiv = $('.contentsDiv');
-				thisInstance.getModuleLayoutEditor('Home', 1).done(function (data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
+			}).done(() => {
+				let contentsDiv = $('.contentsDiv');
+				thisInstance.getModuleLayoutEditor('Home', 1).done((data) => {
+					thisInstance.updateContentsDiv(contentsDiv, data);
 				});
 			});
 		});
@@ -138,9 +129,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					if (form.validationEngine('validate')) {
 						var paramsForm = form.serializeFormData();
 						paramsForm['action'] = 'addBlock';
-						var paramsBlock = [];
-						paramsBlock['authorized'] = block.val();
-						paramsBlock['label'] = block.find(':selected').text();
+						var paramsBlock = {
+							authorized: block.val(),
+							label: block.find(':selected').text()
+						};
 						thisInstance.save(paramsForm, 'save').done(function (data) {
 							var params = {};
 							var response = data.result;
@@ -276,9 +268,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					onValidationComplete: function (form, valid) {
 						if (valid) {
 							if (widgets.val()) {
-								var saveButton = form.find(':submit');
+								let saveButton = form.find(':submit'),
+									field = form.find('[name="widgets"]');
 								saveButton.attr('disabled', 'disabled');
-								var field = form.find('[name="widgets"]');
 
 								let paramsForm = form.serializeFormData();
 								paramsForm['action'] = 'addWidget';
@@ -293,15 +285,16 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								if (form.find('[name="cache"]').prop("checked"))
 									paramsForm['cache'] = 1;
 								if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
-									var result = app.vtranslate('JS_FIELD_EMPTY');
-									form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
+									form.find('select[name="owners_all"]')
+										.prev('div')
+										.validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'bottomLeft', true);
 									saveButton.removeAttr('disabled');
 									e.preventDefault();
 									return false;
 								}
 								thisInstance.save(paramsForm, 'save').done(function (data) {
-									var result = data['result'];
-									var params = {};
+									let result = data['result'],
+										params = {};
 									if (data['success']) {
 										app.hideModalWindow();
 										paramsForm['id'] = result['id']
@@ -310,19 +303,19 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 										Settings_Vtiger_Index_Js.showMessage(params);
 										thisInstance.showCustomField(paramsForm);
 									} else {
-										var message = data['error']['message'];
+										let message = data['error']['message'],
+											errorField;
 										if (data['error']['code'] != 513) {
-											var errorField = form.find('[name="fieldName"]');
+											errorField = form.find('[name="fieldName"]');
 										} else {
-											var errorField = form.find('[name="fieldLabel"]');
+											errorField = form.find('[name="fieldLabel"]');
 										}
 										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 										saveButton.removeAttr('disabled');
 									}
 								});
 							} else {
-								var result = app.vtranslate('JS_FIELD_EMPTY');
-								widgets.prev('div').validationEngine('showPrompt', result, 'error', 'topLeft', true);
+								widgets.prev('div').validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'topLeft', true);
 								e.preventDefault();
 								return;
 							}
@@ -464,6 +457,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			if (selectElements.length > 0) {
 				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="default_date"]'));
 			}
+			selectElements = basicDropDown.find('select[name="customMultiFilter"]');
+			if (selectElements.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="customMultiFilter"]'));
+			}
+			selectElements = basicDropDown.find('select[name="defaultFilter"]');
+			if (selectElements.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="defaultFilter"]'));
+			}
 			thisInstance.avoidDropDownClick(dropDownContainer);
 			dropDownMenu.on('change', ':checkbox', function (e) {
 				let currentTarget = jQuery(e.currentTarget);
@@ -489,28 +490,28 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to register the click event for save button after edit field details
 	 */
 	registerSaveFieldDetailsEvent: function (form) {
-		var submitButtton = form.find('.saveFieldDetails');
+		let submitButtton = form.find('.saveFieldDetails'),
+			fieldRow = submitButtton.closest('.editFieldsWidget'),
+			dropDownMenu = form.closest('.dropdown-menu');
 		//close the drop down
 		submitButtton.closest('.btn-group').removeClass('open');
 		//adding class opacity to fieldRow - to give opacity to the actions of the fields
-		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
-		var dropDownMenu = form.closest('.dropdown-menu');
 		form.find('select').each(function () {
-			var selectedvalue = jQuery(this).val();
-			jQuery(this).find('option').removeAttr('selected');
-			if (typeof (jQuery(this).attr('multiple')) === "undefined") {
-				var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
-				jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+			let selectedValue = $(this).val(),
+				encodedSelectedValue;
+			$(this).find('option').removeAttr('selected');
+			if (typeof ($(this).attr('multiple')) === "undefined") {
+				encodedSelectedValue = selectedValue.replace(/"/g, '\\"');
+				$(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 			} else {
-				for (var i = 0; i < selectedvalue.length; i++) {
-					var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
-					jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+				for (let i = 0; i < selectedValue.length; i++) {
+					encodedSelectedValue = selectedValue[i].replace(/"/g, '\\"');
+					$(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 				}
 			}
 		});
-		var basicContents = form.closest('.editFieldsWidget').find('.basicFieldOperations');
-		basicContents.html(form);
+		form.closest('.editFieldsWidget').find('.basicFieldOperations').html(form);
 		dropDownMenu.remove();
 	},
 	/**
@@ -735,8 +736,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['default_owner'] = 'mine';
 
 			thisInstance.save(paramsForm, 'save').done(function (data) {
-				var result = data['result'];
-				var params = {};
+				let result = data['result'],
+					params = {};
 				if (data['success']) {
 					app.hideModalWindow();
 					paramsForm['id'] = result['id'];
@@ -745,11 +746,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					Settings_Vtiger_Index_Js.showMessage(params);
 					thisInstance.showCustomField(paramsForm);
 				} else {
-					var message = data['error']['message'];
+					let message = data['error']['message'],
+						errorField;
 					if (data['error']['code'] != 513) {
-						var errorField = form.find('[name="fieldName"]');
+						errorField = form.find('[name="fieldName"]');
 					} else {
-						var errorField = form.find('[name="fieldLabel"]');
+						errorField = form.find('[name="fieldLabel"]');
 					}
 					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 				}
@@ -864,7 +866,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					selectedModule: moduleNameSelect2.val(),
 					filterid: filteridSelect2.val()
 				}).done(function (res) {
-					var res = jQuery(res);
+					res = $(res);
 					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
 					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 					fieldsSelect2.closest('tr').show();
@@ -882,31 +884,24 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
-				var selectedModule = moduleNameSelect2.val();
-				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				var selectedFilterId = filteridSelect2.val();
-				var selectedFilterLabel = filteridSelect2.find(':selected').text();
-				var selectedFields = [];
+				let selectedFields = [];
 				fieldsSelect2.select2('data').map(function (obj) {
 					selectedFields.push(obj.id);
 				});
-				var data = {
-					module: selectedModule
-				}
-				if (typeof selectedFields != 'object') {
-					selectedFields = [selectedFields];
-				}
+				let data = {
+					module: moduleNameSelect2.val()
+				};
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();
-				var paramsForm = {
+				let paramsForm = {
 					data: JSON.stringify(data),
 					action: 'addWidget',
 					blockid: element.data('block-id'),
 					title: form.find('[name="widgetTitle"]').val(),
 					linkid: element.data('linkid'),
-					label: selectedModuleLabel + ' - ' + selectedFilterLabel,
+					label: moduleNameSelect2.find(':selected').text() + ' - ' + filteridSelect2.find(':selected').text(),
 					name: 'Mini List',
-					filterid: selectedFilterId,
+					filterid: filteridSelect2.val(),
 					isdefault: 0,
 					cache: 0,
 					height: 4,
@@ -915,8 +910,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					default_owner: 'mine'
 				};
 				thisInstance.save(paramsForm, 'save').done(function (data) {
-					var result = data['result'];
-					var params = {};
+					let result = data['result'],
+						params = {};
 					if (data['success']) {
 						app.hideModalWindow();
 						paramsForm['id'] = result['id'];
@@ -925,11 +920,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						Settings_Vtiger_Index_Js.showMessage(params);
 						thisInstance.showCustomField(paramsForm);
 					} else {
-						var message = data['error']['message'];
-						if (data['error']['code'] != 513) {
-							var errorField = form.find('[name="fieldName"]');
+						let message = data['error']['message'],
+							errorField;
+						if (data['error']['code'] !== 513) {
+							errorField = form.find('[name="fieldName"]');
 						} else {
-							var errorField = form.find('[name="fieldLabel"]');
+							errorField = form.find('[name="fieldLabel"]');
 						}
 						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 					}
@@ -988,8 +984,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		var table = contents.find('.editFieldsTable');
-		contents.on('click', '.deleteCustomBlock', function (e) {
+		contents.on('click', '.js-delete-custom-block-btn', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('block-id');
@@ -1018,28 +1013,31 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	/**
 	 * Function to register the change event for layout editor modules list
 	 */
-	registerModulesChangeEvent: function () {
-		var thisInstance = this;
-		var container = jQuery('#widgetsManagementEditorContainer');
-		var contentsDiv = container.closest('.contentsDiv');
-
+	registerModulesChangeEvent() {
+		const thisInstance = this;
+		let container = $('#widgetsManagementEditorContainer');
+		let contentsDiv = container.closest('.contentsDiv');
 		App.Fields.Picklist.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'));
-
-		container.on('change', '[name="widgetsManagementEditorModules"]', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var selectedModule = currentTarget.val();
-			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).done(function (data) {
-				contentsDiv.html(data);
-				thisInstance.registerEvents();
+		container.on('change', '[name="widgetsManagementEditorModules"]', (e) => {
+			thisInstance.getModuleLayoutEditor($(e.currentTarget).val(), thisInstance.getCurrentDashboardId()).done((data) => {
+				thisInstance.updateContentsDiv(contentsDiv, data);
 			});
 		});
-
+	},
+	/**
+	 * Update contents div and register events.
+	 * @param {jQuery} contentsDiv
+	 * @param {HTMLElement} data
+	 */
+	updateContentsDiv(contentsDiv, data) {
+		contentsDiv.html(data);
+		App.Fields.Picklist.showSelect2ElementView(contentsDiv.find('.select2'));
+		this.registerEvents();
 	},
 	/**
 	 * Function to get the respective module layout editor through pjax
 	 */
 	getModuleLayoutEditor: function (selectedModule, selectedDashboard) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',

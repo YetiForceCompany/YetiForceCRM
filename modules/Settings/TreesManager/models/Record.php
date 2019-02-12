@@ -4,8 +4,8 @@
  * Settings TreesManager record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -114,35 +114,32 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param array  $tree
 	 * @param int    $depth
-	 * @param string $parenttrre
+	 * @param string $parentTree
 	 */
-	public function insertData($tree, $depth, $parenttrre)
+	public function insertData($tree, $depth, $parentTree)
 	{
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
 		$icon = (int) $tree['icon'] === 1 ? '' : $tree['icon'];
-		if ($parenttrre != '') {
-			$parenttrre = $parenttrre . '::';
+		if ($parentTree != '') {
+			$parentTree = $parentTree . '::';
 		}
-		$parenttrre = $parenttrre . $treeID;
+		$parentTree = $parentTree . $treeID;
 		$params = [
 			'templateid' => $this->getId(),
 			'name' => $label,
 			'tree' => $treeID,
-			'parenttrre' => $parenttrre,
+			'parentTree' => $parentTree,
 			'depth' => $depth,
 			'label' => $label,
 			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
-			'icon' => $icon,
+			'icon' => $icon
 		];
 		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
-			foreach ($tree['children'] as $tree) {
-				$this->insertData($tree, $depth + 1, $parenttrre);
-				if ($tree['metadata']['replaceid']) {
-					$this->replaceValue($tree, $this->getId());
-				}
+			foreach ($tree['children'] as $treeChild) {
+				$this->insertData($treeChild, $depth + 1, $parentTree);
 			}
 		}
 	}
@@ -175,8 +172,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$treeID = (int) str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
-			$parenttrre = substr($row['parenttrre'], 0, -$cut);
-			$pieces = explode('::', $parenttrre);
+			$parentTree = substr($row['parentTree'], 0, -$cut);
+			$pieces = explode('::', $parentTree);
 			$parent = (int) str_replace('T', '', end($pieces));
 			$icon = false;
 			if (!empty($row['icon'])) {
@@ -284,21 +281,49 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
-			foreach ($tree as $treeRow) {
-				$params = [];
-				foreach ($treeRow['old'] as $new) {
-					$params[] = $row['uitype'] === 309 ? ",T{$new}," : 'T' . $new;
+			$uiType = (int) $row['uitype'];
+			if (309 === $uiType) {
+				$this->updateCategoryMultipicklist($tree, $tableName, $columnName);
+			} else {
+				foreach ($tree as $treeRow) {
+					$params = [];
+					foreach ($treeRow['old'] as $new) {
+						$params[] = 'T' . $new;
+					}
+					$db->createCommand()
+						->update($tableName, [$columnName => 'T' . current($treeRow['new'])], [$columnName => $params])
+						->execute();
 				}
-				$newVal = 'T' . current($treeRow['new']);
-				if ($row['uitype'] === 309) {
-					$newVal = ",{$newVal},";
-				}
-				$db->createCommand()
-					->update($tableName, [$columnName => $newVal], [$columnName => $params])
-					->execute();
 			}
 		}
 		$dataReader->close();
+	}
+
+	/**
+	 * Update category multipicklist.
+	 *
+	 * @param array  $tree
+	 * @param string $tableName
+	 * @param string $columnName
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private function updateCategoryMultipicklist(array $tree, string $tableName, string $columnName)
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		foreach ($tree as $treeRow) {
+			$query = (new \App\Db\Query())->from($tableName);
+			$query->orWhere(['like', $columnName, ",T{$treeRow['old'][0]},"]);
+			$dataReaderTree = $query->createCommand()->query();
+			while ($rowTree = $dataReaderTree->read()) {
+				$dbCommand->update(
+					$tableName,
+					[$columnName => str_replace(",T{$treeRow['old'][0]},", ",T{$treeRow['new'][0]},", $rowTree[$columnName])],
+					[$columnName => $rowTree[$columnName]]
+				)->execute();
+			}
+			$dataReaderTree->close();
+		}
 	}
 
 	/**
@@ -331,10 +356,10 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$tree = $row['tree'];
 			$parent = '';
 			if ($row['depth'] > 0) {
-				$parenttrre = $row['parenttrre'];
+				$parentTree = $row['parentTree'];
 				$cut = strlen('::' . $tree);
-				$parenttrre = substr($parenttrre, 0, -$cut);
-				$pieces = explode('::', $parenttrre);
+				$parentTree = substr($parentTree, 0, -$cut);
+				$pieces = explode('::', $parentTree);
 				$parent = end($pieces);
 			}
 			if ($parent && in_array($parent, $values) && !in_array($tree, $values)) {
@@ -342,7 +367,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$dataReader->close();
-
 		return implode(',', $values);
 	}
 

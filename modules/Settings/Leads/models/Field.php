@@ -25,11 +25,16 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 		if (!$fieldDataType) {
 			$fieldDataType = parent::getFieldDataType();
 			switch ($fieldDataType) {
-				case 'text': $fieldDataType = 'textArea';
+				case 'text':
+					$fieldDataType = 'textArea';
 					break;
-				case 'boolean': $fieldDataType = 'checkBox';
+				case 'boolean':
+					$fieldDataType = 'checkBox';
 					break;
-				case 'multipicklist': $fieldDataType = 'multiSelectCombo';
+				case 'multipicklist':
+					$fieldDataType = 'multiSelectCombo';
+					break;
+				default:
 					break;
 			}
 		}

@@ -33,6 +33,8 @@ class OSSMailView_Mbody_View extends Vtiger_Index_View
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($recordModel->getDisplayValue('content')));
 		$viewer->assign('RECORD', $record);
+		$viewer->assign('SKIN_PATH', \Vtiger_Theme::getCurrentUserThemePath());
+		$viewer->assign('LANGUAGE', \App\Language::getLanguage());
 		$viewer->view('mbody.tpl', 'OSSMailView');
 	}
 }

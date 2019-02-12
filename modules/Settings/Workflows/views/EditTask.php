@@ -17,15 +17,15 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = $request->get('task_id');
-		$workflowId = $request->get('for_workflow');
+		$recordId = $request->getInteger('task_id', '');
+		$workflowId = $request->getInteger('for_workflow');
 
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 		$taskTypes = $workflowModel->getTaskTypes();
 		if ($recordId) {
 			$taskModel = Settings_Workflows_TaskRecord_Model::getInstance($recordId);
 		} else {
-			$taskType = $request->get('type');
+			$taskType = $request->getByType('type', 'Alnum');
 			if (empty($taskType)) {
 				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'VTEmailTask';
 			}
@@ -44,7 +44,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
-			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
+			if (!empty($taskObject->entity_type) && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
@@ -68,11 +68,9 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
-		if ($taskType === 'VTUpdateFieldsTask') {
-			if ($sourceModule === 'Documents') {
-				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
-				$viewer->assign('RESTRICTFIELDS', $restrictFields);
-			}
+		if ($taskType === 'VTUpdateFieldsTask' && $sourceModule === 'Documents') {
+			$restrictFields = ['folderid', 'filename', 'filelocationtype'];
+			$viewer->assign('RESTRICTFIELDS', $restrictFields);
 		}
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);

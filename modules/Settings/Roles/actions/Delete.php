@@ -13,17 +13,16 @@ class Settings_Roles_Delete_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
-		$transferRecordId = $request->get('transfer_record');
+		$recordId = $request->getByType('record', 'Alnum');
+		$transferRecordId = $request->getByType('transfer_record', 'Alnum');
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
 		$transferToRole = Settings_Roles_Record_Model::getInstanceById($transferRecordId);
-		if ($recordModel && $transferToRole) {
+		if ($recordModel && $transferToRole && $recordId != $transferRecordId && strpos($transferToRole->get('parentrole') . '::', $recordModel->get('parentrole')) === false) {
 			$recordModel->delete($transferToRole);
 		}
-
 		$redirectUrl = $moduleModel->getDefaultUrl();
-		header("Location: $redirectUrl");
+		header("location: $redirectUrl");
 	}
 }

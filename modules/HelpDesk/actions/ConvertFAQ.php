@@ -37,9 +37,9 @@ class HelpDesk_ConvertFAQ_Action extends \App\Controller\Action
 			$answer = $faqRecordModel->get('faq_answer');
 			if ($answer) {
 				$faqRecordModel->save();
-				header('Location: ' . $faqRecordModel->getDetailViewUrl());
+				header('location: ' . $faqRecordModel->getDetailViewUrl());
 			} else {
-				header('Location: ' . $faqRecordModel->getEditViewUrl() . "&parentId=$recordId&parentModule=$moduleName");
+				header('location: ' . $faqRecordModel->getEditViewUrl() . "&parentId=$recordId&parentModule=$moduleName");
 			}
 		}
 	}

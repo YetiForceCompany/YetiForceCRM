@@ -11,12 +11,13 @@
 
 jQuery.Class("Vtiger_RelatedList_Js", {
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		var moduleClassName = app.getModuleName() + "_RelatedList_Js";
-		var fallbackClassName = Vtiger_RelatedList_Js;
+		let moduleClassName = app.getModuleName() + "_RelatedList_Js",
+			fallbackClassName = Vtiger_RelatedList_Js,
+			instance;
 		if (typeof window[moduleClassName] !== "undefined") {
-			var instance = new window[moduleClassName]();
+			instance = new window[moduleClassName]();
 		} else {
-			var instance = new fallbackClassName();
+			instance = new fallbackClassName();
 		}
 		instance.parentRecordId = parentId;
 		instance.parentModuleName = parentModule;
@@ -199,13 +200,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
 				thisInstance.registerListEvents();
-				if (thisInstance.listSearchInstance) {
-					thisInstance.listSearchInstance.registerBasicEvents();
-				}
 			}
 			aDeferred.resolve(responseData);
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
 			progressInstance.progressIndicator({'mode': 'hide'});
 		});
 		return aDeferred.promise();
@@ -259,21 +261,44 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 		return aDeferred.promise();
 	},
-	deleteRelation: function (relatedIdList) {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			module: this.parentModuleName,
-			action: 'RelationAjax',
-			mode: 'deleteRelation',
-			related_module: this.moduleName,
-			src_record: this.parentRecordId,
-			related_record_list: JSON.stringify(relatedIdList)
-		}).done(function (responseData) {
-			aDeferred.resolve(responseData);
-		}).fail(function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
+	deleteRelation(target) {
+		let params = {};
+		if (target.data('url')) {
+			params = target.data('url');
+		} else {
+			let id = target.data('id') ? target.data('id') : element.closest('tr').data('id');
+			params = {
+				module: this.parentModuleName,
+				action: 'RelationAjax',
+				mode: 'deleteRelation',
+				related_module: this.moduleName,
+				src_record: this.parentRecordId,
+				related_record_list: JSON.stringify([id])
+			};
+		}
+		let progressInstance = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
+		AppConnector.request(params).done(response => {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			if (response.result) {
+				let widget = target.closest('.widgetContentBlock');
+				const detail = Vtiger_Detail_Js.getInstance();
+				if (widget.length) {
+					detail.loadWidget(widget);
+					let updatesWidget = this.getContentHolder().find("[data-type='Updates']");
+					if (updatesWidget.length > 0) {
+						detail.loadWidget(updatesWidget);
+					}
+				} else {
+					this.loadRelatedList();
+				}
+				detail.registerRelatedModulesRecordCount();
+			} else {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+			}
+		}).fail(function (err, errThrow) {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 		});
-		return aDeferred.promise();
 	},
 	/**
 	 * Function to handle Sort
@@ -320,12 +345,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 * Function to handle next page navigation
 	 */
 	previousPageHandler: function () {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var pageNumber = this.getCurrentPageNum();
+		const thisInstance = this,
+			aDeferred = jQuery.Deferred();
+		let pageNumber = this.getCurrentPageNum();
 		if (pageNumber > 1) {
-			var previousPage = parseInt(pageNumber) - 1;
+			let previousPage = parseInt(pageNumber) - 1;
 			this.loadRelatedList({
 				page: previousPage
 			}).done(function (data) {
@@ -341,9 +365,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 * Function to handle select page jump in related list
 	 */
 	selectPageHandler: function (pageNumber) {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		const thisInstance = this,
+			aDeferred = jQuery.Deferred();
 		this.loadRelatedList({
 			page: pageNumber,
 		}).done(function (data) {
@@ -420,13 +443,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 
 		var preQuickCreateSave = function (data) {
 			var index, queryParam, queryParamComponents;
+			let queryParameters = [];
 
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
 			if (typeof fullFormUrl !== "undefined" && fullFormUrl.indexOf('?') !== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
-				var queryParameters = queryString.split('&');
+				queryParameters = queryString.split('&');
 				for (index = 0; index < queryParameters.length; index++) {
 					queryParam = queryParameters[index];
 					queryParamComponents = queryParam.split('=');
@@ -598,9 +622,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.content.find('.listViewEntries').on('click', function (e) {
 				if ($(e.target).is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
-						top.document.location.href = $(e.target).closest('tr').data('recordurl');
+						if ($(e.target).closest('tr').data('recordurl')) {
+							top.document.location.href = $(e.target).closest('tr').data('recordurl');
+						}
 					} else {
-						document.location.href = $(e.target).closest('tr').data('recordurl');
+						if ($(e.target).closest('tr').data('recordurl')) {
+							document.location.href = $(e.target).closest('tr').data('recordurl');
+						}
 					}
 				}
 			});
@@ -742,13 +770,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (response) {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
-					element.find('[data-fa-i2svg]').each(function () {
-						if (jQuery(this).hasClass('d-none')) {
-							jQuery(this).removeClass('d-none');
-						} else {
-							jQuery(this).addClass('d-none');
-						}
-					})
+					if (state) {
+						element.find('.far').addClass('d-none');
+						element.find('.fas').removeClass('d-none');
+					} else {
+						element.find('.fas').addClass('d-none');
+						element.find('.far').removeClass('d-none');
+					}
 					progressInstance.progressIndicator({'mode': 'hide'});
 					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 					if (state) {
@@ -761,7 +789,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.content.find('[name="addButton"]').on('click', function (e) {
 			const element = $(this);
 			if (element.hasClass('quickCreateSupported') !== true) {
-				window.location.href = element.data('url');
+				app.openUrl(element.data('url'));
 				return;
 			}
 			thisInstance.addRelatedRecord(element);
@@ -779,27 +807,18 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 		this.content.find('button.relationDelete').on('click', function (e) {
 			e.stopImmediatePropagation();
-			var element = $(this);
-			Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_DELETE_CONFIRMATION')}).done(function (e) {
-				var row = element.closest('tr');
-				thisInstance.deleteRelation([row.data('id')]).done(function (response) {
-					if (response.result) {
-						var widget = element.closest('.widgetContentBlock');
-						var detail = Vtiger_Detail_Js.getInstance();
-						if (widget.length) {
-							detail.loadWidget(widget);
-							var updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
-							if (updatesWidget.length > 0) {
-								detail.loadWidget(updatesWidget);
-							}
-						} else {
-							thisInstance.loadRelatedList();
-						}
-						detail.registerRelatedModulesRecordCount();
-					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
-					}
-				});
+			let target = $(e.currentTarget);
+			let params = {};
+			if (target.data('confirm')) {
+				params.message = target.data('confirm');
+				params.title = target.html() + ' ' + target.data('content');
+			} else if (target.data('content')) {
+				params.message = target.data('content');
+			} else {
+				params.message = app.vtranslate('JS_DELETE_CONFIRMATION');
+			}
+			Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
+				thisInstance.deleteRelation(target);
 			});
 		});
 		this.content.find('.js-switch--calendar').on('change', function (e) {
@@ -814,7 +833,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPostLoadEvents: function () {
 		var thisInstance = this;
-		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
 		this.registerListScroll();
 		if (this.relatedView === 'ListPreview') {
@@ -831,7 +849,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
 	getSecondColMinWidth: function (container) {
-		let maxWidth, thisWidth;
+		let maxWidth = 0,
+			thisWidth;
 		container.find('.js-list__row').each(function (i) {
 			thisWidth = $(this).find('.js-list__field').first().width();
 			if (i === 0) {
@@ -864,7 +883,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	getSplitSizes() {
 		const cachedParams = app.moduleCacheGet('userRelatedSplitSet');
-		if (cachedParams !== null) {
+		if (cachedParams !== undefined) {
 			return cachedParams;
 		} else {
 			return this.getDefaultSplitSizes();
@@ -875,6 +894,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var mainBody = container.closest('.mainBody');
 		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
 		app.showNewScrollbarLeft(this.list);
+		mainBody.scrollTop(0); // reset scroll to set correct start position
 		let listOffsetTop = this.list.offset().top - this.headerH;
 		let initialH = this.sideBlocks.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};
@@ -1098,11 +1118,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListScroll: function () {
 		let container = $('.listViewEntriesDiv');
 		if (this.relatedView !== 'ListPreview') {
-			app.showNewScrollbarTopBottomRight(container);
+			container.each((index, element) => {
+				app.showNewScrollbarTopBottomRight($(element));
+			})
 		}
 	},
 	registerRelatedEvents: function () {
-		var relatedContainer = this.getRelatedContainer();
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
 		this.registerPaginationEvents();

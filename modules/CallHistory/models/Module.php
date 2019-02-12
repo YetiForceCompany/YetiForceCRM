@@ -4,7 +4,7 @@
  * Module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class CallHistory_Module_Model extends Vtiger_Module_Model
 {
@@ -15,7 +15,7 @@ class CallHistory_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isQuickCreateSupported()
 	{
-		//PBXManager module is not enabled for quick create
+		//CallHistory module is not enabled for quick create
 		return false;
 	}
 

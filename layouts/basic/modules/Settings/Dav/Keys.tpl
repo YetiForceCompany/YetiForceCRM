@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="" id="DavKeysContainer">
-		<div class="widget_header row">
+		<div class="widget_header row mb-2">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
@@ -10,9 +10,6 @@
 					<span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}
 				</button>
 			</div>
-		</div>
-		<div class="badge badge-info my-2">
-			{\App\Language::translate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="contents">
 			{if $ENABLEDAV}
@@ -48,8 +45,16 @@
 						<tbody>
 						{assign var=AMOUNT_DATA value=$MODULE_MODEL->getAmountData()}
 						{foreach from=$MODULE_MODEL->getAllKeys() item=RECORD}
-							{assign var=ADDRESSBOOK value=$AMOUNT_DATA['addressbook'][$RECORD['addressbooksid']]}
-							{assign var=CALENDAR value=$AMOUNT_DATA['calendar'][$RECORD['calendarsid']]}
+							{if !empty($AMOUNT_DATA['addressbook'][$RECORD['addressbooksid']])}
+								{assign var=ADDRESSBOOK value=$AMOUNT_DATA['addressbook'][$RECORD['addressbooksid']]}
+							{else}
+								{assign var="ADDRESSBOOK" value=""}
+							{/if}
+							{if !empty($AMOUNT_DATA['calendar'][$RECORD['calendarsid']])}
+								{assign var=CALENDAR value=$AMOUNT_DATA['calendar'][$RECORD['calendarsid']]}
+							{else}
+								{assign var=CALENDAR value=""}
+							{/if}
 							<tr data-user="{$RECORD['userid']}" class="js-tr-row" data-js="data/remove">
 								<td>{$RECORD['user_name']}</td>
 								<td>**********</td>
@@ -65,7 +70,8 @@
 									<button class="btn btn-danger js-delete-key ml-2 mr-1" data-js="click">
 										<span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}
 									</button>
-									<button class="btn btn-primary clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}">
+									<button class="btn btn-primary clipboard" data-copy-attribute="clipboard-text"
+											data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}">
 										<span class="fas fa-copy mr-1"></span>{\App\Language::translate('LBL_KEY',$QUALIFIED_MODULE)}
 									</button>
 								</td>
@@ -82,7 +88,8 @@
 							<h5 class="modal-title">
 								<span class="fas fa-plus fa-sm mr-2"></span>{\App\Language::translate('LBL_ADD_KEY', $QUALIFIED_MODULE)}
 							</h5>
-							<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+							<button type="button" class="close" data-dismiss="modal"
+									title="{\App\Language::translate('LBL_CLOSE')}">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>

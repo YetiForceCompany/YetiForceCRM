@@ -28,13 +28,13 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			let bankName = container.find('#bank option:selected').data('name');
 			container.find('#alertSpan').html('');
 			container.find('#infoSpan').html('');
-			var infoProgress = jQuery.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					enabled: true
-				}
-			});
-			var params = {};
+			let infoProgress = jQuery.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				}),
+				params = {};
 			params.data = {
 				parent: app.getParentModuleName(),
 				module: app.getModuleName(),
@@ -44,9 +44,10 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).done(function (data) {
-				var response = data['result'];
-				var html = '';
-				for (var name in response) {
+				let response = data['result'],
+					html = '',
+					name;
+				for (name in response) {
 					html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
 				}
 				container.find('#infoSpan').html(html);
@@ -61,7 +62,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).done(function (data) {
-				var response = data['result'];
+				let response = data['result'];
 				if (jQuery.isEmptyObject(response)) {
 					if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
 						container.find('#unsupportedCurrencies').addClass('d-none');
@@ -72,14 +73,15 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 				} else {
 					container.find('#unsupportedCurrencies').removeClass('d-none');
 				}
-				var html = '';
-				for (var name in response) {
+				let html = '',
+					name;
+				for (name in response) {
 					html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
 				}
 				container.find('#alertSpan').html(html);
 			});
 
-			var bankId = jQuery('#bank option:selected').val();
+			let bankId = jQuery('#bank option:selected').val();
 			params.data = {
 				parent: app.getParentModuleName(),
 				module: app.getModuleName(),
@@ -88,20 +90,18 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).done(function (data) {
-				var response = data['result'];
+				let response = data['result'];
 				if (response['success']) {
-					var params = {
+					Vtiger_Helper_Js.showPnotify({
 						text: response['message'],
 						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
+					});
 				} else {
-					var params = {
+					Vtiger_Helper_Js.showPnotify({
 						text: response['message'],
 						hide: false,
 						type: 'error'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
+					});
 				}
 				infoProgress.progressIndicator({'mode': 'hide'});
 			});

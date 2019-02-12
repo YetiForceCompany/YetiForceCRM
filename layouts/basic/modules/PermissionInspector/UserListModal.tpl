@@ -63,12 +63,12 @@
 							{$ITEM['userName']}
 						</th>
 						{foreach item=ACTION from=$ITEM['privileges']}
-							{if $ACTION['param']}
+							{if !empty($ACTION['param'])}
 								{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME, $ACTION['param'])}
 							{else}
 								{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME)}
 							{/if}
-							<td class="text-center {$ACTION['text']}">
+							<td class="text-center {if !empty($ACTION['text'])}{$ACTION['text']}{/if}">
 								<span class="u-cursor-pointer js-popover-tooltip" data-js="popover"
 									  {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if}
 									  data-content="{$ACCESSLOG}" data-placement="top">
@@ -90,7 +90,7 @@
 	<div class="modal-footer">
 		<button class="btn btn-danger" type="reset" data-dismiss="modal">
 			<span class="fas fa-times mr-1"></span>
-			<strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
+			<strong>{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</strong>
 		</button>
 	</div>
 {/strip}

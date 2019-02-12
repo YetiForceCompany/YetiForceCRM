@@ -4,8 +4,8 @@
  * Main class to save modification in settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_Vtiger_Tracker_Model
 {
@@ -28,13 +28,13 @@ class Settings_Vtiger_Tracker_Model
 			return true;
 		}
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
-				'user_id' => \App\User::getCurrentUserId(),
-				'type' => self::$types[$type],
-				'module_name' => \App\Request::_get('module'),
-				'record_id' => self::$recordId ? self::$recordId : 0,
-				'date' => date('Y-m-d H:i:s'),
-				'action' => \App\Config::$processType . ':' . \App\Config::$processName,
-			])->execute();
+			'user_id' => \App\User::getCurrentUserId(),
+			'type' => self::$types[$type],
+			'module_name' => \App\Request::_get('module'),
+			'record_id' => self::$recordId ? self::$recordId : 0,
+			'date' => date('Y-m-d H:i:s'),
+			'action' => \App\Process::$processType . ':' . \App\Process::$processName,
+		])->execute();
 		if ($insertedInfo === 1) {
 			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
 		}

@@ -41,9 +41,9 @@ class TextParser extends \Tests\Base
 		static::$parserCleanModule = \App\TextParser::getInstance('Leads');
 		$this->assertInstanceOf('\App\TextParser', static::$parserCleanModule, 'Expected clean instance with module Leads of \App\TextParser');
 
-		$this->assertInstanceOf('\App\TextParser', \App\TextParser::getInstanceById(\Tests\Entity\C_RecordActions::createLeadRecord()->getId(), 'Leads'), 'Expected instance from lead id and module string of \App\TextParser');
+		$this->assertInstanceOf('\App\TextParser', \App\TextParser::getInstanceById(\Tests\Base\C_RecordActions::createLeadRecord()->getId(), 'Leads'), 'Expected instance from lead id and module string of \App\TextParser');
 
-		static::$parserRecord = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord());
+		static::$parserRecord = \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createLeadRecord());
 		$this->assertInstanceOf('\App\TextParser', static::$parserRecord, 'Expected instance from record model of \App\TextParser');
 	}
 
@@ -56,50 +56,6 @@ class TextParser extends \Tests\Base
 			->setContent('')
 			->parse()
 			->getContent(), 'Clean instance: empty content should return empty result');
-	}
-
-	/**
-	 * Testing organization placeholders replacement.
-	 */
-	public function testOrganization()
-	{
-		$defaultCompanyModel = \App\Company::getInstanceById(false);
-		$organizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
-		$this->assertNotEmpty($organizationId, 'Default organization should exists');
-		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
-			->setContent('+ $(organization : name)$ +')
-			->parse()
-			->getContent(), 'Organization name should match to reference');
-
-		$this->assertSame('+ ' . \App\Company::getInstanceById($organizationId)->get('name') . ' +', static::$parserClean
-			->setContent('+ $(organization : name|' . $organizationId . ')$ +')
-			->parse()
-			->getContent(), 'Organization id: ' . $organizationId . ', field name should match to reference');
-
-		$this->assertNotFalse(strpos(static::$parserClean
-			->setContent('+ $(organization : mailLogo)$ +')
-			->parse()
-			->getContent(), 'organizationLogo'), 'Organization mail logo should contain html class organizationLogo');
-
-		$this->assertNotFalse(strpos(static::$parserClean
-			->setContent('+ $(organization : loginLogo)$ +')
-			->parse()
-			->getContent(), 'organizationLogo'), 'Organization login logo should contain html class organizationLogo');
-
-		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_login') . ' +', static::$parserClean
-			->setContent('+ $(organization : logo_login)$ +')
-			->parse()
-			->getContent(), 'Organization logo_login should match to reference');
-
-		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_main') . ' +', static::$parserClean
-			->setContent('+ $(organization : logo_main)$ +')
-			->parse()
-			->getContent(), 'Organization logo_main should match to reference');
-
-		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_mail') . ' +', static::$parserClean
-			->setContent('+ $(organization : logo_mail)$ +')
-			->parse()
-			->getContent(), 'Organization logo_mail should match to reference');
 	}
 
 	/**
@@ -135,12 +91,12 @@ class TextParser extends \Tests\Base
 	{
 		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'Clean instance: string should be parseable');
 		$this->assertSame(0, \App\TextParser::isVaribleToParse('$X(TestGroup : TestVar)$'), 'Clean instance: string should be not parseable');
-		$this->assertSame((\AppConfig::main('listview_max_textlength') + 3), strlen(\App\TextParser::textTruncate(\Tests\Entity\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
-		$this->assertSame(13, strlen(\App\TextParser::textTruncate(\Tests\Entity\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
+		$this->assertSame((\AppConfig::main('listview_max_textlength') + 3), strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
+		$this->assertSame(13, strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
 
-		$this->assertSame((\AppConfig::main('listview_max_textlength') + 993), strlen(\App\TextParser::htmlTruncate(\Tests\Entity\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
+		$this->assertSame((\AppConfig::main('listview_max_textlength') + 993), strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
 
-		$this->assertSame(1008, strlen(\App\TextParser::htmlTruncate(\Tests\Entity\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
+		$this->assertSame(1008, strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
 	}
 
 	/**
@@ -167,15 +123,16 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : CurrentTime)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');
-		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$parserClean
-			->setContent('+ $(general : BaseTimeZone)$ +')
-			->parse()
-			->getContent(), 'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
+		$this->assertSame(
+			'+ ' . (empty($defaultTimeZone = date_default_timezone_get()) ? \App\Config::main('default_timezone') : $defaultTimeZone) . ' +',
+			static::$parserClean->setContent('+ $(general : BaseTimeZone)$ +')->parse()->getContent(),
+			'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
 		$user = \App\User::getCurrentUserModel();
-		$this->assertSame('+ ' . ($user->getDetail('time_zone') ? $user->getDetail('time_zone') : \AppConfig::main('default_timezone')) . ' +', static::$parserClean
-			->setContent('+ $(general : UserTimeZone)$ +')
-			->parse()
-			->getContent(), 'Clean instance: $(general : UserTimeZone)$ should return user timezone');
+		$this->assertSame(
+			'+ ' . ($user->getDetail('time_zone') ? $user->getDetail('time_zone') : \App\Config::main('default_timezone')) . ' +',
+			static::$parserClean->setContent('+ $(general : UserTimeZone)$ +')->parse()->getContent(),
+			'Clean instance: $(general : UserTimeZone)$ should return user timezone'
+		);
 		$currUser = \App\User::getCurrentUserId();
 		\App\User::setCurrentUserId(0);
 		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$parserClean
@@ -251,7 +208,7 @@ class TextParser extends \Tests\Base
 	 */
 	public function testParams()
 	{
-		static::$parserClean->setParams(['test_var'=>'test']);
+		static::$parserClean->setParams(['test_var' => 'test']);
 		$text = '+ $(params : test_var)$ +';
 		$this->assertSame('+ test +', static::$parserClean
 			->setContent($text)
@@ -297,37 +254,44 @@ class TextParser extends \Tests\Base
 	 */
 	public function testEmployee()
 	{
-		$tmpUser = \App\User::getCurrentUserId();
-		$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+		$currentUser = \App\User::getCurrentUserId();
+		$userName = 'Employee';
+		$userExistsId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $userName])
 			->limit(1)->scalar();
-		if (!$employeeId) {
-			$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
-				->column()])
-				->limit(1)->scalar();
-			if (!$employeeUser) {
-				$employeeModel = \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
-				$employeeModel->set('smownerid', $tmpUser);
-				$employeeModel->set('name', 'Test employee');
-				$employeeModel->save();
-				$employeeId = $employeeModel->getId();
-			}
-			$employeeUser ? \App\User::setCurrentUserId($employeeUser) : '';
-			$employeeId = $employeeId ? $employeeId : (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
-				->limit(1)->scalar();
+		$employeeUser = $userExistsId ? \Vtiger_Record_Model::getInstanceById($userExistsId) : \Vtiger_Record_Model::getCleanInstance('Users');
 
-			\App\Cache::clear();
-		}
+		$employeeUser->set('user_name', $userName);
+		$employeeUser->set('email1', $userName . '@yetiforce.com');
+		$employeeUser->set('first_name', $userName);
+		$employeeUser->set('last_name', 'YetiForce');
+		$employeeUser->set('user_password', \Tests\Base\A_User::$defaultPassrowd);
+		$employeeUser->set('confirm_password', \Tests\Base\A_User::$defaultPassrowd);
+		$employeeUser->set('roleid', 'H2');
+		$employeeUser->set('is_admin', 'on');
+		$employeeUser->save();
+		$this->assertNotEmpty($employeeUser->getId(), 'New user id should be not empty');
+		\App\User::setCurrentUserId($employeeUser->getId());
+		$employeeExistsId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $employeeUser->getId()])
+			->limit(1)->scalar();
+		$employeeModel = $employeeExistsId ? \Vtiger_Record_Model::getInstanceById($employeeExistsId) : \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
+		$employeeModel->set('smownerid', $employeeUser->getId());
+		$employeeModel->set('name', 'Test employee');
+		$employeeModel->save();
+
+		\App\Cache::clear();
+
 		$text = '+ $(employee : name)$ +';
-		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db');
-		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db(cached)');
 
-		\App\User::setCurrentUserId($tmpUser);
+		\App\User::setCurrentUserId($currentUser);
 	}
 
 	/**
@@ -357,20 +321,21 @@ class TextParser extends \Tests\Base
 	public function testRelatedRecordsList()
 	{
 		$text = '$(relatedRecordsList : Accounts|lead_no,lastname,phone,description|[[["company","a","Test"]]]|All|5)$';
-		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())
+		$result = \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createLeadRecord())
 			->setContent($text)
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found');
 		$text = '$(relatedRecordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|NotExist|5)$';
-		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())->withoutTranslations(true)
+		$result = \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createLeadRecord())->withoutTranslations(true)
 			->setContent($text)
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
-		$contactModel = \Tests\Entity\C_RecordActions::createContactRecord();
+		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord(false);
+		$contactModel = \Tests\Base\C_RecordActions::createContactRecord(false);
 		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|All|5)$';
-		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+		$result = \App\TextParser::getInstanceByModel($accountModel)->withoutTranslations(true)
 			->setContent($text)
 			->parse()
 			->getContent();
@@ -378,7 +343,7 @@ class TextParser extends \Tests\Base
 		$this->assertNotFalse(\strpos($result, $contactModel->get('firstname')), 'relatedRecordsList should contain test record row');
 
 		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|NotExists|5)$';
-		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+		$result = \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createAccountRecord())->withoutTranslations(true)
 			->setContent($text)
 			->parse()
 			->getContent();
@@ -424,12 +389,12 @@ class TextParser extends \Tests\Base
 			->getContent(), 'Expected empty string');
 
 		$text = '+ $(record : CrmDetailViewURL)$ +';
-		$this->assertSame('+ ' . \AppConfig::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \AppConfig::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Expected url is different');
 
 		$text = '+ $(record : PortalDetailViewURL)$ +';
-		$this->assertSame('+ ' . \AppConfig::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \AppConfig::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Expected url is different');
 
@@ -439,12 +404,12 @@ class TextParser extends \Tests\Base
 			->getContent(), 'Expected module name is different');
 
 		$text = '+ $(record : RecordId)$ +';
-		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Expected record id is different');
 
 		$text = '+ $(record : RecordLabel)$ +';
-		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->getName() . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \Tests\Base\C_RecordActions::createLeadRecord()->getName() . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Expected record label is different');
 
@@ -475,7 +440,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'autogenerated test lead for \App\TextParser tests'), 'Test record changes list values should contain "autogenerated test lead for \App\TextParser tests"');
 
-		$changesModel = \Tests\Entity\C_RecordActions::createLeadRecord();
+		$changesModel = \Tests\Base\C_RecordActions::createLeadRecord();
 		$changesModel->set('vat_id', 'test');
 		$changesModel->save();
 		$changesModel->set('vat_id', 'testing');
@@ -496,13 +461,13 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'testing'), 'Test record changes list values should be not empty');
 		$text = '+ $(record : company)$ +';
-		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \Tests\Base\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record company should be same as in db');
 		$text = '+ $(record : Comments 5|true)$ +';
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
 		$comment->set('commentcontent', 'TestComment');
-		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
+		$comment->set('related_to', \Tests\Base\C_RecordActions::createLeadRecord()->getId());
 		$comment->save();
 		$this->assertSame('+ TestComment +', static::$parserRecord->setContent($text)
 			->parse()
@@ -524,7 +489,7 @@ class TextParser extends \Tests\Base
 			'Clean instance: Only translations should be replaced');
 		$this->assertSame(
 			'+$(general : CurrentDate)$ | ' . \App\Language::translate('LBL_SECONDS') . '==' . \App\Language::translate('LBL_COPY_BILLING_ADDRESS', 'Accounts') . '+',
-			static::$parserClean->setLanguage('pl_pl')->setContent('+$(general : CurrentDate)$ | $(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parseTranslations()->getContent(),
+			static::$parserClean->setLanguage('pl-PL')->setContent('+$(general : CurrentDate)$ | $(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parseTranslations()->getContent(),
 			'Clean instance: Only translations should be replaced(setLanguage)');
 
 		$this->assertSame(
@@ -578,8 +543,8 @@ class TextParser extends \Tests\Base
 	 */
 	public function testGetSourceVariable()
 	{
-		$this->assertFalse(\App\TextParser::getInstance('Leads')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->getSourceVariable(), 'TextParser::getSourceVariable() should return false for Leads module');
-		$arr = \App\TextParser::getInstance('Campaigns')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->getSourceVariable();
+		$this->assertFalse(\App\TextParser::getInstance('Leads')->setSourceRecord(\Tests\Base\C_RecordActions::createLeadRecord()->getId())->getSourceVariable(), 'TextParser::getSourceVariable() should return false for Leads module');
+		$arr = \App\TextParser::getInstance('Campaigns')->setSourceRecord(\Tests\Base\C_RecordActions::createLeadRecord()->getId())->getSourceVariable();
 		$this->assertInternalType('array', $arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
 		foreach ($arr as $key => $content) {
@@ -638,7 +603,7 @@ class TextParser extends \Tests\Base
 			$this->assertInternalType('array', $group, 'Expected array type from group: ' . $groupName);
 			$this->assertNotEmpty($group, 'Expected any data in group: ' . $groupName);
 			if (!empty($group)) {
-				foreach ($group as $placeholder=>$translation) {
+				foreach ($group as $placeholder => $translation) {
 					if (!\strpos($placeholder, ', ')) {
 						$this->assertSame(1, \App\TextParser::isVaribleToParse($placeholder), 'Option: ' . $translation . ', value: ' . $placeholder . ' should be parseable in group: ' . $groupName);
 					} else {
@@ -664,12 +629,12 @@ class TextParser extends \Tests\Base
 			'Clean instance: returned string should be empty if no source record provided');
 
 		$this->assertSame(
-			'+autogenerated test lead for \App\TextParser tests+', static::$parserClean->setContent('+$(sourceRecord : description)$+')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->parse()->getContent(),
+			'+autogenerated test lead for \App\TextParser tests+', static::$parserClean->setContent('+$(sourceRecord : description)$+')->setSourceRecord(\Tests\Base\C_RecordActions::createLeadRecord()->getId())->parse()->getContent(),
 			'Clean instance: Translations should be equal');
 
 		$this->assertSame(
 			'+autogenerated test lead for \App\TextParser tests+',
-			static::$parserRecord->setContent('+$(sourceRecord : description)$+')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->parse()->getContent(),
+			static::$parserRecord->setContent('+$(sourceRecord : description)$+')->setSourceRecord(\Tests\Base\C_RecordActions::createLeadRecord()->getId())->parse()->getContent(),
 			'Record instance: Translations should be equal');
 	}
 
@@ -678,12 +643,12 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRelatedRecord()
 	{
-		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname|Accounts)$+')->parse()->getContent() . ' +', 'Account name should be not empty');
-		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname)$+')->parse()->getContent() . ' +', 'Account name should be not empty(without module)');
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname|Accounts)$+')->parse()->getContent() . ' +', 'Account name should be not empty');
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname)$+')->parse()->getContent() . ' +', 'Account name should be not empty(without module)');
 		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator user_name should be not empty');
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
 		$comment->set('commentcontent', 'TestComment');
-		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
+		$comment->set('related_to', \Tests\Base\C_RecordActions::createLeadRecord()->getId());
 		$comment->save();
 		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceById($comment->getId(), 'ModComments')->setContent('+ $(relatedRecord : related_to|company)$ +')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
 	}

@@ -13,22 +13,7 @@ $.Class("Vtiger_DashBoard_Js", {
 	grid: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
-	addWidget: function (element, url) {
-		element = $(element);
-		var linkId = element.data('linkid');
-		var name = element.data('name');
-		var widgetId = element.data('id');
-		$(element).parent().remove();
-		if ($('ul.widgetsList li').length < 1) {
-			$('ul.widgetsList').prev('button').css('visibility', 'hidden');
-		}
-		var widgetContainer = $('<div><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
-		widgetContainer.find('.dashboardWidget').data('url', url);
-		var width = element.data('width');
-		var height = element.data('height');
-		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer,0, 0, width, height);
-		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
-	},
+	scrollContainer: false,
 	restrictContentDrag: function (container) {
 		container.on('mousedown.draggable', function (e) {
 			var element = $(e.target);
@@ -105,48 +90,59 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	updateLazyWidget() {
-		const scrollTop = $('.mainBody').scrollTop();
-		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
+		const scrollTop = this.scrollContainer.scrollTop();
+		this.scrollContainer.scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
+		this.scrollContainer = $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent');
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			threshold: 0,
-			appendScroll: $('.mainBody'),
+			appendScroll: thisInstance.scrollContainer,
 			widgetLoader(element) {
 				thisInstance.loadWidget(element);
 			},
 		});
-		this.updateLazyWidget();
+		this.updateLazyWidget(this.scrollContainer);
 	},
 	loadWidget: function (widgetContainer) {
-		var thisInstance = this;
-		var urlParams = widgetContainer.data('url');
-		var mode = widgetContainer.data('mode');
+		const self = this;
+		let urlParams = widgetContainer.data('url');
+		let mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
 		if (mode === 'open') {
-			var name = widgetContainer.data('name');
-			var cache = widgetContainer.data('cache');
-			var userId = CONFIG.userId;
+			let name = widgetContainer.data('name');
+			let cache = widgetContainer.data('cache');
+			let userId = CONFIG.userId;
 			if (cache === 1) {
-				var cecheUrl = app.cacheGet(name + userId, false);
+				let cecheUrl = app.cacheGet(name + userId, false);
 				urlParams = cecheUrl ? cecheUrl : urlParams;
 			}
-			AppConnector.request(urlParams).done(function (data) {
+			AppConnector.request(urlParams).done((data) => {
 				widgetContainer.html(data);
+				widgetContainer.closest('.grid-stack').on('gsresizestop', (event, elem) => {
+					self.adjustHeightWidget(widgetContainer);
+				});
 				App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
-				thisInstance.getWidgetInstance(widgetContainer);
+				self.getWidgetInstance(widgetContainer);
 				widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
-				const headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
-				let adjustedHeight = widgetContainer.height() - headerHeight;
-				if (widgetContainer.find('.dashboardWidgetFooter').length) {
-					adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
-				}
-				const widgetContent = widgetContainer.find('.dashboardWidgetContent');
-				widgetContent.css('max-height', adjustedHeight + 'px');
-				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
+				self.adjustHeightWidget(widgetContainer);
 			});
 		}
+	},
+	/**
+	 * Adjust the height of the widget.
+	 * @param {jQuery} widgetContainer
+	 */
+	adjustHeightWidget(widgetContainer) {
+		const headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
+		let adjustedHeight = widgetContainer.height() - headerHeight;
+		if (widgetContainer.find('.dashboardWidgetFooter').length) {
+			adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
+		}
+		const widgetContent = widgetContainer.find('.dashboardWidgetContent');
+		widgetContent.css('max-height', adjustedHeight + 'px');
+		app.showNewScrollbar(widgetContent, {wheelPropagation: true});
 	},
 	registerRefreshWidget: function () {
 		var thisInstance = this;
@@ -160,52 +156,44 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	removeWidget: function () {
 		const thisInstance = this;
-		this.getContainer().on('click', '.grid-stack-item a[name="dclose"]', function (e) {
-			var element = $(e.currentTarget);
-			var listItem = $(element).parents('.grid-stack-item');
-			var width = listItem.attr('data-sizex');
-			var height = listItem.attr('data-sizey');
-
-			var url = element.data('url');
-			var parent = element.closest('.dashboardWidgetHeader').parent();
-			var widgetName = parent.data('name');
-			var widgetTitle = parent.find('.dashboardTitle').attr('title');
-
-			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
+		this.getContainer().on('click', '.js-widget-remove', function (e) {
+			let element = $(e.currentTarget),
+				listItem = $(element).parents('.grid-stack-item'),
+				width = listItem.attr('data-gs-width'),
+				height = listItem.attr('data-gs-height'),
+				url = element.data('url'),
+				parent = element.closest('.dashboardWidgetHeader').parent(),
+				widgetName = parent.data('name'),
+				widgetTitle = parent.find('.dashboardTitle').attr('title'),
+				message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 				AppConnector.request(url).done(function (response) {
 					if (response.success) {
-						var nonReversableWidgets = [];
+						let nonReversableWidgets = [];
 						parent.fadeOut('slow', function () {
 							parent.remove();
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
-							$('.widgetsList').prev('button').css('visibility', 'visible');
-							var data = '<li class="d-flex flex-row-reverse align-items-center">';
+							$('.js-widget-list').prev('.js-widget-predefined').removeClass('d-none');
+							let data = `<a class="js-widget-list__item dropdown-item d-flex"
+										href="#"
+										data-widget-url="${response.result.url}"
+										data-linkid="${response.result.linkid}"
+										data-name="${response.result.name}"
+										data-width="${width}"
+										data-height="${height}" data-js="remove | click">${response.result.title}`;
 							if (response.result.deleteFromList) {
-								data += '<button ';
-								data += 'data-widget-id="' + response.result.id + '" ';
-								data += 'class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1" '
-								data += '>'
-								data += '<span class="fas fa-trash-alt"></span>';
-								data += '</button>';
+								data += `<span class="text-danger pl-5 ml-auto">
+											<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="${response.result.id}" data-js="click"></span>
+										</span>`;
 							}
-							data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
-							data += 'href="javascript:void(0);" ';
-							data += 'class="dropdown-item pl-1" ';
-							data += 'data-linkid="' + response.result.linkid + '" ';
-							data += 'data-name="' + response.result.name + '" ';
-							data += 'data-width="' + width + '" ';
-							data += 'data-height="' + height + '" ';
-							data += '>';
-							data += response.result.title + '</a>';
-							data += '</li>';
-							var divider = $('.widgetsList .dropdown-divider');
+							data += `</a>`;
+							let divider = $('.js-widget-list .dropdown-divider');
 							if (divider.length) {
 								$(data).insertBefore(divider);
 							} else {
-								$('.widgetsList').append(data);
+								$('.js-widget-list').append(data);
 							}
 							thisInstance.updateLazyWidget();
 						}
@@ -271,7 +259,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	registerChangeMailUser: function () {
-		var thisInstance = this;
 		var container = this.getContainer();
 
 		container.on('change', '#mailUserList', function (e) {
@@ -297,7 +284,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		$('.dashboardHeading').off('click', '.addChartFilter').on('click', '.addChartFilter', function (e) {
 			var element = $(e.currentTarget);
-			var fieldTypeToGroup = ['currency', 'double', 'percentage', 'integer'];
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
 				var form = $('form', wizardContainer);
 				form.on("keypress", function (event) {
@@ -408,7 +394,6 @@ $.Class("Vtiger_DashBoard_Js", {
 						if (Array.isArray(selectedFiltersId)) {
 							selectedFiltersId = selectedFiltersId.join(',');
 						}
-						const selectedFilterLabel = form.find('.filterId').find(':selected').text();
 						const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 						const data = {
 							module: selectedModule,
@@ -453,25 +438,26 @@ $.Class("Vtiger_DashBoard_Js", {
 		};
 		const sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
-			var result = data['result'];
-			var params = {};
+			let result = data['result'],
+				params = {};
 			if (data['success']) {
 				app.hideModalWindow();
 				paramsForm['id'] = result['id'];
 				paramsForm['status'] = result['status'];
 				params['text'] = result['text'];
 				params['type'] = 'success';
-				var linkElement = element.clone();
+				let linkElement = element.clone();
 				linkElement.data('name', 'ChartFilter');
 				linkElement.data('id', result['wid']);
-				Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
+				thisInstance.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
 				Vtiger_Helper_Js.showMessage(params);
 			} else {
-				var message = data['error']['message'];
+				let message = data['error']['message'],
+					errorField;
 				if (data['error']['code'] != 513) {
-					var errorField = form.find('[name="fieldName"]');
+					errorField = form.find('[name="fieldName"]');
 				} else {
-					var errorField = form.find('[name="fieldLabel"]');
+					errorField = form.find('[name="fieldLabel"]');
 				}
 				errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 			}
@@ -481,7 +467,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		const thisInstance = this;
 		$('.dashboardHeading').off('click', '.addFilter').on('click', '.addFilter', function (e) {
 			const element = $(e.currentTarget);
-
 			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
 				const form = $('form', wizardContainer);
 				form.on("keypress", function (event) {
@@ -558,67 +543,65 @@ $.Class("Vtiger_DashBoard_Js", {
 						footer.show();
 					}
 				});
-
-				form.on('submit', function (e) {
+				form.validationEngine(app.validationEngineOptions);
+				form.on('submit', (e) => {
 					e.preventDefault();
-					var selectedModule = moduleNameSelect2.val();
-					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					var selectedFilterId = filteridSelect2.val();
-					var selectedFilterLabel = filteridSelect2.find(':selected').text();
-					var selectedFields = [];
-					fieldsSelect2.select2('data').map(function (obj) {
-						selectedFields.push(obj.id);
-					});
-
-					var data = {
-						module: selectedModule
-					};
-					if (typeof selectedFields != 'object')
-						selectedFields = [selectedFields];
-					data['fields'] = selectedFields;
-					thisInstance.saveMiniListWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
+					if (form.validationEngine('validate') === true) {
+						let selectedFields = [];
+						fieldsSelect2.select2('data').map((obj) => {
+							selectedFields.push(obj.id);
+						});
+						thisInstance.saveMiniListWidget({
+								module: moduleNameSelect2.val(),
+								fields: selectedFields,
+								filterFields: filterFieldsSelect2.val()
+							}, element, moduleNameSelect2.find(':selected').text(),
+							filteridSelect2.val(), filteridSelect2.find(':selected').text(), form
+						);
+					}
 				});
 			});
 		});
 	},
 	saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel, form) {
-		var thisInstance = this;
-		var paramsForm = {
-			data: JSON.stringify(data),
-			blockid: element.data('block-id'),
-			linkid: element.data('linkid'),
-			label: moduleNameLabel + ' - ' + filterLabel,
-			title: form.find('[name="widgetTitle"]').val(),
-			name: 'Mini List',
-			filterid: filterid,
-			isdefault: 0,
-			height: 4,
-			width: 4,
-			owners_all: ["mine", "all", "users", "groups"],
-			default_owner: 'mine',
-			dashboardId: thisInstance.getCurrentDashboard()
-		};
-		var sourceModule = $('[name="selectedModuleName"]').val();
+		const thisInstance = this,
+			paramsForm = {
+				data: JSON.stringify(data),
+				blockid: element.data('block-id'),
+				linkid: element.data('linkid'),
+				label: moduleNameLabel + ' - ' + filterLabel,
+				title: form.find('[name="widgetTitle"]').val(),
+				name: 'Mini List',
+				filterid: filterid,
+				isdefault: 0,
+				height: 4,
+				width: 4,
+				owners_all: ["mine", "all", "users", "groups"],
+				default_owner: 'mine',
+				dashboardId: thisInstance.getCurrentDashboard()
+			},
+			sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
-			var result = data['result'];
-			var params = {};
+			let result = data['result'],
+				params = {};
 			if (data['success']) {
 				app.hideModalWindow();
 				paramsForm['id'] = result['id'];
 				paramsForm['status'] = result['status'];
 				params['text'] = result['text'];
 				params['type'] = 'success';
-				var linkElement = element.clone();
+				let linkElement = element.clone();
 				linkElement.data('name', 'MiniList');
 				linkElement.data('id', result['wid']);
-				Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
+				thisInstance.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
 				Vtiger_Helper_Js.showMessage(params);
 			} else {
-				var message = data['error']['message'];
+				let message = data['error']['message'],
+					errorField;
 				if (data['error']['code'] != 513) {
-					var errorField = form.find('[name="fieldName"]');
+					errorField = form.find('[name="fieldName"]');
 				} else {
-					var errorField = form.find('[name="fieldLabel"]');
+					errorField = form.find('[name="fieldLabel"]');
 				}
 				errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 			}
@@ -692,11 +675,74 @@ $.Class("Vtiger_DashBoard_Js", {
 					type: 'success',
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				var parent = currentTarget.closest('.dashboardWidget');
-				$(parent).remove();
+				currentTarget.closest('.js-widget-list__item').remove();
+				if ($('.js-widget-list .js-widget-list__item').length < 1) {
+					$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
+				}
 				thisInstance.updateLazyWidget();
 			});
 		});
+	},
+	/**
+	 * Updates tablet scroll top position
+	 */
+	registerTabletScrollEvent() {
+		if (!app.touchDevice || $(window).width() < app.breakpoints.sm) {
+			return;
+		}
+
+		let scollbarContainer = $('.js-tablet-scroll');
+		scollbarContainer.parent().removeClass('d-none');
+
+		let scollbarContainerH = scollbarContainer.outerHeight(),
+			scollbarOffsetTop = scollbarContainer.offset().top,
+			maxOffset = $('.js-header').outerHeight() + 8;
+
+		this.scrollContainer.on('scroll', () => {
+			if ((this.scrollContainer.scrollTop() + maxOffset) >= scollbarOffsetTop) {
+				scollbarContainer.css({top: maxOffset});
+			} else {
+				scollbarContainer.css({
+					top: scollbarOffsetTop - this.scrollContainer.scrollTop(),
+					height: scollbarContainerH + this.scrollContainer.scrollTop()
+				});
+			}
+		});
+	},
+	/**
+	 * Updates list of predefined widgets after changed dashboard
+	 */
+	registerUpdatePredefinedWidgets: function () {
+		let container = $('.js-predefined-widgets');
+		container.on('click', '.js-widget-list__item', (e) => {
+			if (!$(e.target).hasClass('removeWidgetFromList')) {
+				this.addWidget($(e.currentTarget), $(e.currentTarget).data('widgetUrl'));
+			}
+		});
+		AppConnector.request({
+			view: 'BasicAjax',
+			mode: 'getDashBoardPredefinedWidgets',
+			module: app.getModuleName(),
+			dashboardId: this.getCurrentDashboard()
+		}).done((data) => {
+			container.html(data);
+		});
+	},
+	addWidget(element, url) {
+		element = $(element);
+		var linkId = element.data('linkid');
+		var name = element.data('name');
+		var widgetId = element.data('id');
+		element.remove();
+		if ($('.js-widget-list .js-widget-list__item').length < 1) {
+			$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
+		}
+		var widgetContainer = $('<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
+		widgetContainer.find('.dashboardWidget').data('url', url);
+		var width = element.data('width');
+		var height = element.data('height');
+		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
+		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	registerEvents: function () {
 		this.registerGrid();
@@ -710,5 +756,8 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.registerTabModules();
 		this.removeWidgetFromList();
 		this.registerSelectDashboard();
+		this.registerTabletScrollEvent();
+		this.registerUpdatePredefinedWidgets();
+		ElementQueries.listen();
 	}
 });

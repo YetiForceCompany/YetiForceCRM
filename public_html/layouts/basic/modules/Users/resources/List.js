@@ -185,7 +185,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	/*
 	 *Function to mass off 2FA
 	 */
-	triggerMassOff2FA: function(){
+	triggerMassOff2FA: function () {
 		let url = window.location.href;
 		let listInstance = Settings_Vtiger_List_Js.getInstance();
 		let validationResult = listInstance.checkListRecordSelected();
@@ -245,7 +245,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 */
 	getPageJumpParams: function () {
 		var module = app.getModuleName();
-		var cvId = this.getCurrentCvId();
 		var pageCountParams = {
 			module: module,
 			view: "ListAjax",
@@ -271,49 +270,49 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 *Function to filter Active and Inactive users from Users List View
 	 */
 	usersFilter: function () {
-		var thisInstance = this;
-		jQuery('#usersFilter').on('change', function () {
-			var progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+		$('#usersFilter').on('change', () => {
+			const progressInstance = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
-			var params = {
+			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'List',
 				parent: app.getParentModuleName(),
-				search_params: jQuery('#usersFilter').val()
-			};
-			AppConnector.request(params)
-				.done(function (data) {
-					progressInstance.progressIndicator({
-						'mode': 'hide'
-					});
-					jQuery('#listViewContents').html(data);
-					thisInstance.updatePaginationFilter();
-					var listSearchInstance = thisInstance.getListSearchInstance();
-					if (listSearchInstance !== false) {
-						listSearchInstance.registerEvents();
-					}
-					App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
+				search_params: $('#usersFilter').val()
+			}).done((data) => {
+				progressInstance.progressIndicator({
+					mode: 'hide'
 				});
+				$('.js-fixed-thead').floatThead('destroy');
+				$('#listViewContents').html(data);
+				this.updatePaginationFilter();
+				let listSearchInstance = this.getListSearchInstance();
+				if (listSearchInstance !== false) {
+					listSearchInstance.registerEvents();
+				} else {
+					App.Fields.Picklist.showSelect2ElementView($('#listViewContents').find('select.select2'));
+				}
+			});
 		});
 	},
 	updatePaginationFilter: function () {
-		var thisInstance = this;
-		var params = {};
-		params['page'] = 1;
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['view'] = 'Pagination';
-		params['mode'] = 'getPagination';
-		params['search_params'] = jQuery('#usersFilter').val();
-		AppConnector.request(params)
-			.done(function (data) {
-				jQuery('.paginationDiv').html(data);
-				thisInstance.registerPageNavigationEvents();
-			});
+		const self = this,
+			container = this.getListViewContainer();
+		AppConnector.request({
+			page: 1,
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'Pagination',
+			mode: 'getPagination',
+			search_params: container.find('#usersFilter').val(),
+			noOfEntries: container.find('#noOfEntries').val(),
+		}).done(function (data) {
+			container.find('.paginationDiv').html(data);
+			self.registerPageNavigationEvents();
+		});
 	},
 	updatePagination: function (pageNumber) {
 		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;

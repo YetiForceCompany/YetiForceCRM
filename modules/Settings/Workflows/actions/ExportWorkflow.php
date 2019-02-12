@@ -4,23 +4,23 @@
  * Export to XML Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Action
 {
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 		$workflowObject = $workflowModel->getWorkflowObject();
 		$workflowMethods = [];
 
 		header('content-type: application/xml; charset=utf-8');
-		header('Pragma: public');
-		header('Cache-Control: private');
-		header('Content-Disposition: attachment; filename="' . $recordId . '_workflow.xml"');
-		header('Content-Description: PHP Generated Data');
+		header('pragma: public');
+		header('cache-control: private');
+		header('content-disposition: attachment; filename="' . $recordId . '_workflow.xml"');
+		header('content-description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;
@@ -40,7 +40,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 					$value = $workflowModel->get($field);
 					$xmlColumn = $xml->createElement($field, html_entity_decode($value, ENT_COMPAT, 'UTF-8'));
 				}
-			} else {
+			} elseif (isset($workflowObject->$field)) {
 				$value = $workflowObject->$field;
 				$xmlColumn = $xml->createElement($field, html_entity_decode($value, ENT_COMPAT, 'UTF-8'));
 			}

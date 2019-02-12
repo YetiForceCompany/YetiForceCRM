@@ -4,8 +4,8 @@
  * Module Class for MappedFields Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -31,6 +31,15 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public static $step2Fields = ['source', 'target', 'default', 'type'];
 	public static $step3Fields = ['conditions'];
 	public static $step4Fields = ['permissions'];
+	/**
+	 * @var array Validator for fields
+	 */
+	public static $validatorFields = [
+		'status' => 'Integer',
+		'tabid' => 'Integer',
+		'reltabid' => 'Integer',
+		'permissions' => ['Text'],
+	];
 	public $name = 'MappedFields';
 	public $parent = 'Settings';
 
@@ -238,13 +247,11 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 
-		$isInventory = $moduleModel->isInventory();
-		if ($isInventory) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->getName());
-			$inventoryFields = $inventoryFieldModel->getFields();
+		if ($moduleModel->isInventory()) {
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getName());
 			$blockName = 'LBL_ADVANCED_BLOCK';
-			foreach ($inventoryFields as $field) {
-				$fields[$blockName][$field->get('columnname')] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
+			foreach ($inventoryModel->getFields() as $field) {
+				$fields[$blockName][$field->getColumnName()] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -305,9 +312,11 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				$params = [];
 				$params[$this->mappingIndex] = $this->getRecordId();
 				foreach ($stepFields as $name) {
-					$params[$name] = $mapp[$name];
+					if (isset($mapp[$name])) {
+						$params[$name] = $mapp[$name];
+					}
 				}
-				if ($params['source'] && $params['target']) {
+				if (!empty($params['source']) && !empty($params['target'])) {
 					$db->createCommand()->insert($this->mappingTable, $params)->execute();
 				}
 			}
@@ -336,7 +345,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $column['groupid'], ];
 					}
 				}
 			}
@@ -372,10 +381,10 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
 			} elseif ($fieldsKey === 'fields') {
-				foreach ($fieldsValue as $fieldKey => $fieldValue) {
+				foreach ($fieldsValue as $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
-						settype($columnKey, 'string');
-						settype($columnValue, 'string');
+						$columnKey = (string) $columnKey;
+						$columnValue = (string) $columnValue;
 						if (in_array($columnKey, ['default', 'type'])) {
 							$mapping[$i][$columnKey] = $columnKey === 'default' ? \App\Purifier::purify($columnValue) : $columnValue;
 							continue;
@@ -397,6 +406,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = $this->getRecord()->get('tabid');
 		$reltabid = $this->getRecord()->get('reltabid');
 		if (empty($tabid) || empty($reltabid)) {
+			$id = null;
 			$message = 'LBL_MODULE_NOT_EXIST';
 		} elseif (!$this->importsAllowed()) {
 			$this->setMapping($mapping);
@@ -404,6 +414,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			$message = 'LBL_IMPORT_OK';
 			$id = $this->getRecordId();
 		} else {
+			$id = null;
 			$message = 'LBL_NO_PERMISSION_TO_IMPORT';
 		}
 		return [$id, $message];

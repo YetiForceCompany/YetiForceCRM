@@ -11,8 +11,8 @@ use Sabre\HTTP\ResponseInterface;
  * This is an authentication backend that uses a database to manage passwords.
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @author Evert Pot (http://evertpot.com/)
- * @license http://sabre.io/license/ Modified BSD License
+ * @author    Evert Pot (http://evertpot.com/)
+ * @license   http://sabre.io/license/ Modified BSD License
  */
 class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
 {
@@ -64,9 +64,6 @@ class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response)
 	{
-		file_put_contents('xxxx.txt', print_r([
-			$request->getHeaders(),
-		], true), FILE_APPEND);
 		if (strpos($request->getHeader('Authorization'), 'Basic') === 0) {
 			return $this->checkBasic($request, $response);
 		} else {

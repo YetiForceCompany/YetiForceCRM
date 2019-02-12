@@ -44,12 +44,11 @@ class Announcements_BasicAjax_Action extends \App\Controller\Action
 	public function mark(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$state = $request->get('type');
 		$announcements = Vtiger_Module_Model::getInstance($moduleName);
-		$announcements->setMark($request->getInteger('record'), $request->get('type'));
+		$announcements->setMark($request->getInteger('record'), $request->getInteger('type'));
 
 		$response = new Vtiger_Response();
-		$response->setResult($state);
+		$response->setResult(true);
 		$response->emit();
 	}
 

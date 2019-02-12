@@ -108,7 +108,6 @@ class Workflow
 			return true;
 		} else {
 			$cs = $this->conditionStrategy;
-
 			return $cs->evaluate($this->test, $recordModel);
 		}
 	}
@@ -169,7 +168,7 @@ class Workflow
 				} else {
 					$delay = 0;
 				}
-				if ($task->executeImmediately === true) {
+				if ((bool) $task->executeImmediately === true) {
 					$task->doTask($recordModel);
 				} else {
 					$hasContents = $task->hasContents($recordModel);
@@ -242,6 +241,16 @@ class Workflow
 	public function getWFScheduleTime()
 	{
 		return $this->schtime;
+	}
+
+	/**
+	 * Return workflow schedule timestamp in user format.
+	 *
+	 * @return string
+	 */
+	public function getWFScheduleTimeUserFormat()
+	{
+		return (new DateTimeField($this->schtime))->getDisplayTime();
 	}
 
 	/**

@@ -56,16 +56,15 @@ class VTCacheUtils
 		if (isset($fldcache)) {
 			$modulefields = [];
 
-			foreach ($fldcache as $fieldname => $fieldinfo) {
+			foreach ($fldcache as $fieldinfo) {
 				if (in_array($fieldinfo['presence'], $presencein)) {
 					$modulefields[] = $fieldinfo;
 				}
 			}
 		}
-
-		$fieldInfo = Vtiger_Cache::get('ModuleFields', $tabid);
-		if ($fieldInfo) {
-			foreach ($fieldInfo as $block => $blockFields) {
+		if (\App\Cache::has('ModuleFields', $tabid)) {
+			$fieldInfo = \App\Cache::get('ModuleFields', $tabid);
+			foreach ($fieldInfo as $blockFields) {
 				foreach ($blockFields as $field) {
 					if (in_array($field->get('presence'), $presencein)) {
 						$cacheField = [

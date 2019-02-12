@@ -45,6 +45,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 		if ($this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
 			$level = \App\ModuleHierarchy::getModuleLevel($this->Module);
 			$this->Config['url'] = $this->getUrl();
+			$this->Config['limit'] = $this->Data['limit'];
 			$this->Config['level'] = $level;
 			$this->Config['tpl'] = 'BasicComments.tpl';
 			$widget = $this->Config;

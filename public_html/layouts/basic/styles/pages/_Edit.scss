@@ -25,6 +25,12 @@
 	}
 }
 
+.limited-footer--active {
+	.c-form__action-panel {
+		bottom: $h-footer-limited;
+	}
+}
+
 .verticalScroll {
 	position: absolute;
 	left: 0;
@@ -37,7 +43,7 @@
 
 @include media-breakpoint-down(sm) {
 	.c-form__action-panel {
-		bottom: $h-footer-mobile;
+		bottom: $h-footer-limited;
 		width: 100%;
 	}
 
@@ -69,16 +75,22 @@
 		max-width: 400px;
 	}
 
-	td, th {
-		border: 1px solid #ddd;
+	tfoot td.hideTd {
+		border-width: 0 0 1px 0;
+		background: #fafafb;
+
+		& + td:not(.hideTd) {
+			border-left: 1px solid #dee2e6 !important;
+		}
+
+		&:first-child {
+			border-width: 0 0 1px 1px;
+		}
 	}
 
-	tfoot td.hideTd {
-		border: 0;
-		background: #fafafb;
-	}
 	//reboot correction for hidden list in table
 	.subProductsContainer ul {
 		margin-bottom: 0;
 	}
 }
+

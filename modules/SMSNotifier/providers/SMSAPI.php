@@ -3,8 +3,8 @@
  * SMSAPI - sms provider.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -75,14 +75,10 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 		$moduleName = 'Settings:SMSNotifier';
 		foreach ($this->getRequiredParams() as $name) {
 			$field = ['uitype' => 16, 'column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
-			switch ($name) {
-				case 'from':
-					$field['picklistValues'] = ['Eco' => 'Eco'];
-					$field['label'] = 'FL_SMSAPI_FROM';
-					$fields[] = $field;
-					break;
-				default:
-					break;
+			if ($name === 'from') {
+				$field['picklistValues'] = ['Eco' => 'Eco'];
+				$field['label'] = 'FL_SMSAPI_FROM';
+				$fields[] = $field;
 			}
 		}
 		foreach ($fields as &$field) {

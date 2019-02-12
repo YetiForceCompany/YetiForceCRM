@@ -128,6 +128,7 @@ class Vtiger_Viewer extends SmartyBC
 			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
 			if (!empty($moduleName) && file_exists($completeFilePath)) {
 				$filePath = "modules/$moduleName/$templateName";
+				break;
 			} else {
 				// Fall back lookup on actual module, in case where parent module doesn't contain actual module within in (directory structure)
 				if (strpos($moduleName, '/')) {
@@ -172,7 +173,7 @@ class Vtiger_Viewer extends SmartyBC
 			$templateFound = \App\Cache::get('ViewerTemplateExists', $templatePath);
 		} else {
 			$templateFound = $this->templateExists($templatePath);
-			\App\Cache::get('ViewerTemplateExists', $templatePath, $templateFound, \App\Cache::LONG);
+			\App\Cache::save('ViewerTemplateExists', $templatePath, $templateFound, \App\Cache::LONG);
 		}
 		// Logging
 		if (self::$debugViewer) {

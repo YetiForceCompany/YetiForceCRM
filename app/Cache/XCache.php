@@ -8,21 +8,11 @@ use App\Exceptions\CacheException;
  * XCache caching class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class XCache
 {
-	/**
-	 * Is apcu is available.
-	 *
-	 * @return bool
-	 */
-	public static function isSupported()
-	{
-		return extension_loaded('xcache');
-	}
-
 	/**
 	 * Class constructor.
 	 *
@@ -33,6 +23,16 @@ class XCache
 		if (!static::isSupported()) {
 			throw new CacheException('XCache is not enabled');
 		}
+	}
+
+	/**
+	 * Is apcu is available.
+	 *
+	 * @return bool
+	 */
+	public static function isSupported()
+	{
+		return extension_loaded('xcache');
 	}
 
 	/**

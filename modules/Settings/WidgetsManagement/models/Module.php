@@ -8,7 +8,12 @@
  */
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
-	public function getRestrictFilter()
+	/**
+	 * Exclude defined values from filters.
+	 *
+	 * @return array
+	 */
+	public function getRestrictFilter(): array
 	{
 		return [
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => ['mine'],
@@ -18,7 +23,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public function getWidgetsWithLimit()
 	{
 		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', ];
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
 	}
 
 	public static function getWidgetSpecial()
@@ -112,7 +117,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		$db = App\Db::getInstance();
 		$db->createCommand()->delete('u_#__dashboard_type', ['dashboard_id' => $dashboardId])->execute();
-		$blocks = (new App\Db\Query())->select('id')->from('vtiger_module_dashboard_blocks')
+		$blocks = (new App\Db\Query())->select(['id'])->from('vtiger_module_dashboard_blocks')
 			->where(['dashboard_id' => $dashboardId])->createCommand()->queryColumn();
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['dashboard_id' => $dashboardId])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $blocks])->execute();
@@ -294,11 +299,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
-			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
+			if ($data['type'] === 'DW_SUMMATION_BY_MONTHS') {
 				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
-			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
+			if ($data['type'] === 'DW_SUMMATION_BY_USER') {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+			}
+			if ($data['type'] === 'Multifilter') {
+				if (!is_array($data['customMultiFilter'])) {
+					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
+				}
+				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
+			}
+			if ($data['type'] === 'Calendar') {
+				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter'] ?? '']);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
 				->execute();
@@ -344,13 +358,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
-		if (in_array($data['name'], $widgetWithLimit)) {
+		if (!empty($data['name']) && in_array($data['name'], $widgetWithLimit)) {
 			$status = true;
 		}
-		if ($status && !$data['limit']) {
+		if ($status && empty($data['limit'])) {
 			$data['limit'] = 10;
 		}
-		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
+		if (empty($data['isdefault']) || $data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
 		if (!empty($data['filterid'])) {
@@ -367,9 +381,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
-		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data']));
-		if (!empty($data['additionalFiltersFields']) && count($data['additionalFiltersFields']) > App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
-			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['additionalFiltersFields']), 406);
+		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
+		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
+			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['data']['additionalFiltersFields']), 406);
 		}
 		$data['data'] = App\Json::encode($data['data']);
 		$size = \App\Json::encode([
@@ -377,14 +391,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'height' => $data['height'],
 		]);
 		$owners = \App\Json::encode([
-			'default' => $data['default_owner'],
-			'available' => $data['owners_all'],
+			'default' => $data['default_owner'] ?? '',
+			'available' => $data['owners_all'] ?? '',
 		]);
 		$db->createCommand()->insert('vtiger_module_dashboard', [
 			'linkid' => $data['linkid'],
 			'blockid' => $data['blockid'],
-			'filterid' => $data['filterid'],
-			'title' => $data['title'],
+			'filterid' => $data['filterid'] ?? '',
+			'title' => $data['title'] ?? '',
 			'data' => $data['data'],
 			'size' => $size,
 			'limit' => $data['limit'] ?? null,
@@ -416,13 +430,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...');
-		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];
+		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId ?? '', 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];
 	}
 
 	public function getBlocksId($dashboard)
 	{
 		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...');
-		$dataReader = (new App\Db\Query())->select('vtiger_module_dashboard_blocks.*, vtiger_role.rolename')
+		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard_blocks.*', 'vtiger_role.rolename'])
 			->from('vtiger_module_dashboard_blocks')
 			->innerJoin('vtiger_role', 'vtiger_module_dashboard_blocks.authorized = vtiger_role.roleid')
 			->where(['vtiger_module_dashboard_blocks.dashboard_id' => $dashboard])

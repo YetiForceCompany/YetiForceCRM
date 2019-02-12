@@ -33,6 +33,6 @@ class CustomView_Approve_Action extends \App\Controller\Action
 			$customViewModel->approve();
 		}
 		$listViewUrl = $moduleModel->getListViewUrl();
-		header("Location: $listViewUrl");
+		header("location: $listViewUrl");
 	}
 }

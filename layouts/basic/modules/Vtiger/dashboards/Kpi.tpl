@@ -33,7 +33,7 @@
 								<i class="fas fa-sync-alt" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></i>
 							</a>
 							{if !$WIDGET->isDefault()}
-								<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
+								<a class="js-widget-remove" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
 									<i class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REMOVE')}" alt="{\App\Language::translate('LBL_REMOVE')}"></i>
 								</a>
 							{/if}

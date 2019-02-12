@@ -6,9 +6,9 @@ namespace App\QueryField;
  * Multipicklist Query Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class MultipicklistField extends BaseField
 {
@@ -83,10 +83,10 @@ class MultipicklistField extends BaseField
 		foreach ($this->getValue() as $value) {
 			array_push($condition, [$this->getColumnName() => $value], ['or like', $this->getColumnName(),
 				[
-					'%' . $this->separator . $value . $this->separator . '%',
-					'%' . $value . $this->separator,
-					$value . $this->separator . '%',
-				], false,
+					"%{$this->separator}{$value}{$this->separator}%",
+					"{$value}{$this->separator}%",
+					"%{$this->separator}{$value}"
+				], false
 			]);
 		}
 		return $condition;
@@ -102,11 +102,11 @@ class MultipicklistField extends BaseField
 		$condition = ['and'];
 		foreach ($this->getValue() as $value) {
 			array_push($condition, ['<>', $this->getColumnName(), $value], ['not', ['or like', $this->getColumnName(),
-					[
-						'%' . $this->separator . $value . $this->separator . '%',
-						'%' . $value . $this->separator,
-						$value . $this->separator . '%',
-					], false,
+				[
+					"%{$this->separator}{$value}{$this->separator}%",
+					"{$value}{$this->separator}%",
+					"%{$this->separator}{$value}"
+				], false
 			]]);
 		}
 		return $condition;

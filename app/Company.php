@@ -6,77 +6,80 @@ namespace App;
  * Company basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Company extends Base
 {
 	/**
-	 * Logo directory.
-	 *
-	 * @var string
-	 */
-	public static $logoPath = 'public_html/layouts/resources/Logo/';
-
-	/**
 	 * Function to get the instance of the Company model.
 	 *
-	 * @param int $id
-	 *
-	 * @return \self
+	 * @return array
 	 */
-	public static function getInstanceById($id = false)
+	public static function getAll()
 	{
-		if (Cache::has('CompanyDetail', $id)) {
-			return Cache::get('CompanyDetail', $id);
+		if (Cache::has('CompanyGetAll', '')) {
+			return Cache::get('CompanyGetAll', '');
 		}
-		if ($id) {
-			$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one();
-		} else {
-			$row = (new \App\Db\Query())->from('s_#__companies')->where(['default' => 1])->one();
-		}
-		$self = new self();
-		if ($row) {
-			$self->setData($row);
-		}
-		Cache::save('CompanyDetail', $id, $self, Cache::LONG);
-
-		return $self;
+		$rows = (new \App\Db\Query())->from('s_#__companies')->all();
+		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
+		return $rows;
 	}
 
 	/**
-	 * Function to get the Company Logo.
+	 * Update company status.
 	 *
-	 * @return \Vtiger_Image_Model instance
+	 * @param int         $status
+	 * @param string|null $name
+	 *
+	 * @throws \yii\db\Exception
 	 */
-	public function getLogo($type = false, $fullUrl = false)
+	public static function statusUpdate(int $status, ?string $name = null)
 	{
-		if (Cache::has('CompanyLogo', $type)) {
-			return Cache::get('CompanyLogo', $type);
+		if ($name) {
+			\App\Db::getInstance('admin')->createCommand()
+				->update('s_#__companies', [
+					'status' => $status
+				], ['name' => $name])->execute();
+		} else {
+			\App\Db::getInstance('admin')->createCommand()
+				->update('s_#__companies', [
+					'status' => $status
+				])->execute();
 		}
-		$logoName = Purifier::decodeHtml($this->get($type ? $type : 'logo_main'));
-		if (!$logoName) {
+	}
+
+	/**
+	 * Send registration data to YetiForce API server.
+	 *
+	 * @param array $companiesNew
+	 *
+	 * @throws \App\Exceptions\Security
+	 *
+	 * @return bool
+	 */
+	public static function registerOnline(array $companiesNew): bool
+	{
+		if (empty($companiesNew)) {
 			return false;
 		}
-		$logoURL = static::$logoPath . $logoName;
-		if (IS_PUBLIC_DIR) {
-			$logoURL = str_replace('public_html/', '', $logoURL);
+		$companies = \array_column(static::getAll(), 'id', 'id');
+		foreach ($companiesNew as $key => $company) {
+			if (!isset($companies[$key])) {
+				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $key);
+			}
+			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $key);
+			$field = $recordModel->getModule()->getFormFields();
+			foreach (array_keys($field) as $fieldName) {
+				if (isset($company[$fieldName])) {
+					$uiTypeModel = $recordModel->getFieldInstanceByName($fieldName)->getUITypeModel();
+					$uiTypeModel->validate($company[$fieldName], true);
+					$recordModel->set($fieldName, $uiTypeModel->getDBValue($company[$fieldName]));
+				}
+			}
+			$recordModel->save();
 		}
-		if ($fullUrl) {
-			$logoURL = \AppConfig::main('site_URL') . $logoURL;
-		}
-		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoPath) . $logoName;
-		$logoModel = new \Vtiger_Image_Model();
-		$logoModel->setData([
-			'imageUrl' => $logoURL,
-			'imagePath' => $path,
-			'alt' => $logoName,
-			'imageName' => $logoName,
-			'title' => Language::translate('LBL_COMPANY_LOGO_TITLE'),
-			'fileExists' => file_exists($path),
-		]);
-		Cache::save('CompanyLogo', $type, $logoModel);
-
-		return $logoModel;
+		return (new \App\YetiForce\Register())->register();
 	}
 }

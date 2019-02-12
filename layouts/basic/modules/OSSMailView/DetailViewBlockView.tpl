@@ -5,10 +5,11 @@
 		{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
 		{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 		{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+		{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="c-panel js-toggle-panel" data-label="{$BLOCK_LABEL}">
+				<div class="c-panel js-toggle-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 					<div class="blockHeader c-panel__header">
 						<div class="d-flex">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"

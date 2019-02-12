@@ -13,7 +13,7 @@ class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('getEvent');
+		$this->exposeMethod('getEvents');
 		$this->exposeMethod('updateEvent');
 	}
 
@@ -25,11 +25,11 @@ class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 		}
 	}
 
-	public function getEvent(\App\Request $request)
+	public function getEvents(\App\Request $request)
 	{
 		$record = OSSTimeControl_Calendar_Model::getInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 'Integer'));
+		$record->set('types', $request->getArray('types', 'Text'));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
 			$record->set('end', $request->getByType('end', 'DateInUserFormat'));

@@ -4,7 +4,7 @@
  * Settings mail autologin model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Mail_Autologin_Model
 {
@@ -17,7 +17,7 @@ class Settings_Mail_Autologin_Model
 
 	public function getAutologinUsers($userId)
 	{
-		return (new \App\Db\Query())->select('crmuser_id')
+		return (new \App\Db\Query())->select(['crmuser_id'])
 			->from('roundcube_users_autologin')
 			->where(['rcuser_id' => $userId])
 			->createCommand()->queryColumn();

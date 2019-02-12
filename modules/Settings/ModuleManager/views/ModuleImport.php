@@ -13,6 +13,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 {
 	use \App\Controller\ExposeMethod;
 
+	/**
+	 * Settings_ModuleManager_ModuleImport_View constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,24 +25,24 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$this->exposeMethod('updateUserModuleStep3');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$systemMode = \AppConfig::main('systemMode');
 		if ($systemMode == 'demo') {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_ERROR_IMPORT_IN_DEMO'));
 		}
-
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
-
 			return;
 		}
-
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step1.tpl', $qualifiedModuleName);
+		$viewer->view('importUserModuleStep1.tpl', $qualifiedModuleName);
 	}
 
 	/**
@@ -51,17 +54,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.ModuleImport",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			"modules.Settings.{$request->getModule()}.resources.ModuleImport",
+		]));
 	}
 
 	public function importUserModuleStep1(\App\Request $request)

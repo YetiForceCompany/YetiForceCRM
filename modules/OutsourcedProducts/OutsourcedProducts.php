@@ -3,7 +3,7 @@
  * OutsourcedProducts CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -112,7 +112,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			\App\Fields\RecordNumber::setNumber($moduleName, 'UP', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'UP')->set('cur_id', 1)->save();
 		}
 	}
 
@@ -135,7 +135,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relModule => $relTable) {
+			foreach ($relTableArr as $relTable) {
 				$idField = $tblFieldArr[$relTable];
 				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries

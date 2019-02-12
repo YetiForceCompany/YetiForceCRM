@@ -3,7 +3,6 @@
 
 $.Class('Settings_Mail_Config_Js', {}, {
 	registerChangeConfig() {
-		const thisInstance = this;
 		const container = $('.configContainer');
 		container.on('change', '.configCheckbox', function () {
 			const progressIndicator = $.progressIndicator();
@@ -30,7 +29,8 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
-		container.find('button').on('click', function () {
+		App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
+		container.find('.js-save-signature').on('click', function () {
 			const progressIndicator = $.progressIndicator();
 			const editor = CKEDITOR.instances.signatureEditor;
 			const params = {};
@@ -53,5 +53,6 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		const thisInstance = this;
 		thisInstance.registerChangeConfig();
 		thisInstance.registerSignature();
+		App.Fields.Text.registerCopyClipboard($('.js-container-variable'));
 	},
 });

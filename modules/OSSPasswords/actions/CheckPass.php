@@ -21,7 +21,7 @@ class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$password = $request->get('password');
+		$password = $request->getByType('password', 'Text');
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 

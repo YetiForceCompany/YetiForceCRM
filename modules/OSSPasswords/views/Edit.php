@@ -4,7 +4,7 @@
  * OSSPasswords edit view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_Edit_View extends Vtiger_Edit_View
 {
@@ -17,18 +17,11 @@ class OSSPasswords_Edit_View extends Vtiger_Edit_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-
-		$jsFileNames = [
+		return array_merge($this->checkAndConvertJsScripts([
 			'modules.OSSPasswords.resources.gen_pass',
 			'libraries.clipboard.dist.clipboard',
 			'modules.OSSPasswords.resources.zClipDetailView',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
-
-		return $headerScriptInstances;
+		]), parent::getFooterScripts($request));
 	}
 
 	public function process(\App\Request $request)

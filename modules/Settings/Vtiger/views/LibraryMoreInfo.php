@@ -39,7 +39,7 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 		} else {
 			if ($request->getByType('type', 1) === 'public') {
 				$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
-				$libraryName =$request->getByType('libraryName', 'Text');
+				$libraryName = $request->getByType('libraryName', 'Text');
 				foreach ($this->packageFiles as $file) {
 					$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 					if ($fileContent) {
@@ -65,7 +65,6 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 			}
 		}
 		$this->preProcess($request);
-		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

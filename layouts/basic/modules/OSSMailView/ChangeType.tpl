@@ -9,7 +9,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="alert alert-block alert-warning fade in" style="margin: 5px;">
+				<div class="alert alert-block alert-warning u-m-5px">
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<p>{\App\Language::translate('Alert_ChangeType_desc', $MODULE)}</p>
 				</div>

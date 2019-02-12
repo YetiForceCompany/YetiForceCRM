@@ -19,7 +19,7 @@ class Contacts_Save_Action extends Vtiger_Save_Action
 	public function process(\App\Request $request)
 	{
 		//To stop saveing the value of salutation as '--None--'
-		if ($request->get('salutationtype') === '--None--') {
+		if ($request->getByType('salutationtype', 'Text') === '--None--') {
 			$request->set('salutationtype', '');
 		}
 		parent::process($request);

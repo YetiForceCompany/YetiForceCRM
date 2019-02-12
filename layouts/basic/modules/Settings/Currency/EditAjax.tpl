@@ -37,14 +37,14 @@
 									<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}
 								</label>
 								<div class="controls col-md-6">
-									<select class="chzn-select form-control" name="currency_name">
+									<select class="select2 form-control" name="currency_name">
 										{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$ALL_CURRENCIES name=currencyIterator}
 											{if !$CURRENCY_MODEL_EXISTS && $smarty.foreach.currencyIterator.first}
 												{assign var=RECORD_MODEL value=$CURRENCY_MODEL}
 											{/if}
 											<option value="{$CURRENCY_MODEL->get('currency_name')}" data-code="{$CURRENCY_MODEL->get('currency_code')}" 
 													data-symbol="{$CURRENCY_MODEL->get('currency_symbol')}" {if $RECORD_MODEL->get('currency_name') == $CURRENCY_MODEL->get('currency_name')} selected {/if}>
-												{\App\Language::translate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
+												{\App\Language::translate($CURRENCY_MODEL->get('currency_code'), 'Other.Currency')}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
 											{/foreach}
 									</select>
 								</div>	
@@ -64,17 +64,21 @@
 							<div class="form-group">
 								<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
-									<input type="text" name="conversion_rate" class="form-control" placeholder="{\App\Language::translate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}" 
-										   value="{$RECORD_MODEL->get('conversion_rate')}" data-validation-engine='validate[required, funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]' />
-									<br /><span class="muted">({\App\Language::translate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)} - {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
-								</div>	
+									<input type="text" name="conversion_rate" class="form-control js-format-numer"
+										   placeholder="{\App\Language::translate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}"
+										   value="{$RECORD_MODEL->get('conversion_rate')}"
+										   data-validation-engine='validate[required, funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]'/>
+									<br/><span
+											class="muted">({\App\Language::translate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)}
+										- {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="muted col-md-4 col-2 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
 								<div class="col-6 controls">
 									<label class="checkbox">
 										<input type="hidden" name="currency_status" value="Inactive" />
-										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 
+										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom"
 										{if !$CURRENCY_MODEL_EXISTS} checked {else}{$RECORD_MODEL->get('currency_status')}{if $RECORD_MODEL->get('currency_status') == 'Active'} checked {/if}{/if} />
 									<span>&nbsp;{\App\Language::translate('LBL_CURRENCY_STATUS_DESC', $QUALIFIED_MODULE)}</span>
 								</label>

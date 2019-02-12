@@ -16,7 +16,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$result = [];
@@ -29,19 +29,15 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 		if (isset($result['FREQ']) && !in_array($result['FREQ'], $allowedFreqValues)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		if (isset($result['INTERVAL'])) {
-			if (!is_numeric($result['INTERVAL']) || $result['INTERVAL'] < 1 || $result['INTERVAL'] > 31) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-			}
+		if (isset($result['INTERVAL']) && (!is_numeric($result['INTERVAL']) || $result['INTERVAL'] < 1 || $result['INTERVAL'] > 31)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$allowedDayes = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 		if (isset($result['BYDAY']) && (strpos($result['BYDAY'], ',') === false ? !(in_array($result['BYDAY'], $allowedDayes) || in_array(substr($result['BYDAY'], 1), $allowedDayes)) : array_diff(explode(',', $result['BYDAY']), $allowedDayes))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		if (isset($result['BYMONTHDAY'])) {
-			if (!is_numeric($result['BYMONTHDAY']) || $result['BYMONTHDAY'] < 1 || $result['BYMONTHDAY'] > 31) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-			}
+		if (isset($result['BYMONTHDAY']) && (!is_numeric($result['BYMONTHDAY']) || $result['BYMONTHDAY'] < 1 || $result['BYMONTHDAY'] > 31)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (isset($result['COUNT']) && !is_numeric($result['COUNT'])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
@@ -119,6 +115,8 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 				case 'YEARLY':
 					$labelFreq = 'LBL_YEAR_TYPE';
 					break;
+				default:
+					break;
 			}
 			$result['freqLabel'] = $labelFreq;
 		}
@@ -133,16 +131,16 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 		$info = self::getRecurringInfo($value);
 		$text = '';
 		if ($info) {
-			$moduleName = 'Events';
+			$moduleName = 'Calendar';
 			$text = App\Language::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
 				. App\Language::translate($info['freqLabel'], $moduleName) . ', '
 				. App\Language::translate('LBL_UNTIL', $moduleName) . ' ';
-			if (isset($info['COUNT'], $info['UNTIL'])) {
+			if (!isset($info['COUNT']) && !isset($info['UNTIL'])) {
 				$text .= App\Language::translate('LBL_NEVER', $moduleName);
 			} elseif (isset($info['COUNT'])) {
 				$text .= App\Language::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
 			} else {
-				$text .= App\Language::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
+				$text .= $info['UNTIL'];
 			}
 		}
 		return $text;
@@ -159,5 +157,13 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['y', 'ny'];
 	}
 }

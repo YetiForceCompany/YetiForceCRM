@@ -38,7 +38,7 @@ class Cron
 	/**
 	 * set the value to the data.
 	 *
-	 * @param type $value,$key
+	 * @param type $value ,$key
 	 */
 	public function set($key, $value)
 	{
@@ -136,11 +136,7 @@ class Cron
 	 */
 	public function getTimeDiff()
 	{
-		$lastStart = $this->getLastStart();
-		$lastEnd = $this->getLastEnd();
-		$timeDiff = $lastEnd - $lastStart;
-
-		return $timeDiff;
+		return $this->getLastEnd() - $this->getLastStart();
 	}
 
 	/**
@@ -242,7 +238,7 @@ class Cron
 			case self::$STATUS_RUNNING:
 				break;
 			default:
-				throw new \Exception('Invalid status');
+				throw new \App\Exceptions\AppException('Invalid status');
 		}
 		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['status' => $status], ['id' => $this->getId()])->execute();
 	}
@@ -440,6 +436,9 @@ class Cron
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['module' => $moduleInstance->name])->execute();
+		if (is_dir("cron/modules/{$moduleInstance->name}")) {
+			Functions::recurseDelete("cron/modules/{$moduleInstance->name}");
+		}
 	}
 
 	/**

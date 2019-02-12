@@ -11,7 +11,6 @@
  */
 class OSSMail_Autologin_Model
 {
-
 	/**
 	 * Get autologin users.
 	 *

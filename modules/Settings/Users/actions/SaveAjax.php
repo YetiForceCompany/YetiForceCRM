@@ -22,11 +22,14 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 
 	public function updateConfig(\App\Request $request)
 	{
-		$param = $request->getArray('param');
 		$recordModel = Settings_Users_Module_Model::getInstance();
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => $recordModel->setConfig($param),
+			'success' => $recordModel->setConfig($request->getMultiDimensionArray('param', [
+				'type' => 'Standard',
+				'param' => 'Standard',
+				'val' => 'Text'
+			])),
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
 		]);
 		$response->emit();
@@ -34,9 +37,11 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 
 	public function saveSwitchUsers(\App\Request $request)
 	{
-		$param = $request->getArray('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
-		$moduleModel->saveSwitchUsers($param);
+		$moduleModel->saveSwitchUsers($request->getMultiDimensionArray('param', [[
+			'user' => 'Alnum',
+			'access' => 'Alnum'
+		]]));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
@@ -51,7 +56,10 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function saveLocks(\App\Request $request)
 	{
-		Settings_Users_Module_Model::getInstance()->saveLocks($request->getArray('param', 2));
+		Settings_Users_Module_Model::getInstance()->saveLocks($request->getMultiDimensionArray('param', [[
+			'user' => 'Alnum',
+			'locks' => 'Standard'
+		]]));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),

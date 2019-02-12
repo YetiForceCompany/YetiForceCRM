@@ -8,9 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
-
-class Import_ICSReader_Reader extends Ical
+class Import_ICSReader_Reader
 {
 	/**
 	 * Function to get info about imported file contains header or not.

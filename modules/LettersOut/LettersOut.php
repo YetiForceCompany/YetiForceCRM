@@ -4,7 +4,7 @@
  * LettersOut CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class LettersOut extends CRMEntity
 {
@@ -86,14 +86,6 @@ class LettersOut extends CRMEntity
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'title', 'assigned_user_id'];
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string $moduleName Module name
@@ -102,8 +94,7 @@ class LettersOut extends CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$ModuleInstance = CRMEntity::getInstance($moduleName);
-			\App\Fields\RecordNumber::setNumber($moduleName, 'LI', '1');
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'LI')->set('cur_id', 1)->save();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

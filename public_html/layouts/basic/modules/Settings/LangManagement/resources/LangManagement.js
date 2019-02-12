@@ -3,18 +3,60 @@
 
 var Settings_Index_Js = {
 	initEvants: function () {
-		$('.LangManagement .add_lang').on('click', Settings_Index_Js.ShowLangMondal);
-		$('.LangManagement .edit_lang a').on('click', function (e) {
+		let container = $('.LangManagement');
+		container.find('.add_lang').on('click', Settings_Index_Js.ShowLangMondal);
+		container.find('.edit_lang a').on('click', function (e) {
 			jQuery('#edit_lang').html('');
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
+		});
+		container.find('.js-add-languages-modal').on('click', () => {
+			const progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal', () => {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
 		});
 		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
 		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function (index, element) {
 			element = $(element);
 			Settings_Index_Js.initEvant(element);
-		})
+		});
+		this.registerUpdateLanguageBtn(container);
+	},
+	registerUpdateLanguageBtn(container) {
+		container.find('.js-update').on('click', function (e) {
+			let icon = $(e.target).find('.js-update__icon'),
+				progress = $.progressIndicator({
+					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+			icon.addClass('fa-spin');
+			AppConnector.request({
+				module: 'YetiForce',
+				parent: 'Settings',
+				action: 'DownloadLanguage',
+				prefix: $(e.target).data('prefix')
+			}).done(function (data) {
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: data['result']['type']
+				});
+				if (data['result']['type'] === 'success') {
+					location.reload();
+				} else {
+					progress.progressIndicator({'mode': 'hide'});
+					icon.removeClass('fa-spin');
+				}
+			});
+		});
 	},
 	LoadEditLang: function (e) {
 		var element = jQuery(e);
@@ -50,7 +92,6 @@ var Settings_Index_Js = {
 		});
 	},
 	initEditLang: function (position) {
-		var thisInstance = this;
 		App.Fields.Picklist.changeSelectElementView($(".LangManagement .layoutContent .active .select2"), 'select2').on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
@@ -80,7 +121,6 @@ var Settings_Index_Js = {
 		$('' + position + ' .listViewEntriesTable').dataTable();
 	},
 	ShowDifferences: function (e) {
-		var target = $(e.currentTarget);
 		if ($(this).is(':checked')) {
 			document.showDiff = true;
 		} else {
@@ -176,10 +216,8 @@ var Settings_Index_Js = {
 		});
 	},
 	ShowLangMondal: function (e) {
-		var target = $(e.currentTarget);
-		var cloneModal = $('.AddNewLangMondal').clone(true, true);
+		let cloneModal = $('.AddNewLangMondal').clone(true, true);
 		app.showModalWindow($(cloneModal));
-		$(cloneModal).css("z-index", "9999999");
 	},
 	ShowTranslationMondal: function (e) {
 		var langs_list = $(".LangManagement #langs_list").val();
@@ -190,28 +228,21 @@ var Settings_Index_Js = {
 			langs_fields += '<div class="form-group"><label class="col-md-4 col-form-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
 		});
 		cloneModal.find('.add_translation_block').html(langs_fields);
-		var target = $(e.currentTarget);
 
 		app.showModalWindow($(cloneModal));
 		$(cloneModal).css("z-index", "9999999");
 	},
 	AddLangMondal: function (e) {
-		var currentTarget = $(e.currentTarget);
-		var container = currentTarget.closest('.modalContainer');
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
+		const currentTarget = $(e.currentTarget),
+			container = currentTarget.closest('.modalContainer');
+		let SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
 			'type': 'Add',
 			'label': container.find("input[name='label']").val(),
 			'name': container.find("input[name='name']").val(),
 			'prefix': container.find("input[name='prefix']").val()
 		});
 		if (SaveEvent.resp) {
-			$('#lang_list table tbody').append('<tr data-prefix="' + SaveEvent.params.prefix + '"><td>' + SaveEvent.params.label + '</td><td>' + SaveEvent.params.name + '</td><td>' + SaveEvent.params.prefix + '</td><td><a href="index.php?module=LangManagement&parent=Settings&action=Export&lang=' + SaveEvent.params.prefix + '" class="btn btn-primary btn-xs marginLeft10">' + app.vtranslate('JS_EXPORT') + '</a> <button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button> <button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button></td></tr>');
-			var element = $('#lang_list tr[data-prefix=' + SaveEvent.params.prefix + ']')
-			Settings_Index_Js.initEvant(element);
-			container.find('.AddNewLangMondal').modal('hide');
-			$(".AddNewLangMondal input[name='label']").val('');
-			$(".AddNewLangMondal input[name='name']").val('');
-			$(".AddNewLangMondal input[name='prefix']").val('');
+			window.location.reload();
 		}
 	},
 	AddTranslationMondal: function (e) {
@@ -234,7 +265,7 @@ var Settings_Index_Js = {
 		$(e.currentTarget).remove();
 		var prefix = SaveEvent.result['prefixOld'];
 		var tbodyElement = closestTrElement.closest('tbody');
-		OldTrDefaultLang = tbodyElement.find('tr[data-prefix="' + prefix + '"]')
+		let OldTrDefaultLang = tbodyElement.find('tr[data-prefix="' + prefix + '"]')
 		OldTrDefaultLang.find('td:last').prepend('<button class="btn btn-danger marginLeftZero" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button> <button class="btn btn-primary marginLeftZero" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button>');
 		Settings_Index_Js.initEvant(OldTrDefaultLang);
 	},

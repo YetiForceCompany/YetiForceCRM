@@ -4,8 +4,8 @@
  * Module Manager Library class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_ModuleManager_Library_Model
 {
@@ -15,7 +15,6 @@ class Settings_ModuleManager_Library_Model
 	 * @var array
 	 */
 	public static $libraries = [
-		'mPDF' => ['dir' => 'vendor/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
 		'roundcube' => ['dir' => 'public_html/modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
 	];
 
@@ -93,19 +92,21 @@ class Settings_ModuleManager_Library_Model
 	 *
 	 * @param string $name
 	 *
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\NoPermitted
 	 *
 	 * @return bool
 	 */
-	public static function download($name)
+	public static function download(string $name): bool
 	{
+		$returnVal = true;
 		if (!static::$libraries[$name]) {
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$lib = static::$libraries[$name];
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $lib['name'] . '.zip';
-		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
+		$mode = \App\Config::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path) && \App\RequestUtil::isNetConnection()) {
 			stream_context_set_default([
@@ -133,7 +134,9 @@ class Settings_ModuleManager_Library_Model
 			unlink($path);
 		} else {
 			App\Log::warning('No import file: ' . $name);
+			$returnVal = false;
 		}
+		return $returnVal;
 	}
 
 	/**

@@ -13,22 +13,23 @@
 	<!-- tpl-Import-ImportResult -->
 	<div class='widget_header row '>
 		<div class="col-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<div>
-		<input type="hidden" name="module" value="{$FOR_MODULE}" />
+		<input type="hidden" name="module" value="{$FOR_MODULE}"/>
 		<table class="searchUIBasic well col-12 m-0">
 			<tr>
 				<td class="font-x-large text-center">
 					<h3>
 						<strong>
-							{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_RESULT', $MODULE)}
+							{\App\Language::translate('LBL_IMPORT', $MODULE_NAME)} {\App\Language::translate($FOR_MODULE, $MODULE_NAME)}
+							- {\App\Language::translate('LBL_RESULT', $MODULE_NAME)}
 						</strong>
 					</h3>
 				</td>
 			</tr>
-			{if $ERROR_MESSAGE neq ''}
+			{if !empty($ERROR_MESSAGE)}
 				<tr>
 					<td class="text-center">
 						{$ERROR_MESSAGE}

@@ -38,22 +38,22 @@ class Groups extends \Tests\Base
 		$this->assertSame($row['groupname'], 'Test groups');
 		$this->assertSame($row['description'], 'Test description');
 
-		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select('tabid')->where(['groupid' => static::$id])->column();
+		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select(['tabid'])->where(['groupid' => static::$id])->column();
 		$this->assertCount(0, array_diff($modules, $modulesFromDb));
 
-		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select('userid')->where(['groupid' => static::$id])->column();
+		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select(['userid'])->where(['groupid' => static::$id])->column();
 		$this->assertCount(1, $users2Group);
 		$this->assertSame($users2Group[0], 1);
 
-		$group2Grouprel = (new \App\Db\Query())->from('vtiger_group2grouprel')->select('containsgroupid')->where(['groupid' => static::$id])->column();
+		$group2Grouprel = (new \App\Db\Query())->from('vtiger_group2grouprel')->select(['containsgroupid'])->where(['groupid' => static::$id])->column();
 		$this->assertCount(1, $group2Grouprel);
 		$this->assertSame($group2Grouprel[0], 2);
 
-		$group2Rs = (new \App\Db\Query())->from('vtiger_group2rs')->select('roleandsubid')->where(['groupid' => static::$id])->column();
+		$group2Rs = (new \App\Db\Query())->from('vtiger_group2rs')->select(['roleandsubid'])->where(['groupid' => static::$id])->column();
 		$this->assertCount(1, $group2Rs);
 		$this->assertSame($group2Rs[0], 'H34');
 
-		$group2Role = (new \App\Db\Query())->from('vtiger_group2role')->select('roleid')->where(['groupid' => static::$id])->column();
+		$group2Role = (new \App\Db\Query())->from('vtiger_group2role')->select(['roleid'])->where(['groupid' => static::$id])->column();
 		$this->assertCount(1, $group2Role);
 		$this->assertSame($group2Role[0], 'H6');
 	}
@@ -77,12 +77,12 @@ class Groups extends \Tests\Base
 		$this->assertSame($row['groupname'], 'Test groups edit');
 		$this->assertSame($row['description'], 'Test description edit');
 
-		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select('tabid')
+		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select(['tabid'])
 			->where(['groupid' => static::$id])->column();
 
 		$this->assertCount(0, array_diff($modules, $modulesFromDb));
 
-		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select('userid')
+		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select(['userid'])
 			->where(['groupid' => static::$id])->column();
 
 		$this->assertCount(1, $users2Group);

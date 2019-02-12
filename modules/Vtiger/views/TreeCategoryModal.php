@@ -4,8 +4,9 @@
  * Tree Category Modal Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
@@ -45,13 +46,11 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$treeCategoryModel->set('srcRecord', $srcRecord);
 		$treeCategoryModel->set('srcModule', $srcModule);
 		$this->relationType = $treeCategoryModel->getRelationType();
-
 		$viewer->assign('TREE', \App\Json::encode($treeCategoryModel->getTreeData()));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SELECTABLE_CATEGORY', AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('RELATION_TYPE', $this->relationType);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
@@ -60,35 +59,22 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 
 	public function getModalScripts(\App\Request $request)
 	{
-		$parentScriptInstances = parent::getModalScripts($request);
-
 		$scripts = [
 			'~libraries/jstree/dist/jstree.js',
+			'~layouts/resources/libraries/jstree.category.js',
+			'~layouts/resources/libraries/jstree.checkbox.js'
 		];
-		if (AppConfig::relation('SELECTABLE_CATEGORY')) {
-			$scripts[] = '~layouts/resources/libraries/jstree.category.js';
-			$scripts[] = '~layouts/resources/libraries/jstree.checkbox.js';
-		}
 		if ($this->relationType == 1) {
 			$scripts[] = '~layouts/resources/libraries/jstree.edit.js';
 		}
 		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
-
-		$modalInstances = $this->checkAndConvertJsScripts($scripts);
-		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);
-
-		return $scriptInstances;
+		return array_merge($this->checkAndConvertJsScripts($scripts), parent::getModalScripts($request));
 	}
 
 	public function getModalCss(\App\Request $request)
 	{
-		$parentCssInstances = parent::getModalCss($request);
-		$cssFileNames = [
+		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
-		];
-		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$cssInstances = array_merge($modalInstances, $parentCssInstances);
-
-		return $cssInstances;
+		]), parent::getModalCss($request));
 	}
 }

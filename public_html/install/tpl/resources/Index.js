@@ -9,9 +9,9 @@
  ************************************************************************************/
 
 jQuery.Class('Install_Index_Js', {
-	fieldsCached : ['db_hostname','db_username','db_name', 	'create_db',
-		'db_root_username',	'currency_name','firstname','lastname',	'admin_email',
-		'dateformat','timezone'
+	fieldsCached: ['db_server', 'db_username', 'db_name',
+		'currency_name', 'firstname', 'lastname', 'admin_email',
+		'dateformat', 'default_timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
 		var logins = JSON.parse(jQuery('#not_allowed_logins').val());
@@ -30,22 +30,31 @@ jQuery.Class('Install_Index_Js', {
 			jQuery('form[name="step1"]').submit();
 		});
 	},
+	registerEventForStep2: function () {
+		let modalContainer = $('.js-license-modal');
+		modalContainer.on('shown.bs.modal', function (e) {
+			app.registerDataTables(modalContainer.find('.js-data-table'), {
+				lengthMenu: [[10, 25, 50, -1], [10, 25, 50, app.vtranslate("JS_ALL")]],
+				retrieve: true
+			});
+		});
+	},
 	registerEventForStep3: function () {
-		jQuery('#recheck').on('click', function () {
+		$('#recheck').on('click', function () {
 			window.location.reload();
 		});
-		jQuery('input[name="step4"]').on('click', function (e) {
-			var elements = jQuery('.no');
+		let elements = jQuery('.js-wrong-status');
+		$('.js-confirm').on('submit', function (e) {
 			if (elements.length > 0) {
-				var msg = app.vtranslate('LBL_PHP_WARNING');
-				if (confirm(msg)) {
-					jQuery('form[name="step3"]').submit();
-					return true;
-				} else {
-					return false;
-				}
+				e.preventDefault();
+				app.showConfirmModal(app.vtranslate('LBL_PHP_WARNING')).done(function (data) {
+					if (data) {
+						elements = false;
+						$('form[name="step3"]').submit();
+						return;
+					}
+				});
 			}
-			jQuery('form[name="step3"]').submit();
 		});
 	},
 	checkPwdEvent: function () {
@@ -55,7 +64,7 @@ jQuery.Class('Install_Index_Js', {
 		});
 	},
 	checkPwd: function (pass) {
-		var error = false;
+		let error = false;
 
 		if (pass.length < 8) {
 			jQuery('#passwordError').html(app.vtranslate('LBL_PASS_TO_SHORT'));
@@ -78,8 +87,8 @@ jQuery.Class('Install_Index_Js', {
 	},
 	registerEventForStep4: function () {
 		var config = JSON.parse(localStorage.getItem('yetiforce_install'));
-		Install_Index_Js.fieldsCached.forEach(function(field){
-			if(config && typeof config[field] !== 'undefined') {
+		Install_Index_Js.fieldsCached.forEach(function (field) {
+			if (config && typeof config[field] !== 'undefined') {
 				var formField = jQuery('[name="' + field + '"]');
 				if ('SELECT' == jQuery(formField).prop('tagName')) {
 					jQuery(formField).val(config[field]);
@@ -95,18 +104,7 @@ jQuery.Class('Install_Index_Js', {
 				}
 			}
 		});
-		var thisInstance = this;
-		jQuery('input[name="create_db"]').on('click', function () {
-			var userName = jQuery('#root_user');
-			var password = jQuery('#root_password');
-			if (jQuery(this).is(':checked')) {
-				userName.removeClass('d-none');
-				password.removeClass('d-none');
-			} else {
-				userName.addClass('d-none');
-				password.addClass('d-none');
-			}
-		});
+
 		function clearPasswordError() {
 			jQuery('#passwordError').html('');
 		}
@@ -135,106 +133,21 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('input[name="retype_password"]').on('keypress', function (e) {
 			clearPasswordError();
 		});
-
-		jQuery('input[name="step5"]').on('click', function () {
-			var error = false;
-			var validateFieldNames = ['db_hostname', 'db_username', 'db_name', 'password', 'retype_password', 'lastname', 'admin_email'];
-			for (var fieldName in validateFieldNames) {
-				var field = jQuery('input[name="' + validateFieldNames[fieldName] + '"]');
-				if (field.val() == '') {
-					field.addClass('error').focus();
-					error = true;
-					break;
-				} else {
-					field.removeClass('error');
-				}
-			}
-
-			var createDatabase = jQuery('input[name="create_db"]:checked');
-			if (createDatabase.length > 0) {
-				var dbRootUser = jQuery('input[name="db_root_username"]');
-				if (dbRootUser.val() == '') {
-					dbRootUser.addClass('error').focus();
-					error = true;
-				} else {
-					dbRootUser.removeClass('error');
-				}
-			}
-			var password = jQuery('#passwordError');
-			if (password.html().trim())
-				error = true;
-
-			var emailField = jQuery('input[name="admin_email"]');
-			var invalidEmailAddress = false;
-			var regex = /^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;
-			if (!regex.test(emailField.val()) && emailField.val() != '') {
-				invalidEmailAddress = true;
-				emailField.addClass('error').focus();
-				error = true;
+		$('form[name="step4"]').on('submit', (e) => {
+			if (this.checkForm()) {
+				e.preventDefault();
 			} else {
-				emailField.removeClass('error');
-			}
-
-			var checkPwdError = false;
-			checkPwdError = thisInstance.checkPwd(jQuery('input[name="password"]').val());
-
-			if (checkPwdError) {
-				error = true;
-			}
-
-			if (error) {
-				var content;
-				if (invalidEmailAddress) {
-					content = '<div class="span12">' +
-							'<div class="alert alert-error">' +
-							'<button class="close" data-dismiss="alert" type="button">x</button>' +
-							jQuery('[name="invalidEmailError"]').val() +
-							'</div>' +
-							'</div>';
-				} else {
-					if (checkPwdError) {
-						content = '<div class="span12">' +
-								'<div class="alert alert-error">' +
-								'<button class="close" data-dismiss="alert" type="button">x</button>' +
-								jQuery('[name="insufficientlyStrongPassword"]').val() +
-								'</div>' +
-								'</div>';
-					} else {
-						content = '<div class="span12">' +
-								'<div class="alert alert-error">' +
-								'<button class="close" data-dismiss="alert" type="button">x</button>' +
-								app.vtranslate('LBL_MANDATORY_FIELDS_ERROR') +
-								'</div>' +
-								'</div>';
-					}
-				}
-				jQuery('#errorMessage').html(content).show();
-			} else {
-				var config = {
-					db_hostname: document.step4.db_hostname.value,
-					db_username: document.step4.db_username.value,
-					db_name: document.step4.db_name.value,
-					create_db: jQuery('[name="create_db"]').prop('checked'),
-					db_root_username: document.step4.db_root_username.value,
-					currency_name: document.step4.currency_name.value,
-					firstname: document.step4.firstname.value,
-					lastname: document.step4.lastname.value,
-					admin_email: document.step4.admin_email.value,
-					dateformat: document.step4.dateformat.value,
-					timezone: document.step4.timezone.value
-				};
-				window.localStorage.setItem('yetiforce_install', JSON.stringify(config));
-				jQuery('form[name="step4"]').submit();
+				$('form[name="step4"]').off('submit');
+				this.submitForm();
 			}
 		});
 		this.checkPwdEvent();
-
 	},
 	registerEventForStep5: function () {
 		jQuery('input[name="step6"]').on('click', function () {
 			var error = jQuery('#errorMessage');
 			if (error.length) {
-				alert(app.vtranslate('LBL_RESOLVE_ERROR'));
+				app.showAlert(app.vtranslate('LBL_RESOLVE_ERROR'));
 				return false;
 			} else {
 				jQuery('#progressIndicator').removeClass('d-none');
@@ -259,21 +172,40 @@ jQuery.Class('Install_Index_Js', {
 			});
 		}
 	},
+	checkForm() {
+		let error = false;
+		if (jQuery('#passwordError').html().trim()) {
+			error = true;
+		}
+		if (this.checkPwd(jQuery('input[name="password"]').val())) {
+			error = true;
+		}
+		return error;
+	},
+	submitForm() {
+		window.localStorage.setItem('yetiforce_install', JSON.stringify({
+			db_server: document.step4.db_server.value,
+			db_username: document.step4.db_username.value,
+			db_name: document.step4.db_name.value,
+			currency_name: document.step4.currency_name.value,
+			firstname: document.step4.firstname.value,
+			lastname: document.step4.lastname.value,
+			admin_email: document.step4.admin_email.value,
+			dateformat: document.step4.dateformat.value,
+			default_timezone: document.step4.default_timezone.value
+		}));
+	},
 	changeLanguage: function (e) {
-		var target = $(e.currentTarget);
 		jQuery('input[name="mode"]').val('step1');
 		jQuery('form[name="step1"]').submit();
 	},
 	registerEvents: function () {
 		jQuery('input[name="back"]').on('click', function () {
-			var createDatabase = jQuery('input[name="create_db"]:checked');
-			if (createDatabase.length > 0) {
-				jQuery('input[name="create_db"]').removeAttr('checked');
-			}
 			window.history.back();
 		});
 		jQuery('form').validationEngine(app.validationEngineOptions);
 		this.registerEventForStep1();
+		this.registerEventForStep2();
 		this.registerEventForStep3();
 		this.registerEventForStep4();
 		this.registerEventForStep5();

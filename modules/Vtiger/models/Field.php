@@ -17,6 +17,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
+	public $picklistValues;
+	/**
+	 * @var bool
+	 */
+	protected $isCalculateField = true;
 	/**
 	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
 	 */
@@ -152,7 +157,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getModule()
 	{
 		if (!isset($this->module)) {
-			$moduleObj = $this->block->module;
+			if (isset($this->block->module)) {
+				$moduleObj = $this->block->module;
+			}
 			//fix for opensource emailTemplate listview break
 			if (empty($moduleObj)) {
 				return false;
@@ -186,11 +193,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to retrieve display type of a field.
 	 *
-	 * @return string display type of the field
+	 * @return int display type of the field
 	 */
 	public function getDisplayType()
 	{
-		return $this->get('displaytype');
+		return (int) $this->get('displaytype');
 	}
 
 	/**
@@ -270,6 +277,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 99:
 						$fieldDataType = 'password';
 						break;
+					case 101:
+						$fieldDataType = 'userReference';
+						break;
 					case 115:
 						$fieldDataType = 'picklist';
 						break;
@@ -303,13 +313,28 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 311:
 						$fieldDataType = 'multiImage';
 						break;
+					case 312:
+						$fieldDataType = 'authySecretTotp';
+						break;
+					case 313:
+						$fieldDataType = 'twitter';
+						break;
+					case 314:
+						$fieldDataType = 'multiEmail';
+						break;
+					case 315:
+						$fieldDataType = 'multiDependField';
+						break;
+					case 316:
+						$fieldDataType = 'smtp';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
 							$fieldDataType = $fieldsDataType[$uiType]['fieldtype'];
 						} else {
-							$fieldType = explode('~', $this->get('typeofdata'));
-							switch ($fieldType[0]) {
+							$fieldTypeArray = explode('~', $this->get('typeofdata'));
+							switch ($fieldTypeArray[0]) {
 								case 'T':
 									$fieldDataType = 'time';
 									break;
@@ -447,35 +472,33 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
-		$fieldDataType = $this->getFieldDataType();
-		if ($this->getName() === 'hdnTaxType') {
-			return null;
-		}
-		if ($fieldDataType === 'picklist' || $fieldDataType === 'multipicklist') {
-			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
-				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
-			} else {
-				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
-			}
-			$fieldPickListValues = [];
-			foreach ($picklistValues as $value) {
-				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
-			}
-			// Protection against deleting a value that does not exist on the list
-			if ($fieldDataType === 'picklist') {
-				$fieldValue = $this->get('fieldvalue');
-				if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
-					$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($this->get('fieldvalue'));
-					$this->set('isEditableReadOnly', true);
+		if (!isset($this->picklistValues)) {
+			$fieldDataType = $this->getFieldDataType();
+			if ($fieldDataType === 'picklist' || $fieldDataType === 'multipicklist') {
+				if ($this->isRoleBased() && !$skipCheckingRole) {
+					$userModel = Users_Record_Model::getCurrentUserModel();
+					$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
+				} else {
+					$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 				}
+				$fieldPickListValues = [];
+				foreach ($picklistValues as $value) {
+					$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
+				}
+				// Protection against deleting a value that does not exist on the list
+				if ($fieldDataType === 'picklist') {
+					$fieldValue = $this->get('fieldvalue');
+					if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
+						$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($fieldValue);
+						$this->set('isEditableReadOnly', true);
+					}
+				}
+				$this->picklistValues = $fieldPickListValues;
+			} elseif (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
+				$this->picklistValues = $this->getUITypeModel()->getPicklistValues();
 			}
-
-			return $fieldPickListValues;
-		} elseif (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
-			return $this->getUITypeModel()->getPicklistValues();
 		}
-		return null;
+		return $this->picklistValues;
 	}
 
 	/**
@@ -498,7 +521,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public static function showDisplayTypeList()
 	{
-		$displayType = [
+		return [
 			1 => 'LBL_DISPLAY_TYPE_1',
 			2 => 'LBL_DISPLAY_TYPE_2',
 			3 => 'LBL_DISPLAY_TYPE_3',
@@ -506,8 +529,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			//5 => 'LBL_DISPLAY_TYPE_5',
 			10 => 'LBL_DISPLAY_TYPE_10',
 		];
-
-		return $displayType;
 	}
 
 	/**
@@ -531,14 +552,14 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->fieldType)) {
 			return $this->fieldType;
 		}
-		$fieldType = explode('~', $this->get('typeofdata'));
-		$fieldType = array_shift($fieldType);
+		$fieldTypeArray = explode('~', $this->get('typeofdata'));
+		$fieldTypeArray = array_shift($fieldTypeArray);
 		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
+			$fieldTypeArray = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
+			$fieldTypeArray = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldTypeArray);
 		}
-		return $this->fieldType = $fieldType;
+		return $this->fieldType = $fieldTypeArray;
 	}
 
 	/**
@@ -637,10 +658,8 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isEditableReadOnly()
 	{
-		$isEditableReadOnly = $this->get('isEditableReadOnly');
-
-		if ($isEditableReadOnly !== null) {
-			return $isEditableReadOnly;
+		if ($this->get('isEditableReadOnly') !== null) {
+			return $this->get('isEditableReadOnly');
 		}
 		if ((int) $this->get('displaytype') === 10) {
 			return true;
@@ -652,11 +671,8 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$moduleModel = $this->getModule();
 		$quickCreate = $this->get('quickcreate');
-		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory())) {
-			//isQuickCreateSupported will not be there for settings
-			if (method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
-				return true;
-			}
+		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory()) && method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
+			return true;
 		}
 		return false;
 	}
@@ -730,6 +746,20 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Function to get value for customview.
+	 *
+	 * @param string $sourceFieldName
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function getCustomViewSelectColumnName(string $sourceFieldName = '')
+	{
+		return "{$this->getModuleName()}:{$this->get('name')}" . ($sourceFieldName ? ":$sourceFieldName" : '');
+	}
+
+	/**
 	 * Function to get the custom view column name transformation of the field.
 	 *
 	 * @return string - tablename:columnname:fieldname:module_fieldlabel:fieldtype
@@ -743,17 +773,17 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldLabel = $this->get('label');
 		$typeOfData = $this->get('typeofdata');
 		$fieldTypeOfData = explode('~', $typeOfData);
-		$fieldType = $fieldTypeOfData[0];
+		$fieldTypeOfData = $fieldTypeOfData[0];
 		//Special condition need for reference field as they should be treated as string field
 		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
+			$fieldTypeOfData = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
+			$fieldTypeOfData = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldTypeOfData);
 		}
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = "{$moduleName}_{$escapedFieldLabel}";
 
-		return "$tableName:$columnName:$fieldName:$moduleFieldLabel:$fieldType";
+		return "$tableName:$columnName:$fieldName:$moduleFieldLabel:$fieldTypeOfData";
 	}
 
 	/**
@@ -780,7 +810,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['presence'] = $this->isActiveField();
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
-		$this->fieldInfo['header_field'] = $this->isHeaderField();
+		$this->fieldInfo['header_field'] = $this->getHeaderField();
 		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
 		$this->fieldInfo['maximumlength'] = $this->get('maximumlength');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
@@ -839,7 +869,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 			case 'modules':
-				foreach ($this->getModulesListValues() as $moduleId => $module) {
+				foreach ($this->getModulesListValues() as $module) {
 					$modulesList[$module['name']] = $module['label'];
 				}
 				$this->fieldInfo['picklistvalues'] = $modulesList;
@@ -849,16 +879,16 @@ class Vtiger_Field_Model extends vtlib\Field
 				$this->fieldInfo['picklistvalues'] = \App\Fields\Tree::getPicklistValue($this->getFieldParams(), $this->getModuleName());
 				break;
 			case 'email':
-				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+				if (\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES'))) {
 					$validate = false;
-					if (empty(AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+					if (empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED'))) {
 						$validate = true;
 					}
-					if (in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+					if (in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED'))) {
 						$validate = false;
 					}
 					if ($validate) {
-						$this->fieldInfo['restrictedDomains'] = AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+						$this->fieldInfo['restrictedDomains'] = \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES');
 					}
 				}
 				break;
@@ -871,6 +901,8 @@ class Vtiger_Field_Model extends vtlib\Field
 				$params = $this->getFieldParams();
 				$this->fieldInfo['limit'] = $params['limit'] ?? Vtiger_Image_UIType::$defaultLimit;
 				$this->fieldInfo['formats'] = $params['formats'] ?? \App\Fields\File::$allowedFormats['image'];
+				break;
+			default:
 				break;
 		}
 		return $this->fieldInfo;
@@ -910,26 +942,24 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
-		$fieldModelList = Vtiger_Cache::get('ModuleFields', $moduleModel->id);
-		if (!$fieldModelList) {
-			$fieldObjects = parent::getAllForModule($moduleModel);
-
-			$fieldModelList = [];
-			//if module dont have any fields
-			if (!is_array($fieldObjects)) {
-				$fieldObjects = [];
-			}
-
-			foreach ($fieldObjects as &$fieldObject) {
-				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
-				$fieldModelList[$block][] = $fieldModelObject;
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
-			}
-
-			Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
+		if (\App\Cache::has('ModuleFields', $moduleModel->id)) {
+			return \App\Cache::get('ModuleFields', $moduleModel->id);
 		}
+		$fieldModelList = [];
+		$fieldObjects = parent::getAllForModule($moduleModel);
+		$fieldModelList = [];
+		//if module dont have any fields
+		if (!is_array($fieldObjects)) {
+			$fieldObjects = [];
+		}
+		foreach ($fieldObjects as &$fieldObject) {
+			$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
+			$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
+			$fieldModelList[$block][] = $fieldModelObject;
+			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+		}
+		\App\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
 		return $fieldModelList;
 	}
 
@@ -958,6 +988,21 @@ class Vtiger_Field_Model extends vtlib\Field
 			return self::getInstanceFromFieldObject($fieldObject);
 		}
 		return false;
+	}
+
+	/**
+	 * Returns instance of field.
+	 *
+	 * @param string|array $fieldInfo
+	 *
+	 * @return bool|null|\Vtiger_Field_Model|\vtlib\Field
+	 */
+	public static function getInstanceFromFilter($fieldInfo)
+	{
+		if (is_string($fieldInfo)) {
+			$fieldInfo = array_combine(['module_name', 'field_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
+		}
+		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
 	}
 
 	/**
@@ -1058,6 +1103,8 @@ class Vtiger_Field_Model extends vtlib\Field
 					'params' => ['end_period'], ];
 				array_push($validator, $funcName);
 				break;
+			default:
+				break;
 		}
 		return $validator;
 	}
@@ -1085,7 +1132,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (\App\Cache::has('Currency', 'List')) {
 			return \App\Cache::get('Currency', 'List');
 		}
-		$currencies = (new \App\Db\Query())->select('id, currency_name')
+		$currencies = (new \App\Db\Query())->select(['id', 'currency_name'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
 			->createCommand()->queryAllByGroup();
@@ -1110,17 +1157,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get Default Field Value.
 	 *
-	 * @return string defaultvalue
+	 * @throws \Exception
+	 *
+	 * @return mixed
 	 */
 	public function getDefaultFieldValue()
 	{
-		if ($this->defaultvalue && $this->getFieldDataType() === 'date') {
-			$textParser = \App\TextParser::getInstance($this->getModuleName());
-			$textParser->setContent($this->defaultvalue)->parse();
-
-			return $textParser->getContent();
-		}
-		return $this->defaultvalue;
+		return $this->getUITypeModel()->getDefaultValue();
 	}
 
 	/**
@@ -1206,6 +1249,32 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Gets header field data.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
+	 */
+	public function getHeaderField()
+	{
+		return !empty($this->header_field) ? \App\Json::decode($this->header_field) : [];
+	}
+
+	/**
+	 * Gets header field value.
+	 *
+	 * @param string $type
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
+	 */
+	public function getHeaderValue(string $type)
+	{
+		return $this->getHeaderField()[$type] ?? '';
+	}
+
+	/**
 	 * Function which will check if empty piclist option should be given.
 	 *
 	 * @return bool
@@ -1235,7 +1304,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->getUIType() === 71 || $this->getUIType() === 7;
+		return $this->isCalculateField && ($this->getUIType() === 71 || $this->getUIType() === 7);
 	}
 
 	/**
@@ -1307,6 +1376,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
+		if (empty($tableSchema)) {
+			return false;
+		}
 		$columnSchema = $tableSchema->getColumn($this->getColumnName());
 		$data = get_object_vars($columnSchema);
 		if ($returnString) {
@@ -1318,7 +1390,6 @@ class Vtiger_Field_Model extends vtlib\Field
 					$string .= '(' . $data['size'] . ')';
 				}
 			}
-
 			return $string;
 		}
 		return $data;
@@ -1355,25 +1426,62 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
-				break;
+			// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
-				break;
+			// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
-				break;
+			// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:
 				return null;
 		}
+	}
+
+	/**
+	 * Return allowed operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getOperators()
+	{
+		$operators = $this->getUITypeModel()->getOperators();
+		$oper = [];
+		foreach ($operators as $op) {
+			$label = '';
+			if (isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
+				$label = \App\CustomView::ADVANCED_FILTER_OPTIONS[$op];
+			}
+			if (isset(\App\CustomView::DATE_FILTER_CONDITIONS[$op])) {
+				$label = \App\CustomView::DATE_FILTER_CONDITIONS[$op]['label'];
+			}
+			$oper[$op] = $label;
+		}
+		return $oper;
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator)
+	{
+		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
+			return;
+		}
+		return $this->getUITypeModel()->getOperatorTemplateName($operator);
 	}
 }

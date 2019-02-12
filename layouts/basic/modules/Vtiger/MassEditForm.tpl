@@ -10,9 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-	{/foreach}
+	{if !empty($SCRIPTS)}
+		{foreach key=index item=jsModel from=$SCRIPTS}
+			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+		{/foreach}
+	{/if}
 	<div id="massEditContainer" class="modal" tabindex="-1" role="dialog">
 
 		<div class="modal-dialog modal-lg" role="document">
@@ -39,14 +41,14 @@
 					<input type="hidden" name="module" value="{$MODULE}"/>
 					<input type="hidden" name="action" value="MassSave"/>
 					<input type="hidden" name="viewname" value="{$CVID}"/>
-					<input type="hidden" name="selected_ids" value={\App\Json::encode($SELECTED_IDS)}>
-					<input type="hidden" name="excluded_ids" value={\App\Json::encode($EXCLUDED_IDS)}>
+					<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+					<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
 					<input type="hidden" name="search_key" value="{$SEARCH_KEY}"/>
 					<input type="hidden" name="operator" value="{$OPERATOR}"/>
 					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
-					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}'/>
+					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
 					<input type="hidden" id="massEditFieldsNameList"
-						   data-value='{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}'/>
+						   data-value="{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}"/>
 
 					<div class="modal-body">
 						<ul class="nav nav-tabs">
@@ -90,7 +92,7 @@
 														<div class="col-sm-6 col-lg-8">
 															<div class="fieldValue"
 																 id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-input">
-																{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}
+																{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit' RECORD=null}
 															</div>
 														</div>
 													</div>

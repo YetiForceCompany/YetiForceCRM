@@ -13,7 +13,7 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
-		$forModule = $request->get('formodule');
+		$forModule = $request->getByType('formodule', 'Alnum');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_MODULES_LIST', $moduleModelList);
 		$viewer->assign('FOR_MODULE', $forModule);
@@ -24,7 +24,7 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 	{
 		if ($request->isAjax()) {
 			$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
-			$forModule = $request->get('formodule');
+			$forModule = $request->getByType('formodule', 'Alnum');
 
 			$viewer = $this->getViewer($request);
 			$viewer->assign('PICKLIST_MODULES_LIST', $moduleModelList);
@@ -46,27 +46,15 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+		]));
 	}
 }

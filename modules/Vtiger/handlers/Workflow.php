@@ -20,16 +20,14 @@ class Vtiger_Workflow_Handler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		switch ($eventHandler->getRecordModel()->get('deleted')) {
-			case 'Trash':
-				$this->performTasks($eventHandler, [
-					VTWorkflowManager::$ON_DELETE
-				]);
-				break;
-			default:
-				$this->performTasks($eventHandler, [
-					VTWorkflowManager::$ON_EVERY_SAVE
-				]);
+		if ($eventHandler->getRecordModel()->get('deleted') === 'Trash') {
+			$this->performTasks($eventHandler, [
+				VTWorkflowManager::$ON_DELETE
+			]);
+		} else {
+			$this->performTasks($eventHandler, [
+				VTWorkflowManager::$ON_EVERY_SAVE
+			]);
 		}
 	}
 
@@ -58,6 +56,16 @@ class Vtiger_Workflow_Handler
 			VTWorkflowManager::$ON_EVERY_SAVE,
 			VTWorkflowManager::$ON_MODIFY
 		]);
+	}
+
+	/**
+	 * UserAfterSave function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function userAfterSave(App\EventHandler $eventHandler)
+	{
+		$this->entityAfterSave($eventHandler);
 	}
 
 	/**
@@ -120,12 +128,13 @@ class Vtiger_Workflow_Handler
 					$doEvaluate = false;
 					break;
 				default:
-					throw new Exception('Should never come here! Execution Condition:' . $workflow->executionCondition);
+					throw new \App\Exceptions\AppException('Should never come here! Execution Condition:' . $workflow->executionCondition);
 			}
 			if ($doEvaluate && $workflow->evaluate($recordModel, $recordModel->getId())) {
 				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {
 					$workflow->markAsCompletedForRecord($recordModel->getId());
 				}
+
 				$workflow->performTasks($recordModel);
 			}
 		}

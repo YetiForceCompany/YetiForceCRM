@@ -4,8 +4,8 @@
  * Wdiget to show work time.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -20,7 +20,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['due_date', 'bw', implode(',', $date)]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
+		return '&search_params=' . json_encode($listSearchParams);
 	}
 
 	public function getWidgetTimeControl($user, $time)
@@ -59,10 +59,19 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$time = \App\Fields\Date::formatRangeToDisplay($time);
+		$workingTimeByType = $workingTime = [];
 		while ($row = $dataReader->read()) {
 			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
-			$workingTimeByType[$label] += (float) $row['sum_time'];
-			$workingTime[$row['smownerid']][$row['timecontrol_type']] += (float) $row['sum_time'];
+			if (isset($workingTimeByType[$label])) {
+				$workingTimeByType[$label] += (float) $row['sum_time'];
+			} else {
+				$workingTimeByType[$label] = (float) $row['sum_time'];
+			}
+			if (isset($workingTime[$row['smownerid']][$row['timecontrol_type']])) {
+				$workingTime[$row['smownerid']][$row['timecontrol_type']] += (float) $row['sum_time'];
+			} else {
+				$workingTime[$row['smownerid']][$row['timecontrol_type']] = (float) $row['sum_time'];
+			}
 			if (!in_array($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
 				// one dataset per type
@@ -78,7 +87,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			if (!in_array($row['smownerid'], $smOwners)) {
 				$smOwners[] = $row['smownerid'];
 				$ownerName = \App\Fields\Owner::getUserLabel($row['smownerid']);
-				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
+				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
 				$chartData['fullLabels'][] = $ownerName;
 			}
 		}
@@ -90,7 +99,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			foreach ($workingTime as $ownerId => $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
 					// if owner has this kind of type
-					if ($timeValue[$timeType]) {
+					if (!empty($timeValue[$timeType])) {
 						$userTime = $timeValue[$timeType];
 					} else {
 						$userTime = 0;
@@ -106,7 +115,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 			foreach ($smOwners as $ownerId) {
 				foreach ($chartData['datasets'] as &$dataset) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($ownerId, $time);
+					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All&entityState=Active' . $this->getSearchParams($ownerId, $time);
 				}
 			}
 		}
@@ -129,7 +138,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$viewer->assign('TCPMODULE_MODEL', Settings_TimeControlProcesses_Module_Model::getCleanInstance()->getConfigInstance());
-		$viewer->assign('USERID', $user);
+		$viewer->assign('OWNER', $user);
 		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		$viewer->assign('DATA', $this->getWidgetTimeControl($user, $time));
 		$viewer->assign('WIDGET', $widget);

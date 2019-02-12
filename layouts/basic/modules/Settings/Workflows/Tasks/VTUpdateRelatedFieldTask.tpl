@@ -11,9 +11,10 @@
 		<input type="hidden" id="fieldValueMapping" name="field_value_mapping"
 			   value='{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}'/>
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
-			<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1" data-js="container | clone">
+			<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
+				 data-js="container | clone">
 				<div class="col-md-5 mb-1 mb-md-0">
-					<select name="fieldname" class="chzn-select" style="min-width: 250px"
+					<select name="fieldname" class="select2" style="min-width: 250px"
 							data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 						<option></option>
 						{foreach item=REFERENCE_FIELD from=$MODULE_MODEL->getFieldsByReference()}

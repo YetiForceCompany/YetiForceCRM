@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DataSetRegister field model class.
  *
@@ -16,16 +17,12 @@ class DataSetRegister_Field_Model extends Vtiger_Field_Model
 	public function getValidator()
 	{
 		$validator = [];
-		$fieldName = $this->getName();
-		switch ($fieldName) {
-			case 'removed_from_register':
-				$funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['added_to_register']];
-				array_push($validator, $funcName);
-				break;
-			default:
-				$validator = parent::getValidator();
-				break;
+		if ($this->getName() === 'removed_from_register') {
+			$funcName = ['name' => 'greaterThanDependentField',
+				'params' => ['added_to_register']];
+			array_push($validator, $funcName);
+		} else {
+			$validator = parent::getValidator();
 		}
 		return $validator;
 	}

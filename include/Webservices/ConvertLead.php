@@ -8,11 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ******************************************************************************* */
-require_once 'config/config.php';
-require_once 'config/debug.php';
-require_once 'config/performance.php';
-require_once 'include/Loader.php';
-require_once 'include/ConfigUtils.php';
 
 class WebservicesConvertLead
 {
@@ -64,7 +59,7 @@ class WebservicesConvertLead
 		}
 
 		foreach ($availableModules as $entityName) {
-			if ($entityvalues['entities'][$entityName]['create']) {
+			if (!empty($entityvalues['entities'][$entityName]['create'])) {
 				$entityvalue = $entityvalues['entities'][$entityName];
 
 				$entityObjectValues = [];
@@ -72,15 +67,13 @@ class WebservicesConvertLead
 				$entityObjectValues = static::vtwsPopulateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
 
 				//update the contacts relation
-				if ($entityvalue['name'] == 'Contacts') {
-					if (!empty($entityIds['Accounts'])) {
-						$entityObjectValues['parent_id'] = $entityIds['Accounts'];
-					}
+				if ($entityvalue['name'] == 'Contacts' && !empty($entityIds['Accounts'])) {
+					$entityObjectValues['parent_id'] = $entityIds['Accounts'];
 				}
 
 				try {
 					$create = true;
-					if ($entityvalue['name'] == 'Accounts' && $entityvalue['convert_to_id'] && is_int($entityvalue['convert_to_id'])) {
+					if ($entityvalue['name'] == 'Accounts' && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
 						$entityIds[$entityName] = $entityvalue['convert_to_id'];
 						$create = false;
 					}
@@ -109,8 +102,7 @@ class WebservicesConvertLead
 
 		try {
 			$accountId = $entityIds['Accounts'];
-			$contactId = $entityIds['Contacts'];
-
+			$contactId = $entityIds['Contacts'] ?? null;
 			static::vtwsConvertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
 			$relatedId = $entityIds[$entityvalues['transferRelatedRecordsTo']];
@@ -121,7 +113,7 @@ class WebservicesConvertLead
 			$eventHandler->trigger('EntityAfterConvertLead');
 		} catch (Exception $e) {
 			\App\Log::error('Error converting a lead: ' . $e->getMessage());
-			foreach ($entityIds as $entity => $id) {
+			foreach ($entityIds as $id) {
 				vtws_delete($id, $user);
 			}
 
@@ -152,18 +144,21 @@ class WebservicesConvertLead
 		$result = $adb->pquery($sql, []);
 		if ($adb->numRows($result)) {
 			switch ($entityName) {
-				case 'Accounts':$column = 'accountfid';
+				case 'Accounts':
+					$column = 'accountfid';
 					break;
-				case 'Contacts':$column = 'contactfid';
+				case 'Contacts':
+					$column = 'contactfid';
 					break;
-				default:$column = 'leadfid';
+				default:
+					$column = 'leadfid';
 					break;
 			}
 			$row = $adb->fetchArray($result);
 			$count = 1;
 			foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 				$defaultvalue = $field->getDefaultFieldValue();
-				if ($defaultvalue && $entity[$fieldname] == '') {
+				if ($defaultvalue && empty($entity[$fieldname])) {
 					$entity[$fieldname] = $defaultvalue;
 				}
 			}
@@ -187,7 +182,6 @@ class WebservicesConvertLead
 					$entity[$fieldname] = $fieldvalue;
 				}
 			}
-
 			$entity = static::vtwsValidateConvertLeadEntityMandatoryValues($entity, $targetModuleModel);
 		}
 		return $entity;
@@ -246,7 +240,6 @@ class WebservicesConvertLead
 	public static function vtwsUpdateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
 		$adb = PearDatabase::getInstance();
-
 		if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
 			$sql = 'UPDATE vtiger_leaddetails SET converted = 1 where leadid=?';
 			$result = $adb->pquery($sql, [$leadId]);
@@ -256,7 +249,7 @@ class WebservicesConvertLead
 			//update the modifiedtime and modified by information for the record
 			$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
 			$crmentityUpdateSql = 'UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?';
-			$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->id, $leadId]);
+			$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->getId(), $leadId]);
 		}
 		$moduleArray = ['Accounts', 'Contacts'];
 

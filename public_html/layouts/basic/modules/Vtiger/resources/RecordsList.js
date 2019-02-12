@@ -78,6 +78,10 @@ $.Class("Base_RecordsList_JS", {}, {
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
+				type: 'error'
+			});
 		});
 		return aDeferred.promise();
 	},

@@ -50,6 +50,9 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
+		if ($sourceModule === 'SRecurringOrders' && $record) {
+			$queryGenerator->addJoin(['INNER JOIN', 'u_#__srecurringorders', 'u_#__srecurringorders.accountid = vtiger_contactdetails.parentid AND u_#__srecurringorders.srecurringordersid = :records', [':records' => $record]]);
+		}
 		if (in_array($sourceModule, ['Campaigns', 'Vendors', 'Products', 'Services']) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns':
@@ -66,6 +69,8 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 					$tableName = 'vtiger_seproductsrel';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'productid';
+					break;
+				default:
 					break;
 			}
 			if ($sourceModule === 'Services') {

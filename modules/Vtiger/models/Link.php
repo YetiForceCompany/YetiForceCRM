@@ -228,9 +228,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		//Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
 			//To convert single quotes and double quotes
-			$url = \App\Purifier::encodeHtml($url);
-
-			return $url;
+			return \App\Purifier::encodeHtml($url);
 		}
 		$module = $parent = false;
 		$sourceModule = false;
@@ -248,11 +246,9 @@ class Vtiger_Link_Model extends vtlib\Link
 				$module = $value;
 			}
 
-			if (strcmp($key, 'action') === 0) {
-				if (strpos($value, 'View')) {
-					$value = str_replace('View', '', $value);
-					$key = 'view';
-				}
+			if (strcmp($key, 'action') === 0 && strpos($value, 'View')) {
+				$value = str_replace('View', '', $value);
+				$key = 'view';
 			}
 			if (strcmp($key, 'return_module') === 0) {
 				$key = 'sourceModule';
@@ -288,7 +284,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			if ($relationModel && $relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
-				foreach ($fieldList as $fieldName => $fieldModel) {
+				foreach ($fieldList as $fieldModel) {
 					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
 						if (in_array($sourceModuleModel->get('name'), $referenceList)) {
@@ -303,11 +299,8 @@ class Vtiger_Link_Model extends vtlib\Link
 			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 
-		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		$url = \App\Purifier::encodeHtml($url);
-
-		return $url;
+		return \App\Purifier::encodeHtml(implode('&', $parametersParts));
 	}
 
 	/**
@@ -371,13 +364,13 @@ class Vtiger_Link_Model extends vtlib\Link
 	/**
 	 * Function to get all the Vtiger Link Models for a module of the given list of link types.
 	 *
-	 * @param <Number> $tabid
-	 * @param <Array>  $type
-	 * @param <Array>  $parameters
+	 * @param int        $tabid
+	 * @param string[]   $type
+	 * @param bool|array $parameters
 	 *
-	 * @return <Array> - List of Vtiger_Link_Model instances
+	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	public static function getAllByType($tabid, $type = false, $parameters = false)
+	public static function getAllByType($tabid, $type = [], $parameters = false)
 	{
 		$links = Vtiger_Cache::get('links-' . $tabid, $type);
 		if (!$links) {
@@ -385,10 +378,15 @@ class Vtiger_Link_Model extends vtlib\Link
 			Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 		$linkModels = [];
+		if (!empty($type)) {
+			foreach ($type as $element) {
+				$linkModels[$element] = [];
+			}
+		}
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if (($type === false || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
+				if ((empty($type) || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}

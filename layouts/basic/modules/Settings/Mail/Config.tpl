@@ -3,8 +3,7 @@
 	<div class="configContainer tpl-Settings-Mail-Config">
 		<div class="widget_header row">
 			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate('LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION', $QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
@@ -46,6 +45,9 @@
 					<input class="configCheckbox" type="checkbox" name="addSignature" id="addSignature" data-type="signature" value="1" {if $CONFIG_SIGNATURE['addSignature']=='true'}checked=""{/if}>
 					<label class="ml-1" for="addSignature">{\App\Language::translate('LBL_ADD_SIGNATURE', $QUALIFIED_MODULE)}</label>
 				</div>
+				<div class="form-row js-container-variable" data-js="container">
+					{include file=\App\Layout::getTemplatePath('VariablePanel.tpl') SELECTED_MODULE='Users' PARSER_TYPE='mail'}
+				</div>
 				<hr />
 				<div class="row">
 					<div class="col-md-12">
@@ -55,7 +57,7 @@
 				<br />
 				<div class="row">
 					<div class="col-md-12">
-						<button class="btn btn-success float-right">
+						<button class="btn btn-success float-right js-save-signature" data-js="click">
 							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>

@@ -6,7 +6,6 @@
 	color: $white;
 	font-size: $font-size-small;
 
-
 	a {
 		color: inherit;
 	}
@@ -38,41 +37,41 @@
 
 .c-footer__user-info {
 	padding: 0 5px;
-	height: 22px;
+	height: $h-user-info;
 	color: #fff;
 	width: 100%;
-	bottom: 33px;
 	z-index: 1030;
-	left: 0;
-	border-top: 1px solid #fff;
 	background: #4979aa;
 }
 
-.userInfoFooter .leftPanel {
-	bottom: 50px;
+.c-footer--user-info-active {
+	height: $h-footer-user-info;
 }
 
-.c-footer--user-info-active {
-	height: $h-footer-user-info !important;
+.c-footer--limited {
+	height: $h-footer-limited;
+
+	.page-link {
+		font-size: 0.52em;
+		padding: 0.1rem 0.2rem !important;
+	}
+}
+
+.c-footer--limited.c-footer--user-info-active {
+	height: $h-footer;
 }
 
 @include media-breakpoint-down(sm) {
 	.c-footer {
-		height: $h-footer-mobile;
+		height: $h-footer-limited;
 
 		.page-link {
-			font-size: 0.6em;
+			font-size: 0.52em;
 			padding: 0.1rem 0.2rem !important;
 		}
 
 	}
-
 	.c-footer--user-info-active {
-		height: $h-footer-user-info-mobile !important;
-		font-size: 0.6em;
-	}
-
-	.c-footer__user-info{
-		height: 17px;
+		height: $h-footer;
 	}
 }

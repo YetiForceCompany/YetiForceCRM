@@ -29,7 +29,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . \App\Json::encode($listSearchParams);
+		return '&entityState=Active&viewname=All&search_params=' . \App\Json::encode($listSearchParams);
 	}
 
 	/**

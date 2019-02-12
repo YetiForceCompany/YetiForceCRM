@@ -4,7 +4,7 @@
  * Settings mail config view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Mail_Config_View extends Settings_Vtiger_Index_View
 {
@@ -19,7 +19,7 @@ class Settings_Mail_Config_View extends Settings_Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', Settings_Mail_Config_Model::getInstance());
-		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
+		$viewer->assign('ERROR_MESSAGE', $request->getByType('errorMessage', 'Text'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('Config.tpl', $qualifiedModuleName);
 	}
@@ -33,16 +33,9 @@ class Settings_Mail_Config_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.Config",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Settings.' . $request->getModule() . '.resources.Config',
+			'libraries.clipboard.dist.clipboard'
+		]));
 	}
 }

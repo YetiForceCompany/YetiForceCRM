@@ -47,15 +47,6 @@ class WorkFlowScheduler
 		$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
 		$queryGenerator->setFields(['id']);
 		$this->addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions);
-
-		if ($moduleName === 'Calendar' || $moduleName === 'Events') {
-			// We should only get the records related to proper activity type
-			if ($moduleName === 'Calendar') {
-				$queryGenerator->addCondition('activitytype', 'Task', 'e');
-			} elseif ($moduleName === 'Events') {
-				$queryGenerator->addCondition('activitytype', 'Task', 'n');
-			}
-		}
 		return $queryGenerator->createQuery();
 	}
 
@@ -91,7 +82,7 @@ class WorkFlowScheduler
 		date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
-		foreach ($scheduledWorkflows as $i => &$workflow) {
+		foreach ($scheduledWorkflows as &$workflow) {
 			$tm = new VTTaskManager();
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {
@@ -107,7 +98,7 @@ class WorkFlowScheduler
 							} else {
 								$delay = 0;
 							}
-							if ($task->executeImmediately === true) {
+							if ((bool) $task->executeImmediately === true) {
 								$task->doTask($recordModel);
 							} else {
 								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
@@ -168,6 +159,7 @@ class WorkFlowScheduler
 		 */
 		if ($conditions) {
 			foreach ($conditions as &$condition) {
+				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
 				if ($operation === 'has changed') {
@@ -187,7 +179,7 @@ class WorkFlowScheduler
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
 				}
-				if ($sourceField) {
+				if (!empty($sourceField)) {
 					$queryGenerator->addRelatedCondition([
 						'sourceField' => $sourceField,
 						'relatedModule' => $relatedModule,
@@ -276,9 +268,15 @@ class WorkFlowScheduler
 				$hours = $condition['value'];
 				$value = date('Y-m-d H:i:s', strtotime('-' . $hours . ' hours'));
 				break;
+			default:
+				break;
+		}
+		if (in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
+			$value = App\Fields\DateTime::formatToDisplay($value);
+		} else {
+			$value = App\Fields\Date::formatToDisplay($value);
 		}
 		date_default_timezone_set($default_timezone);
-
 		return $value;
 	}
 }

@@ -62,23 +62,25 @@ class PackageImport extends PackageExport
 	public function getTypeName()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
-			$packageType = strtolower($this->_modulexml->type);
-			switch ($packageType) {
+			$type = strtolower($this->_modulexml->type);
+			switch ($type) {
 				case 'extension':
-					$packageType = 'LBL_EXTENSION_MODULE';
+					$type = 'LBL_EXTENSION_MODULE';
 					break;
 				case 'entity':
-					$packageType = 'LBL_BASE_MODULE';
+					$type = 'LBL_BASE_MODULE';
 					break;
 				case 'inventory':
-					$packageType = 'LBL_INVENTORY_MODULE';
+					$type = 'LBL_INVENTORY_MODULE';
 					break;
 				case 'language':
-					$packageType = 'LBL_LANGUAGE_MODULE';
+					$type = 'LBL_LANGUAGE_MODULE';
+					break;
+				default:
 					break;
 			}
 
-			return $packageType;
+			return $type;
 		}
 		return '';
 	}
@@ -98,10 +100,8 @@ class PackageImport extends PackageExport
 	 */
 	public function isLanguageType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 		if ($packagetype) {
@@ -124,10 +124,8 @@ class PackageImport extends PackageExport
 	 */
 	public function isExtensionType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 		if ($packagetype) {
@@ -139,12 +137,32 @@ class PackageImport extends PackageExport
 		return false;
 	}
 
+	/**
+	 * Checks font package type.
+	 *
+	 * @param null $zipfile
+	 *
+	 * @return bool
+	 */
+	public function isFontType($zipfile = null)
+	{
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
+		}
+		$packagetype = $this->type();
+		if ($packagetype) {
+			$lcasetype = strtolower($packagetype);
+			if ($lcasetype === 'font') {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public function isUpdateType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 
@@ -162,10 +180,8 @@ class PackageImport extends PackageExport
 	 */
 	public function isLayoutType($zipfile = null)
 	{
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		$packagetype = $this->type();
 
@@ -188,10 +204,8 @@ class PackageImport extends PackageExport
 	public function isModuleBundle($zipfile = null)
 	{
 		// If data is not yet available
-		if (!empty($zipfile)) {
-			if (!$this->checkZip($zipfile)) {
-				return false;
-			}
+		if (!empty($zipfile) && !$this->checkZip($zipfile)) {
+			return false;
 		}
 		return (bool) $this->_modulexml->modulebundle;
 	}
@@ -217,14 +231,14 @@ class PackageImport extends PackageExport
 
 	public function getParameters()
 	{
-		$parameters = [];
+		$params = [];
 		if (empty($this->_modulexml->parameters)) {
-			return $parameters;
+			return $params;
 		}
 		foreach ($this->_modulexml->parameters->parameter as $parameter) {
-			$parameters[] = $parameter;
+			$params[] = $parameter;
 		}
-		return $parameters;
+		return $params;
 	}
 
 	public function initParameters(\App\Request $request)
@@ -244,15 +258,8 @@ class PackageImport extends PackageExport
 	 */
 	public function checkZip($zipfile)
 	{
-		$manifestxml_found = false;
-		$languagefile_found = false;
-		$layoutfile_found = false;
-		$updatefile_found = false;
-		$extensionfile_found = false;
-		$moduleVersionFound = false;
-		$modulename = null;
-		$language_modulename = null;
-
+		$manifestxml_found = $languagefile_found = $layoutfile_found = $updatefile_found = $extensionfile_found = $moduleVersionFound = $fontfile_found = false;
+		$modulename = $language_modulename = null;
 		$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 		$this->__parseManifestFile($zip);
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
@@ -281,17 +288,18 @@ class PackageImport extends PackageExport
 				} elseif ($this->isUpdateType()) {
 					$updatefile_found = true; // No need to search for module language file.
 					break;
+				} elseif ($this->isFontType()) {
+					$fontfile_found = true; // No need to search for module language file.
+					break;
 				} else {
 					continue;
 				}
 			}
-			// Language file present in en_us folder
 			$pattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]([^\/]+)\.json/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
-			// or Language file may be present in en_us/Settings folder
 			$settingsPattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
@@ -299,24 +307,25 @@ class PackageImport extends PackageExport
 			}
 		}
 		// Verify module language file.
-		if (!empty($language_modulename) && $language_modulename == $modulename) {
+		if (!empty($language_modulename) && $language_modulename === $modulename) {
 			$languagefile_found = true;
-		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $_errorText);
-			$this->_errorText = $_errorText;
+		} elseif (!$fontfile_found && !$updatefile_found && !$layoutfile_found && !$languagefile_found) {
+			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $errorText);
+			$this->_errorText = $errorText;
 		}
 		if (!empty($this->_modulexml) &&
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-			if (\App\Version::check($moduleVersion) >= 0) {
+			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion);
+			if ($versionCheck !== false && $versionCheck >= 0) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
-				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
-				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
-				$this->_errorText = $_errorText;
+				$errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$errorText = str_replace('__MODULEVERSION__', $moduleVersion, $errorText);
+				$errorText = str_replace('__CRMVERSION__', \App\Version::get(), $errorText);
+				$this->_errorText = $errorText;
 			}
 		}
 		$validzip = false;
@@ -326,31 +335,32 @@ class PackageImport extends PackageExport
 		if ($manifestxml_found && $layoutfile_found && $moduleVersionFound) {
 			$validzip = true;
 		}
-		if ($manifestxml_found && $languagefile_found && $extensionfile_found && $moduleVersionFound) {
+		if ($manifestxml_found && $extensionfile_found && $moduleVersionFound) {
 			$validzip = true;
 		}
 		if ($manifestxml_found && $updatefile_found && $moduleVersionFound) {
+			$validzip = true;
+		}
+		if ($manifestxml_found && $fontfile_found) {
 			$validzip = true;
 		}
 		if ($this->isLanguageType() && $manifestxml_found && strpos($this->_modulexml->prefix, '/') !== false) {
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
 		}
-		if ($manifestxml_found && !empty($this->_modulexml->type) && in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension']) && $modulename && \Settings_ModuleManager_Module_Model::checkModuleName($modulename)) {
+		if ($manifestxml_found && !empty($modulename) && !empty($this->_modulexml->type) && \Settings_ModuleManager_Module_Model::checkModuleName($modulename) && \in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension'])) {
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
 		}
-		if ($validzip) {
-			if (!empty($this->_modulexml->license)) {
-				if (!empty($this->_modulexml->license->inline)) {
-					$this->_licensetext = (string) $this->_modulexml->license->inline;
-				} elseif (!empty($this->_modulexml->license->file)) {
-					$licensefile = (string) $this->_modulexml->license->file;
-					if ($licenseContent = $zip->getFromName($licensefile)) {
-						$this->_licensetext = $licenseContent;
-					} else {
-						$this->_licensetext = "Missing $licensefile!";
-					}
+		if ($validzip && !empty($this->_modulexml->license)) {
+			if (!empty($this->_modulexml->license->inline)) {
+				$this->_licensetext = (string) $this->_modulexml->license->inline;
+			} elseif (!empty($this->_modulexml->license->file)) {
+				$licensefile = (string) $this->_modulexml->license->file;
+				if ($licenseContent = $zip->getFromName($licensefile)) {
+					$this->_licensetext = $licenseContent;
+				} else {
+					$this->_licensetext = "Missing $licensefile!";
 				}
 			}
 		}
@@ -411,20 +421,19 @@ class PackageImport extends PackageExport
 			}
 			$zip->unzip([
 				// Templates folder
-				'templates/resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
 				'templates' => "layouts/$defaultLayout/modules/$module",
+				'public_resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
-				'config' => 'config/modules',
+				'config' => 'config/Modules',
 				// Modules folder
 				'modules' => 'modules',
 				// Settings folder
-				'settings/actions' => "modules/Settings/$module/actions",
-				'settings/views' => "modules/Settings/$module/views",
-				'settings/models' => "modules/Settings/$module/models",
+				'settings/modules' => "modules/Settings/$module",
 				// Settings templates folder
 				'settings/templates' => "layouts/$defaultLayout/modules/Settings/$module",
+				'settings/public_resources' => "public_html/layouts/$defaultLayout/modules/Settings/$module/resources",
 				//module images
 				'images' => "layouts/$defaultLayout/images/$module",
 				'updates' => 'cache/updates',
@@ -445,7 +454,7 @@ class PackageImport extends PackageExport
 	 */
 	public function getDependentVtigerVersion()
 	{
-		return $this->_modulexml->dependencies->vtiger_version;
+		return (!empty($this->_modulexml) && \is_object($this->_modulexml)) ? $this->_modulexml->dependencies->vtiger_version : '';
 	}
 
 	/**
@@ -541,15 +550,21 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-				if ((string) $this->_modulexml->type === 'update') {
-					Functions::recurseDelete('cache/updates');
-					$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
-					$zip->extract('cache/updates');
-					$this->importUpdate();
-				} else {
-					$this->initImport($zipfile, $overwrite);
-					// Call module import function
-					$this->importModule();
+				switch ((string) $this->_modulexml->type) {
+					case 'update':
+						Functions::recurseDelete('cache/updates');
+						$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
+						$zip->extract('cache/updates');
+						$this->importUpdate();
+						break;
+					case 'font':
+						$this->importFont($zipfile);
+						break;
+					default:
+						$this->initImport($zipfile, $overwrite);
+						// Call module import function
+						$this->importModule();
+						break;
 				}
 			}
 		}
@@ -603,6 +618,10 @@ class PackageImport extends PackageExport
 		$this->importCustomLinks($this->_modulexml, $moduleInstance);
 		$this->importCronTasks($this->_modulexml);
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
+		register_shutdown_function(function () {
+			chdir(ROOT_DIRECTORY);
+			\App\UserPrivilegesFile::recalculateAll();
+		});
 	}
 
 	/**
@@ -713,7 +732,7 @@ class PackageImport extends PackageExport
 		$fieldInstance->readonly = (int) $fieldnode->readonly;
 		$fieldInstance->presence = (int) $fieldnode->presence;
 		$fieldInstance->defaultvalue = (string) $fieldnode->defaultvalue;
-		$fieldInstance->maximumlength = (int) $fieldnode->maximumlength;
+		$fieldInstance->maximumlength = (string) $fieldnode->maximumlength;
 		$fieldInstance->sequence = (int) $fieldnode->sequence;
 		$fieldInstance->quickcreate = (int) $fieldnode->quickcreate;
 		$fieldInstance->quicksequence = (int) $fieldnode->quickcreatesequence;
@@ -806,18 +825,18 @@ class PackageImport extends PackageExport
 		$filterInstance->sequence = $customviewnode->sequence;
 		$filterInstance->description = $customviewnode->description;
 		$filterInstance->sort = $customviewnode->sort;
-
 		$moduleInstance->addFilter($filterInstance);
-
 		foreach ($customviewnode->fields->field as $fieldnode) {
-			$fieldInstance = $this->__GetModuleFieldFromCache($moduleInstance, $fieldnode->fieldname);
-			$filterInstance->addField($fieldInstance, $fieldnode->columnindex);
-
-			if (!empty($fieldnode->rules->rule)) {
-				foreach ($fieldnode->rules->rule as $rulenode) {
-					$filterInstance->addRule($fieldInstance, $rulenode->comparator, $rulenode->value, $rulenode->columnindex);
-				}
+			if ((string) $fieldnode->modulename === $moduleInstance->name) {
+				$fieldInstance = $this->__GetModuleFieldFromCache($moduleInstance, $fieldnode->fieldname);
+			} else {
+				$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, Module::getInstance((string) $fieldnode->modulename));
 			}
+			$fieldInstance->sourcefieldname = (string) $fieldnode->sourcefieldname;
+			$filterInstance->addField($fieldInstance, $fieldnode->columnindex);
+		}
+		if (!empty($customviewnode->rules)) {
+			$filterInstance->addRule(\App\Json::decode($customviewnode->rules));
 		}
 	}
 
@@ -1044,38 +1063,149 @@ class PackageImport extends PackageExport
 			return false;
 		}
 		$module = (string) $this->moduleInstance->name;
-
-		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
-		$inventoryInstance->createInventoryTables();
-		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
+		$inventory = \Vtiger_Inventory_Model::getInstance($module);
+		$inventory->createInventoryTables();
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
-			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
+			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
+			$fieldModel->setDefaultDataConfig();
+			$fields = ['label', 'defaultValue', 'block', 'displayType', 'params', 'colSpan', 'columnName', 'sequence'];
+			foreach ($fields as $name) {
+				switch ($name) {
+					case 'label':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->label, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'defaultValue':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->defaultvalue, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'block':
+						$blockId = (int) $fieldNode->block;
+						if (!in_array($blockId, $fieldModel->getBlocks())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $blockId, 406);
+						}
+						$fieldModel->set($name, $blockId);
+						break;
+					case 'displayType':
+						$displayType = (int) $fieldNode->displaytype;
+						if (!in_array($displayType, $fieldModel->displayTypeBase())) {
+							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $displayType, 406);
+						}
+						$fieldModel->set($name, $displayType);
+						break;
+					case 'params':
+						$value = \App\Purifier::purifyByType((string) $fieldNode->params, 'Text');
+						$fieldModel->set($name, $value);
+						break;
+					case 'colSpan':
+						$fieldModel->set($name, (int) $fieldNode->colspan);
+						break;
+					case 'columnName':
+						$fieldModel->set($name, \App\Purifier::purifyByType((string) $fieldNode->columnname, 'Alnum'));
+						break;
+					case 'sequence':
+						$fieldModel->set($name, (int) $fieldNode->sequence);
+						break;
+					default:
+						break;
+				}
+			}
+			$inventory->saveField($fieldModel);
 		}
 	}
 
-	public function importInventoryField($inventoryFieldInstance, $fieldNode)
+	/**
+	 * Import font package.
+	 *
+	 * @param string $zipfile
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function importFont($zipfile)
 	{
-		$instance = \Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
-		$table = $inventoryFieldInstance->getTableName();
-
-		if ($instance->isColumnType()) {
-			Utils::addColumn($table, $fieldNode->columnname, $instance->getDBType());
-			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				Utils::addColumn($table, $column, $criteria);
+		$fontsDir = \ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
+		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt', 'woff']]);
+		$files = $zip->unzip(['fonts' => $fontsDir]);
+		$fonts = \App\Json::read($fontsDir . '/fonts.json');
+		$tempFonts = [];
+		foreach ($fonts as $font) {
+			$tempFonts[$font['family']][$font['weight']][$font['style']] = $font['file'];
+		}
+		foreach ($files as $key => &$file) {
+			$file = \str_replace('fonts/', '', $file);
+			if (empty($file)) {
+				unset($files[$key]);
 			}
 		}
-		$db = \PearDatabase::getInstance();
-
-		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
-			'columnname' => $fieldNode->columnname,
-			'label' => $fieldNode->label,
-			'invtype' => $fieldNode->invtype,
-			'defaultvalue' => $fieldNode->defaultvalue,
-			'sequence' => $fieldNode->sequence,
-			'block' => $fieldNode->block,
-			'displaytype' => $fieldNode->displaytype,
-			'params' => $fieldNode->params,
-			'colspan' => $fieldNode->colspan,
-		]);
+		$files = \array_flip($files);
+		$missing = [];
+		if (!empty($this->_modulexml->fonts->font)) {
+			foreach ($this->_modulexml->fonts->font as $font) {
+				if (!isset($files[(string) $font->file])) {
+					$missing[] = (string) $font->file;
+				}
+				if (!isset($tempFonts[(string) $font->family][(string) $font->weight][(string) $font->style])) {
+					$fonts[] = [
+						'family' => (string) $font->family,
+						'weight' => (string) $font->weight,
+						'style' => (string) $font->style,
+						'file' => (string) $font->file,
+					];
+				}
+			}
+		}
+		if ($missing) {
+			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . \implode(',', $missing);
+		}
+		$css = [];
+		foreach ($fonts as $key => $font) {
+			if (!\file_exists("$fontsDir/{$font['file']}")) {
+				unset($fonts[$key]);
+			} else {
+				$woff = pathinfo($font['file'], PATHINFO_FILENAME) . '.woff';
+				$fontCss = "@font-face {\n";
+				$fontCss .= "    font-family: '{$font['family']}';\n";
+				$fontCss .= "    font-style: {$font['style']};\n";
+				$fontCss .= "    font-weight: {$font['weight']};\n";
+				$fontCss .= "    src: local('{$font['family']}'), url({$woff}) format('woff');\n";
+				$fontCss .= '}';
+				$css[] = $fontCss;
+			}
+		}
+		$css[] = '@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: normal;
+			font-weight: 100;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-ExtraLight.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: normal;
+			font-weight: 400;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: normal;
+			font-weight: 700;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-Bold.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: italic;
+			font-weight: 700;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-BoldOblique.woff\') format(\'woff\');
+		}
+		@font-face {
+			font-family: \'DejaVu Sans\';
+			font-style: italic;
+			font-weight: 400;
+			src: local(\'DejaVu Sans\'), url(\'DejaVuSans-Oblique.woff\') format(\'woff\');
+		}
+		* {
+			font-family: \'DejaVu Sans\';
+		}';
+		file_put_contents($fontsDir . '/fonts.css', implode("\n", $css));
+		\App\Json::save($fontsDir . '/fonts.json', array_values($fonts));
 	}
 }

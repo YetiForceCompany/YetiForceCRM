@@ -27,7 +27,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function that returns all the fields for the module.
 	 *
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -36,28 +36,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$blocks = $this->getBlocks();
 			$blockId = [];
 			foreach ($blocks as $block) {
-				//to skip events hardcoded block id
-				if ($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {
-					continue;
-				}
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
-			}
-			//To handle special case for invite users
-			if ($this->getName() === 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
-				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_RECORDS');
-				$blockModel->set('module', $this);
-
-				$fieldModel = new Settings_LayoutEditor_Field_Model();
-				$fieldModel->set('name', 'selectedusers');
-				$fieldModel->set('label', 'LBL_INVITE_RECORDS');
-				$fieldModel->set('block', $blockModel);
-				$fieldModel->setModule($this);
-				$fieldList[] = $fieldModel;
 			}
 			$this->fieldsModule = $fieldList;
 		}
@@ -86,14 +68,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 					$blocksList[$block->get('label')] = $block;
 				}
 			}
-			//To handle special case for invite users block
-			if ($this->getName() === 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
-				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_RECORDS');
-				$blockModel->set('module', $this);
-				$blocksList['LBL_INVITE_RECORDS'] = $blockModel;
-			}
 			$this->blocks = $blocksList;
 		}
 		return $this->blocks;
@@ -107,7 +81,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage'
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
+			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
+			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
+			'Smtp'
 		];
 	}
 
@@ -120,11 +97,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency'];
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
+			}
+			if ($fieldType === 'Editor') {
+				$details['noLimitForLength'] = true;
 			}
 			if ($fieldType === 'Decimal' || $fieldType === 'Currency') {
 				$details['decimalSupported'] = true;
@@ -165,29 +145,29 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function addField($fieldType, $blockId, $params)
 	{
 		$label = $params['fieldLabel'];
-		$type = $params['fieldTypeList'];
+		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLableExists($label)) {
-			throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
-		if($type === 0) {
+		if ($type === 0) {
 			if ($this->checkFieldNameCharacters($name)) {
-				throw new Exception(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 			}
 			if ($this->checkFieldNameExists($name)) {
-				throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 			}
-			if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
-				throw new Exception(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+			if ($this->checkFieldNameIsAnException($name)) {
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 			}
 			if (strlen($name) > 30) {
-				throw new Exception(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
 			}
 		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
-			throw new Exception(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
 			$pickListValues = $params['pickListValues'];
@@ -196,19 +176,19 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 			foreach ($pickListValues as $value) {
 				if (preg_match('/[\<\>\"\#\,]/', $value)) {
-					throw new Exception(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
+					throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
 				}
 				if (strlen($value) > 200) {
-					throw new Exception(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
+					throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 				}
 			}
 		}
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
-		if ($type == 0) {
+		if ($type === 0) {
 			$columnName = $name;
 			$tableName = $focus->table_name;
-		} elseif ($type == 1) {
+		} elseif ($type === 1) {
 			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
@@ -222,8 +202,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldParams = [];
 			$fieldParams['module'] = $params['MRVModule'];
 			$fieldParams['field'] = $params['MRVField'];
-			$fieldParams['filterField'] = $params['MRVFilterField'];
-			$fieldParams['filterValue'] = $params['MRVFilterValue'];
+			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
+			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
@@ -240,7 +220,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
-
+		if ($fieldType === 'Editor') {
+			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
+		}
 		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
@@ -262,7 +244,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		App\Cache::clear();
-
 		return $fieldModel;
 	}
 
@@ -381,8 +362,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
+				$fieldLength = $params['fieldLength'];
 				$uitype = 300;
-				$type = $importerType->text();
+				$type = $importerType->text($fieldLength);
 				$uichekdata = 'V~O';
 				break;
 			case 'Tree':
@@ -421,6 +403,24 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				$type = $importerType->text();
 				break;
+			case 'Twitter':
+				$fieldLength = Vtiger_Twitter_UIType::MAX_LENGTH;
+				$uichekdata = 'V~O~LE~' . $fieldLength;
+				$uitype = 313;
+				$type = $importerType->stringType($fieldLength)->defaultValue('');
+				break;
+			case 'MultiEmail':
+				$uitype = 314;
+				$type = $importerType->text();
+				$uichekdata = 'V~O';
+				break;
+			case 'Smtp':
+				$uitype = 316;
+				$uichekdata = 'V~O';
+				$type = $importerType->integer()->defaultValue(null)->unsigned();
+				break;
+			default:
+				break;
 		}
 		return [
 			'uitype' => $uitype,
@@ -441,45 +441,46 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return false;
 	}
 
-	public function checkFieldLableExists($fieldLabel)
+	/**
+	 * Check if label exists.
+	 *
+	 * @param string $fieldLabel
+	 *
+	 * @return bool
+	 */
+	public function checkFieldLableExists(string $fieldLabel): bool
 	{
-		$tabId = [$this->getId()];
-		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
-			//Check for fiel exists in both calendar and events module
-			$tabId = ['9', '16'];
-		}
-		$count = (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId])->count();
-
-		return ($count > 0) ? true : false;
+		return (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $this->getId()])->exists();
 	}
 
-	public function checkFieldNameExists($fieldName)
+	/**
+	 * Check if field exists.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public function checkFieldNameExists(string $fieldName): bool
 	{
-		$tabId = [$this->getId()];
-		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
-			$tabId = [\App\Module::getModuleId('Calendar'), \App\Module::getModuleId('Events')];
-		}
-		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
-			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
-			->count();
-
-		return ($count > 0) ? true : false;
+		return (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $this->getId()])
+			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
 	}
 
-	public function checkFieldNameIsAnException($fieldName, $moduleName)
+	/**
+	 * Check if the field name is reserved.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public function checkFieldNameIsAnException(string $fieldName)
 	{
-		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
-		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
-		foreach ($instance->getAllFields() as $field) {
-			$exceptions[] = $field->getColumnName();
-			if (preg_match('/^' . $field->getColumnName() . '[0-9]/', $fieldName) != 0) {
-				return true;
-			}
-			foreach ($field->getCustomColumn() as $columnName => $dbType) {
-				$exceptions[] = $columnName;
-			}
-		}
-		return in_array($fieldName, $exceptions);
+		return in_array($fieldName, [
+			'id', 'seq', 'header_type', 'header_class',
+			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
+			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
+			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory'
+		]);
 	}
 
 	public static $supportedModules = false;
@@ -506,27 +507,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get Entity module names list.
 	 *
-	 * @return <Array> List of Entity modules
+	 * @return string[] List of Entity modules
 	 */
 	public static function getEntityModulesList()
 	{
-		$presence = [0, 2];
 		$restrictedModules = ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments'];
-
-		$query = (new \App\Db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
-		$dataReader = $query->createCommand()->query();
-		$modulesList = [];
-		while ($moduleName = $dataReader->read()) {
-			$moduleName = $moduleName['name'];
-			$modulesList[$moduleName] = $moduleName;
-		}
-		$dataReader->close();
-		// If calendar is disabled we should not show events module too
-		// in layout editor
-		if (!array_key_exists('Calendar', $modulesList)) {
-			unset($modulesList['Events']);
-		}
-		return $modulesList;
+		return (new \App\Db\Query())->select(['name', 'module' => 'name'])->from('vtiger_tab')->where(['presence' => [0, 2], 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules])->createCommand()->queryAllByGroup();
 	}
 
 	/**
@@ -536,10 +522,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isSortableAllowed()
 	{
-		$moduleName = $this->getName();
-		if (in_array($moduleName, ['Calendar', 'Events'])) {
-			return false;
-		}
 		return true;
 	}
 
@@ -550,10 +532,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isBlockSortableAllowed()
 	{
-		$moduleName = $this->getName();
-		if (in_array($moduleName, ['Calendar', 'Events'])) {
-			return false;
-		}
 		return true;
 	}
 
@@ -567,9 +545,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$moduleName = $this->getName();
 		$blocksEliminatedArray = ['HelpDesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
-			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'],
-			'Events' => ['LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS'], ];
-		if (in_array($moduleName, ['Calendar', 'Events', 'HelpDesk', 'Faq'])) {
+			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
+		];
+		if (in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
@@ -612,7 +590,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTreeTemplates($sourceModule)
 	{
 		$sourceModule = \App\Module::getModuleId($sourceModule);
-		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
+		$query = (new \App\Db\Query())->select(['templateid', 'name'])->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -635,27 +613,32 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public static function getRelationsActions()
 	{
-		$actionList = [
+		return [
 			'ADD' => 'PLL_ADD',
 			'SELECT' => 'PLL_SELECT',
 		];
-
-		return $actionList;
 	}
 
-	public static function getRelationFields($moduleId)
+	/**
+	 * Get relation fields by module ID.
+	 *
+	 * @param int $moduleId
+	 *
+	 * @return string[]
+	 */
+	public static function getRelationFields(int $moduleId)
 	{
-		$query = (new \App\Db\Query())->select('vtiger_field.fieldname')
+		$dataReader = (new \App\Db\Query())
+			->select(['vtiger_field.fieldid', 'vtiger_field.fieldname'])
 			->from('vtiger_relatedlists_fields')
 			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
-			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]]);
-		$dataReader = $query->createCommand()->query();
+			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]])
+			->createCommand()->query();
 		$fields = [];
 		while ($row = $dataReader->read()) {
-			$fields[] = $row['fieldname'];
+			$fields[$row['fieldid']] = $row['fieldname'];
 		}
 		$dataReader->close();
-
 		return $fields;
 	}
 

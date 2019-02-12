@@ -2,8 +2,8 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 {
@@ -22,7 +22,7 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
+		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog"><div class="modal-content">';
 	}
 
 	/**

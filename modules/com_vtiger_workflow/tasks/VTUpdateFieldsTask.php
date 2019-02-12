@@ -88,7 +88,7 @@ class VTUpdateFieldsTask extends VTTask
 	 */
 	public function calculateProductUnitPrice($fieldValue)
 	{
-		$currency_details = vtlib\Functions::getAllCurrency(false);
+		$currency_details = \App\Fields\Currency::getAll(false);
 		$amountOfElements = count($currency_details);
 		for ($i = 0; $i < $amountOfElements; ++$i) {
 			$curid = $currency_details[$i]['curid'];

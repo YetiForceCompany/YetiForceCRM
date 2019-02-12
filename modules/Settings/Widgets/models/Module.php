@@ -4,7 +4,7 @@
  * Settings Widgets Module Model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -135,7 +135,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
+				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
 					->from('vtiger_field')
 					->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
 					->createCommand()->query();
@@ -162,7 +162,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
+				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
 					->from('vtiger_field')
 					->where(['tabid' => $value['related_tabid'], 'uitype' => [56]])
 					->andWhere(['<>', 'columnname', 'was_read'])
@@ -215,7 +215,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
-		$wid = $data['wid'];
+		$wid = $data['wid'] ?? '';
 		$widgetName = 'Vtiger_' . $data['type'] . '_Widget';
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
@@ -241,7 +241,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$db->createCommand()->update('vtiger_widgets', [
 				'label' => $label,
 				'data' => $serializeData,
-				], ['id' => $wid])->execute();
+			], ['id' => $wid])->execute();
 		} else {
 			$db->createCommand()->insert('vtiger_widgets', [
 				'tabid' => $tabid,
@@ -377,8 +377,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$linkList[] = [
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'fas fa-plus',
-				'linkclass' => 'btn-sm btn-primary',
+				'linkicon' => 'adminIcon-document-templates',
+				'linkclass' => 'btn-light btn-sm',
 			];
 		}
 		$buttons = [];

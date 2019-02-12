@@ -157,7 +157,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTaskType()
 	{
-		if (!$this->task_type) {
+		if (empty($this->task_type)) {
 			$taskObject = $this->getTaskObject();
 			if (!empty($taskObject)) {
 				$taskClass = get_class($taskObject);
@@ -231,7 +231,12 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceFromTaskObject($task, $workflowModel, $tm)
 	{
-		$taskId = $task->id;
+		if (isset($task->id)) {
+			$taskId = $task->id;
+		} else {
+			$taskId = false;
+		}
+
 		$summary = $task->summary;
 		$status = $task->active;
 

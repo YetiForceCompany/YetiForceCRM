@@ -31,18 +31,19 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 		}
 
 		$roleProfiles = $request->get('profiles');
-		$parentRoleId = $request->get('parent_roleid');
+		$parentRoleId = $request->getByType('parent_roleid', 2);
 		if ($recordModel && !empty($parentRoleId)) {
 			$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
-			$recordModel->set('change_owner', $request->get('change_owner'))
+			$recordModel->set('changeowner', $request->get('changeowner'))
 				->set('searchunpriv', $request->get('searchunpriv'))
-				->set('listrelatedrecord', $request->get('listRelatedRecord'))
-				->set('previewrelatedrecord', $request->get('previewRelatedRecord'))
+				->set('listrelatedrecord', $request->getInteger('listRelatedRecord'))
+				->set('previewrelatedrecord', $request->getInteger('previewRelatedRecord'))
 				->set('editrelatedrecord', $request->get('editRelatedRecord'))
 				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
 				->set('globalsearchadv', $request->get('globalSearchAdvanced'))
-				->set('assignedmultiowner', $request->get('assignedmultiowner'))
-				->set('clendarallorecords', $request->get('clendarallorecords'))
+				->set('assignedmultiowner', $request->getInteger('assignedmultiowner'))
+				->set('clendarallorecords', $request->getInteger('clendarallorecords'))
+				->set('company', $request->getInteger('company'))
 				->set('auto_assign', $request->get('auto_assign'));
 			if (!empty($allowassignedrecordsto)) {
 				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto);
@@ -52,17 +53,14 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 				$recordModel->set('profileIds', $roleProfiles);
 				$parentRole->addChildRole($recordModel);
 			}
-
 			//After role updation recreating user privilege files
 			if ($roleProfiles) {
 				foreach ($roleProfiles as $profileId) {
 					$profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
-					$profileRecordModel->recalculate([$recordId]);
+					$profileRecordModel->recalculate();
 				}
 			}
 		}
-
-		$redirectUrl = $moduleModel->getDefaultUrl();
-		header("Location: $redirectUrl");
+		header("location: {$moduleModel->getDefaultUrl()}");
 	}
 }

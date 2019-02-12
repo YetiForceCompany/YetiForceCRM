@@ -4,8 +4,8 @@
  * Sorting View Class for CustomView.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_CustomView_Sorting_View extends Settings_Vtiger_BasicModal_View
 {
@@ -19,20 +19,12 @@ class Settings_CustomView_Sorting_View extends Settings_Vtiger_BasicModal_View
 		$recordStructure = $recordStructureInstance->getStructure();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		// Added to show event module custom fields
-		if ($sourceModuleModel->getName() == 'Calendar') {
-			$relatedModuleName = 'Events';
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel);
-			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
-			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
-			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
-		}
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('SOURCE_MODULE_MODEL', $sourceModuleModel);
+		$viewer->assign('SOURCE_MODULE', $sourceModuleModel->getName());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('CVID', $request->get('cvid'));
+		$viewer->assign('CVID', $request->getInteger('cvid'));
 		$this->preProcess($request);
 		$viewer->view('Sorting.tpl', $moduleName);
 		$this->postProcess($request);

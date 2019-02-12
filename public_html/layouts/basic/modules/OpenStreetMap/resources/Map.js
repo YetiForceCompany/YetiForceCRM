@@ -14,13 +14,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	cacheLayerMarkers: {},
 	indirectPointLayer: {},
 	setSelectedParams: function (params) {
+		delete params['view'];
 		this.selectedParams = params;
 	},
 	registerMap: function (startCoordinate, startZoom) {
 		var myMap = L.map('mapid').setView(startCoordinate, startZoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" rel="noreferrer noopener">OpenStreetMap</a>'
 
 		}).addTo(myMap);
 		this.mapInstance = myMap;
@@ -31,7 +32,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var markerArray = [];
 		var container = this.container;
 		var map = this.mapInstance;
-
 		if (typeof response.result.coordinates !== "undefined") {
 			var markers = L.markerClusterGroup({
 				maxClusterRadius: 10
@@ -64,7 +64,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		}
 		if (typeof response.result.coordinatesCeneter !== "undefined") {
 			if (typeof response.result.coordinatesCeneter.error === "undefined") {
-				var radius = container.find('.radius').val();
+				var radius = container.find('.js-radius').val();
 				markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
 				var popup = '<span class="description">' + container.find('.searchValue').val() + '</span><br /><input type=hidden class="coordinates" data-lon="' + response.result.coordinatesCeneter.lon + '" data-lat="' + response.result.coordinatesCeneter.lat + '">';
 				popup += '<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>';
@@ -179,7 +179,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success',
 				});
@@ -221,8 +220,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_PERMISSION'),
-					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+					text: app.vtranslate('JS_MESSAGE_DOWNLOADED_ADDRESS_DATA'),
 					type: 'success',
 				});
 				container.find('.countRecords' + moduleName).html(response.result.count);
@@ -366,10 +364,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				srcModule: app.getModuleName(),
 				groupBy: container.find('.fieldsToGroup').val(),
 				searchValue: container.find('.searchValue').val(),
-				radius: container.find('.radius').val(),
+				radius: container.find('.js-radius').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
+			params = $.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -463,11 +461,11 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				searchValue: container.find('.searchValue').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			var radiusValue = container.find('.radius').val();
+			var radiusValue = container.find('.js-radius').val();
 			if (radiusValue !== '' && parseInt(radiusValue)) {
 				params['radius'] = radiusValue;
 			}
-			$.extend(params, thisInstance.selectedParams);
+			params = $.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -475,7 +473,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var startIconLayer = false;
 		container.on('click', '.startTrack', function (e) {
-			map.removeLayer(startIconLayer);
+			if (startIconLayer) {
+				map.removeLayer(startIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			description = containerPopup.find('.description').html();
@@ -498,7 +498,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var endIconLayer = false;
 		container.on('click', '.endTrack', function (e) {
-			map.removeLayer(endIconLayer);
+			if (endIconLayer) {
+				map.removeLayer(endIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			description = containerPopup.find('.description').html();
@@ -571,7 +573,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}
 		});
 		container.on('click', '.searchInRadius', function (e) {
-			map.removeLayer(endIconLayer);
+			if (endIconLayer) {
+				map.removeLayer(endIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			var coordinates = containerPopup.find('.coordinates');
@@ -590,7 +594,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				lon: coordinates.data('lon'),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
-			$.extend(params, thisInstance.selectedParams);
+			params = $.extend(thisInstance.selectedParams, params);
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
@@ -627,19 +631,21 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				map.removeLayer(thisInstance.routeLayer);
-				var route = L.geoJson(response.result);
+				if (thisInstance.routeLayer) {
+					map.removeLayer(thisInstance.routeLayer);
+				}
+				var route = L.geoJson(response.result.geoJson);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
 				container.find('.descriptionContainer').removeClass('d-none');
 				container.find('.descriptionContent .instruction').html(response.result.properties.description);
-				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.result.properties.distance));
-				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.result.properties.traveltime / 60));
+				container.find('.descriptionContent .distance').html(App.Fields.Double.formatToDisplay(response.result.properties.distance));
+				container.find('.descriptionContent .travelTime').html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
 			});
 		});
-		container.find('.setView').on('click', function (e) {
+		container.on('click', '.setView', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var inputInstance = currentTarget.closest('.input-group').find('.end,.start');
+			var inputInstance = currentTarget.closest('.input-group').find('.end,.start,.indirect');
 			var lat = inputInstance.data('lat');
 			var lon = inputInstance.data('lon');
 			if (!(typeof lat === "undefined" && typeof lon === "undefined")) {
@@ -669,7 +675,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			action: 'GetMarkers',
 			srcModule: app.getModuleName(),
 		};
-		$.extend(params, this.selectedParams);
+		params = $.extend(this.selectedParams, params);
 		thisInstance.registerBasicModal();
 		AppConnector.request(params).done(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});

@@ -3,7 +3,6 @@
 
 jQuery.Class("Vtiger_SwitchUsers_Js", {}, {
 	registerSave: function (container) {
-		var thisInstance = this;
 		container.find('.modal-body button').on('click', function () {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),

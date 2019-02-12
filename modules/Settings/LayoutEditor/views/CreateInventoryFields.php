@@ -4,8 +4,8 @@
  * Inventory Field View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_IndexAjax_View
 {
@@ -18,44 +18,25 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 
 	public function step1(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = $request->get('type');
-		$block = $request->get('block');
-		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$models = $instance->getAllFields();
-
-		$fieldsName = [];
-		foreach ($instance->getFields(1, [], 'Settings') as $fields) {
-			$fieldsName = array_merge(array_keys($fields), $fieldsName);
-		}
+		$instance = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
 		$viewer = $this->getViewer($request);
-		$viewer->assign('FIELDSEXISTS', $fieldsName);
-		$viewer->assign('MODULE_MODELS', $models);
-		$viewer->assign('BLOCK', $block);
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('CreateInventoryFieldsStep1.tpl', $qualifiedModuleName);
+		$viewer->assign('FIELDS_EXISTS', $instance->getFields());
+		$viewer->assign('MODULE_MODELS', $instance->getFieldsTypes());
+		$viewer->assign('BLOCK', $request->getInteger('block'));
+		$viewer->view('CreateInventoryFieldsStep1.tpl', $request->getModule(false));
 	}
 
 	public function step2(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$type = $request->get('mtype');
-		$moduleName = $request->get('type');
-		$id = $request->get('id');
-		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
-		if ($id) {
-			$fieldInstance = $instance->getFields(false, [$id], 'Settings');
+		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
+		if ($request->has('fieldName')) {
+			$fieldInstance = $inventory->getField($request->getByType('fieldName', 'Alnum'));
 		} else {
-			$models = $instance->getAllFields();
-			$fieldInstance = $models[$type];
+			$fieldInstance = $inventory->getFieldCleanInstance($request->getByType('type', 'Standard'));
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('INVENTORY_MODEL', $instance);
 		$viewer->assign('FIELD_INSTANCE', $fieldInstance);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ID', $request->get('id'));
-		$viewer->view('CreateInventoryFieldsStep2.tpl', $qualifiedModuleName);
+		$viewer->assign('INVENTORY_MODEL', $inventory);
+		$viewer->view('CreateInventoryFieldsStep2.tpl', $request->getModule(false));
 	}
 }

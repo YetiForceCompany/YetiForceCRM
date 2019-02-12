@@ -103,16 +103,13 @@ class Leads_Record_Model extends Vtiger_Record_Model
 				if (empty($row['leadfid'])) {
 					continue;
 				}
-
 				$leadFieldInstance = $leadFieldInstances[$row['leadfid']];
 				if (!$leadFieldInstance) {
 					continue;
 				}
-
 				$leadFieldName = $leadFieldInstance->getName();
-				$accountFieldInstance = $accountFieldInstances[$row['accountfid']];
-				if ($row['accountfid'] && $accountFieldInstance) {
-					$mappingFields['Accounts'][$accountFieldInstance->getName()] = $leadFieldName;
+				if ($row['accountfid'] && isset($accountFieldInstances[$row['accountfid']])) {
+					$mappingFields['Accounts'][$accountFieldInstances[$row['accountfid']]->getName()] = $leadFieldName;
 				}
 			}
 			$dataReader->close();
@@ -134,29 +131,5 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$convertFields['Accounts'] = $accountFields;
 		}
 		return $convertFields;
-	}
-
-	/**
-	 * Function returns the url for create event.
-	 *
-	 * @return string
-	 */
-	public function getCreateEventUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-
-		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function returns the url for create todo.
-	 *
-	 * @return string
-	 */
-	public function getCreateTaskUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-
-		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 }

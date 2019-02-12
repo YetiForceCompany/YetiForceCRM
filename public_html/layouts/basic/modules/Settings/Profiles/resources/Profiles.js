@@ -17,10 +17,10 @@ var Settings_Profiles_Js = {
 			var container = jQuery('[data-togglecontent="' + target.data('togglehandler') + '"]');
 			var closestTrElement = container.closest('tr');
 
-			if (target.find('[data-fa-i2svg]').hasClass('fa-chevron-down')) {
+			if (target.find('.fas').hasClass('fa-chevron-down')) {
 				closestTrElement.removeClass('d-none');
 				container.slideDown('slow');
-				target.find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+				target.find('.fas').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 			} else {
 				container.slideUp('slow', function () {
 					closestTrElement.addClass('d-none');
@@ -61,15 +61,14 @@ var Settings_Profiles_Js = {
 			var target = jQuery(e.currentTarget);
 			var parent = target.closest('tr');
 			var checked = target.prop('checked') ? true : false;
-
-			if (target.data('action-state') == 'EditView' || target.data('action-state') == 'Delete') {
+			let action = target.data('action-state');
+			if (action === 'EditView' || action === 'Delete' || action === 'CreateView') {
 				if (checked) {
 					jQuery('[data-action-state="DetailView"]', parent).prop('checked', true);
 					jQuery('[data-module-state]', parent).prop('checked', true);
 					jQuery('[data-handlerfor]', parent).removeAttr('disabled');
 				}
-			}
-			if (target.data('action-state') == 'DetailView') {
+			} else if (action === 'DetailView') {
 				if (!checked) {
 					jQuery('[data-action-state]', parent).prop('checked', false);
 					jQuery('[data-module-state]', parent).prop('checked', false).trigger('change');

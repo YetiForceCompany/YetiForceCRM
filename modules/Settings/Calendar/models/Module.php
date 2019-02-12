@@ -4,7 +4,7 @@
  * Settings calendar module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -34,20 +34,35 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']])
 			->execute();
 		\App\Cache::clear();
-		\App\Colors::generate('calendar');
 	}
 
-	public static function updateNotWorkingDays($params)
+	/**
+	 * Updates working days.
+	 *
+	 * @param array $params
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return void
+	 */
+	public static function updateNotWorkingDays(array $params)
 	{
 		if (!empty($params['val'])) {
 			$value = implode(';', $params['val']);
 		} else {
-			$value = null;
+			$value = '';
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $value], ['name' => 'notworkingdays']
 		)->execute();
 	}
 
+	/**
+	 * Get not working days.
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return []
+	 */
 	public static function getNotWorkingDays()
 	{
 		$query = (new \App\Db\Query())
@@ -55,7 +70,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 			->where(['name' => 'notworkingdays']);
 		$row = $query->createCommand()->queryOne();
 		$return = [];
-		if (isset($row['value'])) {
+		if (!empty($row['value'])) {
 			$return = explode(';', $row['value']);
 		}
 		return $return;

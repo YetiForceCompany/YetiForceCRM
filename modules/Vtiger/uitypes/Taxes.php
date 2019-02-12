@@ -23,11 +23,29 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
+		}
+		if (!$isUserFormat) {
+			$value = explode(',', $value);
 		}
 		if (!is_array($value)) {
 			$value = [$value];
@@ -95,7 +113,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	{
 		$taxes = Vtiger_Inventory_Model::getGlobalTaxes();
 		foreach ($taxes as $key => $tax) {
-			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
+			$taxes[$key] = $tax['name'] . ' - ' . App\Fields\Double::formatToDisplay($tax['value']) . '%';
 		}
 		return $taxes;
 	}
@@ -114,5 +132,21 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Taxes.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
 	}
 }

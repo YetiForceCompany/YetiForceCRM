@@ -4,8 +4,8 @@
  * Action to mass upload files.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Documents_MassAdd_Action extends Vtiger_Mass_Action
 {
@@ -25,21 +25,22 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$nameFiles = $request->get('nameFile');
+		$nameFiles = $request->getArray('nameFile', 'Text');
 		foreach ($_FILES as $file) {
 			$countFiles = count($file['name']);
 			for ($i = 0; $i < $countFiles; ++$i) {
-				$originalFile = [
+				$recordeModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$fieldModel = $recordeModel->getModule()->getField('notes_title')->getUITypeModel();
+				$fieldModel->validate($nameFiles[$i], true);
+				$recordeModel->set('notes_title', $fieldModel->getDBValue($nameFiles[$i], $recordeModel));
+				$recordeModel->set('assigned_user_id', App\User::getCurrentUserId());
+				$recordeModel->file = [
 					'name' => $file['name'][$i],
 					'type' => $file['type'][$i],
 					'tmp_name' => $file['tmp_name'][$i],
 					'error' => $file['error'][$i],
 					'size' => $file['size'][$i],
 				];
-				$recordeModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-				$recordeModel->set('notes_title', $nameFiles[$i]);
-				$recordeModel->set('assigned_user_id', App\User::getCurrentUserId());
-				$recordeModel->file = $originalFile;
 				$recordeModel->set('filelocationtype', 'I');
 				$recordeModel->set('filestatus', true);
 				$recordeModel->save();

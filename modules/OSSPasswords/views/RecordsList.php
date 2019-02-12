@@ -27,7 +27,7 @@ class OSSPasswords_RecordsList_View extends Vtiger_RecordsList_View
 		}
 		parent::initializeContent($request);
 		if (isset($this->listViewHeaders['password'])) {
-			foreach ($this->listViewEntries as $recordId => &$recordInstance) {
+			foreach ($this->listViewEntries as &$recordInstance) {
 				$recordInstance->set('password', str_repeat('*', 10));
 			}
 			$viewer = $this->getViewer($request);

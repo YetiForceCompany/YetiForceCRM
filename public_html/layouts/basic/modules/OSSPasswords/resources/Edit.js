@@ -38,12 +38,6 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 			params.data = {module: 'OSSPasswords', action: 'CheckPass', 'password': password, 'id': id};
 			params.async = false;
 			params.dataType = 'json';
-			// if we doesn't have passwordError property it means that we are submitting first time
-			// if we submitting first time we don't want to submit - we are only checking password
-			// if password is ok then we are firing submit again with passwordError set
-			if (typeof thisInstance.passwordError === 'undefined' || thisInstance.passwordError) {
-				e.preventDefault();
-			}
 			AppConnector.request(params).done(function (data) {
 				if (data.result.success === false) {
 					var params = {
@@ -54,12 +48,15 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 					thisInstance.sending = false;
-					thisInstance.passwordError = true;
-				} else if (data.result.success === true && (typeof thisInstance.sending === 'undefined' || !thisInstance.sending)) {
+					e.preventDefault();
+					e.stopPropagation();
+				} else if (data.result.success === true && (thisInstance.sending === undefined || !thisInstance.sending)) {
 					thisInstance.sending = true;
-					thisInstance.passwordError = false;
-					form.submit();
-				} // else just send final request
+				} else if (thisInstance.sending) {
+					e.preventDefault();
+					e.stopPropagation();
+				}
+
 			});
 		});
 	},

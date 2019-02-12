@@ -49,35 +49,35 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	 * Function to Save the Details
 	 */
 	saveDetails: function (form, currentTrElement) {
-		var thisInstance = this;
-		var params = form.serializeFormData();
-		var saveButton = form.find('[type="submit"]');
+		const thisInstance = this;
+		let params = form.serializeFormData();
+		const saveButton = form.find('[type="submit"]');
 		saveButton.prop('disabled', true);
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		thisInstance.validateName(params).done(function (data) {
+		thisInstance.validateName(params).done((data) => {
 			if (typeof data === "undefined") {
 				saveButton.prop('disabled', false);
 				return false;
 			}
-			var progressIndicatorElement = jQuery.progressIndicator({
+			const progressIndicatorElement = $.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
 				}
 			});
-
 			params.module = app.getModuleName();
 			params.parent = app.getParentModuleName();
 			params.action = 'SaveAjax';
 			params.view = app.getViewName();
-			AppConnector.request(params).done(function (data) {
+			AppConnector.request(params).done((data) => {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				app.hideModalWindow();
 				if (typeof data == 'string') {
 					data = JSON.parse(data);
 				}
+				data['result']['value'] = App.Fields.Double.formatToDisplay(data['result']['value']);
 				//Adding or update details in the list
 				if (form.find('.addView').val() == 'true') {
 					thisInstance.addDetails(data['result']);
@@ -85,12 +85,11 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 					thisInstance.updateDetails(data['result'], currentTrElement);
 				}
 				//show notification after details saved
-				var params = {
+				Settings_Vtiger_Index_Js.showMessage({
 					text: app.vtranslate('JS_SAVE_CHANGES')
-				};
-				Settings_Vtiger_Index_Js.showMessage(params);
+				});
 			});
-		}).fail(function (data, err) {
+		}).fail((data, err) => {
 			saveButton.prop('disabled', false);
 			return false;
 		});
@@ -99,29 +98,34 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	 * Function to add the Details in the list after saving
 	 */
 	addDetails: function (details) {
-		var container = jQuery('#inventory');
-		var currency = jQuery('#currency');
-		var symbol = '%';
+		let container = jQuery('#inventory'),
+			currency = jQuery('#currency'),
+			symbol = '%',
+			table = $('.inventoryTable', container);
 		if (currency.length > 0) {
-			var currency = JSON.parse(currency.val());
+			currency = JSON.parse(currency.val());
 			symbol = currency.currency_symbol;
 		}
-		var table = $('.inventoryTable', container);
 		if (details.default === 1) {
-			var defaultCheck = ' checked';
 			table.find('.default').prop('checked', false);
 		}
-		var trElement =
-			jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
-					<td class="textAlignCenter ' + details.row_type + '"><label class="name">' + details.name + '</label></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><input class="status js-update-field" checked type="checkbox"></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><input class="default js-update-field"' + defaultCheck + ' data-field-name="default" type="checkbox">\n\
-						<div class="float-right actions">\n\
-							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="' + details._editurl + '"><span title="Edycja" class="fas fa-edit alignBottom"></span></button>\n\
-							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="' + details._editurl + '"><span title="Usuń" class="fas fa-trash-alt alignBottom"></span></button>&nbsp;\n\
-						</div>\n\
-					</td></tr>');
+		let trElement = $(`<tr class="opacity" data-id="${details.id}">
+					<td class="textAlignCenter ${details.row_type}"><label class="name">${details.name}</label></td>
+					<td class="textAlignCenter ${details.row_type}"><span class="value">${details.value} ${symbol}</span></td>
+					<td class="textAlignCenter ${details.row_type}">
+					<div class="float-right  w-50 d-flex justify-content-between mr-2">
+						<input class="status js-update-field mt-2" checked type="checkbox">
+						<div class="actions">
+							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="${details._editurl}">
+							<span title="Edycja" class="fas fa-edit alignBottom"></span>
+							</button>
+							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="${details._editurl}">
+							<span title="Usuń" class="fas fa-trash-alt alignBottom"></span>
+							</button>
+						</div>
+					</div>
+					</td>
+					</tr>`);
 		table.append(trElement);
 	},
 	/*
@@ -205,7 +209,6 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 				data = JSON.parse(data);
 			}
 			var response = data['result'];
-			var result = response['success'];
 			aDeferred.resolve(response);
 		}).fail(function (error, err) {
 			aDeferred.reject(error, err);
@@ -256,7 +259,6 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		return aDeferred.promise();
 	},
 	removeInventory: function (inventoryElement) {
-		var thisInstance = this;
 		var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 			var params = {};
@@ -310,10 +312,4 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	registerEvents: function () {
 		this.registerActions();
 	}
-
 });
-
-jQuery(document).ready(function (e) {
-	var instance = new Settings_Inventory_Index_Js();
-	instance.registerEvents();
-})

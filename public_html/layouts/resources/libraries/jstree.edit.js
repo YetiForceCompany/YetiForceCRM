@@ -9,7 +9,7 @@
 	} else {
 		factory(jQuery, jQuery.jstree);
 	}
-}(function ($, jstree, undefined) {
+}(function ($, jstree) {
 	"use strict";
 
 	if ($.jstree.plugins.edit) {
@@ -20,7 +20,7 @@
 		deleteClass: ' fas fa-times-circle'
 	};
 	var _i = document.createElement('I');
-	_i.className = 'jstree-edit [data-fa-i2svg] noAction ';
+	_i.className = 'jstree-edit .fas noAction ';
 	_i.setAttribute('role', 'presentation');
 	$.jstree.plugins.edit = function (options, parent) {
 		this.bind = function () {
@@ -30,7 +30,7 @@
 				const module = modal.find('#relatedModule').val();
 				if ($(data.event.target).hasClass("jstree-edit")) {
 					const obj = data.node;
-					if (obj.original.type === 'category') {
+					if (obj.original.attr !== 'record') {
 						app.hideModalWindow();
 						const callbackFunction = function () {
 							$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
@@ -51,13 +51,14 @@
 						Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')}).done(function (e) {
 							AppConnector.request({
 								module: module,
-								action: 'DeleteAjax',
-								record: obj.original.record_id
+								action: 'State',
+								record: obj.original.record_id,
+								state: 'Trash',
 							}).done(function (res) {
 								$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 								Vtiger_Detail_Js.getInstance().loadWidgets();
 							});
-						}, function () {
+						}).fail(function () {
 							$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 						});
 					}
@@ -76,7 +77,7 @@
 				}
 				if (tmp && this._model.data[obj.id].original.type !== undefined) {
 					icon = _i.cloneNode(false);
-					if (this._model.data[obj.id].original.type == 'category') {
+					if (this._model.data[obj.id].original.attr !== 'record') {
 						icon.className += options.createClass;
 					} else {
 						icon.className += options.deleteClass;

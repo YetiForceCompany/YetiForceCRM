@@ -16,8 +16,8 @@ class Campaigns_RelatedList_View extends Vtiger_RelatedList_View
 		$viewer = $this->getViewer($request);
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 			$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($relatedModuleName));
-			$viewer->assign('SELECTED_IDS', $request->get('selectedIds'));
-			$viewer->assign('EXCLUDED_IDS', $request->get('excludedIds'));
+			$viewer->assign('SELECTED_IDS', $request->getRaw('selectedIds') === 'all' ? 'all' : $request->getArray('selectedIds', 'Integer'));
+			$viewer->assign('EXCLUDED_IDS', $request->getArray('excludedIds', 'Integer'));
 		}
 		return parent::process($request);
 	}

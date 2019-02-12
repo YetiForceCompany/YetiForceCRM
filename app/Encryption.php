@@ -3,9 +3,10 @@
  * Encryption basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -24,6 +25,12 @@ class Encryption extends Base
 		'w_#__portal_user' => ['columnName' => ['password_t'], 'index' => 'id', 'db' => 'webservice'],
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
+	];
+	/**
+	 * @var array Recommended encryption methods
+	 */
+	public static $recomendedMethods = [
+		'aes-256-cbc', 'aes-256-ctr', 'aes-192-cbc', 'aes-192-ctr'
 	];
 
 	/**
@@ -60,13 +67,14 @@ class Encryption extends Base
 		if ($decryptInstance->get('method') === $method && $decryptInstance->get('vector') === $password) {
 			return;
 		}
+		$oldMethod = $decryptInstance->get('method');
 		$dbAdmin = Db::getInstance('admin');
 		$transactionAdmin = $dbAdmin->beginTransaction();
 		$transactionBase = Db::getInstance()->beginTransaction();
 		$transactionWebservice = Db::getInstance('webservice')->beginTransaction();
 		try {
 			$passwords = [];
-			foreach (static::$mapPasswords as $tableName => $info) {
+			foreach (self::$mapPasswords as $tableName => $info) {
 				$values = (new Db\Query())->select(array_merge([$info['index']], $info['columnName']))
 					->from($tableName)
 					->createCommand(Db::getInstance($info['db']))
@@ -95,15 +103,13 @@ class Encryption extends Base
 			} else {
 				$dbAdmin->createCommand()->update('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
 			}
-			$config = new Configurator('securityKeys');
-			$config->set('encryptionMethod', $method);
-			$config->save();
+			$configFile = new ConfigFile('securityKeys');
+			$configFile->set('encryptionMethod', $method);
+			$configFile->create();
 			Cache::clear();
-			\AppConfig::set('securityKeys', 'encryptionMethod', $method);
-			\AppConfig::set('securityKeys', 'encryptionPass', $decryptInstance->get('pass'));
 			$encryptInstance = static::getInstance();
 			foreach ($passwords as $tableName => $pass) {
-				$dbCommand = Db::getInstance(static::$mapPasswords[$tableName]['db'])->createCommand();
+				$dbCommand = Db::getInstance(self::$mapPasswords[$tableName]['db'])->createCommand();
 				foreach ($pass as $index => $values) {
 					foreach ($values as &$value) {
 						if (!empty($value)) {
@@ -113,27 +119,19 @@ class Encryption extends Base
 							}
 						}
 					}
-					$dbCommand->update($tableName, $values, [static::$mapPasswords[$tableName]['index'] => $index])->execute();
+					$dbCommand->update($tableName, $values, [self::$mapPasswords[$tableName]['index'] => $index])->execute();
 				}
 			}
 			$transactionWebservice->commit();
 			$transactionBase->commit();
 			$transactionAdmin->commit();
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
-			$transactionAdmin->rollback();
-			if (isset($config)) {
-				$config->revert();
-			}
-			throw $e;
-		} catch (\Error $e) {
-			$transactionWebservice->rollBack();
-			$transactionBase->rollBack();
-			$transactionAdmin->rollback();
-			if (isset($config)) {
-				$config->revert();
-			}
+			$transactionAdmin->rollBack();
+			$configFile = new ConfigFile('securityKeys');
+			$configFile->set('encryptionMethod', $oldMethod);
+			$configFile->create();
 			throw $e;
 		}
 	}
@@ -178,8 +176,7 @@ class Encryption extends Base
 		if (!$this->isActive()) {
 			return $encrypted;
 		}
-		$decrypted = openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
-		return $decrypted;
+		return openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
 	}
 
 	/**
@@ -201,13 +198,7 @@ class Encryption extends Base
 	 */
 	public function isActive()
 	{
-		if (!function_exists('openssl_encrypt')) {
-			return false;
-		} elseif ($this->isEmpty('method')) {
-			return false;
-		} elseif ($this->get('method') !== \AppConfig::securityKeys('encryptionMethod')) {
-			return false;
-		} elseif (!in_array($this->get('method'), static::getMethods())) {
+		if (!\function_exists('openssl_encrypt') || $this->isEmpty('method') || $this->get('method') !== \AppConfig::securityKeys('encryptionMethod') || !\in_array($this->get('method'), static::getMethods())) {
 			return false;
 		}
 		return true;

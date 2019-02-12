@@ -15,8 +15,6 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, "$mode")) {
 			$this->$mode($request);
-
-			return;
 		}
 	}
 
@@ -80,7 +78,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module');
-		$relatedRecordIdList = $request->get('related_record_list');
+		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}

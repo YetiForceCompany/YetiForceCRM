@@ -22,7 +22,16 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, \App\User::getCurrentUserId());
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
-		$additionalFilterFields= $chartFilterWidgetModel->getAdditionalFiltersFields();
+		$additionalFilterFields = $chartFilterWidgetModel->getAdditionalFiltersFields();
+		$searchParams = App\Condition::validSearchParams($chartFilterWidgetModel->getTargetModule(), $request->getArray('search_params'));
+		if (!empty($searchParams)) {
+			foreach ($searchParams[0] as $fieldSearchInfo) {
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? null;
+				$searchParams[$fieldName] = $fieldSearchInfo;
+			}
+		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CHART_MODEL', $chartFilterWidgetModel);
@@ -30,12 +39,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('CHART_STACKED', $chartFilterWidgetModel->isStacked() ? 1 : 0);
 		$viewer->assign('CHART_COLORS_FROM_DIVIDING_FIELD', $chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0);
 		$viewer->assign('CHART_COLORS_FROM_FILTERS', $chartFilterWidgetModel->areColorsFromFilter() ? 1 : 0);
-		$viewer->assign('ADDITIONAL_FILTER_FIELD_VALUE', []);
-		if ($request->has('additional_filter_field')) {
-			$additionalFilterFieldsValues = $request->getArray('additional_filter_field');
-			$viewer->assign('ADDITIONAL_FILTER_FIELD_VALUE', $additionalFilterFieldsValues);
-			$chartFilterWidgetModel->set('additionalFiltersFieldsSearch', $additionalFilterFieldsValues);
-		}
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('CHART_DATA', $chartFilterWidgetModel->getChartData());
 		if ($owners = $chartFilterWidgetModel->getRowsOwners()) {
 			$viewer->assign('CHART_OWNERS', $owners);

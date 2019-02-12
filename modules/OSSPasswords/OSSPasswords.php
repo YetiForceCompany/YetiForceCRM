@@ -123,7 +123,7 @@ class OSSPasswords extends CRMEntity
 			require_once 'modules/Settings/' . $moduleName . '/views/uninstall.php';
 			\App\Log::trace('After uninstall script.');
 
-			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
+			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
 		}
 
 		$displayLabel = 'OSSPassword Configuration';

@@ -35,7 +35,7 @@
 								</strong>
 							</div>
 							<div class="col-md-8">
-								<select name="transfer_record" class="chzn-select form-control">
+								<select name="transfer_record" class="select2 form-control">
 									<optgroup label="{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_USERS key=USER_ID item=USER_MODEL}
 											<option value="{$USER_ID}">{$USER_MODEL->getName()}</option>

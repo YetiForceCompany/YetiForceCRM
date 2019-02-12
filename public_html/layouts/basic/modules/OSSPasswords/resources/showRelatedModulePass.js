@@ -4,7 +4,7 @@
 
 $('.show_pass').on('click', function (e) {
 	var id = $(this).attr('id').substr(4);
-	showRelatedListPassword(id, '');
+	showRelatedListPassword(id);
 	return false;
 });
 

@@ -34,10 +34,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCreateRecordUrlWithParent($parentRecord)
 	{
-		$createRecordUrl = $this->getCreateRecordUrl();
-		$createRecordUrlWithParent = $createRecordUrl . '&parent_id=' . $parentRecord->getId();
-
-		return $createRecordUrlWithParent;
+		return $this->getCreateRecordUrl() . '&parent_id=' . $parentRecord->getId();
 	}
 
 	/**

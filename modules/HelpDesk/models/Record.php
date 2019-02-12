@@ -50,8 +50,8 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_troubletickets', [
 					'response_time' => $currentDate,
-					], ['ticketid' => $recordModel->getId()])
-					->execute();
+				], ['ticketid' => $recordModel->getId()])
+				->execute();
 		}
 		$closedTime = $recordModel->get('closedtime');
 		if (!empty($closedTime) && $recordModel->has('report_time')) {
@@ -73,9 +73,9 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	{
 		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
-			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')]);
+			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')])
+			->orderBy(['due_date' => SORT_ASC]);
 		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
-
 		return $query->all();
 	}
 

@@ -1,77 +1,97 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
 
+/**
+ * QuickCreate view for module Calendar.
+ *
+ * @package   Action
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ */
 class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-	public function process(\App\Request $request)
+	/**
+	 * Record model instance.
+	 *
+	 * @var Calendar_QuickCreateAjax_View
+	 */
+	public $record;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleList = ['Calendar', 'Events'];
-
-		$quickCreateContents = [];
-		foreach ($moduleList as $module) {
-			$info = [];
-			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
-			$moduleModel = $recordModel->getModule();
-
-			$fieldList = $moduleModel->getFields();
-			foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
-				$fieldModel = $fieldList[$fieldName];
-				if ($fieldModel->isWritable()) {
-					$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-				}
-			}
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-			$recordStructure = $recordStructureInstance->getStructure();
-			$fieldValues = [];
-			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
-			foreach ($sourceRelatedField as $fieldName => $fieldValue) {
-				if (isset($recordStructure[$fieldName])) {
-					$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
-					if (empty($fieldvalue)) {
-						$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
-					}
-				} else {
-					if (isset($fieldList[$fieldName])) {
-						$fieldModel = $fieldList[$fieldName];
-						$fieldModel->set('fieldvalue', $fieldValue);
-						$fieldValues[$fieldName] = $fieldModel;
-					}
-				}
-			}
-
-			$info['recordStructureModel'] = $recordStructureInstance;
-			$info['recordStructure'] = $recordStructure;
-			$info['moduleModel'] = $moduleModel;
-			$quickCreateContents[$module] = $info;
+		parent::checkPermission($request);
+		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
-		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
-		$viewer->assign('THREEDAYSAGO', date('Y-n-j', strtotime('-3 day')));
-		$viewer->assign('TWODAYSAGO', date('Y-n-j', strtotime('-2 day')));
-		$viewer->assign('ONEDAYAGO', date('Y-n-j', strtotime('yesterday')));
-		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('ONEDAYLATER', date('Y-n-j', strtotime('tomorrow')));
-		$viewer->assign('TWODAYLATER', date('Y-n-j', strtotime('+2 day')));
-		$viewer->assign('THREEDAYSLATER', date('Y-n-j', strtotime('+3 day')));
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
-		$viewer->view('QuickCreate.tpl', $moduleName);
+		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
+		$viewer->assign('RECORD', $this->record);
+		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));
+		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('ALL_DAY_SLOT', AppConfig::module('Calendar', 'ALL_DAY_SLOT'));
+		$viewer->assign('STYLES', $this->getHeaderCss($request));
+		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
+		$viewer->view($tplName, $request->getModule());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
+			$jsFiles = $this->checkAndConvertJsScripts([
+				'~libraries/moment/min/moment.min.js',
+				'~libraries/fullcalendar/dist/fullcalendar.js',
+				'~libraries/css-element-queries/src/ResizeSensor.js',
+				'~libraries/css-element-queries/src/ElementQueries.js',
+				'modules.Calendar.resources.Edit',
+				'~layouts/resources/Calendar.js',
+				'modules.Calendar.resources.Standard.CalendarView',
+				'modules.Calendar.resources.Extended.YearView',
+				'modules.Calendar.resources.Extended.CalendarView',
+				'modules.Calendar.resources.QuickCreate'
+			]);
+		} else {
+			$jsFiles = $this->checkAndConvertJsScripts([
+				'~layouts/resources/Calendar.js',
+				'modules.Calendar.resources.Edit',
+				'modules.Calendar.resources.Standard.CalendarView',
+				'modules.Calendar.resources.Extended.CalendarView',
+				'modules.Calendar.resources.QuickCreate'
+			]);
+		}
+		return $jsFiles;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		return $this->checkAndConvertCssStyles([
+			'~libraries/fullcalendar/dist/fullcalendar.css',
+		]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		return \App\Language::translate('LBL_QUICK_CREATE', $request->getModule());
 	}
 }

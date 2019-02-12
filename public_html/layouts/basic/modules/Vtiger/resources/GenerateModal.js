@@ -36,7 +36,7 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 						document.progressLoader.progressIndicator({'mode': 'hide'});
 						if (method.val() == 1) {
 							for (var i in records) {
-								var win = window.open(actionUrl + records[i], '_blank');
+								window.open(actionUrl + records[i], '_blank');
 							}
 						}
 					}
@@ -48,13 +48,14 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	},
 	summary: function (container, data) {
 		container.find('.modal-title').text(app.vtranslate('JS_SUMMARY'));
-		container.find('.modal-body').html('<div>' + app.vtranslate('JS_SELECTED_RECORDS') + ': <strong>' + data.all + '</strong></div>\n\
-									<div>' + app.vtranslate('JS_SUCCESSFULLY_PERFORMED_ACTION_FOR') + ': <strong>' + data.ok.length + '</strong></div>\n\
-									<div>' + app.vtranslate('JS_ACTION_FAILED_FOR') + ': <strong>' + data.fail.length + '</strong></div>');
+		container.find('.modal-body').html('<div>' + app.vtranslate('JS_SELECTED_RECORDS') +
+			': <strong>' + data.all + '</strong></div><div>' +
+			app.vtranslate('JS_SUCCESSFULLY_PERFORMED_ACTION_FOR') + ': <strong>' +
+			data.ok.length + '</strong></div><div>' + app.vtranslate('JS_ACTION_FAILED_FOR') +
+			': <strong>' + data.fail.length + '</strong></div>');
 	},
 	registerEvents: function () {
 		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerGenetateButton(container);
 	}
 

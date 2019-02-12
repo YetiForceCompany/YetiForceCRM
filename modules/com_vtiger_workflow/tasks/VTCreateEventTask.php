@@ -95,7 +95,7 @@ class VTCreateEventTask extends VTTask
 				}
 			}
 		}
-		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
@@ -113,10 +113,8 @@ class VTCreateEventTask extends VTTask
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
-		$date = strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
+		return strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
 			(strtolower($direction) == 'before' ? -1 : 1));
-
-		return $date;
 	}
 
 	/**

@@ -79,9 +79,9 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 			->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
-			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
-			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
+			$productCurrencyInfo = \App\Fields\Currency::getById($row['usedcurrency']);
+			$pricebookCurrencyInfo = \App\Fields\Currency::getById($pricebookCurrency);
+			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['conversion_rate'] / $productCurrencyInfo['conversion_rate'];
 			App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])
 				->execute();

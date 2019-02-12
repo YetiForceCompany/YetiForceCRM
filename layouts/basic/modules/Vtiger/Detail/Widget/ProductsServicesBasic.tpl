@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="c-detail-widget u-mb-13px js-detail-widget productsServicesWidgetContainer" data-js=”container”>
+	<div class="c-detail-widget u-mb-13px js-detail-widget productsServicesWidgetContainer" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
-			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
+			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<div class="col-md-12 form-row align-items-center">
 					<div class="form-row align-items-center py-1">
 						<div class="col-md-4 px-0">
@@ -23,7 +23,7 @@
 				</div>
 				<hr class="widgetHr">
 			</div>
-			<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”>
+			<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value">
 			</div>
 		</div>
 	</div>

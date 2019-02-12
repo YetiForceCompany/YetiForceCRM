@@ -117,18 +117,27 @@ class Session
 	 */
 	public static function destroy()
 	{
+		$_SESSION = [];
+		if (PHP_SAPI !== 'cli' && !headers_sent()) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000,
+				$params['path'], $params['domain'],
+				$params['secure'], $params['httponly']
+			);
+		}
 		\session_destroy();
 	}
 
 	/**
 	 * Function to clean session. Removed old session.
 	 *
-	 * @return string
+	 * @return string[]
 	 */
 	public static function clean()
 	{
 		if (!empty(static::$pool)) {
 			return static::$pool->clean();
 		}
+		return [];
 	}
 }

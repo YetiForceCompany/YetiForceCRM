@@ -41,7 +41,7 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
-								<select id="replaceValue" name="replace_value" class="chzn-select form-control" data-validation-engine="validate[required]">
+								<select id="replaceValue" name="replace_value" class="select2 form-control" data-validation-engine="validate[required]">
 									{foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
 										{if !(in_array($PICKLIST_VALUE, $FIELD_VALUES))}
 											<option value="{$PICKLIST_VALUE_KEY}">{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>

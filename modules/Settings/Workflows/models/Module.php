@@ -209,7 +209,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$dbCommand->insert($this->getBaseTable(), $data['fields'])->execute();
 		$workflowId = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		$messages = ['id' => $workflowId];
-		if ($data['workflow_methods']) {
+		if (!empty($data['workflow_methods'])) {
 			foreach ($data['workflow_methods'] as $method) {
 				$this->importTaskMethod($method, $messages);
 			}
@@ -219,11 +219,11 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
 				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
 				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
+				include_once 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php';
 				$taskObject = unserialize($task['task']);
 				$taskObject->workflowId = (int) $workflowId;
 				$taskObject->id = (int) $taskId;
 				$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
-				$dbCommand->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
 			}
 		}
 		return $messages;
@@ -252,15 +252,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
+		$moduleName = $this->getName(true);
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = \App\Language::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+				$messages['error'][] = \App\Language::translateArgs('LBL_FAILED_TO_SAVE_SCRIPT', $moduleName, basename($method['function_path'], $method['function_path']));
 			}
 		} else {
 			require_once $method['function_path'];
 			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = \App\Language::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+				$messages['error'][] = \App\Language::translateArgs('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $moduleName, $method['function_name'], $method['function_path']);
 			}
 		}
 		$num = (new \App\Db\Query())->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $method['module_name'], 'method_name' => $method['method_name'], 'function_path' => $method['function_path'], 'function_name' => $method['function_name']])->count();

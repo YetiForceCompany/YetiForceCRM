@@ -46,8 +46,15 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function getModuleCustomNumberingData(\App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
-		$moduleData = \App\Fields\RecordNumber::getNumber($sourceModule);
-
+		$instance = \App\Fields\RecordNumber::getInstance($sourceModule);
+		$moduleData = $instance->getData();
+		if (empty($moduleData['reset_sequence'])) {
+			$moduleData['reset_sequence'] = 'n';
+		}
+		$picklistsModels = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByType(['picklist']);
+		foreach ($picklistsModels as $fieldModel) {
+			$moduleData['picklists'][$fieldModel->getName()] = App\Language::translate($fieldModel->getFieldLabel(), $sourceModule);
+		}
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($moduleData);
@@ -63,9 +70,15 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->getByType('sourceModule', 2));
-		$moduleModel->set('prefix', $request->get('prefix'));
-		$moduleModel->set('sequenceNumber', $request->get('sequenceNumber'));
-		$moduleModel->set('postfix', $request->get('postfix'));
+		$moduleModel->set('prefix', $request->getByType('prefix', 'Text'));
+		$moduleModel->set('leading_zeros', $request->getByType('leading_zeros', 'Integer'));
+		$moduleModel->set('sequenceNumber', $request->getByType('sequenceNumber', 'Integer'));
+		$moduleModel->set('postfix', $request->getByType('postfix', 'Text'));
+		if (!$request->isEmpty('reset_sequence') && in_array($request->getByType('reset_sequence'), ['Y', 'M', 'D'])) {
+			$moduleModel->set('reset_sequence', $request->getByType('reset_sequence'));
+		} else {
+			$moduleModel->set('reset_sequence', '');
+		}
 		$result = $moduleModel->setModuleSequence();
 		$response = new Vtiger_Response();
 		if ($result['success']) {
@@ -84,11 +97,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 */
 	public function updateRecordsWithSequenceNumber(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 2);
-
-		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($sourceModule);
-		$result = $moduleModel->updateRecordsWithSequence();
-
+		$result = App\Fields\RecordNumber::getInstance($request->getByType('sourceModule', 2))->updateRecords();
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

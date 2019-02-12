@@ -4,7 +4,7 @@
  * OSSMailView graf dashboard class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -17,12 +17,9 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = [
+		return $this->checkAndConvertCssStyles([
 			//Place your widget specific css files here
-		];
-		$headerCssScriptInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return $headerCssScriptInstances;
+		]);
 	}
 
 	public function getSearchParams($stage, $assignedto, $dates)

@@ -2,9 +2,9 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMail_Module_Model extends Vtiger_Module_Model
 {
@@ -24,7 +24,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $fieldId,
+			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=Index&block=4&fieldid=' . $fieldId,
 			'linkicon' => 'adminIcon-mail-download-history',
 		];
 
@@ -33,9 +33,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public static function getDefaultMailAccount($accounts)
 	{
-		$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
-
-		return $rcUser;
+		return (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 	}
 
 	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false)
@@ -170,6 +168,8 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 							case 'Project':
 								$subject .= $recordModel->get('projectname');
 								break;
+							default:
+								break;
 						}
 					}
 					$url .= $subject;
@@ -240,7 +240,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
+		$mailtoLimit = \App\Config::component('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
 			$content .= \App\Language::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
@@ -259,7 +259,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		} else {
-			$content .= \App\Language::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			$content .= \App\Language::translateArgs('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
@@ -271,9 +271,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-		$url .= '&body=' . rawurlencode($content);
-
-		return $url;
+		return $url . '&body=' . rawurlencode($content);
 	}
 
 	/**

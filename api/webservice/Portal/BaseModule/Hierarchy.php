@@ -6,8 +6,8 @@ namespace Api\Portal\BaseModule;
  * Records hierarchy action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Hierarchy extends \Api\Core\BaseAction
 {
@@ -64,7 +64,7 @@ class Hierarchy extends \Api\Core\BaseAction
 			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];
 			$this->childColumn = "{$field['tablename']}.{$field['columnname']}";
-			$queryGenerator->setFields(['id', $field['fieldname'], $this->mainFieldName]);
+			$queryGenerator->setFields(['id', $this->childField, $this->mainFieldName]);
 			$this->getRecords($queryGenerator, $parentCrmId);
 		}
 		if (!isset($this->records[$parentCrmId])) {
@@ -114,15 +114,12 @@ class Hierarchy extends \Api\Core\BaseAction
 				return true;
 			}
 			if (!empty($row[$this->childField])) {
-				switch ($this->getPermissionType()) {
-					case 4:
-						$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'parent');
-						$this->getRecords(clone $mainQueryGenerator, $id, 'parent');
-						// no break
-					case 3:
-						$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'child');
-						$this->getRecords(clone $mainQueryGenerator, $id, 'child');
-						break;
+				if ($this->getPermissionType() === 4) {
+					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'parent');
+					$this->getRecords(clone $mainQueryGenerator, $id, 'parent');
+				} elseif ($this->getPermissionType() === 3) {
+					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'child');
+					$this->getRecords(clone $mainQueryGenerator, $id, 'child');
 				}
 			}
 		}

@@ -53,12 +53,11 @@ class Settings_Vtiger_LibraryLicense_View extends Vtiger_BasicModal_View
 				$result = true;
 				$fileContent = file_get_contents($filePath);
 			} else {
-				$result =false;
+				$result = false;
 			}
 		}
 
 		$this->preProcess($request);
-		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

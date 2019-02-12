@@ -38,18 +38,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Get attribute by name.
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function get($key)
-	{
-		return parent::get($key);
-	}
-
-	/**
 	 * Get edit view url.
 	 *
 	 * @return string
@@ -157,7 +145,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function isDefault()
 	{
 		$wf = $this->getWorkflowObject();
-		if ($wf->defaultworkflow == 1) {
+		if (!empty($wf->defaultworkflow) && $wf->defaultworkflow == 1) {
 			return true;
 		}
 		return false;
@@ -169,7 +157,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$wm = new VTWorkflowManager();
-
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
 		$wf->test = \App\Json::encode($this->get('conditions'));
@@ -181,9 +168,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wf->schdayofmonth = $this->get('schdayofmonth');
 		$wf->schdayofweek = $this->get('schdayofweek');
 		$wf->schmonth = $this->get('schmonth');
-		$wf->schmonth = $this->get('schmonth');
 		$wf->schannualdates = $this->get('schannualdates');
 		$wf->nexttrigger_time = $this->get('nexttrigger_time');
+
 		$wm->save($wf);
 
 		$this->set('workflow_id', $wf->id);
@@ -205,10 +192,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEntityMethods()
 	{
-		$emm = new VTEntityMethodManager();
-		$methodNames = $emm->methodsForModule($this->get('module_name'));
-
-		return $methodNames;
+		return (new VTEntityMethodManager())->methodsForModule($this->get('module_name'));
 	}
 
 	/**
@@ -301,12 +285,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getInstanceFromWorkflowObject($wf)
 	{
 		$workflowModel = new self();
-
-		$workflowModel->set('summary', $wf->description);
-		$workflowModel->set('conditions', \App\Json::decode($wf->test));
+		$workflowModel->set('summary', $wf->description ?? '');
+		$workflowModel->set('conditions', !empty($wf->test) ? \App\Json::decode($wf->test) : []);
 		$workflowModel->set('execution_condition', $wf->executionCondition);
 		$workflowModel->set('module_name', $wf->moduleName);
-		$workflowModel->set('workflow_id', $wf->id);
+		$workflowModel->set('workflow_id', $wf->id ?? false);
 		$workflowModel->set('filtersavedinnew', $wf->filtersavedinnew);
 		$workflowModel->setWorkflowObject($wf);
 		$workflowModel->setModule($wf->moduleName);
@@ -327,8 +310,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			$executionCondition = $this->get('execution_condition');
 		}
 		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
-
-		return $arr[$executionCondition - 1];
+		return $arr[$executionCondition - 1] ?? '';
 	}
 
 	/**
@@ -407,7 +389,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$transformedConditions = [];
 
 		if (!empty($conditions)) {
-			foreach ($conditions as $index => $info) {
+			foreach ($conditions as $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
@@ -417,8 +399,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-		$transformedConditions[1] = ['columns' => $firstGroup];
-		$transformedConditions[2] = ['columns' => $secondGroup];
+		$transformedConditions[1] = ['columns' => $firstGroup ?? []];
+		$transformedConditions[2] = ['columns' => $secondGroup ?? []];
 
 		return $transformedConditions;
 	}
@@ -459,7 +441,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
 							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
 					}
 				}
@@ -486,7 +468,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = $query->union($querySecond)->createCommand()->query();
 		$dependentFields = [];
 		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = ['Calendar', 'Events', 'Accounts'];
+		$filterModules = ['Calendar', 'Accounts'];
 		$skipFieldsList = [];
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
@@ -507,8 +489,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		foreach ($skipFieldsList as $tabModuleName => $fieldInfo) {
-			$dependentFieldInfo = $dependentFields[$tabModuleName];
-			if ($dependentFieldInfo['fieldname'] != $fieldInfo['fieldname']) {
+			if (isset($dependentFields[$tabModuleName]) && $dependentFields[$tabModuleName]['fieldname'] !== $fieldInfo['fieldname']) {
 				unset($dependentFields[$tabModuleName]);
 			}
 		}

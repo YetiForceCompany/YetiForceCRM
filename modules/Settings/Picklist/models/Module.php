@@ -45,10 +45,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param Vtiger_Field_Model $fieldModel
 	 * @param string             $newValue
 	 * @param int[]              $rolesSelected
+	 * @param string             $description
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [])
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -68,10 +69,22 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			'presence' => 1,
 		];
 		if ($fieldModel->isRoleBased()) {
-			$row = array_merge($row, ['picklist_valueid' => $picklistValueId]);
+			$row['picklist_valueid'] = $picklistValueId;
+		}
+		if (!empty($prefix)) {
+			if (!$this->checkColumn($tableName, 'prefix')) {
+				$this->addPrefixColumn($tableName);
+			}
+			$row['prefix'] = $prefix;
+		}
+		if (!empty($description)) {
+			if (!$this->checkColumn($tableName, 'description')) {
+				$this->addDescriptionColumn($tableName);
+			}
+			$row['description'] = $description;
 		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
-			$row = array_merge($row, ['color' => '#E6FAD8']);
+			$row['color'] = '#E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
@@ -93,7 +106,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				])->execute();
 			}
 		}
-		$this->clearPicklistCache($pickListFieldName);
+		$this->clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+		\App\Colors::generate('picklist');
 		return ['picklistValueId' => $picklistValueId, 'id' => $id];
 	}
 
@@ -104,15 +118,33 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param string                        $oldValue
 	 * @param string                        $newValue
 	 * @param int                           $id
+	 * @param string                        $description
+	 * @param string                        $prefix
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id)
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
-		$result = $db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])->execute();
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		$newData = [$pickListFieldName => $newValue];
+		$descriptionColumnExist = $this->checkColumn($tableName, 'description');
+		if (!empty($description) || $descriptionColumnExist) {
+			if (!$descriptionColumnExist) {
+				$this->addDescriptionColumn($tableName);
+			}
+			$newData['description'] = $description;
+		}
+		$prefixColumnExist = $this->checkColumn($tableName, 'prefix');
+		if (!empty($prefix) || $prefixColumnExist) {
+			if (!$prefixColumnExist) {
+				$this->addPrefixColumn($tableName);
+			}
+			$newData['prefix'] = $prefix;
+		}
+		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
 		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
 				->from('vtiger_field')
@@ -125,7 +157,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
 			}
 			$dataReader->close();
-			$this->clearPicklistCache($pickListFieldName);
+			$this->clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
 			$eventHandler = new App\EventHandler();
 			$eventHandler->setParams([
 				'fieldname' => $pickListFieldName,
@@ -135,8 +167,70 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				'id' => $id,
 			]);
 			$eventHandler->trigger('PicklistAfterRename');
+			\App\Colors::generate('picklist');
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Check description column in picklist.
+	 *
+	 * @param string $tableName
+	 * @param string $columnName
+	 *
+	 * @return bool
+	 */
+	public function checkColumn(string $tableName, string $columnName)
+	{
+		return (bool) \App\Db::getInstance()->getTableSchema($tableName, true)->getColumn($columnName);
+	}
+
+	/**
+	 * Add description column to picklist.
+	 *
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function addDescriptionColumn(string $tableName)
+	{
+		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'description', 'text')->execute();
+	}
+
+	/**
+	 * Add description column to picklist.
+	 *
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function addPrefixColumn(string $tableName)
+	{
+		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'prefix', 'string(30)')->execute();
+	}
+
+	/**
+	 * Update close state table.
+	 *
+	 * @param int                            $valueId
+	 * @param \Settings_Picklist_Field_Model $fieldModel
+	 * @param string                         $value
+	 * @param bool                           $closeState
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function updateCloseState(int $valueId, Settings_Picklist_Field_Model $fieldModel, string $value, bool $closeState)
+	{
+		$dbCommand = App\Db::getInstance()->createCommand();
+		$oldValue = \App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'), false)[$valueId] ?? false;
+		if (!$closeState || ($oldValue !== false && $value !== $oldValue)) {
+			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
+		}
+		if ($closeState && $value !== $oldValue) {
+			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
+		}
+		\App\Cache::delete('getCloseStatesByName', $fieldModel->get('tabid'));
+		\App\Cache::delete('getCloseStates', $fieldModel->get('tabid'));
 	}
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
@@ -150,17 +244,18 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			->from($this->getPickListTableName($pickListFieldName))
 			->where([$primaryKey => $valueToDeleteId])
 			->column());
-		$replaceValue = array_map('App\Purifier::decodeHtml', (new \App\Db\Query())->select([$pickListFieldName])
+		$replaceValue = \App\Purifier::decodeHtml((new \App\Db\Query())->select([$pickListFieldName])
 			->from($this->getPickListTableName($pickListFieldName))
 			->where([$primaryKey => $replaceValueId])
-			->column());
+			->scalar());
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $this);
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
-			$dbCommand->delete('vtiger_role2picklist', ['picklistvalueid' => (new \App\Db\Query())->select(['picklist_valueid'])->from($this->getPickListTableName($pickListFieldName))
-				->where([$primaryKey => $valueToDeleteId]), ])->execute();
+			$picklistValueId = (new \App\Db\Query())->select(['picklist_valueid'])->from($this->getPickListTableName($pickListFieldName))->where([$primaryKey => $valueToDeleteId])->column();
+			$dbCommand->delete('vtiger_role2picklist', ['picklistvalueid' => $picklistValueId])->execute();
+			$dbCommand->delete('u_#__picklist_close_state', ['valueid' => $picklistValueId])->execute();
 		}
 		$dbCommand->delete($this->getPickListTableName($pickListFieldName), [$primaryKey => $valueToDeleteId])->execute();
 		$dbCommand->delete('vtiger_picklist_dependency', ['sourcevalue' => $pickListValues, 'sourcefield' => $pickListFieldName])
@@ -178,7 +273,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 		$dbCommand->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
 			->execute();
-		$this->clearPicklistCache($pickListFieldName);
+		$this->clearPicklistCache($pickListFieldName, $moduleName);
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams([
 			'fieldname' => $pickListFieldName,
@@ -187,7 +282,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			'module' => $moduleName,
 		]);
 		$eventHandler->trigger('PicklistAfterDelete');
-
+		\App\Colors::generate('picklist');
 		return true;
 	}
 
@@ -259,15 +354,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			->from('vtiger_tab')
 			->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where([
-					'and',
-					['uitype' => [15, 33, 16]],
-					['NOT IN', 'vtiger_field.tabid', [29, 10]],
-					['<>', 'vtiger_tab.presence', 1],
-					['vtiger_field.presence' => [0, 2]],
-					['<>', 'vtiger_field.columnname', 'taxtype'],
-				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-					->distinct()
-					->createCommand()->query();
+				'and',
+				['uitype' => [15, 33, 16]],
+				['NOT IN', 'vtiger_field.tabid', [29, 10]],
+				['<>', 'vtiger_tab.presence', 1],
+				['vtiger_field.presence' => [0, 2]],
+				['<>', 'vtiger_field.columnname', 'taxtype'],
+			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
+				->distinct()
+				->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
@@ -318,12 +413,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * Clear cache.
 	 *
 	 * @param string $fieldName
+	 * @param string $moduleName
 	 */
-	public function clearPicklistCache($fieldName)
+	public function clearPicklistCache(string $fieldName, string $moduleName)
 	{
 		\App\Cache::delete('getValuesName', $fieldName);
 		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
 		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
 		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
+		\App\Cache::delete('getCloseStatesByName', \App\Module::getModuleId($moduleName));
+		\App\Cache::delete('getCloseStates', \App\Module::getModuleId($moduleName));
 	}
 }

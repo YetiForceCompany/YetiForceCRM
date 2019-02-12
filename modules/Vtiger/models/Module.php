@@ -29,7 +29,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return (int) $this->id;
 	}
 
 	public function getName()
@@ -101,7 +101,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (property_exists($this, $propertyName)) {
 			return $this->$propertyName;
 		}
-		throw new Exception($propertyName . ' doest not exists in class ' . get_class($this));
+		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . get_class($this));
 	}
 
 	/**
@@ -182,15 +182,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getInstance($mixed)
 	{
-		$instance = Vtiger_Cache::get('module', $mixed);
-		if (!$instance) {
-			$instance = false;
-			$moduleObject = parent::getInstance($mixed);
-			if ($moduleObject) {
-				$instance = self::getInstanceFromModuleObject($moduleObject);
-				Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				Vtiger_Cache::set('module', $moduleObject->name, $instance);
-			}
+		if (is_numeric($mixed)) {
+			$mixed = \App\Module::getModuleName($mixed);
+		}
+		if (\App\Cache::staticHas('module', $mixed)) {
+			return \App\Cache::staticGet('module', $mixed);
+		}
+		$instance = false;
+		$moduleObject = parent::getInstance($mixed);
+		if ($moduleObject) {
+			$instance = self::getInstanceFromModuleObject($moduleObject);
+			\App\Cache::staticSave('module', $moduleObject->name, $instance);
 		}
 		return $instance;
 	}
@@ -422,7 +424,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns all the blocks for the module.
 	 *
-	 * @return <Array of Vtiger_Block_Model> - list of block models
+	 * @return Vtiger_Block_Model[] - list of block models
 	 */
 	public function getBlocks()
 	{
@@ -596,9 +598,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFieldsById()
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as &$field) {
+		foreach ($this->getFields() as &$field) {
 			$fieldList[$field->getId()] = $field;
 		}
 		return $fieldList;
@@ -623,19 +624,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function gives list fields for save.
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
 	{
-		$tabId = $this->getId();
-		if ($this->getName() === 'Events') {
-			$tabId = \App\Module::getModuleId('Calendar');
-		}
-		if ($this->getName() === 'Calendar' && $recordModel->get('activitytype') !== 'Task') {
-			$tabId = \App\Module::getModuleId('Events');
-		}
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
@@ -820,25 +814,41 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get the list of all accessible modules for Quick Create.
 	 *
+	 * @param bool $restrictList
+	 * @param bool $tree
+	 *
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getQuickCreateModules($restrictList = false)
+	public static function getQuickCreateModules($restrictList = false, $tree = false)
 	{
-		$quickCreateModules = Vtiger_Cache::get('getQuickCreateModules', $restrictList ? 1 : 0);
-		if ($quickCreateModules !== false) {
-			return $quickCreateModules;
+		$restrictListString = $restrictList ? 1 : 0;
+		if ($tree) {
+			$userModel = App\User::getCurrentUserModel();
+			$quickCreateModulesTreeCache = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
+			if ($quickCreateModulesTreeCache !== false) {
+				return $quickCreateModulesTreeCache;
+			}
+		} else {
+			$quickCreateModules = App\Cache::get('getQuickCreateModules', $restrictListString);
+			if ($quickCreateModules !== false) {
+				return $quickCreateModules;
+			}
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$query = new \App\Db\Query();
-		$query->select('vtiger_tab.*')->from('vtiger_field')
+		$query->select(['vtiger_tab.*'])->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
-			->andWhere(['<>', 'vtiger_tab.presence', 1])
-			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
+			->where(['<>', 'vtiger_tab.presence', 1]);
+		if ($tree) {
+			$query->andWhere(['<>', 'vtiger_tab.name', 'Users']);
+		} else {
+			$query->andWhere(['or', 'quickcreate = 0', 'quickcreate = 2'])
+				->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
+		}
 		if ($restrictList) {
-			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'Events']]);
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'CallHistory', 'OSSMailView', 'SMSNotifier']]);
 		}
 		$quickCreateModules = [];
 		$dataReader = $query->createCommand()->query();
@@ -848,8 +858,30 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$quickCreateModules[$row['name']] = $moduleModel;
 			}
 		}
-		Vtiger_Cache::set('getQuickCreateModules', $restrictList ? 1 : 0, $quickCreateModules);
-
+		if ($tree) {
+			$menu = Vtiger_Menu_Model::getAll(true);
+			$quickCreateModulesTree = [];
+			foreach ($menu as $parent) {
+				if (!empty($parent['childs'])) {
+					$items = [];
+					foreach ($parent['childs'] as $child) {
+						if (isset($quickCreateModules[$child['mod']])) {
+							$items[$quickCreateModules[$child['mod']]->name] = $quickCreateModules[$child['mod']];
+							unset($quickCreateModules[$child['mod']]);
+						}
+					}
+					if (!empty($items)) {
+						$quickCreateModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
+					}
+				}
+			}
+			if (!empty($quickCreateModules)) {
+				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
+			}
+			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
+			return $quickCreateModulesTree;
+		}
+		App\Cache::save('getQuickCreateModules', $restrictListString, $quickCreateModules);
 		return $quickCreateModules;
 	}
 
@@ -866,7 +898,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
 			$entityInfo = \App\Module::getEntityInfo($tabid);
-			if ($moduleName == 'Users' || $moduleName == 'Events' || !$entityInfo['turn_off']) {
+			if ($moduleName == 'Users' || !$entityInfo['turn_off']) {
 				continue;
 			}
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
@@ -897,9 +929,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public static function getCleanInstance($moduleName)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $moduleName);
-		$instance = new $modelClassName();
-
-		return $instance;
+		return new $modelClassName();
 	}
 
 	/**
@@ -914,32 +944,32 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'fas fa-list',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_RECORDS_LIST',
+			'linkurl' => $this->getListViewUrl(),
+			'linkicon' => 'fas fa-list',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
-				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
-				'linkicon' => 'far fa-list-alt',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+			'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
+			'linkicon' => 'far fa-list-alt',
 		]);
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARLINK',
-					'linklabel' => 'LBL_DASHBOARD',
-					'linkurl' => $this->getDashBoardUrl(),
-					'linkicon' => 'fas fa-desktop',
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_DASHBOARD',
+				'linkurl' => $this->getDashBoardUrl(),
+				'linkicon' => 'fas fa-desktop',
 			]);
 		}
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);
+		$treeViewModel = Vtiger_TreeView_Model::getInstance($this->getName());
 		if ($treeViewModel->isActive()) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARLINK',
-					'linklabel' => $treeViewModel->getName(),
-					'linkurl' => $treeViewModel->getTreeViewUrl(),
-					'linkicon' => 'fas fa-tree',
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => $treeViewModel->getName(),
+				'linkurl' => $treeViewModel->getTreeViewUrl(),
+				'linkicon' => 'fas fa-tree',
 			]);
 		}
 		return $links;
@@ -959,11 +989,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $comments;
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.setype', 'vtiger_modcomments.related_to', 'vtiger_modcomments.commentcontent', 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
-				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
-				->from('vtiger_modcomments')
-				->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.setype' => $this->getName(), 'crmentity2.deleted' => 0]);
+			'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
+			->from('vtiger_modcomments')
+			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.setype' => $this->getName(), 'crmentity2.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'ModComments');
 		$dataReader = $query->orderBy(['vtiger_modcomments.modcommentsid' => SORT_DESC])
 			->limit($pagingModel->getPageLimit())
@@ -1084,12 +1114,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
-				'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*', ])
-				->from('vtiger_activity')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
-				->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
-				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-				->where(['vtiger_crmentity.deleted' => 0]);
+			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*', ])
+			->from('vtiger_activity')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+			->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		$andWhere = ['and'];
 		if ($recordId) {
 			$andWhere[] = ["vtiger_activity.$relationField" => $recordId];
@@ -1103,10 +1133,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 		} elseif ($mode === 'overdue') {
 			$andWhere[] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
-		if ($user !== 'all' && !empty($user)) {
-			if ($user === $currentUser->id) {
-				$andWhere[] = ['vtiger_crmentity.smownerid' => $user];
-			}
+		if ($user !== 'all' && !empty($user) && $user === $currentUser->id) {
+			$andWhere[] = ['vtiger_crmentity.smownerid' => $user];
 		}
 		$query->andWhere($andWhere);
 		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
@@ -1165,20 +1193,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isPermitted($actionName)
 	{
 		return $this->isActive() && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($this->getId(), $actionName);
-	}
-
-	/**
-	 * Function to get Specific Relation Query for this Module.
-	 *
-	 * @param <type> $relatedModule
-	 *
-	 * @return <type>
-	 */
-	public function getSpecificRelationQuery($relatedModule)
-	{
-		if ($relatedModule == 'Documents') {
-			return ' AND vtiger_notes.filestatus = 1 ';
-		}
 	}
 
 	/**
@@ -1335,10 +1349,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getMandatoryFieldModels()
 	{
-		$fields = $this->getFields();
 		$mandatoryFields = [];
-		if ($fields) {
-			foreach ($fields as $field) {
+		if ($fieldsArray = $this->getFields()) {
+			foreach ($fieldsArray as $field) {
 				if ($field->isActiveField() && $field->isMandatory()) {
 					$mandatoryFields[$field->getName()] = $field;
 				}
@@ -1362,6 +1375,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param string|bool         $sourceModule
+	 *
+	 * @return string[]
 	 */
 	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
@@ -1387,6 +1402,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
 		}
 		$queryGenerator->setFields($popupFields);
+		return $popupFields;
 	}
 
 	/**
@@ -1444,7 +1460,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						continue;
 					}
 					if (isset($sourceRecordData[$fieldName])) {
-						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData), $recordModel);
+						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData, false), $recordModel);
 					} else {
 						$defaultValue = $fieldModel->getDefaultFieldValue();
 						if ($defaultValue !== '') {

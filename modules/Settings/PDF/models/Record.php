@@ -4,10 +4,10 @@
  * Record Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -103,13 +103,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($step) {
 			case 2:
 			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
-				$params = [];
 				$fields = [];
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
@@ -119,10 +113,10 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$fields[$field] = $params;
 				}
+
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
-
 				return $pdfModel->get('pdfid');
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
@@ -131,8 +125,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					foreach ($stepFields as $field) {
 						$params[$field] = $pdfModel->get($field);
 					}
-					$db->createCommand()->insert('a_#__pdf', $params)
-						->execute();
+					$db->createCommand()->insert('a_#__pdf', $params)->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 				} else {
 					$fields = [];
@@ -158,15 +151,26 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 
 				return $pdfModel->get('pdfid');
+			default:
+				break;
 		}
 	}
 
+	/**
+	 * Delete watermark.
+	 *
+	 * @param Vtiger_PDF_Model $pdfModel
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return bool
+	 */
 	public static function deleteWatermark(Vtiger_PDF_Model $pdfModel)
 	{
 		$db = \App\Db::getInstance('admin');
 		$watermarkImage = $pdfModel->get('watermark_image');
 		$db->createCommand()
-			->update('a_#__pdf', ['watermark_image' => null], ['pdfid' => $pdfModel->getId()])
+			->update('a_#__pdf', ['watermark_image' => ''], ['pdfid' => $pdfModel->getId()])
 			->execute();
 		if (file_exists($watermarkImage)) {
 			return unlink($watermarkImage);
@@ -198,7 +202,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
 							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
 					}
 				}
@@ -223,6 +227,9 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'margin_chkbox':
 				$value = $value ? 'LBL_YES' : 'LBL_NO';
+				break;
+			default:
+				break;
 		}
 		return $value;
 	}

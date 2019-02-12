@@ -10,13 +10,13 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					blockInfo: {'enabled': true}
 				});
-				app.saveAjax('updateSmtp', paramsForm).done(function (respons) {
+				AppConnector.request(paramsForm).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (true == respons.result.success) {
-						window.location.href = respons.result.url;
+					if (true == data.result.success) {
+						window.location.href = data.result.url;
 					} else {
 						form.find('.alert').removeClass('d-none');
-						form.find('.alert p').text(respons.result.message);
+						form.find('.alert p').text(data.result.message);
 					}
 				});
 				return false;
@@ -41,22 +41,34 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 			container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
 		});
 	},
+	registerSaveSendMail() {
+		const form = this.getForm();
+		form.find(".js-save-send-mail").on('click', () => {
+			if (form.find(".saveMailContent").hasClass("d-none")) {
+				form.find(".js-smtp-host").attr('data-validation-engine', 'validate[required]');
+				form.find(".js-smtp-port").attr('data-validation-engine', 'validate[required,custom[integer]]');
+				form.find(".js-smtp-password").attr('data-validation-engine', 'validate[required]');
+				form.find(".js-smtp-username").attr('data-validation-engine', 'validate[required]');
+				form.find(".js-smtp-folder").attr('data-validation-engine', 'validate[required]');
+				form.find(".saveMailContent").removeClass("d-none");
+			} else {
+				form.find(".js-smtp-host").removeAttr('data-validation-engine');
+				form.find(".js-smtp-port").removeAttr('data-validation-engine');
+				form.find(".js-smtp-password").removeAttr('data-validation-engine');
+				form.find(".js-smtp-username").removeAttr('data-validation-engine');
+				form.find(".js-smtp-folder").removeAttr('data-validation-engine');
+				form.find(".saveMailContent").addClass("d-none");
+			}
+		});
+	},
 	registerEvents: function () {
-		var form = this.getForm()
+		const form = this.getForm();
 		if (form.length) {
 			form.validationEngine(app.validationEngineOptions);
 			form.find("[data-inputmask]").inputmask();
 		}
 		this.registerSubmitForm();
 		this.registerPreviewPassword();
-		app.showPopoverElementView(form.find('.js-popover-tooltip'));
-
-		form.find(".saveSendMail").on('click', function () {
-			if (form.find(".saveMailContent").hasClass("d-none")) {
-				form.find(".saveMailContent").removeClass("d-none");
-			} else {
-				form.find(".saveMailContent").addClass("d-none");
-			}
-		});
+		this.registerSaveSendMail();
 	}
 })

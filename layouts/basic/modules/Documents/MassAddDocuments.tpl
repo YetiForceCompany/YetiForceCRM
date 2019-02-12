@@ -2,16 +2,16 @@
 {strip}
 	<div class="modal-header">
 		<h5 class="modal-title">
-			<span class="fas fa-plus mr-1"></span>
+			<span class="adminIcon-document-templates mr-1"></span>
 			{\App\Language::translate('LBL_MASS_ADD', $MODULE)}
 		</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
-        </button>
+		</button>
 	</div>
 	<form class="form-horizontal" id="addDocuments" method="post" action="index.php" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="{$MODULE}" />
-		<input type="hidden" name="action" value="MassAdd" />
+		<input type="hidden" name="module" value="{$MODULE}"/>
+		<input type="hidden" name="action" value="MassAdd"/>
 		<div class="modal-body row">
 			<div class="col-md-12 uploadFileContainer">
 				<input type="file" name="file[]" multiple id="filesToUpload">

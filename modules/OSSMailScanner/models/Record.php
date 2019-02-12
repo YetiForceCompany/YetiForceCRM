@@ -4,10 +4,17 @@
  * OSSMailScanner Record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
+	/**
+	 * Main folders array.
+	 *
+	 * @var array
+	 */
+	public static $mainFolders = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
+
 	/**
 	 * Returns array list of actions.
 	 *
@@ -90,8 +97,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Db::getInstance()->createCommand()
 			->update('roundcube_users', [
 				'actions' => $value,
-				], ['user_id' => $userid])
-				->execute();
+			], ['user_id' => $userid])
+			->execute();
 	}
 
 	/**
@@ -103,9 +110,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function setFolderList($user, $foldersByType)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$oldFoldersByType = (new \App\Db\Query())->select(['type', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $user])->createCommand()->queryAllByGroup(2);
-		foreach ($types as $type) {
+		foreach (self::$mainFolders as $type) {
 			$toRemove = $toAdd = $oldFolders = $folders = [];
 			if (isset($oldFoldersByType[$type])) {
 				$oldFolders = $oldFoldersByType[$type];
@@ -116,15 +122,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 			$toAdd = array_diff_assoc($folders, $oldFolders);
 			$toRemove = array_diff_assoc($oldFolders, $folders);
+			foreach ($toRemove as $folder) {
+				$dbCommand->delete('vtiger_ossmailscanner_folders_uid', ['user_id' => $user, 'type' => $type, 'folder' => html_entity_decode($folder)])->execute();
+			}
 			foreach ($toAdd as $folder) {
 				$dbCommand->insert('vtiger_ossmailscanner_folders_uid', [
 					'user_id' => $user,
 					'type' => $type,
 					'folder' => html_entity_decode($folder),
 				])->execute();
-			}
-			foreach ($toRemove as $folder) {
-				$dbCommand->delete('vtiger_ossmailscanner_folders_uid', ['user_id' => $user, 'type' => $type, 'folder' => $folder])->execute();
 			}
 		}
 	}
@@ -160,6 +166,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		$query->orderBy(['parameter' => SORT_DESC]);
 		$dataReader = $query->createCommand()->query();
+		$return = [];
 		while ($row = $dataReader->read()) {
 			if ($confType !== false) {
 				$return[$row['parameter']] = $row['value'];
@@ -201,15 +208,22 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function getTypeFolder($folder)
 	{
 		switch ($folder) {
-			case 'Received': $return = 0;
+			case 'Received':
+				$return = 0;
 				break;
-			case 'Sent': $return = 1;
+			case 'Sent':
+				$return = 1;
 				break;
-			case 'Spam': $return = 2;
+			case 'Spam':
+				$return = 2;
 				break;
-			case 'Trash': $return = 3;
+			case 'Trash':
+				$return = 3;
 				break;
-			case 'All': $return = 4;
+			case 'All':
+				$return = 4;
+				break;
+			default:
 				break;
 		}
 		return $return;
@@ -276,7 +290,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				try {
 					$mail->addActionResult($action, $handler->process($mail));
 				} catch (Exception $e) {
-					App\Log::error($e->getMessage(), 'MailScanner');
+					App\Log::error($e->__toString(), 'MailScanner');
 				}
 				\App\Log::trace('End action', 'MailScanner');
 			}
@@ -290,29 +304,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Manually scan mail.
 	 *
-	 * @param array $params
+	 * @param int    $uid
+	 * @param string $folder
+	 * @param array  $account
 	 *
-	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function manualScanMail($params)
+	public function manualScanMail(int $uid, string $folder, array $account)
 	{
-		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
-		if (!$account) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $params['folder']);
-		$mail = $mailModel->getMail($mbox, $params['uid']);
+		$imapFolder = \App\Utils::convertCharacterEncoding($folder, 'UTF-8', 'UTF7-IMAP');
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $imapFolder);
+		$mail = $mailModel->getMail($mbox, $uid);
 		if (!$mail) {
 			return [];
 		}
+		$params = [];
 		if (empty($account['actions'])) {
 			$params['actions'] = ['CreatedEmail', 'BindAccounts', 'BindContacts', 'BindLeads'];
 		}
-		$return = self::executeActions($account, $mail, $params['folder'], $params);
+		$return = self::executeActions($account, $mail, $folder, $params);
 		unset($mail);
 
 		return $return;
@@ -323,43 +336,40 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param resource $mbox
 	 * @param array    $account
-	 * @param string   $folder
+	 * @param string   $folder      Character encoding UTF-8
 	 * @param int      $scan_id
 	 * @param int      $countEmails
 	 *
-	 * @return int
+	 * @throws \ReflectionException
+	 * @throws \yii\db\Exception
+	 *
+	 * @return mixed
 	 */
-	public static function mailScan($mbox, $account, $folder, $scan_id, $countEmails)
+	public static function mailScan($mbox, array $account, string $folder, int $scan_id, int $countEmails)
 	{
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
 		$msgno = imap_msgno($mbox, $lastScanUid);
 		$numMsg = imap_num_msg($mbox);
 		$getEmails = false;
 		if ($msgno === 0 && $numMsg !== 0) {
-			$lastEmailUid = imap_uid($mbox, $numMsg);
-			if ($lastScanUid === 1) {
-				$getEmails = true;
+			if ($lastScanUid === 0) {
 				$msgno = 1;
-			} elseif ($lastEmailUid > $lastScanUid) {
-				$exit = true;
-				while ($exit) {
-					++$lastScanUid;
-					$lastScanedNum = imap_msgno($mbox, $lastScanUid);
-					if ($lastScanedNum !== 0) {
-						$exit = false;
-						$msgno = $lastScanedNum;
-					} elseif ($lastScanUid === $lastEmailUid) {
-						$exit = false;
-						$msgno = $numMsg;
+				$getEmails = true;
+			} elseif (imap_uid($mbox, $numMsg) > $lastScanUid) {
+				foreach (imap_search($mbox, 'ALL', SE_UID) as $uid) {
+					if ($uid > $lastScanUid) {
+						$msgno = imap_msgno($mbox, $uid);
+						$getEmails = true;
+						break;
 					}
 				}
-				$getEmails = true;
 			}
 		} elseif ($msgno < $numMsg) {
 			++$msgno;
 			$getEmails = true;
 		}
 		if ($getEmails) {
+			$dbCommand = \App\Db::getInstance()->createCommand();
 			for ($i = $msgno; $i <= $numMsg; ++$i) {
 				$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 				$uid = imap_uid($mbox, $i);
@@ -367,10 +377,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 				self::executeActions($account, $mail, $folder);
 				unset($mail);
-				App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_folders_uid', ['uid' => $uid], ['user_id' => $account['user_id'], 'folder' => $folder])->execute();
+				$dbCommand->update('vtiger_ossmailscanner_folders_uid', ['uid' => $uid], ['user_id' => $account['user_id'], 'folder' => $folder])->execute();
 				++$countEmails;
 				self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
-				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+				if ($countEmails >= \App\Config::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					return $countEmails;
 				}
 			}
@@ -424,7 +434,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			return $cache;
 		}
 		$return = [];
-		$value = (new \App\Db\Query())->select('value')->from('vtiger_ossmailscanner_config')
+		$value = (new \App\Db\Query())->select(['value'])->from('vtiger_ossmailscanner_config')
 			->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
 			->scalar();
 		if (!empty($value)) {
@@ -505,35 +515,36 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			\App\Log::warning(\App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return \App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$countEmails = 0;
-		$scanId = 0;
 		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
 			\App\Log::info('There are no accounts to be scanned');
 			return false;
 		}
 		$this->setCronStatus(2);
+		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$countEmails = 0;
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
-			foreach ($scannerModel->getFolders($account['user_id']) as &$folderRow) {
-				$folder = $folderRow['folder'];
+			if (!$this->isConnection($account)) {
+				continue;
+			}
+			foreach ($scannerModel->getFolders($account['user_id']) as $folderRow) {
+				$folder = \App\Utils::convertCharacterEncoding($folderRow['folder'], 'UTF-8', 'UTF7-IMAP');
 				\App\Log::trace('Start checking folder: ' . $folder);
 
 				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false);
 				if (is_resource($mbox)) {
-					$countEmails = $scannerModel->mailScan($mbox, $account, $folder, $scanId, $countEmails);
+					$countEmails = $scannerModel->mailScan($mbox, $account, $folderRow['folder'], $scanId, $countEmails);
 					imap_close($mbox);
 					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 						\App\Log::info('Reached the maximum number of scanned mails');
 						self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 						$this->setCronStatus(1);
-
 						return 'ok';
 					}
 				} else {
-					\App\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , Error: " . imap_last_error());
+					\App\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , type: {$folderRow['type']} ,  Error: " . imap_last_error());
 				}
 			}
 		}
@@ -542,6 +553,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('End executeCron');
 
 		return 'ok';
+	}
+
+	/**
+	 * Function checks connection to mailbox.
+	 *
+	 * @param array $account
+	 *
+	 * @return bool
+	 */
+	public function isConnection(array $account)
+	{
+		$result = false;
+		try {
+			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '');
+			if (is_resource($mbox)) {
+				imap_close($mbox);
+				$result = true;
+			}
+		} catch (\Throwable $e) {
+			$result = false;
+		}
+		return $result;
 	}
 
 	/**
@@ -554,11 +587,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function getHistoryStatus($id)
 	{
 		switch ($id) {
-			case 0: $return = 'OK';
+			case 0:
+				$return = 'OK';
 				break;
-			case 1: $return = 'In progress';
+			case 1:
+				$return = 'In progress';
 				break;
-			case 2: $return = 'Manually stopped';
+			case 2:
+				$return = 'Manually stopped';
+				break;
+			default:
 				break;
 		}
 		return $return;
@@ -602,9 +640,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param array $array
 	 *
-	 * @return int|bool
+	 * @throws \yii\db\Exception
+	 *
+	 * @return int
 	 */
-	public function addScanHistory($array)
+	public function addScanHistory($array): int
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_ossmails_logs', ['status' => 1, 'user' => $array['user'], 'start_time' => date('Y-m-d H:i:s')])->execute();
@@ -695,19 +735,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function verificationCron()
 	{
 		$checkCronStatus = self::checkCronStatus();
-		if ($checkCronStatus !== false) {
-			if (!(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
-				$db = App\Db::getInstance();
-				$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
-				$config = self::getConfig('cron');
-				$mailStatus = \App\Mailer::addMail([
-						'to' => $config['email'],
-						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
-				]);
-				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
-				$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
-			}
+		if ($checkCronStatus !== false && !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
+			$db = App\Db::getInstance();
+			$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
+			$config = self::getConfig('cron');
+			$mailStatus = \App\Mailer::addMail([
+				'to' => $config['email'],
+				'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
+				'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+			]);
+			$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
+			$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
 		}
 	}
 

@@ -1,6 +1,0 @@
-{
-  "php": {
-    "LBL_CRON_EMAIL_SUBJECT": "Eingeplanter Import ist beendet",
-    "LBL_CRON_COMPLETED_IMPORT": "Ergebnis Import von Modul:"
-  }
-}

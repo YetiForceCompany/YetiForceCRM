@@ -177,7 +177,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->validate();
 			$this->saveToDb();
 			$this->afterSaveToDb();
-			(new App\BatchMethod(['method' => '\App\PrivilegeUtil::recalculateSharingRulesByUser', 'params' => App\Json::encode([$this->getId()])]))->save();
+			(new App\BatchMethod(['method' => '\App\PrivilegeUtil::recalculateSharingRulesByUser', 'params' => [$this->getId()]]))->save();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -269,21 +269,17 @@ class Users_Record_Model extends Vtiger_Record_Model
 		switch ($fieldName) {
 			case 'currency_id':
 				return CurrencyField::getDBCurrencyId();
-				break;
 			case 'accesskey':
 				return \App\Encryption::generatePassword(20, 'lbn');
-				break;
 			case 'language':
 				return \App\Language::getLanguage();
-				break;
 			case 'time_zone':
 				return App\Fields\DateTime::getTimeZone();
-				break;
 			case 'theme':
 				return Vtiger_Viewer::DEFAULTTHEME;
-				break;
 			case 'is_admin':
 				return 'off';
+			default:
 				break;
 		}
 		return false;
@@ -335,13 +331,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function afterSaveToDb()
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		if ($this->getPreviousValue('user_password') !== false && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
-			\App\Db::getInstance()->createCommand()
-				->insert('l_#__userpass_history', [
-					'pass' => \App\Encryption::createHash($this->get('user_password')),
-					'user_id' => $this->getId(),
-					'date' => date('Y-m-d H:i:s'),
-				])->execute();
+			$dbCommand->insert('l_#__userpass_history', [
+				'pass' => \App\Encryption::createHash($this->get('user_password')),
+				'user_id' => $this->getId(),
+				'date' => date('Y-m-d H:i:s'),
+			])->execute();
 		}
 		if ($this->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $this->getId()) {
 			App\Session::set('language', $this->get('language'));
@@ -350,6 +346,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
+		}
+		if ($this->getPreviousValue('sync_caldav') || $this->isNew()) {
+			$dbCommand->update('vtiger_activity', ['dav_status' => 1])->execute();
+		}
+		if ($this->getPreviousValue('sync_carddav') || $this->isNew()) {
+			$dbCommand->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
+			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 	}
 
@@ -411,7 +414,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
 			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
-			$users[$userModel->getId()] = $userModel;
+			$users[(int) $userModel->getId()] = $userModel;
 		}
 		$dataReader->close();
 
@@ -435,7 +438,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$subordinateUsers = [];
 		$subordinateRoleUsers = $privilegesModel->get('subordinate_roles_users');
 		if ($subordinateRoleUsers) {
-			foreach ($subordinateRoleUsers as $role => $users) {
+			foreach ($subordinateRoleUsers as $users) {
 				foreach ($users as $user) {
 					$subordinateUsers[$user] = $privilegesModel->getDisplayName();
 				}
@@ -548,9 +551,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getActivityView()
 	{
-		$activityView = $this->get('activity_view');
-
-		return $activityView;
+		return $this->get('activity_view');
 	}
 
 	/**
@@ -615,13 +616,17 @@ class Users_Record_Model extends Vtiger_Record_Model
 				if ($string) {
 					switch ($string) {
 						case 'Minute':
-						case 'Minutes': $activityReminderInSeconds = $number * 60;
+						case 'Minutes':
+							$activityReminderInSeconds = $number * 60;
 							break;
-						case 'Hour': $activityReminderInSeconds = $number * 60 * 60;
+						case 'Hour':
+							$activityReminderInSeconds = $number * 60 * 60;
 							break;
-						case 'Day': $activityReminderInSeconds = $number * 60 * 60 * 24;
+						case 'Day':
+							$activityReminderInSeconds = $number * 60 * 60 * 24;
 							break;
-						default: $activityReminderInSeconds = '';
+						default:
+							$activityReminderInSeconds = '';
 					}
 				}
 			}
@@ -706,7 +711,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				'status' => 'Inactive',
 				'date_modified' => date('Y-m-d H:i:s'),
 				'modified_user_id' => App\User::getCurrentUserRealId(),
-				], ['id' => $this->getId()])->execute();
+			], ['id' => $this->getId()])->execute();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -796,21 +801,29 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$return = '';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
-				case 'copy': $return .= ' oncopy = "return false"';
+				case 'copy':
+					$return .= ' oncopy = "return false"';
 					break;
-				case 'cut': $return .= ' oncut = "return false"';
+				case 'cut':
+					$return .= ' oncut = "return false"';
 					break;
-				case 'paste': $return .= ' onpaste = "return false"';
+				case 'paste':
+					$return .= ' onpaste = "return false"';
 					break;
-				case 'contextmenu': $return .= ' oncontextmenu = "return false"';
+				case 'contextmenu':
+					$return .= ' oncontextmenu = "return false"';
 					break;
-				case 'selectstart': $return .= ' onselectstart = "return false" onselect = "return false"';
+				case 'selectstart':
+					$return .= ' onselectstart = "return false" onselect = "return false"';
 					break;
-				case 'drag': $return .= ' ondragstart = "return false" ondrag = "return false"';
+				case 'drag':
+					$return .= ' ondragstart = "return false" ondrag = "return false"';
+					break;
+				default:
 					break;
 			}
 		}
-		return '';
+		return $return;
 	}
 
 	public function getHeadLocks()
@@ -818,17 +831,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$return = 'function lockFunction() {return false;}';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
-				case 'copy': $return .= ' document.oncopy = lockFunction;';
+				case 'copy':
+					$return .= ' document.oncopy = lockFunction;';
 					break;
-				case 'cut': $return .= ' document.oncut = lockFunction;';
+				case 'cut':
+					$return .= ' document.oncut = lockFunction;';
 					break;
-				case 'paste': $return .= ' document.onpaste = lockFunction;';
+				case 'paste':
+					$return .= ' document.onpaste = lockFunction;';
 					break;
-				case 'contextmenu': $return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+				case 'contextmenu':
+					$return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
 					break;
-				case 'selectstart': $return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+				case 'selectstart':
+					$return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
 					break;
-				case 'drag': $return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+				case 'drag':
+					$return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					break;
+				default:
 					break;
 			}
 		}
@@ -933,7 +954,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	protected function getAuthDetail()
 	{
 		if (\App\Cache::has('getAuthMethods', 'config')) {
-			$auth = \App\Cache::get('getAuthMethods', 'config');
+			return \App\Cache::get('getAuthMethods', 'config');
 		}
 		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
 		$auth = [];
@@ -971,5 +992,26 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Session::set('ShowUserPasswordChange', 1);
 		}
 		return false;
+	}
+
+	/**
+	 * Return user favourite users.
+	 *
+	 * @return array
+	 */
+	public function getFavouritesUsers()
+	{
+		if (\App\Cache::has('UsersFavourite', $this->getId())) {
+			$favouriteUsers = \App\Cache::get('UsersFavourite', $this->getId());
+		} else {
+			$query = new \App\Db\Query();
+			$favouriteUsers = $query->select(['fav_element_id', 'pinned_id' => 'fav_element_id'])
+				->from('u_#__users_pinned')
+				->where(['owner_id' => $this->getId()])
+				->createCommand()
+				->queryAllByGroup();
+			\App\Cache::save('UsersFavourite', $this->getId(), $favouriteUsers, \App\Cache::LONG);
+		}
+		return $favouriteUsers;
 	}
 }

@@ -70,16 +70,20 @@ class Project extends CRMEntity
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Project Name' => ['project', 'projectname'],
+		'Related to' => ['project', 'linktoaccountscontacts'],
 		'Start Date' => ['project', 'startdate'],
 		'Status' => ['project', 'projectstatus'],
 		'Type' => ['project', 'projecttype'],
+		'SINGLE_SSalesProcesses' => ['project', 'ssalesprocessesid'],
 	];
 	public $search_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Name' => 'projectname',
+		'Related to' => 'linktoaccountscontacts',
 		'Start Date' => 'startdate',
 		'Status' => 'projectstatus',
 		'Type' => 'projecttype',
+		'SINGLE_SSalesProcesses' => 'ssalesprocessesid',
 	];
 	// For Popup window record selection
 	public $popup_fields = ['projectname'];
@@ -96,14 +100,6 @@ class Project extends CRMEntity
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projectname', 'assigned_user_id'];
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string Module name
@@ -113,7 +109,6 @@ class Project extends CRMEntity
 	{
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
-			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
@@ -138,10 +133,8 @@ class Project extends CRMEntity
 				}
 			}
 
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PROJ')->set('cur_id', 1)->save();
 		} elseif ($eventType === 'module.postupdate') {
-			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
-
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -151,7 +144,7 @@ class Project extends CRMEntity
 				}
 			}
 
-			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
+			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PROJ')->set('cur_id', 1)->save();
 		}
 	}
 
@@ -207,7 +200,7 @@ class Project extends CRMEntity
 			'vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid', ];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relModule => $relTable) {
+			foreach ($relTableArr as $relTable) {
 				$idField = $tblFieldArr[$relTable];
 				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries

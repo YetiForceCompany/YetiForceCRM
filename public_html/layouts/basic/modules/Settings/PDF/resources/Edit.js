@@ -101,6 +101,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 						var container = thisInstance.currentInstance.getContainer();
 						thisInstance.registerFormSubmitEvent(container);
 						thisInstance.currentInstance.registerEvents();
+						thisInstance.registerEditors(container);
 					});
 
 				}
@@ -138,29 +139,156 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	},
 	registerMetatagsClickEvent: function (form) {
 		var metaTagsStatus = form.find('#metatags_status');
-		if (metaTagsStatus.is(':checked')) {
+		if (!metaTagsStatus.is(':checked')) {
 			form.find('.metatags').addClass('d-none');
 		} else {
 			form.find('.metatags').removeClass('d-none');
 		}
 
 		metaTagsStatus.on('change', function () {
-			var status = jQuery(this).is(':checked');
-			if (status) {
-				jQuery('.metatags', form).addClass('d-none');
+			const status = $(this).is(':checked');
+			if (!status) {
+				$('.metatags', form).addClass('d-none');
 			} else {
-				jQuery('#set_subject', form).val(jQuery('#secondary_name', form).val());
-				jQuery('#set_title', form).val(jQuery('#primary_name', form).val());
-				jQuery('.metatags', form).removeClass('d-none');
+				$('#set_subject', form).val($('#secondary_name', form).val());
+				$('#set_title', form).val($('#primary_name', form).val());
+				$('.metatags', form).removeClass('d-none');
 			}
 		});
 	},
-	registerEvents: function () {
-		var form = this.currentInstance.getContainer();
+	/**
+	 * Register wysiwyg editors
+	 * @param {jQuery} container
+	 * @param {array} fonts
+	 */
+	registerEditors(container, fonts = ['DejaVu Sans']) {
+		container.find('.js-editor').each(function () {
+			const editor = $(this);
+			if (typeof CONFIG.fonts !== 'undefined' && fonts.length === 1) {
+				fonts = CONFIG.fonts.map(font => font);
+				fonts.unshift('DejaVu Sans');
+			}
+			new App.Fields.Text.Editor(editor, {
+				entities_latin: false,
+				toolbar: 'PDF',
+				font_defaultLabel: 'DejaVu Sans',
+				fontSize_defaultLabel: '10px',
+				font_names: fonts.join(';'),
+				contentsCss: CONFIG.siteUrl + 'layouts/resources/fonts/fonts.css',
+				height: editor.attr('id') === 'body_content' ? '800px' : '80px',
+				stylesSet: [{
+					name: 'Komorka 14',
+					element: 'td',
+					attributes: {
+						style: 'font-size:14px'
+					}
+				}],
+				toolbar_PDF: [
+					{
+						name: 'clipboard',
+						items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+					},
+					{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+					{name: 'links', items: ['Link', 'Unlink']},
+					{name: 'insert', items: ['Image', 'Table', 'HorizontalRule']},
+					{name: 'tools', items: ['Maximize', 'ShowBlocks']},
+					{name: 'document', items: ['Source']},
+					'/',
+					{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+					{
+						name: 'basicstyles',
+						items: ['Bold', 'Italic', 'Underline', 'Strike']
+					},
+					{name: 'colors', items: ['TextColor', 'BGColor']},
+					{
+						name: 'paragraph',
+						items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']
+					},
+					{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+				],
+				allowedContent: {
+					'$1': {
+						elements: CKEDITOR.dtd,
+						attributes: true,
+						classes: true,
+						styles: {
+							'display': true,
+							'color': true,
+							'background-color': true,
+							'background-image': true,
+							'font-size': true,
+							'font-weight': true,
+							'font-family': true,
+							'text-align': true,
+							'text-transform': true,
+							'width': true,
+							'height': true,
+							'border': true,
+							'border-collapse': true,
+							'cell-spacing': true,
+							'vertical-align': true,
+							'margin-top': true,
+							'margin-bottom': true,
+							'margin-left': true,
+							'margin-right': true,
+							'padding-top': true,
+							'padding-bottom': true,
+							'padding-left': true,
+							'padding-right': true,
+							'margin': true,
+							'padding': true,
+							'border-color': true,
+							'border-width': true,
+							'border-style': true,
+							'border-top-color': true,
+							'border-top-width': true,
+							'border-top-style': true,
+							'border-right-color': true,
+							'border-right-width': true,
+							'border-right-style': true,
+							'border-bottom-color': true,
+							'border-bottom-width': true,
+							'border-bottom-style': true,
+							'border-left-color': true,
+							'border-left-width': true,
+							'border-left-style': true,
+							'line-height': true,
+						}
+					}
+				}
+			});
+		});
+	},
+	/**
+	 * Register wysiwyg editors with fonts
+	 * @param form
+	 */
+	registerEditorsWithFonts(form) {
+		$.ajax({
+			url: CONFIG.siteUrl + 'layouts/resources/fonts/fonts.json',
+			method: 'GET',
+			dataType: 'json'
+		}).done((response) => {
+			if (response.length === 0) {
+				return this.registerEditors(form);
+			}
+			const fonts = response.map(font => font.family).filter((val, index, self) => self.indexOf(val) === index);
+			CONFIG.fonts = fonts;
+			this.registerEditors(form, fonts);
+		}).fail(() => {
+			this.registerEditors(form);
+			app.errorLog("Could not load fonts.");
+		});
+	},
+	/**
+	 * Register events
+	 */
+	registerEvents() {
+		const form = this.currentInstance.getContainer();
 		this.registerFormSubmitEvent(form);
-		App.Fields.Text.registerCopyClipboard(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
 		this.registerMetatagsClickEvent(form);
+		this.registerEditorsWithFonts(form);
 	}
 });

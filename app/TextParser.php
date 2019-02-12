@@ -340,11 +340,11 @@ class TextParser
 	 *
 	 * @param string $text
 	 *
-	 * @return false|int
+	 * @return int
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**
@@ -382,7 +382,7 @@ class TextParser
 			Language::setTemporaryLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/u', function ($matches) {
-			list(, $params) = $matches;
+			list(, $params) = array_pad($matches, 2, '');
 			return $this->translate($params);
 		}, $this->content);
 		Language::clearTemporaryLanguage();
@@ -418,42 +418,38 @@ class TextParser
 			return Language::translate($params);
 		}
 		$aparams = explode('|', $params);
-		$moduleName = array_shift($aparams);
-		return Language::translate(reset($aparams), $moduleName, $this->language);
+		$module = array_shift($aparams);
+		return Language::translate(reset($aparams), $module, $this->language);
 	}
 
 	/**
 	 * Parsing organization detail.
 	 *
-	 * @param string $fieldName
+	 * @param string $params
 	 *
 	 * @return string
 	 */
-	protected function organization($fieldName)
+	protected function organization(string $params): string
 	{
-		$id = false;
-		if (strpos($fieldName, '|') !== false) {
-			$params = explode('|', $fieldName);
-			$fieldName = array_shift($params);
-			$id = array_shift($params);
+		if (strpos($params, '|') === false) {
+			return '';
 		}
-		$company = Company::getInstanceById($id);
-		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
-			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName);
-			if (!$logo || $logo->get('fileExists') === false) {
+		$returnVal = '';
+		[$id, $fieldName, $params] = array_pad(explode('|', $params, 3), 3, false);
+		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
+		if ($recordModel->has($fieldName)) {
+			$value = $recordModel->get($fieldName);
+			$fieldModel = $recordModel->getModule()->getField($fieldName);
+			if ($value === '' || !$fieldModel || !$this->useValue($fieldModel, 'MultiCompany')) {
 				return '';
 			}
-			$logoTitle = $company->get('name');
-			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
-			$logoHeight = $company->get($fieldName . '_height');
-			$src = \App\Fields\File::getImageBaseData($logo->get('imagePath'));
-
-			return "<img class=\"organizationLogo\" src=\"$src\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
-		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
-			return Company::$logoPath . $company->get($fieldName);
+			if ($this->withoutTranslations) {
+				$returnVal = $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
+			} else {
+				$returnVal = $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
+			}
 		}
-		return $company->get($fieldName);
+		return $returnVal;
 	}
 
 	/**
@@ -514,8 +510,9 @@ class TextParser
 			case 'UserTimeZone':
 				$userModel = \App\User::getCurrentUserModel();
 				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
+			default:
+				return $key;
 		}
-		return $key;
 	}
 
 	/**
@@ -598,9 +595,8 @@ class TextParser
 				if (strpos($key, ' ') !== false) {
 					list($key, $params) = explode(' ', $key);
 				}
-				switch ($key) {
-					case 'Comments':
-						return $this->getComments($params);
+				if ($key === 'Comments') {
+					return $this->getComments($params);
 				}
 				break;
 		}
@@ -616,7 +612,7 @@ class TextParser
 	 */
 	protected function relatedRecord($params)
 	{
-		list($fieldName, $relatedField, $relatedModule) = explode('|', $params);
+		list($fieldName, $relatedField, $relatedModule) = array_pad(explode('|', $params), 3, '');
 		if (!isset($this->recordModel) ||
 			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			$this->recordModel->isEmpty($fieldName)) {
@@ -625,6 +621,9 @@ class TextParser
 		$relatedId = $this->recordModel->get($fieldName);
 		if (empty($relatedId)) {
 			return '';
+		}
+		if (empty($relatedModule) && \in_array($this->recordModel->getField($fieldName)->getFieldDataType(), ['owner'])) {
+			$relatedModule = 'Users';
 		}
 		if ($relatedModule === 'Users') {
 			$ownerType = Fields\Owner::getType($relatedId);
@@ -656,16 +655,13 @@ class TextParser
 					$return[] = $instance->record($relatedField, false);
 				}
 			}
-
 			return implode($this->relatedRecordSeparator, $return);
 		}
-		$moduleName = Record::getType($relatedId);
-		if (!empty($moduleName)) {
-			if (($relatedModule && $relatedModule !== $moduleName)) {
-				return '';
-			}
+		$module = Record::getType($relatedId);
+		if (!empty($module) && ($relatedModule && $relatedModule !== $module)) {
+			return '';
 		}
-		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $moduleName);
+		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
 		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->$key)) {
@@ -790,6 +786,14 @@ class TextParser
 			$pagingModel->set('limit', (int) $limit);
 		}
 		if ($columns) {
+			$headerFields = [];
+			foreach (explode(',', $columns) as $fieldName) {
+				$headerFields[] = [
+					'field_name' => $fieldName,
+					'module_name' => $moduleName
+				];
+			}
+			$listView->set('header_fields', $headerFields);
 			$listView->getQueryGenerator()->setFields(explode(',', $columns));
 			$listView->getQueryGenerator()->setField('id');
 		}
@@ -830,14 +834,14 @@ class TextParser
 	 */
 	protected function getDisplayValueByField(\Vtiger_Field_Model $fieldModel, $value = false, $params = null)
 	{
-		$recordModel = $this->recordModel;
+		$model = $this->recordModel;
 		if ($value === false) {
 			$value = $this->recordModel->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
 				return '';
 			}
 		} elseif (is_object($value)) {
-			$recordModel = $value;
+			$model = $value;
 			$value = $value->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
 				return false;
@@ -847,9 +851,9 @@ class TextParser
 			return '';
 		}
 		if ($this->withoutTranslations) {
-			return $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
+			return $this->getDisplayValueByType($value, $model, $fieldModel, $params);
 		}
-		return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
+		return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $model, $params);
 	}
 
 	/**
@@ -889,7 +893,7 @@ class TextParser
 				$value = \DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 				if ((int) $userModel->get('hour_format') === 12) {
 					if ($value) {
-						list($hours, $minutes) = explode(':', $value);
+						list($hours, $minutes) = array_pad(explode(':', $value), 2, '');
 						$format = '$(translate : PM)$';
 						if ($hours > 12) {
 							$hours = (int) $hours - 12;
@@ -913,8 +917,8 @@ class TextParser
 				$value = $parentName = '';
 				if ($row) {
 					if ($row['depth'] > 0) {
-						$parenttrre = $row['parenttrre'];
-						$pieces = explode('::', $parenttrre);
+						$parentTree = $row['parentTree'];
+						$pieces = explode('::', $parentTree);
 						end($pieces);
 						$parent = prev($pieces);
 						$parentRow = Fields\Tree::getValueByTreeId($template, $parent);
@@ -996,17 +1000,17 @@ class TextParser
 		$params = explode('|', $params);
 		$parserName = array_shift($params);
 		$aparams = $params;
-		$moduleName = false;
+		$module = false;
 		if (!empty($params)) {
-			$moduleName = array_shift($params);
-			if (!Module::getModuleId($moduleName)) {
-				$moduleName = $this->moduleName;
+			$module = array_shift($params);
+			if (!Module::getModuleId($module)) {
+				$module = $this->moduleName;
 			}
 		}
-		if ($moduleName) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $moduleName, false);
+		if ($module) {
+			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $module, false);
 			if (!$handlerClass) {
-				Log::error("Not found custom class: $parserName|{$moduleName}");
+				Log::error("Not found custom class: $parserName|{$module}");
 				return '';
 			}
 			$instance = new $handlerClass($this, $params);
@@ -1164,20 +1168,7 @@ class TextParser
 				return Language::translate($value, 'Other.TextParser');
 			}, array_flip(static::$variableGeneral)),
 		];
-		$companyDetails = Company::getInstanceById()->getData();
-		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
-		$companyVariables = [];
-		foreach (array_keys($companyDetails) as $name) {
-			$companyVariables["$(organization : $name)$"] = Language::translate('LBL_' . strtoupper($name), 'Settings:Companies');
-		}
-		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
-		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_login)$'] = Language::translate('LBL_LOGO_PATH_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_main)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_mail)$'] = Language::translate('LBL_LOGO_PATH_MAIL', 'Settings:Companies');
-		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
-
 		return $variables;
 	}
 

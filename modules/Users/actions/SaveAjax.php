@@ -30,10 +30,8 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		parent::checkPermission($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			if ((int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if (!$currentUserModel->isAdminUser() && (int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -68,7 +66,15 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === ' ')) {
 				$displayValue = \App\Language::translate('LBL_SPACE', 'Users');
 			}
-			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
+			$prevDisplayValue = false;
+			if (($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName)) !== false) {
+				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
+			}
+			$result[$fieldName] = [
+				'value' => $fieldValue,
+				'display_value' => $displayValue,
+				'prev_display_value' => $prevDisplayValue
+			];
 		}
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();

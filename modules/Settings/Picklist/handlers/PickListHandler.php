@@ -54,12 +54,10 @@ class Settings_Picklist_PickListHandler_Handler
 			])->execute();
 		}
 		$dataReader->close();
-		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
-		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
 		//update advancefilter values
-		$dataReader = (new \App\Db\Query())->select(['cvid', 'value', 'columnindex', 'groupid'])
-			->from('vtiger_cvadvfilter')
-			->where(['columnname' => $advFiltercolumnName])
+		$dataReader = (new \App\Db\Query())->select(['id', 'value'])
+			->from('u_#__cv_condition')
+			->where(['field_name' => $pickListFieldName, 'module_name' => $moduleName])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
@@ -69,23 +67,18 @@ class Settings_Picklist_PickListHandler_Handler
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = implode(',', $explodedValueArray);
-			$dbCommand->update('vtiger_cvadvfilter', ['value' => $value], [
-				'columnname' => $advFiltercolumnName,
-				'cvid' => $row['cvid'],
-				'columnindex' => $row['columnindex'],
-				'groupid' => $row['groupid'],
-			])->execute();
+			$dbCommand->update('u_#__cv_condition', ['value' => $value], ['id' => $row['id']])->execute();
 		}
 		$dataReader->close();
 		//update Workflows values
 		$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
-				'and',
-				['module_name' => $moduleName],
-				['<>', 'test', ''],
-				['not', ['test' => null]],
-				['<>', 'test', 'null'],
-				['like', 'test', $oldValue],
-			])->createCommand()->query();
+			'and',
+			['module_name' => $moduleName],
+			['<>', 'test', ''],
+			['not', ['test' => null]],
+			['<>', 'test', 'null'],
+			['like', 'test', $oldValue],
+		])->createCommand()->query();
 
 		while ($row = $dataReader->read()) {
 			$condition = App\Purifier::decodeHtml($row['test']);
@@ -187,12 +180,9 @@ class Settings_Picklist_PickListHandler_Handler
 		$valueToDelete = $entityData['valuetodelete'];
 		$replaceValue = $entityData['replacevalue'];
 		$moduleName = $entityData['module'];
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
-		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
 		//update advancefilter values
-		$dataReader = (new \App\Db\Query())->select(['cvid', 'value', 'columnindex', 'groupid'])->from('vtiger_cvadvfilter')
-			->where(['columnname' => $advFiltercolumnName])
+		$dataReader = (new \App\Db\Query())->select(['id', 'value'])->from('u_#__cv_condition')
+			->where(['field_name' => $pickListFieldName, 'module_name' => $moduleName])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
@@ -204,24 +194,19 @@ class Settings_Picklist_PickListHandler_Handler
 				}
 			}
 			$value = implode(',', $explodedValueArray);
-			$dbCommand->update('vtiger_cvadvfilter', ['value' => $value], [
-				'columnname' => $advFiltercolumnName,
-				'cvid' => $row['cvid'],
-				'columnindex' => $row['columnindex'],
-				'groupid' => $row['groupid'],
-			])->execute();
+			$dbCommand->update('u_#__cv_condition', ['value' => $value], ['id' => $row['id']])->execute();
 		}
 		$dataReader->close();
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
 			$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
-					'and',
-					['module_name' => $moduleName],
-					['<>', 'test', ''],
-					['not', ['test' => null]],
-					['<>', 'test', 'null'],
-					['like', 'test', $value],
-				])->createCommand()->query();
+				'and',
+				['module_name' => $moduleName],
+				['<>', 'test', ''],
+				['not', ['test' => null]],
+				['<>', 'test', 'null'],
+				['like', 'test', $value],
+			])->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$condition = App\Purifier::decodeHtml($row['test']);
 				$decodedArrayConditions = \App\Json::decode($condition);

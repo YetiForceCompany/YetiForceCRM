@@ -172,7 +172,7 @@ class SharingAccess extends \Tests\Base
 		$this->changePermissions($modulePermissions);
 
 		foreach ($modulePermissions as $tabId => $permission) {
-			$this->assertSame((new \App\Db\Query())->select('permission')->from('vtiger_def_org_share')->where(['tabid' => $tabId])->scalar(), $permission);
+			$this->assertSame((new \App\Db\Query())->select(['permission'])->from('vtiger_def_org_share')->where(['tabid' => $tabId])->scalar(), $permission);
 		}
 
 		$modulePermissions = [6 => $oldPermission, 4 => $oldPermission];

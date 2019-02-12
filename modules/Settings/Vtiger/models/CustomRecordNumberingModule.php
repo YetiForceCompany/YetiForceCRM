@@ -47,7 +47,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 */
 	public static function getSupportedModules()
 	{
-		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$subQuery = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$modulesModels[$row['tabid']] = self::getInstance($row['name'], $row['tabid']);
@@ -67,7 +67,14 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$prefix = $this->get('prefix');
 		$postfix = $this->get('postfix');
 		$tabId = \App\Module::getModuleId($this->getName());
-		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix);
+		$instance = \App\Fields\RecordNumber::getInstance($this->getName());
+		$instance->set('tabid', $tabId);
+		$instance->set('prefix', $prefix);
+		$instance->set('cur_id', $this->get('sequenceNumber'));
+		$instance->set('postfix', $postfix);
+		$instance->set('leading_zeros', $this->get('leading_zeros'));
+		$instance->set('reset_sequence', $this->get('reset_sequence'));
+		$status = $instance->save();
 		$success = ['success' => $status];
 		if (!$status) {
 			$success['sequenceNumber'] = (new App\Db\Query())->select(['cur_id'])
@@ -76,15 +83,5 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 				->scalar();
 		}
 		return $success;
-	}
-
-	/**
-	 * Function to update record sequences which are under this module.
-	 *
-	 * @return array result of success
-	 */
-	public function updateRecordsWithSequence()
-	{
-		return $this->getFocus()->updateMissingSeqNumber($this->getName());
 	}
 }

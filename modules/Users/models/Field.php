@@ -55,20 +55,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get the Webservice Field data type.
-	 *
-	 * @return string Data type of the field
-	 */
-	public function getFieldDataType()
-	{
-		switch ($this->get('uitype')) {
-			case 101:
-				return 'userReference';
-		}
-		return parent::getFieldDataType();
-	}
-
-	/**
 	 * Function to check whether field is ajax editable'.
 	 *
 	 * @return bool
@@ -95,7 +81,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->get('uitype') == 115) {
 			$fieldPickListValues = [];
 			$query = (new \App\Db\Query())->select([$this->getFieldName()])->from('vtiger_' . $this->getFieldName());
-			$dataReader = $query->createCommand($db)->query();
+			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$picklistValue = $row[$this->getFieldName()];
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
@@ -105,16 +91,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 			return $fieldPickListValues;
 		}
 		return parent::getPicklistValues($skipCheckingRole);
-	}
-
-	/**
-	 * Function to returns all skins(themes).
-	 *
-	 * @return array
-	 */
-	public function getAllSkins()
-	{
-		return Vtiger_Theme::getAllSkins();
 	}
 
 	/**
@@ -180,7 +156,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditableReadOnly()
 	{
-		if ($this->getColumnName()==='login_method' && !\App\User::getCurrentUserModel()->isAdmin()) {
+		if ($this->getColumnName() === 'login_method' && !\App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
 		return parent::isEditableReadOnly();

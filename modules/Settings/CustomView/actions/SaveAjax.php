@@ -4,9 +4,9 @@
  * CustomView save class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -91,7 +91,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if ($type === 'default') {
 			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($tabid, $cvid, $user, $operator);
 		} elseif ($type === 'featured') {
-			$result = Settings_CustomView_Module_Model::setFeaturedFilterView($cvid, $user, $operator);
+			$result = CustomView_Record_Model::setFeaturedFilterView($cvid, $user, $operator);
 		}
 		if (!empty($result)) {
 			$data = [

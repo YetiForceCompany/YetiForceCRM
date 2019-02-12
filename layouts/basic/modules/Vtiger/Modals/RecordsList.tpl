@@ -53,7 +53,13 @@
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<td>
 							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
+							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+							{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+							{else}
+								{assign var=SEARCH_INFO value=[]}
+							{/if}
+							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 				</tr>
@@ -67,13 +73,14 @@
 									   type="checkbox" data-type="row" data-js="click"/>
 							{/if}
 						</td>
-						{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADERNAME from=$LISTVIEW_HEADERS}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 							<td class="{$WIDTHTYPE}" data-field="{$LISTVIEW_HEADERNAME}"
 								data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 								{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
 									{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME,true)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER,true)}
 								{/if}
 							</td>
 						{/foreach}

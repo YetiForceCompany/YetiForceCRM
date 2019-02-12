@@ -89,7 +89,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$uploadMaxSize = AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
-
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOR_MODULE', $moduleName);
@@ -102,10 +101,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('AUTO_MERGE_TYPES', Import_Module_Model::getAutoMergeTypes());
 		$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 		$viewer->assign('FOR_MODULE_MODEL', $importModule->getImportModuleModel());
-		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
+		$viewer->assign('ERROR_MESSAGE', $request->getByType('error_message', 'Text'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
 		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
-
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
@@ -126,12 +124,13 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$hasHeader = $fileReader->hasHeader();
 			$rowData = $fileReader->getFirstRowData($hasHeader);
 			$viewer = $this->getViewer($request);
-			$autoMerge = $request->get('auto_merge');
+			$autoMerge = $request->getBoolean('auto_merge');
 			if (!$autoMerge) {
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
+				$viewer->assign('MERGE_FIELDS', '');
 			} else {
-				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->get('merge_fields')));
+				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->getArray('merge_fields', 'Alnum')));
 			}
 			$moduleName = $request->getModule();
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -148,8 +147,8 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				}
 			}
 			if ($moduleModel->isInventory()) {
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
-				$inventoryFields = $inventoryFieldModel->getFields(true);
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
+				$inventoryFields = $inventoryModel->getFieldsByBlocks();
 				$inventoryFieldsBlock = [];
 				$blocksName = ['LBL_HEADLINE', 'LBL_BASIC_VERSE', 'LBL_ADDITIONAL_VERSE'];
 				foreach ($inventoryFields as $key => $data) {
@@ -194,22 +193,21 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer = new Vtiger_Viewer();
 		$moduleName = $request->getModule();
 		$ownerId = $request->getInteger('foruser');
-		$type = $request->get('type');
 		$user = App\User::getCurrentUserModel();
 		if (!$user->isAdmin() && $user->getId() !== $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
-			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+			$viewer->view('ExceptionError.tpl', 'Vtiger');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($type, $moduleName);
+		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($moduleName);
 		$viewer->assign('FOR_MODULE', $moduleName);
-		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
 		$viewer->assign('DELETED_RECORDS_COUNT', $noOfRecordsDeleted);
 		$viewer->view('ImportUndoResult.tpl', 'Import');
 	}
 
-	public function undoRecords($type, $moduleName)
+	public function undoRecords(string $moduleName)
 	{
 		$dbTableName = Import_Module_Model::getDbTableName(App\User::getCurrentUserModel());
 		$dataReader = (new \App\Db\Query())->select(['recordid'])
@@ -255,13 +253,11 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$importId = $request->getInteger('import_id');
 		$user = App\User::getCurrentUserModel();
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
-		if ($importInfo !== null) {
-			if ($importInfo['user_id'] === $user->getId() || $user->isAdmin()) {
-				$importDataController = new Import_Data_Action($importInfo, \App\User::getUserModel($importInfo['user_id']));
-				$importStatusCount = $importDataController->getImportStatusCount();
-				$importDataController->finishImport();
-				Import_Main_View::showResult($importInfo, $importStatusCount);
-			}
+		if ($importInfo !== null && ($importInfo['user_id'] === $user->getId() || $user->isAdmin())) {
+			$importDataController = new Import_Data_Action($importInfo, \App\User::getUserModel($importInfo['user_id']));
+			$importStatusCount = $importDataController->getImportStatusCount();
+			$importDataController->finishImport();
+			Import_Main_View::showResult($importInfo, $importStatusCount);
 		}
 	}
 
@@ -302,7 +298,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				return true;
 			}
 		}
-		Import_Module_Model::clearUserImportInfo($user);
+		if ($request->getMode() !== 'continueImport') {
+			Import_Module_Model::clearUserImportInfo($user);
+		}
 		return false;
 	}
 }

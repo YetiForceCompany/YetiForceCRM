@@ -65,9 +65,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		if(params.searchModule && params.searchModule !== '-'){
+		if (params.searchModule && params.searchModule !== '-') {
 			params.module = params.searchModule;
-		}else{
+		} else {
 			params.module = app.getModuleName();
 		}
 		params.view = 'BasicAjax';
@@ -75,10 +75,13 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		params.limit = this.reduceNumberResults;
 		params.html = this.returnHtml;
 		if (app.getParentModuleName()) {
-			params.parent = app.getParentModuleName()
+			params.parent = app.getParentModuleName();
 		}
-		if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
-			params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
+		params.operator = CONFIG.globalSearchDefaultOperator;
+		if (this.mainContainer) {
+			if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
+				params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
+			}
 		}
 		AppConnector.request(params).done(function (data) {
 			aDeferred.resolve(data);
@@ -94,8 +97,10 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		var searchModule = this.getCurrentSearchModule();
 		var params = {};
 		params.value = value;
-		if (typeof searchModule !== "undefined") {
+		if (typeof searchModule !== "undefined" && searchModule !== false) {
 			params.searchModule = searchModule;
+		} else if (this.searchModule) {
+			params.searchModule = this.searchModule;
 		}
 		return this._search(params);
 	},

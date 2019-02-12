@@ -10,8 +10,64 @@
 'use strict';
 
 //Globals initialization
-var App = {},
-	AppConnector,
+var AppConnector,
+	App = {
+		Components: {
+			Tree: {
+				Basic: class {
+					constructor(container = $('.js-tree-container')) {
+						this.treeInstance = false;
+						this.treeData = false;
+						this.generateTree(container);
+					}
+
+					generateTree(container) {
+						const slef = this;
+						if (slef.treeInstance === false) {
+							slef.treeInstance = container;
+							slef.treeInstance.on('select_node.jstree', function (e, data) {
+								data.instance.select_node(data.node.children_d);
+							}).on('deselect_node.jstree', function (e, data) {
+								data.instance.deselect_node(data.node.children_d);
+							}).jstree({
+								core: {
+									data: slef.getRecords(container),
+									themes: {
+										name: 'proton',
+										responsive: true
+									},
+								},
+								plugins: ["search", "checkbox"]
+							});
+							this.registerSearchEvent();
+						}
+					}
+
+					registerSearchEvent() {
+						const self = this;
+						let searchTimeout = false,
+							treeSearch = $('.js-tree-search');
+						treeSearch.on('keyup', () => {
+							if (searchTimeout) {
+								clearTimeout(searchTimeout);
+							}
+							searchTimeout = setTimeout(function () {
+								var searchValue = treeSearch.val();
+								self.treeInstance.jstree(true).search(searchValue);
+							}, 250);
+						});
+					}
+
+					getRecords(container) {
+						if (this.treeData === false && container !== "undefined") {
+							this.treeData = JSON.parse(container.find('.js-tree-data').val());
+						}
+						return this.treeData;
+					}
+				}
+			}
+		}
+	},
 	app = {
 		/**
 		 * variable stores client side language strings
@@ -28,7 +84,9 @@ var App = {},
 		},
 		cacheParams: [],
 		modalEvents: [],
+		mousePosition: {x: 0, y: 0},
 		childFrame: false,
+		touchDevice: false,
 		event: new function () {
 			this.el = $({});
 			this.trigger = function () {
@@ -70,12 +128,30 @@ var App = {},
 		getRecordId: function () {
 			var view = this.getViewName();
 			var recordId;
-			if (view == 'Edit' || 'PreferenceEdit') {
-				recordId = this.getMainParams('recordId');
-			} else if (view == 'Detail' || 'PreferenceDetail') {
+			if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
 				recordId = this.getMainParams('recordId');
 			}
 			return recordId;
+		},
+		/**
+		 * Function which will give you all details of the selected record
+		 * @params {object} params - an object of values like {'record' : recordId, 'module' : searchModule, 'fieldType' : 'email'}
+		 */
+		getRecordDetails: function (params) {
+			let aDeferred = $.Deferred();
+			if (app.getParentModuleName() === 'Settings') {
+				params.parent = 'Settings';
+			}
+			AppConnector.request(Object.assign(params, {action: 'GetData'})).done(function (data) {
+				if (data.success) {
+					aDeferred.resolve(data);
+				} else {
+					aDeferred.reject(data.message);
+				}
+			}).fail(function (error) {
+				aDeferred.reject();
+			});
+			return aDeferred.promise();
 		},
 		/**
 		 * Function to get language
@@ -99,6 +175,37 @@ var App = {},
 			} else {
 				return window;
 			}
+		},
+		/**
+		 * Function gets current window parent
+		 * @returns {boolean}
+		 */
+		isTouchDevice() {
+			let supportsTouch = false;
+			if ('ontouchstart' in window) { // iOS & android
+				supportsTouch = true;
+			} else if (window.navigator.msPointerEnabled) { // Win8
+				supportsTouch = true;
+			} else if ('ontouchstart' in document.documentElement) { //additional check
+				supportsTouch = true;
+			}
+			if (supportsTouch) { //remove browser scrollbar visibility (doesn't work in firefox, edge and ie)
+				$("<style type='text/css'> ::-webkit-scrollbar { display: none;} </style>").appendTo('head');
+			}
+			return supportsTouch;
+		},
+		/**
+		 * Check if string is json
+		 * @param {string} str
+		 * @returns {boolean}
+		 */
+		isJsonString(str) {
+			try {
+				JSON.parse(str);
+			} catch (e) {
+				return false;
+			}
+			return true;
 		},
 		/**
 		 * Function to set page title
@@ -126,73 +233,208 @@ var App = {},
 				}, 100);
 			});
 		},
-		registerPopoverManualTrigger(element) {
-			element.hoverIntent({
-				timeout: 150,
-				over: function () {
-					const self = this;
-					$(this).popover("show");
-					$(".popover").on("mouseleave", function () {
-						$(self).popover('hide');
-					});
-				},
-				out: function () {
-					if (!$(".popover:hover").length) {
-						$(this).popover('hide');
+		registerPopoverManualTrigger(element, manualTriggerDelay) {
+			const hideDelay = 500;
+			element.on("mouseleave", (e) => {
+				setTimeout(() => {
+					let currentPopover = this.getBindedPopover(element);
+					if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+						currentPopover.popover('hide');
 					}
-				}
+				}, hideDelay);
 			});
+
+			element.on("mouseenter", () => {
+				setTimeout(() => {
+					if (element.is(':hover')) {
+						element.popover("show");
+						let currentPopover = this.getBindedPopover(element);
+						currentPopover.on("mouseleave", () => {
+							setTimeout(() => {
+								if (!$(":hover").filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+									currentPopover.popover('hide'); //close current popover
+								}
+								if (!$(":hover").filter($(".popover")).length) {
+									$(".popover").popover('hide'); //close all popovers
+								}
+							}, hideDelay);
+						});
+					}
+				}, manualTriggerDelay);
+			});
+
 			app.hidePopoversAfterClick(element);
 		},
 		isEllipsisActive(element) {
 			let clone = element
 				.clone()
 				.addClass('u-text-ellipsis--not-active')
+				.css(element.css(['font-size', 'font-weight', 'font-family']))
 				.appendTo('body');
-			if (clone.width() > element.width()) {
+			clone.find('.u-text-ellipsis')
+				.removeClass('u-text-ellipsis').addClass('u-text-ellipsis--not-active');
+			if (clone.width() - 1 > element.width()) {
 				clone.remove();
 				return true;
 			}
 			clone.remove();
 			return false;
 		},
-		showPopoverElementView: function (selectElement, params = {}) {
+		showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 			let defaultParams = {
 				trigger: 'manual',
+				manualTriggerDelay: 500,
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 				container: 'body',
-				delay: {"show": 300, "hide": 100},
+				boundary: 'viewport',
+				delay: {"show": 300, "hide": 100}
 			};
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
-				if (element.data('ellipsis')) {
-					defaultParams.trigger = 'hover focus';
-					if (!app.isEllipsisActive(element)) {
-						return;
-					}
-				}
 				let elementParams = $.extend(true, defaultParams, params, element.data());
 				if (element.data('class')) {
 					elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 				}
 				if (element.hasClass('delay0')) {
-					elementParams.delay = {show: 0, hide: 0}
+					elementParams.delay = {show: 0, hide: 0};
 				}
 				element.popover(elementParams);
 				if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
-					app.registerPopoverManualTrigger(element);
+					app.registerPopoverManualTrigger(element, elementParams.manualTriggerDelay);
 				}
+				if (elementParams.callbackShown) {
+					element.on('shown.bs.popover', function (e) {
+						elementParams.callbackShown(e);
+					});
+				}
+				element.addClass('popover-triggered');
 			});
 			return selectElement;
+		},
+		registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis'), params = {trigger: 'hover focus'}) {
+			const self = this;
+			params = {
+				callbackShown: () => {
+					self.setPopoverPosition(selectElement);
+				},
+				trigger: 'manual',
+				placement: 'right',
+				template: '<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
+			};
+			let popoverText = selectElement.find('.js-popover-text').length ? selectElement.find('.js-popover-text') : selectElement;
+			if (!app.isEllipsisActive(popoverText)) {
+				selectElement.addClass('popover-triggered');
+				return;
+			}
+			app.showPopoverElementView(selectElement, params);
+		},
+		registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = {trigger: 'hover focus'}) {
+			selectElement.each(function (index, domElement) {
+				let element = $(domElement);
+				let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
+				if (!app.isEllipsisActive(popoverText)) {
+					return;
+				}
+				let iconElement = element.find('.js-popover-icon');
+				if (iconElement.length) {
+					element.find('.js-popover-icon').removeClass('d-none');
+					params.selector = '.js-popover-icon';
+				}
+				app.showPopoverElementView(element, params);
+			});
+		},
+		/**
+		 * Register popover record
+		 * @param {jQuery} selectElement
+		 * @param {object} customParams
+		 */
+		registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+			const self = this;
+			let params = {
+				template: '<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
+				content: '<div class="d-none"></div>',
+				manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
+				placement: 'right',
+				callbackShown: () => {
+					if (!selectElement.attr('href')) {
+						return false;
+					}
+					let link = new URL(selectElement.get(0).href);
+					if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
+						return false;
+					}
+					let url = link.href;
+					url = url.replace('view=', 'xview=') + '&view=RecordPopover';
+					let currentPopover = self.getBindedPopover(selectElement);
+					let popoverBody = currentPopover.find('.popover-body');
+					popoverBody.progressIndicator({});
+					let appendPopoverData = (data) => {
+						popoverBody.progressIndicator({mode: 'hide'}).html(data);
+						if (typeof customParams.callback === 'function') {
+							customParams.callback(popoverBody);
+						}
+						self.setPopoverPosition(selectElement);
+					};
+					let cacheData = window.popoverCache[url];
+					if (typeof cacheData !== 'undefined') {
+						appendPopoverData(cacheData);
+					} else {
+						AppConnector.request(url).done((data) => {
+							window.popoverCache[url] = data;
+							appendPopoverData(data);
+						});
+					}
+				}
+			};
+			app.showPopoverElementView(selectElement, params);
+		},
+		/**
+		 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
+		 * @param {jQuery} popover
+		 * @param {number} offsetLeft
+		 */
+		setPopoverPosition(popoverElement) {
+			let popover = this.getBindedPopover(popoverElement);
+			if (!popover.length) {
+				return;
+			}
+			let windowHeight = $(window).height(),
+				windowWidth = $(window).width(),
+				popoverPadding = 10,
+				popoverBody = popover.find('.popover-body'),
+				popoverHeight = popoverBody.height(),
+				popoverWidth = popoverBody.width(),
+				offsetTop = app.mousePosition.y,
+				offsetLeft = app.mousePosition.x;
+			if (popoverHeight + offsetTop + popoverPadding > windowHeight) {
+				offsetTop = offsetTop - popoverHeight - popoverPadding;
+			}
+			if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
+				offsetLeft = offsetLeft - popoverWidth - popoverPadding;
+			}
+			popover.css({
+				'transform': `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
+			});
+			popover.removeClass('js-popover--before-positioned');
+			popoverElement.one('hide.bs.popover', () => {
+				popover.addClass('js-popover--before-positioned');
+			});
+		},
+		/**
+		 * Get binded popover
+		 * @param {jQuery} element
+		 * @returns {Mixed|jQuery|HTMLElement}
+		 */
+		getBindedPopover(element) {
+			return $(`#${element.attr('aria-describedby')}`);
 		},
 		/**
 		 * Function to check the maximum selection size of multiselect and update the results
 		 * @params <object> multiSelectElement
 		 * @params <object> select2 params
 		 */
-
 		registerChangeEventForMultiSelect: function (selectElement, params) {
 			if (typeof selectElement === "undefined") {
 				return;
@@ -281,21 +523,16 @@ var App = {},
 			modalContainer.one('shown.bs.modal', function () {
 				cb(modalContainer);
 				App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
-				App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 				App.Fields.Date.register(modalContainer);
 				new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
 					height: '5em',
 					toolbar: 'Min'
 				});
-				let modalScroll = modalContainer.find('.js-show-scroll');
-				if (modalScroll.length) {
-					app.showNewScrollbar(modalScroll);
-				}
+				app.registesterScrollbar(modalContainer);
 			});
 			$('body').append(container);
 			modalContainer.modal(params);
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-			thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 		},
 		showModalWindow: function (data, url, cb, paramsObject) {
@@ -305,6 +542,7 @@ var App = {},
 				return;
 			}
 			const thisInstance = this;
+			let sendByAjaxCb;
 			Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 			//null is also an object
 			if (typeof data === 'object' && data != null && !(data instanceof $)) {
@@ -315,7 +553,7 @@ var App = {},
 				cb = data.cb;
 				url = data.url;
 				if (data.sendByAjaxCb !== "undefined") {
-					var sendByAjaxCb = data.sendByAjaxCb;
+					sendByAjaxCb = data.sendByAjaxCb;
 				}
 				data = data.data;
 			}
@@ -336,7 +574,7 @@ var App = {},
 				}
 			}
 			if (typeof sendByAjaxCb !== 'function') {
-				var sendByAjaxCb = function () {
+				sendByAjaxCb = function () {
 				}
 			}
 			if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
@@ -351,9 +589,8 @@ var App = {},
 			container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
 			container.one('hidden.bs.modal', function () {
 				container.remove();
-				var backdrop = $('.modal-backdrop');
-				var modalContainers = $('.modalContainer');
-				if (modalContainers.length == 0 && backdrop.length) {
+				let backdrop = $('.modal-backdrop');
+				if (!$('.modal.show').length) {
 					backdrop.remove();
 				}
 				if (backdrop.length > 0) {
@@ -374,8 +611,13 @@ var App = {},
 		 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 		 */
 		hideModalWindow: function (callback, id) {
+			if (window.parent !== window) {
+				this.childFrame = true;
+				window.parent.app.hideModalWindow(callback, id);
+				return;
+			}
 			let container;
-			if (typeof callback === 'object') {
+			if (callback && typeof callback === 'object') {
 				container = callback;
 			} else if (id == undefined) {
 				container = $('.modalContainer');
@@ -488,17 +730,15 @@ var App = {},
 			// Reference: http://www.position-absolute.com/articles/jquery-form-validator-because-form-validation-is-a-mess/
 			scroll: false,
 			promptPosition: 'topLeft',
-			//to support validation for chosen select box
+			//to support validation for select2 select box
 			prettySelect: true,
-			useSuffix: "_chosen",
 			usePrefix: "s2id_",
 		},
 		validationEngineOptionsForRecord: {
 			scroll: false,
 			promptPosition: 'topLeft',
-			//to support validation for chosen select box
+			//to support validation for select2 select box
 			prettySelect: true,
-			useSuffix: "_chosen",
 			usePrefix: "s2id_",
 			validateNonVisibleFields: true,
 			onBeforePromptType: function (field) {
@@ -507,6 +747,12 @@ var App = {},
 					block.find('.blockHeader').click();
 				}
 			},
+		},
+		/**
+		 * Default scroll options
+		 */
+		scrollOptions: {
+			wheelSpeed: 0.1
 		},
 		/**
 		 * Function to push down the error message size when validation is invoked
@@ -555,8 +801,8 @@ var App = {},
 			}
 		},
 		convertTojQueryDatePickerFormat: function (dateFormat) {
-			var i = 0;
-			var dotMode = '-';
+			let i,
+				dotMode = '-';
 			if (dateFormat.indexOf("-") !== -1) {
 				dotMode = '-';
 			}
@@ -566,17 +812,14 @@ var App = {},
 			if (dateFormat.indexOf("/") !== -1) {
 				dotMode = '/';
 			}
-			var splitDateFormat = dateFormat.split(dotMode);
-			for (var i in splitDateFormat) {
-				var sectionDate = splitDateFormat[i];
-				var sectionCount = sectionDate.length;
-				if (sectionCount == 4) {
-					var strippedString = sectionDate.substring(0, 2);
-					splitDateFormat[i] = strippedString;
+			let splitDateFormat = dateFormat.split(dotMode);
+			for (i in splitDateFormat) {
+				let sectionDate = splitDateFormat[i];
+				if (sectionDate.length === 4) {
+					splitDateFormat[i] = sectionDate.substring(0, 2);
 				}
 			}
-			var joinedDateFormat = splitDateFormat.join(dotMode);
-			return joinedDateFormat;
+			return splitDateFormat.join(dotMode);
 		},
 		/*
 		 * Converts user formated date to database format yyyy-mm-dd
@@ -618,47 +861,68 @@ var App = {},
 			}
 
 			parentElement = $(parentElement);
-
+			let element;
 			if (parentElement.hasClass('dateField')) {
-				var element = parentElement;
+				element = parentElement;
 			} else {
-				var element = $('.dateField', parentElement);
+				element = $('.dateField', parentElement);
 			}
 			element.datepicker({'autoclose': true}).on('changeDate', function (ev) {
-				var currentElement = $(ev.currentTarget);
-				var dateFormat = currentElement.data('dateFormat').toUpperCase();
-				var date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
+				let currentElement = $(ev.currentTarget),
+					dateFormat = currentElement.data('dateFormat').toUpperCase(),
+					date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 				currentElement.val(date);
 			});
 		},
-		registerEventForClockPicker: function (object) {
-			let elementClockBtn, formatTime;
-			if (typeof object === "undefined") {
-				elementClockBtn = $('.clockPicker');
-				formatTime = CONFIG.hourFormat;
-			} else {
-				elementClockBtn = object;
-				formatTime = elementClockBtn.data('format');
+		registerEventForClockPicker: function (timeInputs = $('.clockPicker')) {
+			if (!timeInputs.hasClass('clockPicker')) {
+				timeInputs = timeInputs.find('.clockPicker');
 			}
-			formatTime = formatTime === 12 ? true : false;
+			if (!timeInputs.length) {
+				return;
+			}
 			let params = {
 				placement: 'bottom',
 				autoclose: true,
-				twelvehour: formatTime,
-				minutestep: 5,
-				ampmSubmit: false
+				minutestep: 5
 			};
+
 			$('.js-clock__btn').on('click', (e) => {
-				let elem = $(e.currentTarget);
 				e.stopPropagation();
-				let tempElement = elem.closest('.time').find('input.clockPicker');
-				if (tempElement.attr('disabled') !== 'disabled') {
+				let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
+				if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 					tempElement.clockpicker('show');
 				}
 			});
-			elementClockBtn.clockpicker(params);
+
+			let formatTimeString = (timeInput) => {
+				if (params.twelvehour) {
+					let meridiemTime = '';
+					params.afterDone = () => { //format time string after picking a value
+						let timeString = timeInput.val(),
+							timeStringFormatted = timeString.slice(0, timeString.length - 2) + ' ' + meridiemTime;
+						timeInput.val(timeStringFormatted);
+						app.event.trigger('Clockpicker.changed', timeInput);
+					};
+					params.beforeHide = () => {
+						meridiemTime = $('.clockpicker-buttons-am-pm:visible').find('a:not(.text-white-50)').text();
+					};
+				} else {
+					params.afterDone = () => {
+						app.event.trigger('Clockpicker.changed', timeInput);
+					};
+				}
+			}
+
+			timeInputs.each((i, e) => {
+				let timeInput = $(e);
+				let formatTime = timeInputs.data('format') || CONFIG.hourFormat;
+				params.twelvehour = parseInt(formatTime) === 12 ? true : false;
+				formatTimeString(timeInput);
+				timeInput.clockpicker(params);
+			});
 		},
-		registerDataTables: function (table) {
+		registerDataTables: function (table, options = {}) {
 			if ($.fn.dataTable == undefined) {
 				return false;
 			}
@@ -688,17 +952,7 @@ var App = {},
 					}
 				}
 			});
-			return table.DataTable();
-		},
-		/**
-		 * Function to get the chosen element from the raw select element
-		 * @params: select element
-		 * @return : chosenElement - corresponding chosen element
-		 */
-		getChosenElementFromSelect: function (selectElement) {
-			var selectId = selectElement.attr('id');
-			var chosenEleId = selectId + '_chosen';
-			return $('#' + chosenEleId);
+			return table.DataTable(options);
 		},
 		/**
 		 * Function to get the select2 element from the raw select element
@@ -712,17 +966,6 @@ var App = {},
 			return $('#' + select2EleId).closest('.select2-container');
 		},
 		/**
-		 * Function to get the select element from the chosen element
-		 * @params: chosen element
-		 * @return : selectElement - corresponding select element
-		 */
-		getSelectElementFromChosen: function (chosenElement) {
-			var chosenId = chosenElement.attr('id');
-			var selectEleIdArr = chosenId.split('_chosen');
-			var selectEleId = selectEleIdArr['0'];
-			return $('#' + selectEleId);
-		},
-		/**
 		 * Function to set with of the element to parent width
 		 * @params : jQuery element for which the action to take place
 		 */
@@ -732,18 +975,16 @@ var App = {},
 				$(element).width(parentWidth);
 			});
 		},
-		showNewScrollbar: function (element, options) {
+		showNewScrollbar: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-
-			return new PerfectScrollbar(element[0], options);
+			return new PerfectScrollbar(element[0], Object.assign(this.scrollOptions, options));
 		},
-		showNewScrollbarTopBottomRight: function (element) {
+		showNewScrollbarTopBottomRight: function (element, options = {}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+			options = Object.assign(this.scrollOptions, options);
+			let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
 			let scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
 				top: 0,
@@ -753,20 +994,15 @@ var App = {},
 				top: 2,
 				bottom: 'auto'
 			});
-			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+			let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 			return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 		},
-		showNewScrollbarTopBottom: function (element) {
+		showNewScrollbarTopBottom: function (element, options = {wheelPropagation: true, suppressScrollY: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			var scrollbarTopInit = new PerfectScrollbar(element[0], {
-				wheelPropagation: true,
-				suppressScrollY: true
-			});
-			var scrollbarBottomInit = new PerfectScrollbar(element[0], {
-				wheelPropagation: true,
-				suppressScrollY: true
-			});
+			options = Object.assign(this.scrollOptions, options);
+			new PerfectScrollbar(element[0], options);
+			new PerfectScrollbar(element[0], options);
 			var scrollbarTopElement = element.find('.ps__rail-x').first();
 			scrollbarTopElement.css({
 				top: 0,
@@ -777,13 +1013,26 @@ var App = {},
 				bottom: 'auto'
 			});
 		},
-		showNewScrollbarLeft: function (element, options) {
+		showNewScrollbarTop: function (element, options = {wheelPropagation: true, suppressScrollY: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-			options.wheelPropagation = true;
-			var scrollbarLeftInit = new PerfectScrollbar(element[0], options);
+			options = Object.assign(this.scrollOptions, options);
+			new PerfectScrollbar(element[0], options);
+			var scrollbarTopElement = element.find('.ps__rail-x').first();
+			scrollbarTopElement.css({
+				top: 0,
+				bottom: 'auto'
+			});
+			scrollbarTopElement.find('.ps__thumb-x').css({
+				top: 2,
+				bottom: 'auto'
+			});
+		},
+		showNewScrollbarLeft: function (element, options = {wheelPropagation: true}) {
+			if (typeof element === "undefined" || !element.length)
+				return;
+			options = Object.assign(this.scrollOptions, options);
+			new PerfectScrollbar(element[0], options);
 			var scrollbarLeftElement = element.children('.ps__rail-y').first();
 			scrollbarLeftElement.css({
 				left: 0,
@@ -794,12 +1043,43 @@ var App = {},
 				right: 'auto'
 			});
 		},
-		showScrollBar: function (element, options) {
-			if (typeof options === "undefined")
-				options = {};
+		showScrollBar: function (element, options = {}) {
 			if (typeof options.height === "undefined")
 				options.height = element.css('height');
 			return element.slimScroll(options);
+		},
+		/**
+		 * Register middle scroll hack for scrollbar libraries
+		 * @param {jQuery} container
+		 */
+		registerMiddleClickScroll(container) {
+			let middleScroll = false;
+			container.on('mousedown', (e) => {
+				let clickedMouseButton = e.which; // get clicked button id
+				if (clickedMouseButton == 2 && middleScroll == false) {
+					middleScroll = true;
+					let mouseY = e.pageY,
+						mouseX = e.pageX;
+					$(document).on('mousemove', (e) => {
+						if (middleScroll == true) {
+							$('body').addClass('u-cursor-scroll-all');
+							let mouseMoveY = mouseY - e.pageY,
+								scrollSlowerRate = 100, // higher number = slower scroll
+								contentScrollY = container.scrollTop(),
+								scrollerY = contentScrollY - mouseMoveY - scrollSlowerRate,
+								mouseMoveX = mouseX - e.pageX,
+								contentScrollX = container.scrollLeft(),
+								scrollerX = contentScrollX - mouseMoveX - scrollSlowerRate;
+							container.scrollTop(scrollerY);
+							container.scrollLeft(scrollerX);
+						}
+					});
+				}
+			});
+			container.on('mouseup', () => {
+				$('body').removeClass('u-cursor-scroll-all');
+				middleScroll = false;
+			});
 		},
 		/**
 		 * Function returns translated string
@@ -816,28 +1096,22 @@ var App = {},
 		cacheNSKey: function (key) { // Namespace in client-storage
 			return 'yf.' + key;
 		},
-		cacheGet: function (key, defvalue) {
+		cacheGet: function (key) {
 			key = this.cacheNSKey(key);
-			return $.jStorage.get(key, defvalue);
+			return store.get(key);
 		},
-		cacheSet: function (key, value, ttl) {
+		cacheSet: function (key, value) {
 			key = this.cacheNSKey(key);
-			$.jStorage.set(key, value);
-			if (ttl) {
-				$.jStorage.setTTL(key, ttl);
-			}
+			store.set(key, value);
 		},
 		cacheClear: function (key) {
 			key = this.cacheNSKey(key);
-			return $.jStorage.deleteKey(key);
+			return store.remove(key);
 		},
-		moduleCacheSet: function (key, value, ttl) {
-			if (ttl == undefined) {
-				ttl = 12 * 60 * 60 * 1000;
-			}
+		moduleCacheSet: function (key, value) {
 			var orgKey = key;
 			key = this.getModuleName() + '_' + key;
-			this.cacheSet(key, value, ttl);
+			this.cacheSet(key, value);
 
 			var cacheKey = 'mCache' + this.getModuleName();
 			var moduleCache = this.cacheGet(cacheKey);
@@ -961,6 +1235,15 @@ var App = {},
 					return window.pageController = window[moduleClassName];
 				}
 			}
+			let moduleBaseClassName = parentModule + "_" + moduleName + "_" + "Index_Js";
+			if (typeof window[moduleBaseClassName] !== "undefined") {
+				if (typeof window[moduleBaseClassName] === 'function') {
+					return window.pageController = new window[moduleBaseClassName]();
+				}
+				if (typeof window[moduleBaseClassName] === 'object') {
+					return window.pageController = window[moduleBaseClassName];
+				}
+			}
 		},
 		/**
 		 * Function to decode the encoded htmlentities values
@@ -995,7 +1278,7 @@ var App = {},
 		getUrlVar: function (varName) {
 			var getVar = function () {
 				var vars = {};
-				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+				window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 					vars[key] = value;
 				});
 				return vars;
@@ -1052,17 +1335,29 @@ var App = {},
 			});
 			return aDeferred.promise();
 		},
+		/**
+		 * Hack for Safari breaking down, when sending empty file input
+		 * @param html
+		 */
+		removeEmptyFilesInput(form) {
+			for (let i = 0; i < form.elements.length; i++) {
+				if (form.elements[i].type === 'file') {
+					if (form.elements[i].value === '') {
+						form.elements[i].parentNode.removeChild(form.elements[i]);
+					}
+				}
+			}
+		},
 		getMainParams: function (param, json) {
 			if (param in CONFIG) {
 				return CONFIG[param];
 			}
-			if (app.cacheParams[param] == undefined) {
-				var value = $('#' + param).val();
-				app.cacheParams[param] = value;
+			if (app.cacheParams[param] === undefined) {
+				app.cacheParams[param] = $('#' + param).val();
 			}
-			var value = app.cacheParams[param];
+			let value = app.cacheParams[param];
 			if (json) {
-				if (value != '') {
+				if (value) {
 					value = JSON.parse(value);
 				} else {
 					value = [];
@@ -1073,40 +1368,6 @@ var App = {},
 		setMainParams: function (param, value) {
 			app.cacheParams[param] = value;
 			$('#' + param).val(value);
-		},
-		parseNumberToShow(val, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
-			if (val === undefined) {
-				val = 0;
-			}
-			let groupSeparator = CONFIG.currencyGroupingSeparator;
-			let groupingPattern = app.getMainParams('currencyGroupingPattern');
-			val = parseFloat(val).toFixed(numberOfDecimal);
-			let a = val.toString().split('.');
-			let integer = a[0];
-			let decimal = a[1];
-			if (groupingPattern === '123,456,789') {
-				integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-			} else if (groupingPattern === '123456,789') {
-				integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
-			} else if (groupingPattern === '12,34,56,789') {
-				integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
-			}
-			if (numberOfDecimal) {
-				return integer + CONFIG.currencyDecimalSeparator + decimal;
-			}
-			return integer;
-		},
-		parseNumberToFloat: function (val) {
-			var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
-			var groupSeparator = CONFIG.currencyGroupingSeparator;
-			var decimalSeparator = CONFIG.currencyDecimalSeparator;
-			if (val == undefined || val == '') {
-				val = 0;
-			}
-			val = val.toString();
-			val = val.split(groupSeparator).join("");
-			val = val.replace(/\s/g, "").replace(decimalSeparator, ".");
-			return parseFloat(val);
 		},
 		errorLog: function (error, err, errorThrown) {
 			if (!CONFIG.debug) {
@@ -1181,12 +1442,13 @@ var App = {},
 			}
 		},
 		registerSticky: function () {
-			var elements = $('.stick');
+			const elements = $('.stick');
 			elements.each(function () {
-				var currentElement = $(this);
-				var position = currentElement.data('position');
-				if (position == 'top') {
-					var offsetTop = currentElement.offset().top - 50;
+				let currentElement = $(this),
+					position = currentElement.data('position'),
+					offsetTop;
+				if (position === 'top') {
+					offsetTop = currentElement.offset().top - 50;
 					$('.mainBody').on('scroll', function () {
 						if ($(this).scrollTop() > offsetTop)
 							currentElement.css({
@@ -1202,8 +1464,8 @@ var App = {},
 							});
 					});
 				}
-				if (position == 'bottom') {
-					var offsetTop = currentElement.offset().top - $(window).height();
+				if (position === 'bottom') {
+					offsetTop = currentElement.offset().top - $(window).height();
 					$('.mainBody').on('scroll', function () {
 						if ($(this).scrollTop() < offsetTop)
 							currentElement.css({
@@ -1233,21 +1495,6 @@ var App = {},
 					btn.text(btn.data('on'));
 				}
 			});
-		},
-		registerMenuTextHoverEvent() {
-			$('.js-menu__item').on('mouseenter', function () {
-				setTimeout(() => {
-					let target = $(this);
-					if (target.is(':hover')) {
-						target.find('.js-menu__item__text').first().addClass('u-white-space-n');
-					}
-				}, 300);
-			}).on('mouseleave', function () {
-				let target = $(this);
-				if (!target.is(':hover')) {
-					target.find('.js-menu__item__text').first().removeClass('u-white-space-n');
-				}
-			})
 		},
 		registerMenu: function () {
 			const self = this;
@@ -1280,7 +1527,6 @@ var App = {},
 					window.location = $(e.currentTarget).attr('href');
 				}
 			});
-			self.registerMenuTextHoverEvent();
 			self.registerPinEvent();
 		},
 		openSidebar: function () {
@@ -1335,7 +1581,6 @@ var App = {},
 		},
 		sidebarKeyboard: function (e) {
 			let target = $(e.target);
-			let toggler = $(e.target).closest('.js-submenu-toggler');
 			if (e.which == this.keyboard.LEFT) {
 				if (target.hasClass('js-submenu-toggler') && !target.hasClass('collapsed')) {
 					target.click();
@@ -1386,21 +1631,6 @@ var App = {},
 			}
 			return $(window).height() * percantage / 100;
 		},
-		setCalendarHeight() {
-			const container = $('.js-base-container');
-			const paddingTop = 10;
-			if ($(window).width() > 993) {
-				let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
-				new ResizeSensor(container.find('.contentsDiv'), () => {
-					calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
-					$('#calendarview').fullCalendar('option', 'height', calendarH);
-					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stop working
-				});
-				return calendarH;
-			} else if ($(window).width() < 993) {
-				return 'auto';
-			}
-		},
 		clearBrowsingHistory: function () {
 			AppConnector.request({
 				module: 'Home',
@@ -1408,6 +1638,17 @@ var App = {},
 			}).done(function (response) {
 				$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 			});
+		},
+		/**
+		 * Open url in top window
+		 * @param string url
+		 */
+		openUrl(url) {
+			if (window.location !== window.top.location) {
+				window.top.location.href = url;
+			} else {
+				window.location.href = url;
+			}
 		},
 		showConfirmation: function (data, element) {
 			var params = {};
@@ -1429,7 +1670,7 @@ var App = {},
 			Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 				if (params.type == 'href') {
 					AppConnector.request(params.url).done(function (data) {
-						window.location.href = data.result;
+						app.openUrl(data.result);
 					});
 				} else if (params.type == 'reloadTab') {
 					AppConnector.request(params.url).done(function (data) {
@@ -1513,36 +1754,239 @@ var App = {},
 			var txt = document.createElement('textarea');
 			txt.innerHTML = html;
 			return txt.value;
+		},
+		showAlert: function (customParams) {
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					type: 'error',
+					hide: false,
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true,
+							buttons: [{
+								text: 'Ok',
+								primary: true,
+								click: function (notice) {
+									notice.close();
+								}
+							}]
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						}
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			return new PNotify(params);
+		},
+		showConfirmModal: function (customParams, confirmCallback = () => {
+		}, cancelCallback = () => {
+		}) {
+			let aDeferred = $.Deferred();
+
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					hide: false,
+					icon: 'fas fa-question-circle',
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true,
+							buttons: [
+								{
+									text: app.vtranslate('JS_OK'),
+									primary: true,
+									promptTrigger: true,
+									click: function (notice) {
+										notice.close();
+										confirmCallback();
+										aDeferred.resolve(true);
+									}
+								},
+								{
+									text: app.vtranslate('JS_CANCEL'),
+									click: function (notice) {
+										notice.close();
+										cancelCallback();
+										aDeferred.resolve(false);
+									}
+								}
+							]
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						},
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			new PNotify(params);
+			return aDeferred.promise();
+		},
+		registesterScrollbar(container) {
+			container.find('.js-scrollbar').each(function () {
+				let element = $(this),
+					scrollbarFnName = element.data('scrollbarFnName');
+
+				if (typeof app[scrollbarFnName] === 'function') {
+					app[scrollbarFnName](element);
+				} else {
+					app.showNewScrollbar(element);
+				}
+			});
+		},
+		registerPopover() {
+			window.popoverCache = {};
+			$(document).on('mouseenter', '.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]', (e) => {
+				let currentTarget = $(e.currentTarget);
+				if (currentTarget.find('.js-popover-tooltip--record').length) {
+					return;
+				}
+				if (!currentTarget.hasClass('popover-triggered')) {
+					if (currentTarget.hasClass('js-popover-tooltip--record')) {
+						app.registerPopoverRecord(currentTarget);
+						currentTarget.trigger('mouseenter');
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
+						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && !currentTarget.find('.js-popover-tooltip--record').length && !currentTarget.data('field-type')) {
+						if (currentTarget.hasClass('js-popover-tooltip--ellipsis')) {
+							app.registerPopoverEllipsis(currentTarget);
+						} else {
+							app.showPopoverElementView(currentTarget);
+						}
+						currentTarget.trigger('mouseenter');
+					}
+				}
+			});
+		},
+		showNotify: function (params, desktop = false) {
+			if (typeof params.type === 'undefined') {
+				params.type = 'info';
+			}
+			if (typeof params.title === 'undefined') {
+				params.title = app.vtranslate('JS_MESSAGE');
+			}
+			if (desktop) {
+				params = $.extend(params, {
+					modules: {
+						Desktop: {
+							desktop: true
+						}
+					}
+				});
+			}
+			Vtiger_Helper_Js.showPnotify(params);
+		},
+		/**
+		 * Set Pnotify defaults options
+		 */
+		setPnotifyDefaultOptions() {
+			PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
+			PNotify.defaults.titleTrusted = true;
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+		},
+		/**
+		 * Register auto format number value
+		 */
+		registerFormatNumber() {
+			$(document).on('focusout', '.js-format-numer', (e) => {
+				$(e.currentTarget).formatNumber();
+			});
+		},
+		/**
+		 * Register toggle icon click event
+		 * @param container
+		 */
+		registerToggleIconClick(container) {
+			container.on('click', '.js-toggle-icon, .js-toggle-icon__container', (e) => {
+				let icon = $(e.target);
+				if (icon.hasClass('js-toggle-icon__container')) {
+					icon = icon.find('.js-toggle-icon');
+				}
+				let iconData = icon.data();
+				icon.toggleClass(`${iconData.active} ${iconData.inactive}`);
+				e.stopPropagation();
+			})
 		}
 	};
+CKEDITOR.disableAutoInline = true;
 $(document).ready(function () {
+	let document = $(this);
+	app.registerToggleIconClick(document);
+	app.touchDevice = app.isTouchDevice();
+	app.setPnotifyDefaultOptions();
 	App.Fields.Picklist.changeSelectElementView();
-	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.registerPopoverEllipsisIcon();
+	app.registerPopover();
+	app.registerFormatNumber();
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	app.registesterScrollbar(document);
 	String.prototype.toCamelCase = function () {
-		var value = this.valueOf();
+		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
-	// in IE resize option for textarea is not there, so we have to use .resizable() api
+// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
 		$('textarea').resizable();
 	}
-	// Instantiate Page Controller
-	var pageController = app.getPageController();
+// Instantiate Page Controller
+	let pageController = app.getPageController();
 	if (pageController) {
 		pageController.registerEvents();
 	}
+	document.on('mousemove', (e) => {
+		app.mousePosition = {x: e.pageX, y: e.pageY};
+	});
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
-		return app.parseNumberToFloat($(this).val());
+		return App.Fields.Double.formatToDb($(this).val());
 	}
 	$.fn.getNumberFromText = function () {
-		return app.parseNumberToFloat($(this).text());
+		return App.Fields.Double.formatToDb($(this).text());
+	}
+	$.fn.formatNumber = function () {
+		let element = $(this);
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
 	}
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
@@ -1551,19 +1995,19 @@ $(document).ready(function () {
 		this.removeAttr('disabled');
 	}
 	$.fn.serializeFormData = function () {
-		var form = $(this);
+		let form = $(this);
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
-		var values = form.serializeArray();
-		var data = {};
+		let values = form.serializeArray();
+		let data = {};
 		if (values) {
 			$(values).each(function (k, v) {
 				if (v.name in data && (typeof data[v.name] !== 'object')) {
-					var element = form.find('[name="' + v.name + '"]');
+					let element = form.find('[name="' + v.name + '"]');
 					//Only for muti select element we need to send array of values
 					if (element.is('select') && element.attr('multiple') != undefined) {
-						var prevValue = data[v.name];
+						let prevValue = data[v.name];
 						data[v.name] = [];
 						data[v.name].push(prevValue)
 					}
@@ -1576,9 +2020,9 @@ $(document).ready(function () {
 			});
 		}
 		// If data-type="autocomplete", pickup data-value="..." set
-		var autocompletes = $('[data-type="autocomplete"]', $(this));
+		let autocompletes = $('[data-type="autocomplete"]', $(this));
 		$(autocompletes).each(function (i) {
-			var ac = $(autocompletes[i]);
+			let ac = $(autocompletes[i]);
 			data[ac.attr('name')] = ac.data('value');
 		});
 		return data;
