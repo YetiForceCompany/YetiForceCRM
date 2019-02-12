@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Español",
     "ERR_DATABASE_CONNECTION_FAILED": "No se puede conectar con el servidor de la base de datos",
     "ERR_DB_NOT_FOUND": "No se pudo encontrar esta base de datos. Intente cambiar la configuración de la base de datos",
     "ERR_INVALID_MYSQL_PARAMETERS": "Los parámetros de conexión mySQL especificados no son válidos",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Instalar",
     "LBL_INSTALL_PREREQUISITES": "Verify server configuration",
     "LBL_MORE_INFORMATION": "Más información",
+    "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Library name",
+    "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
+    "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Siguiente",
     "LBL_ONE_LAST_THING": "Una última cosa...",
     "LBL_PASSWORD_MISMATCH": "Vuelve a introducir las contraseñas. Los valores de \\\"Contraseña\\\" y \\\"Volver a escribir contraseña\\\" no coinciden.",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "Advertencia! Durante la migración perderá todos los datos relacionados con los siguientes módulos: Administrador de Correo, Plantillas de Correo, Flujos de Trabajo.  Tenga en cuenta que la migración aún está en su fase de prueba, por lo que debe hacer todas las copias de seguridad posibles y seguir los procedimientos de seguridad en caso de cualquier evento imprevisto.",
     "LBL_MIGRATION_IN_PROGRESS": "Migración en curso",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
-    "LBL_VERSION": "Version"
+    "LBL_VERSION": "Version",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "Todo",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "La contraseña es demasiado corta: la longitud mínima es de 8 caracteres",
     "LBL_PASS_TO_LONG": "La contraseña es demasiado larga: la longitud máxima es de 32 caracteres",
     "LBL_PASS_NO_NUM": "La contraseña debe contener números",

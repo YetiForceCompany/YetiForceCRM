@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Русский",
     "ERR_DATABASE_CONNECTION_FAILED": "Невозможно соединится с Сервером БД",
     "ERR_DB_NOT_FOUND": "Эта БД не найдена. Попробуйте изменить настройки БД",
     "ERR_INVALID_MYSQL_PARAMETERS": "Указаны неверные параметры соединения с сервером MySQL",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Установка",
     "LBL_INSTALL_PREREQUISITES": "Verify server configuration",
     "LBL_MORE_INFORMATION": "Дополнительная Информация",
+    "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Library name",
+    "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
+    "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Далее",
     "LBL_ONE_LAST_THING": "И еще кое-что...",
     "LBL_PASSWORD_MISMATCH": "Пожалуйста, введите пароль заново. Значения полей \\\"Пароль\\\" и \\\"Повторите пароль\\\" не совпадают.",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "Во время миграции вы потеряете все данные следующих модулей: MailManager, EmailTemplates, Workflows. \r\n Помните, что функция миграции находится на стадии тестирования, так что вы должны сделать все возможные резервные копии и выполнять процедуры безопасности в случае каких-либо непредвиденных событий.",
     "LBL_MIGRATION_IN_PROGRESS": "Миграция в процессе",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
-    "LBL_VERSION": "Version"
+    "LBL_VERSION": "Version",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "Все",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "Пароль слишком короткий - минимальная длина составляет 8 символов",
     "LBL_PASS_TO_LONG": "Слишком длинный пароль - максимальная длина составляет 32 символов",
     "LBL_PASS_NO_NUM": "Пароль должен содержать цифры",

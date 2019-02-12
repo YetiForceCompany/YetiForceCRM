@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Rumunia",
     "ERR_DATABASE_CONNECTION_FAILED": "Imposibil de contectat la serverul de baze de date",
     "ERR_DB_NOT_FOUND": "Nu am gasit aceasta baza de date. Incercati sa modificati setarile bazei de date",
     "ERR_INVALID_MYSQL_PARAMETERS": "Conexiune mySQL invalida pentru parametrii specificati",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Instalare",
     "LBL_INSTALL_PREREQUISITES": "Conditii preliminare de instalare",
     "LBL_MORE_INFORMATION": "Mai multe informatii",
+    "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Denumire librărie",
+    "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
+    "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Urmatorul",
     "LBL_ONE_LAST_THING": "Inca un lucru...",
     "LBL_PASSWORD_MISMATCH": "Reintroduceti parolele.  The \\\"Parola\\\" si \\\"Reintrodu parola\\\" valorile nu se potrivesc.",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "In timpul migrarii veti pierde toate datele legate de urmatoarele module: Manager Mail, Sabloane Email, Fluxuri de lucru \r\n Retineti ca migrarea se afla inca in stadiul de testare, astfel incat ar trebui sa faceti toate copiile de rezerva posibile si sa urmati procedurile de securitate in cazul unor evenimente neprevazute.",
     "LBL_MIGRATION_IN_PROGRESS": "Migrare in curs",
     "LBL_SETUP_WIZARD_HEADER": "Expert instalare YetiForce",
-    "LBL_VERSION": "Versiune"
+    "LBL_VERSION": "Versiune",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "Toate",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "Parola este prea scurta - lungimea minima este de 8 caractere",
     "LBL_PASS_TO_LONG": "Parola este prea lunga - lungimea maxima este de 32 caractere",
     "LBL_PASS_NO_NUM": "Parola trebuie sa contina numere",

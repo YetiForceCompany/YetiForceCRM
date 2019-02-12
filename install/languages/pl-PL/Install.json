@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Polski",
     "ERR_DATABASE_CONNECTION_FAILED": "Nie można się połączyć z bazą danych",
     "ERR_DB_NOT_FOUND": "Taka baza danych nie została znaleziona. Spróbuj zmienić ustawienia bazy danych",
     "ERR_INVALID_MYSQL_PARAMETERS": "Niepoprawne parametry do łączenia się z bazą danych",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Instalacja",
     "LBL_INSTALL_PREREQUISITES": "Weryfikacja konfiguracji serwera",
     "LBL_MORE_INFORMATION": "Więcej informacji",
+    "LBL_LIBRARY": "Wsparcie dla bibliotek",
     "LBL_LIBRARY_NAME": "Nazwa",
+    "LBL_MANDATORY": "Obowiązkowe",
+    "LBL_PARAMETER": "Parametr",
+    "LBL_INSTALLED": "Zainstalowana",
     "LBL_NEXT": "Dalej",
     "LBL_ONE_LAST_THING": "Ostatnia rzecz...",
     "LBL_PASSWORD_MISMATCH": "Proszę wprowadzić ponownie hasła. Hasła do siebie nie pasują.",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "W trakcie migracji zostaną bezpowrotnie utracone wszystkie dane związane z modułami: MailManager, EmailTemplates, Workflows. \r\n Migracja jest ciągle w fazie testów, więc należy wykonać wszelkie możliwe kopie i zabazpieczenia w przypadku wystąpienia nieprzewidzianych zdarzeń.",
     "LBL_MIGRATION_IN_PROGRESS": "Trwa proces migracji",
     "LBL_SETUP_WIZARD_HEADER": "Kreator instalacji systemu YetiForce",
-    "LBL_VERSION": "Wersja"
+    "LBL_VERSION": "Wersja",
+    "LBL_ERROR_INSTALL": "Proces instalacji zakończył się niepowodzeniem"
   },
   "js": {
     "JS_ALL": "Wszystkie",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Anuluj",
     "LBL_PASS_TO_SHORT": "Hasło jest zbyt krótkie - minimalna długość to 8 znaków",
     "LBL_PASS_TO_LONG": "Hasło jest zbyt długie - maksymalna długość to 32 znaki",
     "LBL_PASS_NO_NUM": "Hasło musi zawierać cyfry",

@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Deutsch",
     "ERR_DATABASE_CONNECTION_FAILED": "Keine Verbindung zum Datenbankserver hergestellt",
     "ERR_DB_NOT_FOUND": "Diese Datenbank wurde nicht gefunden. Ändern Sie die Datenbankeinstellungen",
     "ERR_INVALID_MYSQL_PARAMETERS": "Ungültige MySQL Verbindungsparameter festgelegt",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Installieren",
     "LBL_INSTALL_PREREQUISITES": "Server Konfiguration prüfen",
     "LBL_MORE_INFORMATION": "Weitere Informationen",
+    "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Library Name",
+    "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
+    "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Weiter",
     "LBL_ONE_LAST_THING": "Eine letzte Sache...",
     "LBL_PASSWORD_MISMATCH": "Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:\tMailManager, EmailTemplates, Workflows. \r\n Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle möglichen Sicherheitskopien machen",
     "LBL_MIGRATION_IN_PROGRESS": "Migration in Bearbeitung",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce Installation Wizard",
-    "LBL_VERSION": "Version"
+    "LBL_VERSION": "Version",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "Alle",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "Passwort ist zu kurz - die Mindestlänge beträgt 8 Zeichen",
     "LBL_PASS_TO_LONG": "Das Passwort ist zu lang - maximale Länge beträgt 32 Zeichen",
     "LBL_PASS_NO_NUM": "Das Passwort muss Zahlen enthalten",

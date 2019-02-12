@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Türkçe",
     "ERR_DATABASE_CONNECTION_FAILED": "Veritabanı sunucusuna bağlanılamıyor",
     "ERR_DB_NOT_FOUND": "Bu veritabanı bulunamadı. Veritabanı ayarlarını değiştirmeyi deneyin ",
     "ERR_INVALID_MYSQL_PARAMETERS": "Geçersiz mySQL bağlantı parametreleri belirtildi",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Yükle",
     "LBL_INSTALL_PREREQUISITES": "Verify server configuration",
     "LBL_MORE_INFORMATION": "Daha fazla bilgi",
+    "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Library name",
+    "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
+    "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Sonraki",
     "LBL_ONE_LAST_THING": "Son bir şey...",
     "LBL_PASSWORD_MISMATCH": "Lütfen şifreleri tekrar girin. \\ \"Parola \\\" ve \"Parolayı yeniden yaz\" değerleri eşleşmiyor. ",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "Veri Geçişi işlemi sırasında aşağıdaki modüller ile ilgili tüm verileri kaybedersiniz: MailManager, EmailTemplates, Workflows. \r\n Lütfen taşıma test aşamasında olduğuna dikkat edin, böylece olası tüm yedek kopyaları oluşturun ve herhangi bir öngörülemeyen olay durumunda güvenlik prosedürlerini takip etmelisiniz.",
     "LBL_MIGRATION_IN_PROGRESS": "Veri Geçişi devam ediyor",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
-    "LBL_VERSION": "Version"
+    "LBL_VERSION": "Version",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "Hepsi",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "Parola çok kısa - en az 8 karakter uzunluğunda",
     "LBL_PASS_TO_LONG": "Parola çok uzun - maksimum uzunluk 32 karakter",
     "LBL_PASS_NO_NUM": "Şifre numara içermelidir",

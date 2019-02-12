@@ -1,6 +1,5 @@
 {
   "php": {
-    "LANGNAME": "Angleško",
     "ERR_DATABASE_CONNECTION_FAILED": "Povezava s podatkovnim strežnikom ni mogoča",
     "ERR_DB_NOT_FOUND": "Te podatkovne baze ni bilo mogoče najti. Poskusite spremeniti nastavitve podatkovne baze",
     "ERR_INVALID_MYSQL_PARAMETERS": "Neveljaveni parametri za povezavo z mySQL",
@@ -30,7 +29,11 @@
     "LBL_INSTALL_BUTTON": "Namestite",
     "LBL_INSTALL_PREREQUISITES": "Preverite konfiguracijo strežnika",
     "LBL_MORE_INFORMATION": "Več informacij",
+    "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Ime knjižnice",
+    "LBL_MANDATORY": "Mandatory",
+    "LBL_PARAMETER": "Parameter",
+    "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Naslednji",
     "LBL_ONE_LAST_THING": "Še zadnja stvar...",
     "LBL_PASSWORD_MISMATCH": "Znova vnesite geslo.  V \\\"Geslo\\\" in \\\"Potrdi geslo\\\" vrednosti se ne ujemajo.",
@@ -102,10 +105,13 @@
     "LBL_DESCRIPTION_CONDITIONS": "Med selitvijo boste izgubili vse podatke, povezane z naslednjimi moduli: MailManager, EmailTemplates, Workflows.\n  Upoštevajte, da je selitev še v fazi testiranja, zato morate narediti vse možne varnostne kopije in slediti varnostnim postopkom v primeru nepredvidenih dogodkov.",
     "LBL_MIGRATION_IN_PROGRESS": "Selitev poteka",
     "LBL_SETUP_WIZARD_HEADER": "Čarovnik za namestitev YetiForce",
-    "LBL_VERSION": "Različica"
+    "LBL_VERSION": "Različica",
+    "LBL_ERROR_INSTALL": "Installation unsuccessful"
   },
   "js": {
     "JS_ALL": "Vsi",
+    "JS_OK": "Ok",
+    "JS_CANCEL": "Cancel",
     "LBL_PASS_TO_SHORT": "Geslo je prekratko - najmanjša dolžina je 8 znakov",
     "LBL_PASS_TO_LONG": "Geslo je predolgo - največja dolžina je 32 znakov",
     "LBL_PASS_NO_NUM": "Geslo mora vsebovati številke",
