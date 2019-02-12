@@ -37,6 +37,11 @@ class E_TestModule extends \Tests\Base
 	public $fileUrl = '';
 
 	/**
+	 * @var bool|string Skip test flag and message
+	 */
+	public static $skipTest = false;
+
+	/**
 	 * Detect if is possible to install sample data.
 	 *
 	 * @codeCoverageIgnore
@@ -56,13 +61,13 @@ class E_TestModule extends \Tests\Base
 				if ($response && $response->getStatusCode() === 200) {
 					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
 				} else {
-					$this->markTestSkipped('TestData package not available - bad response from remote server, no sample data to install.');
+					static::$skipTest = 'TestData package not available - bad response from remote server, no sample data to install.';
 				}
 			} else {
-				$this->markTestSkipped('TestData package not available - no internet connection, no sample data to install.');
+				static::$skipTest = 'TestData package not available - no internet connection, no sample data to install.';
 			}
 		} else {
-			$this->markTestSkipped('TestData package not available, no sample data to install.');
+			static::$skipTest = 'TestData package not available, no sample data to install.';
 		}
 	}
 
@@ -71,6 +76,10 @@ class E_TestModule extends \Tests\Base
 	 */
 	public function testInstallSampleData()
 	{
+		if (static::$skipTest) {
+			$this->markTestSkipped(static::$skipTest);
+			return;
+		}
 		try {
 			\copy($this->fileUrl, static::$testModuleFile);
 			(new \vtlib\Package())->import(static::$testModuleFile);
