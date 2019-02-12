@@ -21,7 +21,7 @@ class Users_RecordPopover_Model extends Vtiger_RecordPopover_Model
 	{
 		$summaryFields = [];
 		$fields = $this->recordModel->getModule()->getFields();
-		foreach (['first_name', 'last_name', 'role', 'email1', 'imagename'] as $fieldName) {
+		foreach (['first_name', 'last_name', 'role', 'email1'] as $fieldName) {
 			$fieldModel = $fields[$fieldName];
 			if ($fieldModel && !$this->recordModel->isEmpty($fieldName) && $fieldModel->isViewableInDetailView()) {
 				$summaryFields[$fieldName] = $fieldModel;
