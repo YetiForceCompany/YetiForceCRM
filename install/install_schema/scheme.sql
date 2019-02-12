@@ -995,7 +995,7 @@ CREATE TABLE `s_yf_companies` (
   `country` varchar(100) DEFAULT NULL,
   `companysize` mediumint(6) unsigned DEFAULT 0,
   `website` varchar(255) DEFAULT NULL,
-  `logo` varchar(50) DEFAULT NULL,
+  `logo` text DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
