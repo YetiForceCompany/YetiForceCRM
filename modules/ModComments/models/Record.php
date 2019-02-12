@@ -76,7 +76,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	{
 		$forSave = parent::getValuesForSave();
 		if (empty($forSave['vtiger_modcomments']['userid'])) {
-			$forSave['vtiger_modcomments']['userid'] = App\User::getCurrentUserId();
+			$forSave['vtiger_modcomments']['userid'] = App\User::getCurrentUserRealId();
 		}
 		return $forSave;
 	}

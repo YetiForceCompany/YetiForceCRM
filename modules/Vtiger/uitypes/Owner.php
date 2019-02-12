@@ -15,7 +15,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return empty($value) ? \App\User::getCurrentUserId() : (int) $value;
+		return empty($value) ? \App\User::getCurrentUserRealId() : (int) $value;
 	}
 
 	/**
