@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-free@^5.7.1":
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.7.1.tgz#e4bdc6fd2a7b5a41d5b599bcb62cf22c78f7f535"
-  integrity sha512-gukWJ7Mwf0WXQbkcwcm5zi8+H8aT5MMnphf5hpydOw898H1ibgm2cyejHgk6Km/FTvrPp5ppUHLrlFwt0QxsQw==
+"@fortawesome/fontawesome-free@^5.7.2":
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.7.2.tgz#1498c3eb78ee7c78c5488418707de90aaf58d5d7"
+  integrity sha512-Ha4HshKdCVKgu4TVCtG8XyPPYdzTzNW4/fvPnn+LT7AosRABryhlRv4cc4+o84dgpvVJN9reN7jo/c+nYujFug==
 
 add@^2.0.6:
   version "2.0.6"
@@ -262,10 +262,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.7.16:
-  version "0.7.16"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.7.16.tgz#e7841b45e12f0d593abd9df82479226d11d1fd90"
-  integrity sha512-zvrLBLPRsNwWeWKVJbWWD/iHqm5ylHboqCCrU+xHM83zOL+ID6w17x2BU64ZiKStPYBqZdcuWoBxJuUe59uBoA==
+gantt-elastic@^0.8.0:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.8.1.tgz#fe82bfe9adfe586f33294ee6d50cde5aa53b3e2a"
+  integrity sha512-jVA+pkJ2ek/n2ZpEonKWw7YbmnJ1lWY8Wt6eL6ZNx64T8UU8CyRIMzTPRhYCIEaNMjO+TlS13UcHCXT7Ho7pRQ==
   dependencies:
     dayjs "^1.8.5"
 
