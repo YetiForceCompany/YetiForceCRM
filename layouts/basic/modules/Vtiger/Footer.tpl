@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-Footer -->
 	</div>
 	</div>
 	</div>
@@ -37,7 +38,8 @@
 				{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
 					<ul class="float-left pagination border-0">
 						<li class="page-item">
-							<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer noopener">
+							<a class="page-link" href="https://www.linkedin.com/groups/8177576"
+							   rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
@@ -65,7 +67,7 @@
 						{if !\App\YetiForce\Register::verify(true)}
 							<li class="page-item u-cursor-pointer">
 								<a class="page-link text-danger js-popover-tooltip" role="button"
-								   data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME))}"
+								   data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, "<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>")}"
 								   title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
 										{if $USER_MODEL->isAdminUser()}
 											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
@@ -145,13 +147,15 @@
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p>The Program is provided AS IS, without warranty. Licensed under <a
 									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-									target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License 3.0</strong></a>.</p>
+									target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License
+									3.0</strong></a>.</p>
 						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br/><br/>
 						</p>
 						<div class="u-word-break">
 							<p><span class="badge badge-secondary">License:</span> <a
 										href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-										target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License 3.0</strong></a></p>
+										target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License
+										3.0</strong></a></p>
 							<p><span class="badge badge-primary">WWW:</span> <a href="https://yetiforce.com"
 																				target="_blank"
 																				rel="noreferrer noopener"><strong>https://yetiforce.com</strong></a>
@@ -183,11 +187,13 @@
 											class="fab fa-twitter-square" title="Twitter"></span></a>
 							</li>
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer noopener" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"><span
+								<a rel="noreferrer noopener"
+								   href="https://www.facebook.com/YetiForce-CRM-158646854306054/"><span
 											class="fab fa-facebook-square" title="Facebook"></span></a>
 							</li>
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer noopener" href="https://github.com/YetiForceCompany/YetiForceCRM"><span
+								<a rel="noreferrer noopener"
+								   href="https://github.com/YetiForceCompany/YetiForceCRM"><span
 											class="fab fa-github-square" title="Github"></span></a>
 							</li>
 						</ul>
@@ -209,4 +215,5 @@
 	{/if}
 	</body>
 	</html>
+	<!-- /tpl-Base-Footer -->
 {/strip}
