@@ -106,9 +106,15 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleName($name)
+	public static function checkModuleName($name): bool
 	{
-		return (bool) (strpos($name, 'Settings') !== false || preg_match('/[^A-Za-z]/i', $name));
+		return
+			preg_match('/Settings/i', $name) ||
+			preg_match('/Api/i', $name) ||
+			preg_match('/Vtiger/i', $name) ||
+			preg_match('/CustomView/i', $name) ||
+			preg_match('/PickList/i', $name) ||
+			preg_match('/[^A-Za-z]/i', $name);
 	}
 
 	/**
