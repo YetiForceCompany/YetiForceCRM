@@ -57,6 +57,26 @@ class Status
 	 */
 	public static function send()
 	{
+		$config = \App\Config::component('YetiForce');
+		if (empty($config['statusUrl'])) {
+			return;
+		}
+		$url = $config['statusUrl'];
+		unset($config['statusUrl']);
+		$status = new self();
+		$info = [];
+		foreach ($config as $name => $state) {
+			if ($state) {
+				$info[$name] = call_user_func([$status, 'get' . ucfirst($name)]);
+			}
+		}
+		try {
+			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+				'timeout' => 5,
+				'body' => \App\Json::encode($info)]);
+		} catch (\Throwable $e) {
+			\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
+		}
 	}
 
 	/**
@@ -86,10 +106,10 @@ class Status
 		}
 		$value = [];
 		if (isset($this->cache['stability']['phpVersion']['www'])) {
-			$value[] = $this->cache['stability']['phpVersion']['www'];
+			$value['www'] = $this->cache['stability']['phpVersion']['www'];
 		}
 		if (isset($this->cache['stability']['phpVersion']['cron'])) {
-			$value[] = $this->cache['stability']['phpVersion']['cron'];
+			$value['cron'] = $this->cache['stability']['phpVersion']['cron'];
 		}
 		return $value;
 	}
