@@ -15,15 +15,18 @@ class Csrf extends Security
 	{
 		parent::__construct($message, $code, $previous);
 		\App\Session::init();
+		$log = \App\Db::getInstance('log');
+		$schema = $log->getTableSchema('o_#__csrf');
 		$userName = \App\Session::get('full_user_name');
-		\App\Db::getInstance('log')->createCommand()
+		$userName = empty($userName) ? '-' : substr($userName, 0, $schema->getColumn('username')->size);
+		$log->createCommand()
 			->insert('o_#__csrf', [
-				'username' => empty($userName) ? '-' : $userName,
+				'username' => $userName,
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => \App\RequestUtil::getRemoteIP(),
-				'referer' => \App\Request::_getServer('HTTP_REFERER', '-'),
-				'url' => \App\RequestUtil::getBrowserInfo()->url,
-				'agent' => \App\Request::_getServer('HTTP_USER_AGENT', '-'),
+				'referer' => substr(\App\Request::_getServer('HTTP_REFERER', '-'), 0, $schema->getColumn('referer')->size),
+				'url' => substr(\App\RequestUtil::getBrowserInfo()->url, 0, $schema->getColumn('url')->size),
+				'agent' => substr(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 0, $schema->getColumn('agent')->size),
 			])->execute();
 	}
 }
