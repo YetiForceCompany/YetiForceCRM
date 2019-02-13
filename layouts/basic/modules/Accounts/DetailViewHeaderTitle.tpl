@@ -41,23 +41,25 @@
 						</div>
 					{/if}
 				</div>
-				<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
+				<div class="js-ajax-edit__row js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
+					 data-ajax-edit-label="{\App\Language::translate('Assigned To',$MODULE_NAME)}"
 					 data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover"
-					 data-js="popover | mouseenter">
+					 data-js="popover | mouseenter | data | container">
 					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 					</span>
-					<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('assigned_user_id')}</span>
+					<span class="js-popover-text js-ajax-edit__value" data-js="clone | html">{$RECORD->getDisplayValue('assigned_user_id')}</span>
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-					<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
-						 data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter">
+					<div class="js-ajax-edit__row js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
+						 data-ajax-edit-label="{\App\Language::translate('Share with users',$MODULE_NAME)}"
+						 data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter | data">
 						<span class="mr-1 text-muted u-white-space-nowrap">
 							{\App\Language::translate('Share with users',$MODULE_NAME)}:
 						</span>
-						<span class="js-popover-text" data-js="clone">{$SHOWNERS}</span>
+						<span class="js-popover-text js-ajax-edit__value" data-js="clone | html">{$SHOWNERS}</span>
 						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					</div>
 				{/if}
