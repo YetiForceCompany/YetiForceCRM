@@ -68,9 +68,7 @@ before_script:
 
 script:
   - cd tests
-  - echo "************START: PHPUNIT************"
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
-  - echo "************END: PHPUNIT************"
   - sudo ls -all
   - cd ..
   - sudo ls -all
