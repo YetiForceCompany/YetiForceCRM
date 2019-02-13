@@ -68,14 +68,9 @@ before_script:
 
 script:
   - cd tests
-  - echo "************PHPUNIT************"
-  - pwd
-  - composer -v
-  - ls -lah
-  - ls ../ -lah
-  - ls ../vendor/ -lah
-  - ls ../vendor/bin -lah
+  - echo "************START: PHPUNIT************"
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
+  - echo "************END: PHPUNIT************"
   - sudo ls -all
   - cd ..
   - sudo ls -all
