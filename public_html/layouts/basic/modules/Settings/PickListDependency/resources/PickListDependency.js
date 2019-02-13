@@ -371,42 +371,35 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	/**
 	 * register click event for select source values button in add/edit view
 	 */
-	registerSelectSourceValuesClick: function (dependencyGraph) {
-		var thisInstance = this;
-		dependencyGraph.find('button.sourceValues').on('click', function () {
-			var selectSourceValues = dependencyGraph.find('.modalCloneCopy');
-			var clonedContainer = selectSourceValues.clone(true, true).removeClass('modalCloneCopy');
-			var callBackFunction = function (data) {
+	registerSelectSourceValuesClick(dependencyGraph) {
+		dependencyGraph.find('button.sourceValues').on('click', () => {
+			const selectSourceValues = dependencyGraph.find('.modalCloneCopy');
+			const clonedContainer = selectSourceValues.clone(true, true).removeClass('modalCloneCopy');
+			app.showModalWindow(clonedContainer, (data) => {
 				data.find('.sourcePicklistValuesModal').removeClass('d-none');
-				data.find('[name="saveButton"]').on('click', function (e) {
-					thisInstance.selectedSourceValues = [];
-					var sourceValues = data.find('.sourceValue');
-					jQuery.each(sourceValues, function (index, ele) {
-						var element = jQuery(ele);
-						var value = element.val();
-						var encodedValue;
-						if (typeof value == 'string') {
+				data.find('[name="saveButton"]').on('click', (e) => {
+					this.selectedSourceValues = [];
+					const sourceValues = data.find('.sourceValue');
+					jQuery.each(sourceValues, (index, ele) => {
+						const element = jQuery(ele);
+						const value = element.val();
+						let encodedValue;
+						if (typeof value === 'string') {
 							encodedValue = value.replace(/"/g, '\\"');
 						} else {
 							encodedValue = value;
 						}
-						var hiddenElement = selectSourceValues.find('[type="checkbox"].sourceValue.' + encodedValue);
+						const hiddenElement = selectSourceValues.find('[type="checkbox"].sourceValue.' + encodedValue);
 						if (element.is(':checked')) {
-							thisInstance.selectedSourceValues.push(value);
+							this.selectedSourceValues.push(value);
 							hiddenElement.prop('checked', true);
 						} else {
 							hiddenElement.prop('checked', false);
 						}
-					})
+					});
 					app.hideModalWindow();
-					thisInstance.loadMappingForSelectedValues(dependencyGraph);
+					this.loadMappingForSelectedValues(dependencyGraph);
 				});
-			}
-
-			app.showModalWindow(clonedContainer, function (data) {
-				if (typeof callBackFunction == 'function') {
-					callBackFunction(data);
-				}
 			}, {'width': '1000px'});
 		});
 	},
