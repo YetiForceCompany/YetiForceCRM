@@ -65,7 +65,7 @@
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
-    "yetiforce/yetiforcepdf": "0.1.9"
+    "yetiforce/yetiforcepdf": "0.1.10"
   },
   "require-dev": {
     "facebook/webdriver": "^1.6.0",
