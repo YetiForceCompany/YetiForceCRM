@@ -30,7 +30,7 @@
 					</span>
 				</div>
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true))} {\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
-					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
+					<h4 class="recordLabel h6 mb-0 js-popover-text js-ajax-edit__name" data-js="clone | text">
 						{if $RECORD->getDisplayValue('salutationtype')}
 							<span class="salutation mr-1">{$RECORD->getDisplayValue('salutationtype')}</span>
 						{/if}

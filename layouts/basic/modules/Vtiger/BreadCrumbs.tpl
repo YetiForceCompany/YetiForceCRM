@@ -37,8 +37,8 @@
 							</a>
 						</li>
 					{elseif $item@last}
-						<li class="breadcrumb-item active js-text-content u-text-ellipsis"
-							aria-current="page">
+						<li class="breadcrumb-item active js-text-content js-ajax-edit__name u-text-ellipsis"
+							aria-current="page" data-js="text">
 							{$item['name']}
 						</li>
 						<li class="js-popover-icon d-none mr-1" data-js="class: d-none">

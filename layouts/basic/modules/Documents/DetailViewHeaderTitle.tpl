@@ -18,7 +18,7 @@
 
 			<div class="pl-1">
 				<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
-					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
+					<h4 class="recordLabel h6 mb-0 js-popover-text js-ajax-edit__name" data-js="clone | text">
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}

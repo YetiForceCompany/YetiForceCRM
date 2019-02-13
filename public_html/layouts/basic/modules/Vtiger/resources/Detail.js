@@ -708,24 +708,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Function which will register events to update the record name in the detail view when any of
 	 * the name field is changed
 	 */
-	registerNameAjaxEditEvent: function () {
-		var thisInstance = this;
-		var detailContentsHolder = thisInstance.getContentHolder();
-		detailContentsHolder.on(thisInstance.fieldUpdatedEvent, '.nameField', function (e, params) {
-			var form = thisInstance.getForm();
-			var nameFields = form.data('nameFields');
-			var recordLabel = '';
-			for (var index in nameFields) {
-				if (index != 0) {
-					recordLabel += ' '
-				}
+	registerNameAjaxEditEvent: function (fieldElement, newValue) {
+		if (fieldElement.hasClass('nameField')) {
+			$('.js-ajax-edit__name').text(newValue);
+			return;
+		} else {
 
-				var nameFieldName = nameFields[index];
-				recordLabel += form.find('[name="' + nameFieldName + '"]').val();
-			}
-			var recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.recordLabel');
-			recordLabelElement.text(recordLabel);
-		});
+		}
 	},
 	updateHeaderNameFields: function () {
 		var thisInstance = this;
@@ -975,7 +964,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			actionElement.addClass('d-none');
 			editElement.removeClass('d-none').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 			var saveHandler = function (e) {
-				thisInstance.registerNameAjaxEditEvent();
 				var element = jQuery(e.target);
 				if (element.closest('.fieldValue').is(currentTdElement) || element.hasClass('select2-selection__choice__remove')) {
 					return;
@@ -1051,6 +1039,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).done(function (response) {
+						thisInstance.registerNameAjaxEditEvent(fieldElement, ajaxEditNewValue);
 						editElement.off('clickoutside');
 						readRecord.prop('disabled', false);
 						currentTdElement.progressIndicator({'mode': 'hide'});

@@ -19,7 +19,7 @@
 			</div>
 			<div class="pl-1">
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
-					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
+					<h4 class="recordLabel h6 mb-0 js-popover-text js-ajax-edit__name" data-js="clone | text">
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
