@@ -369,7 +369,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		}
 	},
 	/**
-	 * register click event for select source values button in add/edit view
+	 * Register click event for select source values button in add/edit view
 	 */
 	registerSelectSourceValuesClick(dependencyGraph) {
 		dependencyGraph.find('button.sourceValues').on('click', () => {
@@ -380,18 +380,12 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				data.find('[name="saveButton"]').on('click', (e) => {
 					this.selectedSourceValues = [];
 					const sourceValues = data.find('.sourceValue');
-					jQuery.each(sourceValues, (index, ele) => {
-						const element = jQuery(ele);
-						const value = element.val();
-						let encodedValue;
-						if (typeof value === 'string') {
-							encodedValue = value.replace(/"/g, '\\"');
-						} else {
-							encodedValue = value;
-						}
-						const hiddenElement = selectSourceValues.find('[type="checkbox"].sourceValue.' + encodedValue);
+					$.each(sourceValues, (index, ele) => {
+						const element = $(ele);
+						const elementId = element.attr('id');
+						const hiddenElement = selectSourceValues.find('#' + elementId);
 						if (element.is(':checked')) {
-							this.selectedSourceValues.push(value);
+							this.selectedSourceValues.push(element.val());
 							hiddenElement.prop('checked', true);
 						} else {
 							hiddenElement.prop('checked', false);
