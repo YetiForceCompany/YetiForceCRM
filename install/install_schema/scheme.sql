@@ -717,7 +717,7 @@ CREATE TABLE `o_yf_access_to_record` (
 
 CREATE TABLE `o_yf_csrf` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(100) NOT NULL,
   `date` datetime NOT NULL,
   `ip` varchar(100) NOT NULL,
   `referer` varchar(300) NOT NULL,

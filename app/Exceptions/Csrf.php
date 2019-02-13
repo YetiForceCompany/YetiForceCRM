@@ -16,7 +16,7 @@ class Csrf extends Security
 		parent::__construct($message, $code, $previous);
 		\App\Session::init();
 		$userName = \App\Session::get('full_user_name');
-		$userName = empty($userName) ? '-' : \App\TextParser::textTruncate($userName, 50);
+		$userName = empty($userName) ? '-' : \App\TextParser::textTruncate($userName, 100);
 		\App\Db::getInstance('log')->createCommand()
 			->insert('o_#__csrf', [
 				'username' => $userName,
