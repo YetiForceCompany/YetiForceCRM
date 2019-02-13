@@ -70,7 +70,9 @@ script:
   - cd tests
   - echo "************PHPUNIT************"
   - pwd
-  - ls
+  - composer -v
+  - ls -lah
+  - ls ../ -lah
   - ls ../vendor/ -lah
   - ls ../vendor/bin -lah
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
