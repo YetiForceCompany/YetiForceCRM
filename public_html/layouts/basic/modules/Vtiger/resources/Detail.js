@@ -708,14 +708,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Function which will register events to update the record name in the detail view when any of
 	 * the name field is changed
 	 */
-	updateAjaxEditFieldValue: function (fieldElement, newValue, currentTdElement) {
-		if (fieldElement.hasClass('nameField')) {
-			$('.js-ajax-edit__name').text(newValue);
-			return;
-		} else {
-			let fieldName = currentTdElement.prev().text();
-			$(`.js-ajax-edit__row[data-ajax-edit-label="${fieldName}"]`).find('.js-ajax-edit__value').html(newValue);
+	updateAjaxEditFieldValue: function (newValue, currentTdElement, recordLabel) {
+		if (currentTdElement.find('.nameField').length) {
+			$('.js-ajax-edit__name').html(recordLabel);
 		}
+		let fieldName = currentTdElement.prev().text();
+		$(`.js-ajax-edit__row[data-ajax-edit-label="${fieldName}"]`).find('.js-ajax-edit__value').html(newValue);
 	},
 	updateHeaderNameFields: function () {
 		var thisInstance = this;
@@ -1054,7 +1052,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						if (dateTimeField.length && dateTime) {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
-						thisInstance.updateAjaxEditFieldValue(fieldElement, displayValue, currentTdElement);
+						thisInstance.updateAjaxEditFieldValue(displayValue, currentTdElement, response.result._recordLabel);
 						detailViewValue.html(displayValue);
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
