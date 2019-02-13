@@ -18,15 +18,15 @@ class Csrf extends Security
 		$log = \App\Db::getInstance('log');
 		$schema = $log->getTableSchema('o_#__csrf');
 		$userName = \App\Session::get('full_user_name');
-		$userName = empty($userName) ? '-' : substr($userName, 0, $schema->getColumn('username')->size);
+		$userName = empty($userName) ? '-' : substr($userName, 0, $schema->getColumn('username')->size | 50);
 		$log->createCommand()
 			->insert('o_#__csrf', [
 				'username' => $userName,
 				'date' => date('Y-m-d H:i:s'),
-				'ip' => \App\RequestUtil::getRemoteIP(),
-				'referer' => substr(\App\Request::_getServer('HTTP_REFERER', '-'), 0, $schema->getColumn('referer')->size),
-				'url' => substr(\App\RequestUtil::getBrowserInfo()->url, 0, $schema->getColumn('url')->size),
-				'agent' => substr(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 0, $schema->getColumn('agent')->size),
+				'ip' => substr(\App\RequestUtil::getRemoteIP(), 0, $schema->getColumn('ip')->size | 100),
+				'referer' => substr(\App\Request::_getServer('HTTP_REFERER', '-'), 0, $schema->getColumn('referer')->size | 300),
+				'url' => substr(\App\RequestUtil::getBrowserInfo()->url, 0, $schema->getColumn('url')->size | 300),
+				'agent' => substr(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 0, $schema->getColumn('agent')->size | 255),
 			])->execute();
 	}
 }
