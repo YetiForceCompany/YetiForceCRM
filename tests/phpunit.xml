@@ -16,7 +16,7 @@
 		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
-		<testsuite name="Base">
+		<!--<testsuite name="Base">
 			<directory suffix=".php">./Base/</directory>
 		</testsuite>
 		<testsuite name="Integrations">
@@ -33,7 +33,7 @@
 		</testsuite>
 		<testsuite name="Finish">
 			<directory suffix=".php">./Finish/</directory>
-		</testsuite>
+		</testsuite>-->
 	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
