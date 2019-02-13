@@ -71,6 +71,7 @@ script:
   - echo "************PHPUNIT************"
   - pwd
   - ls
+  - ls ../vendor/bin -lah
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
   - sudo ls -all
   - cd ..
