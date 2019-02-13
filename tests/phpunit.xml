@@ -16,10 +16,10 @@
 		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
-		<!--<testsuite name="Base">
+		<testsuite name="Base">
 			<directory suffix=".php">./Base/</directory>
 		</testsuite>
-		<testsuite name="Integrations">
+		<!--<testsuite name="Integrations">
 			<directory suffix=".php">./Integrations/</directory>
 		</testsuite>
 		<testsuite name="Settings">
