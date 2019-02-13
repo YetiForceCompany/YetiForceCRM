@@ -69,6 +69,8 @@ before_script:
 script:
   - cd tests
   - echo "************PHPUNIT************"
+  - pwd
+  - ls
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
   - sudo ls -all
   - cd ..
