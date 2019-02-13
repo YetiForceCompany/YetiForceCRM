@@ -21,14 +21,13 @@
 				{foreach from=$FIELDS_HEADER['value'] key=NAME item=FIELD_MODEL}
 					{if !$RECORD->isEmpty($NAME)}
 						{assign var=VALUE value=$RECORD->getDisplayValue($NAME)}
-						<div class="badge {if $FIELD_MODEL->getHeaderValue('class')}{$FIELD_MODEL->getHeaderValue('class')}{else}badge-info{/if} d-flex flex-nowrap align-items-center justify-content-center mt-1 js-popover-tooltip--ellipsis"
+						<div class="js-ajax-edit__row badge {if $FIELD_MODEL->getHeaderValue('class')}{$FIELD_MODEL->getHeaderValue('class')}{else}badge-info{/if} d-flex flex-nowrap align-items-center justify-content-center mt-1 js-popover-tooltip--ellipsis"
+							 data-ajax-edit-label="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}"
 							 data-content="{\App\Purifier::encodeHtml(\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME))}: <string>{\App\Purifier::encodeHtml($VALUE)}</string>"
 							 data-toggle="popover" data-js="popover | mouseenter">
 							<div class="c-popover-text">
-								<span class="mr-1">
-									{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}:
-								</span>
-								{$VALUE}
+								<span class="mr-1">{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}:</span>
+								<span class="js-ajax-edit__value">{$VALUE}</span>
 							</div>
 							<span class="fas fa-info-circle fa-sm js-popover-icon d-none"
 								  data-js="class: d-none"></span>
