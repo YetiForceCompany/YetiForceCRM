@@ -55,7 +55,7 @@ class Cache
 	 * Confirms if the cache contains specified cache item.
 	 *
 	 * @param string $nameSpace
-	 * @param string $key       Cache ID
+	 * @param string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -107,7 +107,7 @@ class Cache
 	 * Returns a static Cache Item representing the specified key.
 	 *
 	 * @param string $nameSpace
-	 * @param string $key       Cache ID
+	 * @param string $key Cache ID
 	 *
 	 * @return mixed
 	 */
@@ -120,7 +120,7 @@ class Cache
 	 * Confirms if the static cache contains specified cache item.
 	 *
 	 * @param string $nameSpace
-	 * @param string $key       Cache ID
+	 * @param string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -133,9 +133,9 @@ class Cache
 	 * Static cache save.
 	 *
 	 * @param string $nameSpace
-	 * @param string $key       Cache ID
-	 * @param mixed  $value     Data to store
-	 * @param int    $duration  Cache TTL (in seconds)
+	 * @param string $key      Cache ID
+	 * @param mixed  $value    Data to store
+	 * @param int    $duration Cache TTL (in seconds)
 	 *
 	 * @return bool
 	 */
@@ -148,7 +148,7 @@ class Cache
 	 * Removes the item from the static cache.
 	 *
 	 * @param string $nameSpace
-	 * @param string $key       Cache ID
+	 * @param string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -204,4 +204,15 @@ class Cache
 			\opcache_invalidate($path);
 		}
 	}
+
+	/**
+	 * Clear all cache
+	 */
+	public static function clearAll()
+	{
+		static::clearOpcache();
+		static::clear();
+		clearstatcache();
+	}
+
 }
