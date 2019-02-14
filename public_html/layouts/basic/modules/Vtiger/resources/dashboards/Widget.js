@@ -244,7 +244,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 								threshold = chart.config.options.verticalBarLabelsThreshold;
 							}
 							if (dataItem._view.width + threshold < labelWidth || barHeight + threshold < labelHeight) {
-								dataItem.$datalabels._model = null;
+								dataItem.$datalabels._model.positioner = () => {
+									return false;
+								}
 							} else {
 								dataItem.$datalabels._model = model;
 							}
@@ -308,7 +310,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 								threshold = chart.config.options.horizontalBarLabelsThreshold;
 							}
 							if (dataItem._view.height + threshold < labelHeight || barWidth + threshold < labelWidth) {
-								dataItem.$datalabels._model = null;
+								dataItem.$datalabels._model.positioner = () => {
+									return false;
+								}
 							} else {
 								dataItem.$datalabels._model = model;
 							}
