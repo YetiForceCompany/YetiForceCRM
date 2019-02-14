@@ -31,26 +31,18 @@
 							</span>
 						</div>
 						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}"
-							   class="dateRangeField js-date-range-filter form-control text-center"
-							   data-js="val" data-date-format="{$USER_MODEL->get('date_format')}"
-							   value="{implode(',',\App\Fields\Date::formatRangeToDisplay([date('Y-m-d'),date('Y-m-d')]))}"/>
+						       class="dateRangeField js-date-range-filter form-control text-center"
+						       data-js="val" data-date-format="{$USER_MODEL->get('date_format')}"
+						       value="{implode(',',\App\Fields\Date::formatRangeToDisplay([date('Y-m-d'),date('Y-m-d')]))}"/>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<button type="button"
-							class="btn btn-primary btn-sm js-date-range-btn"
-							data-js="click">{\App\Language::translate('LBL_FILTER')}</button>
+					        class="btn btn-primary btn-sm js-date-range-btn"
+					        data-js="click">{\App\Language::translate('LBL_FILTER')}</button>
 				</div>
 			</div>
-			<table class="table table-bordered js-data-table" data-js="dataTable">
-				<thead>
-				<tr>
-					{foreach item=HEADER from=$TABLE_MAPPING[$TYPE]}
-						<th>{\App\Language::translate('LBL_'|cat:$HEADER|UPPER,$MODULE_NAME)}</th>
-					{/foreach}
-				</tr>
-				</thead>
-			</table>
+			<table class="table table-bordered js-data-table" data-js="dataTable"></table>
 		</div>
 	</div>
 {/strip}
