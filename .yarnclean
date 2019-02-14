@@ -88,6 +88,9 @@ jstree-bootstrap-theme/dist/libs/
 jstree-bootstrap-theme/dist/.esformatter
 jstree-bootstrap-theme/dist/jstree.js
 jstree-bootstrap-theme/dist/jstree.min.js
+jstree-bootstrap-theme/libs/bootstrap/js/bootstrap.js
+jstree-bootstrap-theme/libs/jquery.js
+jstree-bootstrap-theme/libs/bootstrap/js/bootstrap.min.js
 leaflet.awesome-markers/screenshots
 leaflet.markercluster/spec
 mousetrap/plugins
