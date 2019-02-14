@@ -21,12 +21,13 @@ class A_LanguageFiles extends \Tests\Base
 		$parser = new \Seld\JsonLint\JsonParser();
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
-				try {
+				$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
+				/*try {
 					$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
 					// @codeCoverageIgnoreStart
 				} catch (\Seld\JsonLint\ParsingException $e) {
 					throw new \Exception("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
-				}
+				}*/
 				// @codeCoverageIgnoreEnd
 			}
 		}
