@@ -129,6 +129,10 @@ class Gui_BackupManager extends \Tests\GuiBase
 		$config = new \App\ConfigFile('component', 'Backup');
 		$config->set('BACKUP_PATH', static::$backupDir);
 		$config->create();
-		\vtlib\Functions::recurseDelete(static::$testDir, true);
+		if (\App\Fields\File::isAllowedDirectory(static::$testDir)) {
+			\vtlib\Functions::recurseDelete(static::$testDir, true);
+		} else {
+			echo 'Problem with directory' . static::$testDir . PHP_EOL;
+		}
 	}
 }
