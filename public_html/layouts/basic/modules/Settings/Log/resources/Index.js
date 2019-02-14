@@ -32,11 +32,13 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 			}
 			for (let key in response.data) {
 				let row = response.data[key];
-				const original = row.url;
-				if (row.url.indexOf('?') === -1) {
-					row.url = 'index.php?' + row.url;
+				if (typeof row.url !== 'undefined') {
+					const original = row.url;
+					if (row.url.indexOf('?') === -1) {
+						row.url = 'index.php?' + row.url;
+					}
+					row.url = `<a href="${row.url}" title="${response.columns['url']}" data-content="${original}" class="js-popover-tooltip">${original.length > 50 ? original.substr(0, 50) + '...' : original}</a>`;
 				}
-				row.url = `<a href="${row.url}" title="${response.columns['url']}" data-content="${original}" class="js-popover-tooltip">${original.length > 50 ? original.substr(0, 50) + '...' : original}</a>`;
 				data.push(row);
 			}
 			callback(data, columns);
