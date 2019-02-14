@@ -44,11 +44,22 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 		try {
-			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
-			$this->login();
+			//$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
+			$this->getDriver();
+			if (!static::$isLogin) {
+				$this->login();
+			}
 		} catch (\Throwable $e) {
 			self::markTestSkipped('NO RemoteWebDriver');
 		}
+	}
+
+	public function getDriver()
+	{
+		if (\is_null($this->driver)) {
+			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
+		}
+		return $this->driver;
 	}
 
 	/**
