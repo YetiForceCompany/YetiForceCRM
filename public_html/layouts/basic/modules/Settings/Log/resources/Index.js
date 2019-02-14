@@ -2,72 +2,111 @@
 'use strict';
 
 Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
-	registerDataTable: function () {
-		let container = $('.tpl-Settings-Log-Index');
-		App.Fields.Date.registerRange(container.find('.js-log-range'));
 
-		let table = container.find('.js-data-table').dataTable({
+	/**
+	 * Get data from server
+	 *
+	 * @param {function} callback
+	 */
+	getData(callback) {
+		AppConnector.request({
+			url: 'index.php',
+			type: 'POST',
+			data: {
+				module: 'Log',
+				parent: 'Settings',
+				action: 'Data',
+				type: this.container.find('.nav .active').data('type'),
+				range: this.container.find('.js-date-range-filter').val()
+			}
+		}).done((response) => {
+			const columns = [], data = [];
+			for (let key in response.columns) {
+				const render = key === 'url' ? (data) => data : $.fn.dataTable.render.text();
+				columns.push({
+					title: response.columns[key],
+					name: key,
+					data: key,
+					render
+				});
+			}
+			for (let key in response.data) {
+				let row = response.data[key];
+				const original = row.url;
+				if (row.url.indexOf('?') === -1) {
+					row.url = 'index.php?' + row.url;
+				}
+				row.url = `<a href="${row.url}" title="${response.columns['url']}" data-content="${original}" class="js-popover-tooltip">${original.length > 50 ? original.substr(0, 50) + '...' : original}</a>`;
+				data.push(row);
+			}
+			callback(data, columns);
+		});
+	},
+
+	/**
+	 * Initialize data table component
+	 *
+	 * @param {array} data
+	 * @param {array} columns
+	 * @returns {jQuery}
+	 */
+	initDataTable(data, columns) {
+		return this.container.find('.js-data-table').dataTable({
 			searching: false,
-			serverSide: true,
 			processing: true,
 			scrollX: true,
 			bAutoWidth: false,
-			ajax: {
-				url: 'index.php',
-				type: 'POST',
-				data: function (d) {
-					d.module = 'Log';
-					d.parent = 'Settings';
-					d.action = 'Data';
-					d.type = container.find('.nav .active').data('type');
-					d.range = container.find('.js-date-range-filter').val();
-					return d;
-
+			data,
+			columns,
+			language: {
+				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
+				sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),
+				sInfo: app.vtranslate('JS_S_INFO'),
+				sInfoEmpty: app.vtranslate('JS_S_INFO_EMPTY'),
+				sSearch: app.vtranslate('JS_SEARCH'),
+				sEmptyTable: app.vtranslate('JS_NO_RESULTS_FOUND'),
+				sInfoFiltered: app.vtranslate('JS_S_INFO_FILTERED'),
+				sLoadingRecords: app.vtranslate('JS_LOADING_OF_RECORDS'),
+				sProcessing: app.vtranslate('JS_LOADING_OF_RECORDS'),
+				oPaginate: {
+					sFirst: app.vtranslate('JS_S_FIRST'),
+					sPrevious: app.vtranslate('JS_S_PREVIOUS'),
+					sNext: app.vtranslate('JS_S_NEXT'),
+					sLast: app.vtranslate('JS_S_LAST')
 				},
-			},
-			language:
-				{
-					sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
-					sZeroRecords:
-						app.vtranslate('JS_NO_RESULTS_FOUND'),
-					sInfo:
-						app.vtranslate('JS_S_INFO'),
-					sInfoEmpty:
-						app.vtranslate('JS_S_INFO_EMPTY'),
-					sSearch:
-						app.vtranslate('JS_SEARCH'),
-					sEmptyTable:
-						app.vtranslate('JS_NO_RESULTS_FOUND'),
-					sInfoFiltered:
-						app.vtranslate('JS_S_INFO_FILTERED'),
-					sLoadingRecords:
-						app.vtranslate('JS_LOADING_OF_RECORDS'),
-					sProcessing:
-						app.vtranslate('JS_LOADING_OF_RECORDS'),
-					oPaginate:
-						{
-							sFirst: app.vtranslate('JS_S_FIRST'),
-							sPrevious:
-								app.vtranslate('JS_S_PREVIOUS'),
-							sNext:
-								app.vtranslate('JS_S_NEXT'),
-							sLast:
-								app.vtranslate('JS_S_LAST')
-						}
-					,
-					oAria: {
-						sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
-						sSortDescending:
-							app.vtranslate('JS_S_SORT_DESCENDING')
-					}
+				oAria: {
+					sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
+					sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING')
 				}
+			}
 		});
-		container.find('.js-date-range-btn').click(function (e) {
-			table.DataTable().ajax.reload();
+	},
+
+	/**
+	 * Register data table component
+	 */
+	registerDataTable() {
+		App.Fields.Date.registerRange(this.container.find('.js-log-range'));
+		let table, tableApi;
+		this.getData((data, columns) => {
+			table = this.initDataTable(data, columns);
+			tableApi = table.api();
+		});
+		this.container.find('.js-date-range-btn').click((e) => {
+			this.getData((data, columns) => {
+				tableApi.data().clear();
+				tableApi.rows.add(data);
+				tableApi.draw();
+			});
 		})
 	},
-	registerEvents: function () {
+
+	/**
+	 * Register events
+	 */
+	registerEvents() {
 		this._super();
+		this.container = $('.tpl-Settings-Log-Index');
 		this.registerDataTable();
 	}
 });
