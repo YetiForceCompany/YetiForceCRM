@@ -43,14 +43,29 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	public function setUp()
 	{
 		parent::setUp();
+		try {
+			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
+			$this->login();
+		} catch (\Throwable $e) {
+			self::markTestSkipped('NO RemoteWebDriver');
+		}
+	}
 
-		$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
-		$this->login();
+	/**
+	 * Is available.
+	 *
+	 * @return bool
+	 */
+	public function isAvailable()
+	{
+		return !\is_null($this->driver);
 	}
 
 	public function url($url)
 	{
-		$this->driver->get(\AppConfig::main('site_URL') . $url);
+		if ($this->isAvailable()) {
+			$this->driver->get(\App\Config::main('site_URL') . $url);
+		}
 	}
 
 	/**
@@ -58,9 +73,11 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 */
 	public function login()
 	{
-		$this->driver->get(\AppConfig::main('site_URL') . 'index.php?module=Users&view=Login');
-		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
-		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
-		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
+		if ($this->isAvailable()) {
+			$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
+			$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
+			$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
+			$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
+		}
 	}
 }
