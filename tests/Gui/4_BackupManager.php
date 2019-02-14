@@ -72,9 +72,15 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function tearDownAfterClass()
 	{
-		\vtlib\Functions::recurseDelete(self::$testDir, true);
-		$config = new \App\ConfigFile('component', 'Backup');
-		$config->set('BACKUP_PATH', '');
-		$config->create();
+		try {
+			if (is_dir(self::$testDir)) {
+				\vtlib\Functions::recurseDelete(self::$testDir, true);
+			}
+			$config = new \App\ConfigFile('component', 'Backup');
+			$config->set('BACKUP_PATH', self::$testDir);
+			$config->create();
+		} catch (\Throwable $e) {
+			echo $e->getMessage();
+		}
 	}
 }
