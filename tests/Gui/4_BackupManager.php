@@ -121,14 +121,22 @@ class Gui_BackupManager extends \Tests\GuiBase
 	}
 
 	/**
+	 * Configuration restore test.
+	 */
+	public function testRestoreConfig()
+	{
+		$config = new \App\ConfigFile('component', 'Backup');
+		$config->set('BACKUP_PATH', static::$backupDir);
+		$config->create();
+		$this->assertSame(\App\Utils\Backup::getBackupCatalogPath(), static::$backupDir);
+	}
+
+	/**
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass()
 	{
-		$config = new \App\ConfigFile('component', 'Backup');
-		$config->set('BACKUP_PATH', static::$backupDir);
-		$config->create();
 		if (\App\Fields\File::isAllowedDirectory(static::$testDir)) {
 			\vtlib\Functions::recurseDelete(static::$testDir, true);
 		} else {

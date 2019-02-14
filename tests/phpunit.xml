@@ -19,7 +19,7 @@
 		<testsuite name="Base">
 			<directory suffix=".php">./Base/</directory>
 		</testsuite>
-		<testsuite name="Integrations">
+		<!--<testsuite name="Integrations">
 			<directory suffix=".php">./Integrations/</directory>
 		</testsuite>
 		<testsuite name="Settings">
@@ -27,13 +27,13 @@
 		</testsuite>
 		<testsuite name="Apps">
 			<directory suffix=".php">./App/</directory>
-		</testsuite>
+		</testsuite>-->
 		<testsuite name="Gui">
 			<directory suffix=".php">./Gui/</directory>
 		</testsuite>
-		<testsuite name="Finish">
+		<!--<testsuite name="Finish">
 			<directory suffix=".php">./Finish/</directory>
-		</testsuite>
+		</testsuite>-->
 	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
