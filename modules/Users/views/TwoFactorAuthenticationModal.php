@@ -17,14 +17,14 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $lockExit = ture;
+	public $lockExit = true;
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
+		if (\App\Config::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		return true;
@@ -56,7 +56,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	{
 		$this->modalIcon = 'fa fa-key';
 		$this->pageTitle = \App\Language::translate('LBL_TWO_FACTOR_AUTHENTICATION', $request->getModule());
-		$this->lockExit = AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY';
+		$this->lockExit = \App\Config::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY';
 		parent::preProcessAjax($request);
 	}
 
@@ -84,7 +84,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	private function showOff()
 	{
-		if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+		if (\App\Config::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
 			return !empty(\App\User::getUserModel(\App\User::getCurrentUserRealId())->getDetail('authy_secret_totp'));
 		}
 		return false;
