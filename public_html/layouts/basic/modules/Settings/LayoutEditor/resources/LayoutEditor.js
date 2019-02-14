@@ -393,7 +393,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var containment = $(this).closest('.moduleBlocks');
 			$(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
 				'containment': containment,
-				'revert': true,
 				'tolerance': 'pointer',
 				'cursor': 'move',
 				'connectWith': containment.find('.connectedSortable'),
