@@ -7,7 +7,7 @@
 			{else}
 				<span class="fas fa-user mr-2"></span>
 			{/if}
-			<span class="mb-1">{$RECORD->getDisplayName()}</span>
+			<span class="mb-1 u-text-ellipsis--no-hover" title="{$RECORD->getDisplayName()}">{$RECORD->getDisplayName()}</span>
 			{if $HEADER_LINKS}
 				<div class="c-popover--link__header__buttons btn-group">
 					{foreach item=LINK from=$HEADER_LINKS}
@@ -18,7 +18,7 @@
 		</h5>
 		<div class="c-popover--link__body px-2 pb-1">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELDS}
-				<div class="u-white-space-nowrap u-text-ellipsis">
+				<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 					{if $FIELD_MODEL->isReferenceField() || isset($FIELDS_ICON[$FIELD_NAME])}
 						<span class="{if $FIELD_MODEL->isReferenceField()}userIcon-{\App\Record::getType($RECORD->get($FIELD_NAME))}{else}{$FIELDS_ICON[$FIELD_NAME]}{/if}"></span>
 						&nbsp;
