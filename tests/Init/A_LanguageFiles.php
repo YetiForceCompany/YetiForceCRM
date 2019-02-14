@@ -22,12 +22,12 @@ class A_LanguageFiles extends \Tests\Base
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
 				$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
-				/*try {
+				try {
 					$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())));
 					// @codeCoverageIgnoreStart
 				} catch (\Seld\JsonLint\ParsingException $e) {
 					throw new \Exception("File: {$item->getPathname()}:" . \PHP_EOL . $e->getMessage());
-				}*/
+				}
 				// @codeCoverageIgnoreEnd
 			}
 		}
