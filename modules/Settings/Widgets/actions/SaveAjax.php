@@ -4,7 +4,7 @@
  * Settings widgets SaveAjax action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -34,6 +34,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'switchHeader' => 'Text',
 				'filter' => 'Alnum',
 				'checkbox' => 'Text',
+				'field_name' => 'Alnum'
 			]
 		]);
 		Settings_Widgets_Module_Model::saveWidget($params);
