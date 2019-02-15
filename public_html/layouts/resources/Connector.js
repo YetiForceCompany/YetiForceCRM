@@ -8,7 +8,7 @@
  *************************************************************************************/
 'use strict';
 
-AppConnector = {
+window.AppConnector = {
 
 	/**
 	 * Sends a pjax request (push state +ajax)
