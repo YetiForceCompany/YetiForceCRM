@@ -9,6 +9,12 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 	 * @param {function} callback
 	 */
 	getData(callback) {
+		const progressIndicatorElement = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
 		AppConnector.request({
 			url: 'index.php',
 			type: 'POST',
@@ -42,6 +48,7 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 				data.push(row);
 			}
 			callback(data, columns);
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
 		});
 	},
 
@@ -55,7 +62,7 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 	initDataTable(data, columns) {
 		return this.container.find('.js-data-table').dataTable({
 			searching: false,
-			processing: true,
+			processing: false,
 			scrollX: true,
 			bAutoWidth: false,
 			data,
@@ -108,7 +115,7 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 	 */
 	registerEvents() {
 		this._super();
-		this.container = $('.tpl-Settings-Log-Index');
+		this.container = $('.js-log');
 		this.registerDataTable();
 	}
 });
