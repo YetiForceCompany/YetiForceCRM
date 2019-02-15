@@ -71,7 +71,7 @@ class ProductsTableImages extends Base
 			$displayFields[] = $item;
 		}
 		array_splice($displayFields, 1, 0, [[
-			'headerHtml' => '<th style="padding:0px 4px;text-align:center;">Image</th>',
+			'headerHtml' => '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('PLL_IMAGE', 'Settings:PDF') . '</th>',
 			'model' => 'image',
 			'footerHtml' => '<th></th>',
 		]]);
