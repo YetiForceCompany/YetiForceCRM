@@ -98,10 +98,6 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 	importSave: function (form) {
 		var aDeferred = jQuery.Deferred();
 		var formData = new FormData(form[0]);
-		if (typeof file !== "undefined") {
-			formData.append("imported_xml", file);
-			file = false;
-		}
 		var params = {
 			url: "index.php",
 			type: "POST",
