@@ -1,76 +1,24 @@
-# Contributor Covenant Code of Conduct
+# CODE OF CONDUCT
+We prepared a very short and easy to follow CODE OF CONDUCT. If you want to be a member of our community, please follow these simple guidelines.
 
-## Our Pledge
+## ✔BE KIND, PATIENT, AND TOLERANT
+Remember that all of us had to start learning at some point.
 
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socio-economic status, nationality, personal
-appearance, race, religion, or sexual identity and orientation.
+## ✔RESPECT OTHERS AND THEIR CONTRIBUTIONS
+the same way you want them to respect you and your contributions.
 
-## Our Standards
+## ✔REMEMBER THAT NOT EVERYBODY IS FLUENT IN ENGLISH
+Short answers do not necessarily mean that the person who answered is rude, they might mean that despite the language barrier they still want to help you.
 
-Examples of behavior that contributes to creating a positive environment
-include:
+## ✔BE RESPONSIBLE AND CONSIDERATE
+Remember that your contribution will be used by people all around the world, who will depend on its reliability.
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+## ✔CHOOSE YOUR WORDS CAREFULLY AND DON’T INSULT
+Insults and verbal abuse towards other community members will not be tolerated.
 
-Examples of unacceptable behavior by participants include:
+## ✔REMEMBER THAT WE ALL HAVE DIFFERENT OPINIONS
+We do not all think alike, and everyone is entitled to their opinion. You cannot force people to agree with you, what you can do is convince them by presenting reasonable arguments that prove why your idea is great. Blaming others will not lead anywhere. Try to understand why that person has a different opinion.
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
- advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
- address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
- professional setting
+❗If you would like to report someone for violating our code of conduct, please send an email to help@yetiforce.com❗
 
-## Our Responsibilities
-
-Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.
-
-## Scope
-
-This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.
-
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at github@yetiforce.com. All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project's leadership.
-
-## Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
-available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see
-https://www.contributor-covenant.org/faq
+## THANK YOU!
