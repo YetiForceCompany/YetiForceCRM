@@ -125,10 +125,6 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public function testRestoreConfig()
 	{
-		if (empty(static::$backupDir)) {
-			$this->markTestSkipped('Empty value in configuration: BACKUP_PATH');
-			return;
-		}
 		$config = new \App\ConfigFile('component', 'Backup');
 		$config->set('BACKUP_PATH', static::$backupDir);
 		$config->create();
