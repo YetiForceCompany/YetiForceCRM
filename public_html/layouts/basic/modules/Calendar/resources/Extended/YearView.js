@@ -92,7 +92,7 @@ FC.views.year = View.extend({
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${moment(date + '-01-01').format(dateFormat)}&end=${moment(date + '-12-31').format(dateFormat)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
 		let connectorMethod = window["AppConnector"]["request"];
-		if (!this.readonly && calendarLoaded) {
+		if (!this.readonly && window.calendarLoaded) {
 			connectorMethod = window["AppConnector"]["requestPjax"];
 		}
 		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.calendarLoaded) {
@@ -152,7 +152,7 @@ FC.views.year = View.extend({
 		});
 		this.registerTodayButtonYearChange(calendar);
 		this.registerViewRenderEvents(calendar.view);
-		calendarLoaded = true;
+		window.calendarLoaded = true;
 	},
 
 	/**
