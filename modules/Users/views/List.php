@@ -141,6 +141,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
+		$viewer->assign('ALPHABET_VALUE', $searchValue ?? '');
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
