@@ -88,7 +88,7 @@ class ProductsTableImages extends Base
 					if ($imageDataJson) {
 						$imageData = \App\Json::decode($imageDataJson);
 					}
-					$image = \App\Language::translate('LBL_NONE');
+					$image = '';
 					if (!empty($imageData) && !empty($imageData[0]['path'])) {
 						$base64 = \App\Fields\File::getImageBaseData($imageData[0]['path']);
 						$image = '<img src="' . $base64 . '" style="width:80px;height:auto;">';
