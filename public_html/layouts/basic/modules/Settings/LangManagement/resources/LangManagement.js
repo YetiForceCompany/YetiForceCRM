@@ -185,14 +185,14 @@ var Settings_Index_Js = {
 			trigger: 'manual',
 			placement: 'left',
 			html: true,
-			content: '<div class="popover_block"><span class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</span>   <span class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</span></div>'
+			content: '<div class="popover_block"><a href="#" role="button" class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</a>   <a href="#" role="button" class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</a></div>'
 		}
 		const makeSureOptions = {
 			title: app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
 			trigger: 'manual',
 			placement: 'left',
 			html: true,
-			content: '<div class="popover_block"><span class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</span>   <span class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</span></div>'
+			content: '<div class="popover_block"><a href="#" role="button" class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</a>   <a href="#" role="button" class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</a></div>'
 		}
 		element.find('#deleteItemC').on('click', function (e) {
 			$(e.currentTarget).popover(options).popover('show');
