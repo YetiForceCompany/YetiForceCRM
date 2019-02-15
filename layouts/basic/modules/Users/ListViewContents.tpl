@@ -20,7 +20,7 @@
 	<input type="hidden" id="numberOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}"/>
 	<input type="hidden" id="alphabetSearchKey" value="{$MODULE_MODEL->getAlphabetSearchField()}"/>
 	<input type="hidden" id="Operator" value="{$OPERATOR}"/>
-	<input type="hidden" id="alphabetValue" value="{if isset($ALPHABET_VALUE)}{$ALPHABET_VALUE}{/if}"/>
+	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}"/>
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}"/>
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{\AppConfig::main('listMaxEntriesMassEdit')}"/>
 	<input type="hidden" id="autoRefreshListOnChange"
