@@ -95,7 +95,7 @@ FC.views.year = View.extend({
 		if (!this.readonly && window.calendarLoaded) {
 			connectorMethod = window["AppConnector"]["requestPjax"];
 		}
-		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.calendarLoaded) {
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && window.calendarLoaded) {
 			options = Object.assign(options, {
 				start: moment(this.browserHistoryConfig.start).format(dateFormat),
 				end: moment(this.browserHistoryConfig.end).format(dateFormat),
