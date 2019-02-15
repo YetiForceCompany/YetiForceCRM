@@ -7,16 +7,6 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.7.2.tgz#1498c3eb78ee7c78c5488418707de90aaf58d5d7"
   integrity sha512-Ha4HshKdCVKgu4TVCtG8XyPPYdzTzNW4/fvPnn+LT7AosRABryhlRv4cc4+o84dgpvVJN9reN7jo/c+nYujFug==
 
-"@types/estree@0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
-  integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
-
-"@types/node@*":
-  version "11.9.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.3.tgz#14adbb5ab8cd563f549fbae8dbe92e0b7d6e76cc"
-  integrity sha512-DMiqG51GwES/c4ScBY0u5bDlH44+oY8AeYHjY1SGCWidD7h08o1dfHue/TGK7REmif2KiJzaUskO+Q0eaeZ2fQ==
-
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -101,9 +91,9 @@ bootstrap-daterangepicker@^3.0.3:
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
 bootstrap@^4.0, bootstrap@^4.3.0:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
-  integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.0.tgz#2559ccb8d45426ac6c54db23eb3d1c9f4257fa22"
+  integrity sha512-M0vqY0Z6UDweV2nLFl5dXcb+GIo53EBCGMMVxCGH5vJxl/jsr+HkULBMd4kn9rdpdBZwd3BduCgMOYOwJybo4Q==
 
 chart.js@>2.7.0, chart.js@^2.7.2:
   version "2.7.3"
@@ -220,9 +210,9 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
     jquery ">=1.7"
 
 dayjs@^1.8.5:
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.6.tgz#b7a8ccfef173dae03e83a05a58788c9dbe948a35"
-  integrity sha512-NLhaSS1/wWLRFy0Kn/VmsAExqll2zxRUPmPbqJoeMKQrFxG+RT94VMSE+cVljB6A76/zZkR0Xub4ihTHQ5HgGg==
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.5.tgz#0b066770f89a20022218544989f3d23e5e8db29a"
+  integrity sha512-jo5sEFdsT43RqXxoqQVEuD7XL6iSIRxcjTgheJdlV0EHKObKP3pb9JcJEv/KStVMy25ABNQrFnplKcCit05vOA==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -272,10 +262,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.8.9:
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.8.11.tgz#b54dc48c02a4389e464e76e1f5f35789d3223550"
-  integrity sha512-pgQuLVLNINYBSICn0IOMQZ6IdkDFOuHBDpzxAlXifPb6cTT0Hq2fRu60R3WCHLGR1zWQW0lienjOYi4EagXhAg==
+gantt-elastic@^0.8.0:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.8.1.tgz#fe82bfe9adfe586f33294ee6d50cde5aa53b3e2a"
+  integrity sha512-jVA+pkJ2ek/n2ZpEonKWw7YbmnJ1lWY8Wt6eL6ZNx64T8UU8CyRIMzTPRhYCIEaNMjO+TlS13UcHCXT7Ho7pRQ==
   dependencies:
     dayjs "^1.8.5"
 
@@ -436,14 +426,6 @@ respond.js@^1.4.2:
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
   integrity sha1-/VwHRQrM5gkJFtjQkLhrZy3ZdIs=
 
-rollup@^0.61.2:
-  version "0.61.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.61.2.tgz#30a953736964683a5b8ea952b137a393d84e6302"
-  integrity sha512-NN7GaX3c9I3oz+CjEex7+JbnSxrLMTBXNRThI4qdN2Tq0K/7RiedlEzOHyuVAHPZKvQeoPiRioTWL3xhmN+oCg==
-  dependencies:
-    "@types/estree" "0.0.39"
-    "@types/node" "*"
-
 sass-material-colors@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/sass-material-colors/-/sass-material-colors-0.0.5.tgz#b944539236c94e2d4ece35d2ee3fa22f10b2ed43"
@@ -491,10 +473,3 @@ tributejs@^3.4.0:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.5.3.tgz#c08b646ceb59971277d46dad9110b0401416f4c9"
   integrity sha512-LS1FOTmyrt/oP7WHm+epwHOzokJX+TNTxYQvSQfesd1RGEhhVix2l+pUTPHGrXMSe5H3xvPDKA8b5LvMyxV5Ww==
-
-webauthn-simple-app@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/webauthn-simple-app/-/webauthn-simple-app-2.0.0.tgz#c239c46e39b230cf6c60e7b3d14553a4165b8ee0"
-  integrity sha512-oZ59SYX4iqX+2y+/A3kCI3OhhiaQ33QMr8HTR/hAcpfpR2/xUWUA2wYftSB4W8MRTgpLGuHUVna4gJhUwNvNfQ==
-  dependencies:
-    rollup "^0.61.2"
