@@ -28,14 +28,14 @@
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 				<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}"
 					nowrap>
-					<a href="{\App\Purifier::purifyByType((string)$LISTVIEW_ENTRY->link, 'Text')}" target="_blank"
-					   rel="noreferrer noopener">{\App\Purifier::purifyByType((string)$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME, 'Text')}</a>
+					<a href="{\App\Purifier::encodeHtml((string)$LISTVIEW_ENTRY->link)}" target="_blank"
+					   rel="noreferrer noopener">{\App\Purifier::encodeHtml((string)$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME)}</a>
 					{if $LISTVIEW_HEADER@last}
 						</td>
 						<td nowrap class="{$WIDTHTYPE}">
 							<span class="actions">
 								<span class="actionImages float-right">
-									<a href="{\App\Purifier::purifyByType((string)$LISTVIEW_ENTRY->link, 'Text')}"
+									<a href="{\App\Purifier::encodeHtml((string)$LISTVIEW_ENTRY->link)}"
 									   target="_blank" rel="noreferrer noopener"><i
 												title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"
 												class="fas fa-th-list alignMiddle"></i></a>&nbsp;
