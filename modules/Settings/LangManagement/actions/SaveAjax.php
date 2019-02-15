@@ -148,7 +148,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	public function delete(\App\Request $request)
 	{
 		$lang = $request->getByType('prefix');
-		if (\App\Language::DEFAULT_LANG === $lang) {
+		if (in_array($lang, [\App\Config::main('default_language'), \App\Language::DEFAULT_LANG])) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$saveResp = Settings_LangManagement_Module_Model::delete($lang);
