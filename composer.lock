@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1da4275bb85641bc855f867b46ff6ce9",
+    "content-hash": "7e26bd38ff002b812c1d5f9eeb768a4c",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -629,16 +629,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.7.23",
+            "version": "v5.7.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "3d67e2d7c9087ae3a2a53d9b102697e5f482d6d0"
+                "reference": "b63324d349a8ae2156fbc2697c1ccc85879b3803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/3d67e2d7c9087ae3a2a53d9b102697e5f482d6d0",
-                "reference": "3d67e2d7c9087ae3a2a53d9b102697e5f482d6d0",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/b63324d349a8ae2156fbc2697c1ccc85879b3803",
+                "reference": "b63324d349a8ae2156fbc2697c1ccc85879b3803",
                 "shasum": ""
             },
             "require": {
@@ -669,20 +669,20 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2019-01-09T10:34:49+00:00"
+            "time": "2019-02-12T07:46:48+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v5.7.23",
+            "version": "v5.7.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "ea3f30dd824bba52bcff4290dc7431b0ffb478e1"
+                "reference": "3e2810145f37eb89fa11759781ee88ee1c1a5262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/ea3f30dd824bba52bcff4290dc7431b0ffb478e1",
-                "reference": "ea3f30dd824bba52bcff4290dc7431b0ffb478e1",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/3e2810145f37eb89fa11759781ee88ee1c1a5262",
+                "reference": "3e2810145f37eb89fa11759781ee88ee1c1a5262",
                 "shasum": ""
             },
             "require": {
@@ -728,7 +728,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2019-01-07T13:39:07+00:00"
+            "time": "2019-02-12T07:57:07+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -2810,16 +2810,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.9",
+            "version": "0.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "790d8c6ff0fd3bd2e8648b75db605e4ad8bdcacb"
+                "reference": "7bbb63ccfcb85e596e316ce821ff3d3eddf02c71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/790d8c6ff0fd3bd2e8648b75db605e4ad8bdcacb",
-                "reference": "790d8c6ff0fd3bd2e8648b75db605e4ad8bdcacb",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/7bbb63ccfcb85e596e316ce821ff3d3eddf02c71",
+                "reference": "7bbb63ccfcb85e596e316ce821ff3d3eddf02c71",
                 "shasum": ""
             },
             "require": {
@@ -2849,7 +2849,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-02-01T12:28:29+00:00"
+            "time": "2019-02-13T08:43:58+00:00"
         },
         {
             "name": "yetiforce/yii2",

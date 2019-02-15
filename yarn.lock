@@ -90,12 +90,7 @@ bootstrap-daterangepicker@^3.0.3:
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
-bootstrap@^4.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.0.tgz#2559ccb8d45426ac6c54db23eb3d1c9f4257fa22"
-  integrity sha512-M0vqY0Z6UDweV2nLFl5dXcb+GIo53EBCGMMVxCGH5vJxl/jsr+HkULBMd4kn9rdpdBZwd3BduCgMOYOwJybo4Q==
-
-bootstrap@^4.3.1:
+bootstrap@^4.0, bootstrap@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
   integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
@@ -123,10 +118,10 @@ chartjs-color@^2.1.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
-chartjs-plugin-datalabels@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.4.0.tgz#97ed2b3dd2f2b8f0b6ca084e450c8da567faea75"
-  integrity sha512-nC755jEZFl45KtUPEGMrH+f3/F/u8RbRS328yP+puca7/DBgkCA/n99DovFbsSc6/FgYmn/Z3+/MUQFl77qv8w==
+chartjs-plugin-datalabels@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.5.0.tgz#b9c7a99857b2a52b6db70f63fc9f3a65d887d523"
+  integrity sha512-R82bKXMXmtivrCgEHzSGkFmX2blFJtZh0AyDobEOpPtAIBAlDtMHOaMBw1sTRk0hytKdZuJgvsBaFnvzsgrjOw==
 
 chartjs-plugin-funnel@^1.1.2:
   version "1.1.2"
@@ -152,18 +147,6 @@ color-convert@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
   integrity sha1-vbbGnOZg+t/+CwAHzER+G59ygr0=
-
-color-convert@^1.9.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
-  integrity sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==
-  dependencies:
-    color-name "1.1.3"
-
-color-name@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
-  integrity sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=
 
 color-name@^1.0.0:
   version "1.1.4"
@@ -215,9 +198,9 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
     jquery ">=1.7"
 
 dayjs@^1.8.5:
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.5.tgz#0b066770f89a20022218544989f3d23e5e8db29a"
-  integrity sha512-jo5sEFdsT43RqXxoqQVEuD7XL6iSIRxcjTgheJdlV0EHKObKP3pb9JcJEv/KStVMy25ABNQrFnplKcCit05vOA==
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.6.tgz#b7a8ccfef173dae03e83a05a58788c9dbe948a35"
+  integrity sha512-NLhaSS1/wWLRFy0Kn/VmsAExqll2zxRUPmPbqJoeMKQrFxG+RT94VMSE+cVljB6A76/zZkR0Xub4ihTHQ5HgGg==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -267,10 +250,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.8.9:
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.8.11.tgz#b54dc48c02a4389e464e76e1f5f35789d3223550"
-  integrity sha512-pgQuLVLNINYBSICn0IOMQZ6IdkDFOuHBDpzxAlXifPb6cTT0Hq2fRu60R3WCHLGR1zWQW0lienjOYi4EagXhAg==
+gantt-elastic@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.9.0.tgz#8f3016aec44384a76f8bcd73e9f63e7cd830debd"
+  integrity sha512-MdruBUHerC4rX3nsLAeVqe0MoEJh4H/fZhJeO5bKxfBD14zUnWB0DCCS0LUsuEBUuoh2C7Y0ddcf9+z/DTTgvQ==
   dependencies:
     dayjs "^1.8.5"
 
