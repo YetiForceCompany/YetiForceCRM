@@ -180,19 +180,19 @@ var Settings_Index_Js = {
 		Settings_Index_Js.LoadEditLang(e);
 	},
 	initEvant: function (element) {
-		var options = {
+		const options = {
 			title: app.vtranslate('LBL_AreYouSure'),
 			trigger: 'manual',
 			placement: 'left',
 			html: true,
-			content: '<div class="popover_block"><button class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
+			content: '<div class="popover_block"><a href="#" role="button" class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</a>   <a href="#" role="button" class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</a></div>'
 		}
-		var makeSureOptions = {
+		const makeSureOptions = {
 			title: app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
 			trigger: 'manual',
 			placement: 'left',
 			html: true,
-			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
+			content: '<div class="popover_block"><a href="#" role="button" class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</a>   <a href="#" role="button" class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</a></div>'
 		}
 		element.find('#deleteItemC').on('click', function (e) {
 			$(e.currentTarget).popover(options).popover('show');

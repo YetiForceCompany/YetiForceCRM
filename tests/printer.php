@@ -44,6 +44,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	public function endTest(Test $test, float $time): void
 	{
 		if ($this->debug) {
+			$time = round($time, 2);
 			echo " - $time second(s) | Assertions: " . $test->getNumAssertions();
 			if (!$this->lastTestFailed) {
 				$this->writeProgress('.');
