@@ -91,6 +91,8 @@ class Composer
 		'release1-update.php',
 		'release2-tag.php',
 		'phpdoc.ini',
+		'crowdin.yml',
+		'sonar-project.properties',
 	];
 
 	public static $clearFilesModule = [

@@ -722,7 +722,7 @@ App.Fields = {
 			registerEmojiPanel(inputDiv, emojisContainer) {
 				new EmojiPanel({
 					container: '.js-completions__emojis',
-					json_url: '/libraries/emojipanel/dist/emojis.json',
+					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json',
 				});
 				emojisContainer.on('click', (e) => {
 					let element = $(e.target);

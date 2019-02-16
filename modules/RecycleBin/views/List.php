@@ -93,6 +93,7 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
+		$viewer->assign('LISTVIEW_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);

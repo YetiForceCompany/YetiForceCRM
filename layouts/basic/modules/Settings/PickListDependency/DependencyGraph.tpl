@@ -20,7 +20,7 @@
 					</span>
 					<h5 class="mb-0">
 						<span class="btn btn-link px-0" data-toggle="collapse" data-target="#collapseOne"
-							  aria-expanded="true" aria-controls="collapseOne">
+						      aria-expanded="true" aria-controls="collapseOne">
 							{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..
 						</span>
 					</h5>
@@ -63,7 +63,7 @@
 			{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
 		{/foreach}
 		<input type="hidden" class="allSourceValues"
-			   value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}'/>
+		       value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}'/>
 		<div class="row depandencyTable m-0">
 			<div class="col-2 col-lg-1 p-0  table-responsive">
 				<table class="table table-sm themeTableColor" width="100%">
@@ -111,9 +111,9 @@
 									{assign var=IS_SELECTED value=true}
 								{/if}
 								<td data-source-value='{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}'
-									data-target-value='{\App\Purifier::encodeHtml($TARGET_VALUE)}'
-									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping u-cursor-pointer"
-									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
+								    data-target-value='{\App\Purifier::encodeHtml($TARGET_VALUE)}'
+								    class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping u-cursor-pointer"
+								    {if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
 									{\App\Language::translate($TARGET_VALUE, $SELECTED_MODULE)}
 								</td>
 							{/foreach}
@@ -147,14 +147,13 @@
 									<td>
 										<div class="form-group">
 											<div class="controls checkbox">
-												<input type="checkbox"
-													   class="sourceValue {\App\Purifier::encodeHtml($SOURCE_VALUE)}"
-													   id="sourceValue-{$smarty.foreach.sourceValuesLoop.index}"
-													   data-source-value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
-													   value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
-														{if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
-												<label class="ml-1"
-													   for="sourceValue-{$smarty.foreach.sourceValuesLoop.index}">
+												<label class="ml-1">
+													<input type="checkbox"
+													       class="sourceValue {\App\Purifier::encodeHtml($SOURCE_VALUE)} mr-1"
+													       id="sourceValue-{$smarty.foreach.sourceValuesLoop.index}"
+													       data-source-value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
+													       value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
+															{if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
 													{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}
 												</label>
 											</div>
@@ -175,7 +174,7 @@
 							class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 				</button>
 				<button type="button" class="cancelLink cancelDependency btn btn-danger text-white"
-						title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">
+				        title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">
 					<span class="fa fa-times u-mr-5px"></span><strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
