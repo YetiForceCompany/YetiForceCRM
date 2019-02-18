@@ -266,7 +266,7 @@ var Settings_Index_Js = {
 		var prefix = SaveEvent.result['prefixOld'];
 		var tbodyElement = closestTrElement.closest('tbody');
 		let OldTrDefaultLang = tbodyElement.find('tr[data-prefix="' + prefix + '"]')
-		OldTrDefaultLang.find('td:last').prepend('<button class="btn btn-danger marginLeftZero" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button> <button class="btn btn-primary marginLeftZero" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button>');
+		OldTrDefaultLang.find('td:last').prepend('<button class="btn btn-sm btn-danger marginLeftZero" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button> <button class="btn btn-sm btn-success marginLeftZero" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button>');
 		Settings_Index_Js.initEvant(OldTrDefaultLang);
 	},
 	registerSaveEvent: function (mode, data) {
