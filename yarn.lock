@@ -250,10 +250,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.9.1.tgz#dad12c80c846ff7a770e5890560be3423e997744"
-  integrity sha512-oJxNZEXNWmlsD4YX0K8NKNv9OcGMpCyHvosyMiRgJcquAPoxzblXKwL376UFnkM7qi1sSi71a7m1nDVLwyX9Ug==
+gantt-elastic@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.9.2.tgz#66c57d12ddf5562b74adabfa40885800d5ffa601"
+  integrity sha512-r8uiFHppdLl0vuwAIh8cq2dGX7PWSX6yWuKTGRi8VLN5f1gSINxAEpePVQhWEcGFG7aY23YHI6nPRGRB6QLV/w==
   dependencies:
     dayjs "^1.8.5"
 
