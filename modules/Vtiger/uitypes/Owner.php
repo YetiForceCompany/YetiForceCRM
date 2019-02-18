@@ -92,7 +92,12 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				break;
 		}
 		if (isset($detailViewUrl)) {
-			return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+			$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $value);
+			$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
+			$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$value}" : '#';
+			return "<a class=\"$popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$value\" data-js=\"click\">" .
+				$ownerName .
+				'</a>';
 		}
 		return $ownerName;
 	}
