@@ -24,26 +24,27 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
+			form.validationEngine(app.validationEngineOptions);
 			form.on('submit', function (e) {
 				e.preventDefault();
-				var save = true;
-				if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
-					app.formAlignmentAfterValidation(form);
-					save = false;
-				}
-				if (save) {
-					var formData = form.serializeFormData();
-					thisInstance.registerSaveEvent('saveWidget', {
-						'data': formData,
-						'tabid': tabId,
-					});
-					thisInstance.reloadWidgets();
-					app.hideModalWindow();
+				if (form.validationEngine('validate')) {
+					var save = true;
+					if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
+						app.formAlignmentAfterValidation(form);
+						save = false;
+					}
+					if (save) {
+						var formData = form.serializeFormData();
+						thisInstance.registerSaveEvent('saveWidget', {
+							'data': formData,
+							'tabid': tabId,
+						});
+						thisInstance.reloadWidgets();
+						app.hideModalWindow();
+					}
 				}
 			});
-
 		});
-
 	},
 	loadWidgets: function () {
 		var thisInstance = this;
@@ -98,30 +99,26 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			Indicator.progressIndicator({'mode': 'hide'});
 		});
 	},
-	registerSaveEvent: function (mode, data) {
-		var resp = '';
-		var params = {}
-		params.data = {
+	registerSaveEvent(mode, data) {
+		let aDeferred = $.Deferred();
+		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			action: 'SaveAjax',
 			mode: mode,
-			params: data
-		}
-		if (mode == 'saveWidget') {
-			params.async = false;
-		} else {
-			params.async = true;
-		}
-		params.dataType = 'json';
-		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
-			var params = {
-				text: response['message'],
+			params: data,
+			async: mode !== 'saveWidget',
+			dataType: 'json'
+		}).done((data) => {
+			aDeferred.resolve(data);
+			Vtiger_Helper_Js.showPnotify({
+				text: data['result']['message'],
 				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+			});
+		}).fail((textStatus, errorThrown) => {
+			aDeferred.reject(textStatus, errorThrown);
 		});
+		return aDeferred.promise();
 	},
 	loadFilters: function (contener) {
 		var types = ['filter', 'checkbox', 'switchHeader'];
@@ -181,6 +178,42 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		var form = jQuery('.form-modalAddWidget');
 		thisInstance.loadFilters(form);
 	},
+
+	modalFormEdit(wizardContainer) {
+		const thisInstance = this;
+		$('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
+		app.showPopoverElementView(wizardContainer.find('.js-help-info'));
+		if (thisInstance.getType() == 'RelatedModule') {
+			thisInstance.loadFilters(wizardContainer);
+			thisInstance.relatedModuleFields(wizardContainer);
+			wizardContainer.find("select[name='relatedmodule']").on('change', function () {
+				thisInstance.changeRelatedModule();
+				thisInstance.relatedModuleFields(wizardContainer);
+			});
+		}
+		const form = $('form', wizardContainer);
+		form.validationEngine(app.validationEngineOptions);
+		form.on('submit', (e) => {
+			e.preventDefault();
+			if (form.validationEngine('validate')) {
+				const progress = $.progressIndicator({
+					'message': app.vtranslate('Loading data'),
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+				thisInstance.registerSaveEvent('saveWidget', {
+					'data': form.serializeFormData(),
+					'tabid': $("input[name='tabid']").val(),
+				}).done(() => {
+					thisInstance.reloadWidgets();
+					app.hideModalWindow();
+					progress.progressIndicator({'mode': 'hide'});
+				});
+			}
+		});
+	},
+
 	registerEvents: function (container) {
 		var thisInstance = this;
 		this.loadWidgets();
@@ -207,38 +240,12 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 
 			});
 		});
-		container.find('.js-widget__edit').on('click', function (e) {
-			var target = $(e.currentTarget);
-			var blockSortable = target.closest('.blockSortable');
-			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
-				jQuery('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
-				app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-				if (thisInstance.getType() == 'RelatedModule') {
-					thisInstance.loadFilters(wizardContainer);
-					thisInstance.relatedModuleFields(wizardContainer);
-					wizardContainer.find("select[name='relatedmodule']").on('change', function () {
-						thisInstance.changeRelatedModule();
-						thisInstance.relatedModuleFields(wizardContainer);
-					});
-				}
-				var form = jQuery('form', wizardContainer);
-				form.on('submit', function (e) {
-					e.preventDefault();
-					var progress = $.progressIndicator({
-						'message': app.vtranslate('Loading data'),
-						'blockInfo': {
-							'enabled': true
-						}
-					});
-					var FormData = form.serializeFormData();
-					thisInstance.registerSaveEvent('saveWidget', {
-						'data': FormData,
-						'tabid': $("input[name='tabid']").val(),
-					});
-					thisInstance.reloadWidgets();
-					app.hideModalWindow();
-					progress.progressIndicator({'mode': 'hide'});
-				});
+		container.find('.js-widget__edit').on('click', (e) => {
+			app.showModalWindow({
+				url: "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + $(e.currentTarget).closest('.blockSortable').data('id'),
+				cb: (wizardContainer) => {
+					this.modalFormEdit(wizardContainer);
+				},
 			});
 		});
 		container.find('.js-widget__remove').on('click', function (e) {
