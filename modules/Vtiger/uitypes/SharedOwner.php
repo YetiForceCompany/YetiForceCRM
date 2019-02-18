@@ -106,7 +106,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 			}
 			if (!empty($detailViewUrl)) {
-				$displayValue[] = "<a href=\"$detailViewUrl\">$ownerName</a>";
+				$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $shownerid);
+				$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
+				$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$shownerid}" : '#';
+				$displayValue[] = "<a class=\"$popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$shownerid\" data-js=\"click\">" .
+					$ownerName .
+					'</a>';
 			}
 		}
 		return implode(', ', $displayValue);
@@ -136,6 +141,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					}
 					if ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = $userModel->getDetailViewUrl();
+						$shownerData[$key]['id'] = $shownerid;
 					}
 					break;
 				case 'Groups':
@@ -162,7 +168,13 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
 			}
 			if (isset($shownerData[$key]['link'])) {
-				$shownerName = "<a href='" . $shownerData[$key]['link'] . "'>$shownerName</a>";
+				$shownerId = $shownerData[$key]['id'];
+				$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $shownerId);
+				$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
+				$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$shownerId}" : '#';
+				$shownerName = "<a class=\"$popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$shownerId\" data-js=\"click\">" .
+					$shownerName .
+					'</a>';
 			}
 		}
 		return implode(', ', $display);
