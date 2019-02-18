@@ -556,6 +556,7 @@ class MultiImage {
 			container: thisInstance.elements.component,
 			title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
 			html: true,
+			sanitize: false,
 			trigger: 'focus',
 			placement: 'top',
 			content: `<img src="${imageSrc}" class="w-100 js-multi-image__popover-img c-multi-image__popover-img" data-hash="${file.hash}" data-js="click"/>`,
