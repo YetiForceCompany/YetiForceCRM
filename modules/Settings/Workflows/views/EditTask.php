@@ -11,21 +11,22 @@
 
 class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 {
+
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordId = $request->getInteger('task_id', '');
-		$workflowId = $request->getInteger('for_workflow');
+		$recordId = $request->get('task_id');
+		$workflowId = $request->get('for_workflow');
 
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 		$taskTypes = $workflowModel->getTaskTypes();
 		if ($recordId) {
 			$taskModel = Settings_Workflows_TaskRecord_Model::getInstance($recordId);
 		} else {
-			$taskType = $request->getByType('type', 'Alnum');
+			$taskType = $request->get('type');
 			if (empty($taskType)) {
 				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'VTEmailTask';
 			}
@@ -44,7 +45,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
-			if (!empty($taskObject->entity_type) && $taskObject->field_value_mapping) {
+			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
@@ -68,9 +69,29 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
-		if ($taskType === 'VTUpdateFieldsTask' && $sourceModule === 'Documents') {
-			$restrictFields = ['folderid', 'filename', 'filelocationtype'];
-			$viewer->assign('RESTRICTFIELDS', $restrictFields);
+		if ($taskType === 'VTUpdateFieldsTask') {
+			if ($sourceModule === 'Documents') {
+				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
+				$viewer->assign('RESTRICTFIELDS', $restrictFields);
+			}
+		}
+		if ($taskType === 'VTEmailTemplateTask') {
+			$relations = \App\Field::getRelatedFieldForModule($sourceModule);
+			$documentsModel = Vtiger_Module_Model::getInstance('Documents');
+			$relationsWithDocuments = [];
+			foreach ($relations as $relatedModuleName => $info) {
+				$documentsRelations = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($relatedModuleName), $documentsModel);
+				if ($documentsRelations !== false) {
+					$relationsWithDocuments[$info['fieldname']][$info['relmod']]= Vtiger_Field_Model::getInstance($info['fieldid']);
+				}
+			}
+			$documentsRelations = Vtiger_Relation_Model::getInstance($moduleModel, $documentsModel);
+			$documents = false;
+			if ($documentsRelations !== false) {
+				$documents = true;
+			}
+			$viewer->assign('DOCUMENTS_RELATED_MODULLES', $relationsWithDocuments);
+			$viewer->assign('DOCUMENTS_MODULLES', $documents);
 		}
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
@@ -91,14 +112,14 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 
 		$templateVariables = [
 			$individualTaxBlockValue => $individualTaxBlockLabel,
-			$groupTaxBlockValue => $groupTaxBlockLabel,
+			$groupTaxBlockValue => $groupTaxBlockLabel
 		];
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$userModel = \App\User::getCurrentUserModel();
-		$viewer->assign('dateFormat', $userModel->getDetail('date_format'));
-		$viewer->assign('timeFormat', $userModel->getDetail('hour_format'));
+		$userModel = Users_Record_Model::getCurrentUserModel();
+		$viewer->assign('dateFormat', $userModel->get('date_format'));
+		$viewer->assign('timeFormat', $userModel->get('hour_format'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$emailFieldoptions = [];
@@ -120,7 +141,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$fromEmailFieldOptions = array_merge(['' => ['' => \App\Language::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
 		$assignedToValues = [
 			\App\Language::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
-			\App\Language::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups(),
+			\App\Language::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
 		];
 		$viewer->assign('TEXT_PARSER', $textParser);
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);

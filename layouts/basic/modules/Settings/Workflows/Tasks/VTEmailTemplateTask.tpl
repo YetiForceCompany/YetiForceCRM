@@ -49,8 +49,7 @@
 				<div class="col-md-4">
 					<select class="select2 form-control" name="email"
 							data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
-							multiple="multiple"
-							data-validation-engine="validate[required]">
+							multiple="multiple">
 						{assign var=TEXT_PARSER value=App\TextParser::getInstance($SOURCE_MODULE)}
 						{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('email')}
 							<optgroup label="{$BLOCK_NAME}">
@@ -78,13 +77,39 @@
 				</div>
 			</div>
 			<div class="row pb-3">
-				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_BCC')}</span>
+				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TO')}</span>
 				<div class="col-md-4">
 					<input class="form-control"
 						   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-						   name="copy_email" value="{$TASK_OBJECT->copy_email}">
+						   name="address_emails" value="{$TASK_OBJECT->address_emails}">
+				</div>
+			</div>
+			<div class="row pb-3">
+				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_ATTACH_DOCS_FROM', $QUALIFIED_MODULE)}</span>
+				<div class="col-md-4">
+					<select class="select2 form-control" name="attachments"
+							data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+							<option value="">{\App\Language::translate('LBL_NONE')}</option>
+							{if $DOCUMENTS_MODULLES}
+								<option value="{$SOURCE_MODULE}" {if $TASK_OBJECT->attachments === $SOURCE_MODULE}selected="selected"{/if}>{\App\Language::translate($SOURCE_MODULE,$SOURCE_MODULE)}</option>
+							{/if}
+							{foreach from=$DOCUMENTS_RELATED_MODULLES item=RELATED_MODULES}
+								{foreach from=$RELATED_MODULES key=RELATED_MODULE_NAME item=FIELD_MODEL}
+									<option value="{$RELATED_MODULE_NAME}::{$FIELD_MODEL->getFieldName()}"
+											{if $TASK_OBJECT->attachments === {$RELATED_MODULE_NAME}|cat:'::'|cat:{$FIELD_MODEL->getFieldName()}}selected="selected"{/if}>
+										{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SOURCE_MODULE)}&nbsp;({$FIELD_MODEL->getFieldName()})&nbsp;-&nbsp;{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
+									</option>
+								{/foreach}
+							{/foreach}
+					</select>
+				</div>
+			</div>
+			<div class="row pb-3">
+				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_BCC')}</span>
+				<div class="col-md-4">
+					<input class="form-control" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="copy_email" value="{$TASK_OBJECT->copy_email}">
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>	
 {/strip}	
