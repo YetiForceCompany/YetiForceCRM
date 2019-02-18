@@ -11,7 +11,7 @@
  *                                          '200', 'a100')
  */
 /*!
- * Bootstrap v4.3.0 (https://getbootstrap.com/)
+ * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -17923,6 +17923,10 @@ ul.tweets li {
 
 .c-gantt-header__option {
   max-width: 200px; }
+
+input[type="checkbox"][readonly],
+input[type="checkbox"][disabled] {
+  background-color: #eeeeee; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
