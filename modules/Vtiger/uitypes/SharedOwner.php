@@ -83,15 +83,17 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$detailViewUrl = '';
-			switch (\App\Fields\Owner::getType($shownerid)) {
+			$ownerType = \App\Fields\Owner::getType($shownerid);
+			switch ($ownerType) {
 				case 'Users':
 					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
 					$userModel->setModule('Users');
 					if ($userModel->get('status') === 'Inactive') {
 						$ownerName = '<span class="redColor">' . $ownerName . '</span>';
 					}
-					if (App\User::getCurrentUserModel()->isAdmin()) {
-						$detailViewUrl = $userModel->getDetailViewUrl();
+					if (\App\Privilege::isPermitted('Users', 'DetailView', $value) && $userModel->get('status') === 'Active') {
+						$detailViewUrl = "index.php?module=Users&view=Detail&record={$shownerid}";
+						$popoverRecordClass = 'js-popover-tooltip--record';
 					}
 					break;
 				case 'Groups':
@@ -106,12 +108,14 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 			}
 			if (!empty($detailViewUrl)) {
-				$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $shownerid);
-				$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
-				$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$shownerid}" : '#';
-				$displayValue[] = "<a class=\"$popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$shownerid\" data-js=\"click\">" .
-					$ownerName .
-					'</a>';
+				if ($ownerType === 'Users') {
+					$displayValue[] = "<a class=\"$popoverRecordClass\" href=\"$detailViewUrl\" data-id=\"@$value\" data-js=\"click\">" .
+						$ownerName .
+						'</a>';
+				} else {
+					$displayValue[] = "<a href=\"$detailViewUrl\">$ownerName</a>";
+				}
+
 			}
 		}
 		return implode(', ', $displayValue);
@@ -139,8 +143,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					if ($userModel->get('status') === 'Inactive') {
 						$shownerData[$key]['inactive'] = true;
 					}
-					if ($isAdmin && !$rawText) {
-						$shownerData[$key]['link'] = $userModel->getDetailViewUrl();
+					if (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText) {
+						$shownerData[$key]['link'] = "index.php?module=Users&view=Detail&record={$shownerid}";
+						$popoverRecordClass = 'js-popover-tooltip--record';
 						$shownerData[$key]['id'] = $shownerid;
 					}
 					break;
@@ -168,13 +173,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
 			}
 			if (isset($shownerData[$key]['link'])) {
-				$shownerId = $shownerData[$key]['id'];
-				$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $shownerId);
-				$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
-				$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$shownerId}" : '#';
-				$shownerName = "<a class=\"$popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$shownerId\" data-js=\"click\">" .
-					$shownerName .
-					'</a>';
+				$shownerName = '<a class="' . $popoverRecordClass . '"' . 'href="' . $shownerData[$key]['link'] . '" data-id="@' . $shownerData[$key]['id'] . '" data-js="click">' . $shownerName . '</a>';
 			}
 		}
 		return implode(', ', $display);
