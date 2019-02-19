@@ -366,11 +366,9 @@ class Project extends CRMEntity
 					$parentInfo[$columnname] = $row[$columnname];
 				}
 			}
-
 			$parent[$id] = $parentInfo;
 		}
 		\App\Log::trace('Exiting getParent method ...');
-
 		return $parent;
 	}
 
@@ -426,7 +424,6 @@ class Project extends CRMEntity
 			$dataReader->close();
 		}
 		\App\Log::trace('Exiting getChild method ...');
-
 		return $childRow;
 	}
 }
