@@ -216,4 +216,217 @@ class Project extends CRMEntity
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
 		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
+
+	/**
+	 * Function to get project hierarchy in array format.
+	 *
+	 * @param int  $id
+	 * @param bool $getRawData
+	 * @param bool $getLinks
+	 *
+	 * @return array
+	 */
+	public function getHierarchy(int $id, bool $getRawData = false, bool $getLinks = true): array
+	{
+		$listviewHeader = [];
+		$listviewEntries = [];
+		$listColumns = \App\Config::module('Project', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		foreach ($listColumns as $fieldname => $colname) {
+			if (\App\Field::getFieldPermission('Project', $colname)) {
+				$listviewHeader[] = App\Language::translate($fieldname, 'Project');
+			}
+		}
+		$rows = [];
+		$encountered = [$id];
+		$rows = $this->getParent($id, $rows, $encountered);
+		$baseId = current(array_keys($rows));
+		$rows = [$baseId => $rows[$baseId]];
+		$rows[$baseId] = $this->getChild($baseId, $rows[$baseId], $rows[$baseId]['depth']);
+		$this->getHierarchyData($id, $rows[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
+	}
+
+	/**
+	 * Function to create array of all the sales in the hierarchy.
+	 *
+	 * @param int   $id
+	 * @param array $baseInfo
+	 * @param int   $recordId
+	 * @param array $listviewEntries
+	 * @param bool  $getRawData
+	 * @param bool  $getLinks
+	 *
+	 * @throws ReflectionException
+	 *
+	 * @return array
+	 */
+	public function getHierarchyData(int $id, array $baseInfo, int $recordId, array &$listviewEntries, bool $getRawData = false, bool $getLinks = true): array
+	{
+		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('Project', 'DetailView', $recordId);
+		$listColumns = \App\Config::module('Project', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		$infoData = [];
+		foreach ($listColumns as $colname) {
+			if (\App\Field::getFieldPermission('Project', $colname)) {
+				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
+				if ($getRawData === false && $colname === 'projectname') {
+					if ($recordId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=Project&action=DetailView&record=' . $recordId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
+							}
+						}
+					} else {
+						$data = '<strong>' . $data . '</strong>';
+					}
+					$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
+					$data = $rowDepth . $data;
+				}
+				$infoData[] = $data;
+			}
+		}
+		$listviewEntries[$recordId] = $infoData;
+		foreach ($baseInfo as $accId => $rowInfo) {
+			if (is_array($rowInfo) && (int) $accId) {
+				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
+			}
+		}
+		\App\Log::trace('Exiting getHierarchyData method ...');
+		return $listviewEntries;
+	}
+
+	/**
+	 * Function to Recursively get all the upper sales of a given.
+	 *
+	 * @param int   $id     - multicompanyid
+	 * @param array $parent - Array of all the parent sales
+	 *                      returns All the parent  f the given multicompanyid in array format
+	 * @YTTODO to rebuild
+	 */
+
+	/**
+	 * Function to Recursively get all the upper projects of a given.
+	 *
+	 * @param int   $id
+	 * @param array $parent
+	 * @param int[] $encountered
+	 * @param int   $depthBase
+	 *
+	 * @return array
+	 */
+	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0): array
+	{
+		\App\Log::trace('Entering getParent(' . $id . ') method ...');
+		if ($depthBase === \App\Config::module('Project', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
+
+			return $parent;
+		}
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$row = (new App\Db\Query())->select([
+			'vtiger_project.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('vtiger_project')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_project.projectid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_project.projectid' => $id])
+			->one();
+		if ($row) {
+			$parentid = $row['parentid'];
+			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
+				$encountered[] = $parentid;
+				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
+			}
+			$parentInfo = [];
+			$depth = 0;
+			if (isset($parent[$parentid])) {
+				$depth = $parent[$parentid]['depth'] + 1;
+			}
+			$parentInfo['depth'] = $depth;
+			$listColumns = \App\Config::module('Project', 'COLUMNS_IN_HIERARCHY');
+			if (empty($listColumns)) {
+				$listColumns = $this->list_fields_name;
+			}
+			foreach ($listColumns as $columnname) {
+				if ($columnname === 'assigned_user_id') {
+					$parentInfo[$columnname] = $row['user_name'];
+				} elseif ($columnname === 'projecttype') {
+					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
+				} else {
+					$parentInfo[$columnname] = $row[$columnname];
+				}
+			}
+
+			$parent[$id] = $parentInfo;
+		}
+		\App\Log::trace('Exiting getParent method ...');
+
+		return $parent;
+	}
+
+	/**
+	 * Function to Recursively get all the child projects of a given project.
+	 *
+	 * @param int   $id
+	 * @param array $childRow
+	 * @param int   $depthBase
+	 *
+	 * @return array
+	 */
+	public function getChild(int $id, array &$childRow, int $depthBase): array
+	{
+		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
+		if (empty($id) || $depthBase === \App\Config::module('Project', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
+
+			return $childRow;
+		}
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$dataReader = (new App\Db\Query())->select([
+			'vtiger_project.*',
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+		])->from('vtiger_project')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_project.projectid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_project.parentid' => $id])
+			->createCommand()->query();
+		$listColumns = AppConfig::module('Project', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		if ($dataReader->count() > 0) {
+			$depth = $depthBase + 1;
+			while ($row = $dataReader->read()) {
+				$childAccId = $row['projectid'];
+				$childSalesProcessesInfo = [];
+				$childSalesProcessesInfo['depth'] = $depth;
+				foreach ($listColumns as $columnname) {
+					if ($columnname === 'assigned_user_id') {
+						$childSalesProcessesInfo[$columnname] = $row['user_name'];
+					} elseif ($columnname === 'projecttype') {
+						$childSalesProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
+					} else {
+						$childSalesProcessesInfo[$columnname] = $row[$columnname];
+					}
+				}
+				$childRow[$childAccId] = $childSalesProcessesInfo;
+				$this->getChild($childAccId, $childRow[$childAccId], $depth);
+			}
+			$dataReader->close();
+		}
+		\App\Log::trace('Exiting getChild method ...');
+
+		return $childRow;
+	}
 }

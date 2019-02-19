@@ -59,7 +59,8 @@
     "LBL_GANTT_TASKLIST": "List width",
     "LBL_GANTT_TASKLIST_VISIBLE": "Show list",
     "LBL_GANTT_TITLE": "Gantt chart",
-    "LBL_GANTT_TITLE_ALL_PROJECTS": "Gantt chart - all projects"
+    "LBL_GANTT_TITLE_ALL_PROJECTS": "Gantt chart - all projects",
+    "LBL_SHOW_HIERARCHY": "Project hierarchy"
   },
   "js": {
     "JS_NO.": "No.",
