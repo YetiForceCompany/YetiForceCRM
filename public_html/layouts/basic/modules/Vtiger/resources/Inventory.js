@@ -1350,20 +1350,23 @@ $.Class("Vtiger_Inventory_Js", {
 			thisInstance.loadSubProducts($(this), false);
 		});
 	},
-	registerClearReferenceSelection: function () {
-		const thisInstance = this;
-		thisInstance.form.on('click', '.clearReferenceSelection', function (e) {
-			var element = $(e.currentTarget);
-			var row = thisInstance.getClosestRow(element);
-			thisInstance.removeSubProducts(row);
+	/**
+	 * Register clear reference selection
+	 */
+	registerClearReferenceSelection() {
+		this.form.on('click', '.clearReferenceSelection', (e) => {
+			const row = this.getClosestRow($(e.currentTarget));
+			this.removeSubProducts(row);
 			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val(App.Fields.Double.formatToDisplay(0));
+			row.find('.qty').val(1);
 			row.find('textarea,.valueVal').val('');
 			row.find('.valueText').text('');
-			row.find('.qtyParamInfo').addClass('hidden');
-			if (!thisInstance.isGroupTaxMode()) {
-				thisInstance.setTaxParam(row, []);
+			row.find('.qtyParamInfo').addClass('d-none');
+			row.find('.recordLabel').val('').removeAttr('readonly');
+			if (!this.isGroupTaxMode()) {
+				this.setTaxParam(row, []);
 			}
-			thisInstance.quantityChangeActions(row);
+			this.quantityChangeActions(row);
 		});
 	},
 	registerDeleteLineItemEvent: function (container) {
