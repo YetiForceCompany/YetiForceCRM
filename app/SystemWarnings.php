@@ -6,8 +6,8 @@ namespace App;
  * System warnings basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class SystemWarnings
 {
@@ -72,7 +72,7 @@ class SystemWarnings
 					$className = "\App\SystemWarnings\\$folder\\$fileName";
 					$instace = new $className();
 					if ($instace->preProcess()) {
-						$isIgnored = $instace->getStatus() === 2;
+						$isIgnored = $instace->getStatusValue() === 2;
 						$show = true;
 						if (!$isIgnored) {
 							$instace->process();
