@@ -15,7 +15,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return empty($value) ? \App\User::getCurrentUserRealId() : (int) $value;
+		return empty($value) ? \App\User::getCurrentUserRealId() : (int)$value;
 	}
 
 	/**
@@ -78,7 +78,8 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				}
 				if (\App\Privilege::isPermitted('Users', 'DetailView', $value) && $userModel->get('status') === 'Active') {
 					$detailViewUrl = "index.php?module=Users&view=Detail&record={$value}";
-					$popoverRecordClass = 'js-popover-tooltip--record';
+					$popoverRecordClass = 'class="js-popover-tooltip--record"';
+					$dataId = "data-id=\"@$value\" data-js=\"click\"";
 				}
 				break;
 			case 'Groups':
@@ -86,6 +87,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 					$recordModel = new Settings_Groups_Record_Model();
 					$recordModel->set('groupid', $value);
 					$detailViewUrl = $recordModel->getDetailViewUrl();
+					$popoverRecordClass = $dataId = '';
 				}
 				break;
 			default:
@@ -93,7 +95,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				break;
 		}
 		if (isset($detailViewUrl)) {
-			return "<a class=\"$popoverRecordClass\" href=\"$detailViewUrl\" data-id=\"@$value\" data-js=\"click\">" .
+			return "<a  $popoverRecordClass   href=\"$detailViewUrl\"  $dataId >" .
 				$ownerName .
 				'</a>';
 		}
