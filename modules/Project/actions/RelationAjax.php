@@ -18,6 +18,11 @@ class Project_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$this->exposeMethod('getHierarchyCount');
 	}
 
+	/**
+	 * Number of hierarchy entries for a given record.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function getHierarchyCount(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
