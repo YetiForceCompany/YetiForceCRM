@@ -46,7 +46,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_array($value)) {
-			$value = (array) $value;
+			$value = (array)$value;
 		}
 		$rangeValues = null;
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
@@ -90,7 +90,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					if ($userModel->get('status') === 'Inactive') {
 						$ownerName = '<span class="redColor">' . $ownerName . '</span>';
 					}
-					if (\App\Privilege::isPermitted('Users', 'DetailView', $value) && $userModel->get('status') === 'Active') {
+					if ($userModel->get('status') === 'Active' && \App\Privilege::isPermitted('Users', 'DetailView', $value)) {
 						$detailViewUrl = "index.php?module=Users&view=Detail&record={$shownerid}";
 						$popoverRecordClass = 'class="js-popover-tooltip--record"';
 						$dataId = "data-id=\"@$shownerid\" data-js=\"click\"";
@@ -108,8 +108,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$ownerName = '<span class="redColor">---</span>';
 					break;
 			}
-			if (!empty($detailViewUrl)) {
-				$displayValue[] = "<a  $popoverRecordClass   href=\"$detailViewUrl\"  $dataId >" . $ownerName . '</a>';
+			if (isset($detailViewUrl)) {
+				$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\" $dataId> $ownerName </a>";
 			}
 		}
 		return implode(', ', $displayValue);
@@ -137,7 +137,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					if ($userModel->get('status') === 'Inactive') {
 						$shownerData[$key]['inactive'] = true;
 					}
-					if (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText) {
+					if ($userModel->get('status') === 'Active' && (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText)) {
 						$shownerData[$key]['link'] = "index.php?module=Users&view=Detail&record={$shownerid}";
 						$shownerData[$key]['class'] = 'class="js-popover-tooltip--record"';
 						$shownerData[$key]['data'] = "data-id=\"@$shownerid\" data-js=\"click\"";
@@ -168,7 +168,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
 			}
 			if (isset($shownerData[$key]['link'])) {
-				$shownerName = '<a  ' . $shownerData[$key]['class'] . 'href="' . $shownerData[$key]['link'] . '"' . $shownerData[$key]['data'] . '>' . $shownerName . '</a>';
+				$shownerName = '<a ' . $shownerData[$key]['class'] . 'href="' . $shownerData[$key]['link'] . '"' . $shownerData[$key]['data'] . '>' . $shownerName . '</a>';
 			}
 		}
 		return implode(', ', $display);
