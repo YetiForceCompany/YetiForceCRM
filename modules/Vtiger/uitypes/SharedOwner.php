@@ -83,8 +83,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$detailViewUrl = '';
-			$ownerType = \App\Fields\Owner::getType($shownerid);
-			switch ($ownerType) {
+			switch (\App\Fields\Owner::getType($shownerid)) {
 				case 'Users':
 					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
 					$userModel->setModule('Users');
