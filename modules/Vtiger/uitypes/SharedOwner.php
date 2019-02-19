@@ -204,8 +204,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public
-	function getTemplateName()
+	public function getTemplateName()
 	{
 		return 'Edit/Field/SharedOwner.tpl';
 	}
@@ -213,8 +212,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public
-	function getListSearchTemplateName()
+	public function getListSearchTemplateName()
 	{
 		return 'List/Field/SharedOwner.tpl';
 	}
@@ -222,8 +220,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public
-	function isListviewSortable()
+	public function isListviewSortable()
 	{
 		return false;
 	}
@@ -231,8 +228,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public
-	function getRangeValues()
+	public function getRangeValues()
 	{
 		return '65535';
 	}
@@ -240,8 +236,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public
-	function getOperators()
+	public function getOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om', 'ogr'];
 	}
@@ -249,8 +244,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public
-	function getOperatorTemplateName(string $operator = '')
+	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Owner.tpl';
 	}
