@@ -95,7 +95,11 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
-		this.scrollContainer = $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent');
+		this.scrollContainer = $('.mainBody');
+		if ($(window).width() < app.breakpoints.sm) {
+			this.scrollContainer = $('.bodyContent');
+			app.showNewScrollbar(this.scrollContainer);
+		}
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			threshold: 0,
 			appendScroll: thisInstance.scrollContainer,
