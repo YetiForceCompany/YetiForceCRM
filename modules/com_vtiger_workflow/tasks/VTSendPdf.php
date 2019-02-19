@@ -57,11 +57,13 @@ class VTSendPdf extends VTTask
 			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
 				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
-
 				return false;
 			}
 			if (!$templateRecord->isEmpty('filename')) {
-				$fileName = $templateRecord->get('filename');
+				$textParser = \App\TextParser::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$textParser->setType('pdf');
+				$textParser->setParams(['pdf' => $recordModel->getModule()]);
+				$fileName = \App\Fields\File::sanitizeUploadFileName($textParser->setContent($templateRecord->get('filename'))->parse()->getContent());
 			}
 			$mailerContent['attachments'] = [$pdfFile => $fileName];
 			\App\Mailer::sendFromTemplate($mailerContent);
