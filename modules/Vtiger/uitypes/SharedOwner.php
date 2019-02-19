@@ -93,7 +93,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					}
 					if (\App\Privilege::isPermitted('Users', 'DetailView', $value) && $userModel->get('status') === 'Active') {
 						$detailViewUrl = "index.php?module=Users&view=Detail&record={$shownerid}";
-						$popoverRecordClass = 'js-popover-tooltip--record';
+						$popoverRecordClass = 'class="js-popover-tooltip--record"';
+						$dataId = "data-id=\"@$shownerid\" data-js=\"click\"";
 					}
 					break;
 				case 'Groups':
@@ -101,6 +102,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 						$recordModel = new Settings_Groups_Record_Model();
 						$recordModel->set('groupid', $shownerid);
 						$detailViewUrl = $recordModel->getDetailViewUrl();
+						$popoverRecordClass = $dataId = '';
 					}
 					break;
 				default:
@@ -108,14 +110,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 			}
 			if (!empty($detailViewUrl)) {
-				if ($ownerType === 'Users') {
-					$displayValue[] = "<a class=\"$popoverRecordClass\" href=\"$detailViewUrl\" data-id=\"@$value\" data-js=\"click\">" .
-						$ownerName .
-						'</a>';
-				} else {
-					$displayValue[] = "<a href=\"$detailViewUrl\">$ownerName</a>";
-				}
-
+				$displayValue[] = "<a  $popoverRecordClass   href=\"$detailViewUrl\"  $dataId >" . $ownerName . '</a>';
 			}
 		}
 		return implode(', ', $displayValue);
@@ -145,8 +140,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					}
 					if (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText) {
 						$shownerData[$key]['link'] = "index.php?module=Users&view=Detail&record={$shownerid}";
-						$popoverRecordClass = 'js-popover-tooltip--record';
-						$shownerData[$key]['id'] = $shownerid;
+						$shownerData[$key]['class'] = 'class="js-popover-tooltip--record"';
+						$shownerData[$key]['data'] = "data-id=\"@$shownerid\" data-js=\"click\"";
 					}
 					break;
 				case 'Groups':
@@ -159,8 +154,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$detailViewUrl = $recordModel->getDetailViewUrl();
 					if ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = $detailViewUrl;
+						$shownerData[$key]['class'] = '';
+						$shownerData[$key]['data'] = '';
 					}
-
 					break;
 				default:
 					break;
@@ -173,7 +169,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
 			}
 			if (isset($shownerData[$key]['link'])) {
-				$shownerName = '<a class="' . $popoverRecordClass . '"' . 'href="' . $shownerData[$key]['link'] . '" data-id="@' . $shownerData[$key]['id'] . '" data-js="click">' . $shownerName . '</a>';
+				$shownerName = '<a  ' . $shownerData[$key]['class'] . 'href="' . $shownerData[$key]['link'] . '"' . $shownerData[$key]['data'] . '>' . $shownerName . '</a>';
 			}
 		}
 		return implode(', ', $display);
@@ -209,7 +205,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTemplateName()
+	public
+	function getTemplateName()
 	{
 		return 'Edit/Field/SharedOwner.tpl';
 	}
@@ -217,7 +214,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getListSearchTemplateName()
+	public
+	function getListSearchTemplateName()
 	{
 		return 'List/Field/SharedOwner.tpl';
 	}
@@ -225,7 +223,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isListviewSortable()
+	public
+	function isListviewSortable()
 	{
 		return false;
 	}
@@ -233,7 +232,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getRangeValues()
+	public
+	function getRangeValues()
 	{
 		return '65535';
 	}
@@ -241,7 +241,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public
+	function getOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om', 'ogr'];
 	}
@@ -249,7 +250,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperatorTemplateName(string $operator = '')
+	public
+	function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Owner.tpl';
 	}
