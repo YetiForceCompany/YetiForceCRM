@@ -80,7 +80,7 @@ class Languages
 			}
 		} catch (\Exception $ex) {
 			\App\Log::warning($ex->__toString(), __METHOD__);
-			static::$lastErrorMessage = $ex->__toString();
+			static::$lastErrorMessage = $ex->getMessage();
 		}
 		return $status;
 	}
