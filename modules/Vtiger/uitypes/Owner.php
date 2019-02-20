@@ -79,7 +79,6 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				if ($userModel->get('status') === 'Active' && \App\Privilege::isPermitted('Users', 'DetailView', $value)) {
 					$detailViewUrl = "index.php?module=Users&view=Detail&record={$value}";
 					$popoverRecordClass = 'class="js-popover-tooltip--record"';
-					$dataId = "data-id=\"@$value\" data-js=\"click\"";
 				}
 				break;
 			case 'Groups':
@@ -87,7 +86,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 					$recordModel = new Settings_Groups_Record_Model();
 					$recordModel->set('groupid', $value);
 					$detailViewUrl = $recordModel->getDetailViewUrl();
-					$popoverRecordClass = $dataId = '';
+					$popoverRecordClass = '';
 				}
 				break;
 			default:
@@ -95,7 +94,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				break;
 		}
 		if (isset($detailViewUrl)) {
-			return "<a $popoverRecordClass href=\"$detailViewUrl\" $dataId> $ownerName  </a>";
+			return "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName  </a>";
 		}
 		return $ownerName;
 	}

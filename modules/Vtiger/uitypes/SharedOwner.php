@@ -93,7 +93,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					if ($userModel->get('status') === 'Active' && \App\Privilege::isPermitted('Users', 'DetailView', $value)) {
 						$detailViewUrl = "index.php?module=Users&view=Detail&record={$shownerid}";
 						$popoverRecordClass = 'class="js-popover-tooltip--record"';
-						$dataId = "data-id=\"@$shownerid\" data-js=\"click\"";
 					}
 					break;
 				case 'Groups':
@@ -101,7 +100,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 						$recordModel = new Settings_Groups_Record_Model();
 						$recordModel->set('groupid', $shownerid);
 						$detailViewUrl = $recordModel->getDetailViewUrl();
-						$popoverRecordClass = $dataId = '';
+						$popoverRecordClass = '';
 					}
 					break;
 				default:
@@ -109,7 +108,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 			}
 			if (isset($detailViewUrl)) {
-				$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\" $dataId> $ownerName </a>";
+				$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
 			}
 		}
 		return implode(', ', $displayValue);
@@ -140,7 +139,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					if ($userModel->get('status') === 'Active' && (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText)) {
 						$shownerData[$key]['link'] = "index.php?module=Users&view=Detail&record={$shownerid}";
 						$shownerData[$key]['class'] = 'class="js-popover-tooltip--record"';
-						$shownerData[$key]['data'] = "data-id=\"@$shownerid\" data-js=\"click\"";
 					}
 					break;
 				case 'Groups':
@@ -154,7 +152,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					if ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = $detailViewUrl;
 						$shownerData[$key]['class'] = '';
-						$shownerData[$key]['data'] = '';
 					}
 					break;
 				default:
@@ -168,7 +165,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
 			}
 			if (isset($shownerData[$key]['link'])) {
-				$shownerName = '<a ' . $shownerData[$key]['class'] . 'href="' . $shownerData[$key]['link'] . '"' . $shownerData[$key]['data'] . '>' . $shownerName . '</a>';
+				$shownerName = '<a ' . $shownerData[$key]['class'] . 'href="' . $shownerData[$key]['link'] . '">' . $shownerName . '</a>';
 			}
 		}
 		return implode(', ', $display);
