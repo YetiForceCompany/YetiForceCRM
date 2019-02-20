@@ -73,7 +73,7 @@
 					{OPTGRUOP BLOCK_NAME='LBL_GROUPS' OWNERS=$ALL_ACTIVEGROUP_LIST}
 					{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_VALUE == '')}
 						{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($FIELD_VALUE)}
-						<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected
+						<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected="selected"
 								data-userId="{$CURRENT_USER_ID}">
 							{$OWNER_NAME}
 						</option>
