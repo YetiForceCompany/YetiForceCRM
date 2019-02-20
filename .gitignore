@@ -65,4 +65,3 @@ yarn-error.log
 *.sublime-workspace
 .babelrc
 .sonarlint/
-.idea/
