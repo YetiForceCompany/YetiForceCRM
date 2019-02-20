@@ -17,6 +17,11 @@ namespace App\Installer;
 class Languages
 {
 	/**
+	 * @var string
+	 */
+	private static $lastErrorMessage;
+
+	/**
 	 * Get all languages for the current version.
 	 *
 	 * @return string[]
@@ -59,6 +64,7 @@ class Languages
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			static::$lastErrorMessage = 'ERR_NO_INTERNET_CONNECTION';
 			return false;
 		}
 		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
@@ -74,7 +80,18 @@ class Languages
 			}
 		} catch (\Exception $ex) {
 			\App\Log::warning($ex->__toString(), __METHOD__);
+			static::$lastErrorMessage = $ex->__toString();
 		}
 		return $status;
+	}
+
+	/**
+	 * Get last error message.
+	 *
+	 * @return null|string
+	 */
+	public static function getLastErrorMessage(): ?string
+	{
+		return static::$lastErrorMessage;
 	}
 }
