@@ -104,38 +104,40 @@ class LanguageExport extends Package
 
 	/**
 	 * Register language pack information.
+	 *
+	 * @param string $prefix
+	 * @param string $name
+	 * @param bool   $isDefault
+	 * @param bool   $isActive
+	 *
+	 * @throws \yii\db\Exception
 	 */
-	public static function register($prefix, $name = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register(string $prefix, string $name = '', bool $isDefault = false, bool $isActive = true)
 	{
 		$prefix = trim($prefix);
-		// We will not allow registering core language unless forced
-		if (strtolower($prefix) === strtolower(\App\Language::DEFAULT_LANG) && $overrideCore === false) {
-			return;
-		}
-
-		$useisdefault = ($isdefault) ? 1 : 0;
-		$useisactive = ($isactive) ? 1 : 0;
-
-		$adb = \PearDatabase::getInstance();
-		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
-		$datetime = date('Y-m-d H:i:s');
-		if ($adb->numRows($checkres)) {
-			$adb->update(self::TABLENAME, [
-				'name' => $name,
-				'lastupdated' => $datetime,
-				'isdefault' => $useisdefault,
-				'active' => $useisactive,
-			], 'id=?', [$adb->getSingleValue($checkres)]
-			);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ((new \App\Db\Query())->from(static::TABLENAME)->where(['prefix' => $prefix])->exists()) {
+			$dbCommand->update(
+				static::TABLENAME,
+				[
+					'name' => $name,
+					'lastupdated' => date('Y-m-d H:i:s'),
+					'isdefault' => (int) $isDefault,
+					'active' => (int) $isActive
+				],
+				['prefix' => $prefix]
+			)->execute();
 		} else {
-			$adb->insert(self::TABLENAME, [
-				'id' => self::__getUniqueId(),
-				'name' => $name,
-				'prefix' => $prefix,
-				'lastupdated' => $datetime,
-				'isdefault' => $useisdefault,
-				'active' => $useisactive,
-			]);
+			$dbCommand->insert(
+				static::TABLENAME,
+				[
+					'name' => $name,
+					'lastupdated' => date('Y-m-d H:i:s'),
+					'isdefault' => (int) $isDefault,
+					'active' => (int) $isActive,
+					'prefix' => $prefix
+				]
+			)->execute();
 		}
 		\App\Log::trace("Registering Language $name [$prefix] ... DONE", __METHOD__);
 	}
