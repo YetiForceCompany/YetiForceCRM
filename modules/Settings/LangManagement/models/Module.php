@@ -146,7 +146,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			return ['success' => false, 'data' => 'LBL_NOT_CORRECT_LANGUAGE_TAG'];
 		}
 		$destiny = 'languages/' . $params['prefix'] . '/';
-		mkdir($destiny);
+		if (!is_dir($destiny)) {
+			mkdir($destiny);
+		}
 		vtlib\Functions::recurseCopy('languages/' . \App\Language::DEFAULT_LANG, $destiny);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
@@ -156,7 +158,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			'lastupdated' => date('Y-m-d H:i:s')
 		])->execute();
 		\App\Cache::clear();
-
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
 	}
 
