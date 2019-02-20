@@ -72,7 +72,10 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 		}
-		return nl2br($value);
+		if (300 !== $this->getFieldModel()->getUIType()) {
+			$value = nl2br($value);
+		}
+		return $value;
 	}
 
 	/**
